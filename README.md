@@ -1,0 +1,27 @@
+<h1>Tiu, tiu</h1>
+
+<p>TiuTiu é uma app mobile que tem a idéia de estabelecer vínculo entre pessoas que
+amam e querem adotar animais que estejam abandonados, em situação de rua ou ainda mesmo
+pelo motivo que seus atuais donos não podem mais ficar com o pet com motivos diversos.
+A aplicação é fácil de utilizar, tem interface bem intuitiva e qualquer pessoas de qualquer
+idade pode manusear sem necessidade de tutoriais complexos.</p>
+
+<h2>Funcionalidades:</h2>
+
+<strong>1. Cadastro do PET para doação:</strong>
+
+  <ul>
+    <li>Nome</li>
+    <li>Idade</li>
+    <li>Raça</li>
+    <li>Tamanho</li>
+    <li>Fotos</li>
+    <li>Estado de Saúde</li>
+    <li>Cor</li>
+    <li>Detalhes</li>
+  </ul>
+
+<strong>2. Chat entre parte interessadas.</strong>
+<strong>3. Procure Pets para doação perto de você no mapa.</strong>
+<strong>4. Divulgue seu PET perdido e receba noticias sobre ele.</strong>
+<strong>5. Cadastre seu PET mesmo sem internet. Quando se conectar todo mundo vai poder ver sua publicação.<strong>"# Tiu-tiu" 
