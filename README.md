@@ -1,8 +1,7 @@
 <h1>Tiu, tiu</h1>
 
 <p>TiuTiu é uma app mobile que tem a idéia de estabelecer vínculo entre pessoas que
-amam e querem adotar animais que estejam abandonados, em situação de rua ou ainda mesmo
-pelo motivo que seus atuais donos não podem mais ficar com o pet com motivos diversos.
+amam e querem adotar animais que estejam abandonados, em situação de rua ou ainda porque seus atuais donos não podem mais ficar com o pet por motivos diversos.
 A aplicação é fácil de utilizar, tem interface bem intuitiva e qualquer pessoas de qualquer
 idade pode manusear sem necessidade de tutoriais complexos.</p>
 
