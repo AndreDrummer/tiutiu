@@ -21,7 +21,7 @@ idade pode manusear sem necessidade de tutoriais complexos.</p>
     <li>Detalhes</li>
   </ul>
 
-<strong>2. Chat entre parte interessadas.</strong>
-<strong>3. Procure Pets para doação perto de você no mapa.</strong>
-<strong>4. Divulgue seu PET perdido e receba noticias sobre ele.</strong>
-<strong>5. Cadastre seu PET mesmo sem internet. Quando se conectar todo mundo vai poder ver sua publicação.<strong>"# Tiu-tiu" 
+<strong>2. Chat entre parte interessadas.<br/></strong>
+<strong>3. Procure Pets para doação perto de você no mapa.<br/></strong>
+<strong>4. Divulgue seu PET perdido e receba noticias sobre ele.<br/></strong>
+<strong>5. Cadastre seu PET mesmo sem internet. Quando se conectar todo mundo vai poder ver sua publicação.<br/></strong>
