@@ -1,20 +1,16 @@
-import './user_model.dart';
-
 class Dog {
   String id;
   String name;
-  int age;
-  List<String> photos;
+  int age;  
   String breed;
   String size;
   String details;
-  User owner;
+  String owner;
 
   Dog({
     this.id,
     this.name,
-    this.age,
-    this.photos,
+    this.age,    
     this.breed,
     this.size,
     this.details,
@@ -25,8 +21,7 @@ class Dog {
     return {
       'id': id,
       'name': name,
-      'age': age,
-      'avatar': photos,
+      'age': age,      
       'breed': breed,
       'size': size,
       'details': details,
@@ -38,8 +33,7 @@ class Dog {
     Map<String, Object> dogMap = Map<String, Object>();
     dogMap["id"] = id;
     dogMap["name"] = name;
-    dogMap["age"] = age;
-    dogMap["photos"] = photos;
+    dogMap["age"] = age;        
     dogMap["breed"] = breed;
     dogMap["size"] = size;
     dogMap["details"] = details;

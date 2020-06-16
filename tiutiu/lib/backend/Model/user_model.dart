@@ -1,5 +1,3 @@
-import './dog_model.dart';
-
 class User {
   String id;
   String name;
@@ -8,8 +6,22 @@ class User {
   String password;
   String whatsapp;
   String phone;
-  List<Dog> adopted;
-  List<Dog> donated;
+  int adopted;
+  int donated;
+  int disappeared;
+
+  User({
+    this.id,
+    this.name,
+    this.avatar,
+    this.email,
+    this.password,
+    this.whatsapp,
+    this.adopted,
+    this.donated,
+    this.phone,
+    this.disappeared
+  });
 
   toJson() {
     return {

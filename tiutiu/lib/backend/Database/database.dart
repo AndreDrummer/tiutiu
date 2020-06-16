@@ -1,11 +1,15 @@
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
-import 'package:tiutiu/backend/Model/dog_model.dart';
+import 'package:flutter/material.dart';
+import 'dart:async';
 
-class DataBaseHandler {
+class DataBaseHandler {  
   Future<Database> database;
+  DataBaseHandler._constructor();
+  static final DataBaseHandler instance = DataBaseHandler._constructor();
 
-  void initDB() async {
+  Future initDB() async {
+    WidgetsFlutterBinding.ensureInitialized();
     database = openDatabase(
       join(await getDatabasesPath(), 'tiutiu.db'),
       onCreate: (db, version) async {
@@ -28,36 +32,62 @@ class DataBaseHandler {
           "CREATE TABLE IF NOT EXISTS DogDisappeared(ownerId TEXT, dogId TEXT, photo TEXT)",
         );
       },
+      version: 1
     );
   }
 
   // SQL QUERIES
 
-  Future<void> insert(table, data) async {
+  Future insert(String tableName, data) async {
+    var retorno;
     final Database db = await database;
     await db.insert(
-      table,
+      tableName,
       data.toJson(),
       conflictAlgorithm: ConflictAlgorithm.replace,
+    ).then((value) => retorno = value);
+
+    return retorno;
+  }
+
+  Future<List> getAll(String tableName) async {
+    final Database db = await database;
+
+    final List<Map<String, dynamic>> data = await db.rawQuery(
+      "SELECT * FROM $tableName"
+    );
+
+    return data;
+  }
+
+  Future<List<Map<String, dynamic>>> getById(String tableName, id) async {
+    final db = await database;
+
+    final List<Map<String, dynamic>> data = await db.rawQuery(
+      "SELECT * FROM $tableName where id = $id"
+    );
+
+    return data;
+  }
+
+  Future<void> update(String tableName, data) async {
+    final db = await database;
+
+    await db.update(
+      tableName,
+      data.toJson(),
+      where: "id = ?",
+      whereArgs: [data.id]
     );
   }
 
-  Future<List> getDog() async {
-    final Database db = await database;
+  Future<void> delete(String tableName, id) async {
+    final db = await database;
 
-    final List<Map<String, dynamic>> map = await db.query('Dog');
-
-    return List.generate(map.length, (index) {
-      return Dog(
-        id: map[index]['id'],
-        name: map[index]['name'],
-        age: map[index]['age'],
-        photos: map[index]['photos'],
-        breed: map[index]['breed'],
-        size: map[index]['size'],
-        details: map[index]['details'],
-        owner: map[index]['owner'],
-      );
-    });
+    await db.delete(
+      tableName,      
+      where: "id = ?",
+      whereArgs: [id]
+    );
   }
 }
