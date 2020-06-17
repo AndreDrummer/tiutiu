@@ -35,21 +35,19 @@ main() async {
   DogController dog = new DogController();
   UserController user = new UserController();
 
-  // print(await dog.getDog('4'));
+  await dog.deleteDog('1');
+  await dog.insertDog(dogModel);
+  await dog.getAllDogs().then((value) {
+    print(value[0].name);
+  });
 
-  // await dog.getAllDogs().then((value) => {
-  //   value.forEach((element) {
-  //     print(element.toJson());
-  //   })
-  // });
-
-  user.getUser('1');
+  // user.getUser('1');
   // user.deleteUser(userModel.id);
 
   // await user.getUser('2').then((value) => {
-    // value.forEach((element) {
-    //   print(element.toJson());
-    // })
+  //   value.forEach((element) {
+  //     print(element.toJson());
+  //   }),
   //   if(value is List) {
   //     print(value)
   //   } else {
