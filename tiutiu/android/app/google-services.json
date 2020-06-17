@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "791022711249",
+    "firebase_url": "https://tiutiu-5cd14.firebaseio.com",
+    "project_id": "tiutiu-5cd14",
+    "storage_bucket": "tiutiu-5cd14.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:791022711249:android:e960aeb980fe74ff3170f0",
+        "android_client_info": {
+          "package_name": "com.example.tiutiu"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "791022711249-8i6j58p61e7gdlbffqft27hndtljug4m.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.tiutiu",
+            "certificate_hash": "357982fc6ea6170b7160ffb8da833dff61a9d1f3"
+          }
+        },
+        {
+          "client_id": "791022711249-5sm2di56ovcb3fb8aqfif8thl3sfbd1n.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAX9SWKqAIAZ0UvUGW8p8jtkhf4_gBzFKo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "791022711249-5sm2di56ovcb3fb8aqfif8thl3sfbd1n.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
