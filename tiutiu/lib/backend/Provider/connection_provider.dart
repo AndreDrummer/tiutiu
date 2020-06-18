@@ -1,135 +1,66 @@
-import 'package:flutter/material.dart';
-import 'dart:async';
-import 'dart:io';
+import 'Dart:io'; //InternetAddress utility
+import 'Dart:async'; //For StreamController/Stream
 
-import 'package:connectivity/connectivity.dart';
-import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:connectivity/connectivity.Dart';
 
-class CoonectionProvider extends StatefulWidget {
-  @override
-  _CoonectionProviderState createState() => _CoonectionProviderState();
-}
+class ConnectionStatusSingleton {
+    //This creates the single instance by calling the `_internal` constructor specified below
+    ConnectionStatusSingleton._internal();
+    static final ConnectionStatusSingleton _singleton = new ConnectionStatusSingleton._internal();
 
-class _CoonectionProviderState extends State<CoonectionProvider> {
-  String _connectionStatus = 'Unknown';
-  final Connectivity _connectivity = Connectivity();
-  StreamSubscription<ConnectivityResult> _connectivitySubscription;
+    //This is what's used to retrieve the instance through the app
+    static ConnectionStatusSingleton getInstance() => _singleton;
 
-  @override
-initState() {
-  super.initState();
-  initConnectivity();
-  _connectivitySubscription = Connectivity().onConnectivityChanged.listen((ConnectivityResult result) {
-    // Got a new connectivity status!
-  });
-}
+    //This tracks the current connection status
+    bool hasConnection = false;
 
-// Be sure to cancel subscription after you are done
-@override
-dispose() {
-  super.dispose();
+    //This is how we'll allow subscribing to connection changes
+    StreamController connectionChangeController = new StreamController.broadcast();
 
-  _connectivitySubscription.cancel();
-}
+    //flutter_connectivity
+    final Connectivity _connectivity = Connectivity();
 
- Future<void> initConnectivity() async {
-    ConnectivityResult result;
-    // Platform messages may fail, so we use a try/catch PlatformException.
-    try {
-      result = await _connectivity.checkConnectivity();
-    } on PlatformException catch (e) {
-      print(e.toString());
+    //Hook into flutter_connectivity's Stream to listen for changes
+    //And check the connection status out of the gate
+    void initialize() {
+        _connectivity.onConnectivityChanged.listen(_connectionChange);
+        checkConnection();
     }
 
-    // If the widget was removed from the tree while the asynchronous platform
-    // message was in flight, we want to discard the reply rather than calling
-    // setState to update our non-existent appearance.
-    if (!mounted) {
-      return Future.value(null);
+    Stream get connectionChange => connectionChangeController.stream;
+
+    //A clean up method to close our StreamController
+    //   Because this is meant to exist through the entire application life cycle this isn't
+    //   really an issue
+    void dispose() {
+        connectionChangeController.close();
     }
 
-    return _updateConnectionStatus(result);
-  }
+    //flutter_connectivity's listener
+    void _connectionChange(ConnectivityResult result) {
+        checkConnection();
+    }
 
-  Future<void> _updateConnectionStatus(ConnectivityResult result) async {
-    switch (result) {
-      case ConnectivityResult.wifi:
-        String wifiName, wifiBSSID, wifiIP;
+    //The test to actually see if there is a connection
+    Future<bool> checkConnection() async {
+        bool previousConnection = hasConnection;
 
         try {
-          if (Platform.isIOS) {
-            LocationAuthorizationStatus status =
-                await _connectivity.getLocationServiceAuthorization();
-            if (status == LocationAuthorizationStatus.notDetermined) {
-              status =
-                  await _connectivity.requestLocationServiceAuthorization();
-            }
-            if (status == LocationAuthorizationStatus.authorizedAlways ||
-                status == LocationAuthorizationStatus.authorizedWhenInUse) {
-              wifiName = await _connectivity.getWifiName();
+            final result = await InternetAddress.lookup('google.com');
+            if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+                hasConnection = true;
             } else {
-              wifiName = await _connectivity.getWifiName();
+                hasConnection = false;
             }
-          } else {
-            wifiName = await _connectivity.getWifiName();
-          }
-        } on PlatformException catch (e) {
-          print(e.toString());
-          wifiName = "Failed to get Wifi Name";
+        } on SocketException catch(_) {
+            hasConnection = false;
         }
 
-        try {
-          if (Platform.isIOS) {
-            LocationAuthorizationStatus status =
-                await _connectivity.getLocationServiceAuthorization();
-            if (status == LocationAuthorizationStatus.notDetermined) {
-              status =
-                  await _connectivity.requestLocationServiceAuthorization();
-            }
-            if (status == LocationAuthorizationStatus.authorizedAlways ||
-                status == LocationAuthorizationStatus.authorizedWhenInUse) {
-              wifiBSSID = await _connectivity.getWifiBSSID();
-            } else {
-              wifiBSSID = await _connectivity.getWifiBSSID();
-            }
-          } else {
-            wifiBSSID = await _connectivity.getWifiBSSID();
-          }
-        } on PlatformException catch (e) {
-          print(e.toString());
-          wifiBSSID = "Failed to get Wifi BSSID";
+        //The connection status changed send out an update to all listeners
+        if (previousConnection != hasConnection) {
+            connectionChangeController.add(hasConnection);
         }
 
-        try {
-          wifiIP = await _connectivity.getWifiIP();
-        } on PlatformException catch (e) {
-          print(e.toString());
-          wifiIP = "Failed to get Wifi IP";
-        }
-
-        setState(() {
-          _connectionStatus = '$result\n'
-              'Wifi Name: $wifiName\n'
-              'Wifi BSSID: $wifiBSSID\n'
-              'Wifi IP: $wifiIP\n';
-        });
-        break;
-      case ConnectivityResult.mobile:
-      case ConnectivityResult.none:
-        setState(() => _connectionStatus = result.toString());
-        break;
-      default:
-        setState(() => _connectionStatus = 'Failed to get connectivity.');
-        break;
+        return hasConnection;
     }
-  }
-  
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      
-    );
-  }
 }
