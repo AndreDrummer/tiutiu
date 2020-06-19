@@ -1,60 +1,72 @@
-import '../Database/database.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import '../Model/user_model.dart';
 
 class UserController {
-  DataBaseHandler db = DataBaseHandler.instance;
+  Firestore firestore = Firestore.instance;
 
-  Future getUser(String id) async {
-    List<Map<String, dynamic>> map = await db.getById('user', id);
-
-    if (map.isNotEmpty) {
-      User user = User(
-        id: map[0]['id'],
-        name: map[0]['name'],
-        avatar: map[0]['avatar'],
-        adopted: map[0]['adopted: '],
-        donated: map[0]['donated'],
-        email: map[0]['email'],
-        password: map[0]['password'],
-        phone: map[0]['phone'],
-        whatsapp: map[0]['whatsapp'],
+  Future<User> getUser(String id) async {
+    User user;
+    await firestore
+        .collection('User')
+        .document(id)
+        .snapshots()
+        .first
+        .then((value) {
+      user = User(
+        id: value.data['id'],
+        name: value.data['name'],
+        avatar: value.data['avatar'],
+        adopted: value.data['adopted: '],
+        donated: value.data['donated'],
+        email: value.data['email'],
+        password: value.data['password'],
+        phone: value.data['phone'],
+        whatsapp: value.data['whatsapp'],
       );
-      return user;
-    }
+    });
 
-    return [];
+    return user;
   }
 
   Future<List<User>> getAllUsers() async {
-    List<Map<String, dynamic>> userList = await db.getAll('user');
-
-    return List.generate(
-      userList.length,
-      (i) {
-        return User(
-          id: userList[0]['id'],
-          name: userList[0]['name'],
-          avatar: userList[0]['avatar'],
-          adopted: userList[0]['adopted: '],
-          donated: userList[0]['donated'],
-          email: userList[0]['email'],
-          password: userList[0]['password'],
-          phone: userList[0]['phone'],
-          whatsapp: userList[0]['whatsapp'],
-        );
-      },
-    );
+    List<User> users = [];
+    await firestore.collection('User').getDocuments().then((value) {
+      value.documents.forEach((element) {
+        users.add(User(
+          id: element.data['id'],
+          name: element.data['name'],
+          avatar: element.data['avatar'],
+          adopted: element.data['adopted: '],
+          donated: element.data['donated'],
+          email: element.data['email'],
+          password: element.data['password'],
+          phone: element.data['phone'],
+          whatsapp: element.data['whatsapp'],
+        ));
+      });
+    });
+    return users;
   }
 
   Future<void> insertUser(User user) async {
-    await db.insert('user', user);
+    print("..inserindo");
+    await firestore
+        .collection('User')
+        .document()
+        .setData(user.toMap())
+        .then((value) {
+      print('Usuário Inserido!');
+    });
   }
 
   Future<void> updateUser(User user) async {
-    await db.update('user', user);
+    await firestore
+        .collection('User')
+        .document(user.id)
+        .updateData(user.toMap());
   }
 
   Future<void> deleteUser(String id) async {
-    await db.delete('user', id);
+    await firestore.collection('User').document(id).delete();
   }
 }

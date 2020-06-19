@@ -1,18 +1,14 @@
-import 'dart:io';
-import '../Database/database.dart';
 import '../Model/dog_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:connectivity/connectivity.dart';
 
-class DogController {
-  DataBaseHandler db = DataBaseHandler.instance;
+class DogController {  
   Firestore firestore = Firestore.instance;
 
   getDog(String id) async {
     Dog dog;
     await firestore
         .collection('Dog')
-        .document('ABgelTn2w8scy7SFC05L')
+        .document(id)
         .snapshots()
         .first
         .then(
@@ -72,7 +68,7 @@ class DogController {
   Future<void> updateDog(Dog dog) async {
     await Firestore.instance
         .collection('Dog')
-        .document('ABgelTn2w8scy7SFC05L') // dog.id
+        .document(dog.id) // dog.id
         .updateData(dog.toMap())
         .then(
       (value) {
@@ -82,6 +78,6 @@ class DogController {
   }
 
   Future<void> deleteDog(String id) async {
-    await firestore.collection('Dog').document('0cXVckgXNLj0v3fdz3Zr').delete();
+    await firestore.collection('Dog').document(id).delete();
   }
 }

@@ -44,6 +44,8 @@ main() async {
   // user.getUser('1');
   // user.deleteUser(userModel.id);
 
+  await user.insertUser(userModel);
+
   // await user.getUser('2').then((value) => {
   //   value.forEach((element) {
   //     print(element.toJson());
