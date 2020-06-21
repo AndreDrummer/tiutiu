@@ -1,17 +1,12 @@
 import '../Model/dog_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class DogController {  
+class DogController {
   Firestore firestore = Firestore.instance;
 
   getDog(String id) async {
     Dog dog;
-    await firestore
-        .collection('Dog')
-        .document(id)
-        .snapshots()
-        .first
-        .then(
+    await firestore.collection('Dog').document(id).snapshots().first.then(
       (value) {
         dog = Dog(
           id: value.data['id'],
@@ -21,6 +16,9 @@ class DogController {
           details: value.data['details'],
           size: value.data['size'],
           owner: value.data['owner'],
+          latitude: value.data['latitude'],
+          longitude: value.data['longitude'],
+          address: value.data['address'],
         );
       },
     );
@@ -28,7 +26,7 @@ class DogController {
     return dog;
   }
 
-  getAllDogs() async {
+  Future<List<Dog>> getAllDogs() async {
     List<Dog> dogs = [];
     await firestore.collection('Dog').getDocuments().then(
           (value) => {
@@ -44,6 +42,9 @@ class DogController {
                       details: element.data['details'],
                       size: element.data['size'],
                       owner: element.data['owner'],
+                      latitude: element.data['latitude'],
+                      longitude: element.data['longitude'],
+                      address: element.data['address'],
                     ));
                   },
                 )

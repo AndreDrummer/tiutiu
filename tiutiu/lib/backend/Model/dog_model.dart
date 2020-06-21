@@ -6,6 +6,9 @@ class Dog {
   String size;
   String details;
   String owner;
+  double latitude;
+  double longitude;
+  String address;
 
   Dog({
     this.id,
@@ -15,6 +18,9 @@ class Dog {
     this.size,
     this.details,
     this.owner,
+    this.latitude,
+    this.longitude,
+    this.address
   });
 
   toJson() {
@@ -25,7 +31,10 @@ class Dog {
       'breed': breed,
       'size': size,
       'details': details,
-      'owner': owner
+      'owner': owner,
+      'latitude': latitude,
+      'longitude': longitude,
+      'address': address,
     };
   }
 
@@ -38,6 +47,9 @@ class Dog {
     dogMap["size"] = size;
     dogMap["details"] = details;
     dogMap["owner"] = owner;
+    dogMap['latitude'] = latitude;
+    dogMap['longitude'] = longitude;
+    dogMap['address'] = address;
 
     return dogMap;
   }
