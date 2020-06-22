@@ -47,6 +47,10 @@ flutter:
   assets:
     - assets/pata.jpg    
     - assets/pin-dog.jpg    
+    - assets/dogs.png    
+    - assets/dogCat.png    
+    - assets/dogCat2.png    
+    - assets/mariana.jpg    
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

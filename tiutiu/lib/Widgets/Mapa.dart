@@ -11,19 +11,19 @@ class Mapa extends StatefulWidget {
 class _MapaState extends State<Mapa> {
   BitmapDescriptor pinLocationIcon;
   Set<Marker> _markers = {};
-  Completer<GoogleMapController> _controller = Completer();  
+  Completer<GoogleMapController> _controller = Completer();
   Position userCurrentLocation =
       Position(latitude: 37.4219983, longitude: -122.084);
   CameraPosition initialCamera;
   LatLng lastMapPosition;
   LatLng pinPosition = LatLng(37.3797536, -122.1017334);
-  MapType _currentMapType;  
+  MapType _currentMapType;
 
   @override
   void initState() {
     _currentLocation();
 
-    BitmapDescriptor.fromAssetImage(
+    BitmapDescriptor.fromAssetImage(      
       ImageConfiguration(devicePixelRatio: 2.5),
       'assets/pin-dog.jpg',
     ).then((onValue) {
@@ -41,6 +41,17 @@ class _MapaState extends State<Mapa> {
     );
 
     super.initState();
+  }
+
+  Map viewDogInfo = {};
+  bool viewingDog = false;
+  onViewDog(algo) {
+    setState(() {
+      viewDogInfo['name'] = algo['name'];
+      viewDogInfo['breed'] = algo['breed'];
+      viewDogInfo['size'] = algo['size'];
+      viewingDog = !viewingDog;
+    });
   }
 
   Future _currentLocation() async {
@@ -67,26 +78,12 @@ class _MapaState extends State<Mapa> {
         _markers.add(
           Marker(
             onTap: () {
-              showDialog(
-                context: context,
-                builder: (context) {
-                  return AlertDialog(
-                      title: Text(name),
-                      content: Row(
-                        children: <Widget>[
-                          CircleAvatar(
-                            child: Image.network(dogPhoto),
-                            radius: 20,
-                            backgroundColor: Colors.transparent,
-                          ),
-                          SizedBox(width: 8),
-                          Expanded(
-                            child: Text("$postitionToAdd"),
-                          )
-                        ],
-                      ));
-                },
-              );
+              Map teste = {
+                'name': "Dogão",
+                'breed': 'Bravo',
+                'size': 'Grandão'
+              };
+              onViewDog(teste);
             },
             markerId: MarkerId(postitionToAdd.toString()),
             position: postitionToAdd,
@@ -104,30 +101,70 @@ class _MapaState extends State<Mapa> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    print(_markers.length);
+  Widget build(BuildContext context) {    
     return Scaffold(
-        body: GoogleMap(
-      mapToolbarEnabled: false,
-      markers: _markers,
-      mapType: _currentMapType,
-      initialCameraPosition: initialCamera,
-      onCameraMove: _onCameraMove,
-      onMapCreated: (GoogleMapController controller) {
-        _controller.complete(controller);
-        setState(
-          () {
-            _markers.add(
-              Marker(
-                markerId: MarkerId('‘<MARKER_ID>’'),
-                position: LatLng(userCurrentLocation.latitude,
-                    userCurrentLocation.longitude),
-                icon: pinLocationIcon,
+      body: Stack(
+        children: <Widget>[
+          GoogleMap(
+            mapToolbarEnabled: false,
+            zoomControlsEnabled: false,
+            markers: _markers,
+            mapType: _currentMapType,
+            initialCameraPosition: initialCamera,
+            onCameraMove: _onCameraMove,
+            onMapCreated: (GoogleMapController controller) {
+              _controller.complete(controller);
+              setState(
+                () {
+                  _addMarkeOnMap(LatLng(userCurrentLocation.latitude,
+                      userCurrentLocation.longitude));
+                },
+              );
+            },
+          ),
+          viewingDog ? Positioned(
+            bottom: 10,
+            child: Card(
+              margin: const EdgeInsets.symmetric(horizontal: 60),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(25),
               ),
-            );
-          },
-        );
-      },
-    ));
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    CircleAvatar(
+                      child: Image.asset('assets/pata.jpg'),
+                    ),
+                    SizedBox(width: 10),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text(
+                          viewDogInfo['name'].toString(),
+                          style: TextStyle(fontSize: 18),
+                        ),
+                        Text(
+                          '${viewDogInfo['breed']} ° ${viewDogInfo['size']}',
+                          style: TextStyle(
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(width: 10),
+                    IconButton(
+                      icon: Icon(Icons.remove_red_eye),
+                      onPressed: () {},
+                    )
+                  ],
+                ),
+              ),
+            ),
+          ) : SizedBox()
+        ],
+      ),
+    );
   }
 }

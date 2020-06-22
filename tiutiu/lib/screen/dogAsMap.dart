@@ -1,21 +1,17 @@
-import "package:flutter/material.dart";
-import './Mapa.dart';
-import './CustomInput.dart';
-import './FilterSearch.dart';
+import 'package:flutter/material.dart';
+import '../Widgets/Mapa.dart';
+import '../Widgets/CustomInput.dart';
+import '../Widgets/FilterSearch.dart';
+import '../Widgets/Drawer.dart';
 
-class Home extends StatefulWidget {
+class DogMap extends StatefulWidget {
   @override
-  _HomeState createState() => _HomeState();
+  _DogMapState createState() => _DogMapState();
 }
 
-class _HomeState extends State<Home> {
+class _DogMapState extends State<DogMap> {
   GlobalKey<ScaffoldState> _globalKey = GlobalKey();
   bool filtering = false;
-
-  @override
-  void initState() {
-    super.initState();
-  }
 
   void showFilter() {
     setState(() {
@@ -32,7 +28,7 @@ class _HomeState extends State<Home> {
     return Scaffold(
       key: _globalKey,
       drawer: Drawer(
-        child: Text("Hello Drawer"),
+        child: DrawerApp(),
       ),
       body: Stack(
         children: <Widget>[
