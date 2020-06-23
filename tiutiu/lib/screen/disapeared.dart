@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 
-class DogList extends StatelessWidget {
+class Disapeared extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('PETs na redondeza'),        
+        title: Text('PETs Desaparecidos'),        
       ),
       body: Center(
-        child: Text('Vai ter uma listta de PET aqui'),
+        child: Text('Vai ter uma lista de PET aqui'),
       ),
     );
   }
