@@ -1,6 +1,29 @@
 import 'package:flutter/material.dart';
 
-class CircleAddImage extends StatelessWidget {
+class CircleAddImage extends StatefulWidget {
+  var imageUrl;
+  CircleAddImage({this.imageUrl});
+
+  @override
+  _CircleAddImageState createState() => _CircleAddImageState();
+}
+
+class _CircleAddImageState extends State<CircleAddImage> {
+  bool isLocalImage = true;
+
+  void checkImageUrl() {
+    if (widget.imageUrl != null) {
+      widget.imageUrl = widget.imageUrl as String;
+      isLocalImage = widget.imageUrl.contains('.com');
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    checkImageUrl();
+  }
+
   @override
   Widget build(BuildContext context) {
     return CircleAvatar(
@@ -9,18 +32,14 @@ class CircleAddImage extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(16.0),
-          // border: Border.all(
-          //   style: BorderStyle.solid,
-          //   color: Colors.black,
-          // ),
-        ),
-        margin: const EdgeInsets.all(8.0),
+        ),        
         child: Center(
           child: ClipOval(
-            child: Image.asset(
-              'assets/addImage.png',
-              fit: BoxFit.cover,
-            ),
+            child: widget.imageUrl != null
+                ? isLocalImage
+                    ? Image.asset(widget.imageUrl)
+                    : Image.network(widget.imageUrl)
+                : Icon(Icons.add_photo_alternate, size: 50, color: Colors.grey),
           ),
         ),
       ),
