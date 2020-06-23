@@ -1,19 +1,111 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import '../Widgets/CircleaddImage.dart';
 import '../Widgets/InputText.dart';
+import 'package:image_picker/image_picker.dart';
 
-class NovoPet extends StatefulWidget {  
+class NovoPet extends StatefulWidget {
   @override
   _NovoPetState createState() => _NovoPetState();
 }
 
 class _NovoPetState extends State<NovoPet> {
-  var params;  
-  var kind;  
+  var params;
+  var kind;
+
+  Future<PickedFile> image0;
+  Future<PickedFile> image1;
+  Future<PickedFile> image2;
+  Future<PickedFile> image3;
+
+  PickedFile imageFile0;
+  PickedFile imageFile1;
+  PickedFile imageFile2;
+  PickedFile imageFile3;
+
+  List<String> petPhotosToUpload = [];
 
   @override
   void initState() {
-    super.initState();        
+    super.initState();
+  }
+
+  void selectImage(ImageSource source, int index) {
+    ImagePicker picker = new ImagePicker();
+    dynamic image = picker.getImage(source: source);
+    switch (index) {
+      case 0:
+        setState(() {
+          image0 = image;
+        });
+        break;
+      case 1:
+        setState(() {
+          image1 = image;
+        });
+        break;
+      case 2:
+        setState(() {
+          image2 = image;
+        });
+        break;
+      case 3:
+        setState(() {
+          image3 = image;
+        });
+        break;
+    }
+  }
+
+  Widget setImage(
+    PickedFile imageFile, Future<PickedFile> imageFuture, int index) {
+    String path ;
+    return FutureBuilder<PickedFile>(
+      future: imageFuture,
+      builder: (BuildContext context, AsyncSnapshot<PickedFile> snapshot) {
+        if (snapshot.connectionState == ConnectionState.done &&
+            snapshot.hasData) {
+          path = snapshot.data.path;
+          petPhotosToUpload.add(path);
+          imageFuture.then((value) {
+            imageFile = value;
+          });
+        }
+        return InkWell(
+          onTap: () => openModalSelectMedia(context, index),
+          child: CircleAddImage(
+            imageUrl: path,
+          ),
+        );
+      },
+    );
+  }
+
+  openModalSelectMedia(BuildContext context, int index) {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return SimpleDialog(
+            children: <Widget>[
+              FlatButton(
+                child: Text("Tirar uma foto",
+                    style: TextStyle(color: Colors.black)),
+                onPressed: () {
+                  Navigator.pop(context);
+                  selectImage(ImageSource.camera, index);
+                },
+              ),
+              FlatButton(
+                child: Text("Abrir galeria"),
+                onPressed: () {
+                  Navigator.pop(context);
+                  selectImage(ImageSource.gallery, index);
+                },
+              )
+            ],
+          );
+        });
   }
 
   @override
@@ -67,10 +159,10 @@ class _NovoPetState extends State<NovoPet> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: <Widget>[
-                            CircleAddImage(),
-                            CircleAddImage(),
-                            CircleAddImage(),
-                            CircleAddImage(),
+                            setImage(imageFile0, image0, 0),
+                            setImage(imageFile1, image1, 1),
+                            setImage(imageFile2, image2, 2),
+                            setImage(imageFile3, image3, 3),
                           ],
                         ),
                         SizedBox(height: 12),
