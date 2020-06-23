@@ -63,7 +63,7 @@ class _FilterSearchState extends State<FilterSearch> {
           children: <Widget>[
             Text(
               name,
-              style: Theme.of(context).primaryTextTheme.headline5,
+              // style: Theme.of(context).primaryTextTheme.headline5,
             ),
             SizedBox(width: 10),
             DropdownButton<String>(
@@ -96,7 +96,7 @@ class _FilterSearchState extends State<FilterSearch> {
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
           child: Text(
             "OK",
-            style: Theme.of(context).primaryTextTheme.button,
+            style: Theme.of(context).textTheme.button,
           ),
           color: Theme.of(context).primaryColor,
         )

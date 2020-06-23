@@ -1,4 +1,4 @@
-class Dog {
+class Pet {
   String id;
   String name;
   int age;  
@@ -10,7 +10,7 @@ class Dog {
   double longitude;
   String address;
 
-  Dog({
+  Pet({
     this.id,
     this.name,
     this.age,    
@@ -39,22 +39,22 @@ class Dog {
   }
 
   Map<String, Object> toMap() {
-    Map<String, Object> dogMap = Map<String, Object>();
-    dogMap["id"] = id;
-    dogMap["name"] = name;
-    dogMap["age"] = age;        
-    dogMap["breed"] = breed;
-    dogMap["size"] = size;
-    dogMap["details"] = details;
-    dogMap["owner"] = owner;
-    dogMap['latitude'] = latitude;
-    dogMap['longitude'] = longitude;
-    dogMap['address'] = address;
+    Map<String, Object> petMap = Map<String, Object>();
+    petMap["id"] = id;
+    petMap["name"] = name;
+    petMap["age"] = age;        
+    petMap["breed"] = breed;
+    petMap["size"] = size;
+    petMap["details"] = details;
+    petMap["owner"] = owner;
+    petMap['latitude'] = latitude;
+    petMap['longitude'] = longitude;
+    petMap['address'] = address;
 
-    return dogMap;
+    return petMap;
   }
 
-  // Dog.fromSnapshot(DocumentSnapshot snpashot) {
+  // Pet.fromSnapshot(DocumentSnapshot snpashot) {
 
   // }
 }

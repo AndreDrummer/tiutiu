@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import '../Widgets/Mapa.dart';
-import '../Widgets/CustomInput.dart';
+import '../Widgets/inputSearch.dart';
 import '../Widgets/FilterSearch.dart';
 import '../Widgets/Drawer.dart';
 
-class DogMap extends StatefulWidget {
+class PetMap extends StatefulWidget {
   @override
-  _DogMapState createState() => _DogMapState();
+  _PetMapState createState() => _PetMapState();
 }
 
-class _DogMapState extends State<DogMap> {
+class _PetMapState extends State<PetMap> {
   GlobalKey<ScaffoldState> _globalKey = GlobalKey();
   bool filtering = false;
 

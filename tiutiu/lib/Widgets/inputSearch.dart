@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class CustomInput extends StatelessWidget {
   final Function showFilter;
-  
+
   CustomInput({this.showFilter});
 
   @override
@@ -24,9 +24,10 @@ class CustomInput extends StatelessWidget {
           Expanded(
             child: TextFormField(
               decoration: InputDecoration(
-                labelText: 'Encontre um PET',
+                labelText: 'Adote um PET',
                 labelStyle: TextStyle(
-                    color: Theme.of(context).textTheme.headline6.color),
+                  color: Theme.of(context).textTheme.headline5.color,
+                ),
                 hintText: 'Ex.: Chihuahua',
                 focusedBorder: UnderlineInputBorder(
                   borderSide: BorderSide(style: BorderStyle.none),
@@ -41,7 +42,7 @@ class CustomInput extends StatelessWidget {
               child: Row(
             children: <Widget>[
               IconButton(
-                icon: Icon(                  
+                icon: Icon(
                   Icons.search,
                 ),
                 onPressed: () {
@@ -49,7 +50,7 @@ class CustomInput extends StatelessWidget {
                 },
               ),
               IconButton(
-                icon: Icon(                  
+                icon: Icon(
                   Icons.filter_list,
                 ),
                 onPressed: () {

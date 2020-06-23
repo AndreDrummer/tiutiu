@@ -1,14 +1,14 @@
-import '../Model/dog_model.dart';
+import '../Model/pet_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class DogController {
+class PetController {
   Firestore firestore = Firestore.instance;
 
-  getDog(String id) async {
-    Dog dog;
-    await firestore.collection('Dog').document(id).snapshots().first.then(
+  getPet(String id) async {
+    Pet pet;
+    await firestore.collection('Users').document('nlcQCyMLPPR8nWgdLoFk').collection('Pets').document(id).snapshots().first.then(
       (value) {
-        dog = Dog(
+        pet = Pet(
           id: value.data['id'],
           name: value.data['name'],
           age: value.data['age'],
@@ -23,18 +23,18 @@ class DogController {
       },
     );
 
-    return dog;
+    return pet;
   }
 
-  Future<List<Dog>> getAllDogs() async {
-    List<Dog> dogs = [];
-    await firestore.collection('Dog').getDocuments().then(
+  Future<List<Pet>> getAllPets() async {
+    List<Pet> pets = [];
+    await firestore.collection('Users').document('nlcQCyMLPPR8nWgdLoFk').collection('Pets').getDocuments().then(
           (value) => {
             if (value.documents.isNotEmpty)
               {
                 value.documents.forEach(
                   (element) {
-                    dogs.add(Dog(
+                    pets.add(Pet(
                       id: element.data['id'],
                       name: element.data['name'],
                       age: element.data['age'],
@@ -51,14 +51,16 @@ class DogController {
               }
           },
         );
-    return dogs;
+    return pets;
   }
 
-  Future<void> insertDog(Dog dog) async {
+  Future<void> insertPet(Pet pet, String petKind) async {
     await Firestore.instance
-        .collection('Dog')
+        .collection('Users').document('nlcQCyMLPPR8nWgdLoFk').collection('Pets')
         .document()
-        .setData(dog.toMap())
+        .collection(petKind)
+        .document()
+        .setData(pet.toMap())
         .then(
       (value) {
         print('Inserção realizada com sucesso!');
@@ -66,11 +68,11 @@ class DogController {
     );
   }
 
-  Future<void> updateDog(Dog dog) async {
+  Future<void> updatePet(Pet pet) async {
     await Firestore.instance
-        .collection('Dog')
-        .document(dog.id) // dog.id
-        .updateData(dog.toMap())
+        .collection('Users').document('nlcQCyMLPPR8nWgdLoFk').collection('Pets')
+        .document(pet.id) // pet.id
+        .updateData(pet.toMap())
         .then(
       (value) {
         print('Atualização realizada com sucesso!');
@@ -78,7 +80,7 @@ class DogController {
     );
   }
 
-  Future<void> deleteDog(String id) async {
-    await firestore.collection('Dog').document(id).delete();
+  Future<void> deletePet(String id) async {
+    await firestore.collection('Users').document('nlcQCyMLPPR8nWgdLoFk').collection('Pets').document(id).delete();
   }
 }
