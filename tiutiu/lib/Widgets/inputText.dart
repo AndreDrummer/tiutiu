@@ -5,12 +5,16 @@ class InputText extends StatelessWidget {
   final double size;
   final String placeholder;
   final TextEditingController controller;
+  final bool multiline;
+  final int maxlines;
 
 
   InputText({
     this.size = 45,
     this.controller,
-    this.placeholder
+    this.placeholder,
+    this.maxlines = 1,
+    this.multiline = false
   });
 
   @override
@@ -25,18 +29,29 @@ class InputText extends StatelessWidget {
           color: Colors.white,
         ),
       ),
-      child: TextFormField(
-        controller: controller,
-        decoration: InputDecoration(
-          labelText: placeholder,
-          labelStyle: TextStyle(
-            color: Theme.of(context).textTheme.headline5.color,
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(style: BorderStyle.none),
-          ),
-          enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(style: BorderStyle.none),
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: TextFormField(
+          validator: (value) {
+            if(value.isEmpty) {
+              return 'Preencha corretamente esse campo';
+            }
+            return null;
+          },
+          controller: controller,
+          maxLines: maxlines,
+          keyboardType: multiline ? TextInputType.multiline : TextInputType.text,     
+          decoration: InputDecoration(            
+            labelText: placeholder,
+            labelStyle: TextStyle(
+              color: Theme.of(context).textTheme.headline5.color,
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderSide: BorderSide(style: BorderStyle.none),
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderSide: BorderSide(style: BorderStyle.none),
+            ),
           ),
         ),
       ),

@@ -37,8 +37,8 @@ class _CircleAddImageState extends State<CircleAddImage> {
           child: ClipOval(
             child: widget.imageUrl != null
                 ? isLocalImage
-                    ? Image.asset(widget.imageUrl)
-                    : Image.network(widget.imageUrl)
+                    ? Image.asset(widget.imageUrl, fit: BoxFit.fill, width: 100, height: 100,)
+                    : Image.network(widget.imageUrl, fit: BoxFit.fill, width: 100, height: 100,)
                 : Icon(Icons.add_photo_alternate, size: 50, color: Colors.grey),
           ),
         ),

@@ -81,7 +81,7 @@ class _HomeState extends State<Home> {
               Navigator.pushNamed(
                 context,
                 Routes.NOVOPET,
-                arguments: {'kind': 'Disapeared'},
+                arguments: {'kind': 'Disappeared'},
               );
             },
           ),
