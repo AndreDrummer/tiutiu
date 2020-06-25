@@ -1,9 +1,12 @@
 import 'dart:io';
 
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:tiutiu/backend/Model/pet_model.dart';
 import '../Widgets/CircleaddImage.dart';
 import '../Widgets/InputText.dart';
 import 'package:image_picker/image_picker.dart';
+import '../backend/Controller/pet_controller.dart';
 
 class NovoPet extends StatefulWidget {
   @override
@@ -24,7 +27,15 @@ class _NovoPetState extends State<NovoPet> {
   PickedFile imageFile2;
   PickedFile imageFile3;
 
-  List<String> petPhotosToUpload = [];
+  TextEditingController _nome = TextEditingController();
+  TextEditingController _idade = TextEditingController();
+  TextEditingController _raca = TextEditingController();
+  TextEditingController _tamanho = TextEditingController();
+  TextEditingController _cor = TextEditingController();
+  TextEditingController _saude = TextEditingController();
+  TextEditingController _descricao = TextEditingController();
+
+  Map<String, Object> petPhotosToUpload = {};
 
   @override
   void initState() {
@@ -59,15 +70,22 @@ class _NovoPetState extends State<NovoPet> {
   }
 
   Widget setImage(
-    PickedFile imageFile, Future<PickedFile> imageFuture, int index) {
-    String path ;
+      PickedFile imageFile, Future<PickedFile> imageFuture, int index) {
+    String path;
     return FutureBuilder<PickedFile>(
       future: imageFuture,
       builder: (BuildContext context, AsyncSnapshot<PickedFile> snapshot) {
         if (snapshot.connectionState == ConnectionState.done &&
             snapshot.hasData) {
           path = snapshot.data.path;
-          petPhotosToUpload.add(path);
+
+          if (petPhotosToUpload.containsKey(index)) {
+            petPhotosToUpload.remove(index);
+            petPhotosToUpload.putIfAbsent(index.toString(), () => snapshot.data);
+          } else {
+            petPhotosToUpload.putIfAbsent(index.toString(), () => snapshot.data);
+          }
+
           imageFuture.then((value) {
             imageFile = value;
           });
@@ -108,11 +126,51 @@ class _NovoPetState extends State<NovoPet> {
         });
   }
 
+  uploadPhotos() {
+    petPhotosToUpload.forEach(
+      (key, value) async {
+        StorageReference storageReference =
+            FirebaseStorage.instance.ref().child('');
+        StorageUploadTask uploadTask = storageReference.putFile(value);
+
+        await uploadTask.onComplete;
+        print('Foto index enviada');
+        storageReference.getDownloadURL().then(
+              (urlDownload) => {
+                petPhotosToUpload[key] = urlDownload
+              },
+            );
+      },
+    );
+  }
+
+  saveForm() async {
+    PetController petController = PetController();
+
+    uploadPhotos();
+
+    Pet dataPetSave = Pet(
+        name: _nome.text,
+        breed: _raca.text,
+        owner: 'André',
+        photos: petPhotosToUpload,
+        size: _tamanho.text,
+        latitude: -16.7504593,
+        longitude: -49.2593187,
+        details: 'Manso, cheiroso e charmoso',
+        age: 2,
+        address: 'Vazio Ainda');
+
+    await petController.insertPet(dataPetSave, 'Disappeared');
+  }
+
   @override
   Widget build(BuildContext context) {
     params = ModalRoute.of(context).settings.arguments;
     kind = params['kind'];
     print(kind);
+
+    print(petPhotosToUpload.length);
 
     return Scaffold(
       body: DecoratedBox(
@@ -168,6 +226,7 @@ class _NovoPetState extends State<NovoPet> {
                         SizedBox(height: 12),
                         InputText(
                           placeholder: 'Nome',
+                          controller: _nome,
                         ),
                         SizedBox(
                           height: 12,
@@ -179,12 +238,14 @@ class _NovoPetState extends State<NovoPet> {
                               width: 100,
                               child: InputText(
                                 placeholder: 'Idade',
+                                controller: _idade,
                               ),
                             ),
                             SizedBox(width: 5),
                             Expanded(
                               child: InputText(
                                 placeholder: 'Raça',
+                                controller: _raca,
                               ),
                             )
                           ],
@@ -198,24 +259,32 @@ class _NovoPetState extends State<NovoPet> {
                             Expanded(
                               child: InputText(
                                 placeholder: 'Tamanho',
+                                controller: _tamanho,
                               ),
                             ),
                             SizedBox(width: 5),
                             Expanded(
                               child: InputText(
                                 placeholder: 'Cor',
+                                controller: _cor,
                               ),
                             ),
                             SizedBox(width: 5),
                             Expanded(
                               child: InputText(
                                 placeholder: 'Saúde',
+                                controller: _saude,
                               ),
                             ),
                           ],
                         ),
                         SizedBox(height: 12),
-                        InputText(placeholder: 'Descrição', size: 150),
+                        InputText(
+                            placeholder: 'Descrição',
+                            size: 150,
+                            controller: _descricao,
+                            multiline: true,
+                            maxlines: 5),
                         // SizedBox(height: 120),
                         ButtonBar(
                           children: <Widget>[
@@ -239,7 +308,7 @@ class _NovoPetState extends State<NovoPet> {
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(12),
                               ),
-                              onPressed: () {},
+                              onPressed: saveForm,
                             )
                           ],
                         ),
