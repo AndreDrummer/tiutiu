@@ -3,8 +3,7 @@ import '../backend/Controller/Pet_controller.dart';
 
  PetController pet = new PetController();
   List<Pet> cachorrin = [
-    Pet(
-      id: '1',
+    Pet(      
       name: 'Joanacio',
       age: 2,
       breed: 'Labrador',
@@ -15,8 +14,7 @@ import '../backend/Controller/Pet_controller.dart';
       longitude: -122.09011729806663,
       address: 'Rua de cima',
     ),
-    Pet(
-      id: '1',
+    Pet(      
       name: 'Joanacio',
       age: 2,
       breed: 'Labrador',
@@ -27,8 +25,7 @@ import '../backend/Controller/Pet_controller.dart';
       longitude: -122.08362568169834,
       address: 'Rua de cima',
     ),
-    Pet(
-      id: '1',
+    Pet(      
       name: 'Joanacio',
       age: 2,
       breed: 'Labrador',
@@ -39,8 +36,7 @@ import '../backend/Controller/Pet_controller.dart';
       longitude: -122.0783045142889,
       address: 'Rua de cima',
     ),
-    Pet(
-      id: '1',
+    Pet(      
       name: 'Joanacio',
       age: 2,
       breed: 'Labrador',
@@ -51,8 +47,7 @@ import '../backend/Controller/Pet_controller.dart';
       longitude: -122.07529809325933,
       address: 'Rua de cima',
     ),
-    Pet(
-      id: '1',
+    Pet(      
       name: 'Joanacio',
       age: 2,
       breed: 'Labrador',
@@ -63,8 +58,7 @@ import '../backend/Controller/Pet_controller.dart';
       longitude: -122.08947759121658,
       address: 'Rua de cima',
     ),
-    Pet(
-      id: '1',
+    Pet(      
       name: 'Joanacio',
       age: 2,
       breed: 'Labrador',

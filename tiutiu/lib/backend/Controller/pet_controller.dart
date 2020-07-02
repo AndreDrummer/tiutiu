@@ -55,6 +55,7 @@ class PetController {
   }
 
   Future<void> insertPet(Pet pet, String petKind) async {
+    print(pet.toMap());
     await Firestore.instance
         .collection('Users').document('nlcQCyMLPPR8nWgdLoFk').collection('Pets')
         .document('pets')

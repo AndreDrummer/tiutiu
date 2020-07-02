@@ -8,7 +8,7 @@ class Pet {
   String breed;
   String size;
   String details;
-  Map<String, Object> photos;
+  Map<String, String> photos;
   String owner;
   double latitude;
   double longitude;
