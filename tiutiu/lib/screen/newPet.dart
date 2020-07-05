@@ -50,79 +50,49 @@ class _NovoPetState extends State<NovoPet> {
       case 0:
         setState(() {
           imageFile0 = File(image.path);
+          if (petPhotos.containsKey(index)) {
+            petPhotos.remove(index);
+            petPhotos.putIfAbsent(index.toString(), () => imageFile0);
+          } else {
+            petPhotos.putIfAbsent(index.toString(), () => imageFile0);
+          }
         });
-        if (petPhotos.containsKey(index)) {
-          petPhotos.remove(index);
-          petPhotos.putIfAbsent(index.toString(), () => imageFile0);
-        } else {
-          petPhotos.putIfAbsent(index.toString(), () => imageFile0);
-        }
         break;
       case 1:
         setState(() {
           imageFile1 = File(image.path);
+          if (petPhotos.containsKey(index)) {
+            petPhotos.remove(index);
+            petPhotos.putIfAbsent(index.toString(), () => imageFile1);
+          } else {
+            petPhotos.putIfAbsent(index.toString(), () => imageFile1);
+          }
         });
-        if (petPhotos.containsKey(index)) {
-          petPhotos.remove(index);
-          petPhotos.putIfAbsent(index.toString(), () => imageFile1);
-        } else {
-          petPhotos.putIfAbsent(index.toString(), () => imageFile1);
-        }
         break;
       case 2:
         setState(() {
           imageFile2 = File(image.path);
+          if (petPhotos.containsKey(index)) {
+            petPhotos.remove(index);
+            petPhotos.putIfAbsent(index.toString(), () => imageFile2);
+          } else {
+            petPhotos.putIfAbsent(index.toString(), () => imageFile2);
+          }
         });
-        if (petPhotos.containsKey(index)) {
-          petPhotos.remove(index);
-          petPhotos.putIfAbsent(index.toString(), () => imageFile2);
-        } else {
-          petPhotos.putIfAbsent(index.toString(), () => imageFile2);
-        }
         break;
       case 3:
         setState(() {
           imageFile3 = File(image.path);
+          if (petPhotos.containsKey(index)) {
+            petPhotos.remove(index);
+            petPhotos.putIfAbsent(index.toString(), () => imageFile3);
+          } else {
+            petPhotos.putIfAbsent(index.toString(), () => imageFile3);
+          }
         });
-        if (petPhotos.containsKey(index)) {
-          petPhotos.remove(index);
-          petPhotos.putIfAbsent(index.toString(), () => imageFile3);
-        } else {
-          petPhotos.putIfAbsent(index.toString(), () => imageFile3);
-        }
         break;
     }
   }
-
-  // Widget setImage(File imageFile, Future<File> imageFuture, int index) {
-  //   String path;
-  //   return FutureBuilder<File>(
-  //     future: imageFuture,
-  //     builder: (BuildContext context, AsyncSnapshot<File> snapshot) {
-  //       if (snapshot.connectionState == ConnectionState.done &&
-  //           snapshot.hasData) {
-  //         path = snapshot.data.path;
-
-  //         if (petPhotos.containsKey(index)) {
-  //           petPhotos.remove(index);
-  //           petPhotos.putIfAbsent(index.toString(), () => File(path));
-  //         } else {
-  //           petPhotos.putIfAbsent(index.toString(), () => File(path));
-  //         }
-
-  //         imageFuture.then((value) {
-  //           imageFile = value;
-  //         });
-  //       }
-  //       return InkWell(
-  //         onTap: () => openModalSelectMedia(context, index),
-  //         child: CircleAddImage(
-  //           imageUrl: petPhotos[index],
-  //         ),
-  //       );
-  //     },
-  //   );
-  // }
 
   openModalSelectMedia(BuildContext context, int index) {
     showDialog(
@@ -150,27 +120,30 @@ class _NovoPetState extends State<NovoPet> {
         });
   }
 
-  Future uploadPhoto(key, value) async {
-    StorageReference storageReference =
-        FirebaseStorage.instance.ref().child('teste-${DateTime.now()}');
-    StorageUploadTask uploadTask = storageReference.putFile(value);
+  Future<void> uploadPhotos(String petName) async {
+    StorageUploadTask uploadTask;
+    StorageReference storageReference;
 
-    await uploadTask.onComplete;
-    print('Foto index enviada');
+    for (String key in petPhotos.keys) {
+      storageReference =
+          FirebaseStorage.instance.ref().child('userID/foto__$petName--$key');
+      uploadTask = storageReference.putFile(petPhotos['$key']);
 
-    List<Future> esperaPorra = List<Future>();
+      await uploadTask.onComplete;
+      await storageReference.getDownloadURL().then((urlDownload) async {
+        petPhotosToUpload["photo$key"] = await urlDownload;
+        print("URL DOWNLOAD $urlDownload");
+      });
+    }
 
-    esperaPorra.add(storageReference.getDownloadURL().then((urlDownload) {
-      petPhotosToUpload.putIfAbsent(key, () => urlDownload);
-      print("URL DOWNLOAD $urlDownload");
-    }));
-
-    return Future.wait(esperaPorra).whenComplete(save);
-    
+    return Future.value();
   }
 
-  Future save() async {
+  save() async {
     PetController petController = PetController();
+
+    await uploadPhotos(_nome.text);
+
     Pet dataPetSave = Pet(
       name: _nome.text,
       breed: _raca.text,
@@ -186,12 +159,6 @@ class _NovoPetState extends State<NovoPet> {
 
     await petController.insertPet(dataPetSave, 'Disappeared');
     petPhotosToUpload.clear();
-  }
-
-  prepareToSave() async {  
-    petPhotos.forEach((key, value) {
-      uploadPhoto(key, value);
-    });    
   }
 
   @override
@@ -367,7 +334,7 @@ class _NovoPetState extends State<NovoPet> {
                                 borderRadius: BorderRadius.circular(12),
                               ),
                               onPressed: () {
-                                prepareToSave();
+                                save();
                               },
                             )
                           ],
