@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tiutiu/utils/routes.dart';
 
 class DrawerApp extends StatelessWidget {
   @override
@@ -36,9 +37,14 @@ class DrawerApp extends StatelessWidget {
                   fit: BoxFit.cover,
                 ),
               ),
-              title: Text(
-                'Doados',
-                style: TextStyle(fontSize: 22),
+              title: InkWell(
+                onTap: () {
+                  Navigator.pushNamed(context, Routes.DOADOS);
+                },
+                child: Text(
+                  'Doados',
+                  style: TextStyle(fontSize: 22),
+                ),
               ),
             ),
             Divider(),

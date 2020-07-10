@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tiutiu/screen/donates.dart';
 import 'package:tiutiu/screen/newPet.dart';
 import './Screen/home.dart';
 import './utils/routes.dart';
@@ -23,6 +24,7 @@ void main() {
       home: Home(),
       routes: {
         Routes.NOVOPET: (ctx) => NovoPet(),
+        Routes.DOADOS: (ctx) => Donate(),
       },
     ),
   );
