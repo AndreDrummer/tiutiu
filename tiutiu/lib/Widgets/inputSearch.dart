@@ -3,10 +3,11 @@ import 'package:flutter/material.dart';
 class CustomInput extends StatelessWidget {
   final Function showFilter;
 
-  CustomInput({this.showFilter});
+  CustomInput({this.showFilter});  
 
   @override
   Widget build(BuildContext context) {
+    final marginTop = MediaQuery.of(context).size.height / 5;
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 15),
       decoration: BoxDecoration(
@@ -18,7 +19,7 @@ class CustomInput extends StatelessWidget {
           width: 1,
         ),
       ),
-      margin: EdgeInsets.fromLTRB(20, 200, 20.0, 0.0),
+      margin: EdgeInsets.fromLTRB(20, marginTop, 20.0, 0.0),
       child: Row(
         children: <Widget>[
           Expanded(

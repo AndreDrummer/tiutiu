@@ -10,7 +10,7 @@ class InputText extends StatelessWidget {
 
 
   InputText({
-    this.size = 45,
+    this.size = 55,
     this.controller,
     this.placeholder,
     this.maxlines = 1,

@@ -2,11 +2,14 @@ import 'dart:io';
 
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:tiutiu/Widgets/CustomDropDownButton.dart';
 import 'package:tiutiu/backend/Model/pet_model.dart';
 import '../Widgets/CircleaddImage.dart';
 import '../Widgets/InputText.dart';
 import 'package:image_picker/image_picker.dart';
 import '../backend/Controller/pet_controller.dart';
+
+import 'package:tiutiu/data/dummy_data.dart';
 
 class NovoPet extends StatefulWidget {
   @override
@@ -30,17 +33,21 @@ class _NovoPetState extends State<NovoPet> {
   TextEditingController _nome = TextEditingController();
   TextEditingController _idade = TextEditingController();
   TextEditingController _raca = TextEditingController();
-  TextEditingController _tamanho = TextEditingController();
-  TextEditingController _cor = TextEditingController();
-  TextEditingController _saude = TextEditingController();
   TextEditingController _descricao = TextEditingController();
 
   Map<String, File> petPhotos = {};
   Map<String, String> petPhotosToUpload = {};
 
+  String dropvalueSize;
+  String dropvalueHealth;
+  String dropvalueBreed;
+
   @override
   void initState() {
     super.initState();
+    dropvalueSize = DummyData.size[0];
+    dropvalueBreed = DummyData.breed[0];
+    dropvalueHealth = DummyData.health[0];
   }
 
   void selectImage(ImageSource source, int index) async {
@@ -146,18 +153,19 @@ class _NovoPetState extends State<NovoPet> {
 
     Pet dataPetSave = Pet(
       name: _nome.text,
-      breed: _raca.text,
+      breed: dropvalueBreed,
+      health: dropvalueHealth,
       owner: 'André',
       photos: petPhotosToUpload,
-      size: _tamanho.text,
+      size: dropvalueSize,
       latitude: -16.7504593,
       longitude: -49.2593187,
-      details: 'Manso, cheiroso e charmoso',
+      details: _descricao.text,
       age: 2,
       address: 'Vazio Ainda',
     );
 
-    await petController.insertPet(dataPetSave, 'Disappeared');
+    await petController.insertPet(dataPetSave, kind);
     petPhotosToUpload.clear();
   }
 
@@ -259,20 +267,13 @@ class _NovoPetState extends State<NovoPet> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: <Widget>[
-                            SizedBox(
-                              width: 100,
+                            Expanded(
+                              flex: 1,
                               child: InputText(
                                 placeholder: 'Idade',
                                 controller: _idade,
                               ),
                             ),
-                            SizedBox(width: 5),
-                            Expanded(
-                              child: InputText(
-                                placeholder: 'Raça',
-                                controller: _raca,
-                              ),
-                            )
                           ],
                         ),
                         SizedBox(
@@ -282,26 +283,47 @@ class _NovoPetState extends State<NovoPet> {
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: <Widget>[
                             Expanded(
-                              child: InputText(
-                                placeholder: 'Tamanho',
-                                controller: _tamanho,
+                              child: CustomDropdownButton(
+                                label: 'Tamanho',
+                                initialValue: dropvalueSize,
+                                itemList: DummyData.size,
+                                onChange: (String value) {
+                                  setState(() {
+                                    dropvalueSize = value;
+                                    print(dropvalueSize);
+                                  });
+                                },
+                                isExpanded: false,
                               ),
                             ),
-                            SizedBox(width: 5),
                             Expanded(
-                              child: InputText(
-                                placeholder: 'Cor',
-                                controller: _cor,
-                              ),
-                            ),
-                            SizedBox(width: 5),
-                            Expanded(
-                              child: InputText(
-                                placeholder: 'Saúde',
-                                controller: _saude,
+                              child: CustomDropdownButton(
+                                label: 'Saúde',
+                                initialValue: dropvalueHealth,
+                                itemList: DummyData.health,
+                                onChange: (String value) {
+                                  setState(() {
+                                    dropvalueHealth = value;
+                                    print(dropvalueHealth);
+                                  });
+                                },
+                                isExpanded: false,
                               ),
                             ),
                           ],
+                        ),
+                        SizedBox(height: 12),
+                        CustomDropdownButton(
+                          isExpanded: true,
+                          label: 'Raça',
+                          initialValue: dropvalueBreed,
+                          itemList: DummyData.breed,
+                          onChange: (String value) {
+                            setState(() {
+                              dropvalueBreed = value;
+                              print(value);
+                            });
+                          },
                         ),
                         SizedBox(height: 12),
                         InputText(

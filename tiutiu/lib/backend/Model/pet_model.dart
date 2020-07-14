@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Pet {  
   String name;
+  String health;
   int age;  
   String breed;
   String size;
@@ -14,6 +15,7 @@ class Pet {
 
   Pet({    
     this.name,
+    this.health,
     this.age,    
     this.breed,
     this.size,
@@ -28,6 +30,7 @@ class Pet {
   toJson() {
     return {      
       'name': name,
+      'health': health,
       'age': age,      
       'breed': breed,
       'photos': photos,
@@ -43,6 +46,7 @@ class Pet {
   Map<String, Object> toMap() {
     Map<String, Object> petMap = Map<String, Object>();    
     petMap["name"] = name;
+    petMap["health"] = health;
     petMap["age"] = age;        
     petMap["breed"] = breed;
     petMap["size"] = size;
@@ -58,6 +62,7 @@ class Pet {
 
   Pet.fromSnapshot(DocumentSnapshot snapshot) {
     name = snapshot.data["name"];
+    health = snapshot.data["health"];
     age = snapshot.data["age"];
     breed = snapshot.data["breed"];
     size = snapshot.data["size"];
