@@ -28,37 +28,35 @@ class _CustomDropdownButtonState extends State<CustomDropdownButton> {
             color: Colors.white,
           ),
         ),
-        child: Center(
-          child: Column(
-            children: <Widget>[
-              SizedBox(height: 8.0),
-              Align(
-                child: Text(widget.label, style: TextStyle(color: Colors.black26, fontSize: 16,)),
-                alignment: Alignment(-0.8, 1),
+        child: Column(
+          children: <Widget>[
+            SizedBox(height: 8.0),
+            Align(
+              child: Text(widget.label, style: TextStyle(color: Colors.black26, fontSize: 16,)),
+              alignment: Alignment(-0.8, 1),
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: widget.isExpanded ? 10.0 : 0.0),
+              child: DropdownButton<String>(
+                underline: Container(),
+                isExpanded: widget.isExpanded,
+                value: widget.initialValue,
+                onChanged: (String value) {
+                  setState(() {
+                    widget.initialValue = value;
+                    widget.onChange(value);
+                  });
+                },
+                items:
+                    widget.itemList.map<DropdownMenuItem<String>>((String e) {
+                  return DropdownMenuItem<String>(
+                    child: Text(e),
+                    value: e,
+                  );
+                }).toList(),
               ),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: widget.isExpanded ? 10.0 : 0.0),
-                child: DropdownButton<String>(
-                  underline: Container(),
-                  isExpanded: widget.isExpanded,
-                  value: widget.initialValue,
-                  onChanged: (String value) {
-                    setState(() {
-                      widget.initialValue = value;
-                      widget.onChange(value);
-                    });
-                  },
-                  items:
-                      widget.itemList.map<DropdownMenuItem<String>>((String e) {
-                    return DropdownMenuItem<String>(
-                      child: Text(e),
-                      value: e,
-                    );
-                  }).toList(),
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
