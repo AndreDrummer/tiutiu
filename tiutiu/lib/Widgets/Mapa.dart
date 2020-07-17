@@ -12,18 +12,21 @@ class _MapaState extends State<Mapa> {
   BitmapDescriptor pinLocationIcon;
   Set<Marker> _markers = {};
   Completer<GoogleMapController> _controller = Completer();
-  Position userCurrentLocation =
-      Position(latitude: 37.4219983, longitude: -122.084);
-  CameraPosition initialCamera;
+  Position
+      userCurrentLocation; // = Position(latitude: 37.4219983, longitude: -122.084);
+  static LatLng _center;
   LatLng lastMapPosition;
-  LatLng pinPosition = LatLng(37.3797536, -122.1017334);
-  MapType _currentMapType;
+  CameraPosition initialCameraPosition;
+  LatLng pinPosition; // = LatLng(37.3797536, -122.1017334);
+  MapType _currentMapType = MapType.normal;
 
   @override
   void initState() {
+    super.initState();
+
     _currentLocation();
 
-    BitmapDescriptor.fromAssetImage(      
+    BitmapDescriptor.fromAssetImage(
       ImageConfiguration(devicePixelRatio: 2.5),
       'assets/pin-dog.jpg',
     ).then((onValue) {
@@ -31,16 +34,6 @@ class _MapaState extends State<Mapa> {
     });
 
     setCustomMapPin();
-
-    initialCamera = CameraPosition(
-      target: LatLng(
-        userCurrentLocation.latitude,
-        userCurrentLocation.longitude,
-      ),
-      zoom: 15,
-    );
-
-    super.initState();
   }
 
   Map viewDogInfo = {};
@@ -54,15 +47,14 @@ class _MapaState extends State<Mapa> {
     });
   }
 
-  Future _currentLocation() async {
+  void _currentLocation() async {
     Position position = await Geolocator()
         .getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+
     setState(() {
       userCurrentLocation = position;
+      _center = LatLng(position.latitude, position.longitude);
     });
-    _currentMapType = MapType.normal;
-    print("POSIÇÃO ATUAL: $userCurrentLocation");
-    return position;
   }
 
   void setCustomMapPin() async {
@@ -101,70 +93,91 @@ class _MapaState extends State<Mapa> {
   }
 
   @override
-  Widget build(BuildContext context) {    
+  Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        children: <Widget>[
-          GoogleMap(
-            mapToolbarEnabled: false,
-            zoomControlsEnabled: false,
-            markers: _markers,
-            mapType: _currentMapType,
-            initialCameraPosition: initialCamera,
-            onCameraMove: _onCameraMove,
-            onMapCreated: (GoogleMapController controller) {
-              _controller.complete(controller);
-              setState(
-                () {
-                  _addMarkeOnMap(LatLng(userCurrentLocation.latitude,
-                      userCurrentLocation.longitude));
-                },
-              );
-            },
-          ),
-          viewingDog ? Positioned(
-            bottom: 10,
-            child: Card(
-              margin: const EdgeInsets.symmetric(horizontal: 60),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(25),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: <Widget>[
-                    CircleAvatar(
-                      child: Image.asset('assets/pata.jpg'),
-                    ),
-                    SizedBox(width: 10),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text(
-                          viewDogInfo['name'].toString(),
-                          style: TextStyle(fontSize: 18),
-                        ),
-                        Text(
-                          '${viewDogInfo['breed']} ° ${viewDogInfo['size']}',
-                          style: TextStyle(
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(width: 10),
-                    IconButton(
-                      icon: Icon(Icons.remove_red_eye),
-                      onPressed: () {},
-                    )
-                  ],
+      body: _center == null
+          ? Container(
+              child: Center(
+                child: Text(
+                  'loading map..',
+                  style: TextStyle(
+                      fontFamily: 'Avenir-Medium', color: Colors.grey[400]),
                 ),
               ),
+            )
+          : Container(
+              child: Stack(
+                children: <Widget>[
+                  GoogleMap(
+                    markers: _markers,
+                    mapType: _currentMapType,
+                    initialCameraPosition: CameraPosition(
+                      target: _center,
+                      zoom: 14.4746,
+                    ),
+                    onMapCreated: (GoogleMapController controller) {
+                      setState(
+                        () {
+                          _controller.complete(controller);
+                          _addMarkeOnMap(LatLng(userCurrentLocation.latitude,
+                              userCurrentLocation.longitude));
+                        },
+                      );
+                    },
+                    zoomGesturesEnabled: true,
+                    onCameraMove: _onCameraMove,
+                    myLocationEnabled: true,
+                    compassEnabled: true,
+                    myLocationButtonEnabled: false,
+                  ),
+                  viewingDog
+                      ? Positioned(
+                          bottom: 10,
+                          child: Card(
+                            margin: const EdgeInsets.symmetric(horizontal: 60),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(25),
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: <Widget>[
+                                  CircleAvatar(
+                                    child: Image.asset('assets/pata.jpg'),
+                                  ),
+                                  SizedBox(width: 10),
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: <Widget>[
+                                      Text(
+                                        viewDogInfo['name'].toString(),
+                                        style: TextStyle(fontSize: 18),
+                                      ),
+                                      Text(
+                                        '${viewDogInfo['breed']} ° ${viewDogInfo['size']}',
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.w700,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(width: 10),
+                                  IconButton(
+                                    icon: Icon(Icons.remove_red_eye),
+                                    onPressed: () {},
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
+                        )
+                      : SizedBox()
+                ],
+              ),
             ),
-          ) : SizedBox()
-        ],
-      ),
     );
   }
 }
