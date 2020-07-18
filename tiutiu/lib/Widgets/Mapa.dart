@@ -2,6 +2,8 @@ import 'dart:async';
 import "package:flutter/material.dart";
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:provider/provider.dart';
+import 'package:tiutiu/providers/location.dart';
 
 class Mapa extends StatefulWidget {
   @override
@@ -12,12 +14,11 @@ class _MapaState extends State<Mapa> {
   BitmapDescriptor pinLocationIcon;
   Set<Marker> _markers = {};
   Completer<GoogleMapController> _controller = Completer();
-  Position
-      userCurrentLocation; // = Position(latitude: 37.4219983, longitude: -122.084);
+  Position userCurrentLocation;
   static LatLng _center;
   LatLng lastMapPosition;
   CameraPosition initialCameraPosition;
-  LatLng pinPosition; // = LatLng(37.3797536, -122.1017334);
+  LatLng pinPosition;
   MapType _currentMapType = MapType.normal;
 
   @override
@@ -119,8 +120,13 @@ class _MapaState extends State<Mapa> {
                       setState(
                         () {
                           _controller.complete(controller);
-                          _addMarkeOnMap(LatLng(userCurrentLocation.latitude,
-                              userCurrentLocation.longitude));
+                          _addMarkeOnMap(
+                            LatLng(userCurrentLocation.latitude,
+                                userCurrentLocation.longitude),
+                          );
+                          final locationProvider =
+                              Provider.of<Location>(context, listen: false);
+                          locationProvider.setLocation(_center);
                         },
                       );
                     },
