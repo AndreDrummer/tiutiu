@@ -2,8 +2,11 @@ import 'dart:io';
 
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:provider/provider.dart';
 import 'package:tiutiu/Widgets/CustomDropDownButton.dart';
 import 'package:tiutiu/backend/Model/pet_model.dart';
+import 'package:tiutiu/providers/location.dart';
 import '../Widgets/CircleaddImage.dart';
 import '../Widgets/InputText.dart';
 import 'package:image_picker/image_picker.dart';
@@ -31,8 +34,7 @@ class _NovoPetState extends State<NovoPet> {
   Future<File> image3;
 
   TextEditingController _nome = TextEditingController();
-  TextEditingController _idade = TextEditingController();
-  TextEditingController _raca = TextEditingController();
+  TextEditingController _idade = TextEditingController();  
   TextEditingController _descricao = TextEditingController();
 
   Map<String, File> petPhotos = {};
@@ -41,6 +43,7 @@ class _NovoPetState extends State<NovoPet> {
   String dropvalueSize;
   String dropvalueHealth;
   String dropvalueBreed;
+  LatLng currentLocation;
 
   @override
   void initState() {
@@ -48,6 +51,8 @@ class _NovoPetState extends State<NovoPet> {
     dropvalueSize = DummyData.size[0];
     dropvalueBreed = DummyData.breed[0];
     dropvalueHealth = DummyData.health[0];
+
+    currentLocation = Provider.of<Location>(context, listen: false).location;
   }
 
   void selectImage(ImageSource source, int index) async {
@@ -158,8 +163,8 @@ class _NovoPetState extends State<NovoPet> {
       owner: 'André',
       photos: petPhotosToUpload,
       size: dropvalueSize,
-      latitude: -16.7504593,
-      longitude: -49.2593187,
+      latitude: currentLocation.latitude,
+      longitude: currentLocation.longitude,
       details: _descricao.text,
       age: 2,
       address: 'Vazio Ainda',
@@ -175,7 +180,9 @@ class _NovoPetState extends State<NovoPet> {
     kind = params['kind'];
     print(kind);
 
-    print(petPhotosToUpload);
+    final avalaibleHeight = MediaQuery.of(context).size.height -
+        MediaQuery.of(context).padding.top -
+        14;    
 
     return Scaffold(
       body: DecoratedBox(
@@ -188,183 +195,185 @@ class _NovoPetState extends State<NovoPet> {
           ),
         ),
         child: Center(
-          child: SingleChildScrollView(
+          child: Container(
+            height: avalaibleHeight,
             child: Card(
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(16.0),
               ),
               color: Colors.transparent,
               // color: Color(0XFFD6D6D6), //Theme.of(context).accentColor,
-              child: Column(
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: FittedBox(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
+              child: SingleChildScrollView(
+                child: Column(
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 12.0),
+                      child: Align(
+                        alignment: Alignment(-0.7, 1),
+                        child: FittedBox(
+                          child: Row(
+                            children: <Widget>[
+                              Text(
+                                kind == 'Donate'
+                                    ? 'Coloque um PET para adoção'
+                                    : 'Poste um PET Desaparecido',
+                                style: TextStyle(
+                                  fontSize: 22,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(4.0),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: <Widget>[
-                          Text(
-                            kind == 'Donate'
-                                ? 'Poste um PET para adoção'
-                                : 'Poste um PET Desaparecido',
-                            style: TextStyle(fontSize: 30),
+                          Align(
+                            alignment: Alignment(-0.9, 1),
+                            child: FittedBox(
+                              child: Row(
+                                children: <Widget>[
+                                  Text(
+                                     kind == 'Donate'
+                                    ? 'Insira algumas fotos do seu bichinho.'
+                                    : 'Insira fotos dele.',
+                                    ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          SizedBox(height: 10),
+                          Container(
+                            height: 80.0,
+                            child: ListView.builder(
+                              scrollDirection: Axis.horizontal,
+                              itemCount: 8,
+                              itemBuilder: (ctx, index) {
+                                return InkWell(
+                                  onTap: () => openModalSelectMedia(context, 0),
+                                  child: CircleAddImage(
+                                    imageUrl: petPhotos['$index'] != null
+                                        ? petPhotos['$index'].path
+                                        : null,
+                                  ),
+                                );
+                              },
+                            ),
+                          ),
+                          SizedBox(height: 12),
+                          InputText(
+                            placeholder: 'Nome',
+                            controller: _nome,
+                          ),
+                          SizedBox(
+                            height: 12,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: <Widget>[
+                              Expanded(
+                                flex: 1,
+                                child: InputText(
+                                  placeholder: 'Idade',
+                                  controller: _idade,
+                                ),
+                              ),
+                            ],
+                          ),
+                          SizedBox(
+                            height: 12,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: <Widget>[
+                              Expanded(
+                                child: CustomDropdownButton(
+                                  label: 'Tamanho',
+                                  initialValue: dropvalueSize,
+                                  itemList: DummyData.size,
+                                  onChange: (String value) {
+                                    setState(() {
+                                      dropvalueSize = value;
+                                      print(dropvalueSize);
+                                    });
+                                  },
+                                  isExpanded: false,
+                                ),
+                              ),
+                              Expanded(
+                                child: CustomDropdownButton(
+                                  label: 'Saúde',
+                                  initialValue: dropvalueHealth,
+                                  itemList: DummyData.health,
+                                  onChange: (String value) {
+                                    setState(() {
+                                      dropvalueHealth = value;
+                                      print(dropvalueHealth);
+                                    });
+                                  },
+                                  isExpanded: false,
+                                ),
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: 12),
+                          CustomDropdownButton(
+                            isExpanded: true,
+                            label: 'Raça',
+                            initialValue: dropvalueBreed,
+                            itemList: DummyData.breed,
+                            onChange: (String value) {
+                              setState(() {
+                                dropvalueBreed = value;
+                                print(value);
+                              });
+                            },
+                          ),
+                          SizedBox(height: 12),
+                          InputText(
+                              placeholder: 'Descrição',
+                              size: 150,
+                              controller: _descricao,
+                              multiline: true,
+                              maxlines: 5),
+                          // SizedBox(height: 120),
+                          ButtonBar(
+                            children: <Widget>[
+                              FlatButton(
+                                child: Text(
+                                  'CANCELAR',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                  ),
+                                ),
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                              ),
+                              RaisedButton(
+                                child: Text(
+                                  'POSTAR',
+                                  style: Theme.of(context).textTheme.button,
+                                ),
+                                color: Theme.of(context).primaryColor,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                                onPressed: () {
+                                  save();
+                                },
+                              )
+                            ],
                           ),
                         ],
                       ),
                     ),
-                  ),
-                  // SizedBox(height: 20),
-                  Padding(
-                    padding: const EdgeInsets.all(18.0),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: <Widget>[
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: <Widget>[
-                            InkWell(
-                              onTap: () => openModalSelectMedia(context, 0),
-                              child: CircleAddImage(
-                                imageUrl: petPhotos['0'] != null
-                                    ? petPhotos['0'].path
-                                    : null,
-                              ),
-                            ),
-                            InkWell(
-                              onTap: () => openModalSelectMedia(context, 1),
-                              child: CircleAddImage(
-                                imageUrl: petPhotos['1'] != null
-                                    ? petPhotos['1'].path
-                                    : null,
-                              ),
-                            ),
-                            InkWell(
-                              onTap: () => openModalSelectMedia(context, 2),
-                              child: CircleAddImage(
-                                imageUrl: petPhotos['2'] != null
-                                    ? petPhotos['2'].path
-                                    : null,
-                              ),
-                            ),
-                            InkWell(
-                              onTap: () => openModalSelectMedia(context, 3),
-                              child: CircleAddImage(
-                                imageUrl: petPhotos['3'] != null
-                                    ? petPhotos['3'].path
-                                    : null,
-                              ),
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: 12),
-                        InputText(
-                          placeholder: 'Nome',
-                          controller: _nome,
-                        ),
-                        SizedBox(
-                          height: 12,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: <Widget>[
-                            Expanded(
-                              flex: 1,
-                              child: InputText(
-                                placeholder: 'Idade',
-                                controller: _idade,
-                              ),
-                            ),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 12,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: <Widget>[
-                            Expanded(
-                              child: CustomDropdownButton(
-                                label: 'Tamanho',
-                                initialValue: dropvalueSize,
-                                itemList: DummyData.size,
-                                onChange: (String value) {
-                                  setState(() {
-                                    dropvalueSize = value;
-                                    print(dropvalueSize);
-                                  });
-                                },
-                                isExpanded: false,
-                              ),
-                            ),
-                            Expanded(
-                              child: CustomDropdownButton(
-                                label: 'Saúde',
-                                initialValue: dropvalueHealth,
-                                itemList: DummyData.health,
-                                onChange: (String value) {
-                                  setState(() {
-                                    dropvalueHealth = value;
-                                    print(dropvalueHealth);
-                                  });
-                                },
-                                isExpanded: false,
-                              ),
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: 12),
-                        CustomDropdownButton(
-                          isExpanded: true,
-                          label: 'Raça',
-                          initialValue: dropvalueBreed,
-                          itemList: DummyData.breed,
-                          onChange: (String value) {
-                            setState(() {
-                              dropvalueBreed = value;
-                              print(value);
-                            });
-                          },
-                        ),
-                        SizedBox(height: 12),
-                        InputText(
-                            placeholder: 'Descrição',
-                            size: 150,
-                            controller: _descricao,
-                            multiline: true,
-                            maxlines: 5),
-                        // SizedBox(height: 120),
-                        ButtonBar(
-                          children: <Widget>[
-                            FlatButton(
-                              child: Text(
-                                'CANCELAR',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                ),
-                              ),
-                              onPressed: () {
-                                Navigator.pop(context);
-                              },
-                            ),
-                            RaisedButton(
-                              child: Text(
-                                'POSTAR',
-                                style: Theme.of(context).textTheme.button,
-                              ),
-                              color: Theme.of(context).primaryColor,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(12),
-                              ),
-                              onPressed: () {
-                                save();
-                              },
-                            )
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),
