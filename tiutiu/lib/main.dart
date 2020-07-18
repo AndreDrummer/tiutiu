@@ -1,13 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:tiutiu/Widgets/Mapa.dart';
+import 'package:provider/provider.dart';
+import 'package:tiutiu/providers/location.dart';
+import 'package:tiutiu/screen/auth_screen.dart';
 import 'package:tiutiu/screen/donates.dart';
 import 'package:tiutiu/screen/newPet.dart';
-import './Screen/home.dart';
 import './utils/routes.dart';
 
 void main() {
   runApp(
-    MaterialApp(
+    MultiProvider(providers: [
+      ChangeNotifierProvider(
+        create: (_) => Location(),
+      )
+    ],
+    child: MaterialApp(
       theme: ThemeData(
         primaryColor: Color(0xFF46D766),
         accentColor: Color(0xFFd4f224),
@@ -22,11 +28,13 @@ void main() {
               button: TextStyle(color: Color(0XFFFFFFFF), fontSize: 14),
             ),
       ),
-      home: Home(),
+      home: AuthScreen(),
       routes: {
         Routes.NOVOPET: (ctx) => NovoPet(),
         Routes.DOADOS: (ctx) => Donate(),
+        Routes.AUTH: (ctx) => AuthScreen(),
       },
     ),
+    )
   );
 }
