@@ -34,7 +34,7 @@ class _PetMapState extends State<PetMap> {
         children: <Widget>[
           Mapa(),
           Container(
-            margin: const EdgeInsets.fromLTRB(10, 50, 0.0, 0.0),
+            margin: const EdgeInsets.fromLTRB(20, 50, 0.0, 0.0),
             decoration: BoxDecoration(
                 color: Colors.white, borderRadius: BorderRadius.circular(25)),
             child: IconButton(
