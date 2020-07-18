@@ -41,7 +41,7 @@ class _FilterSearchState extends State<FilterSearch> {
   Widget build(BuildContext context) {
     return isFiltering()
         ? Positioned(
-            top: 265,
+            top: 190,
             left: MediaQuery.of(context).size.width - 250,
             child: Container(
               decoration: BoxDecoration(

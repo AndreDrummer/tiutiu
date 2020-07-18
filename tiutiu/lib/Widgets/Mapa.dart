@@ -131,9 +131,10 @@ class _MapaState extends State<Mapa> {
                       );
                     },
                     zoomGesturesEnabled: true,
+                    zoomControlsEnabled: false,                    
                     onCameraMove: _onCameraMove,
                     myLocationEnabled: true,
-                    compassEnabled: true,
+                    compassEnabled: false,
                     myLocationButtonEnabled: false,
                   ),
                   viewingDog
