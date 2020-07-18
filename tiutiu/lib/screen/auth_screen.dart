@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:tiutiu/Widgets/inputText.dart';
+import 'package:tiutiu/providers/auth.dart';
+import 'package:tiutiu/utils/routes.dart';
 
 class AuthScreen extends StatefulWidget {
   @override
@@ -10,17 +13,23 @@ class _AuthScreenState extends State<AuthScreen> {
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
   TextEditingController repeatPassword = TextEditingController();
-  // Auth auth;
   bool isNewAccount = false;
+  bool isLogging = false;
 
   @override
   void initState() {
     super.initState();
-    // auth = Provider.of<Auth>(context);
+  }
+
+  void changeLogginStatus(bool status) {
+    setState(() {
+      isLogging = status;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
+    Auth auth = Provider.of<Auth>(context);
     return MaterialApp(
       home: Scaffold(
         body: Stack(
@@ -46,35 +55,40 @@ class _AuthScreenState extends State<AuthScreen> {
                         child: Image.asset('assets/logo.png'),
                       ),
                     ),
-                    isNewAccount ? Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Align(
-                          alignment: Alignment(-0.9, 1),
-                          child: Text(
-                            "Crie sua conta gratuitamente.",
-                            style: TextStyle(
-                              fontSize: 18,
-                              color: Colors.white,
-                              fontWeight: FontWeight.w700,
-                            ),
-                          ),
-                        ),
-                        SizedBox(height: 15),
-                      ],
-                    ) : Container(),
+                    isNewAccount
+                        ? Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Align(
+                                alignment: Alignment(-0.9, 1),
+                                child: Text(
+                                  "Crie sua conta gratuitamente.",
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w700,
+                                  ),
+                                ),
+                              ),
+                              SizedBox(height: 15),
+                            ],
+                          )
+                        : Container(),
                     InputText.login(
                       placeholder: 'E-mail',
+                      controller: email,
                     ),
                     SizedBox(height: 12),
                     InputText.login(
                       placeholder: 'Senha',
+                      controller: password,
                       isPassword: true,
                     ),
                     SizedBox(height: 12),
                     isNewAccount
                         ? InputText.login(
                             placeholder: 'Repita sua senha',
+                            controller: repeatPassword,
                             isPassword: true,
                           )
                         : Container(),
@@ -84,9 +98,22 @@ class _AuthScreenState extends State<AuthScreen> {
                       children: <Widget>[
                         InkWell(
                           onTap: () {
-                            if(isNewAccount) {
+                            changeLogginStatus(true);
+                            if (isNewAccount) {
                               setState(() {
                                 isNewAccount = !isNewAccount;
+                              });
+                              auth.signup(email.text, password.text).then(
+                                (value) {
+                                  changeLogginStatus(false);
+                                  Navigator.popAndPushNamed(
+                                      context, Routes.HOME);
+                                },
+                              );
+                            } else {
+                              auth.login(email.text, password.text).then((_) {
+                                changeLogginStatus(false);
+                                Navigator.popAndPushNamed(context, Routes.HOME);
                               });
                             }
                           },
@@ -186,7 +213,7 @@ class _AuthScreenState extends State<AuthScreen> {
                   ],
                 ),
               ),
-            )
+            ),            
           ],
         ),
       ),
