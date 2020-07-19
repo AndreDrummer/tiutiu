@@ -8,17 +8,17 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:791022711249:android:e960aeb980fe74ff3170f0",
+        "mobilesdk_app_id": "1:791022711249:android:c455c3e55aa03aa83170f0",
         "android_client_info": {
-          "package_name": "com.example.tiutiu"
+          "package_name": "com.anjasolutions.tiutiu"
         }
       },
       "oauth_client": [
         {
-          "client_id": "791022711249-8i6j58p61e7gdlbffqft27hndtljug4m.apps.googleusercontent.com",
+          "client_id": "791022711249-65cb7a3lbas8h7esodtqhtf31idjntil.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.example.tiutiu",
+            "package_name": "com.anjasolutions.tiutiu",
             "certificate_hash": "357982fc6ea6170b7160ffb8da833dff61a9d1f3"
           }
         },
