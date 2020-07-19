@@ -40,6 +40,12 @@ dependencies:
   provider: ^4.3.1
   http: ^0.12.2
   shared_preferences: ^0.5.8
+  flutter_launcher_icons: "^0.7.3"
+
+flutter_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/pata.jpg"
 
 dev_dependencies:
   flutter_test:
@@ -75,11 +81,10 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  fonts:
-    - family: CustomIcon
+  fonts:           
+    - family:  CustomIcon
       fonts:
-        - asset: fonts/Filter_alt.ttf        
-  #   - family: Trajan Pro
+       - asset: fonts/CustomIcon.ttf
   #     fonts:
   #       - asset: fonts/TrajanPro.ttf
   #       - asset: fonts/TrajanPro_Bold.ttf

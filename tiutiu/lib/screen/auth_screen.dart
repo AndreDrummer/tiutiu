@@ -2,8 +2,8 @@ import 'package:tiutiu/Exceptions/auth_exceptions.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tiutiu/Widgets/inputText.dart';
+import 'package:tiutiu/Widgets/popup_message.dart';
 import 'package:tiutiu/providers/auth.dart';
-import 'package:tiutiu/widgets/popup_message.dart';
 
 class AuthScreen extends StatefulWidget {
   @override
@@ -26,6 +26,10 @@ class _AuthScreenState extends State<AuthScreen> {
     setState(() {
       isLogging = status;
     });
+  }
+
+  bool validatePassword() {
+    return password.text == repeatPassword.text;
   }
 
   @override
@@ -86,7 +90,7 @@ class _AuthScreenState extends State<AuthScreen> {
                     InputText.login(
                       placeholder: 'Senha',
                       controller: password,
-                      isPassword: true,
+                      isPassword: true,                      
                     ),
                     SizedBox(height: 12),
                     isNewAccount
@@ -105,11 +109,21 @@ class _AuthScreenState extends State<AuthScreen> {
                             changeLogginStatus(true);
                             try {
                               if (isNewAccount) {
-                                setState(() {
-                                  isNewAccount = !isNewAccount;
-                                });
-                                await auth.signup(email.text, password.text);
-                                changeLogginStatus(false);
+                                if (validatePassword()) {
+                                  await auth.signup(email.text, password.text);
+                                  changeLogginStatus(false);
+                                  setState(() {
+                                    isNewAccount = !isNewAccount;
+                                  });
+                                } else {
+                                  showDialog(
+                                context: context,
+                                builder: (context) => PopUpMessage(
+                                  title: 'Erro',
+                                  message: 'Senhas não conferem!'
+                                ),
+                              );
+                                }
                               } else {
                                 await auth.login(email.text, password.text);
                                 changeLogginStatus(false);
@@ -121,7 +135,7 @@ class _AuthScreenState extends State<AuthScreen> {
                                 builder: (context) => PopUpMessage(
                                   title: 'Falha na autenticação',
                                   message: error.toString(),
-                                )
+                                ),
                               );
                               changeLogginStatus(false);
                             }
@@ -134,7 +148,7 @@ class _AuthScreenState extends State<AuthScreen> {
                                 color: Colors.green),
                             child: Center(
                               child: Text(
-                                "LOGIN",
+                                "${!isNewAccount ? 'LOGIN' : 'CADASTRE-SE'}",
                                 style: TextStyle(
                                   fontSize: 20,
                                   color: Colors.white,
@@ -146,6 +160,26 @@ class _AuthScreenState extends State<AuthScreen> {
                         ),
                       ],
                     ),
+                    isNewAccount
+                        ? Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: FlatButton(
+                              child: Text(
+                                'Fazer login',
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              ),
+                              onPressed: () {
+                                setState(() {
+                                  isNewAccount = !isNewAccount;
+                                });
+                              },
+                            ),
+                          )
+                        : SizedBox(),
                     SizedBox(height: 15),
                     !isNewAccount
                         ? Container(
