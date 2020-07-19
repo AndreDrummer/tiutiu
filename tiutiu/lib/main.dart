@@ -34,7 +34,7 @@ void main() {
               button: TextStyle(color: Color(0XFFFFFFFF), fontSize: 14),
             ),
       ),
-      // home: AuthOrHome(),
+      debugShowCheckedModeBanner: false,
       routes: {
         Routes.NOVOPET: (ctx) => NovoPet(),
         Routes.AUTH_HOME: (ctx) => AuthOrHome(),

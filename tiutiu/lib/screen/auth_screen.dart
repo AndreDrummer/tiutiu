@@ -1,8 +1,9 @@
+import 'package:tiutiu/Exceptions/auth_exceptions.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tiutiu/Widgets/inputText.dart';
 import 'package:tiutiu/providers/auth.dart';
-import 'package:tiutiu/utils/routes.dart';
+import 'package:tiutiu/widgets/popup_message.dart';
 
 class AuthScreen extends StatefulWidget {
   @override
@@ -31,7 +32,9 @@ class _AuthScreenState extends State<AuthScreen> {
   Widget build(BuildContext context) {
     Auth auth = Provider.of<Auth>(context);
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: Scaffold(
+        backgroundColor: Color(0XFFA9C27B),
         body: Stack(
           children: <Widget>[
             Center(
@@ -49,6 +52,7 @@ class _AuthScreenState extends State<AuthScreen> {
                   children: <Widget>[
                     SizedBox(height: 15),
                     Container(
+                      margin: const EdgeInsets.fromLTRB(25.0, 10.0, 0.0, 0.0),
                       height: 200,
                       width: 420,
                       child: Center(
@@ -97,24 +101,29 @@ class _AuthScreenState extends State<AuthScreen> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         InkWell(
-                          onTap: () {
+                          onTap: () async {
                             changeLogginStatus(true);
-                            if (isNewAccount) {
-                              setState(() {
-                                isNewAccount = !isNewAccount;
-                              });
-                              auth.signup(email.text, password.text).then(
-                                (value) {
-                                  changeLogginStatus(false);
-                                  Navigator.popAndPushNamed(
-                                      context, Routes.HOME);
-                                },
-                              );
-                            } else {
-                              auth.login(email.text, password.text).then((_) {
+                            try {
+                              if (isNewAccount) {
+                                setState(() {
+                                  isNewAccount = !isNewAccount;
+                                });
+                                await auth.signup(email.text, password.text);
                                 changeLogginStatus(false);
-                                Navigator.popAndPushNamed(context, Routes.HOME);
-                              });
+                              } else {
+                                await auth.login(email.text, password.text);
+                                changeLogginStatus(false);
+                              }
+                            } on AuthException catch (error) {
+                              print('ERROR');
+                              showDialog(
+                                context: context,
+                                builder: (context) => PopUpMessage(
+                                  title: 'Falha na autenticação',
+                                  message: error.toString(),
+                                )
+                              );
+                              changeLogginStatus(false);
                             }
                           },
                           child: Container(
@@ -213,7 +222,7 @@ class _AuthScreenState extends State<AuthScreen> {
                   ],
                 ),
               ),
-            ),            
+            ),
           ],
         ),
       ),
