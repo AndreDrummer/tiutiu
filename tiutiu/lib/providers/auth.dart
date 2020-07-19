@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:tiutiu/Exceptions/auth_exceptions.dart';
 import 'package:tiutiu/data/store_login.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -10,10 +11,16 @@ class Auth with ChangeNotifier {
   String _userId;
   Timer _timeToLogout;
 
-  String get token => _token;
-  DateTime get expireDateToken => _expireDateToken;
-  String get userId => _userId;
+  String get token {
+    if(_token != null && _expireDateToken != null && _expireDateToken.isAfter(DateTime.now())) {
+      return _token;
+    } else {
+      return null;
+    }
+  }
 
+  String get userId => isAuth ? _userId : null;  
+  
   bool get isAuth => token != null;
 
   Future<void> _authenticate(
@@ -32,9 +39,11 @@ class Auth with ChangeNotifier {
     );
 
     final responseBody = json.decode(response.body);
-
+    print(responseBody);
     if (responseBody["error"] != null) {
-      print(responseBody["error"]["message"]);
+      throw AuthException(
+        responseBody["error"]["message"]
+      );    
     } else {
       _token = responseBody["idToken"];
       _userId = responseBody["localId"];
@@ -51,13 +60,14 @@ class Auth with ChangeNotifier {
       'userData',
       {
         'token': token,
-        'expireDateToken': expireDateToken.toIso8601String(),
+        'expireDateToken': _expireDateToken.toIso8601String(),
         'userId': userId
       },
     );
 
     _autoLogout();
     notifyListeners();
+    return Future.value();
   }
 
   Future<void> signup(String email, String password) {
@@ -65,7 +75,7 @@ class Auth with ChangeNotifier {
   }
 
   Future<void> login(String email, String password) {
-    return _authenticate(email, password, 'signInWithPassword');
+    return _authenticate(email, password, 'signInWithPassword');    
   }
 
   Future<void> tryLogin() async {
@@ -113,11 +123,7 @@ class Auth with ChangeNotifier {
     if (_timeToLogout != null) {
       _timeToLogout.cancel();
     }
-    final secondsToLogout =
-        expireDateToken.difference(DateTime.now()).inSeconds;
-    _timeToLogout = Timer(
-      Duration(seconds: 8),
-      logout,
-    );
+    final secondsToLogout = _expireDateToken.difference(DateTime.now()).inSeconds;
+    _timeToLogout = Timer(Duration(seconds: secondsToLogout), logout);
   }
 }
