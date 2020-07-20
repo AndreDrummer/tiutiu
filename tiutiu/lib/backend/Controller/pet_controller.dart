@@ -37,7 +37,8 @@ class PetController {
                   (element) {
                     pets.add(Pet(                      
                       name: element.data['name'],
-                      age: element.data['age'],
+                      ano: element.data['ano'],
+                      meses: element.data['meses'],
                       breed: element.data['breed'],
                       details: element.data['details'],
                       size: element.data['size'],

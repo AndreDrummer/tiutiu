@@ -9,30 +9,35 @@ class InputText extends StatefulWidget {
   final bool isLogin;
   final bool isPassword;
   final bool readOnly;
+  final bool keyBoardTypeNumber;
   bool seePassword;
   final int maxlines;
 
-  InputText(
-      {this.size = 55,
-      this.controller,
-      this.isLogin = false,
-      this.isPassword = false,
-      this.seePassword = false,
-      this.readOnly = false,
-      this.placeholder,
-      this.maxlines = 1,
-      this.multiline = false,});
+  InputText({
+    this.size = 55,
+    this.controller,
+    this.isLogin = false,
+    this.isPassword = false,
+    this.seePassword = false,
+    this.readOnly = false,
+    this.keyBoardTypeNumber = false,
+    this.placeholder,
+    this.maxlines = 1,
+    this.multiline = false,
+  });
 
-  InputText.login(
-      {this.size = 55,
-      this.controller,
-      this.placeholder,
-      this.maxlines = 1,
-      this.multiline = false,
-      this.readOnly = false,
-      this.isPassword = false,
-      this.seePassword = false,
-      this.isLogin = true,});
+  InputText.login({
+    this.size = 55,
+    this.controller,
+    this.placeholder,
+    this.maxlines = 1,
+    this.multiline = false,
+    this.readOnly = false,
+    this.keyBoardTypeNumber = false,
+    this.isPassword = false,
+    this.seePassword = false,
+    this.isLogin = true,
+  });
 
   @override
   _InputTextState createState() => _InputTextState();
@@ -67,8 +72,11 @@ class _InputTextState extends State<InputText> {
                 controller: widget.controller,
                 obscureText: widget.isPassword && !widget.seePassword,
                 maxLines: widget.maxlines,
-                keyboardType:
-                    widget.multiline ? TextInputType.multiline : TextInputType.text,
+                keyboardType: widget.multiline
+                    ? TextInputType.multiline
+                    : widget.keyBoardTypeNumber
+                        ? TextInputType.number
+                        : TextInputType.text,
                 decoration: InputDecoration(
                   labelText: widget.placeholder,
                   labelStyle: TextStyle(
@@ -90,7 +98,9 @@ class _InputTextState extends State<InputText> {
                     padding: const EdgeInsets.all(8.0),
                     child: IconButton(
                       icon: Icon(
-                        widget.seePassword ? CustomIcon.eye : CustomIcon.eye_slash,
+                        widget.seePassword
+                            ? CustomIcon.eye
+                            : CustomIcon.eye_slash,
                         color: Colors.grey,
                         size: 18,
                       ),

@@ -36,7 +36,8 @@ class _NovoPetState extends State<NovoPet> {
   File imageFile7;
 
   TextEditingController _nome = TextEditingController();
-  TextEditingController _idade = TextEditingController();
+  TextEditingController _ano = TextEditingController();
+  TextEditingController _meses = TextEditingController();
   TextEditingController _descricao = TextEditingController();
 
   Map<String, File> petPhotos = {};
@@ -234,7 +235,8 @@ class _NovoPetState extends State<NovoPet> {
       latitude: currentLocation.latitude,
       longitude: currentLocation.longitude,
       details: _descricao.text,
-      age: 2,
+      ano: int.parse(_ano.text),
+      meses: int.parse(_meses.text),
       address: 'Vazio Ainda',
     );
 
@@ -246,7 +248,8 @@ class _NovoPetState extends State<NovoPet> {
 
   bool validateForm() {
     return _nome.text.isNotEmpty &&
-        _idade.text.isNotEmpty &&
+        _ano.text.isNotEmpty &&
+        _meses.text.isNotEmpty &&
         _descricao.text.isNotEmpty &&
         petPhotos.isNotEmpty;
   }
@@ -368,20 +371,37 @@ class _NovoPetState extends State<NovoPet> {
                               SizedBox(
                                 height: 12,
                               ),
+                              Align(
+                                alignment: Alignment(-0.95, 1),
+                                child: Padding(
+                                  padding: const EdgeInsets.only(bottom: 8.0),
+                                  child: Text('Idade',
+                                      style: TextStyle(color: Colors.white)),
+                                ),
+                              ),
                               Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceEvenly,
                                 children: <Widget>[
                                   Expanded(
-                                    flex: 1,
                                     child: InputText(
-                                        placeholder: 'Idade',
-                                        controller: _idade,
+                                        placeholder: 'Anos',
+                                        keyBoardTypeNumber: true,
+                                        controller: _ano,
+                                        readOnly: readOnly),
+                                  ),
+                                  SizedBox(width: 4),
+                                  Expanded(
+                                    child: InputText(
+                                        placeholder: 'Meses',
+                                        keyBoardTypeNumber: true,
+                                        controller: _meses,
                                         readOnly: readOnly),
                                   ),
                                 ],
                               ),
-                              formIsValid && _idade.text.isEmpty
+                              formIsValid &&
+                                      (_ano.text.isEmpty || _meses.text.isEmpty)
                                   ? HintError()
                                   : SizedBox(),
                               SizedBox(
@@ -473,6 +493,7 @@ class _NovoPetState extends State<NovoPet> {
                                     ),
                                     onPressed: () async {
                                       if (validateForm()) {
+                                        setReadOnly();
                                         await save();
                                         showDialog(
                                             context: context,
