@@ -21,7 +21,7 @@ class _CustomDropdownButtonState extends State<CustomDropdownButton> {
       padding: const EdgeInsets.only(right: 4.0),
       child: Container(
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(12.0),
+          borderRadius: BorderRadius.circular(12.0),          
           color: Colors.white,
           border: Border.all(
             style: BorderStyle.solid,
@@ -37,7 +37,7 @@ class _CustomDropdownButtonState extends State<CustomDropdownButton> {
             ),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: widget.isExpanded ? 15.0 : 0.0),
-              child: DropdownButton<String>(
+              child: DropdownButton<String>(                
                 underline: Container(),
                 isExpanded: widget.isExpanded,
                 value: widget.initialValue,

@@ -21,7 +21,7 @@ class _FilterSearchState extends State<FilterSearch> {
   List<String> filterNames = ['Distância', 'Tamanho'];
   List<List<String>> filterValues = [
     ['Até 1Km', 'Até 10Km', 'Até 100Km', 'Até 500Km'],
-    ['Muito pequeno', 'Pequeno', 'Médio', 'Grande', 'Muito Grande']
+    ['Pequeno-porte', 'Médio-porte', 'Grande-porte']
   ];
   List<String> initialValues = [];
   List filters;

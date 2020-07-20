@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 
 class CircleAddImage extends StatefulWidget {
@@ -13,8 +15,8 @@ class _CircleAddImageState extends State<CircleAddImage> {
 
   void checkImageUrl() {
     if (widget.imageUrl != null) {
-      widget.imageUrl = widget.imageUrl as String;
-      isLocalImage = widget.imageUrl.contains('.com');
+      widget.imageUrl = widget.imageUrl;
+      isLocalImage = widget.imageUrl is File;
     }
   }
 
@@ -39,7 +41,7 @@ class _CircleAddImageState extends State<CircleAddImage> {
             child: ClipOval(
               child: widget.imageUrl != null
                   ? isLocalImage
-                      ? Image.asset(widget.imageUrl, fit: BoxFit.fill, width: 100, height: 100,)
+                      ? Image.file(widget.imageUrl, fit: BoxFit.fill, width: 100, height: 100,)
                       : Image.network(widget.imageUrl, fit: BoxFit.fill, width: 100, height: 100,)
                   : Icon(Icons.add_photo_alternate, size: 50, color: Colors.grey),
             ),

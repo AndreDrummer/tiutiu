@@ -9,6 +9,7 @@ class AuthException {
     'USER_DISABLED': 'Usuário desativado.',
     'TOKEN_EXPIRED': 'Sessão expirada. Autentique-se novamente.',
     'INVALID_PASSWORD': 'Senha Incorreta!',
+    'INVALID_EMAIL': 'E-mail Inválido!',
     'WEAK_PASSWORD : Password should be at least 6 characters': 'Senha fraca. Escolha uma senha com no mínimo 6 dígitos.',
     'EMAIL_NOT_FOUND': 'E-mail não encontrado!'
   };

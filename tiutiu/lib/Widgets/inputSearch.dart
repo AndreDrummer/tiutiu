@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tiutiu/Custom/icons.dart';
 
 class CustomInput extends StatelessWidget {
   final Function showFilter;
@@ -52,7 +53,8 @@ class CustomInput extends StatelessWidget {
               ),
               IconButton(
                 icon: Icon(
-                  Icons.filter_list,
+                  CustomIcon.filter,
+                  size: 17,
                 ),
                 onPressed: () {
                   showFilter();

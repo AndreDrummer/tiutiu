@@ -6,7 +6,7 @@ class PetController {
 
   getPet(String id) async {
     Pet pet;
-    await firestore.collection('Users').document('nlcQCyMLPPR8nWgdLoFk').collection('Pets').document(id).snapshots().first.then(
+    await firestore.collection('Users').document(pet.owner).collection('Pets').document(id).snapshots().first.then(
       (value) {
         pet = Pet.fromSnapshot(value);
         // pet = Pet(
@@ -27,9 +27,9 @@ class PetController {
     return pet.toMap();
   }
 
-  Future<List<Pet>> getAllPets() async {
+  Future<List<Pet>> getAllPets(String userId) async {
     List<Pet> pets = [];
-    await firestore.collection('Users').document('nlcQCyMLPPR8nWgdLoFk').collection('Pets').getDocuments().then(
+    await firestore.collection('Users').document(userId).collection('Pets').getDocuments().then(
           (value) => {
             if (value.documents.isNotEmpty)
               {
@@ -57,7 +57,7 @@ class PetController {
   Future<void> insertPet(Pet pet, String petKind) async {
     print(pet.toMap());
     await Firestore.instance
-        .collection('Users').document('nlcQCyMLPPR8nWgdLoFk').collection('Pets')
+        .collection('Users').document(pet.owner).collection('Pets')
         .document('pets')
         .collection(petKind)
         .document()
@@ -71,7 +71,7 @@ class PetController {
 
   Future<void> updatePet(Pet pet, String id) async {
     await Firestore.instance
-        .collection('Users').document('nlcQCyMLPPR8nWgdLoFk').collection('Pets')
+        .collection('Users').document(pet.owner).collection('Pets')
         .document(id) // pet.id
         .updateData(pet.toMap())
         .then(
@@ -81,7 +81,7 @@ class PetController {
     );
   }
 
-  Future<void> deletePet(String id) async {
-    await firestore.collection('Users').document('nlcQCyMLPPR8nWgdLoFk').collection('Pets').document(id).delete();
+  Future<void> deletePet(String userId, String petId) async {
+    await firestore.collection('Users').document(userId).collection('Pets').document(petId).delete();
   }
 }
