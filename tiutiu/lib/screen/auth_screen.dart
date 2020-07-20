@@ -90,7 +90,7 @@ class _AuthScreenState extends State<AuthScreen> {
                     InputText.login(
                       placeholder: 'Senha',
                       controller: password,
-                      isPassword: true,                      
+                      isPassword: true,
                     ),
                     SizedBox(height: 12),
                     isNewAccount
@@ -117,12 +117,13 @@ class _AuthScreenState extends State<AuthScreen> {
                                   });
                                 } else {
                                   showDialog(
-                                context: context,
-                                builder: (context) => PopUpMessage(
-                                  title: 'Erro',
-                                  message: 'Senhas não conferem!'
-                                ),
-                              );
+                                    context: context,
+                                    builder: (context) => PopUpMessage(
+                                        title: 'Erro',
+                                        warning: true,
+                                        message: 'Senhas não conferem!'),
+                                  );
+                                  changeLogginStatus(false);
                                 }
                               } else {
                                 await auth.login(email.text, password.text);
@@ -134,6 +135,7 @@ class _AuthScreenState extends State<AuthScreen> {
                                 context: context,
                                 builder: (context) => PopUpMessage(
                                   title: 'Falha na autenticação',
+                                  error: true,
                                   message: error.toString(),
                                 ),
                               );
@@ -257,6 +259,12 @@ class _AuthScreenState extends State<AuthScreen> {
                 ),
               ),
             ),
+            isLogging
+                ? Center(
+                    child: CircularProgressIndicator(
+                        backgroundColor: Theme.of(context).primaryColor),
+                  )
+                : SizedBox()
           ],
         ),
       ),

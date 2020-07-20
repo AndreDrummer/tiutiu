@@ -3,11 +3,18 @@ import 'package:flutter/material.dart';
 class PopUpMessage extends StatelessWidget {
   final String title;
   final String message;
-  PopUpMessage({this.title, this.message});
+  final bool error;
+  final bool warning;
+  PopUpMessage({this.title, this.message, this.error = false, this.warning = false});
 
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
+      ),
+      // backgroundColor: Color(0XFFFFF176),
+      backgroundColor: error ? Color(0XFFDC3545) : warning ? Color(0XFFFFC107) : Theme.of(context).primaryColor,
       title: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
@@ -22,13 +29,16 @@ class PopUpMessage extends StatelessWidget {
           )
         ],
       ),
-      content: Text(message),
+      content: Text(message, style: TextStyle(color: Colors.black, fontSize: 15, fontWeight: FontWeight.w500)),
       actions: <Widget>[
         FlatButton(
           onPressed: () {
             Navigator.pop(context);
           },
-          child: Text("OK"),
+          child: Text(
+            "OK",
+            style: TextStyle(color: Colors.white),
+          ),
         )
       ],
     );
