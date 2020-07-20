@@ -8,6 +8,7 @@ class InputText extends StatefulWidget {
   final bool multiline;
   final bool isLogin;
   final bool isPassword;
+  final bool readOnly;
   bool seePassword;
   final int maxlines;
 
@@ -17,9 +18,10 @@ class InputText extends StatefulWidget {
       this.isLogin = false,
       this.isPassword = false,
       this.seePassword = false,
+      this.readOnly = false,
       this.placeholder,
       this.maxlines = 1,
-      this.multiline = false});
+      this.multiline = false,});
 
   InputText.login(
       {this.size = 55,
@@ -27,9 +29,10 @@ class InputText extends StatefulWidget {
       this.placeholder,
       this.maxlines = 1,
       this.multiline = false,
+      this.readOnly = false,
       this.isPassword = false,
       this.seePassword = false,
-      this.isLogin = true});
+      this.isLogin = true,});
 
   @override
   _InputTextState createState() => _InputTextState();
@@ -60,6 +63,7 @@ class _InputTextState extends State<InputText> {
                   }
                   return null;
                 },
+                readOnly: widget.readOnly,
                 controller: widget.controller,
                 obscureText: widget.isPassword && !widget.seePassword,
                 maxLines: widget.maxlines,

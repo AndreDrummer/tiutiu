@@ -5,7 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:tiutiu/Widgets/CustomDropDownButton.dart';
+import 'package:tiutiu/Widgets/hintError.dart';
+import 'package:tiutiu/Widgets/popup_message.dart';
 import 'package:tiutiu/backend/Model/pet_model.dart';
+import 'package:tiutiu/providers/auth.dart';
 import 'package:tiutiu/providers/location.dart';
 import '../Widgets/CircleaddImage.dart';
 import '../Widgets/InputText.dart';
@@ -27,14 +30,13 @@ class _NovoPetState extends State<NovoPet> {
   File imageFile1;
   File imageFile2;
   File imageFile3;
-
-  Future<File> image0;
-  Future<File> image1;
-  Future<File> image2;
-  Future<File> image3;
+  File imageFile4;
+  File imageFile5;
+  File imageFile6;
+  File imageFile7;
 
   TextEditingController _nome = TextEditingController();
-  TextEditingController _idade = TextEditingController();  
+  TextEditingController _idade = TextEditingController();
   TextEditingController _descricao = TextEditingController();
 
   Map<String, File> petPhotos = {};
@@ -43,7 +45,12 @@ class _NovoPetState extends State<NovoPet> {
   String dropvalueSize;
   String dropvalueHealth;
   String dropvalueBreed;
+  String userId;
   LatLng currentLocation;
+
+  bool formIsValid = false;
+  bool isLogging = false;
+  bool readOnly = false;
 
   @override
   void initState() {
@@ -53,6 +60,8 @@ class _NovoPetState extends State<NovoPet> {
     dropvalueHealth = DummyData.health[0];
 
     currentLocation = Provider.of<Location>(context, listen: false).location;
+    userId = Provider.of<Auth>(context, listen: false).userId;
+    print("Local $currentLocation");
   }
 
   void selectImage(ImageSource source, int index) async {
@@ -60,8 +69,9 @@ class _NovoPetState extends State<NovoPet> {
     dynamic image = await picker.getImage(source: source);
     switch (index) {
       case 0:
+        image = File(image.path);
         setState(() {
-          imageFile0 = File(image.path);
+          imageFile0 = image;
           if (petPhotos.containsKey(index)) {
             petPhotos.remove(index);
             petPhotos.putIfAbsent(index.toString(), () => imageFile0);
@@ -71,8 +81,9 @@ class _NovoPetState extends State<NovoPet> {
         });
         break;
       case 1:
+        image = File(image.path);
         setState(() {
-          imageFile1 = File(image.path);
+          imageFile1 = image;
           if (petPhotos.containsKey(index)) {
             petPhotos.remove(index);
             petPhotos.putIfAbsent(index.toString(), () => imageFile1);
@@ -82,8 +93,9 @@ class _NovoPetState extends State<NovoPet> {
         });
         break;
       case 2:
+        image = File(image.path);
         setState(() {
-          imageFile2 = File(image.path);
+          imageFile2 = image;
           if (petPhotos.containsKey(index)) {
             petPhotos.remove(index);
             petPhotos.putIfAbsent(index.toString(), () => imageFile2);
@@ -93,13 +105,62 @@ class _NovoPetState extends State<NovoPet> {
         });
         break;
       case 3:
+        image = File(image.path);
         setState(() {
-          imageFile3 = File(image.path);
+          imageFile3 = image;
           if (petPhotos.containsKey(index)) {
             petPhotos.remove(index);
             petPhotos.putIfAbsent(index.toString(), () => imageFile3);
           } else {
             petPhotos.putIfAbsent(index.toString(), () => imageFile3);
+          }
+        });
+        break;
+      case 4:
+        image = File(image.path);
+        setState(() {
+          imageFile4 = image;
+          if (petPhotos.containsKey(index)) {
+            petPhotos.remove(index);
+            petPhotos.putIfAbsent(index.toString(), () => imageFile4);
+          } else {
+            petPhotos.putIfAbsent(index.toString(), () => imageFile4);
+          }
+        });
+        break;
+      case 5:
+        image = File(image.path);
+        setState(() {
+          imageFile5 = image;
+          if (petPhotos.containsKey(index)) {
+            petPhotos.remove(index);
+            petPhotos.putIfAbsent(index.toString(), () => imageFile5);
+          } else {
+            petPhotos.putIfAbsent(index.toString(), () => imageFile5);
+          }
+        });
+        break;
+      case 6:
+        image = File(image.path);
+        setState(() {
+          imageFile6 = image;
+          if (petPhotos.containsKey(index)) {
+            petPhotos.remove(index);
+            petPhotos.putIfAbsent(index.toString(), () => imageFile6);
+          } else {
+            petPhotos.putIfAbsent(index.toString(), () => imageFile6);
+          }
+        });
+        break;
+      case 7:
+        image = File(image.path);
+        setState(() {
+          imageFile7 = image;
+          if (petPhotos.containsKey(index)) {
+            petPhotos.remove(index);
+            petPhotos.putIfAbsent(index.toString(), () => imageFile7);
+          } else {
+            petPhotos.putIfAbsent(index.toString(), () => imageFile7);
           }
         });
         break;
@@ -138,7 +199,7 @@ class _NovoPetState extends State<NovoPet> {
 
     for (String key in petPhotos.keys) {
       storageReference =
-          FirebaseStorage.instance.ref().child('userID/foto__$petName--$key');
+          FirebaseStorage.instance.ref().child('$userId/foto__$petName--$key');
       uploadTask = storageReference.putFile(petPhotos['$key']);
 
       await uploadTask.onComplete;
@@ -151,7 +212,14 @@ class _NovoPetState extends State<NovoPet> {
     return Future.value();
   }
 
-  save() async {
+  void changeLogginStatus(bool status) {
+    setState(() {
+      isLogging = status;
+    });
+  }
+
+  Future<void> save() async {
+    changeLogginStatus(true);
     PetController petController = PetController();
 
     await uploadPhotos(_nome.text);
@@ -160,7 +228,7 @@ class _NovoPetState extends State<NovoPet> {
       name: _nome.text,
       breed: dropvalueBreed,
       health: dropvalueHealth,
-      owner: 'André',
+      owner: userId,
       photos: petPhotosToUpload,
       size: dropvalueSize,
       latitude: currentLocation.latitude,
@@ -172,6 +240,21 @@ class _NovoPetState extends State<NovoPet> {
 
     await petController.insertPet(dataPetSave, kind);
     petPhotosToUpload.clear();
+    changeLogginStatus(false);
+    return Future.value();
+  }
+
+  bool validateForm() {
+    return _nome.text.isNotEmpty &&
+        _idade.text.isNotEmpty &&
+        _descricao.text.isNotEmpty &&
+        petPhotos.isNotEmpty;
+  }
+
+  void setReadOnly() {
+    setState(() {
+      readOnly = true;
+    });
   }
 
   @override
@@ -182,202 +265,262 @@ class _NovoPetState extends State<NovoPet> {
 
     final avalaibleHeight = MediaQuery.of(context).size.height -
         MediaQuery.of(context).padding.top -
-        14;    
+        14;
 
     return Scaffold(
-      body: DecoratedBox(
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            fit: BoxFit.fill,
-            image: AssetImage(
-              'assets/gato2.jpg',
-            ),
-          ),
-        ),
-        child: Center(
-          child: Container(
-            height: avalaibleHeight,
-            child: Card(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(16.0),
+      body: Stack(
+        children: <Widget>[
+          DecoratedBox(
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                fit: BoxFit.fill,
+                image: AssetImage(
+                  'assets/gato2.jpg',
+                ),
               ),
-              color: Colors.transparent,
-              // color: Color(0XFFD6D6D6), //Theme.of(context).accentColor,
-              child: SingleChildScrollView(
-                child: Column(
-                  children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 12.0),
-                      child: Align(
-                        alignment: Alignment(-0.7, 1),
-                        child: FittedBox(
-                          child: Row(
-                            children: <Widget>[
-                              Text(
-                                kind == 'Donate'
-                                    ? 'Coloque um PET para adoção'
-                                    : 'Poste um PET Desaparecido',
-                                style: TextStyle(
-                                  fontSize: 22,
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(4.0),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: <Widget>[
-                          Align(
-                            alignment: Alignment(-0.9, 1),
+            ),
+            child: Center(
+              child: Container(
+                height: avalaibleHeight,
+                child: Card(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16.0),
+                  ),
+                  color: Colors.transparent,
+                  // color: Color(0XFFD6D6D6), //Theme.of(context).accentColor,
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: <Widget>[
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 12.0),
+                          child: Align(
+                            alignment: Alignment(-0.7, 1),
                             child: FittedBox(
                               child: Row(
                                 children: <Widget>[
                                   Text(
-                                     kind == 'Donate'
-                                    ? 'Insira algumas fotos do seu bichinho.'
-                                    : 'Insira fotos dele.',
+                                    kind == 'Donate'
+                                        ? 'Coloque um PET para adoção'
+                                        : 'Poste um PET Desaparecido',
+                                    style: TextStyle(
+                                      fontSize: 22,
+                                      color: Colors.white,
                                     ),
+                                  ),
                                 ],
                               ),
                             ),
                           ),
-                          SizedBox(height: 10),
-                          Container(
-                            height: 80.0,
-                            child: ListView.builder(
-                              scrollDirection: Axis.horizontal,
-                              itemCount: 8,
-                              itemBuilder: (ctx, index) {
-                                return InkWell(
-                                  onTap: () => openModalSelectMedia(context, 0),
-                                  child: CircleAddImage(
-                                    imageUrl: petPhotos['$index'] != null
-                                        ? petPhotos['$index'].path
-                                        : null,
-                                  ),
-                                );
-                              },
-                            ),
-                          ),
-                          SizedBox(height: 12),
-                          InputText(
-                            placeholder: 'Nome',
-                            controller: _nome,
-                          ),
-                          SizedBox(
-                            height: 12,
-                          ),
-                          Row(
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(4.0),
+                          child: Column(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: <Widget>[
-                              Expanded(
-                                flex: 1,
-                                child: InputText(
-                                  placeholder: 'Idade',
-                                  controller: _idade,
-                                ),
-                              ),
-                            ],
-                          ),
-                          SizedBox(
-                            height: 12,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: <Widget>[
-                              Expanded(
-                                child: CustomDropdownButton(
-                                  label: 'Tamanho',
-                                  initialValue: dropvalueSize,
-                                  itemList: DummyData.size,
-                                  onChange: (String value) {
-                                    setState(() {
-                                      dropvalueSize = value;
-                                      print(dropvalueSize);
-                                    });
-                                  },
-                                  isExpanded: false,
-                                ),
-                              ),
-                              Expanded(
-                                child: CustomDropdownButton(
-                                  label: 'Saúde',
-                                  initialValue: dropvalueHealth,
-                                  itemList: DummyData.health,
-                                  onChange: (String value) {
-                                    setState(() {
-                                      dropvalueHealth = value;
-                                      print(dropvalueHealth);
-                                    });
-                                  },
-                                  isExpanded: false,
-                                ),
-                              ),
-                            ],
-                          ),
-                          SizedBox(height: 12),
-                          CustomDropdownButton(
-                            isExpanded: true,
-                            label: 'Raça',
-                            initialValue: dropvalueBreed,
-                            itemList: DummyData.breed,
-                            onChange: (String value) {
-                              setState(() {
-                                dropvalueBreed = value;
-                                print(value);
-                              });
-                            },
-                          ),
-                          SizedBox(height: 12),
-                          InputText(
-                              placeholder: 'Descrição',
-                              size: 150,
-                              controller: _descricao,
-                              multiline: true,
-                              maxlines: 5),
-                          // SizedBox(height: 120),
-                          ButtonBar(
-                            children: <Widget>[
-                              FlatButton(
-                                child: Text(
-                                  'CANCELAR',
-                                  style: TextStyle(
-                                    color: Colors.white,
+                              Align(
+                                alignment: Alignment(-0.9, 1),
+                                child: FittedBox(
+                                  child: Row(
+                                    children: <Widget>[
+                                      Text(
+                                        kind == 'Donate'
+                                            ? "${formIsValid && petPhotos.isEmpty ? 'Insira pelo menos uma foto' : 'Insira algumas fotos do seu bichinho.'}"
+                                            : "${formIsValid && petPhotos.isEmpty ? 'Insira pelo menos uma foto' : 'Insira fotos dele.'}",
+                                        style: TextStyle(
+                                            color:
+                                                formIsValid && petPhotos.isEmpty
+                                                    ? Colors.red
+                                                    : Colors.black),
+                                      ),
+                                    ],
                                   ),
                                 ),
-                                onPressed: () {
-                                  Navigator.pop(context);
+                              ),
+                              SizedBox(height: 10),
+                              Container(
+                                height: 80.0,
+                                child: ListView.builder(
+                                  scrollDirection: Axis.horizontal,
+                                  itemCount: 8,
+                                  itemBuilder: (ctx, index) {
+                                    return InkWell(
+                                      onTap: () {
+                                        print('Foto index: $index');
+                                        openModalSelectMedia(context, index);
+                                      },
+                                      child: CircleAddImage(
+                                        imageUrl: petPhotos['$index'] != null
+                                            ? petPhotos['$index']
+                                            : null,
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ),
+                              SizedBox(height: 12),
+                              InputText(
+                                  placeholder: 'Nome',
+                                  controller: _nome,
+                                  readOnly: readOnly),
+                              formIsValid && _nome.text.isEmpty
+                                  ? HintError()
+                                  : SizedBox(),
+                              SizedBox(
+                                height: 12,
+                              ),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: <Widget>[
+                                  Expanded(
+                                    flex: 1,
+                                    child: InputText(
+                                        placeholder: 'Idade',
+                                        controller: _idade,
+                                        readOnly: readOnly),
+                                  ),
+                                ],
+                              ),
+                              formIsValid && _idade.text.isEmpty
+                                  ? HintError()
+                                  : SizedBox(),
+                              SizedBox(
+                                height: 12,
+                              ),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: <Widget>[
+                                  Expanded(
+                                    child: CustomDropdownButton(
+                                      label: 'Tamanho',
+                                      initialValue: dropvalueSize,
+                                      itemList: DummyData.size,
+                                      onChange: (String value) {
+                                        setState(() {
+                                          dropvalueSize = value;
+                                          print(dropvalueSize);
+                                        });
+                                      },
+                                      isExpanded: false,
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: CustomDropdownButton(
+                                      label: 'Saúde',
+                                      initialValue: dropvalueHealth,
+                                      itemList: DummyData.health,
+                                      onChange: (String value) {
+                                        setState(() {
+                                          dropvalueHealth = value;
+                                          print(dropvalueHealth);
+                                        });
+                                      },
+                                      isExpanded: false,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(height: 12),
+                              CustomDropdownButton(
+                                isExpanded: true,
+                                label: 'Raça',
+                                initialValue: dropvalueBreed,
+                                itemList: DummyData.breed,
+                                onChange: (String value) {
+                                  setState(() {
+                                    dropvalueBreed = value;
+                                    print(value);
+                                  });
                                 },
                               ),
-                              RaisedButton(
-                                child: Text(
-                                  'POSTAR',
-                                  style: Theme.of(context).textTheme.button,
-                                ),
-                                color: Theme.of(context).primaryColor,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(12),
-                                ),
-                                onPressed: () {
-                                  save();
-                                },
-                              )
+                              SizedBox(height: 12),
+                              InputText(
+                                placeholder: 'Descrição',
+                                readOnly: readOnly,
+                                size: 150,
+                                controller: _descricao,
+                                multiline: true,
+                                maxlines: 5,
+                              ),
+                              formIsValid && _descricao.text.isEmpty
+                                  ? HintError()
+                                  : SizedBox(),
+                              // SizedBox(height: 120),
+                              ButtonBar(
+                                children: <Widget>[
+                                  FlatButton(
+                                    child: Text(
+                                      'CANCELAR',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                      petPhotos.clear();
+                                      petPhotosToUpload.clear();
+                                    },
+                                  ),
+                                  RaisedButton(
+                                    child: Text(
+                                      'POSTAR',
+                                      style: Theme.of(context).textTheme.button,
+                                    ),
+                                    color: Theme.of(context).primaryColor,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(12),
+                                    ),
+                                    onPressed: () async {
+                                      if (validateForm()) {
+                                        await save();
+                                        showDialog(
+                                            context: context,
+                                            builder: (context) => PopUpMessage(
+                                                  title: 'Pronto',
+                                                  message:
+                                                      'Ação realizada com sucesso!',
+                                                )).then(
+                                          (value) => Navigator.pop(context),
+                                        );
+                                      } else {
+                                        setState(() {
+                                          formIsValid = true;
+                                        });
+                                      }
+                                    },
+                                  )
+                                ],
+                              ),
                             ],
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
-                  ],
+                  ),
                 ),
               ),
             ),
           ),
-        ),
+          isLogging
+              ? Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Text('Aguarde',
+                          style: TextStyle(
+                              color: Colors.grey,
+                              fontSize: 25,
+                              fontWeight: FontWeight.w600)),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      CircularProgressIndicator(),
+                    ],
+                  ),
+                )
+              : SizedBox()
+        ],
       ),
     );
   }
