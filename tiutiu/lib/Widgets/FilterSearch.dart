@@ -40,18 +40,14 @@ class _FilterSearchState extends State<FilterSearch> {
   @override
   Widget build(BuildContext context) {
     return isFiltering()
-        ? Positioned(
-            top: 190,
-            left: MediaQuery.of(context).size.width - 250,
-            child: Container(
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(12),
-              ),
-              padding: const EdgeInsets.all(10),
-              child: Column(children: mountFilter().toList()),
-            ),
-          )
+        ? Container(
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(12),
+          ),
+          padding: const EdgeInsets.all(10),
+          child: Column(children: mountFilter().toList()),
+        )
         : SizedBox();
   }
 

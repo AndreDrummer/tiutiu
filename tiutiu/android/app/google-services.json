@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "791022711249-7vv5b1smr72a4k42u1q2l6n6uomua16o.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.anjasolutions.tiutiu",
+            "certificate_hash": "21dffe6664e491bab83a5d3f6e0477df6ecb45f8"
+          }
+        },
+        {
           "client_id": "791022711249-65cb7a3lbas8h7esodtqhtf31idjntil.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
