@@ -28,19 +28,19 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    List<Widget> _screens = <Widget>[PetMap(), PetList(), Disapeared()];
+    List<Widget> _screens = <Widget>[PetList(), Disapeared()];
 
     return Scaffold(
       body: Center(child: _screens.elementAt(_selectedIndex)),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.map),
-            title: Text('Ver no Mapa'),
-          ),
+          // BottomNavigationBarItem(
+          //   icon: Icon(Icons.map),
+          //   title: Text('Ver no Mapa'),
+          // ),
           BottomNavigationBarItem(
             icon: Icon(Icons.menu),
-            title: Text('Ver na lista'),
+            title: Text('P/ Adoção'),
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.assignment_late),

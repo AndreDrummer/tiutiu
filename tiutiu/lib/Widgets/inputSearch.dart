@@ -8,7 +8,7 @@ class CustomInput extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final marginTop = MediaQuery.of(context).size.height / 5;
+    final marginTop = MediaQuery.of(context).size.height / 48;
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 15),
       decoration: BoxDecoration(
