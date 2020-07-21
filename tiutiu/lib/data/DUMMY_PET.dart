@@ -5,7 +5,7 @@ import '../backend/Controller/Pet_controller.dart';
   List<Pet> cachorrin = [
     Pet(      
       name: 'Joanacio',
-      age: 2,
+      // age: 2,
       breed: 'Labrador',
       size: 'Médio',
       details: 'Massa',
@@ -16,7 +16,7 @@ import '../backend/Controller/Pet_controller.dart';
     ),
     Pet(      
       name: 'Joanacio',
-      age: 2,
+      // age: 2,
       breed: 'Labrador',
       size: 'Médio',
       details: 'Massa',
@@ -27,7 +27,7 @@ import '../backend/Controller/Pet_controller.dart';
     ),
     Pet(      
       name: 'Joanacio',
-      age: 2,
+      // age: 2,
       breed: 'Labrador',
       size: 'Médio',
       details: 'Massa',
@@ -38,7 +38,7 @@ import '../backend/Controller/Pet_controller.dart';
     ),
     Pet(      
       name: 'Joanacio',
-      age: 2,
+      // age: 2,
       breed: 'Labrador',
       size: 'Médio',
       details: 'Massa',
@@ -49,7 +49,7 @@ import '../backend/Controller/Pet_controller.dart';
     ),
     Pet(      
       name: 'Joanacio',
-      age: 2,
+      // age: 2,
       breed: 'Labrador',
       size: 'Médio',
       details: 'Massa',
@@ -60,7 +60,7 @@ import '../backend/Controller/Pet_controller.dart';
     ),
     Pet(      
       name: 'Joanacio',
-      age: 2,
+      // age: 2,
       breed: 'Labrador',
       size: 'Médio',
       details: 'Massa',

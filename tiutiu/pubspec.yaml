@@ -61,6 +61,7 @@ flutter:
     - assets/pin-dog.jpg    
     - assets/dogs.png    
     - assets/dogCat.png    
+    - assets/pelo.jfif    
     - assets/dogCat2.png    
     - assets/addImage.png    
     - assets/cao e gato.png    
@@ -68,6 +69,7 @@ flutter:
     - assets/google.png    
     - assets/face.png    
     - assets/mariana.jpg    
+    - assets/pug2.jpg    
     - assets/gato2.jpg    
 
   # An image asset can refer to one or more resolution-specific "variants", see

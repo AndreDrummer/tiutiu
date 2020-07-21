@@ -10,8 +10,7 @@ class DrawerApp extends StatelessWidget {
       child: Center(
         child: SingleChildScrollView(
           child: Column(
-            children: <Widget>[
-              SizedBox(height: 50),
+            children: <Widget>[              
               Row(
                 children: <Widget>[
                   SizedBox(width: 15),
