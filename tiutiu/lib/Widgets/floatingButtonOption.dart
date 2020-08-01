@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 
 class FloatingButtonOption extends StatelessWidget {
 
-  final String image;
   FloatingButtonOption({
     @required this.image
   });
+  final String image;
 
   @override
   Widget build(BuildContext context) {

@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:tiutiu/Custom/icons.dart';
 
 class CustomInput extends StatelessWidget {
-  final Function showFilter;
-
+  
   CustomInput({this.showFilter});  
+  final Function showFilter;
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +48,7 @@ class CustomInput extends StatelessWidget {
                   Icons.search,
                 ),
                 onPressed: () {
-                  print("Realizar Pesquisa");
+                  print('Realizar Pesquisa');
                 },
               ),
               IconButton(

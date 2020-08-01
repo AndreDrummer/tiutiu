@@ -10,7 +10,7 @@ class _DonateState extends State<Donate> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Você doou"),
+        title: Text('Você doou'),
       ),
       body: ListView.builder(
         itemCount: 3,
@@ -31,7 +31,7 @@ class _DonateState extends State<Donate> {
                       child: ClipOval(
                         child: CircleAvatar(
                           radius: 60,
-                          child: Text("D"),
+                          child: Text('D'),
                         ),
                       ),
                     ),
@@ -39,17 +39,17 @@ class _DonateState extends State<Donate> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Text(
-                          "Doguinho, 6 meses",
+                          'Doguinho, 6 meses',
                           style: TextStyle(fontWeight: FontWeight.w900),
                         ),
-                        Text("Viralata"),
+                        Text('Viralata'),
                         SizedBox(height: 20),
                         SizedBox(
                           width: MediaQuery.of(context).size.width * 0.525,
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
-                              Text("Doado para bernadovitor", style: TextStyle(fontWeight: FontWeight.w500)),
+                              Text('Doado para bernadovitor', style: TextStyle(fontWeight: FontWeight.w500)),
                             ],
                           ),
                         ),
@@ -59,7 +59,7 @@ class _DonateState extends State<Donate> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
                               Text(
-                                "Ver detalhes",
+                                'Ver detalhes',
                                 style: TextStyle(color: Colors.blue),
                               ),
                             ],

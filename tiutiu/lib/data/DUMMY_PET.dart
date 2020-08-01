@@ -1,7 +1,7 @@
 import '../backend/Model/Pet_model.dart';
 import '../backend/Controller/Pet_controller.dart';
 
- PetController pet = new PetController();
+ PetController pet = PetController();
   List<Pet> cachorrin = [
     Pet(      
       name: 'Joanacio',

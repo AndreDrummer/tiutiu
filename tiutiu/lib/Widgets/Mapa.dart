@@ -1,25 +1,32 @@
 import 'dart:async';
-import "package:flutter/material.dart";
+import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:provider/provider.dart';
 import 'package:tiutiu/providers/location.dart';
 
 class Mapa extends StatefulWidget {
+
   @override
   _MapaState createState() => _MapaState();
 }
 
 class _MapaState extends State<Mapa> {
   BitmapDescriptor pinLocationIcon;
-  Set<Marker> _markers = {};
-  Completer<GoogleMapController> _controller = Completer();
+  final Set<Marker> _markers = {};
+  final Completer<GoogleMapController> _controller = Completer();
   Position userCurrentLocation;
   static LatLng _center;
   LatLng lastMapPosition;
   CameraPosition initialCameraPosition;
   LatLng pinPosition;
-  MapType _currentMapType = MapType.normal;
+  final MapType _currentMapType = MapType.normal;
+
+  @override
+  void setState(fn) {
+    if (!mounted) return;
+    super.setState(fn);
+  }
 
   @override
   void initState() {
@@ -38,24 +45,25 @@ class _MapaState extends State<Mapa> {
   }
 
   Map viewDogInfo = {};
-  bool viewingDog = false;
-  onViewDog(algo) {
+  bool viewLocalPopUp = false;
+
+  void onViewDog(algo) {
     setState(() {
       viewDogInfo['name'] = algo['name'];
       viewDogInfo['breed'] = algo['breed'];
       viewDogInfo['size'] = algo['size'];
-      viewingDog = !viewingDog;
+      viewLocalPopUp = !viewLocalPopUp;
     });
   }
 
   void _currentLocation() async {
-    Position position = await Geolocator()
+    var position = await Geolocator()
         .getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
 
     setState(() {
       userCurrentLocation = position;
       _center = LatLng(position.latitude, position.longitude);
-    });
+    });    
   }
 
   void setCustomMapPin() async {
@@ -70,19 +78,19 @@ class _MapaState extends State<Mapa> {
       () {
         _markers.add(
           Marker(
-            onTap: () {
-              Map teste = {
-                'name': "Dogão",
-                'breed': 'Bravo',
-                'size': 'Grandão'
-              };
-              onViewDog(teste);
-            },
+            onTap: () {},
             markerId: MarkerId(postitionToAdd.toString()),
             position: postitionToAdd,
             icon: pinLocationIcon,
           ),
         );
+        var teste = {
+          'name': 'Localização',
+          'breed': postitionToAdd.latitude,
+          'size': postitionToAdd.longitude
+        };
+        onViewDog(teste);
+        viewLocalPopUp = true;
       },
     );
   }
@@ -100,7 +108,7 @@ class _MapaState extends State<Mapa> {
           ? Container(
               child: Center(
                 child: Text(
-                  'loading map..',
+                  'carregando...',
                   style: TextStyle(
                       fontFamily: 'Avenir-Medium', color: Colors.grey[400]),
                 ),
@@ -131,52 +139,70 @@ class _MapaState extends State<Mapa> {
                       );
                     },
                     zoomGesturesEnabled: true,
-                    zoomControlsEnabled: false,                    
+                    zoomControlsEnabled: false,
                     onCameraMove: _onCameraMove,
                     myLocationEnabled: true,
                     compassEnabled: false,
                     myLocationButtonEnabled: false,
                   ),
-                  viewingDog
+                  viewLocalPopUp
                       ? Positioned(
                           bottom: 10,
-                          child: Card(
-                            margin: const EdgeInsets.symmetric(horizontal: 60),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(25),
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                children: <Widget>[
-                                  CircleAvatar(
-                                    child: Image.asset('assets/pata.jpg'),
-                                  ),
-                                  SizedBox(width: 10),
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                          child: Container(
+                            width: MediaQuery.of(context).size.width - 10,
+                            child: FittedBox(
+                              child: Card(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(25),
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
                                     children: <Widget>[
-                                      Text(
-                                        viewDogInfo['name'].toString(),
-                                        style: TextStyle(fontSize: 18),
-                                      ),
-                                      Text(
-                                        '${viewDogInfo['breed']} ° ${viewDogInfo['size']}',
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.w700,
+                                      Container(
+                                        height: 40,
+                                        width: 40,
+                                        decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(50),
+                                            border: Border.all(
+                                                color: Colors.black,
+                                                style: BorderStyle.solid,
+                                                width: 1)),
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Image.asset('assets/pata.jpg'),
                                         ),
                                       ),
+                                      SizedBox(width: 10),
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: <Widget>[
+                                          Text(
+                                            viewDogInfo['name'].toString(),
+                                            style: TextStyle(fontSize: 18),
+                                          ),
+                                          FittedBox(
+                                            child: Text(
+                                              '${viewDogInfo['breed']}, ${viewDogInfo['size']}',
+                                              style: TextStyle(
+                                                fontWeight: FontWeight.w700,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      // SizedBox(width: 10),
+                                      // IconButton(
+                                      //   icon: Icon(Icons.remove_red_eye),
+                                      //   onPressed: () {},
+                                      // )
                                     ],
                                   ),
-                                  SizedBox(width: 10),
-                                  IconButton(
-                                    icon: Icon(Icons.remove_red_eye),
-                                    onPressed: () {},
-                                  )
-                                ],
+                                ),
                               ),
                             ),
                           ),

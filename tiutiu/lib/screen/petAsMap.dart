@@ -10,7 +10,7 @@ class PetMap extends StatefulWidget {
 }
 
 class _PetMapState extends State<PetMap> {
-  GlobalKey<ScaffoldState> _globalKey = GlobalKey();
+  final GlobalKey<ScaffoldState> _globalKey = GlobalKey();
   bool filtering = false;
 
   void showFilter() {

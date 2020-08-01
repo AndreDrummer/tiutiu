@@ -1,18 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:tiutiu/Custom/icons.dart';
 
+// ignore: must_be_immutable
 class InputText extends StatefulWidget {
-  final double size;
-  final String placeholder;
-  final TextEditingController controller;
-  final bool multiline;
-  final bool isLogin;
-  final bool isPassword;
-  final bool readOnly;
-  final bool keyBoardTypeNumber;
-  bool seePassword;
-  final int maxlines;
-
   InputText({
     this.size = 55,
     this.controller,
@@ -25,7 +15,7 @@ class InputText extends StatefulWidget {
     this.maxlines = 1,
     this.multiline = false,
   });
-
+  
   InputText.login({
     this.size = 55,
     this.controller,
@@ -38,6 +28,19 @@ class InputText extends StatefulWidget {
     this.seePassword = false,
     this.isLogin = true,
   });
+
+  final double size;
+  final String placeholder;
+  final TextEditingController controller;
+  final bool multiline;
+  final bool isLogin;
+  final bool isPassword;
+  final bool readOnly;
+  final bool keyBoardTypeNumber;
+  bool seePassword;
+  final int maxlines;
+
+
 
   @override
   _InputTextState createState() => _InputTextState();

@@ -3,7 +3,7 @@ class AdoptedDonatedDisappeared {
   String ownerId;
   String petId;
 
-  toJson() {
+  Map<String, dynamic> toJson() {
     return {
       'id': id,
       'ownerId': ownerId,
@@ -12,7 +12,7 @@ class AdoptedDonatedDisappeared {
   }
 
   Map<String, Object> toMap() {
-    Map<String, Object> petAdoptedMap = Map<String, Object>();
+    var petAdoptedMap = {};
     petAdoptedMap['id'] = id;
     petAdoptedMap['ownerId'] = ownerId;
     petAdoptedMap['petId'] = petId;
