@@ -1,16 +1,26 @@
-# tiutiu
+<h1>Tiu, tiu</h1>
 
-A new Flutter project.
+<p>TiuTiu é uma app mobile que tem a idéia de estabelecer vínculo entre pessoas que
+amam e querem adotar animais que estejam abandonados, em situação de rua ou ainda porque seus atuais donos não podem mais ficar com o pet por motivos diversos.
+A aplicação é fácil de utilizar, tem interface bem intuitiva e qualquer pessoas de qualquer
+idade pode manusear sem necessidade de tutoriais complexos.</p>
 
-## Getting Started
+<h2>Funcionalidades:</h2>
 
-This project is a starting point for a Flutter application.
+<strong>1. Cadastro do PET para doação:</strong>
 
-A few resources to get you started if this is your first Flutter project:
+  <ul>
+    <li>Nome</li>
+    <li>Idade</li>
+    <li>Raça</li>
+    <li>Tamanho</li>
+    <li>Fotos</li>
+    <li>Estado de Saúde</li>
+    <li>Cor</li>
+    <li>Detalhes</li>
+  </ul>
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+<strong>2. Chat entre parte interessadas.<br/></strong>
+<strong>3. Procure Pets para doação perto de você no mapa.<br/></strong>
+<strong>4. Divulgue seu PET perdido e receba noticias sobre ele.<br/></strong>
+<strong>5. Cadastre seu PET mesmo sem internet. Quando se conectar todo mundo vai poder ver sua publicação.<br/></strong>
