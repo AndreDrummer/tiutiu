@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 
+// ignore: must_be_immutable
 class CustomDropdownButton extends StatefulWidget {
+  CustomDropdownButton({this.initialValue, this.itemList, this.onChange, this.isExpanded, this.label});
   final List<String> itemList;
   String initialValue;
   final String label;
   final Function(String) onChange;
   final bool isExpanded;
-
-  CustomDropdownButton(
-      {this.initialValue, this.itemList, this.onChange, this.isExpanded, this.label});
+  
 
   @override
   _CustomDropdownButtonState createState() => _CustomDropdownButtonState();

@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 
 class DataBaseHandler {  
-  Future<Database> database;
   DataBaseHandler._constructor();
+  Future<Database> database;
   static final DataBaseHandler instance = DataBaseHandler._constructor();
 
   Future initDB() async {
@@ -14,22 +14,22 @@ class DataBaseHandler {
       join(await getDatabasesPath(), 'tiutiu.db'),
       onCreate: (db, version) async {
         await db.execute(
-          "CREATE TABLE IF NOT EXISTS Dog(id TEXT, name TEXT, age INTEGER, breed TEXT, size TEXT, details TEXT, owner INTEGER)",
+          'CREATE TABLE IF NOT EXISTS Dog(id TEXT, name TEXT, age INTEGER, breed TEXT, size TEXT, details TEXT, owner INTEGER)',
         );
         await db.execute(
-          "CREATE TABLE IF NOT EXISTS User(id TEXT, name TEXT, avatar TEXT, email TEXT, password TEXT, whatsapp TEXT, phone TEXT, donated INTEGER, adopted INTEGER, disappeared INTEGER)",
+          'CREATE TABLE IF NOT EXISTS User(id TEXT, name TEXT, avatar TEXT, email TEXT, password TEXT, whatsapp TEXT, phone TEXT, donated INTEGER, adopted INTEGER, disappeared INTEGER)',
         );
         await db.execute(
-          "CREATE TABLE IF NOT EXISTS DogPhotos(id TEXT, dogId TEXT, photo TEXT)",
+          'CREATE TABLE IF NOT EXISTS DogPhotos(id TEXT, dogId TEXT, photo TEXT)',
         );
         await db.execute(
-          "CREATE TABLE IF NOT EXISTS DogAdopted(ownerId TEXT, dogId TEXT, photo TEXT)",
+          'CREATE TABLE IF NOT EXISTS DogAdopted(ownerId TEXT, dogId TEXT, photo TEXT)',
         );
         await db.execute(
-          "CREATE TABLE IF NOT EXISTS DogDonated(ownerId TEXT, dogId TEXT, photo TEXT)",
+          'CREATE TABLE IF NOT EXISTS DogDonated(ownerId TEXT, dogId TEXT, photo TEXT)',
         );
         await db.execute(
-          "CREATE TABLE IF NOT EXISTS DogDisappeared(ownerId TEXT, dogId TEXT, photo TEXT)",
+          'CREATE TABLE IF NOT EXISTS DogDisappeared(ownerId TEXT, dogId TEXT, photo TEXT)',
         );
       },
       version: 1
@@ -40,7 +40,7 @@ class DataBaseHandler {
 
   Future insert(String tableName, data) async {
     var retorno;
-    final Database db = await database;
+    final db = await database;
     await db.insert(
       tableName,
       data.toJson(),
@@ -51,10 +51,10 @@ class DataBaseHandler {
   }
 
   Future<List> getAll(String tableName) async {
-    final Database db = await database;
+    final db = await database;
 
-    final List<Map<String, dynamic>> data = await db.rawQuery(
-      "SELECT * FROM $tableName"
+    final data = await db.rawQuery(
+      'SELECT * FROM $tableName'
     );
 
     return data;
@@ -63,8 +63,8 @@ class DataBaseHandler {
   Future<List<Map<String, dynamic>>> getById(String tableName, id) async {
     final db = await database;
 
-    final List<Map<String, dynamic>> data = await db.rawQuery(
-      "SELECT * FROM $tableName where id = $id"
+    final data = await db.rawQuery(
+      'SELECT * FROM $tableName where id = $id'
     );
 
     return data;
@@ -76,7 +76,7 @@ class DataBaseHandler {
     await db.update(
       tableName,
       data.toJson(),
-      where: "id = ?",
+      where: 'id = ?',
       whereArgs: [data.id]
     );
   }
@@ -86,7 +86,7 @@ class DataBaseHandler {
 
     await db.delete(
       tableName,      
-      where: "id = ?",
+      where: 'id = ?',
       whereArgs: [id]
     );
   }

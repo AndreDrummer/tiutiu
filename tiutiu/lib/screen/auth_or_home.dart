@@ -15,9 +15,9 @@ class AuthOrHome extends StatelessWidget {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return CircularProgressIndicator();
             } else if (snapshot.hasError) {
-              return Center(child: Text("Ocorreu um erro! ${snapshot.error}"));
+              return Center(child: Text('Ocorreu um erro! ${snapshot.error}'));
             } else {
-              print("Esta logado? ${auth.isAuth}");
+              print('Esta logado? ${auth.isAuth}');
               return auth.isAuth ? Home() : AuthScreen();
             }
           },

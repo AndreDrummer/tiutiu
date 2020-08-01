@@ -43,6 +43,7 @@ class _PetListState extends State<PetList> {
                   return Padding(
                     padding: const EdgeInsets.all(4.0),
                     child: Card(
+                      // color: Colors.white70,
                       elevation: 3,
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(12)),
@@ -67,10 +68,10 @@ class _PetListState extends State<PetList> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
                                 Text(
-                                  "Doguinho, 6 meses",
+                                  'Doguinho, 6 meses',
                                   style: TextStyle(fontWeight: FontWeight.w900),
                                 ),
-                                Text("ChowChow"),
+                                Text('ChowChow'),
                                 SizedBox(height: 20),
                                 SizedBox(
                                   width:
@@ -79,7 +80,7 @@ class _PetListState extends State<PetList> {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: <Widget>[
                                       Text(
-                                        "joaofelix está doando",
+                                        'joaofelix está doando',
                                         style: TextStyle(
                                             fontWeight: FontWeight.w500),
                                       ),
@@ -93,7 +94,7 @@ class _PetListState extends State<PetList> {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: <Widget>[
                                       Text(
-                                        "detalhes",
+                                        'detalhes',
                                         style: TextStyle(color: Colors.blue),
                                       ),
                                     ],
@@ -106,7 +107,7 @@ class _PetListState extends State<PetList> {
                                     children: <Widget>[
                                       Padding(
                                         padding: const EdgeInsets.symmetric(vertical: 7.0),
-                                        child: Text("Está a 2.6 Km de você", style: TextStyle(fontWeight: FontWeight.w600)),
+                                        child: Text('Está a 2.6 Km de você', style: TextStyle(fontWeight: FontWeight.w600)),
                                       ),
                                     ],
                                   ),
@@ -122,15 +123,18 @@ class _PetListState extends State<PetList> {
               ),
             ),
           ),
-          CustomInput(showFilter: showFilter),
-          SizedBox(height: 1),
-          Align(
-            alignment: Alignment(0.7, -0.7),
-            child: Container(
-              height: 190,
-              width: 235,
-              child: FilterSearch(
-                  isFiltering: isFiltering, showFilter: showFilter),
+          CustomInput(showFilter: showFilter),          
+          Positioned(
+            right: 20,
+            top: 80,
+            child: Align(
+              alignment: Alignment(0.7, -0.7),            
+              child: Container(
+                height: 190,
+                width: 235,
+                child: FilterSearch(
+                    isFiltering: isFiltering, showFilter: showFilter),
+              ),
             ),
           ),
         ],

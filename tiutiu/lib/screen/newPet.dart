@@ -35,10 +35,10 @@ class _NovoPetState extends State<NovoPet> {
   File imageFile6;
   File imageFile7;
 
-  TextEditingController _nome = TextEditingController();
-  TextEditingController _ano = TextEditingController();
-  TextEditingController _meses = TextEditingController();
-  TextEditingController _descricao = TextEditingController();
+  final TextEditingController _nome = TextEditingController();
+  final TextEditingController _ano = TextEditingController();
+  final TextEditingController _meses = TextEditingController();
+  final TextEditingController _descricao = TextEditingController();
 
   Map<String, File> petPhotos = {};
   Map<String, String> petPhotosToUpload = {};
@@ -53,6 +53,8 @@ class _NovoPetState extends State<NovoPet> {
   bool isLogging = false;
   bool readOnly = false;
 
+  int numberOfImages = 3;
+
   @override
   void initState() {
     super.initState();
@@ -62,11 +64,11 @@ class _NovoPetState extends State<NovoPet> {
 
     currentLocation = Provider.of<Location>(context, listen: false).location;
     userId = Provider.of<Auth>(context, listen: false).userId;
-    print("Local $currentLocation");
+    print('Local $currentLocation');
   }
 
   void selectImage(ImageSource source, int index) async {
-    ImagePicker picker = new ImagePicker();
+    var picker = ImagePicker();
     dynamic image = await picker.getImage(source: source);
     switch (index) {
       case 0:
@@ -168,45 +170,46 @@ class _NovoPetState extends State<NovoPet> {
     }
   }
 
-  openModalSelectMedia(BuildContext context, int index) {
+  void openModalSelectMedia(BuildContext context, int index) {
     showDialog(
-        context: context,
-        builder: (context) {
-          return SimpleDialog(
-            children: <Widget>[
-              FlatButton(
-                child: Text("Tirar uma foto",
-                    style: TextStyle(color: Colors.black)),
-                onPressed: () {
-                  Navigator.pop(context);
-                  selectImage(ImageSource.camera, index);
-                },
-              ),
-              FlatButton(
-                child: Text("Abrir galeria"),
-                onPressed: () {
-                  Navigator.pop(context);
-                  selectImage(ImageSource.gallery, index);
-                },
-              )
-            ],
-          );
-        });
+      context: context,
+      builder: (context) {
+        return SimpleDialog(
+          children: <Widget>[
+            FlatButton(
+              child:
+                  Text('Tirar uma foto', style: TextStyle(color: Colors.black)),
+              onPressed: () {
+                Navigator.pop(context);
+                selectImage(ImageSource.camera, index);
+              },
+            ),
+            FlatButton(
+              child: Text('Abrir galeria'),
+              onPressed: () {
+                Navigator.pop(context);
+                selectImage(ImageSource.gallery, index);
+              },
+            )
+          ],
+        );
+      },
+    );
   }
 
   Future<void> uploadPhotos(String petName) async {
     StorageUploadTask uploadTask;
     StorageReference storageReference;
 
-    for (String key in petPhotos.keys) {
+    for (var key in petPhotos.keys) {
       storageReference =
-          FirebaseStorage.instance.ref().child('$userId/foto__$petName--$key');
+          FirebaseStorage.instance.ref().child('$userId/$petName--foto__$key');
       uploadTask = storageReference.putFile(petPhotos['$key']);
 
       await uploadTask.onComplete;
       await storageReference.getDownloadURL().then((urlDownload) async {
-        petPhotosToUpload["photo$key"] = await urlDownload;
-        print("URL DOWNLOAD $urlDownload");
+        petPhotosToUpload['photo$key'] = await urlDownload;
+        print('URL DOWNLOAD $urlDownload');
       });
     }
 
@@ -221,11 +224,11 @@ class _NovoPetState extends State<NovoPet> {
 
   Future<void> save() async {
     changeLogginStatus(true);
-    PetController petController = PetController();
+    var petController = PetController();
 
     await uploadPhotos(_nome.text);
 
-    Pet dataPetSave = Pet(
+    var dataPetSave = Pet(
       name: _nome.text,
       breed: dropvalueBreed,
       health: dropvalueHealth,
@@ -260,6 +263,12 @@ class _NovoPetState extends State<NovoPet> {
     });
   }
 
+  void incNumberOfImages() {
+    setState(() {
+      numberOfImages++;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     params = ModalRoute.of(context).settings.arguments;
@@ -269,6 +278,8 @@ class _NovoPetState extends State<NovoPet> {
     final avalaibleHeight = MediaQuery.of(context).size.height -
         MediaQuery.of(context).padding.top -
         14;
+
+    final width = MediaQuery.of(context).size.width;
 
     return Scaffold(
       body: Stack(
@@ -327,8 +338,8 @@ class _NovoPetState extends State<NovoPet> {
                                     children: <Widget>[
                                       Text(
                                         kind == 'Donate'
-                                            ? "${formIsValid && petPhotos.isEmpty ? 'Insira pelo menos uma foto' : 'Insira algumas fotos do seu bichinho.'}"
-                                            : "${formIsValid && petPhotos.isEmpty ? 'Insira pelo menos uma foto' : 'Insira fotos dele.'}",
+                                            ? '${formIsValid && petPhotos.isEmpty ? 'Insira pelo menos uma foto' : 'Insira algumas fotos do seu bichinho.'}'
+                                            : '${formIsValid && petPhotos.isEmpty ? 'Insira pelo menos uma foto' : 'Insira fotos dele.'}',
                                         style: TextStyle(
                                             color:
                                                 formIsValid && petPhotos.isEmpty
@@ -342,22 +353,43 @@ class _NovoPetState extends State<NovoPet> {
                               SizedBox(height: 10),
                               Container(
                                 height: 80.0,
-                                child: ListView.builder(
-                                  scrollDirection: Axis.horizontal,
-                                  itemCount: 8,
-                                  itemBuilder: (ctx, index) {
-                                    return InkWell(
-                                      onTap: () {
-                                        print('Foto index: $index');
-                                        openModalSelectMedia(context, index);
-                                      },
-                                      child: CircleAddImage(
-                                        imageUrl: petPhotos['$index'] != null
-                                            ? petPhotos['$index']
-                                            : null,
-                                      ),
-                                    );
-                                  },
+                                child: Padding(
+                                  padding: EdgeInsets.only(left: width * 0.075),
+                                  child: ListView.builder(
+                                    scrollDirection: Axis.horizontal,
+                                    itemCount: numberOfImages < 8
+                                        ? numberOfImages + 1
+                                        : numberOfImages,
+                                    itemBuilder: (ctx, index) {
+                                      if (index == numberOfImages) {
+                                        print('Index: $index');
+                                        print('Number: $numberOfImages');
+                                        return InkWell(
+                                          onTap: petPhotos['$numberOfImages'] ==
+                                                  null
+                                              ? null
+                                              : () {
+                                                  incNumberOfImages();
+                                                },
+                                          child: CircleAddImage(
+                                            addButton: true,
+                                          ),
+                                        );
+                                      }
+                                      return InkWell(
+                                        onTap: () {
+                                          print('Foto index: $index');
+                                          openModalSelectMedia(context, index);
+                                        },
+                                        child: CircleAddImage(
+                                          // ignore: prefer_if_null_operators
+                                          imageUrl: petPhotos['$index'] != null
+                                              ? petPhotos['$index']
+                                              : null,
+                                        ),
+                                      );
+                                    },
+                                  ),
                                 ),
                               ),
                               SizedBox(height: 12),
@@ -495,7 +527,7 @@ class _NovoPetState extends State<NovoPet> {
                                       if (validateForm()) {
                                         setReadOnly();
                                         await save();
-                                        showDialog(
+                                        await showDialog(
                                             context: context,
                                             builder: (context) => PopUpMessage(
                                                   title: 'Pronto',

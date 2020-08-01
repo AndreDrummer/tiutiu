@@ -34,7 +34,7 @@ class _AuthScreenState extends State<AuthScreen> {
 
   @override
   Widget build(BuildContext context) {
-    Auth auth = Provider.of<Auth>(context);
+    var auth = Provider.of<Auth>(context);
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
@@ -70,7 +70,7 @@ class _AuthScreenState extends State<AuthScreen> {
                               Align(
                                 alignment: Alignment(-0.9, 1),
                                 child: Text(
-                                  "Crie sua conta gratuitamente.",
+                                  'Crie sua conta gratuitamente.',
                                   style: TextStyle(
                                     fontSize: 18,
                                     color: Colors.white,
@@ -116,7 +116,7 @@ class _AuthScreenState extends State<AuthScreen> {
                                     isNewAccount = !isNewAccount;
                                   });
                                 } else {
-                                  showDialog(
+                                  await showDialog(
                                     context: context,
                                     builder: (context) => PopUpMessage(
                                         title: 'Erro',
@@ -131,7 +131,7 @@ class _AuthScreenState extends State<AuthScreen> {
                               }
                             } on AuthException catch (error) {
                               print('ERROR');
-                              showDialog(
+                              await showDialog(
                                 context: context,
                                 builder: (context) => PopUpMessage(
                                   title: 'Falha na autenticação',
@@ -150,7 +150,7 @@ class _AuthScreenState extends State<AuthScreen> {
                                 color: Colors.green),
                             child: Center(
                               child: Text(
-                                "${!isNewAccount ? 'LOGIN' : 'CADASTRE-SE'}",
+                                '${!isNewAccount ? 'LOGIN' : 'CADASTRE-SE'}',
                                 style: TextStyle(
                                   fontSize: 20,
                                   color: Colors.white,
@@ -197,7 +197,7 @@ class _AuthScreenState extends State<AuthScreen> {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: <Widget>[
                                       Text(
-                                        "No account?",
+                                        'No account?',
                                         style: TextStyle(
                                           fontSize: 20,
                                           color: Colors.white,
@@ -208,7 +208,7 @@ class _AuthScreenState extends State<AuthScreen> {
                                         color: Colors.white,
                                         margin: const EdgeInsets.all(4.0),
                                         child: Text(
-                                          " Register now for free.",
+                                          ' Register now for free.',
                                           style: TextStyle(
                                             fontSize: 18,
                                             color: Colors.blueAccent,
@@ -221,7 +221,7 @@ class _AuthScreenState extends State<AuthScreen> {
                                 ),
                                 SizedBox(height: 30),
                                 Text(
-                                  "Or create account with",
+                                  'Or create account with',
                                   style: TextStyle(
                                     fontSize: 16,
                                     color: Colors.white,

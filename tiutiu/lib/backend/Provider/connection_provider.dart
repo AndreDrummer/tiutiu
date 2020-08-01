@@ -6,7 +6,7 @@ import 'package:connectivity/connectivity.Dart';
 class ConnectionStatusSingleton {
     //This creates the single instance by calling the `_internal` constructor specified below
     ConnectionStatusSingleton._internal();
-    static final ConnectionStatusSingleton _singleton = new ConnectionStatusSingleton._internal();
+    static final ConnectionStatusSingleton _singleton = ConnectionStatusSingleton._internal();
 
     //This is what's used to retrieve the instance through the app
     static ConnectionStatusSingleton getInstance() => _singleton;
@@ -15,7 +15,7 @@ class ConnectionStatusSingleton {
     bool hasConnection = false;
 
     //This is how we'll allow subscribing to connection changes
-    StreamController connectionChangeController = new StreamController.broadcast();
+    StreamController connectionChangeController = StreamController.broadcast();
 
     //flutter_connectivity
     final Connectivity _connectivity = Connectivity();
@@ -43,7 +43,7 @@ class ConnectionStatusSingleton {
 
     //The test to actually see if there is a connection
     Future<bool> checkConnection() async {
-        bool previousConnection = hasConnection;
+        var previousConnection = hasConnection;
 
         try {
             final result = await InternetAddress.lookup('google.com');

@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
 
 class FilterSearch extends StatefulWidget {
-  final List<String> filterNames;
-  final List<List<String>> filterValues;
-  final Function() isFiltering;
-  final Function() showFilter;
-
   FilterSearch({
     this.filterNames,
     this.filterValues,
     this.isFiltering,
     this.showFilter,
   });
+
+  final List<String> filterNames;
+  final List<List<String>> filterValues;
+  final Function() isFiltering;
+  final Function() showFilter;
+
 
   @override
   _FilterSearchState createState() => _FilterSearchState();
@@ -40,43 +41,51 @@ class _FilterSearchState extends State<FilterSearch> {
   @override
   Widget build(BuildContext context) {
     return isFiltering()
-        ? Container(
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(12),
-          ),
-          padding: const EdgeInsets.all(10),
-          child: Column(children: mountFilter().toList()),
-        )
+        ? Card(
+            elevation: 8,
+            color: Theme.of(context).primaryColor,
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+            child: Padding(
+              padding: const EdgeInsets.all(10),
+              child: Column(children: mountFilter().toList()),
+            ),
+          )
         : SizedBox();
   }
 
   List<Widget> mountFilter() {
-    List<Widget> filters = [];
+    var filters = [];
     filterNames.asMap.call().forEach((index, name) {
       filters.add(
         Row(
           children: <Widget>[
-            Text(
-              name,
-              // style: Theme.of(context).primaryTextTheme.headline5,
-            ),
-            SizedBox(width: 10),
+            Text(name, style: Theme.of(context).textTheme.headline2),
+            SizedBox(width: 10),            
             DropdownButton<String>(
-              value: initialValues[index],
-              onChanged: (String newValue) {
-                setState(() {
-                  initialValues[index] = newValue;
-                });
-              },
-              items: filterValues[index]
-                  .map<DropdownMenuItem<String>>((String value) {
-                return DropdownMenuItem<String>(
-                  value: value,
-                  child: Text(value),
-                );
-              }).toList(),
-            )
+                value: initialValues[index],
+                onChanged: (String newValue) {
+                  setState(() {
+                    initialValues[index] = newValue;
+                  });
+                },
+                style: TextStyle(color: Colors.black, fontSize: 16),
+                selectedItemBuilder: (BuildContext context) {
+                  return filterValues[index].map((String value) {
+                    return Padding(
+                      padding: const EdgeInsets.only(top: 16.0),
+                      child: Text(value,
+                          style: Theme.of(context).textTheme.headline2),
+                    );
+                  }).toList();
+                },
+                items: filterValues[index]
+                    .map<DropdownMenuItem<String>>((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(value),
+                  );
+                }).toList()),
           ],
         ),
       );
@@ -91,18 +100,17 @@ class _FilterSearchState extends State<FilterSearch> {
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
           child: Text(
-            "OK",
+            'OK',
             style: Theme.of(context).textTheme.button,
           ),
-          color: Theme.of(context).primaryColor,
+          color: Theme.of(context).accentColor,
         )
       ],
     ));
     return filters;
   }
 
-  initializesDropdownValues() {
-
+  void initializesDropdownValues() {
     widget.filterNames != null
         ? filterNames = [...widget.filterNames]
         : filterNames = filterNames;
@@ -114,6 +122,5 @@ class _FilterSearchState extends State<FilterSearch> {
     filterValues.asMap.call().forEach((index, element) {
       initialValues.add(element[0]);
     });
-
   }
 }

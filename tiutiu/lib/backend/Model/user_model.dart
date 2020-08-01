@@ -1,15 +1,6 @@
-class User {
-  String id;
-  String name;
-  String avatar;
-  String email;
-  String password;
-  String whatsapp;
-  String phone;
-  int adopted;
-  int donated;
-  int disappeared;
+import 'package:cloud_firestore/cloud_firestore.dart';
 
+class User {
   User({
     this.id,
     this.name,
@@ -22,8 +13,32 @@ class User {
     this.phone,
     this.disappeared
   });
+  
+  User.fromSnapshot(DocumentSnapshot snapshot) {
+    id = snapshot.data['id'];
+    name = snapshot.data['name'];
+    avatar = snapshot.data['avatar'];
+    adopted = snapshot.data['adopted: '];
+    donated = snapshot.data['donated'];
+    email = snapshot.data['email'];
+    password = snapshot.data['password'];
+    phone = snapshot.data['phone'];
+    whatsapp = snapshot.data['whatsapp'];
+  }
 
-  toJson() {
+  String id;
+  String name;
+  String avatar;
+  String email;
+  String password;
+  String whatsapp;
+  String phone;
+  int adopted;
+  int donated;
+  int disappeared;
+
+
+  Map<String, dynamic> toJson() {
     return {
       'id': id,
       'name': name,
@@ -38,21 +53,18 @@ class User {
   }
 
   Map<String, Object> toMap() {
-    Map<String, Object> userMap = Map<String, Object>();
-    userMap["id"] = id;
-    userMap["name"] = name;
-    userMap["avatar"] = avatar;
-    userMap["email"] = email;
-    userMap["password"] = password;
-    userMap["whatsapp"] = whatsapp;
-    userMap["phone"] = phone;
-    userMap["adopted"] = adopted;
-    userMap["donated"] = donated;
+    var userMap = {};
+    userMap['id'] = id;
+    userMap['name'] = name;
+    userMap['avatar'] = avatar;
+    userMap['email'] = email;
+    userMap['password'] = password;
+    userMap['whatsapp'] = whatsapp;
+    userMap['phone'] = phone;
+    userMap['adopted'] = adopted;
+    userMap['donated'] = donated;
 
     return userMap;
   }
 
-  // User.fromSnapshot(DocumentSnapshot snpashot) {
-
-  // }
 }

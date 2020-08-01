@@ -29,27 +29,17 @@ class UserController {
   }
 
   Future<List<User>> getAllUsers() async {
-    List<User> users = [];
+    var users = [];
     await firestore.collection('User').getDocuments().then((value) {
       value.documents.forEach((element) {
-        users.add(User(
-          id: element.data['id'],
-          name: element.data['name'],
-          avatar: element.data['avatar'],
-          adopted: element.data['adopted: '],
-          donated: element.data['donated'],
-          email: element.data['email'],
-          password: element.data['password'],
-          phone: element.data['phone'],
-          whatsapp: element.data['whatsapp'],
-        ));
+        users.add(User.fromSnapshot(element).toJson());
       });
     });
     return users;
   }
 
   Future<void> insertUser(User user) async {
-    print("..inserindo");
+    print('..inserindo');
     await firestore
         .collection('User')
         .document()

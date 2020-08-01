@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 
 class PopUpMessage extends StatelessWidget {
+  PopUpMessage({this.title, this.message, this.error = false, this.warning = false, this.action});
   final String title;
   final String message;
   final bool error;
   final bool warning;
-  PopUpMessage({this.title, this.message, this.error = false, this.warning = false});
+  final Function action;
 
   @override
   Widget build(BuildContext context) {
@@ -36,11 +37,18 @@ class PopUpMessage extends StatelessWidget {
             Navigator.pop(context);
           },
           child: Text(
-            "OK",
+            '${action != null ? 'Não' : 'OK'}',
             style: TextStyle(color: Colors.white),
           ),
-        )
+        ),
+        action != null ? FlatButton(
+          onPressed: action,
+          child: Text(
+            'Sim',
+            style: TextStyle(color: Colors.white),
+          ),
+        ) : Container()
       ],
-    );
+    );    
   }
 }
