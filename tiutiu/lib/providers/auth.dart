@@ -40,17 +40,17 @@ class Auth with ChangeNotifier {
 
     final responseBody = json.decode(response.body);
     print(responseBody);
-    if (responseBody["error"] != null) {
+    if (responseBody['error'] != null) {
       throw AuthException(
-        responseBody["error"]["message"]
+        responseBody['error']['message']
       );    
     } else {
-      _token = responseBody["idToken"];
-      _userId = responseBody["localId"];
+      _token = responseBody['idToken'];
+      _userId = responseBody['localId'];
       _expireDateToken = DateTime.now().add(
         Duration(
           seconds: int.parse(
-            responseBody["expiresIn"],
+            responseBody['expiresIn'],
           ),
         ),
       );

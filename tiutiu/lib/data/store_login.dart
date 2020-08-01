@@ -6,8 +6,8 @@ class Store {
     final prefs = await SharedPreferences.getInstance();
     return prefs.setString(key, value);
   }
-  static Future<void> saveMap(String key, Map<String, dynamic> value) async {    
-    saveString(key, json.encode(value));
+  static void saveMap(String key, Map<String, dynamic> value) {    
+    saveString(key, json.encode(value));    
   }
   static Future<String> getString(String key) async {
     final prefs = await SharedPreferences.getInstance();

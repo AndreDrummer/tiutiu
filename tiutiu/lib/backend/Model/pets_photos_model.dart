@@ -3,7 +3,7 @@ class PetsPhotos {
   String petId;
   String photo;
 
-  topJson() {
+  Map<String, dynamic> topJson() {
     return {
       'id': id,
       'petId': petId,
@@ -12,7 +12,7 @@ class PetsPhotos {
   }
 
   Map<String, Object> topMap() {
-    Map<String, Object> petPhoto = Map<String, Object>();
+    var petPhoto = {};
     petPhoto['id'] = id;
     petPhoto['petId'] = petId;
     petPhoto['photo'] = photo;
