@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:tiutiu/Widgets/FilterSearch.dart';
-import 'package:tiutiu/Widgets/inputSearch.dart';
-import 'package:tiutiu/Widgets/Drawer.dart';
+import 'package:tiutiu/Widgets/filter_search.dart';
+import 'package:tiutiu/Widgets/input_search.dart';
+import 'package:tiutiu/Widgets/drawer.dart';
 
 class PetList extends StatefulWidget {
   @override

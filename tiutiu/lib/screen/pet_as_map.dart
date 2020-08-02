@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import '../Widgets/Mapa.dart';
-import '../Widgets/inputSearch.dart';
-import '../Widgets/FilterSearch.dart';
-import '../Widgets/Drawer.dart';
+import '../Widgets/mapa.dart';
+import '../Widgets/input_search.dart';
+import '../Widgets/filter_search.dart';
+import '../Widgets/drawer.dart';
 
 class PetMap extends StatefulWidget {
   @override
