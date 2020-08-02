@@ -87,10 +87,14 @@ flutter:
     - family:  CustomIcon
       fonts:
        - asset: fonts/CustomIcon.ttf
-  #     fonts:
-  #       - asset: fonts/TrajanPro.ttf
-  #       - asset: fonts/TrajanPro_Bold.ttf
-  #         weight: 700
+    - family: Rajdhani
+      fonts:
+        - asset: fonts/Rajdhani-Bold.ttf
+        - asset: fonts/Rajdhani-Light.ttf
+        - asset: fonts/Rajdhani-Medium.ttf
+        - asset: fonts/Rajdhani-Regular.ttf
+        - asset: fonts/Rajdhani-SemiBold.ttf          
+          weight: 700
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
