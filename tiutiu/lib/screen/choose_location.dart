@@ -42,7 +42,7 @@ class _ChooseLocationState extends State<ChooseLocation> {
                 padding: const EdgeInsets.only(left: 20.0),
                 child: Text(
                   'Escolha a localização do PET',
-                  style: TextStyle(fontSize: 25),
+                  style: TextStyle(fontSize: 25, fontFamily: 'Rajdhani', fontWeight: FontWeight.w700)
                 ),
               ),
             ),
@@ -51,8 +51,9 @@ class _ChooseLocationState extends State<ChooseLocation> {
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20.0),
                 child: FittedBox(
-                  child: Text(
-                      'Arraste e/ou dê zoom no mapa para escolher a localização do seu PET.'),
+                  child: Text(                        
+                      'Arraste e/ou dê zoom no mapa para escolher a localização do seu PET.', 
+                      style: TextStyle(fontFamily: 'Rajdhani', fontWeight: FontWeight.w500)),
                 ),
               ),
             ),
