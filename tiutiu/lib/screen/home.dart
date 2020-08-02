@@ -4,10 +4,10 @@ import 'package:provider/provider.dart';
 import 'package:tiutiu/Widgets/popup_message.dart';
 import 'package:tiutiu/providers/auth.dart';
 
-import '../Widgets/floatingButtonOption.dart';
+import '../Widgets/floating_button_option.dart';
 import '../utils/routes.dart';
 import './disapeared.dart';
-import './petAsList.dart';
+import 'pet_as_list.dart';
 
 class Home extends StatefulWidget {
   @override

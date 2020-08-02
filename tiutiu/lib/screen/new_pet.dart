@@ -4,14 +4,14 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
-import 'package:tiutiu/Widgets/CustomDropDownButton.dart';
-import 'package:tiutiu/Widgets/hintError.dart';
+import 'package:tiutiu/Widgets/custom_dropdown_button.dart';
+import 'package:tiutiu/Widgets/hint_error.dart';
 import 'package:tiutiu/Widgets/popup_message.dart';
 import 'package:tiutiu/backend/Model/pet_model.dart';
 import 'package:tiutiu/providers/auth.dart';
 import 'package:tiutiu/providers/location.dart';
-import '../Widgets/CircleaddImage.dart';
-import '../Widgets/InputText.dart';
+import '../Widgets/circle_add_image.dart';
+import '../Widgets/input_text.dart';
 import 'package:image_picker/image_picker.dart';
 import '../backend/Controller/pet_controller.dart';
 
