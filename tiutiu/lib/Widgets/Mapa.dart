@@ -3,10 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:provider/provider.dart';
-import 'package:tiutiu/providers/location.dart';
+import 'package:tiutiu/providers/location.dart' as provider_location;
+import 'package:tiutiu/utils/constantes.dart';
+import 'package:google_maps_webservice/geocoding.dart';
+import 'package:tiutiu/backend/Model/geocoding_model.dart';
 
 class Mapa extends StatefulWidget {
-
   @override
   _MapaState createState() => _MapaState();
 }
@@ -21,6 +23,18 @@ class _MapaState extends State<Mapa> {
   CameraPosition initialCameraPosition;
   LatLng pinPosition;
   final MapType _currentMapType = MapType.normal;
+
+  final geocoding = GoogleMapsGeocoding(
+    apiKey: Constantes.WEB_API_KEY,
+  );
+
+  Future<String> coordsToAddress(LatLng coords) async {
+    final location = Location(coords.latitude, coords.longitude);
+    final response = await geocoding.searchByLocation(location);
+    final address = GeocodingModel.fromSnapshot(response.results[0]).toMap();
+
+    return Future.value(address['formattedAddress']);
+  }
 
   @override
   void setState(fn) {
@@ -47,11 +61,10 @@ class _MapaState extends State<Mapa> {
   Map viewDogInfo = {};
   bool viewLocalPopUp = false;
 
-  void onViewDog(algo) {
+  void onViewDog(infoWindow) {
     setState(() {
-      viewDogInfo['name'] = algo['name'];
-      viewDogInfo['breed'] = algo['breed'];
-      viewDogInfo['size'] = algo['size'];
+      viewDogInfo['title'] = infoWindow['title'];
+      viewDogInfo['info'] = infoWindow['info'];
       viewLocalPopUp = !viewLocalPopUp;
     });
   }
@@ -63,7 +76,7 @@ class _MapaState extends State<Mapa> {
     setState(() {
       userCurrentLocation = position;
       _center = LatLng(position.latitude, position.longitude);
-    });    
+    });
   }
 
   void setCustomMapPin() async {
@@ -73,9 +86,11 @@ class _MapaState extends State<Mapa> {
     );
   }
 
-  void _addMarkeOnMap(LatLng postitionToAdd, [String name, String dogPhoto]) {
+  Future<void> _addMarkeOnMap(LatLng postitionToAdd, [String name, String dogPhoto]) async {
+    final localFormattedAddress = await coordsToAddress(postitionToAdd);
     setState(
       () {
+        _markers.clear();
         _markers.add(
           Marker(
             onTap: () {},
@@ -83,22 +98,17 @@ class _MapaState extends State<Mapa> {
             position: postitionToAdd,
             icon: pinLocationIcon,
           ),
-        );
-        var teste = {
-          'name': 'Localização',
-          'breed': postitionToAdd.latitude,
-          'size': postitionToAdd.longitude
-        };
-        onViewDog(teste);
+        );              
+        var infoWindow = {'title': 'Localização', 'info': localFormattedAddress};
+        onViewDog(infoWindow);
         viewLocalPopUp = true;
       },
     );
   }
 
-  void _onCameraMove(CameraPosition position) async {
+  void _onCameraMove(CameraPosition position) async {    
     lastMapPosition = position.target;
-    _markers.clear();
-    _addMarkeOnMap(lastMapPosition);
+    await _addMarkeOnMap(lastMapPosition);
   }
 
   @override
@@ -129,11 +139,12 @@ class _MapaState extends State<Mapa> {
                         () {
                           _controller.complete(controller);
                           _addMarkeOnMap(
-                            LatLng(userCurrentLocation.latitude,
-                                userCurrentLocation.longitude),
+                            LatLng(_center.latitude,
+                                _center.longitude),
                           );
                           final locationProvider =
-                              Provider.of<Location>(context, listen: false);
+                              Provider.of<provider_location.Location>(context,
+                                  listen: false);
                           locationProvider.setLocation(_center);
                         },
                       );
@@ -182,12 +193,12 @@ class _MapaState extends State<Mapa> {
                                             CrossAxisAlignment.start,
                                         children: <Widget>[
                                           Text(
-                                            viewDogInfo['name'].toString(),
+                                            viewDogInfo['title'].toString(),
                                             style: TextStyle(fontSize: 18),
                                           ),
                                           FittedBox(
                                             child: Text(
-                                              '${viewDogInfo['breed']}, ${viewDogInfo['size']}',
+                                              '${viewDogInfo['info']}',
                                               style: TextStyle(
                                                 fontWeight: FontWeight.w700,
                                               ),
