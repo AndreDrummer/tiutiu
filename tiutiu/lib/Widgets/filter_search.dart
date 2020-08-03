@@ -55,7 +55,8 @@ class _FilterSearchState extends State<FilterSearch> {
   }
 
   List<Widget> mountFilter() {
-    var filters = [];
+    // ignore: omit_local_variable_types
+    List<Widget> filters = [];
     filterNames.asMap.call().forEach((index, name) {
       filters.add(
         Row(
@@ -69,6 +70,8 @@ class _FilterSearchState extends State<FilterSearch> {
                     initialValues[index] = newValue;
                   });
                 },
+                iconDisabledColor: Colors.white,                
+                iconEnabledColor: Colors.white,                
                 style: TextStyle(color: Colors.black, fontSize: 16),
                 selectedItemBuilder: (BuildContext context) {
                   return filterValues[index].map((String value) {
