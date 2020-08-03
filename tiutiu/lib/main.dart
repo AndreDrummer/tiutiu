@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:tiutiu/Widgets/mapa.dart';
 import 'package:tiutiu/providers/auth.dart';
 import 'package:tiutiu/providers/location.dart';
+import 'package:tiutiu/providers/show_bottom.dart';
 import 'package:tiutiu/screen/auth_screen.dart';
 import 'package:tiutiu/screen/choose_location.dart';
 import 'package:tiutiu/screen/donates.dart';
@@ -19,6 +20,9 @@ void main() {
       ),
       ChangeNotifierProvider(
         create: (_) => Auth(),
+      ),
+      ChangeNotifierProvider(
+        create: (_) => ShowBottomNavigator(),
       )
     ],
     child: MaterialApp(
@@ -42,7 +46,7 @@ void main() {
       routes: {
         Routes.NOVOPET: (ctx) => NovoPet(),
         Routes.AUTH_HOME: (ctx) => AuthOrHome(),
-        Routes.HOME: (ctx) => Home(),
+        Routes.HOME: (ctx) =>  Home(),
         Routes.DOADOS: (ctx) => Donate(),
         Routes.AUTH: (ctx) => AuthScreen(),
         Routes.MAPA: (ctx) => Mapa(),
