@@ -5,7 +5,8 @@ class Disapeared extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('PETs Desaparecidos'),        
+        title: Text('PETs Desaparecidos',
+          style: Theme.of(context).textTheme.headline4,),        
       ),
       body: Center(
         child: Text('Vai ter uma lista de PET aqui'),
