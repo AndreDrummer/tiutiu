@@ -18,7 +18,10 @@ class _DonateState extends State<Donate> {
         ),
         title: Text(
           'Você doou',
-          style: Theme.of(context).textTheme.headline4,
+          style: Theme.of(context).textTheme.headline1.copyWith(
+                fontSize: 22,
+                fontWeight: FontWeight.w800,
+              ),
         ),
       ),
       body: ListView.builder(

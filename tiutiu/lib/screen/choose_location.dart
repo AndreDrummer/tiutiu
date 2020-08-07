@@ -40,11 +40,14 @@ class _ChooseLocationState extends State<ChooseLocation> {
             Center(
               child: Padding(
                 padding: const EdgeInsets.only(left: 20.0),
-                child: Text('Escolha a localização do PET',
-                    style: Theme.of(context).textTheme.headline3.copyWith(
-                          fontSize: 25,
-                          fontWeight: FontWeight.w700,
-                        )),
+                child: Text(
+                  'Escolha a localização do PET',
+                  style: Theme.of(context).textTheme.headline1.copyWith(
+                        fontSize: 25,
+                        color: Colors.black,
+                        fontWeight: FontWeight.w700,
+                      ),
+                ),
               ),
             ),
             SizedBox(height: 10),
@@ -54,8 +57,10 @@ class _ChooseLocationState extends State<ChooseLocation> {
                 child: FittedBox(
                   child: Text(
                       'Arraste e/ou dê zoom no mapa para escolher a localização do seu PET.',
-                      style: Theme.of(context).textTheme.headline3.copyWith(
+                      style: Theme.of(context).textTheme.headline1.copyWith(
                             fontWeight: FontWeight.w500,
+                            color: Colors.black,
+                            fontSize: 16,
                           )),
                 ),
               ),
@@ -79,7 +84,13 @@ class _ChooseLocationState extends State<ChooseLocation> {
                             padding: const EdgeInsets.all(8.0),
                             child: Text(
                               'CONTINUAR',
-                              style: Theme.of(context).textTheme.headline4,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .headline1
+                                  .copyWith(
+                                    fontSize: 22,
+                                    fontWeight: FontWeight.w800,
+                                  ),
                             ),
                           ),
                           onPressed: location.location == null
