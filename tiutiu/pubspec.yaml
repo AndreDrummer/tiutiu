@@ -41,6 +41,7 @@ dependencies:
   http: ^0.12.2
   shared_preferences: ^0.5.8
   flutter_launcher_icons: "^0.7.3"
+  google_maps_webservice: ^0.0.17
 
 flutter_icons:
   android: "launcher_icon"
@@ -87,10 +88,14 @@ flutter:
     - family:  CustomIcon
       fonts:
        - asset: fonts/CustomIcon.ttf
-  #     fonts:
-  #       - asset: fonts/TrajanPro.ttf
-  #       - asset: fonts/TrajanPro_Bold.ttf
-  #         weight: 700
+    - family: Rajdhani
+      fonts:
+        - asset: fonts/Rajdhani-Bold.ttf
+        - asset: fonts/Rajdhani-Light.ttf
+        - asset: fonts/Rajdhani-Medium.ttf
+        - asset: fonts/Rajdhani-Regular.ttf
+        - asset: fonts/Rajdhani-SemiBold.ttf          
+          weight: 700
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
