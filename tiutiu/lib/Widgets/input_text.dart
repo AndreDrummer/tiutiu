@@ -85,7 +85,7 @@ class _InputTextState extends State<InputText> {
                   labelStyle: TextStyle(
                     color: widget.isLogin
                         ? Colors.black38
-                        : Theme.of(context).textTheme.headline5.color,
+                        : Colors.black26,
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderSide: BorderSide(style: BorderStyle.none),

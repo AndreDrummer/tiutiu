@@ -33,7 +33,7 @@ class _CustomDropdownButtonState extends State<CustomDropdownButton> {
             SizedBox(height: 8.0),
             Align(
               child: Text(widget.label, style: TextStyle(color: Colors.black26, fontSize: 16,)),
-              // alignment: Alignment(-0.9, 1),
+              alignment: Alignment(-0.93, 1),
             ),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: widget.isExpanded ? 15.0 : 0.0),
