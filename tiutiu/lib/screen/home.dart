@@ -103,34 +103,14 @@ class _HomeState extends State<Home> {
             ),
             Positioned(              
               bottom: -4.5,              
-              left: 0.1,
+              left: 0.2,
               right: 0.1,
               child: CustomBottomNavigatorBar(
                 children: iconsChildren                
               ),
             )
           ],
-        ),        
-        // bottomNavigationBar: BottomNavigationBar(
-
-        //   items: const <BottomNavigationBarItem>[
-        //     /*BottomNavigationBarItem(
-        //     icon: Icon(Icons.map),
-        //     title: Text('Ver no Mapa'),
-        //   ),*/
-        //     BottomNavigationBarItem(
-        //       icon: Icon(Icons.menu),
-        //       title: Text('P/ Adoção'),
-        //     ),
-        //     BottomNavigationBarItem(
-        //       icon: Icon(Icons.assignment_late),
-        //       title: Text('Desaparecidos'),
-        //     ),
-        //   ],
-        //   currentIndex: _selectedIndex,
-        //   selectedItemColor: Theme.of(context).primaryColor,
-        //   onTap: _onItemTapped,
-        // ),
+        ),                
         floatingActionButton: SpeedDial(
           marginRight: 18,
           marginBottom: 20,

@@ -36,7 +36,7 @@ class CustomBottomNavigatorBar extends StatelessWidget {
                 children: <Widget>[
                   Text(
                     'Perto de você',
-                    style: Theme.of(context).textTheme.headline3.copyWith(
+                    style: Theme.of(context).textTheme.headline1.copyWith(
                           fontWeight: FontWeight.w700,
                         ),
                   ),
