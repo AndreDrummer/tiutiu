@@ -29,16 +29,8 @@ void main() {
       theme: ThemeData(
         primaryColor: Color(0xFF46D766),
         accentColor: Color(0xFFd4f224),
-        textTheme: ThemeData.light().textTheme.copyWith(
-              headline6: TextStyle(color: Colors.white, fontSize: 14, fontFamily: 'Rajdhani'),
-              headline5: TextStyle(color: Colors.black26, fontSize: 14, fontFamily: 'Rajdhani'),              
-              headline4: TextStyle(
-                color: Colors.white,
-                fontSize: 22,
-                fontWeight: FontWeight.w800,
-              ),
-              headline3: TextStyle(color: Colors.black, fontSize: 16, fontFamily: 'Rajdhani'),
-              headline2: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w700, fontFamily: 'Rajdhani'),
+        textTheme: ThemeData.light().textTheme.copyWith(              
+              headline1: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w700, fontFamily: 'Rajdhani'),
               button: TextStyle(color: Color(0XFFFFFFFF), fontSize: 14, fontWeight: FontWeight.w700, fontFamily: 'Rajdhani'),
             ),
       ),

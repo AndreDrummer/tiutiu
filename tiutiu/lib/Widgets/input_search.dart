@@ -28,7 +28,7 @@ class CustomInput extends StatelessWidget {
               decoration: InputDecoration(
                 labelText: 'Adote um PET',
                 labelStyle: TextStyle(
-                  color: Theme.of(context).textTheme.headline5.color,
+                  color: Colors.black26,
                 ),
                 hintText: 'Ex.: Chihuahua',
                 focusedBorder: UnderlineInputBorder(
