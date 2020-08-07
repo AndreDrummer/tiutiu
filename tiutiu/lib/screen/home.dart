@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:provider/provider.dart';
+import 'package:tiutiu/Widgets/custom_bottom_navigator_bar.dart';
 import 'package:tiutiu/Widgets/popup_message.dart';
 import 'package:tiutiu/providers/auth.dart';
 
-import '../Widgets/floatingButtonOption.dart';
+import '../Widgets/floating_button_option.dart';
 import '../utils/routes.dart';
 import './disapeared.dart';
-import './petAsList.dart';
+import 'pet_as_list.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -16,6 +17,9 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   int _selectedIndex = 0;
+
+  final ACTIVED_COLOR = Color(0XFF32CD32);
+  final DESACTIVED_COLOR = Color(0XFF808080);
 
   @override
   void initState() {
@@ -55,31 +59,78 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    var _screens = <Widget>[/*Mapa(),*/ PetList(), Disapeared()];
+    var _screens = <Widget>[
+      PetList(),
+      Disapeared(),
+    ];
+
+    var iconsChildren = [      
+      Column(
+        children: <Widget>[          
+          IconButton(
+            color: _selectedIndex == 0 ? ACTIVED_COLOR : DESACTIVED_COLOR,
+            icon: Icon(Icons.menu),
+            onPressed: (){
+              print('Menu');
+              _onItemTapped(0);
+            },
+          ),
+          Text('P/ Adoção', style: TextStyle(color: _selectedIndex == 0 ? ACTIVED_COLOR : DESACTIVED_COLOR,))
+        ],
+      ),
+      Column(
+        children: <Widget>[          
+          IconButton(
+            color: _selectedIndex == 1 ? ACTIVED_COLOR : DESACTIVED_COLOR,
+            icon: Icon(Icons.assignment_late),
+            onPressed: (){
+              print('Des');
+              _onItemTapped(1);
+            },
+          ),
+          Text('Desaparecidos', style: TextStyle(color: _selectedIndex == 1 ? ACTIVED_COLOR : DESACTIVED_COLOR,))
+        ],
+      ),
+    ];    
 
     return WillPopScope(
       onWillPop: leaveApplication,
       child: Scaffold(
-        body: Center(child: _screens.elementAt(_selectedIndex)),
-        bottomNavigationBar: BottomNavigationBar(
-          items: const <BottomNavigationBarItem>[
-            /*BottomNavigationBarItem(
-              icon: Icon(Icons.map),
-              title: Text('Ver no Mapa'),
-            ),*/
-            BottomNavigationBarItem(
-              icon: Icon(Icons.menu),
-              title: Text('P/ Adoção'),
+        body: Stack(
+          children: <Widget>[
+            Center(
+              child: _screens.elementAt(_selectedIndex),
             ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.assignment_late),
-              title: Text('Desaparecidos'),
-            ),
+            Positioned(              
+              bottom: -4.5,              
+              left: 0.1,
+              right: 0.1,
+              child: CustomBottomNavigatorBar(
+                children: iconsChildren                
+              ),
+            )
           ],
-          currentIndex: _selectedIndex,
-          selectedItemColor: Theme.of(context).primaryColor,
-          onTap: _onItemTapped,
-        ),
+        ),        
+        // bottomNavigationBar: BottomNavigationBar(
+
+        //   items: const <BottomNavigationBarItem>[
+        //     /*BottomNavigationBarItem(
+        //     icon: Icon(Icons.map),
+        //     title: Text('Ver no Mapa'),
+        //   ),*/
+        //     BottomNavigationBarItem(
+        //       icon: Icon(Icons.menu),
+        //       title: Text('P/ Adoção'),
+        //     ),
+        //     BottomNavigationBarItem(
+        //       icon: Icon(Icons.assignment_late),
+        //       title: Text('Desaparecidos'),
+        //     ),
+        //   ],
+        //   currentIndex: _selectedIndex,
+        //   selectedItemColor: Theme.of(context).primaryColor,
+        //   onTap: _onItemTapped,
+        // ),
         floatingActionButton: SpeedDial(
           marginRight: 18,
           marginBottom: 20,
@@ -107,7 +158,8 @@ class _HomeState extends State<Home> {
               label: 'Adicionar Desaparecido',
               labelStyle: TextStyle(fontSize: 14.0),
               onTap: () {
-                Navigator.pushNamed(context, Routes.CHOOSE_LOCATION, arguments: {'kind': 'Disappeared'});
+                Navigator.pushNamed(context, Routes.CHOOSE_LOCATION,
+                    arguments: {'kind': 'Disappeared'});
               },
             ),
             SpeedDialChild(
@@ -116,7 +168,8 @@ class _HomeState extends State<Home> {
               backgroundColor: Color(0XFFFFF176),
               labelStyle: TextStyle(fontSize: 14.0),
               onTap: () {
-                Navigator.pushNamed(context, Routes.CHOOSE_LOCATION, arguments: {'kind': 'Donate'});
+                Navigator.pushNamed(context, Routes.CHOOSE_LOCATION,
+                    arguments: {'kind': 'Donate'});
               },
             ),
           ],
