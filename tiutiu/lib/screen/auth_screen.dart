@@ -1,7 +1,7 @@
 import 'package:tiutiu/Exceptions/auth_exceptions.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:tiutiu/Widgets/inputText.dart';
+import 'package:tiutiu/Widgets/input_text.dart';
 import 'package:tiutiu/Widgets/popup_message.dart';
 import 'package:tiutiu/providers/auth.dart';
 
