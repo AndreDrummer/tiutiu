@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tiutiu/Widgets/input_text.dart';
 import 'package:tiutiu/Widgets/popup_message.dart';
+import 'package:tiutiu/Widgets/button.dart';
 import 'package:tiutiu/providers/auth.dart';
 
 class AuthScreen extends StatefulWidget {
@@ -104,8 +105,9 @@ class _AuthScreenState extends State<AuthScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-                        InkWell(
-                          onTap: () async {
+                        ButtonWide(
+                          text: '${!isNewAccount ? 'LOGIN' : 'CADASTRE-SE'}',
+                          action: () async {
                             changeLogginStatus(true);
                             try {
                               if (isNewAccount) {
@@ -142,24 +144,7 @@ class _AuthScreenState extends State<AuthScreen> {
                               changeLogginStatus(false);
                             }
                           },
-                          child: Container(
-                            height: 50,
-                            width: 260,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(25),
-                                color: Colors.green),
-                            child: Center(
-                              child: Text(
-                                '${!isNewAccount ? 'LOGIN' : 'CADASTRE-SE'}',
-                                style: TextStyle(
-                                  fontSize: 20,
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w700,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
+                        )
                       ],
                     ),
                     isNewAccount
