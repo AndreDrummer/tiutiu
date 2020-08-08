@@ -125,9 +125,15 @@ class _MapaState extends State<Mapa> {
               ),
             )
           : Container(
+            decoration: BoxDecoration(
+              border: Border.all(
+                style: BorderStyle.solid,
+                color: Theme.of(context).accentColor
+              )
+            ),
               child: Stack(
                 children: <Widget>[
-                  GoogleMap(
+                  GoogleMap(                  
                     markers: _markers,
                     mapType: _currentMapType,
                     initialCameraPosition: CameraPosition(
@@ -148,17 +154,19 @@ class _MapaState extends State<Mapa> {
                           locationProvider.setLocation(_center);
                         },
                       );
-                    },
+                    },                    
                     zoomGesturesEnabled: true,
                     zoomControlsEnabled: false,
                     onCameraMove: _onCameraMove,
                     myLocationEnabled: true,
                     compassEnabled: false,
-                    myLocationButtonEnabled: false,
+                    myLocationButtonEnabled: true,
                   ),
                   viewLocalPopUp
                       ? Positioned(
                           bottom: 10,
+                          right: 2,
+                          left: 2,
                           child: Container(
                             width: MediaQuery.of(context).size.width - 10,
                             child: FittedBox(
@@ -181,7 +189,7 @@ class _MapaState extends State<Mapa> {
                                             border: Border.all(
                                                 color: Colors.black,
                                                 style: BorderStyle.solid,
-                                                width: 1)),
+                                                width: 1),),
                                         child: Padding(
                                           padding: const EdgeInsets.all(8.0),
                                           child: Image.asset('assets/pata.jpg'),

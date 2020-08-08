@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import 'package:tiutiu/Widgets/custom_dropdown_button.dart';
 import 'package:tiutiu/Widgets/hint_error.dart';
 import 'package:tiutiu/Widgets/popup_message.dart';
+import 'package:tiutiu/Widgets/button.dart';
 import 'package:tiutiu/backend/Model/pet_model.dart';
 import 'package:tiutiu/providers/auth.dart';
 import 'package:tiutiu/providers/location.dart';
@@ -513,8 +514,9 @@ class _NovoPetState extends State<NovoPet> {
                                 ? HintError()
                                 : SizedBox(),
                             SizedBox(height: 12),
-                            InkWell(
-                              onTap: () async {
+                           ButtonWide(
+                             isToExpand: true,
+                             action: () async {
                                 if (validateForm()) {
                                   setReadOnly();
                                   await save();
@@ -533,28 +535,8 @@ class _NovoPetState extends State<NovoPet> {
                                   });
                                 }
                               },
-                              child: Container(
-                                width: double.infinity,
-                                height: 60,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(12.0),
-                                  color: Theme.of(context).primaryColor,
-                                  border: Border.all(
-                                    style: BorderStyle.solid,
-                                    color: Theme.of(context).accentColor,
-                                  ),
-                                ),
-                                child: Center(
-                                  child: Text(
-                                    'POSTAR',
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .button
-                                        .copyWith(fontSize: 22),
-                                  ),
-                                ),
-                              ),
-                            ),
+                              text: 'POSTAR'
+                           ),
                             FlatButton(
                               child: Text(
                                 'CANCELAR',

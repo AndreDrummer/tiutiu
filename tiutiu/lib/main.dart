@@ -28,10 +28,10 @@ void main() {
     child: MaterialApp(
       theme: ThemeData(
         primaryColor: Color(0xFF46D766),
-        accentColor: Color(0xFFd4f224),
+        accentColor: Color(0xFFFF4500),
         textTheme: ThemeData.light().textTheme.copyWith(              
-              headline1: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w700, fontFamily: 'Rajdhani'),
-              button: TextStyle(color: Color(0XFFFFFFFF), fontSize: 14, fontWeight: FontWeight.w700, fontFamily: 'Rajdhani'),
+              headline1: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w700),
+              button: TextStyle(color: Color(0XFFFFFFFF), fontSize: 14, fontWeight: FontWeight.w700),
             ),
       ),
       debugShowCheckedModeBanner: false,
