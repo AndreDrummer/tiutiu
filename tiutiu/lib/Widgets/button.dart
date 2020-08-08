@@ -5,7 +5,7 @@ class ButtonWide extends StatelessWidget {
   ButtonWide({this.text, this.action, this.isToExpand = false});
   final String text;
   final Function action;
-  bool isToExpand;
+  final bool isToExpand;
 
   @override
   Widget build(BuildContext context) {    
