@@ -70,8 +70,7 @@ class _HomeState extends State<Home> {
           IconButton(
             color: _selectedIndex == 0 ? ACTIVED_COLOR : DESACTIVED_COLOR,
             icon: Icon(Icons.menu),
-            onPressed: (){
-              print('Menu');
+            onPressed: (){              
               _onItemTapped(0);
             },
           ),
@@ -83,8 +82,7 @@ class _HomeState extends State<Home> {
           IconButton(
             color: _selectedIndex == 1 ? ACTIVED_COLOR : DESACTIVED_COLOR,
             icon: Icon(Icons.assignment_late),
-            onPressed: (){
-              print('Des');
+            onPressed: (){              
               _onItemTapped(1);
             },
           ),
@@ -96,41 +94,25 @@ class _HomeState extends State<Home> {
     return WillPopScope(
       onWillPop: leaveApplication,
       child: Scaffold(
+        backgroundColor: Colors.greenAccent,
         body: Stack(
           children: <Widget>[
-            Center(
-              child: _screens.elementAt(_selectedIndex),
+            Padding(              
+              padding: const EdgeInsets.only(bottom:  100.0),
+              child: Center(
+                child: _screens.elementAt(_selectedIndex),
+              ),
             ),
             Positioned(              
               bottom: -4.5,              
-              left: 0.1,
+              left: 0.2,
               right: 0.1,
               child: CustomBottomNavigatorBar(
                 children: iconsChildren                
               ),
             )
           ],
-        ),        
-        // bottomNavigationBar: BottomNavigationBar(
-
-        //   items: const <BottomNavigationBarItem>[
-        //     /*BottomNavigationBarItem(
-        //     icon: Icon(Icons.map),
-        //     title: Text('Ver no Mapa'),
-        //   ),*/
-        //     BottomNavigationBarItem(
-        //       icon: Icon(Icons.menu),
-        //       title: Text('P/ Adoção'),
-        //     ),
-        //     BottomNavigationBarItem(
-        //       icon: Icon(Icons.assignment_late),
-        //       title: Text('Desaparecidos'),
-        //     ),
-        //   ],
-        //   currentIndex: _selectedIndex,
-        //   selectedItemColor: Theme.of(context).primaryColor,
-        //   onTap: _onItemTapped,
-        // ),
+        ),                
         floatingActionButton: SpeedDial(
           marginRight: 18,
           marginBottom: 20,
@@ -156,6 +138,7 @@ class _HomeState extends State<Home> {
             SpeedDialChild(
               child: FloatingButtonOption(image: 'assets/dogCat2.png'),
               label: 'Adicionar Desaparecido',
+              backgroundColor: Theme.of(context).accentColor,
               labelStyle: TextStyle(fontSize: 14.0),
               onTap: () {
                 Navigator.pushNamed(context, Routes.CHOOSE_LOCATION,
@@ -165,7 +148,7 @@ class _HomeState extends State<Home> {
             SpeedDialChild(
               child: FloatingButtonOption(image: 'assets/pata2.jpg'),
               label: 'Doar PET',
-              backgroundColor: Color(0XFFFFF176),
+              backgroundColor: Theme.of(context).primaryColor,
               labelStyle: TextStyle(fontSize: 14.0),
               onTap: () {
                 Navigator.pushNamed(context, Routes.CHOOSE_LOCATION,

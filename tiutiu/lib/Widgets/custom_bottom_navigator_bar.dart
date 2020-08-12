@@ -34,10 +34,13 @@ class CustomBottomNavigatorBar extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
+                  Icon(Icons.pin_drop),
+                  SizedBox(width: 10),
                   Text(
                     'Perto de você',
-                    style: Theme.of(context).textTheme.headline3.copyWith(
+                    style: Theme.of(context).textTheme.headline1.copyWith(
                           fontWeight: FontWeight.w700,
+                          color: Colors.black
                         ),
                   ),
                 ],
