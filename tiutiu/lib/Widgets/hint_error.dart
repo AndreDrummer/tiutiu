@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 
 class HintError extends StatelessWidget {
+  
+  HintError({this.message = '* Campo obrigatório.'});
+
+  final message;
+
   @override
   Widget build(BuildContext context) {
     return Align(
@@ -8,7 +13,7 @@ class HintError extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.only(top: 2.0),
         child:
-            Text('* Campo obrigatório.', style: TextStyle(color: Colors.red)),
+            Text(message, style: TextStyle(color: Colors.red)),
       ),
     );
   }
