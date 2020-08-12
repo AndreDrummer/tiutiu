@@ -94,10 +94,14 @@ class _HomeState extends State<Home> {
     return WillPopScope(
       onWillPop: leaveApplication,
       child: Scaffold(
+        backgroundColor: Colors.greenAccent,
         body: Stack(
           children: <Widget>[
-            Center(
-              child: _screens.elementAt(_selectedIndex),
+            Padding(              
+              padding: const EdgeInsets.only(bottom:  100.0),
+              child: Center(
+                child: _screens.elementAt(_selectedIndex),
+              ),
             ),
             Positioned(              
               bottom: -4.5,              
