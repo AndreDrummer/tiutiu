@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tiutiu/Widgets/mapa.dart';
+import 'package:tiutiu/Widgets/button.dart';
 import 'package:tiutiu/providers/location.dart';
 import 'package:tiutiu/utils/routes.dart';
 
@@ -21,7 +22,7 @@ class _ChooseLocationState extends State<ChooseLocation> {
     params = ModalRoute.of(context).settings.arguments;
     var kind = params['kind'];
 
-    return Scaffold(
+    return Scaffold(      
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
@@ -40,11 +41,14 @@ class _ChooseLocationState extends State<ChooseLocation> {
             Center(
               child: Padding(
                 padding: const EdgeInsets.only(left: 20.0),
-                child: Text('Escolha a localização do PET',
-                    style: Theme.of(context).textTheme.headline3.copyWith(
-                          fontSize: 25,
-                          fontWeight: FontWeight.w700,
-                        )),
+                child: Text(
+                  'Escolha a localização do PET',
+                  style: Theme.of(context).textTheme.headline1.copyWith(
+                        fontSize: 25,
+                        color: Colors.black,
+                        fontWeight: FontWeight.w700,
+                      ),
+                ),
               ),
             ),
             SizedBox(height: 10),
@@ -54,8 +58,10 @@ class _ChooseLocationState extends State<ChooseLocation> {
                 child: FittedBox(
                   child: Text(
                       'Arraste e/ou dê zoom no mapa para escolher a localização do seu PET.',
-                      style: Theme.of(context).textTheme.headline3.copyWith(
+                      style: Theme.of(context).textTheme.headline1.copyWith(
                             fontWeight: FontWeight.w500,
+                            color: Colors.black,
+                            fontSize: 16,
                           )),
                 ),
               ),
@@ -72,24 +78,19 @@ class _ChooseLocationState extends State<ChooseLocation> {
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Consumer<Location>(
-                    builder: (_, location, child) => RaisedButton(
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(50)),
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text(
-                              'CONTINUAR',
-                              style: Theme.of(context).textTheme.headline4,
-                            ),
-                          ),
-                          onPressed: location.location == null
-                              ? null
-                              : () {
-                                  Navigator.pushNamed(context, Routes.NOVOPET,
-                                      arguments: {'kind': kind});
-                                },
-                          color: Theme.of(context).accentColor,
-                        )),
+                  builder: (_, location, child) => ButtonWide(
+                    text: 'CONTINUAR',
+                    action: location.location == null
+                        ? null
+                        : () {
+                            Navigator.pushNamed(
+                              context,
+                              Routes.NOVOPET,
+                              arguments: {'kind': kind},
+                            );
+                          },
+                  ),
+                ),
               ),
             )
           ],
