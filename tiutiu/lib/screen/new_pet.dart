@@ -7,9 +7,11 @@ import 'package:provider/provider.dart';
 import 'package:tiutiu/Widgets/custom_dropdown_button.dart';
 import 'package:tiutiu/Widgets/hint_error.dart';
 import 'package:tiutiu/Widgets/popup_message.dart';
+import 'package:tiutiu/Widgets/button.dart';
 import 'package:tiutiu/backend/Model/pet_model.dart';
 import 'package:tiutiu/providers/auth.dart';
 import 'package:tiutiu/providers/location.dart';
+import 'package:tiutiu/utils/routes.dart';
 import '../Widgets/circle_add_image.dart';
 import '../Widgets/input_text.dart';
 import 'package:image_picker/image_picker.dart';
@@ -250,11 +252,15 @@ class _NovoPetState extends State<NovoPet> {
   }
 
   bool validateForm() {
-    return _nome.text.isNotEmpty &&
-        _ano.text.isNotEmpty &&
-        _meses.text.isNotEmpty &&
-        _descricao.text.isNotEmpty &&
-        petPhotos.isNotEmpty;
+    return kind == 'donate'
+        ? _nome.text.isNotEmpty &&
+            _ano.text.isNotEmpty &&
+            _meses.text.isNotEmpty &&
+            _descricao.text.isNotEmpty &&
+            petPhotos.isNotEmpty
+        : _nome.text.isNotEmpty &&
+            _descricao.text.isNotEmpty &&
+            petPhotos.isNotEmpty;
   }
 
   void setReadOnly() {
@@ -275,51 +281,66 @@ class _NovoPetState extends State<NovoPet> {
     kind = params['kind'];
     print(kind);
 
-    final avalaibleHeight = MediaQuery.of(context).size.height -
-        MediaQuery.of(context).padding.top -
-        14;
+    // final avalaibleHeight = MediaQuery.of(context).size.height -
+    //     MediaQuery.of(context).padding.top -
+    //     14;
 
-    final width = MediaQuery.of(context).size.width;
+    // final width = MediaQuery.of(context).size.width;
 
-    return Scaffold(
-      body: Stack(
-        children: <Widget>[
-          DecoratedBox(
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                fit: BoxFit.fill,
-                image: AssetImage(
-                  'assets/gato2.jpg',
+    Future<bool> _onWillPopScope() {
+      Navigator.pushReplacementNamed(context, Routes.HOME);
+      petPhotos.clear();
+      petPhotosToUpload.clear();
+      return Future.value(true);
+    }
+
+    return WillPopScope(
+      onWillPop: _onWillPopScope,
+      child: Scaffold(
+        body: Stack(
+          children: <Widget>[
+            DecoratedBox(
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  fit: BoxFit.fill,
+                  image: AssetImage(
+                    'assets/gato2.jpg',
+                  ),
                 ),
               ),
-            ),
-            child: Center(
-              child: Container(
-                height: avalaibleHeight,
+              child: Center(
                 child: Card(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(16.0),
-                  ),
-                  color: Colors.transparent,
-                  // color: Color(0XFFD6D6D6), //Theme.of(context).accentColor,
+                  // shape: RoundedRectangleBorder(
+                  //   borderRadius: BorderRadius.circular(16.0),
+                  // ),
+                  // color: Colors.transparent,
+                  color: Color(0XFFD6D6D6), //Theme.of(context).accentColor,
                   child: SingleChildScrollView(
                     child: Column(
                       children: <Widget>[
                         Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 12.0),
+                          padding: const EdgeInsets.only(top: 26.0, bottom: 10),
                           child: Align(
-                            alignment: Alignment(-0.7, 1),
+                            alignment: Alignment(-0.8, 1),
                             child: FittedBox(
                               child: Row(
                                 children: <Widget>[
+                                  InkWell(
+                                      child: Icon(Icons.arrow_back, size: 25),
+                                      onTap: _onWillPopScope),
+                                  SizedBox(width: 10),
                                   Text(
                                     kind == 'Donate'
                                         ? 'Coloque um PET para adoção'
                                         : 'Poste um PET Desaparecido',
-                                    style: TextStyle(
-                                      fontSize: 22,
-                                      color: Colors.white,
-                                    ),
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .headline1
+                                        .copyWith(
+                                          fontSize: 22,
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.w700,
+                                        ),
                                   ),
                                 ],
                               ),
@@ -332,7 +353,7 @@ class _NovoPetState extends State<NovoPet> {
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: <Widget>[
                               Align(
-                                alignment: Alignment(-0.9, 1),
+                                alignment: Alignment(-0.8, 1),
                                 child: FittedBox(
                                   child: Row(
                                     children: <Widget>[
@@ -340,11 +361,14 @@ class _NovoPetState extends State<NovoPet> {
                                         kind == 'Donate'
                                             ? '${formIsValid && petPhotos.isEmpty ? 'Insira pelo menos uma foto' : 'Insira algumas fotos do seu bichinho.'}'
                                             : '${formIsValid && petPhotos.isEmpty ? 'Insira pelo menos uma foto' : 'Insira fotos dele.'}',
-                                        style: TextStyle(
-                                            color:
-                                                formIsValid && petPhotos.isEmpty
-                                                    ? Colors.red
-                                                    : Colors.black),
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .headline1
+                                            .copyWith(
+                                              color: Colors.black,
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 16,
+                                            ),
                                       ),
                                     ],
                                   ),
@@ -353,45 +377,47 @@ class _NovoPetState extends State<NovoPet> {
                               SizedBox(height: 10),
                               Container(
                                 height: 80.0,
-                                child: Padding(
-                                  padding: EdgeInsets.only(left: width * 0.075),
-                                  child: ListView.builder(
-                                    scrollDirection: Axis.horizontal,
-                                    itemCount: numberOfImages < 8
-                                        ? numberOfImages + 1
-                                        : numberOfImages,
-                                    itemBuilder: (ctx, index) {
-                                      if (index == numberOfImages) {
-                                        print('Index: $index');
-                                        print('Number: $numberOfImages');
-                                        return InkWell(
-                                          onTap: petPhotos['$numberOfImages'] ==
-                                                  null
-                                              ? null
-                                              : () {
-                                                  incNumberOfImages();
-                                                },
-                                          child: CircleAddImage(
-                                            addButton: true,
-                                          ),
-                                        );
-                                      }
+                                child: ListView.builder(
+                                  scrollDirection: Axis.horizontal,
+                                  itemCount: numberOfImages < 8
+                                      ? numberOfImages + 1
+                                      : numberOfImages,
+                                  itemBuilder: (ctx, index) {
+                                    if (index == numberOfImages) {
+                                      print('Index: $index');
+                                      print('Number: $numberOfImages');
                                       return InkWell(
-                                        onTap: () {
-                                          print('Foto index: $index');
-                                          openModalSelectMedia(context, index);
-                                        },
+                                        onTap: petPhotos[
+                                                    '${numberOfImages - 1}'] ==
+                                                null
+                                            ? null
+                                            : () {
+                                                incNumberOfImages();
+                                              },
                                         child: CircleAddImage(
-                                          // ignore: prefer_if_null_operators
-                                          imageUrl: petPhotos['$index'] != null
-                                              ? petPhotos['$index']
-                                              : null,
+                                          addButton: true,
                                         ),
                                       );
-                                    },
-                                  ),
+                                    }
+                                    return InkWell(
+                                      onTap: () {
+                                        print('Foto index: $index');
+                                        openModalSelectMedia(context, index);
+                                      },
+                                      child: CircleAddImage(
+                                        // ignore: prefer_if_null_operators
+                                        imageUrl: petPhotos['$index'] != null
+                                            ? petPhotos['$index']
+                                            : null,
+                                      ),
+                                    );
+                                  },
                                 ),
                               ),
+                              formIsValid && petPhotos.isEmpty
+                                  ? HintError(
+                                      message: '* Insira pelo menos uma foto')
+                                  : SizedBox(),
                               SizedBox(height: 12),
                               InputText(
                                   placeholder: 'Nome',
@@ -407,8 +433,10 @@ class _NovoPetState extends State<NovoPet> {
                                 alignment: Alignment(-0.95, 1),
                                 child: Padding(
                                   padding: const EdgeInsets.only(bottom: 8.0),
-                                  child: Text('Idade',
-                                      style: TextStyle(color: Colors.white)),
+                                  child: Text(
+                                    'Idade',
+                                    style: TextStyle(color: Colors.black),
+                                  ),
                                 ),
                               ),
                               Row(
@@ -417,61 +445,57 @@ class _NovoPetState extends State<NovoPet> {
                                 children: <Widget>[
                                   Expanded(
                                     child: InputText(
-                                        placeholder: 'Anos',
-                                        keyBoardTypeNumber: true,
-                                        controller: _ano,
-                                        readOnly: readOnly),
+                                      placeholder: 'Anos',
+                                      keyBoardTypeNumber: true,
+                                      controller: _ano,
+                                      readOnly: readOnly,
+                                    ),
                                   ),
                                   SizedBox(width: 4),
                                   Expanded(
                                     child: InputText(
-                                        placeholder: 'Meses',
-                                        keyBoardTypeNumber: true,
-                                        controller: _meses,
-                                        readOnly: readOnly),
+                                      placeholder: 'Meses',
+                                      keyBoardTypeNumber: true,
+                                      controller: _meses,
+                                      readOnly: readOnly,
+                                    ),
                                   ),
                                 ],
                               ),
                               formIsValid &&
+                                      kind == 'Donate' &&
                                       (_ano.text.isEmpty || _meses.text.isEmpty)
                                   ? HintError()
                                   : SizedBox(),
                               SizedBox(
                                 height: 12,
                               ),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                children: <Widget>[
-                                  Expanded(
-                                    child: CustomDropdownButton(
-                                      label: 'Tamanho',
-                                      initialValue: dropvalueSize,
-                                      itemList: DummyData.size,
-                                      onChange: (String value) {
-                                        setState(() {
-                                          dropvalueSize = value;
-                                          print(dropvalueSize);
-                                        });
-                                      },
-                                      isExpanded: false,
-                                    ),
-                                  ),
-                                  Expanded(
-                                    child: CustomDropdownButton(
-                                      label: 'Saúde',
-                                      initialValue: dropvalueHealth,
-                                      itemList: DummyData.health,
-                                      onChange: (String value) {
-                                        setState(() {
-                                          dropvalueHealth = value;
-                                          print(dropvalueHealth);
-                                        });
-                                      },
-                                      isExpanded: false,
-                                    ),
-                                  ),
-                                ],
+                              CustomDropdownButton(
+                                label: 'Tamanho',
+                                initialValue: dropvalueSize,
+                                itemList: DummyData.size,
+                                onChange: (String value) {
+                                  setState(() {
+                                    dropvalueSize = value;
+                                    print(dropvalueSize);
+                                  });
+                                },
+                                isExpanded: true,
+                              ),
+                              SizedBox(
+                                height: 12,
+                              ),
+                              CustomDropdownButton(
+                                label: 'Saúde',
+                                initialValue: dropvalueHealth,
+                                itemList: DummyData.health,
+                                onChange: (String value) {
+                                  setState(() {
+                                    dropvalueHealth = value;
+                                    print(dropvalueHealth);
+                                  });
+                                },
+                                isExpanded: true,
                               ),
                               SizedBox(height: 12),
                               CustomDropdownButton(
@@ -498,53 +522,7 @@ class _NovoPetState extends State<NovoPet> {
                               formIsValid && _descricao.text.isEmpty
                                   ? HintError()
                                   : SizedBox(),
-                              // SizedBox(height: 120),
-                              ButtonBar(
-                                children: <Widget>[
-                                  FlatButton(
-                                    child: Text(
-                                      'CANCELAR',
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                                    onPressed: () {
-                                      Navigator.pop(context);
-                                      petPhotos.clear();
-                                      petPhotosToUpload.clear();
-                                    },
-                                  ),
-                                  RaisedButton(
-                                    child: Text(
-                                      'POSTAR',
-                                      style: Theme.of(context).textTheme.button,
-                                    ),
-                                    color: Theme.of(context).primaryColor,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(12),
-                                    ),
-                                    onPressed: () async {
-                                      if (validateForm()) {
-                                        setReadOnly();
-                                        await save();
-                                        await showDialog(
-                                            context: context,
-                                            builder: (context) => PopUpMessage(
-                                                  title: 'Pronto',
-                                                  message:
-                                                      'Ação realizada com sucesso!',
-                                                )).then(
-                                          (value) => Navigator.pop(context),
-                                        );
-                                      } else {
-                                        setState(() {
-                                          formIsValid = true;
-                                        });
-                                      }
-                                    },
-                                  )
-                                ],
-                              ),
+                              SizedBox(height: 60),
                             ],
                           ),
                         ),
@@ -554,26 +532,51 @@ class _NovoPetState extends State<NovoPet> {
                 ),
               ),
             ),
-          ),
-          isLogging
-              ? Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Text('Aguarde',
-                          style: TextStyle(
-                              color: Colors.grey,
-                              fontSize: 25,
-                              fontWeight: FontWeight.w600)),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      CircularProgressIndicator(),
-                    ],
-                  ),
-                )
-              : SizedBox()
-        ],
+            isLogging
+                ? Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Text('Aguarde',
+                            style: TextStyle(
+                                color: Colors.grey,
+                                fontSize: 25,
+                                fontWeight: FontWeight.w600)),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        CircularProgressIndicator(),
+                      ],
+                    ),
+                  )
+                : SizedBox(),
+            Positioned(
+              bottom: 0.0,
+              child: ButtonWide(
+                  rounded: false,
+                  isToExpand: true,
+                  action: () async {
+                    if (validateForm()) {
+                      setReadOnly();
+                      await save();
+                      await showDialog(
+                          context: context,
+                          builder: (context) => PopUpMessage(
+                                title: 'Pronto',
+                                message: 'Ação realizada com sucesso!',
+                              )).then(
+                        (value) => Navigator.pop(context),
+                      );
+                    } else {
+                      setState(() {
+                        formIsValid = true;
+                      });
+                    }
+                  },
+                  text: 'POSTAR'),
+            ),
+          ],
+        ),
       ),
     );
   }
