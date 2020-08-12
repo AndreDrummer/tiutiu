@@ -73,6 +73,7 @@ class _InputTextState extends State<InputText> {
                 },
                 readOnly: widget.readOnly,
                 controller: widget.controller,
+                textInputAction: TextInputAction.done,
                 obscureText: widget.isPassword && !widget.seePassword,
                 maxLines: widget.maxlines,
                 keyboardType: widget.multiline

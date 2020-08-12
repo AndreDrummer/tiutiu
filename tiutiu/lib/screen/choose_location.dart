@@ -22,7 +22,7 @@ class _ChooseLocationState extends State<ChooseLocation> {
     params = ModalRoute.of(context).settings.arguments;
     var kind = params['kind'];
 
-    return Scaffold(
+    return Scaffold(      
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
