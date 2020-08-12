@@ -34,11 +34,9 @@ class _AuthScreenState extends State<AuthScreen> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) {    
     var auth = Provider.of<Auth>(context);
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
+    return Scaffold(
         backgroundColor: Color(0XFFA9C27B),
         body: Stack(
           children: <Widget>[
@@ -112,7 +110,7 @@ class _AuthScreenState extends State<AuthScreen> {
                             try {
                               if (isNewAccount) {
                                 if (validatePassword()) {
-                                  await auth.signup(email.text, password.text);
+                                  await auth.signup(email.text.trim(), password.text.trim());
                                   changeLogginStatus(false);
                                   setState(() {
                                     isNewAccount = !isNewAccount;
@@ -252,7 +250,6 @@ class _AuthScreenState extends State<AuthScreen> {
                 : SizedBox()
           ],
         ),
-      ),
-    );
+      );
   }
 }

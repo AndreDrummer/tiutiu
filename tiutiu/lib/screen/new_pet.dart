@@ -319,11 +319,12 @@ class _NovoPetState extends State<NovoPet> {
                                 InkWell(
                                     child: Icon(Icons.arrow_back, size: 25),
                                     onTap: () {
-                                      Navigator.pop(context);
-                                      petPhotos.clear();
-                                      petPhotosToUpload.clear();
-                                    }),
-                                SizedBox(width: 15),
+                                Navigator.pushReplacementNamed(
+                                    context, Routes.HOME);
+                                petPhotos.clear();
+                                petPhotosToUpload.clear();
+                              },),
+                                SizedBox(width: 10),
                                 Text(
                                     kind == 'Donate'
                                         ? 'Coloque um PET para adoção'
@@ -332,10 +333,10 @@ class _NovoPetState extends State<NovoPet> {
                                         .textTheme
                                         .headline1
                                         .copyWith(
-                                          fontSize: 25,
+                                          fontSize: 22,
                                           color: Colors.black,
                                           fontWeight: FontWeight.w700,
-                                        )),
+                                        ),),
                               ],
                             ),
                           ),
@@ -347,7 +348,7 @@ class _NovoPetState extends State<NovoPet> {
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: <Widget>[
                             Align(
-                              alignment: Alignment(-0.9, 1),
+                              alignment: Alignment(-0.8, 1),
                               child: FittedBox(
                                 child: Row(
                                   children: <Widget>[
@@ -513,44 +514,7 @@ class _NovoPetState extends State<NovoPet> {
                             formIsValid && _descricao.text.isEmpty
                                 ? HintError()
                                 : SizedBox(),
-                            SizedBox(height: 12),
-                           ButtonWide(
-                             isToExpand: true,
-                             action: () async {
-                                if (validateForm()) {
-                                  setReadOnly();
-                                  await save();
-                                  await showDialog(
-                                      context: context,
-                                      builder: (context) => PopUpMessage(
-                                            title: 'Pronto',
-                                            message:
-                                                'Ação realizada com sucesso!',
-                                          )).then(
-                                    (value) => Navigator.pop(context),
-                                  );
-                                } else {
-                                  setState(() {
-                                    formIsValid = true;
-                                  });
-                                }
-                              },
-                              text: 'POSTAR'
-                           ),
-                            FlatButton(
-                              child: Text(
-                                'CANCELAR',
-                                style: TextStyle(
-                                    color: Theme.of(context).primaryColor,
-                                    fontSize: 20),
-                              ),
-                              onPressed: () {
-                                Navigator.pushReplacementNamed(
-                                    context, Routes.HOME);
-                                petPhotos.clear();
-                                petPhotosToUpload.clear();
-                              },
-                            ),
+                            SizedBox(height: 60),
                           ],
                         ),
                       ),
@@ -577,7 +541,34 @@ class _NovoPetState extends State<NovoPet> {
                     ],
                   ),
                 )
-              : SizedBox()
+              : SizedBox(),
+          Positioned(
+            bottom: 0.0,
+            child: ButtonWide(
+                rounded: false,
+                isToExpand: true,
+                action: () async {
+                  if (validateForm()) {
+                    setReadOnly();
+                    await save();
+                    await showDialog(
+                        context: context,
+                        builder: (context) => PopUpMessage(
+                          title: 'Pronto',
+                          message:
+                          'Ação realizada com sucesso!',
+                        )).then(
+                          (value) => Navigator.pop(context),
+                    );
+                  } else {
+                    setState(() {
+                      formIsValid = true;
+                    });
+                  }
+                },
+                text: 'POSTAR'
+            ),
+          ),
         ],
       ),
     );
