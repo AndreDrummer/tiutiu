@@ -10,7 +10,19 @@ class _DonateState extends State<Donate> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Você doou'),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back, color: Colors.white),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+        title: Text(
+          'Você doou',
+          style: Theme.of(context).textTheme.headline1.copyWith(
+                fontSize: 22,
+                fontWeight: FontWeight.w800,
+              ),
+        ),
       ),
       body: ListView.builder(
         itemCount: 3,
@@ -20,8 +32,7 @@ class _DonateState extends State<Donate> {
             child: Card(
               elevation: 3,
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12)
-              ),
+                  borderRadius: BorderRadius.circular(12)),
               child: Padding(
                 padding: const EdgeInsets.symmetric(vertical: 6.0),
                 child: Row(
@@ -49,7 +60,9 @@ class _DonateState extends State<Donate> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
-                              Text('Doado para bernadovitor', style: TextStyle(fontWeight: FontWeight.w500)),
+                              Text('Doado para bernadovitor',
+                                  style:
+                                      TextStyle(fontWeight: FontWeight.w500)),
                             ],
                           ),
                         ),
