@@ -38,6 +38,7 @@ class CustomBottomNavigatorBar extends StatelessWidget {
                     'Perto de você',
                     style: Theme.of(context).textTheme.headline1.copyWith(
                           fontWeight: FontWeight.w700,
+                          color: Colors.black
                         ),
                   ),
                 ],

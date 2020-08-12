@@ -8,7 +8,7 @@ class PetController {
     Pet pet;
     await firestore.collection('Users').document(pet.owner).collection('Pets').document(id).snapshots().first.then(
       (value) {
-        pet = Pet.fromSnapshot(value);        
+        pet = Pet.fromSnapshot(value);
       },
     );
 
