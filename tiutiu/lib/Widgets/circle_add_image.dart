@@ -34,7 +34,7 @@ class _CircleAddImageState extends State<CircleAddImage> {
     return Padding(
       padding: const EdgeInsets.only(right: 6.0),
       child: CircleAvatar(
-        backgroundColor: Colors.white,
+        backgroundColor: widget.addButton ? Colors.black26 :Colors.white,
         radius: 40,
         child: Container(
           decoration: BoxDecoration(
@@ -42,7 +42,7 @@ class _CircleAddImageState extends State<CircleAddImage> {
           ),        
           child: Center(
             child: ClipOval(
-              child: widget.addButton ? Icon(Icons.add, size: 50, color: Colors.grey) : widget.imageUrl != null
+              child: widget.addButton ? Icon(Icons.add, size: 50, color: Colors.white) : widget.imageUrl != null
                   ? isLocalImage
                       ? Image.file(widget.imageUrl, fit: BoxFit.fill, width: 100, height: 100,)
                       : Image.network(widget.imageUrl, fit: BoxFit.fill, width: 100, height: 100,)
