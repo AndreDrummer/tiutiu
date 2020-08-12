@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:tiutiu/Widgets/filter_search.dart';
 import 'package:tiutiu/Widgets/input_search.dart';
-import 'package:tiutiu/Widgets/drawer.dart';
-import 'package:tiutiu/providers/show_bottom.dart';
+import 'package:tiutiu/Widgets/Drawer.dart';
 
 class PetList extends StatefulWidget {
   @override
@@ -12,7 +10,6 @@ class PetList extends StatefulWidget {
 
 class _PetListState extends State<PetList> {
   bool filtering = false;
-  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   void showFilter() {
     setState(() {
@@ -27,21 +24,11 @@ class _PetListState extends State<PetList> {
   @override
   Widget build(BuildContext context) {
     final marginTop = MediaQuery.of(context).size.height / 1.2;
-    final showBottom = Provider.of<ShowBottomNavigator>(context);
-
     return Scaffold(
-      key: _scaffoldKey,
       appBar: AppBar(
-        title: Text('PETs para adoção', style: Theme.of(context).textTheme.headline1.copyWith(fontSize: 24, letterSpacing: 2)),
+        title: Text('PETs na redondeza'),
         centerTitle: true,
-        leading: IconButton(                    
-          icon: Icon(Icons.menu, color: Colors.white),
-          onPressed: () {
-            showBottom.changeShowBottom(false);
-            _scaffoldKey.currentState.openDrawer();        
-          },
-        ),
-      ),      
+      ),
       backgroundColor: Colors.greenAccent,
       drawer: DrawerApp(),
       body: Stack(
@@ -112,23 +99,19 @@ class _PetListState extends State<PetList> {
                                       ),
                                     ],
                                   ),
-                                ),
+                                ),                                                                
                                 SizedBox(
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.59,
+                                  width: MediaQuery.of(context).size.width * 0.59,
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.end,
                                     children: <Widget>[
                                       Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            vertical: 7.0),
-                                        child: Text('Está a 2.6 Km de você',
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.w600)),
+                                        padding: const EdgeInsets.symmetric(vertical: 7.0),
+                                        child: Text('Está a 2.6 Km de você', style: TextStyle(fontWeight: FontWeight.w600)),
                                       ),
                                     ],
                                   ),
-                                ),
+                                ),                                                                
                               ],
                             ),
                           ],
@@ -140,12 +123,12 @@ class _PetListState extends State<PetList> {
               ),
             ),
           ),
-          CustomInput(showFilter: showFilter),
+          CustomInput(showFilter: showFilter),          
           Positioned(
             right: 20,
             top: 80,
             child: Align(
-              alignment: Alignment(0.7, -0.7),
+              alignment: Alignment(0.7, -0.7),            
               child: Container(
                 height: 190,
                 width: 235,
