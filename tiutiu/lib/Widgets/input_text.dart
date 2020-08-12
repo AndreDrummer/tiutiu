@@ -73,6 +73,7 @@ class _InputTextState extends State<InputText> {
                 },
                 readOnly: widget.readOnly,
                 controller: widget.controller,
+                textInputAction: TextInputAction.done,
                 obscureText: widget.isPassword && !widget.seePassword,
                 maxLines: widget.maxlines,
                 keyboardType: widget.multiline
@@ -85,7 +86,7 @@ class _InputTextState extends State<InputText> {
                   labelStyle: TextStyle(
                     color: widget.isLogin
                         ? Colors.black38
-                        : Theme.of(context).textTheme.headline5.color,
+                        : Colors.black26,
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderSide: BorderSide(style: BorderStyle.none),
