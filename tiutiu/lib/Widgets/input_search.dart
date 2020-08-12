@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:tiutiu/Custom/icons.dart';
-
 class CustomInput extends StatelessWidget {
   
   CustomInput({this.showFilter});  
@@ -24,11 +23,11 @@ class CustomInput extends StatelessWidget {
       child: Row(
         children: <Widget>[
           Expanded(
-            child: TextFormField(
+            child: TextFormField(              
               decoration: InputDecoration(
                 labelText: 'Adote um PET',
                 labelStyle: TextStyle(
-                  color: Theme.of(context).textTheme.headline5.color,
+                  color: Colors.black26,
                 ),
                 hintText: 'Ex.: Chihuahua',
                 focusedBorder: UnderlineInputBorder(
