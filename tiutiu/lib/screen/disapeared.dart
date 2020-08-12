@@ -7,6 +7,7 @@ class Disapeared extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.greenAccent,
       key: _scaffoldKey,
       appBar: AppBar(
         title: Text(
@@ -25,7 +26,7 @@ class Disapeared extends StatelessWidget {
       ),
       drawer: DrawerApp(),
       body: Center(
-        child: Text('Vai ter uma lista de PET aqui'),
+        child: Text('Vai ter uma lista de PET aqui', style: Theme.of(context).textTheme.headline1,),
       ),
     );
   }
