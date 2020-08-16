@@ -13,7 +13,7 @@ class HintError extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.only(top: 2.0),
         child:
-            Text(message, style: TextStyle(color: Colors.red)),
+            Text(message, style: TextStyle(color: Colors.red, fontWeight: FontWeight.w700)),
       ),
     );
   }
