@@ -10,6 +10,7 @@ class InputText extends StatefulWidget {
     this.isPassword = false,
     this.seePassword = false,
     this.readOnly = false,
+    this.onChanged,
     this.keyBoardTypeNumber = false,
     this.placeholder,
     this.maxlines = 1,
@@ -19,6 +20,7 @@ class InputText extends StatefulWidget {
   InputText.login({
     this.size = 55,
     this.controller,
+    this.onChanged,
     this.placeholder,
     this.maxlines = 1,
     this.multiline = false,
@@ -39,7 +41,7 @@ class InputText extends StatefulWidget {
   final bool keyBoardTypeNumber;
   bool seePassword;
   final int maxlines;
-
+  final Function() onChanged;
 
 
   @override
@@ -76,6 +78,7 @@ class _InputTextState extends State<InputText> {
                 textInputAction: TextInputAction.done,
                 obscureText: widget.isPassword && !widget.seePassword,
                 maxLines: widget.maxlines,
+                onChanged: (String text) => widget.onChanged(),
                 keyboardType: widget.multiline
                     ? TextInputType.multiline
                     : widget.keyBoardTypeNumber
