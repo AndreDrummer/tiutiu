@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
-import 'package:tiutiu/Exceptions/auth_exceptions.dart';
+import 'package:tiutiu/Exceptions/titiu_exceptions.dart';
 import 'package:tiutiu/data/store_login.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -40,7 +40,7 @@ class Auth with ChangeNotifier {
     final responseBody = json.decode(response.body);
     print(responseBody);
     if (responseBody['error'] != null) {
-      throw AuthException(
+      throw TiuTiuAuthException(
         responseBody['error']['message']
       );    
     } else {
