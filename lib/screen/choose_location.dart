@@ -17,7 +17,7 @@ class _ChooseLocationState extends State<ChooseLocation> {
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
-    final statusBar = AppBar().preferredSize.height;
+    // final statusBar = AppBar().preferredSize.height;
 
     params = ModalRoute.of(context).settings.arguments;
     var kind = params['kind'];
