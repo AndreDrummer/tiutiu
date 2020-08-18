@@ -3,7 +3,7 @@ import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:provider/provider.dart';
 import 'package:tiutiu/Widgets/custom_bottom_navigator_bar.dart';
 import 'package:tiutiu/Widgets/popup_message.dart';
-import 'package:tiutiu/providers/auth.dart';
+import 'package:tiutiu/providers/auth2.dart';
 
 import '../Widgets/floating_button_option.dart';
 import '../utils/routes.dart';
@@ -36,7 +36,7 @@ class _HomeState extends State<Home> {
     var answer = false;
     return showDialog(
       context: context,
-      builder: (_) => Consumer<Auth>(
+      builder: (_) => Consumer<Authentication>(
         builder: (context, auth, child) {
           return PopUpMessage(
             title: 'Logout',
@@ -46,7 +46,7 @@ class _HomeState extends State<Home> {
                 answer = true;
               });
               Navigator.pop(context);
-              auth.logout();
+              auth.signOut();
             },
           );
         },

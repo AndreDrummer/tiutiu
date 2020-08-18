@@ -9,7 +9,7 @@ import 'package:tiutiu/Widgets/hint_error.dart';
 import 'package:tiutiu/Widgets/popup_message.dart';
 import 'package:tiutiu/Widgets/button.dart';
 import 'package:tiutiu/backend/Model/pet_model.dart';
-import 'package:tiutiu/providers/auth.dart';
+import 'package:tiutiu/providers/auth2.dart';
 import 'package:tiutiu/providers/location.dart';
 import 'package:tiutiu/utils/routes.dart';
 import '../Widgets/circle_add_image.dart';
@@ -65,7 +65,7 @@ class _NovoPetState extends State<NovoPet> {
     dropvalueHealth = DummyData.health[0];
 
     currentLocation = Provider.of<Location>(context, listen: false).location;
-    userId = Provider.of<Auth>(context, listen: false).userId;
+    userId = Provider.of<Authentication>(context, listen: false).firebaseUser.uid;
     print('Local $currentLocation');
   }
 
