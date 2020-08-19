@@ -20,6 +20,7 @@ class _AuthScreenState extends State<AuthScreen> {
   bool isLogging = false;
   bool emailError = false;
   bool passwordError = false;
+  bool isToResetPassword = false;
   bool repeatPasswordError = false;
   bool fieldsAreReadyOnly = false;
 
@@ -36,6 +37,12 @@ class _AuthScreenState extends State<AuthScreen> {
         fieldsAreReadyOnly = false;
       }
       isLogging = status;
+    });
+  }
+
+  void changeResetPasswordStatus(bool status) {
+    setState(() {
+      isToResetPassword = status;
     });
   }
 
@@ -57,6 +64,7 @@ class _AuthScreenState extends State<AuthScreen> {
         emailError = true;
         fieldsAreValids = false;
       });
+      return fieldsAreValids;
     } else {
       setState(() {
         emailError = false;
@@ -64,11 +72,12 @@ class _AuthScreenState extends State<AuthScreen> {
       });
     }
 
-    if (password.text.isEmpty) {
+    if (password.text.isEmpty && !isToResetPassword) {
       setState(() {
         passwordError = true;
         fieldsAreValids = false;
       });
+      return fieldsAreValids;
     } else {
       setState(() {
         passwordError = false;
@@ -82,6 +91,7 @@ class _AuthScreenState extends State<AuthScreen> {
           repeatPasswordError = true;
           fieldsAreValids = false;
         });
+        return fieldsAreValids;
       } else {
         setState(() {
           repeatPasswordError = false;
@@ -91,6 +101,14 @@ class _AuthScreenState extends State<AuthScreen> {
     }
 
     return fieldsAreValids;
+  }
+
+  void resetPage() {
+    email.clear();
+    setState(() {
+      isToResetPassword = false;
+      changeLogginStatus(false);
+    });
   }
 
   @override
@@ -142,7 +160,9 @@ class _AuthScreenState extends State<AuthScreen> {
                         )
                       : Container(),
                   InputText.login(
-                    placeholder: 'E-mail',
+                    placeholder: isToResetPassword
+                        ? 'Digite seu email cadastrado'
+                        : 'E-mail',
                     onChanged: validateFields,
                     controller: email,
                     readOnly: fieldsAreReadyOnly,
@@ -154,14 +174,18 @@ class _AuthScreenState extends State<AuthScreen> {
                               : 'E-mail inválido')
                       : Container(),
                   SizedBox(height: 12),
-                  InputText.login(
-                    placeholder: 'Senha',
-                    controller: password,
-                    readOnly: fieldsAreReadyOnly,
-                    onChanged: validateFields,
-                    isPassword: true,
-                  ),
-                  passwordError ? HintError() : Container(),
+                  isToResetPassword
+                      ? Container()
+                      : InputText.login(
+                          placeholder: 'Senha',
+                          controller: password,
+                          readOnly: fieldsAreReadyOnly,
+                          onChanged: validateFields,
+                          isPassword: true,
+                        ),
+                  passwordError && !isToResetPassword
+                      ? HintError()
+                      : Container(),
                   SizedBox(height: 12),
                   isNewAccount
                       ? InputText.login(
@@ -173,12 +197,35 @@ class _AuthScreenState extends State<AuthScreen> {
                         )
                       : Container(),
                   repeatPasswordError ? HintError() : Container(),
+                  FlatButton(
+                    onPressed: () {
+                      print('Redefinir senha');
+                      changeResetPasswordStatus(
+                          isToResetPassword ? false : true);
+                    },
+                    child: Row(
+                      // mainAxisAlignment: MainAxisAlignment.end,
+                      children: <Widget>[
+                        Text(
+                          !isToResetPassword
+                              ? 'Esqueci minha senha'
+                              : 'Fazer login',
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: Colors.white,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                   SizedBox(height: 12),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       ButtonWide(
-                        text: '${!isNewAccount ? 'LOGIN' : 'CADASTRE-SE'}',
+                        text:
+                            '${isToResetPassword ? 'RESETAR SENHA' : !isNewAccount ? 'LOGIN' : 'CADASTRE-SE'}',
                         action: () async {
                           try {
                             if (isNewAccount) {
@@ -204,15 +251,20 @@ class _AuthScreenState extends State<AuthScreen> {
                               } else {
                                 print('invalidos');
                               }
-                            } else {
-                              if (validateFields()) {
-                                changeLogginStatus(true);
-                                await auth.signInWithEmailAndPassword(
-                                    email.text, password.text);
-                                changeLogginStatus(false);
-                              } else {
-                                setState(() {});
-                              }
+                            } else if (isToResetPassword) {
+                              changeLogginStatus(true);
+                              await auth.passwordReset(email.text);                                  
+                                await showDialog(
+                                  context: context,
+                                  builder: (context) => PopUpMessage(                                                                       
+                                    title: 'E-mail enviado',
+                                    message: 'Um link com instruções para redefinir sua senha foi enviado para o e-mail informado.',
+                                  ),
+                                ).then((_) => resetPage());                                                           
+                            } else if (validateFields()) {
+                              changeLogginStatus(true);
+                                await auth.signInWithEmailAndPassword(email.text, password.text);                              
+                              changeLogginStatus(false);
                             }
                           } on TiuTiuAuthException catch (error) {
                             print('ERROR');

@@ -61,7 +61,7 @@ class Pet {
     };
   }
 
-  Map<String, Object> toMap() {
+   Map<String, dynamic> toMap() {
     var petMap = {};    
     petMap['name'] = name;
     petMap['health'] = health;
