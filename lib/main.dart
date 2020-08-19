@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:tiutiu/Widgets/mapa.dart';
 import 'package:tiutiu/providers/auth2.dart';
@@ -29,8 +30,8 @@ void main() {
         primaryColor: Colors.green,
         accentColor: Color(0xFF00FF00),
         textTheme: ThemeData.light().textTheme.copyWith(              
-              headline1: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w700),
-              button: TextStyle(color: Color(0XFFFFFFFF), fontSize: 14, fontWeight: FontWeight.w700),
+              headline1: GoogleFonts.roboto(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w700),
+              button: GoogleFonts.roboto(color: Color(0XFFFFFFFF), fontSize: 14, fontWeight: FontWeight.w700),
             ),
       ),
       debugShowCheckedModeBanner: false,

@@ -240,8 +240,8 @@ class _NovoPetState extends State<NovoPet> {
       latitude: currentLocation.latitude,
       longitude: currentLocation.longitude,
       details: _descricao.text,
-      ano: int.parse(_ano.text),
-      meses: int.parse(_meses.text),
+      ano: int.tryParse(_ano.text) ?? 0,
+      meses: int.tryParse(_meses.text) ?? 0,
       address: 'Vazio Ainda',
     );
 
@@ -563,9 +563,9 @@ class _NovoPetState extends State<NovoPet> {
                           context: context,
                           builder: (context) => PopUpMessage(
                                 title: 'Pronto',
-                                message: 'Ação realizada com sucesso!',
+                                message: 'PET postado com sucesso!',
                               )).then(
-                        (value) => Navigator.pop(context),
+                        (value) => _onWillPopScope,
                       );
                     } else {
                       setState(() {
