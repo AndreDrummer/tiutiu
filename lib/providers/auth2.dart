@@ -67,6 +67,11 @@ class Authentication extends ChangeNotifier {
     return Future.value();
   }
 
+  Future<void> passwordReset(String email) async {
+    await _auth.sendPasswordResetEmail(email: email);
+    return Future.value();
+  }
+
   Future<void> signInWithEmailAndPassword(
       String email, String password) async {
     try {
