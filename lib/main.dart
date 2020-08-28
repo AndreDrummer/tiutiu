@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:tiutiu/Widgets/mapa.dart';
 import 'package:tiutiu/providers/auth2.dart';
 import 'package:tiutiu/providers/location.dart';
+import 'package:tiutiu/providers/pets_provider.dart';
 import 'package:tiutiu/providers/show_bottom.dart';
 import 'package:tiutiu/screen/choose_location.dart';
 import 'package:tiutiu/screen/donates.dart';
@@ -23,6 +24,9 @@ void main() {
       ),
       ChangeNotifierProvider(
         create: (_) => ShowBottomNavigator(),
+      ),
+      ChangeNotifierProvider(
+        create: (_) => PetsProvider(),
       )
     ],
     child: MaterialApp(
