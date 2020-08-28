@@ -86,7 +86,7 @@ class _AuthScreenState extends State<AuthScreen> {
     }
 
     if (isNewAccount) {
-      if (repeatPassword.text.isEmpty) {
+      if (repeatPassword.text.isEmpty  || repeatPassword.text != password.text) {
         setState(() {
           repeatPasswordError = true;
           fieldsAreValids = false;
