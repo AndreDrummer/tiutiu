@@ -3,7 +3,9 @@ import 'package:provider/provider.dart';
 import 'package:tiutiu/Widgets/filter_search.dart';
 import 'package:tiutiu/Widgets/input_search.dart';
 import 'package:tiutiu/Widgets/drawer.dart';
+import 'package:tiutiu/providers/pets_provider.dart';
 import 'package:tiutiu/providers/show_bottom.dart';
+import 'package:tiutiu/screen/disapeared.dart';
 
 class PetList extends StatefulWidget {
   @override
@@ -13,6 +15,7 @@ class PetList extends StatefulWidget {
 class _PetListState extends State<PetList> {
   bool filtering = false;
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  PetsProvider petsProvider;
 
   void showFilter() {
     setState(() {
@@ -20,12 +23,18 @@ class _PetListState extends State<PetList> {
     });
   }
 
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    petsProvider = Provider.of(context, listen: false);
+  }
+
   bool isFiltering() {
     return filtering;
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) {    
     final marginTop = MediaQuery.of(context).size.height / 1.2;
     final showBottom = Provider.of<ShowBottomNavigator>(context);
 
