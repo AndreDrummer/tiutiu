@@ -32,7 +32,7 @@ class _PetListState extends State<PetList> {
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
-        title: Text('PETs para adoção', style: Theme.of(context).textTheme.headline1.copyWith(fontSize: 24, letterSpacing: 2)),
+        title: Text('PETs para adoção', style: Theme.of(context).textTheme.headline1.copyWith(fontSize: 24)),
         centerTitle: true,
         leading: IconButton(                    
           icon: Icon(Icons.menu, color: Colors.white),

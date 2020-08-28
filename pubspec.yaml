@@ -44,6 +44,8 @@ dependencies:
   google_maps_webservice: ^0.0.17
   google_sign_in: ^4.5.1
   google_fonts: ^1.1.0
+  loading_animations: ^2.1.0
+  pedantic: any
 
 flutter_icons:
   android: "launcher_icon"
