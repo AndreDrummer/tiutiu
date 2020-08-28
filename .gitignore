@@ -8,6 +8,9 @@
 .buildlog/
 .history
 .svn/
+key.properties
+.flutter-plugins-*
+titiu.jks
 
 # IntelliJ related
 *.iml
@@ -42,5 +45,3 @@ app.*.map.json
 # Exceptions to above rules.
 !/packages/flutter_tools/test/data/dart_dependencies_test/**/.packages
 
-# Não subir o key Propertie
-key.properties
