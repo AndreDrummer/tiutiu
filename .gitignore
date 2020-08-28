@@ -9,8 +9,9 @@
 .history
 .svn/
 key.properties
+local.properties
 .flutter-plugins-*
-*.jks
+
 
 
 # IntelliJ related
@@ -46,3 +47,5 @@ app.*.map.json
 # Exceptions to above rules.
 !/packages/flutter_tools/test/data/dart_dependencies_test/**/.packages
 
+# Keystore file
+*.jks
