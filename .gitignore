@@ -10,7 +10,8 @@
 .svn/
 key.properties
 .flutter-plugins-*
-titiu.jks
+*.jks
+
 
 # IntelliJ related
 *.iml
