@@ -1,12 +1,13 @@
 import '../Model/pet_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 class PetController {
-  Firestore firestore = Firestore.instance;
+  FirebaseFirestore firestore = FirebaseFirestore.instance;
 
   Future<Map<String, Object>> getPet(String id) async {
     Pet pet;
-    await firestore.collection('Users').document(pet.owner).collection('Pets').document(id).snapshots().first.then(
+    await firestore.collection('Users').doc(pet.ownerId).collection('Pets').doc(id).snapshots().first.then(
       (value) {
         pet = Pet.fromSnapshot(value);
       },
@@ -17,11 +18,11 @@ class PetController {
 
   Future<List<Pet>> getAllPets(String userId) async {
     var pets = [];
-    await firestore.collection('Users').document(userId).collection('Pets').getDocuments().then(
+    await firestore.collection('Users').doc(userId).collection('Pets').get().then(
           (value) => {
-            if (value.documents.isNotEmpty)
+            if (value.docs.isNotEmpty)
               {
-                value.documents.forEach(
+                value.docs.forEach(
                   (element) {
                     pets.add(Pet.fromSnapshot(element).toJson());
                   },
@@ -34,12 +35,14 @@ class PetController {
 
   Future<void> insertPet(Pet pet, String petKind) async {
     print(pet.toMap());
-    await Firestore.instance
-        .collection('Users').document(pet.owner).collection('Pets')
-        .document('pets')
+    await FirebaseFirestore.instance
+        .collection('Users').doc(pet.ownerId).set({'displayName': pet.ownerName});
+    await FirebaseFirestore.instance
+        .collection('Users').doc(pet.ownerId).collection('Pets')
+        .doc('pets')
         .collection(petKind)
-        .document()
-        .setData(pet.toMap())
+        .doc()
+        .set(pet.toMap() as Map<String, dynamic>)
         .then(
       (value) {
         print('Inserção realizada com sucesso!');
@@ -48,10 +51,10 @@ class PetController {
   }
 
   Future<void> updatePet(Pet pet, String id) async {
-    await Firestore.instance
-        .collection('Users').document(pet.owner).collection('Pets')
-        .document(id) // pet.id
-        .updateData(pet.toMap())
+    await FirebaseFirestore.instance
+        .collection('Users').doc(pet.ownerId).collection('Pets')
+        .doc(id) // pet.id
+        .update(pet.toMap())
         .then(
       (value) {
         print('Atualização realizada com sucesso!');
@@ -60,6 +63,6 @@ class PetController {
   }
 
   Future<void> deletePet(String userId, String petId) async {
-    await firestore.collection('Users').document(userId).collection('Pets').document(petId).delete();
+    await firestore.collection('Users').doc(userId).collection('Pets').doc(petId).delete();
   }
 }
