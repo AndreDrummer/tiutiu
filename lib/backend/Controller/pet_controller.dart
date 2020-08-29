@@ -7,7 +7,7 @@ class PetController {
 
   Future<Map<String, Object>> getPet(String id) async {
     Pet pet;
-    await firestore.collection('Users').doc(pet.owner).collection('Pets').doc(id).snapshots().first.then(
+    await firestore.collection('Users').doc(pet.ownerId).collection('Pets').doc(id).snapshots().first.then(
       (value) {
         pet = Pet.fromSnapshot(value);
       },
@@ -36,11 +36,13 @@ class PetController {
   Future<void> insertPet(Pet pet, String petKind) async {
     print(pet.toMap());
     await FirebaseFirestore.instance
-        .collection('Users').doc(pet.owner).collection('Pets')
+        .collection('Users').doc(pet.ownerId).set({'displayName': pet.ownerName});
+    await FirebaseFirestore.instance
+        .collection('Users').doc(pet.ownerId).collection('Pets')
         .doc('pets')
         .collection(petKind)
         .doc()
-        .set(pet.toMap())
+        .set(pet.toMap() as Map<String, dynamic>)
         .then(
       (value) {
         print('Inserção realizada com sucesso!');
@@ -50,7 +52,7 @@ class PetController {
 
   Future<void> updatePet(Pet pet, String id) async {
     await FirebaseFirestore.instance
-        .collection('Users').doc(pet.owner).collection('Pets')
+        .collection('Users').doc(pet.ownerId).collection('Pets')
         .doc(id) // pet.id
         .update(pet.toMap())
         .then(
