@@ -1,11 +1,19 @@
 import 'package:flutter/material.dart';
 
 class PopUpMessage extends StatelessWidget {
-  PopUpMessage({this.title, this.message, this.error = false, this.warning = false, this.action});
+  PopUpMessage({
+    this.title,
+    this.message,
+    this.error = false,
+    this.warning = false,
+    this.action,
+    this.showAllButtons = false,
+  });
   final String title;
   final String message;
   final bool error;
   final bool warning;
+  final bool showAllButtons;
   final Function action;
 
   @override
@@ -15,7 +23,9 @@ class PopUpMessage extends StatelessWidget {
         borderRadius: BorderRadius.circular(12),
       ),
       // backgroundColor: Color(0XFFFFF176),
-      backgroundColor: error ? Color(0XFFDC3545) : warning ? Color(0XFFFFC107) : Theme.of(context).primaryColor,
+      backgroundColor: error
+          ? Color(0XFFDC3545)
+          : warning ? Color(0XFFFFC107) : Theme.of(context).primaryColor,
       title: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
@@ -30,25 +40,33 @@ class PopUpMessage extends StatelessWidget {
           )
         ],
       ),
-      content: Text(message, style: TextStyle(color: Colors.black, fontSize: 15, fontWeight: FontWeight.w500)),
+      content: Text(message,
+          style: TextStyle(
+              color: Colors.black, fontSize: 15, fontWeight: FontWeight.w500)),
       actions: <Widget>[
         FlatButton(
           onPressed: () {
-            Navigator.pop(context);
+            if (action != null) {
+              action();
+            } else {
+              Navigator.pop(context);
+            }
           },
           child: Text(
-            '${action != null ? 'Não' : 'OK'}',
+            '${action != null && showAllButtons ? 'Não' : 'OK'}',
             style: TextStyle(color: Colors.white),
           ),
         ),
-        action != null ? FlatButton(
-          onPressed: action,
-          child: Text(
-            'Sim',
-            style: TextStyle(color: Colors.white),
-          ),
-        ) : Container()
+        showAllButtons
+            ? FlatButton(
+                onPressed: action,
+                child: Text(
+                  'Sim',
+                  style: TextStyle(color: Colors.white),
+                ),
+              )
+            : Container()
       ],
-    );    
+    );
   }
 }

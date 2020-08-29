@@ -42,10 +42,10 @@ class _PetListState extends State<PetList> {
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
-        title: Text('PETs para adoção',
-            style:
-                Theme.of(context).textTheme.headline1.copyWith(fontSize: 24)),
-        centerTitle: true,
+        title: Text(
+          'PETs para adoção',
+          style: Theme.of(context).textTheme.headline1.copyWith(fontSize: 18),
+        ),
         leading: IconButton(
           icon: Icon(Icons.menu, color: Colors.white),
           onPressed: () {
@@ -57,15 +57,26 @@ class _PetListState extends State<PetList> {
       backgroundColor: Colors.greenAccent,
       drawer: DrawerApp(),
       body: FutureBuilder(
-        future: petsProvider.loadDisappearedPETS(),
+        future: petsProvider.loadDonatedPETS(),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return LoadingPage(messageLoading: 'Carregando PETS perto de você...',);
+            return LoadingPage(
+              messageLoading: 'Carregando doação de PETS perto de você...',
+              circle: true,
+            );
           } else if (snapshot.hasError) {
-            print(snapshot.error);
             return ErrorPage();
           } else {
-            print(petsProvider.listDisappearedPETS.length);
+            if (petsProvider.listDonatesPETS.length == 0)
+              return Center(
+                child: Text(
+                  'Nenhum PET para adoção',
+                  textAlign: TextAlign.center,
+                  style: Theme.of(context).textTheme.headline6.copyWith(
+                        color: Colors.black,
+                      ),
+                ),
+              );
             return Stack(
               children: <Widget>[
                 Container(
@@ -73,10 +84,10 @@ class _PetListState extends State<PetList> {
                   child: Padding(
                     padding: const EdgeInsets.only(top: 90.0),
                     child: ListView.builder(
-                      itemCount: petsProvider.listDisappearedPETS.length,
+                      itemCount: petsProvider.listDonatesPETS.length,
                       itemBuilder: (_, index) {
                         return CardList(
-                          petInfo: petsProvider.listDisappearedPETS[index],
+                          petInfo: petsProvider.listDonatesPETS[index],
                         );
                       },
                     ),
@@ -92,7 +103,9 @@ class _PetListState extends State<PetList> {
                       height: 190,
                       width: 235,
                       child: FilterSearch(
-                          isFiltering: isFiltering, showFilter: showFilter),
+                        isFiltering: isFiltering,
+                        showFilter: showFilter,
+                      ),
                     ),
                   ),
                 ),
