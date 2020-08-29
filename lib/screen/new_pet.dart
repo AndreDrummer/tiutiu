@@ -232,9 +232,11 @@ class _NovoPetState extends State<NovoPet> {
 
     var dataPetSave = Pet(
       name: _nome.text,
+      avatar: petPhotosToUpload.values.first,
       breed: dropvalueBreed,
       health: dropvalueHealth,
-      owner: userId,
+      ownerId: userId,
+      ownerName: Provider.of<Authentication>(context, listen: false).firebaseUser.displayName,
       photos: petPhotosToUpload,
       size: dropvalueSize,
       latitude: currentLocation.latitude,
@@ -555,7 +557,7 @@ class _NovoPetState extends State<NovoPet> {
               child: ButtonWide(
                   rounded: false,
                   isToExpand: true,
-                  action: () async {
+                  action: () async {                    
                     if (validateForm()) {
                       setReadOnly();
                       await save();
@@ -563,6 +565,9 @@ class _NovoPetState extends State<NovoPet> {
                           context: context,
                           builder: (context) => PopUpMessage(
                                 title: 'Pronto',
+                                action: () {
+                                  Navigator.popUntil(context, ModalRoute.withName('/'));
+                                },                              
                                 message: 'PET postado com sucesso!',
                               )).then(
                         (value) => _onWillPopScope,
