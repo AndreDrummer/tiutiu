@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 class Pet {
    Pet({    
@@ -16,19 +17,20 @@ class Pet {
     this.address
   });
 
-  Pet.fromSnapshot(DocumentSnapshot snapshot) {
-    name = snapshot.data['name'];
-    health = snapshot.data['health'];
-    ano = snapshot.data['ano'];
-    meses = snapshot.data['meses'];
-    breed = snapshot.data['breed'];
-    size = snapshot.data['size'];
-    details = snapshot.data['details'];
-    photos = snapshot.data['photos'];
-    owner = snapshot.data['owner'];
-    latitude = snapshot.data['latitude'];
-    longitude = snapshot.data['longitude'];
-    address = snapshot.data['address'];
+  Pet.fromSnapshot(DocumentSnapshot snapshot) {  
+    
+    name = snapshot.data()['name'];
+    health = snapshot.data()['health'];
+    ano = snapshot.data()['ano'];
+    meses = snapshot.data()['meses'];
+    breed = snapshot.data()['breed'];
+    size = snapshot.data()['size'];
+    details = snapshot.data()['details'];
+    photos = snapshot.data()['photos'] as Map<String, dynamic>;
+    owner = snapshot.data()['owner'];
+    latitude = snapshot.data()['latitude'];
+    longitude = snapshot.data()['longitude'];
+    address = snapshot.data()['address'];
   }
 
   String name;
@@ -38,7 +40,7 @@ class Pet {
   String breed;
   String size;
   String details;
-  Map<String, String> photos;
+  Map photos;
   String owner;
   double latitude;
   double longitude;
@@ -61,7 +63,7 @@ class Pet {
     };
   }
 
-   Map<String, dynamic> toMap() {
+   Map toMap() {
     var petMap = {};    
     petMap['name'] = name;
     petMap['health'] = health;

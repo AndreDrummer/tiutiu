@@ -44,7 +44,7 @@ class DrawerApp extends StatelessWidget {
                           style: BorderStyle.solid,
                         ),
                       ),
-                      child: auth.firebaseUser.photoUrl != null
+                      child: auth.firebaseUser.photoURL != null
                           ? CircleAvatar(
                               backgroundColor: Colors.transparent,
                               radius: 40,
@@ -53,7 +53,7 @@ class DrawerApp extends StatelessWidget {
                                   placeholder:
                                       AssetImage('assets/profileEmpty.jpg'),
                                   image: NetworkImage(
-                                    auth.firebaseUser.photoUrl,
+                                    auth.firebaseUser.photoURL,
                                   ),
                                   fit: BoxFit.cover,
                                   width: 1000,
