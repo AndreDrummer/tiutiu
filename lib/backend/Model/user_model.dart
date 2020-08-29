@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 class User {
   User({
@@ -15,15 +16,15 @@ class User {
   });
   
   User.fromSnapshot(DocumentSnapshot snapshot) {
-    id = snapshot.data['id'];
-    name = snapshot.data['name'];
-    avatar = snapshot.data['avatar'];
-    adopted = snapshot.data['adopted: '];
-    donated = snapshot.data['donated'];
-    email = snapshot.data['email'];
-    password = snapshot.data['password'];
-    phone = snapshot.data['phone'];
-    whatsapp = snapshot.data['whatsapp'];
+    id = snapshot.data()['id'];
+    name = snapshot.data()['name'];
+    avatar = snapshot.data()['avatar'];
+    adopted = snapshot.data()['adopted: '];
+    donated = snapshot.data()['donated'];
+    email = snapshot.data()['email'];
+    password = snapshot.data()['password'];
+    phone = snapshot.data()['phone'];
+    whatsapp = snapshot.data()['whatsapp'];
   }
 
   String id;
