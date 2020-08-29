@@ -37,7 +37,7 @@ class App extends StatelessWidget {
           );
         }
         
-        if (snapshot.connectionState == ConnectionState.done) {
+        if (snapshot.connectionState == ConnectionState.done) {          
           return MultiProvider(
             providers: [
               ChangeNotifierProvider(

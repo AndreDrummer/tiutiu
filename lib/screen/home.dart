@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:provider/provider.dart';
 import 'package:tiutiu/Widgets/custom_bottom_navigator_bar.dart';
+import 'package:tiutiu/Widgets/loading_page.dart';
 import 'package:tiutiu/Widgets/popup_message.dart';
 import 'package:tiutiu/providers/auth2.dart';
+import 'package:tiutiu/providers/location.dart';
 
 import '../Widgets/floating_button_option.dart';
 import '../utils/routes.dart';
@@ -23,7 +25,7 @@ class _HomeState extends State<Home> {
 
   @override
   void initState() {
-    super.initState();
+    super.initState();    
   }
 
   void _onItemTapped(int index) {
@@ -95,7 +97,13 @@ class _HomeState extends State<Home> {
       onWillPop: leaveApplication,
       child: Scaffold(
         backgroundColor: Colors.greenAccent,
-        body: Stack(
+        body: FutureBuilder(
+          future: Provider.of<Location>(context, listen: false).setLocation(),
+          builder: (_, AsyncSnapshot snapshot) {
+          if(snapshot.connectionState == ConnectionState.waiting) {
+            return LoadingPage();
+          }
+          return Stack(
           children: <Widget>[
             Padding(              
               padding: const EdgeInsets.only(bottom:  100.0),
@@ -112,7 +120,8 @@ class _HomeState extends State<Home> {
               ),
             )
           ],
-        ),                
+        );
+        }),   
         floatingActionButton: SpeedDial(
           marginRight: 18,
           marginBottom: 20,
