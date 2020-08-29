@@ -9,7 +9,7 @@ import 'package:tiutiu/Exceptions/titiu_exceptions.dart';
 class Authentication extends ChangeNotifier {
   final GoogleSignIn _googleSignIn = GoogleSignIn();
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  FirebaseUser firebaseUser;
+  User firebaseUser;
 
   Future<void> loginWithGoogle({bool autologin = false}) async {
     // ignore: omit_local_variable_types
@@ -26,13 +26,13 @@ class Authentication extends ChangeNotifier {
       return Future.value();
     }
 
-    firebaseUser = await _auth.currentUser();
+    firebaseUser = _auth.currentUser;
     // ignore: omit_local_variable_types
     GoogleSignInAuthentication googleAuth = await googleUser.authentication;
     if (firebaseUser == null) {
 
       // ignore: omit_local_variable_types
-      AuthCredential credential = GoogleAuthProvider.getCredential(
+      AuthCredential credential = GoogleAuthProvider.credential(
         accessToken: googleAuth.accessToken,
         idToken: googleAuth.idToken,
       );     
@@ -47,7 +47,7 @@ class Authentication extends ChangeNotifier {
       String email, String password) async {
     try {
       // ignore: omit_local_variable_types
-      AuthResult result = await _auth.createUserWithEmailAndPassword(
+      UserCredential result = await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
       firebaseUser = result.user;
 
@@ -76,7 +76,7 @@ class Authentication extends ChangeNotifier {
       String email, String password) async {
     try {
       // ignore: omit_local_variable_types
-      AuthResult result = await _auth.signInWithEmailAndPassword(
+      UserCredential result = await _auth.signInWithEmailAndPassword(
           email: email, password: password);
       firebaseUser = result.user;
 
