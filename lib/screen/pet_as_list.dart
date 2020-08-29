@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:tiutiu/Widgets/card_list.dart';
+import 'package:tiutiu/Widgets/error_page.dart';
 import 'package:tiutiu/Widgets/filter_search.dart';
 import 'package:tiutiu/Widgets/input_search.dart';
 import 'package:tiutiu/Widgets/drawer.dart';
+import 'package:tiutiu/Widgets/loading_page.dart';
+import 'package:tiutiu/providers/pets_provider.dart';
 import 'package:tiutiu/providers/show_bottom.dart';
 
 class PetList extends StatefulWidget {
@@ -13,11 +17,18 @@ class PetList extends StatefulWidget {
 class _PetListState extends State<PetList> {
   bool filtering = false;
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  PetsProvider petsProvider;
 
   void showFilter() {
     setState(() {
       filtering = !filtering;
     });
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    petsProvider = Provider.of(context, listen: false);
   }
 
   bool isFiltering() {
@@ -28,133 +39,80 @@ class _PetListState extends State<PetList> {
   Widget build(BuildContext context) {
     final marginTop = MediaQuery.of(context).size.height / 1.2;
     final showBottom = Provider.of<ShowBottomNavigator>(context);
-
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
-        title: Text('PETs para adoção', style: Theme.of(context).textTheme.headline1.copyWith(fontSize: 24)),
-        centerTitle: true,
-        leading: IconButton(                    
+        title: Text(
+          'PETs para adoção',
+          style: Theme.of(context).textTheme.headline1.copyWith(fontSize: 18),
+        ),
+        leading: IconButton(
           icon: Icon(Icons.menu, color: Colors.white),
           onPressed: () {
             showBottom.changeShowBottom(false);
-            _scaffoldKey.currentState.openDrawer();        
+            _scaffoldKey.currentState.openDrawer();
           },
         ),
-      ),      
+      ),
       backgroundColor: Colors.greenAccent,
       drawer: DrawerApp(),
-      body: Stack(
-        children: <Widget>[
-          Container(
-            height: marginTop,
-            child: Padding(
-              padding: const EdgeInsets.only(top: 90.0),
-              child: ListView.builder(
-                itemCount: 6,
-                itemBuilder: (_, index) {
-                  return Padding(
-                    padding: const EdgeInsets.all(4.0),
-                    child: Card(
-                      // color: Colors.white70,
-                      elevation: 3,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12)),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 6.0),
-                        child: Row(
-                          children: <Widget>[
-                            Container(
-                              margin: const EdgeInsets.all(8.0),
-                              child: ClipOval(
-                                child: CircleAvatar(
-                                  radius: 50,
-                                  child: Image.asset(
-                                    'assets/pelo.jfif',
-                                    height: 1000,
-                                    fit: BoxFit.fitHeight,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                Text(
-                                  'Doguinho, 6 meses',
-                                  style: TextStyle(fontWeight: FontWeight.w900),
-                                ),
-                                Text('ChowChow'),
-                                SizedBox(height: 20),
-                                SizedBox(
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.525,
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: <Widget>[
-                                      Text(
-                                        'joaofelix está doando',
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.w500),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                SizedBox(
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.525,
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: <Widget>[
-                                      Text(
-                                        'detalhes',
-                                        style: TextStyle(color: Colors.blue),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                SizedBox(
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.59,
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.end,
-                                    children: <Widget>[
-                                      Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            vertical: 7.0),
-                                        child: Text('Está a 2.6 Km de você',
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.w600)),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
+      body: FutureBuilder(
+        future: petsProvider.loadDonatedPETS(),
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return LoadingPage(
+              messageLoading: 'Carregando doação de PETS perto de você...',
+              circle: true,
+            );
+          } else if (snapshot.hasError) {
+            return ErrorPage();
+          } else {
+            if (petsProvider.listDonatesPETS.length == 0)
+              return Center(
+                child: Text(
+                  'Nenhum PET para adoção',
+                  textAlign: TextAlign.center,
+                  style: Theme.of(context).textTheme.headline6.copyWith(
+                        color: Colors.black,
+                      ),
+                ),
+              );
+            return Stack(
+              children: <Widget>[
+                Container(
+                  height: marginTop,
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 90.0),
+                    child: ListView.builder(
+                      itemCount: petsProvider.listDonatesPETS.length,
+                      itemBuilder: (_, index) {
+                        return CardList(
+                          petInfo: petsProvider.listDonatesPETS[index],
+                        );
+                      },
+                    ),
+                  ),
+                ),
+                CustomInput(showFilter: showFilter),
+                Positioned(
+                  right: 20,
+                  top: 80,
+                  child: Align(
+                    alignment: Alignment(0.7, -0.7),
+                    child: Container(
+                      height: 190,
+                      width: 235,
+                      child: FilterSearch(
+                        isFiltering: isFiltering,
+                        showFilter: showFilter,
                       ),
                     ),
-                  );
-                },
-              ),
-            ),
-          ),
-          CustomInput(showFilter: showFilter),
-          Positioned(
-            right: 20,
-            top: 80,
-            child: Align(
-              alignment: Alignment(0.7, -0.7),
-              child: Container(
-                height: 190,
-                width: 235,
-                child: FilterSearch(
-                    isFiltering: isFiltering, showFilter: showFilter),
-              ),
-            ),
-          ),
-        ],
+                  ),
+                ),
+              ],
+            );
+          }
+        },
       ),
     );
   }

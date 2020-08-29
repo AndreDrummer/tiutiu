@@ -155,7 +155,7 @@ class _MapaState extends State<Mapa> {
       if (!_controller.isCompleted) {
         _controller.complete(controller);
       }
-      locationProvider.setLocation(_center);
+      locationProvider.setLocation(currentLocation: _center);
     });
   }
 
