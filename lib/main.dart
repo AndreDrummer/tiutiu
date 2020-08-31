@@ -12,6 +12,7 @@ import 'package:tiutiu/screen/donates.dart';
 import 'package:tiutiu/screen/auth_or_home.dart';
 import 'package:tiutiu/screen/home.dart';
 import 'package:tiutiu/screen/new_pet.dart';
+import 'package:tiutiu/screen/pet_detail.dart';
 import './utils/routes.dart';
 
 void main() {
@@ -76,6 +77,7 @@ class App extends StatelessWidget {
                 Routes.DOADOS: (ctx) => Donate(),
                 Routes.MAPA: (ctx) => Mapa(),
                 Routes.CHOOSE_LOCATION: (ctx) => ChooseLocation(),
+                Routes.PET_DETAILS: (ctx) => PetDetails(),
               },
             ),
           );
