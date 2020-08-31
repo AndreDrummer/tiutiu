@@ -1,6 +1,5 @@
 import '../Model/pet_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
 
 class PetController {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
@@ -42,7 +41,7 @@ class PetController {
         .doc('pets')
         .collection(petKind)
         .doc()
-        .set(pet.toMap() as Map<String, dynamic>)
+        .set(pet.toMap())
         .then(
       (value) {
         print('Inserção realizada com sucesso!');
