@@ -11,7 +11,7 @@ class DrawerApp extends StatelessWidget {
     final height = MediaQuery.of(context).size.height;
     return Drawer(
       child: Container(
-        height: height * 0.95,
+        height: height * 0.99,
         decoration: BoxDecoration(
           border: Border.all(
             color: Colors.grey,
@@ -103,7 +103,8 @@ class DrawerApp extends StatelessWidget {
                 Navigator.pushNamed(context, Routes.CONFIG);
               },
             ),
-            SizedBox(height: 140),
+            // SizedBox(height: 140),
+            Spacer(),
             ListTileDrawer(
               tileName: 'Sair',
               icon: Icons.exit_to_app,
