@@ -3,6 +3,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class Pet {
    Pet({    
     this.name,
+    this.ownerPhoneNumber,
+    this.ownerPhotoURL,
+    this.type,
     this.avatar,
     this.health,
     this.ano,    
@@ -21,6 +24,9 @@ class Pet {
   Pet.fromSnapshot(DocumentSnapshot snapshot) {  
     
     name = snapshot.data()['name'];
+    type = snapshot.data()['type'];
+    ownerPhotoURL = snapshot.data()['ownerPhotoURL'];
+    ownerPhoneNumber = snapshot.data()['ownerPhoneNumber'];
     avatar = snapshot.data()['avatar'];
     health = snapshot.data()['health'];
     ano = snapshot.data()['ano'];
@@ -37,6 +43,9 @@ class Pet {
   }
 
   String name;
+  String type;
+  String ownerPhotoURL;
+  String ownerPhoneNumber;
   String avatar;
   String health;
   int ano;  
