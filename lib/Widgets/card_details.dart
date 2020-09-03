@@ -16,7 +16,7 @@ class CardDetails extends StatelessWidget {
       ),
       child: Container(
         // height: 75,
-        width: 160,
+        width: 170,
         alignment: Alignment.center,
         child: Padding(
           padding: const EdgeInsets.all(10.0),
@@ -27,32 +27,34 @@ class CardDetails extends StatelessWidget {
               Opacity(
                 opacity: 0.4,
                 child: Icon(icon, color: Colors.green, size: 35),
-              ),
-              // SizedBox(width: 12.0),
-              Spacer(),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  FittedBox(
-                    child: Text(
-                      title.toUpperCase(),
-                      style: TextStyle(
-                        letterSpacing: 1.2,
-                        // fontSize: 18,
-                        fontWeight: FontWeight.w300,
+              ),            
+              Expanded(
+                child: Container(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      FittedBox(
+                        child: Text(
+                          title.toUpperCase(),
+                          style: TextStyle(
+                            letterSpacing: 1.2,
+                            // fontSize: 18,
+                            fontWeight: FontWeight.w300,
+                          ),
+                        ),
                       ),
-                    ),
-                  ),
-                  SizedBox(height: 10),
-                  FittedBox(
-                    child: Text(
-                      text,
-                      style: TextStyle(                        
-                        fontWeight: FontWeight.w700,
+                      SizedBox(height: 10),
+                      FittedBox(
+                        child: Text(
+                          text,
+                          style: TextStyle(                        
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
                       ),
-                    ),
+                    ],
                   ),
-                ],
+                ),
               ),
             ],
           ),
