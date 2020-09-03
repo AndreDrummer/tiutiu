@@ -75,12 +75,14 @@ class _InputTextState extends State<InputText> {
             Expanded(
               child: TextFormField(
                 inputFormatters: widget.inputFormatters,
-                validator: widget.validator != null ? (value) => widget.validator(value) : (value) {
+                validator: widget.validator != null ? (value) {
+                  return widget.validator(value);
+                } : (value) {
                   if (value.isEmpty) {
                     return 'Preencha corretamente esse campo';
                   }
                   return null;
-                },              
+                },                          
                 readOnly: widget.readOnly,
                 controller: widget.controller,
                 textInputAction: TextInputAction.done,
@@ -103,6 +105,9 @@ class _InputTextState extends State<InputText> {
                     borderSide: BorderSide(style: BorderStyle.none),
                   ),
                   enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(style: BorderStyle.none),
+                  ),
+                  errorBorder: OutlineInputBorder(
                     borderSide: BorderSide(style: BorderStyle.none),
                   ),
                 ),
