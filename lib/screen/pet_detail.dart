@@ -18,7 +18,9 @@ class _PetDetailsState extends State<PetDetails> {
 
   @override
   Widget build(BuildContext context) {
-    Pet pet = ModalRoute.of(context).settings.arguments;
+    Map<String, dynamic> arguments = ModalRoute.of(context).settings.arguments;
+    Pet pet = arguments['petInfo'];
+    String kind = arguments['kind'];
 
     void favoriteHandler() {
       setState(() {
@@ -43,7 +45,7 @@ class _PetDetailsState extends State<PetDetails> {
     ];
 
     List userDetails = [
-      {'text': pet.ownerName ?? '', 'image': pet.ownerPhotoURL ?? ''},
+      {'text': pet.ownerName ?? '', 'imageN': pet.ownerPhotoURL ?? ''},
       {
         'text': pet.ownerPhoneNumber,
         'icon': PetDetailIcons.whatsapp,
@@ -171,15 +173,15 @@ class _PetDetailsState extends State<PetDetails> {
           ),
           Positioned(
             bottom: 18.0,
-            left: 20.0,
+            left: kind == 'Donate' ? 20.0 : MediaQuery.of(context).size.width * 0.17,
             child: ButtonWide(
-              text: 'ADOTAR',
-              color: Colors.red,
+              text: kind == 'Donate' ? 'ADOTAR' : 'VI ELE AQUI PERTO',
+              color: kind == 'Donate' ? Colors.red : Colors.green,
             ),
           )
         ],
       ),
-      floatingActionButton: FloatingActionButton(
+      floatingActionButton: kind == 'Donate' ? FloatingActionButton(
         onPressed: () {
           print(isFavorite);
           favoriteHandler();
@@ -190,7 +192,7 @@ class _PetDetailsState extends State<PetDetails> {
           isFavorite ? Icons.favorite : Icons.favorite_border,
           color: isFavorite ? Colors.red : Colors.white,
         ),
-      ),
+      ) : null,
     );
   }
 

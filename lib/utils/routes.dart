@@ -6,6 +6,7 @@ class Routes {
   static const ADOTADOS = '/pets-adotados';
   static const DIVULGADOS = '/pets-divulgados';
   static const DESAPARECIDOS = '/pets-desaparecidos';
+  static const REGISTER = '/register';
   static const CONFIG = '/config';
   static const AUTH = '/auth';
   static const MAPA = '/map';
