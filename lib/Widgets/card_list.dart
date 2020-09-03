@@ -107,7 +107,7 @@ class _CardListState extends State<CardList> {
                           radius: 50,
                           backgroundColor: Colors.transparent,
                           child: FadeInImage(
-                            placeholder: AssetImage('assets/logo.png'),
+                            placeholder: AssetImage('assets/Logo.png'),
                             image:
                                 NetworkImage(widget.petInfo.toMap()['avatar']),
                             height: 1000,

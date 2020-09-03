@@ -137,7 +137,7 @@ class _AuthScreenState extends State<AuthScreen> {
                     height: 200,
                     width: 420,
                     child: Center(
-                      child: Image.asset('assets/logo.png'),
+                      child: Image.asset('assets/Logo.png'),
                     ),
                   ),
                   isNewAccount

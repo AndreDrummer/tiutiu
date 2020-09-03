@@ -51,8 +51,9 @@ class DummyData {
   ];
 
   static const size = ['Pequeno-porte', 'Médio-porte', 'Grande-porte'];
-  static const health = ['Saudável', 'Doente'];
-  static const color = ['amarelo', 'chocolate', 'branco', 'preto', 'cinzento', 'dourado', 'creme', 'azul'];
+  static const health = ['Saudável', 'Doente', 'Machucado', 'Idoso'];
+  static const type = ['Cachorro', 'Gato', 'Pássaro', 'Hamister', 'Outro'];
+  static const color = ['Amarelo', 'Chocolate', 'Branco', 'Preto', 'Cinzento', 'Dourado', 'Creme', 'Azul', 'Dálmata'];
 }
 
 

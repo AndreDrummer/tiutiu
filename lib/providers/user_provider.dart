@@ -3,12 +3,13 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 
 class UserProvider with ChangeNotifier {
-  File _photoURL;
+  File _photoFILE;
   String _whatsapp;
   String _telefone;
+  String _photoUrl;
 
-  void changePhotoURL(File file) {
-    _photoURL = file;
+  void changePhotoFILE(File file) {
+    _photoFILE = file;
     notifyListeners();
   }
 
@@ -22,8 +23,14 @@ class UserProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  File get photoURL => _photoURL;
+  void changePhotoUrl(String url) {
+    _photoUrl = url;
+    notifyListeners();
+  }
+
+  File get photoFILE => _photoFILE;
   String get telefone => _telefone;
+  String get photoURL => _photoUrl;
   String get whatsapp => _whatsapp;
 
 }
