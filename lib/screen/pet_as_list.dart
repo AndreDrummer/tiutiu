@@ -6,6 +6,7 @@ import 'package:tiutiu/Widgets/filter_search.dart';
 import 'package:tiutiu/Widgets/input_search.dart';
 import 'package:tiutiu/Widgets/drawer.dart';
 import 'package:tiutiu/Widgets/loading_page.dart';
+import 'package:tiutiu/backend/Model/pet_model.dart';
 import 'package:tiutiu/providers/pets_provider.dart';
 import 'package:tiutiu/providers/show_bottom.dart';
 
@@ -33,6 +34,7 @@ class _PetListState extends State<PetList> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     petsProvider = Provider.of(context, listen: false);
+    widget.kind == 'Donate' ? petsProvider.loadDonatedPETS() : petsProvider.loadDisappearedPETS();
   }
 
   bool isFiltering() {
@@ -63,11 +65,11 @@ class _PetListState extends State<PetList> {
       ),
       backgroundColor: Colors.greenAccent,
       drawer: DrawerApp(),
-      body: FutureBuilder(
-        future: kind == 'Donate' ? petsProvider.loadDonatedPETS() : petsProvider.loadDisappearedPETS(),
+      body: StreamBuilder<List<Pet>>(
+        stream: kind == 'Donate' ? petsProvider.listDonatesPETS : petsProvider.listDisappearedPETS,
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           
-          List petsList = kind == 'Donate' ? petsProvider.listDonatesPETS : petsProvider.listDisappearedPETS;
+          List petsList = snapshot.data;
 
           if (snapshot.connectionState == ConnectionState.waiting) {
             return LoadingPage(
