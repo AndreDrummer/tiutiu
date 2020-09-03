@@ -9,7 +9,6 @@ import 'package:tiutiu/providers/location.dart';
 
 import '../Widgets/floating_button_option.dart';
 import '../utils/routes.dart';
-import './disapeared.dart';
 import 'pet_as_list.dart';
 
 class Home extends StatefulWidget {
@@ -62,8 +61,8 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     var _screens = <Widget>[
-      PetList(),
-      Disapeared(),
+      PetList(kind: 'Donate'),
+      PetList(kind: 'Disappeared'),
     ];
 
     var iconsChildren = [      

@@ -7,12 +7,14 @@ import 'package:tiutiu/providers/auth2.dart';
 import 'package:tiutiu/providers/location.dart';
 import 'package:tiutiu/providers/pets_provider.dart';
 import 'package:tiutiu/providers/show_bottom.dart';
+import 'package:tiutiu/providers/user_provider.dart';
 import 'package:tiutiu/screen/choose_location.dart';
 import 'package:tiutiu/screen/donates.dart';
 import 'package:tiutiu/screen/auth_or_home.dart';
 import 'package:tiutiu/screen/home.dart';
 import 'package:tiutiu/screen/new_pet.dart';
 import 'package:tiutiu/screen/pet_detail.dart';
+import 'package:tiutiu/screen/register.dart';
 import './utils/routes.dart';
 
 void main() {
@@ -48,6 +50,9 @@ class App extends StatelessWidget {
                 create: (_) => Authentication(),
               ),
               ChangeNotifierProvider(
+                create: (_) => UserProvider(),
+              ),
+              ChangeNotifierProvider(
                 create: (_) => ShowBottomNavigator(),
               ),
               ChangeNotifierProvider(
@@ -75,6 +80,7 @@ class App extends StatelessWidget {
               routes: {
                 Routes.NOVOPET: (ctx) => NovoPet(),
                 Routes.AUTH_HOME: (ctx) => AuthOrHome(),
+                Routes.REGISTER: (ctx) => Register(),
                 Routes.HOME: (ctx) => Home(),
                 Routes.DOADOS: (ctx) => Donate(),
                 Routes.MAPA: (ctx) => Mapa(),

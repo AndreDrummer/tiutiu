@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:tiutiu/Custom/icons.dart';
 
 // ignore: must_be_immutable
@@ -15,6 +16,8 @@ class InputText extends StatefulWidget {
     this.placeholder,
     this.maxlines = 1,
     this.multiline = false,
+    this.validator,
+    this.inputFormatters = const [],
   });
   
   InputText.login({
@@ -29,6 +32,8 @@ class InputText extends StatefulWidget {
     this.isPassword = false,
     this.seePassword = false,
     this.isLogin = true,
+    this.validator,
+    this.inputFormatters = const [],
   });
 
   final double size;
@@ -42,6 +47,8 @@ class InputText extends StatefulWidget {
   bool seePassword;
   final int maxlines;
   final Function() onChanged;
+  final Function(String) validator;
+  final List<TextInputFormatter> inputFormatters;
 
 
   @override
@@ -67,12 +74,13 @@ class _InputTextState extends State<InputText> {
           children: <Widget>[
             Expanded(
               child: TextFormField(
-                validator: (value) {
+                inputFormatters: widget.inputFormatters,
+                validator: widget.validator != null ? (value) => widget.validator(value) : (value) {
                   if (value.isEmpty) {
                     return 'Preencha corretamente esse campo';
                   }
                   return null;
-                },
+                },              
                 readOnly: widget.readOnly,
                 controller: widget.controller,
                 textInputAction: TextInputAction.done,
