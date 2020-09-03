@@ -20,14 +20,14 @@ void main() {
   runApp(App());
 }
 
-class App extends StatelessWidget {  
+class App extends StatelessWidget {
   final Future<FirebaseApp> _initialization = Firebase.initializeApp();
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(      
+    return FutureBuilder(
       future: _initialization,
-      builder: (context, snapshot) {        
+      builder: (context, snapshot) {
         if (snapshot.hasError) {
           return Directionality(
             child: MediaQuery(
@@ -37,8 +37,8 @@ class App extends StatelessWidget {
             textDirection: TextDirection.ltr,
           );
         }
-        
-        if (snapshot.connectionState == ConnectionState.done) {          
+
+        if (snapshot.connectionState == ConnectionState.done) {
           return MultiProvider(
             providers: [
               ChangeNotifierProvider(
@@ -60,13 +60,15 @@ class App extends StatelessWidget {
                 accentColor: Color(0xFF00FF00),
                 textTheme: ThemeData.light().textTheme.copyWith(
                       headline1: GoogleFonts.roboto(
-                          color: Colors.white,
-                          fontSize: 14,
-                          fontWeight: FontWeight.w700),
+                        color: Colors.white,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w700,
+                      ),
                       button: GoogleFonts.roboto(
-                          color: Color(0XFFFFFFFF),
-                          fontSize: 14,
-                          fontWeight: FontWeight.w700),
+                        color: Color(0XFFFFFFFF),
+                        fontSize: 14,
+                        fontWeight: FontWeight.w700,
+                      ),
                     ),
               ),
               debugShowCheckedModeBanner: false,
@@ -82,7 +84,7 @@ class App extends StatelessWidget {
             ),
           );
         }
-        
+
         return Center(
           child: CircularProgressIndicator(),
         );

@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:loading_animations/loading_animations.dart';
+import 'package:tiutiu/Custom/pet_detail_icons_icons.dart';
+import 'package:tiutiu/Widgets/button.dart';
 import 'package:tiutiu/Widgets/card_details.dart';
 import 'package:tiutiu/Widgets/dots_indicator.dart';
-import 'package:tiutiu/Widgets/favorite_button.dart';
 import 'package:tiutiu/backend/Model/pet_model.dart';
+import 'package:tiutiu/utils/constantes.dart';
 
 class PetDetails extends StatefulWidget {
   @override
@@ -12,10 +14,46 @@ class PetDetails extends StatefulWidget {
 
 class _PetDetailsState extends State<PetDetails> {
   final PageController _pageController = PageController();
+  bool isFavorite = false;
 
   @override
   Widget build(BuildContext context) {
     Pet pet = ModalRoute.of(context).settings.arguments;
+
+    void favoriteHandler() {
+      setState(() {
+        isFavorite = !isFavorite;
+      });
+    }    
+
+    List details = [
+      {'title': 'TIPO', 'text': pet.type, 'icon': PetDetailIcons.guidedog},
+      {'title': 'RAÇA', 'text': pet.breed, 'icon': PetDetailIcons.dog},
+      {
+        'title': 'TAMANHO',
+        'text': pet.size,
+        'icon': PetDetailIcons.resize_small
+      },
+      {'title': 'SAÚDE', 'text': pet.health, 'icon': PetDetailIcons.healing},
+      {
+        'title': 'IDADE',
+        'text': '${pet.ano}a ${pet.meses}m',
+        'icon': PetDetailIcons.calendar
+      },
+    ];
+
+    List userDetails = [
+      {'text': pet.ownerName ?? '', 'image': pet.ownerPhotoURL ?? ''},
+      {
+        'text': pet.ownerPhoneNumber,
+        'icon': PetDetailIcons.whatsapp,
+      },
+      {
+        'text': 'Localização',
+        'imageN':
+            'https://maps.googleapis.com/maps/api/staticmap?center=${pet.latitude}, ${pet.longitude}&zoom=14&markers=color&markers=color:red%7Clabel:%7c-16.7502014,%20-49.256370000000004&size=600x400&key=${Constantes.WEB_API_KEY}',
+      },
+    ];
 
     return Scaffold(
       appBar: AppBar(
@@ -43,156 +81,115 @@ class _PetDetailsState extends State<PetDetails> {
               )),
             ),
           ),
-          Column(
-            children: [
-              Column(
-                // crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  showImages(pet.photos),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Column(
-                          children: [
-                            CardDetails(
-                              title: 'Raça',
-                              icon: Icons.adb,
-                              text: pet.breed,
-                            ),
-                            CardDetails(
-                              title: 'Tamanho',
-                              icon: Icons.adb,
-                              text: pet.size,
-                            ),
-                          ],
-                        ),
-                        Column(
-                          children: [
-                            CardDetails(
-                              title: 'Raça',
-                              icon: Icons.adb,
-                              text: pet.breed,
-                            ),
-                            CardDetails(
-                              title: 'Tamanho',
-                              icon: Icons.adb,
-                              text: pet.size,
-                            ),
-                          ],
-                        ),
-                        Spacer(),
-                        UserCardProfile(
-                          name: pet.ownerName,
-                        ),
-                      ],
+          SingleChildScrollView(
+            child: Column(
+              children: [
+                showImages(pet.photos, pet.ownerName),
+                Container(
+                  height: 100,
+                  child: Padding(
+                    padding: const EdgeInsets.all(4.0),
+                    child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: details.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return CardDetails(
+                          title: details[index]['title'],
+                          icon: details[index]['icon'],
+                          text: details[index]['text'],
+                        );
+                      },
                     ),
                   ),
-                  FavoriteButton(),
-                  _divider(),
-                  Padding(
-                    padding: const EdgeInsets.all(4.0),
-                    child: Card(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      elevation: 8.0,
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Column(
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  'Contato:   ',
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 16,
-                                  ),
-                                ),
-                                Text(
-                                  '(62) 9 8115-3518',
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 16,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            SizedBox(height: 16),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                Column(
-                                  children: [
-                                    Container(
-                                      padding: const EdgeInsets.all(20.0),
-                                      alignment: Alignment.center,
-                                      decoration: BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        color: Colors.green,
-                                      ),
-                                      child: Icon(
-                                        Icons.phone,
-                                        color: Colors.white,
-                                        size: 30,
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      height: 12,
-                                    ),
-                                    Text(
-                                      'LIGAR',
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 16,
-                                      ),
-                                    )
-                                  ],
-                                ),
-                                Column(
-                                  children: [
-                                    Container(
-                                      padding: const EdgeInsets.all(20.0),
-                                      alignment: Alignment.center,
-                                      decoration: BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        color: Colors.green,
-                                      ),
-                                      child: Icon(
-                                        Icons.phone,
-                                        color: Colors.white,
-                                        size: 30,
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      height: 12,
-                                    ),
-                                    Text(
-                                      'MENSAGEM',
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 16,
-                                      ),
-                                    )
-                                  ],
-                                )
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(4.0),
+                  child: Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
                     ),
-                  ),                  
-                ],
-              ),
-            ],
+                    elevation: 8.0,
+                    child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: ConstrainedBox(
+                          constraints:
+                              BoxConstraints(minHeight: 0.0, maxHeight: 120),
+                          child: Container(
+                            width: double.infinity,
+                            child: Stack(
+                              children: [
+                                SingleChildScrollView(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(top: 4.0),
+                                        child: Text(
+                                          'Descrição',
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .headline1
+                                              .copyWith(color: Colors.black54),
+                                        ),
+                                      ),
+                                      Divider(),
+                                      Text(pet.details),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        )),
+                  ),
+                ),
+                SizedBox(height: 5),
+                _divider(),
+                Container(
+                  height: 120,
+                  child: Padding(
+                    padding: const EdgeInsets.all(4.0),
+                    child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: userDetails.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return UserCardInfo(
+                          text: userDetails[index]['text'],
+                          icon: userDetails[index]['icon'],
+                          image: userDetails[index]['image'],
+                          imageN: userDetails[index]['imageN'],
+                        );
+                      },
+                    ),
+                  ),
+                ),
+                SizedBox(height: 140.0),
+              ],
+            ),
           ),
+          Positioned(
+            bottom: 18.0,
+            left: 20.0,
+            child: ButtonWide(
+              text: 'ADOTAR',
+              color: Colors.red,
+            ),
+          )
         ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          print(isFavorite);
+          favoriteHandler();
+        },
+        tooltip: isFavorite ? 'Favorito' : 'Favoritar',
+        backgroundColor: isFavorite ? Colors.white : Colors.red,
+        child: Icon(
+          isFavorite ? Icons.favorite : Icons.favorite_border,
+          color: isFavorite ? Colors.red : Colors.white,
+        ),
       ),
     );
   }
@@ -203,14 +200,15 @@ class _PetDetailsState extends State<PetDetails> {
       child: Row(
         children: <Widget>[
           Expanded(child: Divider(color: Colors.grey)),
-          Text(" ADOTAR ", style: TextStyle(color: Colors.grey)),
-          Expanded(child: Divider(color: Colors.grey)),
+          Text(" Informações do anunciante ",
+              style: TextStyle(color: Colors.black87)),
+          Expanded(child: Divider(color: Colors.black87)),
         ],
       ),
     );
   }
 
-  Widget showImages(Map photos) {
+  Widget showImages(Map photos, String announcerName) {
     return Stack(
       children: [
         Container(
