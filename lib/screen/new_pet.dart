@@ -45,6 +45,8 @@ class _NovoPetState extends State<NovoPet> {
   Map<String, File> petPhotos = {};
   Map<String, String> petPhotosToUpload = {};
 
+  Authentication auth;
+
   String dropvalueSize;
   String dropvalueHealth;
   String dropvalueBreed;
@@ -67,6 +69,12 @@ class _NovoPetState extends State<NovoPet> {
     currentLocation = Provider.of<Location>(context, listen: false).location;
     userId = Provider.of<Authentication>(context, listen: false).firebaseUser.uid;
     print('Local $currentLocation');
+  }
+
+  @override
+  void didChangeDependencies() {
+    auth = Provider.of<Authentication>(context, listen: false);
+    super.didChangeDependencies();
   }
 
   void selectImage(ImageSource source, int index) async {
@@ -236,7 +244,9 @@ class _NovoPetState extends State<NovoPet> {
       breed: dropvalueBreed,
       health: dropvalueHealth,
       ownerId: userId,
-      ownerName: Provider.of<Authentication>(context, listen: false).firebaseUser.displayName,
+      ownerName: auth.firebaseUser.displayName,
+      ownerPhotoURL: auth.firebaseUser.photoURL,
+      ownerPhoneNumber: auth.firebaseUser.phoneNumber,
       photos: petPhotosToUpload,
       size: dropvalueSize,
       latitude: currentLocation.latitude,
@@ -247,7 +257,7 @@ class _NovoPetState extends State<NovoPet> {
       address: 'Vazio Ainda',
     );
 
-    await petController.insertPet(dataPetSave, kind);
+    await petController.insertPet(dataPetSave, kind, auth);
     petPhotosToUpload.clear();
     changeLogginStatus(false);
     return Future.value();
@@ -311,11 +321,7 @@ class _NovoPetState extends State<NovoPet> {
                 ),
               ),
               child: Center(
-                child: Card(
-                  // shape: RoundedRectangleBorder(
-                  //   borderRadius: BorderRadius.circular(16.0),
-                  // ),
-                  // color: Colors.transparent,
+                child: Card(                
                   color: Color(0XFFD6D6D6), //Theme.of(context).accentColor,
                   child: SingleChildScrollView(
                     child: Column(

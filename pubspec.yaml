@@ -101,6 +101,9 @@ flutter:
         - asset: fonts/Rajdhani-Regular.ttf
         - asset: fonts/Rajdhani-SemiBold.ttf          
           weight: 700
+    - family: PetDetailIcons
+      fonts:
+        - asset: fonts/PetDetailIcons.ttf
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
