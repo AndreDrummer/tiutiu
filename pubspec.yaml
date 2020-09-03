@@ -47,6 +47,7 @@ dependencies:
   loading_animations: ^2.1.0
   pedantic: any
   mask_text_input_formatter: ^1.0.7
+  rxdart: ^0.24.1
 
 flutter_icons:
   android: "launcher_icon"

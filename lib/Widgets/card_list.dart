@@ -134,7 +134,7 @@ class _CardListState extends State<CardList> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
                               Text(
-                                '${widget.petInfo.toMap()['ownerName']} está ${widget.donate ? 'doando' : 'procurando'}.',
+                                '${widget.petInfo.toMap()['ownerName']} está ${widget.kind == 'Donate' ? 'doando' : 'procurando'}.',
                                 style: TextStyle(
                                   fontWeight: FontWeight.w500,
                                 ),
