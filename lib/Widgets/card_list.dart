@@ -6,9 +6,14 @@ import 'package:tiutiu/utils/constantes.dart';
 import 'package:tiutiu/utils/routes.dart';
 
 class CardList extends StatefulWidget {
-  CardList({this.petInfo, this.donate = true});
+  CardList({
+    this.petInfo,
+    this.donate = true,
+    this.kind,
+  });
 
   final petInfo;
+  final String kind;
   final bool donate;
 
   @override
@@ -55,14 +60,19 @@ class _CardListState extends State<CardList> {
     return InkWell(
       onTap: () {
         Navigator.pushNamed(context, Routes.PET_DETAILS,
-            arguments: widget.petInfo);
+            arguments: {'petInfo': widget.petInfo, 'kind': widget.kind});
       },
       child: Padding(
         padding: const EdgeInsets.all(4.0),
         child: FutureBuilder(
-          future: Future.delayed(Duration(
-              seconds:
-                  1)), //calculateDistance(widget.petInfo.toMap()['latitude'], widget.petInfo.toMap()['longitude']),
+          future:
+              // Future.delayed(
+              //   Duration(
+              //     seconds: 1,
+              //   ),
+              // ),
+              calculateDistance(widget.petInfo.toMap()['latitude'],
+                  widget.petInfo.toMap()['longitude']),
           builder: (_, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Center(
@@ -144,16 +154,16 @@ class _CardListState extends State<CardList> {
                                 child: Row(
                                   children: [
                                     Text(
-                                      // 'Está a ${snapshot.data[0]}, ',
-                                      'Está a 1 km, ',
+                                      'Está a ${snapshot.data[0]}, ',
+                                      // 'Está a 1 km, ',
                                       style: TextStyle(
                                         fontWeight: FontWeight.w700,
                                       ),
                                     ),
                                     SizedBox(width: 2),
                                     Text(
-                                      // '${snapshot.data[1]} daqui',
-                                      '5 min daqui',
+                                      '${snapshot.data[1]} daqui',
+                                      // '5 min daqui',
                                       style: TextStyle(
                                         fontWeight: FontWeight.w700,
                                       ),

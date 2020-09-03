@@ -4,6 +4,7 @@ import 'package:tiutiu/Widgets/loading_page.dart';
 import 'package:tiutiu/providers/auth2.dart';
 import 'package:tiutiu/screen/auth_screen.dart';
 import 'package:tiutiu/screen/home.dart';
+import 'package:tiutiu/screen/register.dart';
 
 class AuthOrHome extends StatelessWidget {
   @override
@@ -17,8 +18,11 @@ class AuthOrHome extends StatelessWidget {
         } else if (snapshot.hasError) {
           return Center(child: Text('Ocorreu um erro! ${snapshot.error}'));
         } else {
-          print('Esta logado? ${auth.firebaseUser != null}');
-          return auth.firebaseUser != null ? Home() : AuthScreen();
+          if (auth.firebaseUser != null) {
+            print('USUÁRIO EXISTE ${auth.firebaseUser.uid} ${auth.isRegistered}');
+            return auth.isRegistered ? Home() : Register();
+          }          
+          return AuthScreen();          
         }
       },
     );
