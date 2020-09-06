@@ -34,6 +34,9 @@ class _RegisterState extends State<Register> {
   bool userProfileHasError = false;
   String userProfileHasErrorMessage = '';
 
+  bool nameHasError = false;
+  String nameHasErrorMessage = '';
+
   bool finishing = false;
 
   void setFinishing(bool status) {
@@ -46,8 +49,8 @@ class _RegisterState extends State<Register> {
   void didChangeDependencies() {
     userProvider = Provider.of(context, listen: false);
     auth = Provider.of(context, listen: false);
-    if (userProvider.photoURL != null) {
-      userProfile.putIfAbsent('photoURL', () => userProvider.photoFILE);
+    if (userProvider.photoFILE != null) {
+      userProfile.putIfAbsent('photoFile', () => userProvider.photoFILE);
     }
     if (userProvider.whatsapp != null) {
       _whatsapp.text = userProvider.whatsapp;
@@ -66,8 +69,8 @@ class _RegisterState extends State<Register> {
       () {
         imageFile0 = image;
         userProfile.clear();
-        userProfile.putIfAbsent('photoURL', () => imageFile0);
-        userProvider.changePhotoFILE(userProfile['photoURL']);
+        userProfile.putIfAbsent('photoFile', () => imageFile0);
+        userProvider.changePhotoFILE(userProfile['photoFile']);
       },
     );
   }
@@ -147,7 +150,7 @@ class _RegisterState extends State<Register> {
     RegExp regExp = new RegExp(patttern);
     if (value.length == 0) {
       return null;
-    } else if (value.length < 12) {
+    } else if (value.length < 10) {
       setState(() {
         telefoneHasErrorMessage = "O telefone deve ter 12 dígitos";
         telefoneHasError = true;
@@ -185,6 +188,7 @@ class _RegisterState extends State<Register> {
 
   TextEditingController _whatsapp = TextEditingController();
   TextEditingController _telefone = TextEditingController();
+  TextEditingController _name = TextEditingController();
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   Future<void> uploadPhotos() async {
@@ -194,8 +198,8 @@ class _RegisterState extends State<Register> {
     storageReference = FirebaseStorage.instance
         .ref()
         .child('${auth.firebaseUser.uid}')
-        .child('avatar');
-    uploadTask = storageReference.putFile(userProfile['photoURL']);
+        .child('avatar/foto_perfil');
+    uploadTask = storageReference.putFile(userProfile['photoFile']);
 
     await uploadTask.onComplete;
     await storageReference.getDownloadURL().then((urlDownload) async {
@@ -206,18 +210,19 @@ class _RegisterState extends State<Register> {
     return Future.value();
   }
 
-  Future<void> save() async {    
+  Future<void> save() async {
     await uploadPhotos();
     await FirebaseFirestore.instance
         .collection('Users')
         .doc(auth.firebaseUser.uid)
         .set({
-      'displayName': auth.firebaseUser.displayName,
+      'displayName': _name.text,
       'uid': auth.firebaseUser.uid,
       'photoURL': photoURL,
       'phoneNumber': _whatsapp.text
     });
     userProvider.changePhotoUrl(photoURL);
+    userProfile.clear();
     return Future.value();
   }
 
@@ -250,7 +255,7 @@ class _RegisterState extends State<Register> {
                               color: Colors.black54,
                             ),
                       ),
-                      SizedBox(height: 25),
+                      SizedBox(height: 20),
                       InkWell(
                         onTap: () {
                           openModalSelectMedia(context);
@@ -267,7 +272,7 @@ class _RegisterState extends State<Register> {
                                       ? Icon(Icons.person,
                                           color: Colors.white38, size: 50)
                                       : Image.file(
-                                          userProfile['photoURL'],
+                                          userProfile['photoFile'],
                                           width: 1000,
                                           height: 1000,
                                           fit: BoxFit.cover,
@@ -281,22 +286,40 @@ class _RegisterState extends State<Register> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 userProfileHasError
-                                    ? HintError(message: userProfileHasErrorMessage)
+                                    ? HintError(
+                                        message: userProfileHasErrorMessage)
                                     : Container(),
                               ],
                             ),
                           ],
                         ),
                       ),
-                      SizedBox(height: 25),
-                      Align(
-                        alignment: Alignment(-0.9, 1),
-                        child: Text('Informe seu WhatsApp'),
+                      SizedBox(height: 20),                                          
+                      InputText(                      
+                        placeholder: 'Nome Completo',                        
+                        controller: _name,
+                        validator: (String text) {
+                          if (text.isEmpty || text.length < 3) {
+                            setState(() {
+                              nameHasErrorMessage = "Seu nome é obrigatório";
+                              nameHasError = true;
+                            });
+                          } else {
+                            setState(() {
+                              nameHasErrorMessage = "";
+                              nameHasError = false;
+                            });
+                          }
+                        },
                       ),
-                      SizedBox(height: 5),
+                      nameHasError
+                          ? HintError(message: nameHasErrorMessage)
+                          : Container(),
+                      SizedBox(height: 20),                                            
                       InputText(
                         inputFormatters: [celularMask],
-                        placeholder: '(XX) X XXXX-XXXX',
+                        placeholder: 'Informe seu Whatsapp',
+                        hintText: '(XX) X XXXX-XXXX',
                         keyBoardTypeNumber: true,
                         controller: _whatsapp,
                         validator: validarCelular,
@@ -307,11 +330,7 @@ class _RegisterState extends State<Register> {
                       whatsappHasError
                           ? HintError(message: whatsappHasErrorMessage)
                           : Container(),
-                      SizedBox(height: 30),
-                      Align(
-                        alignment: Alignment(-0.9, 1),
-                        child: Text('Informe um telefone residencial (Opcional)'),
-                      ),
+                      SizedBox(height: 30),                     
                       SizedBox(height: 5),
                       InputText(
                         inputFormatters: [telefoneMask],
@@ -321,7 +340,8 @@ class _RegisterState extends State<Register> {
                             return validarTelefone(value);
                           }
                         },
-                        placeholder: '(XX) XXXX-XXXX',
+                        placeholder: 'Informe um telefone fixo (Opcional)',
+                        hintText: '(XX) XXXX-XXXX',
                         keyBoardTypeNumber: true,
                         controller: _telefone,
                         onChanged: () {
@@ -337,23 +357,29 @@ class _RegisterState extends State<Register> {
               ),
             ),
           ),
-          finishing ? Container(
-            height: MediaQuery.of(context).size.height,
-            width: MediaQuery.of(context).size.width,
-            color: Colors.black54,
-            child: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  LoadingBumpingLine.circle(
-                    backgroundColor: Colors.white,
+          finishing
+              ? Container(
+                  height: MediaQuery.of(context).size.height,
+                  width: MediaQuery.of(context).size.width,
+                  color: Colors.black54,
+                  child: Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        LoadingBumpingLine.circle(
+                          backgroundColor: Colors.white,
+                        ),
+                        SizedBox(height: 15),
+                        Text('Finalizando cadastro',
+                            style: Theme.of(context)
+                                .textTheme
+                                .headline1
+                                .copyWith())
+                      ],
+                    ),
                   ),
-                  SizedBox(height: 15),
-                  Text('Finalizando cadastro', style: Theme.of(context).textTheme.headline1.copyWith())
-                ],
-              ),
-            ),
-          ) : Container()
+                )
+              : Container()
         ],
       ),
       bottomNavigationBar: ButtonWide(
@@ -365,7 +391,7 @@ class _RegisterState extends State<Register> {
             setFinishing(true);
             await save();
             setFinishing(false);
-            await auth.alreadyRegistered();
+            await auth.alreadyRegistered(userProvider);
             Navigator.pushReplacementNamed(context, Routes.AUTH_HOME);
           }
         },

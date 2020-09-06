@@ -17,6 +17,7 @@ class InputText extends StatefulWidget {
     this.maxlines = 1,
     this.multiline = false,
     this.validator,
+    this.hintText,
     this.inputFormatters = const [],
   });
   
@@ -33,11 +34,13 @@ class InputText extends StatefulWidget {
     this.seePassword = false,
     this.isLogin = true,
     this.validator,
+    this.hintText,
     this.inputFormatters = const [],
   });
 
   final double size;
   final String placeholder;
+  final String hintText;
   final TextEditingController controller;
   final bool multiline;
   final bool isLogin;
@@ -59,7 +62,7 @@ class _InputTextState extends State<InputText> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: widget.size,
+      height: widget.hintText != null ? 70 : widget.size,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12.0),
         color: widget.isLogin ? Colors.white70 : Colors.white,
@@ -82,7 +85,7 @@ class _InputTextState extends State<InputText> {
                     return 'Preencha corretamente esse campo';
                   }
                   return null;
-                },                          
+                },                                         
                 readOnly: widget.readOnly,
                 controller: widget.controller,
                 textInputAction: TextInputAction.done,
@@ -93,8 +96,9 @@ class _InputTextState extends State<InputText> {
                     ? TextInputType.multiline
                     : widget.keyBoardTypeNumber
                         ? TextInputType.number
-                        : TextInputType.text,
-                decoration: InputDecoration(
+                        : TextInputType.text,                                                
+                decoration: InputDecoration(                                                 
+                  hintText: widget.hintText,                  
                   labelText: widget.placeholder,
                   labelStyle: TextStyle(
                     color: widget.isLogin

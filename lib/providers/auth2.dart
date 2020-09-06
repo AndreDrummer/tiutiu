@@ -6,6 +6,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:tiutiu/data/store_login.dart';
 import 'package:tiutiu/Exceptions/titiu_exceptions.dart';
+import 'package:tiutiu/providers/user_provider.dart';
 
 class Authentication extends ChangeNotifier {
   final GoogleSignIn _googleSignIn = GoogleSignIn();
@@ -13,7 +14,7 @@ class Authentication extends ChangeNotifier {
   User firebaseUser;
   bool isRegistered = false;
 
-  Future<void> loginWithGoogle({bool autologin = false}) async {
+  Future<void> loginWithGoogle({bool autologin = false, UserProvider userProvider}) async {
     // ignore: omit_local_variable_types
     GoogleSignInAccount googleUser = _googleSignIn.currentUser;
 
@@ -41,13 +42,13 @@ class Authentication extends ChangeNotifier {
       firebaseUser = (await _auth.signInWithCredential(credential)).user;
     }
 
-    await alreadyRegistered();
+    await alreadyRegistered(userProvider);
     notifyListeners(); 
     return Future.value();
   }
 
   Future<void> createUserWithEmailAndPassword(
-      String email, String password) async {
+      String email, String password, {UserProvider userProvider}) async {
     try {
       // ignore: omit_local_variable_types
       UserCredential result = await _auth.createUserWithEmailAndPassword(
@@ -66,7 +67,7 @@ class Authentication extends ChangeNotifier {
       }
     }
 
-    await alreadyRegistered();
+    await alreadyRegistered(userProvider);
     notifyListeners();
     return Future.value();
   }
@@ -77,7 +78,7 @@ class Authentication extends ChangeNotifier {
   }
 
   Future<void> signInWithEmailAndPassword(
-      String email, String password) async {
+      String email, String password, {UserProvider userProvider}) async {
     try {
       // ignore: omit_local_variable_types
       UserCredential result = await _auth.signInWithEmailAndPassword(
@@ -96,7 +97,7 @@ class Authentication extends ChangeNotifier {
       }
     }
 
-    await alreadyRegistered();
+    await alreadyRegistered(userProvider);
     notifyListeners();
     return Future.value();
   }
@@ -110,11 +111,15 @@ class Authentication extends ChangeNotifier {
     print('Deslogado!');
   }
 
-   Future<void> alreadyRegistered() async {
+   Future<void> alreadyRegistered(UserProvider userProvider) async {
     final CollectionReference usersEntrepreneur =
         FirebaseFirestore.instance.collection('Users');    
     String id = firebaseUser.uid;    
     DocumentSnapshot doc = await usersEntrepreneur.doc(id).get();
+
+    userProvider.changePhotoUrl(doc.data()['photoURL']);
+    userProvider.changeWhatsapp(doc.data()['phoneNumber']);
+    userProvider.changeDisplayName(doc.data()['displayName']);
 
     if (doc.data() != null) {
       print("${doc.data()['uid']} $id");
@@ -131,7 +136,7 @@ class Authentication extends ChangeNotifier {
     return Future.value();
   }
 
-  Future<void> tryAutoLoginIn() async {
+  Future<void> tryAutoLoginIn({UserProvider userProvider}) async {
     if (firebaseUser != null) {
       print('firebaseUser não é nulo');
       return Future.value();
@@ -143,10 +148,10 @@ class Authentication extends ChangeNotifier {
       print('Login com email e senha');
       final email = userData['email'];
       final password = userData['password'];
-      await signInWithEmailAndPassword(email, password);
+      await signInWithEmailAndPassword(email, password, userProvider: userProvider);
     } else {
       print('Login com google');
-      await loginWithGoogle(autologin: true);
+      await loginWithGoogle(autologin: true, userProvider: userProvider);
 
       return Future.value();
     }

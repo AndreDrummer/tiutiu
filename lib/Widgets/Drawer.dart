@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tiutiu/Widgets/listTile_drawer.dart';
 import 'package:tiutiu/providers/auth2.dart';
+import 'package:tiutiu/providers/user_provider.dart';
 import 'package:tiutiu/utils/routes.dart';
 
 class DrawerApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final auth = Provider.of<Authentication>(context, listen: false);
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
     final height = MediaQuery.of(context).size.height;
     return Drawer(
       child: Container(
@@ -44,7 +46,7 @@ class DrawerApp extends StatelessWidget {
                           style: BorderStyle.solid,
                         ),
                       ),
-                      child: auth.firebaseUser.photoURL != null
+                      child: userProvider.photoURL != null
                           ? CircleAvatar(
                               backgroundColor: Colors.transparent,
                               radius: 40,
@@ -53,7 +55,7 @@ class DrawerApp extends StatelessWidget {
                                   placeholder:
                                       AssetImage('assets/profileEmpty.jpg'),
                                   image: NetworkImage(
-                                    auth.firebaseUser.photoURL,
+                                    userProvider.photoURL,
                                   ),
                                   fit: BoxFit.cover,
                                   width: 1000,
@@ -64,11 +66,14 @@ class DrawerApp extends StatelessWidget {
                           : Icon(Icons.account_circle),
                     ),
                     SizedBox(width: 15),
-                    Text(
-                      '${auth.firebaseUser.displayName}',
-                      style: Theme.of(context).textTheme.headline1.copyWith(
-                        fontSize: 25
-                      )
+                    Expanded(                    
+                      child: Text(                        
+                        '${userProvider.displayName}',
+                        textAlign: TextAlign.left,
+                        style: Theme.of(context).textTheme.headline1.copyWith(
+                          fontSize: 22
+                        )
+                      ),
                     )
                   ],
                 ),
