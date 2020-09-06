@@ -7,6 +7,7 @@ class UserProvider with ChangeNotifier {
   String _whatsapp;
   String _telefone;
   String _photoUrl;
+  String _displayName;
 
   void changePhotoFILE(File file) {
     _photoFILE = file;
@@ -15,6 +16,11 @@ class UserProvider with ChangeNotifier {
 
   void changeWhatsapp(String number) {
     _whatsapp = number;
+    notifyListeners();
+  }
+
+  void changeDisplayName(String name) {
+    _displayName = name;
     notifyListeners();
   }
 
@@ -30,6 +36,7 @@ class UserProvider with ChangeNotifier {
 
   File get photoFILE => _photoFILE;
   String get telefone => _telefone;
+  String get displayName => _displayName;
   String get photoURL => _photoUrl;
   String get whatsapp => _whatsapp;
 
