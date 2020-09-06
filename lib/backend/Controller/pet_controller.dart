@@ -46,13 +46,7 @@ class PetController {
     return pets;
   }
 
-  Future<void> insertPet(Pet pet, String petKind, Authentication auth) async {
-    print(pet.toMap());
-    final DocumentSnapshot userData = await FirebaseFirestore.instance
-        .collection('Users')
-        .doc(auth.firebaseUser.uid)
-        .get();
-
+  Future<void> insertPet(Pet pet, String petKind, Authentication auth) async {        
     await FirebaseFirestore.instance
         .collection('Users')
         .doc(pet.ownerId)
