@@ -105,7 +105,7 @@ class DrawerApp extends StatelessWidget {
               tileName: 'Configurações',
               icon: Icons.settings,
               callback: () {
-                Navigator.pushNamed(context, Routes.CONFIG);
+                Navigator.pushNamed(context, Routes.SETTINGS);
               },
             ),
             // SizedBox(height: 140),

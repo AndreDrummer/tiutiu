@@ -15,6 +15,7 @@ import 'package:tiutiu/screen/home.dart';
 import 'package:tiutiu/screen/new_pet.dart';
 import 'package:tiutiu/screen/pet_detail.dart';
 import 'package:tiutiu/screen/register.dart';
+import 'package:tiutiu/screen/settings.dart';
 import './utils/routes.dart';
 
 void main() {
@@ -79,7 +80,9 @@ class App extends StatelessWidget {
               debugShowCheckedModeBanner: false,
               routes: {
                 Routes.NOVOPET: (ctx) => NovoPet(),
-                Routes.AUTH_HOME: (ctx) => AuthOrHome(),
+                // Routes.AUTH_HOME: (ctx) => AuthOrHome(),
+                Routes.AUTH_HOME: (ctx) => Settings(),
+                Routes.SETTINGS: (ctx) => Settings(),
                 Routes.REGISTER: (ctx) => Register(),
                 Routes.HOME: (ctx) => Home(),
                 Routes.DOADOS: (ctx) => Donate(),
