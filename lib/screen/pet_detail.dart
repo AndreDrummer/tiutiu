@@ -3,6 +3,7 @@ import 'package:loading_animations/loading_animations.dart';
 import 'package:tiutiu/Custom/pet_detail_icons_icons.dart';
 import 'package:tiutiu/Widgets/button.dart';
 import 'package:tiutiu/Widgets/card_details.dart';
+import 'package:tiutiu/Widgets/divider.dart';
 import 'package:tiutiu/Widgets/dots_indicator.dart';
 import 'package:tiutiu/backend/Model/pet_model.dart';
 import 'package:tiutiu/utils/constantes.dart';
@@ -148,7 +149,7 @@ class _PetDetailsState extends State<PetDetails> {
                   ),
                 ),
                 SizedBox(height: 5),
-                _divider(),
+                CustomDivider(text: 'Informações do anunciante'),
                 Container(
                   height: 120,
                   child: Padding(
@@ -193,20 +194,6 @@ class _PetDetailsState extends State<PetDetails> {
           color: isFavorite ? Colors.red : Colors.white,
         ),
       ) : null,
-    );
-  }
-
-  Widget _divider() {
-    return Container(
-      margin: EdgeInsets.symmetric(vertical: 5),
-      child: Row(
-        children: <Widget>[
-          Expanded(child: Divider(color: Colors.grey)),
-          Text(" Informações do anunciante ",
-              style: TextStyle(color: Colors.black87)),
-          Expanded(child: Divider(color: Colors.black87)),
-        ],
-      ),
     );
   }
 
