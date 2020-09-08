@@ -69,13 +69,17 @@ class UserCardInfo extends StatelessWidget {
     this.imageN,
     this.image,
     this.text,
+    this.title,
     this.icon,
+    this.color
   });
 
   final String text;
+  final String title;
   final String image;
   final String imageN;
   final IconData icon;
+  final Color color;
 
   @override
   Widget build(BuildContext context) {
@@ -87,8 +91,24 @@ class UserCardInfo extends StatelessWidget {
       child: Container(
         child: Column(
           children: [
+              Row(
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(4.0),
+                  child: Text(
+                    title,
+                    overflow: TextOverflow.fade,
+                    style: TextStyle(
+                      // fontSize: 10,
+                      // fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                ),
+              ],
+            ),
             Container(
-              height: 80,
+              height: 100,
               width: 120,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.all(
@@ -96,12 +116,12 @@ class UserCardInfo extends StatelessWidget {
                 ),
               ),
               child: ClipRRect(
-                borderRadius: BorderRadius.only(
-                  topRight: Radius.circular(12),
-                  topLeft: Radius.circular(12),
-                ),
+                // borderRadius: BorderRadius.only(
+                //   topRight: Radius.circular(12),
+                //   topLeft: Radius.circular(12),
+                // ),
                 child: Container(
-                  color: Colors.green,
+                  color: color,
                   child: icon != null
                     ? Icon(icon, color: Colors.white, size: 60)
                     : imageN != null

@@ -259,7 +259,10 @@ class _NovoPetState extends State<NovoPet> {
       ownerId: userId,
       ownerName: userProvider.displayName,
       ownerPhoneNumber: userProvider.whatsapp,
+      ownerEmail: auth.firebaseUser.email,
       ownerPhotoURL: userProvider.photoURL,
+      ownerLandline: userProvider.telefone,
+      ownerBetterContact: userProvider.getBetterContact,
       photos: petPhotosToUpload,
       size: dropvalueSize,
       latitude: currentLocation.latitude,
@@ -621,9 +624,12 @@ class _NovoPetState extends State<NovoPet> {
                           context: context,
                           builder: (context) => PopUpMessage(
                                 title: 'Pronto',
-                                action: () {
+                                confirmText: 'Ok',
+                                confirmAction: () {
                                   Navigator.popUntil(
-                                      context, ModalRoute.withName('/'));
+                                    context,
+                                    ModalRoute.withName('/'),
+                                  );
                                 },
                                 message: 'PET postado com sucesso!',
                               )).then(
