@@ -1,32 +1,38 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Pet {
-  Pet(
-      {this.name,
-      this.color,
-      this.ownerPhoneNumber,
-      this.ownerPhotoURL,
-      this.type,
-      this.avatar,
-      this.health,
-      this.ano,
-      this.meses,
-      this.breed,
-      this.size,
-      this.details,
-      this.photos,
-      this.ownerName,
-      this.ownerId,
-      this.latitude,
-      this.longitude,
-      this.address});
+  Pet({
+    this.name,
+    this.color,
+    this.ownerPhoneNumber,
+    this.ownerLandline,
+    this.ownerBetterContact,
+    this.ownerPhotoURL,
+    this.ownerEmail,
+    this.ownerName,
+    this.type,
+    this.avatar,
+    this.health,
+    this.ano,
+    this.meses,
+    this.breed,
+    this.size,
+    this.details,
+    this.photos,
+    this.ownerId,
+    this.latitude,
+    this.longitude,
+    this.address,
+  });
 
   Pet.fromSnapshot(DocumentSnapshot snapshot) {
     name = snapshot.data()['name'];
     color = snapshot.data()['color'];
     type = snapshot.data()['type'];
     ownerPhotoURL = snapshot.data()['ownerPhotoURL'];
+    ownerEmail = snapshot.data()['ownerEmail'];
     ownerPhoneNumber = snapshot.data()['ownerPhoneNumber'];
+    ownerLandline = snapshot.data()['ownerLandline'];
     avatar = snapshot.data()['avatar'];
     health = snapshot.data()['health'];
     ano = snapshot.data()['ano'];
@@ -40,6 +46,7 @@ class Pet {
     latitude = snapshot.data()['latitude'];
     longitude = snapshot.data()['longitude'];
     address = snapshot.data()['address'];
+    ownerBetterContact = snapshot.data()['ownerBetterContact'];
   }
 
   String name;
@@ -47,9 +54,12 @@ class Pet {
   String type;
   String ownerPhotoURL;
   String ownerPhoneNumber;
+  String ownerEmail;
+  String ownerLandline;
+  int ownerBetterContact;  
   String avatar;
   String health;
-  int ano;
+  int ano;  
   int meses;
   String breed;
   String size;
@@ -75,11 +85,14 @@ class Pet {
       'details': details,
       'ownerId': ownerId,
       'ownerName': ownerName,
+      'ownerEmail': ownerEmail,
       'latitude': latitude,
       'longitude': longitude,
       'address': address,
       'ownerPhotoURL': ownerPhotoURL,
       'ownerPhoneNumber': ownerPhoneNumber,
+      'ownerLandline': ownerLandline,
+      'ownerBetterContact': ownerBetterContact,
       'type': type,
     };
   }
@@ -101,7 +114,10 @@ class Pet {
     petMap['longitude'] = longitude;
     petMap['address'] = address;
     petMap['ownerPhotoURL'] = ownerPhotoURL;
+    petMap['ownerEmail'] = ownerEmail;
+    petMap['ownerLandline'] = ownerLandline;
     petMap['ownerPhoneNumber'] = ownerPhoneNumber;
+    petMap['ownerBetterContact'] = ownerBetterContact;
     petMap['type'] = type;
     petMap['color'] = color;
 

@@ -48,10 +48,10 @@ class App extends StatelessWidget {
                 create: (_) => Location(),
               ),
               ChangeNotifierProvider(
-                create: (_) => Authentication(),
-              ),
-              ChangeNotifierProvider(
                 create: (_) => UserProvider(),
+              ),
+              ChangeNotifierProvider(               
+                create: (_) => Authentication(),
               ),
               ChangeNotifierProvider(
                 create: (_) => ShowBottomNavigator(),
@@ -80,8 +80,8 @@ class App extends StatelessWidget {
               debugShowCheckedModeBanner: false,
               routes: {
                 Routes.NOVOPET: (ctx) => NovoPet(),
-                // Routes.AUTH_HOME: (ctx) => AuthOrHome(),
-                Routes.AUTH_HOME: (ctx) => Settings(),
+                Routes.AUTH_HOME: (ctx) => AuthOrHome(),
+                // Routes.AUTH_HOME: (ctx) => Settings(),
                 Routes.SETTINGS: (ctx) => Settings(),
                 Routes.REGISTER: (ctx) => Register(),
                 Routes.HOME: (ctx) => Home(),

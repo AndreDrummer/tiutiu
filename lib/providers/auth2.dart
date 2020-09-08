@@ -6,15 +6,14 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:tiutiu/data/store_login.dart';
 import 'package:tiutiu/Exceptions/titiu_exceptions.dart';
-import 'package:tiutiu/providers/user_provider.dart';
 
-class Authentication extends ChangeNotifier {
+class Authentication extends ChangeNotifier {      
   final GoogleSignIn _googleSignIn = GoogleSignIn();
   final FirebaseAuth _auth = FirebaseAuth.instance;
   User firebaseUser;
-  bool isRegistered = false;
+  bool isRegistered = false;    
 
-  Future<void> loginWithGoogle({bool autologin = false, UserProvider userProvider}) async {
+  Future<void> loginWithGoogle({bool autologin = false}) async {
     // ignore: omit_local_variable_types
     GoogleSignInAccount googleUser = _googleSignIn.currentUser;
 
@@ -42,13 +41,13 @@ class Authentication extends ChangeNotifier {
       firebaseUser = (await _auth.signInWithCredential(credential)).user;
     }
 
-    await alreadyRegistered(userProvider);
+    await alreadyRegistered();
     notifyListeners(); 
     return Future.value();
   }
 
   Future<void> createUserWithEmailAndPassword(
-      String email, String password, {UserProvider userProvider}) async {
+      String email, String password) async {
     try {
       // ignore: omit_local_variable_types
       UserCredential result = await _auth.createUserWithEmailAndPassword(
@@ -67,7 +66,7 @@ class Authentication extends ChangeNotifier {
       }
     }
 
-    await alreadyRegistered(userProvider);
+    await alreadyRegistered();
     notifyListeners();
     return Future.value();
   }
@@ -78,13 +77,12 @@ class Authentication extends ChangeNotifier {
   }
 
   Future<void> signInWithEmailAndPassword(
-      String email, String password, {UserProvider userProvider}) async {
+      String email, String password) async {
     try {
       // ignore: omit_local_variable_types
       UserCredential result = await _auth.signInWithEmailAndPassword(
           email: email, password: password);
-      firebaseUser = result.user;
-
+      firebaseUser = result.user;        
       if (firebaseUser != null) {
         Store.saveMap('userLogged', {
           'email': email,
@@ -93,11 +91,12 @@ class Authentication extends ChangeNotifier {
       }
     } catch (error) {
       if (Platform.isAndroid) {
+        print(error.code);
         throw TiuTiuAuthException(error.code);
       }
     }
 
-    await alreadyRegistered(userProvider);
+    await alreadyRegistered();
     notifyListeners();
     return Future.value();
   }
@@ -111,24 +110,18 @@ class Authentication extends ChangeNotifier {
     print('Deslogado!');
   }
 
-   Future<void> alreadyRegistered(UserProvider userProvider) async {
+   Future<void> alreadyRegistered() async {
     final CollectionReference usersEntrepreneur =
         FirebaseFirestore.instance.collection('Users');    
     String id = firebaseUser.uid;    
     DocumentSnapshot doc = await usersEntrepreneur.doc(id).get();
-
-    userProvider.changePhotoUrl(doc.data()['photoURL']);
-    userProvider.changeWhatsapp(doc.data()['phoneNumber']);
-    userProvider.changeDisplayName(doc.data()['displayName']);
-
+    
     if (doc.data() != null) {
       print("${doc.data()['uid']} $id");
       isRegistered = doc.data()['uid'].toString() == id;
       notifyListeners();
       return Future.value();
-    }
-
-    print('PASSOU');
+    }    
 
     isRegistered = false;
 
@@ -136,7 +129,7 @@ class Authentication extends ChangeNotifier {
     return Future.value();
   }
 
-  Future<void> tryAutoLoginIn({UserProvider userProvider}) async {
+  Future<void> tryAutoLoginIn() async {
     if (firebaseUser != null) {
       print('firebaseUser não é nulo');
       return Future.value();
@@ -148,10 +141,10 @@ class Authentication extends ChangeNotifier {
       print('Login com email e senha');
       final email = userData['email'];
       final password = userData['password'];
-      await signInWithEmailAndPassword(email, password, userProvider: userProvider);
+      await signInWithEmailAndPassword(email, password);
     } else {
       print('Login com google');
-      await loginWithGoogle(autologin: true, userProvider: userProvider);
+      await loginWithGoogle(autologin: true);
 
       return Future.value();
     }
