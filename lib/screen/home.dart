@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:provider/provider.dart';
@@ -6,6 +7,7 @@ import 'package:tiutiu/Widgets/loading_page.dart';
 import 'package:tiutiu/Widgets/popup_message.dart';
 import 'package:tiutiu/providers/auth2.dart';
 import 'package:tiutiu/providers/location.dart';
+import 'package:tiutiu/providers/user_provider.dart';
 
 import '../Widgets/floating_button_option.dart';
 import '../utils/routes.dart';
@@ -22,9 +24,20 @@ class _HomeState extends State<Home> {
   final ACTIVED_COLOR = Color(0XFF32CD32);
   final DESACTIVED_COLOR = Color(0XFF808080);
 
+  UserProvider userProvider;
+  Authentication auth;
+
   @override
   void initState() {
-    super.initState();    
+    super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    userProvider = Provider.of<UserProvider>(context, listen: false);
+    auth = Provider.of<Authentication>(context, listen: false);
+    setUserMetaData();
+    super.didChangeDependencies();
   }
 
   void _onItemTapped(int index) {
@@ -42,13 +55,18 @@ class _HomeState extends State<Home> {
           return PopUpMessage(
             title: 'Logout',
             message: 'Deseja realmente sair?',
-            action: () {
+            confirmAction: () {
               setState(() {
                 answer = true;
               });
               Navigator.pop(context);
               auth.signOut();
             },
+            confirmText: 'Sim',
+            denyAction: () {
+              Navigator.pop(context);
+            },
+            denyText: 'Não',
           );
         },
       ),
@@ -58,6 +76,33 @@ class _HomeState extends State<Home> {
     });
   }
 
+  void setUserMetaData() async {
+    final CollectionReference usersEntrepreneur =
+        FirebaseFirestore.instance.collection('Users');
+    DocumentSnapshot doc =
+        await usersEntrepreneur.doc(auth.firebaseUser.uid).get();
+
+    int betterContact;
+
+    switch (doc.data()['betterContact']) {
+      case 'WhatsApp':
+        betterContact = 0;
+        break;
+      case 'Telefone Fixo':
+        betterContact = 1;
+        break;
+      case 'E-mail':
+        betterContact = 2;
+        break;
+    }
+
+    userProvider.changePhotoUrl(doc.data()['photoURL']);
+    userProvider.changeWhatsapp(doc.data()['phoneNumber']);
+    userProvider.changeDisplayName(doc.data()['displayName']);
+    userProvider.changeTelefone(doc.data()['landline']);
+    userProvider.changeBetterContact(betterContact);
+  }
+
   @override
   Widget build(BuildContext context) {
     var _screens = <Widget>[
@@ -65,62 +110,66 @@ class _HomeState extends State<Home> {
       PetList(kind: 'Disappeared'),
     ];
 
-    var iconsChildren = [      
+    var iconsChildren = [
       Column(
-        children: <Widget>[          
+        children: <Widget>[
           IconButton(
             color: _selectedIndex == 0 ? ACTIVED_COLOR : DESACTIVED_COLOR,
             icon: Icon(Icons.menu),
-            onPressed: (){              
+            onPressed: () {
               _onItemTapped(0);
             },
           ),
-          Text('P/ Adoção', style: TextStyle(color: _selectedIndex == 0 ? ACTIVED_COLOR : DESACTIVED_COLOR,))
+          Text('P/ Adoção',
+              style: TextStyle(
+                color: _selectedIndex == 0 ? ACTIVED_COLOR : DESACTIVED_COLOR,
+              ))
         ],
       ),
       Column(
-        children: <Widget>[          
+        children: <Widget>[
           IconButton(
             color: _selectedIndex == 1 ? ACTIVED_COLOR : DESACTIVED_COLOR,
             icon: Icon(Icons.assignment_late),
-            onPressed: (){              
+            onPressed: () {
               _onItemTapped(1);
             },
           ),
-          Text('Desaparecidos', style: TextStyle(color: _selectedIndex == 1 ? ACTIVED_COLOR : DESACTIVED_COLOR,))
+          Text('Desaparecidos',
+              style: TextStyle(
+                color: _selectedIndex == 1 ? ACTIVED_COLOR : DESACTIVED_COLOR,
+              ))
         ],
       ),
-    ];    
+    ];
 
     return WillPopScope(
       onWillPop: leaveApplication,
       child: Scaffold(
         backgroundColor: Colors.greenAccent,
         body: FutureBuilder(
-          future: Provider.of<Location>(context, listen: false).setLocation(),
-          builder: (_, AsyncSnapshot snapshot) {
-          if(snapshot.connectionState == ConnectionState.waiting) {
-            return LoadingPage();
-          }
-          return Stack(
-          children: <Widget>[
-            Padding(              
-              padding: const EdgeInsets.only(bottom:  100.0),
-              child: Center(
-                child: _screens.elementAt(_selectedIndex),
-              ),
-            ),
-            Positioned(              
-              bottom: -4.5,              
-              left: 0.2,
-              right: 0.1,
-              child: CustomBottomNavigatorBar(
-                children: iconsChildren                
-              ),
-            )
-          ],
-        );
-        }),   
+            future: Provider.of<Location>(context, listen: false).setLocation(),
+            builder: (_, AsyncSnapshot snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return LoadingPage();
+              }
+              return Stack(
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 100.0),
+                    child: Center(
+                      child: _screens.elementAt(_selectedIndex),
+                    ),
+                  ),
+                  Positioned(
+                    bottom: -4.5,
+                    left: 0.2,
+                    right: 0.1,
+                    child: CustomBottomNavigatorBar(children: iconsChildren),
+                  )
+                ],
+              );
+            }),
         floatingActionButton: SpeedDial(
           marginRight: 18,
           marginBottom: 20,
