@@ -39,6 +39,8 @@ class _RegisterState extends State<Register> {
 
   bool finishing = false;
 
+  int betterContact = 0;
+
   void setFinishing(bool status) {
     setState(() {
       finishing = status;
@@ -199,6 +201,8 @@ class _RegisterState extends State<Register> {
         .ref()
         .child('${auth.firebaseUser.uid}')
         .child('avatar/foto_perfil');
+
+    storageReference.delete();
     uploadTask = storageReference.putFile(userProfile['photoFile']);
 
     await uploadTask.onComplete;
@@ -211,6 +215,20 @@ class _RegisterState extends State<Register> {
   }
 
   Future<void> save() async {
+    String betterContact;
+
+    switch (userProvider.getBetterContact) {
+      case 0:
+        betterContact = 'WhatsApp';
+        break;
+      case 1:
+        betterContact = 'Telefone Fixo';
+        break;
+      case 2:
+        betterContact = 'E-mail';
+        break;
+    }
+
     await uploadPhotos();
     await FirebaseFirestore.instance
         .collection('Users')
@@ -219,7 +237,9 @@ class _RegisterState extends State<Register> {
       'displayName': _name.text,
       'uid': auth.firebaseUser.uid,
       'photoURL': photoURL,
-      'phoneNumber': _whatsapp.text
+      'phoneNumber': _whatsapp.text,
+      'landline': _telefone.text,
+      'betterContact': betterContact
     });
     userProvider.changePhotoUrl(photoURL);
     userProfile.clear();
@@ -294,9 +314,9 @@ class _RegisterState extends State<Register> {
                           ],
                         ),
                       ),
-                      SizedBox(height: 20),                                          
-                      InputText(                      
-                        placeholder: 'Nome Completo',                        
+                      SizedBox(height: 20),
+                      InputText(
+                        placeholder: 'Nome Completo',
                         controller: _name,
                         validator: (String text) {
                           if (text.isEmpty || text.length < 3) {
@@ -315,7 +335,7 @@ class _RegisterState extends State<Register> {
                       nameHasError
                           ? HintError(message: nameHasErrorMessage)
                           : Container(),
-                      SizedBox(height: 20),                                            
+                      SizedBox(height: 20),
                       InputText(
                         inputFormatters: [celularMask],
                         placeholder: 'Informe seu Whatsapp',
@@ -330,7 +350,7 @@ class _RegisterState extends State<Register> {
                       whatsappHasError
                           ? HintError(message: whatsappHasErrorMessage)
                           : Container(),
-                      SizedBox(height: 30),                     
+                      SizedBox(height: 30),
                       SizedBox(height: 5),
                       InputText(
                         inputFormatters: [telefoneMask],
@@ -351,6 +371,48 @@ class _RegisterState extends State<Register> {
                       telefoneHasError
                           ? HintError(message: telefoneHasErrorMessage)
                           : Container(),
+                      SizedBox(height: 20),
+                      Align(
+                        alignment: Alignment(-0.8, 1),
+                        child: Text('Escolha sua melhor forma de contato'),
+                      ),
+                      StreamBuilder<Object>(
+                        stream: userProvider.betterContact,
+                        builder: (context, snapshot) {
+                          return Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Radio(
+                                activeColor: Colors.green,
+                                groupValue: snapshot.data,
+                                value: 0,
+                                onChanged: (value) {
+                                  userProvider.changeBetterContact(value);
+                                },
+                              ),
+                              Text('WhatsApp'),
+                              Radio(
+                                activeColor: Colors.orange,
+                                groupValue: snapshot.data,
+                                value: 1,
+                                onChanged: (value) {
+                                  userProvider.changeBetterContact(value);
+                                },
+                              ),
+                              Text('Telefone Fixo'),
+                              Radio(
+                                activeColor: Colors.red,
+                                groupValue: snapshot.data,
+                                value: 2,
+                                onChanged: (value) {
+                                  userProvider.changeBetterContact(value);
+                                },
+                              ),
+                              Text('E-mail'),
+                            ],
+                          );
+                        },
+                      ),
                     ],
                   ),
                 ),
@@ -391,7 +453,7 @@ class _RegisterState extends State<Register> {
             setFinishing(true);
             await save();
             setFinishing(false);
-            await auth.alreadyRegistered(userProvider);
+            await auth.alreadyRegistered();
             Navigator.pushReplacementNamed(context, Routes.AUTH_HOME);
           }
         },
