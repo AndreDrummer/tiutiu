@@ -46,12 +46,15 @@ class _PetDetailsState extends State<PetDetails> {
     ];
 
     List userDetails = [
-      {'text': pet.ownerName ?? '', 'imageN': pet.ownerPhotoURL ?? ''},
+      {'text': pet.ownerName ?? '', 'imageN': pet.ownerPhotoURL ?? '', 'title': 'Clique p/ detalhar'},
       {
-        'text': pet.ownerPhoneNumber,
-        'icon': PetDetailIcons.whatsapp,
+        'text': pet.ownerBetterContact == 0 ? pet.ownerPhoneNumber : pet.ownerLandline == 1  ? pet.ownerLandline : pet.ownerEmail,
+        'icon': pet.ownerBetterContact == 0 ? PetDetailIcons.whatsapp : pet.ownerLandline == 1  ? Icons.phone : Icons.email,
+        'title': 'Melhor contato',
+        'color': pet.ownerBetterContact == 0 ? Colors.green : pet.ownerLandline == 1  ? Colors.orange : Colors.red,
       },
       {
+        'title': 'Clique p/ navegar',
         'text': 'Localização',
         'imageN':
             'https://maps.googleapis.com/maps/api/staticmap?center=${pet.latitude}, ${pet.longitude}&zoom=14&markers=color&markers=color:red%7Clabel:%7c-16.7502014,%20-49.256370000000004&size=600x400&key=${Constantes.WEB_API_KEY}',
@@ -151,7 +154,7 @@ class _PetDetailsState extends State<PetDetails> {
                 SizedBox(height: 5),
                 CustomDivider(text: 'Informações do anunciante'),
                 Container(
-                  height: 120,
+                  height: 170,
                   child: Padding(
                     padding: const EdgeInsets.all(4.0),
                     child: ListView.builder(
@@ -160,9 +163,11 @@ class _PetDetailsState extends State<PetDetails> {
                       itemBuilder: (BuildContext context, int index) {
                         return UserCardInfo(
                           text: userDetails[index]['text'],
+                          title: userDetails[index]['title'],
                           icon: userDetails[index]['icon'],
                           image: userDetails[index]['image'],
                           imageN: userDetails[index]['imageN'],
+                          color: userDetails[index]['color'],
                         );
                       },
                     ),
