@@ -1,15 +1,19 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:google_maps_webservice/distance.dart' as distanceMatrix;
 import 'package:provider/provider.dart';
 import 'package:tiutiu/providers/location.dart' as provider_location;
 import 'package:tiutiu/utils/constantes.dart';
+import 'package:tiutiu/utils/routes.dart';
 
 class CardList extends StatefulWidget {
-  CardList({this.petInfo, this.donate = true});
+  CardList({
+    this.petInfo,
+    this.donate = true,
+    this.kind,
+  });
 
   final petInfo;
+  final String kind;
   final bool donate;
 
   @override
@@ -17,22 +21,25 @@ class CardList extends StatefulWidget {
 }
 
 class _CardListState extends State<CardList> {
-
   Future calculateDistance(double latitude, double longitude) async {
-    provider_location.Location currentLoction = Provider.of(context, listen: false);
-    final distance = distanceMatrix.GoogleDistanceMatrix(apiKey: Constantes.WEB_API_KEY);    
+    provider_location.Location currentLoction =
+        Provider.of(context, listen: false);
+    final distance =
+        distanceMatrix.GoogleDistanceMatrix(apiKey: Constantes.WEB_API_KEY);
 
     var origins = [
-      distanceMatrix.Location(currentLoction.location.latitude, currentLoction.location.longitude),      
+      distanceMatrix.Location(
+          currentLoction.location.latitude, currentLoction.location.longitude),
     ];
-    var destinations = [      
+
+    var destinations = [
       distanceMatrix.Location(latitude, longitude),
     ];
 
     var responseForLocation = await distance.distanceWithLocation(
       origins,
       destinations,
-    );    
+    );
 
     if (responseForLocation.isOkay) {
       print(responseForLocation.destinationAddress.length);
@@ -43,105 +50,125 @@ class _CardListState extends State<CardList> {
       }
     } else {
       print('ERROR: ${responseForLocation.errorMessage}');
-    }   
-}
-
+    }
+  }
 
   @override
-  Widget build(BuildContext context) {      
-calculateDistance(widget.petInfo.toMap()['latitude'], widget.petInfo.toMap()['longitude']);
-    return Padding(
-      padding: const EdgeInsets.all(4.0),
-      child: FutureBuilder(
-        future: calculateDistance(widget.petInfo.toMap()['latitude'], widget.petInfo.toMap()['longitude']),
-        builder: (_, snapshot) {
-          if(snapshot.connectionState == ConnectionState.waiting) {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-        return Card(
-        // color: Colors.white70,
-        elevation: 3,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 6.0),
-          child: Row(
-            children: <Widget>[
-              Container(
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  border: Border.all(
-                    style: BorderStyle.solid,
-                    color: Colors.blueGrey[50],
+  Widget build(BuildContext context) {
+    calculateDistance(widget.petInfo.toMap()['latitude'],
+        widget.petInfo.toMap()['longitude']);
+    return InkWell(
+      onTap: () {
+        Navigator.pushNamed(context, Routes.PET_DETAILS,
+            arguments: {'petInfo': widget.petInfo, 'kind': widget.kind});
+      },
+      child: Padding(
+        padding: const EdgeInsets.all(4.0),
+        child: FutureBuilder(
+          future:
+              // Future.delayed(
+              //   Duration(
+              //     seconds: 1,
+              //   ),
+              // ),
+              calculateDistance(widget.petInfo.toMap()['latitude'],
+                  widget.petInfo.toMap()['longitude']),
+          builder: (_, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Center(
+                child: Container(
+                  padding: const EdgeInsets.all(20.0),
+                  child: CircularProgressIndicator(
+                    backgroundColor: Colors.white,
                   ),
                 ),
-                margin: const EdgeInsets.all(8.0),
-                child: ClipOval(
-                  child: CircleAvatar(
-                      radius: 50,
-                      backgroundColor: Colors.transparent,
-                      child: FadeInImage(
-                        placeholder: AssetImage('assets/logo.png'),
-                        image: NetworkImage(widget.petInfo.toMap()['avatar']),
-                        height: 1000,
-                        width: 1000,
-                        fit: BoxFit.fitWidth,
-                      )
-
-                      // Image.asset(
-                      //   'assets/pelo.jfif',
-                      //   height: 1000,
-                      //   fit: BoxFit.fitHeight,
-                      // ),
+              );
+            }
+            return Card(
+              // color: Colors.white70,
+              elevation: 3,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12)),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 6.0),
+                child: Row(
+                  children: <Widget>[
+                    Container(
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                          style: BorderStyle.solid,
+                          color: Colors.blueGrey[50],
+                        ),
                       ),
-                ),
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Text(
-                    widget.petInfo.toMap()['name'],
-                    style: TextStyle(fontWeight: FontWeight.w900, fontSize: 16),
-                  ),
-                  SizedBox(height: 8.0),
-                  Text(widget.petInfo.toMap()['breed']),
-                  SizedBox(height: 20),
-                  SizedBox(
-                    // width: MediaQuery.of(context).size.width * 0.525,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Text(
-                          '${widget.petInfo.toMap()['ownerName']} está ${widget.donate ? 'doando' : 'procurando'}.',
-                          style: TextStyle(
-                            fontWeight: FontWeight.w500,
+                      margin: const EdgeInsets.all(8.0),
+                      child: ClipOval(
+                        child: CircleAvatar(
+                          radius: 50,
+                          backgroundColor: Colors.transparent,
+                          child: FadeInImage(
+                            placeholder: AssetImage('assets/Logo.png'),
+                            image:
+                                NetworkImage(widget.petInfo.toMap()['avatar']),
+                            height: 1000,
+                            width: 1000,
+                            fit: BoxFit.fitWidth,
                           ),
                         ),
-                      ],
+                      ),
                     ),
-                  ),
-                  SizedBox(height: 20),
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.6,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 7.0),
+                        Text(
+                          widget.petInfo.toMap()['name'],
+                          style: TextStyle(
+                              fontWeight: FontWeight.w900, fontSize: 16),
+                        ),
+                        SizedBox(height: 8.0),
+                        Text(widget.petInfo.toMap()['breed']),
+                        SizedBox(height: 20),
+                        SizedBox(
+                          // width: MediaQuery.of(context).size.width * 0.525,
                           child: Row(
-                            children: [
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
                               Text(
-                                'Está a ${snapshot.data[0]}, ',
+                                '${widget.petInfo.toMap()['ownerName']} está ${widget.kind == 'Donate' ? 'doando' : 'procurando'}.',
                                 style: TextStyle(
-                                  fontWeight: FontWeight.w700,
+                                  fontWeight: FontWeight.w500,
                                 ),
                               ),
-                              SizedBox(width: 2),
-                              Text(
-                                '${snapshot.data[1]} daqui',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w700,
+                            ],
+                          ),
+                        ),
+                        SizedBox(height: 20),
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width * 0.6,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: <Widget>[
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 7.0),
+                                child: Row(
+                                  children: [
+                                    Text(
+                                      'Está a ${snapshot.data[0]}, ',
+                                      // 'Está a 1 km, ',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.w700,
+                                      ),
+                                    ),
+                                    SizedBox(width: 2),
+                                    Text(
+                                      '${snapshot.data[1]} daqui',
+                                      // '5 min daqui',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.w700,
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
                             ],
@@ -149,14 +176,13 @@ calculateDistance(widget.petInfo.toMap()['latitude'], widget.petInfo.toMap()['lo
                         ),
                       ],
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ],
-          ),
+            );
+          },
         ),
-      );
-      })
+      ),
     );
   }
 }

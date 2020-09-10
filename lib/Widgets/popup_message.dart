@@ -3,18 +3,23 @@ import 'package:flutter/material.dart';
 class PopUpMessage extends StatelessWidget {
   PopUpMessage({
     this.title,
-    this.message,
+    this.message,    
+    this.confirmText,
+    this.denyText,
     this.error = false,
     this.warning = false,
-    this.action,
-    this.showAllButtons = false,
+    this.confirmAction,
+    this.denyAction
   });
+
   final String title;
   final String message;
+  final String confirmText;
+  final String denyText;
   final bool error;
   final bool warning;
-  final bool showAllButtons;
-  final Function action;
+  final Function confirmAction;
+  final Function denyAction;
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +27,6 @@ class PopUpMessage extends StatelessWidget {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
       ),
-      // backgroundColor: Color(0XFFFFF176),
       backgroundColor: error
           ? Color(0XFFDC3545)
           : warning ? Color(0XFFFFC107) : Theme.of(context).primaryColor,
@@ -40,28 +44,30 @@ class PopUpMessage extends StatelessWidget {
           )
         ],
       ),
-      content: Text(message,
-          style: TextStyle(
-              color: Colors.black, fontSize: 15, fontWeight: FontWeight.w500)),
+      content: Text(
+        message,
+        style: TextStyle(
+            color: Colors.black, fontSize: 15, fontWeight: FontWeight.w500),
+      ),
       actions: <Widget>[
-        FlatButton(
-          onPressed: () {
-            if (action != null) {
-              action();
-            } else {
-              Navigator.pop(context);
-            }
-          },
-          child: Text(
-            '${action != null && showAllButtons ? 'Não' : 'OK'}',
-            style: TextStyle(color: Colors.white),
-          ),
-        ),
-        showAllButtons
+        confirmAction != null
             ? FlatButton(
-                onPressed: action,
+                onPressed: () {
+                  confirmAction();
+                },
                 child: Text(
-                  'Sim',
+                  confirmText,
+                  style: TextStyle(color: Colors.white),
+                ),
+              )
+            : Container(),
+        denyAction != null
+            ? FlatButton(
+                onPressed: () {
+                  denyAction();
+                },
+                child: Text(
+                  denyText,
                   style: TextStyle(color: Colors.white),
                 ),
               )
