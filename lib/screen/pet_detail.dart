@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_open_whatsapp/flutter_open_whatsapp.dart';
 import 'package:loading_animations/loading_animations.dart';
+import 'package:provider/provider.dart';
 import 'package:tiutiu/Custom/pet_detail_icons_icons.dart';
 import 'package:tiutiu/Widgets/button.dart';
 import 'package:tiutiu/Widgets/card_details.dart';
 import 'package:tiutiu/Widgets/divider.dart';
 import 'package:tiutiu/Widgets/dots_indicator.dart';
+import 'package:tiutiu/backend/Controller/user_controller.dart';
 import 'package:tiutiu/backend/Model/pet_model.dart';
+import 'package:tiutiu/providers/auth2.dart';
 import 'package:tiutiu/utils/constantes.dart';
+import 'package:maps_launcher/maps_launcher.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class PetDetails extends StatefulWidget {
   @override
@@ -22,12 +28,34 @@ class _PetDetailsState extends State<PetDetails> {
     Map<String, dynamic> arguments = ModalRoute.of(context).settings.arguments;
     Pet pet = arguments['petInfo'];
     String kind = arguments['kind'];
+    GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
     void favoriteHandler() {
       setState(() {
         isFavorite = !isFavorite;
       });
-    }    
+    }
+
+    Future<void> _makePhoneCall(String url) async {
+      if (await canLaunch(url)) {
+        await launch(url);
+      } else {
+        throw 'Could not launch $url';
+      }
+    }
+
+    // mailto:<email address>?subject=<subject>&body=<body>
+    Future<void> _sendEmail(
+        String emailAddress, String subject, String message) async {
+
+      var url = 'mailto:$emailAddress?subject=$subject&body=$message';
+
+      if (await canLaunch(url)) {
+        await launch(url);
+      } else {
+        throw 'Could not launch $url';
+      }      
+    }
 
     List details = [
       {'title': 'TIPO', 'text': pet.type, 'icon': PetDetailIcons.guidedog},
@@ -46,22 +74,69 @@ class _PetDetailsState extends State<PetDetails> {
     ];
 
     List userDetails = [
-      {'text': pet.ownerName ?? '', 'imageN': pet.ownerPhotoURL ?? '', 'title': 'Clique p/ detalhar'},
       {
-        'text': pet.ownerBetterContact == 0 ? pet.ownerPhoneNumber : pet.ownerLandline == 1  ? pet.ownerLandline : pet.ownerEmail,
-        'icon': pet.ownerBetterContact == 0 ? PetDetailIcons.whatsapp : pet.ownerLandline == 1  ? Icons.phone : Icons.email,
+        'text': pet.ownerName ?? '',
+        'launchIcon': Icons.remove_red_eye,
+        'imageN': pet.ownerPhotoURL ?? '',
+        'title': 'Clique p/ detalhar',
+        'callback': () {
+          print('Exibir perfil de usuário');
+        },
+      },
+      {
+        'text': pet.ownerBetterContact == 0
+            ? pet.ownerPhoneNumber
+            : pet.ownerBetterContact == 1 ? pet.ownerLandline : pet.ownerEmail,
+        'icon': pet.ownerBetterContact == 0
+            ? PetDetailIcons.whatsapp
+            : pet.ownerBetterContact == 1 ? Icons.phone : Icons.email,
         'title': 'Melhor contato',
-        'color': pet.ownerBetterContact == 0 ? Colors.green : pet.ownerLandline == 1  ? Colors.orange : Colors.red,
+        'color': pet.ownerBetterContact == 0
+            ? Colors.green
+            : pet.ownerBetterContact == 1 ? Colors.orange : Colors.red,
+        'callback': () {
+          String serializedNumber = pet.ownerPhoneNumber
+              .split('(')[1]
+              .replaceAll(')', '')
+              .replaceAll('-', '')
+              .replaceAll(' ', '');
+
+          if (pet.ownerBetterContact == 0) {
+            FlutterOpenWhatsapp.sendSingleMessage('+55$serializedNumber',
+                'Olá! Tenho interesse e gostaria de saber mais detalhes sobre o PET *${pet.name}* que postou no app *_Tiu, Tiu_*.');
+          } else if (pet.ownerBetterContact == 1) {
+            String serializedNumber = pet.ownerLandline
+                .split('(')[1]
+                .replaceAll(')', '')
+                .replaceAll('-', '')
+                .replaceAll(' ', '');
+            _makePhoneCall('tel: $serializedNumber');
+          } else {
+            _sendEmail(
+              pet.ownerEmail,
+              'Tenho interesse no PET ${pet.name}',
+              'Olá! Tenho interesse e gostaria de saber mais detalhes sobre o PET ${pet.name} que postou no app Tiu, Tiu.',
+            );
+          }
+        }
       },
       {
         'title': 'Clique p/ navegar',
         'text': 'Localização',
         'imageN':
             'https://maps.googleapis.com/maps/api/staticmap?center=${pet.latitude}, ${pet.longitude}&zoom=14&markers=color&markers=color:red%7Clabel:%7c-16.7502014,%20-49.256370000000004&size=600x400&key=${Constantes.WEB_API_KEY}',
+        'callback': () {
+          MapsLauncher.launchCoordinates(
+            pet.latitude,
+            pet.longitude,
+            pet.name,
+          );
+        }
       },
     ];
 
     return Scaffold(
+      key: _scaffoldKey,
       appBar: AppBar(
         leading: IconButton(
             icon: Icon(
@@ -168,6 +243,8 @@ class _PetDetailsState extends State<PetDetails> {
                           image: userDetails[index]['image'],
                           imageN: userDetails[index]['imageN'],
                           color: userDetails[index]['color'],
+                          callback: userDetails[index]['callback'],
+                          launchIcon: userDetails[index]['launchIcon'],
                         );
                       },
                     ),
@@ -179,7 +256,9 @@ class _PetDetailsState extends State<PetDetails> {
           ),
           Positioned(
             bottom: 18.0,
-            left: kind == 'Donate' ? 20.0 : MediaQuery.of(context).size.width * 0.17,
+            left: kind == 'Donate'
+                ? 20.0
+                : MediaQuery.of(context).size.width * 0.17,
             child: ButtonWide(
               text: kind == 'Donate' ? 'ADOTAR' : 'VI ELE AQUI PERTO',
               color: kind == 'Donate' ? Colors.red : Colors.green,
@@ -187,18 +266,27 @@ class _PetDetailsState extends State<PetDetails> {
           )
         ],
       ),
-      floatingActionButton: kind == 'Donate' ? FloatingActionButton(
-        onPressed: () {
-          print(isFavorite);
-          favoriteHandler();
-        },
-        tooltip: isFavorite ? 'Favorito' : 'Favoritar',
-        backgroundColor: isFavorite ? Colors.white : Colors.red,
-        child: Icon(
-          isFavorite ? Icons.favorite : Icons.favorite_border,
-          color: isFavorite ? Colors.red : Colors.white,
-        ),
-      ) : null,
+      floatingActionButton: kind == 'Donate'
+          ? FloatingActionButton(
+              onPressed: () {
+                final user = UserController();
+                final auth = Provider.of<Authentication>(context);
+                user.favorite(auth.firebaseUser.uid, 'TESTE', true).then((_) {
+                  _scaffoldKey.currentState.showSnackBar(
+                    SnackBar(
+                    content: Text(isFavorite ? 'Removido dos favoritos' : 'Adicionado como favorito'),                    
+                  ));
+                });
+                favoriteHandler();
+              },
+              tooltip: isFavorite ? 'Favorito' : 'Favoritar',
+              backgroundColor: isFavorite ? Colors.white : Colors.red,
+              child: Icon(
+                isFavorite ? Icons.favorite : Icons.favorite_border,
+                color: isFavorite ? Colors.red : Colors.white,
+              ),
+            )
+          : null,
     );
   }
 
