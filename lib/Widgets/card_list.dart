@@ -1,5 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_webservice/distance.dart' as distanceMatrix;
+import 'package:loading_animations/loading_animations.dart';
 import 'package:provider/provider.dart';
 import 'package:tiutiu/providers/location.dart' as provider_location;
 import 'package:tiutiu/utils/constantes.dart';
@@ -21,6 +23,11 @@ class CardList extends StatefulWidget {
 }
 
 class _CardListState extends State<CardList> {
+  Future loadOwner(DocumentReference doc) async {
+    final owner = await doc.get();
+    return Future.value(owner.data()['displayName']);
+  }
+
   Future calculateDistance(double latitude, double longitude) async {
     provider_location.Location currentLoction =
         Provider.of(context, listen: false);
@@ -133,12 +140,23 @@ class _CardListState extends State<CardList> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
-                              Text(
-                                '${widget.petInfo.toMap()['ownerName']} está ${widget.kind == 'Donate' ? 'doando' : 'procurando'}.',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
+                              FutureBuilder(
+                                  future: loadOwner(
+                                      widget.petInfo.toMap()['ownerReference']),
+                                  builder: (context, snapshot) {
+                                    if (snapshot.connectionState ==
+                                        ConnectionState.waiting) {
+                                      return LoadingBumpingLine.circle(
+                                        backgroundColor: Colors.white,
+                                      );
+                                    }
+                                    return Text(
+                                      '${snapshot.data} está ${widget.kind == 'Donate' ? 'doando' : 'procurando'}.',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    );
+                                  }),
                             ],
                           ),
                         ),
