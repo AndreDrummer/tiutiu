@@ -44,7 +44,7 @@ class PetsProvider with ChangeNotifier {
       await dataBaseCollection
           .doc(allUsersID[j])
           .collection('Pets')
-          .doc('pets')
+          .doc('posted')
           .collection('Disappeared')
           .get()
           .then((disappearedPETS) {
@@ -67,7 +67,7 @@ class PetsProvider with ChangeNotifier {
       await dataBaseCollection
           .doc(allUsersID[j])
           .collection('Pets')
-          .doc('pets')
+          .doc('posted')
           .collection('Donate')
           .get()
           .then((donatesPETS) {

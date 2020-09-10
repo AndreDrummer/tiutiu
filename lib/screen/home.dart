@@ -77,30 +77,17 @@ class _HomeState extends State<Home> {
   }
 
   void setUserMetaData() async {
-    final CollectionReference usersEntrepreneur =
-        FirebaseFirestore.instance.collection('Users');
-    DocumentSnapshot doc =
-        await usersEntrepreneur.doc(auth.firebaseUser.uid).get();
+    final CollectionReference usersEntrepreneur = FirebaseFirestore.instance.collection('Users');
+    DocumentSnapshot doc = await usersEntrepreneur.doc(auth.firebaseUser.uid).get();
 
-    int betterContact;
+    
 
-    switch (doc.data()['betterContact']) {
-      case 'WhatsApp':
-        betterContact = 0;
-        break;
-      case 'Telefone Fixo':
-        betterContact = 1;
-        break;
-      case 'E-mail':
-        betterContact = 2;
-        break;
-    }
-
+    userProvider.changeUserReference(doc.reference);
     userProvider.changePhotoUrl(doc.data()['photoURL']);
     userProvider.changeWhatsapp(doc.data()['phoneNumber']);
     userProvider.changeDisplayName(doc.data()['displayName']);
     userProvider.changeTelefone(doc.data()['landline']);
-    userProvider.changeBetterContact(betterContact);
+    userProvider.changeBetterContact(doc.data()['betterContact']);
   }
 
   @override
