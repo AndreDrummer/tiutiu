@@ -10,6 +10,7 @@ import 'package:tiutiu/Widgets/dots_indicator.dart';
 import 'package:tiutiu/backend/Controller/user_controller.dart';
 import 'package:tiutiu/backend/Model/pet_model.dart';
 import 'package:tiutiu/providers/auth2.dart';
+import 'package:tiutiu/providers/favorites_provider.dart';
 import 'package:tiutiu/utils/constantes.dart';
 import 'package:maps_launcher/maps_launcher.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -21,27 +22,27 @@ class PetDetails extends StatefulWidget {
 
 class _PetDetailsState extends State<PetDetails> {
   final PageController _pageController = PageController();
-  bool isFavorite = false;
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  FavoritesProvider favoritesProvider;
 
   Future<void> _makePhoneCall(String url) async {
-      if (await canLaunch(url)) {
-        await launch(url);
-      } else {
-        throw 'Could not launch $url';
-      }
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
     }
-  
-    Future<void> _sendEmail(
-        String emailAddress, String subject, String message) async {
-      var url = 'mailto:$emailAddress?subject=$subject&body=$message';
+  }
 
-      if (await canLaunch(url)) {
-        await launch(url);
-      } else {
-        throw 'Could not launch $url';
-      }
+  Future<void> _sendEmail(
+      String emailAddress, String subject, String message) async {
+    var url = 'mailto:$emailAddress?subject=$subject&body=$message';
+
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
     }
+  }
 
   Future<Map<String, dynamic>> loadOwnerInfo(Pet pet) async {
     final user = await pet.ownerReference.get();
@@ -66,15 +67,23 @@ class _PetDetailsState extends State<PetDetails> {
       {
         'text': user.data()['displayName'] ?? '',
         'launchIcon': Icons.remove_red_eye,
-        'imageN': user.data()['photoURL'] ?? '',        
+        'imageN': user.data()['photoURL'] ?? '',
         'callback': () {
           print('Exibir perfil de usuário');
         },
       },
       {
-        'text': user.data()['betterContact'] == 0 ? user.data()['phoneNumber'] : user.data()['betterContact'] == 1 ? user.data()['landline'] : user.data()['email'],
-        'icon': user.data()['betterContact'] == 0 ? PetDetailIcons.whatsapp : user.data()['betterContact'] == 1 ? Icons.phone : Icons.email,        
-        'color': user.data()['betterContact'] == 0 ? Colors.green : user.data()['betterContact'] == 1 ? Colors.orange : Colors.red,
+        'text': user.data()['betterContact'] == 0
+            ? user.data()['phoneNumber']
+            : user.data()['betterContact'] == 1
+                ? user.data()['landline']
+                : user.data()['email'],
+        'icon': user.data()['betterContact'] == 0
+            ? PetDetailIcons.whatsapp
+            : user.data()['betterContact'] == 1 ? Icons.phone : Icons.email,
+        'color': user.data()['betterContact'] == 0
+            ? Colors.green
+            : user.data()['betterContact'] == 1 ? Colors.orange : Colors.red,
         'callback': () {
           String serializedNumber = user
               .data()['phoneNumber']
@@ -86,7 +95,12 @@ class _PetDetailsState extends State<PetDetails> {
             FlutterOpenWhatsapp.sendSingleMessage('+55$serializedNumber',
                 'Olá! Tenho interesse e gostaria de saber mais detalhes sobre o PET *${pet.name}* que postou no app *_Tiu, Tiu_*.');
           } else if (user.data()['betterContact'] == 1) {
-            String serializedNumber = user.data()['landline'].split('(')[1].replaceAll(')', '').replaceAll('-', '').replaceAll(' ', '');
+            String serializedNumber = user
+                .data()['landline']
+                .split('(')[1]
+                .replaceAll(')', '')
+                .replaceAll('-', '')
+                .replaceAll(' ', '');
             _makePhoneCall('tel: $serializedNumber');
           } else {
             _sendEmail(
@@ -97,7 +111,7 @@ class _PetDetailsState extends State<PetDetails> {
           }
         }
       },
-      {        
+      {
         'text': 'Localização',
         'imageN':
             'https://maps.googleapis.com/maps/api/staticmap?center=${pet.latitude}, ${pet.longitude}&zoom=14&markers=color&markers=color:red%7Clabel:%7c-16.7502014,%20-49.256370000000004&size=600x400&key=${Constantes.WEB_API_KEY}',
@@ -117,16 +131,16 @@ class _PetDetailsState extends State<PetDetails> {
   }
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+  }
+
+  @override
   Widget build(BuildContext context) {
     Map<String, dynamic> arguments = ModalRoute.of(context).settings.arguments;
+
     Pet pet = arguments['petInfo'];
     String kind = arguments['kind'];
-
-    void favoriteHandler() {
-      setState(() {
-        isFavorite = !isFavorite;
-      });
-    }    
 
     return Scaffold(
       key: _scaffoldKey,
@@ -255,7 +269,7 @@ class _PetDetailsState extends State<PetDetails> {
                             itemBuilder: (BuildContext context, int index) {
                               return UserCardInfo(
                                 text: snapshot.data['ownerDetails'][index]
-                                    ['text'],                              
+                                    ['text'],
                                 icon: snapshot.data['ownerDetails'][index]
                                     ['icon'],
                                 image: snapshot.data['ownerDetails'][index]
@@ -279,38 +293,61 @@ class _PetDetailsState extends State<PetDetails> {
                 ),
                 Positioned(
                   bottom: 18.0,
-                  left: kind == 'Donate'
+                  left: kind == 'DONATE'
                       ? 20.0
                       : MediaQuery.of(context).size.width * 0.17,
                   child: ButtonWide(
-                    text: kind == 'Donate' ? 'ADOTAR' : 'VI ELE AQUI PERTO',
-                    color: kind == 'Donate' ? Colors.red : Colors.green,
+                    text: kind == 'DONATE' ? 'ADOTAR' : 'VI ELE AQUI PERTO',
+                    color: kind == 'DONATE' ? Colors.red : Colors.green,
                   ),
                 )
               ],
             );
           }),
-      floatingActionButton: kind == 'Donate'
-          ? FloatingActionButton(
-              onPressed: () {
-                final user = UserController();
-                final auth = Provider.of<Authentication>(context, listen: false);                    
+      floatingActionButton: kind == 'DONATE'
+          ? Consumer<FavoritesProvider>(
+              builder: (context, favoritesProvider, child) {
+                favoritesProvider.loadFavoritesReference();
+                return StreamBuilder<Object>(
+                  stream: favoritesProvider.favoritesPETSIDList,
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    } else {
+                      final bool isFavorite = favoritesProvider
+                          .getFavoritesPETSIDList
+                          .contains(pet.id);
+                      return FloatingActionButton(
+                        onPressed: () {
+                          final user = UserController();
+                          final auth = Provider.of<Authentication>(context,
+                              listen: false);
 
-                user.favorite(auth.firebaseUser.uid, pet.petReference, !isFavorite);
-                _scaffoldKey.currentState.showSnackBar(SnackBar(
-                  duration: Duration(seconds: 1),
-                  content: Text(isFavorite
-                      ? 'Removido dos favoritos'
-                      : 'Adicionado como favorito'),
-                ));
-                favoriteHandler();
+                          user.favorite(auth.firebaseUser.uid, pet.petReference,
+                              !isFavorite);
+
+                          _scaffoldKey.currentState.showSnackBar(SnackBar(
+                            duration: Duration(seconds: 1),
+                            content: Text(isFavorite
+                                ? 'Removido dos favoritos'
+                                : 'Adicionado como favorito'),
+                          ));
+
+                          favoritesProvider.handleFavorite(pet.id);
+                        },
+                        tooltip: isFavorite ? 'Favorito' : 'Favoritar',
+                        backgroundColor: isFavorite ? Colors.white : Colors.red,
+                        child: Icon(
+                          isFavorite ? Icons.favorite : Icons.favorite_border,
+                          color: isFavorite ? Colors.red : Colors.white,
+                        ),
+                      );
+                    }
+                  },
+                );
               },
-              tooltip: isFavorite ? 'Favorito' : 'Favoritar',
-              backgroundColor: isFavorite ? Colors.white : Colors.red,
-              child: Icon(
-                isFavorite ? Icons.favorite : Icons.favorite_border,
-                color: isFavorite ? Colors.red : Colors.white,
-              ),
             )
           : null,
     );

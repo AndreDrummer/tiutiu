@@ -101,6 +101,13 @@ class DrawerApp extends StatelessWidget {
               },
             ),
             ListTileDrawer(
+              tileName: 'Favoritos',
+              icon: Icons.star,
+              callback: () {
+                Navigator.pushNamed(context, Routes.FAVORITES);
+              },
+            ),
+            ListTileDrawer(
               tileName: 'Configurações',
               icon: Icons.settings,
               callback: () {
