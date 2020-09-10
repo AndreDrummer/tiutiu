@@ -7,8 +7,10 @@ class TiuTiuAuthException {
     'ERROR_EMAIL_ALREADY_IN_USE': 'Esse e-mail já se encontra em nossa base de dados. Tente fazer login.',
     'ERROR_OPERATION_NOT_ALLOWED': 'Ação não autorizada.',
     'ERROR_TOO_MANY_REQUESTS': 'Muitas tentativas em curto espaço de tempo. Tente novamente mais tarde.',
+    'too-many-requests': 'Muitas tentativas em curto espaço de tempo. Tente novamente mais tarde.',
     'ERROR_USER_DISABLED': 'Usuário desativado!',
     'ERROR_WRONG_PASSWORD': 'Senha Incorreta!',
+    'wrong-password': 'Senha Incorreta!',
     'ERROR_INVALID_EMAIL': 'E-mail Inválido!',
     'ERROR_USER_NOT_FOUND': 'E-mail não encontrado!'
   };

@@ -7,11 +7,15 @@ import 'package:tiutiu/providers/auth2.dart';
 import 'package:tiutiu/providers/location.dart';
 import 'package:tiutiu/providers/pets_provider.dart';
 import 'package:tiutiu/providers/show_bottom.dart';
+import 'package:tiutiu/providers/user_provider.dart';
 import 'package:tiutiu/screen/choose_location.dart';
 import 'package:tiutiu/screen/donates.dart';
 import 'package:tiutiu/screen/auth_or_home.dart';
 import 'package:tiutiu/screen/home.dart';
 import 'package:tiutiu/screen/new_pet.dart';
+import 'package:tiutiu/screen/pet_detail.dart';
+import 'package:tiutiu/screen/register.dart';
+import 'package:tiutiu/screen/settings.dart';
 import './utils/routes.dart';
 
 void main() {
@@ -19,14 +23,14 @@ void main() {
   runApp(App());
 }
 
-class App extends StatelessWidget {  
+class App extends StatelessWidget {
   final Future<FirebaseApp> _initialization = Firebase.initializeApp();
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(      
+    return FutureBuilder(
       future: _initialization,
-      builder: (context, snapshot) {        
+      builder: (context, snapshot) {
         if (snapshot.hasError) {
           return Directionality(
             child: MediaQuery(
@@ -36,14 +40,17 @@ class App extends StatelessWidget {
             textDirection: TextDirection.ltr,
           );
         }
-        
-        if (snapshot.connectionState == ConnectionState.done) {          
+
+        if (snapshot.connectionState == ConnectionState.done) {
           return MultiProvider(
             providers: [
               ChangeNotifierProvider(
                 create: (_) => Location(),
               ),
               ChangeNotifierProvider(
+                create: (_) => UserProvider(),
+              ),
+              ChangeNotifierProvider(               
                 create: (_) => Authentication(),
               ),
               ChangeNotifierProvider(
@@ -59,28 +66,34 @@ class App extends StatelessWidget {
                 accentColor: Color(0xFF00FF00),
                 textTheme: ThemeData.light().textTheme.copyWith(
                       headline1: GoogleFonts.roboto(
-                          color: Colors.white,
-                          fontSize: 14,
-                          fontWeight: FontWeight.w700),
+                        color: Colors.white,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w700,
+                      ),
                       button: GoogleFonts.roboto(
-                          color: Color(0XFFFFFFFF),
-                          fontSize: 14,
-                          fontWeight: FontWeight.w700),
+                        color: Color(0XFFFFFFFF),
+                        fontSize: 14,
+                        fontWeight: FontWeight.w700,
+                      ),
                     ),
               ),
               debugShowCheckedModeBanner: false,
               routes: {
                 Routes.NOVOPET: (ctx) => NovoPet(),
                 Routes.AUTH_HOME: (ctx) => AuthOrHome(),
+                // Routes.AUTH_HOME: (ctx) => Settings(),
+                Routes.SETTINGS: (ctx) => Settings(),
+                Routes.REGISTER: (ctx) => Register(),
                 Routes.HOME: (ctx) => Home(),
                 Routes.DOADOS: (ctx) => Donate(),
                 Routes.MAPA: (ctx) => Mapa(),
                 Routes.CHOOSE_LOCATION: (ctx) => ChooseLocation(),
+                Routes.PET_DETAILS: (ctx) => PetDetails(),
               },
             ),
           );
         }
-        
+
         return Center(
           child: CircularProgressIndicator(),
         );
