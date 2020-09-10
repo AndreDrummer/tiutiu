@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:loading_animations/loading_animations.dart';
 import 'package:provider/provider.dart';
 import 'package:tiutiu/Widgets/custom_dropdown_button.dart';
 import 'package:tiutiu/Widgets/hint_error.dart';
@@ -11,6 +12,7 @@ import 'package:tiutiu/Widgets/button.dart';
 import 'package:tiutiu/backend/Model/pet_model.dart';
 import 'package:tiutiu/providers/auth2.dart';
 import 'package:tiutiu/providers/location.dart';
+import 'package:tiutiu/providers/user_provider.dart';
 import 'package:tiutiu/utils/routes.dart';
 import '../Widgets/circle_add_image.dart';
 import '../Widgets/input_text.dart';
@@ -45,7 +47,12 @@ class _NovoPetState extends State<NovoPet> {
   Map<String, File> petPhotos = {};
   Map<String, String> petPhotosToUpload = {};
 
+  Authentication auth;
+  UserProvider userProvider;
+
   String dropvalueSize;
+  String dropvalueColor;
+  String dropvalueType;
   String dropvalueHealth;
   String dropvalueBreed;
   String userId;
@@ -61,12 +68,22 @@ class _NovoPetState extends State<NovoPet> {
   void initState() {
     super.initState();
     dropvalueSize = DummyData.size[0];
+    dropvalueColor = DummyData.color[0];
+    dropvalueType = DummyData.type[0];
     dropvalueBreed = DummyData.breed[0];
     dropvalueHealth = DummyData.health[0];
 
     currentLocation = Provider.of<Location>(context, listen: false).location;
-    userId = Provider.of<Authentication>(context, listen: false).firebaseUser.uid;
+    userId =
+        Provider.of<Authentication>(context, listen: false).firebaseUser.uid;
     print('Local $currentLocation');
+  }
+
+  @override
+  void didChangeDependencies() {
+    auth = Provider.of<Authentication>(context, listen: false);
+    userProvider = Provider.of<UserProvider>(context, listen: false);
+    super.didChangeDependencies();
   }
 
   void selectImage(ImageSource source, int index) async {
@@ -204,8 +221,10 @@ class _NovoPetState extends State<NovoPet> {
     StorageReference storageReference;
 
     for (var key in petPhotos.keys) {
-      storageReference =
-          FirebaseStorage.instance.ref().child('$userId/$petName--foto__$key');
+      storageReference = FirebaseStorage.instance
+          .ref()
+          .child('$userId/')
+          .child('petsPhotos/$petName--foto__$key');
       uploadTask = storageReference.putFile(petPhotos['$key']);
 
       await uploadTask.onComplete;
@@ -231,12 +250,13 @@ class _NovoPetState extends State<NovoPet> {
     await uploadPhotos(_nome.text);
 
     var dataPetSave = Pet(
+      type: dropvalueType,
+      color: dropvalueColor,
       name: _nome.text,
       avatar: petPhotosToUpload.values.first,
       breed: dropvalueBreed,
       health: dropvalueHealth,
-      ownerId: userId,
-      ownerName: Provider.of<Authentication>(context, listen: false).firebaseUser.displayName,
+      ownerReference: userProvider.userReference,      
       photos: petPhotosToUpload,
       size: dropvalueSize,
       latitude: currentLocation.latitude,
@@ -247,7 +267,7 @@ class _NovoPetState extends State<NovoPet> {
       address: 'Vazio Ainda',
     );
 
-    await petController.insertPet(dataPetSave, kind);
+    await petController.insertPet(dataPetSave, kind, auth);
     petPhotosToUpload.clear();
     changeLogginStatus(false);
     return Future.value();
@@ -312,10 +332,6 @@ class _NovoPetState extends State<NovoPet> {
               ),
               child: Center(
                 child: Card(
-                  // shape: RoundedRectangleBorder(
-                  //   borderRadius: BorderRadius.circular(16.0),
-                  // ),
-                  // color: Colors.transparent,
                   color: Color(0XFFD6D6D6), //Theme.of(context).accentColor,
                   child: SingleChildScrollView(
                     child: Column(
@@ -431,6 +447,36 @@ class _NovoPetState extends State<NovoPet> {
                               SizedBox(
                                 height: 12,
                               ),
+                              CustomDropdownButton(
+                                label: 'Tipo',
+                                initialValue: dropvalueType,
+                                itemList: DummyData.type,
+                                onChange: (String value) {
+                                  setState(() {
+                                    dropvalueType = value;
+                                    print(dropvalueType);
+                                  });
+                                },
+                                isExpanded: true,
+                              ),
+                              SizedBox(
+                                height: 12,
+                              ),
+                              CustomDropdownButton(
+                                label: 'Cor',
+                                initialValue: dropvalueColor,
+                                itemList: DummyData.color,
+                                onChange: (String value) {
+                                  setState(() {
+                                    dropvalueColor = value;
+                                    print(dropvalueColor);
+                                  });
+                                },
+                                isExpanded: true,
+                              ),
+                              SizedBox(
+                                height: 12,
+                              ),
                               Align(
                                 alignment: Alignment(-0.95, 1),
                                 child: Padding(
@@ -535,29 +581,36 @@ class _NovoPetState extends State<NovoPet> {
               ),
             ),
             isLogging
-                ? Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Text('Aguarde',
-                            style: TextStyle(
-                                color: Colors.grey,
-                                fontSize: 25,
-                                fontWeight: FontWeight.w600)),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        CircularProgressIndicator(),
-                      ],
+                ? Container(
+                    height: MediaQuery.of(context).size.height,
+                    width: MediaQuery.of(context).size.width,
+                    color: Colors.black54,
+                    child: Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          LoadingBumpingLine.circle(
+                            backgroundColor: Colors.white,
+                          ),
+                          SizedBox(height: 15),
+                          Text(
+                            'Aguarde',
+                            style: Theme.of(context)
+                                .textTheme
+                                .headline1
+                                .copyWith(),
+                          )
+                        ],
+                      ),
                     ),
                   )
-                : SizedBox(),
+                : Container(),
             Positioned(
               bottom: 0.0,
               child: ButtonWide(
                   rounded: false,
                   isToExpand: true,
-                  action: () async {                    
+                  action: () async {
                     if (validateForm()) {
                       setReadOnly();
                       await save();
@@ -565,9 +618,13 @@ class _NovoPetState extends State<NovoPet> {
                           context: context,
                           builder: (context) => PopUpMessage(
                                 title: 'Pronto',
-                                action: () {
-                                  Navigator.popUntil(context, ModalRoute.withName('/'));
-                                },                              
+                                confirmText: 'Ok',
+                                confirmAction: () {
+                                  Navigator.popUntil(
+                                    context,
+                                    ModalRoute.withName('/'),
+                                  );
+                                },
                                 message: 'PET postado com sucesso!',
                               )).then(
                         (value) => _onWillPopScope,

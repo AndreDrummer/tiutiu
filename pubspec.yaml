@@ -46,6 +46,11 @@ dependencies:
   google_fonts: ^1.1.0
   loading_animations: ^2.1.0
   pedantic: any
+  mask_text_input_formatter: ^1.0.7
+  rxdart: ^0.24.1
+  flutter_open_whatsapp: ^0.1.2
+  url_launcher: ^5.5.3
+  maps_launcher: ^1.2.2+1
 
 flutter_icons:
   android: "launcher_icon"
@@ -60,23 +65,7 @@ flutter:
 
   uses-material-design: true  
   assets:
-    - assets/pata.jpg    
-    - assets/pata2.jpg    
-    - assets/pata3.jpg    
-    - assets/pin-dog.jpg    
-    - assets/dogs.png    
-    - assets/dogCat.png    
-    - assets/pelo.jfif    
-    - assets/dogCat2.png    
-    - assets/addImage.png    
-    - assets/cao e gato.png    
-    - assets/logo.png    
-    - assets/google.png    
-    - assets/face.png    
-    - assets/mariana.jpg    
-    - assets/profileEmpty.jpg    
-    - assets/pug2.jpg    
-    - assets/gato2.jpg    
+    - assets/           
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
@@ -101,6 +90,9 @@ flutter:
         - asset: fonts/Rajdhani-Regular.ttf
         - asset: fonts/Rajdhani-SemiBold.ttf          
           weight: 700
+    - family: PetDetailIcons
+      fonts:
+        - asset: fonts/PetDetailIcons.ttf
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
