@@ -1,15 +1,17 @@
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:tiutiu/data/store_login.dart';
 import 'package:tiutiu/Exceptions/titiu_exceptions.dart';
 
-class Authentication extends ChangeNotifier {
+class Authentication extends ChangeNotifier {      
   final GoogleSignIn _googleSignIn = GoogleSignIn();
   final FirebaseAuth _auth = FirebaseAuth.instance;
   User firebaseUser;
+  bool isRegistered = false;    
 
   Future<void> loginWithGoogle({bool autologin = false}) async {
     // ignore: omit_local_variable_types
@@ -39,6 +41,7 @@ class Authentication extends ChangeNotifier {
       firebaseUser = (await _auth.signInWithCredential(credential)).user;
     }
 
+    await alreadyRegistered();
     notifyListeners(); 
     return Future.value();
   }
@@ -63,6 +66,7 @@ class Authentication extends ChangeNotifier {
       }
     }
 
+    await alreadyRegistered();
     notifyListeners();
     return Future.value();
   }
@@ -78,8 +82,7 @@ class Authentication extends ChangeNotifier {
       // ignore: omit_local_variable_types
       UserCredential result = await _auth.signInWithEmailAndPassword(
           email: email, password: password);
-      firebaseUser = result.user;
-
+      firebaseUser = result.user;        
       if (firebaseUser != null) {
         Store.saveMap('userLogged', {
           'email': email,
@@ -88,10 +91,12 @@ class Authentication extends ChangeNotifier {
       }
     } catch (error) {
       if (Platform.isAndroid) {
+        print(error.code);
         throw TiuTiuAuthException(error.code);
       }
     }
 
+    await alreadyRegistered();
     notifyListeners();
     return Future.value();
   }
@@ -103,6 +108,25 @@ class Authentication extends ChangeNotifier {
     firebaseUser = null;
     notifyListeners();
     print('Deslogado!');
+  }
+
+   Future<void> alreadyRegistered() async {
+    final CollectionReference usersEntrepreneur =
+        FirebaseFirestore.instance.collection('Users');    
+    String id = firebaseUser.uid;    
+    DocumentSnapshot doc = await usersEntrepreneur.doc(id).get();
+    
+    if (doc.data() != null) {
+      print("${doc.data()['uid']} $id");
+      isRegistered = doc.data()['uid'].toString() == id;
+      notifyListeners();
+      return Future.value();
+    }    
+
+    isRegistered = false;
+
+    notifyListeners();
+    return Future.value();
   }
 
   Future<void> tryAutoLoginIn() async {

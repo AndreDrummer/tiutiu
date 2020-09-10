@@ -4,6 +4,7 @@ import 'package:tiutiu/Widgets/loading_page.dart';
 import 'package:tiutiu/providers/auth2.dart';
 import 'package:tiutiu/screen/auth_screen.dart';
 import 'package:tiutiu/screen/home.dart';
+import 'package:tiutiu/screen/register.dart';
 
 class AuthOrHome extends StatelessWidget {
   @override
@@ -15,10 +16,48 @@ class AuthOrHome extends StatelessWidget {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return LoadingPage();
         } else if (snapshot.hasError) {
-          return Center(child: Text('Ocorreu um erro! ${snapshot.error}'));
+          return Scaffold(
+            appBar: AppBar(
+              title: Text('Ocorreu um erro!'),
+            ),
+            body: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        border: Border.all(style: BorderStyle.solid)),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Image.asset('assets/pata.jpg'),
+                    ),
+                  ),
+                  SizedBox(height: 10),
+                  Text(
+                    '${snapshot.error}',
+                    softWrap: true,
+                    textAlign: TextAlign.center,
+                  ),
+                  SizedBox(height: 10),
+                  FlatButton.icon(
+                    onPressed: () {
+                      auth.signOut();
+                    },
+                    icon: Icon(Icons.exit_to_app),
+                    label: Text('Delsogar'),
+                  )
+                ],
+              ),
+            ),
+          );
         } else {
-          print('Esta logado? ${auth.firebaseUser != null}');
-          return auth.firebaseUser != null ? Home() : AuthScreen();
+          if (auth.firebaseUser != null) {
+            print(
+                'USUÁRIO EXISTE ${auth.firebaseUser.uid} ${auth.isRegistered}');
+            return auth.isRegistered ? Home() : Register();
+          }
+          return AuthScreen();
         }
       },
     );

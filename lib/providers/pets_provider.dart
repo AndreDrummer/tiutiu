@@ -1,12 +1,26 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:tiutiu/backend/Model/pet_model.dart';
+import 'package:rxdart/rxdart.dart';
 
 class PetsProvider with ChangeNotifier {
-  List<Pet> listDisappearedPETS = [];
-  List<Pet> listDonatesPETS = [];
+  final _listDisappearedPETS = BehaviorSubject<List<Pet>>();
+  final _listDonatesPETS = BehaviorSubject<List<Pet>>();
   List<String> allUsersID = [];
+
+  // Listenning to The Data
+  Stream<List<Pet>> get listDisappearedPETS => _listDisappearedPETS.stream;
+  Stream<List<Pet>> get listDonatesPETS => _listDonatesPETS.stream;
+
+  // Changing the data
+  void Function(List<Pet>) get changeListDisappearedPETS =>
+      _listDisappearedPETS.sink.add;
+  void Function(List<Pet>) get changeListDonatesPETS =>
+      _listDonatesPETS.sink.add;
+
+  // Getting data
+  List<Pet> get getListDisappearedPETS => _listDisappearedPETS.value;
+  List<Pet> get getListDonatesPETS => _listDonatesPETS.value;
 
   CollectionReference dataBaseCollection =
       FirebaseFirestore.instance.collection('Users');
@@ -24,21 +38,21 @@ class PetsProvider with ChangeNotifier {
 
   Future<void> loadDisappearedPETS() async {
     await loadUsersID();
-    listDisappearedPETS.clear();
+    List<Pet> temp = [];
 
     for (int j = 0; j < allUsersID.length; j++) {
       await dataBaseCollection
           .doc(allUsersID[j])
           .collection('Pets')
-          .doc('pets')
+          .doc('posted')
           .collection('Disappeared')
           .get()
           .then((disappearedPETS) {
         for (int i = 0; i < disappearedPETS.docs.length; i++) {
-          listDisappearedPETS.add(Pet.fromSnapshot(disappearedPETS.docs[i]));
+          temp.add(Pet.fromSnapshot(disappearedPETS.docs[i]));
         }
-        print('${listDisappearedPETS.length} Disap');
-      });
+      });      
+      changeListDisappearedPETS(temp);
     }
 
     notifyListeners();
@@ -47,21 +61,21 @@ class PetsProvider with ChangeNotifier {
 
   Future<void> loadDonatedPETS() async {
     await loadUsersID();
-    listDonatesPETS.clear();
+    List<Pet> temp = [];
 
     for (int j = 0; j < allUsersID.length; j++) {
       await dataBaseCollection
           .doc(allUsersID[j])
           .collection('Pets')
-          .doc('pets')
+          .doc('posted')
           .collection('Donate')
           .get()
           .then((donatesPETS) {
         for (int i = 0; i < donatesPETS.docs.length; i++) {
-          listDonatesPETS.add(Pet.fromSnapshot(donatesPETS.docs[i]));
+          temp.add(Pet.fromSnapshot(donatesPETS.docs[i]));
         }
-        print('${listDonatesPETS.length} Donate');
       });
+      changeListDonatesPETS(temp);
     }
 
     notifyListeners();
