@@ -240,7 +240,7 @@ class _RegisterState extends State<Register> {
       'phoneNumber': _whatsapp.text,
       'landline': _telefone.text,
       'betterContact': betterContact
-    });
+    }, SetOptions(merge: true));
     userProvider.changePhotoUrl(photoURL);
     userProfile.clear();
     return Future.value();
