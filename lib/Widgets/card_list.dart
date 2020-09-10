@@ -3,20 +3,22 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_webservice/distance.dart' as distanceMatrix;
 import 'package:loading_animations/loading_animations.dart';
 import 'package:provider/provider.dart';
+import 'package:tiutiu/backend/Controller/user_controller.dart';
+import 'package:tiutiu/providers/auth2.dart';
+import 'package:tiutiu/providers/favorites_provider.dart';
 import 'package:tiutiu/providers/location.dart' as provider_location;
 import 'package:tiutiu/utils/constantes.dart';
 import 'package:tiutiu/utils/routes.dart';
 
+// ignore: must_be_immutable
 class CardList extends StatefulWidget {
-  CardList({
-    this.petInfo,
-    this.donate = true,
-    this.kind,
-  });
+  CardList(
+      {this.petInfo, this.donate = true, this.kind, this.favorite = false});
 
   final petInfo;
   final String kind;
   final bool donate;
+  bool favorite;
 
   @override
   _CardListState createState() => _CardListState();
@@ -62,12 +64,16 @@ class _CardListState extends State<CardList> {
 
   @override
   Widget build(BuildContext context) {
+    UserController user = UserController();
+    Authentication auth = Provider.of(context, listen: false);
+    FavoritesProvider favoritesProvider = Provider.of(context);
+
     calculateDistance(widget.petInfo.toMap()['latitude'],
         widget.petInfo.toMap()['longitude']);
     return InkWell(
       onTap: () {
         Navigator.pushNamed(context, Routes.PET_DETAILS,
-            arguments: {'petInfo': widget.petInfo, 'kind': widget.kind});
+            arguments: {'petInfo': widget.petInfo, 'kind': widget.kind.toUpperCase()});
       },
       child: Padding(
         padding: const EdgeInsets.all(4.0),
@@ -127,10 +133,31 @@ class _CardListState extends State<CardList> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        Text(
-                          widget.petInfo.toMap()['name'],
-                          style: TextStyle(
-                              fontWeight: FontWeight.w900, fontSize: 16),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              widget.petInfo.toMap()['name'],
+                              style: TextStyle(
+                                fontWeight: FontWeight.w900,
+                                fontSize: 16,
+                              ),
+                            ),
+                            widget.favorite
+                                ? IconButton(
+                                    icon: Icon(
+                                        favoritesProvider.getFavoritesPETSIDList.contains(widget.petInfo.toMap()['id'])
+                                            ? Icons.favorite
+                                            : Icons.favorite_border,
+                                        color: Colors.red),
+                                    onPressed: () {
+                                      
+                                      user.favorite(auth.firebaseUser.uid, widget.petInfo.toMap()['petReference'], false);
+                                      favoritesProvider.handleFavorite(widget.petInfo.toMap()['id']);
+                                    },
+                                  )
+                                : SizedBox()
+                          ],
                         ),
                         SizedBox(height: 8.0),
                         Text(widget.petInfo.toMap()['breed']),
@@ -151,7 +178,7 @@ class _CardListState extends State<CardList> {
                                       );
                                     }
                                     return Text(
-                                      '${snapshot.data} está ${widget.kind == 'Donate' ? 'doando' : 'procurando'}.',
+                                      '${snapshot.data} está ${widget.kind.toUpperCase() == 'DONATE' ? 'doando' : 'procurando'}.',
                                       style: TextStyle(
                                         fontWeight: FontWeight.w500,
                                       ),
