@@ -4,13 +4,9 @@ class Pet {
   Pet({
     this.id,
     this.name,
-    this.color,
-    this.ownerPhoneNumber,
-    this.ownerLandline,
-    this.ownerBetterContact,
-    this.ownerPhotoURL,
-    this.ownerEmail,
-    this.ownerName,
+    this.color,    
+    this.ownerReference,    
+    this.petReference,    
     this.type,
     this.avatar,
     this.health,
@@ -19,8 +15,7 @@ class Pet {
     this.breed,
     this.size,
     this.details,
-    this.photos,
-    this.ownerId,
+    this.photos,    
     this.latitude,
     this.longitude,
     this.address,
@@ -30,11 +25,7 @@ class Pet {
     id = snapshot.id;
     name = snapshot.data()['name'];
     color = snapshot.data()['color'];
-    type = snapshot.data()['type'];
-    ownerPhotoURL = snapshot.data()['ownerPhotoURL'];
-    ownerEmail = snapshot.data()['ownerEmail'];
-    ownerPhoneNumber = snapshot.data()['ownerPhoneNumber'];
-    ownerLandline = snapshot.data()['ownerLandline'];
+    type = snapshot.data()['type'];    
     avatar = snapshot.data()['avatar'];
     health = snapshot.data()['health'];
     ano = snapshot.data()['ano'];
@@ -43,23 +34,19 @@ class Pet {
     size = snapshot.data()['size'];
     details = snapshot.data()['details'];
     photos = snapshot.data()['photos'] as Map<String, dynamic>;
-    ownerId = snapshot.data()['ownerId'];
-    ownerName = snapshot.data()['ownerName'];
     latitude = snapshot.data()['latitude'];
     longitude = snapshot.data()['longitude'];
-    address = snapshot.data()['address'];
-    ownerBetterContact = snapshot.data()['ownerBetterContact'];
+    address = snapshot.data()['address'];    
+    ownerReference = snapshot.data()['ownerReference'];
+    petReference = snapshot.reference;
   }
 
   String id;
   String name;
   String color;
   String type;
-  String ownerPhotoURL;
-  String ownerPhoneNumber;
-  String ownerEmail;
-  String ownerLandline;
-  int ownerBetterContact;  
+  DocumentReference ownerReference;
+  DocumentReference petReference;
   String avatar;
   String health;
   int ano;  
@@ -67,9 +54,7 @@ class Pet {
   String breed;
   String size;
   String details;
-  Map photos;
-  String ownerName;
-  String ownerId;
+  Map photos;  
   double latitude;
   double longitude;
   String address;
@@ -86,18 +71,13 @@ class Pet {
       'breed': breed,
       'photos': photos,
       'size': size,
-      'details': details,
-      'ownerId': ownerId,
-      'ownerName': ownerName,
-      'ownerEmail': ownerEmail,
+      'details': details,            
       'latitude': latitude,
       'longitude': longitude,
-      'address': address,
-      'ownerPhotoURL': ownerPhotoURL,
-      'ownerPhoneNumber': ownerPhoneNumber,
-      'ownerLandline': ownerLandline,
-      'ownerBetterContact': ownerBetterContact,
+      'address': address,      
       'type': type,
+      'ownerReference': ownerReference,      
+      'petReference': petReference
     };
   }
 
@@ -112,19 +92,14 @@ class Pet {
     petMap['breed'] = breed;
     petMap['size'] = size;
     petMap['details'] = details;
-    petMap['photos'] = photos;
-    petMap['ownerId'] = ownerId;
-    petMap['ownerName'] = ownerName;
+    petMap['photos'] = photos;        
     petMap['latitude'] = latitude;
     petMap['longitude'] = longitude;
-    petMap['address'] = address;
-    petMap['ownerPhotoURL'] = ownerPhotoURL;
-    petMap['ownerEmail'] = ownerEmail;
-    petMap['ownerLandline'] = ownerLandline;
-    petMap['ownerPhoneNumber'] = ownerPhoneNumber;
-    petMap['ownerBetterContact'] = ownerBetterContact;
+    petMap['address'] = address;  
     petMap['type'] = type;
-    petMap['color'] = color;
+    petMap['color'] = color;    
+    petMap['ownerReference'] = ownerReference;
+    petMap['petReference'] = petReference;
 
     return petMap;
   }
