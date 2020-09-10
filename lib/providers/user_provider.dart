@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -9,6 +10,7 @@ class UserProvider with ChangeNotifier {
   String _telefone;
   String _photoUrl;
   String _displayName;
+  DocumentReference _userReference;
   final _betterContact = BehaviorSubject<int>();
 
   // Listenning to the date
@@ -46,10 +48,16 @@ class UserProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  void changeUserReference(DocumentReference userReference) {
+    _userReference = userReference;
+    notifyListeners();
+  }
+
   File get photoFILE => _photoFILE;
   String get telefone => _telefone;
   String get displayName => _displayName;
   String get photoURL => _photoUrl;
   String get whatsapp => _whatsapp;  
+  DocumentReference get userReference => _userReference;  
 
 }

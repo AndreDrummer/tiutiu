@@ -22,21 +22,20 @@ class PetDetails extends StatefulWidget {
 class _PetDetailsState extends State<PetDetails> {
   final PageController _pageController = PageController();
   bool isFavorite = false;
+  GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
-  @override
-  Widget build(BuildContext context) {
-    Map<String, dynamic> arguments = ModalRoute.of(context).settings.arguments;
-    Pet pet = arguments['petInfo'];
-    String kind = arguments['kind'];
-    GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-
-    void favoriteHandler() {
-      setState(() {
-        isFavorite = !isFavorite;
-      });
+  Future<void> _makePhoneCall(String url) async {
+      if (await canLaunch(url)) {
+        await launch(url);
+      } else {
+        throw 'Could not launch $url';
+      }
     }
+  
+    Future<void> _sendEmail(
+        String emailAddress, String subject, String message) async {
+      var url = 'mailto:$emailAddress?subject=$subject&body=$message';
 
-    Future<void> _makePhoneCall(String url) async {
       if (await canLaunch(url)) {
         await launch(url);
       } else {
@@ -44,20 +43,10 @@ class _PetDetailsState extends State<PetDetails> {
       }
     }
 
-    // mailto:<email address>?subject=<subject>&body=<body>
-    Future<void> _sendEmail(
-        String emailAddress, String subject, String message) async {
+  Future<Map<String, dynamic>> loadOwnerInfo(Pet pet) async {
+    final user = await pet.ownerReference.get();
 
-      var url = 'mailto:$emailAddress?subject=$subject&body=$message';
-
-      if (await canLaunch(url)) {
-        await launch(url);
-      } else {
-        throw 'Could not launch $url';
-      }      
-    }
-
-    List details = [
+    List petDetails = [
       {'title': 'TIPO', 'text': pet.type, 'icon': PetDetailIcons.guidedog},
       {'title': 'RAÇA', 'text': pet.breed, 'icon': PetDetailIcons.dog},
       {
@@ -73,55 +62,42 @@ class _PetDetailsState extends State<PetDetails> {
       },
     ];
 
-    List userDetails = [
+    List ownerDetails = [
       {
-        'text': pet.ownerName ?? '',
+        'text': user.data()['displayName'] ?? '',
         'launchIcon': Icons.remove_red_eye,
-        'imageN': pet.ownerPhotoURL ?? '',
-        'title': 'Clique p/ detalhar',
+        'imageN': user.data()['photoURL'] ?? '',        
         'callback': () {
           print('Exibir perfil de usuário');
         },
       },
       {
-        'text': pet.ownerBetterContact == 0
-            ? pet.ownerPhoneNumber
-            : pet.ownerBetterContact == 1 ? pet.ownerLandline : pet.ownerEmail,
-        'icon': pet.ownerBetterContact == 0
-            ? PetDetailIcons.whatsapp
-            : pet.ownerBetterContact == 1 ? Icons.phone : Icons.email,
-        'title': 'Melhor contato',
-        'color': pet.ownerBetterContact == 0
-            ? Colors.green
-            : pet.ownerBetterContact == 1 ? Colors.orange : Colors.red,
+        'text': user.data()['betterContact'] == 0 ? user.data()['phoneNumber'] : user.data()['betterContact'] == 1 ? user.data()['landline'] : user.data()['email'],
+        'icon': user.data()['betterContact'] == 0 ? PetDetailIcons.whatsapp : user.data()['betterContact'] == 1 ? Icons.phone : Icons.email,        
+        'color': user.data()['betterContact'] == 0 ? Colors.green : user.data()['betterContact'] == 1 ? Colors.orange : Colors.red,
         'callback': () {
-          String serializedNumber = pet.ownerPhoneNumber
+          String serializedNumber = user
+              .data()['phoneNumber']
               .split('(')[1]
               .replaceAll(')', '')
               .replaceAll('-', '')
               .replaceAll(' ', '');
-
-          if (pet.ownerBetterContact == 0) {
+          if (user.data()['betterContact'] == 0) {
             FlutterOpenWhatsapp.sendSingleMessage('+55$serializedNumber',
                 'Olá! Tenho interesse e gostaria de saber mais detalhes sobre o PET *${pet.name}* que postou no app *_Tiu, Tiu_*.');
-          } else if (pet.ownerBetterContact == 1) {
-            String serializedNumber = pet.ownerLandline
-                .split('(')[1]
-                .replaceAll(')', '')
-                .replaceAll('-', '')
-                .replaceAll(' ', '');
+          } else if (user.data()['betterContact'] == 1) {
+            String serializedNumber = user.data()['landline'].split('(')[1].replaceAll(')', '').replaceAll('-', '').replaceAll(' ', '');
             _makePhoneCall('tel: $serializedNumber');
           } else {
             _sendEmail(
-              pet.ownerEmail,
+              user.data()['email'],
               'Tenho interesse no PET ${pet.name}',
               'Olá! Tenho interesse e gostaria de saber mais detalhes sobre o PET ${pet.name} que postou no app Tiu, Tiu.',
             );
           }
         }
       },
-      {
-        'title': 'Clique p/ navegar',
+      {        
         'text': 'Localização',
         'imageN':
             'https://maps.googleapis.com/maps/api/staticmap?center=${pet.latitude}, ${pet.longitude}&zoom=14&markers=color&markers=color:red%7Clabel:%7c-16.7502014,%20-49.256370000000004&size=600x400&key=${Constantes.WEB_API_KEY}',
@@ -134,6 +110,23 @@ class _PetDetailsState extends State<PetDetails> {
         }
       },
     ];
+
+    final result = {'petDetails': petDetails, 'ownerDetails': ownerDetails};
+
+    return Future.value(result);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    Map<String, dynamic> arguments = ModalRoute.of(context).settings.arguments;
+    Pet pet = arguments['petInfo'];
+    String kind = arguments['kind'];
+
+    void favoriteHandler() {
+      setState(() {
+        isFavorite = !isFavorite;
+      });
+    }    
 
     return Scaffold(
       key: _scaffoldKey,
@@ -148,135 +141,168 @@ class _PetDetailsState extends State<PetDetails> {
             }),
         title: Text('Detalhes de ${pet.name}'),
       ),
-      body: Stack(
-        children: [
-          Opacity(
-            opacity: 0.5,
-            child: Container(
-              decoration: BoxDecoration(
-                  image: DecorationImage(
-                fit: BoxFit.fill,
-                image: AssetImage(
-                  'assets/cao e gato.png',
-                ),
-              )),
-            ),
-          ),
-          SingleChildScrollView(
-            child: Column(
-              children: [
-                showImages(pet.photos, pet.ownerName),
-                Container(
-                  height: 100,
-                  child: Padding(
-                    padding: const EdgeInsets.all(4.0),
-                    child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      itemCount: details.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return CardDetails(
-                          title: details[index]['title'],
-                          icon: details[index]['icon'],
-                          text: details[index]['text'],
-                        );
-                      },
+      body: FutureBuilder(
+          future: loadOwnerInfo(arguments['petInfo']),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    LoadingBumpingLine.circle(
+                      backgroundColor: Colors.white,
                     ),
+                    SizedBox(height: 15),
+                    Text(
+                      'Carregando informações',
+                      style: Theme.of(context).textTheme.headline1.copyWith(),
+                    )
+                  ],
+                ),
+              );
+            }
+            return Stack(
+              children: [
+                Opacity(
+                  opacity: 0.5,
+                  child: Container(
+                    decoration: BoxDecoration(
+                        image: DecorationImage(
+                      fit: BoxFit.fill,
+                      image: AssetImage(
+                        'assets/cao e gato.png',
+                      ),
+                    )),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(4.0),
-                  child: Card(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    elevation: 8.0,
-                    child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: ConstrainedBox(
-                          constraints:
-                              BoxConstraints(minHeight: 0.0, maxHeight: 120),
-                          child: Container(
-                            width: double.infinity,
-                            child: Stack(
-                              children: [
-                                SingleChildScrollView(
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      showImages(pet.photos),
+                      Container(
+                        height: 100,
+                        child: Padding(
+                          padding: const EdgeInsets.all(4.0),
+                          child: ListView.builder(
+                            scrollDirection: Axis.horizontal,
+                            itemCount: snapshot.data['petDetails'].length,
+                            itemBuilder: (BuildContext context, int index) {
+                              return CardDetails(
+                                title: snapshot.data['petDetails'][index]
+                                    ['title'],
+                                icon: snapshot.data['petDetails'][index]
+                                    ['icon'],
+                                text: snapshot.data['petDetails'][index]
+                                    ['text'],
+                              );
+                            },
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(4.0),
+                        child: Card(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          elevation: 8.0,
+                          child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: ConstrainedBox(
+                                constraints: BoxConstraints(
+                                    minHeight: 0.0, maxHeight: 120),
+                                child: Container(
+                                  width: double.infinity,
+                                  child: Stack(
                                     children: [
-                                      Padding(
-                                        padding:
-                                            const EdgeInsets.only(top: 4.0),
-                                        child: Text(
-                                          'Descrição',
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .headline1
-                                              .copyWith(color: Colors.black54),
+                                      SingleChildScrollView(
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Padding(
+                                              padding: const EdgeInsets.only(
+                                                  top: 4.0),
+                                              child: Text(
+                                                'Descrição',
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .headline1
+                                                    .copyWith(
+                                                        color: Colors.black54),
+                                              ),
+                                            ),
+                                            Divider(),
+                                            Text(pet.details),
+                                          ],
                                         ),
                                       ),
-                                      Divider(),
-                                      Text(pet.details),
                                     ],
                                   ),
                                 ),
-                              ],
-                            ),
+                              )),
+                        ),
+                      ),
+                      SizedBox(height: 5),
+                      CustomDivider(text: 'Informações do anunciante'),
+                      Container(
+                        height: 170,
+                        child: Padding(
+                          padding: const EdgeInsets.all(4.0),
+                          child: ListView.builder(
+                            scrollDirection: Axis.horizontal,
+                            itemCount: snapshot.data['ownerDetails'].length,
+                            itemBuilder: (BuildContext context, int index) {
+                              return UserCardInfo(
+                                text: snapshot.data['ownerDetails'][index]
+                                    ['text'],                              
+                                icon: snapshot.data['ownerDetails'][index]
+                                    ['icon'],
+                                image: snapshot.data['ownerDetails'][index]
+                                    ['image'],
+                                imageN: snapshot.data['ownerDetails'][index]
+                                    ['imageN'],
+                                color: snapshot.data['ownerDetails'][index]
+                                    ['color'],
+                                callback: snapshot.data['ownerDetails'][index]
+                                    ['callback'],
+                                launchIcon: snapshot.data['ownerDetails'][index]
+                                    ['launchIcon'],
+                              );
+                            },
                           ),
-                        )),
+                        ),
+                      ),
+                      SizedBox(height: 140.0),
+                    ],
                   ),
                 ),
-                SizedBox(height: 5),
-                CustomDivider(text: 'Informações do anunciante'),
-                Container(
-                  height: 170,
-                  child: Padding(
-                    padding: const EdgeInsets.all(4.0),
-                    child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      itemCount: userDetails.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return UserCardInfo(
-                          text: userDetails[index]['text'],
-                          title: userDetails[index]['title'],
-                          icon: userDetails[index]['icon'],
-                          image: userDetails[index]['image'],
-                          imageN: userDetails[index]['imageN'],
-                          color: userDetails[index]['color'],
-                          callback: userDetails[index]['callback'],
-                          launchIcon: userDetails[index]['launchIcon'],
-                        );
-                      },
-                    ),
+                Positioned(
+                  bottom: 18.0,
+                  left: kind == 'Donate'
+                      ? 20.0
+                      : MediaQuery.of(context).size.width * 0.17,
+                  child: ButtonWide(
+                    text: kind == 'Donate' ? 'ADOTAR' : 'VI ELE AQUI PERTO',
+                    color: kind == 'Donate' ? Colors.red : Colors.green,
                   ),
-                ),
-                SizedBox(height: 140.0),
+                )
               ],
-            ),
-          ),
-          Positioned(
-            bottom: 18.0,
-            left: kind == 'Donate'
-                ? 20.0
-                : MediaQuery.of(context).size.width * 0.17,
-            child: ButtonWide(
-              text: kind == 'Donate' ? 'ADOTAR' : 'VI ELE AQUI PERTO',
-              color: kind == 'Donate' ? Colors.red : Colors.green,
-            ),
-          )
-        ],
-      ),
+            );
+          }),
       floatingActionButton: kind == 'Donate'
           ? FloatingActionButton(
               onPressed: () {
                 final user = UserController();
-                final auth = Provider.of<Authentication>(context);
-                user.favorite(auth.firebaseUser.uid, 'TESTE', true).then((_) {
-                  _scaffoldKey.currentState.showSnackBar(
-                    SnackBar(
-                    content: Text(isFavorite ? 'Removido dos favoritos' : 'Adicionado como favorito'),                    
-                  ));
-                });
+                final auth = Provider.of<Authentication>(context, listen: false);                    
+
+                user.favorite(auth.firebaseUser.uid, pet.petReference, !isFavorite);
+                _scaffoldKey.currentState.showSnackBar(SnackBar(
+                  duration: Duration(seconds: 1),
+                  content: Text(isFavorite
+                      ? 'Removido dos favoritos'
+                      : 'Adicionado como favorito'),
+                ));
                 favoriteHandler();
               },
               tooltip: isFavorite ? 'Favorito' : 'Favoritar',
@@ -290,7 +316,7 @@ class _PetDetailsState extends State<PetDetails> {
     );
   }
 
-  Widget showImages(Map photos, String announcerName) {
+  Widget showImages(Map photos) {
     return Stack(
       children: [
         Container(

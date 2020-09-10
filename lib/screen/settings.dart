@@ -27,6 +27,7 @@ class _SettingsState extends State<Settings> {
   bool isNameEditing = false;
   bool isWhatsAppEditing = false;
   bool isTelefoneEditing = false;
+  int betterContact;
 
   bool isSavingForm = false;
 
@@ -88,7 +89,7 @@ class _SettingsState extends State<Settings> {
       _whatsAppController.text = userProvider.whatsapp;
     if (userProvider.telefone != null)
       _telefoneController.text = userProvider.telefone;
-    if (userProvider.photoURL != null) photoURL = userProvider.photoURL;
+    if (userProvider.photoURL != null) photoURL = userProvider.photoURL;    
   }
 
   @override
@@ -148,13 +149,13 @@ class _SettingsState extends State<Settings> {
     return _newPassword.text.isNotEmpty && _repeatNewPassword.text.isNotEmpty;
   }
 
-  void save() async {    
+  void save() async {
     if (_passwordFormKey.currentState.validate()) {
       if (passwordWasTouched()) {
         changeSaveFormStatus(true);
         try {
           await auth.firebaseUser.updatePassword(_newPassword.text);
-        } catch (error) {                    
+        } catch (error) {
           showDialog(
             context: context,
             child: PopUpMessage(
@@ -191,10 +192,13 @@ class _SettingsState extends State<Settings> {
         'uid': auth.firebaseUser.uid,
         'photoURL': userProfile.isNotEmpty ? photoURL : userProvider.photoURL,
         'phoneNumber': _whatsAppController.text,
-        'landline': _telefoneController.text
+        'landline': _telefoneController.text,
+        'betterContact': userProvider.getBetterContact,
+        'email': auth.firebaseUser.email
       });
 
       userProvider.changeDisplayName(_nameController.text);
+      userProvider.changeBetterContact(userProvider.getBetterContact);
       userProvider.changeWhatsapp(_whatsAppController.text);
       userProvider.changeTelefone(_telefoneController.text);
       userProvider.changePhotoUrl(photoURL);
@@ -215,7 +219,7 @@ class _SettingsState extends State<Settings> {
           message: 'Tudo certo!',
           title: 'Sucesso!',
         ),
-      );      
+      );
     }
   }
 
@@ -274,7 +278,6 @@ class _SettingsState extends State<Settings> {
             child: SingleChildScrollView(
               child: Column(
                 children: [
-                  CustomDivider(text: 'Dados do perfil'),
                   SizedBox(height: 10),
                   InkWell(
                     onTap: () {
@@ -403,6 +406,47 @@ class _SettingsState extends State<Settings> {
                                 }
                               },
                             ),
+                          ),
+                          Align(
+                            alignment: Alignment(-0.8, 1),
+                            child: Text('Sua melhor forma de contato'),
+                          ),
+                          StreamBuilder<Object>(
+                            stream: userProvider.betterContact,
+                            builder: (context, snapshot) {
+                              return Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Radio(
+                                    activeColor: Colors.green,
+                                    groupValue: snapshot.data,
+                                    value: 0,
+                                    onChanged: (value) {
+                                      userProvider.changeBetterContact(value);
+                                    },
+                                  ),
+                                  Text('WhatsApp'),
+                                  Radio(
+                                    activeColor: Colors.orange,
+                                    groupValue: snapshot.data,
+                                    value: 1,
+                                    onChanged: (value) {
+                                      userProvider.changeBetterContact(value);
+                                    },
+                                  ),
+                                  Text('Telefone Fixo'),
+                                  Radio(
+                                    activeColor: Colors.red,
+                                    groupValue: snapshot.data,
+                                    value: 2,
+                                    onChanged: (value) {
+                                      userProvider.changeBetterContact(value);
+                                    },
+                                  ),
+                                  Text('E-mail'),
+                                ],
+                              );
+                            },
                           ),
                         ],
                       ),
