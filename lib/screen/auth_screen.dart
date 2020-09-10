@@ -133,11 +133,11 @@ class _AuthScreenState extends State<AuthScreen> {
                 children: <Widget>[
                   SizedBox(height: 15),
                   Container(
-                    margin: const EdgeInsets.fromLTRB(25.0, 10.0, 0.0, 0.0),
+                    margin: const EdgeInsets.fromLTRB(0.0, 50.0, 0.0, 0.0),
                     height: 200,
                     width: 420,
                     child: Center(
-                      child: Image.asset('assets/logo.png'),
+                      child: Image.asset('assets/Logo.png'),
                     ),
                   ),
                   isNewAccount
