@@ -19,10 +19,12 @@ class Pet {
     this.latitude,
     this.longitude,
     this.address,
+    this.kind
   });
 
   Pet.fromSnapshot(DocumentSnapshot snapshot) {
     id = snapshot.id;
+    kind = snapshot.data()['kind'];
     name = snapshot.data()['name'];
     color = snapshot.data()['color'];
     type = snapshot.data()['type'];    
@@ -43,6 +45,7 @@ class Pet {
 
   String id;
   String name;
+  String kind;
   String color;
   String type;
   DocumentReference ownerReference;
@@ -63,6 +66,7 @@ class Pet {
     return {
       'id': id,
       'name': name,
+      'kind': kind,
       'color': color,
       'avatar': avatar,
       'health': health,
@@ -85,6 +89,7 @@ class Pet {
     Map<String, dynamic> petMap = {};
     petMap['id'] = id;
     petMap['name'] = name;
+    petMap['kind'] = kind;
     petMap['avatar'] = avatar;
     petMap['health'] = health;
     petMap['ano'] = ano;

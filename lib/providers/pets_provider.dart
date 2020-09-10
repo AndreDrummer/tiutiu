@@ -13,8 +13,7 @@ class PetsProvider with ChangeNotifier {
   Stream<List<Pet>> get listDonatesPETS => _listDonatesPETS.stream;
 
   // Changing the data
-  void Function(List<Pet>) get changeListDisappearedPETS =>
-      _listDisappearedPETS.sink.add;
+  void Function(List<Pet>) get changeListDisappearedPETS => _listDisappearedPETS.sink.add;
   void Function(List<Pet>) get changeListDonatesPETS =>
       _listDonatesPETS.sink.add;
 
@@ -22,8 +21,7 @@ class PetsProvider with ChangeNotifier {
   List<Pet> get getListDisappearedPETS => _listDisappearedPETS.value;
   List<Pet> get getListDonatesPETS => _listDonatesPETS.value;
 
-  CollectionReference dataBaseCollection =
-      FirebaseFirestore.instance.collection('Users');
+  CollectionReference dataBaseCollection = FirebaseFirestore.instance.collection('Users');
 
   Future<void> loadUsersID() async {
     allUsersID.clear();
