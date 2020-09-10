@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:tiutiu/Widgets/mapa.dart';
 import 'package:tiutiu/providers/auth2.dart';
+import 'package:tiutiu/providers/favorites_provider.dart';
 import 'package:tiutiu/providers/location.dart';
 import 'package:tiutiu/providers/pets_provider.dart';
 import 'package:tiutiu/providers/show_bottom.dart';
@@ -11,6 +12,7 @@ import 'package:tiutiu/providers/user_provider.dart';
 import 'package:tiutiu/screen/choose_location.dart';
 import 'package:tiutiu/screen/donates.dart';
 import 'package:tiutiu/screen/auth_or_home.dart';
+import 'package:tiutiu/screen/favorites.dart';
 import 'package:tiutiu/screen/home.dart';
 import 'package:tiutiu/screen/new_pet.dart';
 import 'package:tiutiu/screen/pet_detail.dart';
@@ -58,12 +60,17 @@ class App extends StatelessWidget {
               ),
               ChangeNotifierProvider(
                 create: (_) => PetsProvider(),
+              ),
+              ChangeNotifierProxyProvider<Authentication, FavoritesProvider>(
+                update: (context, auth, favoritesPrevious) => FavoritesProvider(auth),
+                create: (_) => FavoritesProvider(),
               )
             ],
             child: MaterialApp(
               theme: ThemeData(
                 primaryColor: Colors.green,
                 accentColor: Color(0xFF00FF00),
+                scaffoldBackgroundColor: Colors.blueGrey[100],
                 textTheme: ThemeData.light().textTheme.copyWith(
                       headline1: GoogleFonts.roboto(
                         color: Colors.white,
@@ -83,6 +90,7 @@ class App extends StatelessWidget {
                 Routes.AUTH_HOME: (ctx) => AuthOrHome(),
                 // Routes.AUTH_HOME: (ctx) => Settings(),
                 Routes.SETTINGS: (ctx) => Settings(),
+                Routes.FAVORITES: (ctx) => Favorites(),
                 Routes.REGISTER: (ctx) => Register(),
                 Routes.HOME: (ctx) => Home(),
                 Routes.DOADOS: (ctx) => Donate(),
