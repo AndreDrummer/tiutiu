@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Pet {
   Pet({
+    this.id,
     this.name,
     this.color,
     this.ownerPhoneNumber,
@@ -26,6 +27,7 @@ class Pet {
   });
 
   Pet.fromSnapshot(DocumentSnapshot snapshot) {
+    id = snapshot.id;
     name = snapshot.data()['name'];
     color = snapshot.data()['color'];
     type = snapshot.data()['type'];
@@ -49,6 +51,7 @@ class Pet {
     ownerBetterContact = snapshot.data()['ownerBetterContact'];
   }
 
+  String id;
   String name;
   String color;
   String type;
@@ -73,6 +76,7 @@ class Pet {
 
   Map<String, dynamic> toJson() {
     return {
+      'id': id,
       'name': name,
       'color': color,
       'avatar': avatar,
@@ -99,6 +103,7 @@ class Pet {
 
   Map<String, dynamic> toMap() {
     Map<String, dynamic> petMap = {};
+    petMap['id'] = id;
     petMap['name'] = name;
     petMap['avatar'] = avatar;
     petMap['health'] = health;

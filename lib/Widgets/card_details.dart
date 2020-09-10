@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 
 class CardDetails extends StatelessWidget {
-  CardDetails({this.icon, this.title, this.text});
+  CardDetails({
+    this.icon,
+    this.title,
+    this.text,
+  });
 
   final String title;
   final String text;
@@ -27,7 +31,7 @@ class CardDetails extends StatelessWidget {
               Opacity(
                 opacity: 0.4,
                 child: Icon(icon, color: Colors.green, size: 35),
-              ),            
+              ),
               Expanded(
                 child: Container(
                   child: Column(
@@ -47,7 +51,7 @@ class CardDetails extends StatelessWidget {
                       FittedBox(
                         child: Text(
                           text,
-                          style: TextStyle(                        
+                          style: TextStyle(
                             fontWeight: FontWeight.w700,
                           ),
                         ),
@@ -71,7 +75,9 @@ class UserCardInfo extends StatelessWidget {
     this.text,
     this.title,
     this.icon,
-    this.color
+    this.color,
+    this.callback,
+    this.launchIcon,
   });
 
   final String text;
@@ -79,82 +85,92 @@ class UserCardInfo extends StatelessWidget {
   final String image;
   final String imageN;
   final IconData icon;
+  IconData launchIcon;
+  final Function() callback;
   final Color color;
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      elevation: 4.0,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: Container(
-        child: Column(
-          children: [
-              Row(
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(4.0),
-                  child: Text(
-                    title,
-                    overflow: TextOverflow.fade,
-                    style: TextStyle(
-                      // fontSize: 10,
-                      // fontWeight: FontWeight.w700,
-                    ),
+    return InkWell(
+      onTap: () {
+        callback();
+      },
+      child: Card(
+        elevation: 4.0,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: Container(
+          width: 120,
+          child: Column(
+            children: [
+              // Padding(
+              //   padding: const EdgeInsets.all(4.0),
+              //   child: Text(
+              //     title,
+              //     textAlign: TextAlign.center,
+              //     overflow: TextOverflow.fade,
+              //     style: TextStyle(
+              //     ),
+              //   ),
+              // ),
+              Container(
+                height: 120,
+                width: 135,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(12),
                   ),
                 ),
-              ],
-            ),
-            Container(
-              height: 100,
-              width: 120,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.all(
-                  Radius.circular(12),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(12),
+                      topRight: Radius.circular(12)),
+                  child: Container(
+                      color: color,
+                      child: icon != null
+                          ? Icon(icon, color: Colors.white, size: 60)
+                          : imageN != null
+                              ? Image.network(
+                                  imageN,
+                                  fit: BoxFit.cover,
+                                  width: 105,
+                                )
+                              : Image.asset(
+                                  image,
+                                  fit: BoxFit.cover,
+                                  width: 105,
+                                )),
                 ),
               ),
-              child: ClipRRect(
-                // borderRadius: BorderRadius.only(
-                //   topRight: Radius.circular(12),
-                //   topLeft: Radius.circular(12),
-                // ),
-                child: Container(
-                  color: color,
-                  child: icon != null
-                    ? Icon(icon, color: Colors.white, size: 60)
-                    : imageN != null
-                        ? Image.network(
-                            imageN,
-                            fit: BoxFit.cover,
-                            width: 105,
-                          )
-                        : Image.asset(
-                            image,
-                            fit: BoxFit.cover,
-                            width: 105,
-                          )
-                ),
-              ),
-            ),
-            Row(
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                Padding(
+              Center(
+                child: Padding(
                   padding: const EdgeInsets.all(4.0),
-                  child: Text(
-                    text,
-                    overflow: TextOverflow.fade,
-                    style: TextStyle(
-                      // fontSize: 10,
-                      fontWeight: FontWeight.w700,
-                    ),
+                  child: Column(
+                    children: [
+                      FittedBox(
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text(
+                              text,
+                              textAlign: TextAlign.center,
+                              overflow: TextOverflow.fade,
+                              style: TextStyle(
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                            SizedBox(width: 10),
+                            Icon(launchIcon ?? Icons.launch, size: 14, color: Colors.blue)
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-              ],
-            ),
-          ],
+              ),
+            ],
+          ),
         ),
       ),
     );

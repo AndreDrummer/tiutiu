@@ -51,7 +51,7 @@ class PetController {
         .collection('Users')
         .doc(pet.ownerId)
         .collection('Pets')
-        .doc('pets')
+        .doc('posted')
         .collection(petKind)
         .doc()
         .set(pet.toMap())
