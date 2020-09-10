@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tiutiu/Widgets/listTile_drawer.dart';
+import 'package:tiutiu/Widgets/popup_message.dart';
 import 'package:tiutiu/providers/auth2.dart';
 import 'package:tiutiu/providers/user_provider.dart';
 import 'package:tiutiu/utils/routes.dart';
@@ -52,28 +53,26 @@ class DrawerApp extends StatelessWidget {
                               radius: 40,
                               child: ClipOval(
                                 child: FadeInImage(
-                                  placeholder:
-                                      AssetImage('assets/profileEmpty.jpg'),
-                                  image: NetworkImage(
-                                    userProvider.photoURL,
-                                  ),
-                                  fit: BoxFit.cover,
-                                  width: 1000,
-                                  height: 100
-                                ),
+                                    placeholder:
+                                        AssetImage('assets/profileEmpty.jpg'),
+                                    image: NetworkImage(
+                                      userProvider.photoURL,
+                                    ),
+                                    fit: BoxFit.cover,
+                                    width: 1000,
+                                    height: 100),
                               ),
                             )
                           : Icon(Icons.account_circle),
                     ),
                     SizedBox(width: 15),
-                    Expanded(                    
-                      child: Text(                        
-                        '${userProvider.displayName}',
-                        textAlign: TextAlign.left,
-                        style: Theme.of(context).textTheme.headline1.copyWith(
-                          fontSize: 22
-                        )
-                      ),
+                    Expanded(
+                      child: Text('${userProvider.displayName}',
+                          textAlign: TextAlign.left,
+                          style: Theme.of(context)
+                              .textTheme
+                              .headline1
+                              .copyWith(fontSize: 22)),
                     )
                   ],
                 ),
@@ -113,8 +112,23 @@ class DrawerApp extends StatelessWidget {
             ListTileDrawer(
               tileName: 'Sair',
               icon: Icons.exit_to_app,
-              callback: () {
-                auth.signOut();
+              callback: () async {
+                await showDialog(
+                    context: context,
+                    builder: (context) => PopUpMessage(
+                          confirmAction: () {
+                            auth.signOut();
+                            Navigator.pop(context);
+                          },
+                          confirmText: 'Sim',
+                          denyAction: () {
+                            Navigator.pop(context);
+                          },
+                          denyText: 'Não',
+                          warning: true,
+                          message: 'Tem certeza que deseja deslogar?',
+                          title: 'Signout',
+                        ));
               },
             ),
           ],
