@@ -23,23 +23,24 @@ class UserController {
     return user;
   }
 
-  Future<void> favorite(String userID, String petId, bool add) async {
+  Future<void> favorite(String userID, DocumentReference petReference, bool add) async {
     final favorite = await FirebaseFirestore.instance
         .collection('Users')
         .doc(userID)
         .collection('Pets')
-        .doc('favorites').collection('favorites');
+        .doc('favorites')
+        .collection('favorites');
 
     if (add) {
-      favorite.doc().set({'id': petId})
-        .then(
-      (value) {
-        print('PET favoritado com sucesso!');
-      },
-    );
+      favorite.doc().set({'id': petReference});       
     } else {
-      // final petToDelete = favorite.where(field);
-      // favorite
+      var petToDelete;
+
+      await favorite.where("id", isEqualTo: petReference).get().then((value) {
+        petToDelete = value.docs.first.id;
+      });
+      
+      favorite.doc(petToDelete).delete();    
     }
   }
 

@@ -10,7 +10,7 @@ class PetController {
     Pet pet;
     await firestore
         .collection('Users')
-        .doc(pet.ownerId)
+        .doc(id)
         .collection('Pets')
         .doc(id)
         .snapshots()
@@ -49,7 +49,7 @@ class PetController {
   Future<void> insertPet(Pet pet, String petKind, Authentication auth) async {        
     await FirebaseFirestore.instance
         .collection('Users')
-        .doc(pet.ownerId)
+        .doc(auth.firebaseUser.uid)
         .collection('Pets')
         .doc('posted')
         .collection(petKind)
@@ -65,7 +65,7 @@ class PetController {
   Future<void> updatePet(Pet pet, String id) async {
     await FirebaseFirestore.instance
         .collection('Users')
-        .doc(pet.ownerId)
+        .doc(id)
         .collection('Pets')
         .doc(id) // pet.id
         .update(pet.toMap())

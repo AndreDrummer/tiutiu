@@ -215,19 +215,6 @@ class _RegisterState extends State<Register> {
   }
 
   Future<void> save() async {
-    String betterContact;
-
-    switch (userProvider.getBetterContact) {
-      case 0:
-        betterContact = 'WhatsApp';
-        break;
-      case 1:
-        betterContact = 'Telefone Fixo';
-        break;
-      case 2:
-        betterContact = 'E-mail';
-        break;
-    }
 
     await uploadPhotos();
     await FirebaseFirestore.instance
@@ -239,7 +226,8 @@ class _RegisterState extends State<Register> {
       'photoURL': photoURL,
       'phoneNumber': _whatsapp.text,
       'landline': _telefone.text,
-      'betterContact': betterContact
+      'betterContact': userProvider.getBetterContact,
+      'email': auth.firebaseUser.email
     }, SetOptions(merge: true));
     userProvider.changePhotoUrl(photoURL);
     userProfile.clear();

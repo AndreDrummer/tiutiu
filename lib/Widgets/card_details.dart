@@ -85,7 +85,7 @@ class UserCardInfo extends StatelessWidget {
   final String image;
   final String imageN;
   final IconData icon;
-  IconData launchIcon;
+  final IconData launchIcon;
   final Function() callback;
   final Color color;
 
