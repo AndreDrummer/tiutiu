@@ -3,10 +3,10 @@ import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:loading_animations/loading_animations.dart';
 import 'package:provider/provider.dart';
 import 'package:tiutiu/Widgets/custom_dropdown_button.dart';
 import 'package:tiutiu/Widgets/hint_error.dart';
+import 'package:tiutiu/Widgets/load_dark_screen.dart';
 import 'package:tiutiu/Widgets/popup_message.dart';
 import 'package:tiutiu/Widgets/button.dart';
 import 'package:tiutiu/backend/Model/pet_model.dart';
@@ -253,6 +253,7 @@ class _NovoPetState extends State<NovoPet> {
       type: dropvalueType,
       color: dropvalueColor,
       name: _nome.text,
+      kind: kind,
       avatar: petPhotosToUpload.values.first,
       breed: dropvalueBreed,
       health: dropvalueHealth,
@@ -579,32 +580,8 @@ class _NovoPetState extends State<NovoPet> {
                   ),
                 ),
               ),
-            ),
-            isLogging
-                ? Container(
-                    height: MediaQuery.of(context).size.height,
-                    width: MediaQuery.of(context).size.width,
-                    color: Colors.black54,
-                    child: Center(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          LoadingBumpingLine.circle(
-                            backgroundColor: Colors.white,
-                          ),
-                          SizedBox(height: 15),
-                          Text(
-                            'Aguarde',
-                            style: Theme.of(context)
-                                .textTheme
-                                .headline1
-                                .copyWith(),
-                          )
-                        ],
-                      ),
-                    ),
-                  )
-                : Container(),
+            ),            
+            LoadDarkScreen(isLogging, 'Aguarde'),
             Positioned(
               bottom: 0.0,
               child: ButtonWide(
