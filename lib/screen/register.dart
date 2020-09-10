@@ -4,12 +4,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:loading_animations/loading_animations.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:provider/provider.dart';
 import 'package:tiutiu/Widgets/button.dart';
 import 'package:tiutiu/Widgets/hint_error.dart';
 import 'package:tiutiu/Widgets/input_text.dart';
+import 'package:tiutiu/Widgets/load_dark_screen.dart';
 import 'package:tiutiu/providers/auth2.dart';
 import 'package:tiutiu/providers/user_provider.dart';
 import 'package:tiutiu/utils/routes.dart';
@@ -407,29 +407,7 @@ class _RegisterState extends State<Register> {
               ),
             ),
           ),
-          finishing
-              ? Container(
-                  height: MediaQuery.of(context).size.height,
-                  width: MediaQuery.of(context).size.width,
-                  color: Colors.black54,
-                  child: Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        LoadingBumpingLine.circle(
-                          backgroundColor: Colors.white,
-                        ),
-                        SizedBox(height: 15),
-                        Text('Finalizando cadastro',
-                            style: Theme.of(context)
-                                .textTheme
-                                .headline1
-                                .copyWith())
-                      ],
-                    ),
-                  ),
-                )
-              : Container()
+          LoadDarkScreen(finishing, 'Finalizando cadastro'),          
         ],
       ),
       bottomNavigationBar: ButtonWide(
