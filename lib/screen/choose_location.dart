@@ -23,6 +23,7 @@ class _ChooseLocationState extends State<ChooseLocation> {
     var kind = params['kind'];
 
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(),
       body: Stack(
         children: <Widget>[
