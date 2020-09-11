@@ -30,47 +30,51 @@ class _FavoritesState extends State<Favorites> {
             },
           ),
           title: Text('Favoritos')),
-      body: StreamBuilder(
-          stream: favoritesProvider.favoritesPETSList,
-          builder: (BuildContext context, AsyncSnapshot snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    LoadingBumpingLine.circle(
-                      backgroundColor: Colors.white,
-                    ),
-                    SizedBox(height: 15),
-                    Text(
-                      'Carregando favoritos',
-                      style: Theme.of(context).textTheme.headline1.copyWith(),
-                    )
-                  ],
-                ),
-              );
-            } 
-            if (snapshot.data.isEmpty) {
-              return Center(
-                child: Text(
-                  'Nenhum PET Favoritado',
-                  textAlign: TextAlign.center,
-                  style: Theme.of(context).textTheme.headline6.copyWith(
-                        color: Colors.black,
+      body: RefreshIndicator(
+        onRefresh: () => favoritesProvider.loadFavoritesReference(),
+        child: StreamBuilder(
+            stream: favoritesProvider.favoritesPETSList,
+            builder: (BuildContext context, AsyncSnapshot snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      LoadingBumpingLine.circle(
+                        backgroundColor: Colors.white,
                       ),
-                ),
-              );
-            }
-            return ListView.builder(
-              itemCount: snapshot.data.length,
-              itemBuilder: (_, index) {
-                return CardList(
+                      SizedBox(height: 15),
+                      Text(
+                        'Carregando favoritos',
+                        style: Theme.of(context).textTheme.headline1.copyWith(),
+                      )
+                    ],
+                  ),
+                );
+              }
+              if (snapshot.data.isEmpty) {
+                return Center(
+                  child: Text(
+                    'Nenhum PET Favoritado',
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context).textTheme.headline6.copyWith(
+                          color: Colors.black,
+                        ),
+                  ),
+                );
+              }
+              return ListView.builder(
+                itemCount: snapshot.data.length,
+                itemBuilder: (_, index) {
+                  return CardList(
                     petInfo: snapshot.data[index],
                     kind: snapshot.data[index].kind,
-                    favorite: true);
-              },
-            );
-          }),
+                    favorite: true,
+                  );
+                },
+              );
+            }),
+      ),
     );
   }
 }

@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:tiutiu/Widgets/card_list.dart';
+import 'package:tiutiu/providers/auth2.dart';
+import 'package:tiutiu/providers/my_pets_provider.dart';
 
 class Donate extends StatefulWidget {
   @override
@@ -6,6 +10,16 @@ class Donate extends StatefulWidget {
 }
 
 class _DonateState extends State<Donate> {
+  MyPetsProvider myPetsProvider;
+  Authentication auth;
+
+  @override
+  void didChangeDependencies() {
+    myPetsProvider = Provider.of<MyPetsProvider>(context);
+    auth = Provider.of<Authentication>(context);
+    super.didChangeDependencies();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -17,75 +31,26 @@ class _DonateState extends State<Donate> {
           },
         ),
         title: Text(
-          'Você doou',
+          'Meus PETS',
           style: Theme.of(context).textTheme.headline1.copyWith(
                 fontSize: 22,
                 fontWeight: FontWeight.w800,
               ),
         ),
       ),
-      body: ListView.builder(
-        itemCount: 3,
-        itemBuilder: (_, index) {
-          return Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Card(
-              elevation: 3,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12)),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 6.0),
-                child: Row(
-                  children: <Widget>[
-                    Container(
-                      margin: const EdgeInsets.all(8.0),
-                      child: ClipOval(
-                        child: CircleAvatar(
-                          radius: 60,
-                          child: Text('D'),
-                        ),
-                      ),
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text(
-                          'Doguinho, 6 meses',
-                          style: TextStyle(fontWeight: FontWeight.w900),
-                        ),
-                        Text('Viralata'),
-                        SizedBox(height: 20),
-                        SizedBox(
-                          width: MediaQuery.of(context).size.width * 0.525,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              Text('Doado para bernadovitor',
-                                  style:
-                                      TextStyle(fontWeight: FontWeight.w500)),
-                            ],
-                          ),
-                        ),
-                        SizedBox(
-                          width: MediaQuery.of(context).size.width * 0.525,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              Text(
-                                'Ver detalhes',
-                                style: TextStyle(color: Colors.blue),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          );
-        },
+      body: RefreshIndicator(
+        onRefresh: () => myPetsProvider.loadMyPets(auth.firebaseUser.uid),      
+        child: StreamBuilder<Object>(
+          stream: null,
+          builder: (context, snapshot) {
+            return ListView.builder(
+              itemCount: 3,
+              itemBuilder: (_, index) {
+                return CardList();
+              },
+            );
+          }
+        ),
       ),
     );
   }

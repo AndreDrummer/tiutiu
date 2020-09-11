@@ -1,11 +1,8 @@
 class Routes {  
   static const AUTH_HOME = '/';
   static const HOME = '/home';
-  static const NOVOPET = '/novo-pet';
-  static const DOADOS = '/pets-doados';
-  static const ADOTADOS = '/pets-adotados';
-  static const DIVULGADOS = '/pets-divulgados';
-  static const DESAPARECIDOS = '/pets-desaparecidos';
+  static const NOVOPET = '/novo-pet';  
+  static const MEUS_PETS = '/meus-pets';
   static const REGISTER = '/register';
   static const SETTINGS = '/settings';
   static const FAVORITES = '/favorites';
