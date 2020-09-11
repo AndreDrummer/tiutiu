@@ -11,7 +11,7 @@ class FavoritesProvider with ChangeNotifier {
 
   final _favoritesListReference = BehaviorSubject<List<QueryDocumentSnapshot>>();
   final _favoritesPETSList = BehaviorSubject<List<Pet>>();
-  final _favoritesPETSIDList = BehaviorSubject<List<String>>();
+  final _favoritesPETSIDList = BehaviorSubject<List<String>>.seeded([]);
 
   
   Stream<List<QueryDocumentSnapshot>> get favoritesListReference => _favoritesListReference.stream;
@@ -26,7 +26,7 @@ class FavoritesProvider with ChangeNotifier {
   void Function(List<String>) get changeFavoritesPETSIDList => _favoritesPETSIDList.sink.add;
   List<String> get getFavoritesPETSIDList => _favoritesPETSIDList.value;
 
-  void loadFavoritesReference() async {        
+  Future<void> loadFavoritesReference() async {        
     CollectionReference dataBaseCollection = FirebaseFirestore.instance.collection('Users');
     final favoritesListReference = await dataBaseCollection.doc(auth.firebaseUser.uid).collection('Pets').doc('favorites').collection('favorites').get();    
     changefavoritesListReference(favoritesListReference.docs);
