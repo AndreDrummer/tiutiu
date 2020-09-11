@@ -11,7 +11,6 @@ import 'package:tiutiu/backend/Controller/user_controller.dart';
 import 'package:tiutiu/backend/Model/pet_model.dart';
 import 'package:tiutiu/providers/auth2.dart';
 import 'package:tiutiu/providers/favorites_provider.dart';
-import 'package:tiutiu/utils/constantes.dart';
 import 'package:maps_launcher/maps_launcher.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -113,8 +112,8 @@ class _PetDetailsState extends State<PetDetails> {
       },
       {
         'text': 'Localização',
-        'imageN':
-            'https://maps.googleapis.com/maps/api/staticmap?center=${pet.latitude}, ${pet.longitude}&zoom=14&markers=color&markers=color:red%7Clabel:%7c-16.7502014,%20-49.256370000000004&size=600x400&key=${Constantes.WEB_API_KEY}',
+        'image': 'assets/static_map.jpg',
+        // 'imageN': 'https://maps.googleapis.com/maps/api/staticmap?center=${pet.latitude}, ${pet.longitude}&zoom=14&markers=color&markers=color:red%7Clabel:%7c-16.7502014,%20-49.256370000000004&size=600x400&key=${Constantes.WEB_API_KEY}',
         'callback': () {
           MapsLauncher.launchCoordinates(
             pet.latitude,
@@ -133,6 +132,13 @@ class _PetDetailsState extends State<PetDetails> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    Provider.of<FavoritesProvider>(context, listen: false)
+        .loadFavoritesReference();
   }
 
   @override
@@ -272,10 +278,8 @@ class _PetDetailsState extends State<PetDetails> {
                                     ['text'],
                                 icon: snapshot.data['ownerDetails'][index]
                                     ['icon'],
-                                image: snapshot.data['ownerDetails'][index]
-                                    ['image'],
-                                imageN: snapshot.data['ownerDetails'][index]
-                                    ['imageN'],
+                                image: snapshot.data['ownerDetails'][index]['image'],
+                                imageN: snapshot.data['ownerDetails'][index]['imageN'],
                                 color: snapshot.data['ownerDetails'][index]
                                     ['color'],
                                 callback: snapshot.data['ownerDetails'][index]
@@ -297,8 +301,19 @@ class _PetDetailsState extends State<PetDetails> {
                       ? 20.0
                       : MediaQuery.of(context).size.width * 0.17,
                   child: ButtonWide(
-                    text: kind == 'DONATE' ? 'ADOTAR' : 'VI ELE AQUI PERTO',
+                    text:
+                        kind == 'DONATE' ? 'QUERO ADOTAR' : 'VI ELE AQUI PERTO',
                     color: kind == 'DONATE' ? Colors.red : Colors.green,
+                    action: () {
+                      _scaffoldKey.currentState.showSnackBar(SnackBar(
+                        content: Row(
+                          children: [                                                          
+                            Expanded(child: Text('Você é o 10º interessado no ${pet.name}. Te avisaremos caso o dono aceite seu pedido de adoção!')),
+                          ],
+                        ),
+                        duration: Duration(seconds: 5),
+                      ));
+                    },
                   ),
                 )
               ],
@@ -307,45 +322,33 @@ class _PetDetailsState extends State<PetDetails> {
       floatingActionButton: kind == 'DONATE'
           ? Consumer<FavoritesProvider>(
               builder: (context, favoritesProvider, child) {
-                favoritesProvider.loadFavoritesReference();
-                return StreamBuilder<Object>(
-                  stream: favoritesProvider.favoritesPETSIDList,
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return Center(
-                        child: CircularProgressIndicator(),
-                      );
-                    } else {
-                      final bool isFavorite = favoritesProvider
-                          .getFavoritesPETSIDList
-                          .contains(pet.id);
-                      return FloatingActionButton(
-                        onPressed: () {
-                          final user = UserController();
-                          final auth = Provider.of<Authentication>(context,
-                              listen: false);
+                final bool isFavorite =
+                    favoritesProvider.getFavoritesPETSIDList.contains(pet.id);                
+                return FloatingActionButton(
+                  onPressed: () {
+                    final user = UserController();
+                    final auth =
+                        Provider.of<Authentication>(context, listen: false);
 
-                          user.favorite(auth.firebaseUser.uid, pet.petReference,
-                              !isFavorite);
+                    user.favorite(
+                        auth.firebaseUser.uid, pet.petReference, !isFavorite);
 
-                          _scaffoldKey.currentState.showSnackBar(SnackBar(
-                            duration: Duration(seconds: 1),
-                            content: Text(isFavorite
-                                ? 'Removido dos favoritos'
-                                : 'Adicionado como favorito'),
-                          ));
+                    _scaffoldKey.currentState.showSnackBar(SnackBar(
+                      duration: Duration(seconds: 1),
+                      content: Text(isFavorite
+                          ? 'Removido dos favoritos'
+                          : 'Adicionado como favorito'),
+                    ));
 
-                          favoritesProvider.handleFavorite(pet.id);
-                        },
-                        tooltip: isFavorite ? 'Favorito' : 'Favoritar',
-                        backgroundColor: isFavorite ? Colors.white : Colors.red,
-                        child: Icon(
-                          isFavorite ? Icons.favorite : Icons.favorite_border,
-                          color: isFavorite ? Colors.red : Colors.white,
-                        ),
-                      );
-                    }
+                    favoritesProvider.handleFavorite(pet.id);
+                    favoritesProvider.loadFavoritesReference();
                   },
+                  tooltip: isFavorite ? 'Favorito' : 'Favoritar',
+                  backgroundColor: isFavorite ? Colors.white : Colors.red,
+                  child: Icon(
+                    isFavorite ? Icons.favorite : Icons.favorite_border,
+                    color: isFavorite ? Colors.red : Colors.white,
+                  ),
                 );
               },
             )
