@@ -78,30 +78,16 @@ class DrawerApp extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(height: 20),
+            SizedBox(height: 20),           
             ListTileDrawer(
-              tileName: 'Doados',
-              imageAsset: 'assets/pata.jpg',
-              callback: () {
-                Navigator.pushNamed(context, Routes.DOADOS);
-              },
-            ),
-            ListTileDrawer(
-              tileName: 'Adotados',
-              imageAsset: 'assets/dogs.png',
-              callback: () {
-                Navigator.pushNamed(context, Routes.ADOTADOS);
-              },
-            ),
-            ListTileDrawer(
-              tileName: 'Desaparecidos',
+              tileName: 'Meus PETS',
               imageAsset: 'assets/dogCat2.png',
               callback: () {
-                Navigator.pushNamed(context, Routes.DESAPARECIDOS);
+                Navigator.pushNamed(context, Routes.MEUS_PETS);
               },
             ),
             ListTileDrawer(
-              tileName: 'Favoritos',
+              tileName: 'Meus Favoritos',
               icon: Icons.star,
               callback: () {
                 Navigator.pushNamed(context, Routes.FAVORITES);

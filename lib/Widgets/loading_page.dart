@@ -20,10 +20,10 @@ class LoadingPage extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             !circle ? LoadingBouncingGrid.square(
-              size: 100.0,
+              size: 50.0,
               backgroundColor: Theme.of(context).primaryColor,
             ) :  LoadingJumpingLine.circle(
-              size: 100.0,
+              size: 50.0,
               backgroundColor: Theme.of(context).primaryColor,
             ),
             SizedBox(height: 30.0),
