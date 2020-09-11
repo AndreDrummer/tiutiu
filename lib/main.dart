@@ -6,6 +6,7 @@ import 'package:tiutiu/Widgets/mapa.dart';
 import 'package:tiutiu/providers/auth2.dart';
 import 'package:tiutiu/providers/favorites_provider.dart';
 import 'package:tiutiu/providers/location.dart';
+import 'package:tiutiu/providers/my_pets_provider.dart';
 import 'package:tiutiu/providers/pets_provider.dart';
 import 'package:tiutiu/providers/show_bottom.dart';
 import 'package:tiutiu/providers/user_provider.dart';
@@ -48,18 +49,21 @@ class App extends StatelessWidget {
             providers: [
               ChangeNotifierProvider(
                 create: (_) => Location(),
-              ),
+              ),              
               ChangeNotifierProvider(
                 create: (_) => UserProvider(),
-              ),
-              ChangeNotifierProvider(               
+              ),              
+              ChangeNotifierProvider(
                 create: (_) => Authentication(),
-              ),
+              ),              
               ChangeNotifierProvider(
                 create: (_) => ShowBottomNavigator(),
               ),
               ChangeNotifierProvider(
                 create: (_) => PetsProvider(),
+              ),
+              ChangeNotifierProvider(
+                create: (_) => MyPetsProvider(),
               ),
               ChangeNotifierProxyProvider<Authentication, FavoritesProvider>(
                 update: (context, auth, favoritesPrevious) => FavoritesProvider(auth),
@@ -90,10 +94,10 @@ class App extends StatelessWidget {
                 Routes.AUTH_HOME: (ctx) => AuthOrHome(),
                 // Routes.AUTH_HOME: (ctx) => Settings(),
                 Routes.SETTINGS: (ctx) => Settings(),
+                Routes.MEUS_PETS: (ctx) => Donate(),
                 Routes.FAVORITES: (ctx) => Favorites(),
                 Routes.REGISTER: (ctx) => Register(),
-                Routes.HOME: (ctx) => Home(),
-                Routes.DOADOS: (ctx) => Donate(),
+                Routes.HOME: (ctx) => Home(),                
                 Routes.MAPA: (ctx) => Mapa(),
                 Routes.CHOOSE_LOCATION: (ctx) => ChooseLocation(),
                 Routes.PET_DETAILS: (ctx) => PetDetails(),
