@@ -278,8 +278,10 @@ class _PetDetailsState extends State<PetDetails> {
                                     ['text'],
                                 icon: snapshot.data['ownerDetails'][index]
                                     ['icon'],
-                                image: snapshot.data['ownerDetails'][index]['image'],
-                                imageN: snapshot.data['ownerDetails'][index]['imageN'],
+                                image: snapshot.data['ownerDetails'][index]
+                                    ['image'],
+                                imageN: snapshot.data['ownerDetails'][index]
+                                    ['imageN'],
                                 color: snapshot.data['ownerDetails'][index]
                                     ['color'],
                                 callback: snapshot.data['ownerDetails'][index]
@@ -307,8 +309,14 @@ class _PetDetailsState extends State<PetDetails> {
                     action: () {
                       _scaffoldKey.currentState.showSnackBar(SnackBar(
                         content: Row(
-                          children: [                                                          
-                            Expanded(child: Text('Você é o 10º interessado no ${pet.name}. Te avisaremos caso o dono aceite seu pedido de adoção!')),
+                          children: [
+                            Expanded(
+                              child: Text(
+                                kind == 'DONATE' ?
+                                'Você é o 10º interessado no ${pet.name}. Te avisaremos caso o dono aceite seu pedido de adoção!'
+                                : 'Obrigado pela informação! ${snapshot.data['ownerDetails'][0]['text']} será avisado.',
+                              ),
+                            ),
                           ],
                         ),
                         duration: Duration(seconds: 5),
@@ -323,7 +331,7 @@ class _PetDetailsState extends State<PetDetails> {
           ? Consumer<FavoritesProvider>(
               builder: (context, favoritesProvider, child) {
                 final bool isFavorite =
-                    favoritesProvider.getFavoritesPETSIDList.contains(pet.id);                
+                    favoritesProvider.getFavoritesPETSIDList.contains(pet.id);
                 return FloatingActionButton(
                   onPressed: () {
                     final user = UserController();
