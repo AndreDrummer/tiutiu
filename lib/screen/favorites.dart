@@ -57,8 +57,9 @@ class _FavoritesState extends State<Favorites> {
                   child: Text(
                     'Nenhum PET Favoritado',
                     textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.headline6.copyWith(
+                    style: Theme.of(context).textTheme.headline1.copyWith(
                           color: Colors.black,
+                          fontWeight: FontWeight.w100,                          
                         ),
                   ),
                 );

@@ -53,7 +53,7 @@ class _DonateDisappearedListState extends State<DonateDisappearedList> {
 
     return Scaffold(
       key: _scaffoldKey,
-      backgroundColor: Colors.greenAccent,
+      backgroundColor: Colors.blueGrey[50],
       drawer: DrawerApp(),
       body: RefreshIndicator(
         onRefresh: () => widget.kind == 'Donate'
@@ -80,7 +80,7 @@ class _DonateDisappearedListState extends State<DonateDisappearedList> {
                   child: Text(
                     'Nenhum PET ${kind == 'Donate' ? 'para adoção' : 'encontrado'}',
                     textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.headline6.copyWith(
+                    style: Theme.of(context).textTheme.headline1.copyWith(
                           color: Colors.black,
                         ),
                   ),
