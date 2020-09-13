@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:tiutiu/Widgets/popup_message.dart';
 import 'package:tiutiu/providers/auth2.dart';
 import 'package:tiutiu/providers/user_provider.dart';
+import 'package:tiutiu/screen/favorites.dart';
 import 'package:tiutiu/screen/my_account.dart';
 import 'package:tiutiu/screen/pets_list.dart';
 import '../Widgets/floating_button_option.dart';
@@ -89,40 +90,7 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    var _screens = <Widget>[PetsList(), MyAccount()];
-
-    // var iconsChildren = [
-    //   Column(
-    //     children: <Widget>[
-    //       IconButton(
-    //         color: _selectedIndex == 0 ? ACTIVED_COLOR : DESACTIVED_COLOR,
-    //         icon: Icon(Icons.menu),
-    //         onPressed: () {
-    //           _onItemTapped(0);
-    //         },
-    //       ),
-    //       Text('P/ Adoção',
-    //           style: TextStyle(
-    //             color: _selectedIndex == 0 ? ACTIVED_COLOR : DESACTIVED_COLOR,
-    //           ))
-    //     ],
-    //   ),
-    //   Column(
-    //     children: <Widget>[
-    //       IconButton(
-    //         color: _selectedIndex == 1 ? ACTIVED_COLOR : DESACTIVED_COLOR,
-    //         icon: Icon(Icons.assignment_late),
-    //         onPressed: () {
-    //           _onItemTapped(1);
-    //         },
-    //       ),
-    //       Text('Desaparecidos',
-    //           style: TextStyle(
-    //             color: _selectedIndex == 1 ? ACTIVED_COLOR : DESACTIVED_COLOR,
-    //           ))
-    //     ],
-    //   ),
-    // ];
+    var _screens = <Widget>[PetsList(),  Favorites(), MyAccount()];  
 
     return WillPopScope(
       onWillPop: leaveApplication,
@@ -142,8 +110,9 @@ class _HomeState extends State<Home> {
         // }),
         bottomNavigationBar: BottomNavigationBar(
           currentIndex: _selectedIndex,
-          selectedItemColor: Colors.green,
-          unselectedItemColor: Colors.blueGrey,
+          selectedItemColor: Colors.white,
+          unselectedItemColor: Colors.white54,
+          backgroundColor: Colors.black,
           onTap: _onItemTapped,
           items: const <BottomNavigationBarItem>[
             BottomNavigationBarItem(
@@ -151,12 +120,16 @@ class _HomeState extends State<Home> {
               title: Text('PETS'),
             ),
             BottomNavigationBarItem(
+              icon: Icon(Icons.favorite_border),
+              title: Text('Favoritos'),
+            ),
+            BottomNavigationBarItem(
               icon: Icon(Icons.account_circle),
               title: Text('Minha Conta'),
             )
           ],          
         ),
-        floatingActionButton: _selectedIndex == 1 ? null : SpeedDial(
+        floatingActionButton: _selectedIndex != 0 ? null : SpeedDial(
           marginRight: 18,
           marginBottom: 20,
           animatedIcon: AnimatedIcons.add_event,
