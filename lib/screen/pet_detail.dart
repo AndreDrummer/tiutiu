@@ -312,9 +312,9 @@ class _PetDetailsState extends State<PetDetails> {
                           children: [
                             Expanded(
                               child: Text(
-                                kind == 'DONATE' ?
-                                'Você é o 10º interessado no ${pet.name}. Te avisaremos caso o dono aceite seu pedido de adoção!'
-                                : 'Obrigado pela informação! ${snapshot.data['ownerDetails'][0]['text']} será avisado.',
+                                kind == 'DONATE'
+                                    ? 'Você é o 10º interessado no ${pet.name}. Te avisaremos caso o dono aceite seu pedido de adoção!'
+                                    : 'Obrigado pela informação! ${snapshot.data['ownerDetails'][0]['text']} será avisado.',
                               ),
                             ),
                           ],
@@ -330,16 +330,14 @@ class _PetDetailsState extends State<PetDetails> {
       floatingActionButton: kind == 'DONATE'
           ? Consumer<FavoritesProvider>(
               builder: (context, favoritesProvider, child) {
-                final bool isFavorite =
-                    favoritesProvider.getFavoritesPETSIDList.contains(pet.id);
+                bool isFavorite = favoritesProvider.getFavoritesPETSIDList.contains(pet.id);                
                 return FloatingActionButton(
-                  onPressed: () {
+                  onPressed: () async {
                     final user = UserController();
                     final auth =
                         Provider.of<Authentication>(context, listen: false);
 
-                    user.favorite(
-                        auth.firebaseUser.uid, pet.petReference, !isFavorite);
+                    await user.favorite(auth.firebaseUser.uid, pet.petReference, !isFavorite);
 
                     _scaffoldKey.currentState.showSnackBar(SnackBar(
                       duration: Duration(seconds: 1),
@@ -348,8 +346,8 @@ class _PetDetailsState extends State<PetDetails> {
                           : 'Adicionado como favorito'),
                     ));
 
-                    favoritesProvider.handleFavorite(pet.id);
                     favoritesProvider.loadFavoritesReference();
+                    favoritesProvider.handleFavorite(pet.id);                    
                   },
                   tooltip: isFavorite ? 'Favorito' : 'Favoritar',
                   backgroundColor: isFavorite ? Colors.white : Colors.red,

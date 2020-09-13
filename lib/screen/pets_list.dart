@@ -8,16 +8,15 @@ class PetsList extends StatelessWidget {
     return DefaultTabController(
       length: 2,
       child: Scaffold(        
-        appBar: AppBar(
+        appBar: AppBar(          
           title: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Image.asset('assets/pata.jpg', width: 30, height: 30, color: Colors.white),
-              SizedBox(width: 10),
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [              
               Text('Tiu, tiu', style: TextStyle(color: Colors.white, fontSize: 25, fontWeight: FontWeight.w600))
             ],
           ),
           bottom: TabBar(
+            indicatorColor: Colors.white,
             tabs: [
               Tab(icon: Icon(PetDetailIcons.dog), text: 'ADOTAR'),
               Tab(icon: Icon(PetDetailIcons.guidedog), text: 'DESAPARECIDOS'),
