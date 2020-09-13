@@ -76,7 +76,7 @@ class App extends StatelessWidget {
                 accentColor: Color(0xFF00FF00),
                 scaffoldBackgroundColor: Colors.blueGrey[100],
                 textTheme: ThemeData.light().textTheme.copyWith(
-                      headline1: GoogleFonts.roboto(
+                      headline1: GoogleFonts.lato(
                         color: Colors.white,
                         fontSize: 14,
                         fontWeight: FontWeight.w700,

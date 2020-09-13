@@ -13,6 +13,7 @@ class CircleChild extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(2.0),
         child: CircleAvatar(
+          backgroundColor: Colors.black,
           radius: avatarRadius,
           child: ClipOval(child: child),
         ),

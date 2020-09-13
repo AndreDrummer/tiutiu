@@ -55,8 +55,7 @@ class FavoritesProvider with ChangeNotifier {
       var tempList = getFavoritesPETSIDList;
       tempList.remove(id);
       print('removeu');
-      changeFavoritesPETSIDList([]);
-
+      changeFavoritesPETSIDList(tempList);
     }
     notifyListeners();
     return getFavoritesPETSIDList.contains(id);
