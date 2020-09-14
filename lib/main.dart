@@ -74,14 +74,14 @@ class App extends StatelessWidget {
               theme: ThemeData(
                 primaryColor: Colors.green,
                 accentColor: Color(0xFF00FF00),
-                scaffoldBackgroundColor: Colors.blueGrey[100],
+                scaffoldBackgroundColor: Color(0XFFF9F9F9),
                 textTheme: ThemeData.light().textTheme.copyWith(
                       headline1: GoogleFonts.lato(
                         color: Colors.white,
                         fontSize: 14,
                         fontWeight: FontWeight.w700,
                       ),
-                      button: GoogleFonts.roboto(
+                      button: GoogleFonts.raleway(
                         color: Color(0XFFFFFFFF),
                         fontSize: 14,
                         fontWeight: FontWeight.w700,

@@ -370,7 +370,7 @@ class _SettingsState extends State<Settings> {
                                       ? userProvider.photoURL != null
                                           ? FadeInImage(
                                               placeholder: AssetImage(
-                                                  'assets/profileEmpty.jpg'),
+                                                  'assets/profileEmpty.png'),
                                               image: NetworkImage(
                                                 userProvider.photoURL,
                                               ),
