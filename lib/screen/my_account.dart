@@ -19,133 +19,137 @@ class _MyAccountState extends State<MyAccount> {
       preferredSize: Size.fromHeight(200.0),
       child: Padding(
         padding: const EdgeInsets.only(top: 25.0),
-        child: Card(
-          elevation: 6.0,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.only(
-              bottomLeft: Radius.circular(12),
-              bottomRight: Radius.circular(12),
+        child: Stack(
+          children: [
+            Opacity(
+              child: Image.asset('assets/fundo.jpg',
+                  fit: BoxFit.fitWidth, width: 1000),
+              opacity: 0.25,
             ),
-          ),
-          child: Container(
-            // padding: const EdgeInsets.all(8.0),
-            decoration: BoxDecoration(
-              color: Theme.of(context).primaryColor,
-              borderRadius: BorderRadius.only(
-                bottomLeft: Radius.circular(12),
-                bottomRight: Radius.circular(12),
+            Container(
+              // padding: const EdgeInsets.all(8.0),
+              decoration: BoxDecoration(
+                color: Colors.transparent, //Theme.of(context).primaryColor,
+                borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(12),
+                  bottomRight: Radius.circular(12),
+                ),
+              ),
+              child: Row(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: CircleChild(
+                      avatarRadius: 60,
+                      child: FadeInImage(
+                        placeholder: AssetImage('assets/profileEmpty.png'),
+                        image: NetworkImage(
+                          userProvider.photoURL,
+                        ),
+                        fit: BoxFit.cover,
+                        width: 1000,
+                        height: 1000,
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        children: [
+                          SizedBox(height: 40),
+                          Text(
+                            userProvider.displayName,
+                            textAlign: TextAlign.start,
+                            style:
+                                Theme.of(context).textTheme.headline1.copyWith(
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 25,
+                                    ),
+                          ),
+                          SizedBox(height: 10),
+                          Text(
+                            'Usuário desde 16 de Setembro de 2020',
+                            textAlign: TextAlign.start,
+                            style:
+                                Theme.of(context).textTheme.headline1.copyWith(
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.w800,
+                                      fontSize: 10,
+                                    ),
+                          ),
+                          SizedBox(height: 30),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Column(
+                                children: [
+                                  CircleChild(
+                                    avatarRadius: 15,
+                                    child: Text('15',
+                                        style: TextStyle(color: Colors.white)),
+                                  ),
+                                  Text(
+                                    'Doados',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .headline1
+                                        .copyWith(
+                                          color: Colors.white,
+                                          fontSize: 10,
+                                        ),
+                                  )
+                                ],
+                              ),
+                              Column(
+                                children: [
+                                  CircleChild(
+                                    avatarRadius: 15,
+                                    child: Text('10',
+                                        style: TextStyle(color: Colors.white)),
+                                  ),
+                                  Text(
+                                    'Adotados',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .headline1
+                                        .copyWith(
+                                          color: Colors.white,
+                                          fontSize: 10,
+                                        ),
+                                  )
+                                ],
+                              ),
+                              Column(
+                                children: [
+                                  CircleChild(
+                                    avatarRadius: 15,
+                                    child: Text('2',
+                                        style: TextStyle(color: Colors.white)),
+                                  ),
+                                  Text(
+                                    'Desaparecidos',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .headline1
+                                        .copyWith(
+                                          color: Colors.white,
+                                          fontSize: 10,
+                                        ),
+                                  )
+                                ],
+                              ),
+                            ],
+                          )
+                        ],
+                      ),
+                    ),
+                  )
+                ],
               ),
             ),
-            child: Row(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: CircleChild(
-                    avatarRadius: 60,
-                    child: FadeInImage(
-                      placeholder: AssetImage('assets/profileEmpty.png'),
-                      image: NetworkImage(
-                        userProvider.photoURL,
-                      ),
-                      fit: BoxFit.cover,
-                      width: 1000,
-                      height: 1000,
-                    ),
-                  ),
-                ),
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      children: [
-                        SizedBox(height: 30),
-                        Text(
-                          userProvider.displayName,
-                          textAlign: TextAlign.start,
-                          style: Theme.of(context).textTheme.headline1.copyWith(
-                                color: Colors.white,                                
-                                fontSize: 25,
-                              ),
-                        ),
-                        SizedBox(height: 10),
-                        Text(
-                          'Usuário desde 16 de Setembro de 2020',
-                          textAlign: TextAlign.center,
-                          style: Theme.of(context).textTheme.headline1.copyWith(
-                                color: Colors.white,
-                                fontSize: 10,
-                              ),
-                        ),
-                        SizedBox(height: 30),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            Column(
-                              children: [
-                                CircleChild(
-                                  avatarRadius: 15,
-                                  child: Text('15',
-                                      style: TextStyle(color: Colors.white)),
-                                ),
-                                Text(
-                                  'Doados',
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .headline1
-                                      .copyWith(
-                                        color: Colors.white,
-                                        fontSize: 10,
-                                      ),
-                                )
-                              ],
-                            ),
-                            Column(
-                              children: [
-                                CircleChild(
-                                  avatarRadius: 15,
-                                  child: Text('10',
-                                      style: TextStyle(color: Colors.white)),
-                                ),
-                                Text(
-                                  'Adotados',
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .headline1
-                                      .copyWith(
-                                        color: Colors.white,
-                                        fontSize: 10,
-                                      ),
-                                )
-                              ],
-                            ),
-                            Column(
-                              children: [
-                                CircleChild(
-                                  avatarRadius: 15,
-                                  child: Text('2',
-                                      style: TextStyle(color: Colors.white)),
-                                ),
-                                Text(
-                                  'Desaparecidos',
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .headline1
-                                      .copyWith(
-                                        color: Colors.white,
-                                        fontSize: 10,
-                                      ),
-                                )
-                              ],
-                            ),
-                          ],
-                        )
-                      ],
-                    ),
-                  ),
-                )
-              ],
-            ),
-          ),
+          ],
         ),
       ),
     );
