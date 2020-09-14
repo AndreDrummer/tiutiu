@@ -12,6 +12,7 @@ import 'package:tiutiu/backend/Model/pet_model.dart';
 import 'package:tiutiu/providers/auth2.dart';
 import 'package:tiutiu/providers/favorites_provider.dart';
 import 'package:maps_launcher/maps_launcher.dart';
+import 'package:tiutiu/utils/formatter.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class PetDetails extends StatefulWidget {
@@ -84,12 +85,12 @@ class _PetDetailsState extends State<PetDetails> {
             ? Colors.green
             : user.data()['betterContact'] == 1 ? Colors.orange : Colors.red,
         'callback': () {
-          String serializedNumber = user
-              .data()['phoneNumber']
-              .split('(')[1]
-              .replaceAll(')', '')
-              .replaceAll('-', '')
-              .replaceAll(' ', '');
+          String serializedNumber = Formatter.unmaskNumber(user.data()['phoneNumber']);
+          
+              // .split('(')[1]
+              // .replaceAll(')', '')
+              // .replaceAll('-', '')
+              // .replaceAll(' ', '');
           if (user.data()['betterContact'] == 0) {
             FlutterOpenWhatsapp.sendSingleMessage('+55$serializedNumber',
                 'Olá! Tenho interesse e gostaria de saber mais detalhes sobre o PET *${pet.name}* que postou no app *_Tiu, Tiu_*.');
