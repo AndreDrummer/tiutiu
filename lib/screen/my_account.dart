@@ -43,7 +43,7 @@ class _MyAccountState extends State<MyAccount> {
                   child: CircleChild(
                     avatarRadius: 60,
                     child: FadeInImage(
-                      placeholder: AssetImage('assets/profileEmpty.jpg'),
+                      placeholder: AssetImage('assets/profileEmpty.png'),
                       image: NetworkImage(
                         userProvider.photoURL,
                       ),
@@ -63,7 +63,7 @@ class _MyAccountState extends State<MyAccount> {
                           userProvider.displayName,
                           textAlign: TextAlign.start,
                           style: Theme.of(context).textTheme.headline1.copyWith(
-                                color: Colors.white,
+                                color: Colors.white,                                
                                 fontSize: 25,
                               ),
                         ),
@@ -159,7 +159,7 @@ class _MyAccountState extends State<MyAccount> {
 
     return Scaffold(
       key: _formScaffold,
-      backgroundColor: Colors.blueGrey[50],
+      backgroundColor: Color(0XFFF9F9F9),
       appBar: appBar(userProvider),
       body: Padding(
         padding: const EdgeInsets.all(4.0),
@@ -260,6 +260,11 @@ class _MyAccountState extends State<MyAccount> {
                   )
                 ],
               ),
+            ),
+            Spacer(),
+            Opacity(
+              opacity: 0.7,
+              child: Image.asset('assets/trofeu.jpg'),
             )
           ],
         ),
@@ -267,62 +272,3 @@ class _MyAccountState extends State<MyAccount> {
     );
   }
 }
-
-// Center(
-//         child: ListView(
-//           children: [
-//             SizedBox(height: 20),
-//             ListTileDrawer(
-//               tileName: 'Meus PETS',
-//               imageAsset: 'assets/dogCat2.png',
-//               callback: () {
-//                 _formScaffold.currentState.showSnackBar(
-//                   SnackBar(
-//                     content: Text('Ainda não disponível'),
-//                     duration: Duration(seconds: 1),
-//                   ),
-//                 );
-//                 // Navigator.pushNamed(context, Routes.MEUS_PETS);
-//               },
-//             ),
-//             ListTileDrawer(
-//               tileName: 'Meus Favoritos',
-//               icon: Icons.star,
-//               callback: () {
-//                 Navigator.pushNamed(context, Routes.FAVORITES);
-//               },
-//             ),
-//             ListTileDrawer(
-//               tileName: 'Configurações',
-//               icon: Icons.settings,
-//               callback: () {
-//                 Navigator.pushNamed(context, Routes.SETTINGS);
-//               },
-//             ),
-//             Spacer(),
-//             ListTileDrawer(
-//               tileName: 'Sair',
-//               icon: Icons.exit_to_app,
-//               callback: () async {
-//                 await showDialog(
-//                   context: context,
-//                   builder: (context) => PopUpMessage(
-//                     confirmAction: () {
-//                       auth.signOut();
-//                       Navigator.pop(context);
-//                     },
-//                     confirmText: 'Sim',
-//                     denyAction: () {
-//                       Navigator.pop(context);
-//                     },
-//                     denyText: 'Não',
-//                     warning: true,
-//                     message: 'Tem certeza que deseja deslogar?',
-//                     title: 'Signout',
-//                   ),
-//                 );
-//               },
-//             ),
-//           ],
-//         ),
-//       ),

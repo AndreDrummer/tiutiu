@@ -54,7 +54,7 @@ class DrawerApp extends StatelessWidget {
                               child: ClipOval(
                                 child: FadeInImage(
                                     placeholder:
-                                        AssetImage('assets/profileEmpty.jpg'),
+                                        AssetImage('assets/profileEmpty.png'),
                                     image: NetworkImage(
                                       userProvider.photoURL,
                                     ),
