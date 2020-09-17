@@ -51,6 +51,7 @@ class _MapaState extends State<Mapa> {
     final coords = response.results[0].geometry.viewport.northeast;
 
     _setCurrentLocation(location: coords);
+
     return Future.value(coords);
   }
 
@@ -100,10 +101,10 @@ class _MapaState extends State<Mapa> {
 
   void _setCurrentLocation({Location location}) async {
     if (location == null) {
-      var position = await Geolocator()
-          .getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+      var position = LatLng(16.7453989,-49.2740054);
+      // var position = await Geolocator().getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
       setState(() {
-        userCurrentLocation = position;
+        // userCurrentLocation = position;
         _center = LatLng(position.latitude, position.longitude);
       });
     } else {
@@ -147,8 +148,7 @@ class _MapaState extends State<Mapa> {
   }
 
   void _onMapCreated(GoogleMapController controller) {
-    final locationProvider =
-        Provider.of<provider_location.Location>(context, listen: false);
+    final locationProvider = Provider.of<provider_location.Location>(context, listen: false);
     _addMarkeOnMap(_center);
     setState(() {
       _mapController = controller;
