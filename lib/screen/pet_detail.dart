@@ -11,8 +11,8 @@ import 'package:tiutiu/backend/Controller/user_controller.dart';
 import 'package:tiutiu/backend/Model/pet_model.dart';
 import 'package:tiutiu/providers/auth2.dart';
 import 'package:tiutiu/providers/favorites_provider.dart';
-import 'package:tiutiu/utils/constantes.dart';
 import 'package:maps_launcher/maps_launcher.dart';
+import 'package:tiutiu/utils/formatter.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class PetDetails extends StatefulWidget {
@@ -82,15 +82,15 @@ class _PetDetailsState extends State<PetDetails> {
             ? PetDetailIcons.whatsapp
             : user.data()['betterContact'] == 1 ? Icons.phone : Icons.email,
         'color': user.data()['betterContact'] == 0
-            ? Colors.green
+            ? Theme.of(context).primaryColor
             : user.data()['betterContact'] == 1 ? Colors.orange : Colors.red,
         'callback': () {
-          String serializedNumber = user
-              .data()['phoneNumber']
-              .split('(')[1]
-              .replaceAll(')', '')
-              .replaceAll('-', '')
-              .replaceAll(' ', '');
+          String serializedNumber = Formatter.unmaskNumber(user.data()['phoneNumber']);
+          
+              // .split('(')[1]
+              // .replaceAll(')', '')
+              // .replaceAll('-', '')
+              // .replaceAll(' ', '');
           if (user.data()['betterContact'] == 0) {
             FlutterOpenWhatsapp.sendSingleMessage('+55$serializedNumber',
                 'Olá! Tenho interesse e gostaria de saber mais detalhes sobre o PET *${pet.name}* que postou no app *_Tiu, Tiu_*.');
@@ -113,8 +113,8 @@ class _PetDetailsState extends State<PetDetails> {
       },
       {
         'text': 'Localização',
-        'imageN':
-            'https://maps.googleapis.com/maps/api/staticmap?center=${pet.latitude}, ${pet.longitude}&zoom=14&markers=color&markers=color:red%7Clabel:%7c-16.7502014,%20-49.256370000000004&size=600x400&key=${Constantes.WEB_API_KEY}',
+        'image': 'assets/static_map.jpg',
+        // 'imageN': 'https://maps.googleapis.com/maps/api/staticmap?center=${pet.latitude}, ${pet.longitude}&zoom=14&markers=color&markers=color:red%7Clabel:%7c-16.7502014,%20-49.256370000000004&size=600x400&key=${Constantes.WEB_API_KEY}',
         'callback': () {
           MapsLauncher.launchCoordinates(
             pet.latitude,
@@ -133,6 +133,13 @@ class _PetDetailsState extends State<PetDetails> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    Provider.of<FavoritesProvider>(context, listen: false)
+        .loadFavoritesReference();
   }
 
   @override
@@ -297,8 +304,25 @@ class _PetDetailsState extends State<PetDetails> {
                       ? 20.0
                       : MediaQuery.of(context).size.width * 0.17,
                   child: ButtonWide(
-                    text: kind == 'DONATE' ? 'ADOTAR' : 'VI ELE AQUI PERTO',
-                    color: kind == 'DONATE' ? Colors.red : Colors.green,
+                    text:
+                        kind == 'DONATE' ? 'QUERO ADOTAR' : 'VI ELE AQUI PERTO',
+                    color: kind == 'DONATE' ? Colors.red : Theme.of(context).primaryColor,
+                    action: () {
+                      _scaffoldKey.currentState.showSnackBar(SnackBar(
+                        content: Row(
+                          children: [
+                            Expanded(
+                              child: Text(
+                                kind == 'DONATE'
+                                    ? 'Você é o 10º interessado no ${pet.name}. Te avisaremos caso o dono aceite seu pedido de adoção!'
+                                    : 'Obrigado pela informação! ${snapshot.data['ownerDetails'][0]['text']} será avisado.',
+                              ),
+                            ),
+                          ],
+                        ),
+                        duration: Duration(seconds: 5),
+                      ));
+                    },
                   ),
                 )
               ],
@@ -307,45 +331,31 @@ class _PetDetailsState extends State<PetDetails> {
       floatingActionButton: kind == 'DONATE'
           ? Consumer<FavoritesProvider>(
               builder: (context, favoritesProvider, child) {
-                favoritesProvider.loadFavoritesReference();
-                return StreamBuilder<Object>(
-                  stream: favoritesProvider.favoritesPETSIDList,
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return Center(
-                        child: CircularProgressIndicator(),
-                      );
-                    } else {
-                      final bool isFavorite = favoritesProvider
-                          .getFavoritesPETSIDList
-                          .contains(pet.id);
-                      return FloatingActionButton(
-                        onPressed: () {
-                          final user = UserController();
-                          final auth = Provider.of<Authentication>(context,
-                              listen: false);
+                bool isFavorite = favoritesProvider.getFavoritesPETSIDList.contains(pet.id);                
+                return FloatingActionButton(
+                  onPressed: () async {
+                    final user = UserController();
+                    final auth =
+                        Provider.of<Authentication>(context, listen: false);
 
-                          user.favorite(auth.firebaseUser.uid, pet.petReference,
-                              !isFavorite);
+                    await user.favorite(auth.firebaseUser.uid, pet.petReference, !isFavorite);
 
-                          _scaffoldKey.currentState.showSnackBar(SnackBar(
-                            duration: Duration(seconds: 1),
-                            content: Text(isFavorite
-                                ? 'Removido dos favoritos'
-                                : 'Adicionado como favorito'),
-                          ));
+                    _scaffoldKey.currentState.showSnackBar(SnackBar(
+                      duration: Duration(seconds: 1),
+                      content: Text(isFavorite
+                          ? 'Removido dos favoritos'
+                          : 'Adicionado como favorito'),
+                    ));
 
-                          favoritesProvider.handleFavorite(pet.id);
-                        },
-                        tooltip: isFavorite ? 'Favorito' : 'Favoritar',
-                        backgroundColor: isFavorite ? Colors.white : Colors.red,
-                        child: Icon(
-                          isFavorite ? Icons.favorite : Icons.favorite_border,
-                          color: isFavorite ? Colors.red : Colors.white,
-                        ),
-                      );
-                    }
+                    favoritesProvider.loadFavoritesReference();
+                    favoritesProvider.handleFavorite(pet.id);                    
                   },
+                  tooltip: isFavorite ? 'Favorito' : 'Favoritar',
+                  backgroundColor: isFavorite ? Colors.white : Colors.red,
+                  child: Icon(
+                    isFavorite ? Icons.favorite : Icons.favorite_border,
+                    color: isFavorite ? Colors.red : Colors.white,
+                  ),
                 );
               },
             )

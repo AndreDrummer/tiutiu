@@ -23,13 +23,13 @@ class PopUpMessage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AlertDialog(
+    return AlertDialog(    
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
       ),
       backgroundColor: error
           ? Color(0XFFDC3545)
-          : warning ? Color(0XFFFFC107) : Theme.of(context).primaryColor,
+          : warning ? Color(0XFFFFC107) : Colors.green,
       title: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[

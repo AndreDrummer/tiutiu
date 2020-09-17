@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:geolocator/geolocator.dart';
 
 class Location with ChangeNotifier {
   LatLng _location;
@@ -8,14 +8,14 @@ class Location with ChangeNotifier {
   LatLng get location => _location;
 
   Future<void> setLocation({LatLng currentLocation}) async {
-
-    if(currentLocation == null) {
-      var position = await Geolocator().getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+      var position;
+    if(currentLocation == null) {    
+      position = await getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
       _location = LatLng(position.latitude, position.longitude);
     } else {
       _location = currentLocation;
     } 
-
+    print(position);
     notifyListeners();
   }
 
