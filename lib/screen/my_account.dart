@@ -238,6 +238,7 @@ class _MyAccountState extends State<MyAccount> {
                       InkWell(
                         onTap: () async {
                           await showDialog(
+                            barrierDismissible: false,
                             context: context,
                             builder: (context) => PopUpMessage(
                               confirmAction: () {
