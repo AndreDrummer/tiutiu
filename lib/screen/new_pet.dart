@@ -572,6 +572,7 @@ class _NovoPetState extends State<NovoPet> {
                       await save();
                       await showDialog(
                           context: context,
+                          barrierDismissible: false,
                           builder: (context) => PopUpMessage(
                                 title: 'Pronto',
                                 confirmText: 'Ok',
