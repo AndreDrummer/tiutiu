@@ -30,7 +30,7 @@ class CardDetails extends StatelessWidget {
               SizedBox(width: 8.0),
               Opacity(
                 opacity: 0.4,
-                child: Icon(icon, color: Colors.green, size: 35),
+                child: Icon(icon, color: Theme.of(context).primaryColor, size: 35),
               ),
               Expanded(
                 child: Container(

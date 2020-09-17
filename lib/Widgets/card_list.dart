@@ -95,7 +95,7 @@ class _CardListState extends State<CardList> {
                   color: Colors.grey
                 )
               ),
-              height: 300,
+              height: 200,
               width: double.infinity,
               child: ClipRRect(
                 borderRadius: BorderRadius.only(
@@ -103,7 +103,7 @@ class _CardListState extends State<CardList> {
                   topRight: Radius.circular(12),
                 ),
                 child: FadeInImage(
-                  placeholder: AssetImage('assets/Logo.png'),
+                  placeholder: AssetImage('assets/fadeIn.jpg'),
                   image: NetworkImage(widget.petInfo.toMap()['avatar']),
                   height: 1000,
                   width: 1000,
@@ -174,7 +174,7 @@ class _CardListState extends State<CardList> {
                                 : Icons.favorite_border,
                             size: 40,
                             color: Colors.red,
-                          ) : Icon(Icons.send, size: 40, color: Colors.green),
+                          ) : Icon(Icons.send, size: 40, color: Theme.of(context).primaryColor),
                           onPressed: () {
                             if (widget.favorite) {
                               user.favorite(auth.firebaseUser.uid,widget.petInfo.toMap()['petReference'],false);

@@ -24,7 +24,7 @@ class MyAccountCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Icon(icone, color: Colors.grey, size: 30),
-                SizedBox(height: 10),
+                SizedBox(height: 10),                
                 Text(
                   text,
                   style: Theme.of(context).textTheme.headline1.copyWith(

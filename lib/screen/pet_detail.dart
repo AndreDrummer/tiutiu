@@ -82,7 +82,7 @@ class _PetDetailsState extends State<PetDetails> {
             ? PetDetailIcons.whatsapp
             : user.data()['betterContact'] == 1 ? Icons.phone : Icons.email,
         'color': user.data()['betterContact'] == 0
-            ? Colors.green
+            ? Theme.of(context).primaryColor
             : user.data()['betterContact'] == 1 ? Colors.orange : Colors.red,
         'callback': () {
           String serializedNumber = Formatter.unmaskNumber(user.data()['phoneNumber']);
@@ -306,7 +306,7 @@ class _PetDetailsState extends State<PetDetails> {
                   child: ButtonWide(
                     text:
                         kind == 'DONATE' ? 'QUERO ADOTAR' : 'VI ELE AQUI PERTO',
-                    color: kind == 'DONATE' ? Colors.red : Colors.green,
+                    color: kind == 'DONATE' ? Colors.red : Theme.of(context).primaryColor,
                     action: () {
                       _scaffoldKey.currentState.showSnackBar(SnackBar(
                         content: Row(
