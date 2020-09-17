@@ -223,6 +223,7 @@ class _SettingsState extends State<Settings> {
           isToShowDialog
               ? showDialog(
                   context: context,
+                  barrierDismissible: false,
                   child: PopUpMessage(
                     confirmAction: () {
                       auth.signOut();
@@ -274,7 +275,7 @@ class _SettingsState extends State<Settings> {
       isToShowDialog
           ? await showDialog(
               barrierDismissible: false,
-              context: context,
+              context: context,              
               builder: (context) => PopUpMessage(
                 confirmAction: () {
                   Navigator.popUntil(
