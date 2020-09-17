@@ -8,18 +8,16 @@ import 'package:tiutiu/Widgets/drawer.dart';
 import 'package:tiutiu/Widgets/loading_page.dart';
 import 'package:tiutiu/backend/Model/pet_model.dart';
 import 'package:tiutiu/providers/pets_provider.dart';
-import 'package:tiutiu/providers/show_bottom.dart';
 
-class PetList extends StatefulWidget {
-
-  PetList({this.kind});
+class DonateDisappearedList extends StatefulWidget {
+  DonateDisappearedList({this.kind});
   final String kind;
 
   @override
-  _PetListState createState() => _PetListState();
+  _DonateDisappearedListState createState() => _DonateDisappearedListState();
 }
 
-class _PetListState extends State<PetList> {
+class _DonateDisappearedListState extends State<DonateDisappearedList> {
   bool filtering = false;
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   PetsProvider petsProvider;
@@ -31,10 +29,15 @@ class _PetListState extends State<PetList> {
   }
 
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
+  void initState() {
+    super.initState();
     petsProvider = Provider.of(context, listen: false);
-    widget.kind == 'Donate' ? petsProvider.loadDonatedPETS() : petsProvider.loadDisappearedPETS();
+
+    if(widget.kind == 'Donate' && petsProvider.getListDonatesPETS == null) {
+      petsProvider.loadDonatedPETS();
+    } else if(widget.kind != 'Donate' && petsProvider.getListDisappearedPETS == null) {
+      petsProvider.loadDisappearedPETS();
+    }
   }
 
   bool isFiltering() {
@@ -42,53 +45,47 @@ class _PetListState extends State<PetList> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) {    
     final marginTop = MediaQuery.of(context).size.height / 1.2;
-    final showBottom = Provider.of<ShowBottomNavigator>(context);
-    
+    // final showBottom = Provider.of<ShowBottomNavigator>(context);
+
     final kind = widget.kind;
 
     return Scaffold(
       key: _scaffoldKey,
-      appBar: AppBar(
-        title: Text(
-          'PETs ${kind == 'Donate' ? 'para adoção' : 'desaparecidos'}',
-          style: Theme.of(context).textTheme.headline1.copyWith(fontSize: 18),
-        ),
-        leading: IconButton(
-          icon: Icon(Icons.menu, color: Colors.white),
-          onPressed: () {
-            showBottom.changeShowBottom(false);
-            _scaffoldKey.currentState.openDrawer();
-          },
-        ),
-      ),
-      backgroundColor: Colors.greenAccent,
+      backgroundColor: Colors.blueGrey[50],
       drawer: DrawerApp(),
-      body: StreamBuilder<List<Pet>>(
-        stream: kind == 'Donate' ? petsProvider.listDonatesPETS : petsProvider.listDisappearedPETS,
-        builder: (BuildContext context, AsyncSnapshot snapshot) {
-          
-          List petsList = snapshot.data;
+      body: RefreshIndicator(
+        onRefresh: () => widget.kind == 'Donate'
+            ? petsProvider.loadDonatedPETS()
+            : petsProvider.loadDisappearedPETS(),
+        child: StreamBuilder<List<Pet>>(
+          stream: kind == 'Donate'
+              ? petsProvider.listDonatesPETS
+              : petsProvider.listDisappearedPETS,
+          builder: (BuildContext context, AsyncSnapshot snapshot) {
+            List petsList = snapshot.data;
 
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return LoadingPage(
-              messageLoading: 'Carregando ${kind == 'Donate' ? 'doação de PETS' : 'desaparecidos'} perto de você...',
-              circle: true,
-            );
-          } else if (snapshot.hasError) {
-            return ErrorPage();
-          } else {
-            if (petsList.isEmpty)                 
-              return Center(
-                child: Text(
-                  'Nenhum PET ${kind == 'Donate' ? 'para adoção' : 'encontrado'}',
-                  textAlign: TextAlign.center,
-                  style: Theme.of(context).textTheme.headline6.copyWith(
-                        color: Colors.black,
-                      ),
-                ),
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return LoadingPage(
+                messageLoading:
+                    'Carregando ${kind == 'Donate' ? 'doação de PETS' : 'desaparecidos'} perto de você...',
+                circle: true,
               );
+            } else if (snapshot.hasError) {
+              return ErrorPage();
+            } else {
+              if (petsList.isEmpty)
+                return Center(
+                  child: Text(
+                    'Nenhum PET ${kind == 'Donate' ? 'para adoção' : 'encontrado'}',
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context).textTheme.headline1.copyWith(
+                          color: Colors.black,
+                        ),
+                  ),
+                );
+            }
             return Stack(
               children: <Widget>[
                 Container(
@@ -101,7 +98,7 @@ class _PetListState extends State<PetList> {
                         return CardList(
                           kind: kind,
                           petInfo: petsList[index],
-                        );
+                        );                        
                       },
                     ),
                   ),
@@ -124,8 +121,8 @@ class _PetListState extends State<PetList> {
                 ),
               ],
             );
-          }
-        },
+          },
+        ),
       ),
     );
   }

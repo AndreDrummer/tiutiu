@@ -38,7 +38,7 @@
 //   Widget build(BuildContext context) {
 //     final marginTop = MediaQuery.of(context).size.height / 1.2;
 //     return Scaffold(
-//       backgroundColor: Colors.greenAccent,
+//       backgroundColor: Theme.of(context).primaryColorAccent,
 //       key: _scaffoldKey,
 //       appBar: AppBar(
 //         title: Text(
@@ -73,7 +73,7 @@
 //                 child: Text(
 //                   'Nenhum PET encontrado',
 //                   textAlign: TextAlign.center,
-//                   style: Theme.of(context).textTheme.headline6.copyWith(
+//                   style: Theme.of(context).textTheme.headline1.copyWith(
 //                         color: Colors.black,
 //                       ),
 //                 ),

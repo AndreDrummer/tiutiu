@@ -18,7 +18,7 @@ class ErrorPage extends StatelessWidget {
             SizedBox(height: 30.0),
             Text(
               'Ocorreu um erro no aplicativo!!',
-              style: Theme.of(context).textTheme.headline6.copyWith(
+              style: Theme.of(context).textTheme.headline1.copyWith(
                     color: Colors.white,
                   ),
             )
