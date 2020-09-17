@@ -16,8 +16,9 @@ class PetsList extends StatelessWidget {
             ],
           ),
           bottom: TabBar(
-            indicatorColor: Colors.white,
-            tabs: [
+            indicatorColor: Colors.white,            
+            labelColor: Colors.white,
+            tabs: [              
               Tab(icon: Icon(PetDetailIcons.dog), text: 'ADOTAR'),
               Tab(icon: Icon(PetDetailIcons.guidedog), text: 'DESAPARECIDOS'),
             ],

@@ -371,7 +371,7 @@ class _RegisterState extends State<Register> {
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
                               Radio(
-                                activeColor: Colors.green,
+                                activeColor: Theme.of(context).primaryColor,
                                 groupValue: snapshot.data,
                                 value: 0,
                                 onChanged: (value) {
@@ -411,7 +411,7 @@ class _RegisterState extends State<Register> {
         ],
       ),
       bottomNavigationBar: ButtonWide(
-        color: Colors.green,
+        color: Theme.of(context).primaryColor,
         text: 'FINALIZAR',
         rounded: false,
         action: () async {

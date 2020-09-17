@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:loading_animations/loading_animations.dart';
 import 'package:provider/provider.dart';
+import 'package:tiutiu/Widgets/background.dart';
 import 'package:tiutiu/Widgets/card_list.dart';
 import 'package:tiutiu/providers/favorites_provider.dart';
 
@@ -24,12 +25,16 @@ class _FavoritesState extends State<Favorites> {
     return Scaffold(
       appBar: AppBar(
         leading: null,
-        title: Text('Favoritos'),
+        title: Text(
+          'Favoritos',
+          style: TextStyle(color: Colors.white),
+        ),
       ),
       body: RefreshIndicator(
         onRefresh: () => favoritesProvider.loadFavoritesReference(),
         child: Stack(
           children: [
+            Background(),
             Container(
               child: StreamBuilder(
                 stream: favoritesProvider.favoritesPETSList,
@@ -40,7 +45,7 @@ class _FavoritesState extends State<Favorites> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           LoadingBumpingLine.circle(
-                            backgroundColor: Colors.white,
+                            backgroundColor: Colors.black,
                           ),
                           SizedBox(height: 15),
                           Text(
@@ -48,7 +53,7 @@ class _FavoritesState extends State<Favorites> {
                             style: Theme.of(context)
                                 .textTheme
                                 .headline1
-                                .copyWith(),
+                                .copyWith(color: Colors.black),
                           )
                         ],
                       ),
@@ -81,10 +86,10 @@ class _FavoritesState extends State<Favorites> {
             ),
             Positioned(
               right: 10.0,
-              bottom: 0.0,
+              bottom: 5.0,
               child: Container(
-                height: 250,
-                width: 200,
+                height: 85,
+                width: 80,
                 child: Opacity(
                   opacity: 0.5,
                   child: Image.asset('assets/images.png'),
