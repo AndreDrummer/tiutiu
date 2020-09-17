@@ -4,6 +4,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:tiutiu/Widgets/background.dart';
 import 'package:tiutiu/Widgets/custom_dropdown_button.dart';
 import 'package:tiutiu/Widgets/hint_error.dart';
 import 'package:tiutiu/Widgets/load_dark_screen.dart';
@@ -257,7 +258,7 @@ class _NovoPetState extends State<NovoPet> {
       avatar: petPhotosToUpload.values.first,
       breed: dropvalueBreed,
       health: dropvalueHealth,
-      ownerReference: userProvider.userReference,      
+      ownerReference: userProvider.userReference,
       photos: petPhotosToUpload,
       size: dropvalueSize,
       latitude: currentLocation.latitude,
@@ -320,45 +321,56 @@ class _NovoPetState extends State<NovoPet> {
     return WillPopScope(
       onWillPop: _onWillPopScope,
       child: Scaffold(
+        appBar: AppBar(
+          title: Text(
+            kind == 'Donate'
+                ? 'Coloque um PET para adoção'
+                : 'Poste um PET Desaparecido',
+            style: Theme.of(context).textTheme.headline1.copyWith(
+                  fontSize: 22,
+                  color: Colors.white,
+                  fontWeight: FontWeight.w700,
+                ),
+          ),
+        ),
         body: Stack(
           children: <Widget>[
-            DecoratedBox(
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  fit: BoxFit.fill,
-                  image: AssetImage(
-                    'assets/gato2.jpg',
-                  ),
-                ),
-              ),
-              child: Center(
-                child: Card(
-                  color: Color(0XFFD6D6D6), //Theme.of(context).accentColor,
-                  child: SingleChildScrollView(
-                    child: Column(
-                      children: <Widget>[
-                        Padding(
-                          padding: const EdgeInsets.only(top: 26.0, bottom: 10),
+            Background(dark: true),
+            SingleChildScrollView(
+              child: Column(
+                children: <Widget>[
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: <Widget>[
+                      Container(
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            begin: Alignment(0.0, 0.8),
+                            end: Alignment(0.0, 0.0),
+                            colors: [
+                              Color.fromRGBO(0, 0, 0, 0),
+                              Color.fromRGBO(0, 0, 0, 0.6),
+                            ],
+                          ),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(16.0),
                           child: Align(
-                            alignment: Alignment(-0.8, 1),
+                            alignment: Alignment(-1, 1),
                             child: FittedBox(
                               child: Row(
                                 children: <Widget>[
-                                  InkWell(
-                                      child: Icon(Icons.arrow_back, size: 25),
-                                      onTap: _onWillPopScope),
-                                  SizedBox(width: 10),
                                   Text(
                                     kind == 'Donate'
-                                        ? 'Coloque um PET para adoção'
-                                        : 'Poste um PET Desaparecido',
+                                        ? '${formIsValid && petPhotos.isEmpty ? 'Insira pelo menos uma foto' : 'Insira algumas fotos do seu bichinho.'}'
+                                        : '${formIsValid && petPhotos.isEmpty ? 'Insira pelo menos uma foto' : 'Insira fotos dele.'}',
                                     style: Theme.of(context)
                                         .textTheme
                                         .headline1
                                         .copyWith(
-                                          fontSize: 22,
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.w700,
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 16,
                                         ),
                                   ),
                                 ],
@@ -366,221 +378,188 @@ class _NovoPetState extends State<NovoPet> {
                             ),
                           ),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.all(4.0),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: <Widget>[
-                              Align(
-                                alignment: Alignment(-0.8, 1),
-                                child: FittedBox(
-                                  child: Row(
-                                    children: <Widget>[
-                                      Text(
-                                        kind == 'Donate'
-                                            ? '${formIsValid && petPhotos.isEmpty ? 'Insira pelo menos uma foto' : 'Insira algumas fotos do seu bichinho.'}'
-                                            : '${formIsValid && petPhotos.isEmpty ? 'Insira pelo menos uma foto' : 'Insira fotos dele.'}',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .headline1
-                                            .copyWith(
-                                              color: Colors.black,
-                                              fontWeight: FontWeight.w500,
-                                              fontSize: 16,
-                                            ),
-                                      ),
-                                    ],
-                                  ),
+                      ),
+                      SizedBox(height: 10),
+                      Container(
+                        height: 80.0,
+                        child: ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          itemCount: numberOfImages < 8
+                              ? numberOfImages + 1
+                              : numberOfImages,
+                          itemBuilder: (ctx, index) {
+                            if (index == numberOfImages) {
+                              print('Index: $index');
+                              print('Number: $numberOfImages');
+                              return InkWell(
+                                onTap:
+                                    petPhotos['${numberOfImages - 1}'] == null
+                                        ? null
+                                        : () {
+                                            incNumberOfImages();
+                                          },
+                                child: CircleAddImage(
+                                  addButton: true,
                                 ),
+                              );
+                            }
+                            return InkWell(
+                              onTap: () {
+                                print('Foto index: $index');
+                                openModalSelectMedia(context, index);
+                              },
+                              child: CircleAddImage(
+                                // ignore: prefer_if_null_operators
+                                imageUrl: petPhotos['$index'] != null
+                                    ? petPhotos['$index']
+                                    : null,
                               ),
-                              SizedBox(height: 10),
-                              Container(
-                                height: 80.0,
-                                child: ListView.builder(
-                                  scrollDirection: Axis.horizontal,
-                                  itemCount: numberOfImages < 8
-                                      ? numberOfImages + 1
-                                      : numberOfImages,
-                                  itemBuilder: (ctx, index) {
-                                    if (index == numberOfImages) {
-                                      print('Index: $index');
-                                      print('Number: $numberOfImages');
-                                      return InkWell(
-                                        onTap: petPhotos[
-                                                    '${numberOfImages - 1}'] ==
-                                                null
-                                            ? null
-                                            : () {
-                                                incNumberOfImages();
-                                              },
-                                        child: CircleAddImage(
-                                          addButton: true,
-                                        ),
-                                      );
-                                    }
-                                    return InkWell(
-                                      onTap: () {
-                                        print('Foto index: $index');
-                                        openModalSelectMedia(context, index);
-                                      },
-                                      child: CircleAddImage(
-                                        // ignore: prefer_if_null_operators
-                                        imageUrl: petPhotos['$index'] != null
-                                            ? petPhotos['$index']
-                                            : null,
-                                      ),
-                                    );
-                                  },
-                                ),
-                              ),
-                              formIsValid && petPhotos.isEmpty
-                                  ? HintError(
-                                      message: '* Insira pelo menos uma foto')
-                                  : SizedBox(),
-                              SizedBox(height: 12),
-                              InputText(
-                                  placeholder: 'Nome',
-                                  controller: _nome,
-                                  readOnly: readOnly),
-                              formIsValid && _nome.text.isEmpty
-                                  ? HintError()
-                                  : SizedBox(),
-                              SizedBox(
-                                height: 12,
-                              ),
-                              CustomDropdownButton(
-                                label: 'Tipo',
-                                initialValue: dropvalueType,
-                                itemList: DummyData.type,
-                                onChange: (String value) {
-                                  setState(() {
-                                    dropvalueType = value;
-                                    print(dropvalueType);
-                                  });
-                                },
-                                isExpanded: true,
-                              ),
-                              SizedBox(
-                                height: 12,
-                              ),
-                              CustomDropdownButton(
-                                label: 'Cor',
-                                initialValue: dropvalueColor,
-                                itemList: DummyData.color,
-                                onChange: (String value) {
-                                  setState(() {
-                                    dropvalueColor = value;
-                                    print(dropvalueColor);
-                                  });
-                                },
-                                isExpanded: true,
-                              ),
-                              SizedBox(
-                                height: 12,
-                              ),
-                              Align(
-                                alignment: Alignment(-0.95, 1),
-                                child: Padding(
-                                  padding: const EdgeInsets.only(bottom: 8.0),
-                                  child: Text(
-                                    'Idade',
-                                    style: TextStyle(color: Colors.black),
-                                  ),
-                                ),
-                              ),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                children: <Widget>[
-                                  Expanded(
-                                    child: InputText(
-                                      placeholder: 'Anos',
-                                      keyBoardTypeNumber: true,
-                                      controller: _ano,
-                                      readOnly: readOnly,
-                                    ),
-                                  ),
-                                  SizedBox(width: 4),
-                                  Expanded(
-                                    child: InputText(
-                                      placeholder: 'Meses',
-                                      keyBoardTypeNumber: true,
-                                      controller: _meses,
-                                      readOnly: readOnly,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              formIsValid &&
-                                      kind == 'Donate' &&
-                                      (_ano.text.isEmpty || _meses.text.isEmpty)
-                                  ? HintError()
-                                  : SizedBox(),
-                              SizedBox(
-                                height: 12,
-                              ),
-                              CustomDropdownButton(
-                                label: 'Tamanho',
-                                initialValue: dropvalueSize,
-                                itemList: DummyData.size,
-                                onChange: (String value) {
-                                  setState(() {
-                                    dropvalueSize = value;
-                                    print(dropvalueSize);
-                                  });
-                                },
-                                isExpanded: true,
-                              ),
-                              SizedBox(
-                                height: 12,
-                              ),
-                              CustomDropdownButton(
-                                label: 'Saúde',
-                                initialValue: dropvalueHealth,
-                                itemList: DummyData.health,
-                                onChange: (String value) {
-                                  setState(() {
-                                    dropvalueHealth = value;
-                                    print(dropvalueHealth);
-                                  });
-                                },
-                                isExpanded: true,
-                              ),
-                              SizedBox(height: 12),
-                              CustomDropdownButton(
-                                isExpanded: true,
-                                label: 'Raça',
-                                initialValue: dropvalueBreed,
-                                itemList: DummyData.breed,
-                                onChange: (String value) {
-                                  setState(() {
-                                    dropvalueBreed = value;
-                                    print(value);
-                                  });
-                                },
-                              ),
-                              SizedBox(height: 12),
-                              InputText(
-                                placeholder: 'Descrição',
-                                readOnly: readOnly,
-                                size: 150,
-                                controller: _descricao,
-                                multiline: true,
-                                maxlines: 5,
-                              ),
-                              formIsValid && _descricao.text.isEmpty
-                                  ? HintError()
-                                  : SizedBox(),
-                              SizedBox(height: 60),
-                            ],
+                            );
+                          },
+                        ),
+                      ),
+                      formIsValid && petPhotos.isEmpty
+                          ? HintError(message: '* Insira pelo menos uma foto')
+                          : SizedBox(),
+                      SizedBox(height: 12),
+                      InputText(
+                          placeholder: 'Nome',
+                          controller: _nome,
+                          readOnly: readOnly),
+                      formIsValid && _nome.text.isEmpty
+                          ? HintError()
+                          : SizedBox(),
+                      SizedBox(
+                        height: 12,
+                      ),
+                      CustomDropdownButton(
+                        label: 'Tipo',
+                        initialValue: dropvalueType,
+                        itemList: DummyData.type,
+                        onChange: (String value) {
+                          setState(() {
+                            dropvalueType = value;
+                            print(dropvalueType);
+                          });
+                        },
+                        isExpanded: true,
+                      ),
+                      SizedBox(
+                        height: 12,
+                      ),
+                      CustomDropdownButton(
+                        label: 'Cor',
+                        initialValue: dropvalueColor,
+                        itemList: DummyData.color,
+                        onChange: (String value) {
+                          setState(() {
+                            dropvalueColor = value;
+                            print(dropvalueColor);
+                          });
+                        },
+                        isExpanded: true,
+                      ),
+                      SizedBox(
+                        height: 12,
+                      ),
+                      Align(
+                        alignment: Alignment(-0.95, 1),
+                        child: Padding(
+                          padding: const EdgeInsets.only(bottom: 8.0),
+                          child: Text(
+                            'Idade',
+                            style: TextStyle(color: Colors.black),
                           ),
                         ),
-                      ],
-                    ),
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: <Widget>[
+                          Expanded(
+                            child: InputText(
+                              placeholder: 'Anos',
+                              keyBoardTypeNumber: true,
+                              controller: _ano,
+                              readOnly: readOnly,
+                            ),
+                          ),
+                          SizedBox(width: 4),
+                          Expanded(
+                            child: InputText(
+                              placeholder: 'Meses',
+                              keyBoardTypeNumber: true,
+                              controller: _meses,
+                              readOnly: readOnly,
+                            ),
+                          ),
+                        ],
+                      ),
+                      formIsValid &&
+                              kind == 'Donate' &&
+                              (_ano.text.isEmpty || _meses.text.isEmpty)
+                          ? HintError()
+                          : SizedBox(),
+                      SizedBox(
+                        height: 12,
+                      ),
+                      CustomDropdownButton(
+                        label: 'Tamanho',
+                        initialValue: dropvalueSize,
+                        itemList: DummyData.size,
+                        onChange: (String value) {
+                          setState(() {
+                            dropvalueSize = value;
+                            print(dropvalueSize);
+                          });
+                        },
+                        isExpanded: true,
+                      ),
+                      SizedBox(
+                        height: 12,
+                      ),
+                      CustomDropdownButton(
+                        label: 'Saúde',
+                        initialValue: dropvalueHealth,
+                        itemList: DummyData.health,
+                        onChange: (String value) {
+                          setState(() {
+                            dropvalueHealth = value;
+                            print(dropvalueHealth);
+                          });
+                        },
+                        isExpanded: true,
+                      ),
+                      SizedBox(height: 12),
+                      CustomDropdownButton(
+                        isExpanded: true,
+                        label: 'Raça',
+                        initialValue: dropvalueBreed,
+                        itemList: DummyData.breed,
+                        onChange: (String value) {
+                          setState(() {
+                            dropvalueBreed = value;
+                            print(value);
+                          });
+                        },
+                      ),
+                      SizedBox(height: 12),
+                      InputText(
+                        placeholder: 'Descrição',
+                        readOnly: readOnly,
+                        size: 150,
+                        controller: _descricao,
+                        multiline: true,
+                        maxlines: 5,
+                      ),
+                      formIsValid && _descricao.text.isEmpty
+                          ? HintError()
+                          : SizedBox(),
+                      SizedBox(height: 60),
+                    ],
                   ),
-                ),
+                ],
               ),
-            ),            
+            ),
             LoadDarkScreen(isLogging, 'Aguarde'),
             Positioned(
               bottom: 0.0,
@@ -593,6 +572,7 @@ class _NovoPetState extends State<NovoPet> {
                       await save();
                       await showDialog(
                           context: context,
+                          barrierDismissible: false,
                           builder: (context) => PopUpMessage(
                                 title: 'Pronto',
                                 confirmText: 'Ok',

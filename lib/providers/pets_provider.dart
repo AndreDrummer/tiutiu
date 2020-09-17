@@ -24,11 +24,12 @@ class PetsProvider with ChangeNotifier {
   CollectionReference dataBaseCollection = FirebaseFirestore.instance.collection('Users');
 
   Future<void> loadUsersID() async {
-    allUsersID.clear();
+    // allUsersID.clear();
     await dataBaseCollection.get().then(
       (QuerySnapshot allUsers) {
         allUsers.docs.forEach((element) {
-          allUsersID.add(element.id);
+          if(!allUsersID.contains(element.id))
+            allUsersID.add(element.id);
         });
       },
     );
