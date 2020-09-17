@@ -30,7 +30,7 @@ class CardDetails extends StatelessWidget {
               SizedBox(width: 8.0),
               Opacity(
                 opacity: 0.4,
-                child: Icon(icon, color: Colors.green, size: 35),
+                child: Icon(icon, color: Theme.of(context).primaryColor, size: 35),
               ),
               Expanded(
                 child: Container(
@@ -127,20 +127,21 @@ class UserCardInfo extends StatelessWidget {
                       topLeft: Radius.circular(12),
                       topRight: Radius.circular(12)),
                   child: Container(
-                      color: color,
-                      child: icon != null
-                          ? Icon(icon, color: Colors.white, size: 60)
-                          : imageN != null
-                              ? Image.network(
-                                  imageN,
-                                  fit: BoxFit.cover,
-                                  width: 105,
-                                )
-                              : Image.asset(
-                                  image,
-                                  fit: BoxFit.cover,
-                                  width: 105,
-                                )),
+                    color: color,
+                    child: icon != null
+                        ? Icon(icon, color: Colors.white, size: 60)
+                        : imageN != null
+                            ? Image.network(
+                                imageN,
+                                fit: BoxFit.cover,
+                                width: 105,
+                              )
+                            : Image.asset(
+                                image,
+                                fit: BoxFit.cover,
+                                width: 105,
+                              ),
+                  ),
                 ),
               ),
               Center(
@@ -161,7 +162,8 @@ class UserCardInfo extends StatelessWidget {
                               ),
                             ),
                             SizedBox(width: 10),
-                            Icon(launchIcon ?? Icons.launch, size: 14, color: Colors.blue)
+                            Icon(launchIcon ?? Icons.launch,
+                                size: 14, color: Colors.blue)
                           ],
                         ),
                       ),
