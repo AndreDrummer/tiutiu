@@ -107,6 +107,7 @@ class DrawerApp extends StatelessWidget {
               icon: Icons.exit_to_app,
               callback: () async {
                 await showDialog(
+                  barrierDismissible: false,
                     context: context,
                     builder: (context) => PopUpMessage(
                           confirmAction: () {

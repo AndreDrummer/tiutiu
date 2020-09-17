@@ -50,6 +50,7 @@ class _HomeState extends State<Home> {
     var answer = false;
     return showDialog(
       context: context,
+      barrierDismissible: false,
       builder: (_) => Consumer<Authentication>(
         builder: (context, auth, child) {
           return PopUpMessage(
