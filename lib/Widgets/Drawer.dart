@@ -20,7 +20,7 @@ class DrawerApp extends StatelessWidget {
             color: Colors.grey,
             style: BorderStyle.solid,
           ),
-          // color: Colors.greenAccent,
+          // color: Theme.of(context).primaryColorAccent,
         ),
         child: Column(
           children: <Widget>[
@@ -31,7 +31,7 @@ class DrawerApp extends StatelessWidget {
                   color: Colors.grey,
                   style: BorderStyle.solid,
                 ),
-                color: Colors.green,
+                color: Theme.of(context).primaryColor,
               ),
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -54,7 +54,7 @@ class DrawerApp extends StatelessWidget {
                               child: ClipOval(
                                 child: FadeInImage(
                                     placeholder:
-                                        AssetImage('assets/profileEmpty.jpg'),
+                                        AssetImage('assets/profileEmpty.png'),
                                     image: NetworkImage(
                                       userProvider.photoURL,
                                     ),
@@ -78,30 +78,16 @@ class DrawerApp extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(height: 20),
+            SizedBox(height: 20),           
             ListTileDrawer(
-              tileName: 'Doados',
-              imageAsset: 'assets/pata.jpg',
-              callback: () {
-                Navigator.pushNamed(context, Routes.DOADOS);
-              },
-            ),
-            ListTileDrawer(
-              tileName: 'Adotados',
-              imageAsset: 'assets/dogs.png',
-              callback: () {
-                Navigator.pushNamed(context, Routes.ADOTADOS);
-              },
-            ),
-            ListTileDrawer(
-              tileName: 'Desaparecidos',
+              tileName: 'Meus PETS',
               imageAsset: 'assets/dogCat2.png',
               callback: () {
-                Navigator.pushNamed(context, Routes.DESAPARECIDOS);
+                Navigator.pushNamed(context, Routes.MEUS_PETS);
               },
             ),
             ListTileDrawer(
-              tileName: 'Favoritos',
+              tileName: 'Meus Favoritos',
               icon: Icons.star,
               callback: () {
                 Navigator.pushNamed(context, Routes.FAVORITES);
@@ -121,6 +107,7 @@ class DrawerApp extends StatelessWidget {
               icon: Icons.exit_to_app,
               callback: () async {
                 await showDialog(
+                  barrierDismissible: false,
                     context: context,
                     builder: (context) => PopUpMessage(
                           confirmAction: () {

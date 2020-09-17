@@ -240,6 +240,7 @@ class _AuthScreenState extends State<AuthScreen> {
                                   });
                                 } else {
                                   await showDialog(
+                                    barrierDismissible: false,
                                     context: context,
                                     builder: (context) => PopUpMessage(
                                         title: 'Erro',
@@ -256,6 +257,7 @@ class _AuthScreenState extends State<AuthScreen> {
                               await auth.passwordReset(email.text);                                  
                                 await showDialog(
                                   context: context,
+                                  barrierDismissible: false,
                                   builder: (context) => PopUpMessage(                                                                       
                                     title: 'E-mail enviado',
                                     message: 'Um link com instruções para redefinir sua senha foi enviado para o e-mail informado.',
@@ -270,6 +272,7 @@ class _AuthScreenState extends State<AuthScreen> {
                             print('ERROR');
                             await showDialog(
                               context: context,
+                              barrierDismissible: false,
                               builder: (context) => PopUpMessage(
                                 title: 'Falha na autenticação',
                                 error: true,

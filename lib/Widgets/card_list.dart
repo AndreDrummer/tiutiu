@@ -12,8 +12,12 @@ import 'package:tiutiu/utils/routes.dart';
 
 // ignore: must_be_immutable
 class CardList extends StatefulWidget {
-  CardList(
-      {this.petInfo, this.donate = true, this.kind, this.favorite = false});
+  CardList({
+    this.petInfo,
+    this.donate = true,
+    this.kind,
+    this.favorite = false,
+  });
 
   final petInfo;
   final String kind;
@@ -68,164 +72,174 @@ class _CardListState extends State<CardList> {
     Authentication auth = Provider.of(context, listen: false);
     FavoritesProvider favoritesProvider = Provider.of(context);
 
-    calculateDistance(widget.petInfo.toMap()['latitude'],
-        widget.petInfo.toMap()['longitude']);
     return InkWell(
       onTap: () {
-        Navigator.pushNamed(context, Routes.PET_DETAILS,
-            arguments: {'petInfo': widget.petInfo, 'kind': widget.kind.toUpperCase()});
+        Navigator.pushNamed(context, Routes.PET_DETAILS, arguments: {
+          'petInfo': widget.petInfo,
+          'kind': widget.kind.toUpperCase()
+        });
       },
       child: Padding(
-        padding: const EdgeInsets.all(4.0),
-        child: FutureBuilder(
-          future:
-              // Future.delayed(
-              //   Duration(
-              //     seconds: 1,
-              //   ),
-              // ),
-              calculateDistance(widget.petInfo.toMap()['latitude'],
-                  widget.petInfo.toMap()['longitude']),
-          builder: (_, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(
-                child: Container(
-                  padding: const EdgeInsets.all(20.0),
-                  child: CircularProgressIndicator(
-                    backgroundColor: Colors.white,
-                  ),
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          children: [
+            Container(
+              decoration: BoxDecoration(
+                color: Colors.white54,
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(12),
+                  topRight: Radius.circular(12),
                 ),
-              );
-            }
-            return Card(
-              // color: Colors.white70,
-              elevation: 3,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12)),
+                border: Border.all(
+                  style: BorderStyle.solid,
+                  color: Colors.grey
+                )
+              ),
+              height: 200,
+              width: double.infinity,
+              child: ClipRRect(
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(12),
+                  topRight: Radius.circular(12),
+                ),
+                child: FadeInImage(
+                  placeholder: AssetImage('assets/fadeIn.jpg'),
+                  image: NetworkImage(widget.petInfo.toMap()['avatar']),
+                  height: 1000,
+                  width: 1000,
+                  fit: BoxFit.fitWidth,
+                ),
+              ),
+            ),
+            Container(
+              decoration: BoxDecoration(
+                color: Colors.white54,
+                borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(12),
+                  bottomRight: Radius.circular(12),
+                ),
+                border: Border.all(
+                  style: BorderStyle.solid,
+                  color: Colors.grey
+                )
+              ),
               child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 6.0),
+                padding: const EdgeInsets.all(8.0),
                 child: Row(
-                  children: <Widget>[
-                    Container(
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        border: Border.all(
-                          style: BorderStyle.solid,
-                          color: Colors.blueGrey[50],
-                        ),
-                      ),
-                      margin: const EdgeInsets.all(8.0),
-                      child: ClipOval(
-                        child: CircleAvatar(
-                          radius: 50,
-                          backgroundColor: Colors.transparent,
-                          child: FadeInImage(
-                            placeholder: AssetImage('assets/Logo.png'),
-                            image:
-                                NetworkImage(widget.petInfo.toMap()['avatar']),
-                            height: 1000,
-                            width: 1000,
-                            fit: BoxFit.fitWidth,
-                          ),
-                        ),
-                      ),
-                    ),
+                  children: [
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              widget.petInfo.toMap()['name'],
-                              style: TextStyle(
-                                fontWeight: FontWeight.w900,
-                                fontSize: 16,
-                              ),
-                            ),
-                            widget.favorite
-                                ? IconButton(
-                                    icon: Icon(
-                                        favoritesProvider.getFavoritesPETSIDList.contains(widget.petInfo.toMap()['id'])
-                                            ? Icons.favorite
-                                            : Icons.favorite_border,
-                                        color: Colors.red),
-                                    onPressed: () {
-                                      
-                                      user.favorite(auth.firebaseUser.uid, widget.petInfo.toMap()['petReference'], false);
-                                      favoritesProvider.handleFavorite(widget.petInfo.toMap()['id']);
-                                    },
-                                  )
-                                : SizedBox()
-                          ],
+                      children: [
+                        Text(
+                          widget.petInfo.toMap()['name'],
+                          style: Theme.of(context).textTheme.headline1.copyWith(
+                              fontWeight: FontWeight.w700,
+                              color: Colors.black,
+                              fontSize: 25),
                         ),
-                        SizedBox(height: 8.0),
-                        Text(widget.petInfo.toMap()['breed']),
-                        SizedBox(height: 20),
-                        SizedBox(
-                          // width: MediaQuery.of(context).size.width * 0.525,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              FutureBuilder(
-                                  future: loadOwner(
-                                      widget.petInfo.toMap()['ownerReference']),
-                                  builder: (context, snapshot) {
-                                    if (snapshot.connectionState ==
-                                        ConnectionState.waiting) {
-                                      return LoadingBumpingLine.circle(
-                                        backgroundColor: Colors.white,
-                                      );
-                                    }
-                                    return Text(
-                                      '${snapshot.data} está ${widget.kind.toUpperCase() == 'DONATE' ? 'doando' : 'procurando'}.',
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.w500,
-                                      ),
-                                    );
-                                  }),
-                            ],
-                          ),
+                        SizedBox(height: 10),
+                        Text(
+                          widget.petInfo.toMap()['breed'],
                         ),
                         SizedBox(height: 20),
-                        SizedBox(
-                          width: MediaQuery.of(context).size.width * 0.6,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: <Widget>[
-                              Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 7.0),
-                                child: Row(
-                                  children: [
-                                    Text(
-                                      'Está a ${snapshot.data[0]}, ',
-                                      // 'Está a 1 km, ',
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.w700,
-                                      ),
+                        FutureBuilder(
+                            future: loadOwner(
+                                widget.petInfo.toMap()['ownerReference']),
+                            builder: (context, snapshot) {
+                              if (snapshot.connectionState ==
+                                  ConnectionState.waiting) {
+                                return LoadingBumpingLine.circle(size: 20);
+                              }
+                              return Text(
+                                '${snapshot.data} está ${widget.kind.toUpperCase() == 'DONATE' ? 'doando' : 'procurando'}.',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .headline1
+                                    .copyWith(
+                                      fontWeight: FontWeight.w700,
+                                      color: Colors.black,
                                     ),
-                                    SizedBox(width: 2),
-                                    Text(
-                                      '${snapshot.data[1]} daqui',
-                                      // '5 min daqui',
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.w700,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
+                              );
+                            }),
                       ],
                     ),
+                    Spacer(),
+                    Column(
+                      children: [
+                        IconButton(
+                          icon: widget.favorite ? Icon(
+                            favoritesProvider.getFavoritesPETSIDList
+                                    .contains(widget.petInfo.toMap()['id'])
+                                ? Icons.favorite
+                                : Icons.favorite_border,
+                            size: 40,
+                            color: Colors.red,
+                          ) : Icon(Icons.send, size: 40, color: Theme.of(context).primaryColor),
+                          onPressed: () {
+                            if (widget.favorite) {
+                              user.favorite(auth.firebaseUser.uid,widget.petInfo.toMap()['petReference'],false);
+                              favoritesProvider.handleFavorite(widget.petInfo.toMap()['id']);
+                            } else {
+                              
+                            }
+                          },
+                        ),
+                        SizedBox(height: 10),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: <Widget>[
+                            FutureBuilder(
+                              // future: calculateDistance(widget.petInfo.toMap()['latitude'],widget.petInfo.toMap()['longitude']),
+                              future: Future.delayed(Duration(seconds: 1), () {
+                                return ['100m', '3min'];
+                              }),
+                              builder: (context, snapshot) {
+                                if (snapshot.connectionState ==
+                                    ConnectionState.waiting) {
+                                  return LoadingBumpingLine.circle(size: 20);
+                                }
+                                return Padding(
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 7.0),
+                                  child: Row(
+                                    children: [
+                                      Text(
+                                        '${snapshot.data[0]}, ',
+                                        // 'Está a 1 km, ',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .headline1
+                                            .copyWith(
+                                              fontWeight: FontWeight.w700,
+                                              color: Colors.black,
+                                            ),
+                                      ),
+                                      SizedBox(width: 2),
+                                      Text(
+                                        '${snapshot.data[1]}',
+                                        // '5 min daqui',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .headline1
+                                            .copyWith(
+                                              fontWeight: FontWeight.w700,
+                                              color: Colors.black,
+                                            ),
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              },
+                            ),
+                          ],
+                        ),
+                      ],
+                    )
                   ],
                 ),
               ),
-            );
-          },
+            )
+          ],
         ),
       ),
     );
