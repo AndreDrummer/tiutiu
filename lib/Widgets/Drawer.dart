@@ -20,7 +20,7 @@ class DrawerApp extends StatelessWidget {
             color: Colors.grey,
             style: BorderStyle.solid,
           ),
-          // color: Colors.greenAccent,
+          // color: Theme.of(context).primaryColorAccent,
         ),
         child: Column(
           children: <Widget>[
@@ -31,7 +31,7 @@ class DrawerApp extends StatelessWidget {
                   color: Colors.grey,
                   style: BorderStyle.solid,
                 ),
-                color: Colors.green,
+                color: Theme.of(context).primaryColor,
               ),
               child: Padding(
                 padding: const EdgeInsets.all(8.0),

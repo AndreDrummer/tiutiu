@@ -2,8 +2,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:provider/provider.dart';
+import 'package:tiutiu/Widgets/loading_page.dart';
 import 'package:tiutiu/Widgets/popup_message.dart';
 import 'package:tiutiu/providers/auth2.dart';
+import 'package:tiutiu/providers/location.dart';
 import 'package:tiutiu/providers/user_provider.dart';
 import 'package:tiutiu/screen/favorites.dart';
 import 'package:tiutiu/screen/my_account.dart';
@@ -90,24 +92,23 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    var _screens = <Widget>[PetsList(),  Favorites(), MyAccount()];  
+    var _screens = <Widget>[PetsList(), Favorites(), MyAccount()];
 
     return WillPopScope(
       onWillPop: leaveApplication,
       child: Scaffold(
         backgroundColor: Colors.greenAccent,
-        body:
-            // FutureBuilder(
-            //     future: Provider.of<Location>(context, listen: false).setLocation(),
-            //     builder: (_, AsyncSnapshot snapshot) {
-            //       if (snapshot.connectionState == ConnectionState.waiting) {
-            //         return LoadingPage();
-            //       }
-            //       return
-            Center(
-          child: _screens.elementAt(_selectedIndex),
+        body: FutureBuilder(
+          future: Provider.of<Location>(context, listen: false).setLocation(),
+          builder: (_, AsyncSnapshot snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return LoadingPage();
+            }
+            return Center(
+              child: _screens.elementAt(_selectedIndex),
+            );
+          },
         ),
-        // }),
         bottomNavigationBar: BottomNavigationBar(
           currentIndex: _selectedIndex,
           selectedItemColor: Colors.white,
@@ -127,52 +128,55 @@ class _HomeState extends State<Home> {
               icon: Icon(Icons.account_circle),
               title: Text('Minha Conta'),
             )
-          ],          
-        ),
-        floatingActionButton: _selectedIndex != 0 ? null : SpeedDial(
-          marginRight: 18,
-          marginBottom: 20,
-          animatedIcon: AnimatedIcons.add_event,
-          animatedIconTheme: IconThemeData(size: 22.0),
-          visible: MediaQuery.of(context).orientation == Orientation.portrait,
-          closeManually: false,
-          curve: Curves.bounceIn,
-          overlayOpacity: 0.5,
-          onOpen: () {
-            print('OPENING DIAL');
-          },
-          onClose: () {
-            print('DIAL CLOSED');
-          },
-          tooltip: 'Adicionar PET',
-          heroTag: 'speed-dial-hero-tag',
-          backgroundColor: Theme.of(context).primaryColor,
-          foregroundColor: Colors.white,
-          elevation: 8.0,
-          shape: CircleBorder(),
-          children: [
-            SpeedDialChild(
-              child: FloatingButtonOption(image: 'assets/dogCat2.png'),
-              label: 'Adicionar Desaparecido',
-              backgroundColor: Theme.of(context).accentColor,
-              labelStyle: TextStyle(fontSize: 14.0),
-              onTap: () {
-                Navigator.pushNamed(context, Routes.CHOOSE_LOCATION,
-                    arguments: {'kind': 'Disappeared'});
-              },
-            ),
-            SpeedDialChild(
-              child: FloatingButtonOption(image: 'assets/pata2.jpg'),
-              label: 'Doar PET',
-              backgroundColor: Theme.of(context).primaryColor,
-              labelStyle: TextStyle(fontSize: 14.0),
-              onTap: () {
-                Navigator.pushNamed(context, Routes.CHOOSE_LOCATION,
-                    arguments: {'kind': 'Donate'});
-              },
-            ),
           ],
         ),
+        floatingActionButton: _selectedIndex != 0
+            ? null
+            : SpeedDial(
+                marginRight: 18,
+                marginBottom: 20,
+                animatedIcon: AnimatedIcons.add_event,
+                animatedIconTheme: IconThemeData(size: 22.0),
+                visible:
+                    MediaQuery.of(context).orientation == Orientation.portrait,
+                closeManually: false,
+                curve: Curves.bounceIn,
+                overlayOpacity: 0.5,
+                onOpen: () {
+                  print('OPENING DIAL');
+                },
+                onClose: () {
+                  print('DIAL CLOSED');
+                },
+                tooltip: 'Adicionar PET',
+                heroTag: 'speed-dial-hero-tag',
+                backgroundColor: Theme.of(context).primaryColor,
+                foregroundColor: Colors.white,
+                elevation: 8.0,
+                shape: CircleBorder(),
+                children: [
+                  SpeedDialChild(
+                    child: FloatingButtonOption(image: 'assets/dogCat2.png'),
+                    label: 'Adicionar Desaparecido',
+                    backgroundColor: Theme.of(context).accentColor,
+                    labelStyle: TextStyle(fontSize: 14.0),
+                    onTap: () {
+                      Navigator.pushNamed(context, Routes.CHOOSE_LOCATION,
+                          arguments: {'kind': 'Disappeared'});
+                    },
+                  ),
+                  SpeedDialChild(
+                    child: FloatingButtonOption(image: 'assets/pata2.jpg'),
+                    label: 'Doar PET',
+                    backgroundColor: Theme.of(context).primaryColor,
+                    labelStyle: TextStyle(fontSize: 14.0),
+                    onTap: () {
+                      Navigator.pushNamed(context, Routes.CHOOSE_LOCATION,
+                          arguments: {'kind': 'Donate'});
+                    },
+                  ),
+                ],
+              ),
       ),
     );
   }

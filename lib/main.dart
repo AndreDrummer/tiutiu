@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:tiutiu/Widgets/mapa.dart';
+import 'package:tiutiu/Widgets/new_map.dart';
 import 'package:tiutiu/providers/auth2.dart';
 import 'package:tiutiu/providers/favorites_provider.dart';
 import 'package:tiutiu/providers/location.dart';
@@ -49,13 +50,13 @@ class App extends StatelessWidget {
             providers: [
               ChangeNotifierProvider(
                 create: (_) => Location(),
-              ),              
+              ),
               ChangeNotifierProvider(
                 create: (_) => UserProvider(),
-              ),              
+              ),
               ChangeNotifierProvider(
                 create: (_) => Authentication(),
-              ),              
+              ),
               ChangeNotifierProvider(
                 create: (_) => ShowBottomNavigator(),
               ),
@@ -66,15 +67,19 @@ class App extends StatelessWidget {
                 create: (_) => MyPetsProvider(),
               ),
               ChangeNotifierProxyProvider<Authentication, FavoritesProvider>(
-                update: (context, auth, favoritesPrevious) => FavoritesProvider(auth),
+                update: (context, auth, favoritesPrevious) =>
+                    FavoritesProvider(auth),
                 create: (_) => FavoritesProvider(),
               )
             ],
             child: MaterialApp(
               theme: ThemeData(
-                primaryColor: Colors.green,
-                accentColor: Color(0xFF00FF00),
+                primaryColor: Colors.amber,
+                accentColor: Colors.yellow,
                 scaffoldBackgroundColor: Color(0XFFF9F9F9),
+                appBarTheme: AppBarTheme(
+                  iconTheme: IconThemeData(color: Colors.white),
+                ),
                 textTheme: ThemeData.light().textTheme.copyWith(
                       headline1: GoogleFonts.lato(
                         color: Colors.white,
@@ -92,13 +97,14 @@ class App extends StatelessWidget {
               routes: {
                 Routes.NOVOPET: (ctx) => NovoPet(),
                 Routes.AUTH_HOME: (ctx) => AuthOrHome(),
-                // Routes.AUTH_HOME: (ctx) => Settings(),
+                // Routes.AUTH_HOME: (ctx) => ChooseLocation(),
                 Routes.SETTINGS: (ctx) => Settings(),
                 Routes.MEUS_PETS: (ctx) => Donate(),
                 Routes.FAVORITES: (ctx) => Favorites(),
                 Routes.REGISTER: (ctx) => Register(),
-                Routes.HOME: (ctx) => Home(),                
+                Routes.HOME: (ctx) => Home(),
                 Routes.MAPA: (ctx) => Mapa(),
+                Routes.NEW_MAP: (ctx) => NewMap(),
                 Routes.CHOOSE_LOCATION: (ctx) => ChooseLocation(),
                 Routes.PET_DETAILS: (ctx) => PetDetails(),
               },

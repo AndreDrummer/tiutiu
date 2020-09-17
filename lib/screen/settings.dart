@@ -512,7 +512,7 @@ class _SettingsState extends State<Settings> {
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
                                     Radio(
-                                      activeColor: Colors.green,
+                                      activeColor: Theme.of(context).primaryColor,
                                       groupValue: snapshot.data,
                                       value: 0,
                                       onChanged: (value) {

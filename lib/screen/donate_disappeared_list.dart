@@ -98,8 +98,7 @@ class _DonateDisappearedListState extends State<DonateDisappearedList> {
                         return CardList(
                           kind: kind,
                           petInfo: petsList[index],
-                        );
-                        // return CardList2();
+                        );                        
                       },
                     ),
                   ),

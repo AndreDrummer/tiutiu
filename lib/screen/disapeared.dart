@@ -38,7 +38,7 @@
 //   Widget build(BuildContext context) {
 //     final marginTop = MediaQuery.of(context).size.height / 1.2;
 //     return Scaffold(
-//       backgroundColor: Colors.greenAccent,
+//       backgroundColor: Theme.of(context).primaryColorAccent,
 //       key: _scaffoldKey,
 //       appBar: AppBar(
 //         title: Text(
