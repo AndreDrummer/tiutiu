@@ -7,11 +7,14 @@ import 'package:tiutiu/Widgets/button.dart';
 import 'package:tiutiu/Widgets/card_details.dart';
 import 'package:tiutiu/Widgets/divider.dart';
 import 'package:tiutiu/Widgets/dots_indicator.dart';
+import 'package:tiutiu/backend/Controller/pet_controller.dart';
 import 'package:tiutiu/backend/Controller/user_controller.dart';
 import 'package:tiutiu/backend/Model/pet_model.dart';
 import 'package:tiutiu/providers/auth2.dart';
 import 'package:tiutiu/providers/favorites_provider.dart';
 import 'package:maps_launcher/maps_launcher.dart';
+import 'package:tiutiu/providers/location.dart';
+import 'package:tiutiu/providers/user_infos_interests.dart';
 import 'package:tiutiu/utils/formatter.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -85,12 +88,13 @@ class _PetDetailsState extends State<PetDetails> {
             ? Theme.of(context).primaryColor
             : user.data()['betterContact'] == 1 ? Colors.orange : Colors.red,
         'callback': () {
-          String serializedNumber = Formatter.unmaskNumber(user.data()['phoneNumber']);
-          
-              // .split('(')[1]
-              // .replaceAll(')', '')
-              // .replaceAll('-', '')
-              // .replaceAll(' ', '');
+          String serializedNumber =
+              Formatter.unmaskNumber(user.data()['phoneNumber']);
+
+          // .split('(')[1]
+          // .replaceAll(')', '')
+          // .replaceAll('-', '')
+          // .replaceAll(' ', '');
           if (user.data()['betterContact'] == 0) {
             FlutterOpenWhatsapp.sendSingleMessage('+55$serializedNumber',
                 'Olá! Tenho interesse e gostaria de saber mais detalhes sobre o PET *${pet.name}* que postou no app *_Tiu, Tiu_*.');
@@ -306,17 +310,66 @@ class _PetDetailsState extends State<PetDetails> {
                   child: ButtonWide(
                     text:
                         kind == 'DONATE' ? 'QUERO ADOTAR' : 'VI ELE AQUI PERTO',
-                    color: kind == 'DONATE' ? Colors.red : Theme.of(context).primaryColor,
-                    action: () {
+                    color: kind == 'DONATE'
+                        ? Colors.red
+                        : Theme.of(context).primaryColor,
+                    action: () async {
+                      final userInfosAdopts =
+                          Provider.of<UserInfoOrAdoptInterestsProvider>(context,
+                              listen: false);
+                      final petRef = await pet.petReference.get();
+                      final userLocation =
+                          Provider.of<Location>(context, listen: false)
+                              .location;
+                      int userPosition;
+                      bool canSend = true;
+                      String messageTextSnackBar;
+
+                      if (kind == 'DONATE') {
+                        if (userInfosAdopts.getAdoptInterest.contains(pet.id)) {
+                        setState(() {
+                            canSend = false;
+                          });
+                          messageTextSnackBar = '${snapshot.data['ownerDetails'][0]['text']} já sabe sobre seu interesse. Aguarde retorno.';
+                        } else {
+                          if (petRef.data()['adoptInteresteds'] != null) {
+                            userPosition = petRef.data()['adoptInteresteds'].length;
+                          } else {
+                            userPosition = 1;
+                          }
+                          messageTextSnackBar = 'Você é o $userPositionº interessado no ${pet.name}. Te avisaremos caso o dono aceite seu pedido de adoção!';
+                        }
+                      } else {
+                        if (userInfosAdopts.getInfos.contains(pet.id)) {
+                        setState(() {
+                            canSend = false;
+                          });
+                          messageTextSnackBar = 'Você já passou informação sobre este PET.';
+                        } else {
+                          if (petRef.data()['infoInteresteds'] != null) {
+                            userPosition = petRef.data()['infoInteresteds'].length;
+                          } else {
+                            userPosition = 1;
+                          }
+                          messageTextSnackBar = 'Obrigado pela informação! ${snapshot.data['ownerDetails'][0]['text']} será avisado.';
+                        }
+                      }
+
+                      if (canSend) {
+                        PetController petController = new PetController();
+                        petController.showInterestOrInfo(pet.petReference, pet.ownerReference, userLocation, userPosition, isAdopt: kind == 'DONATE');
+                        if(kind == 'DONATE') {
+                          userInfosAdopts.insertAdoptInterest(pet.id);
+                        } else {
+                          userInfosAdopts.insertInfos(pet.id);
+                        }
+                      }
+
                       _scaffoldKey.currentState.showSnackBar(SnackBar(
                         content: Row(
                           children: [
                             Expanded(
-                              child: Text(
-                                kind == 'DONATE'
-                                    ? 'Você é o 10º interessado no ${pet.name}. Te avisaremos caso o dono aceite seu pedido de adoção!'
-                                    : 'Obrigado pela informação! ${snapshot.data['ownerDetails'][0]['text']} será avisado.',
-                              ),
+                              child: Text(messageTextSnackBar),
                             ),
                           ],
                         ),
@@ -331,14 +384,16 @@ class _PetDetailsState extends State<PetDetails> {
       floatingActionButton: kind == 'DONATE'
           ? Consumer<FavoritesProvider>(
               builder: (context, favoritesProvider, child) {
-                bool isFavorite = favoritesProvider.getFavoritesPETSIDList.contains(pet.id);                
+                bool isFavorite =
+                    favoritesProvider.getFavoritesPETSIDList.contains(pet.id);
                 return FloatingActionButton(
                   onPressed: () async {
                     final user = UserController();
                     final auth =
                         Provider.of<Authentication>(context, listen: false);
 
-                    await user.favorite(auth.firebaseUser.uid, pet.petReference, !isFavorite);
+                    await user.favorite(
+                        auth.firebaseUser.uid, pet.petReference, !isFavorite);
 
                     _scaffoldKey.currentState.showSnackBar(SnackBar(
                       duration: Duration(seconds: 1),
@@ -348,7 +403,7 @@ class _PetDetailsState extends State<PetDetails> {
                     ));
 
                     favoritesProvider.loadFavoritesReference();
-                    favoritesProvider.handleFavorite(pet.id);                    
+                    favoritesProvider.handleFavorite(pet.id);
                   },
                   tooltip: isFavorite ? 'Favorito' : 'Favoritar',
                   backgroundColor: isFavorite ? Colors.white : Colors.red,

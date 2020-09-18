@@ -86,7 +86,7 @@ class _AuthScreenState extends State<AuthScreen> {
     }
 
     if (isNewAccount) {
-      if (repeatPassword.text.isEmpty  || repeatPassword.text != password.text) {
+      if (repeatPassword.text.isEmpty || repeatPassword.text != password.text) {
         setState(() {
           repeatPasswordError = true;
           fieldsAreValids = false;
@@ -240,11 +240,13 @@ class _AuthScreenState extends State<AuthScreen> {
                                   });
                                 } else {
                                   await showDialog(
-                                    barrierDismissible: false,
                                     context: context,
                                     builder: (context) => PopUpMessage(
                                         title: 'Erro',
                                         warning: true,
+                                        confirmText: 'OK',
+                                        confirmAction: () =>
+                                            Navigator.pop(context),
                                         message: 'Senhas não conferem!'),
                                   );
                                   changeLogginStatus(false);
@@ -254,27 +256,29 @@ class _AuthScreenState extends State<AuthScreen> {
                               }
                             } else if (isToResetPassword) {
                               changeLogginStatus(true);
-                              await auth.passwordReset(email.text);                                  
-                                await showDialog(
-                                  context: context,
-                                  barrierDismissible: false,
-                                  builder: (context) => PopUpMessage(                                                                       
-                                    title: 'E-mail enviado',
-                                    message: 'Um link com instruções para redefinir sua senha foi enviado para o e-mail informado.',
-                                  ),
-                                ).then((_) => resetPage());                                                           
+                              await auth.passwordReset(email.text);
+                              await showDialog(
+                                context: context,
+                                builder: (context) => PopUpMessage(
+                                  title: 'E-mail enviado',
+                                  message:
+                                      'Um link com instruções para redefinir sua senha foi enviado para o e-mail informado.',
+                                ),
+                              ).then((_) => resetPage());
                             } else if (validateFields()) {
                               changeLogginStatus(true);
-                                await auth.signInWithEmailAndPassword(email.text, password.text);                              
+                              await auth.signInWithEmailAndPassword(
+                                  email.text, password.text);
                               changeLogginStatus(false);
                             }
                           } on TiuTiuAuthException catch (error) {
                             print('ERROR');
                             await showDialog(
                               context: context,
-                              barrierDismissible: false,
                               builder: (context) => PopUpMessage(
                                 title: 'Falha na autenticação',
+                                confirmText: 'OK',
+                                confirmAction: () => Navigator.pop(context),
                                 error: true,
                                 message: error.toString(),
                               ),

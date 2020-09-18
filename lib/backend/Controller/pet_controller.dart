@@ -1,3 +1,4 @@
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:tiutiu/providers/auth2.dart';
 
 import '../Model/pet_model.dart';
@@ -46,7 +47,7 @@ class PetController {
     return pets;
   }
 
-  Future<void> insertPet(Pet pet, String petKind, Authentication auth) async {        
+  Future<void> insertPet(Pet pet, String petKind, Authentication auth) async {
     await FirebaseFirestore.instance
         .collection('Users')
         .doc(auth.firebaseUser.uid)
@@ -59,6 +60,37 @@ class PetController {
       (value) {
         print('Inserção realizada com sucesso!');
       },
+    );
+  }
+
+  Future<void> showInterestOrInfo(
+    DocumentReference petReference,
+    DocumentReference userReference,
+    LatLng userLocation,
+    int userPosition, {
+    bool isAdopt = false,
+  }) async {
+
+    var petRef = await petReference.get();
+
+    List lista = [];
+
+    if(petRef.data()['${isAdopt ? 'adoptInteresteds' : 'infoInteresteds'}'] != null) {
+      lista = petRef.data()['${isAdopt ? 'adoptInteresteds' : 'infoInteresteds'}'];
+    }
+
+
+
+    await petReference.set(
+      {
+          '${isAdopt ? 'adoptInteresteds' : 'infoInteresteds'}': [...lista, {
+          'userReference': userReference,
+          'userLat': userLocation.latitude,
+          'userLog': userLocation.longitude,
+          'position': userPosition
+        }]
+      },
+      SetOptions(merge: true),
     );
   }
 

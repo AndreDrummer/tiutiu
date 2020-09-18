@@ -99,17 +99,7 @@ class _HomeState extends State<Home> {
       onWillPop: leaveApplication,
       child: Scaffold(
         backgroundColor: Colors.greenAccent,
-        body: FutureBuilder(
-          future: Provider.of<Location>(context, listen: false).setLocation(),
-          builder: (_, AsyncSnapshot snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return LoadingPage();
-            }
-            return Center(
-              child: _screens.elementAt(_selectedIndex),
-            );
-          },
-        ),
+        body: _screens.elementAt(_selectedIndex),
         bottomNavigationBar: BottomNavigationBar(
           currentIndex: _selectedIndex,
           selectedItemColor: Colors.white,
