@@ -566,7 +566,7 @@ class _NovoPetState extends State<NovoPet> {
               child: ButtonWide(
                   rounded: false,
                   isToExpand: true,
-                  action: () async {
+                  action: isLogging ? null : () async {
                     if (validateForm()) {
                       setReadOnly();
                       await save();
