@@ -83,18 +83,6 @@ class _FavoritesState extends State<Favorites> {
                   );
                 },
               ),
-            ),
-            Positioned(
-              right: 10.0,
-              bottom: 5.0,
-              child: Container(
-                height: 85,
-                width: 80,
-                child: Opacity(
-                  opacity: 0.5,
-                  child: Image.asset('assets/images.png'),
-                ),
-              ),
             )
           ],
         ),
