@@ -8,6 +8,7 @@ import 'package:tiutiu/providers/auth2.dart';
 import 'package:tiutiu/providers/favorites_provider.dart';
 import 'package:tiutiu/providers/location.dart' as provider_location;
 import 'package:tiutiu/utils/constantes.dart';
+import 'package:tiutiu/utils/math_functions.dart';
 import 'package:tiutiu/utils/routes.dart';
 
 // ignore: must_be_immutable
@@ -34,36 +35,34 @@ class _CardListState extends State<CardList> {
     return Future.value(owner.data()['displayName']);
   }
 
-  Future calculateDistance(double latitude, double longitude) async {
+  String distanceCalculate(double petLatitude, double petLongitude) {
     provider_location.Location currentLoction =
         Provider.of(context, listen: false);
-    final distance =
-        distanceMatrix.GoogleDistanceMatrix(apiKey: Constantes.WEB_API_KEY);
+    String textDistance = '';
+    String textTime = '';
 
-    var origins = [
-      distanceMatrix.Location(
-          currentLoction.location.latitude, currentLoction.location.longitude),
-    ];
-
-    var destinations = [
-      distanceMatrix.Location(latitude, longitude),
-    ];
-
-    var responseForLocation = await distance.distanceWithLocation(
-      origins,
-      destinations,
+    String distance = MathFunctions.distanceMatrix(
+      latX: currentLoction.location.latitude,
+      longX: currentLoction.location.longitude,
+      latY: petLatitude,
+      longY: petLongitude,
     );
 
-    if (responseForLocation.isOkay) {
-      print(responseForLocation.destinationAddress.length);
-      for (var row in responseForLocation.results) {
-        for (var element in row.elements) {
-          return ['${element.distance.text}', '${element.duration.text}'];
-        }
-      }
+    String time = MathFunctions.time(double.parse(distance));
+
+    if (double.parse(time) > 60) {
+      textTime = "$time\ h";
     } else {
-      print('ERROR: ${responseForLocation.errorMessage}');
+      textTime = "${time.split('.').first}\ min";
     }
+
+    if (double.parse(distance) < 1000) {
+      textDistance = "$distance\m";
+    } else {
+      textDistance = (double.parse(distance) / 1000).toStringAsFixed(2) + ' Km';
+    }
+
+    return textDistance + ', ' + textTime;
   }
 
   @override
@@ -85,16 +84,13 @@ class _CardListState extends State<CardList> {
           children: [
             Container(
               decoration: BoxDecoration(
-                color: Colors.white54,
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(12),
-                  topRight: Radius.circular(12),
-                ),
-                border: Border.all(
-                  style: BorderStyle.solid,
-                  color: Colors.grey
-                )
-              ),
+                  color: Colors.white54,
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(12),
+                    topRight: Radius.circular(12),
+                  ),
+                  border:
+                      Border.all(style: BorderStyle.solid, color: Colors.grey)),
               height: 200,
               width: double.infinity,
               child: ClipRRect(
@@ -113,16 +109,13 @@ class _CardListState extends State<CardList> {
             ),
             Container(
               decoration: BoxDecoration(
-                color: Colors.white54,
-                borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(12),
-                  bottomRight: Radius.circular(12),
-                ),
-                border: Border.all(
-                  style: BorderStyle.solid,
-                  color: Colors.grey
-                )
-              ),
+                  color: Colors.white54,
+                  borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(12),
+                    bottomRight: Radius.circular(12),
+                  ),
+                  border:
+                      Border.all(style: BorderStyle.solid, color: Colors.grey)),
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Row(
@@ -167,69 +160,51 @@ class _CardListState extends State<CardList> {
                     Column(
                       children: [
                         IconButton(
-                          icon: widget.favorite ? Icon(
-                            favoritesProvider.getFavoritesPETSIDList
-                                    .contains(widget.petInfo.toMap()['id'])
-                                ? Icons.favorite
-                                : Icons.favorite_border,
-                            size: 40,
-                            color: Colors.red,
-                          ) : Icon(Icons.send, size: 40, color: Theme.of(context).primaryColor),
+                          icon: widget.favorite
+                              ? Icon(
+                                  favoritesProvider.getFavoritesPETSIDList
+                                          .contains(
+                                              widget.petInfo.toMap()['id'])
+                                      ? Icons.favorite
+                                      : Icons.favorite_border,
+                                  size: 40,
+                                  color: Colors.red,
+                                )
+                              : Icon(Icons.send,
+                                  size: 40,
+                                  color: Theme.of(context).primaryColor),
                           onPressed: () {
                             if (widget.favorite) {
-                              user.favorite(auth.firebaseUser.uid,widget.petInfo.toMap()['petReference'],false);
-                              favoritesProvider.handleFavorite(widget.petInfo.toMap()['id']);
-                            } else {
-                              
-                            }
+                              user.favorite(
+                                  auth.firebaseUser.uid,
+                                  widget.petInfo.toMap()['petReference'],
+                                  false);
+                              favoritesProvider
+                                  .handleFavorite(widget.petInfo.toMap()['id']);
+                            } else {}
                           },
                         ),
                         SizedBox(height: 10),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: <Widget>[
-                            FutureBuilder(
-                              // future: calculateDistance(widget.petInfo.toMap()['latitude'],widget.petInfo.toMap()['longitude']),
-                              future: Future.delayed(Duration(seconds: 1), () {
-                                return ['100m', '3min'];
-                              }),
-                              builder: (context, snapshot) {
-                                if (snapshot.connectionState ==
-                                    ConnectionState.waiting) {
-                                  return LoadingBumpingLine.circle(size: 20);
-                                }
-                                return Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 7.0),
-                                  child: Row(
-                                    children: [
-                                      Text(
-                                        '${snapshot.data[0]}, ',
-                                        // 'Está a 1 km, ',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .headline1
-                                            .copyWith(
-                                              fontWeight: FontWeight.w700,
-                                              color: Colors.black,
-                                            ),
-                                      ),
-                                      SizedBox(width: 2),
-                                      Text(
-                                        '${snapshot.data[1]}',
-                                        // '5 min daqui',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .headline1
-                                            .copyWith(
-                                              fontWeight: FontWeight.w700,
-                                              color: Colors.black,
-                                            ),
-                                      ),
-                                    ],
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(vertical: 7.0),
+                              child: Row(
+                                children: [
+                                  Text(
+                                    '${distanceCalculate(widget.petInfo.toMap()['latitude'], widget.petInfo.toMap()['longitude'])} ',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .headline1
+                                        .copyWith(
+                                          fontWeight: FontWeight.w700,
+                                          color: Colors.black,
+                                        ),
                                   ),
-                                );
-                              },
+                                ],
+                              ),
                             ),
                           ],
                         ),

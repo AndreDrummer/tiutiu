@@ -10,6 +10,7 @@ import 'package:tiutiu/providers/location.dart';
 import 'package:tiutiu/providers/my_pets_provider.dart';
 import 'package:tiutiu/providers/pets_provider.dart';
 import 'package:tiutiu/providers/show_bottom.dart';
+import 'package:tiutiu/providers/user_infos_interests.dart';
 import 'package:tiutiu/providers/user_provider.dart';
 import 'package:tiutiu/screen/choose_location.dart';
 import 'package:tiutiu/screen/donates.dart';
@@ -65,11 +66,14 @@ class App extends StatelessWidget {
               ),
               ChangeNotifierProvider(
                 create: (_) => MyPetsProvider(),
-              ),
+              ),             
               ChangeNotifierProxyProvider<Authentication, FavoritesProvider>(
                 update: (context, auth, favoritesPrevious) =>
                     FavoritesProvider(auth),
                 create: (_) => FavoritesProvider(),
+              ),
+               ChangeNotifierProvider(
+                create: (_) => UserInfoOrAdoptInterestsProvider(),
               )
             ],
             child: MaterialApp(
