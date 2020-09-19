@@ -23,8 +23,15 @@ class _MyAccountState extends State<MyAccount> {
         child: Stack(
           children: [
             Opacity(
-              child: Image.asset('assets/fundo.jpg',
-                  fit: BoxFit.fitWidth, width: 1000),
+              child: FadeInImage(
+                placeholder: AssetImage('assets/fundo.jpg'),
+                image: NetworkImage(
+                  userProvider.photoBACK ?? '',
+                ),
+                fit: BoxFit.fill,
+                width: 1000,
+                height: 1000,
+              ),
               opacity: 0.25,
             ),
             Container(
@@ -89,7 +96,7 @@ class _MyAccountState extends State<MyAccount> {
                                   CircleChild(
                                     avatarRadius: 15,
                                     child: Text(
-                                      '15',
+                                      userProvider.getTotalDonated.toString(),
                                       style: TextStyle(
                                         color: Theme.of(context).primaryColor,
                                       ),
@@ -112,7 +119,9 @@ class _MyAccountState extends State<MyAccount> {
                                   CircleChild(
                                     avatarRadius: 15,
                                     child: Text('10',
-                                        style: TextStyle(color: Theme.of(context).primaryColor)),
+                                        style: TextStyle(
+                                            color: Theme.of(context)
+                                                .primaryColor)),
                                   ),
                                   Text(
                                     'Adotados',
@@ -130,8 +139,12 @@ class _MyAccountState extends State<MyAccount> {
                                 children: [
                                   CircleChild(
                                     avatarRadius: 15,
-                                    child: Text('2',
-                                        style: TextStyle(color: Theme.of(context).primaryColor)),
+                                    child: Text(
+                                        userProvider.getTotalDisappeared
+                                            .toString(),
+                                        style: TextStyle(
+                                            color: Theme.of(context)
+                                                .primaryColor)),
                                   ),
                                   Text(
                                     'Desaparecidos',
@@ -234,7 +247,10 @@ class _MyAccountState extends State<MyAccount> {
                           ),
                         ),
                       ),
-                      Divider(color: Theme.of(context).primaryColor, height: 1.0,),
+                      Divider(
+                        color: Theme.of(context).primaryColor,
+                        height: 1.0,
+                      ),
                       InkWell(
                         onTap: () async {
                           await showDialog(

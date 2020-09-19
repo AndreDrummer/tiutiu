@@ -2,10 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:provider/provider.dart';
-import 'package:tiutiu/Widgets/loading_page.dart';
 import 'package:tiutiu/Widgets/popup_message.dart';
 import 'package:tiutiu/providers/auth2.dart';
-import 'package:tiutiu/providers/location.dart';
 import 'package:tiutiu/providers/user_provider.dart';
 import 'package:tiutiu/screen/favorites.dart';
 import 'package:tiutiu/screen/my_account.dart';
@@ -84,11 +82,15 @@ class _HomeState extends State<Home> {
         await usersEntrepreneur.doc(auth.firebaseUser.uid).get();
 
     userProvider.changeUserReference(doc.reference);
+    userProvider.changeUid(auth.firebaseUser.uid);
     userProvider.changePhotoUrl(doc.data()['photoURL']);
+    userProvider.changePhotoBack(doc.data()['photoBACK']);
     userProvider.changeWhatsapp(doc.data()['phoneNumber']);
     userProvider.changeDisplayName(doc.data()['displayName']);
     userProvider.changeTelefone(doc.data()['landline']);
     userProvider.changeBetterContact(doc.data()['betterContact']);
+
+    userProvider.calculateTotals();
   }
 
   @override

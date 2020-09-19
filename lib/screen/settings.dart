@@ -21,7 +21,9 @@ class Settings extends StatefulWidget {
 
 class _SettingsState extends State<Settings> {
   File imageFile0;
+  File imageFile1;
   String photoURL;
+  String photoBACK;
   Map<String, File> userProfile = {};
 
   bool isNameEditing = false;
@@ -99,6 +101,7 @@ class _SettingsState extends State<Settings> {
     if (userProvider.telefone != null)
       _telefoneController.text = userProvider.telefone;
     if (userProvider.photoURL != null) photoURL = userProvider.photoURL;
+    if (userProvider.photoBACK != null) photoBACK = userProvider.photoBACK;
   }
 
   @override
@@ -135,21 +138,40 @@ class _SettingsState extends State<Settings> {
 
   Future<void> uploadPhotos() async {
     StorageUploadTask uploadTask;
-    StorageReference storageReference;
+    StorageReference storageReferenceProfile;
+    StorageReference storageReferenceback;
 
-    storageReference = FirebaseStorage.instance
-        .ref()
-        .child('${auth.firebaseUser.uid}')
-        .child('avatar/foto_perfil');
+    if (userProfile['photoFile'] != null) {
+      storageReferenceProfile = FirebaseStorage.instance
+          .ref()
+          .child('${auth.firebaseUser.uid}')
+          .child('avatar/foto_perfil');
 
-    storageReference.delete();
-    uploadTask = storageReference.putFile(userProfile['photoFile']);
+      storageReferenceProfile.delete();
+      uploadTask = storageReferenceProfile.putFile(userProfile['photoFile']);
 
-    await uploadTask.onComplete;
-    await storageReference.getDownloadURL().then((urlDownload) async {
-      photoURL = await urlDownload;
-      print('URL DOWNLOAD $urlDownload');
-    });
+      await uploadTask.onComplete;
+      await storageReferenceProfile.getDownloadURL().then((urlDownload) async {
+        photoURL = await urlDownload;
+        print('URL DOWNLOAD $urlDownload');
+      });
+    }
+
+    if (userProfile['photoFileBack'] != null) {
+      storageReferenceback = FirebaseStorage.instance
+          .ref()
+          .child('${auth.firebaseUser.uid}')
+          .child('avatar/foto_fundo');
+
+      storageReferenceback.delete();
+      uploadTask = storageReferenceback.putFile(userProfile['photoFileBack']);
+
+      await uploadTask.onComplete;
+      await storageReferenceback.getDownloadURL().then((urlDownload) async {
+        photoBACK = await urlDownload;
+        print('URL DOWNLOAD $urlDownload');
+      });
+    }
 
     return Future.value();
   }
@@ -170,7 +192,7 @@ class _SettingsState extends State<Settings> {
         _telefoneController.text.contains('-') &&
         regExp.hasMatch(_telefoneController.text.split('-')[1]);
 
-    if (userProvider.getBetterContact == 0 && !validWhatsapp) {      
+    if (userProvider.getBetterContact == 0 && !validWhatsapp) {
       setState(() {
         whatsappHasError = true;
         _whatsAppController.text =
@@ -188,19 +210,19 @@ class _SettingsState extends State<Settings> {
       return false;
     }
 
-    if(_telefoneController.text.isNotEmpty) {
-      if(!_telefoneController.text.contains('-'))
-      setState(() {
-        telefoneHasError = true;
-      });
+    if (_telefoneController.text.isNotEmpty) {
+      if (!_telefoneController.text.contains('-'))
+        setState(() {
+          telefoneHasError = true;
+        });
       return _telefoneController.text.contains('-');
     }
 
-    if(_whatsAppController.text.isNotEmpty) {
-      if(!_whatsAppController.text.contains('-'))
-      setState(() {
-        whatsappHasError = true;
-      });
+    if (_whatsAppController.text.isNotEmpty) {
+      if (!_whatsAppController.text.contains('-'))
+        setState(() {
+          whatsappHasError = true;
+        });
       return _whatsAppController.text.contains('-');
     }
 
@@ -258,6 +280,8 @@ class _SettingsState extends State<Settings> {
         'displayName': _nameController.text,
         'uid': auth.firebaseUser.uid,
         'photoURL': userProfile.isNotEmpty ? photoURL : userProvider.photoURL,
+        'photoBACK':
+            userProfile.isNotEmpty ? photoBACK : userProvider.photoBACK,
         'phoneNumber': _whatsAppController.text,
         'landline': _telefoneController.text,
         'betterContact': userProvider.getBetterContact,
@@ -269,13 +293,14 @@ class _SettingsState extends State<Settings> {
       userProvider.changeWhatsapp(_whatsAppController.text);
       userProvider.changeTelefone(_telefoneController.text);
       userProvider.changePhotoUrl(photoURL);
+      userProvider.changePhotoBack(photoBACK);
       userProfile.clear();
 
       changeSaveFormStatus(false);
       isToShowDialog
           ? await showDialog(
               barrierDismissible: false,
-              context: context,              
+              context: context,
               builder: (context) => PopUpMessage(
                 confirmAction: () {
                   Navigator.popUntil(
@@ -292,21 +317,33 @@ class _SettingsState extends State<Settings> {
     }
   }
 
-  void selectImage(ImageSource source) async {
+  void selectImage(ImageSource source, {bool perfil = true}) async {
     var picker = ImagePicker();
     dynamic image = await picker.getImage(source: source);
     image = File(image.path);
-    setState(
-      () {
-        imageFile0 = image;
-        userProfile.clear();
-        userProfile.putIfAbsent('photoFile', () => imageFile0);
-        userProvider.changePhotoFILE(userProfile['photoFile']);
-      },
-    );
+
+    if (perfil) {
+      setState(
+        () {
+          imageFile0 = image;
+          userProfile.remove('photoFile');
+          userProfile.putIfAbsent('photoFile', () => imageFile0);
+          userProvider.changePhotoFILE(userProfile['photoFile']);
+        },
+      );
+    } else {
+      setState(
+        () {
+          imageFile1 = image;
+          userProfile.remove('photoFileBack');
+          userProfile.putIfAbsent('photoFileBack', () => imageFile1);
+          userProvider.changePhotoFILE(userProfile['photoFileBack']);
+        },
+      );
+    }
   }
 
-  void openModalSelectMedia(BuildContext context) {
+  void openModalSelectMedia(BuildContext context, bool perfil) {
     showDialog(
       context: context,
       builder: (context) {
@@ -317,14 +354,14 @@ class _SettingsState extends State<Settings> {
                   Text('Tirar uma foto', style: TextStyle(color: Colors.black)),
               onPressed: () {
                 Navigator.pop(context);
-                selectImage(ImageSource.camera);
+                selectImage(ImageSource.camera, perfil: perfil);
               },
             ),
             FlatButton(
               child: Text('Abrir galeria'),
               onPressed: () {
                 Navigator.pop(context);
-                selectImage(ImageSource.gallery);
+                selectImage(ImageSource.gallery, perfil: perfil);
               },
             )
           ],
@@ -355,43 +392,79 @@ class _SettingsState extends State<Settings> {
               child: SingleChildScrollView(
                 child: Column(
                   children: [
-                    SizedBox(height: 10),
-                    InkWell(
-                      onTap: () {
-                        openModalSelectMedia(context);
-                      },
-                      child: Container(
-                        child: Column(
-                          children: [
-                            CircleAvatar(
-                              radius: 50,
-                              backgroundColor: Colors.black12,
-                              child: ClipOval(
-                                  child: userProfile.isEmpty
-                                      ? userProvider.photoURL != null
-                                          ? FadeInImage(
-                                              placeholder: AssetImage(
-                                                  'assets/profileEmpty.png'),
-                                              image: NetworkImage(
-                                                userProvider.photoURL,
-                                              ),
-                                              fit: BoxFit.cover,
-                                              width: 1000,
-                                              height: 100,
-                                            )
-                                          : Icon(Icons.person,
-                                              color: Colors.white54, size: 50)
-                                      : Image.file(userProfile['photoFile'],
-                                          width: 1000,
-                                          height: 1000,
-                                          fit: BoxFit.cover)),
+                    Stack(
+                      children: [
+                        InkWell(
+                          onTap: () {
+                            openModalSelectMedia(context, false);
+                          },
+                          child: Container(
+                            height: 200,
+                            width: double.infinity,
+                            child: Opacity(
+                              child: userProfile['photoFileBack'] == null
+                                  ? FadeInImage(
+                                      placeholder:
+                                          AssetImage('assets/fundo.jpg'),
+                                      image: NetworkImage(
+                                        userProvider.photoBACK ?? '',
+                                      ),
+                                      fit: BoxFit.cover,
+                                      width: 1000,
+                                      height: 100,
+                                    )
+                                  : Image.file(
+                                      userProfile['photoFileBack'],
+                                      width: 1000,
+                                      height: 1000,
+                                      fit: BoxFit.cover,
+                                    ),
+                              opacity: 0.25,
                             ),
-                            SizedBox(height: 7),
-                            Text('Alter/Adicionar')
-                          ],
+                          ),
                         ),
-                      ),
-                    ),
+                        Positioned(
+                          top: 50,
+                          left: 0,
+                          right: 0,
+                          child: Column(
+                            children: [
+                              InkWell(
+                                onTap: () {
+                                  openModalSelectMedia(context, true);
+                                },
+                                child: CircleAvatar(
+                                  radius: 50,
+                                  backgroundColor: Colors.black12,
+                                  child: ClipOval(
+                                    child: userProfile['photoFile'] == null
+                                        ? userProvider.photoURL != null
+                                            ? FadeInImage(
+                                                placeholder: AssetImage(
+                                                    'assets/profileEmpty.png'),
+                                                image: NetworkImage(
+                                                  userProvider.photoURL,
+                                                ),
+                                                fit: BoxFit.cover,
+                                                width: 1000,
+                                                height: 100,
+                                              )
+                                            : Icon(Icons.person,
+                                                color: Colors.white54, size: 50)
+                                        : Image.file(
+                                            userProfile['photoFile'],
+                                            width: 1000,
+                                            height: 1000,
+                                            fit: BoxFit.cover,
+                                          ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        )
+                      ],
+                    ),                   
                     Container(
                       height: MediaQuery.of(context).size.height / 3,
                       child: Form(
@@ -513,7 +586,8 @@ class _SettingsState extends State<Settings> {
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
                                     Radio(
-                                      activeColor: Theme.of(context).primaryColor,
+                                      activeColor:
+                                          Theme.of(context).primaryColor,
                                       groupValue: snapshot.data,
                                       value: 0,
                                       onChanged: (value) {

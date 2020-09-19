@@ -1,13 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:google_maps_webservice/distance.dart' as distanceMatrix;
 import 'package:loading_animations/loading_animations.dart';
 import 'package:provider/provider.dart';
 import 'package:tiutiu/backend/Controller/user_controller.dart';
 import 'package:tiutiu/providers/auth2.dart';
 import 'package:tiutiu/providers/favorites_provider.dart';
 import 'package:tiutiu/providers/location.dart' as provider_location;
-import 'package:tiutiu/utils/constantes.dart';
 import 'package:tiutiu/utils/math_functions.dart';
 import 'package:tiutiu/utils/routes.dart';
 
