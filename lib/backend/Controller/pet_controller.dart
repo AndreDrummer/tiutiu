@@ -7,22 +7,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class PetController {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
 
-  Future<Map<String, Object>> getPet(String id) async {
-    Pet pet;
-    await firestore
+  Future getPet(String userId, String kind) async {    
+    return await firestore
         .collection('Users')
-        .doc(id)
+        .doc(userId)
         .collection('Pets')
-        .doc(id)
-        .snapshots()
-        .first
-        .then(
-      (value) {
-        pet = Pet.fromSnapshot(value);
-      },
-    );
-
-    return pet.toMap();
+        .doc('posted')
+        .collection(kind)        
+        .get(); 
   }
 
   Future<List<Pet>> getAllPets(String userId) async {
