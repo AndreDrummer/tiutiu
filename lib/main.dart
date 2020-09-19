@@ -2,7 +2,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import 'package:tiutiu/Widgets/mapa.dart';
 import 'package:tiutiu/Widgets/new_map.dart';
 import 'package:tiutiu/providers/auth2.dart';
 import 'package:tiutiu/providers/favorites_provider.dart';
@@ -12,6 +11,7 @@ import 'package:tiutiu/providers/pets_provider.dart';
 import 'package:tiutiu/providers/show_bottom.dart';
 import 'package:tiutiu/providers/user_infos_interests.dart';
 import 'package:tiutiu/providers/user_provider.dart';
+import 'package:tiutiu/screen/announcer_datails.dart';
 import 'package:tiutiu/screen/choose_location.dart';
 import 'package:tiutiu/screen/donates.dart';
 import 'package:tiutiu/screen/auth_or_home.dart';
@@ -101,16 +101,16 @@ class App extends StatelessWidget {
               routes: {
                 Routes.NOVOPET: (ctx) => NovoPet(),
                 Routes.AUTH_HOME: (ctx) => AuthOrHome(),
-                // Routes.AUTH_HOME: (ctx) => ChooseLocation(),
+                // Routes.AUTH_HOME: (ctx) => AnnouncerDetails(),
                 Routes.SETTINGS: (ctx) => Settings(),
                 Routes.MEUS_PETS: (ctx) => Donate(),
                 Routes.FAVORITES: (ctx) => Favorites(),
                 Routes.REGISTER: (ctx) => Register(),
-                Routes.HOME: (ctx) => Home(),
-                Routes.MAPA: (ctx) => Mapa(),
+                Routes.HOME: (ctx) => Home(),                
                 Routes.NEW_MAP: (ctx) => NewMap(),
                 Routes.CHOOSE_LOCATION: (ctx) => ChooseLocation(),
                 Routes.PET_DETAILS: (ctx) => PetDetails(),
+                Routes.ANNOUNCER_DETAILS: (ctx) => AnnouncerDetails(),
               },
             ),
           );
