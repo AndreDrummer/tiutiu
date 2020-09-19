@@ -19,7 +19,6 @@ import 'package:tiutiu/providers/user_provider.dart';
 import 'package:tiutiu/utils/formatter.dart';
 import 'package:tiutiu/utils/launcher_functions.dart';
 import 'package:tiutiu/utils/routes.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class PetDetails extends StatefulWidget {
   @override
