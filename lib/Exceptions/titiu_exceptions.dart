@@ -12,7 +12,7 @@ class TiuTiuAuthException {
     'ERROR_WRONG_PASSWORD': 'Senha Incorreta!',
     'wrong-password': 'Senha Incorreta!',
     'ERROR_INVALID_EMAIL': 'E-mail Inválido!',
-    'ERROR_USER_NOT_FOUND': 'E-mail não encontrado!'
+    'user-not-found': 'E-mail não encontrado!'
   };
 
   @override
