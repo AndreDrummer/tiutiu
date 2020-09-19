@@ -11,4 +11,5 @@ class Routes {
   static const CHOOSE_LOCATION = '/choose-location';
   static const PET_DETAILS = '/pet-details';  
   static const NEW_MAP = '/new-map';
+  static const ANNOUNCER_DETAILS = '/announcer-details';
 }

@@ -39,7 +39,7 @@ class _ChooseLocationState extends State<ChooseLocation> {
               builder: (_, location, child) => ButtonWide(
                 rounded: false,
                 isToExpand: true,
-                text: 'CONTINUAR',
+                text: 'O PET ESTÁ AQUI',
                 action: location.location == null
                     ? null
                     : () {                      
