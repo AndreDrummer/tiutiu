@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
 
 class CircleChild extends StatelessWidget {
-  CircleChild({this.avatarRadius = 40, this.child});
+  CircleChild({
+    this.avatarRadius = 40,
+    this.child,
+    this.color = Colors.black,
+  });
 
   final double avatarRadius;
   final Widget child;
+  final Color color;
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +18,7 @@ class CircleChild extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(2.0),
         child: CircleAvatar(
-          backgroundColor: Colors.black,
+          backgroundColor: color,
           radius: avatarRadius,
           child: ClipOval(child: child),
         ),
