@@ -41,8 +41,11 @@ class FavoritesProvider with ChangeNotifier {
     print("HEY ${getFavoritesListReference.length}");
 
     for(int  i = 0; i < getFavoritesListReference.length; i++) {                  
-      petFavoritesList.add(Pet.fromSnapshot(await (getFavoritesListReference[i].data()['id'] as DocumentReference).get()));
-      petFavoritesID.add(Pet.fromSnapshot(await (getFavoritesListReference[i].data()['id'] as DocumentReference).get()).id);      
+      DocumentSnapshot pet = await (getFavoritesListReference[i].data()['id'] as DocumentReference).get();
+      if(pet.data() != null) {        
+        petFavoritesList.add(Pet.fromSnapshot(pet));
+        petFavoritesID.add(pet.id);      
+      }
     }
     
     changeFavoritesPETSList(petFavoritesList);

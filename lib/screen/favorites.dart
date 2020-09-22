@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:loading_animations/loading_animations.dart';
 import 'package:provider/provider.dart';
 import 'package:tiutiu/Widgets/background.dart';
 import 'package:tiutiu/Widgets/card_list.dart';
+import 'package:tiutiu/Widgets/loading_screen.dart';
 import 'package:tiutiu/providers/favorites_provider.dart';
 
 class Favorites extends StatefulWidget {
@@ -40,24 +40,7 @@ class _FavoritesState extends State<Favorites> {
                 stream: favoritesProvider.favoritesPETSList,
                 builder: (BuildContext context, AsyncSnapshot snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Center(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          LoadingBumpingLine.circle(
-                            backgroundColor: Colors.black,
-                          ),
-                          SizedBox(height: 15),
-                          Text(
-                            'Carregando favoritos',
-                            style: Theme.of(context)
-                                .textTheme
-                                .headline1
-                                .copyWith(color: Colors.black),
-                          )
-                        ],
-                      ),
-                    );
+                    return LoadingScreen(text: 'Carregando favoritos');
                   }
                   if (snapshot.data.isEmpty) {
                     return Center(
