@@ -7,37 +7,45 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class PetController {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
 
-  Future getPet(String userId, String kind) async {    
+  Future getPet(String userId, String kind) async {
     return await firestore
         .collection('Users')
         .doc(userId)
         .collection('Pets')
         .doc('posted')
-        .collection(kind)        
-        .get(); 
+        .collection(kind)
+        .get();
+  }
+
+  Future<Pet> getPetByReference(DocumentReference petRef) async {    
+    var pet = await petRef.get();      
+
+    print(pet.data()['id']);
+
+    return Pet.fromSnapshot(await pet.data()['id'].get());
   }
 
   Future<List<Pet>> getAllPets(String userId) async {
-    List<Pet> myPets = [];    
+    List<Pet> myPets = [];
 
     var postedPets = firestore
         .collection('Users')
         .doc(userId)
         .collection('Pets')
         .doc('posted');
-      
+
     var donates = await postedPets.collection('Donate').get();
     var disappeared = await postedPets.collection('Disappeared').get();
 
-    for(int i = 0; i <donates.docs.length; i++) {
+    for (int i = 0; i < donates.docs.length; i++) {
       myPets.add(Pet.fromSnapshot(donates.docs[i]));
-    } 
+    }
 
-    for(int i = 0; i <disappeared.docs.length; i++) {
+    for (int i = 0; i < disappeared.docs.length; i++) {
       myPets.add(Pet.fromSnapshot(disappeared.docs[i]));
     }
 
-    return myPets;    
+    return myPets;
   }
 
   Future<void> insertPet(Pet pet, String petKind, Authentication auth) async {
@@ -63,25 +71,27 @@ class PetController {
     int userPosition, {
     bool isAdopt = false,
   }) async {
-
     var petRef = await petReference.get();
 
     List lista = [];
 
-    if(petRef.data()['${isAdopt ? 'adoptInteresteds' : 'infoInteresteds'}'] != null) {
-      lista = petRef.data()['${isAdopt ? 'adoptInteresteds' : 'infoInteresteds'}'];
+    if (petRef.data()['${isAdopt ? 'adoptInteresteds' : 'infoInteresteds'}'] !=
+        null) {
+      lista =
+          petRef.data()['${isAdopt ? 'adoptInteresteds' : 'infoInteresteds'}'];
     }
-
-
 
     await petReference.set(
       {
-          '${isAdopt ? 'adoptInteresteds' : 'infoInteresteds'}': [...lista, {
-          'userReference': userReference,
-          'userLat': userLocation.latitude,
-          'userLog': userLocation.longitude,
-          'position': userPosition
-        }]
+        '${isAdopt ? 'adoptInteresteds' : 'infoInteresteds'}': [
+          ...lista,
+          {
+            'userReference': userReference,
+            'userLat': userLocation.latitude,
+            'userLog': userLocation.longitude,
+            'position': userPosition
+          }
+        ]
       },
       SetOptions(merge: true),
     );

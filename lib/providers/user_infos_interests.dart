@@ -9,7 +9,8 @@ class UserInfoOrAdoptInterestsProvider with ChangeNotifier {
   Stream<List<String>> get adoptInterest => _adoptInterest.stream;
   Stream<List<String>> get infos => _infos.stream;
 
-  void Function(List<String>) get changeAdoptInterest => _adoptInterest.sink.add;
+  void Function(List<String>) get changeAdoptInterest =>
+      _adoptInterest.sink.add;
   void Function(List<String>) get changeInfos => _infos.sink.add;
 
   List<String> get getAdoptInterest => _adoptInterest.value;
@@ -38,15 +39,17 @@ class UserInfoOrAdoptInterestsProvider with ChangeNotifier {
     changeAdoptInterest([]);
     final pet = await petRef.get();
 
-    List interestedList = pet.data()['adoptInteresteds'];
+    if (pet.data()['adoptInteresteds']) {
+      List interestedList = pet.data()['adoptInteresteds'];
 
-    if (interestedList != null) {
-      for (int i = 0; i < interestedList.length; i++) {
-        String userRefId =
-            await consultReference(interestedList[i]['userReference']);
-        if (userRefId == userId) {
-          print(userRefId);
-          insertAdoptInterest(pet.id);
+      if (interestedList != null) {
+        for (int i = 0; i < interestedList.length; i++) {
+          String userRefId =
+              await consultReference(interestedList[i]['userReference']);
+          if (userRefId == userId) {
+            print(userRefId);
+            insertAdoptInterest(pet.id);
+          }
         }
       }
     }
