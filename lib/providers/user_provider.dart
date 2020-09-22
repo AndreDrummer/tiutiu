@@ -81,12 +81,7 @@ class UserProvider with ChangeNotifier {
   void changeUserReference(DocumentReference userReference) {
     _userReference = userReference;
     notifyListeners();
-  }
-
-  Future<bool> thisPetIsMine(DocumentReference userRef) async {
-    final user = await userRef.get();    
-    return user.data()['uid'] == uid;
-  }
+  } 
 
   File get photoFILE => _photoFILE;
   String get telefone => _telefone;
