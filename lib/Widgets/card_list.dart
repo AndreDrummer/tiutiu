@@ -3,9 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:loading_animations/loading_animations.dart';
 import 'package:provider/provider.dart';
 import 'package:tiutiu/backend/Controller/user_controller.dart';
+import 'package:tiutiu/backend/Model/pet_model.dart';
+import 'package:tiutiu/backend/Model/user_model.dart';
 import 'package:tiutiu/providers/auth2.dart';
 import 'package:tiutiu/providers/favorites_provider.dart';
 import 'package:tiutiu/providers/location.dart' as provider_location;
+import 'package:tiutiu/screen/pet_detail.dart';
 import 'package:tiutiu/utils/math_functions.dart';
 import 'package:tiutiu/utils/routes.dart';
 
@@ -18,7 +21,7 @@ class CardList extends StatefulWidget {
     this.favorite = false,
   });
 
-  final petInfo;
+  final Pet petInfo;
   final String kind;
   final bool donate;
   bool favorite;
@@ -28,9 +31,15 @@ class CardList extends StatefulWidget {
 }
 
 class _CardListState extends State<CardList> {
-  Future loadOwner(DocumentReference doc) async {
+  Future loadOwner(DocumentReference doc, {Authentication auth}) async {
     final owner = await doc.get();
-    return Future.value(owner.data()['displayName']);
+    if (auth != null) {
+      if (auth.firebaseUser.uid == owner.data()['uid']) {
+        Map map = {'displayName': 'Você'};
+        return Future.value(map);
+      }
+    }
+    return Future.value(owner.data());
   }
 
   String distanceCalculate(double petLatitude, double petLongitude) {
@@ -70,11 +79,21 @@ class _CardListState extends State<CardList> {
     FavoritesProvider favoritesProvider = Provider.of(context);
 
     return InkWell(
-      onTap: () {
-        Navigator.pushNamed(context, Routes.PET_DETAILS, arguments: {
-          'petInfo': widget.petInfo,
-          'kind': widget.kind.toUpperCase()
-        });
+      onTap: () async {
+        final user = await loadOwner(widget.petInfo.toMap()['ownerReference']);
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) {
+              return PetDetails(
+                petOwner: User.fromMap(user),
+                isMine: User.fromMap(user).id == auth.firebaseUser.uid,
+                pet: widget.petInfo,
+                kind: widget.petInfo.kind.toUpperCase(),
+              );
+            },
+          ),
+        );
       },
       child: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -135,14 +154,15 @@ class _CardListState extends State<CardList> {
                         SizedBox(height: 20),
                         FutureBuilder(
                             future: loadOwner(
-                                widget.petInfo.toMap()['ownerReference']),
+                                widget.petInfo.toMap()['ownerReference'],
+                                auth: auth),
                             builder: (context, snapshot) {
                               if (snapshot.connectionState ==
                                   ConnectionState.waiting) {
                                 return LoadingBumpingLine.circle(size: 20);
                               }
                               return Text(
-                                '${snapshot.data} está ${widget.kind.toUpperCase() == 'DONATE' ? 'doando' : 'procurando'}.',
+                                '${snapshot.data['displayName']} está ${widget.kind.toUpperCase() == 'DONATE' ? 'doando' : 'procurando'}.',
                                 style: Theme.of(context)
                                     .textTheme
                                     .headline1
