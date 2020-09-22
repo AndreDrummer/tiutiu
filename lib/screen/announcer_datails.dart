@@ -9,6 +9,9 @@ import 'package:tiutiu/backend/Controller/pet_controller.dart';
 import 'package:tiutiu/utils/launcher_functions.dart';
 
 class AnnouncerDetails extends StatefulWidget {
+  AnnouncerDetails(this.user);
+  final user;
+
   @override
   _AnnouncerDetailsState createState() => _AnnouncerDetailsState();
 }
@@ -17,16 +20,23 @@ class _AnnouncerDetailsState extends State<AnnouncerDetails> {
   int userTotalDonated = 0;
   int userTotalAdopted = 0;
   int userTotalDisap = 0;
+  var user;
 
   void calculateTotals(user) async {
     PetController petController = PetController();
     QuerySnapshot donates = await petController.getPet(user['uid'], 'Donate');
     QuerySnapshot disap = await petController.getPet(user['uid'], 'Disappeared');
 
-    userTotalDisap = disap.docs.length;
-    userTotalDonated = donates.docs.length;
+    setState(() {
+      userTotalDisap = disap.docs.length;
+      userTotalDonated = donates.docs.length;
+    });  
+  }
 
-    print(donates.docs);
+  @override
+  void initState() {    
+    calculateTotals(widget.user);
+    super.initState();
   }
 
   @override
@@ -34,13 +44,9 @@ class _AnnouncerDetailsState extends State<AnnouncerDetails> {
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
 
-    final user =
-        ModalRoute.of(context).settings.arguments as Map<String, dynamic>;
-    final userWhatsapp = user['phoneNumber'] ?? null;
-    final userLandline = user['landline'] ?? null;
-    final userEmail = user['email'] ?? null;
-
-    calculateTotals(user);
+    final userWhatsapp = widget.user['phoneNumber'] ?? null;
+    final userLandline = widget.user['landline'] ?? null;
+    final userEmail = widget.user['email'] ?? null;    
 
     void callWhatsapp() {
       FlutterOpenWhatsapp.sendSingleMessage('+55$userWhatsapp', 'Olá!');
@@ -66,16 +72,16 @@ class _AnnouncerDetailsState extends State<AnnouncerDetails> {
                   height: height / 2,
                   child: FadeInImage(
                     placeholder: AssetImage('assets/fundo.jpg'),
-                    image: NetworkImage(
-                      user['photoBACK'] ?? '',
-                    ),
+                    image: widget.user['photoBACK'] != null ? NetworkImage(
+                      widget.user['photoBACK'],
+                    ) : AssetImage('assets/fundo.jpg'),
                     fit: BoxFit.cover,
                     width: 1000,
                     height: 100,
                   ),
                 ),
                 SizedBox(height: 80),
-                CustomDivider(text: "${user['displayName']}"),
+                CustomDivider(text: "${widget.user['displayName']}"),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Row(
@@ -205,7 +211,7 @@ class _AnnouncerDetailsState extends State<AnnouncerDetails> {
                 child: FadeInImage(
                   placeholder: AssetImage('assets/profileEmpty.png'),
                   image: NetworkImage(
-                    user['photoURL'],
+                    widget.user['photoURL'],
                   ),
                   fit: BoxFit.cover,
                   width: 1000,
