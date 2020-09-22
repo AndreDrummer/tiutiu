@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:tiutiu/Widgets/background.dart';
 import 'package:tiutiu/Widgets/loading_screen.dart';
 import 'package:tiutiu/backend/Controller/pet_controller.dart';
 import 'package:tiutiu/backend/Model/pet_model.dart';
@@ -24,7 +25,7 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
   void delete(DocumentReference petRef) {
     petController.deletePet(petRef);
     userProvider.loadMyPets();
-    userProvider.calculateTotals();
+    userProvider.calculateTotals();    
   }
 
   @override
@@ -49,125 +50,147 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
       ),
       body: RefreshIndicator(
         onRefresh: () => userProvider.loadMyPets(),
-        child: StreamBuilder<List<Pet>>(
-          stream: userProvider.myPets,
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return LoadingScreen(text: 'Carregando meus pets');
-            }
-            return ListView.builder(
-              itemCount: snapshot.data.length,
-              itemBuilder: (_, index) {
-                return Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Card(
-                    elevation: 4.0,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
+        child: Stack(
+          children: [
+            Background(),
+            StreamBuilder<List<Pet>>(
+              stream: userProvider.myPets,
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return LoadingScreen(text: 'Carregando meus pets');
+                }
+                if (snapshot.data.isEmpty) {
+                  return Center(
+                    child: Text(
+                      'Nenhum PET',
+                      textAlign: TextAlign.center,
+                      style: Theme.of(context).textTheme.headline1.copyWith(
+                            color: Colors.black,
+                            fontWeight: FontWeight.w100,
+                          ),
                     ),
-                    child: Column(
-                      children: [
-                        Stack(
+                  );
+                }
+                return ListView.builder(
+                  itemCount: snapshot.data.length,
+                  itemBuilder: (_, index) {
+                    return Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Card(
+                        elevation: 4.0,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Column(
                           children: [
-                            Container(
-                              height: height / 3.5,
-                              width: double.infinity,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(12),
-                              ),
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(12),
-                                    topRight: Radius.circular(12)),
-                                child: Image.network(
-                                    snapshot.data[index].avatar,
-                                    fit: BoxFit.fill),
-                              ),
+                            Stack(
+                              children: [
+                                Container(
+                                  height: height / 3.5,
+                                  width: double.infinity,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.only(
+                                        topLeft: Radius.circular(12),
+                                        topRight: Radius.circular(12)),
+                                    child: FadeInImage(
+                                      placeholder: AssetImage('assets/fadeIn.jpg'),
+                                      image:
+                                          NetworkImage(snapshot.data[index].avatar),
+                                      height: 1000,
+                                      width: 1000,
+                                      fit: BoxFit.fitWidth,
+                                    ),
+                                  ),
+                                ),
+                                Positioned(
+                                  top: 20,
+                                  right: 5,
+                                  child: _lablePetKind(snapshot.data[index].kind),
+                                )
+                              ],
                             ),
-                            Positioned(
-                              top: 20,
-                              right: 5,
-                              child: _lablePetKind(snapshot.data[index].kind),
+                            Divider(),
+                            Row(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 24.0, horizontal: 15),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        snapshot.data[index].name,
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .headline1
+                                            .copyWith(
+                                              fontSize: 22,
+                                              color: Colors.black,
+                                              fontWeight: FontWeight.w700,
+                                            ),
+                                      ),
+                                      SizedBox(height: 10),
+                                      Text(
+                                        snapshot.data[index].breed,
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .headline1
+                                            .copyWith(
+                                              fontSize: 16,
+                                              color: Colors.grey,
+                                              fontWeight: FontWeight.w300,
+                                            ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Spacer(),
+                                Expanded(
+                                  child: Row(
+                                    children: [
+                                      Container(
+                                        margin: const EdgeInsets.all(4.0),
+                                        decoration: BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            color: Colors.amber),
+                                        child: IconButton(
+                                          icon: Icon(Icons.mode_edit),
+                                          onPressed: () {},
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                      Container(
+                                        margin: const EdgeInsets.all(4.0),
+                                        decoration: BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            color: Colors.red),
+                                        child: IconButton(
+                                          icon: Icon(Icons.delete),
+                                          onPressed: () {
+                                            delete(
+                                              snapshot.data[index].petReference,
+                                            );
+                                          },
+                                          color: Colors.white,
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                )
+                              ],
                             )
                           ],
                         ),
-                        Divider(),
-                        Row(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 24.0, horizontal: 15),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    snapshot.data[index].name,
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .headline1
-                                        .copyWith(
-                                          fontSize: 22,
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.w700,
-                                        ),
-                                  ),
-                                  SizedBox(height: 10),
-                                  Text(
-                                    snapshot.data[index].breed,
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .headline1
-                                        .copyWith(
-                                          fontSize: 16,
-                                          color: Colors.grey,
-                                          fontWeight: FontWeight.w300,
-                                        ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Spacer(),
-                            Expanded(
-                              child: Row(
-                                children: [
-                                  Container(
-                                    margin: const EdgeInsets.all(4.0),
-                                    decoration: BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        color: Colors.amber),
-                                    child: IconButton(
-                                      icon: Icon(Icons.mode_edit),
-                                      onPressed: () {},
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                  Container(
-                                    margin: const EdgeInsets.all(4.0),
-                                    decoration: BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        color: Colors.red),
-                                    child: IconButton(
-                                      icon: Icon(Icons.delete),
-                                      onPressed: () {
-                                        delete(
-                                          snapshot.data[index].petReference,
-                                        );
-                                      },
-                                      color: Colors.white,
-                                    ),
-                                  )
-                                ],
-                              ),
-                            )
-                          ],
-                        )
-                      ],
-                    ),
-                  ),
+                      ),
+                    );
+                  },
                 );
               },
-            );
-          },
+            ),
+          ],
         ),
       ),
     );

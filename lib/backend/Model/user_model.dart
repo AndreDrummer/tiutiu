@@ -4,66 +4,73 @@ class User {
   User({
     this.id,
     this.name,
-    this.avatar,
+    this.photoURL,
     this.email,
     this.password,
-    this.whatsapp,
-    this.adopted,
-    this.donated,
-    this.phone,
-    this.disappeared
+    this.landline,        
+    this.phoneNumber,    
   });
   
   User.fromSnapshot(DocumentSnapshot snapshot) {
-    id = snapshot.data()['id'];
-    name = snapshot.data()['name'];
-    avatar = snapshot.data()['avatar'];
-    adopted = snapshot.data()['adopted: '];
-    donated = snapshot.data()['donated'];
+    id = snapshot.data()['uid'];
+    betterContact = snapshot.data()['betterContact'];
+    name = snapshot.data()['displayName'];
+    photoURL = snapshot.data()['photoURL'];        
+    photoBACK = snapshot.data()['photoBACK'];        
     email = snapshot.data()['email'];
     password = snapshot.data()['password'];
-    phone = snapshot.data()['phone'];
-    whatsapp = snapshot.data()['whatsapp'];
+    phoneNumber = snapshot.data()['phoneNumber'];
+    landline = snapshot.data()['landline'];
+  }
+  
+  User.fromMap(Map<String, dynamic> map) {
+    id = map['uid'];
+    betterContact = map['betterContact'];
+    name = map['displayName'];
+    photoURL = map['photoURL'];        
+    photoBACK = map['photoBACK'];        
+    email = map['email'];
+    password = map['password'];
+    phoneNumber = map['phoneNumber'];
+    landline = map['landline'];
   }
 
   String id;
+  int betterContact;
   String name;
-  String avatar;
+  String photoURL;
+  String photoBACK;
   String email;
   String password;
-  String whatsapp;
-  String phone;
-  int adopted;
-  int donated;
-  int disappeared;
+  String landline;
+  String phoneNumber;      
 
 
   Map<String, dynamic> toJson() {
     return {
+      'betterContact': betterContact,      
       'id': id,
       'name': name,
-      'avatar': avatar,
+      'photoURL': photoURL,
+      'photoBACK': photoBACK,
       'email': email,
       'password': password,
-      'whatsapp': whatsapp,
-      'phone': phone,
-      'adopted': adopted,
-      'donated': donated,
+      'landline': landline,
+      'phoneNumber': phoneNumber,            
     };
   }
 
   Map<String, Object> toMap() {
     var userMap = {};
+    userMap['betterContact'] = betterContact;
     userMap['id'] = id;
     userMap['name'] = name;
-    userMap['avatar'] = avatar;
+    userMap['photoURL'] = photoURL;
+    userMap['photoBACK'] = photoBACK;
     userMap['email'] = email;
     userMap['password'] = password;
-    userMap['whatsapp'] = whatsapp;
-    userMap['phone'] = phone;
-    userMap['adopted'] = adopted;
-    userMap['donated'] = donated;
-
+    userMap['landline'] = landline;
+    userMap['phoneNumber'] = phoneNumber;        
     return userMap;
   }
 
