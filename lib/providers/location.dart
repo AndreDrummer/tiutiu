@@ -9,14 +9,16 @@ class Location with ChangeNotifier {
 
   Future<void> setLocation({LatLng currentLocation}) async {
       var position;
+      
     if(currentLocation == null) {    
       position = await getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
       _location = LatLng(position.latitude, position.longitude);
     } else {
       _location = currentLocation;
     } 
-    print(position);
+     
     notifyListeners();
+    return Future.value();
   }
 
 

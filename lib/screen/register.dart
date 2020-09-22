@@ -201,8 +201,7 @@ class _RegisterState extends State<Register> {
         .ref()
         .child('${auth.firebaseUser.uid}')
         .child('avatar/foto_perfil');
-
-    storageReference.delete();
+    
     uploadTask = storageReference.putFile(userProfile['photoFile']);
 
     await uploadTask.onComplete;
