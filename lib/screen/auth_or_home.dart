@@ -58,12 +58,10 @@ class AuthOrHome extends StatelessWidget {
           return FutureBuilder(
             future: local.location == null ? local.setLocation() : Future.value(),
             builder: (_, AsyncSnapshot snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                print('Loading...');
+              if (snapshot.connectionState == ConnectionState.waiting) {                
                 return LoadingPage();
               }
-              if (auth.firebaseUser != null) {
-                print('USUÁRIO EXISTE ${auth.firebaseUser.uid} ${auth.isRegistered}');
+              if (auth.firebaseUser != null) {                
                 return auth.isRegistered ? Home() : Register();
               }
               return AuthScreen();
