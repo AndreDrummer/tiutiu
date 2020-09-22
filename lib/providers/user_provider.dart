@@ -84,8 +84,7 @@ class UserProvider with ChangeNotifier {
   }
 
   Future<bool> thisPetIsMine(DocumentReference userRef) async {
-    final user = await userRef.get();
-    print("${user.data()['uid']} $uid");
+    final user = await userRef.get();    
     return user.data()['uid'] == uid;
   }
 
@@ -109,8 +108,7 @@ class UserProvider with ChangeNotifier {
 
   Future<void> loadMyPets() async {
     PetController petController = PetController();
-    changePets(await petController.getAllPets(uid));
-    print(getMyPets);
+    changePets(await petController.getAllPets(uid));    
   }
 
 }

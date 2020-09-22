@@ -16,8 +16,7 @@ class Location with ChangeNotifier {
     } else {
       _location = currentLocation;
     } 
-
-    print("Localização atual $position");    
+     
     notifyListeners();
     return Future.value();
   }
