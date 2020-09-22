@@ -192,28 +192,33 @@ class _SettingsState extends State<Settings> {
         _telefoneController.text.contains('-') &&
         regExp.hasMatch(_telefoneController.text.split('-')[1]);
 
-    if (userProvider.getBetterContact == 0 && !validWhatsapp) {
-      setState(() {
-        whatsappHasError = true;
-        _whatsAppController.text =
-            'Quando este é o seu melhor contato, deve ser preenchido!';
-      });
-      return false;
+    if (userProvider.getBetterContact == 0) {
+      if (!validWhatsapp) {
+        setState(() {
+          whatsappHasError = true;
+          _whatsAppController.text =
+              'Quando este é o seu melhor contato, deve ser preenchido!';
+        });
+        return false;
+      }
     }
 
-    if (userProvider.getBetterContact == 1 && !validTelefone) {
-      setState(() {
-        telefoneHasError = true;
-        _telefoneController.text =
-            'Quando este é o seu melhor contato, deve ser preenchido!';
-      });
-      return false;
+    if (userProvider.getBetterContact == 1) {
+      if (!validTelefone) {
+        setState(() {
+          telefoneHasError = true;
+          _telefoneController.text =
+              'Quando este é o seu melhor contato, deve ser preenchido!';
+        });
+        return false;
+      }
     }
 
     if (_telefoneController.text.isNotEmpty) {
       if (!_telefoneController.text.contains('-'))
         setState(() {
           telefoneHasError = true;
+          _telefoneController.text = 'Insira um número válido ou deixe vazio';
         });
       return _telefoneController.text.contains('-');
     }
@@ -222,6 +227,7 @@ class _SettingsState extends State<Settings> {
       if (!_whatsAppController.text.contains('-'))
         setState(() {
           whatsappHasError = true;
+          _whatsAppController.text = 'Insira um número válido ou deixe vazio';
         });
       return _whatsAppController.text.contains('-');
     }
@@ -402,8 +408,7 @@ class _SettingsState extends State<Settings> {
                           child: Opacity(
                             child: userProfile['photoFileBack'] == null
                                 ? FadeInImage(
-                                    placeholder:
-                                        AssetImage('assets/fundo.jpg'),
+                                    placeholder: AssetImage('assets/fundo.jpg'),
                                     image: NetworkImage(
                                       userProvider.photoBACK ?? '',
                                     ),
@@ -462,7 +467,7 @@ class _SettingsState extends State<Settings> {
                         ),
                       )
                     ],
-                  ),                   
+                  ),
                   Container(
                     height: MediaQuery.of(context).size.height / 3,
                     child: Form(
@@ -482,8 +487,8 @@ class _SettingsState extends State<Settings> {
                                   : Icon(Icons.mode_edit),
                               onPressed: () {
                                 if (isNameEditing) {
-                                  userProvider.changeDisplayName(
-                                      _nameController.text);
+                                  userProvider
+                                      .changeDisplayName(_nameController.text);
                                   changeFieldEditingState(
                                       false, 'isNameEditing');
                                 } else {
@@ -517,8 +522,8 @@ class _SettingsState extends State<Settings> {
                                   : Icon(Icons.mode_edit),
                               onPressed: () {
                                 if (isWhatsAppEditing) {
-                                  userProvider.changeWhatsapp(
-                                      _whatsAppController.text);
+                                  userProvider
+                                      .changeWhatsapp(_whatsAppController.text);
                                   if (_personalDataFormKey.currentState
                                       .validate()) {
                                     changeFieldEditingState(
@@ -557,8 +562,8 @@ class _SettingsState extends State<Settings> {
                                   : Icon(Icons.mode_edit),
                               onPressed: () {
                                 if (isTelefoneEditing) {
-                                  userProvider.changeTelefone(
-                                      _telefoneController.text);
+                                  userProvider
+                                      .changeTelefone(_telefoneController.text);
                                   if (_personalDataFormKey.currentState
                                       .validate()) {
                                     changeFieldEditingState(
@@ -584,8 +589,7 @@ class _SettingsState extends State<Settings> {
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
                                   Radio(
-                                    activeColor:
-                                        Theme.of(context).primaryColor,
+                                    activeColor: Theme.of(context).primaryColor,
                                     groupValue: snapshot.data,
                                     value: 0,
                                     onChanged: (value) {
@@ -690,7 +694,7 @@ class _SettingsState extends State<Settings> {
           action: save,
           isToExpand: true,
           rounded: false,
-          text: 'Salvar',
+          text: 'SALVAR',
         ),
       ),
     );
