@@ -11,12 +11,11 @@ import 'package:tiutiu/providers/pets_provider.dart';
 import 'package:tiutiu/providers/show_bottom.dart';
 import 'package:tiutiu/providers/user_infos_interests.dart';
 import 'package:tiutiu/providers/user_provider.dart';
-import 'package:tiutiu/screen/announcer_datails.dart';
 import 'package:tiutiu/screen/choose_location.dart';
-import 'package:tiutiu/screen/donates.dart';
 import 'package:tiutiu/screen/auth_or_home.dart';
 import 'package:tiutiu/screen/favorites.dart';
 import 'package:tiutiu/screen/home.dart';
+import 'package:tiutiu/screen/my_pets.dart';
 import 'package:tiutiu/screen/new_pet.dart';
 import 'package:tiutiu/screen/pet_detail.dart';
 import 'package:tiutiu/screen/register.dart';
@@ -103,14 +102,13 @@ class App extends StatelessWidget {
                 Routes.AUTH_HOME: (ctx) => AuthOrHome(),
                 // Routes.AUTH_HOME: (ctx) => AnnouncerDetails(),
                 Routes.SETTINGS: (ctx) => Settings(),
-                Routes.MEUS_PETS: (ctx) => Donate(),
+                Routes.MEUS_PETS: (ctx) => MyPetsScreen(),
                 Routes.FAVORITES: (ctx) => Favorites(),
                 Routes.REGISTER: (ctx) => Register(),
                 Routes.HOME: (ctx) => Home(),                
                 Routes.NEW_MAP: (ctx) => NewMap(),
                 Routes.CHOOSE_LOCATION: (ctx) => ChooseLocation(),
-                Routes.PET_DETAILS: (ctx) => PetDetails(),
-                Routes.ANNOUNCER_DETAILS: (ctx) => AnnouncerDetails(),
+                Routes.PET_DETAILS: (ctx) => PetDetails(),                
               },
             ),
           );

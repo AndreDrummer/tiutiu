@@ -18,25 +18,26 @@ class PetController {
   }
 
   Future<List<Pet>> getAllPets(String userId) async {
-    var pets = [];
-    await firestore
+    List<Pet> myPets = [];    
+
+    var postedPets = firestore
         .collection('Users')
         .doc(userId)
         .collection('Pets')
-        .get()
-        .then(
-          (value) => {
-            if (value.docs.isNotEmpty)
-              {
-                value.docs.forEach(
-                  (element) {
-                    pets.add(Pet.fromSnapshot(element).toJson());
-                  },
-                )
-              }
-          },
-        );
-    return pets;
+        .doc('posted');
+      
+    var donates = await postedPets.collection('Donate').get();
+    var disappeared = await postedPets.collection('Disappeared').get();
+
+    for(int i = 0; i <donates.docs.length; i++) {
+      myPets.add(Pet.fromSnapshot(donates.docs[i]));
+    } 
+
+    for(int i = 0; i <disappeared.docs.length; i++) {
+      myPets.add(Pet.fromSnapshot(disappeared.docs[i]));
+    }
+
+    return myPets;    
   }
 
   Future<void> insertPet(Pet pet, String petKind, Authentication auth) async {
@@ -100,12 +101,7 @@ class PetController {
     );
   }
 
-  Future<void> deletePet(String userId, String petId) async {
-    await firestore
-        .collection('Users')
-        .doc(userId)
-        .collection('Pets')
-        .doc(petId)
-        .delete();
+  Future<void> deletePet(DocumentReference petRef) async {
+    await petRef.delete();
   }
 }
