@@ -21,11 +21,12 @@ class _AnnouncerDetailsState extends State<AnnouncerDetails> {
   void calculateTotals(user) async {
     PetController petController = PetController();
     QuerySnapshot donates = await petController.getPet(user['uid'], 'Donate');
-    QuerySnapshot disap =
-        await petController.getPet(user['uid'], 'Disappeared');
+    QuerySnapshot disap = await petController.getPet(user['uid'], 'Disappeared');
 
     userTotalDisap = disap.docs.length;
     userTotalDonated = donates.docs.length;
+
+    print(donates.docs);
   }
 
   @override
@@ -85,7 +86,7 @@ class _AnnouncerDetailsState extends State<AnnouncerDetails> {
                           CircleChild(
                             avatarRadius: 25,
                             child: Text(
-                              '3',
+                              '$userTotalDonated',
                               style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 20,

@@ -7,6 +7,7 @@ import 'package:tiutiu/Widgets/button.dart';
 import 'package:tiutiu/Widgets/card_details.dart';
 import 'package:tiutiu/Widgets/divider.dart';
 import 'package:tiutiu/Widgets/dots_indicator.dart';
+import 'package:tiutiu/Widgets/loading_screen.dart';
 import 'package:tiutiu/backend/Controller/pet_controller.dart';
 import 'package:tiutiu/backend/Controller/user_controller.dart';
 import 'package:tiutiu/backend/Model/pet_model.dart';
@@ -33,7 +34,8 @@ class _PetDetailsState extends State<PetDetails> {
   Location userLocation;
   UserInfoOrAdoptInterestsProvider userInfosAdopts;
   Authentication auth;
-  UserProvider userProvider;
+  UserProvider userProvider;     
+  bool isMine = false;
 
   Future<Map<String, dynamic>> loadOwnerInfo(Pet pet) async {
     final user = await pet.ownerReference.get();
@@ -56,11 +58,13 @@ class _PetDetailsState extends State<PetDetails> {
 
     List ownerDetails = [
       {
+        'uid': user.data()['uid'],
         'text': user.data()['displayName'] ?? '',
         'launchIcon': Icons.remove_red_eye,
         'imageN': user.data()['photoURL'] ?? '',
         'callback': () {
-          Navigator.pushNamed(context, Routes.ANNOUNCER_DETAILS, arguments: user.data());
+          Navigator.pushNamed(context, Routes.ANNOUNCER_DETAILS,
+              arguments: user.data());
         },
       },
       {
@@ -76,18 +80,22 @@ class _PetDetailsState extends State<PetDetails> {
             ? Theme.of(context).primaryColor
             : user.data()['betterContact'] == 1 ? Colors.orange : Colors.red,
         'callback': () {
-          String serializedNumber = Formatter.unmaskNumber(user.data()['phoneNumber']);
-         
+          String serializedNumber =
+              Formatter.unmaskNumber(user.data()['phoneNumber']);
+
           if (user.data()['betterContact'] == 0) {
-            FlutterOpenWhatsapp.sendSingleMessage('+55$serializedNumber', 'Olá! Tenho interesse e gostaria de saber mais detalhes sobre o PET *${pet.name}* que postou no app *_Tiu, Tiu_*.');
+            FlutterOpenWhatsapp.sendSingleMessage('+55$serializedNumber',
+                'Olá! Tenho interesse e gostaria de saber mais detalhes sobre o PET *${pet.name}* que postou no app *_Tiu, Tiu_*.');
           } else if (user.data()['betterContact'] == 1) {
-            String serializedNumber =Formatter.unmaskNumber(user.data()['landline']);                
+            String serializedNumber =
+                Formatter.unmaskNumber(user.data()['landline']);
             Launcher.makePhoneCall('tel: $serializedNumber');
           } else {
             Launcher.sendEmail(
               emailAddress: user.data()['email'],
               subject: 'Tenho interesse no PET ${pet.name}',
-              message: 'Olá! Tenho interesse e gostaria de saber mais detalhes sobre o PET ${pet.name} que postou no app Tiu, Tiu.',
+              message:
+                  'Olá! Tenho interesse e gostaria de saber mais detalhes sobre o PET ${pet.name} que postou no app Tiu, Tiu.',
             );
           }
         }
@@ -105,7 +113,7 @@ class _PetDetailsState extends State<PetDetails> {
         }
       },
     ];
-
+    
     final result = {'petDetails': petDetails, 'ownerDetails': ownerDetails};
 
     return Future.value(result);
@@ -116,19 +124,19 @@ class _PetDetailsState extends State<PetDetails> {
     Map<String, dynamic> arguments = ModalRoute.of(context).settings.arguments;
     Pet pet = arguments['petInfo'];
     super.didChangeDependencies();
-     userLocation = Provider.of<Location>(context, listen: false);
-     auth = Provider.of<Authentication>(context, listen: false);
-     userProvider = Provider.of<UserProvider>(context, listen: false);
-     userInfosAdopts = Provider.of<UserInfoOrAdoptInterestsProvider>(context, listen: false);
-     userInfosAdopts.checkInfo(pet.petReference, auth.firebaseUser.uid);
-     userInfosAdopts.checkInterested(pet.petReference, auth.firebaseUser.uid);
+    userLocation = Provider.of<Location>(context, listen: false);
+    auth = Provider.of<Authentication>(context, listen: false);
+    userProvider = Provider.of<UserProvider>(context, listen: false);    
+    userInfosAdopts = Provider.of<UserInfoOrAdoptInterestsProvider>(context, listen: false);
+    userInfosAdopts.checkInfo(pet.petReference, auth.firebaseUser.uid);
+    userInfosAdopts.checkInterested(pet.petReference, auth.firebaseUser.uid);
+    userProvider.thisPetIsMine(pet.ownerReference).then((value) => isMine = value);
   }
 
   @override
   void initState() {
     super.initState();
-    Provider.of<FavoritesProvider>(context, listen: false)
-        .loadFavoritesReference();
+    Provider.of<FavoritesProvider>(context, listen: false).loadFavoritesReference();
   }
 
   @override
@@ -136,7 +144,7 @@ class _PetDetailsState extends State<PetDetails> {
     Map<String, dynamic> arguments = ModalRoute.of(context).settings.arguments;
 
     Pet pet = arguments['petInfo'];
-    String kind = arguments['kind'];
+    String kind = arguments['kind'];    
 
     return Scaffold(
       key: _scaffoldKey,
@@ -155,21 +163,7 @@ class _PetDetailsState extends State<PetDetails> {
           future: loadOwnerInfo(arguments['petInfo']),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    LoadingBumpingLine.circle(
-                      backgroundColor: Colors.black,
-                    ),
-                    SizedBox(height: 15),
-                    Text(
-                      'Carregando informações',
-                      style: Theme.of(context).textTheme.headline1.copyWith(color: Colors.black),
-                    )
-                  ],
-                ),
-              );
+              return LoadingScreen(text: 'Carregando informações');
             }
             return Stack(
               children: [
@@ -287,85 +281,110 @@ class _PetDetailsState extends State<PetDetails> {
                     ],
                   ),
                 ),
-                Positioned(
-                  bottom: 18.0,
-                  left: kind == 'DONATE'
-                      ? 20.0
-                      : MediaQuery.of(context).size.width * 0.17,
-                  child: ButtonWide(
-                    text:
-                        kind == 'DONATE' ? 'QUERO ADOTAR' : 'VI ELE AQUI PERTO',
-                    color: kind == 'DONATE'
-                        ? Colors.red
-                        : Theme.of(context).primaryColor,
-                    action: () async {                      
-                      final petRef = await pet.petReference.get();
-                      final userLocal = userLocation.location;
+                !isMine
+                    ? Positioned(
+                        bottom: 18.0,
+                        left: kind == 'DONATE'
+                            ? 20.0
+                            : MediaQuery.of(context).size.width * 0.17,
+                        child: ButtonWide(
+                          text: kind == 'DONATE'
+                              ? 'QUERO ADOTAR'
+                              : 'VI ELE AQUI PERTO',
+                          color: kind == 'DONATE'
+                              ? Colors.red
+                              : Theme.of(context).primaryColor,
+                          action: () async {
+                            final petRef = await pet.petReference.get();
+                            final userLocal = userLocation.location;
 
-                      int userPosition = 1;
-                      bool canSend = true;
-                      String messageTextSnackBar;
-                      if (kind == 'DONATE') {
-                        if (userInfosAdopts.getAdoptInterest.contains(pet.id)) {
-                        setState(() {
-                            canSend = false;
-                          });
-                          messageTextSnackBar = '${snapshot.data['ownerDetails'][0]['text']} já sabe sobre seu interesse. Aguarde retorno.';
-                        } else {
-                          if (petRef.data()['adoptInteresteds'] != null) {
-                            userPosition = petRef.data()['adoptInteresteds'].length + 1;
-                          }
-                          messageTextSnackBar = 'Você é o $userPositionº interessado no ${pet.name}. Te avisaremos caso o dono aceite seu pedido de adoção!';
-                        }
-                      } else {
-                        if (userInfosAdopts.getInfos.contains(pet.id)) {
-                        setState(() {
-                            canSend = false;
-                          });
-                          messageTextSnackBar = 'Você já passou informação sobre este PET.';
-                        } else {
-                          if (petRef.data()['infoInteresteds'] != null) {
-                            userPosition = petRef.data()['infoInteresteds'].length + 1;
-                          } else {
-                            userPosition = 1;
-                          }
-                          messageTextSnackBar = 'Obrigado pela informação! ${snapshot.data['ownerDetails'][0]['text']} será avisado.';
-                        }
-                      }
+                            int userPosition = 1;
+                            bool canSend = true;
+                            String messageTextSnackBar;
+                            if (kind == 'DONATE') {
+                              if (userInfosAdopts.getAdoptInterest
+                                  .contains(pet.id)) {
+                                setState(() {
+                                  canSend = false;
+                                });
+                                messageTextSnackBar =
+                                    '${snapshot.data['ownerDetails'][0]['text']} já sabe sobre seu interesse. Aguarde retorno.';
+                              } else {
+                                if (petRef.data()['adoptInteresteds'] != null) {
+                                  userPosition =
+                                      petRef.data()['adoptInteresteds'].length +
+                                          1;
+                                }
+                                messageTextSnackBar =
+                                    'Você é o $userPositionº interessado no ${pet.name}. Te avisaremos caso o dono aceite seu pedido de adoção!';
+                              }
+                            } else {
+                              if (userInfosAdopts.getInfos.contains(pet.id)) {
+                                setState(() {
+                                  canSend = false;
+                                });
+                                messageTextSnackBar =
+                                    'Você já passou informação sobre este PET.';
+                              } else {
+                                if (petRef.data()['infoInteresteds'] != null) {
+                                  userPosition =
+                                      petRef.data()['infoInteresteds'].length +
+                                          1;
+                                } else {
+                                  userPosition = 1;
+                                }
+                                messageTextSnackBar =
+                                    'Obrigado pela informação! ${snapshot.data['ownerDetails'][0]['text']} será avisado.';
+                              }
+                            }
 
-                      if (canSend) {
-                        PetController petController = new PetController();
-                        petController.showInterestOrInfo(pet.petReference, userProvider.userReference, userLocal, userPosition, isAdopt: kind == 'DONATE');
-                        if(kind == 'DONATE') {
-                          userInfosAdopts.insertAdoptInterest(pet.id);
-                        } else {
-                          userInfosAdopts.insertInfos(pet.id);
-                        }
-                      }
+                            if (canSend) {
+                              PetController petController = new PetController();
+                              petController.showInterestOrInfo(
+                                  pet.petReference,
+                                  userProvider.userReference,
+                                  userLocal,
+                                  userPosition,
+                                  isAdopt: kind == 'DONATE');
+                              if (kind == 'DONATE') {
+                                userInfosAdopts.insertAdoptInterest(pet.id);
+                              } else {
+                                userInfosAdopts.insertInfos(pet.id);
+                              }
+                            }
 
-                      _scaffoldKey.currentState.showSnackBar(SnackBar(
-                        content: Row(
-                          children: [
-                            Expanded(
-                              child: Text(messageTextSnackBar),
-                            ),
-                          ],
+                            _scaffoldKey.currentState.showSnackBar(SnackBar(
+                              content: Row(
+                                children: [
+                                  Expanded(
+                                    child: Text(messageTextSnackBar),
+                                  ),
+                                ],
+                              ),
+                              duration: Duration(seconds: 5),
+                            ));
+                          },
                         ),
-                        duration: Duration(seconds: 5),
-                      ));
-                    },
-                  ),
-                )
+                      )
+                    : Positioned(
+                      bottom: 18.0,
+                      left: 20,
+                      right: 20,
+                        child: ButtonWide(
+                          action: (){},
+                          text: kind == 'DONATE' ? 'VOCÊ ESTÁ DOANDO' : 'VOCÊ ESTÁ PROCURANDO',
+                        ),
+                      )
               ],
             );
           }),
-      floatingActionButton: kind == 'DONATE'
+      floatingActionButton: (!!(!isMine) && kind == 'DONATE')
           ? Consumer<FavoritesProvider>(
               builder: (context, favoritesProvider, child) {
                 bool isFavorite =
                     favoritesProvider.getFavoritesPETSIDList.contains(pet.id);
                 return FloatingActionButton(
-                  onPressed: () async {
+                  onPressed: () async {                    
                     final user = UserController();
                     final auth =
                         Provider.of<Authentication>(context, listen: false);
