@@ -15,6 +15,15 @@ class MyAccount extends StatefulWidget {
 }
 
 class _MyAccountState extends State<MyAccount> {
+  UserProvider userProvider;
+
+  @override
+  void didChangeDependencies() {
+    userProvider = Provider.of<UserProvider>(context, listen: false);
+    userProvider.loadMyPets();
+    super.didChangeDependencies();
+  }
+
   Widget appBar(UserProvider userProvider) {
     return PreferredSize(
       preferredSize: Size.fromHeight(200.0),
@@ -118,7 +127,7 @@ class _MyAccountState extends State<MyAccount> {
                                 children: [
                                   CircleChild(
                                     avatarRadius: 15,
-                                    child: Text('10',
+                                    child: Text('0',
                                         style: TextStyle(
                                             color: Theme.of(context)
                                                 .primaryColor)),
@@ -175,8 +184,7 @@ class _MyAccountState extends State<MyAccount> {
 
   @override
   Widget build(BuildContext context) {
-    final auth = Provider.of<Authentication>(context, listen: false);
-    final userProvider = Provider.of<UserProvider>(context, listen: false);
+    final auth = Provider.of<Authentication>(context, listen: false);    
     GlobalKey<ScaffoldState> _formScaffold = GlobalKey<ScaffoldState>();
 
     return Scaffold(
@@ -196,14 +204,8 @@ class _MyAccountState extends State<MyAccount> {
                     MyAccountCard(
                       icone: PetDetailIcons.dog,
                       text: 'Meus PETS',
-                      onTap: () {
-                        _formScaffold.currentState.showSnackBar(
-                          SnackBar(
-                            content: Text('Ainda não disponível'),
-                            duration: Duration(seconds: 1),
-                          ),
-                        );
-                        // Navigator.pushNamed(context, Routes.MEUS_PETS);
+                      onTap: () {                        
+                        Navigator.pushNamed(context, Routes.MEUS_PETS);
                       },
                     ),
                     MyAccountCard(
