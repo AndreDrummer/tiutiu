@@ -34,8 +34,9 @@ class _MyAccountState extends State<MyAccount> {
             Opacity(
               child: FadeInImage(
                 placeholder: AssetImage('assets/fundo.jpg'),
-                image: NetworkImage(
-                  userProvider.photoBACK ?? '',
+                    image: userProvider.photoBACK != null ? NetworkImage(
+                      userProvider.photoBACK,
+                    ) : AssetImage('assets/fundo.jpg',
                 ),
                 fit: BoxFit.fill,
                 width: 1000,

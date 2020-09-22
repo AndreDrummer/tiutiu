@@ -17,9 +17,9 @@ import 'package:maps_launcher/maps_launcher.dart';
 import 'package:tiutiu/providers/location.dart';
 import 'package:tiutiu/providers/user_infos_interests.dart';
 import 'package:tiutiu/providers/user_provider.dart';
+import 'package:tiutiu/screen/announcer_datails.dart';
 import 'package:tiutiu/utils/formatter.dart';
 import 'package:tiutiu/utils/launcher_functions.dart';
-import 'package:tiutiu/utils/routes.dart';
 
 class PetDetails extends StatefulWidget {
   @override
@@ -34,7 +34,7 @@ class _PetDetailsState extends State<PetDetails> {
   Location userLocation;
   UserInfoOrAdoptInterestsProvider userInfosAdopts;
   Authentication auth;
-  UserProvider userProvider;     
+  UserProvider userProvider;
   bool isMine = false;
 
   Future<Map<String, dynamic>> loadOwnerInfo(Pet pet) async {
@@ -63,8 +63,14 @@ class _PetDetailsState extends State<PetDetails> {
         'launchIcon': Icons.remove_red_eye,
         'imageN': user.data()['photoURL'] ?? '',
         'callback': () {
-          Navigator.pushNamed(context, Routes.ANNOUNCER_DETAILS,
-              arguments: user.data());
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) {
+                return AnnouncerDetails(user.data());
+              },
+            ),
+          );
         },
       },
       {
@@ -113,7 +119,7 @@ class _PetDetailsState extends State<PetDetails> {
         }
       },
     ];
-    
+
     final result = {'petDetails': petDetails, 'ownerDetails': ownerDetails};
 
     return Future.value(result);
@@ -126,17 +132,21 @@ class _PetDetailsState extends State<PetDetails> {
     super.didChangeDependencies();
     userLocation = Provider.of<Location>(context, listen: false);
     auth = Provider.of<Authentication>(context, listen: false);
-    userProvider = Provider.of<UserProvider>(context, listen: false);    
-    userInfosAdopts = Provider.of<UserInfoOrAdoptInterestsProvider>(context, listen: false);
+    userProvider = Provider.of<UserProvider>(context, listen: false);
+    userInfosAdopts =
+        Provider.of<UserInfoOrAdoptInterestsProvider>(context, listen: false);
     userInfosAdopts.checkInfo(pet.petReference, auth.firebaseUser.uid);
     userInfosAdopts.checkInterested(pet.petReference, auth.firebaseUser.uid);
-    userProvider.thisPetIsMine(pet.ownerReference).then((value) => isMine = value);
+    userProvider
+        .thisPetIsMine(pet.ownerReference)
+        .then((value) => isMine = value);
   }
 
   @override
   void initState() {
     super.initState();
-    Provider.of<FavoritesProvider>(context, listen: false).loadFavoritesReference();
+    Provider.of<FavoritesProvider>(context, listen: false)
+        .loadFavoritesReference();
   }
 
   @override
@@ -144,7 +154,7 @@ class _PetDetailsState extends State<PetDetails> {
     Map<String, dynamic> arguments = ModalRoute.of(context).settings.arguments;
 
     Pet pet = arguments['petInfo'];
-    String kind = arguments['kind'];    
+    String kind = arguments['kind'];
 
     return Scaffold(
       key: _scaffoldKey,
@@ -367,12 +377,15 @@ class _PetDetailsState extends State<PetDetails> {
                         ),
                       )
                     : Positioned(
-                      bottom: 18.0,
-                      left: 20,
-                      right: 20,
+                        bottom: 18.0,
+                        left: kind == 'DONATE'
+                            ? 20.0
+                            : MediaQuery.of(context).size.width * 0.17,
                         child: ButtonWide(
-                          action: (){},
-                          text: kind == 'DONATE' ? 'VOCÊ ESTÁ DOANDO' : 'VOCÊ ESTÁ PROCURANDO',
+                          action: () {},
+                          text: kind == 'DONATE'
+                              ? 'VOCÊ ESTÁ DOANDO'
+                              : 'VOCÊ ESTÁ PROCURANDO',
                         ),
                       )
               ],
@@ -384,7 +397,7 @@ class _PetDetailsState extends State<PetDetails> {
                 bool isFavorite =
                     favoritesProvider.getFavoritesPETSIDList.contains(pet.id);
                 return FloatingActionButton(
-                  onPressed: () async {                    
+                  onPressed: () async {
                     final user = UserController();
                     final auth =
                         Provider.of<Authentication>(context, listen: false);

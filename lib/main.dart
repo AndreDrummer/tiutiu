@@ -11,7 +11,6 @@ import 'package:tiutiu/providers/pets_provider.dart';
 import 'package:tiutiu/providers/show_bottom.dart';
 import 'package:tiutiu/providers/user_infos_interests.dart';
 import 'package:tiutiu/providers/user_provider.dart';
-import 'package:tiutiu/screen/announcer_datails.dart';
 import 'package:tiutiu/screen/choose_location.dart';
 import 'package:tiutiu/screen/auth_or_home.dart';
 import 'package:tiutiu/screen/favorites.dart';
@@ -109,8 +108,7 @@ class App extends StatelessWidget {
                 Routes.HOME: (ctx) => Home(),                
                 Routes.NEW_MAP: (ctx) => NewMap(),
                 Routes.CHOOSE_LOCATION: (ctx) => ChooseLocation(),
-                Routes.PET_DETAILS: (ctx) => PetDetails(),
-                Routes.ANNOUNCER_DETAILS: (ctx) => AnnouncerDetails(),
+                Routes.PET_DETAILS: (ctx) => PetDetails(),                
               },
             ),
           );
