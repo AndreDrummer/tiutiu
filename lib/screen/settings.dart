@@ -13,6 +13,7 @@ import 'package:tiutiu/Widgets/input_text.dart';
 import 'package:tiutiu/Widgets/popup_message.dart';
 import 'package:tiutiu/providers/auth2.dart';
 import 'package:tiutiu/providers/user_provider.dart';
+import 'package:tiutiu/utils/formatter.dart';
 
 class Settings extends StatefulWidget {
   @override
@@ -193,6 +194,10 @@ class _SettingsState extends State<Settings> {
         regExp.hasMatch(_telefoneController.text.split('-')[1]);
 
     if (userProvider.getBetterContact == 0) {
+      var serializedWhatsappNumber = Formatter.unmaskNumber(_telefoneController.text);
+      if(serializedWhatsappNumber == null) {
+        _telefoneController.clear();
+      }
       if (!validWhatsapp) {
         setState(() {
           whatsappHasError = true;
@@ -204,6 +209,10 @@ class _SettingsState extends State<Settings> {
     }
 
     if (userProvider.getBetterContact == 1) {
+      var serializedWhatsappNumber = Formatter.unmaskNumber(_whatsAppController.text);
+      if(serializedWhatsappNumber == null) {
+        _whatsAppController.clear();
+      }
       if (!validTelefone) {
         setState(() {
           telefoneHasError = true;
