@@ -10,7 +10,6 @@ import 'package:tiutiu/providers/favorites_provider.dart';
 import 'package:tiutiu/providers/location.dart' as provider_location;
 import 'package:tiutiu/screen/pet_detail.dart';
 import 'package:tiutiu/utils/math_functions.dart';
-import 'package:tiutiu/utils/routes.dart';
 
 // ignore: must_be_immutable
 class CardList extends StatefulWidget {
@@ -153,9 +152,7 @@ class _CardListState extends State<CardList> {
                         ),
                         SizedBox(height: 20),
                         FutureBuilder(
-                            future: loadOwner(
-                                widget.petInfo.toMap()['ownerReference'],
-                                auth: auth),
+                            future: loadOwner(widget.petInfo.toMap()['ownerReference'], auth: auth),
                             builder: (context, snapshot) {
                               if (snapshot.connectionState ==
                                   ConnectionState.waiting) {
