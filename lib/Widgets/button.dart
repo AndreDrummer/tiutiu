@@ -7,6 +7,7 @@ class ButtonWide extends StatelessWidget {
     this.isToExpand = false,
     this.rounded = true,
     this.color = Colors.amber,
+    this.icon
   });
 
   final String text;
@@ -14,6 +15,7 @@ class ButtonWide extends StatelessWidget {
   final bool isToExpand;
   final bool rounded;
   final Color color;
+  final IconData icon;
 
   @override
   Widget build(BuildContext context) {
@@ -27,13 +29,20 @@ class ButtonWide extends StatelessWidget {
           borderRadius: rounded == true ? BorderRadius.circular(25) : null,
           color: color,
         ),
-        child: Text(
-          text,
-          style: Theme.of(context).textTheme.headline1.copyWith(
-                color: Colors.white,
-                fontSize: 22,
-                fontWeight: FontWeight.w700,
-              ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            icon != null ? Icon(icon, size: 20, color: Colors.white) : Text(''),
+            icon != null ? SizedBox(width: 30) : Text(''),
+            Text(
+              text,
+              style: Theme.of(context).textTheme.headline1.copyWith(
+                    color: Colors.white,
+                    fontSize: 22,
+                    fontWeight: FontWeight.w700,
+                  ),
+            ),
+          ],
         ),
       ),
     );
