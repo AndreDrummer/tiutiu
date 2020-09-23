@@ -10,13 +10,11 @@ class UserController {
       user = User(
         id: value.data()['id'],
         name: value.data()['name'],
-        avatar: value.data()['avatar'],
-        adopted: value.data()['adopted: '],
-        donated: value.data()['donated'],
+        photoURL: value.data()['photoURL'],                
         email: value.data()['email'],
         password: value.data()['password'],
-        phone: value.data()['phone'],
-        whatsapp: value.data()['whatsapp'],
+        phoneNumber: value.data()['phoneNumber'],
+        landline: value.data()['landline'],
       );
     });
 

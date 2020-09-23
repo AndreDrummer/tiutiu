@@ -4,6 +4,7 @@ import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:provider/provider.dart';
 import 'package:tiutiu/Widgets/popup_message.dart';
 import 'package:tiutiu/providers/auth2.dart';
+import 'package:tiutiu/providers/favorites_provider.dart';
 import 'package:tiutiu/providers/user_provider.dart';
 import 'package:tiutiu/screen/favorites.dart';
 import 'package:tiutiu/screen/my_account.dart';
@@ -23,6 +24,7 @@ class _HomeState extends State<Home> {
   final DESACTIVED_COLOR = Color(0XFF808080);
 
   UserProvider userProvider;
+  FavoritesProvider favoritesProvider;
   Authentication auth;
 
   @override
@@ -34,6 +36,7 @@ class _HomeState extends State<Home> {
   void didChangeDependencies() {
     userProvider = Provider.of<UserProvider>(context, listen: false);
     auth = Provider.of<Authentication>(context, listen: false);
+    favoritesProvider = Provider.of<FavoritesProvider>(context, listen: false);
     setUserMetaData();
     super.didChangeDependencies();
   }
@@ -89,8 +92,9 @@ class _HomeState extends State<Home> {
     userProvider.changeDisplayName(doc.data()['displayName']);
     userProvider.changeTelefone(doc.data()['landline']);
     userProvider.changeBetterContact(doc.data()['betterContact']);
-
     userProvider.calculateTotals();
+
+    favoritesProvider.loadFavoritesReference();
   }
 
   @override
