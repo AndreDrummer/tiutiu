@@ -43,6 +43,27 @@ class Pet {
     petReference = snapshot.reference;
   }
 
+  Pet.fromMap(Map<String, dynamic> map) {
+    id = map['id'];
+    kind = map['kind'];
+    name = map['name'];
+    color = map['color'];
+    type = map['type'];    
+    avatar = map['avatar'];
+    health = map['health'];
+    ano = map['ano'];
+    meses = map['meses'];
+    breed = map['breed'];
+    size = map['size'];
+    details = map['details'];
+    photos = map['photos'] as Map<String, dynamic>;
+    latitude = map['latitude'];
+    longitude = map['longitude'];
+    address = map['address'];    
+    ownerReference = map['ownerReference'];
+    petReference = map['petReference'];
+  }
+
   String id;
   String name;
   String kind;
