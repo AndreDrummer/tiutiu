@@ -18,13 +18,13 @@ class CardList extends StatefulWidget {
     this.petInfo,
     this.donate = true,
     this.kind,
-    this.favorite = false,
+    this.favorite = false,    
   });
 
   final Pet petInfo;
   final String kind;
   final bool donate;
-  bool favorite;
+  bool favorite;  
 
   @override
   _CardListState createState() => _CardListState();
@@ -192,14 +192,14 @@ class _CardListState extends State<CardList> {
                                   size: 40,
                                   color: Theme.of(context).primaryColor),
                           onPressed: () {
-                            if (widget.favorite) {
-                              user.favorite(
-                                  auth.firebaseUser.uid,
-                                  widget.petInfo.toMap()['petReference'],
-                                  false);
-                              favoritesProvider
-                                  .handleFavorite(widget.petInfo.toMap()['id']);
-                            } else {}
+                            if (favoritesProvider.getFavoritesPETSIDList.contains(widget.petInfo.toMap()['id'])) {
+                              user.favorite(auth.firebaseUser.uid,widget.petInfo.toMap()['petReference'],false);
+                              favoritesProvider.handleFavorite(widget.petInfo.toMap()['id']);                              
+                            } else {
+                              user.favorite(auth.firebaseUser.uid,widget.petInfo.toMap()['petReference'], true);
+                              favoritesProvider.loadFavoritesReference();
+                              favoritesProvider.handleFavorite(widget.petInfo.toMap()['id']);
+                            }
                           },
                         ),
                         SizedBox(height: 10),

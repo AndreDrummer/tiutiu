@@ -39,7 +39,7 @@ class UserInfoOrAdoptInterestsProvider with ChangeNotifier {
     changeAdoptInterest([]);
     final pet = await petRef.get();
 
-    if (pet.data()['adoptInteresteds']) {
+    if (pet.data() != null) {
       List interestedList = pet.data()['adoptInteresteds'];
 
       if (interestedList != null) {
