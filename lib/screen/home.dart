@@ -106,7 +106,7 @@ class _HomeState extends State<Home> {
     return WillPopScope(
       onWillPop: leaveApplication,
       child: Scaffold(
-        backgroundColor: Colors.greenAccent,
+        backgroundColor: Colors.green,
         body: Stack(
           children: [
             _screens.elementAt(_selectedIndex),
