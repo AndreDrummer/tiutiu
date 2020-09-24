@@ -8,7 +8,7 @@ class Formatter {
         .replaceAll(' ', '');
         return serializedNumber;
     } catch (error) {
-      throw error;      
+      return null;      
     }    
   }
 }

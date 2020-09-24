@@ -123,8 +123,8 @@ class _InputTextState extends State<InputText> {
                     child: IconButton(
                       icon: Icon(
                         widget.seePassword
-                            ? CustomIcon.eye
-                            : CustomIcon.eye_slash,
+                            ? Tiutiu.eye
+                            : Tiutiu.eye_slash,
                         color: Colors.grey,
                         size: 18,
                       ),

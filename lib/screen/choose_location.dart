@@ -25,7 +25,7 @@ class _ChooseLocationState extends State<ChooseLocation> {
         title: Text(
           'Escolha a localização do PET',
           style: Theme.of(context).textTheme.headline1.copyWith(
-                fontSize: 18,
+                fontSize: 20,
                 fontWeight: FontWeight.w700,
               ),
         ),

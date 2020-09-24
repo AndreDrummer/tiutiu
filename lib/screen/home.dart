@@ -2,6 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:provider/provider.dart';
+import 'package:tiutiu/Custom/icons.dart';
+import 'package:tiutiu/Widgets/button.dart';
 import 'package:tiutiu/Widgets/popup_message.dart';
 import 'package:tiutiu/providers/auth2.dart';
 import 'package:tiutiu/providers/favorites_provider.dart';
@@ -104,8 +106,24 @@ class _HomeState extends State<Home> {
     return WillPopScope(
       onWillPop: leaveApplication,
       child: Scaffold(
-        backgroundColor: Colors.greenAccent,
-        body: _screens.elementAt(_selectedIndex),
+        backgroundColor: Colors.green,
+        body: Stack(
+          children: [
+            _screens.elementAt(_selectedIndex),
+           _selectedIndex == 0 ? Positioned(
+              bottom: 0.0,
+              child: ButtonWide(
+                action: (){
+                  Navigator.pushNamed(context, Routes.SEARCH_REFINE);
+                },
+                icon: Tiutiu.params,
+                rounded: false,
+                isToExpand: true,
+                text: 'REFINAR BUSCA',
+              ),
+            ) : SizedBox()
+          ],
+        ),
         bottomNavigationBar: BottomNavigationBar(
           currentIndex: _selectedIndex,
           selectedItemColor: Colors.white,
@@ -114,7 +132,7 @@ class _HomeState extends State<Home> {
           onTap: _onItemTapped,
           items: const <BottomNavigationBarItem>[
             BottomNavigationBarItem(
-              icon: Icon(Icons.menu),
+              icon: Icon(Tiutiu.pets),
               title: Text('PETS'),
             ),
             BottomNavigationBarItem(
@@ -122,8 +140,8 @@ class _HomeState extends State<Home> {
               title: Text('Favoritos'),
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.account_circle),
-              title: Text('Minha Conta'),
+              icon: Icon(Tiutiu.user, size: 18),
+              title: Text('Eu'),
             )
           ],
         ),
@@ -147,7 +165,7 @@ class _HomeState extends State<Home> {
                 },
                 tooltip: 'Adicionar PET',
                 heroTag: 'speed-dial-hero-tag',
-                backgroundColor: Theme.of(context).primaryColor,
+                backgroundColor: Colors.purple,
                 foregroundColor: Colors.white,
                 elevation: 8.0,
                 shape: CircleBorder(),

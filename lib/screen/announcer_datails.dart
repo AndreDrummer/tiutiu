@@ -30,11 +30,11 @@ class _AnnouncerDetailsState extends State<AnnouncerDetails> {
     setState(() {
       userTotalDisap = disap.docs.length;
       userTotalDonated = donates.docs.length;
-    });  
+    });
   }
 
   @override
-  void initState() {    
+  void initState() {
     calculateTotals(widget.user);
     super.initState();
   }
@@ -46,7 +46,7 @@ class _AnnouncerDetailsState extends State<AnnouncerDetails> {
 
     final userWhatsapp = widget.user.phoneNumber ?? null;
     final userLandline = widget.user.landline ?? null;
-    final userEmail = widget.user.email ?? null;    
+    final userEmail = widget.user.email ?? null;
 
     void callWhatsapp() {
       FlutterOpenWhatsapp.sendSingleMessage('+55$userWhatsapp', 'Olá!');
@@ -72,9 +72,11 @@ class _AnnouncerDetailsState extends State<AnnouncerDetails> {
                   height: height / 2,
                   child: FadeInImage(
                     placeholder: AssetImage('assets/fundo.jpg'),
-                    image: widget.user.photoBACK != null ? NetworkImage(
-                      widget.user.photoBACK,
-                    ) : AssetImage('assets/fundo.jpg'),
+                    image: widget.user.photoBACK != null
+                        ? NetworkImage(
+                            widget.user.photoBACK,
+                          )
+                        : AssetImage('assets/fundo.jpg'),
                     fit: BoxFit.cover,
                     width: 1000,
                     height: 100,
@@ -170,8 +172,12 @@ class _AnnouncerDetailsState extends State<AnnouncerDetails> {
                                 callWhatsapp();
                               },
                               child: CircleChild(
-                                  avatarRadius: 25,
-                                  child: Icon(PetDetailIcons.whatsapp)))
+                                avatarRadius: 25,
+                                child: Icon(
+                                  Tiutiu.whatsapp,
+                                ),
+                              ),
+                            )
                           : Container(),
                       userLandline != null
                           ? InkWell(
@@ -179,7 +185,12 @@ class _AnnouncerDetailsState extends State<AnnouncerDetails> {
                                 callLandline();
                               },
                               child: CircleChild(
-                                  avatarRadius: 25, child: Icon(Icons.phone)))
+                                avatarRadius: 25,
+                                child: Icon(
+                                  Icons.phone,
+                                ),
+                              ),
+                            )
                           : Container(),
                       userEmail != null
                           ? InkWell(
@@ -187,7 +198,12 @@ class _AnnouncerDetailsState extends State<AnnouncerDetails> {
                                 callEmail();
                               },
                               child: CircleChild(
-                                  avatarRadius: 25, child: Icon(Icons.email)))
+                                avatarRadius: 25,
+                                child: Icon(
+                                  Icons.email,
+                                ),
+                              ),
+                            )
                           : Container(),
                     ],
                   ),
