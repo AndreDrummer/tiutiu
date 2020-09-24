@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:loading_animations/loading_animations.dart';
 import 'package:provider/provider.dart';
+import 'package:tiutiu/Custom/icons.dart';
 import 'package:tiutiu/backend/Controller/user_controller.dart';
 import 'package:tiutiu/backend/Model/pet_model.dart';
 import 'package:tiutiu/backend/Model/user_model.dart';
@@ -185,8 +186,8 @@ class _CardListState extends State<CardList> {
                                   size: 40,
                                   color: Colors.red,
                                 )
-                              : Icon(Icons.send,
-                                  size: 40,
+                              : Icon(Tiutiu.location_arrow,
+                                  size: 25,
                                   color: Theme.of(context).primaryColor),
                           onPressed: () {
                             if (favoritesProvider.getFavoritesPETSIDList.contains(widget.petInfo.toMap()['id'])) {
