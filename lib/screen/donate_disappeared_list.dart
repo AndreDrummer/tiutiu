@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tiutiu/Widgets/card_list.dart';
 import 'package:tiutiu/Widgets/error_page.dart';
-import 'package:tiutiu/Widgets/filter_search.dart';
-import 'package:tiutiu/Widgets/input_search.dart';
 import 'package:tiutiu/Widgets/drawer.dart';
 import 'package:tiutiu/Widgets/loading_page.dart';
 import 'package:tiutiu/backend/Model/pet_model.dart';
@@ -86,43 +84,20 @@ class _DonateDisappearedListState extends State<DonateDisappearedList> {
                   ),
                 );
             }
-            return Stack(
-              children: <Widget>[
-                Container(
-                  height: marginTop,
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 90.0),
-                    child: ListView.builder(
-                      itemCount: petsList.length + 1,
-                      itemBuilder: (_, index) {
-                        if(index == petsList.length) {
-                          return SizedBox(height: 50);
-                        }
-                        return CardList(
-                          kind: kind,
-                          petInfo: petsList[index],
-                        );                        
-                      },
-                    ),
-                  ),
-                ),
-                CustomInput(showFilter: showFilter),
-                Positioned(
-                  right: 20,
-                  top: 80,
-                  child: Align(
-                    alignment: Alignment(0.7, -0.7),
-                    child: Container(
-                      height: 190,
-                      width: 235,
-                      child: FilterSearch(
-                        isFiltering: isFiltering,
-                        showFilter: showFilter,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
+            return Container(
+              height: marginTop,
+              child: ListView.builder(
+                itemCount: petsList.length + 1,
+                itemBuilder: (_, index) {
+                  if(index == petsList.length) {
+                    return SizedBox(height: 50);
+                  }
+                  return CardList(
+                    kind: kind,
+                    petInfo: petsList[index],
+                  );                        
+                },
+              ),
             );
           },
         ),

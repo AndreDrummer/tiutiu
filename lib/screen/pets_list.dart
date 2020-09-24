@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tiutiu/Custom/pet_detail_icons_icons.dart';
+import 'package:tiutiu/Custom/icons.dart';
 import 'package:tiutiu/screen/donate_disappeared_list.dart';
 
 class PetsList extends StatelessWidget {
@@ -19,8 +19,8 @@ class PetsList extends StatelessWidget {
             indicatorColor: Colors.white,            
             labelColor: Colors.white,
             tabs: [              
-              Tab(icon: Icon(PetDetailIcons.dog), text: 'ADOTAR'),
-              Tab(icon: Icon(PetDetailIcons.guidedog), text: 'DESAPARECIDOS'),
+              Tab(icon: Icon(Tiutiu.dog), text: 'ADOTAR'),
+              Tab(icon: Icon(Tiutiu.exclamation), text: 'DESAPARECIDOS'),
             ],
           ),
         ),

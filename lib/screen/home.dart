@@ -116,7 +116,7 @@ class _HomeState extends State<Home> {
                 action: (){
                   Navigator.pushNamed(context, Routes.SEARCH_REFINE);
                 },
-                icon: CustomIcon.filter,
+                icon: Tiutiu.params,
                 rounded: false,
                 isToExpand: true,
                 text: 'REFINAR BUSCA',
@@ -132,7 +132,7 @@ class _HomeState extends State<Home> {
           onTap: _onItemTapped,
           items: const <BottomNavigationBarItem>[
             BottomNavigationBarItem(
-              icon: Icon(Icons.menu),
+              icon: Icon(Tiutiu.pets),
               title: Text('PETS'),
             ),
             BottomNavigationBarItem(
@@ -140,7 +140,7 @@ class _HomeState extends State<Home> {
               title: Text('Favoritos'),
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.account_circle),
+              icon: Icon(Tiutiu.user, size: 18),
               title: Text('Eu'),
             )
           ],

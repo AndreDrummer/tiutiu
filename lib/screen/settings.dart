@@ -64,7 +64,7 @@ class _SettingsState extends State<Settings> {
 
     String patttern = r'(^[0-9]*$)';
     RegExp regExp = new RegExp(patttern);
-    if (userProvider.getBetterContact == 0 && value.isEmpty) {
+    if (userProvider.getBetterContact == 0 && value.isEmpty && userProvider.whatsapp != null && userProvider.whatsapp.isEmpty) {
       return 'Número é obrigatório';
     }
     if (value.isNotEmpty && value.length < 11) {
@@ -80,7 +80,7 @@ class _SettingsState extends State<Settings> {
 
     String patttern = r'(^[0-9]*$)';
     RegExp regExp = new RegExp(patttern);
-    if (userProvider.getBetterContact == 1 && value.isEmpty) {
+    if (userProvider.getBetterContact == 1 && value.isEmpty && userProvider.telefone != null && userProvider.telefone.isEmpty) {
       return 'Número é obrigatório';
     }
     if (value.isNotEmpty && value.length < 10) {
@@ -366,14 +366,14 @@ class _SettingsState extends State<Settings> {
           children: <Widget>[
             FlatButton(
               child:
-                  Text('Tirar uma foto', style: TextStyle(color: Colors.black)),
+                  Text('Tirar uma foto', style: Theme.of(context).textTheme.headline1.copyWith(color: Colors.black)),
               onPressed: () {
                 Navigator.pop(context);
                 selectImage(ImageSource.camera, perfil: perfil);
               },
             ),
             FlatButton(
-              child: Text('Abrir galeria'),
+              child: Text('Abrir galeria', style: Theme.of(context).textTheme.headline1.copyWith(color: Colors.black)),
               onPressed: () {
                 Navigator.pop(context);
                 selectImage(ImageSource.gallery, perfil: perfil);
@@ -387,17 +387,18 @@ class _SettingsState extends State<Settings> {
 
   @override
   Widget build(BuildContext context) {
+    final height = MediaQuery.of(context).size.height;
+
     return WillPopScope(
       onWillPop: () async {
-        if (_personalDataFormKey.currentState.validate()) {
-          save(isToShowDialog: false);
+        if (_personalDataFormKey.currentState.validate()) {          
           return Future.value(true);
         }
         return Future.value(false);
       },
       child: Scaffold(
         appBar: AppBar(
-          title: Text('Configurações'),
+          title: Text('Configurações', style: TextStyle(fontSize: 20),)
         ),
         backgroundColor: Colors.blueGrey[50],
         body: Stack(
@@ -484,12 +485,13 @@ class _SettingsState extends State<Settings> {
                       child: ListView(
                         children: [
                           ListTile(
-                            title: Text('Nome'),
+                            title: Text('Nome', style: Theme.of(context).textTheme.headline1.copyWith(color: Colors.black)),
                             subtitle: isNameEditing
                                 ? TextFormField(
+                                  style: Theme.of(context).textTheme.headline1.copyWith(color: Colors.black54, fontWeight: FontWeight.w300),
                                     controller: _nameController,
                                   )
-                                : Text(_nameController.text),
+                                : Text(_nameController.text, style: Theme.of(context).textTheme.headline1.copyWith(color: Colors.black)),
                             trailing: IconButton(
                               icon: isNameEditing
                                   ? Icon(Icons.save)
@@ -508,9 +510,10 @@ class _SettingsState extends State<Settings> {
                             ),
                           ),
                           ListTile(
-                            title: Text('WhatsApp'),
+                            title: Text('WhatsApp', style: Theme.of(context).textTheme.headline1.copyWith(color: Colors.black)),
                             subtitle: isWhatsAppEditing
                                 ? TextFormField(
+                                  style: Theme.of(context).textTheme.headline1.copyWith(color: Colors.black54, fontWeight: FontWeight.w300),
                                     onChanged: (_) {
                                       validatePersonalData();
                                     },
@@ -548,9 +551,10 @@ class _SettingsState extends State<Settings> {
                             ),
                           ),
                           ListTile(
-                            title: Text('Telefone Fixo'),
+                            title: Text('Telefone Fixo', style: Theme.of(context).textTheme.headline1.copyWith(color: Colors.black)),
                             subtitle: isTelefoneEditing
                                 ? TextFormField(
+                                  style: Theme.of(context).textTheme.headline1.copyWith(color: Colors.black54, fontWeight: FontWeight.w300),
                                     onChanged: (_) {
                                       validatePersonalData();
                                     },
@@ -589,7 +593,7 @@ class _SettingsState extends State<Settings> {
                           ),
                           Align(
                             alignment: Alignment(-0.8, 1),
-                            child: Text('Sua melhor forma de contato'),
+                            child: Text('Sua melhor forma de contato', style: Theme.of(context).textTheme.headline1.copyWith(color: Colors.black)),
                           ),
                           StreamBuilder<Object>(
                             stream: userProvider.betterContact,
@@ -605,7 +609,7 @@ class _SettingsState extends State<Settings> {
                                       userProvider.changeBetterContact(value);
                                     },
                                   ),
-                                  Text('WhatsApp'),
+                                  Text('WhatsApp', style: Theme.of(context).textTheme.headline1.copyWith(color: Colors.black)),
                                   Radio(
                                     activeColor: Colors.orange,
                                     groupValue: snapshot.data,
@@ -614,7 +618,7 @@ class _SettingsState extends State<Settings> {
                                       userProvider.changeBetterContact(value);
                                     },
                                   ),
-                                  Text('Telefone Fixo'),
+                                  Text('Telefone Fixo', style: Theme.of(context).textTheme.headline1.copyWith(color: Colors.black)),
                                   Radio(
                                     activeColor: Colors.red,
                                     groupValue: snapshot.data,
@@ -623,7 +627,7 @@ class _SettingsState extends State<Settings> {
                                       userProvider.changeBetterContact(value);
                                     },
                                   ),
-                                  Text('E-mail'),
+                                  Text('E-mail', style: Theme.of(context).textTheme.headline1.copyWith(color: Colors.black)),
                                 ],
                               );
                             },
@@ -633,42 +637,46 @@ class _SettingsState extends State<Settings> {
                     ),
                   ),
                   CustomDivider(text: 'Alterar senha'),
-                  Form(
-                    key: _passwordFormKey,
-                    child: Column(
-                      children: [
-                        SizedBox(height: 15),
-                        InputText(
-                          isPassword: true,
-                          hintText: 'Nova Senha',
-                          controller: _newPassword,
-                          validator: (String value) {
-                            if (value.isEmpty &&
-                                _repeatNewPassword.text.isEmpty) {
-                              return null;
-                            }
-                            if (value.length < 6) {
-                              return 'A nova senha deve ter no mínimo 6 dígitos';
-                            }
-                          },
-                        ),
-                        SizedBox(height: 15),
-                        InputText(
-                          isPassword: true,
-                          hintText: 'Repita a nova senha',
-                          controller: _repeatNewPassword,
-                          validator: (String value) {
-                            if (value.isEmpty && _newPassword.text.isEmpty) {
-                              return null;
-                            }
-                            if (value != _newPassword.text) {
-                              return 'Senhas não conferem';
-                            }
-                          },
-                        ),
-                      ],
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    child: Form(
+                      key: _passwordFormKey,
+                      child: Column(
+                        children: [
+                          SizedBox(height: 15),
+                          InputText(
+                            isPassword: true,
+                            hintText: 'Nova Senha',
+                            controller: _newPassword,
+                            validator: (String value) {
+                              if (value.isEmpty &&
+                                  _repeatNewPassword.text.isEmpty) {
+                                return null;
+                              }
+                              if (value.length < 6) {
+                                return 'A nova senha deve ter no mínimo 6 dígitos';
+                              }
+                            },
+                          ),
+                          SizedBox(height: 15),
+                          InputText(
+                            isPassword: true,
+                            hintText: 'Repita a nova senha',
+                            controller: _repeatNewPassword,
+                            validator: (String value) {
+                              if (value.isEmpty && _newPassword.text.isEmpty) {
+                                return null;
+                              }
+                              if (value != _newPassword.text) {
+                                return 'Senhas não conferem';
+                              }
+                            },
+                          ),
+                        ],
+                      ),
                     ),
-                  )
+                  ),
+                  SizedBox(height: height < 500 ? 100 : 40)
                 ],
               ),
             ),
@@ -689,7 +697,7 @@ class _SettingsState extends State<Settings> {
                             'Salvando informações',
                             style: Theme.of(context)
                                 .textTheme
-                                .headline1
+                                .headline1.copyWith(color: Colors.black)
                                 .copyWith(),
                           )
                         ],
