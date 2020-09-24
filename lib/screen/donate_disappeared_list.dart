@@ -93,8 +93,11 @@ class _DonateDisappearedListState extends State<DonateDisappearedList> {
                   child: Padding(
                     padding: const EdgeInsets.only(top: 90.0),
                     child: ListView.builder(
-                      itemCount: petsList.length,
+                      itemCount: petsList.length + 1,
                       itemBuilder: (_, index) {
+                        if(index == petsList.length) {
+                          return SizedBox(height: 50);
+                        }
                         return CardList(
                           kind: kind,
                           petInfo: petsList[index],
