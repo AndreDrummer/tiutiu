@@ -71,7 +71,7 @@ class _NovoPetState extends State<NovoPet> {
     dropvalueSize = DummyData.size[0];
     dropvalueColor = DummyData.color[0];
     dropvalueType = DummyData.type[0];
-    dropvalueBreed = DummyData.breed[0];
+    dropvalueBreed = DummyData.breed[0][0];
     dropvalueHealth = DummyData.health[0];
 
     currentLocation = Provider.of<Location>(context, listen: false).location;
@@ -538,7 +538,7 @@ class _NovoPetState extends State<NovoPet> {
                           isExpanded: true,
                           label: 'Raça',
                           initialValue: dropvalueBreed,
-                          itemList: DummyData.breed,
+                          itemList: DummyData.breed[0],
                           onChange: (String value) {
                             setState(() {
                               dropvalueBreed = value;
