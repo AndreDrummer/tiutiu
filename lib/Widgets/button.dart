@@ -6,7 +6,7 @@ class ButtonWide extends StatelessWidget {
     this.action,
     this.isToExpand = false,
     this.rounded = true,
-    this.color = Colors.amber,
+    this.color = Colors.green,
     this.icon
   });
 
