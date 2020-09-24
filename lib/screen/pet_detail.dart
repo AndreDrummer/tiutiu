@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_open_whatsapp/flutter_open_whatsapp.dart';
 import 'package:loading_animations/loading_animations.dart';
 import 'package:provider/provider.dart';
-import 'package:tiutiu/Custom/pet_detail_icons_icons.dart';
+import 'package:tiutiu/Custom/icons.dart';
 import 'package:tiutiu/Widgets/button.dart';
 import 'package:tiutiu/Widgets/card_details.dart';
 import 'package:tiutiu/Widgets/divider.dart';
@@ -74,23 +74,23 @@ class _PetDetailsState extends State<PetDetails> {
       {
         'title': 'TIPO',
         'text': widget.pet.type,
-        'icon': PetDetailIcons.guidedog
+        'icon': Tiutiu.dog
       },
-      {'title': 'RAÇA', 'text': widget.pet.breed, 'icon': PetDetailIcons.dog},
+      {'title': 'RAÇA', 'text': widget.pet.breed, 'icon': Tiutiu.dog},
       {
         'title': 'TAMANHO',
         'text': widget.pet.size,
-        'icon': PetDetailIcons.resize_small
+        'icon': Tiutiu.resize_small
       },
       {
         'title': 'SAÚDE',
         'text': widget.pet.health,
-        'icon': PetDetailIcons.healing
+        'icon': Tiutiu.healing
       },
       {
         'title': 'IDADE',
         'text': '${widget.pet.ano}a ${widget.pet.meses}m',
-        'icon': PetDetailIcons.calendar
+        'icon': Tiutiu.birthday_cake
       },
     ];    
 
@@ -118,7 +118,7 @@ class _PetDetailsState extends State<PetDetails> {
                 ? widget.petOwner.landline
                 : widget.petOwner.email,
         'icon': widget.petOwner.betterContact == 0
-            ? PetDetailIcons.whatsapp
+            ? Tiutiu.whatsapp
             : widget.petOwner.betterContact == 1 ? Icons.phone : Icons.email,
         'color': widget.petOwner.betterContact == 0
             ? Theme.of(context).primaryColor
@@ -169,7 +169,7 @@ class _PetDetailsState extends State<PetDetails> {
             onPressed: () {
               Navigator.pop(context);
             }),
-        title: Text('Detalhes de ${widget.pet.name}'),
+        title: Text('Detalhes de ${widget.pet.name}', style: TextStyle(color: Colors.white, fontSize: 20)),
       ),
       body: Stack(
         children: [
