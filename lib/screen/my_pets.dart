@@ -118,37 +118,41 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
                                 Padding(
                                   padding: const EdgeInsets.symmetric(
                                       vertical: 24.0, horizontal: 15),
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        snapshot.data[index].name,
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .headline1
-                                            .copyWith(
-                                              fontSize: 22,
-                                              color: Colors.black,
-                                              fontWeight: FontWeight.w700,
-                                            ),
-                                      ),
-                                      SizedBox(height: 10),
-                                      Text(
-                                        snapshot.data[index].breed,
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .headline1
-                                            .copyWith(
-                                              fontSize: 16,
-                                              color: Colors.grey,
-                                              fontWeight: FontWeight.w300,
-                                            ),
-                                      ),
-                                    ],
+                                  child: Container(
+                                    width: 160,
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          snapshot.data[index].name,
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .headline1
+                                              .copyWith(
+                                                fontSize: 22,
+                                                color: Colors.black,
+                                                fontWeight: FontWeight.w700,
+                                              ),
+                                        ),
+                                        SizedBox(height: 10),
+                                        Text(
+                                          snapshot.data[index].breed,
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .headline1
+                                              .copyWith(
+                                                fontSize: 16,
+                                                color: Colors.grey,
+                                                fontWeight: FontWeight.w300,
+                                              ),
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ),
                                 Spacer(),
                                 Expanded(
+                                  flex: 2,
                                   child: Row(
                                     children: [
                                       Container(

@@ -29,7 +29,7 @@ class _PetListState extends State<PetList> {
         title: Text('PETs na redondeza'),
         centerTitle: true,
       ),
-      backgroundColor: Colors.greenAccent,
+      backgroundColor: Colors.green,
       drawer: DrawerApp(),
       body: Stack(
         children: <Widget>[

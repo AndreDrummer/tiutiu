@@ -52,7 +52,7 @@ class CustomInput extends StatelessWidget {
               ),
               IconButton(
                 icon: Icon(
-                  CustomIcon.filter,
+                  Tiutiu.params,
                   size: 17,
                 ),
                 onPressed: () {
