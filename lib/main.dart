@@ -83,6 +83,13 @@ class App extends StatelessWidget {
                 scaffoldBackgroundColor: Color(0XFFF9F9F9),
                 appBarTheme: AppBarTheme(
                   iconTheme: IconThemeData(color: Colors.white),
+                  textTheme: ThemeData.dark().textTheme.copyWith(
+                      headline1: GoogleFonts.lato(
+                        color: Colors.white,
+                        fontSize: 25,
+                        fontWeight: FontWeight.w700,
+                      ),
+                  )
                 ),
                 textTheme: ThemeData.light().textTheme.copyWith(
                       headline1: GoogleFonts.lato(
