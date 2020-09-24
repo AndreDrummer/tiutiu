@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:loading_animations/loading_animations.dart';
 import 'package:provider/provider.dart';
+import 'package:tiutiu/Custom/icons.dart';
 import 'package:tiutiu/backend/Controller/user_controller.dart';
 import 'package:tiutiu/backend/Model/pet_model.dart';
 import 'package:tiutiu/backend/Model/user_model.dart';
@@ -10,7 +11,6 @@ import 'package:tiutiu/providers/favorites_provider.dart';
 import 'package:tiutiu/providers/location.dart' as provider_location;
 import 'package:tiutiu/screen/pet_detail.dart';
 import 'package:tiutiu/utils/math_functions.dart';
-import 'package:tiutiu/utils/routes.dart';
 
 // ignore: must_be_immutable
 class CardList extends StatefulWidget {
@@ -153,9 +153,7 @@ class _CardListState extends State<CardList> {
                         ),
                         SizedBox(height: 20),
                         FutureBuilder(
-                            future: loadOwner(
-                                widget.petInfo.toMap()['ownerReference'],
-                                auth: auth),
+                            future: loadOwner(widget.petInfo.toMap()['ownerReference'], auth: auth),
                             builder: (context, snapshot) {
                               if (snapshot.connectionState ==
                                   ConnectionState.waiting) {
@@ -188,8 +186,8 @@ class _CardListState extends State<CardList> {
                                   size: 40,
                                   color: Colors.red,
                                 )
-                              : Icon(Icons.send,
-                                  size: 40,
+                              : Icon(Tiutiu.location_arrow,
+                                  size: 25,
                                   color: Theme.of(context).primaryColor),
                           onPressed: () {
                             if (favoritesProvider.getFavoritesPETSIDList.contains(widget.petInfo.toMap()['id'])) {

@@ -12,4 +12,5 @@ class Routes {
   static const PET_DETAILS = '/pet-details';  
   static const NEW_MAP = '/new-map';
   static const ANNOUNCER_DETAILS = '/announcer-details';
+  static const SEARCH_REFINE = '/search-refine';
 }

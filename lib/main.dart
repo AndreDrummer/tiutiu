@@ -18,6 +18,7 @@ import 'package:tiutiu/screen/home.dart';
 import 'package:tiutiu/screen/my_pets.dart';
 import 'package:tiutiu/screen/new_pet.dart';
 import 'package:tiutiu/screen/pet_detail.dart';
+import 'package:tiutiu/screen/refine_search.dart';
 import 'package:tiutiu/screen/register.dart';
 import 'package:tiutiu/screen/settings.dart';
 import './utils/routes.dart';
@@ -77,11 +78,18 @@ class App extends StatelessWidget {
             ],
             child: MaterialApp(
               theme: ThemeData(
-                primaryColor: Colors.amber,
+                primaryColor: Colors.green,
                 accentColor: Colors.yellow,
                 scaffoldBackgroundColor: Color(0XFFF9F9F9),
                 appBarTheme: AppBarTheme(
                   iconTheme: IconThemeData(color: Colors.white),
+                  textTheme: ThemeData.dark().textTheme.copyWith(
+                      headline1: GoogleFonts.lato(
+                        color: Colors.white,
+                        fontSize: 25,
+                        fontWeight: FontWeight.w700,
+                      ),
+                  )
                 ),
                 textTheme: ThemeData.light().textTheme.copyWith(
                       headline1: GoogleFonts.lato(
@@ -109,6 +117,7 @@ class App extends StatelessWidget {
                 Routes.NEW_MAP: (ctx) => NewMap(),
                 Routes.CHOOSE_LOCATION: (ctx) => ChooseLocation(),
                 Routes.PET_DETAILS: (ctx) => PetDetails(),                
+                Routes.SEARCH_REFINE: (ctx) => RefineSearch(),
               },
             ),
           );
