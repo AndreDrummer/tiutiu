@@ -26,7 +26,7 @@ class _FavoritesState extends State<Favorites> {
         leading: null,
         title: Text(
           'Favoritos',
-          style: TextStyle(color: Colors.white),
+          style: TextStyle(fontSize: 20),
         ),
       ),
       body: RefreshIndicator(

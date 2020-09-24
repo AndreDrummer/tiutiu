@@ -53,9 +53,9 @@ class _NovoPetState extends State<NovoPet> {
 
   String dropvalueSize;
   String dropvalueColor;
-  String dropvalueType;
-  String dropvalueHealth;
-  String dropvalueBreed;
+  int dropvalueType;
+  int dropvalueHealth;
+  int dropvalueBreed;  
   String userId;
   LatLng currentLocation;
 
@@ -70,9 +70,9 @@ class _NovoPetState extends State<NovoPet> {
     super.initState();
     dropvalueSize = DummyData.size[0];
     dropvalueColor = DummyData.color[0];
-    dropvalueType = DummyData.type[0];
-    dropvalueBreed = DummyData.breed[0];
-    dropvalueHealth = DummyData.health[0];
+    dropvalueType = 0;    
+    dropvalueBreed = 0;
+    dropvalueHealth = 0;
 
     currentLocation = Provider.of<Location>(context, listen: false).location;
     userId =
@@ -251,13 +251,13 @@ class _NovoPetState extends State<NovoPet> {
     await uploadPhotos(_nome.text);
 
     var dataPetSave = Pet(
-      type: dropvalueType,
+      type: DummyData.type[dropvalueType],
       color: dropvalueColor,
       name: _nome.text,
       kind: kind,
       avatar: petPhotosToUpload.values.first,
-      breed: dropvalueBreed,
-      health: dropvalueHealth,
+      breed: DummyData.breed[dropvalueType][dropvalueBreed],
+      health: DummyData.health[dropvalueHealth],
       ownerReference: userProvider.userReference,
       photos: petPhotosToUpload,
       size: dropvalueSize,
@@ -327,7 +327,7 @@ class _NovoPetState extends State<NovoPet> {
                 ? 'Coloque um PET para adoção'
                 : 'Poste um PET Desaparecido',
             style: Theme.of(context).textTheme.headline1.copyWith(
-                  fontSize: 22,
+                  fontSize: 20,
                   color: Colors.white,
                   fontWeight: FontWeight.w700,
                 ),
@@ -438,12 +438,12 @@ class _NovoPetState extends State<NovoPet> {
                         ),
                         CustomDropdownButton(
                           label: 'Tipo',
-                          initialValue: dropvalueType,
+                          initialValue: DummyData.type[dropvalueType],
                           itemList: DummyData.type,
                           onChange: (String value) {
-                            setState(() {
-                              dropvalueType = value;
-                              print(dropvalueType);
+                            setState(() {                                                                                          
+                              dropvalueType = DummyData.type.indexOf(value);
+                              dropvalueBreed = 0;                              
                             });
                           },
                           isExpanded: true,
@@ -523,11 +523,11 @@ class _NovoPetState extends State<NovoPet> {
                         ),
                         CustomDropdownButton(
                           label: 'Saúde',
-                          initialValue: dropvalueHealth,
+                          initialValue: DummyData.health[dropvalueHealth],
                           itemList: DummyData.health,
                           onChange: (String value) {
                             setState(() {
-                              dropvalueHealth = value;
+                              dropvalueHealth = DummyData.health[dropvalueHealth].indexOf(value);
                               print(dropvalueHealth);
                             });
                           },
@@ -537,12 +537,11 @@ class _NovoPetState extends State<NovoPet> {
                         CustomDropdownButton(
                           isExpanded: true,
                           label: 'Raça',
-                          initialValue: dropvalueBreed,
-                          itemList: DummyData.breed,
+                          initialValue: DummyData.breed[dropvalueType][dropvalueBreed],
+                          itemList: DummyData.breed[dropvalueType],
                           onChange: (String value) {
                             setState(() {
-                              dropvalueBreed = value;
-                              print(value);
+                              dropvalueBreed = DummyData.breed[dropvalueType].indexOf(value);                                                            
                             });
                           },
                         ),
@@ -572,6 +571,7 @@ class _NovoPetState extends State<NovoPet> {
               bottom: 0.0,
               child: ButtonWide(
                   rounded: false,
+                  color: isLogging ? Colors.grey : Theme.of(context).primaryColor,
                   isToExpand: true,
                   action: isLogging ? null : () async {
                     if (validateForm()) {
