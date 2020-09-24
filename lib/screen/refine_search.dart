@@ -21,6 +21,11 @@ class _RefineSearchState extends State<RefineSearch> {
   void handleSelectedKind(int index) {
     setState(() {
       selectedKind = index;
+      selectedBreeds = [];
+      selectedSizes = [];
+      selectedAges = [];
+      selectedHealths = [];
+      selectedDistancies = [];
     });
   }
 
@@ -65,6 +70,7 @@ class _RefineSearchState extends State<RefineSearch> {
           'Refine sua busca',
           style: TextStyle(
             color: Colors.white,
+            fontSize: 20
           ),
         ),
         leading: IconButton(
@@ -143,14 +149,14 @@ class _RefineSearchState extends State<RefineSearch> {
 class _PetSelector extends StatelessWidget {
   _PetSelector({this.handleSelectedKind, this.selectedKind});
   final Function(int) handleSelectedKind;
-  final selectedKind;
+  final int selectedKind;
 
-  List selector = [
-    {'Cachorro': PetDetailIcons.dog},
-    {'Gato': PetDetailIcons.dog},
-    {'Pássaro': PetDetailIcons.dog},
-    {'Hamster': PetDetailIcons.dog},
-    {'Outro': PetDetailIcons.dog},
+  final List selector = [
+    {'Cachorro': Tiutiu.dog},
+    {'Gato': Tiutiu.cat},
+    {'Pássaro': Tiutiu.twitter_bird},
+    {'Hamster': Tiutiu.hamster},
+    {'Outro': Tiutiu.question},
   ];
 
   @override
@@ -241,7 +247,7 @@ class __SelecterTileState extends State<_SelecterTile> {
                   style: TextStyle(fontSize: 18),
                 ),
                 Spacer(),
-                Icon(Icons.arrow_forward),
+                Icon(Tiutiu.plus_squared_alt),
               ],
             ),
             Container(
