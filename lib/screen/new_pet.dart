@@ -566,7 +566,7 @@ class _NovoPetState extends State<NovoPet> {
                 ],
               ),
             ),
-            LoadDarkScreen(isLogging, 'Aguarde'),
+            LoadDarkScreen(show: isLogging, message: 'Aguarde'),
             Positioned(
               bottom: 0.0,
               child: ButtonWide(

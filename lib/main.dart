@@ -8,7 +8,7 @@ import 'package:tiutiu/providers/favorites_provider.dart';
 import 'package:tiutiu/providers/location.dart';
 import 'package:tiutiu/providers/my_pets_provider.dart';
 import 'package:tiutiu/providers/pets_provider.dart';
-import 'package:tiutiu/providers/show_bottom.dart';
+import 'package:tiutiu/providers/refine_search.dart';
 import 'package:tiutiu/providers/user_infos_interests.dart';
 import 'package:tiutiu/providers/user_provider.dart';
 import 'package:tiutiu/screen/choose_location.dart';
@@ -59,8 +59,8 @@ class App extends StatelessWidget {
                 create: (_) => Authentication(),
               ),
               ChangeNotifierProvider(
-                create: (_) => ShowBottomNavigator(),
-              ),
+                create: (_) => RefineSearchProvider(),
+              ),              
               ChangeNotifierProvider(
                 create: (_) => PetsProvider(),
               ),
