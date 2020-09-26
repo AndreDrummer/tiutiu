@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:loading_animations/loading_animations.dart';
 
 class LoadDarkScreen extends StatelessWidget {
-  LoadDarkScreen(this.show, this.message);
+  LoadDarkScreen({
+    this.show,
+    this.message = 'Aguarde',
+  });
   final bool show;
   final String message;
 
@@ -22,7 +25,7 @@ class LoadDarkScreen extends StatelessWidget {
                   ),
                   SizedBox(height: 15),
                   Text(
-                    'Aguarde',
+                    message,
                     style: Theme.of(context).textTheme.headline1.copyWith(),
                   )
                 ],
