@@ -103,17 +103,7 @@ class UserCardInfo extends StatelessWidget {
         child: Container(
           width: 120,
           child: Column(
-            children: [
-              // Padding(
-              //   padding: const EdgeInsets.all(4.0),
-              //   child: Text(
-              //     title,
-              //     textAlign: TextAlign.center,
-              //     overflow: TextOverflow.fade,
-              //     style: TextStyle(
-              //     ),
-              //   ),
-              // ),
+            children: [              
               Container(
                 height: 120,
                 width: 135,
