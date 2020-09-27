@@ -406,7 +406,7 @@ class _RegisterState extends State<Register> {
               ),
             ),
           ),
-          LoadDarkScreen(finishing, 'Finalizando cadastro'),          
+          LoadDarkScreen(show: finishing, message: 'Finalizando cadastro'),          
         ],
       ),
       bottomNavigationBar: ButtonWide(
