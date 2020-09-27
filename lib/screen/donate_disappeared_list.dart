@@ -44,8 +44,7 @@ class _DonateDisappearedListState extends State<DonateDisappearedList> {
 
   @override
   Widget build(BuildContext context) {    
-    final marginTop = MediaQuery.of(context).size.height / 1.2;
-    // final showBottom = Provider.of<ShowBottomNavigator>(context);
+    final marginTop = MediaQuery.of(context).size.height / 1.2;    
 
     final kind = widget.kind;
 
