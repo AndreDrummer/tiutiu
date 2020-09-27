@@ -68,15 +68,23 @@ class _PetDetailsState extends State<PetDetails> {
         .loadFavoritesReference();
   }
 
+  Map<String, dynamic> petIconType = {
+    'Cachorro': Tiutiu.dog,
+    'Gato': Tiutiu.cat,
+    'Pássaro': Tiutiu.twitter_bird,
+    'Hamster': Tiutiu.hamster,
+    'Outro': Tiutiu.question,
+  };
+
   @override
   Widget build(BuildContext context) {
     List petDetails = [
       {
         'title': 'TIPO',
         'text': widget.pet.type,
-        'icon': Tiutiu.dog
+        'icon': petIconType[widget.pet.type]
       },
-      {'title': 'RAÇA', 'text': widget.pet.breed, 'icon': Tiutiu.dog},
+      {'title': 'RAÇA', 'text': widget.pet.breed, 'icon': Icons.linear_scale},
       {
         'title': 'TAMANHO',
         'text': widget.pet.size,
@@ -121,7 +129,7 @@ class _PetDetailsState extends State<PetDetails> {
             ? Tiutiu.whatsapp
             : widget.petOwner.betterContact == 1 ? Icons.phone : Icons.email,
         'color': widget.petOwner.betterContact == 0
-            ? Theme.of(context).primaryColor
+            ? Colors.green
             : widget.petOwner.betterContact == 1 ? Colors.orange : Colors.red,
         'callback': () {
           String serializedNumber =
