@@ -68,7 +68,7 @@ class _InputTextState extends State<InputText> {
         color: widget.isLogin ? Colors.white70 : Colors.white,
         border: Border.all(
           style: BorderStyle.solid,
-          color: Colors.white,
+          color: Colors.lightGreenAccent[200],
         ),
       ),
       child: Padding(
@@ -77,6 +77,7 @@ class _InputTextState extends State<InputText> {
           children: <Widget>[
             Expanded(
               child: TextFormField(
+                cursorColor: Theme.of(context).primaryColor,
                 inputFormatters: widget.inputFormatters,
                 validator: widget.validator != null ? (value) {
                   return widget.validator(value);
