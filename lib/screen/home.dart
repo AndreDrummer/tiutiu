@@ -165,7 +165,7 @@ class _HomeState extends State<Home> {
                 },
                 tooltip: 'Adicionar PET',
                 heroTag: 'speed-dial-hero-tag',
-                backgroundColor: Colors.purple,
+                backgroundColor: Theme.of(context).primaryColor,
                 foregroundColor: Colors.white,
                 elevation: 8.0,
                 shape: CircleBorder(),

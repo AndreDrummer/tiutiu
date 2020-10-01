@@ -42,7 +42,7 @@ class _CardListState extends State<CardList> {
     return Future.value(owner.data());
   }
 
-  String distanceCalculate(double petLatitude, double petLongitude) {
+  List<String> distanceCalculate(double petLatitude, double petLongitude) {
     provider_location.Location currentLoction =
         Provider.of(context, listen: false);
     String textDistance = '';
@@ -69,7 +69,7 @@ class _CardListState extends State<CardList> {
       textDistance = (double.parse(distance) / 1000).toStringAsFixed(2) + ' Km';
     }
 
-    return textDistance + ', ' + textTime;
+    return [textDistance,textTime];
   }
 
   @override
@@ -77,6 +77,7 @@ class _CardListState extends State<CardList> {
     UserController user = UserController();
     Authentication auth = Provider.of(context, listen: false);
     FavoritesProvider favoritesProvider = Provider.of(context);
+    List<String> distanceText = distanceCalculate(widget.petInfo.toMap()['latitude'], widget.petInfo.toMap()['longitude']);
 
     return InkWell(
       onTap: () async {
@@ -210,7 +211,7 @@ class _CardListState extends State<CardList> {
                               child: Row(
                                 children: [
                                   Text(
-                                    '${distanceCalculate(widget.petInfo.toMap()['latitude'], widget.petInfo.toMap()['longitude'])} ',
+                                    '${distanceText[0]}, ${distanceText[1]}',
                                     style: Theme.of(context)
                                         .textTheme
                                         .headline1

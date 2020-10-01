@@ -4,11 +4,11 @@ class SelectionPage extends StatefulWidget {
   SelectionPage({
     @required this.list,
     @required this.title,
-    @required this.listSelected,
+    @required this.valueSelected,
   });
 
   final List list;
-  final List listSelected;
+  final String valueSelected;
   final String title;
 
   @override
@@ -17,14 +17,14 @@ class SelectionPage extends StatefulWidget {
 
 class _SelectionPageState extends State<SelectionPage> {
   List list;
-  List selectedValues = [];
+  String valueSelected = '';
 
 
   @override
   void initState() {
     super.initState();
     list = widget.list;
-    selectedValues = widget.listSelected;
+    valueSelected = widget.valueSelected;
   }
 
   @override
@@ -40,23 +40,10 @@ class _SelectionPageState extends State<SelectionPage> {
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: Colors.white),
           onPressed: () {
-            selectedValues.clear();
+            valueSelected = '';
             Navigator.pop(context);
           },
-        ),
-        actions: [
-          FlatButton(
-            onPressed: () {
-              Navigator.pop(context, selectedValues);
-            },
-            child: Text(
-              'Prosseguir',
-              style: TextStyle(
-                color: Colors.white,
-              ),
-            ),
-          )
-        ],
+        ),    
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -65,17 +52,10 @@ class _SelectionPageState extends State<SelectionPage> {
           itemBuilder: (_, index) {
             return InkWell(
               onTap: () {
-                setState(() {
-                  selectedValues.contains(list[index])
-                      ? selectedValues.remove(list[index])
-                      : selectedValues.add(list[index]);
-                });
+                Navigator.pop(context, list[index]);                
               },
               child: ListTile(
-                title: Text(list[index]),
-                trailing: selectedValues.contains(list[index])
-                    ? Icon(Icons.done, color: Colors.purple)
-                    : Text(''),
+                title: Text(list[index]),                
               ),
             );
           },
