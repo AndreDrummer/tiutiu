@@ -12,6 +12,7 @@ class PetsList extends StatelessWidget {
       initialIndex: indexTab ?? 0,
       child: Scaffold(        
         appBar: AppBar(          
+          leading: null,
           title: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [              

@@ -1,5 +1,6 @@
 class DummyData {
   static const breed = [
+    [],
     [
       'Akita',
       'Basset',
@@ -275,7 +276,7 @@ class DummyData {
 
   static const health = ['Saudável', 'Doente', 'Machucado', 'Paliativo'];
 
-  static const type = [
+  static const type = [  
     'Cachorro',
     'Gato',
     'Pássaro',
