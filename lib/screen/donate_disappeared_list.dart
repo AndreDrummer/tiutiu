@@ -62,9 +62,8 @@ class _DonateDisappearedListState extends State<DonateDisappearedList> {
           longY: petsListResult[i].longitude,
         );        
 
-        double distanceRefineSelected = double.tryParse(refineSearchProvider.getDistancieSelected) ?? 1000;
-
-        print("$distanceRefineSelected ${double.parse(distance)}");
+        String distancieSelected = refineSearchProvider.getDistancieSelected?.split('Km')?.first?.split('Até')?.last;
+        double distanceRefineSelected = double.tryParse(distancieSelected) ?? 1000;      
 
         if (double.parse(distance) < distanceRefineSelected * 1000) {
           newPetList.add(petsListResult[i]);
