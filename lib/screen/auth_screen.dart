@@ -157,19 +157,22 @@ class _AuthScreenState extends State<AuthScreen> {
                         ],
                       ),
                     ),
-                  ),
+                  ),                  
                   isNewAccount
-                      ? Align(
-                          alignment: Alignment(-0.9, 1),
-                          child: Text(
-                            'Crie sua conta gratuitamente.',
-                            style: TextStyle(
-                              fontSize: 18,
-                              color: Colors.white,
-                              fontWeight: FontWeight.w700,
+                      ? Padding(
+                        padding: const EdgeInsets.only(top: 16.0, bottom: 8.0),
+                        child: Align(
+                            alignment: Alignment(-0.9, 1),
+                            child: Text(
+                              'Crie sua conta gratuitamente.',
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Colors.white,
+                                fontWeight: FontWeight.w700,
+                              ),
                             ),
                           ),
-                        )
+                      )
                       : Container(),
                   SizedBox(height: 15),
                 ],
