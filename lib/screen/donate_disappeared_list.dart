@@ -74,12 +74,25 @@ class _DonateDisappearedListState extends State<DonateDisappearedList> {
             } else {
               if (petsList.isEmpty)
                 return Center(
-                  child: Text(
-                    'Nenhum PET ${kind == 'Donate' ? 'para adoção' : 'encontrado'}',
-                    textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.headline1.copyWith(
-                          color: Colors.black,
-                        ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        'Nenhum PET ${kind == 'Donate' ? 'para adoção' : 'encontrado'}',
+                        textAlign: TextAlign.center,
+                        style: Theme.of(context).textTheme.headline1.copyWith(
+                              color: Colors.black,
+                            ),
+                      ),
+                      SizedBox(height: 5),
+                      Text(
+                        'Verifique seus filtros de busca.',
+                        textAlign: TextAlign.center,
+                        style: Theme.of(context).textTheme.headline1.copyWith(
+                              color: Colors.blueAccent,
+                            ),
+                      ),
+                    ],
                   ),
                 );
             }
