@@ -256,7 +256,7 @@ class _NovoPetState extends State<NovoPet> {
       name: _nome.text,
       kind: kind,
       avatar: petPhotosToUpload.values.first,
-      breed: DummyData.breed[dropvalueType][dropvalueBreed],
+      breed: DummyData.breed[dropvalueType + 1][dropvalueBreed],
       health: DummyData.health[dropvalueHealth],
       ownerReference: userProvider.userReference,
       photos: petPhotosToUpload,
@@ -537,8 +537,8 @@ class _NovoPetState extends State<NovoPet> {
                         CustomDropdownButton(
                           isExpanded: true,
                           label: 'Raça',
-                          initialValue: DummyData.breed[dropvalueType][dropvalueBreed],
-                          itemList: DummyData.breed[dropvalueType],
+                          initialValue: DummyData.breed[dropvalueType + 1][dropvalueBreed],
+                          itemList: DummyData.breed[dropvalueType + 1],
                           onChange: (String value) {
                             setState(() {
                               dropvalueBreed = DummyData.breed[dropvalueType].indexOf(value);                                                            
