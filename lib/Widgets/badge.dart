@@ -1,24 +1,30 @@
 import 'package:flutter/material.dart';
 
 class Badge extends StatelessWidget {
+  
+  Badge({
+    this.text
+  });
 
-  Badge({this.callback, this.icon});
-
-  final Function() callback;
-  final IconData icon;
+  final String text;
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () => callback(),
-      child: Container(
-        width: 50,
-        height: 50,
-        decoration: BoxDecoration(
-          color:  Colors.black26,
-          shape: BoxShape.circle
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.blue,
+        borderRadius: BorderRadius.circular(25),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(4.0),
+        child: Text(
+          text,
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 10,
+            fontWeight: FontWeight.bold,
+          ),
         ),
-        child: Icon(icon, color: Colors.white),
       ),
     );
   }
