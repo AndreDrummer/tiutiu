@@ -50,7 +50,6 @@ class _HomeState extends State<Home> {
   }
 
   Future<bool> leaveApplication() async {
-    var answer = false;
     return showDialog(
       context: context,
       barrierDismissible: false,
@@ -59,12 +58,9 @@ class _HomeState extends State<Home> {
           return PopUpMessage(
             title: 'Logout',
             message: 'Deseja realmente sair?',
-            confirmAction: () {
-              setState(() {
-                answer = true;
-              });
-              Navigator.pop(context);
+            confirmAction: () {                    
               auth.signOut();
+              Navigator.popUntil(context, ModalRoute.withName(Routes.AUTH_HOME));                
             },
             confirmText: 'Sim',
             denyAction: () {
@@ -74,9 +70,8 @@ class _HomeState extends State<Home> {
           );
         },
       ),
-    ).then((value) {
-      print('Answer: $answer');
-      return answer;
+    ).then((value) {    
+      return false;
     });
   }
 
