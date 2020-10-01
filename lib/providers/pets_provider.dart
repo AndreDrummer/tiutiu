@@ -52,7 +52,7 @@ class PetsProvider with ChangeNotifier {
       changeListDisappearedPETS(temp);
     }
 
-    // notifyListeners();
+    notifyListeners();
     return Future.value();
   }
 
@@ -72,10 +72,12 @@ class PetsProvider with ChangeNotifier {
           temp.add(Pet.fromSnapshot(donatesPETS.docs[i]));
         }
       });
+
+      print(temp.length);
       changeListDonatesPETS(temp);
     }
 
-    // notifyListeners();
+    notifyListeners();
     return Future.value();
   }
 
@@ -114,23 +116,13 @@ class PetsProvider with ChangeNotifier {
 
         if(healthSelected.isNotEmpty && healthSelected != null) {
           query = await query.where("health", isEqualTo: healthSelected);
-        } 
-
-
-      // TODO: Implementar filtro de distancias
-        // if(distanceSelected.isNotEmpty && distanceSelected != null) {
-          // query = query.where("breed", isEqualTo: distanceSelected);      
-        // }                  
+      }       
       
 
       var result_search = await query.get();
       for (int i = 0; i < result_search.docs.length; i++) {
         temp.add(Pet.fromSnapshot(result_search.docs[i]));
       }
-    }
-
-    if (temp.isNotEmpty) {
-      print("Tamnho do resultado ${temp.length}");
     }
 
     if (petKind == 'Donate') {
