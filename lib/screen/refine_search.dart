@@ -151,35 +151,40 @@ class _RefineSearchState extends State<RefineSearch> {
                   handleSelectedKind: handleSelectedKind,
                   selectedKind: selectedKind,
                 ),
-                Column(
-                  children: listOptions.map((optionTile) {
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                      child: _SelecterTile(
-                        titleTile: optionTile['title'],
-                        valueSelected: optionTile['valueSelected'],
-                        clear: optionTile['clearFunction'],
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) {
-                                return SelectionPage(
-                                  title: optionTile['selectionPageTitle'],
-                                  list: optionTile['selectionPageList'],
-                                  valueSelected: optionTile['valueSelected'],
-                                );
-                              },
-                            ),
-                          ).then((value) {
-                            if (value != null) {
-                              optionTile['onValueSelected'](value);
-                            }
-                          });
-                        },
-                      ),
-                    );
-                  }).toList(),
+                Stack(
+                  children: [
+                    Column(
+                      children: listOptions.map((optionTile) {
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                          child: _SelecterTile(
+                            titleTile: optionTile['title'],
+                            valueSelected: optionTile['valueSelected'],
+                            clear: optionTile['clearFunction'],
+                            onTap: selectedKind == 0 ? null : () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) {
+                                    return SelectionPage(
+                                      title: optionTile['selectionPageTitle'],
+                                      list: optionTile['selectionPageList'],
+                                      valueSelected: optionTile['valueSelected'],
+                                    );
+                                  },
+                                ),
+                              ).then((value) {
+                                if (value != null) {
+                                  optionTile['onValueSelected'](value);
+                                }
+                              });
+                            },
+                          ),
+                        );
+                      }).toList(),
+                    ),
+                    selectedKind == 0 ? Container(color: Colors.black12, height: 272) : Container(),
+                  ],
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
@@ -221,7 +226,7 @@ class _RefineSearchState extends State<RefineSearch> {
                       changeIsRefineSearchStatus(true);
                       await petsProvider.bigQueryRefine(
                           refineSearchProvider.getIsDisappeared ? 'Disappeared' : 'Donate',
-                          petsType[selectedKind],
+                          selectedKind == 0 ? 'Todos' : petsType[selectedKind - 1],
                           refineSearchProvider.getBreedSelected,
                           refineSearchProvider.getSizeSelected,
                           refineSearchProvider.getAgeSelected,
@@ -249,6 +254,7 @@ class _PetSelector extends StatelessWidget {
   final int selectedKind;
 
   final List selector = [
+    {'Todos': Icons.all_inclusive},
     {'Cachorro': Tiutiu.dog},
     {'Gato': Tiutiu.cat},
     {'Pássaro': Tiutiu.twitter_bird},
