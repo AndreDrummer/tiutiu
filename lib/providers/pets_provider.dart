@@ -52,7 +52,7 @@ class PetsProvider with ChangeNotifier {
       changeListDisappearedPETS(temp);
     }
 
-    // notifyListeners();
+    notifyListeners();
     return Future.value();
   }
 
@@ -72,21 +72,23 @@ class PetsProvider with ChangeNotifier {
           temp.add(Pet.fromSnapshot(donatesPETS.docs[i]));
         }
       });
+
+      print(temp.length);
       changeListDonatesPETS(temp);
     }
 
-    // notifyListeners();
+    notifyListeners();
     return Future.value();
   }
 
   Future<void> bigQueryRefine(
     String petKind,
     String petType,
-    List<String> breedList,
-    List<String> sizeList,
-    List<String> ageList,
-    List<String> healthList,
-    List<String> distanceList,
+    String breedSelected,
+    String sizeSelected,
+    String ageSelected,
+    String healthSelected,
+    String distanceSelected,
   ) async {
     loadUsersID();
     List<Pet> temp = [];
@@ -97,34 +99,30 @@ class PetsProvider with ChangeNotifier {
           .doc('posted')
           .collection(petKind)
           .where("type", isEqualTo: petType);
+
+        print(ageSelected);
+
+        if(breedSelected.isNotEmpty && breedSelected != null) {
+          query = await query.where("breed", isEqualTo: breedSelected);
+        }
+
+        if(sizeSelected.isNotEmpty && sizeSelected != null) {
+          query = await query.where("size", isEqualTo: sizeSelected);      
+        }
+
+        if(ageSelected.isNotEmpty && ageSelected != null) {
+          query = await query.where("ano", isEqualTo: int.parse(ageSelected));
+        }
+
+        if(healthSelected.isNotEmpty && healthSelected != null) {
+          query = await query.where("health", isEqualTo: healthSelected);
+      }       
       
-
-      for (int i = 0; i < breedList.length; i++) {
-        query = await query.where("breed", isEqualTo: breedList[i]);
-      }
-      for (int i = 0; i < sizeList.length; i++) {
-        query = await query.where("size", isEqualTo: sizeList[i]);
-      }
-      for (int i = 0; i < ageList.length; i++) {
-        query = await query.where("ano", isEqualTo: ageList[i]);
-      }
-      for (int i = 0; i < healthList.length; i++) {
-        query = await query.where("health", isEqualTo: healthList[i]);
-      }
-
-      // TODO: Implementar filtro de distancias
-      // for (int i = 0; i < distanceList.length; i++) {
-      //   query = query.where("breed", isEqualTo: distanceList[i]);
-      // }
 
       var result_search = await query.get();
       for (int i = 0; i < result_search.docs.length; i++) {
         temp.add(Pet.fromSnapshot(result_search.docs[i]));
       }
-    }
-
-    if (temp.isNotEmpty) {
-      print("Tamnho do resultado ${temp.length}");
     }
 
     if (petKind == 'Donate') {

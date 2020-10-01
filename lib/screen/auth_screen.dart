@@ -1,6 +1,8 @@
+import 'package:google_fonts/google_fonts.dart';
 import 'package:tiutiu/Exceptions/titiu_exceptions.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:tiutiu/Widgets/button_social_login.dart';
 import 'package:tiutiu/Widgets/hint_error.dart';
 import 'package:tiutiu/Widgets/input_text.dart';
 import 'package:tiutiu/Widgets/popup_message.dart';
@@ -115,289 +117,285 @@ class _AuthScreenState extends State<AuthScreen> {
   Widget build(BuildContext context) {
     var auth = Provider.of<Authentication>(context);
     return Scaffold(
-      backgroundColor: Color(0XFFA9C27B),
-      body: Stack(
-        children: <Widget>[
-          Center(
-            child: Image.asset(
-              'assets/cao e gato.png',
-              fit: BoxFit.cover,
-              width: 1000,
-              height: 1000,
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: SingleChildScrollView(
-              child: Column(
+      backgroundColor: Theme.of(context).primaryColor,
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: SingleChildScrollView(
+          child: Column(
+            children: <Widget>[
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   SizedBox(height: 15),
                   Container(
-                    margin: const EdgeInsets.only(top: 25),
-                    height: 200,
-                    width: 420,
+                    margin: const EdgeInsets.only(top: 12),
+                    width: double.infinity,
                     child: Center(
-                      child: Image.asset('assets/Logo.png'),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Container(
+                            margin: const EdgeInsets.only(top: 12),
+                            decoration: BoxDecoration(
+                                shape: BoxShape.circle, color: Colors.white),
+                            child: Padding(
+                              padding: const EdgeInsets.all(16.0),
+                              child: Image.asset('assets/pata.jpg'),
+                            ),
+                          ),
+                          SizedBox(height: 10),
+                          Text(
+                            'Tiu,tiu',
+                            style: GoogleFonts.miltonianTattoo(
+                              textStyle: TextStyle(
+                                color: Colors.white,
+                                fontSize: 60,
+                                letterSpacing: 12,
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
                     ),
                   ),
                   isNewAccount
-                      ? Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Align(
-                              alignment: Alignment(-0.9, 1),
-                              child: Text(
-                                'Crie sua conta gratuitamente.',
-                                style: TextStyle(
-                                  fontSize: 18,
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w700,
-                                ),
-                              ),
+                      ? Align(
+                          alignment: Alignment(-0.9, 1),
+                          child: Text(
+                            'Crie sua conta gratuitamente.',
+                            style: TextStyle(
+                              fontSize: 18,
+                              color: Colors.white,
+                              fontWeight: FontWeight.w700,
                             ),
-                            SizedBox(height: 15),
-                          ],
+                          ),
                         )
                       : Container(),
-                  InputText.login(
-                    placeholder: isToResetPassword
-                        ? 'Digite seu email cadastrado'
-                        : 'E-mail',
-                    onChanged: validateFields,
-                    controller: email,
-                    readOnly: fieldsAreReadyOnly,
-                  ),
-                  emailError
-                      ? HintError(
-                          message: validateEmail()
-                              ? '* Campo obrigatório.'
-                              : 'E-mail inválido')
-                      : Container(),
-                  SizedBox(height: 12),
-                  isToResetPassword
-                      ? Container()
-                      : InputText.login(
-                          placeholder: 'Senha',
-                          controller: password,
-                          readOnly: fieldsAreReadyOnly,
-                          onChanged: validateFields,
-                          isPassword: true,
-                        ),
-                  passwordError && !isToResetPassword
-                      ? HintError()
-                      : Container(),
-                  SizedBox(height: 12),
-                  isNewAccount
-                      ? InputText.login(
-                          placeholder: 'Repita sua senha',
-                          controller: repeatPassword,
-                          readOnly: fieldsAreReadyOnly,
-                          onChanged: validateFields,
-                          isPassword: true,
-                        )
-                      : Container(),
-                  repeatPasswordError ? HintError() : Container(),
-                  FlatButton(
-                    onPressed: () {
-                      print('Redefinir senha');
-                      changeResetPasswordStatus(
-                          isToResetPassword ? false : true);
+                  SizedBox(height: 15),
+                ],
+              ),
+              InputText.login(
+                placeholder: isToResetPassword
+                    ? 'Digite seu email cadastrado'
+                    : 'E-mail',
+                onChanged: validateFields,
+                controller: email,
+                readOnly: fieldsAreReadyOnly,
+              ),
+              emailError
+                  ? HintError(
+                      message: validateEmail()
+                          ? '* Campo obrigatório.'
+                          : 'E-mail inválido')
+                  : Container(),
+              SizedBox(height: 12),
+              isToResetPassword
+                  ? Container()
+                  : InputText.login(
+                      placeholder: 'Senha',
+                      controller: password,
+                      readOnly: fieldsAreReadyOnly,
+                      onChanged: validateFields,
+                      isPassword: true,
+                    ),
+              passwordError && !isToResetPassword ? HintError() : Container(),
+              SizedBox(height: 12),
+              isNewAccount
+                  ? InputText.login(
+                      placeholder: 'Repita sua senha',
+                      controller: repeatPassword,
+                      readOnly: fieldsAreReadyOnly,
+                      onChanged: validateFields,
+                      isPassword: true,
+                    )
+                  : Container(),
+              repeatPasswordError ? HintError() : Container(),
+              FlatButton(
+                onPressed: () {
+                  print('Redefinir senha');
+                  changeResetPasswordStatus(isToResetPassword ? false : true);
+                },
+                child: Row(
+                  // mainAxisAlignment: MainAxisAlignment.end,
+                  children: <Widget>[
+                    Text(
+                      !isToResetPassword
+                          ? 'Esqueci minha senha'
+                          : 'Fazer login',
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: Colors.white,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(height: 12),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  ButtonWide(
+                    text:
+                        '${isToResetPassword ? 'RESETAR SENHA' : !isNewAccount ? 'LOGIN' : 'CADASTRE-SE'}',
+                    action: () async {
+                      try {
+                        if (isNewAccount) {
+                          if (validateFields()) {
+                            if (validatePassword()) {
+                              changeLogginStatus(true);
+                              await auth.createUserWithEmailAndPassword(
+                                  email.text.trim(), password.text.trim());
+                              changeLogginStatus(false);
+                              setState(() {
+                                isNewAccount = !isNewAccount;
+                              });
+                            } else {
+                              await showDialog(
+                                context: context,
+                                builder: (context) => PopUpMessage(
+                                    title: 'Erro',
+                                    warning: true,
+                                    confirmText: 'OK',
+                                    confirmAction: () => Navigator.pop(context),
+                                    message: 'Senhas não conferem!'),
+                              );
+                              changeLogginStatus(false);
+                            }
+                          } else {
+                            print('invalidos');
+                          }
+                        } else if (isToResetPassword) {
+                          changeLogginStatus(true);
+                          await auth.passwordReset(email.text);
+                          await showDialog(
+                            context: context,
+                            builder: (context) => PopUpMessage(
+                              title: 'E-mail enviado',
+                              message:
+                                  'Um link com instruções para redefinir sua senha foi enviado para o e-mail informado.',
+                            ),
+                          ).then((_) => resetPage());
+                        } else if (validateFields()) {
+                          changeLogginStatus(true);
+                          await auth.signInWithEmailAndPassword(
+                              email.text, password.text);
+                          changeLogginStatus(false);
+                        }
+                      } on TiuTiuAuthException catch (error) {
+                        print('ERROR');
+                        await showDialog(
+                          context: context,
+                          builder: (context) => PopUpMessage(
+                            title: 'Falha na autenticação',
+                            confirmText: 'OK',
+                            confirmAction: () => Navigator.pop(context),
+                            error: true,
+                            message: error.toString(),
+                          ),
+                        );
+                        changeLogginStatus(false);
+                      }
                     },
-                    child: Row(
-                      // mainAxisAlignment: MainAxisAlignment.end,
-                      children: <Widget>[
-                        Text(
-                          !isToResetPassword
-                              ? 'Esqueci minha senha'
-                              : 'Fazer login',
+                  )
+                ],
+              ),
+              isNewAccount
+                  ? Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: FlatButton(
+                        child: Text(
+                          'Fazer login',
                           style: TextStyle(
-                            fontSize: 14,
+                            fontSize: 20,
                             color: Colors.white,
                             fontWeight: FontWeight.w700,
                           ),
                         ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: 12),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      ButtonWide(
-                        text:
-                            '${isToResetPassword ? 'RESETAR SENHA' : !isNewAccount ? 'LOGIN' : 'CADASTRE-SE'}',
-                        action: () async {
-                          try {
-                            if (isNewAccount) {
-                              if (validateFields()) {
-                                if (validatePassword()) {
-                                  changeLogginStatus(true);
-                                  await auth.createUserWithEmailAndPassword(
-                                      email.text.trim(), password.text.trim());
-                                  changeLogginStatus(false);
-                                  setState(() {
-                                    isNewAccount = !isNewAccount;
-                                  });
-                                } else {
-                                  await showDialog(
-                                    context: context,
-                                    builder: (context) => PopUpMessage(
-                                        title: 'Erro',
-                                        warning: true,
-                                        confirmText: 'OK',
-                                        confirmAction: () =>
-                                            Navigator.pop(context),
-                                        message: 'Senhas não conferem!'),
-                                  );
-                                  changeLogginStatus(false);
-                                }
-                              } else {
-                                print('invalidos');
-                              }
-                            } else if (isToResetPassword) {
-                              changeLogginStatus(true);
-                              await auth.passwordReset(email.text);
-                              await showDialog(
-                                context: context,
-                                builder: (context) => PopUpMessage(
-                                  title: 'E-mail enviado',
-                                  message:
-                                      'Um link com instruções para redefinir sua senha foi enviado para o e-mail informado.',
-                                ),
-                              ).then((_) => resetPage());
-                            } else if (validateFields()) {
-                              changeLogginStatus(true);
-                              await auth.signInWithEmailAndPassword(
-                                  email.text, password.text);
-                              changeLogginStatus(false);
-                            }
-                          } on TiuTiuAuthException catch (error) {
-                            print('ERROR');
-                            await showDialog(
-                              context: context,
-                              builder: (context) => PopUpMessage(
-                                title: 'Falha na autenticação',
-                                confirmText: 'OK',
-                                confirmAction: () => Navigator.pop(context),
-                                error: true,
-                                message: error.toString(),
-                              ),
-                            );
-                            changeLogginStatus(false);
-                          }
+                        onPressed: () {
+                          setState(() {
+                            isNewAccount = !isNewAccount;
+                          });
                         },
-                      )
-                    ],
-                  ),
-                  isNewAccount
-                      ? Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: FlatButton(
-                            child: Text(
-                              'Fazer login',
-                              style: TextStyle(
-                                fontSize: 20,
-                                color: Colors.white,
-                                fontWeight: FontWeight.w700,
-                              ),
-                            ),
-                            onPressed: () {
+                      ),
+                    )
+                  : SizedBox(),
+              SizedBox(height: 15),
+              !isNewAccount
+                  ? Container(
+                      child: Column(
+                        children: <Widget>[
+                          InkWell(
+                            onTap: () {
                               setState(() {
-                                isNewAccount = !isNewAccount;
+                                isNewAccount = true;
                               });
                             },
-                          ),
-                        )
-                      : SizedBox(),
-                  SizedBox(height: 15),
-                  !isNewAccount
-                      ? Container(
-                          child: Column(
-                            children: <Widget>[
-                              InkWell(
-                                onTap: () {
-                                  setState(() {
-                                    isNewAccount = true;
-                                  });
-                                },
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: <Widget>[
-                                    Text(
-                                      'No account?',
-                                      style: TextStyle(
-                                        fontSize: 20,
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.w700,
-                                      ),
-                                    ),
-                                    Container(
-                                      color: Colors.white,
-                                      margin: const EdgeInsets.all(4.0),
-                                      child: Text(
-                                        ' Register now for free.',
-                                        style: TextStyle(
-                                          fontSize: 18,
-                                          color: Colors.blueAccent,
-                                          fontWeight: FontWeight.w400,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                Text(
+                                  'No account?',
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w700,
+                                  ),
                                 ),
-                              ),
-                              SizedBox(height: 30),
-                              Text(
-                                'Or create account with',
-                                style: TextStyle(
-                                  fontSize: 16,
+                                Container(
                                   color: Colors.white,
-                                  fontWeight: FontWeight.w700,
-                                ),
-                              ),
-                              SizedBox(height: 10),
-                              ButtonBar(
-                                alignment: MainAxisAlignment.center,
-                                children: <Widget>[
-                                  FlatButton(
-                                    onPressed: () {
-                                      changeLogginStatus(true);
-                                      auth.loginWithGoogle().then((_) {
-                                        changeLogginStatus(false);
-                                      });
-                                    },
-                                    child: Image.asset(
-                                      'assets/google.png',
-                                      width: 50,
-                                      height: 50,
+                                  margin: const EdgeInsets.all(4.0),
+                                  child: Text(
+                                    ' Register now for free.',
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      color: Colors.blueAccent,
+                                      fontWeight: FontWeight.w400,
                                     ),
                                   ),
-                                  SizedBox(width: 15),
-                                  FlatButton(
-                                    onPressed: () {},
-                                    child: Image.asset(
-                                      'assets/face.png',
-                                      width: 50,
-                                      height: 50,
-                                    ),
-                                  )
-                                ],
-                              )
-                            ],
+                                ),
+                              ],
+                            ),
                           ),
-                        )
-                      : Container()
-                ],
-              ),
-            ),
+                          SizedBox(height: 30),
+                          Text(
+                            'Or create account with',
+                            style: TextStyle(
+                              fontSize: 16,
+                              color: Colors.white,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                          SizedBox(height: 10),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              InkWell(
+                                onTap: () {
+                                  changeLogginStatus(true);
+                                  auth.loginWithGoogle().then((_) {
+                                    changeLogginStatus(false);
+                                  });
+                                },
+                                child: ButtonSocialLogin(
+                                  imageUrl: 'assets/google.png',
+                                  text: 'Google',
+                                ),
+                              ),
+                              SizedBox(width: 10),
+                              ButtonSocialLogin(
+                                imageUrl: 'assets/face.png',
+                                text: 'Facebook',
+                              ),
+                            ],
+                          )
+                        ],
+                      ),
+                    )
+                  : Container()
+            ],
           ),
-          isLogging
-              ? Center(
-                  child: CircularProgressIndicator(
-                      backgroundColor: Theme.of(context).primaryColor),
-                )
-              : SizedBox()
-        ],
+        ),
       ),
     );
   }
