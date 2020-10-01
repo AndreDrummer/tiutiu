@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tiutiu/Custom/icons.dart';
 import 'package:tiutiu/Widgets/button.dart';
+import 'package:tiutiu/Widgets/badge.dart';
 import 'package:tiutiu/Widgets/load_dark_screen.dart';
 import 'package:tiutiu/data/dummy_data.dart';
 import 'package:tiutiu/providers/pets_provider.dart';
@@ -15,11 +16,11 @@ class RefineSearch extends StatefulWidget {
 }
 
 class _RefineSearchState extends State<RefineSearch> {
-  PetsProvider petsProvider;  
-  RefineSearchProvider refineSearchProvider;  
+  PetsProvider petsProvider;
+  RefineSearchProvider refineSearchProvider;
   bool isRefiningSearch = false;
+  bool isPetDisappeared = false;
   int selectedKind;
-      
 
   List petsType = ['Cachorro', 'Gato', 'Pássaro', 'Hamster', 'Outro'];
 
@@ -29,12 +30,16 @@ class _RefineSearchState extends State<RefineSearch> {
     });
   }
 
+  void changePetKind(bool value) {    
+    refineSearchProvider.changeIsDisappeared(value);
+  }
+
   void handleSelectedKind(int index) {
-    refineSearchProvider.changeBreedsSelected([]);
-    refineSearchProvider.changeSizesSelected([]);
-    refineSearchProvider.changeAgesSelected([]);
-    refineSearchProvider.changeHealthsSelected([]);
-    refineSearchProvider.changeKindSelected(index)    ;    
+    refineSearchProvider.changeBreedSelected('');
+    refineSearchProvider.changeSizeSelected('');
+    refineSearchProvider.changeAgeSelected('');
+    refineSearchProvider.changeHealthSelected('');
+    refineSearchProvider.changeKindSelected(index);
   }
 
   @override
@@ -50,47 +55,63 @@ class _RefineSearchState extends State<RefineSearch> {
     List listOptions = [
       {
         'title': 'Raça',
-        'listSelected': refineSearchProvider.getBreedsSelected,
+        'valueSelected': refineSearchProvider.getBreedSelected,
         'selectionPageTitle': 'Selecione as Raças',
         'selectionPageList': DummyData.breed[selectedKind],
+        'onValueSelected': (String value) {
+          refineSearchProvider.changeBreedSelected(value);
+        },
         'clearFunction': () {
-          refineSearchProvider.changeBreedsSelected([]);
+          refineSearchProvider.changeBreedSelected('');
         }
       },
       {
         'title': 'Tamanho',
-        'listSelected': refineSearchProvider.getSizesSelected,
+        'valueSelected': refineSearchProvider.getSizeSelected,
         'selectionPageTitle': 'Tamanhos',
         'selectionPageList': DummyData.size,
+        'onValueSelected': (String value) {
+          refineSearchProvider.changeSizeSelected(value);
+        },
         'clearFunction': () {
-          refineSearchProvider.changeBreedsSelected([]);
+          refineSearchProvider.changeSizeSelected('');
         }
       },
       {
         'title': 'Idade',
-        'listSelected': refineSearchProvider.getAgesSelected,
+        'valueSelected': refineSearchProvider.getAgeSelected,
         'selectionPageTitle': 'Idades',
         'selectionPageList': DummyData.ages,
+        'onValueSelected': (String value) {
+          value = value?.split('')?.first;
+          refineSearchProvider.changeAgeSelected(value);
+        },
         'clearFunction': () {
-          refineSearchProvider.changeBreedsSelected([]);
+          refineSearchProvider.changeAgeSelected('');
         }
       },
       {
         'title': 'Saúde',
-        'listSelected': refineSearchProvider.getHealthsSelected,
+        'valueSelected': refineSearchProvider.getHealthSelected,
         'selectionPageTitle': 'Estado de saúde',
         'selectionPageList': DummyData.health,
+        'onValueSelected': (String value) {
+          refineSearchProvider.changeHealthSelected(value);
+        },
         'clearFunction': () {
-          refineSearchProvider.changeBreedsSelected([]);
+          refineSearchProvider.changeHealthSelected('');
         }
       },
       {
         'title': 'Distância',
-        'listSelected': refineSearchProvider.getDistanciesSelected,
+        'valueSelected': refineSearchProvider.getDistancieSelected,
         'selectionPageTitle': 'Distância',
         'selectionPageList': DummyData.distancies,
+        'onValueSelected': (String value) {
+          refineSearchProvider.changeDistancieSelected(value);
+        },
         'clearFunction': () {
-          refineSearchProvider.changeBreedsSelected([]);
+          refineSearchProvider.changeDistancieSelected('');
         }
       },
     ];
@@ -99,10 +120,7 @@ class _RefineSearchState extends State<RefineSearch> {
       appBar: AppBar(
         title: Text(
           'Refine sua busca',
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 20
-          ),
+          style: TextStyle(color: Colors.white, fontSize: 20),
         ),
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: Colors.white),
@@ -139,7 +157,7 @@ class _RefineSearchState extends State<RefineSearch> {
                       padding: const EdgeInsets.symmetric(horizontal: 8.0),
                       child: _SelecterTile(
                         titleTile: optionTile['title'],
-                        selectedValuesList: optionTile['listSelected'],
+                        valueSelected: optionTile['valueSelected'],
                         clear: optionTile['clearFunction'],
                         onTap: () {
                           Navigator.push(
@@ -149,15 +167,13 @@ class _RefineSearchState extends State<RefineSearch> {
                                 return SelectionPage(
                                   title: optionTile['selectionPageTitle'],
                                   list: optionTile['selectionPageList'],
-                                  listSelected: optionTile['listSelected'],
+                                  valueSelected: optionTile['valueSelected'],
                                 );
                               },
                             ),
                           ).then((value) {
                             if (value != null) {
-                              setState(() {
-                                optionTile['listSelected'] = value;
-                              });
+                              optionTile['onValueSelected'](value);
                             }
                           });
                         },
@@ -167,21 +183,60 @@ class _RefineSearchState extends State<RefineSearch> {
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    children: [
+                      Text(
+                        'Desaparecido ?',
+                        style: TextStyle(fontSize: 18),
+                      ),
+                      Checkbox(                      
+                        value: refineSearchProvider.getIsDisappeared,
+                        onChanged: (value) {
+                          changePetKind(value);
+                        },
+                      ),
+                      Text(
+                        'Sim',
+                        style: TextStyle(fontSize: 18),
+                      ),
+                      Checkbox(
+                        value: !refineSearchProvider.getIsDisappeared,
+                        onChanged: (value) {
+                          changePetKind(!value);
+                        },
+                      ),
+                      Text(
+                        'Não',
+                        style: TextStyle(fontSize: 18),
+                      ),
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
                   child: ButtonWide(
                     color: Colors.purple,
                     text: 'BUSCAR',
                     action: () async {
                       changeIsRefineSearchStatus(true);
-                        await petsProvider.bigQueryRefine('Donate', petsType[selectedKind], refineSearchProvider.getBreedsSelected, refineSearchProvider.getSizesSelected, refineSearchProvider.getAgesSelected, refineSearchProvider.getHealthsSelected, refineSearchProvider.getDistanciesSelected);
-                        changeIsRefineSearchStatus(false);
-                        Navigator.pushNamed(context, Routes.HOME);
+                      await petsProvider.bigQueryRefine(
+                          refineSearchProvider.getIsDisappeared ? 'Disappeared' : 'Donate',
+                          petsType[selectedKind],
+                          refineSearchProvider.getBreedSelected,
+                          refineSearchProvider.getSizeSelected,
+                          refineSearchProvider.getAgeSelected,
+                          refineSearchProvider.getHealthSelected,
+                          refineSearchProvider.getDistancieSelected);
+                      changeIsRefineSearchStatus(false);
+                      Navigator.pushNamed(context, Routes.HOME, arguments: refineSearchProvider.getIsDisappeared ? 1 : 0);
                     },
                   ),
                 )
               ],
             ),
           ),
-          LoadDarkScreen(show: isRefiningSearch, message: 'Refinando resultados...')
+          LoadDarkScreen(
+              show: isRefiningSearch, message: 'Refinando resultados...')
         ],
       ),
     );
@@ -261,13 +316,13 @@ class _PetSelector extends StatelessWidget {
 class _SelecterTile extends StatefulWidget {
   _SelecterTile({
     this.titleTile,
-    this.selectedValuesList,
+    this.valueSelected,
     this.onTap,
     this.clear,
   });
 
   final String titleTile;
-  final List selectedValuesList;
+  final String valueSelected;
   final Function() onTap;
   final Function() clear;
 
@@ -282,48 +337,33 @@ class __SelecterTileState extends State<_SelecterTile> {
       onTap: widget.onTap,
       child: Container(
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Row(
-              children: [
-                Text(
-                  widget.titleTile,
-                  style: TextStyle(fontSize: 18),
-                ),
-                Spacer(),
-               widget.selectedValuesList.isNotEmpty ? FlatButton(
-                 child: Text('Limpar'),
-                 onPressed: () => widget.clear(),
-               ) : Icon(Tiutiu.plus_squared_alt),
-              ],
-            ),
-            Container(
-              height: 20,
-              child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: widget.selectedValuesList.length,
-                  itemBuilder: (_, index) {
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 2.0),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: Colors.blue,
-                          borderRadius: BorderRadius.circular(25),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(4.0),
-                          child: Text(
-                            widget.selectedValuesList[index],
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 10,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                      ),
-                    );
-                  }),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8.0),
+              child: Row(
+                children: [
+                  Text(
+                    widget.titleTile,
+                    style: TextStyle(fontSize: 18),
+                  ),
+                  Spacer(),
+                  widget.valueSelected != null &&
+                          widget.valueSelected.isNotEmpty
+                      ? Container(
+                          height: 20,
+                          child: Badge(text: widget.valueSelected),
+                        )
+                      : Container(),
+                  Spacer(),
+                  widget.valueSelected != null &&
+                          widget.valueSelected.isNotEmpty
+                      ? FlatButton(
+                          child: Text('Limpar'),
+                          onPressed: () => widget.clear(),
+                        )
+                      : Icon(Tiutiu.plus_squared_alt),
+                ],
+              ),
             ),
             Divider()
           ],

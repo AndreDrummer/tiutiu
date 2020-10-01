@@ -6,7 +6,7 @@ class ButtonWide extends StatelessWidget {
     this.action,
     this.isToExpand = false,
     this.rounded = true,
-    this.color = Colors.green,
+    this.color = Colors.purple,
     this.icon
   });
 
@@ -26,7 +26,7 @@ class ButtonWide extends StatelessWidget {
         height: 50,
         width: isToExpand ? MediaQuery.of(context).size.width : 260,
         decoration: BoxDecoration(
-          borderRadius: rounded == true ? BorderRadius.circular(25) : null,
+          borderRadius: rounded == true ? BorderRadius.circular(12) : null,
           color: color,
         ),
         child: Row(
