@@ -82,11 +82,11 @@ class PetsProvider with ChangeNotifier {
   Future<void> bigQueryRefine(
     String petKind,
     String petType,
-    List<String> breedList,
-    List<String> sizeList,
-    List<String> ageList,
-    List<String> healthList,
-    List<String> distanceList,
+    String breedSelected,
+    String sizeSelected,
+    String ageSelected,
+    String healthSelected,
+    String distanceSelected,
   ) async {
     loadUsersID();
     List<Pet> temp = [];
@@ -97,25 +97,31 @@ class PetsProvider with ChangeNotifier {
           .doc('posted')
           .collection(petKind)
           .where("type", isEqualTo: petType);
-      
 
-      for (int i = 0; i < breedList.length; i++) {
-        query = await query.where("breed", isEqualTo: breedList[i]);
-      }
-      for (int i = 0; i < sizeList.length; i++) {
-        query = await query.where("size", isEqualTo: sizeList[i]);
-      }
-      for (int i = 0; i < ageList.length; i++) {
-        query = await query.where("ano", isEqualTo: ageList[i]);
-      }
-      for (int i = 0; i < healthList.length; i++) {
-        query = await query.where("health", isEqualTo: healthList[i]);
-      }
+        print(ageSelected);
+
+        if(breedSelected.isNotEmpty && breedSelected != null) {
+          query = await query.where("breed", isEqualTo: breedSelected);
+        }
+
+        if(sizeSelected.isNotEmpty && sizeSelected != null) {
+          query = await query.where("size", isEqualTo: sizeSelected);      
+        }
+
+        if(ageSelected.isNotEmpty && ageSelected != null) {
+          query = await query.where("ano", isEqualTo: int.parse(ageSelected));
+        }
+
+        if(healthSelected.isNotEmpty && healthSelected != null) {
+          query = await query.where("health", isEqualTo: healthSelected);
+        } 
+
 
       // TODO: Implementar filtro de distancias
-      // for (int i = 0; i < distanceList.length; i++) {
-      //   query = query.where("breed", isEqualTo: distanceList[i]);
-      // }
+        // if(distanceSelected.isNotEmpty && distanceSelected != null) {
+          // query = query.where("breed", isEqualTo: distanceSelected);      
+        // }                  
+      
 
       var result_search = await query.get();
       for (int i = 0; i < result_search.docs.length; i++) {
