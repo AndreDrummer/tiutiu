@@ -22,4 +22,4 @@ idade pode manusear sem necessidade de tutoriais complexos.</p>
 
 <strong>2. Chat entre parte interessadas.<br/></strong>
 <strong>3. Procure Pets para doação perto de você no mapa.<br/></strong>
-<strong>4. Divulgue seu PET desaparecido e receba noticias sobre ele.<br/></strong
+<strong>4. Divulgue seu PET desaparecido e receba noticias sobre ele.<br/>
