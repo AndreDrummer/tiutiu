@@ -1,6 +1,7 @@
-<h1>Tiu, tiu</h1>
-
-<img src="assets/pata.jpg"/>
+<div style="inline-block">
+  <h1>Tiu, tiu</h
+  <img src="assets/icone.png"/>
+</div>
 
 <p>TiuTiu é uma app mobile que tem a idéia de estabelecer vínculo entre pessoas que
 amam e querem adotar animais que estejam abandonados, em situação de rua ou ainda porque seus atuais donos não podem mais ficar com o pet por motivos diversos.
