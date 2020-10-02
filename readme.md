@@ -1,4 +1,4 @@
-<table style="border: none">
+<table cellspacing="0" cellpadding="0" style="border: none">
   <tr>
     <td><img src="assets/icone.png" width="50" height="40"/></td>    
     <td> <h1>Tiu, tiu</h1></td> 
