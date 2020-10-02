@@ -1,6 +1,6 @@
 class DummyData {
   static const breed = [
-    [],
+    [''],
     [
       'Akita',
       'Basset',
