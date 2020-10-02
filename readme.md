@@ -1,6 +1,6 @@
-<div style="inline-block">
+<div>
   <h1>Tiu, tiu</h
-  <img src="assets/ícone.png"/>
+  <img src="assets/icone.png"/>
 </div>
 
 <p>TiuTiu é uma app mobile que tem a idéia de estabelecer vínculo entre pessoas que
