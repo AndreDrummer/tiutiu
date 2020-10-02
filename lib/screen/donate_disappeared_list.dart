@@ -51,7 +51,7 @@ class _DonateDisappearedListState extends State<DonateDisappearedList> {
   List<Pet> filterResultsByDistancie(List<Pet> petsListResult) {
     List<Pet> newPetList = [];
     location = Provider.of<Location>(context);
-    refineSearchProvider = Provider.of<RefineSearchProvider>(context);    
+    refineSearchProvider = Provider.of<RefineSearchProvider>(context);
 
     if (petsListResult != null) {
       for (int i = 0; i < petsListResult.length; i++) {
@@ -60,10 +60,15 @@ class _DonateDisappearedListState extends State<DonateDisappearedList> {
           longX: location.location.longitude,
           latY: petsListResult[i].latitude,
           longY: petsListResult[i].longitude,
-        );        
+        );
 
-        String distancieSelected = refineSearchProvider.getDistancieSelected?.split('Km')?.first?.split('Até')?.last;
-        double distanceRefineSelected = double.tryParse(distancieSelected) ?? 1000;      
+        String distancieSelected = refineSearchProvider.getDistancieSelected
+            ?.split('Km')
+            ?.first
+            ?.split('Até')
+            ?.last;
+        double distanceRefineSelected =
+            double.tryParse(distancieSelected) ?? 1000;
 
         if (double.parse(distance) < distanceRefineSelected * 1000) {
           newPetList.add(petsListResult[i]);
@@ -126,20 +131,40 @@ class _DonateDisappearedListState extends State<DonateDisappearedList> {
                     ],
                   ),
                 );
-            }            
+            }
             return Container(
               height: marginTop,
-              child: ListView.builder(
-                itemCount: petsList.length + 1,
-                itemBuilder: (_, index) {
-                  if (index == petsList.length) {
-                    return SizedBox(height: 50);
-                  }
-                  return CardList(
-                    kind: kind,
-                    petInfo: petsList[index],
-                  );
-                },
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Container(
+                    color: Colors.red,                    
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        'Você está utilizando Tiu, tiu em fase de teste. Os dados podem ser fictícios.',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: ListView.builder(
+                      itemCount: petsList.length + 1,
+                      itemBuilder: (_, index) {
+                        if (index == petsList.length) {
+                          return SizedBox(height: 50);
+                        }
+                        return CardList(
+                          kind: kind,
+                          petInfo: petsList[index],
+                        );
+                      },
+                    ),
+                  ),
+                ],
               ),
             );
           },
