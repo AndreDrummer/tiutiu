@@ -280,7 +280,7 @@ class DummyData {
     'Cachorro',
     'Gato',
     'Pássaro',
-    'Hamister',
+    'Hamster',
     'Outro',
   ];
 

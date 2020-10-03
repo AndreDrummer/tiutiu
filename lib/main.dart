@@ -16,7 +16,7 @@ import 'package:tiutiu/screen/auth_or_home.dart';
 import 'package:tiutiu/screen/favorites.dart';
 import 'package:tiutiu/screen/home.dart';
 import 'package:tiutiu/screen/my_pets.dart';
-import 'package:tiutiu/screen/new_pet.dart';
+import 'package:tiutiu/screen/pet_form.dart';
 import 'package:tiutiu/screen/pet_detail.dart';
 import 'package:tiutiu/screen/refine_search.dart';
 import 'package:tiutiu/screen/register.dart';
@@ -106,9 +106,9 @@ class App extends StatelessWidget {
               ),
               debugShowCheckedModeBanner: false,
               routes: {
-                Routes.NOVOPET: (ctx) => NovoPet(),
+                Routes.PET_FORM: (ctx) => PetForm(),
                 Routes.AUTH_HOME: (ctx) => AuthOrHome(),
-                // Routes.AUTH_HOME: (ctx) => AnnouncerDetails(),
+                // Routes.AUTH_HOME: (ctx) => PetForm(),
                 Routes.SETTINGS: (ctx) => Settings(),
                 Routes.MEUS_PETS: (ctx) => MyPetsScreen(),
                 Routes.FAVORITES: (ctx) => Favorites(),
