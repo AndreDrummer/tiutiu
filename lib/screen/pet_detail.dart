@@ -90,17 +90,13 @@ class _PetDetailsState extends State<PetDetails> {
         'text': widget.pet.size,
         'icon': Tiutiu.resize_small
       },
-      {
-        'title': 'SAÚDE',
-        'text': widget.pet.health,
-        'icon': Tiutiu.healing
-      },
+      {'title': 'SAÚDE', 'text': widget.pet.health, 'icon': Tiutiu.healing},
       {
         'title': 'IDADE',
         'text': '${widget.pet.ano}a ${widget.pet.meses}m',
         'icon': Tiutiu.birthday_cake
       },
-    ];    
+    ];
 
     List ownerDetails = [
       {
@@ -164,7 +160,7 @@ class _PetDetailsState extends State<PetDetails> {
           );
         }
       },
-    ];    
+    ];
 
     return Scaffold(
       key: _scaffoldKey,
@@ -177,7 +173,8 @@ class _PetDetailsState extends State<PetDetails> {
             onPressed: () {
               Navigator.pop(context);
             }),
-        title: Text('Detalhes de ${widget.pet.name}', style: TextStyle(color: Colors.white, fontSize: 20)),
+        title: Text('Detalhes de ${widget.pet.name}',
+            style: TextStyle(color: Colors.white, fontSize: 20)),
       ),
       body: Stack(
         children: [
@@ -286,89 +283,114 @@ class _PetDetailsState extends State<PetDetails> {
           ),
           !widget.isMine
               ? Positioned(
-                  bottom: 18.0,
+                  bottom: 15.0,
                   left: widget.kind == 'DONATE'
                       ? 20.0
-                      : MediaQuery.of(context).size.width * 0.17,
-                  child: ButtonWide(
-                    text: widget.kind == 'DONATE'
-                        ? 'QUERO ADOTAR'
-                        : 'VI ELE AQUI PERTO',
-                    color: widget.kind == 'DONATE'
-                        ? Colors.red
-                        : Theme.of(context).primaryColor,
-                    action: () async {
-                      final petRef = await widget.pet.petReference.get();
-                      final userLocal = userLocation.location;
+                      : MediaQuery.of(context).size.width * 0.12,
+                  child: Row(
+                    children: [
+                      Container(
+                        width:  widget.kind == 'DONATE'
+                      ? 200 : 220,
+                        child: ButtonWide(
+                          text: widget.kind == 'DONATE'
+                              ? 'QUERO ADOTAR'
+                              : 'VI ELE AQUI PERTO',
+                          color: widget.kind == 'DONATE'
+                              ? Colors.red
+                              : Theme.of(context).primaryColor,
+                          action: () async {
+                            final petRef = await widget.pet.petReference.get();
+                            final userLocal = userLocation.location;
 
-                      int userPosition = 1;
-                      bool canSend = true;
-                      String messageTextSnackBar;
-                      if (widget.kind == 'DONATE') {
-                        if (userInfosAdopts.getAdoptInterest
-                            .contains(widget.pet.id)) {
-                          setState(() {
-                            canSend = false;
-                          });
-                          messageTextSnackBar =
-                              '${ownerDetails[0]['text']} já sabe sobre seu interesse. Aguarde retorno.';
-                        } else {
-                          if (petRef.data()['adoptInteresteds'] != null) {
-                            userPosition =
-                                petRef.data()['adoptInteresteds'].length + 1;
-                          }
-                          messageTextSnackBar =
-                              'Você é o $userPositionº interessado no ${widget.pet.name}. Te avisaremos caso o dono aceite seu pedido de adoção!';
-                        }
-                      } else {
-                        if (userInfosAdopts.getInfos.contains(widget.pet.id)) {
-                          setState(() {
-                            canSend = false;
-                          });
-                          messageTextSnackBar =
-                              'Você já passou informação sobre este PET.';
-                        } else {
-                          if (petRef.data()['infoInteresteds'] != null) {
-                            userPosition =
-                                petRef.data()['infoInteresteds'].length + 1;
-                          } else {
-                            userPosition = 1;
-                          }
-                          messageTextSnackBar =
-                              'Obrigado pela informação! ${ownerDetails[0]['text']} será avisado.';
-                        }
-                      }
+                            int userPosition = 1;
+                            bool canSend = true;
+                            String messageTextSnackBar;
+                            if (widget.kind == 'DONATE') {
+                              if (userInfosAdopts.getAdoptInterest
+                                  .contains(widget.pet.id)) {
+                                setState(() {
+                                  canSend = false;
+                                });
+                                messageTextSnackBar =
+                                    '${ownerDetails[0]['text']} já sabe sobre seu interesse. Aguarde retorno.';
+                              } else {
+                                if (petRef.data()['adoptInteresteds'] != null) {
+                                  userPosition =
+                                      petRef.data()['adoptInteresteds'].length +
+                                          1;
+                                }
+                                messageTextSnackBar =
+                                    'Você é o $userPositionº interessado no ${widget.pet.name}. Te avisaremos caso o dono aceite seu pedido de adoção!';
+                              }
+                            } else {
+                              if (userInfosAdopts.getInfos
+                                  .contains(widget.pet.id)) {
+                                setState(() {
+                                  canSend = false;
+                                });
+                                messageTextSnackBar =
+                                    'Você já passou informação sobre este PET.';
+                              } else {
+                                if (petRef.data()['infoInteresteds'] != null) {
+                                  userPosition =
+                                      petRef.data()['infoInteresteds'].length +
+                                          1;
+                                } else {
+                                  userPosition = 1;
+                                }
+                                messageTextSnackBar =
+                                    'Obrigado pela informação! ${ownerDetails[0]['text']} será avisado.';
+                              }
+                            }
 
-                      if (canSend) {
-                        PetController petController = new PetController();
-                        petController.showInterestOrInfo(
-                            widget.pet.petReference,
-                            userProvider.userReference,
-                            userLocal,
-                            userPosition,
-                            isAdopt: widget.kind == 'DONATE');
-                        if (widget.kind == 'DONATE') {
-                          userInfosAdopts.insertAdoptInterest(widget.pet.id);
-                        } else {
-                          userInfosAdopts.insertInfos(widget.pet.id);
-                        }
-                      }
+                            if (canSend) {
+                              PetController petController = new PetController();
+                              petController.showInterestOrInfo(
+                                  widget.pet.petReference,
+                                  userProvider.userReference,
+                                  userLocal,
+                                  userPosition,
+                                  isAdopt: widget.kind == 'DONATE');
+                              if (widget.kind == 'DONATE') {
+                                userInfosAdopts
+                                    .insertAdoptInterest(widget.pet.id);
+                              } else {
+                                userInfosAdopts.insertInfos(widget.pet.id);
+                              }
+                            }
 
-                      _scaffoldKey.currentState.showSnackBar(SnackBar(
-                        content: Row(
-                          children: [
-                            Expanded(
-                              child: Text(messageTextSnackBar),
-                            ),
-                          ],
+                            _scaffoldKey.currentState.showSnackBar(SnackBar(
+                              content: Row(
+                                children: [
+                                  Expanded(
+                                    child: Text(messageTextSnackBar),
+                                  ),
+                                ],
+                              ),
+                              duration: Duration(seconds: 5),
+                            ));
+                          },
                         ),
-                        duration: Duration(seconds: 5),
-                      ));
-                    },
+                      ),
+                      SizedBox(width: 20),
+                      Container(
+                        height:58,
+                        width: 58,
+                        decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Theme.of(context).primaryColor),
+                        child: IconButton(
+                          onPressed: (){},
+                          color: Colors.white,
+                          icon: Icon(Icons.chat),
+                        ),
+                      )
+                    ],
                   ),
                 )
-              : Positioned(                
-                  bottom: 0.0,                  
+              : Positioned(
+                  bottom: 0.0,
                   child: ButtonWide(
                     isToExpand: true,
                     rounded: false,
