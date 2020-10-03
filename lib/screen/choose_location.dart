@@ -45,7 +45,7 @@ class _ChooseLocationState extends State<ChooseLocation> {
                     : () {                      
                         Navigator.pushNamed(
                           context,
-                          Routes.NOVOPET,
+                          Routes.PET_FORM,
                           arguments: {'kind': kind},
                         );
                       },
