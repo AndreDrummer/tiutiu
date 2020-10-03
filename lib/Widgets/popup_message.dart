@@ -33,7 +33,7 @@ class PopUpMessage extends StatelessWidget {
       title: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-          Text(title, style: TextStyle(color: Colors.black, fontSize: 18)),
+          Text(title, style: TextStyle(color: Colors.white, fontSize: 18)),
           Container(
             padding: const EdgeInsets.all(1.0),
             decoration: BoxDecoration(
@@ -47,7 +47,7 @@ class PopUpMessage extends StatelessWidget {
       content: Text(
         message,
         style: TextStyle(
-            color: Colors.black, fontSize: 15, fontWeight: FontWeight.w500),
+            color: Colors.white, fontSize: 15, fontWeight: FontWeight.w500),
       ),
       actions: <Widget>[
         confirmAction != null
