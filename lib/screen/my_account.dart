@@ -32,17 +32,20 @@ class _MyAccountState extends State<MyAccount> {
           Opacity(
             child: FadeInImage(
               placeholder: AssetImage('assets/fundo.jpg'),
-                  image: userProvider.photoBACK != null ? NetworkImage(
-                    userProvider.photoBACK,
-                  ) : AssetImage('assets/fundo.jpg',
-              ),
+              image: userProvider.photoBACK != null
+                  ? NetworkImage(
+                      userProvider.photoBACK,
+                    )
+                  : AssetImage(
+                      'assets/fundo.jpg',
+                    ),
               fit: BoxFit.fill,
               width: 1000,
               height: 1000,
             ),
             opacity: 0.25,
           ),
-          Container(            
+          Container(
             decoration: BoxDecoration(
               color: Colors.transparent, //Theme.of(context).primaryColor,
               borderRadius: BorderRadius.only(
@@ -76,23 +79,21 @@ class _MyAccountState extends State<MyAccount> {
                         Text(
                           userProvider.displayName,
                           textAlign: TextAlign.start,
-                          style:
-                              Theme.of(context).textTheme.headline1.copyWith(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 25,
-                                  ),
+                          style: Theme.of(context).textTheme.headline1.copyWith(
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 25,
+                              ),
                         ),
                         SizedBox(height: 10),
                         Text(
                           'Usuário desde 16 de Setembro de 2020',
                           textAlign: TextAlign.start,
-                          style:
-                              Theme.of(context).textTheme.headline1.copyWith(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.w800,
-                                    fontSize: 10,
-                                  ),
+                          style: Theme.of(context).textTheme.headline1.copyWith(
+                                color: Colors.black,
+                                fontWeight: FontWeight.w800,
+                                fontSize: 10,
+                              ),
                         ),
                         SizedBox(height: 30),
                         Row(
@@ -127,8 +128,8 @@ class _MyAccountState extends State<MyAccount> {
                                   avatarRadius: 15,
                                   child: Text('0',
                                       style: TextStyle(
-                                          color: Theme.of(context)
-                                              .primaryColor)),
+                                          color:
+                                              Theme.of(context).primaryColor)),
                                 ),
                                 Text(
                                   'Adotados',
@@ -150,8 +151,8 @@ class _MyAccountState extends State<MyAccount> {
                                       userProvider.getTotalDisappeared
                                           .toString(),
                                       style: TextStyle(
-                                          color: Theme.of(context)
-                                              .primaryColor)),
+                                          color:
+                                              Theme.of(context).primaryColor)),
                                 ),
                                 Text(
                                   'Desaparecidos',
@@ -181,10 +182,10 @@ class _MyAccountState extends State<MyAccount> {
 
   @override
   Widget build(BuildContext context) {
-    final auth = Provider.of<Authentication>(context, listen: false);    
+    final auth = Provider.of<Authentication>(context, listen: false);
     GlobalKey<ScaffoldState> _formScaffold = GlobalKey<ScaffoldState>();
 
-    final height = MediaQuery.of(context).size.height;    
+    final height = MediaQuery.of(context).size.height;
 
     return Scaffold(
       key: _formScaffold,
@@ -204,7 +205,7 @@ class _MyAccountState extends State<MyAccount> {
                       MyAccountCard(
                         icone: Tiutiu.dog,
                         text: 'Meus PETS',
-                        onTap: () {                        
+                        onTap: () {
                           Navigator.pushNamed(context, Routes.MEUS_PETS);
                         },
                       ),
@@ -214,6 +215,57 @@ class _MyAccountState extends State<MyAccount> {
                         onTap: () {
                           Navigator.pushNamed(context, Routes.FAVORITES);
                         },
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Stack(
+                        children: [
+                          MyAccountCard(
+                            icone: Icons.chat_bubble_outline,
+                            text: 'Chat',
+                            onTap: () {
+                              // Navigator.pushNamed(context, Routes.MEUS_PETS);
+                            },
+                          ),
+                          Positioned(
+                            top: 3.5,
+                            left: 3,
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: Colors.black26,
+                                borderRadius: BorderRadius.circular(
+                                  12,
+                                ),
+                              ),
+                              alignment: Alignment.centerRight,
+                              height: 98.5,
+                              width: 184,
+                              child: Text(
+                                'Em breve',
+                                style: TextStyle(
+                                  shadows: <Shadow>[
+                                    Shadow(
+                                      offset: Offset(2.5, 2.5),
+                                      blurRadius: 3.0,
+                                      color: Colors.black,
+                                    ),
+                                    Shadow(
+                                      offset: Offset(2.5, 2.5),
+                                      blurRadius: 8.0,
+                                      color: Colors.white70,
+                                    ),
+                                  ],
+                                  color: Colors.purple,
+                                  fontSize: 25,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ),
+                          )
+                        ],
                       ),
                     ],
                   ),
