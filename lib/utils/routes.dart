@@ -1,7 +1,7 @@
 class Routes {  
   static const AUTH_HOME = '/';
   static const HOME = '/home';
-  static const NOVOPET = '/novo-pet';  
+  static const PET_FORM = '/pet-form';  
   static const MEUS_PETS = '/meus-pets';
   static const REGISTER = '/register';
   static const SETTINGS = '/settings';

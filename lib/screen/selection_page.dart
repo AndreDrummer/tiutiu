@@ -5,10 +5,13 @@ class SelectionPage extends StatefulWidget {
     @required this.list,
     @required this.title,
     @required this.valueSelected,
+    this.onTap,
   });
 
   final List list;
-  final String valueSelected;
+  final valueSelected;
+  final Function(String text) onTap;
+
   final String title;
 
   @override
@@ -17,13 +20,13 @@ class SelectionPage extends StatefulWidget {
 
 class _SelectionPageState extends State<SelectionPage> {
   List list;
-  String valueSelected = '';
-
+  dynamic valueSelected = '';
 
   @override
   void initState() {
     super.initState();
     list = widget.list;
+    list.sort((a, b) => a.length.compareTo(b.length));
     valueSelected = widget.valueSelected;
   }
 
@@ -43,7 +46,22 @@ class _SelectionPageState extends State<SelectionPage> {
             valueSelected = '';
             Navigator.pop(context);
           },
-        ),    
+        ),
+        actions: widget.onTap != null
+            ? [
+                FlatButton(
+                  child: Text(
+                    'Prosseguir',
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
+                  ),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                )
+              ]
+            : null,
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -51,11 +69,21 @@ class _SelectionPageState extends State<SelectionPage> {
           itemCount: list.length,
           itemBuilder: (_, index) {
             return InkWell(
-              onTap: () {
-                Navigator.pop(context, list[index]);                
-              },
+              onTap: widget.onTap != null
+                  ? () {
+                      setState(() {
+                        widget.onTap(list[index]);
+                      });
+                    }
+                  : () {
+                      Navigator.pop(context, list[index]);
+                    },
               child: ListTile(
-                title: Text(list[index]),                
+                title: Text(list[index]),
+                trailing: widget.onTap != null &&
+                        widget.valueSelected.contains(list[index])
+                    ? Icon(Icons.done, color: Colors.purple)
+                    : null,
               ),
             );
           },
