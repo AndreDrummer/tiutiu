@@ -78,12 +78,14 @@ class _PetDetailsState extends State<PetDetails> {
 
   @override
   Widget build(BuildContext context) {
+    List otherCaracteristics = widget.pet?.otherCaracteristics ?? ['Teste'];
     List petDetails = [
       {
         'title': 'TIPO',
         'text': widget.pet.type,
         'icon': petIconType[widget.pet.type]
       },
+      {'title': 'SEXO', 'text': widget.pet.sex, 'icon': Icons.all_inclusive_outlined},
       {'title': 'RAÇA', 'text': widget.pet.breed, 'icon': Icons.linear_scale},
       {
         'title': 'TAMANHO',
@@ -200,13 +202,22 @@ class _PetDetailsState extends State<PetDetails> {
                     padding: const EdgeInsets.all(4.0),
                     child: ListView.builder(
                       scrollDirection: Axis.horizontal,
-                      itemCount: petDetails.length,
+                      itemCount: petDetails.length + otherCaracteristics.length,
                       itemBuilder: (BuildContext context, int index) {
+                        if (index < petDetails.length) {
+                          return CardDetails(
+                            title: petDetails[index]['title'],
+                            icon: petDetails[index]['icon'],
+                            text: petDetails[index]['text'],
+                          );
+                        } else {
+                          print(index);
                         return CardDetails(
-                          title: petDetails[index]['title'],
-                          icon: petDetails[index]['icon'],
-                          text: petDetails[index]['text'],
+                          title: '  Características',
+                          icon: Icons.auto_awesome,
+                          text: otherCaracteristics[index - petDetails.length],
                         );
+                        }
                       },
                     ),
                   ),
@@ -290,8 +301,7 @@ class _PetDetailsState extends State<PetDetails> {
                   child: Row(
                     children: [
                       Container(
-                        width:  widget.kind == 'DONATE'
-                      ? 200 : 220,
+                        width: widget.kind == 'DONATE' ? 200 : 220,
                         child: ButtonWide(
                           text: widget.kind == 'DONATE'
                               ? 'QUERO ADOTAR'
@@ -375,13 +385,13 @@ class _PetDetailsState extends State<PetDetails> {
                       ),
                       SizedBox(width: 20),
                       Container(
-                        height:58,
+                        height: 58,
                         width: 58,
                         decoration: BoxDecoration(
                             shape: BoxShape.circle,
                             color: Theme.of(context).primaryColor),
                         child: IconButton(
-                          onPressed: (){},
+                          onPressed: () {},
                           color: Colors.white,
                           icon: Icon(Icons.chat),
                         ),

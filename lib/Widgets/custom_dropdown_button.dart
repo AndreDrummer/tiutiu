@@ -29,7 +29,7 @@ class _CustomDropdownButtonState extends State<CustomDropdownButton> {
           color: Colors.white,
           border: Border.all(
             style: BorderStyle.solid,
-            color: Colors.white,
+            color: Colors.lightGreenAccent[200],
           ),
         ),
         child: Column(
