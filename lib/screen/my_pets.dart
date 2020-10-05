@@ -6,8 +6,7 @@ import 'package:tiutiu/Widgets/loading_screen.dart';
 import 'package:tiutiu/backend/Controller/pet_controller.dart';
 import 'package:tiutiu/backend/Model/pet_model.dart';
 import 'package:tiutiu/providers/user_provider.dart';
-import 'package:tiutiu/screen/pet_form.dart';
-import 'package:tiutiu/utils/routes.dart';
+import 'package:tiutiu/screen/choose_location.dart';
 
 class MyPetsScreen extends StatefulWidget {
   @override
@@ -172,8 +171,8 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
                                               context,
                                               MaterialPageRoute(
                                                 builder: (context) {
-                                                  return PetForm(
-                                                    editMode: true,
+                                                  return ChooseLocation(
+                                                    editMode: true,                                                  
                                                     petReference: snapshot.data[index].petReference,
                                                   );
                                                 },
