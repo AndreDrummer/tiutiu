@@ -128,15 +128,15 @@ class _HomeState extends State<Home> {
           items: const <BottomNavigationBarItem>[
             BottomNavigationBarItem(
               icon: Icon(Tiutiu.pets),
-              title: Text('PETS'),
+              label: 'PETS',
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.favorite_border),
-              title: Text('Favoritos'),
+              label: 'Favoritos',
             ),
             BottomNavigationBarItem(
               icon: Icon(Tiutiu.user, size: 18),
-              title: Text('Eu'),
+              label: 'Eu',
             )
           ],
         ),
