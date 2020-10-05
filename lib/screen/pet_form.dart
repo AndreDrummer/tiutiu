@@ -75,7 +75,7 @@ class _PetFormState extends State<PetForm> {
   int dropvalueType = 0;
   int dropvalueHealth = 0;
   int dropvalueBreed = 0;
-  String userId;  
+  String userId;
   LatLng currentLocation;
   bool formIsValid = false;
   bool isLogging = false;
@@ -101,9 +101,7 @@ class _PetFormState extends State<PetForm> {
       dropvalueColor = pet.color;
       dropvalueHealth = DummyData.health.indexOf(pet.health);
       petPhotos = pet.photos;
-      // for (int i = 0; i < pet.photos.values.length; i++) {
-      //   _photosLoadedFromEditMode.add(pet.photos.values.toList()[i]);
-      // }
+      numberOfImages = 8;
     });
   }
 
@@ -150,8 +148,8 @@ class _PetFormState extends State<PetForm> {
         image = File(image.path);
         setState(() {
           imageFile0 = image;
-          if (petPhotos.containsKey(index)) {
-            petPhotos.remove(index);
+          if (petPhotos.containsKey('$index')) {
+            petPhotos.remove('$index');
             petPhotos.putIfAbsent(index.toString(), () => imageFile0);
           } else {
             petPhotos.putIfAbsent(index.toString(), () => imageFile0);
@@ -162,8 +160,8 @@ class _PetFormState extends State<PetForm> {
         image = File(image.path);
         setState(() {
           imageFile1 = image;
-          if (petPhotos.containsKey(index)) {
-            petPhotos.remove(index);
+          if (petPhotos.containsKey('$index')) {
+            petPhotos.remove('$index');
             petPhotos.putIfAbsent(index.toString(), () => imageFile1);
           } else {
             petPhotos.putIfAbsent(index.toString(), () => imageFile1);
@@ -174,8 +172,8 @@ class _PetFormState extends State<PetForm> {
         image = File(image.path);
         setState(() {
           imageFile2 = image;
-          if (petPhotos.containsKey(index)) {
-            petPhotos.remove(index);
+          if (petPhotos.containsKey('$index')) {
+            petPhotos.remove('$index');
             petPhotos.putIfAbsent(index.toString(), () => imageFile2);
           } else {
             petPhotos.putIfAbsent(index.toString(), () => imageFile2);
@@ -184,10 +182,11 @@ class _PetFormState extends State<PetForm> {
         break;
       case 3:
         image = File(image.path);
+        print('Foto $index ');
         setState(() {
-          imageFile3 = image;          
-          if (petPhotos.containsKey(index)) {
-            petPhotos.remove(index);
+          imageFile3 = image;
+          if (petPhotos.containsKey('$index')) {
+            petPhotos.remove('$index');
             petPhotos.putIfAbsent(index.toString(), () => imageFile3);
           } else {
             petPhotos.putIfAbsent(index.toString(), () => imageFile3);
@@ -198,8 +197,8 @@ class _PetFormState extends State<PetForm> {
         image = File(image.path);
         setState(() {
           imageFile4 = image;
-          if (petPhotos.containsKey(index)) {
-            petPhotos.remove(index);
+          if (petPhotos.containsKey('$index')) {
+            petPhotos.remove('$index');
             petPhotos.putIfAbsent(index.toString(), () => imageFile4);
           } else {
             petPhotos.putIfAbsent(index.toString(), () => imageFile4);
@@ -210,8 +209,8 @@ class _PetFormState extends State<PetForm> {
         image = File(image.path);
         setState(() {
           imageFile5 = image;
-          if (petPhotos.containsKey(index)) {
-            petPhotos.remove(index);
+          if (petPhotos.containsKey('$index')) {
+            petPhotos.remove('$index');
             petPhotos.putIfAbsent(index.toString(), () => imageFile5);
           } else {
             petPhotos.putIfAbsent(index.toString(), () => imageFile5);
@@ -222,8 +221,8 @@ class _PetFormState extends State<PetForm> {
         image = File(image.path);
         setState(() {
           imageFile6 = image;
-          if (petPhotos.containsKey(index)) {
-            petPhotos.remove(index);
+          if (petPhotos.containsKey('$index')) {
+            petPhotos.remove('$index');
             petPhotos.putIfAbsent(index.toString(), () => imageFile6);
           } else {
             petPhotos.putIfAbsent(index.toString(), () => imageFile6);
@@ -234,8 +233,8 @@ class _PetFormState extends State<PetForm> {
         image = File(image.path);
         setState(() {
           imageFile7 = image;
-          if (petPhotos.containsKey(index)) {
-            petPhotos.remove(index);
+          if (petPhotos.containsKey('$index')) {
+            petPhotos.remove('$index');
             petPhotos.putIfAbsent(index.toString(), () => imageFile7);
           } else {
             petPhotos.putIfAbsent(index.toString(), () => imageFile7);
@@ -281,15 +280,16 @@ class _PetFormState extends State<PetForm> {
           .ref()
           .child('$userId/')
           .child('petsPhotos/$petName--foto__${DateTime.now().millisecond}');
-      if (petPhotos['$key'] != String) {
+      if (petPhotos['$key'].runtimeType != String) {
         uploadTask = storageReference.putFile(petPhotos['$key']);
+        await uploadTask.onComplete;
+        await storageReference.getDownloadURL().then((urlDownload) async {
+          petPhotosToUpload['photo$key'] = await urlDownload;
+          print('URL DOWNLOAD $urlDownload');
+        });
+      } else if(petPhotos['$key'].runtimeType == String) {
+        petPhotosToUpload[key] = petPhotos[key];
       }
-
-      await uploadTask.onComplete;
-      await storageReference.getDownloadURL().then((urlDownload) async {
-        petPhotosToUpload['photo$key'] = await urlDownload;
-        print('URL DOWNLOAD $urlDownload');
-      });
     }
 
     return Future.value();
@@ -307,7 +307,7 @@ class _PetFormState extends State<PetForm> {
 
     await uploadPhotos(_nome.text);
 
-    var dataPetSave = Pet(        
+    var dataPetSave = Pet(
         type: DummyData.type[dropvalueType],
         color: dropvalueColor,
         name: _nome.text,
@@ -326,8 +326,9 @@ class _PetFormState extends State<PetForm> {
         ano: int.tryParse(_ano.text) ?? 0,
         meses: int.tryParse(_meses.text) ?? 0);
 
-    !widget.editMode ? await petController.insertPet(dataPetSave, kind, auth)
-    : await petController.updatePet(dataPetSave, userId,  kind, petEdit.id);
+    !widget.editMode
+        ? await petController.insertPet(dataPetSave, kind, auth)
+        : await petController.updatePet(dataPetSave, userId, kind, petEdit.id);
     petPhotosToUpload.clear();
     changeLogginStatus(false);
     return Future.value();
@@ -360,8 +361,9 @@ class _PetFormState extends State<PetForm> {
   @override
   Widget build(BuildContext context) {
     params = ModalRoute.of(context).settings.arguments;
-    kind = widget.editMode ? '' : params['kind'];
-    print(kind);
+    kind = widget.editMode ? petEdit?.kind : params['kind'];
+
+    print(petPhotos);
 
     Future<bool> _onWillPopScope() {
       Navigator.pushReplacementNamed(context, Routes.HOME);
@@ -447,7 +449,12 @@ class _PetFormState extends State<PetForm> {
                                     if (index == numberOfImages) {
                                       // print('Index: ${petPhotos}');
                                       return InkWell(
-                                        onTap: petPhotos['${numberOfImages - 1}'] == null && petPhotos['photo${numberOfImages - 1}'] == null
+                                        onTap: petPhotos[
+                                                        '${numberOfImages - 1}'] ==
+                                                    null &&
+                                                petPhotos[
+                                                        'photo${numberOfImages - 1}'] ==
+                                                    null
                                             ? null
                                             : () {
                                                 incNumberOfImages();
@@ -794,7 +801,7 @@ class _PetFormState extends State<PetForm> {
                                           ModalRoute.withName('/'),
                                         );
                                       },
-                                      message: 'PET postado com sucesso!',
+                                      message: widget.editMode ? 'Os dados do PET foram atualizados' : 'PET postado com sucesso!',
                                     )).then(
                               (value) => _onWillPopScope,
                             );
