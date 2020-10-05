@@ -3,16 +3,18 @@ import 'package:flutter/material.dart';
 class Badge extends StatelessWidget {
   
   Badge({
-    this.text
+    this.text,
+    this.color = Colors.blue
   });
 
   final String text;
+  final Color color;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.blue,
+        color: color,
         borderRadius: BorderRadius.circular(25),
       ),
       child: Padding(
