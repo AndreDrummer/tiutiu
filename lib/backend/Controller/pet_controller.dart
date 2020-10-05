@@ -18,11 +18,9 @@ class PetController {
   }
 
   Future<Pet> getPetByReference(DocumentReference petRef) async {    
-    var pet = await petRef.get();      
+    var pet = await petRef.get();          
 
-    print(pet.data()['id']);
-
-    return Pet.fromSnapshot(await pet.data()['id'].get());
+    return Pet.fromSnapshot(pet);
   }
 
   Future<List<Pet>> getAllPets(String userId) async {
@@ -97,12 +95,14 @@ class PetController {
     );
   }
 
-  Future<void> updatePet(Pet pet, String id) async {
+  Future<void> updatePet(Pet pet, String userId, String petKind, String petId) async {
     await FirebaseFirestore.instance
         .collection('Users')
-        .doc(id)
+        .doc(userId)
         .collection('Pets')
-        .doc(id) // pet.id
+        .doc('posted')
+        .collection(petKind)
+        .doc(petId) // pet.id
         .update(pet.toMap())
         .then(
       (value) {
