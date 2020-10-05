@@ -14,6 +14,7 @@ class UserProvider with ChangeNotifier {
   String _photoBack;
   String _uid;
   String _displayName;
+  String _createdAt;
   DocumentReference _userReference;
   final _betterContact = BehaviorSubject<int>();
   final _totalDonated = BehaviorSubject<int>();
@@ -56,6 +57,11 @@ class UserProvider with ChangeNotifier {
     _displayName = name;
     notifyListeners();
   }
+  
+  void changeCreatedAt(String createdAt) {
+    _createdAt = createdAt;
+    notifyListeners();
+  }
 
   void changeTelefone(String number) {
     _telefone = number;
@@ -86,6 +92,7 @@ class UserProvider with ChangeNotifier {
   File get photoFILE => _photoFILE;
   String get telefone => _telefone;
   String get displayName => _displayName;
+  String get createdAt => _createdAt;
   String get photoURL => _photoUrl;
   String get photoBACK => _photoBack;
   String get whatsapp => _whatsapp;  
