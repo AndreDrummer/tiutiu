@@ -220,9 +220,9 @@ class _RefineSearchState extends State<RefineSearch> {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: ButtonWide(
-                    color: Colors.purple,
+                    color: isRefiningSearch ? Colors.grey : Colors.purple,
                     text: 'BUSCAR',
-                    action: () async {
+                    action: isRefiningSearch ? null : () async {
                       changeIsRefineSearchStatus(true);
                       await petsProvider.bigQueryRefine(
                           refineSearchProvider.getIsDisappeared ? 'Disappeared' : 'Donate',

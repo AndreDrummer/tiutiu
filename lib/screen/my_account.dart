@@ -224,6 +224,7 @@ class _MyAccountState extends State<MyAccount> {
                       Stack(
                         children: [
                           MyAccountCard(
+                            isToExpand: true,
                             icone: Icons.chat_bubble_outline,
                             text: 'Chat',
                             onTap: () {
@@ -240,9 +241,9 @@ class _MyAccountState extends State<MyAccount> {
                                   12,
                                 ),
                               ),
-                              alignment: Alignment.centerRight,
+                              alignment: Alignment.center,
                               height: 98.5,
-                              width: 184,
+                              width: MediaQuery.of(context).size.width - 17,
                               child: Text(
                                 'Em breve',
                                 style: TextStyle(

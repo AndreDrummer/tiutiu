@@ -6,6 +6,7 @@ import 'package:tiutiu/Widgets/loading_screen.dart';
 import 'package:tiutiu/backend/Controller/pet_controller.dart';
 import 'package:tiutiu/backend/Model/pet_model.dart';
 import 'package:tiutiu/providers/user_provider.dart';
+import 'package:tiutiu/screen/choose_location.dart';
 
 class MyPetsScreen extends StatefulWidget {
   @override
@@ -25,7 +26,7 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
   void delete(DocumentReference petRef) {
     petController.deletePet(petRef);
     userProvider.loadMyPets();
-    userProvider.calculateTotals();    
+    userProvider.calculateTotals();
   }
 
   @override
@@ -96,9 +97,10 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
                                         topLeft: Radius.circular(12),
                                         topRight: Radius.circular(12)),
                                     child: FadeInImage(
-                                      placeholder: AssetImage('assets/fadeIn.jpg'),
-                                      image:
-                                          NetworkImage(snapshot.data[index].avatar),
+                                      placeholder:
+                                          AssetImage('assets/fadeIn.jpg'),
+                                      image: NetworkImage(
+                                          snapshot.data[index].avatar),
                                       height: 1000,
                                       width: 1000,
                                       fit: BoxFit.fitWidth,
@@ -108,7 +110,8 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
                                 Positioned(
                                   top: 20,
                                   right: 5,
-                                  child: _lablePetKind(snapshot.data[index].kind),
+                                  child:
+                                      _lablePetKind(snapshot.data[index].kind),
                                 )
                               ],
                             ),
@@ -121,7 +124,8 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
                                   child: Container(
                                     width: 160,
                                     child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
                                         Text(
                                           snapshot.data[index].name,
@@ -162,7 +166,19 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
                                             color: Colors.amber),
                                         child: IconButton(
                                           icon: Icon(Icons.mode_edit),
-                                          onPressed: () {},
+                                          onPressed: () {
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) {
+                                                  return ChooseLocation(
+                                                    editMode: true,                                                  
+                                                    petReference: snapshot.data[index].petReference,
+                                                  );
+                                                },
+                                              ),
+                                            );
+                                          },
                                           color: Colors.white,
                                         ),
                                       ),
