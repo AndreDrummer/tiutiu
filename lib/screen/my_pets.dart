@@ -7,6 +7,7 @@ import 'package:tiutiu/backend/Controller/pet_controller.dart';
 import 'package:tiutiu/backend/Model/pet_model.dart';
 import 'package:tiutiu/providers/user_provider.dart';
 import 'package:tiutiu/screen/choose_location.dart';
+import 'interested_information_list.dart';
 
 class MyPetsScreen extends StatefulWidget {
   @override
@@ -120,7 +121,7 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
                               children: [
                                 Padding(
                                   padding: const EdgeInsets.symmetric(
-                                      vertical: 24.0, horizontal: 15),
+                                      vertical: 16.0, horizontal: 15),
                                   child: Container(
                                     width: 160,
                                     child: Column(
@@ -172,8 +173,10 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
                                               MaterialPageRoute(
                                                 builder: (context) {
                                                   return ChooseLocation(
-                                                    editMode: true,                                                  
-                                                    petReference: snapshot.data[index].petReference,
+                                                    editMode: true,
+                                                    petReference: snapshot
+                                                        .data[index]
+                                                        .petReference,
                                                   );
                                                 },
                                               ),
@@ -201,7 +204,50 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
                                   ),
                                 )
                               ],
-                            )
+                            ),
+                            Divider(),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: InkWell(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) {
+                                        return InterestedList(
+                                          pet: snapshot.data[index],
+                                          kind: snapshot.data[index].kind
+                                        );
+                                      },
+                                    ),
+                                  );
+                                },
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Container(
+                                      padding: const EdgeInsets.all(4.0),
+                                      decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        border: Border.all(
+                                          style: BorderStyle.solid,
+                                        ),
+                                      ),
+                                      child: Icon(Icons.menu),
+                                    ),
+                                    SizedBox(width: 10),
+                                    Text(
+                                      snapshot.data[index].kind == 'Donate'
+                                          ? 'Ver lista de interessados'
+                                          : 'Ver notificações',
+                                      style: TextStyle(
+                                        decoration: TextDecoration.underline,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
                           ],
                         ),
                       ),

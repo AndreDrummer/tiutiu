@@ -65,6 +65,7 @@ class PetController {
   Future<void> showInterestOrInfo(
     DocumentReference petReference,
     DocumentReference userReference,
+    String interestedAt,
     LatLng userLocation,
     int userPosition, {
     bool isAdopt = false,
@@ -87,7 +88,8 @@ class PetController {
             'userReference': userReference,
             'userLat': userLocation.latitude,
             'userLog': userLocation.longitude,
-            'position': userPosition
+            'position': userPosition,
+            'interestedAt': interestedAt
           }
         ]
       },

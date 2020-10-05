@@ -21,6 +21,12 @@ class UserController {
     return user;
   }
 
+  Future<User> getUserByReference(DocumentReference userReference) async {
+    User user = User.fromSnapshot(await userReference.get());
+
+    return user;
+  }
+
   Future<void> favorite(String userID, DocumentReference petReference, bool add) async {
     final favorite = await FirebaseFirestore.instance
         .collection('Users')
