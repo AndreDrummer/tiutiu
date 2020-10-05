@@ -4,7 +4,11 @@ import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
 class CircleAddImage extends StatefulWidget {
-  CircleAddImage({this.imageUrl, this.addButton = false});
+  CircleAddImage({
+    this.imageUrl,
+    this.addButton = false,
+  });
+
   var imageUrl;
   final bool addButton;
 
@@ -17,15 +21,16 @@ class _CircleAddImageState extends State<CircleAddImage> {
 
   void checkImageUrl() {
     if (widget.imageUrl != null) {
-      widget.imageUrl = widget.imageUrl;
-      isLocalImage = widget.imageUrl is File;
+      setState(() {
+        isLocalImage = widget.imageUrl.runtimeType == File;
+      });
     }
   }
 
   @override
   void initState() {
-    super.initState();
     checkImageUrl();
+    super.initState();
   }
 
   @override
@@ -37,7 +42,7 @@ class _CircleAddImageState extends State<CircleAddImage> {
         radius: 40,
         child: Container(
           decoration: BoxDecoration(
-            shape: BoxShape.circle,            
+            shape: BoxShape.circle,
             border: Border.all(
               style: BorderStyle.solid,
               color: Colors.lightGreenAccent[200],
@@ -48,7 +53,7 @@ class _CircleAddImageState extends State<CircleAddImage> {
               child: widget.addButton
                   ? Icon(Icons.add, size: 50, color: Colors.white)
                   : widget.imageUrl != null
-                      ? isLocalImage
+                      ? widget.imageUrl.runtimeType != String
                           ? Image.file(
                               widget.imageUrl,
                               fit: BoxFit.fill,
@@ -61,8 +66,11 @@ class _CircleAddImageState extends State<CircleAddImage> {
                               width: 100,
                               height: 100,
                             )
-                      : Icon(Icons.add_photo_alternate,
-                          size: 50, color: Colors.grey),
+                      : Icon(
+                          Icons.add_photo_alternate,
+                          size: 50,
+                          color: Colors.grey,
+                        ),
             ),
           ),
         ),

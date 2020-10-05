@@ -410,10 +410,10 @@ class _RegisterState extends State<Register> {
         ],
       ),
       bottomNavigationBar: ButtonWide(
-        color: Theme.of(context).primaryColor,
+        color: finishing ? Colors.grey : Theme.of(context).primaryColor,
         text: 'FINALIZAR',
         rounded: false,
-        action: () async {
+        action: finishing ? null : () async {
           if (_formKey.currentState.validate() && validatePictureProfile()) {
             setFinishing(true);
             await save();
