@@ -3,6 +3,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class Pet {
   Pet({
     this.id,
+    this.donated,
+    this.found,
     this.name,
     this.sex,
     this.color,    
@@ -25,6 +27,8 @@ class Pet {
 
   Pet.fromSnapshot(DocumentSnapshot snapshot) {
     id = snapshot.id;
+    donated = snapshot.data()['donated'];
+    found = snapshot.data()['found'];
     kind = snapshot.data()['kind'];
     name = snapshot.data()['name'];
     sex = snapshot.data()['sex'];
@@ -47,6 +51,8 @@ class Pet {
 
   Pet.fromMap(Map<String, dynamic> map) {
     id = map['id'];
+    donated = map['donated'];
+    found = map['found'];
     kind = map['kind'];
     name = map['name'];
     color = map['color'];
@@ -69,6 +75,8 @@ class Pet {
 
   String id;
   String name;
+  bool donated;
+  bool found;
   String sex;
   String kind;
   String color;
@@ -90,6 +98,8 @@ class Pet {
   Map<String, dynamic> toJson() {
     return {
       'id': id,
+      'donated': donated,
+      'found': found,
       'name': name,
       'kind': kind,
       'color': color,
@@ -115,6 +125,8 @@ class Pet {
     Map<String, dynamic> petMap = {};
     petMap['id'] = id;
     petMap['name'] = name;
+    petMap['donated'] = donated;
+    petMap['found'] = found;
     petMap['kind'] = kind;
     petMap['avatar'] = avatar;
     petMap['sex'] = sex;

@@ -18,18 +18,24 @@ class AnnouncerDetails extends StatefulWidget {
 }
 
 class _AnnouncerDetailsState extends State<AnnouncerDetails> {
+  int userTotalToDonate = 0;
   int userTotalDonated = 0;
   int userTotalAdopted = 0;
   int userTotalDisap = 0;
 
   void calculateTotals(user) async {
     PetController petController = PetController();
+    QuerySnapshot adopteds = await petController.getPet(user.id, 'Adopted');
     QuerySnapshot donates = await petController.getPet(user.id, 'Donate');
     QuerySnapshot disap = await petController.getPet(user.id, 'Disappeared');
+    QuerySnapshot donated =
+        await petController.getPet(user.id, 'Donate', avalaible: false);
 
     setState(() {
+      userTotalAdopted = adopteds.docs.length;
       userTotalDisap = disap.docs.length;
-      userTotalDonated = donates.docs.length;
+      userTotalToDonate = donates.docs.length;
+      userTotalDonated = donated.docs.length;
     });
   }
 
@@ -89,6 +95,28 @@ class _AnnouncerDetailsState extends State<AnnouncerDetails> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
+                      Column(
+                        children: [
+                          CircleChild(
+                            avatarRadius: 25,
+                            child: Text(
+                              '$userTotalToDonate',
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                          SizedBox(height: 10),
+                          Text(
+                            'P/ adoção',
+                            style:
+                                Theme.of(context).textTheme.headline1.copyWith(
+                                      color: Colors.black,
+                                    ),
+                          )
+                        ],
+                      ),
                       Column(
                         children: [
                           CircleChild(

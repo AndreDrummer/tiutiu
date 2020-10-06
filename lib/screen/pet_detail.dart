@@ -3,6 +3,7 @@ import 'package:flutter_open_whatsapp/flutter_open_whatsapp.dart';
 import 'package:loading_animations/loading_animations.dart';
 import 'package:provider/provider.dart';
 import 'package:tiutiu/Custom/icons.dart';
+import 'package:tiutiu/Widgets/badge.dart';
 import 'package:tiutiu/Widgets/button.dart';
 import 'package:tiutiu/Widgets/card_details.dart';
 import 'package:tiutiu/Widgets/divider.dart';
@@ -85,7 +86,11 @@ class _PetDetailsState extends State<PetDetails> {
         'text': widget.pet.type,
         'icon': petIconType[widget.pet.type]
       },
-      {'title': 'SEXO', 'text': widget.pet.sex, 'icon': Icons.all_inclusive_outlined},
+      {
+        'title': 'SEXO',
+        'text': widget.pet.sex,
+        'icon': Icons.all_inclusive_outlined
+      },
       {'title': 'RAÇA', 'text': widget.pet.breed, 'icon': Icons.linear_scale},
       {
         'title': 'TAMANHO',
@@ -125,10 +130,14 @@ class _PetDetailsState extends State<PetDetails> {
                 : widget.petOwner.email,
         'icon': widget.petOwner.betterContact == 0
             ? Tiutiu.whatsapp
-            : widget.petOwner.betterContact == 1 ? Icons.phone : Icons.email,
+            : widget.petOwner.betterContact == 1
+                ? Icons.phone
+                : Icons.email,
         'color': widget.petOwner.betterContact == 0
             ? Colors.green
-            : widget.petOwner.betterContact == 1 ? Colors.orange : Colors.red,
+            : widget.petOwner.betterContact == 1
+                ? Colors.orange
+                : Colors.red,
         'callback': () {
           String serializedNumber =
               Formatter.unmaskNumber(widget.petOwner.phoneNumber);
@@ -212,11 +221,12 @@ class _PetDetailsState extends State<PetDetails> {
                           );
                         } else {
                           print(index);
-                        return CardDetails(
-                          title: '  Características',
-                          icon: Icons.auto_awesome,
-                          text: otherCaracteristics[index - petDetails.length],
-                        );
+                          return CardDetails(
+                            title: '  Características',
+                            icon: Icons.auto_awesome,
+                            text:
+                                otherCaracteristics[index - petDetails.length],
+                          );
                         }
                       },
                     ),
@@ -359,14 +369,15 @@ class _PetDetailsState extends State<PetDetails> {
                               petController.showInterestOrInfo(
                                   widget.pet.petReference,
                                   userProvider.userReference,
+                                  DateTime.now().toIso8601String(),
                                   userLocal,
                                   userPosition,
                                   isAdopt: widget.kind == 'DONATE');
                               if (widget.kind == 'DONATE') {
                                 userInfosAdopts
-                                    .insertAdoptInterest(widget.pet.id);
+                                    .insertAdoptInterestID(widget.pet.id);
                               } else {
-                                userInfosAdopts.insertInfos(widget.pet.id);
+                                userInfosAdopts.insertInfosID(widget.pet.id);
                               }
                             }
 
@@ -384,18 +395,30 @@ class _PetDetailsState extends State<PetDetails> {
                         ),
                       ),
                       SizedBox(width: 20),
-                      Container(
-                        height: 58,
-                        width: 58,
-                        decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: Theme.of(context).primaryColor),
-                        child: IconButton(
-                          onPressed: () {},
-                          color: Colors.white,
-                          icon: Icon(Icons.chat),
+                      Stack(children: [
+                        Column(
+                          children: [
+                            SizedBox(height: 10),
+                            Container(
+                              height: 58,
+                              width: 58,
+                              decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: Theme.of(context).primaryColor),
+                              child: IconButton(
+                                onPressed: () {},
+                                color: Colors.white,
+                                icon: Icon(Icons.chat),
+                              ),
+                            ),
+                          ],
                         ),
-                      )
+                        Positioned(
+                          top: 5,
+                          left: 7,
+                          child: Badge(text: 'Em breve', color: Colors.purple),
+                        ),
+                      ])
                     ],
                   ),
                 )
