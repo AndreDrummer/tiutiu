@@ -201,7 +201,8 @@ class _CardListState extends State<CardList> {
                                   : Icon(Tiutiu.location_arrow,
                                       size: 25,
                                       color: Theme.of(context).primaryColor),
-                              onPressed: () {
+                              onPressed: !widget.favorite
+                                  ? null : () {
                                 if (favoritesProvider.getFavoritesPETSIDList
                                     .contains(widget.petInfo.toMap()['id'])) {
                                   user.favorite(

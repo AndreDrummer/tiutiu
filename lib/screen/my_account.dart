@@ -151,7 +151,7 @@ class _MyAccountState extends State<MyAccount> {
                               children: [
                                 CircleChild(
                                   avatarRadius: 15,
-                                  child: Text('0',
+                                  child: Text(userProvider.getTotalAdopted?.toString(),
                                       style: TextStyle(
                                           color:
                                               Theme.of(context).primaryColor)),
@@ -228,7 +228,7 @@ class _MyAccountState extends State<MyAccount> {
                   Row(
                     children: [
                       MyAccountCard(
-                        icone: Tiutiu.dog,
+                        icone: Icons.pets,
                         text: 'PETs p/ adoção',
                         onTap: () {
                           Navigator.push(
@@ -236,19 +236,31 @@ class _MyAccountState extends State<MyAccount> {
                             MaterialPageRoute(
                               builder: (context) {
                                 return MyPetsScreen(
-                                    title: 'PETs p/ adoção',
-                                    streamBuilder: userProvider.donatePets,
-                                    kind: 'Donate');
+                                  title: 'PETs p/ adoção',
+                                  streamBuilder: userProvider.donatePets,
+                                  kind: 'Donate',
+                                );
                               },
                             ),
                           );
                         },
                       ),
-                      MyAccountCard(
-                        icone: Icons.favorite_border,
-                        text: 'Favoritados',
+                       MyAccountCard(
+                        icone: Tiutiu.twitter_bird,
+                        text: 'Adotados',
                         onTap: () {
-                          Navigator.pushNamed(context, Routes.FAVORITES);
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) {
+                                return MyPetsScreen(
+                                  title: 'PETs Adotados',
+                                  streamBuilder: userProvider.adoptedPets,
+                                  kind: 'Adopted',
+                                );
+                              },
+                            ),
+                          );
                         },
                       ),
                     ],
@@ -256,51 +268,24 @@ class _MyAccountState extends State<MyAccount> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Stack(
-                        children: [
-                          MyAccountCard(
-                            icone: Tiutiu.cat,
-                            text: 'Doados',
-                            onTap: () {
-                              // Navigator.pushNamed(context, Routes.MEUS_PETS);
-                            },
-                          ),
-                          Positioned(
-                            top: 3.5,
-                            left: 3,
-                            child: Container(
-                              decoration: BoxDecoration(
-                                color: Colors.black26,
-                                borderRadius: BorderRadius.circular(
-                                  12,
-                                ),
-                              ),
-                              alignment: Alignment.centerRight,
-                              height: 98.5,
-                              width: 184,
-                              child: Text(
-                                'Em breve',
-                                style: TextStyle(
-                                  shadows: <Shadow>[
-                                    Shadow(
-                                      offset: Offset(2.5, 2.5),
-                                      blurRadius: 3.0,
-                                      color: Colors.black,
-                                    ),
-                                    Shadow(
-                                      offset: Offset(2.5, 2.5),
-                                      blurRadius: 8.0,
-                                      color: Colors.white70,
-                                    ),
-                                  ],
-                                  color: Colors.purple,
-                                  fontSize: 25,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
+                      MyAccountCard(
+                        icone: Tiutiu.cat,
+                        text: 'Doados',
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) {
+                                return MyPetsScreen(
+                                  title: 'PETs doados',
+                                  streamBuilder: userProvider.donatedPets,
+                                  kind: null,
+                                  userId: auth.firebaseUser.uid
+                                );
+                              },
                             ),
-                          )
-                        ],
+                          );
+                        },
                       ),
                       MyAccountCard(
                         icone: Tiutiu.dog,
