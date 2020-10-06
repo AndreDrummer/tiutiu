@@ -19,19 +19,23 @@ class AnnouncerDetails extends StatefulWidget {
 
 class _AnnouncerDetailsState extends State<AnnouncerDetails> {
   int userTotalToDonate = 0;
-  int userTotalDonate = 0;
+  int userTotalDonated = 0;
   int userTotalAdopted = 0;
   int userTotalDisap = 0;
 
   void calculateTotals(user) async {
     PetController petController = PetController();
+    QuerySnapshot adopteds = await petController.getPet(user.id, 'Adopted');
     QuerySnapshot donates = await petController.getPet(user.id, 'Donate');
     QuerySnapshot disap = await petController.getPet(user.id, 'Disappeared');
+    QuerySnapshot donated =
+        await petController.getPet(user.id, 'Donate', avalaible: false);
 
     setState(() {
+      userTotalAdopted = adopteds.docs.length;
       userTotalDisap = disap.docs.length;
       userTotalToDonate = donates.docs.length;
-      userTotalDonate = donates.docs.length;
+      userTotalDonated = donated.docs.length;
     });
   }
 
@@ -96,7 +100,7 @@ class _AnnouncerDetailsState extends State<AnnouncerDetails> {
                           CircleChild(
                             avatarRadius: 25,
                             child: Text(
-                              '$userTotalToDonate',                              
+                              '$userTotalToDonate',
                               style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 20,
@@ -118,7 +122,7 @@ class _AnnouncerDetailsState extends State<AnnouncerDetails> {
                           CircleChild(
                             avatarRadius: 25,
                             child: Text(
-                              '$userTotalDonate',                              
+                              '$userTotalDonated',
                               style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 20,
