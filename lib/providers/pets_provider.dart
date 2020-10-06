@@ -44,7 +44,7 @@ class PetsProvider with ChangeNotifier {
           .doc(allUsersID[j])
           .collection('Pets')
           .doc('posted')
-          .collection('Disappeared')
+          .collection('Disappeared').where('found', isEqualTo: false)
           .get()
           .then((disappearedPETS) {
         for (int i = 0; i < disappearedPETS.docs.length; i++) {
@@ -67,7 +67,7 @@ class PetsProvider with ChangeNotifier {
           .doc(allUsersID[j])
           .collection('Pets')
           .doc('posted')
-          .collection('Donate')
+          .collection('Donate').where('donated', isEqualTo: false)
           .get()
           .then((donatesPETS) {
         for (int i = 0; i < donatesPETS.docs.length; i++) {
