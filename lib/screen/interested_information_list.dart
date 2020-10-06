@@ -9,6 +9,7 @@ import 'package:tiutiu/backend/Model/interested_model.dart';
 import 'package:tiutiu/backend/Model/pet_model.dart';
 import 'package:tiutiu/backend/Model/user_model.dart';
 import 'package:tiutiu/providers/user_infos_interests.dart';
+import 'package:tiutiu/providers/user_provider.dart';
 
 class InterestedList extends StatefulWidget {
   InterestedList({
@@ -25,6 +26,7 @@ class InterestedList extends StatefulWidget {
 
 class _InterestedListState extends State<InterestedList> {
   UserInfoOrAdoptInterestsProvider userInfoOrAdoptInterestsProvider;
+  UserProvider userProvider;
   User user;
   UserController userController = UserController();
 
@@ -32,6 +34,7 @@ class _InterestedListState extends State<InterestedList> {
   void didChangeDependencies() {
     userInfoOrAdoptInterestsProvider =
         Provider.of<UserInfoOrAdoptInterestsProvider>(context);
+    userProvider = Provider.of<UserProvider>(context);
     userInfoOrAdoptInterestsProvider.loadInterested(widget.pet.petReference);
     userController.getUserByReference(widget.pet.ownerReference).then((value) {
       user = value;
@@ -56,7 +59,7 @@ class _InterestedListState extends State<InterestedList> {
                   circle: true,
                 );
               }
-              
+
               if (!snapshot.hasData || snapshot.data.isEmpty) {
                 return Center(
                   child: Row(
@@ -108,25 +111,38 @@ class _InterestedListState extends State<InterestedList> {
                           ),
                         ),
                         title: Text(user.name),
-                        subtitle: Text('Se interessou em ${DateFormat('dd/MM/y hh:mm').format(DateTime.parse(snapshot.data[index].interestedAt))}'),
+                        subtitle: Text(
+                            'Se interessou em ${DateFormat('dd/MM/y hh:mm').format(DateTime.parse(snapshot.data[index].interestedAt))}'),
                         trailing: InkWell(
-                          onTap: widget.kind == 'Donate' ? () {
-                            showDialog(
-                              context: context,
-                              barrierDismissible: false,
-                              builder: (context) => PopUpMessage(
-                                confirmAction: () => print('Sinalizar Doação'),
-                                confirmText: 'Confirmo',
-                                denyAction: () => Navigator.pop(context),
-                                denyText: 'Não, escolher outro',
-                                message:
-                                    'Tem certeza que doou ${widget.pet.name} para ${user.name} ?',
-                                title: 'Confirme doação do PET',
-                                warning: true,
-                              ),
-                            );
-                          } : (){},
-                          child: widget.kind == 'Donate' ? _bagde('Doar') : _bagde('Ver info'),
+                          onTap: widget.kind == 'Donate'
+                              ? () {
+                                  showDialog(
+                                    context: context,
+                                    barrierDismissible: false,
+                                    builder: (context) => PopUpMessage(
+                                      confirmAction: () async {
+                                        // print(user.id);
+                                        await userController.donatePetToSomeone(
+                                          petReference: widget.pet.petReference,
+                                          userAdoptId: user.id,
+                                          userDonateId: userProvider.uid,
+                                        );
+                                        Navigator.pop(context);
+                                      },
+                                      confirmText: 'Confirmo',
+                                      denyAction: () => Navigator.pop(context),
+                                      denyText: 'Não, escolher outro',
+                                      message:
+                                          'Deseja doar ${widget.pet.name} para ${user.name} ?',
+                                      title: 'Confirme doação do PET',
+                                      warning: true,
+                                    ),
+                                  );
+                                }
+                              : () {},
+                          child: widget.kind == 'Donate'
+                              ? _bagde('Doar')
+                              : _bagde('Ver info'),
                         ),
                       );
                     },
