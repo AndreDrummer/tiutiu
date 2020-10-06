@@ -18,7 +18,8 @@ class AnnouncerDetails extends StatefulWidget {
 }
 
 class _AnnouncerDetailsState extends State<AnnouncerDetails> {
-  int userTotalDonated = 0;
+  int userTotalToDonate = 0;
+  int userTotalDonate = 0;
   int userTotalAdopted = 0;
   int userTotalDisap = 0;
 
@@ -29,7 +30,8 @@ class _AnnouncerDetailsState extends State<AnnouncerDetails> {
 
     setState(() {
       userTotalDisap = disap.docs.length;
-      userTotalDonated = donates.docs.length;
+      userTotalToDonate = donates.docs.length;
+      userTotalDonate = donates.docs.length;
     });
   }
 
@@ -94,7 +96,29 @@ class _AnnouncerDetailsState extends State<AnnouncerDetails> {
                           CircleChild(
                             avatarRadius: 25,
                             child: Text(
-                              '$userTotalDonated',
+                              '$userTotalToDonate',                              
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                          SizedBox(height: 10),
+                          Text(
+                            'P/ adoção',
+                            style:
+                                Theme.of(context).textTheme.headline1.copyWith(
+                                      color: Colors.black,
+                                    ),
+                          )
+                        ],
+                      ),
+                      Column(
+                        children: [
+                          CircleChild(
+                            avatarRadius: 25,
+                            child: Text(
+                              '$userTotalDonate',                              
                               style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 20,

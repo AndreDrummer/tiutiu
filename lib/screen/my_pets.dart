@@ -10,6 +10,17 @@ import 'package:tiutiu/screen/choose_location.dart';
 import 'interested_information_list.dart';
 
 class MyPetsScreen extends StatefulWidget {
+
+  MyPetsScreen({
+    this.streamBuilder,
+    this.title,
+    this.kind
+  });
+
+  final String title;
+  final String kind;
+  final Stream streamBuilder; 
+
   @override
   _MyPetsScreenState createState() => _MyPetsScreenState();
 }
@@ -19,14 +30,15 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
   PetController petController = PetController();
 
   @override
-  void initState() {
+  void didChangeDependencies() {
     userProvider = Provider.of(context, listen: false);
-    super.initState();
+    userProvider.loadMyPets(kind: widget.kind);
+    super.didChangeDependencies();
   }
 
   void delete(DocumentReference petRef) {
     petController.deletePet(petRef);
-    userProvider.loadMyPets();
+    userProvider.loadMyPets(kind: widget.kind);
     userProvider.calculateTotals();
   }
 
@@ -43,7 +55,7 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
           },
         ),
         title: Text(
-          'Meus PETS',
+          widget.title,
           style: Theme.of(context).textTheme.headline1.copyWith(
                 fontSize: 22,
                 fontWeight: FontWeight.w800,
@@ -51,12 +63,12 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
         ),
       ),
       body: RefreshIndicator(
-        onRefresh: () => userProvider.loadMyPets(),
+        onRefresh: () => userProvider.loadMyPets(kind: widget.kind),
         child: Stack(
           children: [
             Background(),
             StreamBuilder<List<Pet>>(
-              stream: userProvider.myPets,
+              stream: widget.streamBuilder,
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return LoadingScreen(text: 'Carregando meus pets');
