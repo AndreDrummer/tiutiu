@@ -13,4 +13,5 @@ class Routes {
   static const NEW_MAP = '/new-map';
   static const ANNOUNCER_DETAILS = '/announcer-details';
   static const SEARCH_REFINE = '/search-refine';
+  static const INTERESTED_LIST = '/interested-list';
 }
