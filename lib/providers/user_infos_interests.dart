@@ -81,8 +81,7 @@ class UserInfoOrAdoptInterestsProvider with ChangeNotifier {
     List<InterestedModel> interested = [];
 
     if (pet.data() != null) {
-      List interestedList = pet.data()['adoptInteresteds'];
-      print(interestedList);
+      List interestedList = pet.data()['adoptInteresteds'] ?? [];      
       for(int i = 0; i < interestedList.length; i++) {
         interested.add(InterestedModel.fromMap(interestedList[i]));
       }
