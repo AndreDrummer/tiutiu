@@ -9,7 +9,7 @@ import 'package:tiutiu/utils/routes.dart';
 
 class ChooseLocation extends StatefulWidget {
   ChooseLocation({
-    this.editMode,
+    this.editMode = false,
     this.petReference,
   });
 

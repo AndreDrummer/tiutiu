@@ -7,8 +7,16 @@ import 'package:tiutiu/backend/Controller/pet_controller.dart';
 import 'package:tiutiu/backend/Model/pet_model.dart';
 import 'package:tiutiu/providers/user_provider.dart';
 import 'package:tiutiu/screen/choose_location.dart';
+import 'interested_information_list.dart';
 
 class MyPetsScreen extends StatefulWidget {
+  MyPetsScreen({this.streamBuilder, this.title, this.kind, this.userId});
+
+  final String title;
+  final String userId;
+  final String kind;
+  final Stream streamBuilder;
+
   @override
   _MyPetsScreenState createState() => _MyPetsScreenState();
 }
@@ -18,14 +26,20 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
   PetController petController = PetController();
 
   @override
-  void initState() {
+  void didChangeDependencies() {
     userProvider = Provider.of(context, listen: false);
-    super.initState();
+    if (widget.kind != null) {
+      userProvider.loadMyPets(kind: widget.kind);
+    } else {
+      print('Load donated');
+      userProvider.loadDonatedPets(widget.userId);
+    }
+    super.didChangeDependencies();
   }
 
   void delete(DocumentReference petRef) {
     petController.deletePet(petRef);
-    userProvider.loadMyPets();
+    userProvider.loadMyPets(kind: widget.kind);
     userProvider.calculateTotals();
   }
 
@@ -42,7 +56,7 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
           },
         ),
         title: Text(
-          'Meus PETS',
+          widget.title,
           style: Theme.of(context).textTheme.headline1.copyWith(
                 fontSize: 22,
                 fontWeight: FontWeight.w800,
@@ -50,12 +64,12 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
         ),
       ),
       body: RefreshIndicator(
-        onRefresh: () => userProvider.loadMyPets(),
+        onRefresh: () => userProvider.loadMyPets(kind: widget.kind),
         child: Stack(
           children: [
             Background(),
             StreamBuilder<List<Pet>>(
-              stream: userProvider.myPets,
+              stream: widget.streamBuilder,
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return LoadingScreen(text: 'Carregando meus pets');
@@ -107,12 +121,14 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
                                     ),
                                   ),
                                 ),
-                                Positioned(
-                                  top: 20,
-                                  right: 5,
-                                  child:
-                                      _lablePetKind(snapshot.data[index].kind),
-                                )
+                                widget.kind == null ||  widget.kind == 'Adopted'
+                                    ? Container()
+                                    : Positioned(
+                                        top: 20,
+                                        right: 5,
+                                        child: _lablePetKind(
+                                            snapshot.data[index].kind),
+                                      )
                               ],
                             ),
                             Divider(),
@@ -120,7 +136,7 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
                               children: [
                                 Padding(
                                   padding: const EdgeInsets.symmetric(
-                                      vertical: 24.0, horizontal: 15),
+                                      vertical: 16.0, horizontal: 15),
                                   child: Container(
                                     width: 160,
                                     child: Column(
@@ -157,51 +173,109 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
                                 Spacer(),
                                 Expanded(
                                   flex: 2,
-                                  child: Row(
+                                  child: widget.kind == null ||  widget.kind == 'Adopted'
+                                      ? Container()
+                                      : Row(
+                                          children: [
+                                            Container(
+                                              margin: const EdgeInsets.all(4.0),
+                                              decoration: BoxDecoration(
+                                                  shape: BoxShape.circle,
+                                                  color: Colors.amber),
+                                              child: IconButton(
+                                                icon: Icon(Icons.mode_edit),
+                                                onPressed: () {
+                                                  Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                      builder: (context) {
+                                                        return ChooseLocation(
+                                                          editMode: true,
+                                                          petReference: snapshot
+                                                              .data[index]
+                                                              .petReference,
+                                                        );
+                                                      },
+                                                    ),
+                                                  );
+                                                },
+                                                color: Colors.white,
+                                              ),
+                                            ),
+                                            Container(
+                                              margin: const EdgeInsets.all(4.0),
+                                              decoration: BoxDecoration(
+                                                  shape: BoxShape.circle,
+                                                  color: Colors.red),
+                                              child: IconButton(
+                                                icon: Icon(Icons.delete),
+                                                onPressed: () {
+                                                  delete(
+                                                    snapshot.data[index]
+                                                        .petReference,
+                                                  );
+                                                },
+                                                color: Colors.white,
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                )
+                              ],
+                            ),
+                            widget.kind == null ||  widget.kind == 'Adopted'
+                                ? Container()
+                                : Column(
                                     children: [
-                                      Container(
-                                        margin: const EdgeInsets.all(4.0),
-                                        decoration: BoxDecoration(
-                                            shape: BoxShape.circle,
-                                            color: Colors.amber),
-                                        child: IconButton(
-                                          icon: Icon(Icons.mode_edit),
-                                          onPressed: () {
+                                      Divider(),
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: InkWell(
+                                          onTap: () {
                                             Navigator.push(
                                               context,
                                               MaterialPageRoute(
                                                 builder: (context) {
-                                                  return ChooseLocation(
-                                                    editMode: true,                                                  
-                                                    petReference: snapshot.data[index].petReference,
-                                                  );
+                                                  return InterestedList(
+                                                      pet: snapshot.data[index],
+                                                      kind: snapshot
+                                                          .data[index].kind);
                                                 },
                                               ),
                                             );
                                           },
-                                          color: Colors.white,
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Container(
+                                                padding:
+                                                    const EdgeInsets.all(4.0),
+                                                decoration: BoxDecoration(
+                                                  shape: BoxShape.circle,
+                                                  border: Border.all(
+                                                    style: BorderStyle.solid,
+                                                  ),
+                                                ),
+                                                child: Icon(Icons.menu),
+                                              ),
+                                              SizedBox(width: 10),
+                                              Text(
+                                                snapshot.data[index].kind ==
+                                                        'Donate'
+                                                    ? 'Ver lista de interessados'
+                                                    : 'Ver notificações',
+                                                style: TextStyle(
+                                                  decoration:
+                                                      TextDecoration.underline,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
                                         ),
                                       ),
-                                      Container(
-                                        margin: const EdgeInsets.all(4.0),
-                                        decoration: BoxDecoration(
-                                            shape: BoxShape.circle,
-                                            color: Colors.red),
-                                        child: IconButton(
-                                          icon: Icon(Icons.delete),
-                                          onPressed: () {
-                                            delete(
-                                              snapshot.data[index].petReference,
-                                            );
-                                          },
-                                          color: Colors.white,
-                                        ),
-                                      )
                                     ],
-                                  ),
-                                )
-                              ],
-                            )
+                                  )
                           ],
                         ),
                       ),

@@ -8,12 +8,14 @@ class User {
     this.email,
     this.password,
     this.landline,        
-    this.phoneNumber,    
+    this.phoneNumber,
+    this.createdAt,
   });
   
   User.fromSnapshot(DocumentSnapshot snapshot) {
     id = snapshot.data()['uid'];
     betterContact = snapshot.data()['betterContact'];
+    createdAt = snapshot.data()['createdAt'];
     name = snapshot.data()['displayName'];
     photoURL = snapshot.data()['photoURL'];        
     photoBACK = snapshot.data()['photoBACK'];        
@@ -26,6 +28,7 @@ class User {
   User.fromMap(Map<String, dynamic> map) {
     id = map['uid'];
     betterContact = map['betterContact'];
+    createdAt = map['createdAt'];
     name = map['displayName'];
     photoURL = map['photoURL'];        
     photoBACK = map['photoBACK'];        
@@ -38,6 +41,7 @@ class User {
   String id;
   int betterContact;
   String name;
+  String createdAt;
   String photoURL;
   String photoBACK;
   String email;
@@ -51,6 +55,7 @@ class User {
       'betterContact': betterContact,      
       'id': id,
       'name': name,
+      'createdAt': createdAt,
       'photoURL': photoURL,
       'photoBACK': photoBACK,
       'email': email,
@@ -65,6 +70,7 @@ class User {
     userMap['betterContact'] = betterContact;
     userMap['id'] = id;
     userMap['name'] = name;
+    userMap['createdAt'] = createdAt;
     userMap['photoURL'] = photoURL;
     userMap['photoBACK'] = photoBACK;
     userMap['email'] = email;
