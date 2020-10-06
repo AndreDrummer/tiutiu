@@ -28,7 +28,7 @@ idade pode manusear sem necessidade de tutoriais complexos.</p>
 <strong>4. Divulgue seu PET desaparecido e receba noticias sobre ele.<br/>
 
 <div>
-  <img align="left" src="assets/screenshots/login.jpg" width="320" height="500"/>
-  <img align="left" src="assets/screenshots/home.jpg" width="320" height="500"/>
-  <img align="left" src="assets/screenshots/mapa.jpg" width="320" height="500"/>
+  <img align="left" src="assets/screenshots/login.jpg" width="300" height="480"/>
+  <img align="left" src="assets/screenshots/home.jpg" width="300" height="480"/>
+  <img align="left" src="assets/screenshots/mapa.jpg" width="300" height="480"/>
 </div>
