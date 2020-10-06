@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tiutiu/Widgets/card_list.dart';
 import 'package:tiutiu/Widgets/error_page.dart';
-import 'package:tiutiu/Widgets/drawer.dart';
 import 'package:tiutiu/Widgets/loading_page.dart';
 import 'package:tiutiu/backend/Model/pet_model.dart';
 import 'package:tiutiu/providers/location.dart';
 import 'package:tiutiu/providers/pets_provider.dart';
 import 'package:tiutiu/providers/refine_search.dart';
 import 'package:tiutiu/utils/math_functions.dart';
+import 'package:tiutiu/utils/routes.dart';
 
 class DonateDisappearedList extends StatefulWidget {
   DonateDisappearedList({this.kind});
@@ -85,15 +85,14 @@ class _DonateDisappearedListState extends State<DonateDisappearedList> {
 
     final kind = widget.kind;
 
-    return Scaffold(
-      key: _scaffoldKey,
-      backgroundColor: Colors.blueGrey[50],
-      drawer: DrawerApp(),
-      body: RefreshIndicator(
-        onRefresh: () => widget.kind == 'Donate'
-            ? petsProvider.loadDonatedPETS()
-            : petsProvider.loadDisappearedPETS(),
-        child: StreamBuilder<List<Pet>>(
+    return RefreshIndicator(
+      onRefresh: () => widget.kind == 'Donate'
+          ? petsProvider.loadDonatedPETS()
+          : petsProvider.loadDisappearedPETS(),
+      child: Scaffold(
+        key: _scaffoldKey,
+        backgroundColor: Colors.blueGrey[50],
+        body: StreamBuilder<List<Pet>>(
           stream: kind == 'Donate'
               ? petsProvider.listDonatesPETS
               : petsProvider.listDisappearedPETS,
@@ -109,26 +108,31 @@ class _DonateDisappearedListState extends State<DonateDisappearedList> {
               return ErrorPage();
             } else {
               if (petsList.isEmpty)
-                return Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        'Nenhum PET ${kind == 'Donate' ? 'para adoção' : 'encontrado'}',
-                        textAlign: TextAlign.center,
-                        style: Theme.of(context).textTheme.headline1.copyWith(
-                              color: Colors.black,
-                            ),
-                      ),
-                      SizedBox(height: 5),
-                      Text(
-                        'Verifique seus filtros de busca.',
-                        textAlign: TextAlign.center,
-                        style: Theme.of(context).textTheme.headline1.copyWith(
-                              color: Colors.blueAccent,
-                            ),
-                      ),
-                    ],
+                return InkWell(
+                  onTap: () {
+                    Navigator.pushNamed(context, Routes.SEARCH_REFINE);
+                  },
+                  child: Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'Nenhum PET ${kind == 'Donate' ? 'para adoção' : 'encontrado'}',
+                          textAlign: TextAlign.center,
+                          style: Theme.of(context).textTheme.headline1.copyWith(
+                                color: Colors.black,
+                              ),
+                        ),
+                        SizedBox(height: 5),
+                        Text(
+                          'Verifique seus filtros de busca.',
+                          textAlign: TextAlign.center,
+                          style: Theme.of(context).textTheme.headline1.copyWith(
+                                color: Colors.blueAccent,
+                              ),
+                        ),
+                      ],
+                    ),
                   ),
                 );
             }
@@ -138,7 +142,7 @@ class _DonateDisappearedListState extends State<DonateDisappearedList> {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Container(
-                    color: Colors.red,                    
+                    color: Colors.red,
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Text(
