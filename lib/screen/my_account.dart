@@ -8,6 +8,7 @@ import 'package:tiutiu/Widgets/my_account_card.dart';
 import 'package:tiutiu/Widgets/popup_message.dart';
 import 'package:tiutiu/providers/auth2.dart';
 import 'package:tiutiu/providers/user_provider.dart';
+import 'package:tiutiu/screen/my_pets.dart';
 import 'package:tiutiu/utils/routes.dart';
 
 class MyAccount extends StatefulWidget {
@@ -105,6 +106,29 @@ class _MyAccountState extends State<MyAccount> {
                                 CircleChild(
                                   avatarRadius: 15,
                                   child: Text(
+                                    userProvider.getTotalToDonate?.toString(),
+                                    style: TextStyle(
+                                      color: Theme.of(context).primaryColor,
+                                    ),
+                                  ),
+                                ),
+                                Text(
+                                  'P/ adoção',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .headline1
+                                      .copyWith(
+                                        color: Colors.black,
+                                        fontSize: 10,
+                                      ),
+                                )
+                              ],
+                            ),
+                            Column(
+                              children: [
+                                CircleChild(
+                                  avatarRadius: 15,
+                                  child: Text(
                                     userProvider.getTotalDonated?.toString(),
                                     style: TextStyle(
                                       color: Theme.of(context).primaryColor,
@@ -149,7 +173,8 @@ class _MyAccountState extends State<MyAccount> {
                                 CircleChild(
                                   avatarRadius: 15,
                                   child: Text(
-                                      userProvider.getTotalDisappeared?.toString(),
+                                      userProvider.getTotalDisappeared
+                                          ?.toString(),
                                       style: TextStyle(
                                           color:
                                               Theme.of(context).primaryColor)),
@@ -204,9 +229,19 @@ class _MyAccountState extends State<MyAccount> {
                     children: [
                       MyAccountCard(
                         icone: Tiutiu.dog,
-                        text: 'Disponíveis',
+                        text: 'PETs p/ adoção',
                         onTap: () {
-                          Navigator.pushNamed(context, Routes.MEUS_PETS);
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) {
+                                return MyPetsScreen(
+                                    title: 'PETs p/ adoção',
+                                    streamBuilder: userProvider.donatePets,
+                                    kind: 'Donate');
+                              },
+                            ),
+                          );
                         },
                       ),
                       MyAccountCard(
@@ -267,52 +302,71 @@ class _MyAccountState extends State<MyAccount> {
                           )
                         ],
                       ),
-                      Stack(
-                        children: [
-                          MyAccountCard(
-                            icone: Icons.chat_bubble_outline,
-                            text: 'Chat',
-                            onTap: () {
-                              // Navigator.pushNamed(context, Routes.MEUS_PETS);
-                            },
-                          ),
-                          Positioned(
-                            top: 3.5,
-                            left: 3,
-                            child: Container(
-                              decoration: BoxDecoration(
-                                color: Colors.black26,
-                                borderRadius: BorderRadius.circular(
-                                  12,
-                                ),
-                              ),
-                              alignment: Alignment.centerRight,
-                              height: 98.5,
-                              width: 184,
-                              child: Text(
-                                'Em breve',
-                                style: TextStyle(
-                                  shadows: <Shadow>[
-                                    Shadow(
-                                      offset: Offset(2.5, 2.5),
-                                      blurRadius: 3.0,
-                                      color: Colors.black,
-                                    ),
-                                    Shadow(
-                                      offset: Offset(2.5, 2.5),
-                                      blurRadius: 8.0,
-                                      color: Colors.white70,
-                                    ),
-                                  ],
-                                  color: Colors.purple,
-                                  fontSize: 25,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
+                      MyAccountCard(
+                        icone: Tiutiu.dog,
+                        text: 'Desaparecidos',
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) {
+                                return MyPetsScreen(
+                                  title: 'PETs desaparecidos',
+                                  streamBuilder: userProvider.disappearedPets,
+                                  kind: 'Disappeared',
+                                );
+                              },
                             ),
-                          )
-                        ],
+                          );
+                        },
                       ),
+                    ],
+                  ),
+                  Stack(
+                    children: [
+                      MyAccountCard(
+                        isToExpand: true,
+                        icone: Icons.chat_bubble_outline,
+                        text: 'Chat',
+                        onTap: () {
+                          // Navigator.pushNamed(context, Routes.MEUS_PETS);
+                        },
+                      ),
+                      Positioned(
+                        top: 3.5,
+                        left: 3,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: Colors.black26,
+                            borderRadius: BorderRadius.circular(
+                              12,
+                            ),
+                          ),
+                          alignment: Alignment.center,
+                          height: 98.5,
+                          width: MediaQuery.of(context).size.width - 17,
+                          child: Text(
+                            'Em breve',
+                            style: TextStyle(
+                              shadows: <Shadow>[
+                                Shadow(
+                                  offset: Offset(2.5, 2.5),
+                                  blurRadius: 3.0,
+                                  color: Colors.black,
+                                ),
+                                Shadow(
+                                  offset: Offset(2.5, 2.5),
+                                  blurRadius: 8.0,
+                                  color: Colors.white70,
+                                ),
+                              ],
+                              color: Colors.purple,
+                              fontSize: 25,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
+                      )
                     ],
                   ),
                   Card(

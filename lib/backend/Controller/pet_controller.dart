@@ -17,30 +17,43 @@ class PetController {
         .get();
   }
 
-  Future<Pet> getPetByReference(DocumentReference petRef) async {    
-    var pet = await petRef.get();          
+  Future<Pet> getPetByReference(DocumentReference petRef) async {
+    var pet = await petRef.get();
 
     return Pet.fromSnapshot(pet);
   }
 
-  Future<List<Pet>> getAllPets(String userId) async {
+  Future<List<Pet>> getAllPetsByKind(String userId, {String kind}) async {
     List<Pet> myPets = [];
 
+        print(kind);
     var postedPets = firestore
         .collection('Users')
         .doc(userId)
         .collection('Pets')
         .doc('posted');
+    if (kind != null) {
+      if (kind == 'Donate') {
+        var donates = await postedPets.collection(kind).get();
+        for (int i = 0; i < donates.docs.length; i++) {
+          myPets.add(Pet.fromSnapshot(donates.docs[i]));
+        }
+      } else {
+        var disappeared = await postedPets.collection('Disappeared').get();
+        for (int i = 0; i < disappeared.docs.length; i++) {
+          myPets.add(Pet.fromSnapshot(disappeared.docs[i]));
+        }
+      }
+    } else {    
+      var donates = await postedPets.collection('Donate').get();
+      var disappeared = await postedPets.collection('Disappeared').get();
 
-    var donates = await postedPets.collection('Donate').get();
-    var disappeared = await postedPets.collection('Disappeared').get();
-
-    for (int i = 0; i < donates.docs.length; i++) {
-      myPets.add(Pet.fromSnapshot(donates.docs[i]));
-    }
-
-    for (int i = 0; i < disappeared.docs.length; i++) {
-      myPets.add(Pet.fromSnapshot(disappeared.docs[i]));
+      for (int i = 0; i < donates.docs.length; i++) {
+        myPets.add(Pet.fromSnapshot(donates.docs[i]));
+      }
+      for (int i = 0; i < disappeared.docs.length; i++) {
+        myPets.add(Pet.fromSnapshot(disappeared.docs[i]));
+      }
     }
 
     return myPets;
@@ -97,7 +110,8 @@ class PetController {
     );
   }
 
-  Future<void> updatePet(Pet pet, String userId, String petKind, String petId) async {
+  Future<void> updatePet(
+      Pet pet, String userId, String petKind, String petId) async {
     await FirebaseFirestore.instance
         .collection('Users')
         .doc(userId)

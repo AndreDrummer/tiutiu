@@ -17,31 +17,43 @@ class UserProvider with ChangeNotifier {
   String _createdAt;
   DocumentReference _userReference;
   final _betterContact = BehaviorSubject<int>();
-  final _totalDonated = BehaviorSubject<int>();
-  final _totalAdopted = BehaviorSubject<int>();
-  final _totalDisappeared = BehaviorSubject<int>();
-  final _myPetsList = BehaviorSubject<List<Pet>>();
+  final _totaToDonate = BehaviorSubject<int>.seeded(0);
+  final _totalDonated = BehaviorSubject<int>.seeded(0);
+  final _totalAdopted = BehaviorSubject<int>.seeded(0);
+  final _totalDisappeared = BehaviorSubject<int>.seeded(0);
+  final _allPets = BehaviorSubject<List<Pet>>();
+  final _donatePets = BehaviorSubject<List<Pet>>();
+  final _disappearedPets = BehaviorSubject<List<Pet>>();
 
   // Listenning to the date
   Stream<int> get betterContact => _betterContact.stream;
+  Stream<int> get totalToDonate => _totaToDonate.stream;
   Stream<int> get totalDonated => _totalDonated.stream;
   Stream<int> get totalAdopted => _totalAdopted.stream;
   Stream<int> get totalDisappeared => _totalDisappeared.stream;
-  Stream<List<Pet>> get myPets => _myPetsList.stream;
+  Stream<List<Pet>> get allPets => _allPets.stream;
+  Stream<List<Pet>> get donatePets => _donatePets.stream;
+  Stream<List<Pet>> get disappearedPets => _disappearedPets.stream;
 
   // Getting data
   int get getBetterContact => _betterContact.stream.value;
+  int get getTotalToDonate => _totaToDonate.stream.value;
   int get getTotalDonated => _totalDonated.stream.value;
   int get getTotalAdopted => _totalAdopted.stream.value;
   int get getTotalDisappeared => _totalDisappeared.stream.value;
-  List<Pet> get getMyPets => _myPetsList.stream.value;
+  List<Pet> get getAllPets => _allPets.stream.value;
+  List<Pet> get getDonatePets => _donatePets.stream.value;
+  List<Pet> get getDisappearedPets => _disappearedPets.stream.value;
 
   // Changing data
   void Function(int) get changeBetterContact => _betterContact.sink.add;
+  void Function(int) get changeTotalToDonate => _totaToDonate.sink.add;
   void Function(int) get changeTotalDonated => _totalDonated.sink.add;
   void Function(int) get changeTotalAdopted => _totalAdopted.sink.add;
   void Function(int) get changeTotalDisappeared => _totalDisappeared.sink.add;
-  void Function(List<Pet>) get changePets => _myPetsList.sink.add;
+  void Function(List<Pet>) get changeAllPets => _allPets.sink.add;
+  void Function(List<Pet>) get changeDonatePets => _donatePets.sink.add;
+  void Function(List<Pet>) get changeDisappearedPets => _disappearedPets.sink.add;
 
   void changePhotoFILE(File file) {
     _photoFILE = file;
@@ -105,12 +117,19 @@ class UserProvider with ChangeNotifier {
     QuerySnapshot disap = await petController.getPet(uid, 'Disappeared');
 
     changeTotalDisappeared(disap.docs.length);
-    changeTotalDonated(donates.docs.length);      
+    changeTotalToDonate(donates.docs.length);      
   }
 
-  Future<void> loadMyPets() async {
+  Future<void> loadMyPets({String kind}) async {
     PetController petController = PetController();
-    changePets(await petController.getAllPets(uid));    
+    if(kind == null) {
+      changeAllPets(await petController.getAllPetsByKind(uid));    
+    } else if (kind == 'Donate') {
+      print('Kind: $kind');
+      changeDonatePets(await petController.getAllPetsByKind(uid, kind: kind));    
+    } else {
+      changeDisappearedPets(await petController.getAllPetsByKind(uid, kind: kind));    
+    }
   }
 
 }
