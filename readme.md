@@ -29,6 +29,6 @@ idade pode manusear sem necessidade de tutoriais complexos.</p>
 
 <div>
   <img align="left" src="assets/screenshots/login.jpg" width="320" height="500"/>
-  <img align="left" src="assets/screenshots/home.jpg" width="100" height="100"/>
-  <img align="left" src="assets/screenshots/mapa.jpg" width="100" height="100"/>
+  <img align="left" src="assets/screenshots/home.jpg" width="320" height="500"/>
+  <img align="left" src="assets/screenshots/mapa.jpg" width="320" height="500"/>
 </div>
