@@ -27,8 +27,10 @@ idade pode manusear sem necessidade de tutoriais complexos.</p>
 <strong>3. Procure Pets para doação perto de você no mapa.<br/></strong>
 <strong>4. Divulgue seu PET desaparecido e receba noticias sobre ele.<br/>
 
+
 <div>
   <img align="left" src="assets/screenshots/login.jpg" width="290" height="450"/>
   <img align="left" src="assets/screenshots/home.jpg" width="290" height="450"/>
   <img align="left" src="assets/screenshots/mapa.jpg" width="290" height="450"/>
 </div>
+
