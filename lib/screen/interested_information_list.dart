@@ -56,7 +56,8 @@ class _InterestedListState extends State<InterestedList> {
                   circle: true,
                 );
               }
-              if (!snapshot.hasData) {
+              
+              if (!snapshot.hasData || snapshot.data.isEmpty) {
                 return Center(
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
