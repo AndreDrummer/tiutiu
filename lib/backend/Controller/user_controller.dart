@@ -10,7 +10,7 @@ class UserController {
       user = User(
         id: value.data()['id'],
         name: value.data()['name'],
-        photoURL: value.data()['photoURL'],                
+        photoURL: value.data()['photoURL'],
         email: value.data()['email'],
         password: value.data()['password'],
         phoneNumber: value.data()['phoneNumber'],
@@ -21,7 +21,14 @@ class UserController {
     return user;
   }
 
-  Future<void> favorite(String userID, DocumentReference petReference, bool add) async {
+  Future<User> getUserByReference(DocumentReference userReference) async {
+    User user = User.fromSnapshot(await userReference.get());
+
+    return user;
+  }
+
+  Future<void> favorite(
+      String userID, DocumentReference petReference, bool add) async {
     final favorite = await FirebaseFirestore.instance
         .collection('Users')
         .doc(userID)
@@ -30,21 +37,32 @@ class UserController {
         .collection('favorites');
 
     if (add) {
-      favorite.doc().set({'id': petReference});       
+      favorite.doc().set({'id': petReference});
     } else {
       var petToDelete;
 
       await favorite.where("id", isEqualTo: petReference).get().then((value) {
         petToDelete = value.docs.first.id;
       });
-      
-      favorite.doc(petToDelete).delete();    
+
+      favorite.doc(petToDelete).delete();
     }
+  }
+
+  Future<void> donatePetToSomeone({String userDonateId, String userAdoptId, DocumentReference petReference}) async {
+    print('Started');
+    await firestore.collection('Users').doc(userAdoptId).collection('Pets').doc('adopted').collection('Adopteds').doc().set({'petRef': petReference});    
+    print('Doado');
+    addPetDonate(petReference);
+  }
+
+  Future<void> addPetDonate(DocumentReference petReference) async {
+    await petReference.set({'donated': true}, SetOptions(merge: true));
   }
 
   Future<List<User>> getAllUsers() async {
     var users = [];
-    await firestore.collection('User').get().then((value) {
+    await firestore.collection('Users').get().then((value) {
       value.docs.forEach((element) {
         users.add(User.fromSnapshot(element).toJson());
       });
@@ -54,16 +72,16 @@ class UserController {
 
   Future<void> insertUser(User user) async {
     print('..inserindo');
-    await firestore.collection('User').doc().set(user.toMap()).then((value) {
+    await firestore.collection('Users').doc().set(user.toMap()).then((value) {
       print('Usuário Inserido!');
     });
   }
 
   Future<void> updateUser(User user) async {
-    await firestore.collection('User').doc(user.id).update(user.toMap());
+    await firestore.collection('Users').doc(user.id).update(user.toMap());
   }
 
   Future<void> deleteUser(String id) async {
-    await firestore.collection('User').doc(id).delete();
+    await firestore.collection('Users').doc(id).delete();
   }
 }

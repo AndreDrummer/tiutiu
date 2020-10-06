@@ -7,23 +7,33 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class PetController {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
 
-  Future getPet(String userId, String kind) async {
+  Future getPet(String userId, String kind, {bool avalaible = true}) async {
+    if (kind == 'Adopted') {
+      return await firestore
+          .collection('Users')
+          .doc(userId)
+          .collection('Pets')
+          .doc('adopted')
+          .collection('Adopteds')
+          .get();
+    }
     return await firestore
         .collection('Users')
         .doc(userId)
         .collection('Pets')
         .doc('posted')
         .collection(kind)
+        .where(kind == 'Donate' ? 'donated' : 'found', isEqualTo: !avalaible)
         .get();
   }
 
-  Future<Pet> getPetByReference(DocumentReference petRef) async {    
-    var pet = await petRef.get();          
+  Future<Pet> getPetByReference(DocumentReference petRef) async {
+    var pet = await petRef.get();
 
     return Pet.fromSnapshot(pet);
   }
 
-  Future<List<Pet>> getAllPets(String userId) async {
+  Future<List<Pet>> getAllPetsByKind(String userId, {String kind}) async {
     List<Pet> myPets = [];
 
     var postedPets = firestore
@@ -32,18 +42,76 @@ class PetController {
         .collection('Pets')
         .doc('posted');
 
-    var donates = await postedPets.collection('Donate').get();
-    var disappeared = await postedPets.collection('Disappeared').get();
+    if (kind != null) {
+      if (kind == 'Donate') {
+        var donates = await postedPets
+            .collection(kind)
+            .where('donated', isEqualTo: false)
+            .get();
+        for (int i = 0; i < donates.docs.length; i++) {
+          myPets.add(Pet.fromSnapshot(donates.docs[i]));
+        }
+      } else if (kind == 'Adopted') {
+        var adoptedsRef = await firestore
+            .collection('Users')
+            .doc(userId)
+            .collection('Pets')
+            .doc('adopted')
+            .collection('Adopteds')
+            .get();
 
-    for (int i = 0; i < donates.docs.length; i++) {
-      myPets.add(Pet.fromSnapshot(donates.docs[i]));
-    }
+        for (int i = 0; i < adoptedsRef.docs.length; i++) {
+          DocumentSnapshot adopted =
+              await adoptedsRef.docs[i].data()['petRef'].get();
+          myPets.add(Pet.fromSnapshot(adopted));
+        }
+      } else {
+        var disappeared = await postedPets
+            .collection('Disappeared')
+            .where('found', isEqualTo: false)
+            .get();
+        for (int i = 0; i < disappeared.docs.length; i++) {
+          myPets.add(Pet.fromSnapshot(disappeared.docs[i]));
+        }
+      }
+    } else {
+      var donates = await postedPets
+          .collection('Donate')
+          .where('donated', isEqualTo: false)
+          .get();
+      var disappeared = await postedPets
+          .collection('Disappeared')
+          .where('found', isEqualTo: false)
+          .get();
 
-    for (int i = 0; i < disappeared.docs.length; i++) {
-      myPets.add(Pet.fromSnapshot(disappeared.docs[i]));
+      for (int i = 0; i < donates.docs.length; i++) {
+        myPets.add(Pet.fromSnapshot(donates.docs[i]));
+      }
+      for (int i = 0; i < disappeared.docs.length; i++) {
+        myPets.add(Pet.fromSnapshot(disappeared.docs[i]));
+      }
     }
 
     return myPets;
+  }
+
+  Future<List<Pet>> getDonatedPets(String userId) async {
+    List<Pet> donates = [];
+
+    var donatedPets = await firestore
+        .collection('Users')
+        .doc(userId)
+        .collection('Pets')
+        .doc('posted')
+        .collection('Donate')
+        .where("donated", isEqualTo: true)
+        .get();
+
+    for (int i = 0; i < donatedPets.docs.length; i++) {
+      donates.add(Pet.fromSnapshot(donatedPets.docs[i]));
+    }
+
+    return donates;
   }
 
   Future<void> insertPet(Pet pet, String petKind, Authentication auth) async {
@@ -65,6 +133,7 @@ class PetController {
   Future<void> showInterestOrInfo(
     DocumentReference petReference,
     DocumentReference userReference,
+    String interestedAt,
     LatLng userLocation,
     int userPosition, {
     bool isAdopt = false,
@@ -87,7 +156,8 @@ class PetController {
             'userReference': userReference,
             'userLat': userLocation.latitude,
             'userLog': userLocation.longitude,
-            'position': userPosition
+            'position': userPosition,
+            'interestedAt': interestedAt
           }
         ]
       },
@@ -95,7 +165,8 @@ class PetController {
     );
   }
 
-  Future<void> updatePet(Pet pet, String userId, String petKind, String petId) async {
+  Future<void> updatePet(
+      Pet pet, String userId, String petKind, String petId) async {
     await FirebaseFirestore.instance
         .collection('Users')
         .doc(userId)

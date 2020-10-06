@@ -87,6 +87,7 @@ class _HomeState extends State<Home> {
     userProvider.changePhotoBack(doc.data()['photoBACK']);
     userProvider.changeWhatsapp(doc.data()['phoneNumber']);
     userProvider.changeDisplayName(doc.data()['displayName']);
+    userProvider.changeCreatedAt(doc.data()['createdAt']);
     userProvider.changeTelefone(doc.data()['landline']);
     userProvider.changeBetterContact(doc.data()['betterContact']);
     userProvider.calculateTotals();

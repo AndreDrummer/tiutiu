@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:tiutiu/Custom/icons.dart';
 import 'package:tiutiu/Widgets/background.dart';
@@ -7,6 +8,7 @@ import 'package:tiutiu/Widgets/my_account_card.dart';
 import 'package:tiutiu/Widgets/popup_message.dart';
 import 'package:tiutiu/providers/auth2.dart';
 import 'package:tiutiu/providers/user_provider.dart';
+import 'package:tiutiu/screen/my_pets.dart';
 import 'package:tiutiu/utils/routes.dart';
 
 class MyAccount extends StatefulWidget {
@@ -87,12 +89,12 @@ class _MyAccountState extends State<MyAccount> {
                         ),
                         SizedBox(height: 10),
                         Text(
-                          'Usuário desde 16 de Setembro de 2020',
+                          'Usuário desde ${DateFormat('dd/MM/y hh:mm').format(DateTime.parse(userProvider.createdAt)).split(' ').first}',
                           textAlign: TextAlign.start,
                           style: Theme.of(context).textTheme.headline1.copyWith(
                                 color: Colors.black,
                                 fontWeight: FontWeight.w800,
-                                fontSize: 10,
+                                fontSize: 12,
                               ),
                         ),
                         SizedBox(height: 30),
@@ -104,7 +106,30 @@ class _MyAccountState extends State<MyAccount> {
                                 CircleChild(
                                   avatarRadius: 15,
                                   child: Text(
-                                    userProvider.getTotalDonated.toString(),
+                                    userProvider.getTotalToDonate?.toString(),
+                                    style: TextStyle(
+                                      color: Theme.of(context).primaryColor,
+                                    ),
+                                  ),
+                                ),
+                                Text(
+                                  'P/ adoção',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .headline1
+                                      .copyWith(
+                                        color: Colors.black,
+                                        fontSize: 10,
+                                      ),
+                                )
+                              ],
+                            ),
+                            Column(
+                              children: [
+                                CircleChild(
+                                  avatarRadius: 15,
+                                  child: Text(
+                                    userProvider.getTotalDonated?.toString(),
                                     style: TextStyle(
                                       color: Theme.of(context).primaryColor,
                                     ),
@@ -126,7 +151,7 @@ class _MyAccountState extends State<MyAccount> {
                               children: [
                                 CircleChild(
                                   avatarRadius: 15,
-                                  child: Text('0',
+                                  child: Text(userProvider.getTotalAdopted?.toString(),
                                       style: TextStyle(
                                           color:
                                               Theme.of(context).primaryColor)),
@@ -149,7 +174,7 @@ class _MyAccountState extends State<MyAccount> {
                                   avatarRadius: 15,
                                   child: Text(
                                       userProvider.getTotalDisappeared
-                                          .toString(),
+                                          ?.toString(),
                                       style: TextStyle(
                                           color:
                                               Theme.of(context).primaryColor)),
@@ -203,17 +228,39 @@ class _MyAccountState extends State<MyAccount> {
                   Row(
                     children: [
                       MyAccountCard(
-                        icone: Tiutiu.dog,
-                        text: 'Meus PETS',
+                        icone: Icons.pets,
+                        text: 'PETs p/ adoção',
                         onTap: () {
-                          Navigator.pushNamed(context, Routes.MEUS_PETS);
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) {
+                                return MyPetsScreen(
+                                  title: 'PETs p/ adoção',
+                                  streamBuilder: userProvider.donatePets,
+                                  kind: 'Donate',
+                                );
+                              },
+                            ),
+                          );
                         },
                       ),
-                      MyAccountCard(
-                        icone: Icons.favorite_border,
-                        text: 'Favoritos',
+                       MyAccountCard(
+                        icone: Tiutiu.twitter_bird,
+                        text: 'Adotados',
                         onTap: () {
-                          Navigator.pushNamed(context, Routes.FAVORITES);
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) {
+                                return MyPetsScreen(
+                                  title: 'PETs Adotados',
+                                  streamBuilder: userProvider.adoptedPets,
+                                  kind: 'Adopted',
+                                );
+                              },
+                            ),
+                          );
                         },
                       ),
                     ],
@@ -221,53 +268,90 @@ class _MyAccountState extends State<MyAccount> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Stack(
-                        children: [
-                          MyAccountCard(
-                            isToExpand: true,
-                            icone: Icons.chat_bubble_outline,
-                            text: 'Chat',
-                            onTap: () {
-                              // Navigator.pushNamed(context, Routes.MEUS_PETS);
-                            },
-                          ),
-                          Positioned(
-                            top: 3.5,
-                            left: 3,
-                            child: Container(
-                              decoration: BoxDecoration(
-                                color: Colors.black26,
-                                borderRadius: BorderRadius.circular(
-                                  12,
-                                ),
-                              ),
-                              alignment: Alignment.center,
-                              height: 98.5,
-                              width: MediaQuery.of(context).size.width - 17,
-                              child: Text(
-                                'Em breve',
-                                style: TextStyle(
-                                  shadows: <Shadow>[
-                                    Shadow(
-                                      offset: Offset(2.5, 2.5),
-                                      blurRadius: 3.0,
-                                      color: Colors.black,
-                                    ),
-                                    Shadow(
-                                      offset: Offset(2.5, 2.5),
-                                      blurRadius: 8.0,
-                                      color: Colors.white70,
-                                    ),
-                                  ],
-                                  color: Colors.purple,
-                                  fontSize: 25,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
+                      MyAccountCard(
+                        icone: Tiutiu.cat,
+                        text: 'Doados',
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) {
+                                return MyPetsScreen(
+                                  title: 'PETs doados',
+                                  streamBuilder: userProvider.donatedPets,
+                                  kind: null,
+                                  userId: auth.firebaseUser.uid
+                                );
+                              },
                             ),
-                          )
-                        ],
+                          );
+                        },
                       ),
+                      MyAccountCard(
+                        icone: Tiutiu.dog,
+                        text: 'Desaparecidos',
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) {
+                                return MyPetsScreen(
+                                  title: 'PETs desaparecidos',
+                                  streamBuilder: userProvider.disappearedPets,
+                                  kind: 'Disappeared',
+                                );
+                              },
+                            ),
+                          );
+                        },
+                      ),
+                    ],
+                  ),
+                  Stack(
+                    children: [
+                      MyAccountCard(
+                        isToExpand: true,
+                        icone: Icons.chat_bubble_outline,
+                        text: 'Chat',
+                        onTap: () {
+                          // Navigator.pushNamed(context, Routes.MEUS_PETS);
+                        },
+                      ),
+                      Positioned(
+                        top: 3.5,
+                        left: 3,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: Colors.black26,
+                            borderRadius: BorderRadius.circular(
+                              12,
+                            ),
+                          ),
+                          alignment: Alignment.center,
+                          height: 98.5,
+                          width: MediaQuery.of(context).size.width - 17,
+                          child: Text(
+                            'Em breve',
+                            style: TextStyle(
+                              shadows: <Shadow>[
+                                Shadow(
+                                  offset: Offset(2.5, 2.5),
+                                  blurRadius: 3.0,
+                                  color: Colors.black,
+                                ),
+                                Shadow(
+                                  offset: Offset(2.5, 2.5),
+                                  blurRadius: 8.0,
+                                  color: Colors.white70,
+                                ),
+                              ],
+                              color: Colors.purple,
+                              fontSize: 25,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
+                      )
                     ],
                   ),
                   Card(

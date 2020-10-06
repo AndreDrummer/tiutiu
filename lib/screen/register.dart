@@ -226,7 +226,8 @@ class _RegisterState extends State<Register> {
       'phoneNumber': _whatsapp.text,
       'landline': _telefone.text,
       'betterContact': userProvider.getBetterContact,
-      'email': auth.firebaseUser.email
+      'email': auth.firebaseUser.email,
+      'createdAt': DateTime.now().toIso8601String()
     }, SetOptions(merge: true));
     userProvider.changePhotoUrl(photoURL);
     userProfile.clear();
