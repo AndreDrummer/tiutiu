@@ -7,13 +7,23 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class PetController {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
 
-  Future getPet(String userId, String kind) async {
+  Future getPet(String userId, String kind, {bool avalaible = true}) async {
+    if (kind == 'Adopted') {
+      return await firestore
+          .collection('Users')
+          .doc(userId)
+          .collection('Pets')
+          .doc('adopted')
+          .collection('Adopteds')
+          .get();
+    }
     return await firestore
         .collection('Users')
         .doc(userId)
         .collection('Pets')
         .doc('posted')
         .collection(kind)
+        .where(kind == 'Donate' ? 'donated' : 'found', isEqualTo: !avalaible)
         .get();
   }
 
@@ -26,27 +36,53 @@ class PetController {
   Future<List<Pet>> getAllPetsByKind(String userId, {String kind}) async {
     List<Pet> myPets = [];
 
-        print(kind);
     var postedPets = firestore
         .collection('Users')
         .doc(userId)
         .collection('Pets')
         .doc('posted');
+
     if (kind != null) {
       if (kind == 'Donate') {
-        var donates = await postedPets.collection(kind).get();
+        var donates = await postedPets
+            .collection(kind)
+            .where('donated', isEqualTo: false)
+            .get();
         for (int i = 0; i < donates.docs.length; i++) {
           myPets.add(Pet.fromSnapshot(donates.docs[i]));
         }
+      } else if (kind == 'Adopted') {
+        var adoptedsRef = await firestore
+            .collection('Users')
+            .doc(userId)
+            .collection('Pets')
+            .doc('adopted')
+            .collection('Adopteds')
+            .get();
+
+        for (int i = 0; i < adoptedsRef.docs.length; i++) {
+          DocumentSnapshot adopted =
+              await adoptedsRef.docs[i].data()['petRef'].get();
+          myPets.add(Pet.fromSnapshot(adopted));
+        }
       } else {
-        var disappeared = await postedPets.collection('Disappeared').get();
+        var disappeared = await postedPets
+            .collection('Disappeared')
+            .where('found', isEqualTo: false)
+            .get();
         for (int i = 0; i < disappeared.docs.length; i++) {
           myPets.add(Pet.fromSnapshot(disappeared.docs[i]));
         }
       }
-    } else {    
-      var donates = await postedPets.collection('Donate').get();
-      var disappeared = await postedPets.collection('Disappeared').get();
+    } else {
+      var donates = await postedPets
+          .collection('Donate')
+          .where('donated', isEqualTo: false)
+          .get();
+      var disappeared = await postedPets
+          .collection('Disappeared')
+          .where('found', isEqualTo: false)
+          .get();
 
       for (int i = 0; i < donates.docs.length; i++) {
         myPets.add(Pet.fromSnapshot(donates.docs[i]));
@@ -57,6 +93,25 @@ class PetController {
     }
 
     return myPets;
+  }
+
+  Future<List<Pet>> getDonatedPets(String userId) async {
+    List<Pet> donates = [];
+
+    var donatedPets = await firestore
+        .collection('Users')
+        .doc(userId)
+        .collection('Pets')
+        .doc('posted')
+        .collection('Donate')
+        .where("donated", isEqualTo: true)
+        .get();
+
+    for (int i = 0; i < donatedPets.docs.length; i++) {
+      donates.add(Pet.fromSnapshot(donatedPets.docs[i]));
+    }
+
+    return donates;
   }
 
   Future<void> insertPet(Pet pet, String petKind, Authentication auth) async {

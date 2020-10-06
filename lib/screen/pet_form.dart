@@ -323,6 +323,8 @@ class _PetFormState extends State<PetForm> {
         latitude: currentLocation.latitude,
         longitude: currentLocation.longitude,
         details: _descricao.text,
+        donated: false,
+        found: false,        
         ano: int.tryParse(_ano.text) ?? 0,
         meses: int.tryParse(_meses.text) ?? 0);
 
