@@ -22,7 +22,6 @@ if (flutterVersionName == null) {
 }
 
 apply plugin: 'com.android.application'
-apply plugin: 'com.google.gms.google-services'
 apply plugin: 'kotlin-android'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 
@@ -85,3 +84,5 @@ dependencies {
     compile 'com.android.support:multidex:1.0.3' //enter the latest version
     implementation 'com.android.billingclient:billing:2.1.0'
 }
+
+apply plugin: 'com.google.gms.google-services'
