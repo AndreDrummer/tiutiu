@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:provider/provider.dart';
@@ -31,6 +32,24 @@ class _HomeState extends State<Home> {
 
   @override
   void initState() {
+    final fbm = FirebaseMessaging();
+    fbm.configure(
+      onMessage: (msg) {
+        print('onMessage...');
+        print(msg);
+        return;
+      },
+      onResume: (msg) {
+        print('onResume...');
+        print(msg);
+        return;
+      },
+      onLaunch: (msg) {
+        print('onLaunch...');
+        print(msg);
+        return;
+      },
+    );
     super.initState();
   }
 
@@ -58,9 +77,10 @@ class _HomeState extends State<Home> {
           return PopUpMessage(
             title: 'Logout',
             message: 'Deseja realmente sair?',
-            confirmAction: () {                    
+            confirmAction: () {
               auth.signOut();
-              Navigator.popUntil(context, ModalRoute.withName(Routes.AUTH_HOME));                
+              Navigator.popUntil(
+                  context, ModalRoute.withName(Routes.AUTH_HOME));
             },
             confirmText: 'Sim',
             denyAction: () {
@@ -70,7 +90,7 @@ class _HomeState extends State<Home> {
           );
         },
       ),
-    ).then((value) {    
+    ).then((value) {
       return false;
     });
   }
@@ -106,18 +126,20 @@ class _HomeState extends State<Home> {
         body: Stack(
           children: [
             _screens.elementAt(_selectedIndex),
-           _selectedIndex == 0 ? Positioned(
-              bottom: 0.0,
-              child: ButtonWide(
-                action: (){
-                  Navigator.pushNamed(context, Routes.SEARCH_REFINE);
-                },
-                icon: Tiutiu.params,
-                rounded: false,
-                isToExpand: true,
-                text: 'REFINAR BUSCA',
-              ),
-            ) : SizedBox()
+            _selectedIndex == 0
+                ? Positioned(
+                    bottom: 0.0,
+                    child: ButtonWide(
+                      action: () {
+                        Navigator.pushNamed(context, Routes.SEARCH_REFINE);
+                      },
+                      icon: Tiutiu.params,
+                      rounded: false,
+                      isToExpand: true,
+                      text: 'REFINAR BUSCA',
+                    ),
+                  )
+                : SizedBox()
           ],
         ),
         bottomNavigationBar: BottomNavigationBar(

@@ -124,27 +124,25 @@ class UserProvider with ChangeNotifier {
     QuerySnapshot adopteds = await petController.getPet(uid, 'Adopted');
     QuerySnapshot donates = await petController.getPet(uid, 'Donate');
     QuerySnapshot disap = await petController.getPet(uid, 'Disappeared');
-    QuerySnapshot donated =
-        await petController.getPet(uid, 'Donate', avalaible: false);
+    QuerySnapshot donated = await petController.getPet(uid, 'Donate', avalaible: false);
 
     changeTotalAdopted(adopteds.docs.length);
     changeTotalDisappeared(disap.docs.length);
     changeTotalToDonate(donates.docs.length);
     changeTotalDonated(donated.docs.length);
+    notifyListeners();
   }
 
   Future<void> loadMyPets({String kind}) async {
     PetController petController = PetController();
     if (kind == null) {
       changeAllPets(await petController.getAllPetsByKind(uid));
-    } else if (kind == 'Donate') {
-      print('Kind: $kind');
+      calculateTotals();
+    } else if (kind == 'Donate') {      
       changeDonatePets(await petController.getAllPetsByKind(uid, kind: kind));
-    } else if (kind == 'Adopted') {
-      print('Kind: $kind');
+    } else if (kind == 'Adopted') {      
       changeAdoptedPets(await petController.getAllPetsByKind(uid, kind: kind));
-    } else {
-      print('Kind: $kind');
+    } else {      
       changeDisappearedPets(
           await petController.getAllPetsByKind(uid, kind: kind));
     }
