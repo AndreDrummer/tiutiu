@@ -14,7 +14,7 @@ class PetController {
           .doc(userId)
           .collection('Pets')
           .doc('adopted')
-          .collection('Adopteds')
+          .collection('Adopteds').where('donated', isEqualTo: avalaible)
           .get();
     }
     return await firestore
@@ -57,7 +57,7 @@ class PetController {
             .doc(userId)
             .collection('Pets')
             .doc('adopted')
-            .collection('Adopteds')
+            .collection('Adopteds').where('confirmed', isEqualTo: true)
             .get();
 
         for (int i = 0; i < adoptedsRef.docs.length; i++) {
