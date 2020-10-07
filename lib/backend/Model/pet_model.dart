@@ -22,6 +22,7 @@ class Pet {
     this.photos,    
     this.latitude,
     this.longitude,    
+    this.whoAdoptedReference,    
     this.kind
   });
 
@@ -46,6 +47,7 @@ class Pet {
     longitude = snapshot.data()['longitude'];
     otherCaracteristics = snapshot.data()['otherCaracteristics'];    
     ownerReference = snapshot.data()['ownerReference'];
+    whoAdoptedReference = snapshot.data()['whoAdoptedReference'];
     petReference = snapshot.reference;
   }
 
@@ -71,6 +73,7 @@ class Pet {
     longitude = map['longitude'];    
     ownerReference = map['ownerReference'];
     petReference = map['petReference'];
+    whoAdoptedReference = map['whoAdoptedReference'];
   }
 
   String id;
@@ -83,6 +86,7 @@ class Pet {
   String type;
   DocumentReference ownerReference;
   DocumentReference petReference;
+  DocumentReference whoAdoptedReference;
   String avatar;
   String health;
   int ano;  
@@ -117,7 +121,8 @@ class Pet {
       'longitude': longitude,      
       'type': type,
       'ownerReference': ownerReference,      
-      'petReference': petReference
+      'petReference': petReference,
+      'whoAdoptedReference': whoAdoptedReference
     };
   }
 
