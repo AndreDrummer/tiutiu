@@ -22,7 +22,7 @@ class _MyAccountState extends State<MyAccount> {
   @override
   void didChangeDependencies() {
     userProvider = Provider.of<UserProvider>(context, listen: false);
-    userProvider.loadMyPets();
+    userProvider.loadMyPets();    
     super.didChangeDependencies();
   }
 
@@ -151,7 +151,8 @@ class _MyAccountState extends State<MyAccount> {
                               children: [
                                 CircleChild(
                                   avatarRadius: 15,
-                                  child: Text(userProvider.getTotalAdopted?.toString(),
+                                  child: Text(
+                                      userProvider.getTotalAdopted?.toString(),
                                       style: TextStyle(
                                           color:
                                               Theme.of(context).primaryColor)),
@@ -173,11 +174,12 @@ class _MyAccountState extends State<MyAccount> {
                                 CircleChild(
                                   avatarRadius: 15,
                                   child: Text(
-                                      userProvider.getTotalDisappeared
-                                          ?.toString(),
-                                      style: TextStyle(
-                                          color:
-                                              Theme.of(context).primaryColor)),
+                                    userProvider.getTotalDisappeared
+                                        ?.toString(),
+                                    style: TextStyle(
+                                      color: Theme.of(context).primaryColor,
+                                    ),
+                                  ),
                                 ),
                                 Text(
                                   'Desaparecidos',
@@ -245,7 +247,7 @@ class _MyAccountState extends State<MyAccount> {
                           );
                         },
                       ),
-                       MyAccountCard(
+                      MyAccountCard(
                         icone: Tiutiu.twitter_bird,
                         text: 'Adotados',
                         onTap: () {
@@ -277,11 +279,10 @@ class _MyAccountState extends State<MyAccount> {
                             MaterialPageRoute(
                               builder: (context) {
                                 return MyPetsScreen(
-                                  title: 'PETs doados',
-                                  streamBuilder: userProvider.donatedPets,
-                                  kind: null,
-                                  userId: auth.firebaseUser.uid
-                                );
+                                    title: 'PETs doados',
+                                    streamBuilder: userProvider.donatedPets,
+                                    kind: null,
+                                    userId: auth.firebaseUser.uid);
                               },
                             ),
                           );
