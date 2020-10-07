@@ -12,6 +12,7 @@ import 'package:tiutiu/backend/Model/pet_model.dart';
 import 'package:tiutiu/backend/Model/user_model.dart';
 import 'package:tiutiu/providers/user_infos_interests.dart';
 import 'package:tiutiu/providers/user_provider.dart';
+import 'package:tiutiu/utils/routes.dart';
 
 class InterestedList extends StatefulWidget {
   InterestedList({
@@ -60,29 +61,30 @@ class _InterestedListState extends State<InterestedList> {
           title: 'Sucesso',
           message: '$userName será notificado sobre a adoção!',
           confirmAction: () {
-            userInfoOrAdoptInterestsProvider.loadInterested(widget.pet.petReference);
+            userInfoOrAdoptInterestsProvider
+                .loadInterested(widget.pet.petReference);
             Navigator.pop(context);
           },
-          confirmText: 'OK',          
+          confirmText: 'OK',
         );
       },
     );
   }
 
   void _showDialogCard({
-    Function confirmAction,    
-    String confirmText,    
+    Function confirmAction,
+    String confirmText,
     String message,
-    String title,    
+    String title,
   }) {
     showDialog(
       context: context,
       barrierDismissible: false,
       builder: (context) => PopUpMessage(
         confirmAction: () => confirmAction(),
-        confirmText: confirmText,       
+        confirmText: confirmText,
         message: message,
-        title: title,        
+        title: title,
       ),
     );
   }
@@ -92,7 +94,11 @@ class _InterestedListState extends State<InterestedList> {
     userInfoOrAdoptInterestsProvider =
         Provider.of<UserInfoOrAdoptInterestsProvider>(context);
     userProvider = Provider.of<UserProvider>(context);
-    userInfoOrAdoptInterestsProvider.loadInterested(widget.pet.petReference);
+    if (widget.kind == 'Donate') {
+      userInfoOrAdoptInterestsProvider.loadInterested(widget.pet.petReference);
+    } else {
+      userInfoOrAdoptInterestsProvider.loadInfo(widget.pet.petReference);
+    }
     userController.getUserByReference(widget.pet.ownerReference).then((value) {
       user = value;
     });
@@ -103,12 +109,14 @@ class _InterestedListState extends State<InterestedList> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Pessoas interessadas no ${widget.pet.name}'),
+        title: Text('Pessoas interessadas em ${widget.pet.name}'),
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(vertical: 8.0),
         child: StreamBuilder<List<InterestedModel>>(
-            stream: userInfoOrAdoptInterestsProvider.interested,
+            stream: widget.kind == 'Donate'
+                ? userInfoOrAdoptInterestsProvider.interested
+                : userInfoOrAdoptInterestsProvider.info,
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return LoadingPage(
@@ -123,7 +131,7 @@ class _InterestedListState extends State<InterestedList> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        'Ninguém ainda está interessado',
+                        widget.kind == 'Donate' ? 'Ninguém ainda está interessado' : 'Ninguém ainda passou informações',
                         textAlign: TextAlign.center,
                         style: Theme.of(context).textTheme.headline1.copyWith(
                               color: Colors.black,
@@ -140,7 +148,7 @@ class _InterestedListState extends State<InterestedList> {
                 children: [
                   ListView.builder(
                     itemCount: snapshot.data.length,
-                    itemBuilder: (_, index) {                      
+                    itemBuilder: (_, index) {
                       return FutureBuilder<Object>(
                         future: snapshot.data[index].userReference.get(),
                         builder: (context, userReferenceSnapshot) {
@@ -174,9 +182,8 @@ class _InterestedListState extends State<InterestedList> {
                             subtitle: Text(
                                 'Se interessou em ${DateFormat('dd/MM/y hh:mm').format(DateTime.parse(snapshot.data[index].interestedAt))}'),
                             trailing: InkWell(
-                              onTap: widget.kind == 'Donate' &&
-                                      !snapshot.data[index].sinalized
-                                  ? () {
+                              onTap: widget.kind == 'Donate'                                      
+                                  ? snapshot.data[index].sinalized ? (){} : () {
                                       showDialog(
                                         context: context,
                                         barrierDismissible: false,
@@ -206,12 +213,17 @@ class _InterestedListState extends State<InterestedList> {
                                         ),
                                       );
                                     }
-                                  : () {},
+                                  : () {
+                                      Navigator.pushNamed(context, Routes.INFO, arguments: snapshot.data[index]);
+                                    },
                               child: widget.kind == 'Donate'
                                   ? !snapshot.data[index].sinalized
                                       ? _bagde('Doar')
-                                      : _bagde('Aguardando confirmação',
-                                          color: Colors.green)
+                                      : snapshot.data[index].gaveup
+                                          ? _bagde('Desistiu',
+                                              color: Colors.red)
+                                          : _bagde('Aguardando confirmação',
+                                              color: Colors.green)
                                   : _bagde('Ver info', color: Colors.blue),
                             ),
                           );

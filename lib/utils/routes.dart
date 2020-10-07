@@ -14,4 +14,5 @@ class Routes {
   static const ANNOUNCER_DETAILS = '/announcer-details';
   static const SEARCH_REFINE = '/search-refine';
   static const INTERESTED_LIST = '/interested-list';
+  static const INFO = '/info';
 }
