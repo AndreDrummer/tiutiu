@@ -77,8 +77,8 @@ class UserController {
     petReference.set({'adoptInteresteds': interestedUsers}, SetOptions(merge: true));
   }
 
-  Future<void> confirmDonate(DocumentReference petReference) async {
-    await petReference.set({'donated': true}, SetOptions(merge: true));
+  Future<void> confirmDonate(DocumentReference petReference, String userThatAdoptedId) async {
+    await petReference.set({'donated': true, 'whoAdoptedReference': userThatAdoptedId}, SetOptions(merge: true));
   }
 
   Future<List<User>> getAllUsers() async {
