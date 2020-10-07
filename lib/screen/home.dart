@@ -21,10 +21,7 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  int _selectedIndex = 0;
-
-  final ACTIVED_COLOR = Color(0XFF32CD32);
-  final DESACTIVED_COLOR = Color(0XFF808080);
+  int _selectedIndex = 0;  
 
   UserProvider userProvider;
   FavoritesProvider favoritesProvider;
