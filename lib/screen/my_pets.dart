@@ -7,6 +7,7 @@ import 'package:tiutiu/backend/Controller/pet_controller.dart';
 import 'package:tiutiu/backend/Model/pet_model.dart';
 import 'package:tiutiu/providers/user_provider.dart';
 import 'package:tiutiu/screen/choose_location.dart';
+import 'package:tiutiu/utils/routes.dart';
 import 'interested_information_list.dart';
 
 class MyPetsScreen extends StatefulWidget {
@@ -43,6 +44,12 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
     userProvider.calculateTotals();
   }
 
+  void _addNewPet() {
+    if(widget.kind != 'Adopted' || widget.kind == null) {
+      Navigator.pushReplacementNamed(context, Routes.CHOOSE_LOCATION, arguments: {'kind': widget.kind});
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
@@ -55,6 +62,12 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
             Navigator.pop(context);
           },
         ),
+        actions: widget.kind == 'Adopted' || widget.kind == null ? null : [
+          IconButton(
+            onPressed: _addNewPet,
+            icon: Icon(Icons.add),
+          )
+        ],
         title: Text(
           widget.title,
           style: Theme.of(context).textTheme.headline1.copyWith(
@@ -62,6 +75,10 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
                 fontWeight: FontWeight.w800,
               ),
         ),
+      ),
+      floatingActionButton: widget.kind == 'Adopted' || widget.kind == null ? null : FloatingActionButton(
+        onPressed: _addNewPet,
+        child: Icon(Icons.add),
       ),
       body: RefreshIndicator(
         onRefresh: () => userProvider.loadMyPets(kind: widget.kind),
@@ -108,8 +125,9 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
                                   ),
                                   child: ClipRRect(
                                     borderRadius: BorderRadius.only(
-                                        topLeft: Radius.circular(12),
-                                        topRight: Radius.circular(12)),
+                                      topLeft: Radius.circular(12),
+                                      topRight: Radius.circular(12),
+                                    ),
                                     child: FadeInImage(
                                       placeholder:
                                           AssetImage('assets/fadeIn.jpg'),
@@ -121,7 +139,7 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
                                     ),
                                   ),
                                 ),
-                                widget.kind == null ||  widget.kind == 'Adopted'
+                                widget.kind == null || widget.kind == 'Adopted'
                                     ? Container()
                                     : Positioned(
                                         top: 20,
@@ -173,7 +191,8 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
                                 Spacer(),
                                 Expanded(
                                   flex: 2,
-                                  child: widget.kind == null ||  widget.kind == 'Adopted'
+                                  child: widget.kind == null ||
+                                          widget.kind == 'Adopted'
                                       ? Container()
                                       : Row(
                                           children: [
@@ -223,7 +242,7 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
                                 )
                               ],
                             ),
-                            widget.kind == null ||  widget.kind == 'Adopted'
+                            widget.kind == null || widget.kind == 'Adopted'
                                 ? Container()
                                 : Column(
                                     children: [
