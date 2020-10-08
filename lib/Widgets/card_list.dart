@@ -94,7 +94,7 @@ class _CardListState extends State<CardList> {
                 builder: (context) {
                   return PetDetails(
                     petOwner: User.fromMap(user),
-                    isMine: User.fromMap(user).id == auth.firebaseUser.uid,
+                    isMine: User.fromMap(user).id == auth.firebaseUser?.uid,
                     pet: widget.petInfo,
                     kind: widget.petInfo.kind.toUpperCase(),
                   );
@@ -165,12 +165,12 @@ class _CardListState extends State<CardList> {
                             FutureBuilder(
                                 future: loadOwner(
                                     widget.petInfo.toMap()['ownerReference'],
-                                    auth: auth),
+                                    auth: auth.firebaseUser != null ? auth : null),
                                 builder: (context, snapshot) {
                                   if (snapshot.connectionState ==
-                                      ConnectionState.waiting) {
+                                      ConnectionState.waiting || snapshot.data == null) {
                                     return Text('');
-                                  }
+                                  }                                
                                   return Text(
                                     '${snapshot.data['displayName']} está ${widget.kind.toUpperCase() == 'DONATE' ? 'doando' : 'procurando'}.',
                                     style: Theme.of(context)

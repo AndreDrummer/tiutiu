@@ -78,7 +78,7 @@ class DrawerApp extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(height: 20),           
+            SizedBox(height: 20),
             ListTileDrawer(
               tileName: 'Meus PETS',
               imageAsset: 'assets/dogCat2.png',
@@ -108,21 +108,22 @@ class DrawerApp extends StatelessWidget {
               callback: () async {
                 await showDialog(
                   barrierDismissible: false,
-                    context: context,
-                    builder: (context) => PopUpMessage(
-                          confirmAction: () {
-                            auth.signOut();
-                            Navigator.pop(context);
-                          },
-                          confirmText: 'Sim',
-                          denyAction: () {
-                            Navigator.pop(context);
-                          },
-                          denyText: 'Não',
-                          warning: true,
-                          message: 'Tem certeza que deseja deslogar?',
-                          title: 'Signout',
-                        ));
+                  context: context,
+                  builder: (context) => PopUpMessage(
+                    confirmAction: () {
+                      auth.signOut();
+                      Navigator.pop(context);
+                    },
+                    confirmText: 'Sim',
+                    denyAction: () {
+                      Navigator.pop(context);
+                    },
+                    denyText: 'Não',
+                    warning: true,
+                    message: 'Tem certeza que deseja deslogar?',
+                    title: 'Signout',
+                  ),
+                );
               },
             ),
           ],
