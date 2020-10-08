@@ -25,8 +25,8 @@ class _SelectionPageState extends State<SelectionPage> {
   @override
   void initState() {
     super.initState();
-    list = widget.list;
-    list.sort((a, b) => a.length.compareTo(b.length));
+    list = [...widget.list];
+    list.sort();
     valueSelected = widget.valueSelected;
   }
 

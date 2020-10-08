@@ -11,10 +11,12 @@ import 'package:tiutiu/providers/pets_provider.dart';
 import 'package:tiutiu/providers/refine_search.dart';
 import 'package:tiutiu/providers/user_infos_interests.dart';
 import 'package:tiutiu/providers/user_provider.dart';
+import 'package:tiutiu/screen/auth_screen.dart';
 import 'package:tiutiu/screen/choose_location.dart';
 import 'package:tiutiu/screen/auth_or_home.dart';
 import 'package:tiutiu/screen/favorites.dart';
 import 'package:tiutiu/screen/home.dart';
+import 'package:tiutiu/screen/informantes_screen.dart';
 import 'package:tiutiu/screen/interested_information_list.dart';
 import 'package:tiutiu/screen/my_pets.dart';
 import 'package:tiutiu/screen/pet_form.dart';
@@ -107,6 +109,7 @@ class App extends StatelessWidget {
               ),
               debugShowCheckedModeBanner: false,
               routes: {
+                Routes.AUTH: (ctx) =>AuthScreen(),
                 Routes.PET_FORM: (ctx) => PetForm(),
                 Routes.AUTH_HOME: (ctx) => AuthOrHome(),
                 // Routes.AUTH_HOME: (ctx) => PetForm(),
@@ -120,6 +123,7 @@ class App extends StatelessWidget {
                 Routes.PET_DETAILS: (ctx) => PetDetails(),                
                 Routes.SEARCH_REFINE: (ctx) => RefineSearch(),
                 Routes.INTERESTED_LIST: (ctx) => InterestedList(),
+                Routes.INFO: (ctx) => InformantesScreen(),
               },
             ),
           );
