@@ -157,7 +157,9 @@ class PetController {
             'userLat': userLocation.latitude,
             'userLog': userLocation.longitude,
             'position': userPosition,
-            'interestedAt': interestedAt
+            'sinalized': false,
+            'gaveup': false,
+            'interestedAt': interestedAt,
           }
         ]
       },
