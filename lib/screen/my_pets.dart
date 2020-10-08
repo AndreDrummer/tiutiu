@@ -5,8 +5,11 @@ import 'package:tiutiu/Widgets/background.dart';
 import 'package:tiutiu/Widgets/loading_screen.dart';
 import 'package:tiutiu/backend/Controller/pet_controller.dart';
 import 'package:tiutiu/backend/Model/pet_model.dart';
+import 'package:tiutiu/providers/auth2.dart';
 import 'package:tiutiu/providers/user_provider.dart';
+import 'package:tiutiu/screen/auth_screen.dart';
 import 'package:tiutiu/screen/choose_location.dart';
+import 'package:tiutiu/utils/routes.dart';
 import 'interested_information_list.dart';
 
 class MyPetsScreen extends StatefulWidget {
@@ -23,7 +26,9 @@ class MyPetsScreen extends StatefulWidget {
 
 class _MyPetsScreenState extends State<MyPetsScreen> {
   UserProvider userProvider;
+  Authentication auth;
   PetController petController = PetController();
+  bool isAuthenticated;
 
   @override
   void didChangeDependencies() {
@@ -34,6 +39,8 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
       print('Load donated');
       userProvider.loadDonatedPets(widget.userId);
     }
+    auth = Provider.of<Authentication>(context);
+    isAuthenticated = auth.firebaseUser != null;
     super.didChangeDependencies();
   }
 
@@ -41,6 +48,18 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
     petController.deletePet(petRef);
     userProvider.loadMyPets(kind: widget.kind);
     userProvider.calculateTotals();
+  }
+
+  void _addNewPet() {
+    if ((widget.kind != 'Adopted' || widget.kind == null) && isAuthenticated) {
+      Navigator.pushReplacementNamed(context, Routes.CHOOSE_LOCATION,
+          arguments: {'kind': widget.kind});
+    } else {
+      Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (BuildContext context) => AuthScreen()),
+          ModalRoute.withName(Routes.AUTH));
+    }
   }
 
   @override
@@ -55,6 +74,14 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
             Navigator.pop(context);
           },
         ),
+        actions: widget.kind == 'Adopted' || widget.kind == null
+            ? null
+            : [
+                IconButton(
+                  onPressed: _addNewPet,
+                  icon: Icon(Icons.add),
+                )
+              ],
         title: Text(
           widget.title,
           style: Theme.of(context).textTheme.headline1.copyWith(
@@ -63,6 +90,12 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
               ),
         ),
       ),
+      floatingActionButton: widget.kind == 'Adopted' || widget.kind == null
+          ? null
+          : FloatingActionButton(
+              onPressed: _addNewPet,
+              child: Icon(Icons.add),
+            ),
       body: RefreshIndicator(
         onRefresh: () => userProvider.loadMyPets(kind: widget.kind),
         child: Stack(
@@ -108,8 +141,9 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
                                   ),
                                   child: ClipRRect(
                                     borderRadius: BorderRadius.only(
-                                        topLeft: Radius.circular(12),
-                                        topRight: Radius.circular(12)),
+                                      topLeft: Radius.circular(12),
+                                      topRight: Radius.circular(12),
+                                    ),
                                     child: FadeInImage(
                                       placeholder:
                                           AssetImage('assets/fadeIn.jpg'),
@@ -121,7 +155,7 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
                                     ),
                                   ),
                                 ),
-                                widget.kind == null ||  widget.kind == 'Adopted'
+                                widget.kind == null || widget.kind == 'Adopted'
                                     ? Container()
                                     : Positioned(
                                         top: 20,
@@ -173,7 +207,8 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
                                 Spacer(),
                                 Expanded(
                                   flex: 2,
-                                  child: widget.kind == null ||  widget.kind == 'Adopted'
+                                  child: widget.kind == null ||
+                                          widget.kind == 'Adopted'
                                       ? Container()
                                       : Row(
                                           children: [
@@ -223,7 +258,7 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
                                 )
                               ],
                             ),
-                            widget.kind == null ||  widget.kind == 'Adopted'
+                            widget.kind == null || widget.kind == 'Adopted'
                                 ? Container()
                                 : Column(
                                     children: [
