@@ -3,7 +3,6 @@ import 'package:provider/provider.dart';
 import 'package:tiutiu/Widgets/loading_page.dart';
 import 'package:tiutiu/providers/auth2.dart';
 import 'package:tiutiu/providers/location.dart';
-import 'package:tiutiu/screen/auth_screen.dart';
 import 'package:tiutiu/screen/home.dart';
 import 'package:tiutiu/screen/register.dart';
 
@@ -48,7 +47,7 @@ class AuthOrHome extends StatelessWidget {
                       auth.signOut();
                     },
                     icon: Icon(Icons.exit_to_app),
-                    label: Text('Delsogar'),
+                    label: Text('Deslogar'),
                   )
                 ],
               ),
@@ -58,13 +57,14 @@ class AuthOrHome extends StatelessWidget {
           return FutureBuilder(
             future: local.location == null ? local.setLocation() : Future.value(),
             builder: (_, AsyncSnapshot snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {                
+              if (snapshot.connectionState == ConnectionState.waiting) {
                 return LoadingPage();
-              }
-              if (auth.firebaseUser != null) {                
+              }            
+              if (auth.firebaseUser != null) {
+                // Navigator.pushReplacementNamed(context, auth.isRegistered ? Routes.HOME : Routes.REGISTER);
                 return auth.isRegistered ? Home() : Register();
               }
-              return AuthScreen();
+              return Home();
             },
           );
         }

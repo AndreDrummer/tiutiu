@@ -9,6 +9,7 @@ import 'package:tiutiu/Widgets/popup_message.dart';
 import 'package:tiutiu/providers/auth2.dart';
 import 'package:tiutiu/providers/favorites_provider.dart';
 import 'package:tiutiu/providers/user_provider.dart';
+import 'package:tiutiu/screen/auth_screen.dart';
 import 'package:tiutiu/screen/favorites.dart';
 import 'package:tiutiu/screen/my_account.dart';
 import 'package:tiutiu/screen/pets_list.dart';
@@ -21,8 +22,8 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  int _selectedIndex = 0;  
-
+  int _selectedIndex = 0;
+  bool isAuthenticated;
   UserProvider userProvider;
   FavoritesProvider favoritesProvider;
   Authentication auth;
@@ -55,7 +56,9 @@ class _HomeState extends State<Home> {
     userProvider = Provider.of<UserProvider>(context, listen: false);
     auth = Provider.of<Authentication>(context, listen: false);
     favoritesProvider = Provider.of<FavoritesProvider>(context, listen: false);
-    setUserMetaData();
+    if(auth.firebaseUser != null)
+      setUserMetaData();
+    isAuthenticated = auth.firebaseUser != null;
     super.didChangeDependencies();
   }
 
@@ -92,6 +95,14 @@ class _HomeState extends State<Home> {
     });
   }
 
+  void navigateToAuth() {
+    Navigator.pushNamed(
+      context,
+      Routes.AUTH,
+      arguments: true
+    );
+  }
+
   void setUserMetaData() async {
     final CollectionReference usersEntrepreneur =
         FirebaseFirestore.instance.collection('Users');
@@ -114,7 +125,11 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    var _screens = <Widget>[PetsList(), Favorites(), MyAccount()];
+    var _screens = <Widget>[
+      PetsList(),
+      isAuthenticated ? Favorites() : AuthScreen(),
+      isAuthenticated ? MyAccount() : AuthScreen(),
+    ];
 
     return WillPopScope(
       onWillPop: leaveApplication,
@@ -161,52 +176,53 @@ class _HomeState extends State<Home> {
           ],
         ),
         floatingActionButton: _selectedIndex != 0
-            ? null
-            : SpeedDial(
-                marginRight: 18,
-                marginBottom: 20,
-                animatedIcon: AnimatedIcons.add_event,
-                animatedIconTheme: IconThemeData(size: 22.0),
-                visible:
-                    MediaQuery.of(context).orientation == Orientation.portrait,
-                closeManually: false,
-                curve: Curves.bounceIn,
-                overlayOpacity: 0.5,
-                onOpen: () {
-                  print('OPENING DIAL');
-                },
-                onClose: () {
-                  print('DIAL CLOSED');
-                },
-                tooltip: 'Adicionar PET',
-                heroTag: 'speed-dial-hero-tag',
-                backgroundColor: Theme.of(context).primaryColor,
-                foregroundColor: Colors.white,
-                elevation: 8.0,
-                shape: CircleBorder(),
-                children: [
-                  SpeedDialChild(
-                    child: FloatingButtonOption(image: 'assets/dogCat2.png'),
-                    label: 'Adicionar Desaparecido',
-                    backgroundColor: Theme.of(context).accentColor,
-                    labelStyle: TextStyle(fontSize: 14.0),
-                    onTap: () {
-                      Navigator.pushNamed(context, Routes.CHOOSE_LOCATION,
-                          arguments: {'kind': 'Disappeared'});
+                ? null
+                : SpeedDial(
+                    marginRight: 18,
+                    marginBottom: 20,
+                    animatedIcon: AnimatedIcons.add_event,
+                    animatedIconTheme: IconThemeData(size: 22.0),
+                    visible: MediaQuery.of(context).orientation ==
+                        Orientation.portrait,
+                    closeManually: false,
+                    curve: Curves.bounceIn,
+                    overlayOpacity: 0.5,
+                    onOpen: !isAuthenticated ? navigateToAuth : () {
+                      print('OPENING DIAL');
                     },
-                  ),
-                  SpeedDialChild(
-                    child: FloatingButtonOption(image: 'assets/pata2.jpg'),
-                    label: 'Doar PET',
+                    onClose: () {
+                      print('DIAL CLOSED');
+                    },
+                    tooltip: 'Adicionar PET',
+                    heroTag: 'speed-dial-hero-tag',
                     backgroundColor: Theme.of(context).primaryColor,
-                    labelStyle: TextStyle(fontSize: 14.0),
-                    onTap: () {
-                      Navigator.pushNamed(context, Routes.CHOOSE_LOCATION,
-                          arguments: {'kind': 'Donate'});
-                    },
+                    foregroundColor: Colors.white,
+                    elevation: 8.0,
+                    shape: CircleBorder(),
+                    children: [
+                      SpeedDialChild(
+                        child:
+                            FloatingButtonOption(image: 'assets/dogCat2.png'),
+                        label: 'Adicionar Desaparecido',
+                        backgroundColor: Theme.of(context).accentColor,
+                        labelStyle: TextStyle(fontSize: 14.0),
+                        onTap: () {
+                          Navigator.pushNamed(context, Routes.CHOOSE_LOCATION,
+                              arguments: {'kind': 'Disappeared'});
+                        },
+                      ),
+                      SpeedDialChild(
+                        child: FloatingButtonOption(image: 'assets/pata2.jpg'),
+                        label: 'Doar PET',
+                        backgroundColor: Theme.of(context).primaryColor,
+                        labelStyle: TextStyle(fontSize: 14.0),
+                        onTap: () {
+                          Navigator.pushNamed(context, Routes.CHOOSE_LOCATION,
+                              arguments: {'kind': 'Donate'});
+                        },
+                      ),
+                    ],
                   ),
-                ],
-              ),
       ),
     );
   }
