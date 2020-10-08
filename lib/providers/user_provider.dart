@@ -39,7 +39,8 @@ class UserProvider with ChangeNotifier {
   Stream<List<Pet>> get adoptedPets => _adoptedPets.stream;
   Stream<List<Pet>> get disappearedPets => _disappearedPets.stream;
   Stream<List<Pet>> get donatedPets => _donatedPets.stream;
-  Stream<List<Pet>> get notificationsAboutAdoptions => _notificationsAboutAdoptions.stream;
+  Stream<List<Pet>> get notificationsAboutAdoptions =>
+      _notificationsAboutAdoptions.stream;
 
   // Getting data
   int get getBetterContact => _betterContact.stream.value;
@@ -52,7 +53,8 @@ class UserProvider with ChangeNotifier {
   List<Pet> get getDonatePets => _donatePets.stream.value;
   List<Pet> get getDisappearedPets => _disappearedPets.stream.value;
   List<Pet> get getDonatedPets => _donatedPets.stream.value;
-  List<Pet> get getNotificationsAboutAdoptions => _notificationsAboutAdoptions.stream.value;
+  List<Pet> get getNotificationsAboutAdoptions =>
+      _notificationsAboutAdoptions.stream.value;
 
   // Changing data
   void Function(int) get changeBetterContact => _betterContact.sink.add;
@@ -66,7 +68,11 @@ class UserProvider with ChangeNotifier {
   void Function(List<Pet>) get changeDisappearedPets =>
       _disappearedPets.sink.add;
   void Function(List<Pet>) get changeDonatedPets => _donatedPets.sink.add;
-  void Function(List<Pet>) get changeNotificationsAboutAdoptions => _notificationsAboutAdoptions.sink.add;
+
+  void changeNotificationsAboutAdoptions(List<Pet> list) {
+    _notificationsAboutAdoptions.sink.add(list);
+    notifyListeners();
+  }
 
   void changePhotoFILE(File file) {
     _photoFILE = file;
@@ -128,7 +134,8 @@ class UserProvider with ChangeNotifier {
     QuerySnapshot adopteds = await petController.getPet(uid, 'Adopted');
     QuerySnapshot donates = await petController.getPet(uid, 'Donate');
     QuerySnapshot disap = await petController.getPet(uid, 'Disappeared');
-    QuerySnapshot donated = await petController.getPet(uid, 'Donate', avalaible: false);
+    QuerySnapshot donated =
+        await petController.getPet(uid, 'Donate', avalaible: false);
 
     changeTotalAdopted(adopteds.docs.length);
     changeTotalDisappeared(disap.docs.length);
@@ -142,11 +149,11 @@ class UserProvider with ChangeNotifier {
     if (kind == null) {
       changeAllPets(await petController.getAllPetsByKind(uid));
       calculateTotals();
-    } else if (kind == 'Donate') {      
+    } else if (kind == 'Donate') {
       changeDonatePets(await petController.getAllPetsByKind(uid, kind: kind));
-    } else if (kind == 'Adopted') {      
+    } else if (kind == 'Adopted') {
       changeAdoptedPets(await petController.getAllPetsByKind(uid, kind: kind));
-    } else {      
+    } else {
       changeDisappearedPets(
           await petController.getAllPetsByKind(uid, kind: kind));
     }
@@ -157,8 +164,9 @@ class UserProvider with ChangeNotifier {
     changeDonatedPets(await petController.getDonatedPets(uid));
   }
 
-  Future<void> loadNotifications() async {
+  Future<void> loadNotifications() async {    
     PetController petController = PetController();
-    changeNotificationsAboutAdoptions(await petController.getAllPetsByKind(uid, kind: 'Adopted', adopted: false));
+    changeNotificationsAboutAdoptions(await petController.getAllPetsByKind(uid,
+        kind: 'Adopted', adopted: false));
   }
 }
