@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tiutiu/Custom/icons.dart';
+import 'package:tiutiu/Widgets/badge.dart';
 import 'package:tiutiu/providers/auth2.dart';
+import 'package:tiutiu/providers/user_provider.dart';
 import 'package:tiutiu/screen/donate_disappeared_list.dart';
 import 'package:tiutiu/utils/routes.dart';
 
@@ -31,16 +33,31 @@ class PetsList extends StatelessWidget {
                     fontWeight: FontWeight.w600,
                   ),
                 ),
-                Consumer<Authentication>(
-                  builder: (_, auth, child) => IconButton(
-                    onPressed: auth.firebaseUser == null
-                        ? navigateToAuth
-                        : () {
-                            Navigator.pushNamed(context, Routes.NOTIFICATIONS);
-                          },
-                    icon: Icon(
-                      Icons.notifications,
-                      color: Colors.white,
+                Consumer<UserProvider>(
+                  builder: (_, userProvider, child) => Consumer<Authentication>(
+                    builder: (_, auth, child) => auth.firebaseUser == null ? Container() : Stack(
+                      children: [
+                        IconButton(
+                          onPressed: auth.firebaseUser == null
+                              ? navigateToAuth
+                              : () {
+                                  Navigator.pushNamed(
+                                      context, Routes.NOTIFICATIONS);
+                                },
+                          icon: Icon(
+                            Icons.notifications,
+                            color: Colors.white,
+                          ),
+                        ),
+                        Positioned(
+                          right: 10,
+                          child: Badge(
+                            color: Colors.red,
+                            text: userProvider
+                                .getNotificationsAboutAdoptions?.length ?? 0                                
+                          ),
+                        )
+                      ],
                     ),
                   ),
                 )
