@@ -1,9 +1,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:loading_animations/loading_animations.dart';
+import 'package:maps_launcher/maps_launcher.dart';
 import 'package:provider/provider.dart';
 import 'package:tiutiu/Widgets/loading_page.dart';
 import 'package:tiutiu/backend/Model/interested_model.dart';
+import 'package:tiutiu/backend/Model/user_model.dart';
 import 'package:tiutiu/providers/user_infos_interests.dart';
+import "package:google_maps_webservice/geocoding.dart";
+import 'package:tiutiu/screen/announcer_datails.dart';
+import 'package:tiutiu/utils/constantes.dart';
 
 class InformantesScreen extends StatefulWidget {
   @override
@@ -25,17 +31,24 @@ class _InformantesScreenState extends State<InformantesScreen> {
     return await infoReference.get();
   }
 
+  Future<String> getAddress(Location location) async {
+    final geocoding = new GoogleMapsGeocoding(apiKey: Constantes.WEB_API_KEY);
+    final result = await geocoding.searchByLocation(location);
+    return result.results.first.formattedAddress;
+  }
+
   @override
   Widget build(BuildContext context) {
-    final informante =
-        ModalRoute.of(context).settings.arguments as InterestedModel;
+    final arguments =
+        ModalRoute.of(context).settings.arguments as Map<String, dynamic>;
+    InterestedModel informante = arguments['informanteInfo'];
 
     return Scaffold(
-      appBar: AppBar(title: Text('Pessoas que viram PETNOME')),
+      appBar: AppBar(title: Text('${arguments['petName']} foi visto aqui')),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: StreamBuilder(
-          stream: userInfoOrAdoptInterestsProvider.interested,
+          stream: userInfoOrAdoptInterestsProvider.info,
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return LoadingPage(
@@ -50,7 +63,7 @@ class _InformantesScreenState extends State<InformantesScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      'Ninguém ainda informou sobre PETNOME',
+                      'Ninguém ainda informou sobre ${arguments['petName']}',
                       textAlign: TextAlign.center,
                       style: Theme.of(context).textTheme.headline1.copyWith(
                             color: Colors.black,
@@ -64,22 +77,28 @@ class _InformantesScreenState extends State<InformantesScreen> {
               );
             }
 
-            return FutureBuilder<Object>(
+            return FutureBuilder<DocumentSnapshot>(
               future: loadInformateInfo(informante.userReference),
               builder: (context, snapshot) {
-                if (snapshot != null && !snapshot.hasData) {
-                  print(snapshot.data);
+                if (snapshot.data == null) {
+                  return Center(child: LoadingBumpingLine.circle(size: 30));
                 }
-                return ListView.builder(
-                  itemCount: 3,
-                  itemBuilder: (_, index) {
-                    return _cardInfo(
-                        informanteImage: '',
-                        informanteLat: 0,
-                        informanteLng: 0,
-                        informanteName: 'NOME AZUL CAVALO',
-                        petName: 'PETNOME');
-                  },
+                return Center(
+                  child: _cardInfo(
+                    onUserView: ()  {
+                      Navigator.push(context, MaterialPageRoute(
+                        builder: (context) {
+                          return AnnouncerDetails(User.fromSnapshot(snapshot.data));
+                        },
+
+                      ),);
+                    },
+                    informanteImage: snapshot.data.data()['photoURL'],
+                    informanteLat: informante.userLat,
+                    informanteLng: informante.userLog,
+                    informanteName: snapshot.data.data()['displayName'],
+                    petName: arguments['petName'],
+                  ),
                 );
               },
             );
@@ -95,17 +114,17 @@ class _InformantesScreenState extends State<InformantesScreen> {
     String petName,
     double informanteLat,
     double informanteLng,
+    Function() onUserView
   }) {
-    return Card(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 8.0),
-        child: Row(
-          children: [
-            Container(
-              margin: const EdgeInsets.only(left: 5),
-              width: 100,
-              // height: 100,
+    return Column(
+      children: [
+        InkWell(
+          onTap: () => onUserView(),
+          child: Card(
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8.0),
               child: Column(
                 children: [
                   FadeInImage(
@@ -116,36 +135,55 @@ class _InformantesScreenState extends State<InformantesScreen> {
                           )
                         : AssetImage('assets/profileEmpty.png'),
                     fit: BoxFit.cover,
-                    width: 1000,
-                    height: 100,
+                    width: 150,
+                    height: 150,
                   ),
-                  SizedBox(height: 35),
-                  Text(
-                    informanteName.split(' ').first,
-                    textAlign: TextAlign.center,
-                  ),
+                  SizedBox(height: 10),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                    child: Text('${informanteName.split(' ').first}'),
+                  )
                 ],
               ),
             ),
-            Expanded(
-              flex: 2,
-              child: Column(
-                children: [
-                  Text('Viu $petName próximo à'),
-                  SizedBox(height: 5),
-                  Container(
-                    width: 250,
-                    height: 150,
-                    color: Colors.red,
-                  ),
-                  SizedBox(height: 5),
-                  Text('Clique no mapa para navegar'),
-                ],
-              ),
-            )
-          ],
+          ),
         ),
-      ),
+        SizedBox(height: 5),
+        InkWell(
+          onTap: () {
+            MapsLauncher.launchCoordinates(
+              informanteLat,
+              informanteLng,
+              informanteName.split(' ').first,
+            );
+          },
+          child: Column(
+            children: [
+              Container(
+                width: MediaQuery.of(context).size.width - 20,
+                height: 250,
+                child: Image.asset('assets/static_map.jpg', fit: BoxFit.fill),
+              ),
+              SizedBox(height: 2),
+              Text('Clique no mapa para navegar',
+                  style: TextStyle(fontSize: 10)),
+              SizedBox(height: 10),
+              FutureBuilder(
+                future: getAddress(Location(informanteLat, informanteLng)),
+                builder: (context, snapshot) {
+                  if (snapshot.data == null) {
+                    return Center(child: LoadingBumpingLine.circle(size: 30));
+                  }
+                  return Text(
+                    snapshot.data,
+                    textAlign: TextAlign.center,
+                  );
+                },
+              )
+            ],
+          ),
+        ),
+      ],
     );
   }
 }
