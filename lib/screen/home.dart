@@ -119,6 +119,7 @@ class _HomeState extends State<Home> {
     userProvider.changeTelefone(doc.data()['landline']);
     userProvider.changeBetterContact(doc.data()['betterContact']);
     userProvider.calculateTotals();
+    userProvider.loadNotifications();
 
     favoritesProvider.loadFavoritesReference();
   }
