@@ -28,9 +28,11 @@ class FavoritesProvider with ChangeNotifier {
 
   Future<void> loadFavoritesReference() async {        
     CollectionReference dataBaseCollection = FirebaseFirestore.instance.collection('Users');
-    final favoritesListReference = await dataBaseCollection.doc(auth.firebaseUser.uid).collection('Pets').doc('favorites').collection('favorites').get();    
-    changefavoritesListReference(favoritesListReference.docs);
-    loadPETsFavorites();
+    // if(auth.firebaseUser != null) {
+      final favoritesListReference = await dataBaseCollection.doc(auth.firebaseUser.uid).collection('Pets').doc('favorites').collection('favorites').get();
+      changefavoritesListReference(favoritesListReference.docs);
+      loadPETsFavorites();
+    // }
     notifyListeners();
   }
 

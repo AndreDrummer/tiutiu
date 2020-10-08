@@ -7,18 +7,22 @@ class UserInfoOrAdoptInterestsProvider with ChangeNotifier {
   final _adoptInterest = BehaviorSubject<List<String>>.seeded([]);
   final _infos = BehaviorSubject<List<String>>.seeded([]);
   final _interedtedList = BehaviorSubject<List<InterestedModel>>();
+  final _infoList = BehaviorSubject<List<InterestedModel>>();
 
   Stream<List<String>> get adoptInterest => _adoptInterest.stream;
   Stream<List<String>> get infos => _infos.stream;
   Stream<List<InterestedModel>> get interested => _interedtedList.stream;
+  Stream<List<InterestedModel>> get info => _infoList.stream;
 
   void Function(List<String>) get changeAdoptInterest => _adoptInterest.sink.add;
   void Function(List<String>) get changeInfos => _infos.sink.add;
   void Function(List<InterestedModel>) get changeInterested => _interedtedList.sink.add;
+  void Function(List<InterestedModel>) get changeInfo => _infoList.sink.add;
 
   List<String> get getAdoptInterest => _adoptInterest.value;
   List<String> get getInfos => _infos.value;
   List<InterestedModel> get getInterested => _interedtedList.value;
+  List<InterestedModel> get getInfo => _infoList.value;
 
   void insertAdoptInterestID(String id) {
     List<String> newList = [...getAdoptInterest];
@@ -89,19 +93,16 @@ class UserInfoOrAdoptInterestsProvider with ChangeNotifier {
     }
   }
 
-  void loadInfos(DocumentReference petRef, String userId) async {    
+  void loadInfo(DocumentReference petRef) async {    
     final pet = await petRef.get();
-
-    List infoList = pet.data()['infoInteresteds'];
-
-    if (infoList != null) {
+    List<InterestedModel> info = [];
+    
+    if (pet.data() != null) {
+      List infoList = pet.data()['infoInteresteds'] ?? [];      
       for (int i = 0; i < infoList.length; i++) {
-        String userRefId = await consultReference(infoList[i]['userReference']);
-        if (userRefId == userId) {
-          print(userRefId);
-          insertInfosID(pet.id);
-        }
+        info.add(InterestedModel.fromMap(infoList[i]));
       }
+      changeInfo(info);
     }
   } 
 
