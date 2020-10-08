@@ -19,6 +19,7 @@ import 'package:tiutiu/screen/home.dart';
 import 'package:tiutiu/screen/informantes_screen.dart';
 import 'package:tiutiu/screen/interested_information_list.dart';
 import 'package:tiutiu/screen/my_pets.dart';
+import 'package:tiutiu/screen/notifications.dart';
 import 'package:tiutiu/screen/pet_form.dart';
 import 'package:tiutiu/screen/pet_detail.dart';
 import 'package:tiutiu/screen/refine_search.dart';
@@ -124,6 +125,7 @@ class App extends StatelessWidget {
                 Routes.SEARCH_REFINE: (ctx) => RefineSearch(),
                 Routes.INTERESTED_LIST: (ctx) => InterestedList(),
                 Routes.INFO: (ctx) => InformantesScreen(),
+                Routes.NOTIFICATIONS: (ctx) => NotificationScreen(),
               },
             ),
           );

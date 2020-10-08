@@ -187,7 +187,7 @@ class _HomeState extends State<Home> {
                     closeManually: false,
                     curve: Curves.bounceIn,
                     overlayOpacity: 0.5,
-                    onOpen: !isAuthenticated ? navigateToAuth : () {
+                    onOpen: () {
                       print('OPENING DIAL');
                     },
                     onClose: () {
@@ -206,7 +206,7 @@ class _HomeState extends State<Home> {
                         label: 'Adicionar Desaparecido',
                         backgroundColor: Theme.of(context).accentColor,
                         labelStyle: TextStyle(fontSize: 14.0),
-                        onTap: () {
+                        onTap: !isAuthenticated ? navigateToAuth : () {
                           Navigator.pushNamed(context, Routes.CHOOSE_LOCATION,
                               arguments: {'kind': 'Disappeared'});
                         },
@@ -216,7 +216,7 @@ class _HomeState extends State<Home> {
                         label: 'Doar PET',
                         backgroundColor: Theme.of(context).primaryColor,
                         labelStyle: TextStyle(fontSize: 14.0),
-                        onTap: () {
+                        onTap: !isAuthenticated ? navigateToAuth : () {
                           Navigator.pushNamed(context, Routes.CHOOSE_LOCATION,
                               arguments: {'kind': 'Donate'});
                         },
