@@ -145,7 +145,7 @@ class Authentication extends ChangeNotifier {
     } else {
       print('Login com google');
       await loginWithGoogle(autologin: true);
-
+      
       return Future.value();
     }
 

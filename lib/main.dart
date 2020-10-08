@@ -11,6 +11,7 @@ import 'package:tiutiu/providers/pets_provider.dart';
 import 'package:tiutiu/providers/refine_search.dart';
 import 'package:tiutiu/providers/user_infos_interests.dart';
 import 'package:tiutiu/providers/user_provider.dart';
+import 'package:tiutiu/screen/auth_screen.dart';
 import 'package:tiutiu/screen/choose_location.dart';
 import 'package:tiutiu/screen/auth_or_home.dart';
 import 'package:tiutiu/screen/favorites.dart';
@@ -108,6 +109,7 @@ class App extends StatelessWidget {
               ),
               debugShowCheckedModeBanner: false,
               routes: {
+                Routes.AUTH: (ctx) =>AuthScreen(),
                 Routes.PET_FORM: (ctx) => PetForm(),
                 Routes.AUTH_HOME: (ctx) => AuthOrHome(),
                 // Routes.AUTH_HOME: (ctx) => PetForm(),
