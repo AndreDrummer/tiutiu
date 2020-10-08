@@ -52,8 +52,6 @@ class PetController {
           myPets.add(Pet.fromSnapshot(donates.docs[i]));
         }
       } else if (kind == 'Adopted') {
-        print('Chegou aqui');
-        print('/Users/$userId/Pets/adopted/Adopteds');
         var adoptedsRef = await firestore
             .collection('Users')
             .doc(userId)
