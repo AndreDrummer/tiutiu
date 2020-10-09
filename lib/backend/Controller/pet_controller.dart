@@ -33,7 +33,7 @@ class PetController {
     return Pet.fromSnapshot(pet);
   }
 
-  Future<List<Pet>> getAllPetsByKind(String userId, {String kind}) async {
+  Future<List<Pet>> getAllPetsByKind(String userId, {String kind, bool adopted = true}) async {
     List<Pet> myPets = [];
 
     var postedPets = firestore
@@ -57,7 +57,7 @@ class PetController {
             .doc(userId)
             .collection('Pets')
             .doc('adopted')
-            .collection('Adopteds').where('confirmed', isEqualTo: true)
+            .collection('Adopteds').where('confirmed', isEqualTo: adopted)
             .get();
 
         for (int i = 0; i < adoptedsRef.docs.length; i++) {
