@@ -7,7 +7,7 @@ class Badge extends StatelessWidget {
     this.color = Colors.blue
   });
 
-  final String text;
+  final text;
   final Color color;
 
   @override
@@ -20,7 +20,7 @@ class Badge extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(4.0),
         child: Text(
-          text,
+          text.toString(),
           style: TextStyle(
             color: Colors.white,
             fontSize: 10,
