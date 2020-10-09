@@ -15,7 +15,7 @@ class Background extends StatelessWidget {
       height: MediaQuery.of(context).size.height,
       width: MediaQuery.of(context).size.width,
       child: Opacity(
-        opacity: dark ? 0.3 : 0.03,
+        opacity: dark || image != null ? 0.3 : 0.03,
         child: Image.asset(
           urlImage,
           fit: BoxFit.cover,
