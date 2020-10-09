@@ -479,10 +479,10 @@ class _SettingsState extends State<Settings> {
                     ],
                   ),
                   Container(
-                    height: MediaQuery.of(context).size.height / 3,
+                    height: MediaQuery.of(context).size.height / 2,
                     child: Form(
                       key: _personalDataFormKey,
-                      child: ListView(
+                      child: Column(
                         children: [
                           ListTile(
                             title: Text('Nome', style: Theme.of(context).textTheme.headline1.copyWith(color: Colors.black)),
