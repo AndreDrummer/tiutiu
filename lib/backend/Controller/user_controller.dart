@@ -49,12 +49,13 @@ class UserController {
     }
   }
 
-  Future<void> donatePetToSomeone(
-      {String userDonateId,
-      String userAdoptId,
-      DocumentReference petReference,
-      DocumentReference userThatDonate,
-      int userPosition}) async {
+  Future<void> donatePetToSomeone({
+    String userDonateId,
+    String userAdoptId,
+    DocumentReference petReference,
+    DocumentReference userThatDonate,
+    int userPosition,
+  }) async {
     await firestore
         .collection('Users')
         .doc(userAdoptId)
@@ -77,15 +78,23 @@ class UserController {
         .set({'adoptInteresteds': interestedUsers}, SetOptions(merge: true));
   }
 
-  Future<void> confirmDonate(DocumentReference petReference, DocumentReference userThatAdoptedId) async {
-    await petReference.set({'donated': true, 'whoAdoptedReference': userThatAdoptedId}, SetOptions(merge: true));
-    final pathToPet = userThatAdoptedId.collection('Pets').doc('adopted').collection('Adopteds');
-    final userThatIsAdopting = await pathToPet.where("petRef", isEqualTo: petReference).get();
+  Future<void> confirmDonate(DocumentReference petReference,
+      DocumentReference userThatAdoptedId) async {
+    await petReference.set(
+        {'donated': true, 'whoAdoptedReference': userThatAdoptedId},
+        SetOptions(merge: true));
+    final pathToPet = userThatAdoptedId
+        .collection('Pets')
+        .doc('adopted')
+        .collection('Adopteds');
+    final userThatIsAdopting =
+        await pathToPet.where("petRef", isEqualTo: petReference).get();
     final updateData = userThatIsAdopting.docs.first.reference;
     updateData.set({'confirmed': true}, SetOptions(merge: true));
   }
 
-  Future<void> denyDonate(DocumentReference petReference, DocumentReference userThatAdoptedId) async {
+  Future<void> denyDonate(DocumentReference petReference,
+      DocumentReference userThatAdoptedId) async {
     final petRef = await petReference.get();
     List interestedUsers = petRef.data()['adoptInteresteds'];
     for (int i = 0; i < interestedUsers.length; i++) {
@@ -93,10 +102,15 @@ class UserController {
         interestedUsers[i]['gaveup'] = true;
       }
     }
-    petReference.set({'adoptInteresteds': interestedUsers}, SetOptions(merge: true));
+    petReference
+        .set({'adoptInteresteds': interestedUsers}, SetOptions(merge: true));
 
-    final pathToPet = userThatAdoptedId.collection('Pets').doc('adopted').collection('Adopteds');
-    final userThatIsAdopting = await pathToPet.where("petRef", isEqualTo: petReference).get();
+    final pathToPet = userThatAdoptedId
+        .collection('Pets')
+        .doc('adopted')
+        .collection('Adopteds');
+    final userThatIsAdopting =
+        await pathToPet.where("petRef", isEqualTo: petReference).get();
     final ref = userThatIsAdopting.docs.first.reference;
     ref.delete();
   }
