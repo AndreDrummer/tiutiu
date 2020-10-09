@@ -4,13 +4,14 @@ import 'package:tiutiu/Widgets/loading_page.dart';
 import 'package:tiutiu/providers/auth2.dart';
 import 'package:tiutiu/providers/location.dart';
 import 'package:tiutiu/screen/home.dart';
+import 'package:tiutiu/screen/local_permission.dart';
 import 'package:tiutiu/screen/register.dart';
 
 class AuthOrHome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Authentication auth = Provider.of(context);
-    Location local = Provider.of(context, listen: false);
+    Location local = Provider.of(context, listen: true);
 
     return FutureBuilder(
       future: auth.tryAutoLoginIn(),
@@ -54,19 +55,17 @@ class AuthOrHome extends StatelessWidget {
             ),
           );
         } else {
-          return FutureBuilder(
-            future: local.location == null ? local.setLocation() : Future.value(),
-            builder: (_, AsyncSnapshot snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return LoadingPage();
-              }            
-              if (auth.firebaseUser != null) {
-                // Navigator.pushReplacementNamed(context, auth.isRegistered ? Routes.HOME : Routes.REGISTER);
-                return auth.isRegistered ? Home() : Register();
-              }
-              return Home();
-            },
-          );
+          if (local.location == null) {
+            return LocalPermissionScreen(
+              permissionCallBack: () {
+                local.setLocation();                
+              },
+            );
+          }
+          if (auth.firebaseUser != null) {
+            return auth.isRegistered ? Home() : Register();
+          }
+          return Home();
         }
       },
     );
