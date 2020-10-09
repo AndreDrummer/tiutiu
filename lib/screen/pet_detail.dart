@@ -84,15 +84,14 @@ class _PetDetailsState extends State<PetDetails> {
   };
 
   void navigateToAuth() {
-    Navigator.pushNamed(
-      context,
-      Routes.AUTH,
-      arguments: true
-    );
+    Navigator.pushNamed(context, Routes.AUTH, arguments: true);
   }
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+    double wannaAdoptButton =
+        widget.kind == 'DONATE' ? width * 0.7 : width * 0.8;
     List otherCaracteristics = widget.pet?.otherCaracteristics ?? ['Teste'];
     List petDetails = [
       {
@@ -198,8 +197,29 @@ class _PetDetailsState extends State<PetDetails> {
             onPressed: () {
               Navigator.pop(context);
             }),
-        title: Text('Detalhes de ${widget.pet.name}',
-            style: TextStyle(color: Colors.white, fontSize: 20)),
+        title: Text(
+          'Detalhes de ${widget.pet.name}',
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 20,
+          ),
+        ),
+        actions: [
+          Stack(
+            children: [
+              IconButton(
+                onPressed: !isAuthenticated ? navigateToAuth : () {},
+                color: Colors.white,
+                icon: Icon(Icons.chat),
+              ),
+              Positioned(
+                top: 2,
+                right: 10,
+                child: Badge(text: 'Em breve', color: Colors.purple, textSize: 6),
+              ),
+            ],
+          )
+        ],
       ),
       body: Stack(
         children: [
@@ -233,7 +253,7 @@ class _PetDetailsState extends State<PetDetails> {
                             icon: petDetails[index]['icon'],
                             text: petDetails[index]['text'],
                           );
-                        } else {                          
+                        } else {
                           return CardDetails(
                             title: '  Características',
                             icon: Icons.auto_awesome,
@@ -317,14 +337,14 @@ class _PetDetailsState extends State<PetDetails> {
           ),
           !widget.isMine
               ? Positioned(
-                  bottom: 15.0,
+                  bottom: 20.0,
                   left: widget.kind == 'DONATE'
                       ? 20.0
-                      : MediaQuery.of(context).size.width * 0.12,
+                      : MediaQuery.of(context).size.width * 0.1,
                   child: Row(
                     children: [
                       Container(
-                        width: widget.kind == 'DONATE' ? 200 : 220,
+                        width: wannaAdoptButton,
                         child: ButtonWide(
                           text: widget.kind == 'DONATE'
                               ? 'QUERO ADOTAR'
@@ -417,32 +437,6 @@ class _PetDetailsState extends State<PetDetails> {
                                 },
                         ),
                       ),
-                      SizedBox(width: 20),
-                      Stack(children: [
-                        Column(
-                          children: [
-                            SizedBox(height: 10),
-                            Container(
-                              height: 58,
-                              width: 58,
-                              decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: Theme.of(context).primaryColor),
-                              child: IconButton(
-                                onPressed:
-                                    !isAuthenticated ? navigateToAuth : () {},
-                                color: Colors.white,
-                                icon: Icon(Icons.chat),
-                              ),
-                            ),
-                          ],
-                        ),
-                        Positioned(
-                          top: 5,
-                          left: 7,
-                          child: Badge(text: 'Em breve', color: Colors.purple),
-                        ),
-                      ])
                     ],
                   ),
                 )
