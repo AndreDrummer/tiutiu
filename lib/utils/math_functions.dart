@@ -6,9 +6,9 @@ class MathFunctions {
     return distanceBetween(latX, longX, latY, longY).toStringAsFixed(2);    
   }
 
-  static String time(double distance) {
+  static String time(double distance) {    
         
-    double t = ((distance / 1000) / 40) * 60;    
+    double t = ((distance / 1000) / 45) * 60;    
 
     return t.toStringAsFixed(2);
   }
