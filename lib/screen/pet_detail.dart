@@ -313,7 +313,7 @@ class _PetDetailsState extends State<PetDetails> {
                 Container(
                   height: 170,
                   child: Padding(
-                    padding: const EdgeInsets.all(4.0),
+                    padding: EdgeInsets.only(left: width < 340 ? 0: 20.0),
                     child: ListView.builder(
                       scrollDirection: Axis.horizontal,
                       itemCount: ownerDetails.length,
@@ -348,7 +348,7 @@ class _PetDetailsState extends State<PetDetails> {
                         child: ButtonWide(
                           text: widget.kind == 'DONATE'
                               ? 'QUERO ADOTAR'
-                              : 'VI ELE AQUI PERTO',
+                              : 'VI ${widget.pet.sex == 'Macho' ? 'ELE' : 'ELA' } AQUI PERTO',
                           color: widget.kind == 'DONATE'
                               ? Colors.red
                               : Theme.of(context).primaryColor,
@@ -506,7 +506,7 @@ class _PetDetailsState extends State<PetDetails> {
             itemBuilder: (BuildContext context, int index) {
               return Image.network(
                 photos.values.elementAt(index),
-                fit: BoxFit.fill,
+                // fit: BoxFit.cover,
                 loadingBuilder: loadingImage,
               );
             },

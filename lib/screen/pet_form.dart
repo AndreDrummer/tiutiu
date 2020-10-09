@@ -604,7 +604,7 @@ class _PetFormState extends State<PetForm> {
                               onChange: (String value) {
                                 setState(() {
                                   dropvalueHealth = DummyData
-                                      .health[dropvalueHealth]
+                                      .health
                                       .indexOf(value);
                                   print(dropvalueHealth);
                                 });
