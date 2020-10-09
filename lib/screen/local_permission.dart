@@ -35,7 +35,7 @@ class LocalPermissionScreen extends StatelessWidget {
                           child: Image.asset('assets/google-maps-pin.png'),
                         ),
                       ),
-                      SizedBox(height: 30),
+                      SizedBox(height: 20),
                       Text(
                         'Tiu,tiu',
                         style: GoogleFonts.miltonianTattoo(
@@ -52,10 +52,10 @@ class LocalPermissionScreen extends StatelessWidget {
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           letterSpacing: 2,
-                          fontSize: 20,
+                          fontSize: 16,
                         ),
                       ),
-                      SizedBox(height: MediaQuery.of(context).size.height / 2.5),
+                      SizedBox(height: MediaQuery.of(context).size.height / 3.2),
                       ButtonWide(
                         action: () {
                           permissionCallBack();

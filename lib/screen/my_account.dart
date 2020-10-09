@@ -22,7 +22,7 @@ class _MyAccountState extends State<MyAccount> {
   @override
   void didChangeDependencies() {
     userProvider = Provider.of<UserProvider>(context, listen: false);
-    userProvider.loadMyPets();    
+    userProvider.loadMyPets();
     super.didChangeDependencies();
   }
 
@@ -46,35 +46,28 @@ class _MyAccountState extends State<MyAccount> {
               height: 1000,
             ),
             opacity: 0.25,
-          ),
-          Container(
-            decoration: BoxDecoration(
-              color: Colors.transparent, //Theme.of(context).primaryColor,
-              borderRadius: BorderRadius.only(
-                bottomLeft: Radius.circular(12),
-                bottomRight: Radius.circular(12),
-              ),
-            ),
-            child: Row(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: CircleChild(
-                    avatarRadius: 60,
-                    child: FadeInImage(
-                      placeholder: AssetImage('assets/profileEmpty.png'),
-                      image: NetworkImage(
-                        userProvider.photoURL,
+          ),          
+          Column(
+            children: [
+              SizedBox(height: 20),
+              Row(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: CircleChild(
+                      avatarRadius: 45,
+                      child: FadeInImage(
+                        placeholder: AssetImage('assets/profileEmpty.png'),
+                        image: NetworkImage(
+                          userProvider.photoURL,
+                        ),
+                        fit: BoxFit.cover,
+                        width: 1000,
+                        height: 1000,
                       ),
-                      fit: BoxFit.cover,
-                      width: 1000,
-                      height: 1000,
                     ),
                   ),
-                ),
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
+                  Expanded(
                     child: Column(
                       children: [
                         SizedBox(height: 40),
@@ -97,110 +90,95 @@ class _MyAccountState extends State<MyAccount> {
                                 fontSize: 12,
                               ),
                         ),
-                        SizedBox(height: 30),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            Column(
-                              children: [
-                                CircleChild(
-                                  avatarRadius: 15,
-                                  child: Text(
-                                    userProvider.getTotalToDonate?.toString(),
-                                    style: TextStyle(
-                                      color: Theme.of(context).primaryColor,
-                                    ),
-                                  ),
-                                ),
-                                Text(
-                                  'P/ adoção',
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .headline1
-                                      .copyWith(
-                                        color: Colors.black,
-                                        fontSize: 10,
-                                      ),
-                                )
-                              ],
-                            ),
-                            Column(
-                              children: [
-                                CircleChild(
-                                  avatarRadius: 15,
-                                  child: Text(
-                                    userProvider.getTotalDonated?.toString(),
-                                    style: TextStyle(
-                                      color: Theme.of(context).primaryColor,
-                                    ),
-                                  ),
-                                ),
-                                Text(
-                                  'Doados',
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .headline1
-                                      .copyWith(
-                                        color: Colors.black,
-                                        fontSize: 10,
-                                      ),
-                                )
-                              ],
-                            ),
-                            Column(
-                              children: [
-                                CircleChild(
-                                  avatarRadius: 15,
-                                  child: Text(
-                                      userProvider.getTotalAdopted?.toString(),
-                                      style: TextStyle(
-                                          color:
-                                              Theme.of(context).primaryColor)),
-                                ),
-                                Text(
-                                  'Adotados',
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .headline1
-                                      .copyWith(
-                                        color: Colors.black,
-                                        fontSize: 10,
-                                      ),
-                                )
-                              ],
-                            ),
-                            Column(
-                              children: [
-                                CircleChild(
-                                  avatarRadius: 15,
-                                  child: Text(
-                                    userProvider.getTotalDisappeared
-                                        ?.toString(),
-                                    style: TextStyle(
-                                      color: Theme.of(context).primaryColor,
-                                    ),
-                                  ),
-                                ),
-                                Text(
-                                  'Desaparecidos',
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .headline1
-                                      .copyWith(
-                                        color: Colors.black,
-                                        fontSize: 10,
-                                      ),
-                                )
-                              ],
-                            ),
-                          ],
-                        )
+                        SizedBox(height: 40),
                       ],
                     ),
+                  )
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Column(
+                    children: [
+                      CircleChild(
+                        avatarRadius: 15,
+                        child: Text(
+                          userProvider.getTotalToDonate?.toString(),
+                          style: TextStyle(
+                            color: Theme.of(context).primaryColor,
+                          ),
+                        ),
+                      ),
+                      Text(
+                        'P/ adoção',
+                        style: Theme.of(context).textTheme.headline1.copyWith(
+                              color: Colors.black,
+                              fontSize: 10,
+                            ),
+                      )
+                    ],
                   ),
-                )
-              ],
-            ),
+                  Column(
+                    children: [
+                      CircleChild(
+                        avatarRadius: 15,
+                        child: Text(
+                          userProvider.getTotalDonated?.toString(),
+                          style: TextStyle(
+                            color: Theme.of(context).primaryColor,
+                          ),
+                        ),
+                      ),
+                      Text(
+                        'Doados',
+                        style: Theme.of(context).textTheme.headline1.copyWith(
+                              color: Colors.black,
+                              fontSize: 10,
+                            ),
+                      )
+                    ],
+                  ),
+                  Column(
+                    children: [
+                      CircleChild(
+                        avatarRadius: 15,
+                        child: Text(userProvider.getTotalAdopted?.toString(),
+                            style: TextStyle(
+                                color: Theme.of(context).primaryColor)),
+                      ),
+                      Text(
+                        'Adotados',
+                        style: Theme.of(context).textTheme.headline1.copyWith(
+                              color: Colors.black,
+                              fontSize: 10,
+                            ),
+                      )
+                    ],
+                  ),
+                  Column(
+                    children: [
+                      CircleChild(
+                        avatarRadius: 15,
+                        child: Text(
+                          userProvider.getTotalDisappeared?.toString(),
+                          style: TextStyle(
+                            color: Theme.of(context).primaryColor,
+                          ),
+                        ),
+                      ),
+                      Text(
+                        'Desaparecidos',
+                        style: Theme.of(context).textTheme.headline1.copyWith(
+                              color: Colors.black,
+                              fontSize: 10,
+                            ),
+                      )
+                    ],
+                  ),
+                ],
+              )
+            ],
           ),
         ],
       ),
