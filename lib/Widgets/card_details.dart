@@ -101,7 +101,7 @@ class UserCardInfo extends StatelessWidget {
           borderRadius: BorderRadius.circular(12),
         ),
         child: Container(
-          width: 120,
+          width: 109,
           child: Column(
             children: [              
               Container(

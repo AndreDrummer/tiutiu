@@ -7,6 +7,22 @@ class Location with ChangeNotifier {
 
   LatLng get location => _location;
 
+  Future<LocationPermission > permissionCheck() async {
+    final permission = await checkPermission();
+    print("PER $permission");
+    return permission;
+  }
+
+  Future<LocationPermission > permissionRequest() async {
+    final permission = await requestPermission();
+    print("PER $permission");
+    return permission;
+  }
+
+  Future<bool> openSeetings() async {
+    return await openAppSettings();
+  }
+
   Future<void> setLocation({LatLng currentLocation}) async {
       var position;
       
