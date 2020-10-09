@@ -54,7 +54,7 @@ class _CardListState extends State<CardList> {
       longY: petLongitude,
     );
 
-    String time = MathFunctions.time(double.parse(distance));
+    String time = MathFunctions.time(double.parse(distance));    
 
     if (double.parse(time) > 60) {
       textTime = "$time\ h";
@@ -232,7 +232,7 @@ class _CardListState extends State<CardList> {
                                   child: Row(
                                     children: [
                                       Text(
-                                        '${distanceText[0]}, ${distanceText[1]}',
+                                        '${distanceText[0]}',
                                         style: Theme.of(context)
                                             .textTheme
                                             .headline1
