@@ -33,7 +33,7 @@ class PopUpMessage extends StatelessWidget {
       title: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-          Text(title, style: TextStyle(color: Colors.white, fontSize: 18)),
+          Text(title, style: TextStyle(color: Colors.white, fontSize: 16)),
           Container(
             padding: const EdgeInsets.all(1.0),
             decoration: BoxDecoration(
