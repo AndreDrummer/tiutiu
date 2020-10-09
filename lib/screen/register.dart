@@ -201,7 +201,7 @@ class _RegisterState extends State<Register> {
         .ref()
         .child('${auth.firebaseUser.uid}')
         .child('avatar/foto_perfil');
-    
+
     uploadTask = storageReference.putFile(userProfile['photoFile']);
 
     await uploadTask.onComplete;
@@ -214,7 +214,6 @@ class _RegisterState extends State<Register> {
   }
 
   Future<void> save() async {
-
     await uploadPhotos();
     await FirebaseFirestore.instance
         .collection('Users')
@@ -367,37 +366,52 @@ class _RegisterState extends State<Register> {
                       StreamBuilder<Object>(
                         stream: userProvider.betterContact,
                         builder: (context, snapshot) {
-                          return Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Radio(
-                                activeColor: Theme.of(context).primaryColor,
-                                groupValue: snapshot.data,
-                                value: 0,
-                                onChanged: (value) {
-                                  userProvider.changeBetterContact(value);
-                                },
-                              ),
-                              Text('WhatsApp'),
-                              Radio(
-                                activeColor: Colors.orange,
-                                groupValue: snapshot.data,
-                                value: 1,
-                                onChanged: (value) {
-                                  userProvider.changeBetterContact(value);
-                                },
-                              ),
-                              Text('Telefone Fixo'),
-                              Radio(
-                                activeColor: Colors.red,
-                                groupValue: snapshot.data,
-                                value: 2,
-                                onChanged: (value) {
-                                  userProvider.changeBetterContact(value);
-                                },
-                              ),
-                              Text('E-mail'),
-                            ],
+                          return Container(
+                            // width: MediaQuery.of(context).size.width - 100,
+                            child: Column(
+                              children: [
+                                Row(
+                                  children: [
+                                    Radio(
+                                      activeColor:
+                                          Theme.of(context).primaryColor,
+                                      groupValue: snapshot.data,
+                                      value: 0,
+                                      onChanged: (value) {
+                                        userProvider.changeBetterContact(value);
+                                      },
+                                    ),
+                                    Text('WhatsApp'),
+                                  ],
+                                ),
+                                Row(
+                                  children: [
+                                    Radio(
+                                      activeColor: Colors.orange,
+                                      groupValue: snapshot.data,
+                                      value: 1,
+                                      onChanged: (value) {
+                                        userProvider.changeBetterContact(value);
+                                      },
+                                    ),
+                                    Text('Telefone Fixo'),
+                                  ],
+                                ),
+                                Row(
+                                  children: [
+                                    Radio(
+                                      activeColor: Colors.red,
+                                      groupValue: snapshot.data,
+                                      value: 2,
+                                      onChanged: (value) {
+                                        userProvider.changeBetterContact(value);
+                                      },
+                                    ),
+                                    Text('E-mail'),
+                                  ],
+                                ),
+                              ],
+                            ),
                           );
                         },
                       ),
@@ -407,22 +421,25 @@ class _RegisterState extends State<Register> {
               ),
             ),
           ),
-          LoadDarkScreen(show: finishing, message: 'Finalizando cadastro'),          
+          LoadDarkScreen(show: finishing, message: 'Finalizando cadastro'),
         ],
       ),
       bottomNavigationBar: ButtonWide(
         color: finishing ? Colors.grey : Theme.of(context).primaryColor,
         text: 'FINALIZAR',
         rounded: false,
-        action: finishing ? null : () async {
-          if (_formKey.currentState.validate() && validatePictureProfile()) {
-            setFinishing(true);
-            await save();
-            setFinishing(false);
-            await auth.alreadyRegistered();
-            Navigator.pushReplacementNamed(context, Routes.AUTH_HOME);
-          }
-        },
+        action: finishing
+            ? null
+            : () async {
+                if (_formKey.currentState.validate() &&
+                    validatePictureProfile()) {
+                  setFinishing(true);
+                  await save();
+                  setFinishing(false);
+                  await auth.alreadyRegistered();
+                  Navigator.pushReplacementNamed(context, Routes.AUTH_HOME);
+                }
+              },
       ),
       backgroundColor: Colors.blueGrey[50],
     );

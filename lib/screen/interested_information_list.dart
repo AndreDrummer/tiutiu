@@ -44,15 +44,14 @@ class _InterestedListState extends State<InterestedList> {
     String userDonateId,
     String userAdoptId,
     String userName,
-    DocumentReference petReference,
-    DocumentReference userThatDonate,
+    DocumentReference petReference,    
     int userPosition,
   }) async {
     await userController
         .donatePetToSomeone(
-      petReference: widget.pet.petReference,
-      userAdoptId: user.id,
-      userDonateId: userProvider.uid,
+      petReference: petReference,
+      userAdoptId: userAdoptId,
+      userDonateId: userDonateId,
       userPosition: userPosition,
     )
         .then(
@@ -109,7 +108,7 @@ class _InterestedListState extends State<InterestedList> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Pessoas interessadas em ${widget.pet.name}'),
+        title: Text(widget.kind == 'Donate' ? 'Pessoas interessadas em ${widget.pet.name}' : 'Pessoas que informaram sobre ${widget.pet.name}'),
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(vertical: 8.0),
@@ -182,7 +181,7 @@ class _InterestedListState extends State<InterestedList> {
                           ),
                           title: Text(user.name),
                           subtitle: Text(
-                              '${widget.kind == 'Donate' ? 'Se interessou dia' : 'Informou dia'} ${DateFormat('dd/MM/y hh:mm').format(DateTime.parse(snapshot.data[index].interestedAt))}'),
+                              '${widget.kind == 'Donate' ? 'Interessou dia' : 'Informou dia'} ${DateFormat('dd/MM/y hh:mm').format(DateTime.parse(snapshot.data[index].interestedAt))}'),
                           trailing: InkWell(
                             onTap: widget.kind == 'Donate'
                                 ? snapshot.data[index].sinalized
