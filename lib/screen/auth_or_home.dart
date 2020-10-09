@@ -73,6 +73,7 @@ class AuthOrHome extends StatelessWidget {
               } else if (snapshot.data != LocationPermission.deniedForever) {
                 if (snapshot.data == LocationPermission.always ||
                     snapshot.data == LocationPermission.whileInUse) {
+                    local.location == null ? local.setLocation() : (){};
                   if (auth.firebaseUser != null) {
                     return auth.isRegistered ? Home() : Register();
                   }

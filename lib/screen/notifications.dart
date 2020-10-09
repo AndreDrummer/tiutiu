@@ -39,7 +39,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
       context: context,
       barrierDismissible: false,
       builder: (context) => PopUpMessage(
-        error: true,
+        error: !confirmAction,
         title: title,
         message: message,
         denyAction: () => Navigator.pop(context),
