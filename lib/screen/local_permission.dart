@@ -4,8 +4,10 @@ import 'package:tiutiu/Widgets/background.dart';
 import 'package:tiutiu/Widgets/button.dart';
 
 class LocalPermissionScreen extends StatelessWidget {
-  LocalPermissionScreen({this.permissionCallBack});
+  LocalPermissionScreen({this.permissionCallBack, this.deniedForever = false});
+
   final Function permissionCallBack;
+  final bool deniedForever;
 
   @override
   Widget build(BuildContext context) {
@@ -33,14 +35,15 @@ class LocalPermissionScreen extends StatelessWidget {
                           child: Image.asset('assets/google-maps-pin.png'),
                         ),
                       ),
-                      SizedBox(height: 20),
+                      SizedBox(height: 30),
                       Text(
                         'Tiu,tiu',
                         style: GoogleFonts.miltonianTattoo(
                           textStyle: TextStyle(
-                              letterSpacing: 12,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 30),
+                            letterSpacing: 12,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 30,
+                          ),
                         ),
                       ),
                       SizedBox(height: 2),
@@ -48,17 +51,17 @@ class LocalPermissionScreen extends StatelessWidget {
                         'precisa ter acesso total a sua localização para funcionar corretamente!',
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                          fontSize: 16,
+                          letterSpacing: 2,
+                          fontSize: 20,
                         ),
                       ),
-                      SizedBox(height: 50),
+                      SizedBox(height: MediaQuery.of(context).size.height / 2.5),
                       ButtonWide(
                         action: () {
                           permissionCallBack();
                         },
-                        text: 'CONCEDER ACESSO',
+                        text: deniedForever ? 'IR P/ CONFIGURAÇÕES' : 'CONCEDER ACESSO',
                       ),
-                      FlatButton(onPressed: () {}, child: Text('Negar acesso'))
                     ],
                   ),
                 ),
