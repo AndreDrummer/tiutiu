@@ -1,16 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:provider/provider.dart';
 import 'package:tiutiu/Widgets/loading_page.dart';
 import 'package:tiutiu/providers/auth2.dart';
 import 'package:tiutiu/providers/location.dart';
 import 'package:tiutiu/screen/home.dart';
+import 'package:tiutiu/screen/local_permission.dart';
 import 'package:tiutiu/screen/register.dart';
+import 'package:tiutiu/utils/routes.dart';
 
 class AuthOrHome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Authentication auth = Provider.of(context);
-    Location local = Provider.of(context, listen: false);
+    Location local = Provider.of(context, listen: true);
+
+    void openSettings() {
+      local.openSeetings().then((value) => Navigator.pushNamed(context, Routes.AUTH_HOME));
+    }
+
+    void askPermission() {
+      local.permissionRequest().then((value) => Navigator.pushNamed(context, Routes.AUTH_HOME));
+    }
 
     return FutureBuilder(
       future: auth.tryAutoLoginIn(),
@@ -54,17 +65,25 @@ class AuthOrHome extends StatelessWidget {
             ),
           );
         } else {
-          return FutureBuilder(
-            future: local.location == null ? local.setLocation() : Future.value(),
-            builder: (_, AsyncSnapshot snapshot) {
+          return FutureBuilder<LocationPermission>(
+            future: local.permissionCheck(),
+            builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return LoadingPage();
-              }            
-              if (auth.firebaseUser != null) {
-                // Navigator.pushReplacementNamed(context, auth.isRegistered ? Routes.HOME : Routes.REGISTER);
-                return auth.isRegistered ? Home() : Register();
+              } else if (snapshot.data != LocationPermission.deniedForever) {
+                if (snapshot.data == LocationPermission.always ||
+                    snapshot.data == LocationPermission.whileInUse) {
+                    local.location == null ? local.setLocation() : (){};
+                  if (auth.firebaseUser != null) {
+                    return auth.isRegistered ? Home() : Register();
+                  }
+                  return Home();
+                }
+              } else if (snapshot.data == LocationPermission.deniedForever) {
+                
+                return LocalPermissionScreen(permissionCallBack: openSettings, deniedForever: true);
               }
-              return Home();
+              return LocalPermissionScreen(permissionCallBack: askPermission);
             },
           );
         }
