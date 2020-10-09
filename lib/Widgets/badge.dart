@@ -4,10 +4,12 @@ class Badge extends StatelessWidget {
   
   Badge({
     this.text,
-    this.color = Colors.blue
+    this.color = Colors.blue,
+    this.textSize = 10
   });
 
   final text;
+  final double textSize;
   final Color color;
 
   @override
@@ -23,7 +25,7 @@ class Badge extends StatelessWidget {
           text.toString(),
           style: TextStyle(
             color: Colors.white,
-            fontSize: 10,
+            fontSize: textSize,
             fontWeight: FontWeight.bold,
           ),
         ),
