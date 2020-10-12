@@ -499,7 +499,7 @@ class _PetDetailsState extends State<PetDetails> {
       context,
       MaterialPageRoute(
         builder: (context) => FullScreenImage(
-          images: photos_list,
+          images: photos_list,          
         ),
       ),
     );
