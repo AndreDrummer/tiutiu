@@ -44,7 +44,7 @@ class NoConnection extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  ' Tiu, tiu',
+                  ' Tiu, tiu.',
                   style: GoogleFonts.miltonianTattoo(
                     textStyle: TextStyle(
                       letterSpacing: 2,
