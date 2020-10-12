@@ -56,8 +56,8 @@ class _DonateDisappearedListState extends State<DonateDisappearedList> {
     if (petsListResult != null) {
       for (int i = 0; i < petsListResult.length; i++) {
         String distance = MathFunctions.distanceMatrix(
-          latX: location.location.latitude,
-          longX: location.location.longitude,
+          latX: location.getLocation.latitude,
+          longX: location.getLocation.longitude,
           latY: petsListResult[i].latitude,
           longY: petsListResult[i].longitude,
         );

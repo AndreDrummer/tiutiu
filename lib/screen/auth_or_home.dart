@@ -2,15 +2,11 @@ import 'dart:async';
 
 import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:provider/provider.dart';
 import 'package:tiutiu/Widgets/loading_page.dart';
 import 'package:tiutiu/providers/auth2.dart';
-import 'package:tiutiu/providers/location.dart';
 import 'package:tiutiu/screen/home.dart';
-import 'package:tiutiu/screen/local_permission.dart';
 import 'package:tiutiu/screen/register.dart';
-import 'package:tiutiu/utils/routes.dart';
 
 class AuthOrHome extends StatefulWidget {
   @override
@@ -18,15 +14,16 @@ class AuthOrHome extends StatefulWidget {
 }
 
 class _AuthOrHomeState extends State<AuthOrHome> {
-  StreamSubscription<ConnectivityResult> _connectivitySubscription;  
-  final Connectivity _connectivity = Connectivity();  
+  StreamSubscription<ConnectivityResult> _connectivitySubscription;
+  final Connectivity _connectivity = Connectivity();
   bool isConnected;
 
   @override
   void initState() {
     isConnected = true;
-    _connectivitySubscription = Connectivity().onConnectivityChanged.listen(_updateStatus);    
-        super.initState();
+    _connectivitySubscription =
+        Connectivity().onConnectivityChanged.listen(_updateStatus);
+    super.initState();
   }
 
   void _updateStatus(ConnectivityResult connectivityResult) async {
@@ -60,15 +57,6 @@ class _AuthOrHomeState extends State<AuthOrHome> {
   @override
   Widget build(BuildContext context) {
     Authentication auth = Provider.of(context);
-    Location local = Provider.of(context, listen: true);
-
-    void openSettings() {
-      local.openSeetings().then((value) => Navigator.pushNamed(context, Routes.AUTH_HOME));
-    }
-
-    void askPermission() {
-      local.permissionRequest().then((value) => Navigator.pushNamed(context, Routes.AUTH_HOME));
-    }
 
     return FutureBuilder(
       future: auth.tryAutoLoginIn(),
@@ -86,8 +74,11 @@ class _AuthOrHomeState extends State<AuthOrHome> {
                 children: [
                   Container(
                     decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        border: Border.all(style: BorderStyle.solid,),),
+                      shape: BoxShape.circle,
+                      border: Border.all(
+                        style: BorderStyle.solid,
+                      ),
+                    ),
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Image.asset('assets/pata.jpg'),
@@ -112,27 +103,10 @@ class _AuthOrHomeState extends State<AuthOrHome> {
             ),
           );
         } else {
-          return FutureBuilder<LocationPermission>(
-            future: local.permissionCheck(),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return LoadingPage();
-              } else if (snapshot.data != LocationPermission.deniedForever) {
-                if (snapshot.data == LocationPermission.always ||
-                    snapshot.data == LocationPermission.whileInUse) {
-                    local.location == null ? local.setLocation() : (){};
-                  if (auth.firebaseUser != null) {
-                    return auth.isRegistered ? Home() : Register();
-                  }
-                  return Home();
-                }
-              } else if (snapshot.data == LocationPermission.deniedForever) {
-                
-                return LocalPermissionScreen(permissionCallBack: openSettings, deniedForever: true);
-              }
-              return LocalPermissionScreen(permissionCallBack: askPermission);
-            },
-          );
+          if (auth.firebaseUser != null) {
+            return auth.isRegistered ? Home() : Register();
+          }
+          return Home();
         }
       },
     );
