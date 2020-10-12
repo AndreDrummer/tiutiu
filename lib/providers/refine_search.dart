@@ -4,6 +4,7 @@ import 'package:rxdart/rxdart.dart';
 class RefineSearchProvider with ChangeNotifier {
   final _kindSelected = BehaviorSubject<int>.seeded(0);
   final _breedSelected = BehaviorSubject<String>.seeded('');
+  final _sexSelected = BehaviorSubject<String>.seeded('');
   final _sizeSelected = BehaviorSubject<String>.seeded('');
   final _ageSelected = BehaviorSubject<String>.seeded('');
   final _healthSelected = BehaviorSubject<String>.seeded('');
@@ -12,6 +13,7 @@ class RefineSearchProvider with ChangeNotifier {
 
   Stream<int> get kindSelected => _kindSelected.stream;  
   Stream<String> get breedSelected => _breedSelected.stream;  
+  Stream<String> get sexSelected => _sexSelected.stream;  
   Stream<String> get sizeSelected => _sizeSelected.stream;  
   Stream<String> get ageSelected => _ageSelected.stream;  
   Stream<String> get healthSelected => _healthSelected.stream;  
@@ -20,6 +22,11 @@ class RefineSearchProvider with ChangeNotifier {
   
   void changeKindSelected(int kind) {
     _kindSelected.sink.add(kind);
+    notifyListeners();
+  } 
+
+  void changeSexSelected(String value) {
+    _sexSelected.sink.add(value);
     notifyListeners();
   } 
 
@@ -55,6 +62,7 @@ class RefineSearchProvider with ChangeNotifier {
 
   int get getKindSelected => _kindSelected.stream.value; 
   String get getBreedSelected => _breedSelected.stream.value; 
+  String get getSexSelected => _sexSelected.stream.value; 
   String get getSizeSelected => _sizeSelected.stream.value; 
   String get getAgeSelected => _ageSelected.stream.value; 
   String get getHealthSelected => _healthSelected.stream.value; 
