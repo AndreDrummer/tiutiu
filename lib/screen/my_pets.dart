@@ -205,7 +205,7 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
                                   ),
                                 ),
                                 // Spacer(),
-                                SizedBox(width: MediaQuery.of(context).size.width * 0.05),
+                                SizedBox(width: MediaQuery.of(context).size.width * 0.15),
                                 Expanded(
                                   flex: 2,
                                   child: widget.kind == null ||
