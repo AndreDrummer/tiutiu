@@ -127,7 +127,7 @@ class _PetFormState extends State<PetForm> {
     }
     super.initState();
 
-    currentLocation = Provider.of<Location>(context, listen: false).location;
+    currentLocation = Provider.of<Location>(context, listen: false).getLocation;
     userId =
         Provider.of<Authentication>(context, listen: false).firebaseUser.uid;
     print('Local $currentLocation');
@@ -800,7 +800,7 @@ class _PetFormState extends State<PetForm> {
                                       confirmAction: () {
                                         Navigator.popUntil(
                                           context,
-                                          ModalRoute.withName('/'),
+                                          ModalRoute.withName('/auth-home'),
                                         );
                                       },
                                       message: widget.editMode ? 'Os dados do PET foram atualizados' : 'PET postado com sucesso!',
