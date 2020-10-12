@@ -31,7 +31,7 @@ class _NewMapState extends State<NewMap> with SingleTickerProviderStateMixin {
     return PlacePicker(
       pinBuilder: (context, state) {
         print(
-            '${locationProvider.location.latitude}, ${locationProvider.location.longitude}');
+            '${locationProvider.getLocation.latitude}, ${locationProvider.getLocation.longitude}');
         return Image.asset('assets/new-pin2.png', width: 150, height: 150);
       },
       autoCompleteDebounceInMilliseconds: 1000,
@@ -69,8 +69,8 @@ class _NewMapState extends State<NewMap> with SingleTickerProviderStateMixin {
           );
         }
       },
-      initialPosition: LatLng(locationProvider.location.latitude,
-          locationProvider.location.longitude),
+      initialPosition: LatLng(locationProvider.getLocation.latitude,
+          locationProvider.getLocation.longitude),
       useCurrentLocation: true,
       selectInitialPosition: true,
     );

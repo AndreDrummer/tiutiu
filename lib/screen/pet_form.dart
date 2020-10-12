@@ -127,7 +127,7 @@ class _PetFormState extends State<PetForm> {
     }
     super.initState();
 
-    currentLocation = Provider.of<Location>(context, listen: false).location;
+    currentLocation = Provider.of<Location>(context, listen: false).getLocation;
     userId =
         Provider.of<Authentication>(context, listen: false).firebaseUser.uid;
     print('Local $currentLocation');
