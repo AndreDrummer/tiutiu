@@ -55,6 +55,8 @@ dependencies:
   intl: ^0.16.1
   firebase_messaging: ^7.0.0
   flutter_advanced_networkimage: ^0.7.0
+  multi_image_picker: ^4.7.14
+  permission_handler: ^5.0.1+1  
 
 flutter_icons:
   android: "launcher_icon"
