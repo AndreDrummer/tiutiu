@@ -1,3 +1,6 @@
+import 'dart:async';
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -27,9 +30,11 @@ class _HomeState extends State<Home> {
   UserProvider userProvider;
   FavoritesProvider favoritesProvider;
   Authentication auth;
+  
 
   @override
   void initState() {
+    
     final fbm = FirebaseMessaging();
     fbm.configure(
       onMessage: (msg) {
@@ -56,8 +61,7 @@ class _HomeState extends State<Home> {
     userProvider = Provider.of<UserProvider>(context, listen: false);
     auth = Provider.of<Authentication>(context, listen: false);
     favoritesProvider = Provider.of<FavoritesProvider>(context, listen: false);
-    if(auth.firebaseUser != null)
-      setUserMetaData();
+    if (auth.firebaseUser != null) setUserMetaData();
     isAuthenticated = auth.firebaseUser != null;
     super.didChangeDependencies();
   }
@@ -67,6 +71,10 @@ class _HomeState extends State<Home> {
       _selectedIndex = index;
     });
   }
+
+
+
+  
 
   Future<bool> leaveApplication() async {
     return showDialog(
@@ -78,9 +86,7 @@ class _HomeState extends State<Home> {
             title: 'Logout',
             message: 'Deseja realmente sair?',
             confirmAction: () {
-              auth.signOut();
-              Navigator.popUntil(
-                  context, ModalRoute.withName(Routes.AUTH_HOME));
+              exit(0);
             },
             confirmText: 'Sim',
             denyAction: () {
@@ -96,11 +102,7 @@ class _HomeState extends State<Home> {
   }
 
   void navigateToAuth() {
-    Navigator.pushNamed(
-      context,
-      Routes.AUTH,
-      arguments: true
-    );
+    Navigator.pushNamed(context, Routes.AUTH, arguments: true);
   }
 
   void setUserMetaData() async {
@@ -177,53 +179,56 @@ class _HomeState extends State<Home> {
           ],
         ),
         floatingActionButton: _selectedIndex != 0
-                ? null
-                : SpeedDial(
-                    marginRight: 18,
-                    marginBottom: 20,
-                    animatedIcon: AnimatedIcons.add_event,
-                    animatedIconTheme: IconThemeData(size: 22.0),
-                    visible: MediaQuery.of(context).orientation ==
-                        Orientation.portrait,
-                    closeManually: false,
-                    curve: Curves.bounceIn,
-                    overlayOpacity: 0.5,
-                    onOpen: () {
-                      print('OPENING DIAL');
-                    },
-                    onClose: () {
-                      print('DIAL CLOSED');
-                    },
-                    tooltip: 'Adicionar PET',
-                    heroTag: 'speed-dial-hero-tag',
-                    backgroundColor: Theme.of(context).primaryColor,
-                    foregroundColor: Colors.white,
-                    elevation: 8.0,
-                    shape: CircleBorder(),
-                    children: [
-                      SpeedDialChild(
-                        child:
-                            FloatingButtonOption(image: 'assets/dogCat2.png'),
-                        label: 'Adicionar Desaparecido',
-                        backgroundColor: Theme.of(context).accentColor,
-                        labelStyle: TextStyle(fontSize: 14.0),
-                        onTap: !isAuthenticated ? navigateToAuth : () {
-                          Navigator.pushNamed(context, Routes.CHOOSE_LOCATION,
-                              arguments: {'kind': 'Disappeared'});
-                        },
-                      ),
-                      SpeedDialChild(
-                        child: FloatingButtonOption(image: 'assets/pata2.jpg'),
-                        label: 'Doar PET',
-                        backgroundColor: Theme.of(context).primaryColor,
-                        labelStyle: TextStyle(fontSize: 14.0),
-                        onTap: !isAuthenticated ? navigateToAuth : () {
-                          Navigator.pushNamed(context, Routes.CHOOSE_LOCATION,
-                              arguments: {'kind': 'Donate'});
-                        },
-                      ),
-                    ],
+            ? null
+            : SpeedDial(
+                marginRight: 18,
+                marginBottom: 20,
+                animatedIcon: AnimatedIcons.add_event,
+                animatedIconTheme: IconThemeData(size: 22.0),
+                visible:
+                    MediaQuery.of(context).orientation == Orientation.portrait,
+                closeManually: false,
+                curve: Curves.bounceIn,
+                overlayOpacity: 0.5,
+                onOpen: () {
+                  print('OPENING DIAL');
+                },
+                onClose: () {
+                  print('DIAL CLOSED');
+                },
+                tooltip: 'Adicionar PET',
+                heroTag: 'speed-dial-hero-tag',
+                backgroundColor: Theme.of(context).primaryColor,
+                foregroundColor: Colors.white,
+                elevation: 8.0,
+                shape: CircleBorder(),
+                children: [
+                  SpeedDialChild(
+                    child: FloatingButtonOption(image: 'assets/dogCat2.png'),
+                    label: 'Adicionar Desaparecido',
+                    backgroundColor: Theme.of(context).accentColor,
+                    labelStyle: TextStyle(fontSize: 14.0),
+                    onTap: !isAuthenticated
+                        ? navigateToAuth
+                        : () {
+                            Navigator.pushNamed(context, Routes.CHOOSE_LOCATION,
+                                arguments: {'kind': 'Disappeared'});
+                          },
                   ),
+                  SpeedDialChild(
+                    child: FloatingButtonOption(image: 'assets/pata2.jpg'),
+                    label: 'Doar PET',
+                    backgroundColor: Theme.of(context).primaryColor,
+                    labelStyle: TextStyle(fontSize: 14.0),
+                    onTap: !isAuthenticated
+                        ? navigateToAuth
+                        : () {
+                            Navigator.pushNamed(context, Routes.CHOOSE_LOCATION,
+                                arguments: {'kind': 'Donate'});
+                          },
+                  ),
+                ],
+              ),
       ),
     );
   }

@@ -8,6 +8,7 @@ import 'package:tiutiu/Widgets/button.dart';
 import 'package:tiutiu/Widgets/card_details.dart';
 import 'package:tiutiu/Widgets/divider.dart';
 import 'package:tiutiu/Widgets/dots_indicator.dart';
+import 'package:tiutiu/Widgets/fullscreen_images.dart';
 import 'package:tiutiu/backend/Controller/pet_controller.dart';
 import 'package:tiutiu/backend/Controller/user_controller.dart';
 import 'package:tiutiu/backend/Model/pet_model.dart';
@@ -215,7 +216,8 @@ class _PetDetailsState extends State<PetDetails> {
               Positioned(
                 top: 2,
                 right: 10,
-                child: Badge(text: 'Em breve', color: Colors.purple, textSize: 6),
+                child:
+                    Badge(text: 'Em breve', color: Colors.purple, textSize: 6),
               ),
             ],
           )
@@ -313,7 +315,7 @@ class _PetDetailsState extends State<PetDetails> {
                 Container(
                   height: 170,
                   child: Padding(
-                    padding: const EdgeInsets.all(4.0),
+                    padding: EdgeInsets.only(left: width < 340 ? 0 : 20.0),
                     child: ListView.builder(
                       scrollDirection: Axis.horizontal,
                       itemCount: ownerDetails.length,
@@ -348,7 +350,7 @@ class _PetDetailsState extends State<PetDetails> {
                         child: ButtonWide(
                           text: widget.kind == 'DONATE'
                               ? 'QUERO ADOTAR'
-                              : 'VI ELE AQUI PERTO',
+                              : 'VI ${widget.pet.sex == 'Macho' ? 'ELE' : 'ELA'} AQUI PERTO',
                           color: widget.kind == 'DONATE'
                               ? Colors.red
                               : Theme.of(context).primaryColor,
@@ -492,24 +494,57 @@ class _PetDetailsState extends State<PetDetails> {
     );
   }
 
+  void openFullScreenMode(List photos_list) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => FullScreenImage(
+          images: photos_list,          
+        ),
+      ),
+    );
+  }
+
   Widget showImages(Map photos) {
     return Stack(
       children: [
-        Container(
-          color: Colors.blueGrey[50],
-          height: MediaQuery.of(context).size.height / 3,
-          width: double.infinity,
-          child: PageView.builder(
-            physics: AlwaysScrollableScrollPhysics(),
-            controller: _pageController,
-            itemCount: photos.values.length,
-            itemBuilder: (BuildContext context, int index) {
-              return Image.network(
-                photos.values.elementAt(index),
-                fit: BoxFit.fill,
-                loadingBuilder: loadingImage,
-              );
-            },
+        InkWell(
+          onTap: () => openFullScreenMode(photos.values.toList()),
+          child: Container(
+            color: Colors.black,
+            height: MediaQuery.of(context).size.height / 3,
+            width: double.infinity,
+            child: PageView.builder(
+              physics: AlwaysScrollableScrollPhysics(),
+              controller: _pageController,
+              itemCount: photos.values.length,
+              itemBuilder: (BuildContext context, int index) {
+                return Image.network(
+                  photos.values.elementAt(index),
+                  // fit: BoxFit.cover,
+                  loadingBuilder: loadingImage,
+                );
+              },
+            ),
+          ),
+        ),
+        Positioned(
+          right: 10,
+          top: 10,
+          child: InkWell(
+            onTap: () => openFullScreenMode(photos.values.toList()),
+            child: Column(
+              children: [
+                Icon(Icons.fullscreen, color: Colors.white, size: 40),
+                Text(
+                  'Abrir tela cheia',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 10
+                  ),
+                )
+              ],
+            ),
           ),
         ),
         Positioned(
