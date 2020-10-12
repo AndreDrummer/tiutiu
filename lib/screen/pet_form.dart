@@ -800,7 +800,7 @@ class _PetFormState extends State<PetForm> {
                                       confirmAction: () {
                                         Navigator.popUntil(
                                           context,
-                                          ModalRoute.withName('/'),
+                                          ModalRoute.withName('/auth-home'),
                                         );
                                       },
                                       message: widget.editMode ? 'Os dados do PET foram atualizados' : 'PET postado com sucesso!',
