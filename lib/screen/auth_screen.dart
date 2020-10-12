@@ -390,7 +390,7 @@ class _AuthScreenState extends State<AuthScreen> {
                                         auth.loginWithGoogle().then((_) {
                                           changeLogginStatus(false);
                                           if(canPop != null && canPop == true) {                                            
-                                            Navigator.popUntil(context, ModalRoute.withName('/'));
+                                            Navigator.popUntil(context, ModalRoute.withName('/auth-home'));
                                           }                                        
                                         });
                                       },
