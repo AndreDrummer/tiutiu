@@ -6,9 +6,11 @@ import 'package:flutter_advanced_networkimage/provider.dart';
 class FullScreenImage extends StatefulWidget {
   FullScreenImage({
     this.images,
+    this.tag
   });
 
   final List images;
+  final String tag;
 
   @override
   _FullScreenImageState createState() => _FullScreenImageState();
@@ -41,9 +43,12 @@ class _FullScreenImageState extends State<FullScreenImage> {
                     minScale: 0.5,
                     autoCenter: true,
                     initialScale: 1.0,
-                    child: Image(
-                      image: AdvancedNetworkImage(widget.images[index]),
-                      fit: BoxFit.fill,
+                    child: Hero(
+                      tag: widget.tag ?? '$index',
+                      child: Image(
+                        image: AdvancedNetworkImage(widget.images[index]),
+                        fit: BoxFit.fill,
+                      ),
                     ),
                     onZoomChanged: (double value) {                      
                       if (value >= 1.01) {
