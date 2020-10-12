@@ -1,9 +1,10 @@
 import 'package:rxdart/subjects.dart';
 import 'package:flutter/material.dart';
+import 'package:tiutiu/utils/form_validators.dart';
 
-class PetFormProvider with ChangeNotifier {
+class PetFormProvider with ChangeNotifier, FormValidator {
   final _petName = BehaviorSubject<String>.seeded('');
-  final _petColor = BehaviorSubject<String>.seeded('Azul');
+  final _petColor = BehaviorSubject<String>.seeded('Abóbora');
   final _petTypeIndex = BehaviorSubject<int>.seeded(0);
   final _petAge = BehaviorSubject<int>.seeded(0);
   final _petMonths = BehaviorSubject<int>.seeded(0);
@@ -16,18 +17,18 @@ class PetFormProvider with ChangeNotifier {
   final _petPhotos = BehaviorSubject<List>.seeded([]);
 
   // Streams to be listened
-  Stream<String> get petName => _petName.stream;
+  Stream<String> get petName => _petName.stream.transform(validateEmpty);
   Stream<String> get petColor => _petColor.stream;
   Stream<int> get petTypeIndex => _petTypeIndex.stream;
-  Stream<int> get petAge => _petAge.stream;
+  Stream<int> get petAge => _petAge.stream.transform(validateAge);
   Stream<int> get petMonths => _petMonths.stream;
   Stream<String> get petSize => _petSize.stream;
   Stream<int> get petHealthIndex => _petHealthIndex.stream;
   Stream<int> get petBreedIndex => _petBreedIndex.stream;
   Stream<String> get petSex => _petSex.stream;
   Stream<List> get petSelectedCaracteristics => _petSelectedCaracteristics.stream;
-  Stream<String> get petDescription => _petDescription.stream;
-  Stream<List> get petPhotos => _petPhotos.stream;
+  Stream<String> get petDescription => _petDescription.stream.transform(validateEmpty);
+  Stream<List> get petPhotos => _petPhotos.stream.transform(validatePhotos);
 
   // Stream change
   void Function(String) get changePetName => _petName.sink.add;
@@ -56,6 +57,35 @@ class PetFormProvider with ChangeNotifier {
   List get getPetSelectedCaracteristics => _petSelectedCaracteristics.value;
   String get getPetDescription => _petDescription.value;
   List get getPetPhotos => _petPhotos.value;
+
+    List<BehaviorSubject> _subjects() {
+    return [
+      _petName,
+      _petColor,
+      _petTypeIndex,
+      _petAge,
+      _petSize,
+      _petHealthIndex,
+      _petBreedIndex,
+      _petSex,
+      _petSelectedCaracteristics,
+      _petDescription,
+      _petPhotos,
+    ];
+  }
+
+  bool formIsvalid() {
+    bool formStatus = true;    
+
+    for (BehaviorSubject subject in _subjects()) {
+      if (subject.value == null || subject.value == "") {
+        subject.addError("*Campo obrigatório");
+        formStatus = false;
+      }
+    }
+
+    return formStatus;
+  }
 
   @override
   void dispose() {
