@@ -287,7 +287,7 @@ class _PetFormState extends State<PetForm> {
           petPhotosToUpload['photo$key'] = await urlDownload;
           print('URL DOWNLOAD $urlDownload');
         });
-      } else if(petPhotos['$key'].runtimeType == String) {
+      } else if (petPhotos['$key'].runtimeType == String) {
         petPhotosToUpload[key] = petPhotos[key];
       }
     }
@@ -324,7 +324,7 @@ class _PetFormState extends State<PetForm> {
         longitude: currentLocation.longitude,
         details: _descricao.text,
         donated: false,
-        found: false,        
+        found: false,
         ano: int.tryParse(_ano.text) ?? 0,
         meses: int.tryParse(_meses.text) ?? 0);
 
@@ -441,62 +441,48 @@ class _PetFormState extends State<PetForm> {
                         child: Column(
                           children: [
                             Container(
-                                height: 80.0,
-                                child: ListView.builder(
-                                  scrollDirection: Axis.horizontal,
-                                  itemCount: numberOfImages < 8
-                                      ? numberOfImages + 1
-                                      : numberOfImages,
-                                  itemBuilder: (ctx, index) {
-                                    if (index == numberOfImages) {
-                                      // print('Index: ${petPhotos}');
-                                      return InkWell(
-                                        onTap: petPhotos[
-                                                        '${numberOfImages - 1}'] ==
-                                                    null &&
-                                                petPhotos[
-                                                        'photo${numberOfImages - 1}'] ==
-                                                    null
-                                            ? null
-                                            : () {
-                                                incNumberOfImages();
-                                              },
-                                        child: CircleAddImage(
-                                          addButton: true,
-                                        ),
-                                      );
-                                    }
+                              height: 80.0,
+                              child: ListView.builder(
+                                scrollDirection: Axis.horizontal,
+                                itemCount: numberOfImages < 8
+                                    ? numberOfImages + 1
+                                    : numberOfImages,
+                                itemBuilder: (ctx, index) {
+                                  if (index == numberOfImages) {
+                                    // print('Index: ${petPhotos}');
                                     return InkWell(
-                                      onTap: () {
-                                        print('Foto index: $index');
-                                        openModalSelectMedia(context, index);
-                                      },
+                                      onTap: petPhotos[
+                                                      '${numberOfImages - 1}'] ==
+                                                  null &&
+                                              petPhotos[
+                                                      'photo${numberOfImages - 1}'] ==
+                                                  null
+                                          ? null
+                                          : () {
+                                              incNumberOfImages();
+                                            },
                                       child: CircleAddImage(
-                                        // ignore: prefer_if_null_operators
-                                        imageUrl: petPhotos['$index'] != null
-                                            ? petPhotos['$index']
-                                            : petPhotos['photo$index'] != null
-                                                ? petPhotos['photo$index']
-                                                : null,
+                                        addButton: true,
                                       ),
                                     );
-                                  },
-                                )
-                                // : ListView.builder(
-                                //     scrollDirection: Axis.horizontal,
-                                //     itemCount:
-                                //         _photosLoadedFromEditMode.length,
-                                //     itemBuilder: (_, index) {
-                                //       return InkWell(
-                                //         onTap: () => openModalSelectMedia(context, index),
-                                //         child: CircleAddImage(
-                                //             // ignore: prefer_if_null_operators
-                                //             imageUrl: _photosLoadedFromEditMode[
-                                //                 index]),
-                                //       );
-                                //     },
-                                //   ),
-                                ),
+                                  }
+                                  return InkWell(
+                                    onTap: () {
+                                      print('Foto index: $index');
+                                      openModalSelectMedia(context, index);
+                                    },
+                                    child: CircleAddImage(
+                                      // ignore: prefer_if_null_operators
+                                      imageUrl: petPhotos['$index'] != null
+                                          ? petPhotos['$index']
+                                          : petPhotos['photo$index'] != null
+                                              ? petPhotos['photo$index']
+                                              : null,
+                                    ),
+                                  );
+                                },
+                              ),
+                            ),
                             formIsValid && petPhotos.isEmpty
                                 ? HintError(
                                     message: '* Insira pelo menos uma foto')
@@ -603,9 +589,8 @@ class _PetFormState extends State<PetForm> {
                               itemList: DummyData.health,
                               onChange: (String value) {
                                 setState(() {
-                                  dropvalueHealth = DummyData
-                                      .health[dropvalueHealth]
-                                      .indexOf(value);
+                                  dropvalueHealth =
+                                      DummyData.health.indexOf(value);
                                   print(dropvalueHealth);
                                 });
                               },
@@ -803,7 +788,9 @@ class _PetFormState extends State<PetForm> {
                                           ModalRoute.withName('/auth-home'),
                                         );
                                       },
-                                      message: widget.editMode ? 'Os dados do PET foram atualizados' : 'PET postado com sucesso!',
+                                      message: widget.editMode
+                                          ? 'Os dados do PET foram atualizados'
+                                          : 'PET postado com sucesso!',
                                     )).then(
                               (value) => _onWillPopScope,
                             );
