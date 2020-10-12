@@ -6,21 +6,34 @@ import 'package:tiutiu/providers/location.dart';
 import 'package:tiutiu/screen/auth_or_home.dart';
 import 'package:tiutiu/screen/local_permission.dart';
 
-class Bootstrap extends StatelessWidget {
+class Bootstrap extends StatefulWidget {
   @override
-  Widget build(BuildContext context) {
-    Location local = Provider.of(context);    
+  _BootstrapState createState() => _BootstrapState();
+}
 
-    return FutureBuilder<LocationPermission>(
-      future: local.permissionCheck(),
+class _BootstrapState extends State<Bootstrap> {
+  Location local;
+
+  @override
+  void didChangeDependencies() {
+    local = Provider.of<Location>(context);
+    local.permissionCheck();
+    super.didChangeDependencies();
+  }
+
+  @override
+  Widget build(BuildContext context) {    
+    return StreamBuilder<LocationPermission>(
+      stream: local.permission,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return LoadingPage();
-        } else if (snapshot.data == LocationPermission.deniedForever) {
+        } else if (snapshot.data == LocationPermission.deniedForever) {          
           return LocalPermissionScreen(permissionCallBack: local.openSeetings, deniedForever: true);
-        } else if (snapshot.data == LocationPermission.denied) {
+        } else if (snapshot.data == LocationPermission.denied) {          
           return LocalPermissionScreen(permissionCallBack: local.permissionRequest);
         }
+        local.getLocation == null ? local.setLocation() : (){};
         return AuthOrHome();
       },
     );
