@@ -264,7 +264,7 @@ class _SettingsState extends State<Settings> {
                   child: PopUpMessage(
                     confirmAction: () {
                       auth.signOut();
-                      ModalRoute.withName('/auth-home');
+                      ModalRoute.withName('/');
                     },
                     confirmText: 'Deslogar Agora',
                     denyAction: () {
@@ -320,7 +320,7 @@ class _SettingsState extends State<Settings> {
                 confirmAction: () {
                   Navigator.popUntil(
                     context,
-                    ModalRoute.withName('/auth-home'),
+                    ModalRoute.withName('/'),
                   );
                 },
                 confirmText: 'Voltar a tela inicial',
