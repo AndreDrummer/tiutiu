@@ -39,6 +39,7 @@ class _RefineSearchState extends State<RefineSearch> {
     refineSearchProvider.changeSizeSelected('');
     refineSearchProvider.changeAgeSelected('');
     refineSearchProvider.changeHealthSelected('');
+    refineSearchProvider.changeSexSelected('');
     refineSearchProvider.changeKindSelected(index);
   }
 
@@ -88,6 +89,18 @@ class _RefineSearchState extends State<RefineSearch> {
         },
         'clearFunction': () {
           refineSearchProvider.changeAgeSelected('');
+        }
+      },
+      {
+        'title': 'Sexo',
+        'valueSelected': refineSearchProvider.getSexSelected,
+        'selectionPageTitle': 'Sexo',
+        'selectionPageList': ['Macho', 'Fêmea'],
+        'onValueSelected': (String value) {          
+          refineSearchProvider.changeSexSelected(value);
+        },
+        'clearFunction': () {
+          refineSearchProvider.changeSexSelected('');
         }
       },
       {
@@ -230,6 +243,7 @@ class _RefineSearchState extends State<RefineSearch> {
                           refineSearchProvider.getBreedSelected,
                           refineSearchProvider.getSizeSelected,
                           refineSearchProvider.getAgeSelected,
+                          refineSearchProvider.getSexSelected,
                           refineSearchProvider.getHealthSelected,
                           refineSearchProvider.getDistancieSelected);
                       changeIsRefineSearchStatus(false);
