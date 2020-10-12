@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 
@@ -74,8 +73,7 @@ class _PetFormState extends State<PetForm> {
   int dropvalueHealth = 0;
   int dropvalueBreed = 0;
   String userId;
-  LatLng currentLocation;
-  bool formIsValid = false;
+  LatLng currentLocation;  
   bool isLogging = false;
   bool readOnly = false;
   int numberOfImages = 3;
@@ -100,6 +98,9 @@ class _PetFormState extends State<PetForm> {
     petFormProvider.changePetHealthIndex(DummyData.health.indexOf(pet.health));
     petFormProvider.changePetPhotos(pet.photos);
 
+    _nome.text = petFormProvider.getPetName;
+    _descricao.text = petFormProvider.getPetDescription;
+
     setState(() {
       petEdit = pet;
       numberOfImages = 8;
@@ -108,12 +109,6 @@ class _PetFormState extends State<PetForm> {
 
   void clearUpCaracteristics() {
     petFormProvider.changePetSelectedCaracteristics([]);
-  }
-
-  void changePetSex(bool value) {
-    setState(() {
-      macho = value;
-    });
   }
 
   @override
@@ -227,9 +222,7 @@ class _PetFormState extends State<PetForm> {
 
   Future<void> multiImages() async {
     List<Asset> resultList = List<Asset>();
-    List actualPhotoList = [...petFormProvider.getPetPhotos];
-
-    print("asdf ${petPhotosMulti.length}");
+    List actualPhotoList = [...petFormProvider.getPetPhotos];    
 
     try {
       resultList = await MultiImagePicker.pickImages(
@@ -260,11 +253,12 @@ class _PetFormState extends State<PetForm> {
   }
 
   Future<Uint8List> convertImageToUint8List(image) async {
+      print('RUNTIME ${image.runtimeType}');
     if (image.runtimeType == Asset) {
       ByteData byteData = await image.getByteData();
       return Uint8List.view(byteData.buffer);
-    } else if (image.runtimeType == File) {
-      return image.readAsBytesSync() as Uint8List;
+    } else {
+      return await File(image.path).readAsBytes();
     }    
   }
 
@@ -279,15 +273,15 @@ class _PetFormState extends State<PetForm> {
           .ref()
           .child('$userId/')
           .child('petsPhotos/$petName--foto__${DateTime.now().millisecond}');
-      if (imagesPet[i].runtimeType != String) {
+      if (imagesPet[i].runtimeType != String) {        
         uploadTask = storageReference.putData(await convertImageToUint8List(imagesPet[i]));
         await uploadTask.onComplete;
         await storageReference.getDownloadURL().then((urlDownload) async {
-          petPhotosToUpload[i] = await urlDownload;
+          petPhotosToUpload.add(urlDownload);
           print('URL DOWNLOAD $urlDownload');
         });
       } else if (imagesPet[i].runtimeType == String) {
-        petPhotosToUpload[i] = imagesPet[i];
+        petPhotosToUpload.add(imagesPet[i]);
       }
     }
 
@@ -311,7 +305,7 @@ class _PetFormState extends State<PetForm> {
       color: petFormProvider.getPetColor,
       name: petFormProvider.getPetName,
       kind: kind,
-      avatar: petFormProvider.getPetPhotos.first,
+      avatar: petPhotosToUpload.first,
       breed: DummyData.breed[petFormProvider.getPetTypeIndex + 1]
           [petFormProvider.getPetBreedIndex],
       health: DummyData.health[petFormProvider.getPetHealthIndex],
@@ -334,6 +328,7 @@ class _PetFormState extends State<PetForm> {
         : await petController.updatePet(dataPetSave, userId, kind, petEdit.id);
 
     petPhotosToUpload.clear();
+    petFormProvider.dispose();
     changeLogginStatus(false);
     return Future.value();
   }
@@ -412,8 +407,8 @@ class _PetFormState extends State<PetForm> {
                             children: <Widget>[
                               Text(
                                 kind == 'Donate'
-                                    ? '${formIsValid && petFormProvider.getPetPhotos.isEmpty ? 'Insira pelo menos uma foto' : 'Insira algumas fotos do seu bichinho.'}'
-                                    : '${formIsValid && petFormProvider.getPetPhotos.isEmpty ? 'Insira pelo menos uma foto' : 'Insira fotos dele.'}',
+                                    ? '${petFormProvider.getPetPhotos.isEmpty ? 'Insira pelo menos uma foto' : 'Insira algumas fotos do seu bichinho.'}'
+                                    : '${petFormProvider.getPetPhotos.isEmpty ? 'Insira pelo menos uma foto' : 'Insira fotos dele.'}',
                                 style: Theme.of(context)
                                     .textTheme
                                     .headline1
@@ -489,7 +484,7 @@ class _PetFormState extends State<PetForm> {
                                     },
                                   ),
                                 ),
-                                formIsValid && snapshot.data.isEmpty
+                        petFormProvider.formIsvalid() && snapshot.data.isEmpty
                                     ? HintError(
                                         message: '* Insira pelo menos uma foto')
                                     : SizedBox(),
@@ -509,7 +504,7 @@ class _PetFormState extends State<PetForm> {
                                   controller: _nome,
                                   readOnly: readOnly,
                                 ),
-                                formIsValid && snapshot.data.isEmpty
+                        petFormProvider.formIsvalid() && snapshot.data.isEmpty
                                     ? HintError()
                                     : SizedBox(),
                               ],
@@ -582,7 +577,7 @@ class _PetFormState extends State<PetForm> {
                                         controller: _ano,
                                         readOnly: readOnly,
                                       ),
-                                      formIsValid &&
+                              petFormProvider.formIsvalid() &&
                                               kind == 'Donate' &&
                                               snapshot.data == null
                                           ? HintError()
@@ -609,7 +604,7 @@ class _PetFormState extends State<PetForm> {
                                         controller: _meses,
                                         readOnly: readOnly,
                                       ),
-                                      formIsValid &&
+                              petFormProvider.formIsvalid() &&
                                               kind == 'Donate' &&
                                               snapshot.data == null
                                           ? HintError()
@@ -627,8 +622,7 @@ class _PetFormState extends State<PetForm> {
                         StreamBuilder<String>(
                           stream: petFormProvider.petSize,
                           builder: (context, snapshot) {
-                            if (snapshot.data == null) {}
-                            print("sadfasdf ${snapshot.data}");
+                            if (snapshot.data == null) {}                            
                             return CustomDropdownButton(
                               label: 'Tamanho',
                               initialValue: snapshot.data,
@@ -838,7 +832,7 @@ class _PetFormState extends State<PetForm> {
                                   multiline: true,
                                   maxlines: 5,
                                 ),
-                                formIsValid && _descricao.text.isEmpty
+                        petFormProvider.formIsvalid() && _descricao.text.isEmpty
                                     ? HintError()
                                     : SizedBox(),
                               ],
@@ -861,7 +855,7 @@ class _PetFormState extends State<PetForm> {
           action: isLogging
               ? null
               : () async {
-                  if (validateForm()) {
+                  if (validateForm()) {                  
                     setReadOnly();
                     await save();
                     await showDialog(
@@ -882,10 +876,6 @@ class _PetFormState extends State<PetForm> {
                             )).then(
                       (value) => _onWillPopScope,
                     );
-                  } else {
-                    setState(() {
-                      formIsValid = true;
-                    });
                   }
                 },
           text: widget.editMode ? 'SALVAR ALTERAÇÕES' : 'POSTAR',
