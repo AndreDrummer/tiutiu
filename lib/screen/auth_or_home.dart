@@ -28,17 +28,24 @@ class _AuthOrHomeState extends State<AuthOrHome> {
     isConnected = true;
     _connectivitySubscription =
         Connectivity().onConnectivityChanged.listen(_updateStatus);
+        super.initState();
   }
 
   void _updateStatus(ConnectivityResult connectivityResult) async {
-    if (connectivityResult == ConnectivityResult.mobile) {      
+    if (connectivityResult == ConnectivityResult.mobile) {
       print("3G/4G");
+      setState(() {
+        isConnected = true;
+      });
     } else if (connectivityResult == ConnectivityResult.wifi) {
       String wifiName = await _connectivity.getWifiName();
       String wifiSsid = await _connectivity.getWifiBSSID();
       String wifiIp = await _connectivity.getWifiIP();
-      print("Wi-Fi\n$wifiName\n$wifiSsid\n$wifiIp");    
-    } else {     
+      print("Wi-Fi\n$wifiName\n$wifiSsid\n$wifiIp");
+      setState(() {
+        isConnected = true;
+      });
+    } else {
       print('Nao conectado');
       setState(() {
         isConnected = false;

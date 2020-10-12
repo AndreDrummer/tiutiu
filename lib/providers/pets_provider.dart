@@ -89,6 +89,7 @@ class PetsProvider with ChangeNotifier {
     String breedSelected,
     String sizeSelected,
     String ageSelected,
+    String sexSelected,
     String healthSelected,
     String distanceSelected,
   ) async {
@@ -107,9 +108,7 @@ class PetsProvider with ChangeNotifier {
             .collection('Pets')
             .doc('posted')
             .collection(petKind)
-            .where("type", isEqualTo: petType);
-
-        print(ageSelected);
+            .where("type", isEqualTo: petType);        
 
         if (breedSelected.isNotEmpty && breedSelected != null) {
           query = await query.where("breed", isEqualTo: breedSelected);
@@ -121,6 +120,10 @@ class PetsProvider with ChangeNotifier {
 
         if (ageSelected.isNotEmpty && ageSelected != null) {
           query = await query.where("ano", isEqualTo: int.parse(ageSelected));
+        }
+
+        if (sexSelected.isNotEmpty && sexSelected != null) {
+          query = await query.where("sex", isEqualTo: sexSelected);
         }
 
         if (healthSelected.isNotEmpty && healthSelected != null) {
