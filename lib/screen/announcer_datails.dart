@@ -5,6 +5,7 @@ import 'package:tiutiu/Custom/icons.dart';
 import 'package:tiutiu/Widgets/background.dart';
 import 'package:tiutiu/Widgets/circle_child.dart';
 import 'package:tiutiu/Widgets/divider.dart';
+import 'package:tiutiu/Widgets/fullscreen_images.dart';
 import 'package:tiutiu/backend/Controller/pet_controller.dart';
 import 'package:tiutiu/backend/Model/user_model.dart';
 import 'package:tiutiu/utils/launcher_functions.dart';
@@ -66,6 +67,18 @@ class _AnnouncerDetailsState extends State<AnnouncerDetails> {
       Launcher.sendEmail(emailAddress: userEmail, message: '', subject: '');
     }
 
+    void openFullScreenMode(List photos_list, String tag) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => FullScreenImage(
+          images: photos_list,
+          tag: tag,
+        ),
+      ),
+    );
+  }
+
     return Scaffold(
       body: Container(
         child: Stack(
@@ -102,9 +115,10 @@ class _AnnouncerDetailsState extends State<AnnouncerDetails> {
                             child: Text(
                               '$userTotalToDonate',
                               style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold),
+                                color: Colors.white,
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ),
                           SizedBox(height: 10),
@@ -250,16 +264,22 @@ class _AnnouncerDetailsState extends State<AnnouncerDetails> {
             Positioned(
               left: width * 0.3,
               top: height / 2.55,
-              child: CircleChild(
-                avatarRadius: 80,
-                child: FadeInImage(
-                  placeholder: AssetImage('assets/profileEmpty.png'),
-                  image: NetworkImage(
-                    widget.user.photoURL,
+              child: InkWell(
+                onTap: widget.user.photoURL != null ? () => openFullScreenMode([widget.user.photoURL], 'profilePic') : (){},
+                child: CircleChild(
+                  avatarRadius: 80,
+                  child: Hero(
+                    tag: 'profilePic',
+                    child: FadeInImage(
+                      placeholder: AssetImage('assets/profileEmpty.png'),
+                      image: NetworkImage(
+                        widget.user.photoURL,
+                      ),
+                      fit: BoxFit.cover,
+                      width: 1000,
+                      height: 1000,
+                    ),
                   ),
-                  fit: BoxFit.cover,
-                  width: 1000,
-                  height: 1000,
                 ),
               ),
             ),

@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:tiutiu/Widgets/loading_page.dart';
 import 'package:tiutiu/providers/auth2.dart';
 import 'package:tiutiu/screen/home.dart';
+import 'package:tiutiu/screen/no_connection.dart';
 import 'package:tiutiu/screen/register.dart';
 
 class AuthOrHome extends StatefulWidget {
@@ -58,7 +59,7 @@ class _AuthOrHomeState extends State<AuthOrHome> {
   Widget build(BuildContext context) {
     Authentication auth = Provider.of(context);
 
-    return FutureBuilder(
+    return !isConnected ? NoConnection() : FutureBuilder(
       future: auth.tryAutoLoginIn(),
       builder: (_, AsyncSnapshot snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
