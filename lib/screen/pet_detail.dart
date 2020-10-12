@@ -357,7 +357,7 @@ class _PetDetailsState extends State<PetDetails> {
                               : () async {
                                   final petRef =
                                       await widget.pet.petReference.get();
-                                  final userLocal = userLocation.location;
+                                  final userLocal = userLocation.getLocation;
 
                                   int userPosition = 1;
                                   bool canSend = true;
