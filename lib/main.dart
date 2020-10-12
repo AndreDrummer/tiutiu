@@ -8,13 +8,13 @@ import 'package:tiutiu/providers/favorites_provider.dart';
 import 'package:tiutiu/providers/location.dart';
 import 'package:tiutiu/providers/my_pets_provider.dart';
 import 'package:tiutiu/providers/pets_provider.dart';
+import 'package:tiutiu/providers/pet_form_provider.dart';
 import 'package:tiutiu/providers/refine_search.dart';
 import 'package:tiutiu/providers/user_infos_interests.dart';
 import 'package:tiutiu/providers/user_provider.dart';
 import 'package:tiutiu/screen/auth_screen.dart';
 import 'package:tiutiu/screen/bootstrap.dart';
 import 'package:tiutiu/screen/choose_location.dart';
-import 'package:tiutiu/screen/auth_or_home.dart';
 import 'package:tiutiu/screen/favorites.dart';
 import 'package:tiutiu/screen/home.dart';
 import 'package:tiutiu/screen/informantes_screen.dart';
@@ -72,6 +72,9 @@ class App extends StatelessWidget {
               ChangeNotifierProvider(
                 create: (_) => MyPetsProvider(),
               ),             
+              ChangeNotifierProvider(
+                create: (_) => PetFormProvider(),
+              ),             
               ChangeNotifierProxyProvider<Authentication, FavoritesProvider>(
                 update: (context, auth, favoritesPrevious) =>
                     FavoritesProvider(auth),
@@ -111,11 +114,10 @@ class App extends StatelessWidget {
               ),
               debugShowCheckedModeBanner: false,
               routes: {
-                Routes.BOOTSTRAP: (ctx) => Bootstrap(),
+                Routes.BOOTSTRAP: (ctx) => Bootstrap(),                
                 Routes.AUTH: (ctx) => AuthScreen(),
-                Routes.PET_FORM: (ctx) => PetForm(),
-                Routes.AUTH_HOME: (ctx) => AuthOrHome(),
-                // Routes.AUTH_HOME: (ctx) => PetForm(),
+                Routes.PET_FORM: (ctx) => PetForm(),                
+                // Routes.BOOTSTRAP: (ctx) => PetForm(),
                 Routes.SETTINGS: (ctx) => Settings(),
                 Routes.MEUS_PETS: (ctx) => MyPetsScreen(),
                 Routes.FAVORITES: (ctx) => Favorites(),

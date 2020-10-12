@@ -1,4 +1,17 @@
 class DummyData {
+
+
+  static const otherCaracteristicsList = [
+    'Vermifugado',
+    'Castrado',
+    'Dócil',
+    'Prenhez',
+    'Tranquilo',
+    'Brincalhão',
+    'Tímido',
+    'Vacinado'
+  ];
+
   static const breed = [
     [''],
     [
