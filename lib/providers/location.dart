@@ -1,22 +1,29 @@
 import 'package:flutter/cupertino.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:rxdart/rxdart.dart';
 
-class Location with ChangeNotifier {
-  LatLng _location;
+class Location with ChangeNotifier {  
+  final _permission = BehaviorSubject<LocationPermission>();
+  final _location = BehaviorSubject<LatLng>();  
 
-  LatLng get location => _location;
+  Stream<LatLng> get location => _location.stream;
+  Stream<LocationPermission> get permission => _permission.stream;
+  
+  void Function(LocationPermission) get changePermission => _permission.sink.add;
+  void Function(LatLng) get changeLocation => _location.sink.add;
 
-  Future<LocationPermission > permissionCheck() async {
-    final permission = await checkPermission();
-    print("PER $permission");
-    return permission;
+  LocationPermission get getPermission => _permission.stream.value;
+  LatLng get getLocation => _location.stream.value;
+
+  Future<void> permissionCheck() async {
+    final permission = await checkPermission();    
+    changePermission(permission);
   }
 
-  Future<LocationPermission > permissionRequest() async {
+  Future<void > permissionRequest() async {
     final permission = await requestPermission();
-    print("PER $permission");
-    return permission;
+    changePermission(permission);    
   }
 
   Future<bool> openSeetings() async {
@@ -28,9 +35,9 @@ class Location with ChangeNotifier {
       
     if(currentLocation == null) {    
       position = await getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
-      _location = LatLng(position.latitude, position.longitude);
+      changeLocation(LatLng(position.latitude, position.longitude));
     } else {
-      _location = currentLocation;
+      changeLocation(currentLocation);
     } 
      
     notifyListeners();
