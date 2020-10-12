@@ -1,5 +1,6 @@
 class Routes {  
-  static const AUTH_HOME = '/';
+  static const BOOTSTRAP = '/';
+  static const AUTH_HOME = '/auth-home';
   static const HOME = '/home';
   static const PET_FORM = '/pet-form';  
   static const MEUS_PETS = '/meus-pets';
