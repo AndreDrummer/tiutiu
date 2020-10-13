@@ -1,5 +1,6 @@
 import 'package:rxdart/subjects.dart';
 import 'package:flutter/material.dart';
+import 'package:tiutiu/backend/Model/pet_model.dart';
 import 'package:tiutiu/utils/form_validators.dart';
 
 class PetFormProvider with ChangeNotifier, FormValidator {
@@ -15,6 +16,7 @@ class PetFormProvider with ChangeNotifier, FormValidator {
   final _petSelectedCaracteristics = BehaviorSubject<List>.seeded([]);
   final _petDescription = BehaviorSubject<String>.seeded('');
   final _petPhotos = BehaviorSubject<List>.seeded([]);
+  final _petInEdition = BehaviorSubject<Pet>();
 
   // Streams to be listened
   Stream<String> get petName => _petName.stream.transform(validateEmpty);
@@ -29,6 +31,7 @@ class PetFormProvider with ChangeNotifier, FormValidator {
   Stream<List> get petSelectedCaracteristics => _petSelectedCaracteristics.stream;
   Stream<String> get petDescription => _petDescription.stream.transform(validateEmpty);
   Stream<List> get petPhotos => _petPhotos.stream.transform(validatePhotos);
+  Stream<Pet> get petInEdition => _petInEdition.stream;
 
   // Stream change
   void Function(String) get changePetName => _petName.sink.add;
@@ -43,6 +46,7 @@ class PetFormProvider with ChangeNotifier, FormValidator {
   void Function(List) get changePetSelectedCaracteristics => _petSelectedCaracteristics.sink.add;
   void Function(String) get changePetDescription => _petDescription.sink.add;
   void Function(List) get changePetPhotos => _petPhotos.sink.add;
+  void Function(Pet) get changePetInEdition => _petInEdition.sink.add;
 
   // Stream get
   String get getPetName => _petName.value;
@@ -57,6 +61,7 @@ class PetFormProvider with ChangeNotifier, FormValidator {
   List get getPetSelectedCaracteristics => _petSelectedCaracteristics.value;
   String get getPetDescription => _petDescription.value;
   List get getPetPhotos => _petPhotos.value;
+  Pet get getPetInEdition => _petInEdition.value;
 
     List<BehaviorSubject> _subjects() {
     return [
@@ -100,6 +105,7 @@ class PetFormProvider with ChangeNotifier, FormValidator {
     _petSex.close();
     _petSelectedCaracteristics.close();
     _petDescription.close();
+    _petInEdition.close();
     super.dispose();
   }
 }

@@ -63,6 +63,7 @@ class _PetFormState extends State<PetForm> {
 
   List<Asset> petPhotosMulti = List<Asset>();
   List petPhotosToUpload = [];
+  List<Uint8List> convertedImageList = [];
 
   bool macho = true;
   Authentication auth;
@@ -73,10 +74,10 @@ class _PetFormState extends State<PetForm> {
   int dropvalueHealth = 0;
   int dropvalueBreed = 0;
   String userId;
-  LatLng currentLocation;  
+  LatLng currentLocation;
   bool isLogging = false;
   bool readOnly = false;
-  int numberOfImages = 3;
+  bool convertingImages = false;
 
   Pet petEdit;
 
@@ -97,14 +98,10 @@ class _PetFormState extends State<PetForm> {
     petFormProvider.changePetColor(pet.color);
     petFormProvider.changePetHealthIndex(DummyData.health.indexOf(pet.health));
     petFormProvider.changePetPhotos(pet.photos);
+    petFormProvider.changePetInEdition(pet);
 
     _nome.text = petFormProvider.getPetName;
     _descricao.text = petFormProvider.getPetDescription;
-
-    setState(() {
-      petEdit = pet;
-      numberOfImages = 8;
-    });
   }
 
   void clearUpCaracteristics() {
@@ -142,6 +139,7 @@ class _PetFormState extends State<PetForm> {
 
     actualPhotoList.add(File(image.path));
     petFormProvider.changePetPhotos(actualPhotoList);
+    convertImageToUint8List(petFormProvider.getPetPhotos);
   }
 
   void openModalSelectMedia(BuildContext context, int index) {
@@ -222,7 +220,7 @@ class _PetFormState extends State<PetForm> {
 
   Future<void> multiImages() async {
     List<Asset> resultList = List<Asset>();
-    List actualPhotoList = [...petFormProvider.getPetPhotos];    
+    List actualPhotoList = [...petFormProvider.getPetPhotos];
 
     try {
       resultList = await MultiImagePicker.pickImages(
@@ -244,45 +242,52 @@ class _PetFormState extends State<PetForm> {
     if (!mounted) return;
 
     if (resultList.isNotEmpty) {
+      print('NÃO');
       actualPhotoList.addAll(resultList);
       petFormProvider.changePetPhotos(actualPhotoList);
+      convertImageToUint8List(petFormProvider.getPetPhotos);
+
       setState(() {
         petPhotosMulti = actualPhotoList;
       });
     }
   }
 
-  Future<Uint8List> convertImageToUint8List(image) async {
-      print('RUNTIME ${image.runtimeType}');
-    if (image.runtimeType == Asset) {
-      ByteData byteData = await image.getByteData();
-      return Uint8List.view(byteData.buffer);
-    } else {
-      return await File(image.path).readAsBytes();
-    }    
+  Future<void> convertImageToUint8List(List images) async {
+    convertedImageList.clear();
+    changeConvertingImagesStatus(true);
+    print('Convertendo imagens...');
+    for (int i = 0; i < images.length; i++) {
+      if (images[i].runtimeType == Asset) {
+        ByteData byteData = await images[i].getByteData();
+        convertedImageList.add(Uint8List.view(byteData.buffer));
+      } else {
+        convertedImageList.add(await File(images[i].path).readAsBytes());
+      }
+    }
+    changeConvertingImagesStatus(false);
+    print('Conversão finalizada...');
   }
 
   Future<void> uploadPhotos(String petName) async {
     StorageUploadTask uploadTask;
-    StorageReference storageReference;
+    StorageReference storageReference;    
 
-    List imagesPet = petFormProvider.getPetPhotos;
-
-    for (int i = 0; i < imagesPet.length; i++) {
+    for (int i = 0; i < convertedImageList.length; i++) {
       storageReference = FirebaseStorage.instance
           .ref()
           .child('$userId/')
           .child('petsPhotos/$petName--foto__${DateTime.now().millisecond}');
-      if (imagesPet[i].runtimeType != String) {        
-        uploadTask = storageReference.putData(await convertImageToUint8List(imagesPet[i]));
-        await uploadTask.onComplete;
-        await storageReference.getDownloadURL().then((urlDownload) async {
-          petPhotosToUpload.add(urlDownload);
-          print('URL DOWNLOAD $urlDownload');
-        });
-      } else if (imagesPet[i].runtimeType == String) {
-        petPhotosToUpload.add(imagesPet[i]);
-      }
+      // if (convertedImageList[i].runtimeType != String) {
+      uploadTask = storageReference.putData(convertedImageList[i]);
+      await uploadTask.onComplete;      
+      petPhotosToUpload.add(await storageReference.getDownloadURL());
+      print('URL DOWNLOAD ${petPhotosToUpload.last}');      
+      // }
+      // if (imagesPet[i].runtimeType == String) {
+      petPhotosToUpload.addAll(petFormProvider.getPetPhotos
+          .where((element) => element.runtimeType == String).toList());
+      // }
     }
 
     return Future.value();
@@ -294,7 +299,14 @@ class _PetFormState extends State<PetForm> {
     });
   }
 
+  void changeConvertingImagesStatus(bool status) {
+    setState(() {
+      convertingImages = status;
+    });
+  }
+
   Future<void> save() async {
+    final startIn = DateTime.now();
     changeLogginStatus(true);
     var petController = PetController();
 
@@ -330,6 +342,8 @@ class _PetFormState extends State<PetForm> {
     petPhotosToUpload.clear();
     petFormProvider.dispose();
     changeLogginStatus(false);
+    final finishin = DateTime.now();
+    print('DEMOROU ${finishin.difference(startIn).inSeconds}');
     return Future.value();
   }
 
@@ -425,7 +439,7 @@ class _PetFormState extends State<PetForm> {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.all(10.0),
+                    padding: const EdgeInsets.symmetric(horizontal: 15),
                     child: Column(
                       children: [
                         StreamBuilder(
@@ -484,7 +498,8 @@ class _PetFormState extends State<PetForm> {
                                     },
                                   ),
                                 ),
-                        petFormProvider.formIsvalid() && snapshot.data.isEmpty
+                                petFormProvider.formIsvalid() &&
+                                        snapshot.data.isEmpty
                                     ? HintError(
                                         message: '* Insira pelo menos uma foto')
                                     : SizedBox(),
@@ -504,7 +519,8 @@ class _PetFormState extends State<PetForm> {
                                   controller: _nome,
                                   readOnly: readOnly,
                                 ),
-                        petFormProvider.formIsvalid() && snapshot.data.isEmpty
+                                petFormProvider.formIsvalid() &&
+                                        snapshot.data.isEmpty
                                     ? HintError()
                                     : SizedBox(),
                               ],
@@ -577,7 +593,7 @@ class _PetFormState extends State<PetForm> {
                                         controller: _ano,
                                         readOnly: readOnly,
                                       ),
-                              petFormProvider.formIsvalid() &&
+                                      petFormProvider.formIsvalid() &&
                                               kind == 'Donate' &&
                                               snapshot.data == null
                                           ? HintError()
@@ -604,7 +620,7 @@ class _PetFormState extends State<PetForm> {
                                         controller: _meses,
                                         readOnly: readOnly,
                                       ),
-                              petFormProvider.formIsvalid() &&
+                                      petFormProvider.formIsvalid() &&
                                               kind == 'Donate' &&
                                               snapshot.data == null
                                           ? HintError()
@@ -622,7 +638,7 @@ class _PetFormState extends State<PetForm> {
                         StreamBuilder<String>(
                           stream: petFormProvider.petSize,
                           builder: (context, snapshot) {
-                            if (snapshot.data == null) {}                            
+                            if (snapshot.data == null) {}
                             return CustomDropdownButton(
                               label: 'Tamanho',
                               initialValue: snapshot.data,
@@ -832,7 +848,8 @@ class _PetFormState extends State<PetForm> {
                                   multiline: true,
                                   maxlines: 5,
                                 ),
-                        petFormProvider.formIsvalid() && _descricao.text.isEmpty
+                                petFormProvider.formIsvalid() &&
+                                        _descricao.text.isEmpty
                                     ? HintError()
                                     : SizedBox(),
                               ],
@@ -852,10 +869,10 @@ class _PetFormState extends State<PetForm> {
           rounded: false,
           color: isLogging ? Colors.grey : Theme.of(context).primaryColor,
           isToExpand: true,
-          action: isLogging
+          action: isLogging || convertingImages
               ? null
               : () async {
-                  if (validateForm()) {                  
+                  if (validateForm()) {
                     setReadOnly();
                     await save();
                     await showDialog(

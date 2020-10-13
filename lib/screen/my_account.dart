@@ -28,7 +28,7 @@ class _MyAccountState extends State<MyAccount> {
 
   Widget appBar(UserProvider userProvider) {
     return PreferredSize(
-      preferredSize: Size.fromHeight(200.0),
+      preferredSize: Size.fromHeight(MediaQuery.of(context).size.height / 3 - 55),
       child: Stack(
         children: [
           Opacity(
@@ -416,7 +416,7 @@ class _MyAccountState extends State<MyAccount> {
                   ),
                   Opacity(
                     opacity: 0.7,
-                    child: Image.asset('assets/trofeu.jpg'),
+                    child: Image.asset('assets/trofeu.jpg', fit: BoxFit.fill),
                   ),
                   SizedBox(height: height < 500 ? 200 : 50)
                 ],
