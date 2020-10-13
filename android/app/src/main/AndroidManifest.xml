@@ -41,7 +41,7 @@
         </activity>
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyCazQnC5pRqASolYk2wytC4LNNxvw0L-30"/>       
+            android:value="AIzaSyD0-3gCxQaLljM1fJolnfdpeaUpZsh00XY"/>       
     </application>
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />

@@ -300,7 +300,8 @@ class _SettingsState extends State<Settings> {
         'phoneNumber': _whatsAppController.text,
         'landline': _telefoneController.text,
         'betterContact': userProvider.getBetterContact,
-        'email': auth.firebaseUser.email
+        'email': auth.firebaseUser.email,
+        'createdAt': userProvider.createdAt
       });
 
       userProvider.changeDisplayName(_nameController.text);
