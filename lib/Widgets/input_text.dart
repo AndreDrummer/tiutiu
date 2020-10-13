@@ -49,7 +49,7 @@ class InputText extends StatefulWidget {
   final bool keyBoardTypeNumber;
   bool seePassword;
   final int maxlines;
-  final Function() onChanged;
+  final Function(String) onChanged;
   final Function(String) validator;
   final List<TextInputFormatter> inputFormatters;
 
@@ -92,7 +92,7 @@ class _InputTextState extends State<InputText> {
                 textInputAction: TextInputAction.done,
                 obscureText: widget.isPassword && !widget.seePassword,
                 maxLines: widget.maxlines,
-                onChanged: (String text) => widget.onChanged(),
+                onChanged: (String text) => widget.onChanged(text),
                 keyboardType: widget.multiline
                     ? TextInputType.multiline
                     : widget.keyBoardTypeNumber

@@ -505,11 +505,11 @@ class _PetDetailsState extends State<PetDetails> {
     );
   }
 
-  Widget showImages(Map photos) {
+  Widget showImages(List photos) {
     return Stack(
       children: [
         InkWell(
-          onTap: () => openFullScreenMode(photos.values.toList()),
+          onTap: () => openFullScreenMode(photos),
           child: Container(
             color: Colors.black,
             height: MediaQuery.of(context).size.height / 3,
@@ -517,10 +517,10 @@ class _PetDetailsState extends State<PetDetails> {
             child: PageView.builder(
               physics: AlwaysScrollableScrollPhysics(),
               controller: _pageController,
-              itemCount: photos.values.length,
+              itemCount: photos.length,
               itemBuilder: (BuildContext context, int index) {
                 return Image.network(
-                  photos.values.elementAt(index),
+                  photos.elementAt(index),
                   // fit: BoxFit.cover,
                   loadingBuilder: loadingImage,
                 );
@@ -532,7 +532,7 @@ class _PetDetailsState extends State<PetDetails> {
           right: 10,
           top: 10,
           child: InkWell(
-            onTap: () => openFullScreenMode(photos.values.toList()),
+            onTap: () => openFullScreenMode(photos),
             child: Column(
               children: [
                 Icon(Icons.fullscreen, color: Colors.white, size: 40),
@@ -555,7 +555,7 @@ class _PetDetailsState extends State<PetDetails> {
             padding: const EdgeInsets.all(10.0),
             child: DotsIndicator(
               controller: _pageController,
-              itemCount: photos.values.length,
+              itemCount: photos.length,
               onPageSelected: (int page) {
                 _pageController.animateToPage(
                   page,
