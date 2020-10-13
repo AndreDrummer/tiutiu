@@ -20,7 +20,7 @@ class _SquaredAddImageState extends State<SquaredAddImage> {
   @override
   Widget build(BuildContext context) {    
     return Container(
-      margin: const EdgeInsets.only(right: 10, bottom: 10),
+      margin: const EdgeInsets.only(right: 10, bottom: 10, left: 10),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12),
         border: Border.all(
@@ -32,7 +32,7 @@ class _SquaredAddImageState extends State<SquaredAddImage> {
       height: 200,
       width: widget.width != null
           ? widget.width
-          : MediaQuery.of(context).size.width - 32,
+          : MediaQuery.of(context).size.width - 49,
       child: Center(
         child: widget.addButton
             ? Icon(Icons.add, size: 50, color: Colors.white)
