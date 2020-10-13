@@ -264,7 +264,7 @@ class _SettingsState extends State<Settings> {
                   child: PopUpMessage(
                     confirmAction: () {
                       auth.signOut();
-                      ModalRoute.withName('/auth-home');
+                      ModalRoute.withName('/');
                     },
                     confirmText: 'Deslogar Agora',
                     denyAction: () {
@@ -300,7 +300,8 @@ class _SettingsState extends State<Settings> {
         'phoneNumber': _whatsAppController.text,
         'landline': _telefoneController.text,
         'betterContact': userProvider.getBetterContact,
-        'email': auth.firebaseUser.email
+        'email': auth.firebaseUser.email,
+        'createdAt': userProvider.createdAt
       });
 
       userProvider.changeDisplayName(_nameController.text);
@@ -320,7 +321,7 @@ class _SettingsState extends State<Settings> {
                 confirmAction: () {
                   Navigator.popUntil(
                     context,
-                    ModalRoute.withName('/auth-home'),
+                    ModalRoute.withName('/'),
                   );
                 },
                 confirmText: 'Voltar a tela inicial',
