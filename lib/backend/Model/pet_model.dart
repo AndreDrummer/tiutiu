@@ -26,7 +26,7 @@ class Pet {
     this.kind
   });
 
-  Pet.fromSnapshot(DocumentSnapshot snapshot) {
+  Pet.fromSnapshot(DocumentSnapshot snapshot) {    
     id = snapshot.id;
     donated = snapshot.data()['donated'];
     found = snapshot.data()['found'];
@@ -42,7 +42,7 @@ class Pet {
     breed = snapshot.data()['breed'];
     size = snapshot.data()['size'];
     details = snapshot.data()['details'];
-    photos = snapshot.data()['photos'] as Map<String, dynamic>;
+    photos = snapshot.data()['photos'] as List;
     latitude = snapshot.data()['latitude'];
     longitude = snapshot.data()['longitude'];
     otherCaracteristics = snapshot.data()['otherCaracteristics'];    
@@ -68,7 +68,7 @@ class Pet {
     breed = map['breed'];
     size = map['size'];
     details = map['details'];
-    photos = map['photos'] as Map<String, dynamic>;
+    photos = map['photos'] as List;
     latitude = map['latitude'];
     longitude = map['longitude'];    
     ownerReference = map['ownerReference'];
@@ -95,7 +95,7 @@ class Pet {
   List otherCaracteristics;
   String size;
   String details;
-  Map photos;  
+  List photos;  
   double latitude;
   double longitude;  
 
