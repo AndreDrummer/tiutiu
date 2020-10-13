@@ -11,27 +11,20 @@ class NewMap extends StatefulWidget {
   _NewMapState createState() => _NewMapState();
 }
 
-class _NewMapState extends State<NewMap> with SingleTickerProviderStateMixin {
-  AnimationController controllerAnimation;
+class _NewMapState extends State<NewMap> with SingleTickerProviderStateMixin {  
+  Location locationProvider;  
 
   @override
-  void initState() {
-    super.initState();
-    controllerAnimation = AnimationController(
-      vsync: this,
-      duration: Duration(milliseconds: 400),
-      reverseDuration: Duration(milliseconds: 400),
-    );
-  }
+  void didChangeDependencies() {
+    locationProvider = Provider.of<Location>(context, listen: false);
+    super.didChangeDependencies();
+  } 
 
   @override
   Widget build(BuildContext context) {
-    final locationProvider = Provider.of<Location>(context, listen: false);
-
+    
     return PlacePicker(
-      pinBuilder: (context, state) {
-        print(
-            '${locationProvider.getLocation.latitude}, ${locationProvider.getLocation.longitude}');
+      pinBuilder: (context, state) {        
         return Image.asset('assets/new-pin2.png', width: 150, height: 150);
       },
       autoCompleteDebounceInMilliseconds: 1000,
