@@ -7,26 +7,19 @@ import 'package:tiutiu/providers/location.dart';
 import 'package:tiutiu/screen/pet_form.dart';
 import 'package:tiutiu/utils/routes.dart';
 
-class ChooseLocation extends StatefulWidget {
+class ChooseLocation extends StatelessWidget {
   ChooseLocation({
     this.editMode = false,
     this.petReference,
   });
 
   final bool editMode;
-  final DocumentReference petReference;
-
-  @override
-  _ChooseLocationState createState() => _ChooseLocationState();
-}
-
-class _ChooseLocationState extends State<ChooseLocation> {
-  var params;
+  final DocumentReference petReference;  
 
   @override
   Widget build(BuildContext context) {
-    params = ModalRoute.of(context).settings.arguments;
-    var kind = widget.editMode ? '' : params['kind'];
+    var params = ModalRoute.of(context).settings.arguments as Map<String, dynamic>;
+    var kind = editMode ? '' : params['kind'];
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -49,17 +42,17 @@ class _ChooseLocationState extends State<ChooseLocation> {
                 rounded: false,
                 isToExpand: true,
                 text: 'O PET ESTÁ AQUI',
-                action: location.location == null
+                action: location.getLocation == null
                     ? null
                     : () {
-                        widget.editMode
+                        editMode
                             ? Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) {
                                     return PetForm(
                                       editMode: true,
-                                      petReference: widget.petReference,
+                                      petReference: petReference,
                                     );
                                   },
                                 ),

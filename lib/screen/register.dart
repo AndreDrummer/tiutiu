@@ -330,7 +330,7 @@ class _RegisterState extends State<Register> {
                         keyBoardTypeNumber: true,
                         controller: _whatsapp,
                         validator: validarCelular,
-                        onChanged: () {
+                        onChanged: (text) {
                           userProvider.changeWhatsapp(_whatsapp.text);
                         },
                       ),
@@ -351,7 +351,7 @@ class _RegisterState extends State<Register> {
                         hintText: '(XX) XXXX-XXXX',
                         keyBoardTypeNumber: true,
                         controller: _telefone,
-                        onChanged: () {
+                        onChanged: (text) {
                           userProvider.changeTelefone(_telefone.text);
                         },
                       ),

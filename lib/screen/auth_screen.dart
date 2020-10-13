@@ -186,7 +186,7 @@ class _AuthScreenState extends State<AuthScreen> {
                       placeholder: isToResetPassword
                           ? 'Digite seu email cadastrado'
                           : 'E-mail',
-                      onChanged: validateFields,
+                      onChanged: (text) => validateFields,
                       controller: email,
                       readOnly: fieldsAreReadyOnly,
                     ),
@@ -203,7 +203,7 @@ class _AuthScreenState extends State<AuthScreen> {
                             placeholder: 'Senha',
                             controller: password,
                             readOnly: fieldsAreReadyOnly,
-                            onChanged: validateFields,
+                            onChanged: (text) => validateFields,
                             isPassword: true,
                           ),
                     passwordError && !isToResetPassword
@@ -215,7 +215,7 @@ class _AuthScreenState extends State<AuthScreen> {
                             placeholder: 'Repita sua senha',
                             controller: repeatPassword,
                             readOnly: fieldsAreReadyOnly,
-                            onChanged: validateFields,
+                            onChanged: (text) => validateFields,
                             isPassword: true,
                           )
                         : Container(),
@@ -390,7 +390,7 @@ class _AuthScreenState extends State<AuthScreen> {
                                         auth.loginWithGoogle().then((_) {
                                           changeLogginStatus(false);
                                           if(canPop != null && canPop == true) {                                            
-                                            Navigator.popUntil(context, ModalRoute.withName('/auth-home'));
+                                            Navigator.popUntil(context, ModalRoute.withName('/'));
                                           }                                        
                                         });
                                       },
