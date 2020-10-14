@@ -29,7 +29,7 @@ class _MyAccountState extends State<MyAccount> {
   Widget appBar(UserProvider userProvider, Authentication auth) {
     return PreferredSize(
       preferredSize:
-          Size.fromHeight(MediaQuery.of(context).size.height / 3 - 55),
+          Size.fromHeight(MediaQuery.of(context).size.height / 3),
       child: Stack(
         children: [
           Opacity(
@@ -91,7 +91,7 @@ class _MyAccountState extends State<MyAccount> {
                                 fontSize: 12,
                               ),
                         ),
-                        SizedBox(height: 40),
+                        SizedBox(height: MediaQuery.of(context).size.height * 0.07),
                       ],
                     ),
                   )

@@ -72,9 +72,11 @@ class UserController {
     List interestedUsers = interestedRef.docs;
 
     for (int i = 0; i < interestedUsers.length; i++) {
+      print("${interestedUsers[i].data()['position']} == $userPosition");
       if (interestedUsers[i].data()['position'] == userPosition) {
-        interestedUsers[i].data()['sinalized'] = true;
-        petReference.collection('adoptInteresteds').doc(interestedUsers[i].id).set(interestedUsers[i]);
+        var data = interestedUsers[i].data();
+        data['sinalized'] = true;        
+        petReference.collection('adoptInteresteds').doc(interestedUsers[i].id).set(data);
         break;
       }
     }            
@@ -101,8 +103,9 @@ class UserController {
     List interestedUsers = interestedRef.docs;
     for (int i = 0; i < interestedUsers.length; i++) {
       if (interestedUsers[i].data()['userReference'] == userThatAdoptedId) {
-        interestedUsers[i].data()['gaveup'] = true;
-        petReference.collection('adoptInteresteds').doc(interestedUsers[i].id).set(interestedUsers[i]);
+        var data = interestedUsers[i].data();
+        data['gaveup'] = true; 
+        petReference.collection('adoptInteresteds').doc(interestedUsers[i].id).set(data);
         break;
       }
     }    
