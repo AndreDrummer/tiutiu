@@ -373,6 +373,9 @@ class _PetFormState extends State<PetForm> {
     print(petFormProvider.getPetPhotos);
 
     Future<bool> _onWillPopScope() {
+      if(isLogging || convertingImages) {
+        return Future.value(false);
+      }
       Navigator.pushReplacementNamed(context, Routes.HOME);
       petFormProvider.getPetPhotos.clear();
       petPhotosToUpload.clear();
