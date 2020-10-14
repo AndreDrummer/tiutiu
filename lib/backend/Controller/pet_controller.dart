@@ -14,7 +14,8 @@ class PetController {
           .doc(userId)
           .collection('Pets')
           .doc('adopted')
-          .collection('Adopteds').where('donated', isEqualTo: avalaible)
+          .collection('Adopteds')
+          .where('donated', isEqualTo: avalaible)
           .get();
     }
     return await firestore
@@ -33,7 +34,8 @@ class PetController {
     return Pet.fromSnapshot(pet);
   }
 
-  Future<List<Pet>> getAllPetsByKind(String userId, {String kind, bool adopted = true}) async {
+  Future<List<Pet>> getAllPetsByKind(String userId,
+      {String kind, bool adopted = true}) async {
     List<Pet> myPets = [];
 
     var postedPets = firestore
@@ -57,7 +59,8 @@ class PetController {
             .doc(userId)
             .collection('Pets')
             .doc('adopted')
-            .collection('Adopteds').where('confirmed', isEqualTo: adopted)
+            .collection('Adopteds')
+            .where('confirmed', isEqualTo: adopted)
             .get();
 
         for (int i = 0; i < adoptedsRef.docs.length; i++) {
@@ -140,31 +143,33 @@ class PetController {
   }) async {
     var petRef = await petReference.get();
 
-    List lista = [];
-
-    if (petRef.data()['${isAdopt ? 'adoptInteresteds' : 'infoInteresteds'}'] !=
-        null) {
-      lista =
-          petRef.data()['${isAdopt ? 'adoptInteresteds' : 'infoInteresteds'}'];
+    if (isAdopt) {
+      await petRef.reference.collection('adoptInteresteds').doc().set(
+        {
+          'userReference': userReference,
+          'userLat': userLocation.latitude,
+          'userLog': userLocation.longitude,
+          'position': userPosition,
+          'sinalized': false,
+          'gaveup': false,
+          'interestedAt': interestedAt,
+        },
+        SetOptions(merge: true),
+      );
+    } else {
+      await petRef.reference.collection('infoInteresteds').doc().set(
+        {
+          'userReference': userReference,
+          'userLat': userLocation.latitude,
+          'userLog': userLocation.longitude,
+          'position': userPosition,
+          'sinalized': false,
+          'gaveup': false,
+          'interestedAt': interestedAt,
+        },
+        SetOptions(merge: true),
+      );
     }
-
-    await petReference.set(
-      {
-        '${isAdopt ? 'adoptInteresteds' : 'infoInteresteds'}': [
-          ...lista,
-          {
-            'userReference': userReference,
-            'userLat': userLocation.latitude,
-            'userLog': userLocation.longitude,
-            'position': userPosition,
-            'sinalized': false,
-            'gaveup': false,
-            'interestedAt': interestedAt,
-          }
-        ]
-      },
-      SetOptions(merge: true),
-    );
   }
 
   Future<void> updatePet(
