@@ -48,14 +48,13 @@ class UserInfoOrAdoptInterestsProvider with ChangeNotifier {
     final pet = await petRef.get();
 
     if (pet.data() != null) {
-      List interestedList = pet.data()['adoptInteresteds'];      
+      var interestedRef = await petRef.collection('adoptInteresteds').get();
+      var interestedList = interestedRef.docs;
 
       if (interestedList != null) {
         for (int i = 0; i < interestedList.length; i++) {
-          String userRefId =
-              await consultReference(interestedList[i]['userReference']);
-          if (userRefId == userId) {
-            print(userRefId);
+          String userRefId = await consultReference(interestedList[i].data()['userReference']);
+          if (userRefId == userId) {            
             insertAdoptInterestID(pet.id);
           }
         }
@@ -67,13 +66,12 @@ class UserInfoOrAdoptInterestsProvider with ChangeNotifier {
     changeInfos([]);
     final pet = await petRef.get();
 
-    List infoList = pet.data()['infoInteresteds'];
-
+    var infoRef = await petRef.collection('infoInteresteds').get();
+    var infoList = infoRef.docs;
     if (infoList != null) {
       for (int i = 0; i < infoList.length; i++) {
-        String userRefId = await consultReference(infoList[i]['userReference']);
-        if (userRefId == userId) {
-          print(userRefId);
+        String userRefId = await consultReference(infoList[i].data()['userReference']);
+        if (userRefId == userId) {          
           insertInfosID(pet.id);
         }
       }
@@ -85,9 +83,11 @@ class UserInfoOrAdoptInterestsProvider with ChangeNotifier {
     List<InterestedModel> interested = [];
 
     if (pet.data() != null) {
-      List interestedList = pet.data()['adoptInteresteds'] ?? [];      
+      var interestedRef = await petRef.collection('adoptInteresteds').get();
+      var interestedList = interestedRef.docs;
+
       for(int i = 0; i < interestedList.length; i++) {
-        interested.add(InterestedModel.fromMap(interestedList[i]));
+        interested.add(InterestedModel.fromMap(interestedList[i].data()));
       }
       changeInterested(interested);      
     }
@@ -98,9 +98,10 @@ class UserInfoOrAdoptInterestsProvider with ChangeNotifier {
     List<InterestedModel> info = [];
     
     if (pet.data() != null) {
-      List infoList = pet.data()['infoInteresteds'] ?? [];      
+      var infoRef = await petRef.collection('infoInteresteds').get();
+      var infoList = infoRef.docs;
       for (int i = 0; i < infoList.length; i++) {
-        info.add(InterestedModel.fromMap(infoList[i]));
+        info.add(InterestedModel.fromMap(infoList[i].data()));
       }
       changeInfo(info);
     }
