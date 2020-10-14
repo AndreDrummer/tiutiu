@@ -53,6 +53,11 @@ class _HomeState extends State<Home> {
         return;
       },
     );
+    
+    fbm.subscribeToTopic('petInfo');
+    fbm.subscribeToTopic('wannaAdopt');
+    fbm.subscribeToTopic('confirmAdotpion');
+    fbm.requestNotificationPermissions();
     super.initState();
   }
 

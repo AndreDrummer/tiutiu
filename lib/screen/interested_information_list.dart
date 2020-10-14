@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:loading_animations/loading_animations.dart';
 import 'package:provider/provider.dart';
+import 'package:tiutiu/Widgets/fullscreen_images.dart';
 import 'package:tiutiu/Widgets/load_dark_screen.dart';
 import 'package:tiutiu/Widgets/loading_page.dart';
 import 'package:tiutiu/Widgets/popup_message.dart';
@@ -163,19 +164,32 @@ class _InterestedListState extends State<InterestedList> {
                         User user =
                             User.fromSnapshot(userReferenceSnapshot.data);
                         return ListTile(
-                          leading: CircleAvatar(
-                            backgroundColor: Colors.transparent,
-                            child: ClipOval(
-                              child: FadeInImage(
-                                placeholder: AssetImage('assets/fundo.jpg'),
-                                image: user.photoURL != null
-                                    ? NetworkImage(user.photoURL)
-                                    : AssetImage(
-                                        'assets/fundo.jpg',
-                                      ),
-                                fit: BoxFit.fill,
-                                width: 1000,
-                                height: 1000,
+                          leading: InkWell(
+                            onTap: user.photoURL == null ? null : () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => FullScreenImage(images: [user.photoURL], tag: 'userProfile',)
+                                )
+                              );
+                            },
+                            child: CircleAvatar(
+                              backgroundColor: Colors.transparent,
+                              child: ClipOval(
+                                child: Hero(
+                                  tag: 'userProfile',
+                                  child: FadeInImage(
+                                    placeholder: AssetImage('assets/fundo.jpg'),
+                                    image: user.photoURL != null
+                                        ? NetworkImage(user.photoURL)
+                                        : AssetImage(
+                                            'assets/fundo.jpg',
+                                          ),
+                                    fit: BoxFit.fill,
+                                    width: 1000,
+                                    height: 1000,
+                                  ),
+                                ),
                               ),
                             ),
                           ),

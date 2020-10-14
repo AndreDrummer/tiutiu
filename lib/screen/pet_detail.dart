@@ -373,12 +373,9 @@ class _PetDetailsState extends State<PetDetails> {
                                       messageTextSnackBar =
                                           '${ownerDetails[0]['text']} já sabe sobre seu interesse. Aguarde retorno.';
                                     } else {
-                                      if (petRef.data()['adoptInteresteds'] !=
-                                          null) {
-                                        userPosition = petRef
-                                                .data()['adoptInteresteds']
-                                                .length +
-                                            1;
+                                      var adoptInterestedsRef = await petRef.reference.collection('adoptInteresteds').get();
+                                      if (adoptInterestedsRef.docs.isNotEmpty) {
+                                        userPosition = adoptInterestedsRef.docs.length + 1;
                                       }
                                       messageTextSnackBar =
                                           'Você é o $userPositionº interessado no ${widget.pet.name}. Te avisaremos caso o dono aceite seu pedido de adoção!';
@@ -392,12 +389,9 @@ class _PetDetailsState extends State<PetDetails> {
                                       messageTextSnackBar =
                                           'Você já passou informação sobre este PET.';
                                     } else {
-                                      if (petRef.data()['infoInteresteds'] !=
-                                          null) {
-                                        userPosition = petRef
-                                                .data()['infoInteresteds']
-                                                .length +
-                                            1;
+                                      var infoInterestedsRef = await petRef.reference.collection('infoInteresteds').get();
+                                      if (infoInterestedsRef.docs.isNotEmpty) {
+                                       infoInterestedsRef.docs.length + 1;
                                       } else {
                                         userPosition = 1;
                                       }
@@ -553,18 +547,24 @@ class _PetDetailsState extends State<PetDetails> {
           right: 0.0,
           child: Container(
             padding: const EdgeInsets.all(10.0),
-            child: DotsIndicator(
-              controller: _pageController,
-              itemCount: photos.length,
-              onPageSelected: (int page) {
-                _pageController.animateToPage(
-                  page,
-                  duration: Duration(
-                    milliseconds: 500,
+            child: Center(
+              child: FittedBox(
+                child: Container(                  
+                  child: DotsIndicator(
+                    controller: _pageController,
+                    itemCount: photos.length,
+                    onPageSelected: (int page) {
+                      _pageController.animateToPage(
+                        page,
+                        duration: Duration(
+                          milliseconds: 500,
+                        ),
+                        curve: Curves.ease,
+                      );
+                    },
                   ),
-                  curve: Curves.ease,
-                );
-              },
+                ),
+              ),
             ),
           ),
         )
