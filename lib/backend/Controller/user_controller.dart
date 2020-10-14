@@ -67,15 +67,17 @@ class UserController {
       'petRef': petReference,
       'confirmed': false,
     });
-    final petRef = await petReference.get();
-    List interestedUsers = petRef.data()['adoptInteresteds'];
+
+    final interestedRef = await petReference.collection('adoptInteresteds').get();
+    List interestedUsers = interestedRef.docs;
+
     for (int i = 0; i < interestedUsers.length; i++) {
-      if (interestedUsers[i]['position'] == userPosition) {
-        interestedUsers[i]['sinalized'] = true;
+      if (interestedUsers[i].data()['position'] == userPosition) {
+        interestedUsers[i].data()['sinalized'] = true;
+        petReference.collection('adoptInteresteds').doc(interestedUsers[i].id).set(interestedUsers[i]);
+        break;
       }
-    }
-    petReference
-        .set({'adoptInteresteds': interestedUsers}, SetOptions(merge: true));
+    }            
   }
 
   Future<void> confirmDonate(DocumentReference petReference,
@@ -95,15 +97,15 @@ class UserController {
 
   Future<void> denyDonate(DocumentReference petReference,
       DocumentReference userThatAdoptedId) async {
-    final petRef = await petReference.get();
-    List interestedUsers = petRef.data()['adoptInteresteds'];
+    final interestedRef = await petReference.collection('adoptInteresteds').get();
+    List interestedUsers = interestedRef.docs;
     for (int i = 0; i < interestedUsers.length; i++) {
-      if (interestedUsers[i]['userReference'] == userThatAdoptedId) {
-        interestedUsers[i]['gaveup'] = true;
+      if (interestedUsers[i].data()['userReference'] == userThatAdoptedId) {
+        interestedUsers[i].data()['gaveup'] = true;
+        petReference.collection('adoptInteresteds').doc(interestedUsers[i].id).set(interestedUsers[i]);
+        break;
       }
-    }
-    petReference
-        .set({'adoptInteresteds': interestedUsers}, SetOptions(merge: true));
+    }    
 
     final pathToPet = userThatAdoptedId
         .collection('Pets')
