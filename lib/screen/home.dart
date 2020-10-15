@@ -40,6 +40,7 @@ class _HomeState extends State<Home> {
       onMessage: (msg) {
         print('onMessage...');
         print(msg);
+        userProvider.loadNotifications();
         return;
       },
       onResume: (msg) {

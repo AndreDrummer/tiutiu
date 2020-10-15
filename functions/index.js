@@ -17,27 +17,27 @@ exports.createNotificationConfirmAdoption = functions.firestore
     })
 
 exports.createNotificationAdoptionConfirmed = functions.firestore
-    .document('Users/{userId}/Pets/posted/Donated/{petId}')
-    .onUpdate((snap, context) => {
-        console.log(snap.data());
+    .document('Users/{userId}/Pets/posted/Donate/{petId}')
+    .onUpdate((change, context) => {
+        console.log(change.after.data());
         admin.messaging().sendToTopic('confirmAdotpion', {
             notification: {
                 title: 'Doação confirmada',
-                body: 'Texto de confirmação',
+                body: `${change.after.data()}`,
                 clickAction: 'FLUTTER_NOTIFICATION_CLICK'
             }
         })
     })
 
 exports.createNotificationAdoptionDenied = functions.firestore
-    .document('Users/{userId}/Pets/posted/Donated/{petId}/adoptInteresteds/{id}')
-    .onUpdate((snap, context) => {
-        console.log(snap.data());
-        if (snap.data()['gaveup'] == true) {
+    .document('Users/{userId}/Pets/posted/Donate/{petId}/adoptInteresteds/{id}')
+    .onUpdate((change, context) => {
+        console.log(change.after.data());
+        if (change.after.data()['gaveup'] === true) {
             admin.messaging().sendToTopic('confirmAdotpion', {
                 notification: {
-                    title: 'Doação negada',
-                    body: 'Texto de confirmação',
+                    title: 'Adoção negada',
+                    body: `${snap.data()['userName']} negou que tenha adotado ${snap.data()['petName']}`,
                     clickAction: 'FLUTTER_NOTIFICATION_CLICK'
                 }
             })
