@@ -113,7 +113,7 @@ class _ConfirmAdoptionScreenState extends State<ConfirmAdoptionScreen> {
                 child: CircularProgressIndicator(),
               );
             }
-            if(snapshot.data.length == 0 || snapshot.data == null) {
+            if (snapshot.data.length == 0 || snapshot.data == null) {
               return Center(
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -177,7 +177,7 @@ class _ConfirmAdoptionScreenState extends State<ConfirmAdoptionScreen> {
                         ],
                       ),
                     ),
-                    Spacer(),
+                    SizedBox(width: MediaQuery.of(context).size.width * 0.25),
                     Expanded(
                       child: Row(
                         children: [
@@ -196,8 +196,10 @@ class _ConfirmAdoptionScreenState extends State<ConfirmAdoptionScreen> {
                                     child: Icon(Icons.done),
                                     avatarRadius: 20,
                                     color: Colors.green),
-                                Text('Confirmar',
-                                    style: TextStyle(fontSize: 10))
+                                Text(
+                                  'Confirmar',
+                                  style: TextStyle(fontSize: 10),
+                                )
                               ],
                             ),
                           ),

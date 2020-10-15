@@ -365,13 +365,11 @@ class _PetDetailsState extends State<PetDetails> {
                                   bool canSend = true;
                                   String messageTextSnackBar;
                                   if (widget.kind == 'DONATE') {
-                                    if (userInfosAdopts.getAdoptInterest
-                                        .contains(widget.pet.id)) {
+                                    if (userInfosAdopts.getAdoptInterest.contains(widget.pet.id)) {
                                       setState(() {
                                         canSend = false;
                                       });
-                                      messageTextSnackBar =
-                                          '${ownerDetails[0]['text']} já sabe sobre seu interesse. Aguarde retorno.';
+                                      messageTextSnackBar = '${ownerDetails[0]['text']} já sabe sobre seu interesse. Aguarde retorno.';
                                     } else {
                                       var adoptInterestedsRef = await petRef
                                           .reference
