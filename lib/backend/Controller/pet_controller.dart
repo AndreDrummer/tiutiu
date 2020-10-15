@@ -163,6 +163,8 @@ class PetController {
     } else {
       await petRef.reference.collection('infoInteresteds').doc().set(
         {
+          'userName': userName,
+          'petName': petName,
           'userReference': userReference,
           'userLat': userLocation.latitude,
           'userLog': userLocation.longitude,

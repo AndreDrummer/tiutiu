@@ -5,12 +5,11 @@ admin.initializeApp();
 
 exports.createNotificationConfirmAdoption = functions.firestore
     .document('Users/{userId}/Pets/adopted/Adopteds/{id}')
-    .onCreate((snap, context) => {
-        console.log(snap.data());
+    .onCreate((snap, context) => {        
         admin.messaging().sendToTopic('confirmAdotpion', {
             notification: {
-                title: 'Confirme adoção',
-                body: 'Texto de confirmação',
+                title: 'Confirme adoção!',
+                body: `${snap.data()['userThatDonate']} pediu que você confirme a adoção de ${snap.data()['petName']}.`,
                 clickAction: 'FLUTTER_NOTIFICATION_CLICK'
             }
         })
@@ -22,8 +21,8 @@ exports.createNotificationAdoptionConfirmed = functions.firestore
         console.log(change.after.data());
         admin.messaging().sendToTopic('confirmAdotpion', {
             notification: {
-                title: 'Doação confirmada',
-                body: `${change.after.data()}`,
+                title: 'Adoção confirmada!',
+                body: `${change.after.data()['userName']} confirmou a adoção de ${change.after.data()['petName']}.`,
                 clickAction: 'FLUTTER_NOTIFICATION_CLICK'
             }
         })
@@ -36,8 +35,8 @@ exports.createNotificationAdoptionDenied = functions.firestore
         if (change.after.data()['gaveup'] === true) {
             admin.messaging().sendToTopic('confirmAdotpion', {
                 notification: {
-                    title: 'Adoção negada',
-                    body: `${snap.data()['userName']} negou que tenha adotado ${snap.data()['petName']}`,
+                    title: 'Adoção NÃO confirmada!',
+                    body: `${change.after.data()['userName']} negou que tenha adotado ${change.after.data()['petName']}.`,
                     clickAction: 'FLUTTER_NOTIFICATION_CLICK'
                 }
             })
@@ -46,25 +45,23 @@ exports.createNotificationAdoptionDenied = functions.firestore
 
 exports.createNotificationWannaAdopt = functions.firestore
     .document('Users/{userId}/Pets/posted/Donate/{petId}/adoptInteresteds/{id}')
-    .onCreate((snap, context) => {
-        console.log(snap.data());
+    .onCreate((snap, context) => {        
         admin.messaging().sendToTopic('wannaAdopt', {
             notification: {
-                title: 'Quero adotar',
-                body: 'Tem alguém interessado em adotar um dos seus PETS.',
-                clickAction: 'FLUTTER_NOTIFICATION_CLICK'
+                title: 'Quero adotar!',
+                body: `${snap.data()['userName']} está interessado na adoção de ${snap.data()['petName']}.`,
+                clickAction: 'FLUTTER_NOTIFICATION_CLICK',            
             }
         })
     })
 
 exports.createNotificationInfo = functions.firestore
     .document('Users/{userId}/Pets/posted/Disappeared/{petId}/infoInteresteds/{id}')
-    .onCreate((snap, context) => {
-        console.log(snap.data());
+    .onCreate((snap, context) => {        
         admin.messaging().sendToTopic('petInfo', {
             notification: {
                 title: 'Informações sobre seu PET desaparecido',
-                body: 'Vi ele aqui aperto!',
+                body: `${snap.data()['userName']} viu seu PET próximo a localização dele.`,
                 clickAction: 'FLUTTER_NOTIFICATION_CLICK'
             }
         })
