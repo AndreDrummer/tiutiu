@@ -46,11 +46,13 @@ class _InterestedListState extends State<InterestedList> {
     String userAdoptId,
     String userName,
     DocumentReference petReference,    
+    DocumentReference userThatDonate,    
     int userPosition,
   }) async {
     await userController
         .donatePetToSomeone(
       petReference: petReference,
+      userThatDonate: userThatDonate,
       userAdoptId: userAdoptId,
       userDonateId: userDonateId,
       userPosition: userPosition,
@@ -211,6 +213,7 @@ class _InterestedListState extends State<InterestedList> {
                                               changeIsSinalizingStatus(true);
                                               await donatePetToSomeone(
                                                 userName: user.name,
+                                                userThatDonate: userProvider.userReference,
                                                 petReference:
                                                     widget.pet.petReference,
                                                 userAdoptId: user.id,

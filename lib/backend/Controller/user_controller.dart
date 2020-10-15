@@ -56,6 +56,9 @@ class UserController {
     DocumentReference userThatDonate,
     int userPosition,
   }) async {
+    var user = await userThatDonate.get();
+    var pet = await petReference.get();
+    
     await firestore
         .collection('Users')
         .doc(userAdoptId)
@@ -66,6 +69,8 @@ class UserController {
         .set({
       'petRef': petReference,
       'confirmed': false,
+      'userThatDonate': user.data()['displayName'],
+      'petName': pet.data()['name']
     });
 
     final interestedRef = await petReference.collection('adoptInteresteds').get();
