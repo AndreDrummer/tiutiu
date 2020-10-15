@@ -133,12 +133,14 @@ class PetController {
     );
   }
 
-  Future<void> showInterestOrInfo(
+  Future<void> showInterestOrInfo({
     DocumentReference petReference,
     DocumentReference userReference,
     String interestedAt,
+    String userName,
+    String petName,
     LatLng userLocation,
-    int userPosition, {
+    int userPosition, 
     bool isAdopt = false,
   }) async {
     var petRef = await petReference.get();
@@ -146,6 +148,8 @@ class PetController {
     if (isAdopt) {
       await petRef.reference.collection('adoptInteresteds').doc().set(
         {
+          'userName': userName,
+          'petName': petName,
           'userReference': userReference,
           'userLat': userLocation.latitude,
           'userLog': userLocation.longitude,

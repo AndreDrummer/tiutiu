@@ -42,7 +42,7 @@ class PetsList extends StatelessWidget {
                               ? navigateToAuth
                               : () {
                                   Navigator.pushNamed(
-                                      context, Routes.NOTIFICATIONS);
+                                      context, Routes.CONFIRM_ADOPTION);
                                 },
                           icon: Icon(
                             Icons.notifications,
