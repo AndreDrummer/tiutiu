@@ -9,7 +9,9 @@ class InterestedModel {
     this.userReference,
     this.interestedAt,
     this.sinalized = false,
-    this.gaveup = false
+    this.gaveup = false,
+    this.userName,
+    this.petName
   });
 
   InterestedModel.fromSnapshot(DocumentSnapshot snapshot) {
@@ -20,6 +22,8 @@ class InterestedModel {
     interestedAt = snapshot.data()['interestedAt'];
     sinalized = snapshot.data()['sinalized'];
     gaveup = snapshot.data()['gaveup'];
+    userName = snapshot.data()['userName'];
+    petName = snapshot.data()['petName'];    
   }
 
   InterestedModel.fromMap(Map<String, dynamic> map) {
@@ -30,6 +34,8 @@ class InterestedModel {
     interestedAt = map['interestedAt'];
     sinalized = map['sinalized'];
     gaveup = map['gaveup'];
+    petName = map['petName'];
+    userName = map['userName'];
   }
 
   int position;
@@ -38,10 +44,14 @@ class InterestedModel {
   bool gaveup;
   double userLog;
   String interestedAt;
+  String userName;
+  String petName;
   DocumentReference userReference;
 
   Map<String, dynamic> toJson() {
     return {
+      'userName': userName,
+      'petName': petName,
       'position': position,
       'userLat': userLat,
       'userLog': userLog,
