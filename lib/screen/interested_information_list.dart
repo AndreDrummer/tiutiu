@@ -66,6 +66,7 @@ class _InterestedListState extends State<InterestedList> {
             Navigator.pop(context);
           },
           confirmText: 'OK',
+          
         );
       },
     );
@@ -177,7 +178,7 @@ class _InterestedListState extends State<InterestedList> {
                               backgroundColor: Colors.transparent,
                               child: ClipOval(
                                 child: Hero(
-                                  tag: 'userProfile',
+                                  tag: '${user.photoURL}',
                                   child: FadeInImage(
                                     placeholder: AssetImage('assets/fundo.jpg'),
                                     image: user.photoURL != null
