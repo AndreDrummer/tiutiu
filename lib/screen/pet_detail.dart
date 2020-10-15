@@ -373,9 +373,13 @@ class _PetDetailsState extends State<PetDetails> {
                                       messageTextSnackBar =
                                           '${ownerDetails[0]['text']} já sabe sobre seu interesse. Aguarde retorno.';
                                     } else {
-                                      var adoptInterestedsRef = await petRef.reference.collection('adoptInteresteds').get();
+                                      var adoptInterestedsRef = await petRef
+                                          .reference
+                                          .collection('adoptInteresteds')
+                                          .get();
                                       if (adoptInterestedsRef.docs.isNotEmpty) {
-                                        userPosition = adoptInterestedsRef.docs.length + 1;
+                                        userPosition =
+                                            adoptInterestedsRef.docs.length + 1;
                                       }
                                       messageTextSnackBar =
                                           'Você é o $userPositionº interessado no ${widget.pet.name}. Te avisaremos caso o dono aceite seu pedido de adoção!';
@@ -389,9 +393,12 @@ class _PetDetailsState extends State<PetDetails> {
                                       messageTextSnackBar =
                                           'Você já passou informação sobre este PET.';
                                     } else {
-                                      var infoInterestedsRef = await petRef.reference.collection('infoInteresteds').get();
+                                      var infoInterestedsRef = await petRef
+                                          .reference
+                                          .collection('infoInteresteds')
+                                          .get();
                                       if (infoInterestedsRef.docs.isNotEmpty) {
-                                       infoInterestedsRef.docs.length + 1;
+                                        infoInterestedsRef.docs.length + 1;
                                       } else {
                                         userPosition = 1;
                                       }
@@ -404,11 +411,15 @@ class _PetDetailsState extends State<PetDetails> {
                                     PetController petController =
                                         new PetController();
                                     petController.showInterestOrInfo(
-                                        widget.pet.petReference,
-                                        userProvider.userReference,
-                                        DateTime.now().toIso8601String(),
-                                        userLocal,
-                                        userPosition,
+                                        petName: widget.pet.name,
+                                        userName: userProvider.displayName,
+                                        petReference: widget.pet.petReference,
+                                        userReference:
+                                            userProvider.userReference,
+                                        interestedAt:
+                                            DateTime.now().toIso8601String(),
+                                        userLocation: userLocal,
+                                        userPosition: userPosition,
                                         isAdopt: widget.kind == 'DONATE');
                                     if (widget.kind == 'DONATE') {
                                       userInfosAdopts
@@ -493,7 +504,7 @@ class _PetDetailsState extends State<PetDetails> {
       context,
       MaterialPageRoute(
         builder: (context) => FullScreenImage(
-          images: photos_list,          
+          images: photos_list,
         ),
       ),
     );
@@ -532,10 +543,7 @@ class _PetDetailsState extends State<PetDetails> {
                 Icon(Icons.fullscreen, color: Colors.white, size: 40),
                 Text(
                   'Abrir tela cheia',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 10
-                  ),
+                  style: TextStyle(color: Colors.white, fontSize: 10),
                 )
               ],
             ),
@@ -549,7 +557,7 @@ class _PetDetailsState extends State<PetDetails> {
             padding: const EdgeInsets.all(10.0),
             child: Center(
               child: FittedBox(
-                child: Container(                  
+                child: Container(
                   child: DotsIndicator(
                     controller: _pageController,
                     itemCount: photos.length,
