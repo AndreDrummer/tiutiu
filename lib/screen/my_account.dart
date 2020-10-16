@@ -26,9 +26,10 @@ class _MyAccountState extends State<MyAccount> {
     super.didChangeDependencies();
   }
 
-  Widget appBar(UserProvider userProvider) {
+  Widget appBar(UserProvider userProvider, Authentication auth) {
     return PreferredSize(
-      preferredSize: Size.fromHeight(MediaQuery.of(context).size.height / 3 - 55),
+      preferredSize:
+          Size.fromHeight(MediaQuery.of(context).size.height / 3),
       child: Stack(
         children: [
           Opacity(
@@ -46,7 +47,7 @@ class _MyAccountState extends State<MyAccount> {
               height: 1000,
             ),
             opacity: 0.25,
-          ),          
+          ),
           Column(
             children: [
               SizedBox(height: 20),
@@ -90,7 +91,7 @@ class _MyAccountState extends State<MyAccount> {
                                 fontSize: 12,
                               ),
                         ),
-                        SizedBox(height: 40),
+                        SizedBox(height: MediaQuery.of(context).size.height * 0.07),
                       ],
                     ),
                   )
@@ -101,12 +102,28 @@ class _MyAccountState extends State<MyAccount> {
                 children: [
                   Column(
                     children: [
-                      CircleChild(
-                        avatarRadius: 15,
-                        child: Text(
-                          userProvider.getTotalToDonate?.toString(),
-                          style: TextStyle(
-                            color: Theme.of(context).primaryColor,
+                      InkWell(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) {
+                                return MyPetsScreen(
+                                  title: 'PETs p/ adoção',
+                                  streamBuilder: userProvider.donatePets,
+                                  kind: 'Donate',
+                                );
+                              },
+                            ),
+                          );
+                        },
+                        child: CircleChild(
+                          avatarRadius: 25,
+                          child: Text(
+                            userProvider.getTotalToDonate?.toString(),
+                            style: TextStyle(
+                              color: Theme.of(context).primaryColor,
+                            ),
                           ),
                         ),
                       ),
@@ -114,19 +131,36 @@ class _MyAccountState extends State<MyAccount> {
                         'P/ adoção',
                         style: Theme.of(context).textTheme.headline1.copyWith(
                               color: Colors.black,
-                              fontSize: 10,
+                              fontSize: 14,
                             ),
                       )
                     ],
                   ),
                   Column(
                     children: [
-                      CircleChild(
-                        avatarRadius: 15,
-                        child: Text(
-                          userProvider.getTotalDonated?.toString(),
-                          style: TextStyle(
-                            color: Theme.of(context).primaryColor,
+                      InkWell(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) {
+                                return MyPetsScreen(
+                                  title: 'PETs doados',
+                                  streamBuilder: userProvider.donatedPets,
+                                  kind: null,
+                                  userId: auth.firebaseUser.uid,
+                                );
+                              },
+                            ),
+                          );
+                        },
+                        child: CircleChild(
+                          avatarRadius: 25,
+                          child: Text(
+                            userProvider.getTotalDonated?.toString(),
+                            style: TextStyle(
+                              color: Theme.of(context).primaryColor,
+                            ),
                           ),
                         ),
                       ),
@@ -134,36 +168,68 @@ class _MyAccountState extends State<MyAccount> {
                         'Doados',
                         style: Theme.of(context).textTheme.headline1.copyWith(
                               color: Colors.black,
-                              fontSize: 10,
+                              fontSize: 14,
                             ),
                       )
                     ],
                   ),
                   Column(
                     children: [
-                      CircleChild(
-                        avatarRadius: 15,
-                        child: Text(userProvider.getTotalAdopted?.toString(),
-                            style: TextStyle(
-                                color: Theme.of(context).primaryColor)),
+                      InkWell(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) {
+                                return MyPetsScreen(
+                                  title: 'PETs Adotados',
+                                  streamBuilder: userProvider.adoptedPets,
+                                  kind: 'Adopted',
+                                );
+                              },
+                            ),
+                          );
+                        },
+                        child: CircleChild(
+                          avatarRadius: 25,
+                          child: Text(userProvider.getTotalAdopted?.toString(),
+                              style: TextStyle(
+                                  color: Theme.of(context).primaryColor)),
+                        ),
                       ),
                       Text(
                         'Adotados',
                         style: Theme.of(context).textTheme.headline1.copyWith(
                               color: Colors.black,
-                              fontSize: 10,
+                              fontSize: 14,
                             ),
                       )
                     ],
                   ),
                   Column(
                     children: [
-                      CircleChild(
-                        avatarRadius: 15,
-                        child: Text(
-                          userProvider.getTotalDisappeared?.toString(),
-                          style: TextStyle(
-                            color: Theme.of(context).primaryColor,
+                      InkWell(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) {
+                                return MyPetsScreen(
+                                  title: 'PETs desaparecidos',
+                                  streamBuilder: userProvider.disappearedPets,
+                                  kind: 'Disappeared',
+                                );
+                              },
+                            ),
+                          );
+                        },
+                        child: CircleChild(
+                          avatarRadius: 25,
+                          child: Text(
+                            userProvider.getTotalDisappeared?.toString(),
+                            style: TextStyle(
+                              color: Theme.of(context).primaryColor,
+                            ),
                           ),
                         ),
                       ),
@@ -171,7 +237,7 @@ class _MyAccountState extends State<MyAccount> {
                         'Desaparecidos',
                         style: Theme.of(context).textTheme.headline1.copyWith(
                               color: Colors.black,
-                              fontSize: 10,
+                              fontSize: 14,
                             ),
                       )
                     ],
@@ -195,7 +261,7 @@ class _MyAccountState extends State<MyAccount> {
     return Scaffold(
       key: _formScaffold,
       backgroundColor: Color(0XFFF9F9F9),
-      appBar: appBar(userProvider),
+      appBar: appBar(userProvider, auth),
       body: Stack(
         children: [
           Background(),
@@ -226,8 +292,8 @@ class _MyAccountState extends State<MyAccount> {
                         },
                       ),
                       MyAccountCard(
-                        icone: Tiutiu.twitter_bird,
-                        text: 'Adotados',
+                        icone: Tiutiu.twitter_bird,                        
+                        text: 'Adotados',                        
                         onTap: () {
                           Navigator.push(
                             context,
@@ -249,7 +315,7 @@ class _MyAccountState extends State<MyAccount> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       MyAccountCard(
-                        icone: Tiutiu.cat,
+                        icone: Tiutiu.cat,                                                
                         text: 'Doados',
                         onTap: () {
                           Navigator.push(
@@ -267,8 +333,8 @@ class _MyAccountState extends State<MyAccount> {
                         },
                       ),
                       MyAccountCard(
-                        icone: Tiutiu.dog,
-                        text: 'Desaparecidos',
+                        icone: Tiutiu.dog,                        
+                        text: 'Desaparecidos',                        
                         onTap: () {
                           Navigator.push(
                             context,
