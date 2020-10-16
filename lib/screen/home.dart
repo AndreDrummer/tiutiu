@@ -17,6 +17,7 @@ import 'package:tiutiu/screen/favorites.dart';
 import 'package:tiutiu/screen/my_account.dart';
 import 'package:tiutiu/screen/pets_list.dart';
 import '../Widgets/floating_button_option.dart';
+import 'package:tiutiu/backend/Controller/user_controller.dart';
 import '../utils/routes.dart';
 
 class Home extends StatefulWidget {
@@ -30,29 +31,75 @@ class _HomeState extends State<Home> {
   UserProvider userProvider;
   FavoritesProvider favoritesProvider;
   Authentication auth;
-  
+  final fbm = FirebaseMessaging();
+
+
+  Widget _buildDialog(BuildContext context) {
+    return AlertDialog(
+      content: Text("Item has been updated"),
+      actions: <Widget>[
+        FlatButton(
+          child: const Text('CLOSE'),
+          onPressed: () {
+            Navigator.pop(context, false);
+          },
+        ),
+        FlatButton(
+          child: const Text('SHOW'),
+          onPressed: () {
+            Navigator.pop(context, true);
+          },
+        ),
+      ],
+    );
+  }
+
+  void _showItemDialog(Map<String, dynamic> message) {
+    showDialog<bool>(
+      context: context,
+      builder: (_) => _buildDialog(context),
+    ).then((bool shouldNavigate) {
+      if (shouldNavigate == true) {
+        _navigateToItemDetail(message);
+      }
+    });
+  }
+
+  void _navigateToItemDetail(Map<String, dynamic> message) {
+    // final Item item = _itemForMessage(message);
+    // Clear away dialogs
+    // Navigator.popUntil(context, (Route<dynamic> route) => route is PageRoute);
+    // if (!item.route.isCurrent) {
+    //   Navigator.push(context, item.route);
+    // }
+  }
 
   @override
-  void initState() {
-    
-    final fbm = FirebaseMessaging();
+  void initState() {            
     fbm.configure(
       onMessage: (msg) {
-        print('onMessage...');
-        print(msg);
+        print('onMessage...');        
+        userProvider.loadNotifications();        
         return;
       },
       onResume: (msg) {
         print('onResume...');
-        print(msg);
+        userProvider.loadNotifications();        
         return;
       },
       onLaunch: (msg) {
         print('onLaunch...');
-        print(msg);
+        userProvider.loadNotifications();        
         return;
       },
     );
+    
+    fbm.subscribeToTopic('petInfo');
+    fbm.subscribeToTopic('wannaAdopt');
+    fbm.subscribeToTopic('confirmAdotpion');
+    fbm.subscribeToTopic('adotpionConfirmed');
+    fbm.subscribeToTopic('adotpionDenied');
+    fbm.requestNotificationPermissions();      
     super.initState();
   }
 
@@ -62,7 +109,7 @@ class _HomeState extends State<Home> {
     auth = Provider.of<Authentication>(context, listen: false);
     favoritesProvider = Provider.of<FavoritesProvider>(context, listen: false);
     if (auth.firebaseUser != null) setUserMetaData();
-    isAuthenticated = auth.firebaseUser != null;
+    isAuthenticated = auth.firebaseUser != null;    
     super.didChangeDependencies();
   }
 
@@ -71,10 +118,6 @@ class _HomeState extends State<Home> {
       _selectedIndex = index;
     });
   }
-
-
-
-  
 
   Future<bool> leaveApplication() async {
     return showDialog(
@@ -106,10 +149,9 @@ class _HomeState extends State<Home> {
   }
 
   void setUserMetaData() async {
-    final CollectionReference usersEntrepreneur =
-        FirebaseFirestore.instance.collection('Users');
-    DocumentSnapshot doc =
-        await usersEntrepreneur.doc(auth.firebaseUser.uid).get();
+    final CollectionReference usersEntrepreneur = FirebaseFirestore.instance.collection('Users');
+    DocumentSnapshot doc = await usersEntrepreneur.doc(auth.firebaseUser.uid).get();
+    UserController userController = UserController();
 
     userProvider.changeUserReference(doc.reference);
     userProvider.changeUid(auth.firebaseUser.uid);
@@ -122,7 +164,10 @@ class _HomeState extends State<Home> {
     userProvider.changeBetterContact(doc.data()['betterContact']);
     userProvider.calculateTotals();
     userProvider.loadNotifications();
-
+    userProvider.changeNotificationToken(await fbm.getToken());
+    print("Tokken ${userProvider.notificationToken}");
+    userController.updateUser(userProvider.uid, {"notificationToken": userProvider.notificationToken
+    });
     favoritesProvider.loadFavoritesReference();
   }
 

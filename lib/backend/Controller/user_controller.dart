@@ -49,13 +49,18 @@ class UserController {
     }
   }
 
-  Future<void> donatePetToSomeone({
-    String userDonateId,
+  Future<void> donatePetToSomeone({    
     String userAdoptId,
+    String userName,
+    String ownerNotificationToken,
+    String interestedNotificationToken,
     DocumentReference petReference,
     DocumentReference userThatDonate,
     int userPosition,
   }) async {
+    var user = await userThatDonate.get();
+    var pet = await petReference.get();
+
     await firestore
         .collection('Users')
         .doc(userAdoptId)
@@ -64,18 +69,31 @@ class UserController {
         .collection('Adopteds')
         .doc()
         .set({
+      'ownerNotificationToken': ownerNotificationToken,
+      'interestedNotificationToken': interestedNotificationToken,
       'petRef': petReference,
       'confirmed': false,
+      'userThatDonate': user.data()['displayName'],
+      'petName': pet.data()['name'],
+      'userName': userName
     });
-    final petRef = await petReference.get();
-    List interestedUsers = petRef.data()['adoptInteresteds'];
+
+    final interestedRef =
+        await petReference.collection('adoptInteresteds').get();
+    List interestedUsers = interestedRef.docs;
+
     for (int i = 0; i < interestedUsers.length; i++) {
-      if (interestedUsers[i]['position'] == userPosition) {
-        interestedUsers[i]['sinalized'] = true;
+      print("${interestedUsers[i].data()['position']} == $userPosition");
+      if (interestedUsers[i].data()['position'] == userPosition) {
+        var data = interestedUsers[i].data();
+        data['sinalized'] = true;
+        petReference
+            .collection('adoptInteresteds')
+            .doc(interestedUsers[i].id)
+            .set(data);
+        break;
       }
     }
-    petReference
-        .set({'adoptInteresteds': interestedUsers}, SetOptions(merge: true));
   }
 
   Future<void> confirmDonate(DocumentReference petReference,
@@ -95,15 +113,20 @@ class UserController {
 
   Future<void> denyDonate(DocumentReference petReference,
       DocumentReference userThatAdoptedId) async {
-    final petRef = await petReference.get();
-    List interestedUsers = petRef.data()['adoptInteresteds'];
+    final interestedRef =
+        await petReference.collection('adoptInteresteds').get();
+    List interestedUsers = interestedRef.docs;
     for (int i = 0; i < interestedUsers.length; i++) {
-      if (interestedUsers[i]['userReference'] == userThatAdoptedId) {
-        interestedUsers[i]['gaveup'] = true;
+      if (interestedUsers[i].data()['userReference'] == userThatAdoptedId) {
+        var data = interestedUsers[i].data();
+        data['gaveup'] = true;
+        petReference
+            .collection('adoptInteresteds')
+            .doc(interestedUsers[i].id)
+            .set(data);
+        break;
       }
     }
-    petReference
-        .set({'adoptInteresteds': interestedUsers}, SetOptions(merge: true));
 
     final pathToPet = userThatAdoptedId
         .collection('Pets')
@@ -129,13 +152,12 @@ class UserController {
     await firestore.collection('Users').doc().set(user.toMap()).then((value) {
       print('Usuário Inserido!');
     });
-  }
+  }  
 
-  Future<void> updateUser(User user) async {
-    await firestore.collection('Users').doc(user.id).update(user.toMap());
-  }
-
-  Future<void> deleteUser(String id) async {
-    await firestore.collection('Users').doc(id).delete();
+  Future<void> updateUser(String userId, Map<String, dynamic> data) async {
+    await FirebaseFirestore.instance
+        .collection('Users')
+        .doc(userId)
+        .set(data, SetOptions(merge: true));
   }
 }

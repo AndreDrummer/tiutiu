@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:loading_animations/loading_animations.dart';
 import 'package:provider/provider.dart';
+import 'package:tiutiu/Widgets/fullscreen_images.dart';
 import 'package:tiutiu/Widgets/load_dark_screen.dart';
 import 'package:tiutiu/Widgets/loading_page.dart';
 import 'package:tiutiu/Widgets/popup_message.dart';
@@ -40,19 +41,24 @@ class _InterestedListState extends State<InterestedList> {
     });
   }
 
-  Future<void> donatePetToSomeone({
-    String userDonateId,
+  Future<void> donatePetToSomeone({    
     String userAdoptId,
     String userName,
-    DocumentReference petReference,    
+    DocumentReference petReference,
+    DocumentReference userThatDonate,
+    String ownerNotificationToken,
+    String interestedNotificationToken,
     int userPosition,
   }) async {
     await userController
         .donatePetToSomeone(
       petReference: petReference,
+      userName: userName,
+      userThatDonate: userThatDonate,
       userAdoptId: userAdoptId,
-      userDonateId: userDonateId,
       userPosition: userPosition,
+      ownerNotificationToken: ownerNotificationToken,
+      interestedNotificationToken: interestedNotificationToken,
     )
         .then(
       (_) {
@@ -108,7 +114,9 @@ class _InterestedListState extends State<InterestedList> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.kind == 'Donate' ? 'Pessoas interessadas em ${widget.pet.name}' : 'Pessoas que informaram sobre ${widget.pet.name}'),
+        title: Text(widget.kind == 'Donate'
+            ? 'Pessoas interessadas em ${widget.pet.name}'
+            : 'Pessoas que informaram sobre ${widget.pet.name}'),
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(vertical: 8.0),
@@ -163,19 +171,36 @@ class _InterestedListState extends State<InterestedList> {
                         User user =
                             User.fromSnapshot(userReferenceSnapshot.data);
                         return ListTile(
-                          leading: CircleAvatar(
-                            backgroundColor: Colors.transparent,
-                            child: ClipOval(
-                              child: FadeInImage(
-                                placeholder: AssetImage('assets/fundo.jpg'),
-                                image: user.photoURL != null
-                                    ? NetworkImage(user.photoURL)
-                                    : AssetImage(
-                                        'assets/fundo.jpg',
-                                      ),
-                                fit: BoxFit.fill,
-                                width: 1000,
-                                height: 1000,
+                          leading: InkWell(
+                            onTap: user.photoURL == null
+                                ? null
+                                : () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                FullScreenImage(
+                                                  images: [user.photoURL],
+                                                  tag: 'userProfile',
+                                                )));
+                                  },
+                            child: CircleAvatar(
+                              backgroundColor: Colors.transparent,
+                              child: ClipOval(
+                                child: Hero(
+                                  tag: '${user.photoURL}',
+                                  child: FadeInImage(
+                                    placeholder: AssetImage('assets/fundo.jpg'),
+                                    image: user.photoURL != null
+                                        ? NetworkImage(user.photoURL)
+                                        : AssetImage(
+                                            'assets/fundo.jpg',
+                                          ),
+                                    fit: BoxFit.fill,
+                                    width: 1000,
+                                    height: 1000,
+                                  ),
+                                ),
                               ),
                             ),
                           ),
@@ -196,10 +221,11 @@ class _InterestedListState extends State<InterestedList> {
                                               changeIsSinalizingStatus(true);
                                               await donatePetToSomeone(
                                                 userName: user.name,
-                                                petReference:
-                                                    widget.pet.petReference,
-                                                userAdoptId: user.id,
-                                                userDonateId: userProvider.uid,
+                                                userThatDonate: userProvider.userReference,
+                                                petReference: widget.pet.petReference,
+                                                interestedNotificationToken: user.notificationToken,
+                                                ownerNotificationToken: userProvider.notificationToken,
+                                                userAdoptId: user.id,                                                
                                                 userPosition: snapshot
                                                     .data[index].position,
                                               );
@@ -218,7 +244,10 @@ class _InterestedListState extends State<InterestedList> {
                                       }
                                 : () {
                                     Navigator.pushNamed(context, Routes.INFO,
-                                        arguments: {'petName': widget.pet.name, 'informanteInfo': snapshot.data[index]});
+                                        arguments: {
+                                          'petName': widget.pet.name,
+                                          'informanteInfo': snapshot.data[index]
+                                        });
                                   },
                             child: widget.kind == 'Donate'
                                 ? !snapshot.data[index].sinalized
