@@ -121,7 +121,7 @@ class DrawerApp extends StatelessWidget {
                     denyText: 'Não',
                     warning: true,
                     message: 'Tem certeza que deseja deslogar?',
-                    title: 'Signout',
+                    title: 'Deslogar',
                   ),
                 );
               },
