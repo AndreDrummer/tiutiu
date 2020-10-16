@@ -19,8 +19,9 @@ class LoadingPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           mainAxisSize: MainAxisSize.min,
           children: [
-            !circle ? LoadingBouncingGrid.square(
+            !circle ? LoadingRotating.square(
               size: 50.0,
+              borderColor: Colors.white,
               backgroundColor: Theme.of(context).primaryColor,
             ) :  LoadingJumpingLine.circle(
               size: 50.0,
