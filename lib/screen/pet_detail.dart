@@ -315,7 +315,7 @@ class _PetDetailsState extends State<PetDetails> {
                 Container(
                   height: 170,
                   child: Padding(
-                    padding: EdgeInsets.only(left: width < 340 ? 0 : 20.0),
+                    padding: EdgeInsets.only(left: width < 365 ? 0 : 20.0),
                     child: ListView.builder(
                       scrollDirection: Axis.horizontal,
                       itemCount: ownerDetails.length,
@@ -333,7 +333,7 @@ class _PetDetailsState extends State<PetDetails> {
                     ),
                   ),
                 ),
-                SizedBox(height: 140.0),
+                SizedBox(height: 90.0),
               ],
             ),
           ),
