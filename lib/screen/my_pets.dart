@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tiutiu/Widgets/background.dart';
 import 'package:tiutiu/Widgets/loading_screen.dart';
+import 'package:tiutiu/Widgets/popup_message.dart';
 import 'package:tiutiu/backend/Controller/pet_controller.dart';
 import 'package:tiutiu/backend/Model/pet_model.dart';
 import 'package:tiutiu/providers/auth2.dart';
@@ -29,6 +30,7 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
   Authentication auth;
   PetController petController = PetController();
   bool isAuthenticated;
+  GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void didChangeDependencies() {
@@ -62,11 +64,37 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
     }
   }
 
+  void openDialog(Pet pet) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return PopUpMessage(
+          error: true,
+          title: 'Excluir publicação',
+          message: 'Tem certeza que deseja excluir ${pet.name} ?',
+          denyAction: () => Navigator.pop(context),
+          denyText: 'Não',
+          confirmAction: () {
+            delete(pet.petReference);
+            Navigator.pop(context);
+            _scaffoldKey.currentState.showSnackBar(
+              SnackBar(
+                content: Text('${pet.name} foi excluído com sucesso!'),
+              ),
+            );
+          },
+          confirmText: 'Sim',
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
 
     return Scaffold(
+      key: _scaffoldKey,
       appBar: AppBar(
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: Colors.white),
@@ -241,13 +269,9 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
                                             IconButton(
                                               icon: Icon(Icons.delete,
                                                   size: 30, color: Colors.red),
-                                              onPressed: () {
-                                                delete(
-                                                  snapshot
-                                                      .data[index].petReference,
-                                                );
-                                              },
-                                              color: Colors.white,
+                                              onPressed: () => openDialog(
+                                                snapshot.data[index],
+                                              ),
                                             )
                                           ],
                                         ),
