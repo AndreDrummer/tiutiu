@@ -54,7 +54,7 @@ class MyAccountCard extends StatelessWidget {
                 Text(
                   text,
                   style: Theme.of(context).textTheme.headline1.copyWith(
-                        fontSize: 22,
+                        fontSize: 18,
                         color: Colors.blueGrey[400],
                       ),
                 ),
