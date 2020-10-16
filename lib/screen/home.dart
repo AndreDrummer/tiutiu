@@ -164,7 +164,10 @@ class _HomeState extends State<Home> {
     userProvider.changeNotificationToken(await fbm.getToken());
     userController.updateUser(userProvider.uid, {"notificationToken": userProvider.notificationToken
     });
-    favoritesProvider.loadFavoritesReference();
+    
+    if(auth.firebaseUser != null) {
+      favoritesProvider.loadFavoritesReference();
+    }
   }
 
   @override
