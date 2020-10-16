@@ -8,6 +8,7 @@ import 'package:tiutiu/backend/Controller/pet_controller.dart';
 import 'package:tiutiu/backend/Model/pet_model.dart';
 import 'package:tiutiu/providers/auth2.dart';
 import 'package:tiutiu/providers/user_provider.dart';
+import 'package:tiutiu/providers/pets_provider.dart';
 import 'package:tiutiu/screen/auth_screen.dart';
 import 'package:tiutiu/screen/choose_location.dart';
 import 'package:tiutiu/utils/routes.dart';
@@ -29,6 +30,7 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
   UserProvider userProvider;
   Authentication auth;
   PetController petController = PetController();
+  PetsProvider petsProvider;
   bool isAuthenticated;
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -42,6 +44,7 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
       userProvider.loadDonatedPets(widget.userId);
     }
     auth = Provider.of<Authentication>(context);
+    petsProvider = Provider.of<PetsProvider>(context);
     isAuthenticated = auth.firebaseUser != null;
     super.didChangeDependencies();
   }
@@ -49,6 +52,8 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
   void delete(DocumentReference petRef) {
     petController.deletePet(petRef);
     userProvider.loadMyPets(kind: widget.kind);
+    petsProvider.loadDisappearedPETS();    
+    petsProvider.loadDonatedPETS();    
     userProvider.calculateTotals();
   }
 
