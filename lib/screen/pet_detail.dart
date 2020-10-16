@@ -315,7 +315,7 @@ class _PetDetailsState extends State<PetDetails> {
                 Container(
                   height: 170,
                   child: Padding(
-                    padding: EdgeInsets.only(left: width < 340 ? 0 : 20.0),
+                    padding: EdgeInsets.only(left: width < 365 ? 0 : 20.0),
                     child: ListView.builder(
                       scrollDirection: Axis.horizontal,
                       itemCount: ownerDetails.length,
@@ -333,7 +333,7 @@ class _PetDetailsState extends State<PetDetails> {
                     ),
                   ),
                 ),
-                SizedBox(height: 140.0),
+                SizedBox(height: 90.0),
               ],
             ),
           ),
@@ -373,12 +373,13 @@ class _PetDetailsState extends State<PetDetails> {
                                       messageTextSnackBar =
                                           '${ownerDetails[0]['text']} já sabe sobre seu interesse. Aguarde retorno.';
                                     } else {
-                                      if (petRef.data()['adoptInteresteds'] !=
-                                          null) {
-                                        userPosition = petRef
-                                                .data()['adoptInteresteds']
-                                                .length +
-                                            1;
+                                      var adoptInterestedsRef = await petRef
+                                          .reference
+                                          .collection('adoptInteresteds')
+                                          .get();
+                                      if (adoptInterestedsRef.docs.isNotEmpty) {
+                                        userPosition =
+                                            adoptInterestedsRef.docs.length + 1;
                                       }
                                       messageTextSnackBar =
                                           'Você é o $userPositionº interessado no ${widget.pet.name}. Te avisaremos caso o dono aceite seu pedido de adoção!';
@@ -392,12 +393,12 @@ class _PetDetailsState extends State<PetDetails> {
                                       messageTextSnackBar =
                                           'Você já passou informação sobre este PET.';
                                     } else {
-                                      if (petRef.data()['infoInteresteds'] !=
-                                          null) {
-                                        userPosition = petRef
-                                                .data()['infoInteresteds']
-                                                .length +
-                                            1;
+                                      var infoInterestedsRef = await petRef
+                                          .reference
+                                          .collection('infoInteresteds')
+                                          .get();
+                                      if (infoInterestedsRef.docs.isNotEmpty) {
+                                        infoInterestedsRef.docs.length + 1;
                                       } else {
                                         userPosition = 1;
                                       }
@@ -410,12 +411,19 @@ class _PetDetailsState extends State<PetDetails> {
                                     PetController petController =
                                         new PetController();
                                     petController.showInterestOrInfo(
-                                        widget.pet.petReference,
-                                        userProvider.userReference,
-                                        DateTime.now().toIso8601String(),
-                                        userLocal,
-                                        userPosition,
-                                        isAdopt: widget.kind == 'DONATE');
+                                      petName: widget.pet.name,
+                                      interestedNotificationToken: userProvider.notificationToken,
+                                      ownerNotificationToken: widget.petOwner.notificationToken,
+                                      userName: userProvider.displayName,
+                                      petReference: widget.pet.petReference,
+                                      userReference: userProvider.userReference,
+                                      interestedAt:
+                                          DateTime.now().toIso8601String(),
+                                      userLocation: userLocal,
+                                      userPosition: userPosition,
+                                      isAdopt: widget.kind == 'DONATE',
+                                    );
+
                                     if (widget.kind == 'DONATE') {
                                       userInfosAdopts
                                           .insertAdoptInterestID(widget.pet.id);
@@ -499,7 +507,7 @@ class _PetDetailsState extends State<PetDetails> {
       context,
       MaterialPageRoute(
         builder: (context) => FullScreenImage(
-          images: photos_list,          
+          images: photos_list,
         ),
       ),
     );
@@ -538,10 +546,7 @@ class _PetDetailsState extends State<PetDetails> {
                 Icon(Icons.fullscreen, color: Colors.white, size: 40),
                 Text(
                   'Abrir tela cheia',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 10
-                  ),
+                  style: TextStyle(color: Colors.white, fontSize: 10),
                 )
               ],
             ),
@@ -553,18 +558,24 @@ class _PetDetailsState extends State<PetDetails> {
           right: 0.0,
           child: Container(
             padding: const EdgeInsets.all(10.0),
-            child: DotsIndicator(
-              controller: _pageController,
-              itemCount: photos.length,
-              onPageSelected: (int page) {
-                _pageController.animateToPage(
-                  page,
-                  duration: Duration(
-                    milliseconds: 500,
+            child: Center(
+              child: FittedBox(
+                child: Container(
+                  child: DotsIndicator(
+                    controller: _pageController,
+                    itemCount: photos.length,
+                    onPageSelected: (int page) {
+                      _pageController.animateToPage(
+                        page,
+                        duration: Duration(
+                          milliseconds: 500,
+                        ),
+                        curve: Curves.ease,
+                      );
+                    },
                   ),
-                  curve: Curves.ease,
-                );
-              },
+                ),
+              ),
             ),
           ),
         )
