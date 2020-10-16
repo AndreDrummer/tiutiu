@@ -28,11 +28,12 @@ class _AuthScreenState extends State<AuthScreen> {
   bool fieldsAreReadyOnly = false;
 
   @override
-  void initState() {
-    super.initState();
+  void setState(fn) {
+    super.setState(fn);
   }
 
   void changeLogginStatus(bool status) {
+    if (!mounted) return;
     setState(() {
       if (status) {
         fieldsAreReadyOnly = true;
