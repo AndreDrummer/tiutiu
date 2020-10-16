@@ -19,7 +19,7 @@ exports.createNotificationAdoptionConfirmed = functions.firestore
     .document('Users/{userId}/Pets/adopted/Adopteds/{id}')
     .onUpdate((change, context) => {        
         if(change.after.data()['confirmed'] === true) {
-            admin.messaging().sendToDevice(`${change.after()['ownerNotificationToken']}`, {
+            admin.messaging().sendToDevice(`${change.after.data()['ownerNotificationToken']}`, {
                 notification: {
                     title: 'Adoção confirmada!',
                     body: `${change.after.data()['userName']} confirmou a adoção de ${change.after.data()['petName']}.`,
@@ -33,7 +33,7 @@ exports.createNotificationAdoptionDenied = functions.firestore
     .document('Users/{userId}/Pets/posted/Donate/{petId}/adoptInteresteds/{id}')
     .onUpdate((change, context) => {        
         if (change.after.data()['gaveup'] === true) {
-            admin.messaging().sendToDevice(`${change.after()['ownerNotificationToken']}`, {
+            admin.messaging().sendToDevice(`${change.after.data()['ownerNotificationToken']}`, {
                 notification: {
                     title: 'Adoção NÃO confirmada!',
                     body: `${change.after.data()['userName']} negou que tenha adotado ${change.after.data()['petName']}.`,
@@ -49,7 +49,7 @@ exports.createNotificationWannaAdopt = functions.firestore
        await admin.messaging().sendToDevice(`${snap.data()['ownerNotificationToken']}`, {
             notification: {
                 title: 'Quero adotar!',
-                body: `${snap.data()['userName']} está interessado na adoção de ${snap.data()['petName']}.`,
+                body: `${snap.data()['userName']} tem interesse na adoção de ${snap.data()['petName']}.`,
                 clickAction: 'FLUTTER_NOTIFICATION_CLICK',            
             }
         })

@@ -49,9 +49,9 @@ class UserController {
     }
   }
 
-  Future<void> donatePetToSomeone({
-    String userDonateId,
+  Future<void> donatePetToSomeone({    
     String userAdoptId,
+    String userName,
     String ownerNotificationToken,
     String interestedNotificationToken,
     DocumentReference petReference,
@@ -74,7 +74,8 @@ class UserController {
       'petRef': petReference,
       'confirmed': false,
       'userThatDonate': user.data()['displayName'],
-      'petName': pet.data()['name']
+      'petName': pet.data()['name'],
+      'userName': userName
     });
 
     final interestedRef =
