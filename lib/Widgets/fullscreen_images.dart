@@ -2,12 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_advanced_networkimage/zoomable.dart';
 import 'package:flutter_advanced_networkimage/provider.dart';
+import 'package:loading_animations/loading_animations.dart';
 
 class FullScreenImage extends StatefulWidget {
-  FullScreenImage({
-    this.images,
-    this.tag
-  });
+  FullScreenImage({this.images, this.tag});
 
   final List images;
   final String tag;
@@ -46,11 +44,24 @@ class _FullScreenImageState extends State<FullScreenImage> {
                     child: Hero(
                       tag: widget.tag ?? '$index',
                       child: Image(
+                        loadingBuilder: (BuildContext context, Widget child,
+                            ImageChunkEvent loadingProgress) {
+                          if (loadingProgress == null) return child;
+                          return Center(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text('Carregando imagem..'),
+                                LoadingJumpingLine.circle(),
+                              ],
+                            ),
+                          );
+                        },
                         image: AdvancedNetworkImage(widget.images[index]),
                         fit: BoxFit.fill,
                       ),
                     ),
-                    onZoomChanged: (double value) {                      
+                    onZoomChanged: (double value) {
                       if (value >= 1.01) {
                         setState(() {
                           zoom = true;

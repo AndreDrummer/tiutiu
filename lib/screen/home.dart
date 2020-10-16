@@ -77,18 +77,15 @@ class _HomeState extends State<Home> {
   @override
   void initState() {            
     fbm.configure(
-      onMessage: (msg) {
-        print('onMessage...');        
+      onMessage: (msg) {        
         userProvider.loadNotifications();        
         return;
       },
-      onResume: (msg) {
-        print('onResume...');
+      onResume: (msg) {        
         userProvider.loadNotifications();        
         return;
       },
-      onLaunch: (msg) {
-        print('onLaunch...');
+      onLaunch: (msg) {        
         userProvider.loadNotifications();        
         return;
       },
@@ -126,7 +123,7 @@ class _HomeState extends State<Home> {
       builder: (_) => Consumer<Authentication>(
         builder: (context, auth, child) {
           return PopUpMessage(
-            title: 'Logout',
+            title: 'Encerrar aplicação',
             message: 'Deseja realmente sair?',
             confirmAction: () {
               exit(0);
@@ -165,7 +162,6 @@ class _HomeState extends State<Home> {
     userProvider.calculateTotals();
     userProvider.loadNotifications();
     userProvider.changeNotificationToken(await fbm.getToken());
-    print("Tokken ${userProvider.notificationToken}");
     userController.updateUser(userProvider.uid, {"notificationToken": userProvider.notificationToken
     });
     favoritesProvider.loadFavoritesReference();
@@ -235,11 +231,9 @@ class _HomeState extends State<Home> {
                 closeManually: false,
                 curve: Curves.bounceIn,
                 overlayOpacity: 0.5,
-                onOpen: () {
-                  print('OPENING DIAL');
+                onOpen: () {                  
                 },
-                onClose: () {
-                  print('DIAL CLOSED');
+                onClose: () {                  
                 },
                 tooltip: 'Adicionar PET',
                 heroTag: 'speed-dial-hero-tag',
