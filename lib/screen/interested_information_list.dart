@@ -45,8 +45,10 @@ class _InterestedListState extends State<InterestedList> {
     String userDonateId,
     String userAdoptId,
     String userName,
-    DocumentReference petReference,    
-    DocumentReference userThatDonate,    
+    DocumentReference petReference,
+    DocumentReference userThatDonate,
+    String ownerNotificationToken,
+    String interestedNotificationToken,
     int userPosition,
   }) async {
     await userController
@@ -56,6 +58,8 @@ class _InterestedListState extends State<InterestedList> {
       userAdoptId: userAdoptId,
       userDonateId: userDonateId,
       userPosition: userPosition,
+      ownerNotificationToken: ownerNotificationToken,
+      interestedNotificationToken: interestedNotificationToken,
     )
         .then(
       (_) {
@@ -68,7 +72,6 @@ class _InterestedListState extends State<InterestedList> {
             Navigator.pop(context);
           },
           confirmText: 'OK',
-          
         );
       },
     );
@@ -112,7 +115,9 @@ class _InterestedListState extends State<InterestedList> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.kind == 'Donate' ? 'Pessoas interessadas em ${widget.pet.name}' : 'Pessoas que informaram sobre ${widget.pet.name}'),
+        title: Text(widget.kind == 'Donate'
+            ? 'Pessoas interessadas em ${widget.pet.name}'
+            : 'Pessoas que informaram sobre ${widget.pet.name}'),
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(vertical: 8.0),
@@ -168,14 +173,18 @@ class _InterestedListState extends State<InterestedList> {
                             User.fromSnapshot(userReferenceSnapshot.data);
                         return ListTile(
                           leading: InkWell(
-                            onTap: user.photoURL == null ? null : () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => FullScreenImage(images: [user.photoURL], tag: 'userProfile',)
-                                )
-                              );
-                            },
+                            onTap: user.photoURL == null
+                                ? null
+                                : () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                FullScreenImage(
+                                                  images: [user.photoURL],
+                                                  tag: 'userProfile',
+                                                )));
+                                  },
                             child: CircleAvatar(
                               backgroundColor: Colors.transparent,
                               child: ClipOval(
@@ -214,8 +223,9 @@ class _InterestedListState extends State<InterestedList> {
                                               await donatePetToSomeone(
                                                 userName: user.name,
                                                 userThatDonate: userProvider.userReference,
-                                                petReference:
-                                                    widget.pet.petReference,
+                                                petReference: widget.pet.petReference,
+                                                interestedNotificationToken: user.notificationToken,
+                                                ownerNotificationToken: userProvider.notificationToken,
                                                 userAdoptId: user.id,
                                                 userDonateId: userProvider.uid,
                                                 userPosition: snapshot
@@ -236,7 +246,10 @@ class _InterestedListState extends State<InterestedList> {
                                       }
                                 : () {
                                     Navigator.pushNamed(context, Routes.INFO,
-                                        arguments: {'petName': widget.pet.name, 'informanteInfo': snapshot.data[index]});
+                                        arguments: {
+                                          'petName': widget.pet.name,
+                                          'informanteInfo': snapshot.data[index]
+                                        });
                                   },
                             child: widget.kind == 'Donate'
                                 ? !snapshot.data[index].sinalized
