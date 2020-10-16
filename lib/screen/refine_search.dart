@@ -196,7 +196,7 @@ class _RefineSearchState extends State<RefineSearch> {
                         );
                       }).toList(),
                     ),
-                    selectedKind == 0 ? Container(color: Colors.black12, height: 272) : Container(),
+                    selectedKind == 0 ? Container(color: Colors.black12, height: 328) : Container(),
                   ],
                 ),
                 Padding(
