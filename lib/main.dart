@@ -28,9 +28,9 @@ import 'package:tiutiu/screen/refine_search.dart';
 import 'package:tiutiu/screen/register.dart';
 import 'package:tiutiu/screen/settings.dart';
 import './utils/routes.dart';
-
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
+  
   runApp(App());
 }
 

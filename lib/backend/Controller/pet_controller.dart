@@ -137,6 +137,8 @@ class PetController {
     DocumentReference petReference,
     DocumentReference userReference,
     String interestedAt,
+    String ownerNotificationToken,
+    String interestedNotificationToken,
     String userName,
     String petName,
     LatLng userLocation,
@@ -157,6 +159,8 @@ class PetController {
           'sinalized': false,
           'gaveup': false,
           'interestedAt': interestedAt,
+          'interestedNotificationToken': interestedNotificationToken,
+          'ownerNotificationToken': ownerNotificationToken,
         },
         SetOptions(merge: true),
       );
@@ -172,6 +176,8 @@ class PetController {
           'sinalized': false,
           'gaveup': false,
           'interestedAt': interestedAt,
+          'interestedNotificationToken': interestedNotificationToken,
+          'ownerNotificationToken': ownerNotificationToken,
         },
         SetOptions(merge: true),
       );
