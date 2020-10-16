@@ -13,6 +13,7 @@ import 'package:tiutiu/Widgets/load_dark_screen.dart';
 import 'package:tiutiu/providers/auth2.dart';
 import 'package:tiutiu/providers/user_provider.dart';
 import 'package:tiutiu/utils/routes.dart';
+import 'package:tiutiu/backend/Controller/user_controller.dart';
 
 class Register extends StatefulWidget {
   @override
@@ -215,10 +216,8 @@ class _RegisterState extends State<Register> {
 
   Future<void> save() async {
     await uploadPhotos();
-    await FirebaseFirestore.instance
-        .collection('Users')
-        .doc(auth.firebaseUser.uid)
-        .set({
+    UserController userController = UserController();
+    await userController.updateUser(auth.firebaseUser.uid, {
       'displayName': _name.text,
       'uid': auth.firebaseUser.uid,
       'photoURL': photoURL,
@@ -227,7 +226,7 @@ class _RegisterState extends State<Register> {
       'betterContact': userProvider.getBetterContact,
       'email': auth.firebaseUser.email,
       'createdAt': DateTime.now().toIso8601String()
-    }, SetOptions(merge: true));
+    });
     userProvider.changePhotoUrl(photoURL);
     userProfile.clear();
     return Future.value();
