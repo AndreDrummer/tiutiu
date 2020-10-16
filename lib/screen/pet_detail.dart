@@ -365,11 +365,13 @@ class _PetDetailsState extends State<PetDetails> {
                                   bool canSend = true;
                                   String messageTextSnackBar;
                                   if (widget.kind == 'DONATE') {
-                                    if (userInfosAdopts.getAdoptInterest.contains(widget.pet.id)) {
+                                    if (userInfosAdopts.getAdoptInterest
+                                        .contains(widget.pet.id)) {
                                       setState(() {
                                         canSend = false;
                                       });
-                                      messageTextSnackBar = '${ownerDetails[0]['text']} já sabe sobre seu interesse. Aguarde retorno.';
+                                      messageTextSnackBar =
+                                          '${ownerDetails[0]['text']} já sabe sobre seu interesse. Aguarde retorno.';
                                     } else {
                                       var adoptInterestedsRef = await petRef
                                           .reference
@@ -409,16 +411,19 @@ class _PetDetailsState extends State<PetDetails> {
                                     PetController petController =
                                         new PetController();
                                     petController.showInterestOrInfo(
-                                        petName: widget.pet.name,
-                                        userName: userProvider.displayName,
-                                        petReference: widget.pet.petReference,
-                                        userReference:
-                                            userProvider.userReference,
-                                        interestedAt:
-                                            DateTime.now().toIso8601String(),
-                                        userLocation: userLocal,
-                                        userPosition: userPosition,
-                                        isAdopt: widget.kind == 'DONATE');
+                                      petName: widget.pet.name,
+                                      interestedNotificationToken: userProvider.notificationToken,
+                                      ownerNotificationToken: widget.petOwner.notificationToken,
+                                      userName: userProvider.displayName,
+                                      petReference: widget.pet.petReference,
+                                      userReference: userProvider.userReference,
+                                      interestedAt:
+                                          DateTime.now().toIso8601String(),
+                                      userLocation: userLocal,
+                                      userPosition: userPosition,
+                                      isAdopt: widget.kind == 'DONATE',
+                                    );
+
                                     if (widget.kind == 'DONATE') {
                                       userInfosAdopts
                                           .insertAdoptInterestID(widget.pet.id);
