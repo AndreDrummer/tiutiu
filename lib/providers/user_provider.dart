@@ -13,6 +13,7 @@ class UserProvider with ChangeNotifier {
   String _photoUrl;
   String _photoBack;
   String _uid;
+  String _notificationToken;
   String _displayName;
   String _createdAt;
   DocumentReference _userReference;
@@ -53,8 +54,7 @@ class UserProvider with ChangeNotifier {
   List<Pet> get getDonatePets => _donatePets.stream.value;
   List<Pet> get getDisappearedPets => _disappearedPets.stream.value;
   List<Pet> get getDonatedPets => _donatedPets.stream.value;
-  List<Pet> get getNotificationsAboutAdoptions =>
-      _notificationsAboutAdoptions.stream.value;
+  List<Pet> get getNotificationsAboutAdoptions => _notificationsAboutAdoptions.stream.value;
 
   // Changing data
   void Function(int) get changeBetterContact => _betterContact.sink.add;
@@ -65,8 +65,7 @@ class UserProvider with ChangeNotifier {
   void Function(List<Pet>) get changeAllPets => _allPets.sink.add;
   void Function(List<Pet>) get changeDonatePets => _donatePets.sink.add;
   void Function(List<Pet>) get changeAdoptedPets => _adoptedPets.sink.add;
-  void Function(List<Pet>) get changeDisappearedPets =>
-      _disappearedPets.sink.add;
+  void Function(List<Pet>) get changeDisappearedPets => _disappearedPets.sink.add;
   void Function(List<Pet>) get changeDonatedPets => _donatedPets.sink.add;
 
   void changeNotificationsAboutAdoptions(List<Pet> list) {
@@ -114,6 +113,11 @@ class UserProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  void changeNotificationToken(String notificationToken) {
+    _notificationToken = notificationToken;
+    notifyListeners();
+  }
+
   void changeUserReference(DocumentReference userReference) {
     _userReference = userReference;
     notifyListeners();
@@ -127,6 +131,7 @@ class UserProvider with ChangeNotifier {
   String get photoBACK => _photoBack;
   String get whatsapp => _whatsapp;
   String get uid => _uid;
+  String get notificationToken => _notificationToken;
   DocumentReference get userReference => _userReference;
 
   void calculateTotals() async {
