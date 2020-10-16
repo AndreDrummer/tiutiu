@@ -59,57 +59,67 @@ class _AuthOrHomeState extends State<AuthOrHome> {
   Widget build(BuildContext context) {
     Authentication auth = Provider.of(context);
 
-    return !isConnected ? NoConnection() : FutureBuilder(
-      future: auth.tryAutoLoginIn(),
-      builder: (_, AsyncSnapshot snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return LoadingPage();
-        } else if (snapshot.hasError) {
-          return Scaffold(
-            appBar: AppBar(
-              title: Text('Ocorreu um erro!'),
-            ),
-            body: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Container(
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      border: Border.all(
-                        style: BorderStyle.solid,
-                      ),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Image.asset('assets/pata.jpg'),
+    return !isConnected
+        ? NoConnection()
+        : FutureBuilder(
+            future: auth.tryAutoLoginIn(),
+            builder: (_, AsyncSnapshot snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return LoadingPage();
+              } else if (snapshot.hasError) {
+                return Scaffold(
+                  appBar: AppBar(
+                    title: Text('Ocorreu um erro!'),
+                  ),
+                  body: Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Container(
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            border: Border.all(
+                              style: BorderStyle.solid,
+                            ),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Image.asset('assets/pata.jpg'),
+                          ),
+                        ),
+                        SizedBox(height: 10),
+                        Text(
+                          '${snapshot.error}',
+                          softWrap: true,
+                          textAlign: TextAlign.center,
+                        ),
+                        SizedBox(height: 10),
+                        FlatButton.icon(
+                          onPressed: () {
+                            auth.signOut();
+                          },
+                          icon: Icon(Icons.exit_to_app),
+                          label: Text('Deslogar'),
+                        )
+                      ],
                     ),
                   ),
-                  SizedBox(height: 10),
-                  Text(
-                    '${snapshot.error}',
-                    softWrap: true,
-                    textAlign: TextAlign.center,
-                  ),
-                  SizedBox(height: 10),
-                  FlatButton.icon(
-                    onPressed: () {
-                      auth.signOut();
+                );
+              } else {
+                if (auth.firebaseUser != null) {
+                  return StreamBuilder<bool>(
+                    stream: auth.registered,
+                    builder: (ctx, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting || snapshot.data == null) {
+                        return LoadingPage(messageLoading: 'Carregando dados de usuário...', circle: true);
+                      }
+                      return !snapshot.data ? Register() : Home();
                     },
-                    icon: Icon(Icons.exit_to_app),
-                    label: Text('Deslogar'),
-                  )
-                ],
-              ),
-            ),
+                  );
+                }
+                return Home();
+              }
+            },
           );
-        } else {
-          if (auth.firebaseUser != null) {
-            return auth.isRegistered ? Home() : Register();
-          }
-          return Home();
-        }
-      },
-    );
   }
 }

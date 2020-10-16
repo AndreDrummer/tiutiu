@@ -4,14 +4,19 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:rxdart/rxdart.dart';
 import 'package:tiutiu/data/store_login.dart';
 import 'package:tiutiu/Exceptions/titiu_exceptions.dart';
 
 class Authentication extends ChangeNotifier {      
   final GoogleSignIn _googleSignIn = GoogleSignIn();
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  final _registered = BehaviorSubject<bool>();
   User firebaseUser;
-  bool isRegistered = false;    
+
+  Stream<bool> get registered => _registered.stream; 
+  void Function(bool) get changeRegistered => _registered.sink.add; 
+  bool get getRegistered => _registered.value; 
 
   Future<void> loginWithGoogle({bool autologin = false}) async {
     // ignore: omit_local_variable_types
@@ -40,9 +45,9 @@ class Authentication extends ChangeNotifier {
       );     
       firebaseUser = (await _auth.signInWithCredential(credential)).user;
     }
-
-    await alreadyRegistered();
+    
     notifyListeners(); 
+    await alreadyRegistered();
     return Future.value();
   }
 
@@ -65,9 +70,9 @@ class Authentication extends ChangeNotifier {
         throw TiuTiuAuthException(error.code);
       }
     }
-
-    await alreadyRegistered();
+    
     notifyListeners();
+    await alreadyRegistered();
     return Future.value();
   }
 
@@ -95,9 +100,9 @@ class Authentication extends ChangeNotifier {
         throw TiuTiuAuthException(error.code);
       }
     }
-
-    await alreadyRegistered();
+    
     notifyListeners();
+    await alreadyRegistered();
     return Future.value();
   }
 
@@ -114,16 +119,15 @@ class Authentication extends ChangeNotifier {
     final CollectionReference usersEntrepreneur =
         FirebaseFirestore.instance.collection('Users');    
     String id = firebaseUser.uid;    
-    DocumentSnapshot doc = await usersEntrepreneur.doc(id).get();
-    
-    if (doc.data() != null) {
-      print("${doc.data()['uid']} $id");
-      isRegistered = doc.data()['uid'].toString() == id;
+    DocumentSnapshot doc = await usersEntrepreneur.doc(id).get();      
+
+    if (doc.data() != null) {                  
+      if(doc.data()['uid'].toString() == id) {
+        changeRegistered(true);
+      }
       notifyListeners();
       return Future.value();
-    }    
-
-    isRegistered = false;
+    }        
 
     notifyListeners();
     return Future.value();
@@ -131,7 +135,7 @@ class Authentication extends ChangeNotifier {
 
   Future<void> tryAutoLoginIn() async {
     if (firebaseUser != null) {
-      print('firebaseUser não é nulo');
+      print('firebaseUser não é nulo');      
       return Future.value();
     }
 
