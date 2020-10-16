@@ -75,6 +75,7 @@ class _CardListState extends State<CardList> {
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
     UserController user = UserController();
     Authentication auth = Provider.of(context, listen: false);
     FavoritesProvider favoritesProvider = Provider.of(context);
@@ -171,15 +172,20 @@ class _CardListState extends State<CardList> {
                                       ConnectionState.waiting || snapshot.data == null) {
                                     return Text('');
                                   }                                
-                                  return Text(
-                                    '${snapshot.data['displayName']} está ${widget.kind.toUpperCase() == 'DONATE' ? 'doando' : 'procurando'}.',
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .headline1
-                                        .copyWith(
-                                          fontWeight: FontWeight.w700,
-                                          color: Colors.black,
-                                        ),
+                                  return Container(
+                                    width: width - 100,
+                                    child: Text(
+                                      '${snapshot.data['displayName']} está ${widget.kind.toUpperCase() == 'DONATE' ? 'doando' : 'procurando'}.',
+                                      textAlign: TextAlign.left,
+                                      overflow: TextOverflow.fade,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .headline1
+                                          .copyWith(
+                                            fontWeight: FontWeight.w700,
+                                            color: Colors.black,
+                                          ),
+                                    ),
                                   );
                                 }),
                           ],

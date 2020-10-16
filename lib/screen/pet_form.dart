@@ -20,6 +20,7 @@ import 'package:tiutiu/backend/Model/pet_model.dart';
 import 'package:tiutiu/providers/auth2.dart';
 import 'package:tiutiu/providers/location.dart';
 import 'package:tiutiu/providers/pet_form_provider.dart';
+import 'package:tiutiu/providers/pets_provider.dart';
 import 'package:tiutiu/providers/user_provider.dart';
 import 'package:tiutiu/screen/selection_page.dart';
 import 'package:tiutiu/utils/routes.dart';
@@ -43,6 +44,7 @@ class PetForm extends StatefulWidget {
 
 class _PetFormState extends State<PetForm> {
   PetFormProvider petFormProvider;
+  PetsProvider petsProvider;
 
   var params;
   var kind;
@@ -129,6 +131,7 @@ class _PetFormState extends State<PetForm> {
     auth = Provider.of<Authentication>(context, listen: false);
     userProvider = Provider.of<UserProvider>(context, listen: false);
     petFormProvider = Provider.of<PetFormProvider>(context);
+    petsProvider = Provider.of(context, listen: false);
     super.didChangeDependencies();
   }
 
@@ -271,7 +274,7 @@ class _PetFormState extends State<PetForm> {
 
   Future<void> uploadPhotos(String petName) async {
     StorageUploadTask uploadTask;
-    StorageReference storageReference;    
+    StorageReference storageReference;
 
     for (int i = 0; i < convertedImageList.length; i++) {
       storageReference = FirebaseStorage.instance
@@ -280,13 +283,14 @@ class _PetFormState extends State<PetForm> {
           .child('petsPhotos/$petName--foto__${DateTime.now().millisecond}');
       // if (convertedImageList[i].runtimeType != String) {
       uploadTask = storageReference.putData(convertedImageList[i]);
-      await uploadTask.onComplete;      
+      await uploadTask.onComplete;
       petPhotosToUpload.add(await storageReference.getDownloadURL());
-      print('URL DOWNLOAD ${petPhotosToUpload.last}');      
+      print('URL DOWNLOAD ${petPhotosToUpload.last}');
       // }
       // if (imagesPet[i].runtimeType == String) {
       petPhotosToUpload.addAll(petFormProvider.getPetPhotos
-          .where((element) => element.runtimeType == String).toList());
+          .where((element) => element.runtimeType == String)
+          .toList());
       // }
     }
 
@@ -339,12 +343,20 @@ class _PetFormState extends State<PetForm> {
         ? await petController.insertPet(dataPetSave, kind, auth)
         : await petController.updatePet(dataPetSave, userId, kind, petEdit.id);
 
-    petPhotosToUpload.clear();
-    petFormProvider.dispose();
-    changeLogginStatus(false);
     final finishin = DateTime.now();
     print('DEMOROU ${finishin.difference(startIn).inSeconds}');
     return Future.value();
+  }
+
+  void afterSave() {
+    if (kind == 'Donate') {
+      petsProvider.loadDonatedPETS();
+    } else {
+      petsProvider.loadDisappearedPETS();
+    }
+    petPhotosToUpload.clear();
+    petFormProvider.dispose();
+    changeLogginStatus(false);
   }
 
   bool validateForm() {
@@ -373,7 +385,7 @@ class _PetFormState extends State<PetForm> {
     print(petFormProvider.getPetPhotos);
 
     Future<bool> _onWillPopScope() {
-      if(isLogging || convertingImages) {
+      if (isLogging || convertingImages) {
         return Future.value(false);
       }
       Navigator.pushReplacementNamed(context, Routes.HOME);
@@ -792,14 +804,14 @@ class _PetFormState extends State<PetForm> {
                                       child: Row(
                                         children: [
                                           Text(
-                                            'Outras características',
+                                            'Características',
                                             style: TextStyle(fontSize: 16),
                                           ),
                                           Spacer(),
                                           list.isNotEmpty
                                               ? Container(
                                                   height: 20,
-                                                  width: 100,
+                                                  width: 140,
                                                   child: ListView.builder(
                                                     scrollDirection:
                                                         Axis.horizontal,
@@ -820,10 +832,21 @@ class _PetFormState extends State<PetForm> {
                                               : Container(),
                                           Spacer(),
                                           list.isNotEmpty
-                                              ? FlatButton(
-                                                  child: Text('Limpar'),
-                                                  onPressed: () =>
+                                              ? InkWell(
+                                                  onTap: () =>
                                                       clearUpCaracteristics(),
+                                                  child: Container(
+                                                    decoration: BoxDecoration(
+                                                      border: Border.all(
+                                                        style: BorderStyle.solid
+                                                      ),
+                                                      shape: BoxShape.circle
+                                                    ),
+                                                    child: Padding(
+                                                      padding: const EdgeInsets.all(4.0),
+                                                      child: Icon(Icons.clear),
+                                                    ),
+                                                  ),
                                                 )
                                               : Icon(Icons.arrow_forward)
                                         ],
@@ -841,15 +864,18 @@ class _PetFormState extends State<PetForm> {
                           builder: (context, snapshot) {
                             return Column(
                               children: [
-                                InputText(
-                                  placeholder: 'Descrição',
-                                  readOnly: readOnly,
-                                  size: 150,
-                                  onChanged:
-                                      petFormProvider.changePetDescription,
-                                  controller: _descricao,
-                                  multiline: true,
-                                  maxlines: 5,
+                                Padding(
+                                  padding: const EdgeInsets.only(bottom: 16.0),
+                                  child: InputText(
+                                    placeholder: 'Descrição',
+                                    readOnly: readOnly,
+                                    size: 150,
+                                    onChanged:
+                                        petFormProvider.changePetDescription,
+                                    controller: _descricao,
+                                    multiline: true,
+                                    maxlines: 5,
+                                  ),
                                 ),
                                 petFormProvider.formIsvalid() &&
                                         _descricao.text.isEmpty
@@ -878,6 +904,7 @@ class _PetFormState extends State<PetForm> {
                   if (validateForm()) {
                     setReadOnly();
                     await save();
+                    afterSave();
                     await showDialog(
                         context: context,
                         barrierDismissible: false,

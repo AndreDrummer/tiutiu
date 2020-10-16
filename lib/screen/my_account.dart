@@ -292,10 +292,8 @@ class _MyAccountState extends State<MyAccount> {
                         },
                       ),
                       MyAccountCard(
-                        icone: Tiutiu.twitter_bird,
-                        textIcon: 'Meus',
-                        text: 'Adotados',
-                        isToCenterText: true,
+                        icone: Tiutiu.twitter_bird,                        
+                        text: 'Adotados',                        
                         onTap: () {
                           Navigator.push(
                             context,
@@ -317,9 +315,7 @@ class _MyAccountState extends State<MyAccount> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       MyAccountCard(
-                        icone: Tiutiu.cat,
-                        textIcon: 'Meus',
-                        isToCenterText: true,
+                        icone: Tiutiu.cat,                                                
                         text: 'Doados',
                         onTap: () {
                           Navigator.push(
@@ -337,10 +333,8 @@ class _MyAccountState extends State<MyAccount> {
                         },
                       ),
                       MyAccountCard(
-                        icone: Tiutiu.dog,
-                        textIcon: 'Meus',
-                        text: 'Desaparecidos',
-                        isToCenterText: true,
+                        icone: Tiutiu.dog,                        
+                        text: 'Desaparecidos',                        
                         onTap: () {
                           Navigator.push(
                             context,

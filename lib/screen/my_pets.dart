@@ -204,55 +204,50 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
                                     ),
                                   ),
                                 ),
-                                // Spacer(),
-                                SizedBox(width: MediaQuery.of(context).size.width * 0.09),
                                 Expanded(
                                   flex: 2,
                                   child: widget.kind == null ||
                                           widget.kind == 'Adopted'
                                       ? Container()
                                       : Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.end,
                                           children: [
-                                            Container(
-                                              margin: const EdgeInsets.all(4.0),
-                                              decoration: BoxDecoration(
-                                                  shape: BoxShape.circle,
-                                                  color: Colors.amber),
-                                              child: IconButton(
-                                                icon: Icon(Icons.mode_edit),
-                                                onPressed: () {
-                                                  Navigator.push(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                      builder: (context) {
-                                                        return ChooseLocation(
-                                                          editMode: true,
-                                                          petReference: snapshot
-                                                              .data[index]
-                                                              .petReference,
-                                                        );
-                                                      },
-                                                    ),
-                                                  );
-                                                },
-                                                color: Colors.white,
-                                              ),
+                                            Text(
+                                              ' |',
+                                              style: TextStyle(fontSize: 20),
                                             ),
-                                            Container(
-                                              margin: const EdgeInsets.all(4.0),
-                                              decoration: BoxDecoration(
-                                                  shape: BoxShape.circle,
-                                                  color: Colors.red),
-                                              child: IconButton(
-                                                icon: Icon(Icons.delete),
-                                                onPressed: () {
-                                                  delete(
-                                                    snapshot.data[index]
-                                                        .petReference,
-                                                  );
-                                                },
-                                                color: Colors.white,
-                                              ),
+                                            IconButton(
+                                              icon: Icon(Icons.edit,
+                                                  size: 30,
+                                                  color: Colors.black),
+                                              onPressed: () {
+                                                Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (context) {
+                                                      return ChooseLocation(
+                                                        editMode: true,
+                                                        petReference: snapshot
+                                                            .data[index]
+                                                            .petReference,
+                                                      );
+                                                    },
+                                                  ),
+                                                );
+                                              },
+                                              color: Colors.white,
+                                            ),
+                                            IconButton(
+                                              icon: Icon(Icons.delete,
+                                                  size: 30, color: Colors.red),
+                                              onPressed: () {
+                                                delete(
+                                                  snapshot
+                                                      .data[index].petReference,
+                                                );
+                                              },
+                                              color: Colors.white,
                                             )
                                           ],
                                         ),

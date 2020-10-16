@@ -91,6 +91,7 @@ class UserCardInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
     return InkWell(
       onTap: () {
         callback();
@@ -101,7 +102,7 @@ class UserCardInfo extends StatelessWidget {
           borderRadius: BorderRadius.circular(12),
         ),
         child: Container(
-          width: 109,
+          width: width < 365 ? 112 : 109,
           child: Column(
             children: [              
               Container(
