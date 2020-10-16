@@ -41,8 +41,7 @@ class _InterestedListState extends State<InterestedList> {
     });
   }
 
-  Future<void> donatePetToSomeone({
-    String userDonateId,
+  Future<void> donatePetToSomeone({    
     String userAdoptId,
     String userName,
     DocumentReference petReference,
@@ -54,9 +53,9 @@ class _InterestedListState extends State<InterestedList> {
     await userController
         .donatePetToSomeone(
       petReference: petReference,
+      userName: userName,
       userThatDonate: userThatDonate,
       userAdoptId: userAdoptId,
-      userDonateId: userDonateId,
       userPosition: userPosition,
       ownerNotificationToken: ownerNotificationToken,
       interestedNotificationToken: interestedNotificationToken,
@@ -226,8 +225,7 @@ class _InterestedListState extends State<InterestedList> {
                                                 petReference: widget.pet.petReference,
                                                 interestedNotificationToken: user.notificationToken,
                                                 ownerNotificationToken: userProvider.notificationToken,
-                                                userAdoptId: user.id,
-                                                userDonateId: userProvider.uid,
+                                                userAdoptId: user.id,                                                
                                                 userPosition: snapshot
                                                     .data[index].position,
                                               );

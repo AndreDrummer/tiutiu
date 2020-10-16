@@ -78,19 +78,18 @@ class _HomeState extends State<Home> {
   void initState() {            
     fbm.configure(
       onMessage: (msg) {
-        print('onMessage...');
-        print(msg);
+        print('onMessage...');        
         userProvider.loadNotifications();        
         return;
       },
       onResume: (msg) {
         print('onResume...');
-        print(msg);
+        userProvider.loadNotifications();        
         return;
       },
       onLaunch: (msg) {
         print('onLaunch...');
-        print(msg);
+        userProvider.loadNotifications();        
         return;
       },
     );
