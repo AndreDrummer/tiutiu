@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:tiutiu/Custom/icons.dart';
 import 'package:tiutiu/Widgets/background.dart';
 import 'package:tiutiu/Widgets/circle_child.dart';
+import 'package:tiutiu/Widgets/fullscreen_images.dart';
 import 'package:tiutiu/Widgets/my_account_card.dart';
 import 'package:tiutiu/Widgets/popup_message.dart';
 import 'package:tiutiu/providers/auth2.dart';
@@ -28,8 +29,7 @@ class _MyAccountState extends State<MyAccount> {
 
   Widget appBar(UserProvider userProvider, Authentication auth) {
     return PreferredSize(
-      preferredSize:
-          Size.fromHeight(MediaQuery.of(context).size.height / 3),
+      preferredSize: Size.fromHeight(MediaQuery.of(context).size.height / 3),
       child: Stack(
         children: [
           Opacity(
@@ -57,14 +57,30 @@ class _MyAccountState extends State<MyAccount> {
                     padding: const EdgeInsets.all(8.0),
                     child: CircleChild(
                       avatarRadius: 45,
-                      child: FadeInImage(
-                        placeholder: AssetImage('assets/profileEmpty.png'),
-                        image: NetworkImage(
-                          userProvider.photoURL,
+                      child: InkWell(
+                        onTap: userProvider.photoURL == null ? null : () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => FullScreenImage(
+                                tag: 'myProfile',
+                                images: [userProvider.photoURL],
+                              ),
+                            ),
+                          );
+                        },
+                        child: Hero(
+                          tag: 'myProfile',
+                          child: FadeInImage(
+                            placeholder: AssetImage('assets/profileEmpty.png'),
+                            image: NetworkImage(
+                              userProvider.photoURL,
+                            ),
+                            fit: BoxFit.cover,
+                            width: 1000,
+                            height: 1000,
+                          ),
                         ),
-                        fit: BoxFit.cover,
-                        width: 1000,
-                        height: 1000,
                       ),
                     ),
                   ),
@@ -91,7 +107,8 @@ class _MyAccountState extends State<MyAccount> {
                                 fontSize: 12,
                               ),
                         ),
-                        SizedBox(height: MediaQuery.of(context).size.height * 0.07),
+                        SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.07),
                       ],
                     ),
                   )
@@ -292,8 +309,8 @@ class _MyAccountState extends State<MyAccount> {
                         },
                       ),
                       MyAccountCard(
-                        icone: Tiutiu.twitter_bird,                        
-                        text: 'Adotados',                        
+                        icone: Tiutiu.twitter_bird,
+                        text: 'Adotados',
                         onTap: () {
                           Navigator.push(
                             context,
@@ -315,7 +332,7 @@ class _MyAccountState extends State<MyAccount> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       MyAccountCard(
-                        icone: Tiutiu.cat,                                                
+                        icone: Tiutiu.cat,
                         text: 'Doados',
                         onTap: () {
                           Navigator.push(
@@ -333,8 +350,8 @@ class _MyAccountState extends State<MyAccount> {
                         },
                       ),
                       MyAccountCard(
-                        icone: Tiutiu.dog,                        
-                        text: 'Desaparecidos',                        
+                        icone: Tiutiu.dog,
+                        text: 'Desaparecidos',
                         onTap: () {
                           Navigator.push(
                             context,
@@ -452,7 +469,7 @@ class _MyAccountState extends State<MyAccount> {
                                 denyText: 'Não',
                                 warning: true,
                                 message: 'Tem certeza que deseja deslogar?',
-                                title: 'Signout',
+                                title: 'Deslogar',
                               ),
                             );
                           },
