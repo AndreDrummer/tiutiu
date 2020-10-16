@@ -83,12 +83,12 @@ class _AnnouncerDetailsState extends State<AnnouncerDetails> {
       body: Container(
         child: Stack(
           children: [
-            Background(),
-            SizedBox(height: 44),
+            Background(),            
             Column(
               children: [
+                SizedBox(height: 25),
                 Container(
-                  height: height / 2,
+                  height: height / 2.5,
                   child: FadeInImage(
                     placeholder: AssetImage('assets/fundo.jpg'),
                     image: widget.user.photoBACK != null
@@ -101,7 +101,7 @@ class _AnnouncerDetailsState extends State<AnnouncerDetails> {
                     height: 100,
                   ),
                 ),
-                SizedBox(height: 80),
+                SizedBox(height: 65),
                 CustomDivider(text: "${widget.user.name}"),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
@@ -200,7 +200,7 @@ class _AnnouncerDetailsState extends State<AnnouncerDetails> {
                     ],
                   ),
                 ),
-                CustomDivider(text: ''),
+                Divider(color: Colors.black),
                 Spacer(),
                 CustomDivider(text: 'Contato'),
                 Padding(
@@ -263,7 +263,7 @@ class _AnnouncerDetailsState extends State<AnnouncerDetails> {
             ),
             Positioned(
               left: width * 0.3,
-              top: height / 2.55,
+              top: height / 3.5,
               child: InkWell(
                 onTap: widget.user.photoURL != null ? () => openFullScreenMode([widget.user.photoURL], 'profilePic') : (){},
                 child: CircleChild(

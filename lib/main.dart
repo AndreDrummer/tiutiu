@@ -20,6 +20,7 @@ import 'package:tiutiu/screen/home.dart';
 import 'package:tiutiu/screen/informantes_screen.dart';
 import 'package:tiutiu/screen/interested_information_list.dart';
 import 'package:tiutiu/screen/my_pets.dart';
+import 'package:tiutiu/screen/confirm_adoption.dart';
 import 'package:tiutiu/screen/notifications.dart';
 import 'package:tiutiu/screen/pet_form.dart';
 import 'package:tiutiu/screen/pet_detail.dart';
@@ -27,9 +28,9 @@ import 'package:tiutiu/screen/refine_search.dart';
 import 'package:tiutiu/screen/register.dart';
 import 'package:tiutiu/screen/settings.dart';
 import './utils/routes.dart';
-
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
+  
   runApp(App());
 }
 
@@ -129,6 +130,7 @@ class App extends StatelessWidget {
                 Routes.SEARCH_REFINE: (ctx) => RefineSearch(),
                 Routes.INTERESTED_LIST: (ctx) => InterestedList(),
                 Routes.INFO: (ctx) => InformantesScreen(),
+                Routes.CONFIRM_ADOPTION: (ctx) => ConfirmAdoptionScreen(),
                 Routes.NOTIFICATIONS: (ctx) => NotificationScreen(),
               },
             ),
