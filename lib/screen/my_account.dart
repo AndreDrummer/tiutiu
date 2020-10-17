@@ -83,7 +83,7 @@ class _MyAccountState extends State<MyAccount> {
                         ),
                       ),
                     ),
-                  ),
+                  ),                                    
                   Expanded(
                     child: Column(
                       children: [
