@@ -14,6 +14,7 @@ import 'package:tiutiu/Widgets/popup_message.dart';
 import 'package:tiutiu/providers/auth2.dart';
 import 'package:tiutiu/providers/user_provider.dart';
 import 'package:tiutiu/utils/formatter.dart';
+import 'package:tiutiu/backend/Controller/user_controller.dart';
 
 class Settings extends StatefulWidget {
   @override
@@ -44,6 +45,7 @@ class _SettingsState extends State<Settings> {
   GlobalKey<FormState> _passwordFormKey = GlobalKey<FormState>();
   GlobalKey<FormState> _personalDataFormKey = GlobalKey<FormState>();
   UserProvider userProvider;
+  UserController userController = UserController();
   Authentication auth;
 
   bool telefoneHasError = false;
@@ -64,7 +66,10 @@ class _SettingsState extends State<Settings> {
 
     String patttern = r'(^[0-9]*$)';
     RegExp regExp = new RegExp(patttern);
-    if (userProvider.getBetterContact == 0 && value.isEmpty && userProvider.whatsapp != null && userProvider.whatsapp.isEmpty) {
+    if (userProvider.getBetterContact == 0 &&
+        value.isEmpty &&
+        userProvider.whatsapp != null &&
+        userProvider.whatsapp.isEmpty) {
       return 'Número é obrigatório';
     }
     if (value.isNotEmpty && value.length < 11) {
@@ -80,7 +85,10 @@ class _SettingsState extends State<Settings> {
 
     String patttern = r'(^[0-9]*$)';
     RegExp regExp = new RegExp(patttern);
-    if (userProvider.getBetterContact == 1 && value.isEmpty && userProvider.telefone != null && userProvider.telefone.isEmpty) {
+    if (userProvider.getBetterContact == 1 &&
+        value.isEmpty &&
+        userProvider.telefone != null &&
+        userProvider.telefone.isEmpty) {
       return 'Número é obrigatório';
     }
     if (value.isNotEmpty && value.length < 10) {
@@ -194,8 +202,9 @@ class _SettingsState extends State<Settings> {
         regExp.hasMatch(_telefoneController.text.split('-')[1]);
 
     if (userProvider.getBetterContact == 0) {
-      var serializedWhatsappNumber = Formatter.unmaskNumber(_telefoneController.text);
-      if(serializedWhatsappNumber == null) {
+      var serializedWhatsappNumber =
+          Formatter.unmaskNumber(_telefoneController.text);
+      if (serializedWhatsappNumber == null) {
         _telefoneController.clear();
       }
       if (!validWhatsapp) {
@@ -209,8 +218,9 @@ class _SettingsState extends State<Settings> {
     }
 
     if (userProvider.getBetterContact == 1) {
-      var serializedWhatsappNumber = Formatter.unmaskNumber(_whatsAppController.text);
-      if(serializedWhatsappNumber == null) {
+      var serializedWhatsappNumber =
+          Formatter.unmaskNumber(_whatsAppController.text);
+      if (serializedWhatsappNumber == null) {
         _whatsAppController.clear();
       }
       if (!validTelefone) {
@@ -288,15 +298,11 @@ class _SettingsState extends State<Settings> {
         await uploadPhotos();
       }
 
-      await FirebaseFirestore.instance
-          .collection('Users')
-          .doc(auth.firebaseUser.uid)
-          .set({
+      await userController.updateUser(userProvider.uid, {
         'displayName': _nameController.text,
         'uid': auth.firebaseUser.uid,
         'photoURL': userProfile.isNotEmpty ? photoURL : userProvider.photoURL,
-        'photoBACK':
-            userProfile.isNotEmpty ? photoBACK : userProvider.photoBACK,
+        'photoBACK': userProfile.isNotEmpty ? photoBACK : userProvider.photoBACK,
         'phoneNumber': _whatsAppController.text,
         'landline': _telefoneController.text,
         'betterContact': userProvider.getBetterContact,
@@ -360,26 +366,60 @@ class _SettingsState extends State<Settings> {
   }
 
   void openModalSelectMedia(BuildContext context, bool perfil) {
+
+    bool conditionsToRemoveBackPhoto = !perfil && userProfile.containsKey('photoFileBack');
+
     showDialog(
       context: context,
       builder: (context) {
         return SimpleDialog(
           children: <Widget>[
             FlatButton(
-              child:
-                  Text('Tirar uma foto', style: Theme.of(context).textTheme.headline1.copyWith(color: Colors.black)),
+              child: Text(
+                'Tirar uma foto',
+                style: Theme.of(context).textTheme.headline1.copyWith(
+                      color: Colors.black,
+                    ),
+              ),
               onPressed: () {
                 Navigator.pop(context);
-                selectImage(ImageSource.camera, perfil: perfil);
+                selectImage(
+                  ImageSource.camera,
+                  perfil: perfil,
+                );
               },
             ),
             FlatButton(
-              child: Text('Abrir galeria', style: Theme.of(context).textTheme.headline1.copyWith(color: Colors.black)),
+              child: Text(
+                'Abrir galeria',
+                style: Theme.of(context).textTheme.headline1.copyWith(
+                      color: Colors.black,
+                    ),
+              ),
               onPressed: () {
                 Navigator.pop(context);
-                selectImage(ImageSource.gallery, perfil: perfil);
+                selectImage(
+                  ImageSource.gallery,
+                  perfil: perfil,
+                );
               },
-            )
+            ),
+            conditionsToRemoveBackPhoto ? FlatButton(
+              child: Text(
+                'Remover foto',
+                style: Theme.of(context).textTheme.headline1.copyWith(
+                      color: Colors.black,
+                    ),
+              ),
+              onPressed: () {
+                setState(() {
+                  userProfile.remove('photoFileBack');
+                });
+                
+                userProvider.changePhotoBack(null);
+                Navigator.pop(context);
+              },
+            ) : Container()
           ],
         );
       },
@@ -392,15 +432,17 @@ class _SettingsState extends State<Settings> {
 
     return WillPopScope(
       onWillPop: () async {
-        if (_personalDataFormKey.currentState.validate()) {          
+        if (_personalDataFormKey.currentState.validate()) {
           return Future.value(true);
         }
         return Future.value(false);
       },
       child: Scaffold(
         appBar: AppBar(
-          title: Text('Configurações', style: TextStyle(fontSize: 20),)
-        ),
+            title: Text(
+          'Configurações',
+          style: TextStyle(fontSize: 20),
+        )),
         backgroundColor: Colors.blueGrey[50],
         body: Stack(
           children: [
@@ -434,6 +476,24 @@ class _SettingsState extends State<Settings> {
                                     fit: BoxFit.cover,
                                   ),
                             opacity: 0.25,
+                          ),
+                        ),
+                      ),
+                      Positioned(
+                        bottom: 5,
+                        right: 5,
+                        child: Container(
+                          height: 35,
+                          color: Colors.black38,
+                          child: FlatButton(
+                            onPressed: () =>
+                                openModalSelectMedia(context, false),
+                            child: Text(
+                              'ALTERAR PLANO DE FUNDO',
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w700),
+                            ),
                           ),
                         ),
                       ),
@@ -486,13 +546,26 @@ class _SettingsState extends State<Settings> {
                       child: Column(
                         children: [
                           ListTile(
-                            title: Text('Nome', style: Theme.of(context).textTheme.headline1.copyWith(color: Colors.black)),
+                            title: Text('Nome',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .headline1
+                                    .copyWith(color: Colors.black)),
                             subtitle: isNameEditing
                                 ? TextFormField(
-                                  style: Theme.of(context).textTheme.headline1.copyWith(color: Colors.black54, fontWeight: FontWeight.w300),
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .headline1
+                                        .copyWith(
+                                            color: Colors.black54,
+                                            fontWeight: FontWeight.w300),
                                     controller: _nameController,
                                   )
-                                : Text(_nameController.text, style: Theme.of(context).textTheme.headline1.copyWith(color: Colors.black)),
+                                : Text(_nameController.text,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .headline1
+                                        .copyWith(color: Colors.black)),
                             trailing: IconButton(
                               icon: isNameEditing
                                   ? Icon(Icons.save)
@@ -511,10 +584,19 @@ class _SettingsState extends State<Settings> {
                             ),
                           ),
                           ListTile(
-                            title: Text('WhatsApp', style: Theme.of(context).textTheme.headline1.copyWith(color: Colors.black)),
+                            title: Text('WhatsApp',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .headline1
+                                    .copyWith(color: Colors.black)),
                             subtitle: isWhatsAppEditing
                                 ? TextFormField(
-                                  style: Theme.of(context).textTheme.headline1.copyWith(color: Colors.black54, fontWeight: FontWeight.w300),
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .headline1
+                                        .copyWith(
+                                            color: Colors.black54,
+                                            fontWeight: FontWeight.w300),
                                     onChanged: (_) {
                                       validatePersonalData();
                                     },
@@ -552,10 +634,19 @@ class _SettingsState extends State<Settings> {
                             ),
                           ),
                           ListTile(
-                            title: Text('Telefone Fixo', style: Theme.of(context).textTheme.headline1.copyWith(color: Colors.black)),
+                            title: Text('Telefone Fixo',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .headline1
+                                    .copyWith(color: Colors.black)),
                             subtitle: isTelefoneEditing
                                 ? TextFormField(
-                                  style: Theme.of(context).textTheme.headline1.copyWith(color: Colors.black54, fontWeight: FontWeight.w300),
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .headline1
+                                        .copyWith(
+                                            color: Colors.black54,
+                                            fontWeight: FontWeight.w300),
                                     onChanged: (_) {
                                       validatePersonalData();
                                     },
@@ -594,7 +685,11 @@ class _SettingsState extends State<Settings> {
                           ),
                           Align(
                             alignment: Alignment(-0.8, 1),
-                            child: Text('Sua melhor forma de contato', style: Theme.of(context).textTheme.headline1.copyWith(color: Colors.black)),
+                            child: Text('Sua melhor forma de contato',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .headline1
+                                    .copyWith(color: Colors.black)),
                           ),
                           StreamBuilder<Object>(
                             stream: userProvider.betterContact,
@@ -610,7 +705,11 @@ class _SettingsState extends State<Settings> {
                                       userProvider.changeBetterContact(value);
                                     },
                                   ),
-                                  Text('WhatsApp', style: Theme.of(context).textTheme.headline1.copyWith(color: Colors.black)),
+                                  Text('WhatsApp',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .headline1
+                                          .copyWith(color: Colors.black)),
                                   Radio(
                                     activeColor: Colors.orange,
                                     groupValue: snapshot.data,
@@ -619,7 +718,11 @@ class _SettingsState extends State<Settings> {
                                       userProvider.changeBetterContact(value);
                                     },
                                   ),
-                                  Text('Telefone Fixo', style: Theme.of(context).textTheme.headline1.copyWith(color: Colors.black)),
+                                  Text('Telefone Fixo',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .headline1
+                                          .copyWith(color: Colors.black)),
                                   Radio(
                                     activeColor: Colors.red,
                                     groupValue: snapshot.data,
@@ -628,7 +731,11 @@ class _SettingsState extends State<Settings> {
                                       userProvider.changeBetterContact(value);
                                     },
                                   ),
-                                  Text('E-mail', style: Theme.of(context).textTheme.headline1.copyWith(color: Colors.black)),
+                                  Text('E-mail',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .headline1
+                                          .copyWith(color: Colors.black)),
                                 ],
                               );
                             },
@@ -698,7 +805,8 @@ class _SettingsState extends State<Settings> {
                             'Salvando informações',
                             style: Theme.of(context)
                                 .textTheme
-                                .headline1.copyWith(color: Colors.black)
+                                .headline1
+                                .copyWith(color: Colors.black)
                                 .copyWith(),
                           )
                         ],
