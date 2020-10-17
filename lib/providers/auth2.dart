@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:tiutiu/data/store_login.dart';
@@ -106,6 +107,22 @@ class Authentication extends ChangeNotifier {
     return Future.value();
   }
 
+  Future<void> signInWithFacebook() async {
+  // Trigger the sign-in flow
+  final LoginResult result = await FacebookAuth.instance.login();
+
+  // Create a credential from the access token
+  final FacebookAuthCredential facebookAuthCredential =
+    FacebookAuthProvider.credential(result.accessToken.token);
+
+  // Once signed in, return the UserCredential
+  UserCredential userCredential = await FirebaseAuth.instance.signInWithCredential(facebookAuthCredential);
+  firebaseUser = userCredential.user;
+  notifyListeners();
+  await alreadyRegistered();
+  return Future.value();
+}
+
   void signOut() async {
     await _googleSignIn.signOut();
     await _auth.signOut();
@@ -129,6 +146,7 @@ class Authentication extends ChangeNotifier {
       return Future.value();
     }        
 
+    changeRegistered(false);
     notifyListeners();
     return Future.value();
   }

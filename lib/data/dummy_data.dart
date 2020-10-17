@@ -14,7 +14,7 @@ class DummyData {
 
   static const breed = [
     [''],
-    [
+    [      
       'Akita',
       'Basset',
       'Beagle',
@@ -38,6 +38,7 @@ class DummyData {
       'Dogue',
       'Fila',
       'Golden',
+      'Indefinida',
       'Husky',
       'Jack',
       'Labrador',
@@ -60,10 +61,11 @@ class DummyData {
       'Shiba',
       'Shih',
       'Staffordshire',
+      'Vira-lata',
       'Weimaraner',
       'Yorkshire'
     ],
-    [
+    [      
       'Abissínio',
       'Angorá',
       'Ashera',
@@ -79,6 +81,7 @@ class DummyData {
       'Cornish Rex.',
       'Curl Americano (sem informação)',
       'Devon Rex',
+      'Indefinida',
       'Himalaio',
       'Jaguatirica',
       'Javanês',
@@ -115,7 +118,7 @@ class DummyData {
       'Usuri',
       'Sem raça definida',
     ],
-    [
+    [      
       'Abelharuco',
       'Agapornis',
       'Agapornis canus',
@@ -167,10 +170,10 @@ class DummyData {
       'Curio',
       'Domin&oacute',
       'Ecletus Roratus Polychloros',
-      'ema',
+      'Ema',
       'Expl&ecircndido',
       'Forpus Coelestis',
-      'galah',
+      'Galah',
       'Garca-real-europeia',
       'Garrincha',
       'Gaviao-asa-de-telha',
@@ -183,6 +186,7 @@ class DummyData {
       'Granatina',
       'Guaruba',
       'Harpia',
+      'Indefinida',
       'Inhambu-galinha',
       'Jandaia coquinho',
       'Ja&oacute',
@@ -251,6 +255,7 @@ class DummyData {
       'Yemen Linnet'
     ],
     [
+      'Indefinida',      
       'Hamster russo',
       'Hamster de Roborovski',
       'Hamster sírio ou dourado',
