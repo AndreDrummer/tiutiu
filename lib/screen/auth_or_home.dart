@@ -110,10 +110,10 @@ class _AuthOrHomeState extends State<AuthOrHome> {
                   return StreamBuilder<bool>(
                     stream: auth.registered,
                     builder: (ctx, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting || snapshot.data == null) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
                         return LoadingPage(messageLoading: 'Carregando dados de usuário...', circle: true);
                       }
-                      return !snapshot.data ? Register() : Home();
+                      return !snapshot.data || snapshot.data == null ? Register() : Home();
                     },
                   );
                 }
