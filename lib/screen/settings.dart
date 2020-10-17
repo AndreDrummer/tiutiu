@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_admob/firebase_admob.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -13,6 +13,7 @@ import 'package:tiutiu/Widgets/input_text.dart';
 import 'package:tiutiu/Widgets/popup_message.dart';
 import 'package:tiutiu/providers/auth2.dart';
 import 'package:tiutiu/providers/user_provider.dart';
+import 'package:tiutiu/utils/constantes.dart';
 import 'package:tiutiu/utils/formatter.dart';
 import 'package:tiutiu/backend/Controller/user_controller.dart';
 
@@ -101,7 +102,7 @@ class _SettingsState extends State<Settings> {
 
   @override
   void initState() {
-    super.initState();
+    FirebaseAdMob.instance.initialize(appId: Constantes.ADMOB_APP_ID);
     userProvider = Provider.of(context, listen: false);
     if (userProvider.displayName != null)
       _nameController.text = userProvider.displayName;
@@ -111,6 +112,13 @@ class _SettingsState extends State<Settings> {
       _telefoneController.text = userProvider.telefone;
     if (userProvider.photoURL != null) photoURL = userProvider.photoURL;
     if (userProvider.photoBACK != null) photoBACK = userProvider.photoBACK;
+    super.initState();
+    Constantes.myInterstitial
+      ..load()
+      ..show(
+        anchorOffset: 0.0,
+        horizontalCenterOffset: 0.0,
+      );
   }
 
   @override
@@ -302,7 +310,8 @@ class _SettingsState extends State<Settings> {
         'displayName': _nameController.text,
         'uid': auth.firebaseUser.uid,
         'photoURL': userProfile.isNotEmpty ? photoURL : userProvider.photoURL,
-        'photoBACK': userProfile.isNotEmpty ? photoBACK : userProvider.photoBACK,
+        'photoBACK':
+            userProfile.isNotEmpty ? photoBACK : userProvider.photoBACK,
         'phoneNumber': _whatsAppController.text,
         'landline': _telefoneController.text,
         'betterContact': userProvider.getBetterContact,
@@ -366,8 +375,8 @@ class _SettingsState extends State<Settings> {
   }
 
   void openModalSelectMedia(BuildContext context, bool perfil) {
-
-    bool conditionsToRemoveBackPhoto = !perfil && userProfile.containsKey('photoFileBack');
+    bool conditionsToRemoveBackPhoto =
+        !perfil && userProfile.containsKey('photoFileBack');
 
     showDialog(
       context: context,
@@ -404,22 +413,24 @@ class _SettingsState extends State<Settings> {
                 );
               },
             ),
-            conditionsToRemoveBackPhoto ? FlatButton(
-              child: Text(
-                'Remover foto',
-                style: Theme.of(context).textTheme.headline1.copyWith(
-                      color: Colors.black,
+            conditionsToRemoveBackPhoto
+                ? FlatButton(
+                    child: Text(
+                      'Remover foto',
+                      style: Theme.of(context).textTheme.headline1.copyWith(
+                            color: Colors.black,
+                          ),
                     ),
-              ),
-              onPressed: () {
-                setState(() {
-                  userProfile.remove('photoFileBack');
-                });
-                
-                userProvider.changePhotoBack(null);
-                Navigator.pop(context);
-              },
-            ) : Container()
+                    onPressed: () {
+                      setState(() {
+                        userProfile.remove('photoFileBack');
+                      });
+
+                      userProvider.changePhotoBack(null);
+                      Navigator.pop(context);
+                    },
+                  )
+                : Container()
           ],
         );
       },
