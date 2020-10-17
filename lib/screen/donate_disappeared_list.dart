@@ -1,3 +1,4 @@
+import 'package:firebase_admob/firebase_admob.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tiutiu/Widgets/card_list.dart';
@@ -7,6 +8,7 @@ import 'package:tiutiu/backend/Model/pet_model.dart';
 import 'package:tiutiu/providers/location.dart';
 import 'package:tiutiu/providers/pets_provider.dart';
 import 'package:tiutiu/providers/refine_search.dart';
+import 'package:tiutiu/utils/constantes.dart';
 import 'package:tiutiu/utils/math_functions.dart';
 import 'package:tiutiu/utils/routes.dart';
 
@@ -23,7 +25,7 @@ class _DonateDisappearedListState extends State<DonateDisappearedList> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   PetsProvider petsProvider;
   RefineSearchProvider refineSearchProvider;
-  Location location;
+  Location location;  
 
   void showFilter() {
     setState(() {
@@ -33,15 +35,36 @@ class _DonateDisappearedListState extends State<DonateDisappearedList> {
 
   @override
   void initState() {
-    super.initState();
-    petsProvider = Provider.of(context, listen: false);
+    FirebaseAdMob.instance.initialize(appId: Constantes.ADMOB_APP_ID);
+    // Constantes.myInterstitial
+    //   ..load()
+    //   ..show(
+    //     anchorOffset: 0.0,
+    //     horizontalCenterOffset: 0.0,
+    //   );
 
+    Constantes.myBanner
+      ..load()
+      ..show(                
+        anchorOffset: 150,
+        horizontalCenterOffset: 0.0,
+        anchorType: AnchorType.top,
+      );
+    petsProvider = Provider.of(context, listen: false);
     if (widget.kind == 'Donate' && petsProvider.getListDonatesPETS == null) {
       petsProvider.loadDonatedPETS();
     } else if (widget.kind != 'Donate' &&
         petsProvider.getListDisappearedPETS == null) {
       petsProvider.loadDisappearedPETS();
     }
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    // Constantes.myInterstitial.dispose();
+    Constantes.myBanner.dispose();
+    super.dispose();
   }
 
   bool isFiltering() {
