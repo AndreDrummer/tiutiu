@@ -29,8 +29,7 @@ import 'package:tiutiu/screen/register.dart';
 import 'package:tiutiu/screen/settings.dart';
 import './utils/routes.dart';
 void main() {
-  WidgetsFlutterBinding.ensureInitialized();
-  
+  WidgetsFlutterBinding.ensureInitialized();  
   runApp(App());
 }
 
