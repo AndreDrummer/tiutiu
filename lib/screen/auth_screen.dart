@@ -390,9 +390,11 @@ class _AuthScreenState extends State<AuthScreen> {
                                         changeLogginStatus(true);
                                         auth.loginWithGoogle().then((_) {
                                           changeLogginStatus(false);
-                                          if(canPop != null && canPop == true) {                                            
-                                            Navigator.popUntil(context, ModalRoute.withName('/'));
-                                          }                                        
+                                          if (canPop != null &&
+                                              canPop == true) {
+                                            Navigator.popUntil(context,
+                                                ModalRoute.withName('/'));
+                                          }
                                         });
                                       },
                                       child: ButtonSocialLogin(
@@ -401,9 +403,22 @@ class _AuthScreenState extends State<AuthScreen> {
                                       ),
                                     ),
                                     SizedBox(width: 10),
-                                    ButtonSocialLogin(
-                                      imageUrl: 'assets/face.png',
-                                      text: 'Facebook',
+                                    InkWell(
+                                      onTap: () {
+                                        changeLogginStatus(true);
+                                        auth.signInWithFacebook().then((_) {
+                                          changeLogginStatus(false);
+                                          if (canPop != null &&
+                                              canPop == true) {
+                                            Navigator.popUntil(context,
+                                                ModalRoute.withName('/'));
+                                          }
+                                        });
+                                      },
+                                      child: ButtonSocialLogin(
+                                        imageUrl: 'assets/face.png',
+                                        text: 'Facebook',
+                                      ),
                                     ),
                                   ],
                                 )
