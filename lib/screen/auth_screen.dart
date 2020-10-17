@@ -406,14 +406,14 @@ class _AuthScreenState extends State<AuthScreen> {
                                     InkWell(
                                       onTap: () {
                                         changeLogginStatus(true);
-                                        auth.signInWithFacebook().then((_) {
-                                          changeLogginStatus(false);
+                                        auth.signInWithFacebook().then((_) {                                          
                                           if (canPop != null &&
                                               canPop == true) {
                                             Navigator.popUntil(context,
                                                 ModalRoute.withName('/'));
                                           }
                                         });
+                                        changeLogginStatus(false);
                                       },
                                       child: ButtonSocialLogin(
                                         imageUrl: 'assets/face.png',
