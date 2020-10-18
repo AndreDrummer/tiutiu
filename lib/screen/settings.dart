@@ -13,6 +13,7 @@ import 'package:tiutiu/Widgets/input_text.dart';
 import 'package:tiutiu/Widgets/popup_message.dart';
 import 'package:tiutiu/providers/auth2.dart';
 import 'package:tiutiu/providers/user_provider.dart';
+import 'package:tiutiu/utils/ads_helper.dart';
 import 'package:tiutiu/utils/constantes.dart';
 import 'package:tiutiu/utils/formatter.dart';
 import 'package:tiutiu/backend/Controller/user_controller.dart';
@@ -113,17 +114,12 @@ class _SettingsState extends State<Settings> {
     if (userProvider.photoURL != null) photoURL = userProvider.photoURL;
     if (userProvider.photoBACK != null) photoBACK = userProvider.photoBACK;
     super.initState();
-    Constantes.myInterstitial
-      ..load()
-      ..show(
-        anchorOffset: 0.0,
-        horizontalCenterOffset: 0.0,
-      );
   }
 
   @override
   void didChangeDependencies() {
     auth = Provider.of(context);
+    Ads.handleAdsBottom();
     super.didChangeDependencies();
   }
 
@@ -795,7 +791,31 @@ class _SettingsState extends State<Settings> {
                       ),
                     ),
                   ),
-                  SizedBox(height: height < 500 ? 100 : 40)
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 10, vertical: 15),
+                    child: FlatButton(
+                      onPressed: () async {
+                        await showDialog(
+                          context: context,
+                          builder: (context) => PopUpMessage(
+                            title: 'Excluir Conta',
+                            message:
+                                'DESEJA DELETAR PERMANENTEMENTE SUA CONTA ?',
+                            confirmText: 'Deletar minha conta',
+                            confirmAction: () {},
+                            denyText: 'NÃO',
+                            denyAction: () => Navigator.pop(context),
+                          ),
+                        );
+                      },
+                      child: Text(
+                        'DELETAR MINHA CONTA',
+                        style: TextStyle(color: Colors.red),
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: height < 500 ? 210 : 150)
                 ],
               ),
             ),
