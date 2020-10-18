@@ -1,4 +1,3 @@
-import 'package:firebase_admob/firebase_admob.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -11,7 +10,7 @@ import 'package:tiutiu/Widgets/popup_message.dart';
 import 'package:tiutiu/providers/auth2.dart';
 import 'package:tiutiu/providers/user_provider.dart';
 import 'package:tiutiu/screen/my_pets.dart';
-import 'package:tiutiu/utils/constantes.dart';
+import 'package:tiutiu/utils/ads_helper.dart';
 import 'package:tiutiu/utils/routes.dart';
 
 class MyAccount extends StatefulWidget {
@@ -24,14 +23,6 @@ class _MyAccountState extends State<MyAccount> {
 
   @override
   void initState() {
-    FirebaseAdMob.instance.initialize(appId: Constantes.ADMOB_APP_ID);
-    Constantes.myBanner
-      ..load()
-      ..show(                
-        anchorOffset: 50,
-        horizontalCenterOffset: 0.0,
-        anchorType: AnchorType.bottom,
-      );
     super.initState();
   }
 
@@ -39,13 +30,8 @@ class _MyAccountState extends State<MyAccount> {
   void didChangeDependencies() {
     userProvider = Provider.of<UserProvider>(context, listen: false);
     userProvider.loadMyPets();
+    Ads.handleAdsBottom();
     super.didChangeDependencies();
-  }
-
-  @override
-  void dispose() {
-    Constantes.myBanner.dispose();
-    super.dispose();
   }
 
   Widget appBar(UserProvider userProvider, Authentication auth) {
@@ -79,17 +65,19 @@ class _MyAccountState extends State<MyAccount> {
                     child: CircleChild(
                       avatarRadius: 45,
                       child: InkWell(
-                        onTap: userProvider.photoURL == null ? null : () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => FullScreenImage(
-                                tag: 'myProfile',
-                                images: [userProvider.photoURL],
-                              ),
-                            ),
-                          );
-                        },
+                        onTap: userProvider.photoURL == null
+                            ? null
+                            : () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => FullScreenImage(
+                                      tag: 'myProfile',
+                                      images: [userProvider.photoURL],
+                                    ),
+                                  ),
+                                );
+                              },
                         child: Hero(
                           tag: 'myProfile',
                           child: FadeInImage(
@@ -104,7 +92,7 @@ class _MyAccountState extends State<MyAccount> {
                         ),
                       ),
                     ),
-                  ),                                    
+                  ),
                   Expanded(
                     child: Column(
                       children: [
@@ -153,7 +141,7 @@ class _MyAccountState extends State<MyAccount> {
                                 );
                               },
                             ),
-                          );
+                          ).then((value) => Ads.handleAdsBottom());
                         },
                         child: CircleChild(
                           avatarRadius: 25,
@@ -190,7 +178,7 @@ class _MyAccountState extends State<MyAccount> {
                                 );
                               },
                             ),
-                          );
+                          ).then((value) => Ads.handleAdsBottom());
                         },
                         child: CircleChild(
                           avatarRadius: 25,
@@ -226,7 +214,7 @@ class _MyAccountState extends State<MyAccount> {
                                 );
                               },
                             ),
-                          );
+                          ).then((value) => Ads.handleAdsBottom());
                         },
                         child: CircleChild(
                           avatarRadius: 25,
@@ -259,7 +247,7 @@ class _MyAccountState extends State<MyAccount> {
                                 );
                               },
                             ),
-                          );
+                          ).then((value) => Ads.handleAdsBottom());
                         },
                         child: CircleChild(
                           avatarRadius: 25,
@@ -326,7 +314,7 @@ class _MyAccountState extends State<MyAccount> {
                                 );
                               },
                             ),
-                          );
+                          ).then((value) => Ads.handleAdsBottom());
                         },
                       ),
                       MyAccountCard(
@@ -344,7 +332,7 @@ class _MyAccountState extends State<MyAccount> {
                                 );
                               },
                             ),
-                          );
+                          ).then((value) => Ads.handleAdsBottom());
                         },
                       ),
                     ],
@@ -367,7 +355,7 @@ class _MyAccountState extends State<MyAccount> {
                                     userId: auth.firebaseUser.uid);
                               },
                             ),
-                          );
+                          ).then((value) => Ads.handleAdsBottom());
                         },
                       ),
                       MyAccountCard(
@@ -385,7 +373,7 @@ class _MyAccountState extends State<MyAccount> {
                                 );
                               },
                             ),
-                          );
+                          ).then((value) => Ads.handleAdsBottom());
                         },
                       ),
                     ],
@@ -522,7 +510,7 @@ class _MyAccountState extends State<MyAccount> {
                     opacity: 0.7,
                     child: Image.asset('assets/trofeu.jpg', fit: BoxFit.fill),
                   ),
-                  SizedBox(height: height < 500 ? 200 : 50)
+                  SizedBox(height: height < 500 ? 220 : 90)
                 ],
               ),
             ),
