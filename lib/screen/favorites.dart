@@ -4,6 +4,7 @@ import 'package:tiutiu/Widgets/background.dart';
 import 'package:tiutiu/Widgets/card_list.dart';
 import 'package:tiutiu/Widgets/loading_screen.dart';
 import 'package:tiutiu/providers/favorites_provider.dart';
+import 'package:tiutiu/utils/ads_helper.dart';
 
 class Favorites extends StatefulWidget {
   @override
@@ -16,6 +17,7 @@ class _FavoritesState extends State<Favorites> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
+    Ads.handleAdsBottom();
     favoritesProvider = Provider.of(context, listen: true);
   }
 
