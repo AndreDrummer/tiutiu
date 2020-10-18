@@ -23,6 +23,7 @@ import 'package:tiutiu/providers/pet_form_provider.dart';
 import 'package:tiutiu/providers/pets_provider.dart';
 import 'package:tiutiu/providers/user_provider.dart';
 import 'package:tiutiu/screen/selection_page.dart';
+import 'package:tiutiu/utils/ads_helper.dart';
 import 'package:tiutiu/utils/routes.dart';
 import '../Widgets/input_text.dart';
 import 'package:image_picker/image_picker.dart';
@@ -123,7 +124,15 @@ class _PetFormState extends State<PetForm> {
     currentLocation = Provider.of<Location>(context, listen: false).getLocation;
     userId =
         Provider.of<Authentication>(context, listen: false).firebaseUser.uid;
+
+    if (Ads.bannerAdTop != null || Ads.bannerAdBottom != null) {
+      Ads.hideBannerAdTop();
+      Ads.hideBannerAdTop2();
+      Ads.hideBannerAdBottom();
+    }
+
     print('Local $currentLocation');
+    super.initState();
   }
 
   @override
@@ -837,13 +846,14 @@ class _PetFormState extends State<PetForm> {
                                                       clearUpCaracteristics(),
                                                   child: Container(
                                                     decoration: BoxDecoration(
-                                                      border: Border.all(
-                                                        style: BorderStyle.solid
-                                                      ),
-                                                      shape: BoxShape.circle
-                                                    ),
+                                                        border: Border.all(
+                                                            style: BorderStyle
+                                                                .solid),
+                                                        shape: BoxShape.circle),
                                                     child: Padding(
-                                                      padding: const EdgeInsets.all(4.0),
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              4.0),
                                                       child: Icon(Icons.clear),
                                                     ),
                                                   ),
