@@ -1,4 +1,3 @@
-import 'package:firebase_admob/firebase_admob.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tiutiu/Widgets/card_list.dart';
@@ -8,7 +7,7 @@ import 'package:tiutiu/backend/Model/pet_model.dart';
 import 'package:tiutiu/providers/location.dart';
 import 'package:tiutiu/providers/pets_provider.dart';
 import 'package:tiutiu/providers/refine_search.dart';
-import 'package:tiutiu/utils/constantes.dart';
+import 'package:tiutiu/utils/ads_helper.dart';
 import 'package:tiutiu/utils/math_functions.dart';
 import 'package:tiutiu/utils/routes.dart';
 
@@ -25,7 +24,7 @@ class _DonateDisappearedListState extends State<DonateDisappearedList> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   PetsProvider petsProvider;
   RefineSearchProvider refineSearchProvider;
-  Location location;  
+  Location location;
 
   void showFilter() {
     setState(() {
@@ -35,21 +34,6 @@ class _DonateDisappearedListState extends State<DonateDisappearedList> {
 
   @override
   void initState() {
-    FirebaseAdMob.instance.initialize(appId: Constantes.ADMOB_APP_ID);
-    // Constantes.myInterstitial
-    //   ..load()
-    //   ..show(
-    //     anchorOffset: 0.0,
-    //     horizontalCenterOffset: 0.0,
-    //   );
-
-    Constantes.myBanner
-      ..load()
-      ..show(                
-        anchorOffset: 150,
-        horizontalCenterOffset: 0.0,
-        anchorType: AnchorType.top,
-      );
     petsProvider = Provider.of(context, listen: false);
     if (widget.kind == 'Donate' && petsProvider.getListDonatesPETS == null) {
       petsProvider.loadDonatedPETS();
@@ -61,10 +45,12 @@ class _DonateDisappearedListState extends State<DonateDisappearedList> {
   }
 
   @override
-  void dispose() {
-    // Constantes.myInterstitial.dispose();
-    Constantes.myBanner.dispose();
-    super.dispose();
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (Ads.bannerAdBottom != null) {
+      Ads.hideBannerAdBottom();
+    }
+    Ads.showBannerAdTop();
   }
 
   bool isFiltering() {
@@ -164,18 +150,27 @@ class _DonateDisappearedListState extends State<DonateDisappearedList> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  Container(
-                    color: Colors.red,
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        'Você está utilizando Tiu, tiu em fase de teste. Os dados podem ser fictícios.',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.w700,
+                  Column(
+                    children: [
+                      Container(
+                      color: Colors.black87,
+                      height: 70,
+                        // child: SizedBox(height: Ads.bannerAdTop == null ? 0 : 40),
+                      ),
+                      Container(
+                        color: Colors.red,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          // child: Text(
+                          //   'Você está utilizando Tiu, tiu em fase de teste. Os dados podem ser fictícios.',
+                          //   style: TextStyle(
+                          //     color: Colors.white,
+                          //     fontWeight: FontWeight.w700,
+                          //   ),
+                          // ),
                         ),
                       ),
-                    ),
+                    ],
                   ),
                   Expanded(
                     child: ListView.builder(
