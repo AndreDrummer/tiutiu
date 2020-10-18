@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_admob/firebase_admob.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
@@ -16,7 +17,7 @@ import 'package:tiutiu/screen/auth_screen.dart';
 import 'package:tiutiu/screen/favorites.dart';
 import 'package:tiutiu/screen/my_account.dart';
 import 'package:tiutiu/screen/pets_list.dart';
-import 'package:tiutiu/utils/constantes.dart';
+import 'package:tiutiu/utils/ads_helper.dart';
 import '../Widgets/floating_button_option.dart';
 import 'package:tiutiu/backend/Controller/user_controller.dart';
 import '../utils/routes.dart';
@@ -33,6 +34,7 @@ class _HomeState extends State<Home> {
   FavoritesProvider favoritesProvider;
   Authentication auth;
   final fbm = FirebaseMessaging();
+  BannerAd homeBanner;
 
   // Widget _buildDialog(BuildContext context) {
   //   return AlertDialog(
@@ -66,13 +68,13 @@ class _HomeState extends State<Home> {
   // }
 
   // void _navigateToItemDetail(Map<String, dynamic> message) {
-    // final Item item = _itemForMessage(message);
-    // Clear away dialogs
-    // Navigator.popUntil(context, (Route<dynamic> route) => route is PageRoute);
-    // if (!item.route.isCurrent) {
-    //   Navigator.push(context, item.route);
-    // }
-  // }      
+  // final Item item = _itemForMessage(message);
+  // Clear away dialogs
+  // Navigator.popUntil(context, (Route<dynamic> route) => route is PageRoute);
+  // if (!item.route.isCurrent) {
+  //   Navigator.push(context, item.route);
+  // }
+  // }
 
   @override
   void initState() {
@@ -90,12 +92,7 @@ class _HomeState extends State<Home> {
         return;
       },
     );
-
-    fbm.subscribeToTopic('petInfo');
-    fbm.subscribeToTopic('wannaAdopt');
-    fbm.subscribeToTopic('confirmAdotpion');
-    fbm.subscribeToTopic('adotpionConfirmed');
-    fbm.subscribeToTopic('adotpionDenied');
+        
     fbm.requestNotificationPermissions();
     super.initState();
   }
@@ -107,6 +104,7 @@ class _HomeState extends State<Home> {
     favoritesProvider = Provider.of<FavoritesProvider>(context, listen: false);
     if (auth.firebaseUser != null) setUserMetaData();
     isAuthenticated = auth.firebaseUser != null;
+    Ads.handleAdsTop();
     super.didChangeDependencies();
   }
 
@@ -170,7 +168,7 @@ class _HomeState extends State<Home> {
     if (auth.firebaseUser != null) {
       favoritesProvider.loadFavoritesReference();
     }
-  }  
+  }
 
   @override
   Widget build(BuildContext context) {

@@ -1,3 +1,4 @@
+import 'package:firebase_admob/firebase_admob.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -27,9 +28,13 @@ import 'package:tiutiu/screen/pet_detail.dart';
 import 'package:tiutiu/screen/refine_search.dart';
 import 'package:tiutiu/screen/register.dart';
 import 'package:tiutiu/screen/settings.dart';
+import 'package:tiutiu/utils/ads_helper.dart';
+import 'package:tiutiu/utils/constantes.dart';
 import './utils/routes.dart';
 void main() {
-  WidgetsFlutterBinding.ensureInitialized();  
+  WidgetsFlutterBinding.ensureInitialized();
+  FirebaseAdMob.instance.initialize(appId: Constantes.ADMOB_APP_ID);
+  Ads.myInterstitial..load()..show();
   runApp(App());
 }
 
