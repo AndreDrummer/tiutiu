@@ -136,6 +136,7 @@ class _DonateDisappearedListState extends State<DonateDisappearedList> {
                     Navigator.pushNamed(context, Routes.SEARCH_REFINE);
                   },
                   child: Column(
+                    mainAxisAlignment: adsProvider.getCanShowAds ? MainAxisAlignment.start : MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.stretch,                    
                     children: [
                       SizedBox(height: 10),
