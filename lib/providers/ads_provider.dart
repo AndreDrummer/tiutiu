@@ -6,29 +6,22 @@ import 'package:rxdart/rxdart.dart';
 class AdsProvider with ChangeNotifier {
   // Streams
   final _canShowAds = BehaviorSubject<bool>.seeded(false);
-  // final _canShowHomeBlock = BehaviorSubject<bool>.seeded(false);
-  // final _canShowBottomAds = BehaviorSubject<bool>.seeded(false);
-  // final _canShowMyPetsAds = BehaviorSubject<bool>.seeded(false);
 
-  Stream<bool> get canShowAds => _canShowAds.stream;
-  // Stream<bool> get canShowHomeBlock => _canShowHomeBlock.stream;
-  // Stream<bool> get canShowBottomAds => _canShowBottomAds.stream;
-  // Stream<bool> get canShowMyPetsAds => _canShowMyPetsAds.stream;
-
-  void Function(bool) get changeCanShowAds => _canShowAds.sink.add;
-  // void Function(bool) get changeCanShowHomeBlock => _canShowHomeBlock.sink.add;
-  // void Function(bool) get changeCanShowBottomAds => _canShowBottomAds.sink.add;
-  // void Function(bool) get changeCanShowMyPetsAds => _canShowMyPetsAds.sink.add;
-
+  Stream<bool> get canShowAds => _canShowAds.stream;  
+  void Function(bool) get changeCanShowAds => _canShowAds.sink.add;  
   bool get getCanShowAds => _canShowAds.value;
-  // bool get getCanShowHomeBlock => _canShowHomeBlock.value;
-  // bool get getCanShowBottomAds => _canShowBottomAds.value;
-  // bool get getCanShowMyPetsAds => _canShowMyPetsAds.value;
 
   String get homeAdId => 'ca-app-pub-2837828701670824/9751920293';
   String get bottomAdId => 'ca-app-pub-2837828701670824/5937594529';
   String get topAdId => 'ca-app-pub-2837828701670824/3311431180';
   String get intertitialAdId => 'ca-app-pub-2837828701670824/9030661721';
+  
+  
+  
+  int bannerWidth = 300;
+  void changeBannerWidth(int width) {
+    bannerWidth = width;
+  }
 
   void handleEvent(
       AdmobAdEvent event, Map<String, dynamic> args, String adType) {
@@ -52,10 +45,10 @@ class AdsProvider with ChangeNotifier {
     }
   }
 
-  AdmobBanner bannerAdMob({String adId, bool medium_banner = false}) {
+  AdmobBanner bannerAdMob({String adId, bool medium_banner = false, bool testeAdId = true}) {
     return AdmobBanner(
-      adUnitId: adId != null ? adId : BannerAd.testAdUnitId,
-      adSize: medium_banner?  AdmobBannerSize.MEDIUM_RECTANGLE : AdmobBannerSize.FULL_BANNER,
+      adUnitId: !testeAdId ? adId : BannerAd.testAdUnitId,
+      adSize: medium_banner?  AdmobBannerSize.MEDIUM_RECTANGLE : AdmobBannerSize.ADAPTIVE_BANNER(width: bannerWidth),
       listener: (AdmobAdEvent event, Map<String, dynamic> args) {
         handleEvent(event, args, 'Banner');
       },
@@ -84,8 +77,7 @@ class AdsProvider with ChangeNotifier {
   AdmobReward get getRewardAd => _rewardAd.value;
 
   void initReward() {
-    changeRewardAd(_createAdmobReward());
-    print('INIT');
+    changeRewardAd(_createAdmobReward());    
   }
 
   @override
