@@ -154,7 +154,8 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
                   return LoadingScreen(text: 'Carregando meus pets');
                 }
                 if (snapshot.data.isEmpty) {                                    
-                  return Column(                    
+                  return Column(             
+                    mainAxisAlignment: adsProvider.getCanShowAds ? MainAxisAlignment.start : MainAxisAlignment.center,       
                     children: [
                       SizedBox(height: 100),
                       adsProvider.getCanShowAds ? adsProvider.bannerAdMob(medium_banner: true, adId: adsProvider.topAdId) : Container(),
@@ -173,7 +174,7 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
                     ],
                   );
                 }
-                return Column(
+                return Column(                  
                   children: [
                     adsProvider.getCanShowAds
                         ? adsProvider.bannerAdMob(adId: adsProvider.topAdId)
