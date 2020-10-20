@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tiutiu/Widgets/button.dart';
 import 'package:tiutiu/Widgets/new_map.dart';
+import 'package:tiutiu/providers/ads_provider.dart';
 import 'package:tiutiu/providers/location.dart';
 import 'package:tiutiu/screen/pet_form.dart';
-import 'package:tiutiu/utils/ads_helper.dart';
 import 'package:tiutiu/utils/routes.dart';
 
 class ChooseLocation extends StatefulWidget {
@@ -15,27 +15,25 @@ class ChooseLocation extends StatefulWidget {
   });
 
   final bool editMode;
-  final DocumentReference petReference;  
+  final DocumentReference petReference;
 
   @override
   _ChooseLocationState createState() => _ChooseLocationState();
 }
 
 class _ChooseLocationState extends State<ChooseLocation> {
+  AdsProvider adsProvider;
 
-  @override
-  void initState() {
-    super.initState();
-    if(Ads.bannerAdTop != null) {
-      Ads.hideBannerAdTop();
-      Ads.hideBannerAdTop2();
-    }
-    Ads.showBannerAdBottom();
+   @override
+  void didChangeDependencies() {   
+    adsProvider = Provider.of<AdsProvider>(context); 
+    super.didChangeDependencies();
   }
 
   @override
   Widget build(BuildContext context) {
-    var params = ModalRoute.of(context).settings.arguments as Map<String, dynamic>;
+    var params =
+        ModalRoute.of(context).settings.arguments as Map<String, dynamic>;
     var kind = widget.editMode ? '' : params['kind'];
 
     return Scaffold(

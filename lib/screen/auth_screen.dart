@@ -8,6 +8,7 @@ import 'package:tiutiu/Widgets/input_text.dart';
 import 'package:tiutiu/Widgets/load_dark_screen.dart';
 import 'package:tiutiu/Widgets/popup_message.dart';
 import 'package:tiutiu/Widgets/button.dart';
+import 'package:tiutiu/providers/ads_provider.dart';
 import 'package:tiutiu/providers/auth2.dart';
 
 class AuthScreen extends StatefulWidget {
@@ -26,6 +27,7 @@ class _AuthScreenState extends State<AuthScreen> {
   bool isToResetPassword = false;
   bool repeatPasswordError = false;
   bool fieldsAreReadyOnly = false;
+  AdsProvider adsProvider;
 
   @override
   void setState(fn) {
@@ -406,7 +408,7 @@ class _AuthScreenState extends State<AuthScreen> {
                                     InkWell(
                                       onTap: () {
                                         changeLogginStatus(true);
-                                        auth.signInWithFacebook().then((_) {                                          
+                                        auth.signInWithFacebook().then((_) {
                                           if (canPop != null &&
                                               canPop == true) {
                                             Navigator.popUntil(context,
