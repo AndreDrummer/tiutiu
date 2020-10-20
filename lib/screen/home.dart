@@ -10,6 +10,7 @@ import 'package:provider/provider.dart';
 import 'package:tiutiu/Custom/icons.dart';
 import 'package:tiutiu/Widgets/button.dart';
 import 'package:tiutiu/Widgets/popup_message.dart';
+import 'package:tiutiu/providers/ads_provider.dart';
 import 'package:tiutiu/providers/auth2.dart';
 import 'package:tiutiu/providers/favorites_provider.dart';
 import 'package:tiutiu/providers/user_provider.dart';
@@ -17,7 +18,6 @@ import 'package:tiutiu/screen/auth_screen.dart';
 import 'package:tiutiu/screen/favorites.dart';
 import 'package:tiutiu/screen/my_account.dart';
 import 'package:tiutiu/screen/pets_list.dart';
-import 'package:tiutiu/utils/ads_helper.dart';
 import '../Widgets/floating_button_option.dart';
 import 'package:tiutiu/backend/Controller/user_controller.dart';
 import '../utils/routes.dart';
@@ -35,6 +35,7 @@ class _HomeState extends State<Home> {
   Authentication auth;
   final fbm = FirebaseMessaging();
   BannerAd homeBanner;
+  AdsProvider adsProvider;
 
   // Widget _buildDialog(BuildContext context) {
   //   return AlertDialog(
@@ -78,6 +79,9 @@ class _HomeState extends State<Home> {
 
   @override
   void initState() {
+    adsProvider = Provider.of(context, listen: false);
+    adsProvider.changeCanShowAds(true);
+    adsProvider.initReward();
     fbm.configure(
       onMessage: (msg) {
         userProvider.loadNotifications();
@@ -92,7 +96,6 @@ class _HomeState extends State<Home> {
         return;
       },
     );
-        
     fbm.requestNotificationPermissions();
     super.initState();
   }
@@ -104,11 +107,10 @@ class _HomeState extends State<Home> {
     favoritesProvider = Provider.of<FavoritesProvider>(context, listen: false);
     if (auth.firebaseUser != null) setUserMetaData();
     isAuthenticated = auth.firebaseUser != null;
-    Ads.handleAdsTop();
     super.didChangeDependencies();
   }
 
-  void _onItemTapped(int index) {
+  void _onItemTapped(int index) {    
     setState(() {
       _selectedIndex = index;
     });
