@@ -47,7 +47,7 @@ class _NewMapState extends State<NewMap> with SingleTickerProviderStateMixin {
             );
           }
           return FloatingCard(
-            bottomPosition: 70.0,
+            bottomPosition: 60.0,
             leftPosition: 0.0,
             rightPosition: 0.0,
             width: 500,

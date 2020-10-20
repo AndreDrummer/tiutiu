@@ -1,4 +1,3 @@
-import 'package:firebase_admob/firebase_admob.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -8,10 +7,10 @@ import 'package:tiutiu/Widgets/circle_child.dart';
 import 'package:tiutiu/Widgets/fullscreen_images.dart';
 import 'package:tiutiu/Widgets/my_account_card.dart';
 import 'package:tiutiu/Widgets/popup_message.dart';
+import 'package:tiutiu/providers/ads_provider.dart';
 import 'package:tiutiu/providers/auth2.dart';
 import 'package:tiutiu/providers/user_provider.dart';
 import 'package:tiutiu/screen/my_pets.dart';
-import 'package:tiutiu/utils/constantes.dart';
 import 'package:tiutiu/utils/routes.dart';
 
 class MyAccount extends StatefulWidget {
@@ -21,31 +20,14 @@ class MyAccount extends StatefulWidget {
 
 class _MyAccountState extends State<MyAccount> {
   UserProvider userProvider;
-
-  @override
-  void initState() {
-    FirebaseAdMob.instance.initialize(appId: Constantes.ADMOB_APP_ID);
-    Constantes.myBanner
-      ..load()
-      ..show(                
-        anchorOffset: 50,
-        horizontalCenterOffset: 0.0,
-        anchorType: AnchorType.bottom,
-      );
-    super.initState();
-  }
+  AdsProvider adsProvider;
 
   @override
   void didChangeDependencies() {
     userProvider = Provider.of<UserProvider>(context, listen: false);
     userProvider.loadMyPets();
+    adsProvider = Provider.of(context);
     super.didChangeDependencies();
-  }
-
-  @override
-  void dispose() {
-    Constantes.myBanner.dispose();
-    super.dispose();
   }
 
   Widget appBar(UserProvider userProvider, Authentication auth) {
@@ -79,17 +61,19 @@ class _MyAccountState extends State<MyAccount> {
                     child: CircleChild(
                       avatarRadius: 45,
                       child: InkWell(
-                        onTap: userProvider.photoURL == null ? null : () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => FullScreenImage(
-                                tag: 'myProfile',
-                                images: [userProvider.photoURL],
-                              ),
-                            ),
-                          );
-                        },
+                        onTap: userProvider.photoURL == null
+                            ? null
+                            : () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => FullScreenImage(
+                                      tag: 'myProfile',
+                                      images: [userProvider.photoURL],
+                                    ),
+                                  ),
+                                );
+                              },
                         child: Hero(
                           tag: 'myProfile',
                           child: FadeInImage(
@@ -104,7 +88,7 @@ class _MyAccountState extends State<MyAccount> {
                         ),
                       ),
                     ),
-                  ),                                    
+                  ),
                   Expanded(
                     child: Column(
                       children: [
@@ -446,7 +430,7 @@ class _MyAccountState extends State<MyAccount> {
                       children: [
                         InkWell(
                           onTap: () async {
-                            Navigator.pushNamed(context, Routes.SETTINGS);
+                            Navigator.pushNamed(context, Routes.SETTINGS);                            
                           },
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
@@ -518,11 +502,12 @@ class _MyAccountState extends State<MyAccount> {
                       ],
                     ),
                   ),
+                  adsProvider.getCanShowAds ? adsProvider.bannerAdMob(adId: adsProvider.bottomAdId) : Container(),
                   Opacity(
                     opacity: 0.7,
                     child: Image.asset('assets/trofeu.jpg', fit: BoxFit.fill),
-                  ),
-                  SizedBox(height: height < 500 ? 200 : 50)
+                  ),                  
+                  SizedBox(height: height < 500 ? 220 : 0)
                 ],
               ),
             ),
