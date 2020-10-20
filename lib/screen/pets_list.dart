@@ -10,8 +10,7 @@ import 'package:tiutiu/utils/routes.dart';
 class PetsList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final indexTab = ModalRoute.of(context).settings.arguments;
-
+    final indexTab = ModalRoute.of(context).settings.arguments;    
     void navigateToAuth() {
       Navigator.pushNamed(context, Routes.AUTH, arguments: true);
     }
@@ -35,30 +34,35 @@ class PetsList extends StatelessWidget {
                 ),
                 Consumer<UserProvider>(
                   builder: (_, userProvider, child) => Consumer<Authentication>(
-                    builder: (_, auth, child) => auth.firebaseUser == null ? Container() : Stack(
-                      children: [
-                        IconButton(
-                          onPressed: auth.firebaseUser == null
-                              ? navigateToAuth
-                              : () {
-                                  Navigator.pushNamed(
-                                      context, Routes.CONFIRM_ADOPTION);
-                                },
-                          icon: Icon(
-                            Icons.notifications,
-                            color: Colors.white,
+                    builder: (_, auth, child) => auth.firebaseUser == null
+                        ? Container()
+                        : Stack(
+                            children: [
+                              IconButton(
+                                onPressed: auth.firebaseUser == null
+                                    ? navigateToAuth
+                                    : () {
+                                        Navigator.pushNamed(
+                                          context,
+                                          Routes.CONFIRM_ADOPTION,
+                                        );
+                                      },
+                                icon: Icon(
+                                  Icons.notifications,
+                                  color: Colors.white,
+                                ),
+                              ),
+                              Positioned(
+                                right: 10,
+                                child: Badge(
+                                    color: Colors.red,
+                                    text: userProvider
+                                            .getNotificationsAboutAdoptions
+                                            ?.length ??
+                                        0),
+                              )
+                            ],
                           ),
-                        ),
-                        Positioned(
-                          right: 10,
-                          child: Badge(
-                            color: Colors.red,
-                            text: userProvider
-                                .getNotificationsAboutAdoptions?.length ?? 0                                
-                          ),
-                        )
-                      ],
-                    ),
                   ),
                 )
               ],

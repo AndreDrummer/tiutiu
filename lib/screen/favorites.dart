@@ -3,8 +3,8 @@ import 'package:provider/provider.dart';
 import 'package:tiutiu/Widgets/background.dart';
 import 'package:tiutiu/Widgets/card_list.dart';
 import 'package:tiutiu/Widgets/loading_screen.dart';
+import 'package:tiutiu/providers/ads_provider.dart';
 import 'package:tiutiu/providers/favorites_provider.dart';
-
 class Favorites extends StatefulWidget {
   @override
   _FavoritesState createState() => _FavoritesState();
@@ -12,11 +12,13 @@ class Favorites extends StatefulWidget {
 
 class _FavoritesState extends State<Favorites> {
   FavoritesProvider favoritesProvider;
+  AdsProvider adsProvider;
 
   @override
   void didChangeDependencies() {
-    super.didChangeDependencies();
     favoritesProvider = Provider.of(context, listen: true);
+    adsProvider = Provider.of(context);    
+    super.didChangeDependencies();
   }
 
   @override
@@ -56,19 +58,26 @@ class _FavoritesState extends State<Favorites> {
                           ),
                         );
                       }
-                      return ListView.builder(
-                        itemCount: snapshot.data.length,
-                        itemBuilder: (_, index) {
-                          return CardList(
-                            petInfo: snapshot.data[index],
-                            kind: snapshot.data[index].kind,
-                            favorite: true,
-                          );
-                        },
+                      return Column(
+                        children: [
+                          adsProvider.getCanShowAds ? adsProvider.bannerAdMob(adId: adsProvider.topAdId) : Container(),
+                          Expanded(
+                            child: ListView.builder(
+                              itemCount: snapshot.data.length,
+                              itemBuilder: (_, index) {
+                                return CardList(
+                                  petInfo: snapshot.data[index],
+                                  kind: snapshot.data[index].kind,
+                                  favorite: true,
+                                );
+                              },
+                            ),
+                          ),
+                        ],
                       );
                     },
                   ),
-                )
+                ),
               ],
             );
           },
