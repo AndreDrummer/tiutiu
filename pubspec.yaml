@@ -59,6 +59,7 @@ dependencies:
   firebase_messaging: ^7.0.3
   flutter_facebook_auth: "^0.3.0"
   firebase_admob: ^0.10.0+2
+  admob_flutter: ^1.0.0
 
 flutter_icons:
   android: "launcher_icon"

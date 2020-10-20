@@ -44,7 +44,8 @@ class PetsProvider with ChangeNotifier {
           .doc(allUsersID[j])
           .collection('Pets')
           .doc('posted')
-          .collection('Disappeared').where('found', isEqualTo: false)
+          .collection('Disappeared')
+          .where('found', isEqualTo: false)
           .get()
           .then((disappearedPETS) {
         for (int i = 0; i < disappearedPETS.docs.length; i++) {
@@ -67,7 +68,8 @@ class PetsProvider with ChangeNotifier {
           .doc(allUsersID[j])
           .collection('Pets')
           .doc('posted')
-          .collection('Donate').where('donated', isEqualTo: false)
+          .collection('Donate')
+          .where('donated', isEqualTo: false)
           .get()
           .then((donatesPETS) {
         for (int i = 0; i < donatesPETS.docs.length; i++) {
@@ -94,7 +96,7 @@ class PetsProvider with ChangeNotifier {
     String distanceSelected,
   ) async {
     if (petType == 'Todos') {
-      if(petKind == 'Donate') {
+      if (petKind == 'Donate') {
         loadDonatedPETS();
       } else {
         loadDisappearedPETS();
@@ -108,7 +110,13 @@ class PetsProvider with ChangeNotifier {
             .collection('Pets')
             .doc('posted')
             .collection(petKind)
-            .where("type", isEqualTo: petType);        
+            .where("type", isEqualTo: petType);
+
+        if (petKind == 'Donate') {
+          query = await query.where("donated", isEqualTo: false);
+        } else if (petKind == 'Disappeared') {
+          query = await query.where("found", isEqualTo: false);
+        }        
 
         if (breedSelected.isNotEmpty && breedSelected != null) {
           query = await query.where("breed", isEqualTo: breedSelected);
