@@ -15,10 +15,16 @@ class _BootstrapState extends State<Bootstrap> {
   Location local;
 
   @override
+  void initState() {
+    // Ads.closeAllAds();
+    super.initState();
+  }
+
+  @override
   void didChangeDependencies() {
     local = Provider.of<Location>(context);
     local.permissionCheck();
-    local.locationServiceIsEnabled();
+    local.locationServiceIsEnabled();    
     super.didChangeDependencies();
   }
 
