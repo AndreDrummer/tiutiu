@@ -5,6 +5,7 @@ import 'package:tiutiu/Widgets/button.dart';
 import 'package:tiutiu/Widgets/badge.dart';
 import 'package:tiutiu/Widgets/load_dark_screen.dart';
 import 'package:tiutiu/data/dummy_data.dart';
+import 'package:tiutiu/providers/ads_provider.dart';
 import 'package:tiutiu/providers/pets_provider.dart';
 import 'package:tiutiu/providers/refine_search.dart';
 import 'package:tiutiu/screen/selection_page.dart';
@@ -21,6 +22,7 @@ class _RefineSearchState extends State<RefineSearch> {
   bool isRefiningSearch = false;
   bool isPetDisappeared = false;
   int selectedKind;
+  AdsProvider adsProvider;
 
   List petsType = ['Cachorro', 'Gato', 'Pássaro', 'Hamster', 'Outro'];
 
@@ -30,7 +32,7 @@ class _RefineSearchState extends State<RefineSearch> {
     });
   }
 
-  void changePetKind(bool value) {    
+  void changePetKind(bool value) {
     refineSearchProvider.changeIsDisappeared(value);
   }
 
@@ -48,6 +50,7 @@ class _RefineSearchState extends State<RefineSearch> {
     petsProvider = Provider.of<PetsProvider>(context);
     refineSearchProvider = Provider.of<RefineSearchProvider>(context);
     selectedKind = refineSearchProvider.getKindSelected;
+    adsProvider = Provider.of(context);
     super.didChangeDependencies();
   }
 
@@ -96,7 +99,7 @@ class _RefineSearchState extends State<RefineSearch> {
         'valueSelected': refineSearchProvider.getSexSelected,
         'selectionPageTitle': 'Sexo',
         'selectionPageList': ['Macho', 'Fêmea'],
-        'onValueSelected': (String value) {          
+        'onValueSelected': (String value) {
           refineSearchProvider.changeSexSelected(value);
         },
         'clearFunction': () {
@@ -174,29 +177,36 @@ class _RefineSearchState extends State<RefineSearch> {
                             titleTile: optionTile['title'],
                             valueSelected: optionTile['valueSelected'],
                             clear: optionTile['clearFunction'],
-                            onTap: selectedKind == 0 ? null : () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) {
-                                    return SelectionPage(
-                                      title: optionTile['selectionPageTitle'],
-                                      list: optionTile['selectionPageList'],
-                                      valueSelected: optionTile['valueSelected'],
-                                    );
+                            onTap: selectedKind == 0
+                                ? null
+                                : () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) {
+                                          return SelectionPage(
+                                            title: optionTile[
+                                                'selectionPageTitle'],
+                                            list:
+                                                optionTile['selectionPageList'],
+                                            valueSelected:
+                                                optionTile['valueSelected'],
+                                          );
+                                        },
+                                      ),
+                                    ).then((value) {
+                                      if (value != null) {
+                                        optionTile['onValueSelected'](value);
+                                      }
+                                    });
                                   },
-                                ),
-                              ).then((value) {
-                                if (value != null) {
-                                  optionTile['onValueSelected'](value);
-                                }
-                              });
-                            },
                           ),
                         );
                       }).toList(),
                     ),
-                    selectedKind == 0 ? Container(color: Colors.black12, height: 328) : Container(),
+                    selectedKind == 0
+                        ? Container(color: Colors.black12, height: 328)
+                        : Container(),
                   ],
                 ),
                 Padding(
@@ -207,7 +217,7 @@ class _RefineSearchState extends State<RefineSearch> {
                         'Desaparecido ?',
                         style: TextStyle(fontSize: 18),
                       ),
-                      Checkbox(                      
+                      Checkbox(
                         value: refineSearchProvider.getIsDisappeared,
                         onChanged: (value) {
                           changePetKind(value);
@@ -235,25 +245,35 @@ class _RefineSearchState extends State<RefineSearch> {
                   child: ButtonWide(
                     color: isRefiningSearch ? Colors.grey : Colors.purple,
                     text: 'BUSCAR',
-                    action: isRefiningSearch ? null : () async {
-                      changeIsRefineSearchStatus(true);
-                      await petsProvider.bigQueryRefine(
-                          refineSearchProvider.getIsDisappeared ? 'Disappeared' : 'Donate',
-                          selectedKind == 0 ? 'Todos' : petsType[selectedKind - 1],
-                          refineSearchProvider.getBreedSelected,
-                          refineSearchProvider.getSizeSelected,
-                          refineSearchProvider.getAgeSelected,
-                          refineSearchProvider.getSexSelected,
-                          refineSearchProvider.getHealthSelected,
-                          refineSearchProvider.getDistancieSelected);
-                      changeIsRefineSearchStatus(false);
-                      Navigator.pushNamed(context, Routes.HOME, arguments: refineSearchProvider.getIsDisappeared ? 1 : 0);
-                    },
+                    action: isRefiningSearch
+                        ? null
+                        : () async {
+                            changeIsRefineSearchStatus(true);
+                            await petsProvider.bigQueryRefine(
+                                refineSearchProvider.getIsDisappeared
+                                    ? 'Disappeared'
+                                    : 'Donate',
+                                selectedKind == 0
+                                    ? 'Todos'
+                                    : petsType[selectedKind - 1],
+                                refineSearchProvider.getBreedSelected,
+                                refineSearchProvider.getSizeSelected,
+                                refineSearchProvider.getAgeSelected,
+                                refineSearchProvider.getSexSelected,
+                                refineSearchProvider.getHealthSelected,
+                                refineSearchProvider.getDistancieSelected);
+                            changeIsRefineSearchStatus(false);
+                            Navigator.pushNamed(context, Routes.HOME,
+                                arguments: refineSearchProvider.getIsDisappeared
+                                    ? 1
+                                    : 0);
+                          },
                   ),
-                )
+                ),
+                adsProvider.getCanShowAds ? adsProvider.bannerAdMob(adId: adsProvider.bottomAdId) : Container(),
               ],
             ),
-          ),
+          ),          
           LoadDarkScreen(
               show: isRefiningSearch, message: 'Refinando resultados...')
         ],
@@ -320,7 +340,7 @@ class _PetSelector extends StatelessWidget {
                               ? Colors.white
                               : Colors.black,
                         ),
-                      )
+                      ),
                     ],
                   ),
                 ),
@@ -385,7 +405,7 @@ class __SelecterTileState extends State<_SelecterTile> {
                 ],
               ),
             ),
-            Divider()
+            Divider(),
           ],
         ),
       ),

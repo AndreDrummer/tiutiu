@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:tiutiu/Widgets/new_map.dart';
+import 'package:tiutiu/providers/ads_provider.dart';
 import 'package:tiutiu/providers/auth2.dart';
 import 'package:tiutiu/providers/favorites_provider.dart';
 import 'package:tiutiu/providers/location.dart';
@@ -28,13 +29,15 @@ import 'package:tiutiu/screen/pet_detail.dart';
 import 'package:tiutiu/screen/refine_search.dart';
 import 'package:tiutiu/screen/register.dart';
 import 'package:tiutiu/screen/settings.dart';
-import 'package:tiutiu/utils/ads_helper.dart';
 import 'package:tiutiu/utils/constantes.dart';
+// import 'package:tiutiu/utils/constantes.dart';
 import './utils/routes.dart';
+import 'package:admob_flutter/admob_flutter.dart';
+
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   FirebaseAdMob.instance.initialize(appId: Constantes.ADMOB_APP_ID);
-  Ads.myInterstitial..load()..show();
+  Admob.initialize(); 
   runApp(App());
 }
 
@@ -70,6 +73,9 @@ class App extends StatelessWidget {
               ),
               ChangeNotifierProvider(
                 create: (_) => RefineSearchProvider(),
+              ),              
+              ChangeNotifierProvider(
+                create: (_) => AdsProvider(),
               ),              
               ChangeNotifierProvider(
                 create: (_) => PetsProvider(),
