@@ -1,108 +1,167 @@
-import 'package:firebase_admob/firebase_admob.dart';
+// import 'package:firebase_admob/firebase_admob.dart';
 
-const String testDevice = 'YOUR_DEVICE_ID';
+// const String testDevice = 'YOUR_DEVICE_ID';
 
-class Ads {
-  static BannerAd bannerAdTop;
-  static BannerAd bannerAdTop2;
-  static BannerAd bannerAdBottom;
+// class Ads {
+//   static BannerAd homeBlock;
+//   static BannerAd myPettsBlock;
+//   static InterstitialAd noConnectionBlock;
+//   static BannerAd myAccountBlock;  
 
-  static void initialize() {
-    FirebaseAdMob.instance.initialize(appId: FirebaseAdMob.testAppId);
-  }
+//   static void initialize() {
+//     FirebaseAdMob.instance.initialize(appId: FirebaseAdMob.testAppId);
+//   }
 
-  static const MobileAdTargetingInfo targetingInfo = MobileAdTargetingInfo(
-    keywords: <String>['pets', 'cats' 'dogs', 'animais', 'gatos', 'cachorros'],
-    childDirected: false,
-  );
+//   static const MobileAdTargetingInfo targetingInfo = MobileAdTargetingInfo(
+//     keywords: <String>['pets', 'cats' 'dogs', 'animais', 'gatos', 'cachorros'],
+//     childDirected: false,
+//   );
 
-  static BannerAd _createBannerAd() {
-    return BannerAd(
-      adUnitId: 'ca-app-pub-2837828701670824/9751920293',
-      size: AdSize.banner,
-      targetingInfo: targetingInfo,
-      listener: (MobileAdEvent event) {
-        print("BannerAd event is $event");
-      },
-    );
-  }
+//   static BannerAd _createBannerAd({String adId}) {
+//     return BannerAd(
+//       adUnitId: BannerAd.testAdUnitId,
+//       size: AdSize.banner,
+//       targetingInfo: targetingInfo,
+//       listener: (MobileAdEvent event) {        
+//         print("BannerAd event is $event");
+//       },
+//     );
+//   }
 
-  static InterstitialAd myInterstitial = InterstitialAd(    
-    adUnitId: 'ca-app-pub-2837828701670824/9751920293',
-    targetingInfo: targetingInfo,
-    listener: (MobileAdEvent event) {
-      print("InterstitialAd event is $event");
-    },
-  );
+//   static InterstitialAd _createInterstitialAd({String adId}) {
+//     return InterstitialAd(
+//       adUnitId: InterstitialAd.testAdUnitId,
+//       targetingInfo: targetingInfo,
+//       listener: (MobileAdEvent event) {        
+//         print("InterstitialAd event is $event");
+//       },
+//     );
+//   }
 
-  static void showBannerAdTop() {
-    if (bannerAdTop == null) bannerAdTop = _createBannerAd();
-    bannerAdTop
-      ..load()
-      ..show(
-        anchorOffset: 160,
-        anchorType: AnchorType.top,
-      );
-  }
+//   static void showBannerAdHome() {
+//     if (homeBlock == null) homeBlock = _createBannerAd(adId: 'ca-app-pub-2837828701670824/9751920293');
+//     homeBlock
+//       ..load()
+//       ..show(
+//         anchorOffset: 160,
+//         anchorType: AnchorType.top,
+//       );
+//   }
 
-  static void showBannerAdTop2() {
-    if (bannerAdTop2 == null) bannerAdTop2 = _createBannerAd();
-    bannerAdTop2
-      ..load()
-      ..show(
-        anchorOffset: 87,
-        anchorType: AnchorType.top,
-      );
-  }
+//   static void showBannerAdMyPets() {
+//     if (myPettsBlock == null)
+//       myPettsBlock =
+//           _createBannerAd(adId: 'ca-app-pub-2837828701670824/3311431180');
+//     myPettsBlock
+//       ..load()
+//       ..show(
+//         anchorOffset: 87,
+//         anchorType: AnchorType.top,
+//       );
+//   }
 
-  static void hideBannerAdTop() async {
-    await bannerAdTop.dispose();
-    bannerAdTop = null;
-  }
+//   static void showBannerAdNoConnection() {
+//     if (noConnectionBlock == null)
+//       noConnectionBlock =
+//           _createInterstitialAd(adId: 'ca-app-pub-2837828701670824/9030661721');
+//     noConnectionBlock
+//       ..load()
+//       ..show(
+//         anchorOffset: 87,
+//         anchorType: AnchorType.top,
+//       );
+//   }
 
-  static void hideBannerAdTop2() async {
-    await bannerAdTop2.dispose();
-    bannerAdTop2 = null;
-  }
+//   static void showBannerAdMyAccount() {
+//     if (myAccountBlock == null)
+//       myAccountBlock =
+//           _createBannerAd(adId: 'ca-app-pub-2837828701670824/5937594529');
+//     myAccountBlock
+//       ..load()
+//       ..show(
+//         anchorOffset: 52,
+//         anchorType: AnchorType.bottom,
+//       );
+//   }
 
-  static void showBannerAdBottom() {
-    if (bannerAdBottom == null) bannerAdBottom = _createBannerAd();
-    bannerAdBottom
-      ..load()
-      ..show(
-        anchorOffset: 52,
-        anchorType: AnchorType.bottom,
-      );
-  }
+//   static void hideBannerAdHome() async {  
+//     try {      
+//       print('HOME BLOCK NULL: ${homeBlock == null}');
+//       if(homeBlock != null) {
+//         await homeBlock.dispose();
+//       }
+//       homeBlock = null;      
+//       print('(AFTER) HOME BLOCK NULL: ${homeBlock == null}');
+//     } catch (ex) {
+//       print("Banner home dispose error");
+//     }
+//   }
 
-  static void hideBannerAdBottom() async {
-    await bannerAdBottom.dispose();
-    bannerAdBottom = null;
-  }
+//   static void hideBannerAdMyAccount() async {
+//     try {
+//       if(myAccountBlock != null) {
+//         myAccountBlock.dispose();
+//       }
+//       myAccountBlock = null;
+//     } catch (ex) {
+//       print("Banner myAccount dispose error");
+//     }
+//   }
 
-  static void handleAdsBottom() {
-    if (Ads.bannerAdTop != null || Ads.bannerAdTop2 != null) {
-      Ads.hideBannerAdTop();
-      Ads.hideBannerAdTop2();
-    }
-    Ads.showBannerAdBottom();
-  }
+//   static void hideBannerAdMyPets() async {
+//     try {
+//       myPettsBlock?.dispose();
+//       myPettsBlock = null;
+//     } catch (ex) {
+//       print("Banner my pets dispose error");
+//     }
+//   }
 
-  static void handleAdsTop() {
-    if (Ads.bannerAdBottom != null) {
-      Ads.hideBannerAdBottom();
-      Ads.hideBannerAdTop2();
-      
-    }
-    Ads.showBannerAdTop();
-  }
+//   static void hideBannerAdNoConnection() async {
+//     try {
+//       noConnectionBlock?.dispose();
+//       noConnectionBlock = null;
+//     } catch (ex) {
+//       print("Banner noConnection dispose error");
+//     }
+//   }
 
-  static void handleAdsTop2() {
-    if (Ads.bannerAdBottom != null || Ads.bannerAdTop != null) {
-      Ads.hideBannerAdBottom();
-      Ads.hideBannerAdTop();
-      
-    }
-    Ads.showBannerAdTop2();
-  }
-}
+//   static void handleAdsBottom() async {    
+//     await hideBannerAdHome();
+//     await hideBannerAdMyPets();
+//     await hideBannerAdNoConnection();
+
+//     showBannerAdMyAccount();
+//   }
+
+//   static void handleAdsTop() async {
+//     await hideBannerAdMyAccount();
+//     await hideBannerAdMyPets();
+//     await hideBannerAdNoConnection();
+
+//     showBannerAdHome();
+//   }
+
+//   static void handleAdsTopMyPets() async {
+//     await hideBannerAdMyAccount();
+//     await hideBannerAdHome();
+//     await hideBannerAdNoConnection();
+
+//     showBannerAdMyPets();
+//   }
+
+//   static void closeAllAds() async {
+//     await hideBannerAdMyAccount();
+//     await hideBannerAdMyPets();
+//     await hideBannerAdHome();
+//     await hideBannerAdNoConnection();
+//   }
+
+//   static void handleNoConnectionAds() async {  
+//     await hideBannerAdMyPets();
+//     await hideBannerAdHome();
+//     showBannerAdNoConnection();
+//     showBannerAdMyAccount();
+//   }
+
+// }

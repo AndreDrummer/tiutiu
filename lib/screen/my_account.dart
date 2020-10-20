@@ -7,10 +7,10 @@ import 'package:tiutiu/Widgets/circle_child.dart';
 import 'package:tiutiu/Widgets/fullscreen_images.dart';
 import 'package:tiutiu/Widgets/my_account_card.dart';
 import 'package:tiutiu/Widgets/popup_message.dart';
+import 'package:tiutiu/providers/ads_provider.dart';
 import 'package:tiutiu/providers/auth2.dart';
 import 'package:tiutiu/providers/user_provider.dart';
 import 'package:tiutiu/screen/my_pets.dart';
-import 'package:tiutiu/utils/ads_helper.dart';
 import 'package:tiutiu/utils/routes.dart';
 
 class MyAccount extends StatefulWidget {
@@ -20,17 +20,13 @@ class MyAccount extends StatefulWidget {
 
 class _MyAccountState extends State<MyAccount> {
   UserProvider userProvider;
-
-  @override
-  void initState() {
-    super.initState();
-  }
+  AdsProvider adsProvider;
 
   @override
   void didChangeDependencies() {
     userProvider = Provider.of<UserProvider>(context, listen: false);
     userProvider.loadMyPets();
-    Ads.handleAdsBottom();
+    adsProvider = Provider.of(context);
     super.didChangeDependencies();
   }
 
@@ -141,7 +137,7 @@ class _MyAccountState extends State<MyAccount> {
                                 );
                               },
                             ),
-                          ).then((value) => Ads.handleAdsBottom());
+                          );
                         },
                         child: CircleChild(
                           avatarRadius: 25,
@@ -178,7 +174,7 @@ class _MyAccountState extends State<MyAccount> {
                                 );
                               },
                             ),
-                          ).then((value) => Ads.handleAdsBottom());
+                          );
                         },
                         child: CircleChild(
                           avatarRadius: 25,
@@ -214,7 +210,7 @@ class _MyAccountState extends State<MyAccount> {
                                 );
                               },
                             ),
-                          ).then((value) => Ads.handleAdsBottom());
+                          );
                         },
                         child: CircleChild(
                           avatarRadius: 25,
@@ -247,7 +243,7 @@ class _MyAccountState extends State<MyAccount> {
                                 );
                               },
                             ),
-                          ).then((value) => Ads.handleAdsBottom());
+                          );
                         },
                         child: CircleChild(
                           avatarRadius: 25,
@@ -314,7 +310,7 @@ class _MyAccountState extends State<MyAccount> {
                                 );
                               },
                             ),
-                          ).then((value) => Ads.handleAdsBottom());
+                          );
                         },
                       ),
                       MyAccountCard(
@@ -332,7 +328,7 @@ class _MyAccountState extends State<MyAccount> {
                                 );
                               },
                             ),
-                          ).then((value) => Ads.handleAdsBottom());
+                          );
                         },
                       ),
                     ],
@@ -355,7 +351,7 @@ class _MyAccountState extends State<MyAccount> {
                                     userId: auth.firebaseUser.uid);
                               },
                             ),
-                          ).then((value) => Ads.handleAdsBottom());
+                          );
                         },
                       ),
                       MyAccountCard(
@@ -373,7 +369,7 @@ class _MyAccountState extends State<MyAccount> {
                                 );
                               },
                             ),
-                          ).then((value) => Ads.handleAdsBottom());
+                          );
                         },
                       ),
                     ],
@@ -434,7 +430,7 @@ class _MyAccountState extends State<MyAccount> {
                       children: [
                         InkWell(
                           onTap: () async {
-                            Navigator.pushNamed(context, Routes.SETTINGS);
+                            Navigator.pushNamed(context, Routes.SETTINGS);                            
                           },
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
@@ -506,11 +502,12 @@ class _MyAccountState extends State<MyAccount> {
                       ],
                     ),
                   ),
+                  adsProvider.getCanShowAds ? adsProvider.bannerAdMob(adId: adsProvider.bottomAdId) : Container(),
                   Opacity(
                     opacity: 0.7,
                     child: Image.asset('assets/trofeu.jpg', fit: BoxFit.fill),
-                  ),
-                  SizedBox(height: height < 500 ? 220 : 90)
+                  ),                  
+                  SizedBox(height: height < 500 ? 220 : 0)
                 ],
               ),
             ),

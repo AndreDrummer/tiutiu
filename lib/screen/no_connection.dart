@@ -3,15 +3,15 @@ import 'package:google_fonts/google_fonts.dart';
 
 class NoConnection extends StatelessWidget {
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) {    
     return WillPopScope(
       onWillPop: () async => false,
       child: Scaffold(
         appBar: AppBar(title: Text('Sem conexão com a internet')),
         body: Center(
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              SizedBox(height: MediaQuery.of(context).size.height / 3),              
               Container(
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
@@ -52,7 +52,7 @@ class NoConnection extends StatelessWidget {
                     ),
                   )
                 ],
-              )
+              ),
             ],
           ),
         ),
