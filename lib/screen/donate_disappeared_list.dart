@@ -4,10 +4,10 @@ import 'package:tiutiu/Widgets/card_list.dart';
 import 'package:tiutiu/Widgets/error_page.dart';
 import 'package:tiutiu/Widgets/loading_page.dart';
 import 'package:tiutiu/backend/Model/pet_model.dart';
+import 'package:tiutiu/providers/ads_provider.dart';
 import 'package:tiutiu/providers/location.dart';
 import 'package:tiutiu/providers/pets_provider.dart';
 import 'package:tiutiu/providers/refine_search.dart';
-import 'package:tiutiu/utils/ads_helper.dart';
 import 'package:tiutiu/utils/math_functions.dart';
 import 'package:tiutiu/utils/routes.dart';
 
@@ -25,11 +25,22 @@ class _DonateDisappearedListState extends State<DonateDisappearedList> {
   PetsProvider petsProvider;
   RefineSearchProvider refineSearchProvider;
   Location location;
+  AdsProvider adsProvider;
+  GlobalKey<ScaffoldState> scaffoldState = GlobalKey();
 
   void showFilter() {
     setState(() {
       filtering = !filtering;
     });
+  }
+
+  void showSnackBar(String content) {
+    scaffoldState.currentState.showSnackBar(
+      SnackBar(
+        content: Text(content),
+        duration: Duration(milliseconds: 1500),
+      ),
+    );
   }
 
   @override
@@ -41,16 +52,19 @@ class _DonateDisappearedListState extends State<DonateDisappearedList> {
         petsProvider.getListDisappearedPETS == null) {
       petsProvider.loadDisappearedPETS();
     }
+
     super.initState();
   }
 
   @override
   void didChangeDependencies() {
+    adsProvider = Provider.of(context);
     super.didChangeDependencies();
-    if (Ads.bannerAdBottom != null) {
-      Ads.hideBannerAdBottom();
-    }
-    Ads.showBannerAdTop();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   bool isFiltering() {
@@ -116,34 +130,38 @@ class _DonateDisappearedListState extends State<DonateDisappearedList> {
             } else if (snapshot.hasError) {
               return ErrorPage();
             } else {
-              if (petsList.isEmpty)
+              if (petsList.isEmpty) {
                 return InkWell(
                   onTap: () {
                     Navigator.pushNamed(context, Routes.SEARCH_REFINE);
                   },
-                  child: Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          'Nenhum PET ${kind == 'Donate' ? 'para adoção' : 'encontrado'}',
-                          textAlign: TextAlign.center,
-                          style: Theme.of(context).textTheme.headline1.copyWith(
-                                color: Colors.black,
-                              ),
-                        ),
-                        SizedBox(height: 5),
-                        Text(
-                          'Verifique seus filtros de busca.',
-                          textAlign: TextAlign.center,
-                          style: Theme.of(context).textTheme.headline1.copyWith(
-                                color: Colors.blueAccent,
-                              ),
-                        ),
-                      ],
-                    ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,                    
+                    children: [
+                      SizedBox(height: 10),
+                      adsProvider.getCanShowAds
+                          ? adsProvider.bannerAdMob(medium_banner: true, adId: adsProvider.topAdId)
+                          : Container(),
+                      SizedBox(height: 40),
+                      Text(
+                        'Nenhum PET ${kind == 'Donate' ? 'para adoção' : 'encontrado'}',
+                        textAlign: TextAlign.center,
+                        style: Theme.of(context).textTheme.headline1.copyWith(
+                              color: Colors.black,
+                            ),
+                      ),
+                      SizedBox(height: 5),
+                      Text(
+                        'Verifique seus filtros de busca.',
+                        textAlign: TextAlign.center,
+                        style: Theme.of(context).textTheme.headline1.copyWith(
+                              color: Colors.blueAccent,
+                            ),
+                      ),
+                    ],
                   ),
                 );
+              }
             }
             return Container(
               height: marginTop,
@@ -152,24 +170,21 @@ class _DonateDisappearedListState extends State<DonateDisappearedList> {
                 children: [
                   Column(
                     children: [
-                      Container(
-                      color: Colors.black87,
-                      height: 70,
-                        // child: SizedBox(height: Ads.bannerAdTop == null ? 0 : 40),
-                      ),
-                      Container(
-                        color: Colors.red,
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          // child: Text(
-                          //   'Você está utilizando Tiu, tiu em fase de teste. Os dados podem ser fictícios.',
-                          //   style: TextStyle(
-                          //     color: Colors.white,
-                          //     fontWeight: FontWeight.w700,
-                          //   ),
-                          // ),
-                        ),
-                      ),
+                      adsProvider.getCanShowAds
+                          ? adsProvider.bannerAdMob(adId: adsProvider.homeAdId)
+                          : Container(
+                              color: Colors.red,
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(
+                                  'Você está utilizando Tiu, tiu em fase de teste. Os dados podem ser fictícios.',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w700,
+                                  ),
+                                ),
+                              ),
+                            ),
                     ],
                   ),
                   Expanded(

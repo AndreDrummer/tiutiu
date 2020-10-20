@@ -11,9 +11,9 @@ import 'package:tiutiu/Widgets/button.dart';
 import 'package:tiutiu/Widgets/divider.dart';
 import 'package:tiutiu/Widgets/input_text.dart';
 import 'package:tiutiu/Widgets/popup_message.dart';
+import 'package:tiutiu/providers/ads_provider.dart';
 import 'package:tiutiu/providers/auth2.dart';
 import 'package:tiutiu/providers/user_provider.dart';
-import 'package:tiutiu/utils/ads_helper.dart';
 import 'package:tiutiu/utils/constantes.dart';
 import 'package:tiutiu/utils/formatter.dart';
 import 'package:tiutiu/backend/Controller/user_controller.dart';
@@ -49,6 +49,7 @@ class _SettingsState extends State<Settings> {
   UserProvider userProvider;
   UserController userController = UserController();
   Authentication auth;
+  AdsProvider adsProvider;
 
   bool telefoneHasError = false;
   bool whatsappHasError = false;
@@ -119,7 +120,7 @@ class _SettingsState extends State<Settings> {
   @override
   void didChangeDependencies() {
     auth = Provider.of(context);
-    Ads.handleAdsBottom();
+    adsProvider = Provider.of(context);    
     super.didChangeDependencies();
   }
 
@@ -815,7 +816,8 @@ class _SettingsState extends State<Settings> {
                       ),
                     ),
                   ),
-                  SizedBox(height: height < 500 ? 210 : 150)
+                  adsProvider.getCanShowAds ? adsProvider.bannerAdMob(adId: adsProvider.bottomAdId) : Container(),
+                  SizedBox(height: height < 500 ? 210 : 0)
                 ],
               ),
             ),
@@ -844,7 +846,7 @@ class _SettingsState extends State<Settings> {
                       ),
                     ),
                   )
-                : Container(),
+                : Container(),                
           ],
         ),
         bottomNavigationBar: ButtonWide(

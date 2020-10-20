@@ -6,12 +6,12 @@ import 'package:tiutiu/Widgets/loading_screen.dart';
 import 'package:tiutiu/Widgets/popup_message.dart';
 import 'package:tiutiu/backend/Controller/pet_controller.dart';
 import 'package:tiutiu/backend/Model/pet_model.dart';
+import 'package:tiutiu/providers/ads_provider.dart';
 import 'package:tiutiu/providers/auth2.dart';
 import 'package:tiutiu/providers/user_provider.dart';
 import 'package:tiutiu/providers/pets_provider.dart';
 import 'package:tiutiu/screen/auth_screen.dart';
 import 'package:tiutiu/screen/choose_location.dart';
-import 'package:tiutiu/utils/ads_helper.dart';
 import 'package:tiutiu/utils/routes.dart';
 import 'interested_information_list.dart';
 
@@ -34,6 +34,17 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
   PetsProvider petsProvider;
   bool isAuthenticated;
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  AdsProvider adsProvider;
+
+  @override
+  void initState() {   
+    super.initState();
+  }
+
+  @override
+  void dispose() {    
+    super.dispose();
+  }
 
   @override
   void didChangeDependencies() {
@@ -47,7 +58,7 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
     auth = Provider.of<Authentication>(context);
     petsProvider = Provider.of<PetsProvider>(context);
     isAuthenticated = auth.firebaseUser != null;
-    Ads.handleAdsTop2();   
+    adsProvider = Provider.of(context);
     super.didChangeDependencies();
   }
 
@@ -142,21 +153,31 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return LoadingScreen(text: 'Carregando meus pets');
                 }
-                if (snapshot.data.isEmpty) {
-                  return Center(
-                    child: Text(
-                      'Nenhum PET',
-                      textAlign: TextAlign.center,
-                      style: Theme.of(context).textTheme.headline1.copyWith(
-                            color: Colors.black,
-                            fontWeight: FontWeight.w100,
-                          ),
-                    ),
+                if (snapshot.data.isEmpty) {                                    
+                  return Column(                    
+                    children: [
+                      SizedBox(height: 100),
+                      adsProvider.getCanShowAds ? adsProvider.bannerAdMob(medium_banner: true, adId: adsProvider.topAdId) : Container(),
+                      SizedBox(height: 40),
+                      Center(
+                        child: Text(
+                          'Nenhum PET',
+                          textAlign: TextAlign.center,
+                          style: Theme.of(context).textTheme.headline1.copyWith(
+                                color: Colors.black,
+                                fontSize: 18,
+                                fontWeight: FontWeight.w100,
+                              ),
+                        ),
+                      ),
+                    ],
                   );
                 }
                 return Column(
                   children: [
-                    SizedBox(height: Ads.bannerAdTop2 == null ? 0 : 87),
+                    adsProvider.getCanShowAds
+                        ? adsProvider.bannerAdMob(adId: adsProvider.topAdId)
+                        : Container(),
                     Expanded(
                       child: ListView.builder(
                         itemCount: snapshot.data.length,
@@ -176,7 +197,8 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
                                         height: height / 3.5,
                                         width: double.infinity,
                                         decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(12),
+                                          borderRadius:
+                                              BorderRadius.circular(12),
                                         ),
                                         child: ClipRRect(
                                           borderRadius: BorderRadius.only(
@@ -194,7 +216,8 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
                                           ),
                                         ),
                                       ),
-                                      widget.kind == null || widget.kind == 'Adopted'
+                                      widget.kind == null ||
+                                              widget.kind == 'Adopted'
                                           ? Container()
                                           : Positioned(
                                               top: 20,
@@ -224,7 +247,8 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
                                                     .copyWith(
                                                       fontSize: 22,
                                                       color: Colors.black,
-                                                      fontWeight: FontWeight.w700,
+                                                      fontWeight:
+                                                          FontWeight.w700,
                                                     ),
                                               ),
                                               SizedBox(height: 10),
@@ -236,7 +260,8 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
                                                     .copyWith(
                                                       fontSize: 16,
                                                       color: Colors.grey,
-                                                      fontWeight: FontWeight.w300,
+                                                      fontWeight:
+                                                          FontWeight.w300,
                                                     ),
                                               ),
                                             ],
@@ -254,7 +279,8 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
                                                 children: [
                                                   Text(
                                                     ' |',
-                                                    style: TextStyle(fontSize: 20),
+                                                    style:
+                                                        TextStyle(fontSize: 20),
                                                   ),
                                                   IconButton(
                                                     icon: Icon(Icons.edit,
@@ -279,7 +305,8 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
                                                   ),
                                                   IconButton(
                                                     icon: Icon(Icons.delete,
-                                                        size: 30, color: Colors.red),
+                                                        size: 30,
+                                                        color: Colors.red),
                                                     onPressed: () => openDialog(
                                                       snapshot.data[index],
                                                     ),
@@ -289,13 +316,15 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
                                       )
                                     ],
                                   ),
-                                  widget.kind == null || widget.kind == 'Adopted'
+                                  widget.kind == null ||
+                                          widget.kind == 'Adopted'
                                       ? Container()
                                       : Column(
                                           children: [
                                             Divider(),
                                             Padding(
-                                              padding: const EdgeInsets.all(8.0),
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
                                               child: InkWell(
                                                 onTap: () {
                                                   Navigator.push(
@@ -303,9 +332,11 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
                                                     MaterialPageRoute(
                                                       builder: (context) {
                                                         return InterestedList(
-                                                            pet: snapshot.data[index],
+                                                            pet: snapshot
+                                                                .data[index],
                                                             kind: snapshot
-                                                                .data[index].kind);
+                                                                .data[index]
+                                                                .kind);
                                                       },
                                                     ),
                                                   );
@@ -316,24 +347,28 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
                                                   children: [
                                                     Container(
                                                       padding:
-                                                          const EdgeInsets.all(4.0),
+                                                          const EdgeInsets.all(
+                                                              4.0),
                                                       decoration: BoxDecoration(
                                                         shape: BoxShape.circle,
                                                         border: Border.all(
-                                                          style: BorderStyle.solid,
+                                                          style:
+                                                              BorderStyle.solid,
                                                         ),
                                                       ),
                                                       child: Icon(Icons.menu),
                                                     ),
                                                     SizedBox(width: 10),
                                                     Text(
-                                                      snapshot.data[index].kind ==
+                                                      snapshot.data[index]
+                                                                  .kind ==
                                                               'Donate'
                                                           ? 'Ver lista de interessados'
                                                           : 'Ver notificações',
                                                       style: TextStyle(
                                                         decoration:
-                                                            TextDecoration.underline,
+                                                            TextDecoration
+                                                                .underline,
                                                       ),
                                                     ),
                                                   ],
