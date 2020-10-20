@@ -17,6 +17,7 @@ import 'package:tiutiu/Widgets/popup_message.dart';
 import 'package:tiutiu/Widgets/button.dart';
 import 'package:tiutiu/Widgets/squared_add_image.dart';
 import 'package:tiutiu/backend/Model/pet_model.dart';
+import 'package:tiutiu/providers/ads_provider.dart';
 import 'package:tiutiu/providers/auth2.dart';
 import 'package:tiutiu/providers/location.dart';
 import 'package:tiutiu/providers/pet_form_provider.dart';
@@ -80,7 +81,7 @@ class _PetFormState extends State<PetForm> {
   bool isLogging = false;
   bool readOnly = false;
   bool convertingImages = false;
-
+  AdsProvider adsProvider;
   Pet petEdit;
 
   void preloadTextFields() async {
@@ -118,20 +119,22 @@ class _PetFormState extends State<PetForm> {
       dropvalueSize = DummyData.size[0];
       dropvalueColor = DummyData.color[0];
     }
-    super.initState();
 
     currentLocation = Provider.of<Location>(context, listen: false).getLocation;
     userId =
         Provider.of<Authentication>(context, listen: false).firebaseUser.uid;
-    print('Local $currentLocation');
+
+    print('Local $currentLocation');    
+    super.initState();
   }
 
   @override
   void didChangeDependencies() {
+    adsProvider = Provider.of(context);
     auth = Provider.of<Authentication>(context, listen: false);
     userProvider = Provider.of<UserProvider>(context, listen: false);
     petFormProvider = Provider.of<PetFormProvider>(context);
-    petsProvider = Provider.of(context, listen: false);
+    petsProvider = Provider.of(context, listen: false);    
     super.didChangeDependencies();
   }
 
@@ -251,7 +254,7 @@ class _PetFormState extends State<PetForm> {
       convertImageToUint8List(petFormProvider.getPetPhotos);
 
       setState(() {
-        petPhotosMulti = actualPhotoList;
+        petPhotosMulti = actualPhotoList as List<Asset>;
       });
     }
   }
@@ -356,6 +359,7 @@ class _PetFormState extends State<PetForm> {
     }
     petPhotosToUpload.clear();
     petFormProvider.dispose();
+    petFormProvider.changePetPhotos([]);
     changeLogginStatus(false);
   }
 
@@ -460,6 +464,7 @@ class _PetFormState extends State<PetForm> {
                         StreamBuilder(
                           stream: petFormProvider.petPhotos,
                           builder: (context, snapshot) {
+                            // if(snapshot.data == null) return Container();
                             return Column(
                               children: [
                                 Container(
@@ -513,8 +518,7 @@ class _PetFormState extends State<PetForm> {
                                     },
                                   ),
                                 ),
-                                petFormProvider.formIsvalid() &&
-                                        snapshot.data.isEmpty
+                                petFormProvider.formIsvalid()                                        
                                     ? HintError(
                                         message: '* Insira pelo menos uma foto')
                                     : SizedBox(),
@@ -534,8 +538,7 @@ class _PetFormState extends State<PetForm> {
                                   controller: _nome,
                                   readOnly: readOnly,
                                 ),
-                                petFormProvider.formIsvalid() &&
-                                        snapshot.data.isEmpty
+                                petFormProvider.formIsvalid()
                                     ? HintError()
                                     : SizedBox(),
                               ],
@@ -837,13 +840,14 @@ class _PetFormState extends State<PetForm> {
                                                       clearUpCaracteristics(),
                                                   child: Container(
                                                     decoration: BoxDecoration(
-                                                      border: Border.all(
-                                                        style: BorderStyle.solid
-                                                      ),
-                                                      shape: BoxShape.circle
-                                                    ),
+                                                        border: Border.all(
+                                                            style: BorderStyle
+                                                                .solid),
+                                                        shape: BoxShape.circle),
                                                     child: Padding(
-                                                      padding: const EdgeInsets.all(4.0),
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              4.0),
                                                       child: Icon(Icons.clear),
                                                     ),
                                                   ),
@@ -881,6 +885,7 @@ class _PetFormState extends State<PetForm> {
                                         _descricao.text.isEmpty
                                     ? HintError()
                                     : SizedBox(),
+                                adsProvider.getCanShowAds ? adsProvider.bannerAdMob(adId: adsProvider.bottomAdId) : Container(),
                               ],
                             );
                           },

@@ -5,6 +5,7 @@ import 'package:tiutiu/Widgets/circle_child.dart';
 import 'package:tiutiu/Widgets/popup_message.dart';
 import 'package:tiutiu/backend/Controller/user_controller.dart';
 import 'package:tiutiu/backend/Model/pet_model.dart';
+import 'package:tiutiu/providers/ads_provider.dart';
 import 'package:tiutiu/providers/user_provider.dart';
 
 class ConfirmAdoptionScreen extends StatefulWidget {
@@ -17,6 +18,7 @@ class _ConfirmAdoptionScreenState extends State<ConfirmAdoptionScreen> {
   UserController userController = UserController();
   bool confirmingAdoption = false;
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  AdsProvider adsProvider;
 
   void changeConfirmingOrDenyAdoptionStatus(bool value) {
     setState(() {
@@ -95,6 +97,7 @@ class _ConfirmAdoptionScreenState extends State<ConfirmAdoptionScreen> {
   void didChangeDependencies() {
     userProvider = Provider.of<UserProvider>(context);
     userProvider.loadNotifications();
+    adsProvider = Provider.of(context);
     super.didChangeDependencies();
   }
 
@@ -132,104 +135,115 @@ class _ConfirmAdoptionScreenState extends State<ConfirmAdoptionScreen> {
                 ),
               );
             }
-            return ListView.builder(
-              itemCount: snapshot.data.length,
-              itemBuilder: (_, index) {
-                return Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Row(children: [
-                    CircleAvatar(
-                      radius: 25,
-                      backgroundColor: Colors.transparent,
-                      child: ClipOval(
-                        child: FadeInImage(
-                          placeholder: AssetImage('assets/fundo.jpg'),
-                          image: snapshot.data[index].avatar != null
-                              ? NetworkImage(
-                                  snapshot.data[index].avatar,
-                                )
-                              : AssetImage('assets/fundo.jpg'),
-                          fit: BoxFit.cover,
-                          width: 1000,
-                          height: 100,
-                        ),
-                      ),
-                    ),
-                    SizedBox(width: MediaQuery.of(context).size.width * 0.05),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            snapshot.data[index].name,
-                            style: TextStyle(
-                              color: Colors.black87,
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
+            return Column(
+              children: [
+                adsProvider.getCanShowAds ? adsProvider.bannerAdMob(adId: adsProvider.topAdId) : Container(),
+                Expanded(
+                  child: ListView.builder(
+                    itemCount: snapshot.data.length,
+                    itemBuilder: (_, index) {
+                      return Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(children: [
+                          CircleAvatar(
+                            radius: 25,
+                            backgroundColor: Colors.transparent,
+                            child: ClipOval(
+                              child: FadeInImage(
+                                placeholder: AssetImage('assets/fundo.jpg'),
+                                image: snapshot.data[index].avatar != null
+                                    ? NetworkImage(
+                                        snapshot.data[index].avatar,
+                                      )
+                                    : AssetImage('assets/fundo.jpg'),
+                                fit: BoxFit.cover,
+                                width: 1000,
+                                height: 100,
+                              ),
                             ),
                           ),
-                          Text(
-                            snapshot.data[index].breed,
-                            style: TextStyle(
-                              color: Colors.grey,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    SizedBox(width: MediaQuery.of(context).size.width * 0.2),
-                    Expanded(
-                      child: Row(
-                        children: [
-                          InkWell(
-                            onTap: () {
-                              denyOrConfirmAdoption(
-                                confirmAction: true,
-                                petName: snapshot.data[index].name,
-                                petRef: snapshot.data[index].petReference,
-                                userRef: userProvider.userReference,
-                              );
-                            },
+                          SizedBox(
+                              width: MediaQuery.of(context).size.width * 0.05),
+                          Expanded(
                             child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                CircleChild(
-                                    child: Icon(Icons.done),
-                                    avatarRadius: 20,
-                                    color: Colors.green),
                                 Text(
-                                  'Confirmar',
-                                  style: TextStyle(fontSize: 10),
-                                )
+                                  snapshot.data[index].name,
+                                  style: TextStyle(
+                                    color: Colors.black87,
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                Text(
+                                  snapshot.data[index].breed,
+                                  style: TextStyle(
+                                    color: Colors.grey,
+                                  ),
+                                ),
                               ],
                             ),
                           ),
                           SizedBox(
-                              width: MediaQuery.of(context).size.width * 0.025),
-                          InkWell(
-                            onTap: () {
-                              denyOrConfirmAdoption(
-                                confirmAction: false,
-                                petName: snapshot.data[index].name,
-                                petRef: snapshot.data[index].petReference,
-                                userRef: userProvider.userReference,
-                              );
-                            },
-                            child: Column(
+                              width: MediaQuery.of(context).size.width * 0.2),
+                          Expanded(
+                            child: Row(
                               children: [
-                                CircleChild(
-                                    child: Icon(Icons.close),
-                                    avatarRadius: 20,
-                                    color: Colors.red),
-                                Text('Negar', style: TextStyle(fontSize: 10))
+                                InkWell(
+                                  onTap: () {
+                                    denyOrConfirmAdoption(
+                                      confirmAction: true,
+                                      petName: snapshot.data[index].name,
+                                      petRef: snapshot.data[index].petReference,
+                                      userRef: userProvider.userReference,
+                                    );
+                                  },
+                                  child: Column(
+                                    children: [
+                                      CircleChild(
+                                          child: Icon(Icons.done),
+                                          avatarRadius: 20,
+                                          color: Colors.green),
+                                      Text(
+                                        'Confirmar',
+                                        style: TextStyle(fontSize: 10),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                                SizedBox(
+                                    width: MediaQuery.of(context).size.width *
+                                        0.025),
+                                InkWell(
+                                  onTap: () {
+                                    denyOrConfirmAdoption(
+                                      confirmAction: false,
+                                      petName: snapshot.data[index].name,
+                                      petRef: snapshot.data[index].petReference,
+                                      userRef: userProvider.userReference,
+                                    );
+                                  },
+                                  child: Column(
+                                    children: [
+                                      CircleChild(
+                                          child: Icon(Icons.close),
+                                          avatarRadius: 20,
+                                          color: Colors.red),
+                                      Text('Negar',
+                                          style: TextStyle(fontSize: 10))
+                                    ],
+                                  ),
+                                )
                               ],
                             ),
                           )
-                        ],
-                      ),
-                    )
-                  ]),
-                );
-              },
+                        ]),
+                      );
+                    },
+                  ),
+                ),
+              ],
             );
           },
         ),
