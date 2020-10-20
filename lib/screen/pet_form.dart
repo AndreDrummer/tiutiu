@@ -254,7 +254,7 @@ class _PetFormState extends State<PetForm> {
       convertImageToUint8List(petFormProvider.getPetPhotos);
 
       setState(() {
-        petPhotosMulti = actualPhotoList;
+        petPhotosMulti = actualPhotoList as List<Asset>;
       });
     }
   }
@@ -359,6 +359,7 @@ class _PetFormState extends State<PetForm> {
     }
     petPhotosToUpload.clear();
     petFormProvider.dispose();
+    petFormProvider.changePetPhotos([]);
     changeLogginStatus(false);
   }
 
@@ -463,6 +464,7 @@ class _PetFormState extends State<PetForm> {
                         StreamBuilder(
                           stream: petFormProvider.petPhotos,
                           builder: (context, snapshot) {
+                            // if(snapshot.data == null) return Container();
                             return Column(
                               children: [
                                 Container(
@@ -516,8 +518,7 @@ class _PetFormState extends State<PetForm> {
                                     },
                                   ),
                                 ),
-                                petFormProvider.formIsvalid() &&
-                                        snapshot.data.isEmpty
+                                petFormProvider.formIsvalid()                                        
                                     ? HintError(
                                         message: '* Insira pelo menos uma foto')
                                     : SizedBox(),
@@ -537,8 +538,7 @@ class _PetFormState extends State<PetForm> {
                                   controller: _nome,
                                   readOnly: readOnly,
                                 ),
-                                petFormProvider.formIsvalid() &&
-                                        snapshot.data.isEmpty
+                                petFormProvider.formIsvalid()
                                     ? HintError()
                                     : SizedBox(),
                               ],
