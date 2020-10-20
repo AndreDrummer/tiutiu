@@ -80,7 +80,7 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     adsProvider = Provider.of(context, listen: false);
-    adsProvider.changeCanShowAds(true);
+    adsProvider.changeCanShowAds(true);    
     adsProvider.initReward();
     fbm.configure(
       onMessage: (msg) {
@@ -102,6 +102,7 @@ class _HomeState extends State<Home> {
 
   @override
   void didChangeDependencies() {
+    adsProvider.changeBannerWidth(MediaQuery.of(context).size.width ~/ 1);
     userProvider = Provider.of<UserProvider>(context, listen: false);
     auth = Provider.of<Authentication>(context, listen: false);
     favoritesProvider = Provider.of<FavoritesProvider>(context, listen: false);
