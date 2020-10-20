@@ -17,13 +17,13 @@ import 'package:tiutiu/Widgets/popup_message.dart';
 import 'package:tiutiu/Widgets/button.dart';
 import 'package:tiutiu/Widgets/squared_add_image.dart';
 import 'package:tiutiu/backend/Model/pet_model.dart';
+import 'package:tiutiu/providers/ads_provider.dart';
 import 'package:tiutiu/providers/auth2.dart';
 import 'package:tiutiu/providers/location.dart';
 import 'package:tiutiu/providers/pet_form_provider.dart';
 import 'package:tiutiu/providers/pets_provider.dart';
 import 'package:tiutiu/providers/user_provider.dart';
 import 'package:tiutiu/screen/selection_page.dart';
-import 'package:tiutiu/utils/ads_helper.dart';
 import 'package:tiutiu/utils/routes.dart';
 import '../Widgets/input_text.dart';
 import 'package:image_picker/image_picker.dart';
@@ -81,7 +81,7 @@ class _PetFormState extends State<PetForm> {
   bool isLogging = false;
   bool readOnly = false;
   bool convertingImages = false;
-
+  AdsProvider adsProvider;
   Pet petEdit;
 
   void preloadTextFields() async {
@@ -119,28 +119,22 @@ class _PetFormState extends State<PetForm> {
       dropvalueSize = DummyData.size[0];
       dropvalueColor = DummyData.color[0];
     }
-    super.initState();
 
     currentLocation = Provider.of<Location>(context, listen: false).getLocation;
     userId =
         Provider.of<Authentication>(context, listen: false).firebaseUser.uid;
 
-    if (Ads.bannerAdTop != null || Ads.bannerAdBottom != null) {
-      Ads.hideBannerAdTop();
-      Ads.hideBannerAdTop2();
-      Ads.hideBannerAdBottom();
-    }
-
-    print('Local $currentLocation');
+    print('Local $currentLocation');    
     super.initState();
   }
 
   @override
   void didChangeDependencies() {
+    adsProvider = Provider.of(context);
     auth = Provider.of<Authentication>(context, listen: false);
     userProvider = Provider.of<UserProvider>(context, listen: false);
     petFormProvider = Provider.of<PetFormProvider>(context);
-    petsProvider = Provider.of(context, listen: false);
+    petsProvider = Provider.of(context, listen: false);    
     super.didChangeDependencies();
   }
 
@@ -891,6 +885,7 @@ class _PetFormState extends State<PetForm> {
                                         _descricao.text.isEmpty
                                     ? HintError()
                                     : SizedBox(),
+                                adsProvider.getCanShowAds ? adsProvider.bannerAdMob(adId: adsProvider.bottomAdId) : Container(),
                               ],
                             );
                           },
