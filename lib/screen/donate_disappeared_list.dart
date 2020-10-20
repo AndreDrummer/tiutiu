@@ -1,14 +1,13 @@
-import 'package:firebase_admob/firebase_admob.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tiutiu/Widgets/card_list.dart';
 import 'package:tiutiu/Widgets/error_page.dart';
 import 'package:tiutiu/Widgets/loading_page.dart';
 import 'package:tiutiu/backend/Model/pet_model.dart';
+import 'package:tiutiu/providers/ads_provider.dart';
 import 'package:tiutiu/providers/location.dart';
 import 'package:tiutiu/providers/pets_provider.dart';
 import 'package:tiutiu/providers/refine_search.dart';
-import 'package:tiutiu/utils/constantes.dart';
 import 'package:tiutiu/utils/math_functions.dart';
 import 'package:tiutiu/utils/routes.dart';
 
@@ -25,7 +24,9 @@ class _DonateDisappearedListState extends State<DonateDisappearedList> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   PetsProvider petsProvider;
   RefineSearchProvider refineSearchProvider;
-  Location location;  
+  Location location;
+  AdsProvider adsProvider;
+  GlobalKey<ScaffoldState> scaffoldState = GlobalKey();
 
   void showFilter() {
     setState(() {
@@ -33,23 +34,17 @@ class _DonateDisappearedListState extends State<DonateDisappearedList> {
     });
   }
 
+  void showSnackBar(String content) {
+    scaffoldState.currentState.showSnackBar(
+      SnackBar(
+        content: Text(content),
+        duration: Duration(milliseconds: 1500),
+      ),
+    );
+  }
+
   @override
   void initState() {
-    FirebaseAdMob.instance.initialize(appId: Constantes.ADMOB_APP_ID);
-    // Constantes.myInterstitial
-    //   ..load()
-    //   ..show(
-    //     anchorOffset: 0.0,
-    //     horizontalCenterOffset: 0.0,
-    //   );
-
-    Constantes.myBanner
-      ..load()
-      ..show(                
-        anchorOffset: 150,
-        horizontalCenterOffset: 0.0,
-        anchorType: AnchorType.top,
-      );
     petsProvider = Provider.of(context, listen: false);
     if (widget.kind == 'Donate' && petsProvider.getListDonatesPETS == null) {
       petsProvider.loadDonatedPETS();
@@ -57,13 +52,18 @@ class _DonateDisappearedListState extends State<DonateDisappearedList> {
         petsProvider.getListDisappearedPETS == null) {
       petsProvider.loadDisappearedPETS();
     }
+
     super.initState();
   }
 
   @override
+  void didChangeDependencies() {
+    adsProvider = Provider.of(context);
+    super.didChangeDependencies();
+  }
+
+  @override
   void dispose() {
-    // Constantes.myInterstitial.dispose();
-    Constantes.myBanner.dispose();
     super.dispose();
   }
 
@@ -130,52 +130,62 @@ class _DonateDisappearedListState extends State<DonateDisappearedList> {
             } else if (snapshot.hasError) {
               return ErrorPage();
             } else {
-              if (petsList.isEmpty)
+              if (petsList.isEmpty) {
                 return InkWell(
                   onTap: () {
                     Navigator.pushNamed(context, Routes.SEARCH_REFINE);
                   },
-                  child: Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          'Nenhum PET ${kind == 'Donate' ? 'para adoção' : 'encontrado'}',
-                          textAlign: TextAlign.center,
-                          style: Theme.of(context).textTheme.headline1.copyWith(
-                                color: Colors.black,
-                              ),
-                        ),
-                        SizedBox(height: 5),
-                        Text(
-                          'Verifique seus filtros de busca.',
-                          textAlign: TextAlign.center,
-                          style: Theme.of(context).textTheme.headline1.copyWith(
-                                color: Colors.blueAccent,
-                              ),
-                        ),
-                      ],
-                    ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,                    
+                    children: [
+                      SizedBox(height: 10),
+                      adsProvider.getCanShowAds
+                          ? adsProvider.bannerAdMob(medium_banner: true, adId: adsProvider.topAdId)
+                          : Container(),
+                      SizedBox(height: 40),
+                      Text(
+                        'Nenhum PET ${kind == 'Donate' ? 'para adoção' : 'encontrado'}',
+                        textAlign: TextAlign.center,
+                        style: Theme.of(context).textTheme.headline1.copyWith(
+                              color: Colors.black,
+                            ),
+                      ),
+                      SizedBox(height: 5),
+                      Text(
+                        'Verifique seus filtros de busca.',
+                        textAlign: TextAlign.center,
+                        style: Theme.of(context).textTheme.headline1.copyWith(
+                              color: Colors.blueAccent,
+                            ),
+                      ),
+                    ],
                   ),
                 );
+              }
             }
             return Container(
               height: marginTop,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  Container(
-                    color: Colors.red,
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        'Você está utilizando Tiu, tiu em fase de teste. Os dados podem ser fictícios.',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.w700,
-                        ),
-                      ),
-                    ),
+                  Column(
+                    children: [
+                      adsProvider.getCanShowAds
+                          ? adsProvider.bannerAdMob(adId: adsProvider.homeAdId)
+                          : Container(
+                              color: Colors.red,
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(
+                                  'Você está utilizando Tiu, tiu em fase de teste. Os dados podem ser fictícios.',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w700,
+                                  ),
+                                ),
+                              ),
+                            ),
+                    ],
                   ),
                   Expanded(
                     child: ListView.builder(
