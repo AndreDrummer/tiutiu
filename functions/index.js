@@ -7,10 +7,13 @@ exports.createNotificationConfirmAdoption = functions.firestore
     .document('Users/{userId}/Pets/adopted/Adopteds/{id}')
     .onCreate(async(snap, context) => {            
         await admin.messaging().sendToDevice(`${snap.data()['interestedNotificationToken']}`, {            
-            notification: {                
+            notification: {                                
                 title: 'Confirme adoção!',
                 body: `${snap.data()['userThatDonate']} pediu que você confirme a adoção de ${snap.data()['petName']}.`,
                 clickAction: 'FLUTTER_NOTIFICATION_CLICK'
+            },
+            data: {
+                data: JSON.stringify(snap.data())
             }
         })
     })
@@ -24,6 +27,9 @@ exports.createNotificationAdoptionConfirmed = functions.firestore
                     title: 'Adoção confirmada!',
                     body: `${change.after.data()['userName']} confirmou a adoção de ${change.after.data()['petName']}.`,
                     clickAction: 'FLUTTER_NOTIFICATION_CLICK'
+                },
+                data: {
+                    data: JSON.stringify(change.after.data())
                 }
             })
         }
@@ -38,6 +44,9 @@ exports.createNotificationAdoptionDenied = functions.firestore
                     title: 'Adoção NÃO confirmada!',
                     body: `${change.after.data()['userName']} negou que tenha adotado ${change.after.data()['petName']}.`,
                     clickAction: 'FLUTTER_NOTIFICATION_CLICK'
+                },
+                data: {
+                    data: JSON.stringify(change.after.data())
                 }
             })
         }
@@ -51,6 +60,9 @@ exports.createNotificationWannaAdopt = functions.firestore
                 title: 'Quero adotar!',
                 body: `${snap.data()['userName']} tem interesse na adoção de ${snap.data()['petName']}.`,
                 clickAction: 'FLUTTER_NOTIFICATION_CLICK',            
+            },
+            data: {
+                data: JSON.stringify(snap.data())
             }
         })
     })
@@ -63,6 +75,9 @@ exports.createNotificationInfo = functions.firestore
                 title: 'Informações sobre seu PET desaparecido',
                 body: `${snap.data()['userName']} viu seu PET próximo a localização dele.`,
                 clickAction: 'FLUTTER_NOTIFICATION_CLICK'
+            },
+            data: {
+                data: JSON.stringify(snap.data())
             }
         })
     })

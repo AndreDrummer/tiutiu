@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -77,22 +78,27 @@ class _HomeState extends State<Home> {
   // }
   // }
 
+  
   @override
   void initState() {
     adsProvider = Provider.of(context, listen: false);
     adsProvider.changeCanShowAds(true);    
     adsProvider.initReward();
     fbm.configure(
-      onMessage: (msg) {
-        userProvider.loadNotifications();
+      onMessage: (notification) {      
+        print(notification['data']);
+        // userProvider.handleNotifications(notification['data']);
+        userProvider.handleNotifications(json.decode(notification['data']['data']));
         return;
       },
-      onResume: (msg) {
-        userProvider.loadNotifications();
+      onResume: (notification) {
+        // userProvider.handleNotifications(notification['data']);
+        userProvider.handleNotifications(json.decode(notification['data']['data']));
         return;
       },
-      onLaunch: (msg) {
-        userProvider.loadNotifications();
+      onLaunch: (notification) {
+        // userProvider.handleNotifications(notification['data']);
+        userProvider.handleNotifications(json.decode(notification['data']['data']));
         return;
       },
     );
@@ -163,7 +169,7 @@ class _HomeState extends State<Home> {
     userProvider.changeTelefone(doc.data()['landline']);
     userProvider.changeBetterContact(doc.data()['betterContact']);
     userProvider.calculateTotals();
-    userProvider.loadNotifications();
+    userProvider.loadNotificationsCount();
     userProvider.changeNotificationToken(await fbm.getToken());
     userController.updateUser(userProvider.uid,
         {"notificationToken": userProvider.notificationToken});
