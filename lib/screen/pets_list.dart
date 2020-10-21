@@ -10,7 +10,7 @@ import 'package:tiutiu/utils/routes.dart';
 class PetsList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final indexTab = ModalRoute.of(context).settings.arguments;    
+    final indexTab = ModalRoute.of(context).settings.arguments;
     void navigateToAuth() {
       Navigator.pushNamed(context, Routes.AUTH, arguments: true);
     }
@@ -19,69 +19,68 @@ class PetsList extends StatelessWidget {
       length: 2,
       initialIndex: indexTab ?? 0,
       child: Scaffold(
-          appBar: AppBar(
-            leading: null,
-            title: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  'Tiu, tiu',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 25,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-                Consumer<UserProvider>(
-                  builder: (_, userProvider, child) => Consumer<Authentication>(
-                    builder: (_, auth, child) => auth.firebaseUser == null
-                        ? Container()
-                        : Stack(
-                            children: [
-                              IconButton(
-                                onPressed: auth.firebaseUser == null
-                                    ? navigateToAuth
-                                    : () {
-                                        Navigator.pushNamed(
-                                          context,
-                                          Routes.CONFIRM_ADOPTION,
-                                        );
-                                      },
-                                icon: Icon(
-                                  Icons.notifications,
-                                  color: Colors.white,
-                                ),
-                              ),
-                              Positioned(
-                                right: 10,
-                                child: Badge(
-                                    color: Colors.red,
-                                    text: userProvider
-                                            .getNotificationsAboutAdoptions
-                                            ?.length ??
-                                        0),
-                              )
-                            ],
-                          ),
-                  ),
-                )
-              ],
-            ),
-            bottom: TabBar(
-              indicatorColor: Colors.white,
-              labelColor: Colors.white,
-              tabs: [
-                Tab(icon: Icon(Tiutiu.dog), text: 'ADOTAR'),
-                Tab(icon: Icon(Tiutiu.exclamation), text: 'DESAPARECIDOS'),
-              ],
-            ),
-          ),
-          body: TabBarView(
+        appBar: AppBar(
+          leading: null,
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              DonateDisappearedList(kind: 'Donate'),
-              DonateDisappearedList(kind: 'Disappeared'),
+              Text(
+                'Tiu, tiu',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 25,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              Consumer<UserProvider>(
+                builder: (_, userProvider, child) => Consumer<Authentication>(
+                  builder: (_, auth, child) => auth.firebaseUser == null
+                      ? Container()
+                      : Stack(
+                          children: [
+                            IconButton(
+                              onPressed: auth.firebaseUser == null
+                                  ? navigateToAuth
+                                  : () {
+                                      Navigator.pushNamed(
+                                        context,
+                                        Routes.NOTIFICATIONS,
+                                      );
+                                    },
+                              icon: Icon(
+                                Icons.notifications,
+                                color: Colors.white,
+                              ),
+                            ),
+                            Positioned(
+                              right: 10,
+                              child: Badge(
+                                color: Colors.red,
+                                text: userProvider.getNotifications ?? 0,
+                              ),
+                            )
+                          ],
+                        ),
+                ),
+              )
             ],
-          )),
+          ),
+          bottom: TabBar(
+            indicatorColor: Colors.white,
+            labelColor: Colors.white,
+            tabs: [
+              Tab(icon: Icon(Tiutiu.dog), text: 'ADOTAR'),
+              Tab(icon: Icon(Tiutiu.exclamation), text: 'DESAPARECIDOS'),
+            ],
+          ),
+        ),
+        body: TabBarView(
+          children: [
+            DonateDisappearedList(kind: 'Donate'),
+            DonateDisappearedList(kind: 'Disappeared'),
+          ],
+        ),
+      ),
     );
   }
 }

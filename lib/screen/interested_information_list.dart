@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:loading_animations/loading_animations.dart';
 import 'package:provider/provider.dart';
+import 'package:tiutiu/Widgets/empty_list.dart';
 import 'package:tiutiu/Widgets/fullscreen_images.dart';
 import 'package:tiutiu/Widgets/load_dark_screen.dart';
 import 'package:tiutiu/Widgets/loading_page.dart';
@@ -41,7 +42,7 @@ class _InterestedListState extends State<InterestedList> {
     });
   }
 
-  Future<void> donatePetToSomeone({    
+  Future<void> donatePetToSomeone({
     String userAdoptId,
     String userName,
     DocumentReference petReference,
@@ -133,24 +134,10 @@ class _InterestedListState extends State<InterestedList> {
             }
 
             if (!snapshot.hasData || snapshot.data.isEmpty) {
-              return Center(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      widget.kind == 'Donate'
-                          ? 'Ninguém ainda está interessado'
-                          : 'Ninguém ainda passou informações',
-                      textAlign: TextAlign.center,
-                      style: Theme.of(context).textTheme.headline1.copyWith(
-                            color: Colors.black,
-                            fontWeight: FontWeight.w100,
-                          ),
-                    ),
-                    SizedBox(width: 10),
-                    Icon(Icons.sentiment_dissatisfied)
-                  ],
-                ),
+              return EmptyListScreen(
+                text: widget.kind == 'Donate'
+                    ? 'Ninguém ainda está interessado'
+                    : 'Ninguém ainda passou informações',
               );
             }
             return Stack(
@@ -221,11 +208,16 @@ class _InterestedListState extends State<InterestedList> {
                                               changeIsSinalizingStatus(true);
                                               await donatePetToSomeone(
                                                 userName: user.name,
-                                                userThatDonate: userProvider.userReference,
-                                                petReference: widget.pet.petReference,
-                                                interestedNotificationToken: user.notificationToken,
-                                                ownerNotificationToken: userProvider.notificationToken,
-                                                userAdoptId: user.id,                                                
+                                                userThatDonate:
+                                                    userProvider.userReference,
+                                                petReference:
+                                                    widget.pet.petReference,
+                                                interestedNotificationToken:
+                                                    user.notificationToken,
+                                                ownerNotificationToken:
+                                                    userProvider
+                                                        .notificationToken,
+                                                userAdoptId: user.id,
                                                 userPosition: snapshot
                                                     .data[index].position,
                                               );
