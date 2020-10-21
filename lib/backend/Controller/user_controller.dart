@@ -49,7 +49,7 @@ class UserController {
     }
   }
 
-  Future<void> donatePetToSomeone({    
+  Future<void> donatePetToSomeone({
     String userAdoptId,
     String userName,
     String ownerNotificationToken,
@@ -69,6 +69,7 @@ class UserController {
         .collection('Adopteds')
         .doc()
         .set({
+      'notificationType': 'confirmAdoption',
       'ownerNotificationToken': ownerNotificationToken,
       'interestedNotificationToken': interestedNotificationToken,
       'petRef': petReference,
@@ -108,7 +109,10 @@ class UserController {
     final userThatIsAdopting =
         await pathToPet.where("petRef", isEqualTo: petReference).get();
     final updateData = userThatIsAdopting.docs.first.reference;
-    updateData.set({'confirmed': true}, SetOptions(merge: true));
+    updateData.set({
+      'confirmed': true,
+      'notificationType': 'adoptionConfirmed',
+    }, SetOptions(merge: true));
   }
 
   Future<void> denyDonate(DocumentReference petReference,
@@ -120,6 +124,7 @@ class UserController {
       if (interestedUsers[i].data()['userReference'] == userThatAdoptedId) {
         var data = interestedUsers[i].data();
         data['gaveup'] = true;
+        data.putIfAbsent('notificationType', () => 'adoptionDeny');
         petReference
             .collection('adoptInteresteds')
             .doc(interestedUsers[i].id)
@@ -152,12 +157,43 @@ class UserController {
     await firestore.collection('Users').doc().set(user.toMap()).then((value) {
       print('Usuário Inserido!');
     });
-  }  
+  }
 
   Future<void> updateUser(String userId, Map<String, dynamic> data) async {
     await FirebaseFirestore.instance
         .collection('Users')
         .doc(userId)
         .set(data, SetOptions(merge: true));
+  }
+
+  Future<void> createNotification(
+      String userId, Map<String, dynamic> data) async {
+    await firestore
+        .collection('Users')
+        .doc(userId)
+        .collection('Notifications')
+        .doc()
+        .set(
+          data,
+          SetOptions(merge: true),
+        );
+  }
+
+  Stream<QuerySnapshot> loadNotifications(String userId) {
+    return firestore
+        .collection('Users')
+        .doc(userId)
+        .collection('Notifications')
+        .snapshots();
+  }
+
+  Future<int> loadNotificationsCount(String userId) async {
+    QuerySnapshot notifications = await firestore
+        .collection('Users')
+        .doc(userId)
+        .collection('Notifications')
+        .where('open', isEqualTo: false)
+        .get();
+    return notifications.docs.length;
   }
 }

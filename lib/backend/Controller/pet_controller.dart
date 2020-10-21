@@ -7,6 +7,17 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class PetController {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
 
+  Future<DocumentReference> getReference(String path, DocumentSnapshot snapshot, String fieldName) async {
+    final ref = await firestore.doc(path).get();
+    updateToTypeReference(snapshot, fieldName, ref.reference);
+    return ref.reference;
+  }
+
+
+  Future<void> updateToTypeReference(DocumentSnapshot snapshot, String fieldName, DocumentReference ref) async {
+    await snapshot.reference.set({fieldName: ref}, SetOptions(merge: true));
+  }
+
   Future getPet(String userId, String kind, {bool avalaible = true}) async {
     if (kind == 'Adopted') {
       return await firestore
@@ -150,9 +161,11 @@ class PetController {
     if (isAdopt) {
       await petRef.reference.collection('adoptInteresteds').doc().set(
         {
+          'notificationType': 'wannaAdopt',
           'userName': userName,
           'petName': petName,
           'userReference': userReference,
+          'petReference': petReference,
           'userLat': userLocation.latitude,
           'userLog': userLocation.longitude,
           'position': userPosition,
@@ -167,9 +180,11 @@ class PetController {
     } else {
       await petRef.reference.collection('infoInteresteds').doc().set(
         {
+          'notificationType': 'petInfo',
           'userName': userName,
           'petName': petName,
           'userReference': userReference,
+          'petReference': petReference,
           'userLat': userLocation.latitude,
           'userLog': userLocation.longitude,
           'position': userPosition,
