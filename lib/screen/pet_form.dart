@@ -1,3 +1,4 @@
+import 'dart:math';
 import 'dart:io';
 import 'dart:typed_data';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -79,7 +80,8 @@ class _PetFormState extends State<PetForm> {
   bool isLogging = false;
   bool readOnly = false;
   bool convertingImages = false;
-  AdsProvider adsProvider;  
+  AdsProvider adsProvider;
+  String storageHashKey;
 
   void preloadTextFields() {
     petFormProvider.changePetName(widget.pet.name);
@@ -104,8 +106,8 @@ class _PetFormState extends State<PetForm> {
     _ano.text = petFormProvider.getPetAge.toString();
     _meses.text = petFormProvider.getPetMonths.toString();
     _descricao.text = petFormProvider.getPetDescription;
-
-    print('PHOTOS ${petFormProvider.getPetPhotos}');    
+    petPhotosToUpload.addAll(widget.pet.photos);
+    storageHashKey = widget.pet.storageHashKey;
   }
 
   void clearUpCaracteristics() {
@@ -115,10 +117,15 @@ class _PetFormState extends State<PetForm> {
   @override
   void initState() {
     currentLocation = Provider.of<Location>(context, listen: false).getLocation;
-    userId = Provider.of<Authentication>(context, listen: false).firebaseUser.uid;
-              
+    userId =
+        Provider.of<Authentication>(context, listen: false).firebaseUser.uid;
+
     dropvalueSize = DummyData.size[0];
     dropvalueColor = DummyData.color[0];
+
+    if (!widget.editMode) {
+      storageHashKey = generateStorageHashKey();
+    }
 
     print('Local $currentLocation');
     super.initState();
@@ -134,7 +141,7 @@ class _PetFormState extends State<PetForm> {
 
     if (widget.editMode) {
       preloadTextFields();
-    } 
+    }
     super.didChangeDependencies();
   }
 
@@ -160,17 +167,23 @@ class _PetFormState extends State<PetForm> {
                   FlatButton(
                     child: Text('Remover'),
                     onPressed: () {
-                      Navigator.pop(context);
+                      Navigator.pop(context);                      
+                      petFormProvider.getPetPhotos.removeAt(index);
+                      petPhotosToUpload.clear();
                       List actualPhotoList = petFormProvider.getPetPhotos;
-                      actualPhotoList.removeAt(index);
-                      petFormProvider.changePetPhotos(actualPhotoList);
+                      petFormProvider.changePetPhotos(actualPhotoList);                      
+                      petPhotosToUpload.addAll(petFormProvider.getPetPhotos);
                     },
                   )
                 ]
               : [
                   FlatButton(
-                    child: Text('Tirar uma foto',
-                        style: TextStyle(color: Colors.black)),
+                    child: Text(
+                      'Tirar uma foto',
+                      style: TextStyle(
+                        color: Colors.black,
+                      ),
+                    ),
                     onPressed: () {
                       Navigator.pop(context);
                       selectImage(ImageSource.camera, index);
@@ -248,7 +261,6 @@ class _PetFormState extends State<PetForm> {
     if (!mounted) return;
 
     if (resultList.isNotEmpty) {
-      print('NÃO');
       actualPhotoList.addAll(resultList);
       petFormProvider.changePetPhotos(actualPhotoList);
       convertImageToUint8List(petFormProvider.getPetPhotos);
@@ -276,25 +288,35 @@ class _PetFormState extends State<PetForm> {
     print('Conversão finalizada...');
   }
 
+  String generateStorageHashKey() {
+    Random random = Random();
+    int min = 1, max = 1000;
+    int randNumber = min + random.nextInt(max - min);
+    int hash = randNumber * DateTime.now().millisecond;
+    return '$hash.$userId.$randNumber';
+  }
+
+  String getPhotoName(String url, String hasKey) {
+    String photoName =
+        url.split(hasKey).last.split('?').first.split('%2F').last;
+    return photoName;
+  }
+
   Future<void> uploadPhotos(String petName) async {
     StorageUploadTask uploadTask;
     StorageReference storageReference;
 
-    print('SUBIR FOTOS');
-
     for (int i = 0; i < convertedImageList.length; i++) {
-      storageReference = FirebaseStorage.instance
-          .ref()
-          .child('$userId/')
-          .child('petsPhotos/$petName--foto__$i');
+      storageReference = FirebaseStorage.instance.ref().child('$userId/').child(
+          'petsPhotos/$storageHashKey/$petName-${DateTime.now().millisecond}');
       uploadTask = storageReference.putData(convertedImageList[i]);
       await uploadTask.onComplete;
       petPhotosToUpload.add(await storageReference.getDownloadURL());
       print('URL DOWNLOAD ${petPhotosToUpload.last}');
 
       petPhotosToUpload.addAll(petFormProvider.getPetPhotos
-        .where((element) => element.runtimeType == String).toList()
-      );
+          .where((element) => element.runtimeType == String)
+          .toList());
     }
 
     return Future.value();
@@ -319,34 +341,35 @@ class _PetFormState extends State<PetForm> {
 
     await uploadPhotos(_nome.text);
 
-    print('FOTOS $petPhotosToUpload');
-
     var dataPetSave = Pet(
-      type: DummyData.type[petFormProvider.getPetTypeIndex],
-      color: petFormProvider.getPetColor,
-      name: petFormProvider.getPetName,
-      kind: kind,
-      avatar: petPhotosToUpload.isNotEmpty ? petPhotosToUpload.first : petFormProvider.getPetPhotos.first,
-      breed: DummyData.breed[petFormProvider.getPetTypeIndex + 1]
-          [petFormProvider.getPetBreedIndex],
-      health: DummyData.health[petFormProvider.getPetHealthIndex],
-      ownerReference: userProvider.userReference,
-      otherCaracteristics: petFormProvider.getPetSelectedCaracteristics,
-      photos: petPhotosToUpload,
-      size: petFormProvider.getPetSize,
-      sex: petFormProvider.getPetSex,
-      latitude: currentLocation.latitude,
-      longitude: currentLocation.longitude,
-      details: petFormProvider.getPetDescription,
-      donated: false,
-      found: false,
-      ano: petFormProvider.getPetAge,
-      meses: petFormProvider.getPetMonths,
-    );
+        type: DummyData.type[petFormProvider.getPetTypeIndex],
+        color: petFormProvider.getPetColor,
+        name: petFormProvider.getPetName,
+        kind: kind,
+        avatar: petPhotosToUpload.isNotEmpty
+            ? petPhotosToUpload.first
+            : petFormProvider.getPetPhotos.first,
+        breed: DummyData.breed[petFormProvider.getPetTypeIndex + 1]
+            [petFormProvider.getPetBreedIndex],
+        health: DummyData.health[petFormProvider.getPetHealthIndex],
+        ownerReference: userProvider.userReference,
+        otherCaracteristics: petFormProvider.getPetSelectedCaracteristics,
+        photos: petPhotosToUpload,
+        size: petFormProvider.getPetSize,
+        sex: petFormProvider.getPetSex,
+        latitude: currentLocation.latitude,
+        longitude: currentLocation.longitude,
+        details: petFormProvider.getPetDescription,
+        donated: false,
+        found: false,
+        ano: petFormProvider.getPetAge,
+        meses: petFormProvider.getPetMonths,
+        storageHashKey: storageHashKey);
 
     !widget.editMode
         ? await petController.insertPet(dataPetSave, kind, auth)
-        : await petController.updatePet(dataPetSave, userId, kind, widget.pet.id);
+        : await petController.updatePet(
+            dataPetSave, userId, kind, widget.pet.id);
 
     final finishin = DateTime.now();
     print('DEMOROU ${finishin.difference(startIn).inSeconds}');
@@ -359,10 +382,10 @@ class _PetFormState extends State<PetForm> {
     } else {
       petsProvider.loadDisappearedPETS();
     }
-    petPhotosToUpload.clear();    
+    petPhotosToUpload.clear();
     petFormProvider.changePetPhotos([]);
     changeLogginStatus(false);
-  } 
+  }
 
   bool validateForm() {
     return kind == 'donate'
@@ -386,8 +409,6 @@ class _PetFormState extends State<PetForm> {
   Widget build(BuildContext context) {
     params = ModalRoute.of(context).settings.arguments;
     kind = widget.editMode ? widget.pet.kind : params['kind'];
-
-    print("PET EDIT ${widget.pet}");
 
     Future<bool> _onWillPopScope() {
       if (isLogging || convertingImages) {
@@ -911,7 +932,6 @@ class _PetFormState extends State<PetForm> {
           action: isLogging || convertingImages
               ? null
               : () async {
-                print('Inicia save');
                   if (validateForm()) {
                     setReadOnly();
                     await save();
