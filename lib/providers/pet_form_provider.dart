@@ -84,6 +84,7 @@ class PetFormProvider with ChangeNotifier, FormValidator {
 
     for (BehaviorSubject subject in _subjects()) {
       if (subject.value == null || subject.value == "") {
+        print("TESTER ${_subjects().indexOf(subject)}");
         subject.addError("*Campo obrigatório");
         formStatus = false;
       }

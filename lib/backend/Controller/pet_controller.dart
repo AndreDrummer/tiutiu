@@ -76,7 +76,7 @@ class PetController {
 
         for (int i = 0; i < adoptedsRef.docs.length; i++) {
           DocumentSnapshot adopted =
-              await adoptedsRef.docs[i].data()['petRef'].get();
+              await adoptedsRef.docs[i].data()['petReference'].get();
           myPets.add(Pet.fromSnapshot(adopted));
         }
       } else {
