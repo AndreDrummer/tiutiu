@@ -176,13 +176,13 @@ class _ListTile extends StatelessWidget {
             ),
             subtitle: Text(notificationModel.message),
             trailing: Column(
-              children: [
+              children: [           
                 !notificationModel.open ? Badge(
                   color: Colors.green,
                   text: 'Nova',
-                ) : Text(''),
-                SizedBox(height: 20),
-                Text(DateFormat('dd/MM/y hh:mm').format(DateTime.parse(notificationModel.time)).split(' ').last)
+                ) : Text(''),     
+                Text(DateFormat('dd/MM/y hh:mm').format(DateTime.parse(notificationModel.time)).split(' ').last),                
+                Text(DateFormat('dd/MM/y hh:mm').format(DateTime.parse(notificationModel.time)).split(' ').first)
               ],
             ),
           ),
