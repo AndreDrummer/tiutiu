@@ -5,6 +5,7 @@ class Pet {
     this.id,
     this.donated,
     this.found,
+    this.storageHashKey,
     this.name,
     this.sex,
     this.color,    
@@ -31,6 +32,7 @@ class Pet {
     donated = snapshot.data()['donated'];
     found = snapshot.data()['found'];
     kind = snapshot.data()['kind'];
+    storageHashKey = snapshot.data()['storageHashKey'];
     name = snapshot.data()['name'];
     sex = snapshot.data()['sex'];
     color = snapshot.data()['color'];
@@ -57,6 +59,7 @@ class Pet {
     found = map['found'];
     kind = map['kind'];
     name = map['name'];
+    storageHashKey = map['storageHashKey'];
     color = map['color'];
     type = map['type'];    
     avatar = map['avatar'];
@@ -78,6 +81,7 @@ class Pet {
 
   String id;
   String name;
+  String storageHashKey;
   bool donated;
   bool found;
   String sex;
@@ -105,6 +109,7 @@ class Pet {
       'donated': donated,
       'found': found,
       'name': name,
+      'storageHashKey': storageHashKey,
       'kind': kind,
       'color': color,
       'avatar': avatar,
@@ -133,6 +138,7 @@ class Pet {
     petMap['donated'] = donated;
     petMap['found'] = found;
     petMap['kind'] = kind;
+    petMap['storageHashKey'] = storageHashKey;
     petMap['avatar'] = avatar;
     petMap['sex'] = sex;
     petMap['health'] = health;
