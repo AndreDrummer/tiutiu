@@ -1,7 +1,5 @@
 import 'dart:io';
 import 'dart:typed_data';
-
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -33,11 +31,11 @@ import 'package:tiutiu/data/dummy_data.dart';
 class PetForm extends StatefulWidget {
   PetForm({
     this.editMode = false,
-    this.petReference,
+    this.pet,
   });
 
   final bool editMode;
-  final DocumentReference petReference;
+  final Pet pet;
 
   @override
   _PetFormState createState() => _PetFormState();
@@ -81,30 +79,33 @@ class _PetFormState extends State<PetForm> {
   bool isLogging = false;
   bool readOnly = false;
   bool convertingImages = false;
-  AdsProvider adsProvider;
-  Pet petEdit;
+  AdsProvider adsProvider;  
 
-  void preloadTextFields() async {
-    PetController petController = PetController();
-    var pet = await petController.getPetByReference(widget.petReference);
-
-    petFormProvider.changePetName(pet.name);
-    petFormProvider.changePetAge(pet.ano);
-    petFormProvider.changePetMonths(pet.meses);
-    petFormProvider.changePetDescription(pet.details);
-    petFormProvider.changePetSex(pet.sex);
-    petFormProvider.changePetSelectedCaracteristics(pet.otherCaracteristics);
-    petFormProvider.changePetTypeIndex(DummyData.type.indexOf(pet.type));
-    petFormProvider.changePetBreedIndex(
-        DummyData.breed[dropvalueType + 1].indexOf(pet.breed));
-    petFormProvider.changePetSize(pet.size);
-    petFormProvider.changePetColor(pet.color);
-    petFormProvider.changePetHealthIndex(DummyData.health.indexOf(pet.health));
-    petFormProvider.changePetPhotos(pet.photos);
-    petFormProvider.changePetInEdition(pet);
+  void preloadTextFields() {
+    petFormProvider.changePetName(widget.pet.name);
+    petFormProvider.changePetAge(widget.pet.ano);
+    petFormProvider.changePetMonths(widget.pet.meses);
+    petFormProvider.changePetDescription(widget.pet.details);
+    petFormProvider.changePetSex(widget.pet.sex);
+    petFormProvider
+        .changePetSelectedCaracteristics(widget.pet.otherCaracteristics);
+    petFormProvider.changePetTypeIndex(DummyData.type.indexOf(widget.pet.type));
+    petFormProvider.changePetBreedIndex(DummyData
+        .breed[petFormProvider.getPetTypeIndex + 1]
+        .indexOf(widget.pet.breed));
+    petFormProvider.changePetSize(widget.pet.size);
+    petFormProvider.changePetColor(widget.pet.color);
+    petFormProvider
+        .changePetHealthIndex(DummyData.health.indexOf(widget.pet.health));
+    petFormProvider.changePetPhotos(widget.pet.photos);
+    petFormProvider.changePetInEdition(widget.pet);
 
     _nome.text = petFormProvider.getPetName;
+    _ano.text = petFormProvider.getPetAge.toString();
+    _meses.text = petFormProvider.getPetMonths.toString();
     _descricao.text = petFormProvider.getPetDescription;
+
+    print('PHOTOS ${petFormProvider.getPetPhotos}');    
   }
 
   void clearUpCaracteristics() {
@@ -113,18 +114,13 @@ class _PetFormState extends State<PetForm> {
 
   @override
   void initState() {
-    if (widget.editMode) {
-      preloadTextFields();
-    } else {
-      dropvalueSize = DummyData.size[0];
-      dropvalueColor = DummyData.color[0];
-    }
-
     currentLocation = Provider.of<Location>(context, listen: false).getLocation;
-    userId =
-        Provider.of<Authentication>(context, listen: false).firebaseUser.uid;
+    userId = Provider.of<Authentication>(context, listen: false).firebaseUser.uid;
+              
+    dropvalueSize = DummyData.size[0];
+    dropvalueColor = DummyData.color[0];
 
-    print('Local $currentLocation');    
+    print('Local $currentLocation');
     super.initState();
   }
 
@@ -134,7 +130,11 @@ class _PetFormState extends State<PetForm> {
     auth = Provider.of<Authentication>(context, listen: false);
     userProvider = Provider.of<UserProvider>(context, listen: false);
     petFormProvider = Provider.of<PetFormProvider>(context);
-    petsProvider = Provider.of(context, listen: false);    
+    petsProvider = Provider.of(context, listen: false);
+
+    if (widget.editMode) {
+      preloadTextFields();
+    } 
     super.didChangeDependencies();
   }
 
@@ -264,6 +264,7 @@ class _PetFormState extends State<PetForm> {
     changeConvertingImagesStatus(true);
     print('Convertendo imagens...');
     for (int i = 0; i < images.length; i++) {
+      if (images[i].runtimeType == String) continue;
       if (images[i].runtimeType == Asset) {
         ByteData byteData = await images[i].getByteData();
         convertedImageList.add(Uint8List.view(byteData.buffer));
@@ -279,22 +280,21 @@ class _PetFormState extends State<PetForm> {
     StorageUploadTask uploadTask;
     StorageReference storageReference;
 
+    print('SUBIR FOTOS');
+
     for (int i = 0; i < convertedImageList.length; i++) {
       storageReference = FirebaseStorage.instance
           .ref()
           .child('$userId/')
-          .child('petsPhotos/$petName--foto__${DateTime.now().millisecond}');
-      // if (convertedImageList[i].runtimeType != String) {
+          .child('petsPhotos/$petName--foto__$i');
       uploadTask = storageReference.putData(convertedImageList[i]);
       await uploadTask.onComplete;
       petPhotosToUpload.add(await storageReference.getDownloadURL());
       print('URL DOWNLOAD ${petPhotosToUpload.last}');
-      // }
-      // if (imagesPet[i].runtimeType == String) {
+
       petPhotosToUpload.addAll(petFormProvider.getPetPhotos
-          .where((element) => element.runtimeType == String)
-          .toList());
-      // }
+        .where((element) => element.runtimeType == String).toList()
+      );
     }
 
     return Future.value();
@@ -319,12 +319,14 @@ class _PetFormState extends State<PetForm> {
 
     await uploadPhotos(_nome.text);
 
+    print('FOTOS $petPhotosToUpload');
+
     var dataPetSave = Pet(
       type: DummyData.type[petFormProvider.getPetTypeIndex],
       color: petFormProvider.getPetColor,
       name: petFormProvider.getPetName,
       kind: kind,
-      avatar: petPhotosToUpload.first,
+      avatar: petPhotosToUpload.isNotEmpty ? petPhotosToUpload.first : petFormProvider.getPetPhotos.first,
       breed: DummyData.breed[petFormProvider.getPetTypeIndex + 1]
           [petFormProvider.getPetBreedIndex],
       health: DummyData.health[petFormProvider.getPetHealthIndex],
@@ -344,7 +346,7 @@ class _PetFormState extends State<PetForm> {
 
     !widget.editMode
         ? await petController.insertPet(dataPetSave, kind, auth)
-        : await petController.updatePet(dataPetSave, userId, kind, petEdit.id);
+        : await petController.updatePet(dataPetSave, userId, kind, widget.pet.id);
 
     final finishin = DateTime.now();
     print('DEMOROU ${finishin.difference(startIn).inSeconds}');
@@ -357,11 +359,10 @@ class _PetFormState extends State<PetForm> {
     } else {
       petsProvider.loadDisappearedPETS();
     }
-    petPhotosToUpload.clear();
-    petFormProvider.dispose();
+    petPhotosToUpload.clear();    
     petFormProvider.changePetPhotos([]);
     changeLogginStatus(false);
-  }
+  } 
 
   bool validateForm() {
     return kind == 'donate'
@@ -384,9 +385,9 @@ class _PetFormState extends State<PetForm> {
   @override
   Widget build(BuildContext context) {
     params = ModalRoute.of(context).settings.arguments;
-    kind = widget.editMode ? petEdit?.kind : params['kind'];
+    kind = widget.editMode ? widget.pet.kind : params['kind'];
 
-    print(petFormProvider.getPetPhotos);
+    print("PET EDIT ${widget.pet}");
 
     Future<bool> _onWillPopScope() {
       if (isLogging || convertingImages) {
@@ -403,7 +404,7 @@ class _PetFormState extends State<PetForm> {
       child: Scaffold(
         appBar: AppBar(
           title: widget.editMode
-              ? Text('Editar dados do ${petEdit?.name}')
+              ? Text('Editar dados do ${widget.pet.name}')
               : Text(
                   kind == 'Donate' ? 'PET para adoção' : 'PET Desaparecido',
                   style: Theme.of(context).textTheme.headline1.copyWith(
@@ -464,7 +465,6 @@ class _PetFormState extends State<PetForm> {
                         StreamBuilder(
                           stream: petFormProvider.petPhotos,
                           builder: (context, snapshot) {
-                            // if(snapshot.data == null) return Container();
                             return Column(
                               children: [
                                 Container(
@@ -518,7 +518,8 @@ class _PetFormState extends State<PetForm> {
                                     },
                                   ),
                                 ),
-                                petFormProvider.formIsvalid()                                        
+                                petFormProvider.formIsvalid() &&
+                                        petFormProvider.getPetPhotos.isEmpty
                                     ? HintError(
                                         message: '* Insira pelo menos uma foto')
                                     : SizedBox(),
@@ -538,7 +539,8 @@ class _PetFormState extends State<PetForm> {
                                   controller: _nome,
                                   readOnly: readOnly,
                                 ),
-                                petFormProvider.formIsvalid()
+                                petFormProvider.formIsvalid() &&
+                                        _nome.text.isEmpty
                                     ? HintError()
                                     : SizedBox(),
                               ],
@@ -553,7 +555,7 @@ class _PetFormState extends State<PetForm> {
                           builder: (context, snapshot) {
                             return CustomDropdownButton(
                               label: 'Tipo',
-                              initialValue: DummyData.type[snapshot.data],
+                              initialValue: DummyData.type[snapshot.data ?? 0],
                               itemList: DummyData.type,
                               onChange: (String value) {
                                 petFormProvider.changePetTypeIndex(
@@ -885,7 +887,10 @@ class _PetFormState extends State<PetForm> {
                                         _descricao.text.isEmpty
                                     ? HintError()
                                     : SizedBox(),
-                                adsProvider.getCanShowAds ? adsProvider.bannerAdMob(adId: adsProvider.bottomAdId) : Container(),
+                                adsProvider.getCanShowAds
+                                    ? adsProvider.bannerAdMob(
+                                        adId: adsProvider.bottomAdId)
+                                    : Container(),
                               ],
                             );
                           },
@@ -906,6 +911,7 @@ class _PetFormState extends State<PetForm> {
           action: isLogging || convertingImages
               ? null
               : () async {
+                print('Inicia save');
                   if (validateForm()) {
                     setReadOnly();
                     await save();
