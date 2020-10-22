@@ -61,6 +61,29 @@ class UserController {
     var user = await userThatDonate.get();
     var pet = await petReference.get();
 
+    var data = {
+      'notificationType': 'confirmAdoption',
+      'ownerNotificationToken': ownerNotificationToken,
+      'interestedNotificationToken': interestedNotificationToken,
+      'petReference': petReference,
+      'confirmed': false,
+      'userThatDonate': user.data()['displayName'],
+      'petName': pet.data()['name'],
+      'userName': userName,
+      'userReference': userThatDonate
+    };
+
+    // print("DATA $data");
+
+    QuerySnapshot request = await firestore
+        .collection('Users')
+        .doc(userAdoptId)
+        .collection('Adoptions requested')
+        .where('petReference', isEqualTo: petReference)
+        .get();
+
+    request.docs.first.reference.set({'accept': true}, SetOptions(merge: true));
+
     await firestore
         .collection('Users')
         .doc(userAdoptId)
@@ -68,16 +91,7 @@ class UserController {
         .doc('adopted')
         .collection('Adopteds')
         .doc()
-        .set({
-      'notificationType': 'confirmAdoption',
-      'ownerNotificationToken': ownerNotificationToken,
-      'interestedNotificationToken': interestedNotificationToken,
-      'petRef': petReference,
-      'confirmed': false,
-      'userThatDonate': user.data()['displayName'],
-      'petName': pet.data()['name'],
-      'userName': userName
-    });
+        .set(data);
 
     final interestedRef =
         await petReference.collection('adoptInteresteds').get();
@@ -98,16 +112,16 @@ class UserController {
   }
 
   Future<void> confirmDonate(DocumentReference petReference,
-      DocumentReference userThatAdoptedId) async {
+      DocumentReference userThatAdoptedReference) async {
     await petReference.set(
-        {'donated': true, 'whoAdoptedReference': userThatAdoptedId},
+        {'donated': true, 'whoAdoptedReference': userThatAdoptedReference},
         SetOptions(merge: true));
-    final pathToPet = userThatAdoptedId
+    final pathToPet = userThatAdoptedReference
         .collection('Pets')
         .doc('adopted')
         .collection('Adopteds');
     final userThatIsAdopting =
-        await pathToPet.where("petRef", isEqualTo: petReference).get();
+        await pathToPet.where("petReference", isEqualTo: petReference).get();
     final updateData = userThatIsAdopting.docs.first.reference;
     updateData.set({
       'confirmed': true,
@@ -116,12 +130,12 @@ class UserController {
   }
 
   Future<void> denyDonate(DocumentReference petReference,
-      DocumentReference userThatAdoptedId) async {
+      DocumentReference userThatAdoptedReference) async {
     final interestedRef =
         await petReference.collection('adoptInteresteds').get();
     List interestedUsers = interestedRef.docs;
     for (int i = 0; i < interestedUsers.length; i++) {
-      if (interestedUsers[i].data()['userReference'] == userThatAdoptedId) {
+      if (interestedUsers[i].data()['userReference'] == userThatAdoptedReference) {
         var data = interestedUsers[i].data();
         data['gaveup'] = true;
         data.putIfAbsent('notificationType', () => 'adoptionDeny');
@@ -133,12 +147,12 @@ class UserController {
       }
     }
 
-    final pathToPet = userThatAdoptedId
+    final pathToPet = userThatAdoptedReference
         .collection('Pets')
         .doc('adopted')
         .collection('Adopteds');
     final userThatIsAdopting =
-        await pathToPet.where("petRef", isEqualTo: petReference).get();
+        await pathToPet.where("petReference", isEqualTo: petReference).get();
     final ref = userThatIsAdopting.docs.first.reference;
     ref.delete();
   }
