@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tiutiu/Widgets/background.dart';
+import 'package:tiutiu/Widgets/load_dark_screen.dart';
 import 'package:tiutiu/Widgets/loading_screen.dart';
 import 'package:tiutiu/Widgets/popup_message.dart';
 import 'package:tiutiu/backend/Controller/pet_controller.dart';
@@ -35,14 +36,36 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
   bool isAuthenticated;
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   AdsProvider adsProvider;
+  bool loadingPetReference = false;
+
+  Future<void> loadPetToEdit(DocumentReference petReference) async {
+    changeLoadingPetReference(true);
+    Pet pet = await petController.getPetByReference(petReference);
+    changeLoadingPetReference(false);
+    print('Done ${pet.name}');
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) {
+          return ChooseLocation(editMode: true, pet: pet);
+        },
+      ),
+    );
+  }
+
+  void changeLoadingPetReference(bool status) {
+    setState(() {
+      loadingPetReference = status;
+    });
+  }
 
   @override
-  void initState() {   
+  void initState() {
     super.initState();
   }
 
   @override
-  void dispose() {    
+  void dispose() {
     super.dispose();
   }
 
@@ -153,12 +176,17 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return LoadingScreen(text: 'Carregando meus pets');
                 }
-                if (snapshot.data.isEmpty) {                                    
-                  return Column(             
-                    mainAxisAlignment: adsProvider.getCanShowAds ? MainAxisAlignment.start : MainAxisAlignment.center,       
+                if (snapshot.data.isEmpty) {
+                  return Column(
+                    mainAxisAlignment: adsProvider.getCanShowAds
+                        ? MainAxisAlignment.start
+                        : MainAxisAlignment.center,
                     children: [
                       SizedBox(height: 100),
-                      adsProvider.getCanShowAds ? adsProvider.bannerAdMob(medium_banner: true, adId: adsProvider.topAdId) : Container(),
+                      adsProvider.getCanShowAds
+                          ? adsProvider.bannerAdMob(
+                              medium_banner: true, adId: adsProvider.topAdId)
+                          : Container(),
                       SizedBox(height: 40),
                       Center(
                         child: Text(
@@ -174,7 +202,7 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
                     ],
                   );
                 }
-                return Column(                  
+                return Column(
                   children: [
                     adsProvider.getCanShowAds
                         ? adsProvider.bannerAdMob(adId: adsProvider.topAdId)
@@ -288,19 +316,7 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
                                                         size: 30,
                                                         color: Colors.black),
                                                     onPressed: () {
-                                                      Navigator.push(
-                                                        context,
-                                                        MaterialPageRoute(
-                                                          builder: (context) {
-                                                            return ChooseLocation(
-                                                              editMode: true,
-                                                              petReference: snapshot
-                                                                  .data[index]
-                                                                  .petReference,
-                                                            );
-                                                          },
-                                                        ),
-                                                      );
+                                                      loadPetToEdit(snapshot.data[index].petReference);
                                                     },
                                                     color: Colors.white,
                                                   ),
@@ -388,7 +404,8 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
                   ],
                 );
               },
-            ),
+            ),            
+            LoadDarkScreen(show: loadingPetReference, message: 'Carregando dados do PET para edição...'),
           ],
         ),
       ),
