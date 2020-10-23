@@ -19,7 +19,7 @@ class UserProvider with ChangeNotifier {
   String _displayName;
   String _createdAt;
   DocumentReference _userReference;
-  final _betterContact = BehaviorSubject<int>();
+  final _betterContact = BehaviorSubject<int>.seeded(0);
   final _totaToDonate = BehaviorSubject<int>.seeded(0);
   final _totalDonated = BehaviorSubject<int>.seeded(0);
   final _totalAdopted = BehaviorSubject<int>.seeded(0);

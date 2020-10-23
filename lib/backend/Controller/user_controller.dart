@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:tiutiu/providers/auth2.dart';
 import '../Model/user_model.dart';
 
 class UserController {
@@ -209,5 +210,43 @@ class UserController {
         .where('open', isEqualTo: false)
         .get();
     return notifications.docs.length;
+  }
+
+  Future<void> deleteUserData(DocumentReference userReference) async {
+    QuerySnapshot notifications = await userReference.collection('Notifications').get();
+    QuerySnapshot petsDonated = await userReference.collection('Pets').doc('posted').collection('Donate').get();
+    QuerySnapshot petsDisappeared = await userReference.collection('Pets').doc('posted').collection('Disappeared').get();
+    QuerySnapshot petsFavorited = await userReference.collection('Pets').doc('favorites').collection('favorites').get();
+    QuerySnapshot petsAdopted = await userReference.collection('Pets').doc('adopted').collection('Adopteds').get();
+    
+    for(int i = 0; i < notifications.docs.length; i++) {
+      await notifications.docs[i].reference.delete();
+    }
+
+    for(int i = 0; i < petsDonated.docs.length; i++) {
+      await petsDonated.docs[i].reference.delete();
+    }
+
+    for(int i = 0; i < petsDisappeared.docs.length; i++) {
+      await petsDisappeared.docs[i].reference.delete();
+    }
+
+    for(int i = 0; i < petsFavorited.docs.length; i++) {
+      await petsFavorited.docs[i].reference.delete();
+    }
+
+    for(int i = 0; i < petsAdopted.docs.length; i++) {
+      await petsAdopted.docs[i].reference.delete();
+    }
+    
+    await userReference.delete();
+
+    print('Dados de usuário deletados!');
+  }
+
+  Future<void> deleteUserAccount(Authentication auth, DocumentReference userReference) async {
+    await deleteUserData(userReference);
+    await auth.firebaseUser.delete();    
+    await auth.signOut();
   }
 }
