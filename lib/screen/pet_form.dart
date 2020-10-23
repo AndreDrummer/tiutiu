@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'dart:io';
 import 'dart:typed_data';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -65,6 +66,7 @@ class _PetFormState extends State<PetForm> {
 
   List<Asset> petPhotosMulti = List<Asset>();
   List petPhotosToUpload = [];
+  List<String> photosToDelete = [];
   List<Uint8List> convertedImageList = [];
 
   bool macho = true;
@@ -167,12 +169,13 @@ class _PetFormState extends State<PetForm> {
                   FlatButton(
                     child: Text('Remover'),
                     onPressed: () {
-                      Navigator.pop(context);                      
+                      Navigator.pop(context);
+                      photosToDelete.add(petFormProvider.getPetPhotos.elementAt(index));                      
                       petFormProvider.getPetPhotos.removeAt(index);
                       petPhotosToUpload.clear();
-                      List actualPhotoList = petFormProvider.getPetPhotos;
-                      petFormProvider.changePetPhotos(actualPhotoList);                      
                       petPhotosToUpload.addAll(petFormProvider.getPetPhotos);
+                      List actualPhotoList = petFormProvider.getPetPhotos;
+                      petFormProvider.changePetPhotos(actualPhotoList);
                     },
                   )
                 ]
@@ -313,10 +316,6 @@ class _PetFormState extends State<PetForm> {
       await uploadTask.onComplete;
       petPhotosToUpload.add(await storageReference.getDownloadURL());
       print('URL DOWNLOAD ${petPhotosToUpload.last}');
-
-      petPhotosToUpload.addAll(petFormProvider.getPetPhotos
-          .where((element) => element.runtimeType == String)
-          .toList());
     }
 
     return Future.value();
@@ -334,6 +333,24 @@ class _PetFormState extends State<PetForm> {
     });
   }
 
+  Future<void> deleteField(DocumentReference docRef) async {
+  await docRef.update({'photos': FieldValue.delete()});
+  print("photos Deleted");
+}
+
+  Future<void> deletePhotosFromStorage() async {
+    StorageReference storageReference;    
+    await deleteField(widget.pet.petReference);
+    for (String photo in photosToDelete) {
+      String filename = getPhotoName(photo, widget.pet.storageHashKey);
+      storageReference = FirebaseStorage.instance
+          .ref()
+          .child('$userId/')
+          .child('petsPhotos/$storageHashKey/$filename');
+      await storageReference.delete();
+    }
+  }
+
   Future<void> save() async {
     final startIn = DateTime.now();
     changeLogginStatus(true);
@@ -341,30 +358,36 @@ class _PetFormState extends State<PetForm> {
 
     await uploadPhotos(_nome.text);
 
+    if (photosToDelete.isNotEmpty) {
+      await deletePhotosFromStorage();
+    }    
+
     var dataPetSave = Pet(
-        type: DummyData.type[petFormProvider.getPetTypeIndex],
-        color: petFormProvider.getPetColor,
-        name: petFormProvider.getPetName,
-        kind: kind,
-        avatar: petPhotosToUpload.isNotEmpty
-            ? petPhotosToUpload.first
-            : petFormProvider.getPetPhotos.first,
-        breed: DummyData.breed[petFormProvider.getPetTypeIndex + 1]
-            [petFormProvider.getPetBreedIndex],
-        health: DummyData.health[petFormProvider.getPetHealthIndex],
-        ownerReference: userProvider.userReference,
-        otherCaracteristics: petFormProvider.getPetSelectedCaracteristics,
-        photos: petPhotosToUpload,
-        size: petFormProvider.getPetSize,
-        sex: petFormProvider.getPetSex,
-        latitude: currentLocation.latitude,
-        longitude: currentLocation.longitude,
-        details: petFormProvider.getPetDescription,
-        donated: false,
-        found: false,
-        ano: petFormProvider.getPetAge,
-        meses: petFormProvider.getPetMonths,
-        storageHashKey: storageHashKey);
+      type: DummyData.type[petFormProvider.getPetTypeIndex],
+      color: petFormProvider.getPetColor,
+      name: petFormProvider.getPetName,
+      kind: kind,
+      petReference: widget?.pet?.petReference ?? null,
+      avatar: petPhotosToUpload.isNotEmpty
+          ? petPhotosToUpload.first
+          : petFormProvider.getPetPhotos.first,
+      breed: DummyData.breed[petFormProvider.getPetTypeIndex + 1]
+          [petFormProvider.getPetBreedIndex],
+      health: DummyData.health[petFormProvider.getPetHealthIndex],
+      ownerReference: userProvider.userReference,
+      otherCaracteristics: petFormProvider.getPetSelectedCaracteristics,
+      photos: petPhotosToUpload,
+      size: petFormProvider.getPetSize,
+      sex: petFormProvider.getPetSex,
+      latitude: currentLocation.latitude,
+      longitude: currentLocation.longitude,
+      details: petFormProvider.getPetDescription,
+      donated: false,
+      found: false,
+      ano: petFormProvider.getPetAge,
+      meses: petFormProvider.getPetMonths,
+      storageHashKey: storageHashKey,
+    );
 
     !widget.editMode
         ? await petController.insertPet(dataPetSave, kind, auth)
