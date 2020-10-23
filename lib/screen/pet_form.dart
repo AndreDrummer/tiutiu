@@ -170,12 +170,19 @@ class _PetFormState extends State<PetForm> {
                     child: Text('Remover'),
                     onPressed: () {
                       Navigator.pop(context);
-                      photosToDelete.add(petFormProvider.getPetPhotos.elementAt(index));                      
+                      if (widget.editMode)
+                        photosToDelete.add(petFormProvider.getPetPhotos.elementAt(index));
+
                       petFormProvider.getPetPhotos.removeAt(index);
-                      petPhotosToUpload.clear();
-                      petPhotosToUpload.addAll(petFormProvider.getPetPhotos);
+
+                      if (widget.editMode) {
+                        petPhotosToUpload.clear();
+                        petPhotosToUpload.addAll(petFormProvider.getPetPhotos);
+                      }
+
                       List actualPhotoList = petFormProvider.getPetPhotos;
                       petFormProvider.changePetPhotos(actualPhotoList);
+                      if(!widget.editMode) convertImageToUint8List(petFormProvider.getPetPhotos);
                     },
                   )
                 ]
@@ -313,7 +320,7 @@ class _PetFormState extends State<PetForm> {
       storageReference = FirebaseStorage.instance.ref().child('$userId/').child(
           'petsPhotos/$storageHashKey/$petName-${DateTime.now().millisecond}');
       uploadTask = storageReference.putData(convertedImageList[i]);
-      await uploadTask.onComplete;
+      await uploadTask.onComplete;      
       petPhotosToUpload.add(await storageReference.getDownloadURL());
       print('URL DOWNLOAD ${petPhotosToUpload.last}');
     }
@@ -334,12 +341,12 @@ class _PetFormState extends State<PetForm> {
   }
 
   Future<void> deleteField(DocumentReference docRef) async {
-  await docRef.update({'photos': FieldValue.delete()});
-  print("photos Deleted");
-}
+    await docRef.update({'photos': FieldValue.delete()});
+    print("photos Deleted");
+  }
 
   Future<void> deletePhotosFromStorage() async {
-    StorageReference storageReference;    
+    StorageReference storageReference;
     await deleteField(widget.pet.petReference);
     for (String photo in photosToDelete) {
       String filename = getPhotoName(photo, widget.pet.storageHashKey);
@@ -360,7 +367,7 @@ class _PetFormState extends State<PetForm> {
 
     if (photosToDelete.isNotEmpty) {
       await deletePhotosFromStorage();
-    }    
+    }
 
     var dataPetSave = Pet(
       type: DummyData.type[petFormProvider.getPetTypeIndex],
@@ -407,6 +414,7 @@ class _PetFormState extends State<PetForm> {
     }
     petPhotosToUpload.clear();
     petFormProvider.changePetPhotos([]);
+    petFormProvider.getPetPhotos.clear();
     changeLogginStatus(false);
   }
 
