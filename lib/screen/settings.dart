@@ -4,12 +4,12 @@ import 'package:firebase_admob/firebase_admob.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:loading_animations/loading_animations.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:provider/provider.dart';
 import 'package:tiutiu/Widgets/button.dart';
 import 'package:tiutiu/Widgets/divider.dart';
 import 'package:tiutiu/Widgets/input_text.dart';
+import 'package:tiutiu/Widgets/load_dark_screen.dart';
 import 'package:tiutiu/Widgets/popup_message.dart';
 import 'package:tiutiu/providers/ads_provider.dart';
 import 'package:tiutiu/providers/auth2.dart';
@@ -36,6 +36,7 @@ class _SettingsState extends State<Settings> {
   int betterContact;
 
   bool isSavingForm = false;
+  bool deleting = false;
 
   TextEditingController _nameController = TextEditingController();
   TextEditingController _whatsAppController = TextEditingController();
@@ -120,14 +121,38 @@ class _SettingsState extends State<Settings> {
   @override
   void didChangeDependencies() {
     auth = Provider.of(context);
-    adsProvider = Provider.of(context);    
+    adsProvider = Provider.of(context);
     super.didChangeDependencies();
   }
 
-  void changeSaveFormStatus(bool status) {
+  void changeSaveFormStatus(bool status, {bool deleting = false}) {
     setState(() {
-      isSavingForm = status;
+      this.isSavingForm = status;
+      this.deleting = deleting;
     });
+  }
+
+  void showMessageWarningUpdatePasswordOrDeleteAccount() {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      child: PopUpMessage(
+        confirmAction: () {
+          auth.signOut();
+          Navigator.popUntil(context, ModalRoute.withName('/'));
+        },
+        confirmText: 'Deslogar Agora',
+        denyAction: () {
+          Navigator.pop(context);
+          changeSaveFormStatus(false);
+        },
+        denyText: 'Não',
+        warning: true,
+        message:
+            'Esta operação é confidencial e requer autenticação recente. Faça login novamente antes de tentar novamente esta solicitação.',
+        title: 'Faça login novamente',
+      ),
+    );
   }
 
   void changeFieldEditingState(bool newState, String field) {
@@ -272,27 +297,9 @@ class _SettingsState extends State<Settings> {
         try {
           await auth.firebaseUser.updatePassword(_newPassword.text);
         } catch (error) {
+          changeSaveFormStatus(false);
           isToShowDialog
-              ? showDialog(
-                  context: context,
-                  barrierDismissible: false,
-                  child: PopUpMessage(
-                    confirmAction: () {
-                      auth.signOut();
-                      ModalRoute.withName('/');
-                    },
-                    confirmText: 'Deslogar Agora',
-                    denyAction: () {
-                      Navigator.pop(context);
-                      changeSaveFormStatus(false);
-                    },
-                    denyText: 'Não',
-                    warning: true,
-                    message:
-                        'Esta operação é confidencial e requer autenticação recente. Faça login novamente antes de tentar novamente esta solicitação.',
-                    title: 'Faça login novamente',
-                  ),
-                )
+              ? showMessageWarningUpdatePasswordOrDeleteAccount()
               : SizedBox();
           throw '';
         }
@@ -434,9 +441,23 @@ class _SettingsState extends State<Settings> {
     );
   }
 
+  void deleteAccountt() {}
+
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
+
+    void navigateToHomeAfterDeleteAccount() {
+      showDialog(
+        context: context,
+        builder: (context) => PopUpMessage(
+          confirmAction: () => Navigator.popUntil(context, ModalRoute.withName('/')),
+          confirmText: 'OK',
+          message: 'Sua conta Tiu, tiu foi deletada pra sempre!',          
+          title: 'Conta Excluída'
+        ),
+      );
+    }
 
     return WillPopScope(
       onWillPop: () async {
@@ -804,7 +825,20 @@ class _SettingsState extends State<Settings> {
                             message:
                                 'DESEJA DELETAR PERMANENTEMENTE SUA CONTA ?',
                             confirmText: 'Deletar minha conta',
-                            confirmAction: () {},
+                            confirmAction: () async {
+                              Navigator.pop(context);
+                              changeSaveFormStatus(true, deleting: true);
+                              try {
+                                await userController.deleteUserAccount(
+                                    auth, userProvider.userReference);
+                                navigateToHomeAfterDeleteAccount();
+                              } catch (error) {
+                                changeSaveFormStatus(false);
+                                showMessageWarningUpdatePasswordOrDeleteAccount();
+                                throw '$error';
+                              }
+                              changeSaveFormStatus(false);
+                            },
                             denyText: 'NÃO',
                             denyAction: () => Navigator.pop(context),
                           ),
@@ -816,37 +850,19 @@ class _SettingsState extends State<Settings> {
                       ),
                     ),
                   ),
-                  adsProvider.getCanShowAds ? adsProvider.bannerAdMob(adId: adsProvider.bottomAdId) : Container(),
+                  adsProvider.getCanShowAds
+                      ? adsProvider.bannerAdMob(adId: adsProvider.bottomAdId)
+                      : Container(),
                   SizedBox(height: height < 500 ? 210 : 0)
                 ],
               ),
             ),
-            isSavingForm
-                ? Container(
-                    height: MediaQuery.of(context).size.height,
-                    width: MediaQuery.of(context).size.width,
-                    color: Colors.black54,
-                    child: Center(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          LoadingBumpingLine.circle(
-                            backgroundColor: Colors.white,
-                          ),
-                          SizedBox(height: 15),
-                          Text(
-                            'Salvando informações',
-                            style: Theme.of(context)
-                                .textTheme
-                                .headline1
-                                .copyWith(color: Colors.black)
-                                .copyWith(),
-                          )
-                        ],
-                      ),
-                    ),
-                  )
-                : Container(),                
+            LoadDarkScreen(
+              message: !deleting
+                  ? 'Salvando informações'
+                  : 'Deletando conta Tiu, tiu...',
+              show: isSavingForm,
+            ),
           ],
         ),
         bottomNavigationBar: ButtonWide(
