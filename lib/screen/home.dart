@@ -159,6 +159,11 @@ class _HomeState extends State<Home> {
         await usersEntrepreneur.doc(auth.firebaseUser.uid).get();
     UserController userController = UserController();
 
+    Future.delayed(Duration(seconds: 60), () {
+      userProvider.changeRecentlyAuthenticated(false);
+      print('Não autenticado recentemente...');
+    });
+    
     userProvider.changeUserReference(doc.reference);
     userProvider.changeUid(auth.firebaseUser.uid);
     userProvider.changePhotoUrl(doc.data()['photoURL']);
