@@ -89,8 +89,7 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
 
   void _addNewPet() {
     if ((widget.kind != 'Adopted' || widget.kind == null) && isAuthenticated) {
-      Navigator.pushReplacementNamed(context, Routes.CHOOSE_LOCATION,
-          arguments: {'kind': widget.kind});
+      Navigator.pushReplacementNamed(context, Routes.CHOOSE_LOCATION, arguments: {'kind': widget.kind});
     } else {
       Navigator.pushAndRemoveUntil(
           context,
@@ -324,7 +323,7 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
                                                       MaterialPageRoute(
                                                         builder: (context) {
                                                           return ChooseLocation(
-                                                            editMode: true,
+                                                            editMode: true,                                                            
                                                             pet: pets[index],
                                                           );
                                                         },

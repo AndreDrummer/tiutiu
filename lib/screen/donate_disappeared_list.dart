@@ -13,8 +13,8 @@ import 'package:tiutiu/utils/math_functions.dart';
 import 'package:tiutiu/utils/routes.dart';
 
 class DonateDisappearedList extends StatefulWidget {
-  DonateDisappearedList({this.kind});
-  final String kind;
+  DonateDisappearedList({this.stream,});  
+  final Stream<QuerySnapshot> Function() stream;
 
   @override
   _DonateDisappearedListState createState() => _DonateDisappearedListState();
@@ -42,20 +42,7 @@ class _DonateDisappearedListState extends State<DonateDisappearedList> {
         duration: Duration(milliseconds: 1500),
       ),
     );
-  }
-
-  @override
-  void initState() {
-    petsProvider = Provider.of(context, listen: false);
-    if (widget.kind == 'Donate' && petsProvider.getListDonatesPETS == null) {
-      petsProvider.loadDonatedPETS();
-    } else if (widget.kind != 'Donate' &&
-        petsProvider.getListDisappearedPETS == null) {
-      petsProvider.loadDisappearedPETS();
-    }
-
-    super.initState();
-  }
+  }  
 
   @override
   void didChangeDependencies() {
@@ -91,8 +78,7 @@ class _DonateDisappearedListState extends State<DonateDisappearedList> {
             ?.first
             ?.split('Até')
             ?.last;
-        double distanceRefineSelected =
-            double.tryParse(distancieSelected) ?? 1000;
+        double distanceRefineSelected = double.tryParse(distancieSelected) ?? 1000000;
 
         if (double.parse(distance) < distanceRefineSelected * 1000) {
           newPetList.add(petsListResult[i]);
@@ -105,22 +91,18 @@ class _DonateDisappearedListState extends State<DonateDisappearedList> {
 
   @override
   Widget build(BuildContext context) {
-    final marginTop = MediaQuery.of(context).size.height / 1.2;
-
-    final kind = widget.kind;
+    final marginTop = MediaQuery.of(context).size.height / 1.2;        
 
     return Scaffold(
       key: _scaffoldKey,
       backgroundColor: Colors.blueGrey[50],
       body: StreamBuilder<QuerySnapshot>(
-        stream: kind == 'Donate'
-            ? petsProvider.loadDonatedPETS()
-            : petsProvider.loadDisappearedPETS(),
+        stream: widget.stream(),            
         builder: (BuildContext context, AsyncSnapshot snapshot) {
 
           if (snapshot.connectionState == ConnectionState.waiting) {
             return LoadingPage(
-              messageLoading: 'Carregando ${kind == 'Donate' ? 'doação de PETS' : 'desaparecidos'} perto de você...',
+              messageLoading: 'Carregando PETS perto de você...',
               circle: true,
             );
           }          
@@ -156,7 +138,7 @@ class _DonateDisappearedListState extends State<DonateDisappearedList> {
                       : Container(),
                   SizedBox(height: 40),
                   Text(
-                    'Nenhum PET ${kind == 'Donate' ? 'para adoção' : 'encontrado'}',
+                    'Nenhum PET encontrado',
                     textAlign: TextAlign.center,
                     style: Theme.of(context).textTheme.headline1.copyWith(
                           color: Colors.black,
@@ -207,7 +189,7 @@ class _DonateDisappearedListState extends State<DonateDisappearedList> {
                         return SizedBox(height: 50);
                       }
                       return CardList(
-                        kind: kind,
+                        kind: petsList[index].kind,
                         petInfo: petsList[index],
                       );
                     },
