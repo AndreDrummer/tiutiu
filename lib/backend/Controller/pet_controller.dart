@@ -43,63 +43,63 @@ class PetController {
     .where('ownerId', isEqualTo: userId).snapshots();    
   }
 
-  Future<List<Pet>> getAllPetsByKind(String userId, {String kind, bool isAdopted = true}) async {
-    List<Pet> myPets = [];
+  // Future<List<Pet>> getAllPetsByKind(String userId, {String kind, bool isAdopted = true}) async {
+  //   List<Pet> myPets = [];
 
-    var postedPets = firestore
-        .collection('Users')
-        .doc(userId)
-        .collection('Pets')
-        .doc('posted');
+  //   var postedPets = firestore
+  //       .collection('Users')
+  //       .doc(userId)
+  //       .collection('Pets')
+  //       .doc('posted');
 
-    if (kind != null) {
-      if (kind == 'Donate') {
-        var donatesSnapshots = await firestore
-            .collection(kind)
-            .where('donated', isEqualTo: false)
-            .get();
-        for (int i = 0; i < donatesSnapshots.docs.length; i++) {
-          myPets.add(Pet.fromSnapshot(donatesSnapshots.docs[i]));
-        }
-      } else if (kind == 'Adopted' && isAdopted) {
-        var adoptedsSnapshots = await firestore            
-            .collection('Adopteds')
-            .where('confirmed', isEqualTo: isAdopted)
-            .get();
+  //   if (kind != null) {
+  //     if (kind == 'Donate') {
+  //       var donatesSnapshots = await firestore
+  //           .collection(kind)
+  //           .where('donated', isEqualTo: false)
+  //           .get();
+  //       for (int i = 0; i < donatesSnapshots.docs.length; i++) {
+  //         myPets.add(Pet.fromSnapshot(donatesSnapshots.docs[i]));
+  //       }
+  //     } else if (kind == 'Adopted' && isAdopted) {
+  //       var adoptedsSnapshots = await firestore            
+  //           .collection('Adopteds')
+  //           .where('confirmed', isEqualTo: isAdopted)
+  //           .get();
 
-        for (int i = 0; i < adoptedsSnapshots.docs.length; i++) {
-          DocumentSnapshot adopted = await adoptedsSnapshots.docs[i].data()['petRef'].get();
-          myPets.add(Pet.fromSnapshot(adopted));
-        }
-      } else {
-        var disappearedSnapshots = await postedPets
-            .collection('Disappeared')
-            .where('found', isEqualTo: false)
-            .get();
-        for (int i = 0; i < disappearedSnapshots.docs.length; i++) {
-          myPets.add(Pet.fromSnapshot(disappearedSnapshots.docs[i]));
-        }
-      }
-    } else {
-      var donates = await postedPets
-          .collection('Donate')
-          .where('donated', isEqualTo: false)
-          .get();
-      var disappeared = await postedPets
-          .collection('Disappeared')
-          .where('found', isEqualTo: false)
-          .get();
+  //       for (int i = 0; i < adoptedsSnapshots.docs.length; i++) {
+  //         DocumentSnapshot adopted = await adoptedsSnapshots.docs[i].data()['petRef'].get();
+  //         myPets.add(Pet.fromSnapshot(adopted));
+  //       }
+  //     } else {
+  //       var disappearedSnapshots = await postedPets
+  //           .collection('Disappeared')
+  //           .where('found', isEqualTo: false)
+  //           .get();
+  //       for (int i = 0; i < disappearedSnapshots.docs.length; i++) {
+  //         myPets.add(Pet.fromSnapshot(disappearedSnapshots.docs[i]));
+  //       }
+  //     }
+  //   } else {
+  //     var donates = await postedPets
+  //         .collection('Donate')
+  //         .where('donated', isEqualTo: false)
+  //         .get();
+  //     var disappeared = await postedPets
+  //         .collection('Disappeared')
+  //         .where('found', isEqualTo: false)
+  //         .get();
 
-      for (int i = 0; i < donates.docs.length; i++) {
-        myPets.add(Pet.fromSnapshot(donates.docs[i]));
-      }
-      for (int i = 0; i < disappeared.docs.length; i++) {
-        myPets.add(Pet.fromSnapshot(disappeared.docs[i]));
-      }
-    }
+  //     for (int i = 0; i < donates.docs.length; i++) {
+  //       myPets.add(Pet.fromSnapshot(donates.docs[i]));
+  //     }
+  //     for (int i = 0; i < disappeared.docs.length; i++) {
+  //       myPets.add(Pet.fromSnapshot(disappeared.docs[i]));
+  //     }
+  //   }
 
-    return myPets;
-  }
+  //   return myPets;
+  // }
    
 
   Future<void> showInterestOrInfo({

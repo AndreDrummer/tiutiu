@@ -1,8 +1,8 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tiutiu/Widgets/button.dart';
 import 'package:tiutiu/Widgets/new_map.dart';
+import 'package:tiutiu/backend/Model/pet_model.dart';
 import 'package:tiutiu/providers/ads_provider.dart';
 import 'package:tiutiu/providers/location.dart';
 import 'package:tiutiu/screen/pet_form.dart';
@@ -11,11 +11,11 @@ import 'package:tiutiu/utils/routes.dart';
 class ChooseLocation extends StatefulWidget {
   ChooseLocation({
     this.editMode = false,
-    this.petReference,
+    this.pet,
   });
 
   final bool editMode;
-  final DocumentReference petReference;
+  final Pet pet;
 
   @override
   _ChooseLocationState createState() => _ChooseLocationState();
@@ -67,7 +67,7 @@ class _ChooseLocationState extends State<ChooseLocation> {
                                   builder: (context) {
                                     return PetForm(
                                       editMode: true,
-                                      petReference: widget.petReference,
+                                      pet: widget.pet,
                                     );
                                   },
                                 ),
