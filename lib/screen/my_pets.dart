@@ -172,11 +172,7 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
                 print('SNAPSHOT.DATA É NULL');
               }
 
-              List<Pet> pets = [];
-              List<QueryDocumentSnapshot> docs = snapshot.data.docs;
-              for(int i = 0; i < docs.length; i++) {
-                pets.add(Pet.fromSnapshot(docs[i]));
-              }
+              List<Pet> pets = petsProvider.getPetListFromSnapshots(snapshot.data.docs);              
 
               if (pets.isEmpty) {
                 return Column(

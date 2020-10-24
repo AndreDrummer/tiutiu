@@ -35,6 +35,10 @@ class UserController {
     return user;
   }
 
+  Stream<DocumentSnapshot> getUserSnapshot(DocumentReference userReference) {
+    return userReference.snapshots();
+  }
+
   Future<void> favorite(DocumentReference userReference, DocumentReference petReference, bool add) async {
     final favorites = userReference.collection('Favorites');
 
