@@ -19,7 +19,7 @@ class UserProvider with ChangeNotifier {
   String _displayName;
   String _createdAt;
   DocumentReference _userReference;
-  final _betterContact = BehaviorSubject<int>();
+  final _betterContact = BehaviorSubject<int>.seeded(0);
   final _totaToDonate = BehaviorSubject<int>.seeded(0);
   final _totalDonated = BehaviorSubject<int>.seeded(0);
   final _totalAdopted = BehaviorSubject<int>.seeded(0);
@@ -29,6 +29,7 @@ class UserProvider with ChangeNotifier {
   final _adoptedPets = BehaviorSubject<List<Pet>>();
   final _disappearedPets = BehaviorSubject<List<Pet>>();
   final _donatedPets = BehaviorSubject<List<Pet>>();
+  final _adoptionToConfirm = BehaviorSubject<List<Pet>>();
   final _notifications = BehaviorSubject<int>();
 
   // Listenning to the date
@@ -42,8 +43,8 @@ class UserProvider with ChangeNotifier {
   Stream<List<Pet>> get adoptedPets => _adoptedPets.stream;
   Stream<List<Pet>> get disappearedPets => _disappearedPets.stream;
   Stream<List<Pet>> get donatedPets => _donatedPets.stream;
-  Stream<int> get notifications =>
-      _notifications.stream;
+  Stream<List<Pet>> get adoptionToConfirm => _adoptionToConfirm.stream;
+  Stream<int> get notifications => _notifications.stream;
 
   // Getting data
   int get getBetterContact => _betterContact.stream.value;
@@ -56,6 +57,7 @@ class UserProvider with ChangeNotifier {
   List<Pet> get getDonatePets => _donatePets.stream.value;
   List<Pet> get getDisappearedPets => _disappearedPets.stream.value;
   List<Pet> get getDonatedPets => _donatedPets.stream.value;
+  List<Pet> get getAdoptionToConfirm => _adoptionToConfirm.stream.value;
   int get getNotifications => _notifications.stream.value;
 
   // Changing data
@@ -68,6 +70,7 @@ class UserProvider with ChangeNotifier {
   void Function(List<Pet>) get changeDonatePets => _donatePets.sink.add;
   void Function(List<Pet>) get changeAdoptedPets => _adoptedPets.sink.add;
   void Function(List<Pet>) get changeDisappearedPets => _disappearedPets.sink.add;
+  void Function(List<Pet>) get changeAdoptionToConfirm => _adoptionToConfirm.sink.add;
   void Function(List<Pet>) get changeDonatedPets => _donatedPets.sink.add;
 
   void changeNotifications(int list) {
@@ -155,6 +158,11 @@ class UserProvider with ChangeNotifier {
     changeNotifications(await user.loadNotificationsCount(uid));
   }
 
+  Future<void> loadAdoptionsToConfirm() async {    
+    // PetController petController = PetController();
+    // changeAdoptionToConfirm(await petController.getAllPetsByKind(uid, kind: 'Adopted', adopted: false));
+  }
+
   Future<void> handleNotifications(data) async {
     loadNotificationsCount();    
     UserController userController = UserController();    
@@ -162,45 +170,45 @@ class UserProvider with ChangeNotifier {
 
     switch(data['notificationType']) {
       case 'wannaAdopt': 
-        notificationData.putIfAbsent('userRef', () => data['userReference']);
+        notificationData.putIfAbsent('userReference', () => data['userReference']);
         notificationData.putIfAbsent('notificationType', () => data['notificationType']);
-        notificationData.putIfAbsent('petRef', () => data['petReference']);
+        notificationData.putIfAbsent('petReference', () => data['petReference']);
         notificationData.putIfAbsent('time', () => DateTime.now().toIso8601String());
         notificationData.putIfAbsent('title', () => 'Quero adotar!');
         notificationData.putIfAbsent('message', () => '${data['userName']} tem interesse na adoção de ${data['petName']}.');
         notificationData.putIfAbsent('open', () => false);
         break;
       case 'petInfo':
-        notificationData.putIfAbsent('userRef', () => data['userReference']);
+        notificationData.putIfAbsent('userReference', () => data['userReference']);
       notificationData.putIfAbsent('notificationType', () => data['notificationType']);
-        notificationData.putIfAbsent('petRef', () => data['petReference']);
+        notificationData.putIfAbsent('petReference', () => data['petReference']);
         notificationData.putIfAbsent('time', () => DateTime.now().toIso8601String());
         notificationData.putIfAbsent('title', () => 'Informações sobre seu PET desaparecido!');
         notificationData.putIfAbsent('message', () => '${data['userName']} viu seu PET próximo a localização dele.');
         notificationData.putIfAbsent('open', () => false);
         break;
       case 'adoptionDeny':
-        notificationData.putIfAbsent('userRef', () => data['userReference']);
+        notificationData.putIfAbsent('userReference', () => data['userReference']);
         notificationData.putIfAbsent('notificationType', () => data['notificationType']);
-        notificationData.putIfAbsent('petRef', () => data['petReference']);
+        notificationData.putIfAbsent('petReference', () => data['petReference']);
         notificationData.putIfAbsent('time', () => DateTime.now().toIso8601String());
         notificationData.putIfAbsent('title', () => 'Adoção NÃO confirmada!');
         notificationData.putIfAbsent('message', () => '${data['userName']} negou que tenha adotado ${data['petName']}.');
         notificationData.putIfAbsent('open', () => false);
         break;
       case 'adoptionConfirmed':
-        notificationData.putIfAbsent('userRef', () => data['userReference']);
+        notificationData.putIfAbsent('userReference', () => data['userReference']);
         notificationData.putIfAbsent('notificationType', () => data['notificationType']);
-        notificationData.putIfAbsent('petRef', () => data['petReference']);
+        notificationData.putIfAbsent('petReference', () => data['petReference']);
         notificationData.putIfAbsent('time', () => DateTime.now().toIso8601String());
         notificationData.putIfAbsent('title', () => 'Adoção confirmada!');
         notificationData.putIfAbsent('message', () => '${data['userName']} confirmou a adoção de ${data['petName']}.');
         notificationData.putIfAbsent('open', () => false);
         break;
       case 'confirmAdoption':
-        notificationData.putIfAbsent('userRef', () => data['userReference']);
+        notificationData.putIfAbsent('userReference', () => data['userReference']);
         notificationData.putIfAbsent('notificationType', () => data['notificationType']);
-        notificationData.putIfAbsent('petRef', () => data['petReference']);
+        notificationData.putIfAbsent('petReference', () => data['petReference']);
         notificationData.putIfAbsent('time', () => DateTime.now().toIso8601String());
         notificationData.putIfAbsent('title', () => 'Confirme adoção!');
         notificationData.putIfAbsent('message', () => '${data['userThatDonate']} pediu que você confirme a adoção de ${data['petName']}.');
