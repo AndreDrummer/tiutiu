@@ -13,76 +13,19 @@ class PetsProvider with ChangeNotifier {
   Stream<List<Pet>> get listDonatesPETS => _listDonatesPETS.stream;
 
   // Changing the data
-  void Function(List<Pet>) get changeListDisappearedPETS =>
-      _listDisappearedPETS.sink.add;
-  void Function(List<Pet>) get changeListDonatesPETS =>
-      _listDonatesPETS.sink.add;
+  void Function(List<Pet>) get changeListDisappearedPETS => _listDisappearedPETS.sink.add;
+  void Function(List<Pet>) get changeListDonatesPETS => _listDonatesPETS.sink.add;
 
   // Getting data
   List<Pet> get getListDisappearedPETS => _listDisappearedPETS.value;
-  List<Pet> get getListDonatesPETS => _listDonatesPETS.value;
+  List<Pet> get getListDonatesPETS => _listDonatesPETS.value;  
 
-  CollectionReference dataBaseCollection =
-      FirebaseFirestore.instance.collection('Users');
-
-  Future<void> loadUsersID() async {
-    await dataBaseCollection.get().then(
-      (QuerySnapshot allUsers) {
-        allUsers.docs.forEach((element) {
-          if (!allUsersID.contains(element.id)) allUsersID.add(element.id);
-        });
-      },
-    );
+  Stream<QuerySnapshot> loadDisappearedPETS() {
+    return FirebaseFirestore.instance.collection('Disappeared').snapshots();            
   }
 
-  Future<void> loadDisappearedPETS() async {
-    await loadUsersID();
-    List<Pet> temp = [];
-
-    for (int j = 0; j < allUsersID.length; j++) {
-      await dataBaseCollection
-          .doc(allUsersID[j])
-          .collection('Pets')
-          .doc('posted')
-          .collection('Disappeared')
-          .where('found', isEqualTo: false)
-          .get()
-          .then((disappearedPETS) {
-        for (int i = 0; i < disappearedPETS.docs.length; i++) {
-          temp.add(Pet.fromSnapshot(disappearedPETS.docs[i]));
-        }
-      });
-      changeListDisappearedPETS(temp);
-    }
-
-    notifyListeners();
-    return Future.value();
-  }
-
-  Future<void> loadDonatedPETS() async {
-    await loadUsersID();
-    List<Pet> temp = [];
-
-    for (int j = 0; j < allUsersID.length; j++) {
-      await dataBaseCollection
-          .doc(allUsersID[j])
-          .collection('Pets')
-          .doc('posted')
-          .collection('Donate')
-          .where('donated', isEqualTo: false)
-          .get()
-          .then((donatesPETS) {
-        for (int i = 0; i < donatesPETS.docs.length; i++) {
-          temp.add(Pet.fromSnapshot(donatesPETS.docs[i]));
-        }
-      });
-
-      print(temp.length);
-      changeListDonatesPETS(temp);
-    }
-
-    notifyListeners();
-    return Future.value();
+  Stream<QuerySnapshot> loadDonatedPETS() {        
+    return FirebaseFirestore.instance.collection('Donate').snapshots();            
   }
 
   Future<void> bigQueryRefine(
@@ -101,14 +44,10 @@ class PetsProvider with ChangeNotifier {
       } else {
         loadDisappearedPETS();
       }
-    } else {
-      loadUsersID();
+    } else {      
       List<Pet> temp = [];
       for (int j = 0; j < allUsersID.length; j++) {
-        var query = await dataBaseCollection
-            .doc(allUsersID[j])
-            .collection('Pets')
-            .doc('posted')
+        var query = FirebaseFirestore.instance
             .collection(petKind)
             .where("type", isEqualTo: petType);
 
