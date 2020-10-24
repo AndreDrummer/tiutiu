@@ -167,17 +167,17 @@ class UserController {
       .snapshots().length;        
   }
 
-   Stream<QuerySnapshot> loadMyPostedPetsToDonate({String userId}) {
+  Stream<QuerySnapshot> loadMyPostedPetsToDonate({String userId}) {
     PetController petController = PetController();
     return petController.getPetsByUser('Donate', userId);
    }
 
-   Stream<QuerySnapshot> loadMyPostedPetsDisappeared({String userId}) {
+  Stream<QuerySnapshot> loadMyPostedPetsDisappeared({String userId}) {
     PetController petController = PetController();
     return petController.getPetsByUser('Disappeared', userId);
   }
 
-   Stream<QuerySnapshot> loadMyAdoptedPets({String userId}) {
+  Stream<QuerySnapshot> loadMyAdoptedPets({String userId}) {
     PetController petController = PetController();
     return petController.getPetsByUser('Adopted', userId);
   }
@@ -192,10 +192,14 @@ class UserController {
 
   Future<void> deleteUserData(DocumentReference userReference) async {
     QuerySnapshot notifications = await userReference.collection('Notifications').get();
-    QuerySnapshot petsDonated = await userReference.collection('Pets').doc('posted').collection('Donate').get();
-    QuerySnapshot petsDisappeared = await userReference.collection('Pets').doc('posted').collection('Disappeared').get();
-    QuerySnapshot petsFavorited = await userReference.collection('Pets').doc('favorites').collection('favorites').get();
-    QuerySnapshot petsAdopted = await userReference.collection('Pets').doc('adopted').collection('Adopteds').get();
+    QuerySnapshot petsFavorited = await userReference.collection('Favorites').get();
+    
+    QuerySnapshot petsDonated = await FirebaseFirestore.instance.collection('Donate')
+    .where('ownerReference', isEqualTo: userReference).get();
+    QuerySnapshot petsDisappeared = await FirebaseFirestore.instance.collection('Disappeared')
+    .where('ownerReference', isEqualTo: userReference).get();
+    QuerySnapshot petsAdopted = await FirebaseFirestore.instance.collection('Adopteds')
+    .where('interestedReference', isEqualTo: userReference).get();
     
     for(int i = 0; i < notifications.docs.length; i++) {
       await notifications.docs[i].reference.delete();

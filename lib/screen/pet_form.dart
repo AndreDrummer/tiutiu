@@ -8,6 +8,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
+import 'package:tiutiu/Exceptions/tiutiu_exceptions.dart';
 import 'package:tiutiu/Widgets/background.dart';
 import 'package:tiutiu/Widgets/badge.dart';
 import 'package:tiutiu/Widgets/custom_dropdown_button.dart';
@@ -79,7 +80,7 @@ class _PetFormState extends State<PetForm> {
   int dropvalueBreed = 0;
   String userId;
   LatLng currentLocation;
-  bool isLogging = false;
+  bool isSaving = false;
   bool readOnly = false;
   bool convertingImages = false;
   AdsProvider adsProvider;
@@ -171,7 +172,8 @@ class _PetFormState extends State<PetForm> {
                     onPressed: () {
                       Navigator.pop(context);
                       if (widget.editMode)
-                        photosToDelete.add(petFormProvider.getPetPhotos.elementAt(index));
+                        photosToDelete
+                            .add(petFormProvider.getPetPhotos.elementAt(index));
 
                       petFormProvider.getPetPhotos.removeAt(index);
 
@@ -182,7 +184,8 @@ class _PetFormState extends State<PetForm> {
 
                       List actualPhotoList = petFormProvider.getPetPhotos;
                       petFormProvider.changePetPhotos(actualPhotoList);
-                      if(!widget.editMode) convertImageToUint8List(petFormProvider.getPetPhotos);
+                      if (!widget.editMode)
+                        convertImageToUint8List(petFormProvider.getPetPhotos);
                     },
                   )
                 ]
@@ -276,7 +279,7 @@ class _PetFormState extends State<PetForm> {
       convertImageToUint8List(petFormProvider.getPetPhotos);
 
       setState(() {
-        petPhotosMulti = actualPhotoList as List<Asset>;
+        petPhotosMulti = resultList;
       });
     }
   }
@@ -318,9 +321,9 @@ class _PetFormState extends State<PetForm> {
 
     for (int i = 0; i < convertedImageList.length; i++) {
       storageReference = FirebaseStorage.instance.ref().child('$userId/').child(
-          'petsPhotos/$storageHashKey/$petName-${DateTime.now().millisecond}');
+          'petsPhotos/$kind/$storageHashKey/$petName-${DateTime.now().millisecondsSinceEpoch}');
       uploadTask = storageReference.putData(convertedImageList[i]);
-      await uploadTask.onComplete;      
+      await uploadTask.onComplete;
       petPhotosToUpload.add(await storageReference.getDownloadURL());
       print('URL DOWNLOAD ${petPhotosToUpload.last}');
     }
@@ -328,9 +331,9 @@ class _PetFormState extends State<PetForm> {
     return Future.value();
   }
 
-  void changeLogginStatus(bool status) {
+  void changeSavingStatus(bool status) {
     setState(() {
-      isLogging = status;
+      isSaving = status;
     });
   }
 
@@ -347,26 +350,44 @@ class _PetFormState extends State<PetForm> {
 
   Future<void> deletePhotosFromStorage() async {
     StorageReference storageReference;
-    await deleteField(widget.pet.petReference);
-    for (String photo in photosToDelete) {
-      String filename = getPhotoName(photo, widget.pet.storageHashKey);
-      storageReference = FirebaseStorage.instance
-          .ref()
-          .child('$userId/')
-          .child('petsPhotos/$storageHashKey/$filename');
-      await storageReference.delete();
+    try {
+      await deleteField(widget.pet.petReference);
+      for (String photo in photosToDelete) {
+        String filename = getPhotoName(photo, widget.pet.storageHashKey);
+        storageReference = FirebaseStorage.instance
+            .ref()
+            .child('$userId/')
+            .child('petsPhotos/$kind/$storageHashKey/$filename');
+        await storageReference.delete();
+      }
+    } catch (error) {
+      throw TiuTiuException('INVALID_PATH');
     }
   }
 
   Future<void> save() async {
     final startIn = DateTime.now();
-    changeLogginStatus(true);
+    changeSavingStatus(true);
     var petController = PetController();
 
     await uploadPhotos(_nome.text);
 
     if (photosToDelete.isNotEmpty) {
-      await deletePhotosFromStorage();
+      try {
+        await deletePhotosFromStorage();
+      } on TiuTiuException catch (error) {
+        print('ERROR');
+        await showDialog(
+          context: context,
+          builder: (context) => PopUpMessage(
+            title: 'Falha na autenticação',
+            confirmText: 'OK',
+            confirmAction: () => Navigator.pop(context),
+            error: true,
+            message: error.toString(),
+          ),
+        );
+      }
     }
 
     var dataPetSave = Pet(
@@ -387,8 +408,8 @@ class _PetFormState extends State<PetForm> {
       size: petFormProvider.getPetSize,
       sex: petFormProvider.getPetSex,
       ownerId: userProvider.uid,
-      latitude: currentLocation.latitude,
-      longitude: currentLocation.longitude,
+      latitude: currentLocation?.latitude ?? 0,
+      longitude: currentLocation?.longitude ?? 0,
       details: petFormProvider.getPetDescription,
       donated: false,
       found: false,
@@ -407,15 +428,23 @@ class _PetFormState extends State<PetForm> {
   }
 
   void afterSave() {
-    if (kind == 'Donate') {
-      petsProvider.loadDonatedPETS();
-    } else {
-      petsProvider.loadDisappearedPETS();
-    }
+    convertedImageList.clear();
+    petPhotosMulti.clear();
     petPhotosToUpload.clear();
     petFormProvider.changePetPhotos([]);
-    petFormProvider.getPetPhotos.clear();
-    changeLogginStatus(false);
+    petFormProvider.changePetName('');
+    petFormProvider.changePetColor('Abóbora');
+    petFormProvider.changePetTypeIndex(0);
+    petFormProvider.changePetAge(0);
+    petFormProvider.changePetMonths(0);
+    petFormProvider.changePetSize('Pequeno-porte');
+    petFormProvider.changePetHealthIndex(0);
+    petFormProvider.changePetBreedIndex(0);
+    petFormProvider.changePetSex('Macho');
+    petFormProvider.changePetSelectedCaracteristics([]);
+    petFormProvider.changePetDescription('');
+    petFormProvider.changePetInEdition(Pet());
+    changeSavingStatus(false);
   }
 
   bool validateForm() {
@@ -442,7 +471,7 @@ class _PetFormState extends State<PetForm> {
     kind = widget.editMode ? widget.pet.kind : params['kind'];
 
     Future<bool> _onWillPopScope() {
-      if (isLogging || convertingImages) {
+      if (isSaving || convertingImages) {
         return Future.value(false);
       }
       Navigator.pushReplacementNamed(context, Routes.HOME);
@@ -458,7 +487,7 @@ class _PetFormState extends State<PetForm> {
           title: widget.editMode
               ? Text('Editar dados do ${widget.pet.name}')
               : Text(
-                  kind == 'Donate' ? 'PET para adoção' : 'PET Desaparecido',
+                  kind == 'Donate' ? 'PET PARA ADOÇÃO' : 'PET DESAPARECIDO',
                   style: Theme.of(context).textTheme.headline1.copyWith(
                         fontSize: 20,
                         color: Colors.white,
@@ -728,7 +757,8 @@ class _PetFormState extends State<PetForm> {
                           builder: (context, snapshot) {
                             return CustomDropdownButton(
                               label: 'Saúde',
-                              initialValue: DummyData.health[snapshot.data],
+                              initialValue:
+                                  DummyData.health[snapshot.data ?? 0],
                               itemList: DummyData.health,
                               onChange: (String value) {
                                 petFormProvider.changePetHealthIndex(
@@ -953,14 +983,14 @@ class _PetFormState extends State<PetForm> {
                 ],
               ),
             ),
-            LoadDarkScreen(show: isLogging, message: 'Aguarde'),
+            LoadDarkScreen(show: isSaving, message: 'Aguarde'),
           ],
         ),
         bottomNavigationBar: ButtonWide(
           rounded: false,
-          color: isLogging ? Colors.grey : Theme.of(context).primaryColor,
+          color: isSaving ? Colors.grey : Theme.of(context).primaryColor,
           isToExpand: true,
-          action: isLogging || convertingImages
+          action: isSaving || convertingImages
               ? null
               : () async {
                   if (validateForm()) {
@@ -980,7 +1010,7 @@ class _PetFormState extends State<PetForm> {
                                 );
                               },
                               message: widget.editMode
-                                  ? 'Os dados do PET foram atualizados'
+                                  ? 'Os dados do PET foram atualizados.'
                                   : 'PET postado com sucesso!',
                             )).then(
                       (value) => _onWillPopScope,
