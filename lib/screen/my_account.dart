@@ -464,6 +464,8 @@ class _MyAccountState extends State<MyAccount> {
                               builder: (context) => PopUpMessage(
                                 confirmAction: () {
                                   auth.signOut();
+                                  userProvider.changeUid(null);
+                                  userProvider.changeUserReference(null);
                                   Navigator.pop(context);
                                 },
                                 confirmText: 'Sim',

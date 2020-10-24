@@ -479,8 +479,8 @@ class _PetDetailsState extends State<PetDetails> {
                           _scaffoldKey.currentState.showSnackBar(SnackBar(
                             duration: Duration(seconds: 1),
                             content: Text(isFavorite
-                                ? 'Removido dos favoritos'
-                                : 'Adicionado como favorito'),
+                              ? 'Removido dos favoritos'
+                              : 'Adicionado como favorito'),
                           ));
 
                           favoritesProvider.loadFavoritesReference();

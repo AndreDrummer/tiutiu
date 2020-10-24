@@ -139,6 +139,8 @@ class _SettingsState extends State<Settings> {
       child: PopUpMessage(
         confirmAction: () {
           auth.signOut();
+          userProvider.changeUid(null);
+          userProvider.changeUserReference(null);
           Navigator.popUntil(context, ModalRoute.withName('/'));
         },
         confirmText: 'Deslogar Agora',
