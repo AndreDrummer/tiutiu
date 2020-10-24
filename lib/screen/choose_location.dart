@@ -32,15 +32,14 @@ class _ChooseLocationState extends State<ChooseLocation> {
 
   @override
   Widget build(BuildContext context) {
-    var params =
-        ModalRoute.of(context).settings.arguments as Map<String, dynamic>;
-    var kind = widget.editMode ? '' : params['kind'];
+    var params = ModalRoute.of(context).settings.arguments as Map<String, dynamic>;
+    var kind = widget.editMode ? widget.pet.kind : params['kind'];
 
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
         title: Text(
-          'Escolha a localização do PET',
+          kind == 'Donate' ? 'localização do PET'.toUpperCase() : 'Visto pela última vez em'.toUpperCase(),
           style: Theme.of(context).textTheme.headline1.copyWith(
                 fontSize: 20,
                 fontWeight: FontWeight.w700,
@@ -56,7 +55,7 @@ class _ChooseLocationState extends State<ChooseLocation> {
               builder: (_, location, child) => ButtonWide(
                 rounded: false,
                 isToExpand: true,
-                text: 'O PET ESTÁ AQUI',
+                text: kind == 'Donate' ? 'O PET ESTÁ NESTA REGIÃO' : 'VISTO POR ÚLTIMO AQUI',
                 action: location.getLocation == null
                     ? null
                     : () {
@@ -85,4 +84,9 @@ class _ChooseLocationState extends State<ChooseLocation> {
       ),
     );
   }
+
+  @override
+  void dispose() {    
+    super.dispose();
+  } 
 }
