@@ -245,37 +245,25 @@ class _RefineSearchState extends State<RefineSearch> {
                   child: ButtonWide(
                     color: isRefiningSearch ? Colors.grey : Colors.purple,
                     text: 'BUSCAR',
-                    action: isRefiningSearch
-                        ? null
-                        : () async {
-                            changeIsRefineSearchStatus(true);
-                            await petsProvider.bigQueryRefine(
-                                refineSearchProvider.getIsDisappeared
-                                    ? 'Disappeared'
-                                    : 'Donate',
-                                selectedKind == 0
-                                    ? 'Todos'
-                                    : petsType[selectedKind - 1],
-                                refineSearchProvider.getBreedSelected,
-                                refineSearchProvider.getSizeSelected,
-                                refineSearchProvider.getAgeSelected,
-                                refineSearchProvider.getSexSelected,
-                                refineSearchProvider.getHealthSelected,
-                                refineSearchProvider.getDistancieSelected);
-                            changeIsRefineSearchStatus(false);
-                            Navigator.pushNamed(context, Routes.HOME,
-                                arguments: refineSearchProvider.getIsDisappeared
-                                    ? 1
-                                    : 0);
-                          },
+                    action: isRefiningSearch ? null : () async {
+                      petsProvider.changePetKind(refineSearchProvider.getIsDisappeared? 'Disappeared': 'Donate');
+                      petsProvider.changePetType(selectedKind == 0 ? 'Todos': petsType[selectedKind - 1]);
+                      petsProvider.changeBreedSelected(refineSearchProvider.getBreedSelected);
+                      petsProvider.changeSizeSelected(refineSearchProvider.getSizeSelected);
+                      petsProvider.changeAgeSelected(refineSearchProvider.getAgeSelected);
+                      petsProvider.changeSexSelected(refineSearchProvider.getSexSelected);
+                      petsProvider.changeHealthSelected(refineSearchProvider.getHealthSelected);
+                      petsProvider.changeIsFiltering(selectedKind == 0 ? false : true);
+
+                      Navigator.pushNamed(context, Routes.HOME, arguments: refineSearchProvider.getIsDisappeared ? 1 : 0);
+                    },
                   ),
                 ),
                 adsProvider.getCanShowAds ? adsProvider.bannerAdMob(adId: adsProvider.bottomAdId) : Container(),
               ],
             ),
           ),          
-          LoadDarkScreen(
-              show: isRefiningSearch, message: 'Refinando resultados...')
+          LoadDarkScreen(show: isRefiningSearch, message: 'Refinando resultados...')
         ],
       ),
     );

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:tiutiu/Custom/icons.dart';
 import 'package:tiutiu/Widgets/badge.dart';
 import 'package:tiutiu/providers/auth2.dart';
+import 'package:tiutiu/providers/pets_provider.dart';
 import 'package:tiutiu/providers/user_provider.dart';
 import 'package:tiutiu/screen/donate_disappeared_list.dart';
 import 'package:tiutiu/utils/routes.dart';
@@ -11,6 +13,7 @@ class PetsList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final indexTab = ModalRoute.of(context).settings.arguments;
+    final petProvider = Provider.of<PetsProvider>(context);
     void navigateToAuth() {
       Navigator.pushNamed(context, Routes.AUTH, arguments: true);
     }
@@ -21,17 +24,28 @@ class PetsList extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           leading: null,
-          title: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          title: Row(            
             children: [
+              Container(
+                padding: const EdgeInsets.all(2.50),
+                decoration: BoxDecoration(
+                  border: Border.all(color: Colors.white),
+                  borderRadius: BorderRadius.circular(25),
+                ),
+                child: Image.asset('assets/pata.jpg',
+                    width: 20, height: 20, color: Colors.white),
+              ),
+              SizedBox(width: 15),
               Text(
                 'Tiu, tiu',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 25,
-                  fontWeight: FontWeight.w600,
+                style: GoogleFonts.miltonianTattoo(
+                  textStyle: TextStyle(
+                    color: Colors.white,
+                    fontSize: 25,
+                  ),
                 ),
               ),
+              Spacer(),
               Consumer<UserProvider>(
                 builder: (_, userProvider, child) => Consumer<Authentication>(
                   builder: (_, auth, child) => auth.firebaseUser == null
@@ -76,8 +90,8 @@ class PetsList extends StatelessWidget {
         ),
         body: TabBarView(
           children: [
-            DonateDisappearedList(kind: 'Donate'),
-            DonateDisappearedList(kind: 'Disappeared'),
+            DonateDisappearedList(stream: petProvider.loadDonatedPETS),
+            DonateDisappearedList(stream: petProvider.loadDisappearedPETS),
           ],
         ),
       ),

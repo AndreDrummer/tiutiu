@@ -8,6 +8,7 @@ import 'package:tiutiu/backend/Model/user_model.dart';
 import 'package:tiutiu/providers/auth2.dart';
 import 'package:tiutiu/providers/favorites_provider.dart';
 import 'package:tiutiu/providers/location.dart' as provider_location;
+import 'package:tiutiu/providers/user_provider.dart';
 import 'package:tiutiu/screen/pet_detail.dart';
 import 'package:tiutiu/utils/math_functions.dart';
 
@@ -30,6 +31,8 @@ class CardList extends StatefulWidget {
 }
 
 class _CardListState extends State<CardList> {
+  UserProvider userProvider;
+
   Future loadOwner(DocumentReference doc, {Authentication auth}) async {
     final owner = await doc.get();
     if (auth != null) {
@@ -48,8 +51,8 @@ class _CardListState extends State<CardList> {
     String textTime = '';
 
     String distance = MathFunctions.distanceMatrix(
-      latX: currentLoction.getLocation.latitude,
-      longX: currentLoction.getLocation.longitude,
+      latX: currentLoction.getLocation?.latitude,
+      longX: currentLoction.getLocation?.longitude,
       latY: petLatitude,
       longY: petLongitude,
     );
@@ -71,6 +74,12 @@ class _CardListState extends State<CardList> {
 
 
     return [textDistance, textTime];
+  }
+
+  @override
+  void didChangeDependencies() {
+    userProvider = Provider.of<UserProvider>(context);
+    super.didChangeDependencies();
   }
 
   @override
@@ -163,19 +172,18 @@ class _CardListState extends State<CardList> {
                               widget.petInfo.toMap()['breed'],
                             ),
                             SizedBox(height: 20),
-                            FutureBuilder(
-                                future: loadOwner(
-                                    widget.petInfo.toMap()['ownerReference'],
-                                    auth: auth.firebaseUser != null ? auth : null),
+                            StreamBuilder(
+                                stream: UserController().getUserSnapshot(widget.petInfo.toMap()['ownerReference']),
                                 builder: (context, snapshot) {
-                                  if (snapshot.connectionState ==
-                                      ConnectionState.waiting || snapshot.data == null) {
+                                  if (snapshot.connectionState == ConnectionState.waiting || snapshot.data == null) {
                                     return Text('');
-                                  }                                
+                                  }                 
+
+                                  String announcerName = snapshot.data.data()['uid'] == userProvider.uid ? 'Você' : snapshot.data.data()['displayName'];
                                   return Container(
                                     width: width - 100,
                                     child: Text(
-                                      '${snapshot.data['displayName']} está ${widget.kind.toUpperCase() == 'DONATE' ? 'doando' : 'procurando'}.',
+                                      '$announcerName está ${widget.kind.toUpperCase() == 'DONATE' ? 'doando' : 'procurando'}.',
                                       textAlign: TextAlign.left,
                                       overflow: TextOverflow.fade,
                                       style: Theme.of(context)
@@ -196,35 +204,19 @@ class _CardListState extends State<CardList> {
                             IconButton(
                               icon: widget.favorite
                                   ? Icon(
-                                      favoritesProvider.getFavoritesPETSIDList
-                                              .contains(
-                                                  widget.petInfo.toMap()['id'])
-                                          ? Icons.favorite
-                                          : Icons.favorite_border,
-                                      size: 40,
-                                      color: Colors.red,
+                                      favoritesProvider.getFavoritesPETSIDList.contains(widget.petInfo.toMap()['id'])
+                                      ? Icons.favorite
+                                      : Icons.favorite_border, size: 40, color: Colors.red,
                                     )
-                                  : Icon(Tiutiu.location_arrow,
-                                      size: 25,
-                                      color: Theme.of(context).primaryColor),
-                              onPressed: !widget.favorite
-                                  ? null : () {
-                                if (favoritesProvider.getFavoritesPETSIDList
-                                    .contains(widget.petInfo.toMap()['id'])) {
-                                  user.favorite(
-                                      auth.firebaseUser.uid,
-                                      widget.petInfo.toMap()['petReference'],
-                                      false);
-                                  favoritesProvider.handleFavorite(
-                                      widget.petInfo.toMap()['id']);
+                                  : Icon(Tiutiu.location_arrow, size: 25, color: Theme.of(context).primaryColor),
+                              onPressed: !widget.favorite ? null : () {
+                                if (favoritesProvider.getFavoritesPETSIDList.contains(widget.petInfo.toMap()['id'])) {
+                                  user.favorite(userProvider.userReference, widget.petInfo.toMap()['petReference'],false);
+                                  favoritesProvider.handleFavorite(widget.petInfo.toMap()['id']);
                                 } else {
-                                  user.favorite(
-                                      auth.firebaseUser.uid,
-                                      widget.petInfo.toMap()['petReference'],
-                                      true);
+                                  user.favorite(userProvider.userReference, widget.petInfo.toMap()['petReference'], true);
                                   favoritesProvider.loadFavoritesReference();
-                                  favoritesProvider.handleFavorite(
-                                      widget.petInfo.toMap()['id']);
+                                  favoritesProvider.handleFavorite(widget.petInfo.toMap()['id']);                                  
                                 }
                               },
                             ),
