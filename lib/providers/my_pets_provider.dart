@@ -12,7 +12,7 @@ class MyPetsProvider with ChangeNotifier {
 
   void Function(List) get changeMyPets => _myPets.sink.add;
 
-  Future<void> loadMyPets(String uid) async {
+  Future<void> loadMyPostedPets(String uid) async {
     List temp = [];
 
     final donates = await FirebaseFirestore.instance
