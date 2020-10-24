@@ -175,8 +175,7 @@ class _CardListState extends State<CardList> {
                             StreamBuilder(
                                 stream: UserController().getUserSnapshot(widget.petInfo.toMap()['ownerReference']),
                                 builder: (context, snapshot) {
-                                  if (snapshot.connectionState ==
-                                      ConnectionState.waiting || snapshot.data == null) {
+                                  if (snapshot.connectionState == ConnectionState.waiting || snapshot.data == null) {
                                     return Text('');
                                   }                 
 
