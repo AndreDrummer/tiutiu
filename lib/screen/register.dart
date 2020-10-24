@@ -271,6 +271,8 @@ class _RegisterState extends State<Register> {
     });
     userProvider.changePhotoUrl(photoURL);
     userProfile.clear();
+    userProvider.changeTelefone('');
+    userProvider.changeWhatsapp('');
     return Future.value();
   }
 

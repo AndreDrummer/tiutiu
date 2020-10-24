@@ -18,7 +18,7 @@ class _NewMapState extends State<NewMap> with SingleTickerProviderStateMixin {
   void didChangeDependencies() {
     locationProvider = Provider.of<Location>(context, listen: false);
     super.didChangeDependencies();
-  } 
+  }   
 
   @override
   Widget build(BuildContext context) {
@@ -69,6 +69,11 @@ class _NewMapState extends State<NewMap> with SingleTickerProviderStateMixin {
       selectInitialPosition: true,
     );
   }
+
+  @override
+  void dispose() {    
+    super.dispose();
+  } 
 }
 
 class CardTextLocation extends StatelessWidget {
