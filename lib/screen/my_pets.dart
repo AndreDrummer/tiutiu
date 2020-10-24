@@ -37,7 +37,7 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
   bool isAuthenticated;
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   AdsProvider adsProvider;
-
+  
   @override
   void initState() {
     super.initState();
@@ -325,7 +325,7 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
                                                         builder: (context) {
                                                           return ChooseLocation(
                                                             editMode: true,
-                                                            petReference: pets[index].petReference,
+                                                            pet: pets[index],
                                                           );
                                                         },
                                                       ),

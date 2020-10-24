@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:tiutiu/Widgets/circle_child.dart';
 import 'package:tiutiu/Widgets/popup_message.dart';
 import 'package:tiutiu/backend/Controller/user_controller.dart';
+import 'package:tiutiu/backend/Model/pet_model.dart';
 import 'package:tiutiu/providers/ads_provider.dart';
 import 'package:tiutiu/providers/user_provider.dart';
 
@@ -95,7 +96,7 @@ class _ConfirmAdoptionScreenState extends State<ConfirmAdoptionScreen> {
   @override
   void didChangeDependencies() {
     userProvider = Provider.of<UserProvider>(context);
-    userProvider.loadNotificationsCount();
+    userProvider.loadAdoptionsToConfirm();
     adsProvider = Provider.of(context);
     super.didChangeDependencies();
   }
@@ -106,9 +107,9 @@ class _ConfirmAdoptionScreenState extends State<ConfirmAdoptionScreen> {
       key: _scaffoldKey,
       appBar: AppBar(title: Text('Adoções pendentes de confirmação')),
       body: RefreshIndicator(
-        onRefresh: userProvider.loadNotificationsCount,
-        child: StreamBuilder<int>(
-          stream: userProvider.notifications,
+        onRefresh: userProvider.loadAdoptionsToConfirm,
+        child: StreamBuilder<List<Pet>>(
+          stream: userProvider.adoptionToConfirm,
           builder: (BuildContext context, AsyncSnapshot snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Center(
