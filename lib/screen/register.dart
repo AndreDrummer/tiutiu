@@ -10,6 +10,7 @@ import 'package:tiutiu/Widgets/input_text.dart';
 import 'package:tiutiu/Widgets/load_dark_screen.dart';
 import 'package:tiutiu/providers/auth2.dart';
 import 'package:tiutiu/providers/user_provider.dart';
+import 'package:tiutiu/utils/formatter.dart';
 import 'package:tiutiu/utils/routes.dart';
 import 'package:tiutiu/backend/Controller/user_controller.dart';
 
@@ -39,6 +40,8 @@ class _RegisterState extends State<Register> {
   bool finishing = false;
 
   int betterContact = 0;
+
+  GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   void setFinishing(bool status) {
     setState(() {
@@ -126,7 +129,7 @@ class _RegisterState extends State<Register> {
       return null;
     } else if (value.length < 10) {
       setState(() {
-        whatsappHasErrorMessage = "O celular deve ter 10 dígitos";
+        whatsappHasErrorMessage = "O celular deve ter 11 dígitos";
         whatsappHasError = true;
       });
       return null;
@@ -212,6 +215,47 @@ class _RegisterState extends State<Register> {
     return Future.value();
   }
 
+  bool formIsValid() {
+    String patttern = r'(^[0-9]*$)';
+    RegExp regExp = new RegExp(patttern);
+
+    if (_whatsapp.text.isEmpty) {
+      setState(() {
+        whatsappHasError = true;
+      });
+    }
+
+    if (_name.text.isEmpty) {
+      setState(() {
+        nameHasError = true;
+      });
+    }
+
+    if (_whatsapp.text.isNotEmpty) {
+      String unMaskNumber = Formatter.unmaskNumber(_whatsapp.text);
+      if (!regExp.hasMatch(unMaskNumber) || unMaskNumber.length < 11) {
+        setState(() {
+          whatsappHasError = true;
+          whatsappHasErrorMessage = 'Insira um número válido';
+        });
+      } else {
+        setState(() {
+          whatsappHasError = false;
+        });
+      }
+    }
+
+    if (_name.text.isNotEmpty) {
+      setState(() {
+        nameHasError = false;
+      });
+    }
+
+    print("NAME: $nameHasError, FOTO: $userProfileHasError");
+
+    return !finishing && !nameHasError && !userProfileHasError;
+  }
+
   Future<void> save() async {
     await uploadPhotos();
     UserController userController = UserController();
@@ -236,6 +280,7 @@ class _RegisterState extends State<Register> {
     print(userProvider.telefone);
     print(userProvider.whatsapp);
     return Scaffold(
+      key: _scaffoldKey,
       appBar: AppBar(
         title: Text('Bem vindo!'),
       ),
@@ -285,13 +330,14 @@ class _RegisterState extends State<Register> {
                               ),
                             ),
                             SizedBox(height: 5),
-                            Text('Adicione sua foto'),
+                            Text('Adicione sua foto *'),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 userProfileHasError
                                     ? HintError(
-                                        message: userProfileHasErrorMessage)
+                                        message: userProfileHasErrorMessage,
+                                      )
                                     : Container(),
                               ],
                             ),
@@ -300,7 +346,7 @@ class _RegisterState extends State<Register> {
                       ),
                       SizedBox(height: 20),
                       InputText(
-                        placeholder: 'Nome Completo',
+                        placeholder: 'Como quer ser chamado *',
                         controller: _name,
                         validator: (String text) {
                           if (text.isEmpty || text.length < 3) {
@@ -322,7 +368,7 @@ class _RegisterState extends State<Register> {
                       SizedBox(height: 20),
                       InputText(
                         inputFormatters: [celularMask],
-                        placeholder: 'Informe seu Whatsapp',
+                        placeholder: 'Informe seu Whatsapp *',
                         hintText: '(XX) X XXXX-XXXX',
                         keyBoardTypeNumber: true,
                         controller: _whatsapp,
@@ -338,12 +384,7 @@ class _RegisterState extends State<Register> {
                       SizedBox(height: 5),
                       InputText(
                         inputFormatters: [telefoneMask],
-                        validator: (String value) {
-                          print('validate telefone');
-                          if (_telefone.text.isNotEmpty) {
-                            return validarTelefone(value);
-                          }
-                        },
+                        validator: validarTelefone,
                         placeholder: 'Informe um telefone fixo (Opcional)',
                         hintText: '(XX) XXXX-XXXX',
                         keyBoardTypeNumber: true,
@@ -376,6 +417,14 @@ class _RegisterState extends State<Register> {
                                       value: 0,
                                       onChanged: (value) {
                                         userProvider.changeBetterContact(value);
+                                        if (_whatsapp.text.isEmpty) {
+                                          setState(() {
+                                            whatsappHasError = true;
+                                            telefoneHasError = false;
+                                            whatsappHasErrorMessage =
+                                                'Quando este é seu melhor contato, deve ser preenchido.';
+                                          });
+                                        }
                                       },
                                     ),
                                     Text('WhatsApp'),
@@ -389,6 +438,14 @@ class _RegisterState extends State<Register> {
                                       value: 1,
                                       onChanged: (value) {
                                         userProvider.changeBetterContact(value);
+                                        if (_telefone.text.isEmpty) {
+                                          setState(() {
+                                            telefoneHasError = true;
+                                            whatsappHasError = false;
+                                            telefoneHasErrorMessage =
+                                                'Quando este é seu melhor contato, deve ser preenchido.';
+                                          });
+                                        }
                                       },
                                     ),
                                     Text('Telefone Fixo'),
@@ -401,6 +458,10 @@ class _RegisterState extends State<Register> {
                                       groupValue: snapshot.data,
                                       value: 2,
                                       onChanged: (value) {
+                                        setState(() {
+                                          telefoneHasError = false;
+                                          whatsappHasError = false;
+                                        });
                                         userProvider.changeBetterContact(value);
                                       },
                                     ),
@@ -425,18 +486,26 @@ class _RegisterState extends State<Register> {
         color: finishing ? Colors.grey : Theme.of(context).primaryColor,
         text: 'FINALIZAR',
         rounded: false,
-        action: finishing
-            ? null
-            : () async {
-                if (_formKey.currentState.validate() &&
-                    validatePictureProfile()) {
-                  setFinishing(true);
-                  await save();
-                  setFinishing(false);
-                  await auth.alreadyRegistered();
-                  Navigator.pushReplacementNamed(context, Routes.AUTH_HOME);
-                }
-              },
+        action: finishing ? null : () async {
+          print('FORM VALIDE ${_formKey.currentState.validate()}');
+          if (_formKey.currentState.validate() && (_telefone.text.isEmpty || _telefone.text.length >= 12)) {
+            if (validatePictureProfile()) {
+              setFinishing(true);
+              await save();
+              setFinishing(false);
+              await auth.alreadyRegistered();
+              Navigator.pushReplacementNamed(context, Routes.AUTH_HOME);
+            }
+          } else {
+            _scaffoldKey.currentState.showSnackBar(
+              SnackBar(
+                backgroundColor: Colors.red,
+                duration: Duration(seconds: 1),
+                content: Text('Preencha os campos marcados com um *'),
+              ),
+            );
+          }
+        },
       ),
       backgroundColor: Colors.blueGrey[50],
     );

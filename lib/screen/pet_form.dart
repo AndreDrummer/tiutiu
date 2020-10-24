@@ -1,6 +1,6 @@
+import 'dart:math';
 import 'dart:io';
 import 'dart:typed_data';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -33,11 +33,11 @@ import 'package:tiutiu/data/dummy_data.dart';
 class PetForm extends StatefulWidget {
   PetForm({
     this.editMode = false,
-    this.petReference,
+    this.pet,
   });
 
   final bool editMode;
-  final DocumentReference petReference;
+  final Pet pet;
 
   @override
   _PetFormState createState() => _PetFormState();
@@ -66,6 +66,7 @@ class _PetFormState extends State<PetForm> {
 
   List<Asset> petPhotosMulti = List<Asset>();
   List petPhotosToUpload = [];
+  List<String> photosToDelete = [];
   List<Uint8List> convertedImageList = [];
 
   bool macho = true;
@@ -82,29 +83,33 @@ class _PetFormState extends State<PetForm> {
   bool readOnly = false;
   bool convertingImages = false;
   AdsProvider adsProvider;
-  Pet petEdit;
+  String storageHashKey;
 
-  void preloadTextFields() async {
-    PetController petController = PetController();
-    var pet = await petController.getPetByReference(widget.petReference);
-
-    petFormProvider.changePetName(pet.name);
-    petFormProvider.changePetAge(pet.ano);
-    petFormProvider.changePetMonths(pet.meses);
-    petFormProvider.changePetDescription(pet.details);
-    petFormProvider.changePetSex(pet.sex);
-    petFormProvider.changePetSelectedCaracteristics(pet.otherCaracteristics);
-    petFormProvider.changePetTypeIndex(DummyData.type.indexOf(pet.type));
-    petFormProvider.changePetBreedIndex(
-        DummyData.breed[dropvalueType + 1].indexOf(pet.breed));
-    petFormProvider.changePetSize(pet.size);
-    petFormProvider.changePetColor(pet.color);
-    petFormProvider.changePetHealthIndex(DummyData.health.indexOf(pet.health));
-    petFormProvider.changePetPhotos(pet.photos);
-    petFormProvider.changePetInEdition(pet);
+  void preloadTextFields() {
+    petFormProvider.changePetName(widget.pet.name);
+    petFormProvider.changePetAge(widget.pet.ano);
+    petFormProvider.changePetMonths(widget.pet.meses);
+    petFormProvider.changePetDescription(widget.pet.details);
+    petFormProvider.changePetSex(widget.pet.sex);
+    petFormProvider
+        .changePetSelectedCaracteristics(widget.pet.otherCaracteristics);
+    petFormProvider.changePetTypeIndex(DummyData.type.indexOf(widget.pet.type));
+    petFormProvider.changePetBreedIndex(DummyData
+        .breed[petFormProvider.getPetTypeIndex + 1]
+        .indexOf(widget.pet.breed));
+    petFormProvider.changePetSize(widget.pet.size);
+    petFormProvider.changePetColor(widget.pet.color);
+    petFormProvider
+        .changePetHealthIndex(DummyData.health.indexOf(widget.pet.health));
+    petFormProvider.changePetPhotos(widget.pet.photos);
+    petFormProvider.changePetInEdition(widget.pet);
 
     _nome.text = petFormProvider.getPetName;
+    _ano.text = petFormProvider.getPetAge.toString();
+    _meses.text = petFormProvider.getPetMonths.toString();
     _descricao.text = petFormProvider.getPetDescription;
+    petPhotosToUpload.addAll(widget.pet.photos);
+    storageHashKey = widget.pet.storageHashKey;
   }
 
   void clearUpCaracteristics() {
@@ -113,18 +118,18 @@ class _PetFormState extends State<PetForm> {
 
   @override
   void initState() {
-    if (widget.editMode) {
-      preloadTextFields();
-    } else {
-      dropvalueSize = DummyData.size[0];
-      dropvalueColor = DummyData.color[0];
-    }
-
     currentLocation = Provider.of<Location>(context, listen: false).getLocation;
     userId =
         Provider.of<Authentication>(context, listen: false).firebaseUser.uid;
 
-    print('Local $currentLocation');    
+    dropvalueSize = DummyData.size[0];
+    dropvalueColor = DummyData.color[0];
+
+    if (!widget.editMode) {
+      storageHashKey = generateStorageHashKey();
+    }
+
+    print('Local $currentLocation');
     super.initState();
   }
 
@@ -134,7 +139,11 @@ class _PetFormState extends State<PetForm> {
     auth = Provider.of<Authentication>(context, listen: false);
     userProvider = Provider.of<UserProvider>(context, listen: false);
     petFormProvider = Provider.of<PetFormProvider>(context);
-    petsProvider = Provider.of(context, listen: false);    
+    petsProvider = Provider.of(context, listen: false);
+
+    if (widget.editMode) {
+      preloadTextFields();
+    }
     super.didChangeDependencies();
   }
 
@@ -161,16 +170,30 @@ class _PetFormState extends State<PetForm> {
                     child: Text('Remover'),
                     onPressed: () {
                       Navigator.pop(context);
+                      if (widget.editMode)
+                        photosToDelete.add(petFormProvider.getPetPhotos.elementAt(index));
+
+                      petFormProvider.getPetPhotos.removeAt(index);
+
+                      if (widget.editMode) {
+                        petPhotosToUpload.clear();
+                        petPhotosToUpload.addAll(petFormProvider.getPetPhotos);
+                      }
+
                       List actualPhotoList = petFormProvider.getPetPhotos;
-                      actualPhotoList.removeAt(index);
                       petFormProvider.changePetPhotos(actualPhotoList);
+                      if(!widget.editMode) convertImageToUint8List(petFormProvider.getPetPhotos);
                     },
                   )
                 ]
               : [
                   FlatButton(
-                    child: Text('Tirar uma foto',
-                        style: TextStyle(color: Colors.black)),
+                    child: Text(
+                      'Tirar uma foto',
+                      style: TextStyle(
+                        color: Colors.black,
+                      ),
+                    ),
                     onPressed: () {
                       Navigator.pop(context);
                       selectImage(ImageSource.camera, index);
@@ -248,7 +271,6 @@ class _PetFormState extends State<PetForm> {
     if (!mounted) return;
 
     if (resultList.isNotEmpty) {
-      print('NÃO');
       actualPhotoList.addAll(resultList);
       petFormProvider.changePetPhotos(actualPhotoList);
       convertImageToUint8List(petFormProvider.getPetPhotos);
@@ -264,6 +286,7 @@ class _PetFormState extends State<PetForm> {
     changeConvertingImagesStatus(true);
     print('Convertendo imagens...');
     for (int i = 0; i < images.length; i++) {
+      if (images[i].runtimeType == String) continue;
       if (images[i].runtimeType == Asset) {
         ByteData byteData = await images[i].getByteData();
         convertedImageList.add(Uint8List.view(byteData.buffer));
@@ -275,26 +298,31 @@ class _PetFormState extends State<PetForm> {
     print('Conversão finalizada...');
   }
 
+  String generateStorageHashKey() {
+    Random random = Random();
+    int min = 1, max = 1000;
+    int randNumber = min + random.nextInt(max - min);
+    int hash = randNumber * DateTime.now().millisecond;
+    return '$hash.$userId.$randNumber';
+  }
+
+  String getPhotoName(String url, String hasKey) {
+    String photoName =
+        url.split(hasKey).last.split('?').first.split('%2F').last;
+    return photoName;
+  }
+
   Future<void> uploadPhotos(String petName) async {
     StorageUploadTask uploadTask;
     StorageReference storageReference;
 
     for (int i = 0; i < convertedImageList.length; i++) {
-      storageReference = FirebaseStorage.instance
-          .ref()
-          .child('$userId/')
-          .child('petsPhotos/$petName--foto__${DateTime.now().millisecond}');
-      // if (convertedImageList[i].runtimeType != String) {
+      storageReference = FirebaseStorage.instance.ref().child('$userId/').child(
+          'petsPhotos/$storageHashKey/$petName-${DateTime.now().millisecond}');
       uploadTask = storageReference.putData(convertedImageList[i]);
-      await uploadTask.onComplete;
+      await uploadTask.onComplete;      
       petPhotosToUpload.add(await storageReference.getDownloadURL());
       print('URL DOWNLOAD ${petPhotosToUpload.last}');
-      // }
-      // if (imagesPet[i].runtimeType == String) {
-      petPhotosToUpload.addAll(petFormProvider.getPetPhotos
-          .where((element) => element.runtimeType == String)
-          .toList());
-      // }
     }
 
     return Future.value();
@@ -312,6 +340,24 @@ class _PetFormState extends State<PetForm> {
     });
   }
 
+  Future<void> deleteField(DocumentReference docRef) async {
+    await docRef.update({'photos': FieldValue.delete()});
+    print("photos Deleted");
+  }
+
+  Future<void> deletePhotosFromStorage() async {
+    StorageReference storageReference;
+    await deleteField(widget.pet.petReference);
+    for (String photo in photosToDelete) {
+      String filename = getPhotoName(photo, widget.pet.storageHashKey);
+      storageReference = FirebaseStorage.instance
+          .ref()
+          .child('$userId/')
+          .child('petsPhotos/$storageHashKey/$filename');
+      await storageReference.delete();
+    }
+  }
+
   Future<void> save() async {
     final startIn = DateTime.now();
     changeLogginStatus(true);
@@ -319,12 +365,19 @@ class _PetFormState extends State<PetForm> {
 
     await uploadPhotos(_nome.text);
 
+    if (photosToDelete.isNotEmpty) {
+      await deletePhotosFromStorage();
+    }
+
     var dataPetSave = Pet(
       type: DummyData.type[petFormProvider.getPetTypeIndex],
       color: petFormProvider.getPetColor,
       name: petFormProvider.getPetName,
       kind: kind,
-      avatar: petPhotosToUpload.first,
+      petReference: widget?.pet?.petReference ?? null,
+      avatar: petPhotosToUpload.isNotEmpty
+          ? petPhotosToUpload.first
+          : petFormProvider.getPetPhotos.first,
       breed: DummyData.breed[petFormProvider.getPetTypeIndex + 1]
           [petFormProvider.getPetBreedIndex],
       health: DummyData.health[petFormProvider.getPetHealthIndex],
@@ -341,11 +394,12 @@ class _PetFormState extends State<PetForm> {
       found: false,
       ano: petFormProvider.getPetAge,
       meses: petFormProvider.getPetMonths,
+      storageHashKey: storageHashKey,
     );
 
     !widget.editMode
         ? await petController.insertPet(dataPetSave, kind, auth)
-        : await petController.updatePet(dataPetSave, widget.petReference);
+        : await petController.updatePet(dataPetSave, widget.pet.petReference);
 
     final finishin = DateTime.now();
     print('DEMOROU ${finishin.difference(startIn).inSeconds}');
@@ -359,8 +413,8 @@ class _PetFormState extends State<PetForm> {
       petsProvider.loadDisappearedPETS();
     }
     petPhotosToUpload.clear();
-    petFormProvider.dispose();
     petFormProvider.changePetPhotos([]);
+    petFormProvider.getPetPhotos.clear();
     changeLogginStatus(false);
   }
 
@@ -385,9 +439,7 @@ class _PetFormState extends State<PetForm> {
   @override
   Widget build(BuildContext context) {
     params = ModalRoute.of(context).settings.arguments;
-    kind = widget.editMode ? petEdit?.kind : params['kind'];
-
-    print(petFormProvider.getPetPhotos);
+    kind = widget.editMode ? widget.pet.kind : params['kind'];
 
     Future<bool> _onWillPopScope() {
       if (isLogging || convertingImages) {
@@ -404,7 +456,7 @@ class _PetFormState extends State<PetForm> {
       child: Scaffold(
         appBar: AppBar(
           title: widget.editMode
-              ? Text('Editar dados do ${petEdit?.name}')
+              ? Text('Editar dados do ${widget.pet.name}')
               : Text(
                   kind == 'Donate' ? 'PET para adoção' : 'PET Desaparecido',
                   style: Theme.of(context).textTheme.headline1.copyWith(
@@ -465,7 +517,6 @@ class _PetFormState extends State<PetForm> {
                         StreamBuilder(
                           stream: petFormProvider.petPhotos,
                           builder: (context, snapshot) {
-                            // if(snapshot.data == null) return Container();
                             return Column(
                               children: [
                                 Container(
@@ -519,7 +570,8 @@ class _PetFormState extends State<PetForm> {
                                     },
                                   ),
                                 ),
-                                petFormProvider.formIsvalid()                                        
+                                petFormProvider.formIsvalid() &&
+                                        petFormProvider.getPetPhotos.isEmpty
                                     ? HintError(
                                         message: '* Insira pelo menos uma foto')
                                     : SizedBox(),
@@ -539,7 +591,8 @@ class _PetFormState extends State<PetForm> {
                                   controller: _nome,
                                   readOnly: readOnly,
                                 ),
-                                petFormProvider.formIsvalid()
+                                petFormProvider.formIsvalid() &&
+                                        _nome.text.isEmpty
                                     ? HintError()
                                     : SizedBox(),
                               ],
@@ -554,7 +607,7 @@ class _PetFormState extends State<PetForm> {
                           builder: (context, snapshot) {
                             return CustomDropdownButton(
                               label: 'Tipo',
-                              initialValue: DummyData.type[snapshot.data],
+                              initialValue: DummyData.type[snapshot.data ?? 0],
                               itemList: DummyData.type,
                               onChange: (String value) {
                                 petFormProvider.changePetTypeIndex(
@@ -886,7 +939,10 @@ class _PetFormState extends State<PetForm> {
                                         _descricao.text.isEmpty
                                     ? HintError()
                                     : SizedBox(),
-                                adsProvider.getCanShowAds ? adsProvider.bannerAdMob(adId: adsProvider.bottomAdId) : Container(),
+                                adsProvider.getCanShowAds
+                                    ? adsProvider.bannerAdMob(
+                                        adId: adsProvider.bottomAdId)
+                                    : Container(),
                               ],
                             );
                           },

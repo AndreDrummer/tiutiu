@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:tiutiu/backend/Controller/pet_controller.dart';
+import 'package:tiutiu/providers/auth2.dart';
 import '../Model/user_model.dart';
 
 class UserController {
@@ -62,19 +63,29 @@ class UserController {
     var user = await ownerReference.get();
     var pet = await petReference.get();
 
-    await firestore
-      .collection('Adopted')
-      .doc().set({
-        'notificationType': 'confirmAdoption',
-        'ownerNotificationToken': ownerNotificationToken,
-        'interestedNotificationToken': interestedNotificationToken,
-        'petRef': petReference,
-        'confirmed': false,
-        'ownerName': user.data()['displayName'],
-        'petName': pet.data()['name'],
-        'interestedName': interestedName,
-        'interestedReference': interestedReference
-      });
+    var data = {
+      'notificationType': 'confirmAdoption',
+      'ownerNotificationToken': ownerNotificationToken,
+      'interestedNotificationToken': interestedNotificationToken,
+      'confirmed': false,
+      'petReference': petReference,
+      'petName': pet.data()['name'],
+      'ownerReference': ownerReference,      
+      'ownerName': user.data()['displayName'],
+      'interestedName': interestedName,
+      'interestedReference': interestedReference
+    };
+
+    // print("DATA $data");
+
+    // QuerySnapshot request = await firestore        
+    //     .collection('Adoptions requested')
+    //     .where('petReference', isEqualTo: petReference)
+    //     .get();
+
+    // request.docs.first.reference.set({'accept': true}, SetOptions(merge: true));
+
+    await firestore.collection('Adopted').doc().set(data);
 
     final interestedRef = await petReference.collection('adoptInteresteds').get();
     List interestedUsers = interestedRef.docs;
@@ -127,8 +138,7 @@ class UserController {
         .set(data, SetOptions(merge: true));
   }
 
-  Future<void> createNotification(
-      String userId, Map<String, dynamic> data) async {
+  Future<void> createNotification(String userId, Map<String, dynamic> data) async {
     await firestore
         .collection('Users')
         .doc(userId)
@@ -164,7 +174,7 @@ class UserController {
 
    Stream<QuerySnapshot> loadMyPostedPetsDisappeared({String userId}) {
     PetController petController = PetController();
-    return petController.getPetsByUser('Donate', userId);
+    return petController.getPetsByUser('Disappeared', userId);
   }
 
    Stream<QuerySnapshot> loadMyAdoptedPets({String userId}) {
@@ -178,5 +188,43 @@ class UserController {
       .where("donated", isEqualTo: true)        
       .where("ownerReference", isEqualTo: userReference)
       .snapshots();
+  }
+
+  Future<void> deleteUserData(DocumentReference userReference) async {
+    QuerySnapshot notifications = await userReference.collection('Notifications').get();
+    QuerySnapshot petsDonated = await userReference.collection('Pets').doc('posted').collection('Donate').get();
+    QuerySnapshot petsDisappeared = await userReference.collection('Pets').doc('posted').collection('Disappeared').get();
+    QuerySnapshot petsFavorited = await userReference.collection('Pets').doc('favorites').collection('favorites').get();
+    QuerySnapshot petsAdopted = await userReference.collection('Pets').doc('adopted').collection('Adopteds').get();
+    
+    for(int i = 0; i < notifications.docs.length; i++) {
+      await notifications.docs[i].reference.delete();
+    }
+
+    for(int i = 0; i < petsDonated.docs.length; i++) {
+      await petsDonated.docs[i].reference.delete();
+    }
+
+    for(int i = 0; i < petsDisappeared.docs.length; i++) {
+      await petsDisappeared.docs[i].reference.delete();
+    }
+
+    for(int i = 0; i < petsFavorited.docs.length; i++) {
+      await petsFavorited.docs[i].reference.delete();
+    }
+
+    for(int i = 0; i < petsAdopted.docs.length; i++) {
+      await petsAdopted.docs[i].reference.delete();
+    }
+    
+    await userReference.delete();
+
+    print('Dados de usuário deletados!');
+  }
+
+  Future<void> deleteUserAccount(Authentication auth, DocumentReference userReference) async {
+    await deleteUserData(userReference);
+    await auth.firebaseUser.delete();    
+    await auth.signOut();
   }
 }

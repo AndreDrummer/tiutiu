@@ -6,16 +6,16 @@ class NotificationModel {
   NotificationModel.fromSnapshot(DocumentSnapshot snapshot) {    
     notificationType = snapshot.data()['notificationType'];
 
-    if(snapshot.data()['petRef'].runtimeType != DocumentReference) {
-      getReference(snapshot.data()['petRef']['_path']['segments'], snapshot, 'petRef').then((value) => petRef = value);
+    if(snapshot.data()['petReference'].runtimeType != DocumentReference) {
+      getReference(snapshot.data()['petReference']['_path']['segments'], snapshot, 'petReference').then((value) => petReference = value);
     } else {
-      petRef = snapshot.data()['petRef'];
+      petReference = snapshot.data()['petReference'];
     }
 
-    if(snapshot.data()['userRef'].runtimeType != DocumentReference) {
-      getReference(snapshot.data()['userRef']['_path']['segments'], snapshot, 'userRef').then((value) => userRef = value);
+    if(snapshot.data()['userReference'].runtimeType != DocumentReference) {
+      getReference(snapshot.data()['userReference']['_path']['segments'], snapshot, 'userReference').then((value) => userReference = value);
     } else {
-      userRef = snapshot.data()['userRef'];
+      userReference = snapshot.data()['userReference'];
     }
         
     time = snapshot.data()['time'];
@@ -29,8 +29,8 @@ class NotificationModel {
   Map<String, dynamic> toJson() {
     return {
       'notificationType': notificationType,
-      'petRef': petRef,
-      'userRef': userRef,
+      'petReference': petReference,
+      'userReference': userReference,
       'time': time,
       'title': title,
       'message': message,
@@ -52,8 +52,8 @@ class NotificationModel {
   
 
   String notificationType;
-  DocumentReference petRef;
-  DocumentReference userRef;
+  DocumentReference petReference;
+  DocumentReference userReference;
   String time;
   String title;
   String message;
