@@ -333,6 +333,7 @@ class _PetFormState extends State<PetForm> {
       photos: petPhotosToUpload,
       size: petFormProvider.getPetSize,
       sex: petFormProvider.getPetSex,
+      ownerId: userProvider.uid,
       latitude: currentLocation.latitude,
       longitude: currentLocation.longitude,
       details: petFormProvider.getPetDescription,
@@ -344,7 +345,7 @@ class _PetFormState extends State<PetForm> {
 
     !widget.editMode
         ? await petController.insertPet(dataPetSave, kind, auth)
-        : await petController.updatePet(dataPetSave, userId, kind, petEdit.id);
+        : await petController.updatePet(dataPetSave, widget.petReference);
 
     final finishin = DateTime.now();
     print('DEMOROU ${finishin.difference(startIn).inSeconds}');

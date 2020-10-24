@@ -9,6 +9,7 @@ class Pet {
     this.sex,
     this.color,    
     this.ownerReference,    
+    this.ownerId,    
     this.petReference,    
     this.otherCaracteristics,
     this.type,
@@ -47,6 +48,7 @@ class Pet {
     longitude = snapshot.data()['longitude'];
     otherCaracteristics = snapshot.data()['otherCaracteristics'];    
     ownerReference = snapshot.data()['ownerReference'];
+    ownerId = snapshot.data()['ownerId'];
     whoAdoptedReference = snapshot.data()['whoAdoptedReference'];
     petReference = snapshot.reference;
   }
@@ -72,6 +74,7 @@ class Pet {
     latitude = map['latitude'];
     longitude = map['longitude'];    
     ownerReference = map['ownerReference'];
+    ownerId = map['ownerId'];
     petReference = map['petReference'];
     whoAdoptedReference = map['whoAdoptedReference'];
   }
@@ -85,6 +88,7 @@ class Pet {
   String color;
   String type;
   DocumentReference ownerReference;
+  String ownerId;
   DocumentReference petReference;
   DocumentReference whoAdoptedReference;
   String avatar;
@@ -121,6 +125,7 @@ class Pet {
       'longitude': longitude,      
       'type': type,
       'ownerReference': ownerReference,      
+      'ownerId': ownerId,      
       'petReference': petReference,
       'whoAdoptedReference': whoAdoptedReference
     };
@@ -148,6 +153,7 @@ class Pet {
     petMap['type'] = type;
     petMap['color'] = color;    
     petMap['ownerReference'] = ownerReference;
+    petMap['ownerId'] = ownerId;
     petMap['petReference'] = petReference;
 
     return petMap;

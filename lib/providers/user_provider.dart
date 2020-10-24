@@ -138,38 +138,17 @@ class UserProvider with ChangeNotifier {
 
   void calculateTotals() async {
     PetController petController = PetController();
-    QuerySnapshot adopteds = await petController.getPet(uid, 'Adopted');
-    QuerySnapshot donates = await petController.getPet(uid, 'Donate');
-    QuerySnapshot disap = await petController.getPet(uid, 'Disappeared');
-    QuerySnapshot donated =
-        await petController.getPet(uid, 'Donate', avalaible: false);
+    QuerySnapshot adopteds = await petController.getPetToCount(userReference, 'Adopted');
+    QuerySnapshot donates = await petController.getPetToCount(userReference, 'Donate');
+    QuerySnapshot disap = await petController.getPetToCount(userReference, 'Disappeared');
+    QuerySnapshot donated = await petController.getPetToCount(userReference, 'Donate', avalaible: false);
 
     changeTotalAdopted(adopteds.docs.length);
     changeTotalDisappeared(disap.docs.length);
     changeTotalToDonate(donates.docs.length);
     changeTotalDonated(donated.docs.length);
     notifyListeners();
-  }
-
-  Future<void> loadMyPets({String kind}) async {
-    PetController petController = PetController();
-    if (kind == null) {
-      changeAllPets(await petController.getAllPetsByKind(uid));
-      calculateTotals();
-    } else if (kind == 'Donate') {
-      changeDonatePets(await petController.getAllPetsByKind(uid, kind: kind));
-    } else if (kind == 'Adopted') {
-      changeAdoptedPets(await petController.getAllPetsByKind(uid, kind: kind));
-    } else {
-      changeDisappearedPets(
-          await petController.getAllPetsByKind(uid, kind: kind));
-    }
-  }
-
-  Future<void> loadDonatedPets(String uid) async {
-    PetController petController = PetController();
-    changeDonatedPets(await petController.getDonatedPets(uid));
-  }
+  } 
 
   Future<void> loadNotificationsCount() async {    
     UserController user = UserController();
