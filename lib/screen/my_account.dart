@@ -24,8 +24,7 @@ class _MyAccountState extends State<MyAccount> {
 
   @override
   void didChangeDependencies() {
-    userProvider = Provider.of<UserProvider>(context, listen: false);
-    userProvider.loadMyPets();
+    userProvider = Provider.of<UserProvider>(context, listen: false);    
     adsProvider = Provider.of(context);
     super.didChangeDependencies();
   }

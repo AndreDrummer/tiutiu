@@ -44,7 +44,7 @@ class NotificationModel {
       mountPath += '/${listReference[i]}';
     }    
     print('PATH $mountPath');
-    final ref = await petController.getReference(mountPath, snapshot, fieldName);
+    final ref = await petController.getReferenceFromPath(mountPath, snapshot, fieldName);
     print('REF $ref');    
     return ref;
   }
