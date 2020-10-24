@@ -172,19 +172,19 @@ class _CardListState extends State<CardList> {
                               widget.petInfo.toMap()['breed'],
                             ),
                             SizedBox(height: 20),
-                            FutureBuilder(
-                                future: loadOwner(
-                                    widget.petInfo.toMap()['ownerReference'],
-                                    auth: auth.firebaseUser != null ? auth : null),
+                            StreamBuilder(
+                                stream: UserController().getUserSnapshot(widget.petInfo.toMap()['ownerReference']),
                                 builder: (context, snapshot) {
                                   if (snapshot.connectionState ==
                                       ConnectionState.waiting || snapshot.data == null) {
                                     return Text('');
-                                  }                                
+                                  }                 
+
+                                  String announcerName = snapshot.data.data()['uid'] == userProvider.uid ? 'Você' : snapshot.data.data()['displayName'];
                                   return Container(
                                     width: width - 100,
                                     child: Text(
-                                      '${snapshot.data['displayName']} está ${widget.kind.toUpperCase() == 'DONATE' ? 'doando' : 'procurando'}.',
+                                      '$announcerName está ${widget.kind.toUpperCase() == 'DONATE' ? 'doando' : 'procurando'}.',
                                       textAlign: TextAlign.left,
                                       overflow: TextOverflow.fade,
                                       style: Theme.of(context)
@@ -217,7 +217,7 @@ class _CardListState extends State<CardList> {
                                 } else {
                                   user.favorite(userProvider.userReference, widget.petInfo.toMap()['petReference'], true);
                                   favoritesProvider.loadFavoritesReference();
-                                  favoritesProvider.handleFavorite(widget.petInfo.toMap()['id']);
+                                  favoritesProvider.handleFavorite(widget.petInfo.toMap()['id']);                                  
                                 }
                               },
                             ),
