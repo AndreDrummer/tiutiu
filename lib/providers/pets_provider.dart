@@ -1,154 +1,98 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:tiutiu/backend/Model/pet_model.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:tiutiu/backend/Model/pet_model.dart';
 
 class PetsProvider with ChangeNotifier {
-  final _listDisappearedPETS = BehaviorSubject<List<Pet>>();
-  final _listDonatesPETS = BehaviorSubject<List<Pet>>();
-  List<String> allUsersID = [];
+  final _petKind = BehaviorSubject<String>();
+  final _petType = BehaviorSubject<String>();
+  final _breedSelected = BehaviorSubject<String>();
+  final _sizeSelected = BehaviorSubject<String>();
+  final _ageSelected = BehaviorSubject<String>();
+  final _sexSelected = BehaviorSubject<String>();
+  final _healthSelected = BehaviorSubject<String>();
+  bool _isFiltering = false;
 
   // Listenning to The Data
-  Stream<List<Pet>> get listDisappearedPETS => _listDisappearedPETS.stream;
-  Stream<List<Pet>> get listDonatesPETS => _listDonatesPETS.stream;
+  Stream<String> get petKind => _petKind.stream;
+  Stream<String> get petType => _petType.stream;
+  Stream<String> get breedSelected => _breedSelected.stream;
+  Stream<String> get sizeSelected => _sizeSelected.stream;
+  Stream<String> get ageSelected => _ageSelected.stream;
+  Stream<String> get sexSelected => _sexSelected.stream;
+  Stream<String> get healthSelected => _healthSelected.stream;
 
   // Changing the data
-  void Function(List<Pet>) get changeListDisappearedPETS =>
-      _listDisappearedPETS.sink.add;
-  void Function(List<Pet>) get changeListDonatesPETS =>
-      _listDonatesPETS.sink.add;
+  void Function(String) get changePetKind => _petKind.sink.add;
+  void Function(String) get changePetType => _petType.sink.add;
+  void Function(String) get changeBreedSelected => _breedSelected.sink.add;
+  void Function(String) get changeSizeSelected => _sizeSelected.sink.add;
+  void Function(String) get changeAgeSelected => _ageSelected.sink.add;
+  void Function(String) get changeSexSelected => _sexSelected.sink.add;
+  void Function(String) get changeHealthSelected => _healthSelected.sink.add;
 
   // Getting data
-  List<Pet> get getListDisappearedPETS => _listDisappearedPETS.value;
-  List<Pet> get getListDonatesPETS => _listDonatesPETS.value;
+  String get getPetKind => _petKind.value;
+  String get getPetType => _petType.value;
+  String get getBreedSelected => _breedSelected.value;
+  String get getSizeSelected => _sizeSelected.value;
+  String get getAgeSelected => _ageSelected.value;
+  String get getSexSelected => _sexSelected.value;
+  String get getHealthSelected => _healthSelected.value;
 
-  CollectionReference dataBaseCollection =
-      FirebaseFirestore.instance.collection('Users');
-
-  Future<void> loadUsersID() async {
-    await dataBaseCollection.get().then(
-      (QuerySnapshot allUsers) {
-        allUsers.docs.forEach((element) {
-          if (!allUsersID.contains(element.id)) allUsersID.add(element.id);
-        });
-      },
-    );
+  void changeIsFiltering(bool status) {
+    _isFiltering = status;
   }
 
-  Future<void> loadDisappearedPETS() async {
-    await loadUsersID();
-    List<Pet> temp = [];
-
-    for (int j = 0; j < allUsersID.length; j++) {
-      await dataBaseCollection
-          .doc(allUsersID[j])
-          .collection('Pets')
-          .doc('posted')
-          .collection('Disappeared')
-          .where('found', isEqualTo: false)
-          .get()
-          .then((disappearedPETS) {
-        for (int i = 0; i < disappearedPETS.docs.length; i++) {
-          temp.add(Pet.fromSnapshot(disappearedPETS.docs[i]));
-        }
-      });
-      changeListDisappearedPETS(temp);
+  List<Pet> getPetListFromSnapshots(List<DocumentSnapshot> docs) {
+    List<Pet> pets = [];    
+    for (int i = 0; i < docs.length; i++) {
+      pets.add(Pet.fromSnapshot(docs[i]));
     }
-
-    notifyListeners();
-    return Future.value();
+    return pets;
   }
 
-  Future<void> loadDonatedPETS() async {
-    await loadUsersID();
-    List<Pet> temp = [];
-
-    for (int j = 0; j < allUsersID.length; j++) {
-      await dataBaseCollection
-          .doc(allUsersID[j])
-          .collection('Pets')
-          .doc('posted')
-          .collection('Donate')
-          .where('donated', isEqualTo: false)
-          .get()
-          .then((donatesPETS) {
-        for (int i = 0; i < donatesPETS.docs.length; i++) {
-          temp.add(Pet.fromSnapshot(donatesPETS.docs[i]));
-        }
-      });
-
-      print(temp.length);
-      changeListDonatesPETS(temp);
-    }
-
-    notifyListeners();
-    return Future.value();
+  Stream<QuerySnapshot> loadDisappearedPETS() {
+    return _isFiltering && getPetKind == 'Disappeared'
+        ? loadFilteredPETS()
+        : FirebaseFirestore.instance.collection('Disappeared').snapshots();
   }
 
-  Future<void> bigQueryRefine(
-    String petKind,
-    String petType,
-    String breedSelected,
-    String sizeSelected,
-    String ageSelected,
-    String sexSelected,
-    String healthSelected,
-    String distanceSelected,
-  ) async {
-    if (petType == 'Todos') {
-      if (petKind == 'Donate') {
-        loadDonatedPETS();
-      } else {
-        loadDisappearedPETS();
-      }
-    } else {
-      loadUsersID();
-      List<Pet> temp = [];
-      for (int j = 0; j < allUsersID.length; j++) {
-        var query = await dataBaseCollection
-            .doc(allUsersID[j])
-            .collection('Pets')
-            .doc('posted')
-            .collection(petKind)
-            .where("type", isEqualTo: petType);
+  Stream<QuerySnapshot> loadDonatedPETS() {
+    return _isFiltering && getPetKind == 'Donate'
+        ? loadFilteredPETS()
+        : FirebaseFirestore.instance.collection('Donate').snapshots();
+  }
 
-        if (petKind == 'Donate') {
-          query = await query.where("donated", isEqualTo: false);
-        } else if (petKind == 'Disappeared') {
-          query = await query.where("found", isEqualTo: false);
-        }        
+  List<String> _filters() {
+    return [
+      getPetType,
+      getBreedSelected,
+      getSizeSelected,
+      getAgeSelected,
+      getSexSelected,
+      getHealthSelected
+    ];
+  }
 
-        if (breedSelected.isNotEmpty && breedSelected != null) {
-          query = await query.where("breed", isEqualTo: breedSelected);
-        }
+  List<String> _filtersType() {
+    return ["type", "breed", "size", "ano", "sex", "health"];
+  }
 
-        if (sizeSelected.isNotEmpty && sizeSelected != null) {
-          query = await query.where("size", isEqualTo: sizeSelected);
-        }
+  Stream<QuerySnapshot> loadFilteredPETS() {
+    Query query = FirebaseFirestore.instance
+        .collection(getPetKind)
+        .where(getPetKind == 'Donate' ? 'donated' : 'found', isEqualTo: false);
 
-        if (ageSelected.isNotEmpty && ageSelected != null) {
-          query = await query.where("ano", isEqualTo: int.parse(ageSelected));
-        }
+    print(
+        'Filtro: \n Tipo: $getPetType\nKind: $getPetKind\nRaça: $getBreedSelected\nTamanho: $getSizeSelected\nAno: $getAgeSelected\nSexo: $getSexSelected\nSaúde: $getHealthSelected');
 
-        if (sexSelected.isNotEmpty && sexSelected != null) {
-          query = await query.where("sex", isEqualTo: sexSelected);
-        }
-
-        if (healthSelected.isNotEmpty && healthSelected != null) {
-          query = await query.where("health", isEqualTo: healthSelected);
-        }
-
-        var result_search = await query.get();
-        for (int i = 0; i < result_search.docs.length; i++) {
-          temp.add(Pet.fromSnapshot(result_search.docs[i]));
-        }
-      }
-
-      if (petKind == 'Donate') {
-        changeListDonatesPETS(temp);
-      } else if (petKind == 'Disappeared') {
-        changeListDisappearedPETS(temp);
+    for (int i = 0; i < _filters().length; i++) {
+      if (_filters()[i].isNotEmpty && _filters()[i] != null) {
+        query = query.where(_filtersType()[i], isEqualTo: _filters()[i]);
       }
     }
+
+    return query.snapshots();
   }
 }

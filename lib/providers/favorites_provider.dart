@@ -29,7 +29,7 @@ class FavoritesProvider with ChangeNotifier {
   Future<void> loadFavoritesReference() async {        
     CollectionReference dataBaseCollection = FirebaseFirestore.instance.collection('Users');
     // if(auth.firebaseUser != null) {
-      final favoritesListReference = await dataBaseCollection.doc(auth.firebaseUser.uid).collection('Pets').doc('favorites').collection('favorites').get();
+      final favoritesListReference = await dataBaseCollection.doc(auth.firebaseUser.uid).collection('Favorites').get();
       changefavoritesListReference(favoritesListReference.docs);
       loadPETsFavorites();
     // }
@@ -60,7 +60,7 @@ class FavoritesProvider with ChangeNotifier {
       var tempList = getFavoritesPETSIDList;
       tempList.remove(id);
       print('removeu');
-      changeFavoritesPETSIDList(tempList);
+      changeFavoritesPETSIDList(tempList);      
     }
     notifyListeners();
     return getFavoritesPETSIDList.contains(id);

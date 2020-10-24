@@ -472,18 +472,15 @@ class _PetDetailsState extends State<PetDetails> {
                   onPressed: !isAuthenticated
                       ? navigateToAuth
                       : () async {
-                          final user = UserController();
-                          final auth = Provider.of<Authentication>(context,
-                              listen: false);
+                          final user = UserController();                         
 
-                          await user.favorite(auth.firebaseUser.uid,
-                              widget.pet.petReference, !isFavorite);
+                          await user.favorite(userProvider.userReference, widget.pet.petReference, !isFavorite);
 
                           _scaffoldKey.currentState.showSnackBar(SnackBar(
                             duration: Duration(seconds: 1),
                             content: Text(isFavorite
-                                ? 'Removido dos favoritos'
-                                : 'Adicionado como favorito'),
+                              ? 'Removido dos favoritos'
+                              : 'Adicionado como favorito'),
                           ));
 
                           favoritesProvider.loadFavoritesReference();

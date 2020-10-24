@@ -84,8 +84,7 @@ class Authentication extends ChangeNotifier {
   Future<void> signInWithEmailAndPassword(String email, String password) async {
     try {
       // ignore: omit_local_variable_types
-      UserCredential result = await _auth.signInWithEmailAndPassword(
-          email: email, password: password);
+      UserCredential result = await _auth.signInWithEmailAndPassword(email: email, password: password);
       firebaseUser = result.user;
       if (firebaseUser != null) {
         Store.saveMap('userLoggedWithEmailPassword', {
@@ -138,7 +137,7 @@ class Authentication extends ChangeNotifier {
     await Store.remove('userLoggedWithEmailPassword');
     await Store.remove('userLoggedWithFacebook');
     firebaseUser = null;
-    notifyListeners();
+    notifyListeners();    
     print('Deslogado!');
   }
 
