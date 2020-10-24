@@ -5,7 +5,7 @@ class PopUpMessage extends StatelessWidget {
     this.title,
     this.message,    
     this.confirmText,
-    this.denyText,
+    this.denyText = '',
     this.error = false,
     this.warning = false,
     this.confirmAction,

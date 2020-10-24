@@ -83,7 +83,7 @@ class PetFormProvider with ChangeNotifier, FormValidator {
     bool formStatus = true;    
 
     for (BehaviorSubject subject in _subjects()) {
-      if (subject.value == null || subject.value == "") {
+      if (subject.value == null || subject.value == "") {        
         subject.addError("*Campo obrigatório");
         formStatus = false;
       }

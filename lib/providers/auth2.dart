@@ -138,7 +138,7 @@ class Authentication extends ChangeNotifier {
     await Store.remove('userLoggedWithEmailPassword');
     await Store.remove('userLoggedWithFacebook');
     firebaseUser = null;
-    notifyListeners();
+    notifyListeners();    
     print('Deslogado!');
   }
 
