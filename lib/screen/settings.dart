@@ -32,7 +32,7 @@ class _SettingsState extends State<Settings> {
 
   bool isNameEditing = false;
   bool isWhatsAppEditing = false;
-  bool isTelefoneEditing = false;
+  bool isTelefoneEditing = false;  
   int betterContact;
 
   bool isSavingForm = false;
@@ -141,6 +141,7 @@ class _SettingsState extends State<Settings> {
           auth.signOut();
           userProvider.changeUid(null);
           userProvider.changeUserReference(null);
+          userProvider.changeRecentlyAuthenticated(true);
           Navigator.popUntil(context, ModalRoute.withName('/'));
         },
         confirmText: 'Deslogar Agora',
@@ -453,11 +454,11 @@ class _SettingsState extends State<Settings> {
       showDialog(
         context: context,
         builder: (context) => PopUpMessage(
-          confirmAction: () => Navigator.popUntil(context, ModalRoute.withName('/')),
-          confirmText: 'OK',
-          message: 'Sua conta Tiu, tiu foi deletada pra sempre!',          
-          title: 'Conta Excluída'
-        ),
+            confirmAction: () =>
+                Navigator.popUntil(context, ModalRoute.withName('/')),
+            confirmText: 'OK',
+            message: 'Sua conta Tiu, tiu foi deletada pra sempre!',
+            title: 'Conta Excluída'),
       );
     }
 
@@ -828,18 +829,22 @@ class _SettingsState extends State<Settings> {
                                 'DESEJA DELETAR PERMANENTEMENTE SUA CONTA ?',
                             confirmText: 'Deletar minha conta',
                             confirmAction: () async {
-                              Navigator.pop(context);
-                              changeSaveFormStatus(true, deleting: true);
-                              try {
-                                await userController.deleteUserAccount(
-                                    auth, userProvider.userReference);
-                                navigateToHomeAfterDeleteAccount();
-                              } catch (error) {
+                              if (userProvider.recentlyAuthenticated) {                                
+                                Navigator.pop(context);
+                                changeSaveFormStatus(true, deleting: true);
+                                try {
+                                  await userController.deleteUserAccount(auth, userProvider.userReference);
+                                  navigateToHomeAfterDeleteAccount();
+                                } catch (error) {
+                                  changeSaveFormStatus(false);
+                                  showMessageWarningUpdatePasswordOrDeleteAccount();
+                                  throw '$error';
+                                }
                                 changeSaveFormStatus(false);
+                              } else {
+                                Navigator.pop(context);
                                 showMessageWarningUpdatePasswordOrDeleteAccount();
-                                throw '$error';
                               }
-                              changeSaveFormStatus(false);
                             },
                             denyText: 'NÃO',
                             denyAction: () => Navigator.pop(context),
