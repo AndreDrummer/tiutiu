@@ -113,10 +113,10 @@ class _ListTile extends StatelessWidget {
     return Future.value(petInfo);
   }
 
-  void handleNavigation(String notificationType, BuildContext context) async {
-    Pet petInfo = await loadPetInfo(notificationModel.petRef);
-    await notificationRef.set({'open': true}, SetOptions(merge: true));
-    userProvider.loadNotificationsCount();
+  void handleNavigation(String notificationType, BuildContext context) async {    
+    if(!notificationModel.open) {
+      await notificationRef.set({'open': true}, SetOptions(merge: true));    
+    }
 
     if (notificationType == 'confirmAdoption') {
       Navigator.push(
@@ -126,6 +126,7 @@ class _ListTile extends StatelessWidget {
         }),
       );
     } else {
+      Pet petInfo = await loadPetInfo(notificationModel.petReference);
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) {
@@ -135,7 +136,8 @@ class _ListTile extends StatelessWidget {
           );
         }),
       );
-    }    
+    }
+    userProvider.loadNotificationsCount();
   }
 
   @override
@@ -151,7 +153,7 @@ class _ListTile extends StatelessWidget {
               backgroundColor: Colors.transparent,
               child: ClipOval(
                 child: FutureBuilder<String>(
-                  future: loadUserAvatar(notificationModel.userRef),
+                  future: loadUserAvatar(notificationModel.userReference),
                   builder: (context, snapshot) {
                     return FadeInImage(
                       placeholder: AssetImage('assets/profileEmpty.png'),
@@ -174,13 +176,13 @@ class _ListTile extends StatelessWidget {
             ),
             subtitle: Text(notificationModel.message),
             trailing: Column(
-              children: [
+              children: [           
                 !notificationModel.open ? Badge(
                   color: Colors.green,
                   text: 'Nova',
-                ) : Text(''),
-                SizedBox(height: 20),
-                Text(DateFormat('dd/MM/y hh:mm').format(DateTime.parse(notificationModel.time)).split(' ').last)
+                ) : Text(''),     
+                Text(DateFormat('dd/MM/y hh:mm').format(DateTime.parse(notificationModel.time)).split(' ').last),                
+                Text(DateFormat('dd/MM/y hh:mm').format(DateTime.parse(notificationModel.time)).split(' ').first)
               ],
             ),
           ),

@@ -5,10 +5,12 @@ class Pet {
     this.id,
     this.donated,
     this.found,
+    this.storageHashKey,
     this.name,
     this.sex,
     this.color,    
     this.ownerReference,    
+    this.ownerId,    
     this.petReference,    
     this.otherCaracteristics,
     this.type,
@@ -31,6 +33,7 @@ class Pet {
     donated = snapshot.data()['donated'];
     found = snapshot.data()['found'];
     kind = snapshot.data()['kind'];
+    storageHashKey = snapshot.data()['storageHashKey'];
     name = snapshot.data()['name'];
     sex = snapshot.data()['sex'];
     color = snapshot.data()['color'];
@@ -47,6 +50,7 @@ class Pet {
     longitude = snapshot.data()['longitude'];
     otherCaracteristics = snapshot.data()['otherCaracteristics'];    
     ownerReference = snapshot.data()['ownerReference'];
+    ownerId = snapshot.data()['ownerId'];
     whoAdoptedReference = snapshot.data()['whoAdoptedReference'];
     petReference = snapshot.reference;
   }
@@ -57,6 +61,7 @@ class Pet {
     found = map['found'];
     kind = map['kind'];
     name = map['name'];
+    storageHashKey = map['storageHashKey'];
     color = map['color'];
     type = map['type'];    
     avatar = map['avatar'];
@@ -72,12 +77,14 @@ class Pet {
     latitude = map['latitude'];
     longitude = map['longitude'];    
     ownerReference = map['ownerReference'];
+    ownerId = map['ownerId'];
     petReference = map['petReference'];
     whoAdoptedReference = map['whoAdoptedReference'];
   }
 
   String id;
   String name;
+  String storageHashKey;
   bool donated;
   bool found;
   String sex;
@@ -85,6 +92,7 @@ class Pet {
   String color;
   String type;
   DocumentReference ownerReference;
+  String ownerId;
   DocumentReference petReference;
   DocumentReference whoAdoptedReference;
   String avatar;
@@ -105,6 +113,7 @@ class Pet {
       'donated': donated,
       'found': found,
       'name': name,
+      'storageHashKey': storageHashKey,
       'kind': kind,
       'color': color,
       'avatar': avatar,
@@ -121,6 +130,7 @@ class Pet {
       'longitude': longitude,      
       'type': type,
       'ownerReference': ownerReference,      
+      'ownerId': ownerId,      
       'petReference': petReference,
       'whoAdoptedReference': whoAdoptedReference
     };
@@ -133,6 +143,7 @@ class Pet {
     petMap['donated'] = donated;
     petMap['found'] = found;
     petMap['kind'] = kind;
+    petMap['storageHashKey'] = storageHashKey;
     petMap['avatar'] = avatar;
     petMap['sex'] = sex;
     petMap['health'] = health;
@@ -148,6 +159,7 @@ class Pet {
     petMap['type'] = type;
     petMap['color'] = color;    
     petMap['ownerReference'] = ownerReference;
+    petMap['ownerId'] = ownerId;
     petMap['petReference'] = petReference;
 
     return petMap;
