@@ -230,9 +230,9 @@ class UserController {
     print('Dados de usuário deletados!');
   }
 
-  Future<void> deleteUserAccount(Authentication auth, DocumentReference userReference) async {
+  Future<void> deleteUserAccount(Authentication auth, DocumentReference userReference) async {    
     await deleteUserData(userReference);
-    await auth.firebaseUser.delete();    
+    await auth.firebaseUser.delete();
     await auth.signOut();
   }
 }
