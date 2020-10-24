@@ -1,6 +1,6 @@
+import 'dart:math';
 import 'dart:io';
 import 'dart:typed_data';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -8,6 +8,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
+import 'package:tiutiu/Exceptions/tiutiu_exceptions.dart';
 import 'package:tiutiu/Widgets/background.dart';
 import 'package:tiutiu/Widgets/badge.dart';
 import 'package:tiutiu/Widgets/custom_dropdown_button.dart';
@@ -33,11 +34,11 @@ import 'package:tiutiu/data/dummy_data.dart';
 class PetForm extends StatefulWidget {
   PetForm({
     this.editMode = false,
-    this.petReference,
+    this.pet,
   });
 
   final bool editMode;
-  final DocumentReference petReference;
+  final Pet pet;
 
   @override
   _PetFormState createState() => _PetFormState();
@@ -66,6 +67,7 @@ class _PetFormState extends State<PetForm> {
 
   List<Asset> petPhotosMulti = List<Asset>();
   List petPhotosToUpload = [];
+  List<String> photosToDelete = [];
   List<Uint8List> convertedImageList = [];
 
   bool macho = true;
@@ -78,33 +80,37 @@ class _PetFormState extends State<PetForm> {
   int dropvalueBreed = 0;
   String userId;
   LatLng currentLocation;
-  bool isLogging = false;
+  bool isSaving = false;
   bool readOnly = false;
   bool convertingImages = false;
   AdsProvider adsProvider;
-  Pet petEdit;
+  String storageHashKey;
 
-  void preloadTextFields() async {
-    PetController petController = PetController();
-    var pet = await petController.getPetByReference(widget.petReference);
-
-    petFormProvider.changePetName(pet.name);
-    petFormProvider.changePetAge(pet.ano);
-    petFormProvider.changePetMonths(pet.meses);
-    petFormProvider.changePetDescription(pet.details);
-    petFormProvider.changePetSex(pet.sex);
-    petFormProvider.changePetSelectedCaracteristics(pet.otherCaracteristics);
-    petFormProvider.changePetTypeIndex(DummyData.type.indexOf(pet.type));
-    petFormProvider.changePetBreedIndex(
-        DummyData.breed[dropvalueType + 1].indexOf(pet.breed));
-    petFormProvider.changePetSize(pet.size);
-    petFormProvider.changePetColor(pet.color);
-    petFormProvider.changePetHealthIndex(DummyData.health.indexOf(pet.health));
-    petFormProvider.changePetPhotos(pet.photos);
-    petFormProvider.changePetInEdition(pet);
+  void preloadTextFields() {
+    petFormProvider.changePetName(widget.pet.name);
+    petFormProvider.changePetAge(widget.pet.ano);
+    petFormProvider.changePetMonths(widget.pet.meses);
+    petFormProvider.changePetDescription(widget.pet.details);
+    petFormProvider.changePetSex(widget.pet.sex);
+    petFormProvider
+        .changePetSelectedCaracteristics(widget.pet.otherCaracteristics);
+    petFormProvider.changePetTypeIndex(DummyData.type.indexOf(widget.pet.type));
+    petFormProvider.changePetBreedIndex(DummyData
+        .breed[petFormProvider.getPetTypeIndex + 1]
+        .indexOf(widget.pet.breed));
+    petFormProvider.changePetSize(widget.pet.size);
+    petFormProvider.changePetColor(widget.pet.color);
+    petFormProvider
+        .changePetHealthIndex(DummyData.health.indexOf(widget.pet.health));
+    petFormProvider.changePetPhotos(widget.pet.photos);
+    petFormProvider.changePetInEdition(widget.pet);
 
     _nome.text = petFormProvider.getPetName;
+    _ano.text = petFormProvider.getPetAge.toString();
+    _meses.text = petFormProvider.getPetMonths.toString();
     _descricao.text = petFormProvider.getPetDescription;
+    petPhotosToUpload.addAll(widget.pet.photos);
+    storageHashKey = widget.pet.storageHashKey;
   }
 
   void clearUpCaracteristics() {
@@ -113,18 +119,18 @@ class _PetFormState extends State<PetForm> {
 
   @override
   void initState() {
-    if (widget.editMode) {
-      preloadTextFields();
-    } else {
-      dropvalueSize = DummyData.size[0];
-      dropvalueColor = DummyData.color[0];
-    }
-
     currentLocation = Provider.of<Location>(context, listen: false).getLocation;
     userId =
         Provider.of<Authentication>(context, listen: false).firebaseUser.uid;
 
-    print('Local $currentLocation');    
+    dropvalueSize = DummyData.size[0];
+    dropvalueColor = DummyData.color[0];
+
+    if (!widget.editMode) {
+      storageHashKey = generateStorageHashKey();
+    }
+
+    print('Local $currentLocation');
     super.initState();
   }
 
@@ -134,7 +140,11 @@ class _PetFormState extends State<PetForm> {
     auth = Provider.of<Authentication>(context, listen: false);
     userProvider = Provider.of<UserProvider>(context, listen: false);
     petFormProvider = Provider.of<PetFormProvider>(context);
-    petsProvider = Provider.of(context, listen: false);    
+    petsProvider = Provider.of(context, listen: false);
+
+    if (widget.editMode) {
+      preloadTextFields();
+    }
     super.didChangeDependencies();
   }
 
@@ -161,16 +171,32 @@ class _PetFormState extends State<PetForm> {
                     child: Text('Remover'),
                     onPressed: () {
                       Navigator.pop(context);
+                      if (widget.editMode)
+                        photosToDelete
+                            .add(petFormProvider.getPetPhotos.elementAt(index));
+
+                      petFormProvider.getPetPhotos.removeAt(index);
+
+                      if (widget.editMode) {
+                        petPhotosToUpload.clear();
+                        petPhotosToUpload.addAll(petFormProvider.getPetPhotos);
+                      }
+
                       List actualPhotoList = petFormProvider.getPetPhotos;
-                      actualPhotoList.removeAt(index);
                       petFormProvider.changePetPhotos(actualPhotoList);
+                      if (!widget.editMode)
+                        convertImageToUint8List(petFormProvider.getPetPhotos);
                     },
                   )
                 ]
               : [
                   FlatButton(
-                    child: Text('Tirar uma foto',
-                        style: TextStyle(color: Colors.black)),
+                    child: Text(
+                      'Tirar uma foto',
+                      style: TextStyle(
+                        color: Colors.black,
+                      ),
+                    ),
                     onPressed: () {
                       Navigator.pop(context);
                       selectImage(ImageSource.camera, index);
@@ -248,13 +274,12 @@ class _PetFormState extends State<PetForm> {
     if (!mounted) return;
 
     if (resultList.isNotEmpty) {
-      print('NÃO');
       actualPhotoList.addAll(resultList);
       petFormProvider.changePetPhotos(actualPhotoList);
       convertImageToUint8List(petFormProvider.getPetPhotos);
 
       setState(() {
-        petPhotosMulti = actualPhotoList as List<Asset>;
+        petPhotosMulti = resultList;
       });
     }
   }
@@ -264,6 +289,7 @@ class _PetFormState extends State<PetForm> {
     changeConvertingImagesStatus(true);
     print('Convertendo imagens...');
     for (int i = 0; i < images.length; i++) {
+      if (images[i].runtimeType == String) continue;
       if (images[i].runtimeType == Asset) {
         ByteData byteData = await images[i].getByteData();
         convertedImageList.add(Uint8List.view(byteData.buffer));
@@ -275,34 +301,39 @@ class _PetFormState extends State<PetForm> {
     print('Conversão finalizada...');
   }
 
+  String generateStorageHashKey() {
+    Random random = Random();
+    int min = 1, max = 1000;
+    int randNumber = min + random.nextInt(max - min);
+    int hash = randNumber * DateTime.now().millisecond;
+    return '$hash.$userId.$randNumber';
+  }
+
+  String getPhotoName(String url, String hasKey) {
+    String photoName =
+        url.split(hasKey).last.split('?').first.split('%2F').last;
+    return photoName;
+  }
+
   Future<void> uploadPhotos(String petName) async {
     StorageUploadTask uploadTask;
     StorageReference storageReference;
 
     for (int i = 0; i < convertedImageList.length; i++) {
-      storageReference = FirebaseStorage.instance
-          .ref()
-          .child('$userId/')
-          .child('petsPhotos/$petName--foto__${DateTime.now().millisecond}');
-      // if (convertedImageList[i].runtimeType != String) {
+      storageReference = FirebaseStorage.instance.ref().child('$userId/').child(
+          'petsPhotos/$kind/$storageHashKey/$petName-${DateTime.now().millisecondsSinceEpoch}');
       uploadTask = storageReference.putData(convertedImageList[i]);
       await uploadTask.onComplete;
       petPhotosToUpload.add(await storageReference.getDownloadURL());
       print('URL DOWNLOAD ${petPhotosToUpload.last}');
-      // }
-      // if (imagesPet[i].runtimeType == String) {
-      petPhotosToUpload.addAll(petFormProvider.getPetPhotos
-          .where((element) => element.runtimeType == String)
-          .toList());
-      // }
     }
 
     return Future.value();
   }
 
-  void changeLogginStatus(bool status) {
+  void changeSavingStatus(bool status) {
     setState(() {
-      isLogging = status;
+      isSaving = status;
     });
   }
 
@@ -312,19 +343,62 @@ class _PetFormState extends State<PetForm> {
     });
   }
 
+  Future<void> deleteField(DocumentReference docRef) async {
+    await docRef.update({'photos': FieldValue.delete()});
+    print("photos Deleted");
+  }
+
+  Future<void> deletePhotosFromStorage() async {
+    StorageReference storageReference;
+    try {
+      await deleteField(widget.pet.petReference);
+      for (String photo in photosToDelete) {
+        String filename = getPhotoName(photo, widget.pet.storageHashKey);
+        storageReference = FirebaseStorage.instance
+            .ref()
+            .child('$userId/')
+            .child('petsPhotos/$kind/$storageHashKey/$filename');
+        await storageReference.delete();
+      }
+    } catch (error) {
+      throw TiuTiuException('INVALID_PATH');
+    }
+  }
+
   Future<void> save() async {
     final startIn = DateTime.now();
-    changeLogginStatus(true);
+    changeSavingStatus(true);
     var petController = PetController();
 
     await uploadPhotos(_nome.text);
+
+    if (photosToDelete.isNotEmpty) {
+      try {
+        await deletePhotosFromStorage();
+      } on TiuTiuException catch (error) {
+        print('ERROR');
+        await showDialog(
+          context: context,
+          builder: (context) => PopUpMessage(
+            title: 'Falha na autenticação',
+            confirmText: 'OK',
+            confirmAction: () => Navigator.pop(context),
+            error: true,
+            message: error.toString(),
+          ),
+        );
+      }
+    }
 
     var dataPetSave = Pet(
       type: DummyData.type[petFormProvider.getPetTypeIndex],
       color: petFormProvider.getPetColor,
       name: petFormProvider.getPetName,
       kind: kind,
-      avatar: petPhotosToUpload.first,
+      petReference: widget?.pet?.petReference ?? null,
+      avatar: petPhotosToUpload.isNotEmpty
+          ? petPhotosToUpload.first
+          : petFormProvider.getPetPhotos.first,
       breed: DummyData.breed[petFormProvider.getPetTypeIndex + 1]
           [petFormProvider.getPetBreedIndex],
       health: DummyData.health[petFormProvider.getPetHealthIndex],
@@ -333,18 +407,20 @@ class _PetFormState extends State<PetForm> {
       photos: petPhotosToUpload,
       size: petFormProvider.getPetSize,
       sex: petFormProvider.getPetSex,
-      latitude: currentLocation.latitude,
-      longitude: currentLocation.longitude,
+      ownerId: userProvider.uid,
+      latitude: currentLocation?.latitude ?? 0,
+      longitude: currentLocation?.longitude ?? 0,
       details: petFormProvider.getPetDescription,
       donated: false,
       found: false,
       ano: petFormProvider.getPetAge,
       meses: petFormProvider.getPetMonths,
+      storageHashKey: storageHashKey,
     );
 
     !widget.editMode
         ? await petController.insertPet(dataPetSave, kind, auth)
-        : await petController.updatePet(dataPetSave, userId, kind, petEdit.id);
+        : await petController.updatePet(dataPetSave, widget.pet.petReference);
 
     final finishin = DateTime.now();
     print('DEMOROU ${finishin.difference(startIn).inSeconds}');
@@ -352,15 +428,23 @@ class _PetFormState extends State<PetForm> {
   }
 
   void afterSave() {
-    if (kind == 'Donate') {
-      petsProvider.loadDonatedPETS();
-    } else {
-      petsProvider.loadDisappearedPETS();
-    }
+    convertedImageList.clear();
+    petPhotosMulti.clear();
     petPhotosToUpload.clear();
-    petFormProvider.dispose();
     petFormProvider.changePetPhotos([]);
-    changeLogginStatus(false);
+    petFormProvider.changePetName('');
+    petFormProvider.changePetColor('Abóbora');
+    petFormProvider.changePetTypeIndex(0);
+    petFormProvider.changePetAge(0);
+    petFormProvider.changePetMonths(0);
+    petFormProvider.changePetSize('Pequeno-porte');
+    petFormProvider.changePetHealthIndex(0);
+    petFormProvider.changePetBreedIndex(0);
+    petFormProvider.changePetSex('Macho');
+    petFormProvider.changePetSelectedCaracteristics([]);
+    petFormProvider.changePetDescription('');
+    petFormProvider.changePetInEdition(Pet());
+    changeSavingStatus(false);
   }
 
   bool validateForm() {
@@ -384,12 +468,10 @@ class _PetFormState extends State<PetForm> {
   @override
   Widget build(BuildContext context) {
     params = ModalRoute.of(context).settings.arguments;
-    kind = widget.editMode ? petEdit?.kind : params['kind'];
-
-    print(petFormProvider.getPetPhotos);
+    kind = widget.editMode ? widget.pet.kind : params['kind'];
 
     Future<bool> _onWillPopScope() {
-      if (isLogging || convertingImages) {
+      if (isSaving || convertingImages) {
         return Future.value(false);
       }
       Navigator.pushReplacementNamed(context, Routes.HOME);
@@ -403,9 +485,9 @@ class _PetFormState extends State<PetForm> {
       child: Scaffold(
         appBar: AppBar(
           title: widget.editMode
-              ? Text('Editar dados do ${petEdit?.name}')
+              ? Text('Editar dados do ${widget.pet.name}')
               : Text(
-                  kind == 'Donate' ? 'PET para adoção' : 'PET Desaparecido',
+                  kind == 'Donate' ? 'PET PARA ADOÇÃO' : 'PET DESAPARECIDO',
                   style: Theme.of(context).textTheme.headline1.copyWith(
                         fontSize: 20,
                         color: Colors.white,
@@ -464,7 +546,6 @@ class _PetFormState extends State<PetForm> {
                         StreamBuilder(
                           stream: petFormProvider.petPhotos,
                           builder: (context, snapshot) {
-                            // if(snapshot.data == null) return Container();
                             return Column(
                               children: [
                                 Container(
@@ -518,7 +599,8 @@ class _PetFormState extends State<PetForm> {
                                     },
                                   ),
                                 ),
-                                petFormProvider.formIsvalid()                                        
+                                petFormProvider.formIsvalid() &&
+                                        petFormProvider.getPetPhotos.isEmpty
                                     ? HintError(
                                         message: '* Insira pelo menos uma foto')
                                     : SizedBox(),
@@ -538,7 +620,8 @@ class _PetFormState extends State<PetForm> {
                                   controller: _nome,
                                   readOnly: readOnly,
                                 ),
-                                petFormProvider.formIsvalid()
+                                petFormProvider.formIsvalid() &&
+                                        _nome.text.isEmpty
                                     ? HintError()
                                     : SizedBox(),
                               ],
@@ -553,7 +636,7 @@ class _PetFormState extends State<PetForm> {
                           builder: (context, snapshot) {
                             return CustomDropdownButton(
                               label: 'Tipo',
-                              initialValue: DummyData.type[snapshot.data],
+                              initialValue: DummyData.type[snapshot.data ?? 0],
                               itemList: DummyData.type,
                               onChange: (String value) {
                                 petFormProvider.changePetTypeIndex(
@@ -674,7 +757,8 @@ class _PetFormState extends State<PetForm> {
                           builder: (context, snapshot) {
                             return CustomDropdownButton(
                               label: 'Saúde',
-                              initialValue: DummyData.health[snapshot.data],
+                              initialValue:
+                                  DummyData.health[snapshot.data ?? 0],
                               itemList: DummyData.health,
                               onChange: (String value) {
                                 petFormProvider.changePetHealthIndex(
@@ -885,7 +969,10 @@ class _PetFormState extends State<PetForm> {
                                         _descricao.text.isEmpty
                                     ? HintError()
                                     : SizedBox(),
-                                adsProvider.getCanShowAds ? adsProvider.bannerAdMob(adId: adsProvider.bottomAdId) : Container(),
+                                adsProvider.getCanShowAds
+                                    ? adsProvider.bannerAdMob(
+                                        adId: adsProvider.bottomAdId)
+                                    : Container(),
                               ],
                             );
                           },
@@ -896,14 +983,14 @@ class _PetFormState extends State<PetForm> {
                 ],
               ),
             ),
-            LoadDarkScreen(show: isLogging, message: 'Aguarde'),
+            LoadDarkScreen(show: isSaving, message: 'Aguarde'),
           ],
         ),
         bottomNavigationBar: ButtonWide(
           rounded: false,
-          color: isLogging ? Colors.grey : Theme.of(context).primaryColor,
+          color: isSaving ? Colors.grey : Theme.of(context).primaryColor,
           isToExpand: true,
-          action: isLogging || convertingImages
+          action: isSaving || convertingImages
               ? null
               : () async {
                   if (validateForm()) {
@@ -923,7 +1010,7 @@ class _PetFormState extends State<PetForm> {
                                 );
                               },
                               message: widget.editMode
-                                  ? 'Os dados do PET foram atualizados'
+                                  ? 'Os dados do PET foram atualizados.'
                                   : 'PET postado com sucesso!',
                             )).then(
                       (value) => _onWillPopScope,
