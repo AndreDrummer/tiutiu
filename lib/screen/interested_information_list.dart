@@ -31,8 +31,7 @@ class InterestedList extends StatefulWidget {
 
 class _InterestedListState extends State<InterestedList> {
   UserInfoOrAdoptInterestsProvider userInfoOrAdoptInterestsProvider;
-  UserProvider userProvider;
-  User user;
+  UserProvider userProvider;  
   UserController userController = UserController();
   bool isSinalizing = false;
 
@@ -43,10 +42,10 @@ class _InterestedListState extends State<InterestedList> {
   }
 
   Future<void> donatePetToSomeone({
-    String userAdoptId,
-    String userName,
+    DocumentReference interestedReference,
+    String interestedName,
     DocumentReference petReference,
-    DocumentReference userThatDonate,
+    DocumentReference ownerReference,
     String ownerNotificationToken,
     String interestedNotificationToken,
     int userPosition,
@@ -54,9 +53,9 @@ class _InterestedListState extends State<InterestedList> {
     await userController
         .donatePetToSomeone(
       petReference: petReference,
-      userName: userName,
-      userThatDonate: userThatDonate,
-      userAdoptId: userAdoptId,
+      interestedName: interestedName,
+      ownerReference: ownerReference,
+      interestedReference: interestedReference,
       userPosition: userPosition,
       ownerNotificationToken: ownerNotificationToken,
       interestedNotificationToken: interestedNotificationToken,
@@ -65,7 +64,7 @@ class _InterestedListState extends State<InterestedList> {
       (_) {
         _showDialogCard(
           title: 'Sucesso',
-          message: '$userName será notificado sobre a adoção!',
+          message: '$interestedName será notificado sobre a adoção!',
           confirmAction: () {
             userInfoOrAdoptInterestsProvider
                 .loadInterested(widget.pet.petReference);
@@ -97,17 +96,15 @@ class _InterestedListState extends State<InterestedList> {
 
   @override
   void didChangeDependencies() {
-    userInfoOrAdoptInterestsProvider =
-        Provider.of<UserInfoOrAdoptInterestsProvider>(context);
+    userInfoOrAdoptInterestsProvider = Provider.of<UserInfoOrAdoptInterestsProvider>(context);
     userProvider = Provider.of<UserProvider>(context);
+    
     if (widget.kind == 'Donate') {
       userInfoOrAdoptInterestsProvider.loadInterested(widget.pet.petReference);
     } else {
       userInfoOrAdoptInterestsProvider.loadInfo(widget.pet.petReference);
     }
-    userController.getUserByReference(widget.pet.ownerReference).then((value) {
-      user = value;
-    });
+
     super.didChangeDependencies();
   }
 
@@ -147,19 +144,18 @@ class _InterestedListState extends State<InterestedList> {
                   itemBuilder: (_, index) {
                     return FutureBuilder<Object>(
                       future: snapshot.data[index].userReference.get(),
-                      builder: (context, userReferenceSnapshot) {
+                      builder: (context, interestedReferenceSnapshot) {
                         if (snapshot.connectionState ==
                             ConnectionState.waiting) {
                           return CircularProgressIndicator();
                         }
-                        if (!userReferenceSnapshot.hasData) {
+                        if (!interestedReferenceSnapshot.hasData) {
                           return LoadingBumpingLine.circle(size: 30);
                         }
-                        User user =
-                            User.fromSnapshot(userReferenceSnapshot.data);
+                        User interestedUser = User.fromSnapshot(interestedReferenceSnapshot.data);
                         return ListTile(
                           leading: InkWell(
-                            onTap: user.photoURL == null
+                            onTap: interestedUser.photoURL == null
                                 ? null
                                 : () {
                                     Navigator.push(
@@ -167,19 +163,19 @@ class _InterestedListState extends State<InterestedList> {
                                         MaterialPageRoute(
                                             builder: (context) =>
                                                 FullScreenImage(
-                                                  images: [user.photoURL],
+                                                  images: [interestedUser.photoURL],
                                                   tag: 'userProfile',
-                                                )));
+                                                ),),);
                                   },
                             child: CircleAvatar(
                               backgroundColor: Colors.transparent,
                               child: ClipOval(
                                 child: Hero(
-                                  tag: '${user.photoURL}',
+                                  tag: '${interestedUser.photoURL}',
                                   child: FadeInImage(
                                     placeholder: AssetImage('assets/fundo.jpg'),
-                                    image: user.photoURL != null
-                                        ? NetworkImage(user.photoURL)
+                                    image: interestedUser.photoURL != null
+                                        ? NetworkImage(interestedUser.photoURL)
                                         : AssetImage(
                                             'assets/fundo.jpg',
                                           ),
@@ -191,7 +187,7 @@ class _InterestedListState extends State<InterestedList> {
                               ),
                             ),
                           ),
-                          title: Text(user.name),
+                          title: Text(interestedUser.name),
                           subtitle: Text(
                               '${widget.kind == 'Donate' ? 'Interessou dia' : 'Informou dia'} ${DateFormat('dd/MM/y hh:mm').format(DateTime.parse(snapshot.data[index].interestedAt))}'),
                           trailing: InkWell(
@@ -207,19 +203,13 @@ class _InterestedListState extends State<InterestedList> {
                                               Navigator.pop(context);
                                               changeIsSinalizingStatus(true);
                                               await donatePetToSomeone(
-                                                userName: user.name,
-                                                userThatDonate:
-                                                    userProvider.userReference,
-                                                petReference:
-                                                    widget.pet.petReference,
-                                                interestedNotificationToken:
-                                                    user.notificationToken,
-                                                ownerNotificationToken:
-                                                    userProvider
-                                                        .notificationToken,
-                                                userAdoptId: user.id,
-                                                userPosition: snapshot
-                                                    .data[index].position,
+                                                interestedName: interestedUser.name,
+                                                ownerReference: userProvider.userReference,
+                                                petReference: widget.pet.petReference,
+                                                interestedNotificationToken: interestedUser.notificationToken,
+                                                ownerNotificationToken: userProvider.notificationToken,
+                                                interestedReference: await userController.getReferenceById(interestedUser.id),
+                                                userPosition: snapshot.data[index].position,
                                               );
                                               changeIsSinalizingStatus(false);
                                             },
@@ -227,8 +217,7 @@ class _InterestedListState extends State<InterestedList> {
                                             denyAction: () =>
                                                 Navigator.pop(context),
                                             denyText: 'Não, escolher outro',
-                                            message:
-                                                'Deseja doar ${widget.pet.name} para ${user.name} ?',
+                                            message: 'Deseja doar ${widget.pet.name} para ${interestedUser.name} ?',
                                             title: 'Confirme doação do PET',
                                             warning: true,
                                           ),

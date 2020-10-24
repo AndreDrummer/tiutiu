@@ -82,7 +82,7 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     adsProvider = Provider.of(context, listen: false);
-    adsProvider.changeCanShowAds(true);    
+    adsProvider.changeCanShowAds(false);    
     adsProvider.initReward();
     fbm.configure(
       onMessage: (notification) {      
@@ -159,6 +159,11 @@ class _HomeState extends State<Home> {
         await usersEntrepreneur.doc(auth.firebaseUser.uid).get();
     UserController userController = UserController();
 
+    Future.delayed(Duration(seconds: 60), () {
+      userProvider.changeRecentlyAuthenticated(false);
+      print('Não autenticado recentemente...');
+    });
+    
     userProvider.changeUserReference(doc.reference);
     userProvider.changeUid(auth.firebaseUser.uid);
     userProvider.changePhotoUrl(doc.data()['photoURL']);
