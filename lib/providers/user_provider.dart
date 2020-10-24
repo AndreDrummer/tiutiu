@@ -19,6 +19,8 @@ class UserProvider with ChangeNotifier {
   String _displayName;
   String _createdAt;
   DocumentReference _userReference;
+  bool recentlyAuthenticated = false;
+
   final _betterContact = BehaviorSubject<int>.seeded(0);
   final _totaToDonate = BehaviorSubject<int>.seeded(0);
   final _totalDonated = BehaviorSubject<int>.seeded(0);
@@ -125,6 +127,11 @@ class UserProvider with ChangeNotifier {
 
   void changeUserReference(DocumentReference userReference) {
     _userReference = userReference;
+    notifyListeners();
+  }
+
+  void changeRecentlyAuthenticated(bool status) {
+    recentlyAuthenticated = status;
     notifyListeners();
   }
 
