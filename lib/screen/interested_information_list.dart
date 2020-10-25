@@ -4,7 +4,6 @@ import 'package:intl/intl.dart';
 import 'package:loading_animations/loading_animations.dart';
 import 'package:provider/provider.dart';
 import 'package:tiutiu/Widgets/empty_list.dart';
-import 'package:tiutiu/Widgets/fullscreen_images.dart';
 import 'package:tiutiu/Widgets/load_dark_screen.dart';
 import 'package:tiutiu/Widgets/loading_page.dart';
 import 'package:tiutiu/Widgets/popup_message.dart';
@@ -14,6 +13,7 @@ import 'package:tiutiu/backend/Model/pet_model.dart';
 import 'package:tiutiu/backend/Model/user_model.dart';
 import 'package:tiutiu/providers/user_infos_interests.dart';
 import 'package:tiutiu/providers/user_provider.dart';
+import 'package:tiutiu/screen/announcer_datails.dart';
 import 'package:tiutiu/utils/routes.dart';
 
 class InterestedList extends StatefulWidget {
@@ -31,7 +31,7 @@ class InterestedList extends StatefulWidget {
 
 class _InterestedListState extends State<InterestedList> {
   UserInfoOrAdoptInterestsProvider userInfoOrAdoptInterestsProvider;
-  UserProvider userProvider;  
+  UserProvider userProvider;
   UserController userController = UserController();
   bool isSinalizing = false;
 
@@ -43,16 +43,18 @@ class _InterestedListState extends State<InterestedList> {
 
   Future<void> donatePetToSomeone({
     DocumentReference interestedReference,
-    String interestedName,
-    DocumentReference petReference,
     DocumentReference ownerReference,
-    String ownerNotificationToken,
     String interestedNotificationToken,
+    String ownerNotificationToken,
+    String interestedName,
+    String interestedID,
     int userPosition,
+    Pet pet,
   }) async {
     await userController
         .donatePetToSomeone(
-      petReference: petReference,
+      pet: pet,      
+      interestedID: interestedID,
       interestedName: interestedName,
       ownerReference: ownerReference,
       interestedReference: interestedReference,
@@ -96,9 +98,10 @@ class _InterestedListState extends State<InterestedList> {
 
   @override
   void didChangeDependencies() {
-    userInfoOrAdoptInterestsProvider = Provider.of<UserInfoOrAdoptInterestsProvider>(context);
+    userInfoOrAdoptInterestsProvider =
+        Provider.of<UserInfoOrAdoptInterestsProvider>(context);
     userProvider = Provider.of<UserProvider>(context);
-    
+
     if (widget.kind == 'Donate') {
       userInfoOrAdoptInterestsProvider.loadInterested(widget.pet.petReference);
     } else {
@@ -113,8 +116,8 @@ class _InterestedListState extends State<InterestedList> {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.kind == 'Donate'
-            ? 'Pessoas interessadas em ${widget.pet.name}'
-            : 'Pessoas que informaram sobre ${widget.pet.name}'),
+            ? 'Pessoas interessadas em ${widget.pet.name}'.toUpperCase()
+            : 'Pessoas que informaram sobre ${widget.pet.name}'.toUpperCase()),
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(vertical: 8.0),
@@ -143,29 +146,29 @@ class _InterestedListState extends State<InterestedList> {
                   itemCount: snapshot.data.length,
                   itemBuilder: (_, index) {
                     return FutureBuilder<Object>(
-                      future: snapshot.data[index].userReference.get(),
+                      future: snapshot.data[index]?.userReference?.get(),
                       builder: (context, interestedReferenceSnapshot) {
                         if (snapshot.connectionState ==
                             ConnectionState.waiting) {
                           return CircularProgressIndicator();
                         }
                         if (!interestedReferenceSnapshot.hasData) {
-                          return LoadingBumpingLine.circle(size: 30);
+                          return Container();
                         }
-                        User interestedUser = User.fromSnapshot(interestedReferenceSnapshot.data);
+                        User interestedUser =
+                            User.fromSnapshot(interestedReferenceSnapshot.data);
                         return ListTile(
                           leading: InkWell(
                             onTap: interestedUser.photoURL == null
                                 ? null
                                 : () {
                                     Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                FullScreenImage(
-                                                  images: [interestedUser.photoURL],
-                                                  tag: 'userProfile',
-                                                ),),);
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            AnnouncerDetails(interestedUser),
+                                      ),
+                                    );
                                   },
                             child: CircleAvatar(
                               backgroundColor: Colors.transparent,
@@ -194,7 +197,7 @@ class _InterestedListState extends State<InterestedList> {
                             onTap: widget.kind == 'Donate'
                                 ? snapshot.data[index].sinalized
                                     ? () {}
-                                    : () {
+                                    : () {                                      
                                         showDialog(
                                           context: context,
                                           barrierDismissible: false,
@@ -203,11 +206,12 @@ class _InterestedListState extends State<InterestedList> {
                                               Navigator.pop(context);
                                               changeIsSinalizingStatus(true);
                                               await donatePetToSomeone(
-                                                interestedName: interestedUser.name,
+                                                interestedName: interestedUser.name,                                                
                                                 ownerReference: userProvider.userReference,
-                                                petReference: widget.pet.petReference,
+                                                pet: widget.pet,
+                                                interestedID: interestedUser.id,
                                                 interestedNotificationToken: interestedUser.notificationToken,
-                                                ownerNotificationToken: userProvider.notificationToken,
+                                                ownerNotificationToken: userProvider .notificationToken,
                                                 interestedReference: await userController.getReferenceById(interestedUser.id),
                                                 userPosition: snapshot.data[index].position,
                                               );
@@ -217,13 +221,14 @@ class _InterestedListState extends State<InterestedList> {
                                             denyAction: () =>
                                                 Navigator.pop(context),
                                             denyText: 'Não, escolher outro',
-                                            message: 'Deseja doar ${widget.pet.name} para ${interestedUser.name} ?',
+                                            message:
+                                                'Deseja doar ${widget.pet.name} para ${interestedUser.name} ?',
                                             title: 'Confirme doação do PET',
                                             warning: true,
                                           ),
                                         );
                                       }
-                                : () {
+                                : () {                                  
                                     Navigator.pushNamed(context, Routes.INFO,
                                         arguments: {
                                           'petName': widget.pet.name,
@@ -235,9 +240,9 @@ class _InterestedListState extends State<InterestedList> {
                                     ? _bagde('Doar')
                                     : snapshot.data[index].gaveup
                                         ? _bagde('Desistiu', color: Colors.red)
-                                        : _bagde('Aguardando confirmação',
-                                            color: Colors.green)
-                                : _bagde('Ver info', color: Colors.blue),
+                                        : _bagde(snapshot.data[index].donated ? 'Adotado' :  'Aguardando confirmação',
+                                            color: snapshot.data[index].donated ? Colors.green : Colors.amber)
+                                : _bagde('Ver info', color: Colors.blue)
                           ),
                         );
                       },

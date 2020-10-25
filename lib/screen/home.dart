@@ -86,18 +86,17 @@ class _HomeState extends State<Home> {
     adsProvider.initReward();
     fbm.configure(
       onMessage: (notification) {      
-        print(notification['data']);
-        // userProvider.handleNotifications(notification['data']);
+        print(notification['data']);        
         userProvider.handleNotifications(json.decode(notification['data']['data']));
         return;
       },
-      onResume: (notification) {
-        // userProvider.handleNotifications(notification['data']);
+      onResume: (notification) {   
+        print(notification['data']);     
         userProvider.handleNotifications(json.decode(notification['data']['data']));
         return;
       },
-      onLaunch: (notification) {
-        // userProvider.handleNotifications(notification['data']);
+      onLaunch: (notification) {    
+        print(notification['data']);    
         userProvider.handleNotifications(json.decode(notification['data']['data']));
         return;
       },
@@ -173,11 +172,9 @@ class _HomeState extends State<Home> {
     userProvider.changeCreatedAt(doc.data()['createdAt']);
     userProvider.changeTelefone(doc.data()['landline']);
     userProvider.changeBetterContact(doc.data()['betterContact']);
-    userProvider.calculateTotals();
-    userProvider.loadNotificationsCount();
+    userProvider.calculateTotals();    
     userProvider.changeNotificationToken(await fbm.getToken());
-    userController.updateUser(userProvider.uid,
-        {"notificationToken": userProvider.notificationToken});
+    userController.updateUser(userProvider.uid, {"notificationToken": userProvider.notificationToken});
 
     if (auth.firebaseUser != null) {
       favoritesProvider.loadFavoritesReference();
