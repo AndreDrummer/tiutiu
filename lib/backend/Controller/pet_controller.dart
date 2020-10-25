@@ -65,6 +65,7 @@ class PetController {
     String petName,
     String petAvatar,
     String petBreed,
+    String infoDetails,
     LatLng userLocation,
     int userPosition, 
     bool isAdopt = false,
@@ -82,6 +83,7 @@ class PetController {
           'userReference': userReference,
           'petReference': petReference,
           'ownerID': ownerID,
+          'infoDetails': infoDetails,
           'interestedID': interestedID,
           'userLat': userLocation.latitude,
           'userLog': userLocation.longitude,
@@ -97,11 +99,12 @@ class PetController {
       );
     } else {
       await petRef.reference.collection('infoInteresteds').doc().set(
-        {
+        {          
           'notificationType': 'petInfo',
           'interestedName': interestedName,
           'petName': petName,
           'petAvatar': petAvatar,
+          'infoDetails': infoDetails,
           'petBreed': petBreed,
           'userReference': userReference,
           'petReference': petReference,
