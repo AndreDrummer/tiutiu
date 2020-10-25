@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:tiutiu/backend/Controller/pet_controller.dart';
+import 'package:tiutiu/backend/Model/pet_model.dart';
 import 'package:tiutiu/providers/auth2.dart';
 import '../Model/user_model.dart';
 
@@ -57,28 +58,35 @@ class UserController {
 
   Future<void> donatePetToSomeone({
     DocumentReference interestedReference,
-    String interestedName,
+    DocumentReference ownerReference,
     String interestedNotificationToken,
     String ownerNotificationToken,
-    DocumentReference petReference,
-    DocumentReference ownerReference,
-    int userPosition,
+    String interestedName,
+    String interestedID,
+    int userPosition,    
+    Pet pet,
   }) async {
-    var user = await ownerReference.get();
-    var pet = await petReference.get();
+    var user = await ownerReference.get();    
 
-    var data = {
+    Map<String, dynamic> data = {
       'notificationType': 'confirmAdoption',
       'ownerNotificationToken': ownerNotificationToken,
       'interestedNotificationToken': interestedNotificationToken,
       'confirmed': false,
-      'petReference': petReference,
-      'petName': pet.data()['name'],
-      'ownerReference': ownerReference,      
+      'petReference': pet.petReference,
+      'ownerReference': pet.ownerReference,
       'ownerName': user.data()['displayName'],
       'interestedName': interestedName,
-      'interestedReference': interestedReference
+      'interestedReference': interestedReference,
+      'ownerID': pet.ownerId,
+      'interestedID': interestedID,
     };
+
+    var petData = pet.toMap();
+    petData.remove('photos');
+    petData.remove('ownerId');
+
+    data.addAll(petData);
 
     // print("DATA $data");
 
@@ -91,7 +99,7 @@ class UserController {
 
     await firestore.collection('Adopted').doc().set(data);
 
-    final interestedRef = await petReference.collection('adoptInteresteds').get();
+    final interestedRef = await pet.petReference.collection('adoptInteresteds').get();
     List interestedUsers = interestedRef.docs;
 
     for (int i = 0; i < interestedUsers.length; i++) {
@@ -99,15 +107,33 @@ class UserController {
       if (interestedUsers[i].data()['position'] == userPosition) {
         var data = interestedUsers[i].data();
         data['sinalized'] = true;
-        petReference.collection('adoptInteresteds').doc(interestedUsers[i].id).set(data);
+        pet.petReference.collection('adoptInteresteds').doc(interestedUsers[i].id).set(data);
         break;
       }
     }
   }
 
   Future<void> confirmDonate(DocumentReference petReference, DocumentReference userThatAdoptedReference) async {
+    final interestedRef = await petReference.collection('adoptInteresteds').get();
+    List interestedUsers = interestedRef.docs;
+
+    for (int i = 0; i < interestedUsers.length; i++) {
+      print("${interestedUsers[i].data()['userReference']} == $userThatAdoptedReference");
+      if (interestedUsers[i].data()['userReference'] == userThatAdoptedReference) {
+        var data = interestedUsers[i].data();
+        data['donated'] = true;
+        petReference.collection('adoptInteresteds').doc(interestedUsers[i].id).set(data);
+        break;
+      }
+    }
+
     await petReference.set({'donated': true, 'whoAdoptedReference': userThatAdoptedReference}, SetOptions(merge: true));
-    final pathToPetAdopted = await firestore.collection('Adopted').where('interestedReference', isEqualTo: userThatAdoptedReference).get();
+    final pathToPetAdopted = await firestore.collection('Adopted')
+    .where('confirmed', isEqualTo: false)
+    // .where('petReference', isEqualTo: petReference)
+    // .where('interestedReference', isEqualTo: userThatAdoptedReference)
+    .get();
+
     pathToPetAdopted.docs.first.reference.set({
       'confirmed': true,
       'notificationType': 'adoptionConfirmed',
@@ -121,14 +147,15 @@ class UserController {
       if (interestedUsers[i].data()['userReference'] == userThatAdoptedReference) {
         var data = interestedUsers[i].data();
         data['gaveup'] = true;
-        data.putIfAbsent('notificationType', () => 'adoptionDeny');
+        data['notificationType'] = 'adoptionDeny';
         petReference.collection('adoptInteresteds').doc(interestedUsers[i].id).set(data);
         break;
       }
     }
 
     final pathToPetAdopted = await firestore.collection('Adopted').where('interestedReference', isEqualTo: userThatAdoptedReference).get();
-    pathToPetAdopted.docs.first.reference.delete();    
+    pathToPetAdopted.docs.first.reference.set({'notificationType': 'adoptionDeny'}, SetOptions(merge: true));
+    pathToPetAdopted.docs.first.reference.delete();
   }  
 
   Future<void> insertUser(User user) async {
@@ -162,13 +189,13 @@ class UserController {
       .snapshots();
   }
 
-  Future<int> loadNotificationsCount(String userId) async {
+  Stream<QuerySnapshot> loadNotificationsCount(String userId) {
     return firestore
       .collection('Users')
       .doc(userId)
       .collection('Notifications')
       .where('open', isEqualTo: false)
-      .snapshots().length;        
+      .snapshots();        
   }
 
   Stream<QuerySnapshot> loadMyPostedPetsToDonate({String userId}) {
@@ -183,7 +210,7 @@ class UserController {
 
   Stream<QuerySnapshot> loadMyAdoptedPets({String userId}) {
     PetController petController = PetController();
-    return petController.getPetsByUser('Adopted', userId);
+    return petController.getPetsByUser('Adopted', userId, isAdopted: true);
   }
 
   Stream<QuerySnapshot> loadMyDonatedPets(DocumentReference userReference) {    
@@ -202,7 +229,7 @@ class UserController {
     .where('ownerReference', isEqualTo: userReference).get();
     QuerySnapshot petsDisappeared = await FirebaseFirestore.instance.collection('Disappeared')
     .where('ownerReference', isEqualTo: userReference).get();
-    QuerySnapshot petsAdopted = await FirebaseFirestore.instance.collection('Adopteds')
+    QuerySnapshot petsAdopted = await FirebaseFirestore.instance.collection('Adopted')
     .where('interestedReference', isEqualTo: userReference).get();
     
     for(int i = 0; i < notifications.docs.length; i++) {
