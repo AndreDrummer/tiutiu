@@ -284,7 +284,13 @@ class _RegisterState extends State<Register> {
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
-        title: Text('Bem vindo!'),
+        title: Text(
+          'Bem vindo!',
+          style: Theme.of(context).textTheme.headline1.copyWith(
+                fontSize: 20,
+                fontWeight: FontWeight.w700,
+              ),
+        ),
       ),
       body: Stack(
         children: [
@@ -488,26 +494,29 @@ class _RegisterState extends State<Register> {
         color: finishing ? Colors.grey : Theme.of(context).primaryColor,
         text: 'FINALIZAR',
         rounded: false,
-        action: finishing ? null : () async {
-          print('FORM VALIDE ${_formKey.currentState.validate()}');
-          if (_formKey.currentState.validate() && (_telefone.text.isEmpty || _telefone.text.length >= 12)) {
-            if (validatePictureProfile()) {
-              setFinishing(true);
-              await save();
-              setFinishing(false);
-              await auth.alreadyRegistered();
-              Navigator.pushReplacementNamed(context, Routes.AUTH_HOME);
-            }
-          } else {
-            _scaffoldKey.currentState.showSnackBar(
-              SnackBar(
-                backgroundColor: Colors.red,
-                duration: Duration(seconds: 1),
-                content: Text('Preencha os campos marcados com um *'),
-              ),
-            );
-          }
-        },
+        action: finishing
+            ? null
+            : () async {
+                print('FORM VALIDE ${_formKey.currentState.validate()}');
+                if (_formKey.currentState.validate() &&
+                    (_telefone.text.isEmpty || _telefone.text.length >= 12)) {
+                  if (validatePictureProfile()) {
+                    setFinishing(true);
+                    await save();
+                    setFinishing(false);
+                    await auth.alreadyRegistered();
+                    Navigator.pushReplacementNamed(context, Routes.AUTH_HOME);
+                  }
+                } else {
+                  _scaffoldKey.currentState.showSnackBar(
+                    SnackBar(
+                      backgroundColor: Colors.red,
+                      duration: Duration(seconds: 1),
+                      content: Text('Preencha os campos marcados com um *'),
+                    ),
+                  );
+                }
+              },
       ),
       backgroundColor: Colors.blueGrey[50],
     );
