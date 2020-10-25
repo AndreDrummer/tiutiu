@@ -3,10 +3,9 @@ import 'package:tiutiu/backend/Controller/pet_controller.dart';
 
 class NotificationModel {
 
-  NotificationModel.fromSnapshot(DocumentSnapshot snapshot) {    
-    notificationType = snapshot.data()['notificationType'];
-
-    if(snapshot.data()['petReference'].runtimeType != DocumentReference) {
+  NotificationModel.fromSnapshot(DocumentSnapshot snapshot) {
+    notificationType = snapshot.data()['notificationType'];    
+    if(snapshot.data()['petReference'].runtimeType != DocumentReference) {      
       getReference(snapshot.data()['petReference']['_path']['segments'], snapshot, 'petReference').then((value) => petReference = value);
     } else {
       petReference = snapshot.data()['petReference'];
