@@ -40,8 +40,8 @@ class PetController {
 
   Stream<QuerySnapshot> getPetsByUser(String petKind, String userId, {bool isAdopted = false}) {
     Query query = firestore.collection(petKind)
-    .where(isAdopted ? 'interestedID' : 'ownerId', isEqualTo: userId)
-    .where(petKind == 'Donate' ? 'donated' : 'found', isEqualTo: false);
+    .where(isAdopted ? 'interestedID' : 'ownerId', isEqualTo: userId);    
+    if(petKind == 'Donate') query  = query..where('donated', isEqualTo: false);
     if(isAdopted) query  = query.where('confirmed', isEqualTo: true);
 
     return query.snapshots();
