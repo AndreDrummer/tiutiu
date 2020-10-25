@@ -55,13 +55,17 @@ class PetsProvider with ChangeNotifier {
   Stream<QuerySnapshot> loadDisappearedPETS() {
     return _isFiltering && getPetKind == 'Disappeared'
         ? loadFilteredPETS()
-        : FirebaseFirestore.instance.collection('Disappeared').snapshots();
+        : FirebaseFirestore.instance.collection('Disappeared')
+        .where('found', isEqualTo: false)
+        .snapshots();
   }
 
   Stream<QuerySnapshot> loadDonatedPETS() {
     return _isFiltering && getPetKind == 'Donate'
         ? loadFilteredPETS()
-        : FirebaseFirestore.instance.collection('Donate').snapshots();
+        : FirebaseFirestore.instance.collection('Donate')
+        .where('donated', isEqualTo: false)
+        .snapshots();
   }
 
   List<String> _filters() {

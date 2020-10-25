@@ -5,6 +5,7 @@ import 'package:tiutiu/Widgets/card_list.dart';
 import 'package:tiutiu/Widgets/loading_screen.dart';
 import 'package:tiutiu/providers/ads_provider.dart';
 import 'package:tiutiu/providers/favorites_provider.dart';
+
 class Favorites extends StatefulWidget {
   @override
   _FavoritesState createState() => _FavoritesState();
@@ -17,7 +18,7 @@ class _FavoritesState extends State<Favorites> {
   @override
   void didChangeDependencies() {
     favoritesProvider = Provider.of(context, listen: true);
-    adsProvider = Provider.of(context);    
+    adsProvider = Provider.of(context);
     super.didChangeDependencies();
   }
 
@@ -27,8 +28,11 @@ class _FavoritesState extends State<Favorites> {
       appBar: AppBar(
         leading: null,
         title: Text(
-          'Favoritos',
-          style: TextStyle(fontSize: 20),
+          'Favoritos'.toUpperCase(),
+          style: Theme.of(context).textTheme.headline1.copyWith(
+                fontSize: 20,
+                fontWeight: FontWeight.w700,
+              ),
         ),
       ),
       body: RefreshIndicator(
@@ -60,7 +64,10 @@ class _FavoritesState extends State<Favorites> {
                       }
                       return Column(
                         children: [
-                          adsProvider.getCanShowAds ? adsProvider.bannerAdMob(adId: adsProvider.topAdId) : Container(),
+                          adsProvider.getCanShowAds
+                              ? adsProvider.bannerAdMob(
+                                  adId: adsProvider.topAdId)
+                              : Container(),
                           Expanded(
                             child: ListView.builder(
                               itemCount: snapshot.data.length,
