@@ -1,8 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:tiutiu/Custom/icons.dart';
 import 'package:tiutiu/Widgets/badge.dart';
+import 'package:tiutiu/backend/Controller/user_controller.dart';
 import 'package:tiutiu/providers/auth2.dart';
 import 'package:tiutiu/providers/pets_provider.dart';
 import 'package:tiutiu/providers/user_provider.dart';
@@ -66,12 +68,17 @@ class PetsList extends StatelessWidget {
                                 color: Colors.white,
                               ),
                             ),
-                            Positioned(
-                              right: 10,
-                              child: Badge(
-                                color: Colors.red,
-                                text: userProvider.getNotifications ?? 0,
-                              ),
+                            StreamBuilder<QuerySnapshot>(
+                              stream: UserController().loadNotificationsCount(userProvider.uid),
+                              builder: (context, snapshot) {
+                                return Positioned(
+                                  right: 10,
+                                  child: Badge(
+                                    color: Colors.red,
+                                    text: snapshot.data?.docs?.length ?? 0,
+                                  ),
+                                );
+                              }
                             )
                           ],
                         ),
