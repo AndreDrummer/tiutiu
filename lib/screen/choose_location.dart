@@ -37,7 +37,7 @@ class _ChooseLocationState extends State<ChooseLocation> {
 
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
+      appBar: AppBar(        
         title: Text(
           kind == 'Donate' ? 'localização do PET'.toUpperCase() : 'Visto pela última vez em'.toUpperCase(),
           style: Theme.of(context).textTheme.headline1.copyWith(
