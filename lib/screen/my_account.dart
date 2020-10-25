@@ -102,14 +102,17 @@ class _MyAccountState extends State<MyAccount> {
                               ),
                         ),
                         SizedBox(height: 10),
-                        Text(
-                          'Usuário desde ${DateFormat('dd/MM/y hh:mm').format(DateTime.parse(userProvider.createdAt)).split(' ').first}',
-                          textAlign: TextAlign.start,
-                          style: Theme.of(context).textTheme.headline1.copyWith(
-                                color: Colors.black,
-                                fontWeight: FontWeight.w800,
-                                fontSize: 12,
-                              ),
+                        Align(
+                          alignment: Alignment(0.5, 1),
+                          child: Text(
+                            'Usuário desde ${DateFormat('dd/MM/y hh:mm').format(DateTime.parse(userProvider.createdAt)).split(' ').first}',
+                            textAlign: TextAlign.end,
+                            style: Theme.of(context).textTheme.headline1.copyWith(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w800,
+                                  fontSize: 12,
+                                ),
+                          ),
                         ),
                         SizedBox(
                             height: MediaQuery.of(context).size.height * 0.07),
@@ -466,6 +469,10 @@ class _MyAccountState extends State<MyAccount> {
                                   auth.signOut();
                                   userProvider.changeUid(null);
                                   userProvider.changeUserReference(null);
+                                  userProvider.changeTotalAdopted(0);
+                                  userProvider.changeTotalDisappeared(0);
+                                  userProvider.changeTotalDonated(0);
+                                  userProvider.changeTotalToDonate(0);
                                   Navigator.pop(context);
                                 },
                                 confirmText: 'Sim',
