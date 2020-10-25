@@ -408,17 +408,19 @@ class _PetDetailsState extends State<PetDetails> {
                                   }
 
                                   if (canSend) {
-                                    PetController petController =
-                                        new PetController();
+                                    PetController petController = new PetController();
                                     petController.showInterestOrInfo(
                                       petName: widget.pet.name,
+                                      petAvatar: widget.pet.avatar,
+                                      petBreed: widget.pet.breed,
                                       interestedNotificationToken: userProvider.notificationToken,
                                       ownerNotificationToken: widget.petOwner.notificationToken,
-                                      userName: userProvider.displayName,
+                                      interestedID: userProvider.uid,
+                                      ownerID: widget.petOwner.id,
+                                      interestedName: userProvider.displayName,
                                       petReference: widget.pet.petReference,
                                       userReference: userProvider.userReference,
-                                      interestedAt:
-                                          DateTime.now().toIso8601String(),
+                                      interestedAt: DateTime.now().toIso8601String(),
                                       userLocation: userLocal,
                                       userPosition: userPosition,
                                       isAdopt: widget.kind == 'DONATE',
