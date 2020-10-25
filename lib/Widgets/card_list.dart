@@ -154,35 +154,35 @@ class _CardListState extends State<CardList> {
                     padding: const EdgeInsets.all(8.0),
                     child: Row(
                       children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              widget.petInfo.toMap()['name'],
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .headline1
-                                  .copyWith(
-                                      fontWeight: FontWeight.w700,
-                                      color: Colors.black,
-                                      fontSize: 25),
-                            ),
-                            SizedBox(height: 10),
-                            Text(
-                              widget.petInfo.toMap()['breed'],
-                            ),
-                            SizedBox(height: 20),
-                            StreamBuilder(
-                                stream: UserController().getUserSnapshot(widget.petInfo.toMap()['ownerReference']),
-                                builder: (context, snapshot) {
-                                  if (snapshot.connectionState == ConnectionState.waiting || snapshot.data == null) {
-                                    return Text('');
-                                  }                 
+                        Container(
+                          width: width - 100,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                widget.petInfo.toMap()['name'],
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .headline1
+                                    .copyWith(
+                                        fontWeight: FontWeight.w700,
+                                        color: Colors.black,
+                                        fontSize: 25),
+                              ),
+                              SizedBox(height: 10),
+                              Text(
+                                widget.petInfo.toMap()['breed'],
+                              ),
+                              SizedBox(height: 20),
+                              StreamBuilder(
+                                  stream: UserController().getUserSnapshot(widget.petInfo.toMap()['ownerReference']),
+                                  builder: (context, snapshot) {
+                                    if (snapshot.connectionState == ConnectionState.waiting || snapshot.data == null) {
+                                      return Text('');
+                                    }                 
 
-                                  String announcerName = snapshot.data.data()['uid'] == userProvider.uid ? 'Você' : snapshot.data.data()['displayName'];
-                                  return Container(
-                                    width: width - 100,
-                                    child: Text(
+                                    String announcerName = snapshot.data.data()['uid'] == userProvider.uid ? 'Você' : snapshot.data.data()['displayName'];
+                                    return Text(
                                       '$announcerName está ${widget.kind.toUpperCase() == 'DONATE' ? 'doando' : 'procurando'}.',
                                       textAlign: TextAlign.left,
                                       overflow: TextOverflow.fade,
@@ -193,10 +193,10 @@ class _CardListState extends State<CardList> {
                                             fontWeight: FontWeight.w700,
                                             color: Colors.black,
                                           ),
-                                    ),
-                                  );
-                                }),
-                          ],
+                                    );
+                                  }),
+                            ],
+                          ),
                         ),
                         Spacer(),
                         Column(
