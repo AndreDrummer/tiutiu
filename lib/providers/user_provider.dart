@@ -198,7 +198,7 @@ class UserProvider with ChangeNotifier {
         userThatWillReceiveNotification = data['ownerID'];
         break;
       case 'adoptionConfirmed':
-        notificationData.putIfAbsent('userReference', () => data['userReference']);
+        notificationData.putIfAbsent('userReference', () => data['interestedReference']);
         notificationData.putIfAbsent('notificationType', () => data['notificationType']);
         notificationData.putIfAbsent('petReference', () => data['petReference']);
         notificationData.putIfAbsent('time', () => DateTime.now().toIso8601String());
@@ -213,7 +213,7 @@ class UserProvider with ChangeNotifier {
         notificationData.putIfAbsent('petReference', () => data['petReference']);
         notificationData.putIfAbsent('time', () => DateTime.now().toIso8601String());
         notificationData.putIfAbsent('title', () => 'Confirme adoção!');
-        notificationData.putIfAbsent('message', () => '${data['ownerName']} pediu que você confirme a adoção de ${data['petName']}.');
+        notificationData.putIfAbsent('message', () => '${data['ownerName']} pediu que você confirme a adoção de ${data['name']}.');
         notificationData.putIfAbsent('open', () => false);
         userThatWillReceiveNotification = data['interestedID'];
         break;
