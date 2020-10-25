@@ -146,14 +146,14 @@ class _InterestedListState extends State<InterestedList> {
                   itemCount: snapshot.data.length,
                   itemBuilder: (_, index) {
                     return FutureBuilder<Object>(
-                      future: snapshot.data[index].userReference.get(),
+                      future: snapshot.data[index]?.userReference?.get(),
                       builder: (context, interestedReferenceSnapshot) {
                         if (snapshot.connectionState ==
                             ConnectionState.waiting) {
                           return CircularProgressIndicator();
                         }
                         if (!interestedReferenceSnapshot.hasData) {
-                          return LoadingBumpingLine.circle(size: 30);
+                          return Container();
                         }
                         User interestedUser =
                             User.fromSnapshot(interestedReferenceSnapshot.data);
