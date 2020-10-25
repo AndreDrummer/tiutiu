@@ -37,7 +37,7 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
   bool isAuthenticated;
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   AdsProvider adsProvider;
-  
+
   @override
   void initState() {
     super.initState();
@@ -52,13 +52,15 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
     if (widget.kind != null) {
       switch (widget.kind) {
         case 'Donate':
-          return userController.loadMyPostedPetsToDonate(userId: userProvider.uid);
+          return userController.loadMyPostedPetsToDonate(
+              userId: userProvider.uid);
           break;
         case 'Disappeared':
-          return userController.loadMyPostedPetsDisappeared(userId: userProvider.uid);
+          return userController.loadMyPostedPetsDisappeared(
+              userId: userProvider.uid);
           break;
         default:
-          return userController.loadMyAdoptedPets(userId: userProvider.uid);        
+          return userController.loadMyAdoptedPets(userId: userProvider.uid);
       }
     } else {
       print('Load donated');
@@ -68,8 +70,8 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
 
   @override
   void didChangeDependencies() {
-    userProvider = Provider.of(context, listen: false);            
-    
+    userProvider = Provider.of(context, listen: false);
+
     auth = Provider.of<Authentication>(context);
     petsProvider = Provider.of<PetsProvider>(context);
     isAuthenticated = auth.firebaseUser != null;
@@ -79,17 +81,18 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
 
   void delete(DocumentReference petRef) {
     petController.deletePet(petRef);
-    if(widget.kind == 'Donate') {
+    if (widget.kind == 'Donate') {
       userController.loadMyPostedPetsToDonate(userId: userProvider.uid);
     } else {
       userController.loadMyPostedPetsDisappeared(userId: userProvider.uid);
-    }    
+    }
     userProvider.calculateTotals();
   }
 
   void _addNewPet() {
     if ((widget.kind != 'Adopted' || widget.kind == null) && isAuthenticated) {
-      Navigator.pushReplacementNamed(context, Routes.CHOOSE_LOCATION, arguments: {'kind': widget.kind});
+      Navigator.pushReplacementNamed(context, Routes.CHOOSE_LOCATION,
+          arguments: {'kind': widget.kind});
     } else {
       Navigator.pushAndRemoveUntil(
           context,
@@ -145,10 +148,10 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
                 )
               ],
         title: Text(
-          widget.title,
+          widget.title.toUpperCase(),
           style: Theme.of(context).textTheme.headline1.copyWith(
-                fontSize: 22,
-                fontWeight: FontWeight.w800,
+                fontSize: 20,
+                fontWeight: FontWeight.w700,
               ),
         ),
       ),
@@ -168,11 +171,12 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
                 return LoadingScreen(text: 'Carregando meus pets');
               }
 
-              if(snapshot.data == null) {
+              if (snapshot.data == null) {
                 print('SNAPSHOT.DATA É NULL');
               }
 
-              List<Pet> pets = petsProvider.getPetListFromSnapshots(snapshot.data.docs);              
+              List<Pet> pets =
+                  petsProvider.getPetListFromSnapshots(snapshot.data.docs);
 
               if (pets.isEmpty) {
                 return Column(
@@ -224,8 +228,7 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
                                       height: height / 3.5,
                                       width: double.infinity,
                                       decoration: BoxDecoration(
-                                        borderRadius:
-                                            BorderRadius.circular(12),
+                                        borderRadius: BorderRadius.circular(12),
                                       ),
                                       child: ClipRRect(
                                         borderRadius: BorderRadius.only(
@@ -235,8 +238,8 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
                                         child: FadeInImage(
                                           placeholder:
                                               AssetImage('assets/fadeIn.jpg'),
-                                          image: NetworkImage(
-                                              pets[index].avatar),
+                                          image:
+                                              NetworkImage(pets[index].avatar),
                                           height: 1000,
                                           width: 1000,
                                           fit: BoxFit.fitWidth,
@@ -249,8 +252,8 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
                                         : Positioned(
                                             top: 20,
                                             right: 5,
-                                            child: _lablePetKind(
-                                                pets[index].kind),
+                                            child:
+                                                _lablePetKind(pets[index].kind),
                                           )
                                   ],
                                 ),
@@ -274,8 +277,7 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
                                                   .copyWith(
                                                     fontSize: 22,
                                                     color: Colors.black,
-                                                    fontWeight:
-                                                        FontWeight.w700,
+                                                    fontWeight: FontWeight.w700,
                                                   ),
                                             ),
                                             SizedBox(height: 10),
@@ -287,8 +289,7 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
                                                   .copyWith(
                                                     fontSize: 16,
                                                     color: Colors.grey,
-                                                    fontWeight:
-                                                        FontWeight.w300,
+                                                    fontWeight: FontWeight.w300,
                                                   ),
                                             ),
                                           ],
@@ -319,7 +320,7 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
                                                       MaterialPageRoute(
                                                         builder: (context) {
                                                           return ChooseLocation(
-                                                            editMode: true,                                                            
+                                                            editMode: true,
                                                             pet: pets[index],
                                                           );
                                                         },
@@ -341,22 +342,23 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
                                     )
                                   ],
                                 ),
-                                widget.kind == null ||
-                                        widget.kind == 'Adopted'
+                                widget.kind == null || widget.kind == 'Adopted'
                                     ? Container()
                                     : Column(
                                         children: [
                                           Divider(),
                                           Padding(
-                                            padding:
-                                                const EdgeInsets.all(8.0),
+                                            padding: const EdgeInsets.all(8.0),
                                             child: InkWell(
                                               onTap: () {
                                                 Navigator.push(
                                                   context,
                                                   MaterialPageRoute(
                                                     builder: (context) {
-                                                      return InterestedList(pet: pets[index],kind: pets[index].kind);
+                                                      return InterestedList(
+                                                          pet: pets[index],
+                                                          kind:
+                                                              pets[index].kind);
                                                     },
                                                   ),
                                                 );
@@ -379,17 +381,50 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
                                                     child: Icon(Icons.menu),
                                                   ),
                                                   SizedBox(width: 10),
-                                                  Text(
-                                                    pets[index]
-                                                                .kind ==
-                                                            'Donate'
-                                                        ? 'Ver lista de interessados'
-                                                        : 'Ver notificações',
-                                                    style: TextStyle(
-                                                      decoration:
-                                                          TextDecoration
+                                                  Row(
+                                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                    children: [
+                                                      Text(
+                                                        pets[index].kind == 'Donate'
+                                                            ? 'Ver lista de interessados'
+                                                            : 'Ver notificações',
+                                                        style: TextStyle(
+                                                          decoration: TextDecoration
                                                               .underline,
-                                                    ),
+                                                        ),
+                                                      ),
+                                                      pets[index].kind == 'Disappeared' ? Row(
+                                                        children: [
+                                                          SizedBox(width: 50),
+                                                          Text('Econtrado'),
+                                                          StreamBuilder<Object>(
+                                                            stream: null,
+                                                            builder: (context, snapshot) {
+                                                              return Switch(value: pets[index].found, onChanged: (value) {
+                                                                showDialog(
+                                                                  context: context,
+                                                                  builder: (context) {
+                                                                    return PopUpMessage(
+                                                                      warning: true,
+                                                                      title: 'Marcar como encontrado',
+                                                                      message: 'Ao ${!pets[index].found ? 'marcar' : 'desmarcar'} o PET ${!pets[index].found ? 'deixará de' : 'voltará a'} aparecer para o público',
+                                                                      confirmAction: () {
+                                                                        Navigator.pop(context);
+                                                                        pets[index].petReference.set({'found': !pets[index].found}, SetOptions(merge: true));
+                                                                      },
+                                                                      confirmText: !pets[index].found ? 'Pode marcar' : 'Desmarcar',
+                                                                      denyAction: () => Navigator.pop(context),
+                                                                      denyText: !pets[index].found ? 'Não marcar agora' : 'Não desmarcar',
+
+                                                                    );
+                                                                  }
+                                                                );
+                                                              });
+                                                            }
+                                                          ),
+                                                        ],
+                                                      ) : Container()
+                                                    ],
                                                   ),
                                                 ],
                                               ),
