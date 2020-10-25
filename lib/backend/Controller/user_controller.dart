@@ -84,6 +84,7 @@ class UserController {
 
     var petData = pet.toMap();
     petData.remove('photos');
+    petData.remove('ownerId');
 
     data.addAll(petData);
 
@@ -146,14 +147,15 @@ class UserController {
       if (interestedUsers[i].data()['userReference'] == userThatAdoptedReference) {
         var data = interestedUsers[i].data();
         data['gaveup'] = true;
-        data.putIfAbsent('notificationType', () => 'adoptionDeny');
+        data['notificationType'] = 'adoptionDeny';
         petReference.collection('adoptInteresteds').doc(interestedUsers[i].id).set(data);
         break;
       }
     }
 
     final pathToPetAdopted = await firestore.collection('Adopted').where('interestedReference', isEqualTo: userThatAdoptedReference).get();
-    pathToPetAdopted.docs.first.reference.delete();    
+    pathToPetAdopted.docs.first.reference.set({'notificationType': 'adoptionDeny'}, SetOptions(merge: true));
+    pathToPetAdopted.docs.first.reference.delete();
   }  
 
   Future<void> insertUser(User user) async {
