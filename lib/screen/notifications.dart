@@ -136,8 +136,7 @@ class _ListTile extends StatelessWidget {
           );
         }),
       );
-    }
-    userProvider.loadNotificationsCount();
+    }    
   }
 
   @override
