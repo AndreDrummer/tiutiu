@@ -24,7 +24,7 @@ class _MyAccountState extends State<MyAccount> {
 
   @override
   void didChangeDependencies() {
-    userProvider = Provider.of<UserProvider>(context, listen: false);    
+    userProvider = Provider.of<UserProvider>(context, listen: false);
     adsProvider = Provider.of(context);
     super.didChangeDependencies();
   }
@@ -107,11 +107,12 @@ class _MyAccountState extends State<MyAccount> {
                           child: Text(
                             'Usuário desde ${DateFormat('dd/MM/y hh:mm').format(DateTime.parse(userProvider.createdAt)).split(' ').first}',
                             textAlign: TextAlign.end,
-                            style: Theme.of(context).textTheme.headline1.copyWith(
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.w800,
-                                  fontSize: 12,
-                                ),
+                            style:
+                                Theme.of(context).textTheme.headline1.copyWith(
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.w800,
+                                      fontSize: 12,
+                                    ),
                           ),
                         ),
                         SizedBox(
@@ -432,7 +433,7 @@ class _MyAccountState extends State<MyAccount> {
                       children: [
                         InkWell(
                           onTap: () async {
-                            Navigator.pushNamed(context, Routes.SETTINGS);                            
+                            Navigator.pushNamed(context, Routes.SETTINGS);
                           },
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
@@ -466,13 +467,8 @@ class _MyAccountState extends State<MyAccount> {
                               context: context,
                               builder: (context) => PopUpMessage(
                                 confirmAction: () {
-                                  auth.signOut();
-                                  userProvider.changeUid(null);
-                                  userProvider.changeUserReference(null);
-                                  userProvider.changeTotalAdopted(0);
-                                  userProvider.changeTotalDisappeared(0);
-                                  userProvider.changeTotalDonated(0);
-                                  userProvider.changeTotalToDonate(0);
+                                  auth.signOut();                                  
+                                  userProvider.clearUserDataOnSignOut();                                  
                                   Navigator.pop(context);
                                 },
                                 confirmText: 'Sim',
@@ -510,11 +506,13 @@ class _MyAccountState extends State<MyAccount> {
                       ],
                     ),
                   ),
-                  adsProvider.getCanShowAds ? adsProvider.bannerAdMob(adId: adsProvider.bottomAdId) : Container(),
+                  adsProvider.getCanShowAds
+                      ? adsProvider.bannerAdMob(adId: adsProvider.bottomAdId)
+                      : Container(),
                   Opacity(
                     opacity: 0.7,
                     child: Image.asset('assets/trofeu.jpg', fit: BoxFit.fill),
-                  ),                  
+                  ),
                   SizedBox(height: height < 500 ? 220 : 0)
                 ],
               ),
