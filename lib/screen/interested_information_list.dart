@@ -4,7 +4,6 @@ import 'package:intl/intl.dart';
 import 'package:loading_animations/loading_animations.dart';
 import 'package:provider/provider.dart';
 import 'package:tiutiu/Widgets/empty_list.dart';
-import 'package:tiutiu/Widgets/fullscreen_images.dart';
 import 'package:tiutiu/Widgets/load_dark_screen.dart';
 import 'package:tiutiu/Widgets/loading_page.dart';
 import 'package:tiutiu/Widgets/popup_message.dart';
@@ -54,7 +53,7 @@ class _InterestedListState extends State<InterestedList> {
   }) async {
     await userController
         .donatePetToSomeone(
-      pet: pet,
+      pet: pet,      
       interestedID: interestedID,
       interestedName: interestedName,
       ownerReference: ownerReference,
@@ -207,24 +206,14 @@ class _InterestedListState extends State<InterestedList> {
                                               Navigator.pop(context);
                                               changeIsSinalizingStatus(true);
                                               await donatePetToSomeone(
-                                                interestedName:
-                                                    interestedUser.name,
-                                                ownerReference:
-                                                    userProvider.userReference,
+                                                interestedName: interestedUser.name,                                                
+                                                ownerReference: userProvider.userReference,
                                                 pet: widget.pet,
                                                 interestedID: interestedUser.id,
-                                                interestedNotificationToken:
-                                                    interestedUser
-                                                        .notificationToken,
-                                                ownerNotificationToken:
-                                                    userProvider
-                                                        .notificationToken,
-                                                interestedReference:
-                                                    await userController
-                                                        .getReferenceById(
-                                                            interestedUser.id),
-                                                userPosition: snapshot
-                                                    .data[index].position,
+                                                interestedNotificationToken: interestedUser.notificationToken,
+                                                ownerNotificationToken: userProvider .notificationToken,
+                                                interestedReference: await userController.getReferenceById(interestedUser.id),
+                                                userPosition: snapshot.data[index].position,
                                               );
                                               changeIsSinalizingStatus(false);
                                             },
@@ -251,9 +240,9 @@ class _InterestedListState extends State<InterestedList> {
                                     ? _bagde('Doar')
                                     : snapshot.data[index].gaveup
                                         ? _bagde('Desistiu', color: Colors.red)
-                                        : _bagde('Aguardando confirmação',
-                                            color: Colors.green)
-                                : _bagde('Ver info', color: Colors.blue),
+                                        : _bagde(snapshot.data[index].donated ? 'Adotado' :  'Aguardando confirmação',
+                                            color: snapshot.data[index].donated ? Colors.green : Colors.amber)
+                                : _bagde('Ver info', color: Colors.blue)
                           ),
                         );
                       },

@@ -10,6 +10,7 @@ class InterestedModel {
     this.interestedAt,
     this.sinalized = false,
     this.gaveup = false,
+    this.donated = false,
     this.userName,
     this.petName
   });
@@ -22,6 +23,7 @@ class InterestedModel {
     interestedAt = snapshot.data()['interestedAt'];
     sinalized = snapshot.data()['sinalized'];
     gaveup = snapshot.data()['gaveup'];
+    donated = snapshot.data()['donated'];
     userName = snapshot.data()['userName'];
     petName = snapshot.data()['petName'];    
   }
@@ -34,6 +36,7 @@ class InterestedModel {
     interestedAt = map['interestedAt'];
     sinalized = map['sinalized'];
     gaveup = map['gaveup'];
+    donated = map['donated'];
     petName = map['petName'];
     userName = map['userName'];
   }
@@ -42,6 +45,7 @@ class InterestedModel {
   double userLat;
   bool sinalized;
   bool gaveup;
+  bool donated;
   double userLog;
   String interestedAt;
   String userName;
