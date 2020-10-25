@@ -82,7 +82,10 @@ class UserController {
       'interestedID': interestedID,
     };
 
-    data.addAll(pet.toMap());
+    var petData = pet.toMap();
+    petData.remove('photos');
+
+    data.addAll(petData);
 
     // print("DATA $data");
 
@@ -110,8 +113,26 @@ class UserController {
   }
 
   Future<void> confirmDonate(DocumentReference petReference, DocumentReference userThatAdoptedReference) async {
+    final interestedRef = await petReference.collection('adoptInteresteds').get();
+    List interestedUsers = interestedRef.docs;
+
+    for (int i = 0; i < interestedUsers.length; i++) {
+      print("${interestedUsers[i].data()['userReference']} == $userThatAdoptedReference");
+      if (interestedUsers[i].data()['userReference'] == userThatAdoptedReference) {
+        var data = interestedUsers[i].data();
+        data['donated'] = true;
+        petReference.collection('adoptInteresteds').doc(interestedUsers[i].id).set(data);
+        break;
+      }
+    }
+
     await petReference.set({'donated': true, 'whoAdoptedReference': userThatAdoptedReference}, SetOptions(merge: true));
-    final pathToPetAdopted = await firestore.collection('Adopted').where('interestedReference', isEqualTo: userThatAdoptedReference).get();
+    final pathToPetAdopted = await firestore.collection('Adopted')
+    .where('confirmed', isEqualTo: false)
+    // .where('petReference', isEqualTo: petReference)
+    // .where('interestedReference', isEqualTo: userThatAdoptedReference)
+    .get();
+
     pathToPetAdopted.docs.first.reference.set({
       'confirmed': true,
       'notificationType': 'adoptionConfirmed',

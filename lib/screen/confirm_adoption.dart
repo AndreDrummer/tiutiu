@@ -198,7 +198,7 @@ class _ConfirmAdoptionScreenState extends State<ConfirmAdoptionScreen> {
                                   denyOrConfirmAdoption(
                                     confirmAction: true,
                                     petName: pets[index].name,
-                                    petRef: pets[index].petReference,
+                                    petRef: snapshot.data.docs[index].data()['petReference'],
                                     userRef: userProvider.userReference,
                                   );
                                 },
@@ -223,7 +223,7 @@ class _ConfirmAdoptionScreenState extends State<ConfirmAdoptionScreen> {
                                   denyOrConfirmAdoption(
                                     confirmAction: false,
                                     petName: pets[index].name,
-                                    petRef: pets[index].petReference,
+                                    petRef: snapshot.data.docs[index].data()['petReference'],
                                     userRef: userProvider.userReference,
                                   );
                                 },
