@@ -41,7 +41,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Notificações',
+          'Notificações'.toUpperCase(),
           style: Theme.of(context).textTheme.headline1.copyWith(
                 fontSize: 20,
                 fontWeight: FontWeight.w700,
@@ -88,8 +88,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
 
                           return _ListTile(
                               notificationModel: notificationModel,
-                              notificationRef:
-                                  snapshot.data.docs[index].reference,
+                              notificationRef: snapshot.data.docs[index].reference,
                               userProvider: userProvider);
                         },
                       ),

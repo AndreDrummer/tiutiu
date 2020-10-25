@@ -229,7 +229,7 @@ class UserController {
     .where('ownerReference', isEqualTo: userReference).get();
     QuerySnapshot petsDisappeared = await FirebaseFirestore.instance.collection('Disappeared')
     .where('ownerReference', isEqualTo: userReference).get();
-    QuerySnapshot petsAdopted = await FirebaseFirestore.instance.collection('Adopteds')
+    QuerySnapshot petsAdopted = await FirebaseFirestore.instance.collection('Adopted')
     .where('interestedReference', isEqualTo: userReference).get();
     
     for(int i = 0; i < notifications.docs.length; i++) {
