@@ -46,7 +46,8 @@ class _InformantesScreenState extends State<InformantesScreen> {
     InterestedModel informante = arguments['informanteInfo'] as InterestedModel;
 
     return Scaffold(
-      appBar: AppBar(title: Text('${arguments['petName']} foi visto aqui'.toUpperCase())),
+      appBar: AppBar(
+          title: Text('${arguments['petName']} foi visto aqui'.toUpperCase())),
       body: StreamBuilder(
         stream: userInfoOrAdoptInterestsProvider.info,
         builder: (context, snapshot) {
@@ -120,18 +121,17 @@ class _InformantesScreenState extends State<InformantesScreen> {
     double informanteLat,
     double informanteLng,
     Function() onUserView,
-  }) {    
-    return Container(      
-      height: MediaQuery.of(context).size.height / 3.2,
-      child: Card(
-        shape: RoundedRectangleBorder(
+  }) {
+    return Card(
+      shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(12),
-            topRight: Radius.circular(12),
-          )
-        ),      
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 8.0),
+        topLeft: Radius.circular(12),
+        topRight: Radius.circular(12),
+      )),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 8.0),
+        child: Container(
+          height: MediaQuery.of(context).size.height / 3,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
@@ -158,18 +158,20 @@ class _InformantesScreenState extends State<InformantesScreen> {
                     SizedBox(width: 15),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [    
-                        Text('Visto dia ${DateFormat('dd/MM/yyyy HH:mm').format(DateTime.parse(dateTime)).split(' ').first} às ${DateFormat('dd/MM/yyyy HH:mm').format(DateTime.parse(dateTime)).split(' ').last}, próximo à',
-                            style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w700,
-                            ),
+                      children: [
+                        Text(
+                          'Visto dia ${DateFormat('dd/MM/yyyy HH:mm').format(DateTime.parse(dateTime)).split(' ').first} às ${DateFormat('dd/MM/yyyy HH:mm').format(DateTime.parse(dateTime)).split(' ').last}, próximo à',
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w700,
                           ),
+                        ),
                         SizedBox(height: 5),
                         Container(
                           width: MediaQuery.of(context).size.width * 0.8,
                           child: FutureBuilder(
-                            future: getAddress(Location(informanteLat, informanteLng)),
+                            future: getAddress(
+                                Location(informanteLat, informanteLng)),
                             builder: (context, snapshot) {
                               if (snapshot.data == null) {
                                 return Center(
@@ -178,7 +180,8 @@ class _InformantesScreenState extends State<InformantesScreen> {
                               }
                               return Text(
                                 snapshot.data,
-                                style: TextStyle(fontSize: 12),
+                                style: TextStyle(
+                                    fontSize: 12, color: Colors.blueGrey),
                               );
                             },
                           ),
@@ -203,10 +206,11 @@ class _InformantesScreenState extends State<InformantesScreen> {
                     Container(
                       padding: const EdgeInsets.symmetric(horizontal: 2.0),
                       width: MediaQuery.of(context).size.width - 10,
-                      height: 150,
+                      height: details.isEmpty ? 222 : 160,
                       child: FadeInImage(
                         placeholder: AssetImage('assets/static_map.jpg'),
-                        image: NetworkImage(''),
+                        image: NetworkImage(
+                            'https://maps.googleapis.com/maps/api/staticmap?center=$informanteLat, $informanteLng&zoom=15&markers=color:red%7Clabel:%7c$informanteLat,%20$informanteLng&size=600x400&key=${Constantes.WEB_API_KEY}'),
                         fit: BoxFit.cover,
                         width: 1000,
                         height: 100,
@@ -224,11 +228,21 @@ class _InformantesScreenState extends State<InformantesScreen> {
                   ],
                 ),
               ),
-              SizedBox(height: 16),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 4.0),
-                child: Text(details.isNotEmpty ? 'Detalhes: $details ': ''),
-              )
+              details.isNotEmpty
+                  ? SingleChildScrollView(
+                      child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SizedBox(height: 10),
+                        Text(
+                          'Detalhes: $details',
+                          style: TextStyle(
+                            fontSize: 12,
+                          ),
+                        ),
+                      ],
+                    ))
+                  : Container()
             ],
           ),
         ),
