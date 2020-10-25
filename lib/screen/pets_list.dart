@@ -27,17 +27,7 @@ class PetsList extends StatelessWidget {
         appBar: AppBar(
           leading: null,
           title: Row(            
-            children: [
-              Container(
-                padding: const EdgeInsets.all(2.50),
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.white),
-                  borderRadius: BorderRadius.circular(25),
-                ),
-                child: Image.asset('assets/pata.jpg',
-                    width: 20, height: 20, color: Colors.white),
-              ),
-              SizedBox(width: 15),
+            children: [                            
               Text(
                 'Tiu, tiu',
                 style: GoogleFonts.miltonianTattoo(

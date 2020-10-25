@@ -139,12 +139,7 @@ class _SettingsState extends State<Settings> {
       child: PopUpMessage(
         confirmAction: () {
           auth.signOut();
-          userProvider.changeUid(null);
-          userProvider.changeUserReference(null);
-          userProvider.changeTotalAdopted(0);
-          userProvider.changeTotalDisappeared(0);
-          userProvider.changeTotalDonated(0);
-          userProvider.changeTotalToDonate(0);
+          userProvider.clearUserDataOnSignOut();
           userProvider.changeRecentlyAuthenticated(true);
           Navigator.popUntil(context, ModalRoute.withName('/'));
         },
