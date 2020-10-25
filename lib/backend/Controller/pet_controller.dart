@@ -38,78 +38,34 @@ class PetController {
     return Pet.fromSnapshot(pet);
   }
 
-  Stream<QuerySnapshot> getPetsByUser(String petKind, String userId) {
-    return firestore.collection(petKind)
-    .where('ownerId', isEqualTo: userId).snapshots();    
+  Stream<QuerySnapshot> getPetsByUser(String petKind, String userId, {bool isAdopted = false}) {
+    Query query = firestore.collection(petKind)
+    .where(isAdopted ? 'interestedID' : 'ownerId', isEqualTo: userId);    
+    if(petKind == 'Donate') query  = query..where('donated', isEqualTo: false);
+    if(isAdopted) query  = query.where('confirmed', isEqualTo: true);
+
+    return query.snapshots();
   }
 
-  // Future<List<Pet>> getAllPetsByKind(String userId, {String kind, bool isAdopted = true}) async {
-  //   List<Pet> myPets = [];
-
-  //   var postedPets = firestore
-  //       .collection('Users')
-  //       .doc(userId)
-  //       .collection('Pets')
-  //       .doc('posted');
-
-  //   if (kind != null) {
-  //     if (kind == 'Donate') {
-  //       var donatesSnapshots = await firestore
-  //           .collection(kind)
-  //           .where('donated', isEqualTo: false)
-  //           .get();
-  //       for (int i = 0; i < donatesSnapshots.docs.length; i++) {
-  //         myPets.add(Pet.fromSnapshot(donatesSnapshots.docs[i]));
-  //       }
-  //     } else if (kind == 'Adopted' && isAdopted) {
-  //       var adoptedsSnapshots = await firestore            
-  //           .collection('Adopteds')
-  //           .where('confirmed', isEqualTo: isAdopted)
-  //           .get();
-
-  //       for (int i = 0; i < adoptedsSnapshots.docs.length; i++) {
-  //         DocumentSnapshot adopted = await adoptedsSnapshots.docs[i].data()['petRef'].get();
-  //         myPets.add(Pet.fromSnapshot(adopted));
-  //       }
-  //     } else {
-  //       var disappearedSnapshots = await postedPets
-  //           .collection('Disappeared')
-  //           .where('found', isEqualTo: false)
-  //           .get();
-  //       for (int i = 0; i < disappearedSnapshots.docs.length; i++) {
-  //         myPets.add(Pet.fromSnapshot(disappearedSnapshots.docs[i]));
-  //       }
-  //     }
-  //   } else {
-  //     var donates = await postedPets
-  //         .collection('Donate')
-  //         .where('donated', isEqualTo: false)
-  //         .get();
-  //     var disappeared = await postedPets
-  //         .collection('Disappeared')
-  //         .where('found', isEqualTo: false)
-  //         .get();
-
-  //     for (int i = 0; i < donates.docs.length; i++) {
-  //       myPets.add(Pet.fromSnapshot(donates.docs[i]));
-  //     }
-  //     for (int i = 0; i < disappeared.docs.length; i++) {
-  //       myPets.add(Pet.fromSnapshot(disappeared.docs[i]));
-  //     }
-  //   }
-
-  //   return myPets;
-  // }
-   
-
+  Stream<QuerySnapshot> getAdoptionsToConfirm(String userId) {
+    return firestore.collection('Adopted')
+    .where('interestedID', isEqualTo: userId)
+    .where('confirmed', isEqualTo: false).snapshots();    
+  }  
+     
   Future<void> showInterestOrInfo({
     DocumentReference petReference,
     DocumentReference userReference,
     String interestedAt,
     String ownerNotificationToken,
     String interestedNotificationToken,
-    String userName,
+    String ownerID,
+    String interestedID,
+    String interestedName,
     String petName,
+    String petAvatar,
+    String petBreed,
+    String infoDetails,
     LatLng userLocation,
     int userPosition, 
     bool isAdopt = false,
@@ -120,15 +76,21 @@ class PetController {
       await petRef.reference.collection('adoptInteresteds').doc().set(
         {
           'notificationType': 'wannaAdopt',
-          'userName': userName,
+          'interestedName': interestedName,
           'petName': petName,
+          'petAvatar': petAvatar,
+          'petBreed': petBreed,
           'userReference': userReference,
           'petReference': petReference,
+          'ownerID': ownerID,
+          'infoDetails': infoDetails,
+          'interestedID': interestedID,
           'userLat': userLocation.latitude,
           'userLog': userLocation.longitude,
           'position': userPosition,
           'sinalized': false,
           'gaveup': false,
+          'donated': false,
           'interestedAt': interestedAt,
           'interestedNotificationToken': interestedNotificationToken,
           'ownerNotificationToken': ownerNotificationToken,
@@ -137,16 +99,22 @@ class PetController {
       );
     } else {
       await petRef.reference.collection('infoInteresteds').doc().set(
-        {
+        {          
           'notificationType': 'petInfo',
-          'userName': userName,
+          'interestedName': interestedName,
           'petName': petName,
+          'petAvatar': petAvatar,
+          'infoDetails': infoDetails,
+          'petBreed': petBreed,
           'userReference': userReference,
           'petReference': petReference,
+          'ownerID': ownerID,
+          'interestedID': interestedID,
           'userLat': userLocation.latitude,
           'userLog': userLocation.longitude,
           'position': userPosition,
           'sinalized': false,
+          'donated': false,
           'gaveup': false,
           'interestedAt': interestedAt,
           'interestedNotificationToken': interestedNotificationToken,

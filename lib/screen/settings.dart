@@ -141,6 +141,10 @@ class _SettingsState extends State<Settings> {
           auth.signOut();
           userProvider.changeUid(null);
           userProvider.changeUserReference(null);
+          userProvider.changeTotalAdopted(0);
+          userProvider.changeTotalDisappeared(0);
+          userProvider.changeTotalDonated(0);
+          userProvider.changeTotalToDonate(0);
           userProvider.changeRecentlyAuthenticated(true);
           Navigator.popUntil(context, ModalRoute.withName('/'));
         },
@@ -515,7 +519,7 @@ class _SettingsState extends State<Settings> {
                         bottom: 5,
                         right: 5,
                         child: Container(
-                          height: 35,
+                          height: 30,
                           color: Colors.black38,
                           child: FlatButton(
                             onPressed: () =>
