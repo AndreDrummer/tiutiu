@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:loading_animations/loading_animations.dart';
 
 class ErrorPage extends StatelessWidget {
   @override
@@ -11,13 +10,16 @@ class ErrorPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           mainAxisSize: MainAxisSize.min,
           children: [
-            LoadingBouncingGrid.square(
-              size: 100.0,
-              backgroundColor: Theme.of(context).primaryColor,
+            CircleAvatar(
+              radius: 80,
+              child: ClipOval(
+                child: Image.asset('assets/sad-panda.jpg'),
+              ),
             ),
             SizedBox(height: 30.0),
             Text(
-              'Ocorreu um erro no aplicativo!!',
+              'Ocorreu um erro Inesperado! Tente sair e entrar novamente. Se não resolver, aguarde nova atualização do app.',
+              textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.headline1.copyWith(
                     color: Colors.white,
                   ),
