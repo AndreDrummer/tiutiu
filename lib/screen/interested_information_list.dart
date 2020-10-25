@@ -116,8 +116,8 @@ class _InterestedListState extends State<InterestedList> {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.kind == 'Donate'
-            ? 'Pessoas interessadas em ${widget.pet.name}'
-            : 'Pessoas que informaram sobre ${widget.pet.name}'),
+            ? 'Pessoas interessadas em ${widget.pet.name}'.toUpperCase()
+            : 'Pessoas que informaram sobre ${widget.pet.name}'.toUpperCase()),
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(vertical: 8.0),
@@ -197,7 +197,7 @@ class _InterestedListState extends State<InterestedList> {
                             onTap: widget.kind == 'Donate'
                                 ? snapshot.data[index].sinalized
                                     ? () {}
-                                    : () {
+                                    : () {                                      
                                         showDialog(
                                           context: context,
                                           barrierDismissible: false,
@@ -228,7 +228,7 @@ class _InterestedListState extends State<InterestedList> {
                                           ),
                                         );
                                       }
-                                : () {
+                                : () {                                  
                                     Navigator.pushNamed(context, Routes.INFO,
                                         arguments: {
                                           'petName': widget.pet.name,
