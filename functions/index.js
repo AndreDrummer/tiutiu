@@ -9,7 +9,7 @@ exports.createNotificationConfirmAdoption = functions.firestore
         await admin.messaging().sendToDevice(`${snap.data()['interestedNotificationToken']}`, {            
             notification: {                                
                 title: 'Confirme adoção!',
-                body: `${snap.data()['ownerName']} pediu que você confirme a adoção de ${snap.data()['name']}.`,
+                body: `${snap.data()['ownerName']} aceitou seu pedido de adoção. Confirme para adotar o PET ${snap.data()['name']}.`,
                 clickAction: 'FLUTTER_NOTIFICATION_CLICK'
             },
             data: {
@@ -21,7 +21,7 @@ exports.createNotificationConfirmAdoption = functions.firestore
 exports.createNotificationAdoptionConfirmed = functions.firestore
     .document('Adopted/{id}')
     .onUpdate((change, context) => {        
-        if(change.after.data()['confirmed'] === true) {
+        if(change.after.data()['confirmed'] === true) {            
             admin.messaging().sendToDevice(`${change.after.data()['ownerNotificationToken']}`, {
                 notification: {
                     title: 'Adoção confirmada!',
