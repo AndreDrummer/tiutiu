@@ -28,11 +28,25 @@ class _NotificationScreenState extends State<NotificationScreen> {
     super.didChangeDependencies();
   }
 
+  List<QueryDocumentSnapshot> orderedList(List<QueryDocumentSnapshot> docs) {
+    List<QueryDocumentSnapshot> newList = docs;
+    newList.sort((a, b) =>
+        DateTime.parse(b.data()['time']).millisecondsSinceEpoch -
+        DateTime.parse(a.data()['time']).millisecondsSinceEpoch);
+    return newList;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Notificações'),
+        title: Text(
+          'Notificações',
+          style: Theme.of(context).textTheme.headline1.copyWith(
+                fontSize: 20,
+                fontWeight: FontWeight.w700,
+              ),
+        ),
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -70,14 +84,13 @@ class _NotificationScreenState extends State<NotificationScreen> {
                         itemBuilder: (BuildContext context, int index) {
                           NotificationModel notificationModel =
                               NotificationModel.fromSnapshot(
-                            snapshot.data.docs[index],
-                          );                          
+                                  orderedList(snapshot.data.docs)[index]);
 
                           return _ListTile(
-                            notificationModel: notificationModel,
-                            notificationRef: snapshot.data.docs[index].reference,
-                            userProvider: userProvider
-                          );
+                              notificationModel: notificationModel,
+                              notificationRef:
+                                  snapshot.data.docs[index].reference,
+                              userProvider: userProvider);
                         },
                       ),
                     ),
@@ -103,7 +116,7 @@ class _ListTile extends StatelessWidget {
   final DocumentReference notificationRef;
   final UserProvider userProvider;
 
-  Future<String> loadUserAvatar(DocumentReference userRef) async {    
+  Future<String> loadUserAvatar(DocumentReference userRef) async {
     User userData = User.fromSnapshot(await userRef.get());
     return Future.value(userData.photoURL);
   }
@@ -113,9 +126,9 @@ class _ListTile extends StatelessWidget {
     return Future.value(petInfo);
   }
 
-  void handleNavigation(String notificationType, BuildContext context) async {    
-    if(!notificationModel.open) {
-      await notificationRef.set({'open': true}, SetOptions(merge: true));    
+  void handleNavigation(String notificationType, BuildContext context) async {
+    if (!notificationModel.open) {
+      await notificationRef.set({'open': true}, SetOptions(merge: true));
     }
 
     if (notificationType == 'confirmAdoption') {
@@ -136,7 +149,7 @@ class _ListTile extends StatelessWidget {
           );
         }),
       );
-    }    
+    }
   }
 
   @override
@@ -175,13 +188,21 @@ class _ListTile extends StatelessWidget {
             ),
             subtitle: Text(notificationModel.message),
             trailing: Column(
-              children: [           
-                !notificationModel.open ? Badge(
-                  color: Colors.green,
-                  text: 'Nova',
-                ) : Text(''),     
-                Text(DateFormat('dd/MM/y hh:mm').format(DateTime.parse(notificationModel.time)).split(' ').last),                
-                Text(DateFormat('dd/MM/y hh:mm').format(DateTime.parse(notificationModel.time)).split(' ').first)
+              children: [
+                !notificationModel.open
+                    ? Badge(
+                        color: Colors.green,
+                        text: 'Nova',
+                      )
+                    : Text(''),
+                Text(DateFormat('dd/MM/y HH:mm')
+                    .format(DateTime.parse(notificationModel.time))
+                    .split(' ')
+                    .last),
+                Text(DateFormat('dd/MM/y HH:mm')
+                    .format(DateTime.parse(notificationModel.time))
+                    .split(' ')
+                    .first)
               ],
             ),
           ),

@@ -183,12 +183,12 @@ class UserProvider with ChangeNotifier {
         notificationData.putIfAbsent('petReference', () => data['petReference']);
         notificationData.putIfAbsent('time', () => DateTime.now().toIso8601String());
         notificationData.putIfAbsent('title', () => 'Informações sobre seu PET desaparecido!');
-        notificationData.putIfAbsent('message', () => '${data['userName']} viu seu PET próximo a localização dele.');
+        notificationData.putIfAbsent('message', () => '${data['interestedName']} viu seu PET próximo a localização dele.');
         notificationData.putIfAbsent('open', () => false);
         userThatWillReceiveNotification = data['ownerID'];
         break;
       case 'adoptionDeny':
-        notificationData.putIfAbsent('userReference', () => data['userReference']);
+        notificationData.putIfAbsent('userReference', () => data['ownerReference']);
         notificationData.putIfAbsent('notificationType', () => data['notificationType']);
         notificationData.putIfAbsent('petReference', () => data['petReference']);
         notificationData.putIfAbsent('time', () => DateTime.now().toIso8601String());
