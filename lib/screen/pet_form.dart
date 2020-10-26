@@ -171,11 +171,12 @@ class _PetFormState extends State<PetForm> {
                     child: Text('Remover'),
                     onPressed: () {
                       Navigator.pop(context);
-                      if (widget.editMode)
-                        photosToDelete
-                            .add(petFormProvider.getPetPhotos.elementAt(index));
+                      if (widget.editMode) {
+                        photosToDelete.add(petFormProvider.getPetPhotos.elementAt(index));
+                      }
 
                       petFormProvider.getPetPhotos.removeAt(index);
+                      if (petPhotosMulti.elementAt(index).runtimeType == Asset) petPhotosMulti.removeAt(index);
 
                       if (widget.editMode) {
                         petPhotosToUpload.clear();
@@ -184,8 +185,10 @@ class _PetFormState extends State<PetForm> {
 
                       List actualPhotoList = petFormProvider.getPetPhotos;
                       petFormProvider.changePetPhotos(actualPhotoList);
-                      if (!widget.editMode)
+
+                      if (!widget.editMode) {
                         convertImageToUint8List(petFormProvider.getPetPhotos);
+                      }
                     },
                   )
                 ]
@@ -252,12 +255,11 @@ class _PetFormState extends State<PetForm> {
 
   Future<void> multiImages() async {
     List<Asset> resultList = List<Asset>();
-    List actualPhotoList = [...petFormProvider.getPetPhotos];
+    List actualPhotoList = petFormProvider.getPetPhotos;
 
     try {
       resultList = await MultiImagePicker.pickImages(
-        maxImages: 8 - actualPhotoList.length,
-        // enableCamera: true,
+        maxImages: (6 - actualPhotoList.length) + petPhotosMulti.length,        
         selectedAssets: petPhotosMulti,
         materialOptions: MaterialOptions(
           actionBarColor: "#4CAF50",
