@@ -86,9 +86,9 @@ class _NotificationScreenState extends State<NotificationScreen> {
                               NotificationModel.fromSnapshot(
                                   orderedList(snapshot.data.docs)[index]);
 
+  
                           return _ListTile(
-                              notificationModel: notificationModel,
-                              notificationRef: snapshot.data.docs[index].reference,
+                              notificationModel: notificationModel,                              
                               userProvider: userProvider);
                         },
                       ),
@@ -106,13 +106,11 @@ class _NotificationScreenState extends State<NotificationScreen> {
 
 class _ListTile extends StatelessWidget {
   _ListTile({
-    @required this.notificationModel,
-    @required this.notificationRef,
+    @required this.notificationModel,    
     @required this.userProvider,
   });
 
-  final NotificationModel notificationModel;
-  final DocumentReference notificationRef;
+  final NotificationModel notificationModel;  
   final UserProvider userProvider;
 
   Future<String> loadUserAvatar(DocumentReference userRef) async {
@@ -127,7 +125,12 @@ class _ListTile extends StatelessWidget {
 
   void handleNavigation(String notificationType, BuildContext context) async {
     if (!notificationModel.open) {
-      await notificationRef.set({'open': true}, SetOptions(merge: true));
+      print('ABRIU ${notificationModel.open} ${await notificationModel.notificationReference}');
+      try {
+        await notificationModel.notificationReference.set({'open': true}, SetOptions(merge: true));
+      } catch(e) {
+        print('NAO ABRIU $e');
+      }
     }
 
     if (notificationType == 'confirmAdoption') {
