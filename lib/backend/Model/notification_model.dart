@@ -16,7 +16,7 @@ class NotificationModel {
     } else {
       userReference = snapshot.data()['userReference'];
     }
-        
+    notificationReference = snapshot.reference;
     time = snapshot.data()['time'];
     title = snapshot.data()['title'];
     message = snapshot.data()['message'];
@@ -30,6 +30,7 @@ class NotificationModel {
       'notificationType': notificationType,
       'petReference': petReference,
       'userReference': userReference,
+      'notificationReference': notificationReference,
       'time': time,
       'title': title,
       'message': message,
@@ -53,6 +54,7 @@ class NotificationModel {
   String notificationType;
   DocumentReference petReference;
   DocumentReference userReference;
+  DocumentReference notificationReference;
   String time;
   String title;
   String message;
