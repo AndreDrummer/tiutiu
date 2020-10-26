@@ -172,88 +172,52 @@ class UserProvider with ChangeNotifier {
 
     switch (data['notificationType']) {
       case 'wannaAdopt':
-        notificationData.putIfAbsent(
-            'userReference', () => data['userReference']);
-        notificationData.putIfAbsent(
-            'notificationType', () => data['notificationType']);
-        notificationData.putIfAbsent(
-            'petReference', () => data['petReference']);
-        notificationData.putIfAbsent(
-            'time', () => DateTime.now().toIso8601String());
+        notificationData.putIfAbsent('userReference', () => data['userReference']);
+        notificationData.putIfAbsent('notificationType', () => data['notificationType']);
+        notificationData.putIfAbsent('petReference', () => data['petReference']);
+        notificationData.putIfAbsent('time', () => DateTime.now().toIso8601String());
         notificationData.putIfAbsent('title', () => 'Quero adotar!');
-        notificationData.putIfAbsent(
-            'message',
-            () =>
-                '${data['interestedName']} tem interesse na adoção de ${data['petName']}.');
+        notificationData.putIfAbsent('message',() =>'${data['interestedName']} tem interesse na adoção de ${data['petName']}.');
         notificationData.putIfAbsent('open', () => false);
         userThatWillReceiveNotification = data['ownerID'];
         break;
       case 'petInfo':
-        notificationData.putIfAbsent(
-            'userReference', () => data['userReference']);
-        notificationData.putIfAbsent(
-            'notificationType', () => data['notificationType']);
-        notificationData.putIfAbsent(
-            'petReference', () => data['petReference']);
-        notificationData.putIfAbsent(
-            'time', () => DateTime.now().toIso8601String());
-        notificationData.putIfAbsent(
-            'title', () => 'Informações sobre seu PET desaparecido!');
-        notificationData.putIfAbsent(
-            'message',
-            () =>
-                '${data['interestedName']} viu seu PET próximo a localização dele.');
+        notificationData.putIfAbsent('userReference', () => data['userReference']);
+        notificationData.putIfAbsent('notificationType', () => data['notificationType']);
+        notificationData.putIfAbsent('petReference', () => data['petReference']);
+        notificationData.putIfAbsent('time', () => DateTime.now().toIso8601String());
+        notificationData.putIfAbsent('title', () => 'Informações sobre seu PET desaparecido!');
+        notificationData.putIfAbsent('message',() => '${data['interestedName']} viu seu PET próximo a localização dele.');
         notificationData.putIfAbsent('open', () => false);
         userThatWillReceiveNotification = data['ownerID'];
         break;
       case 'adoptionDeny':
-        notificationData.putIfAbsent(
-            'userReference', () => data['ownerReference']);
-        notificationData.putIfAbsent(
-            'notificationType', () => data['notificationType']);
-        notificationData.putIfAbsent(
-            'petReference', () => data['petReference']);
-        notificationData.putIfAbsent(
-            'time', () => DateTime.now().toIso8601String());
+        notificationData.putIfAbsent('userReference', () => data['ownerReference']);
+        notificationData.putIfAbsent('notificationType', () => data['notificationType']);
+        notificationData.putIfAbsent('petReference', () => data['petReference']);
+        notificationData.putIfAbsent('time', () => DateTime.now().toIso8601String());
         notificationData.putIfAbsent('title', () => 'Adoção NÃO confirmada!');
-        notificationData.putIfAbsent(
-            'message',
-            () =>
-                '${data['interestedName']} negou que tenha adotado ${data['name']}.');
+        notificationData.putIfAbsent('message',() => '${data['interestedName']} negou que tenha adotado ${data['name']}.');
         notificationData.putIfAbsent('open', () => false);
         userThatWillReceiveNotification = data['ownerID'];
         break;
       case 'adoptionConfirmed':
-        notificationData.putIfAbsent(
-            'userReference', () => data['interestedReference']);
-        notificationData.putIfAbsent(
-            'notificationType', () => data['notificationType']);
-        notificationData.putIfAbsent(
-            'petReference', () => data['petReference']);
-        notificationData.putIfAbsent(
-            'time', () => DateTime.now().toIso8601String());
+        notificationData.putIfAbsent('userReference', () => data['interestedReference']);
+        notificationData.putIfAbsent('notificationType', () => data['notificationType']);
+        notificationData.putIfAbsent('petReference', () => data['petReference']);
+        notificationData.putIfAbsent('time', () => DateTime.now().toIso8601String());
         notificationData.putIfAbsent('title', () => 'Adoção confirmada!');
-        notificationData.putIfAbsent(
-            'message',
-            () =>
-                '${data['interestedName']} confirmou a adoção de ${data['name']}.');
+        notificationData.putIfAbsent('message',() => '${data['interestedName']} confirmou a adoção de ${data['name']}.');
         notificationData.putIfAbsent('open', () => false);
         userThatWillReceiveNotification = data['ownerID'];
         break;
       case 'confirmAdoption':
-        notificationData.putIfAbsent(
-            'userReference', () => data['ownerReference']);
-        notificationData.putIfAbsent(
-            'notificationType', () => data['notificationType']);
-        notificationData.putIfAbsent(
-            'petReference', () => data['petReference']);
-        notificationData.putIfAbsent(
-            'time', () => DateTime.now().toIso8601String());
+        notificationData.putIfAbsent('userReference', () => data['ownerReference']);
+        notificationData.putIfAbsent('notificationType', () => data['notificationType']);
+        notificationData.putIfAbsent('petReference', () => data['petReference']);
+        notificationData.putIfAbsent('time', () => DateTime.now().toIso8601String());
         notificationData.putIfAbsent('title', () => 'Confirme adoção!');
-        notificationData.putIfAbsent(
-            'message',
-            () =>
-                '${data['ownerName']} pediu que você confirme a adoção de ${data['name']}.');
+        notificationData.putIfAbsent('message',() => '${data['ownerName']} pediu que você confirme a adoção de ${data['name']}.');
         notificationData.putIfAbsent('open', () => false);
         userThatWillReceiveNotification = data['interestedID'];
         break;
