@@ -143,6 +143,7 @@ class _PetFormState extends State<PetForm> {
     auth = Provider.of<Authentication>(context, listen: false);
     userProvider = Provider.of<UserProvider>(context, listen: false);
     petFormProvider = Provider.of<PetFormProvider>(context);
+    petFormProvider.changePetKind(kind);
     petsProvider = Provider.of(context, listen: false);
 
     if (widget.editMode) {
@@ -455,7 +456,7 @@ class _PetFormState extends State<PetForm> {
 
   bool validateForm() {
     changePhotosFieldStatus();
-    bool result = petFormProvider.formIsvalid() && photosFieldIsValid;
+    bool result = petFormProvider.formIsvalid() && photosFieldIsValid;    
     return result;
   }
 
