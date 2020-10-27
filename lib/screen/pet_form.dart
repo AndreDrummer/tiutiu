@@ -133,9 +133,7 @@ class _PetFormState extends State<PetForm> {
 
     if (!widget.editMode) {
       storageHashKey = generateStorageHashKey();
-    }
-
-    print('Local $currentLocation');
+    }    
     super.initState();
   }
 
@@ -383,8 +381,7 @@ class _PetFormState extends State<PetForm> {
     if (photosToDelete.isNotEmpty) {
       try {
         await deletePhotosFromStorage();
-      } on TiuTiuException catch (error) {
-        print('ERROR');
+      } on TiuTiuException catch (error) {        
         await showDialog(
           context: context,
           builder: (context) => PopUpMessage(
@@ -461,8 +458,7 @@ class _PetFormState extends State<PetForm> {
     return result;
   }
 
-  void changePhotosFieldStatus() {
-    print('TESTE ${petFormProvider.getPetPhotos.isNotEmpty}');
+  void changePhotosFieldStatus() {    
     setState(() {
       photosFieldIsValid = petFormProvider.getPetPhotos.isNotEmpty;
     });    

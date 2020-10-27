@@ -38,8 +38,7 @@ class AdsProvider with ChangeNotifier {
       case AdmobAdEvent.failedToLoad:
         print('Admob $adType failed to load. :(');
         break;
-      case AdmobAdEvent.rewarded:
-        // showDialog();
+      case AdmobAdEvent.rewarded:        
         break;
       default:
     }
