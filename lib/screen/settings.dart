@@ -628,7 +628,7 @@ class _SettingsState extends State<Settings> {
                                         .copyWith(
                                             color: Colors.black54,
                                             fontWeight: FontWeight.w300),
-                                    onChanged: (_) {
+                                    onFieldSubmitted: (_) {
                                       validatePersonalData();
                                     },
                                     inputFormatters: [celularMask],
@@ -678,7 +678,7 @@ class _SettingsState extends State<Settings> {
                                         .copyWith(
                                             color: Colors.black54,
                                             fontWeight: FontWeight.w300),
-                                    onChanged: (_) {
+                                    onFieldSubmitted: (_) {
                                       validatePersonalData();
                                     },
                                     inputFormatters: [telefoneMask],
