@@ -82,7 +82,7 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     adsProvider = Provider.of(context, listen: false);
-    adsProvider.changeCanShowAds(false);    
+    adsProvider.changeCanShowAds(true);    
     adsProvider.initReward();
     fbm.configure(
       onMessage: (notification) {      

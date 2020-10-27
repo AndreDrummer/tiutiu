@@ -62,8 +62,7 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
         default:
           return userController.loadMyAdoptedPets(userId: userProvider.uid);
       }
-    } else {
-      print('Load donated');
+    } else {      
       return userController.loadMyDonatedPets(userProvider.userReference);
     }
   }
@@ -177,7 +176,7 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
               }
 
               if (snapshot.data == null) {
-                print('SNAPSHOT.DATA É NULL');
+                return Container();                
               }
 
               List<Pet> pets =
@@ -185,14 +184,15 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
 
               if (pets.isEmpty) {
                 return Column(
-                  mainAxisAlignment: adsProvider.getCanShowAds
-                      ? MainAxisAlignment.start
-                      : MainAxisAlignment.center,
+                  mainAxisAlignment: 
+                  // adsProvider.getCanShowAds
+                  //     ? MainAxisAlignment.start
+                  //     : 
+                      MainAxisAlignment.center,
                   children: [
                     SizedBox(height: 100),
                     adsProvider.getCanShowAds
-                        ? adsProvider.bannerAdMob(
-                            medium_banner: true, adId: adsProvider.topAdId)
+                        ? Container()//adsProvider.bannerAdMob(medium_banner: true, adId: adsProvider.topAdId)
                         : Container(),
                     SizedBox(height: 40),
                     Center(

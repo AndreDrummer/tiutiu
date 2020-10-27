@@ -281,9 +281,7 @@ class _SettingsState extends State<Settings> {
           _whatsAppController.text = 'Insira um número válido ou deixe vazio';
         });
       return _whatsAppController.text.contains('-');
-    }
-
-    print('PRONTO');
+    }    
     setState(() {
       telefoneHasError = false;
       whatsappHasError = false;
