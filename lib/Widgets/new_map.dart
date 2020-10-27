@@ -16,7 +16,7 @@ class _NewMapState extends State<NewMap> with SingleTickerProviderStateMixin {
 
   @override
   void didChangeDependencies() {
-    locationProvider = Provider.of<Location>(context, listen: false);
+    locationProvider = Provider.of<Location>(context);
     super.didChangeDependencies();
   }   
 
@@ -45,6 +45,9 @@ class _NewMapState extends State<NewMap> with SingleTickerProviderStateMixin {
                 result.geometry.location.lng,
               ),
             );
+            locationProvider.changeCanContinue(state != SearchingState.Searching);
+          } else {
+            locationProvider.changeCanContinue(state != SearchingState.Searching);
           }
           return FloatingCard(
             bottomPosition: 60.0,
