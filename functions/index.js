@@ -57,7 +57,7 @@ exports.createNotificationWannaAdopt = functions.firestore
         await admin.messaging().sendToDevice(`${snap.data()['ownerNotificationToken']}`, {
             notification: {
                 title: 'Quero adotar!',
-                body: `${snap.data()['userName']} tem interesse na adoção de ${snap.data()['petName']}.`,
+                body: `${snap.data()['interestedName']} tem interesse na adoção de ${snap.data()['petName']}.`,
                 clickAction: 'FLUTTER_NOTIFICATION_CLICK',
             },
             data: {
@@ -72,7 +72,7 @@ exports.createNotificationInfo = functions.firestore
         admin.messaging().sendToDevice(`${snap.data()['ownerNotificationToken']}`, {
             notification: {
                 title: 'Informações sobre seu PET desaparecido',
-                body: `${snap.data()['userName']} viu seu PET próximo a localização dele.`,
+                body: `${snap.data()['interestedName']} viu seu PET próximo a localização dele.`,
                 clickAction: 'FLUTTER_NOTIFICATION_CLICK'
             },
             data: {
