@@ -24,22 +24,25 @@ class ChooseLocation extends StatefulWidget {
 class _ChooseLocationState extends State<ChooseLocation> {
   AdsProvider adsProvider;
 
-   @override
-  void didChangeDependencies() {   
-    adsProvider = Provider.of<AdsProvider>(context); 
+  @override
+  void didChangeDependencies() {
     super.didChangeDependencies();
   }
 
   @override
   Widget build(BuildContext context) {
-    var params = ModalRoute.of(context).settings.arguments as Map<String, dynamic>;
+    Location locationProvider = Provider.of<Location>(context);
+    var params =
+        ModalRoute.of(context).settings.arguments as Map<String, dynamic>;
     var kind = widget.editMode ? widget.pet.kind : params['kind'];
 
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(        
+      appBar: AppBar(
         title: Text(
-          kind == 'Donate' ? 'localização do PET'.toUpperCase() : 'Visto pela última vez em'.toUpperCase(),
+          kind == 'Donate'
+              ? 'localização do PET'.toUpperCase()
+              : 'Visto pela última vez em'.toUpperCase(),
           style: Theme.of(context).textTheme.headline1.copyWith(
                 fontSize: 20,
                 fontWeight: FontWeight.w700,
@@ -50,43 +53,49 @@ class _ChooseLocationState extends State<ChooseLocation> {
         children: <Widget>[
           NewMap(),
           Positioned(
-            bottom: 0.0,
-            child: Consumer<Location>(
-              builder: (_, location, child) => ButtonWide(
-                rounded: false,
-                isToExpand: true,
-                text: kind == 'Donate' ? 'O PET ESTÁ NESTA REGIÃO' : 'VISTO POR ÚLTIMO AQUI',
-                action: location.getLocation == null
-                    ? null
-                    : () {
-                        widget.editMode
-                            ? Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) {
-                                    return PetForm(
-                                      editMode: true,
-                                      pet: widget.pet,
+              bottom: 0.0,
+              child: StreamBuilder<bool>(
+                  stream: locationProvider.canContinue,
+                  builder: (context, snapshot) {
+                    return ButtonWide(
+                      color: snapshot.data != null && snapshot.data
+                          ? Colors.purple
+                          : Colors.grey,
+                      rounded: false,
+                      isToExpand: true,
+                      text: kind == 'Donate'
+                          ? 'O PET ESTÁ NESTA REGIÃO'
+                          : 'VISTO POR ÚLTIMO AQUI',
+                      action: !snapshot.data || snapshot.data == null
+                          ? null
+                          : () {
+                              widget.editMode
+                                  ? Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) {
+                                          return PetForm(
+                                            editMode: true,
+                                            pet: widget.pet,
+                                          );
+                                        },
+                                      ),
+                                    )
+                                  : Navigator.pushNamed(
+                                      context,
+                                      Routes.PET_FORM,
+                                      arguments: {'kind': kind},
                                     );
-                                  },
-                                ),
-                              )
-                            : Navigator.pushNamed(
-                                context,
-                                Routes.PET_FORM,
-                                arguments: {'kind': kind},
-                              );
-                      },
-              ),
-            ),
-          )
+                            },
+                    );
+                  }))
         ],
       ),
     );
   }
 
   @override
-  void dispose() {    
+  void dispose() {
     super.dispose();
-  } 
+  }
 }
