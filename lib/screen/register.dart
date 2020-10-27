@@ -249,9 +249,7 @@ class _RegisterState extends State<Register> {
       setState(() {
         nameHasError = false;
       });
-    }
-
-    print("NAME: $nameHasError, FOTO: $userProfileHasError");
+    }    
 
     return !finishing && !nameHasError && !userProfileHasError;
   }
@@ -496,8 +494,7 @@ class _RegisterState extends State<Register> {
         rounded: false,
         action: finishing
             ? null
-            : () async {
-                print('FORM VALIDE ${_formKey.currentState.validate()}');
+            : () async {                
                 if (_formKey.currentState.validate()) {
                   if (userProvider.getBetterContact == 1 && (_telefone.text.isEmpty || _telefone.text.length < 12)) {
                     _scaffoldKey.currentState.showSnackBar(
