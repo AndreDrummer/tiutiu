@@ -131,7 +131,7 @@ class _InformantesScreenState extends State<InformantesScreen> {
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 8.0),
         child: Container(
-          height: MediaQuery.of(context).size.height / 3,
+          height: MediaQuery.of(context).size.height / 2.5,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
