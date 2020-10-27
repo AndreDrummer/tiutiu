@@ -126,16 +126,17 @@ class _DonateDisappearedListState extends State<DonateDisappearedList> {
                 Navigator.pushNamed(context, Routes.SEARCH_REFINE);
               },
               child: Column(
-                mainAxisAlignment: adsProvider.getCanShowAds
-                    ? MainAxisAlignment.start
-                    : MainAxisAlignment.center,
+                mainAxisAlignment: 
+                // adsProvider.getCanShowAds ? MainAxisAlignment.start
+                //     : 
+                    MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   SizedBox(height: 10),
-                  adsProvider.getCanShowAds
-                      ? adsProvider.bannerAdMob(
-                          medium_banner: true, adId: adsProvider.topAdId)
-                      : Container(),
+                  // adsProvider.getCanShowAds
+                  //     ? adsProvider.bannerAdMob(
+                  //         medium_banner: true, adId: adsProvider.topAdId)
+                  //     : Container(),
                   SizedBox(height: 40),
                   Text(
                     'Nenhum PET encontrado',
@@ -165,7 +166,7 @@ class _DonateDisappearedListState extends State<DonateDisappearedList> {
                 Column(
                   children: [
                     adsProvider.getCanShowAds
-                        ? adsProvider.bannerAdMob(adId: adsProvider.homeAdId)
+                        ? Container()//adsProvider.bannerAdMob(adId: adsProvider.homeAdId)
                         : Container(
                             color: Colors.red,
                             child: Padding(
