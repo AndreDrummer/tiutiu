@@ -5,6 +5,7 @@ import 'package:tiutiu/utils/form_validators.dart';
 
 class PetFormProvider with ChangeNotifier, FormValidator {
   final _petName = BehaviorSubject<String>.seeded('');
+  final _petKind = BehaviorSubject<String>.seeded('');
   final _petColor = BehaviorSubject<String>.seeded('Abóbora');
   final _petTypeIndex = BehaviorSubject<int>.seeded(0);
   final _petAge = BehaviorSubject<int>.seeded(0);
@@ -20,6 +21,7 @@ class PetFormProvider with ChangeNotifier, FormValidator {
 
   // Streams to be listened
   Stream<String> get petName => _petName.stream;
+  Stream<String> get petKind => _petKind.stream;
   Stream<String> get petColor => _petColor.stream;
   Stream<int> get petTypeIndex => _petTypeIndex.stream;
   Stream<int> get petAge => _petAge.stream;
@@ -34,6 +36,7 @@ class PetFormProvider with ChangeNotifier, FormValidator {
   Stream<Pet> get petInEdition => _petInEdition.stream;
 
   // Stream change
+  void Function(String) get changePetKind => _petKind.sink.add;
   void Function(String) get changePetName => _petName.sink.add;
   void Function(String) get changePetColor => _petColor.sink.add;
   void Function(int) get changePetTypeIndex => _petTypeIndex.sink.add;
@@ -49,6 +52,7 @@ class PetFormProvider with ChangeNotifier, FormValidator {
   void Function(Pet) get changePetInEdition => _petInEdition.sink.add;
 
   // Stream get
+  String get getPetKind => _petKind.value;
   String get getPetName => _petName.value;
   String get getPetColor => _petColor.value;
   int get getPetTypeIndex => _petTypeIndex.value;
@@ -74,11 +78,13 @@ class PetFormProvider with ChangeNotifier, FormValidator {
   }
 
   bool formIsvalid() {
-    bool formStatus = true;    
+    bool formStatus = true;
+    List<BehaviorSubject> newList = _subjects();
+    if(getPetKind != 'Donate') newList.removeAt(1);
 
-    for (BehaviorSubject subject in _subjects()) {
+    for (BehaviorSubject subject in newList) {
       if (subject.value == null || subject.value == "" || subject.value == 0) {        
-        subject.addError("* Campo obrigatório");
+        subject.addError("* Campo obrigatório");        
         formStatus = false;
       }      
     }
@@ -89,6 +95,7 @@ class PetFormProvider with ChangeNotifier, FormValidator {
   @override
   void dispose() {
     _petName.close();
+    _petKind.close();
     _petColor.close();
     _petTypeIndex.close();
     _petAge.close();
