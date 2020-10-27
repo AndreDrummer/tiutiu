@@ -995,8 +995,8 @@ class _PetFormState extends State<PetForm> {
           rounded: false,
           color: isSaving ? Colors.grey : Theme.of(context).primaryColor,
           isToExpand: true,
-          action: () async {
-            if (validateForm() && (!isSaving || !convertingImages)) {
+          action: isSaving || convertingImages ? null : () async {
+            if (validateForm()) {
               setReadOnly();
               await save();
               afterSave();
