@@ -65,6 +65,8 @@ class _PetFormState extends State<PetForm> {
   final TextEditingController _meses = TextEditingController();
   final TextEditingController _descricao = TextEditingController();
 
+  GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
   List<Asset> petPhotosMulti = List<Asset>();
   List petPhotosToUpload = [];
   List<String> photosToDelete = [];
@@ -87,7 +89,7 @@ class _PetFormState extends State<PetForm> {
   bool convertingImages = false;
   bool photosFieldIsValid = true;
   AdsProvider adsProvider;
-  String storageHashKey;
+  String storageHashKey;  
 
   void preloadTextFields() {
     petFormProvider.changePetName(widget.pet.name);
@@ -142,8 +144,7 @@ class _PetFormState extends State<PetForm> {
     adsProvider = Provider.of(context);
     auth = Provider.of<Authentication>(context, listen: false);
     userProvider = Provider.of<UserProvider>(context, listen: false);
-    petFormProvider = Provider.of<PetFormProvider>(context);
-    petFormProvider.changePetKind(kind);
+    petFormProvider = Provider.of<PetFormProvider>(context);    
     petsProvider = Provider.of(context, listen: false);
 
     if (widget.editMode) {
@@ -464,7 +465,7 @@ class _PetFormState extends State<PetForm> {
     print('TESTE ${petFormProvider.getPetPhotos.isNotEmpty}');
     setState(() {
       photosFieldIsValid = petFormProvider.getPetPhotos.isNotEmpty;
-    });
+    });    
   }
 
   void setReadOnly() {
@@ -477,6 +478,7 @@ class _PetFormState extends State<PetForm> {
   Widget build(BuildContext context) {
     params = ModalRoute.of(context).settings.arguments;
     kind = widget.editMode ? widget.pet.kind : params['kind'];
+    petFormProvider.changePetKind(kind);
 
     Future<bool> _onWillPopScope() {
       if (isSaving || convertingImages) {
@@ -491,6 +493,7 @@ class _PetFormState extends State<PetForm> {
     return WillPopScope(
       onWillPop: _onWillPopScope,
       child: Scaffold(
+        key: _scaffoldKey,
         appBar: AppBar(
           title: widget.editMode
               ? Text('Editar dados do ${widget.pet.name}')
@@ -553,8 +556,7 @@ class _PetFormState extends State<PetForm> {
                       children: [
                         StreamBuilder(
                           stream: petFormProvider.petPhotos,
-                          builder: (context, snapshot) {
-                            print('ERROR kkk ${snapshot.error}');
+                          builder: (context, snapshot) {                            
                             return Column(
                               children: [
                                 Container(
@@ -693,13 +695,12 @@ class _PetFormState extends State<PetForm> {
                                         placeholder: 'Anos',
                                         keyBoardTypeNumber: true,
                                         onChanged: (value) {
-                                          petFormProvider
-                                              .changePetAge(int.parse(value));
+                                          petFormProvider.changePetAge(int.parse(value));
                                         },
                                         controller: _ano,
                                         readOnly: readOnly,
                                       ),
-                                      kind == 'Donate' && snapshot.data == null
+                                      kind == 'Donate' && snapshot.hasError
                                           ? HintError()
                                           : SizedBox(),
                                     ],
@@ -1019,6 +1020,12 @@ class _PetFormState extends State<PetForm> {
                       )).then(
                 (value) => _onWillPopScope,
               );
+            } else {
+              _scaffoldKey.currentState.showSnackBar(SnackBar(
+                duration: Duration(seconds: 1),
+                content: Text('Verifique se há erros no formulário!', style: TextStyle(color: Colors.white)),
+                backgroundColor: Colors.red,
+              ));
             }
           },
           text: widget.editMode ? 'SALVAR ALTERAÇÕES' : 'POSTAR',
