@@ -498,23 +498,24 @@ class _RegisterState extends State<Register> {
             ? null
             : () async {
                 print('FORM VALIDE ${_formKey.currentState.validate()}');
-                if (_formKey.currentState.validate() &&
-                    (_telefone.text.isEmpty || _telefone.text.length >= 12)) {
-                  if (validatePictureProfile()) {
-                    setFinishing(true);
-                    await save();
-                    setFinishing(false);
-                    await auth.alreadyRegistered();
-                    Navigator.pushReplacementNamed(context, Routes.AUTH_HOME);
-                  }
-                } else {
-                  _scaffoldKey.currentState.showSnackBar(
-                    SnackBar(
-                      backgroundColor: Colors.red,
-                      duration: Duration(seconds: 1),
-                      content: Text('Preencha os campos marcados com um *'),
-                    ),
-                  );
+                if (_formKey.currentState.validate()) {
+                  if (userProvider.getBetterContact == 1 && (_telefone.text.isEmpty || _telefone.text.length < 12)) {
+                    _scaffoldKey.currentState.showSnackBar(
+                      SnackBar(
+                        backgroundColor: Colors.red,
+                        duration: Duration(seconds: 1),
+                        content: Text('Quando este é seu melhor contato, deve ser preenchido.'),
+                      ),
+                    );
+                  } else {
+                    if (validatePictureProfile()) {
+                      setFinishing(true);
+                      await save();
+                      setFinishing(false);
+                      await auth.alreadyRegistered();
+                      Navigator.pushReplacementNamed(context, Routes.AUTH_HOME);
+                    }
+                  }                  
                 }
               },
       ),

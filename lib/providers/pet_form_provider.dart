@@ -17,7 +17,7 @@ class PetFormProvider with ChangeNotifier, FormValidator {
   final _petSelectedCaracteristics = BehaviorSubject<List>.seeded([]);
   final _petDescription = BehaviorSubject<String>.seeded('');
   final _petPhotos = BehaviorSubject<List>.seeded([]);
-  final _petInEdition = BehaviorSubject<Pet>();
+  final _petInEdition = BehaviorSubject<Pet>();  
 
   // Streams to be listened
   Stream<String> get petName => _petName.stream;
@@ -30,7 +30,8 @@ class PetFormProvider with ChangeNotifier, FormValidator {
   Stream<int> get petHealthIndex => _petHealthIndex.stream;
   Stream<int> get petBreedIndex => _petBreedIndex.stream;
   Stream<String> get petSex => _petSex.stream;
-  Stream<List> get petSelectedCaracteristics => _petSelectedCaracteristics.stream;
+  Stream<List> get petSelectedCaracteristics =>
+      _petSelectedCaracteristics.stream;
   Stream<String> get petDescription => _petDescription.stream;
   Stream<List> get petPhotos => _petPhotos.stream;
   Stream<Pet> get petInEdition => _petInEdition.stream;
@@ -46,7 +47,8 @@ class PetFormProvider with ChangeNotifier, FormValidator {
   void Function(int) get changePetHealthIndex => _petHealthIndex.sink.add;
   void Function(int) get changePetBreedIndex => _petBreedIndex.sink.add;
   void Function(String) get changePetSex => _petSex.sink.add;
-  void Function(List) get changePetSelectedCaracteristics => _petSelectedCaracteristics.sink.add;
+  void Function(List) get changePetSelectedCaracteristics =>
+      _petSelectedCaracteristics.sink.add;
   void Function(String) get changePetDescription => _petDescription.sink.add;
   void Function(List) get changePetPhotos => _petPhotos.sink.add;
   void Function(Pet) get changePetInEdition => _petInEdition.sink.add;
@@ -67,11 +69,10 @@ class PetFormProvider with ChangeNotifier, FormValidator {
   List get getPetPhotos => _petPhotos.value;
   Pet get getPetInEdition => _petInEdition.value;
 
-    List<BehaviorSubject> _subjects() {
+  List<BehaviorSubject> _subjects() {
     return [
-      _petName,            
+      _petName,
       _petAge,
-      _petSize,                        
       _petDescription,
       _petPhotos,
     ];
@@ -80,13 +81,13 @@ class PetFormProvider with ChangeNotifier, FormValidator {
   bool formIsvalid() {
     bool formStatus = true;
     List<BehaviorSubject> newList = _subjects();
-    if(getPetKind != 'Donate') newList.removeAt(1);
+    if (getPetKind != 'Donate') newList.removeAt(1);      
 
     for (BehaviorSubject subject in newList) {
-      if (subject.value == null || subject.value == "" || subject.value == 0) {        
-        subject.addError("* Campo obrigatório");        
+      if (subject.value == null || subject.value == "" || subject.value == 0) {
+        subject.addError("* Campo obrigatório");
         formStatus = false;
-      }      
+      }
     }
 
     return formStatus;
