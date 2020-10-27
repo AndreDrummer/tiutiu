@@ -15,7 +15,7 @@ class FormValidator {
   final validatePhotos = StreamTransformer<List, List>.fromHandlers(
     handleData: (photos, sink) {           
       if (photos.isEmpty) {
-        sink.addError("* Insira pelo menos uma foto");      
+        sink.addError("* Insira pelo menos uma foto");
       } else {
         sink.add(photos);
       }

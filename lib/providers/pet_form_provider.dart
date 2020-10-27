@@ -19,18 +19,18 @@ class PetFormProvider with ChangeNotifier, FormValidator {
   final _petInEdition = BehaviorSubject<Pet>();
 
   // Streams to be listened
-  Stream<String> get petName => _petName.stream.transform(validateEmpty);
+  Stream<String> get petName => _petName.stream;
   Stream<String> get petColor => _petColor.stream;
   Stream<int> get petTypeIndex => _petTypeIndex.stream;
-  Stream<int> get petAge => _petAge.stream.transform(validateAge);
+  Stream<int> get petAge => _petAge.stream;
   Stream<int> get petMonths => _petMonths.stream;
   Stream<String> get petSize => _petSize.stream;
   Stream<int> get petHealthIndex => _petHealthIndex.stream;
   Stream<int> get petBreedIndex => _petBreedIndex.stream;
   Stream<String> get petSex => _petSex.stream;
   Stream<List> get petSelectedCaracteristics => _petSelectedCaracteristics.stream;
-  Stream<String> get petDescription => _petDescription.stream.transform(validateEmpty);
-  Stream<List> get petPhotos => _petPhotos.stream.transform(validatePhotos);
+  Stream<String> get petDescription => _petDescription.stream;
+  Stream<List> get petPhotos => _petPhotos.stream;
   Stream<Pet> get petInEdition => _petInEdition.stream;
 
   // Stream change
@@ -65,15 +65,9 @@ class PetFormProvider with ChangeNotifier, FormValidator {
 
     List<BehaviorSubject> _subjects() {
     return [
-      _petName,
-      _petColor,
-      _petTypeIndex,
+      _petName,            
       _petAge,
-      _petSize,
-      _petHealthIndex,
-      _petBreedIndex,
-      _petSex,
-      _petSelectedCaracteristics,
+      _petSize,                        
       _petDescription,
       _petPhotos,
     ];
@@ -83,10 +77,10 @@ class PetFormProvider with ChangeNotifier, FormValidator {
     bool formStatus = true;    
 
     for (BehaviorSubject subject in _subjects()) {
-      if (subject.value == null || subject.value == "") {        
-        subject.addError("*Campo obrigatório");
+      if (subject.value == null || subject.value == "" || subject.value == 0) {        
+        subject.addError("* Campo obrigatório");
         formStatus = false;
-      }
+      }      
     }
 
     return formStatus;
