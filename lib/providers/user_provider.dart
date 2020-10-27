@@ -237,6 +237,8 @@ class UserProvider with ChangeNotifier {
   void clearUserDataOnSignOut() {
     changeUserReference(null);
     changeWhatsapp('');
+    changePhotoUrl('');
+    changePhotoFILE(null);
     changeTelefone('');
     changeTotalAdopted(0);
     changeTotalDisappeared(0);
