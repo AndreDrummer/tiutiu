@@ -130,8 +130,8 @@ class UserController {
     await petReference.set({'donated': true, 'whoAdoptedReference': userThatAdoptedReference}, SetOptions(merge: true));
     final pathToPetAdopted = await firestore.collection('Adopted')
     .where('confirmed', isEqualTo: false)
-    // .where('petReference', isEqualTo: petReference)
-    // .where('interestedReference', isEqualTo: userThatAdoptedReference)
+    .where('petReference', isEqualTo: petReference)
+    .where('interestedReference', isEqualTo: userThatAdoptedReference)
     .get();
 
     pathToPetAdopted.docs.first.reference.set({
