@@ -173,25 +173,20 @@ class _PetDetailsState extends State<PetDetails> {
         sendData(userPosition);
         showSnackBar(messageTextSnackBar);
       }
-    } else {
-      if (userInfosAdopts.getInfos.contains(widget.pet.id)) {    
-        messageTextSnackBar = 'Você já passou informação sobre este PET.';
-        showSnackBar(messageTextSnackBar);
-      } else {      
-        var infoInterestedsRef = await petRef.reference.collection('infoInteresteds').get();
+    } else {           
+      var infoInterestedsRef = await petRef.reference.collection('infoInteresteds').get();
 
-        if (infoInterestedsRef.docs.isNotEmpty) {
-          infoInterestedsRef.docs.length + 1;
-        } else {
-          userPosition = 1;
-        }
-        
-        messageTextSnackBar = 'Obrigado pela informação! $ownerName será avisado.';
-        
-        passInfoDetails(userPosition).then((value) {
-          if(interestOrInfoWasFired) showSnackBar(messageTextSnackBar);
-        });
+      if (infoInterestedsRef.docs.isNotEmpty) {
+        infoInterestedsRef.docs.length + 1;
+      } else {
+        userPosition = 1;
       }
+      
+      messageTextSnackBar = 'Obrigado pela informação! $ownerName será avisado.';
+      
+      passInfoDetails(userPosition).then((value) {
+        if(interestOrInfoWasFired) showSnackBar(messageTextSnackBar);
+      });      
     }    
   }
 
