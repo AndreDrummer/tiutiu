@@ -65,8 +65,7 @@ class _FavoritesState extends State<Favorites> {
                       return Column(
                         children: [
                           adsProvider.getCanShowAds
-                              ? adsProvider.bannerAdMob(
-                                  adId: adsProvider.topAdId)
+                              ? Container()//adsProvider.bannerAdMob(adId: adsProvider.topAdId)
                               : Container(),
                           Expanded(
                             child: ListView.builder(
