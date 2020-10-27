@@ -124,13 +124,8 @@ class _ListTile extends StatelessWidget {
   }
 
   void handleNavigation(String notificationType, BuildContext context) async {
-    if (!notificationModel.open) {
-      print('ABRIU ${notificationModel.open} ${await notificationModel.notificationReference}');
-      try {
-        await notificationModel.notificationReference.set({'open': true}, SetOptions(merge: true));
-      } catch(e) {
-        print('NAO ABRIU $e');
-      }
+    if (!notificationModel.open) {      
+      await notificationModel.notificationReference.set({'open': true}, SetOptions(merge: true));      
     }
 
     if (notificationType == 'confirmAdoption') {

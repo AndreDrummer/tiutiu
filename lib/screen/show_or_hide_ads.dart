@@ -33,8 +33,7 @@ class ShowOrHideAds extends StatelessWidget {
             stream: streamData,
             builder: (context, snapshot) {
               if (snapshot.data != null && snapshotStarted.data) {
-                callBack();
-                print("DATA $name");
+                callBack();                
                 snapshot.data
                   ..load().then(
                     (value) async {
