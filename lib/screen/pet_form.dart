@@ -70,6 +70,8 @@ class _PetFormState extends State<PetForm> {
   List<String> photosToDelete = [];
   List<Uint8List> convertedImageList = [];
 
+  int maxImages = 6;
+
   bool macho = true;
   Authentication auth;
   UserProvider userProvider;
@@ -83,6 +85,7 @@ class _PetFormState extends State<PetForm> {
   bool isSaving = false;
   bool readOnly = false;
   bool convertingImages = false;
+  bool photosFieldIsValid = true;
   AdsProvider adsProvider;
   String storageHashKey;
 
@@ -156,6 +159,7 @@ class _PetFormState extends State<PetForm> {
     actualPhotoList.add(File(image.path));
     petFormProvider.changePetPhotos(actualPhotoList);
     convertImageToUint8List(petFormProvider.getPetPhotos);
+    changePhotosFieldStatus();
   }
 
   void openModalSelectMedia(BuildContext context, int index) {
@@ -172,11 +176,11 @@ class _PetFormState extends State<PetForm> {
                     onPressed: () {
                       Navigator.pop(context);
                       if (widget.editMode) {
-                        photosToDelete.add(petFormProvider.getPetPhotos.elementAt(index));
+                        photosToDelete
+                            .add(petFormProvider.getPetPhotos.elementAt(index));
                       }
 
                       petFormProvider.getPetPhotos.removeAt(index);
-                      if (petPhotosMulti.elementAt(index).runtimeType == Asset) petPhotosMulti.removeAt(index);
 
                       if (widget.editMode) {
                         petPhotosToUpload.clear();
@@ -189,6 +193,7 @@ class _PetFormState extends State<PetForm> {
                       if (!widget.editMode) {
                         convertImageToUint8List(petFormProvider.getPetPhotos);
                       }
+                      changePhotosFieldStatus();
                     },
                   )
                 ]
@@ -259,7 +264,7 @@ class _PetFormState extends State<PetForm> {
 
     try {
       resultList = await MultiImagePicker.pickImages(
-        maxImages: (6 - actualPhotoList.length) + petPhotosMulti.length,        
+        maxImages: maxImages - actualPhotoList.length,
         selectedAssets: petPhotosMulti,
         materialOptions: MaterialOptions(
           actionBarColor: "#4CAF50",
@@ -271,19 +276,18 @@ class _PetFormState extends State<PetForm> {
       );
     } on Exception catch (e) {
       print(e.toString());
-    }
-
+    }    
     if (!mounted) return;
 
     if (resultList.isNotEmpty) {
       actualPhotoList.addAll(resultList);
       petFormProvider.changePetPhotos(actualPhotoList);
       convertImageToUint8List(petFormProvider.getPetPhotos);
-
+      changePhotosFieldStatus();
       setState(() {
-        petPhotosMulti = resultList;
-      });
-    }
+        petPhotosMulti = actualPhotoList as List<Asset>;
+      });      
+    }    
   }
 
   Future<void> convertImageToUint8List(List images) async {
@@ -450,15 +454,16 @@ class _PetFormState extends State<PetForm> {
   }
 
   bool validateForm() {
-    return kind == 'donate'
-        ? _nome.text.isNotEmpty &&
-            _ano.text.isNotEmpty &&
-            _meses.text.isNotEmpty &&
-            _descricao.text.isNotEmpty &&
-            petFormProvider.getPetPhotos.isNotEmpty
-        : _nome.text.isNotEmpty &&
-            _descricao.text.isNotEmpty &&
-            petFormProvider.getPetPhotos.isNotEmpty;
+    changePhotosFieldStatus();
+    bool result = petFormProvider.formIsvalid() && photosFieldIsValid;
+    return result;
+  }
+
+  void changePhotosFieldStatus() {
+    print('TESTE ${petFormProvider.getPetPhotos.isNotEmpty}');
+    setState(() {
+      photosFieldIsValid = petFormProvider.getPetPhotos.isNotEmpty;
+    });
   }
 
   void setReadOnly() {
@@ -548,6 +553,7 @@ class _PetFormState extends State<PetForm> {
                         StreamBuilder(
                           stream: petFormProvider.petPhotos,
                           builder: (context, snapshot) {
+                            print('ERROR kkk ${snapshot.error}');
                             return Column(
                               children: [
                                 Container(
@@ -561,7 +567,7 @@ class _PetFormState extends State<PetForm> {
                                           petFormProvider.getPetPhotos.length) {
                                         return petFormProvider
                                                     .getPetPhotos.length <
-                                                8
+                                                maxImages
                                             ? InkWell(
                                                 onTap: () async {
                                                   openModalSelectMedia(
@@ -601,8 +607,7 @@ class _PetFormState extends State<PetForm> {
                                     },
                                   ),
                                 ),
-                                petFormProvider.formIsvalid() &&
-                                        petFormProvider.getPetPhotos.isEmpty
+                                !photosFieldIsValid
                                     ? HintError(
                                         message: '* Insira pelo menos uma foto')
                                     : SizedBox(),
@@ -622,10 +627,7 @@ class _PetFormState extends State<PetForm> {
                                   controller: _nome,
                                   readOnly: readOnly,
                                 ),
-                                petFormProvider.formIsvalid() &&
-                                        _nome.text.isEmpty
-                                    ? HintError()
-                                    : SizedBox(),
+                                snapshot.hasError ? HintError() : SizedBox(),
                               ],
                             );
                           },
@@ -696,9 +698,7 @@ class _PetFormState extends State<PetForm> {
                                         controller: _ano,
                                         readOnly: readOnly,
                                       ),
-                                      petFormProvider.formIsvalid() &&
-                                              kind == 'Donate' &&
-                                              snapshot.data == null
+                                      kind == 'Donate' && snapshot.data == null
                                           ? HintError()
                                           : SizedBox(),
                                     ],
@@ -723,9 +723,7 @@ class _PetFormState extends State<PetForm> {
                                         controller: _meses,
                                         readOnly: readOnly,
                                       ),
-                                      petFormProvider.formIsvalid() &&
-                                              kind == 'Donate' &&
-                                              snapshot.data == null
+                                      kind == 'Donate' && snapshot.data == null
                                           ? HintError()
                                           : SizedBox(),
                                     ],
@@ -952,29 +950,34 @@ class _PetFormState extends State<PetForm> {
                         StreamBuilder<String>(
                           stream: petFormProvider.petDescription,
                           builder: (context, snapshot) {
-                            return Column(
+                            return Stack(
                               children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(bottom: 16.0),
-                                  child: InputText(
-                                    placeholder: 'Descrição',
-                                    readOnly: readOnly,
-                                    size: 150,
-                                    onChanged:
-                                        petFormProvider.changePetDescription,
-                                    controller: _descricao,
-                                    multiline: true,
-                                    maxlines: 5,
-                                  ),
+                                Column(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(bottom: 16.0),
+                                      child: InputText(
+                                        placeholder: 'Descrição',
+                                        readOnly: readOnly,
+                                        size: 150,
+                                        onChanged:
+                                            petFormProvider.changePetDescription,
+                                        controller: _descricao,
+                                        multiline: true,
+                                        maxlines: 5,
+                                      ),
+                                    ),                                    
+                                    adsProvider.getCanShowAds
+                                        ? adsProvider.bannerAdMob(
+                                            adId: adsProvider.bottomAdId)
+                                        : Container(),
+                                  ],
                                 ),
-                                petFormProvider.formIsvalid() &&
-                                        _descricao.text.isEmpty
-                                    ? HintError()
-                                    : SizedBox(),
-                                adsProvider.getCanShowAds
-                                    ? adsProvider.bannerAdMob(
-                                        adId: adsProvider.bottomAdId)
-                                    : Container(),
+                                Positioned(
+                                  bottom: 20,
+                                  right: 10,
+                                  child: snapshot.hasError ? HintError() : SizedBox(),
+                                )
                               ],
                             );
                           },
@@ -992,33 +995,31 @@ class _PetFormState extends State<PetForm> {
           rounded: false,
           color: isSaving ? Colors.grey : Theme.of(context).primaryColor,
           isToExpand: true,
-          action: isSaving || convertingImages
-              ? null
-              : () async {
-                  if (validateForm()) {
-                    setReadOnly();
-                    await save();
-                    afterSave();
-                    await showDialog(
-                        context: context,
-                        barrierDismissible: false,
-                        builder: (context) => PopUpMessage(
-                              title: 'Pronto',
-                              confirmText: 'Ok',
-                              confirmAction: () {
-                                Navigator.popUntil(
-                                  context,
-                                  ModalRoute.withName('/'),
-                                );
-                              },
-                              message: widget.editMode
-                                  ? 'Os dados do PET foram atualizados.'
-                                  : 'PET postado com sucesso!',
-                            )).then(
-                      (value) => _onWillPopScope,
-                    );
-                  }
-                },
+          action: () async {
+            if (validateForm() && (!isSaving || !convertingImages)) {
+              setReadOnly();
+              await save();
+              afterSave();
+              await showDialog(
+                  context: context,
+                  barrierDismissible: false,
+                  builder: (context) => PopUpMessage(
+                        title: 'Pronto',
+                        confirmText: 'Ok',
+                        confirmAction: () {
+                          Navigator.popUntil(
+                            context,
+                            ModalRoute.withName('/'),
+                          );
+                        },
+                        message: widget.editMode
+                            ? 'Os dados do PET foram atualizados.'
+                            : 'PET postado com sucesso!',
+                      )).then(
+                (value) => _onWillPopScope,
+              );
+            }
+          },
           text: widget.editMode ? 'SALVAR ALTERAÇÕES' : 'POSTAR',
         ),
       ),
