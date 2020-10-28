@@ -51,10 +51,10 @@ class _CardListState extends State<CardList> {
     String textTime = '';
 
     String distance = MathFunctions.distanceMatrix(
-      latX: currentLoction.getLocation?.latitude,
-      longX: currentLoction.getLocation?.longitude,
-      latY: petLatitude,
-      longY: petLongitude,
+      latX: currentLoction.getLocation?.latitude ?? 0.0,
+      longX: currentLoction.getLocation?.longitude ?? 0.0,
+      latY: petLatitude ?? 0.0,
+      longY: petLongitude ?? 0.0,
     );
 
     String time = MathFunctions.time(double.parse(distance));    

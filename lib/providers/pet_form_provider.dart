@@ -17,7 +17,7 @@ class PetFormProvider with ChangeNotifier, FormValidator {
   final _petSelectedCaracteristics = BehaviorSubject<List>.seeded([]);
   final _petDescription = BehaviorSubject<String>.seeded('');
   final _petPhotos = BehaviorSubject<List>.seeded([]);
-  final _petInEdition = BehaviorSubject<Pet>();  
+  final _petInEdition = BehaviorSubject<Pet>();
 
   // Streams to be listened
   Stream<String> get petName => _petName.stream;
@@ -70,21 +70,21 @@ class PetFormProvider with ChangeNotifier, FormValidator {
   Pet get getPetInEdition => _petInEdition.value;
 
   List<BehaviorSubject> _subjects() {
-    return [
-      _petName,
-      _petAge,
-      _petDescription,
-      _petPhotos,
-    ];
+    return [_petName, _petAge, _petMonths, _petDescription, _petPhotos];
   }
 
   bool formIsvalid() {
     bool formStatus = true;
     List<BehaviorSubject> newList = _subjects();
-    if (getPetKind != 'Donate') newList.removeAt(1);      
+    if (getPetKind != 'Donate') newList.removeAt(1);
 
     for (BehaviorSubject subject in newList) {
-      if (subject.value == null || subject.value == "" || subject.value == 0) {
+      if (subject.value == null || subject.value == "") {
+        subject.addError("* Campo obrigatório");
+        formStatus = false;
+      }
+
+      if (subject.value.runtimeType == int && subject.value < 0) {
         subject.addError("* Campo obrigatório");
         formStatus = false;
       }
