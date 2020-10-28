@@ -15,8 +15,7 @@ class _BootstrapState extends State<Bootstrap> {
   Location local;
 
   @override
-  void initState() {
-    // Ads.closeAllAds();
+  void initState() {    
     super.initState();
   }
 
@@ -54,7 +53,7 @@ class _BootstrapState extends State<Bootstrap> {
               return LocalPermissionScreen(permissionCallBack: local.permissionRequest,
               );
             }
-            local.getLocation == null ? local.setLocation() : () {};
+            if(local.getLocation == null) local.setLocation();
             return AuthOrHome();
           },
         );
