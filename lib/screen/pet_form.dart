@@ -84,9 +84,9 @@ class _PetFormState extends State<PetForm> {
   int dropvalueBreed = 0;
   String userId;
   LatLng currentLocation;
-  bool isSaving = false;
+  bool isSaving; 
   bool readOnly = false;
-  bool convertingImages = false;
+  bool convertingImages;
   bool photosFieldIsValid = true;
   AdsProvider adsProvider;
   String storageHashKey;  
@@ -133,7 +133,10 @@ class _PetFormState extends State<PetForm> {
 
     if (!widget.editMode) {
       storageHashKey = generateStorageHashKey();
-    }    
+    }
+
+    convertingImages = false;
+    isSaving = false;
     super.initState();
   }
 
