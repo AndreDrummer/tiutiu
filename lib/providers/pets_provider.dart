@@ -69,11 +69,20 @@ class PetsProvider with ChangeNotifier {
   }
 
   List<String> _filters() {
+    String age = getAgeSelected;
+    if(age == 'Mais de 10 anos') {
+      age = '10';
+    } else if(age == 'Menos de 1 ano') {
+      age = '0';
+    } else {
+      age = age.split('').first;
+    }
+
     return [
       getPetType,
       getBreedSelected,
       getSizeSelected,
-      getAgeSelected,
+      age,
       getSexSelected,
       getHealthSelected
     ];
@@ -86,16 +95,27 @@ class PetsProvider with ChangeNotifier {
   Stream<QuerySnapshot> loadFilteredPETS() {
     Query query = FirebaseFirestore.instance
         .collection(getPetKind)
-        .where(getPetKind == 'Donate' ? 'donated' : 'found', isEqualTo: false);
-
-    print(
-        'Filtro: \n Tipo: $getPetType\nKind: $getPetKind\nRaça: $getBreedSelected\nTamanho: $getSizeSelected\nAno: $getAgeSelected\nSexo: $getSexSelected\nSaúde: $getHealthSelected');
+        .where(getPetKind == 'Donate' ? 'donated' : 'found', isEqualTo: false);    
 
     for (int i = 0; i < _filters().length; i++) {
-      if (_filters()[i].isNotEmpty && _filters()[i] != null) {
-        query = query.where(_filtersType()[i], isEqualTo: _filters()[i]);
+      if (_filters()[i].isNotEmpty && _filters()[i] != null) {        
+        if(i == 3) {          
+          if(_filters()[i] == "10") {
+            print('primeiro se');
+            query = query.where(_filtersType()[i], isGreaterThanOrEqualTo: int.tryParse(_filters()[i]) ?? 0);
+          } else if(_filters()[i] == "0") {            
+            query = query.where(_filtersType()[i], isEqualTo: 0);
+          } else {
+            print('ultimo else');
+            query = query.where(_filtersType()[i], isEqualTo: int.tryParse(_filters()[i]) ?? 0);
+          }
+        } else {
+          query = query.where(_filtersType()[i], isEqualTo: _filters()[i]);
+        }
       }
     }
+
+    print("QUERY ${query.parameters}");
 
     return query.snapshots();
   }
