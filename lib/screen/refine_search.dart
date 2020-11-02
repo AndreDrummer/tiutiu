@@ -87,8 +87,14 @@ class _RefineSearchState extends State<RefineSearch> {
         'selectionPageTitle': 'Idades',
         'selectionPageList': DummyData.ages,
         'onValueSelected': (String value) {
-          value = value?.split('')?.first;
-          refineSearchProvider.changeAgeSelected(value);
+          print('value $value');
+          if (value == '-1 ano') {
+            refineSearchProvider.changeAgeSelected('Menos de 1 ano');
+          } else if (value == '10+ anos') {
+            refineSearchProvider.changeAgeSelected('Mais de 10 anos');
+          } else {
+            refineSearchProvider.changeAgeSelected(value);
+          }
         },
         'clearFunction': () {
           refineSearchProvider.changeAgeSelected('');
@@ -245,25 +251,44 @@ class _RefineSearchState extends State<RefineSearch> {
                   child: ButtonWide(
                     color: isRefiningSearch ? Colors.grey : Colors.purple,
                     text: 'BUSCAR',
-                    action: isRefiningSearch ? null : () async {
-                      petsProvider.changePetKind(refineSearchProvider.getIsDisappeared? 'Disappeared': 'Donate');
-                      petsProvider.changePetType(selectedKind == 0 ? 'Todos': petsType[selectedKind - 1]);
-                      petsProvider.changeBreedSelected(refineSearchProvider.getBreedSelected);
-                      petsProvider.changeSizeSelected(refineSearchProvider.getSizeSelected);
-                      petsProvider.changeAgeSelected(refineSearchProvider.getAgeSelected);
-                      petsProvider.changeSexSelected(refineSearchProvider.getSexSelected);
-                      petsProvider.changeHealthSelected(refineSearchProvider.getHealthSelected);
-                      petsProvider.changeIsFiltering(selectedKind == 0 ? false : true);
+                    action: isRefiningSearch
+                        ? null
+                        : () async {
+                            petsProvider.changePetKind(
+                                refineSearchProvider.getIsDisappeared
+                                    ? 'Disappeared'
+                                    : 'Donate');
+                            petsProvider.changePetType(selectedKind == 0
+                                ? 'Todos'
+                                : petsType[selectedKind - 1]);
+                            petsProvider.changeBreedSelected(
+                                refineSearchProvider.getBreedSelected);
+                            petsProvider.changeSizeSelected(
+                                refineSearchProvider.getSizeSelected);
+                            petsProvider.changeAgeSelected(
+                                refineSearchProvider.getAgeSelected);
+                            petsProvider.changeSexSelected(
+                                refineSearchProvider.getSexSelected);
+                            petsProvider.changeHealthSelected(
+                                refineSearchProvider.getHealthSelected);
+                            petsProvider.changeIsFiltering(
+                                selectedKind == 0 ? false : true);
 
-                      Navigator.pushNamed(context, Routes.HOME, arguments: refineSearchProvider.getIsDisappeared ? 1 : 0);
-                    },
+                            Navigator.pushNamed(context, Routes.HOME,
+                                arguments: refineSearchProvider.getIsDisappeared
+                                    ? 1
+                                    : 0);
+                          },
                   ),
                 ),
-                adsProvider.getCanShowAds ? adsProvider.bannerAdMob(adId: adsProvider.bottomAdId) : Container(),
+                adsProvider.getCanShowAds
+                    ? adsProvider.bannerAdMob(adId: adsProvider.bottomAdId)
+                    : Container(),
               ],
             ),
-          ),          
-          LoadDarkScreen(show: isRefiningSearch, message: 'Refinando resultados...')
+          ),
+          LoadDarkScreen(
+              show: isRefiningSearch, message: 'Refinando resultados...')
         ],
       ),
     );
