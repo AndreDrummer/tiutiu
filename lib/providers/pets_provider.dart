@@ -4,6 +4,7 @@ import 'package:rxdart/rxdart.dart';
 import 'package:tiutiu/backend/Model/pet_model.dart';
 
 class PetsProvider with ChangeNotifier {
+  final _petName = BehaviorSubject<String>();
   final _petKind = BehaviorSubject<String>();
   final _petType = BehaviorSubject<String>();
   final _breedSelected = BehaviorSubject<String>();
@@ -14,6 +15,7 @@ class PetsProvider with ChangeNotifier {
   bool _isFiltering = false;
 
   // Listenning to The Data
+  Stream<String> get petName => _petName.stream;
   Stream<String> get petKind => _petKind.stream;
   Stream<String> get petType => _petType.stream;
   Stream<String> get breedSelected => _breedSelected.stream;
@@ -23,6 +25,7 @@ class PetsProvider with ChangeNotifier {
   Stream<String> get healthSelected => _healthSelected.stream;
 
   // Changing the data
+  void Function(String) get changepetName => _petName.sink.add;
   void Function(String) get changePetKind => _petKind.sink.add;
   void Function(String) get changePetType => _petType.sink.add;
   void Function(String) get changeBreedSelected => _breedSelected.sink.add;
@@ -32,6 +35,7 @@ class PetsProvider with ChangeNotifier {
   void Function(String) get changeHealthSelected => _healthSelected.sink.add;
 
   // Getting data
+  String get getpetName => _petName.value;
   String get getPetKind => _petKind.value;
   String get getPetType => _petType.value;
   String get getBreedSelected => _breedSelected.value;
@@ -74,7 +78,7 @@ class PetsProvider with ChangeNotifier {
       age = '10';
     } else if(age == 'Menos de 1 ano') {
       age = '0';
-    } else {
+    } else if(age.isNotEmpty && age != null) {
       age = age.split('').first;
     }
 
@@ -100,22 +104,18 @@ class PetsProvider with ChangeNotifier {
     for (int i = 0; i < _filters().length; i++) {
       if (_filters()[i].isNotEmpty && _filters()[i] != null) {        
         if(i == 3) {          
-          if(_filters()[i] == "10") {
-            print('primeiro se');
+          if(_filters()[i] == "10") {            
             query = query.where(_filtersType()[i], isGreaterThanOrEqualTo: int.tryParse(_filters()[i]) ?? 0);
           } else if(_filters()[i] == "0") {            
             query = query.where(_filtersType()[i], isEqualTo: 0);
-          } else {
-            print('ultimo else');
+          } else {            
             query = query.where(_filtersType()[i], isEqualTo: int.tryParse(_filters()[i]) ?? 0);
           }
         } else {
           query = query.where(_filtersType()[i], isEqualTo: _filters()[i]);
         }
       }
-    }
-
-    print("QUERY ${query.parameters}");
+    }    
 
     return query.snapshots();
   }
