@@ -10,6 +10,11 @@ class RefineSearchProvider with ChangeNotifier {
   final _healthSelected = BehaviorSubject<String>.seeded('');
   final _distancieSelected = BehaviorSubject<String>.seeded('');
   final _isDisappeared = BehaviorSubject<bool>.seeded(false);
+  final _searchPetByTypeOnHome = BehaviorSubject<bool>.seeded(true);
+  final _searchHomeType = BehaviorSubject<List<String>>.seeded(['Tipo', 'Nome do PET', 'Raça do PET']);
+  final _searchHomePetType = BehaviorSubject<List<String>>.seeded(['Todos', 'Cachorro', 'Gato', 'Pássaro', 'Hamster', 'Outro']);
+  final _searchHomePetTypeInitialValue = BehaviorSubject<String>.seeded('Todos');
+  final _searchHomeTypeInitialValue = BehaviorSubject<String>.seeded('Tipo');
 
   Stream<int> get kindSelected => _kindSelected.stream;  
   Stream<String> get breedSelected => _breedSelected.stream;  
@@ -19,6 +24,11 @@ class RefineSearchProvider with ChangeNotifier {
   Stream<String> get healthSelected => _healthSelected.stream;  
   Stream<String> get distancieSelected => _distancieSelected.stream;  
   Stream<bool> get isDisappeared => _isDisappeared.stream;  
+  Stream<bool> get searchPetByTypeOnHome => _searchPetByTypeOnHome.stream;  
+  Stream<List<String>> get searchHomeType => _searchHomeType.stream;  
+  Stream<List<String>> get searchHomePetType => _searchHomePetType.stream;  
+  Stream<String> get searchHomePetTypeInitialValue => _searchHomePetTypeInitialValue.stream;  
+  Stream<String> get searchHomeTypeInitialValue => _searchHomeTypeInitialValue.stream;  
   
   void changeKindSelected(int kind) {
     _kindSelected.sink.add(kind);
@@ -54,11 +64,14 @@ class RefineSearchProvider with ChangeNotifier {
     _distancieSelected.sink.add(newList);
     notifyListeners();
   }  
+  void Function(String) get changeSearchHomePetTypeInitialValue => _searchHomePetTypeInitialValue.sink.add;
+  void Function(String) get changeSearchHomeTypeInitialValue => _searchHomeTypeInitialValue.sink.add;  
+  void Function(bool) get changeSearchPetByTypeOnHome => _searchPetByTypeOnHome.sink.add;
 
   void changeIsDisappeared(bool newValue) {
     _isDisappeared.sink.add(newValue);
     notifyListeners();
-  }   
+  }       
 
   int get getKindSelected => _kindSelected.stream.value; 
   String get getBreedSelected => _breedSelected.stream.value; 
@@ -68,4 +81,9 @@ class RefineSearchProvider with ChangeNotifier {
   String get getHealthSelected => _healthSelected.stream.value; 
   String get getDistancieSelected => _distancieSelected.stream.value; 
   bool get getIsDisappeared => _isDisappeared.stream.value; 
+  bool get getSearchPetByTypeOnHome => _searchPetByTypeOnHome.stream.value; 
+  List<String> get getSearchHomeType => _searchHomeType.value;  
+  List<String> get getSearchHomePetType => _searchHomePetType.value;  
+  String get getSearchHomePetTypeInitialValue => _searchHomePetTypeInitialValue.value;  
+  String get getSearchHomeTypeInitialValue => _searchHomeTypeInitialValue.value;  
 }
