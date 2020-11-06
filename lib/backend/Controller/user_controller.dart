@@ -201,7 +201,7 @@ class UserController {
   Stream<QuerySnapshot> loadMyPostedPetsToDonate({String userId}) {
     PetController petController = PetController();
     return petController.getPetsByUser('Donate', userId);
-   }
+  }
 
   Stream<QuerySnapshot> loadMyPostedPetsDisappeared({String userId}) {
     PetController petController = PetController();
