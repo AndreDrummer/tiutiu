@@ -49,6 +49,7 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
   }
 
   Stream<QuerySnapshot> myPetsStream() {
+    print("PETS ${widget.kind}");
     if (widget.kind != null) {
       switch (widget.kind) {
         case 'Donate':
