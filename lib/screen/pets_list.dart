@@ -27,7 +27,8 @@ class _PetsListState extends State<PetsList> with SingleTickerProviderStateMixin
   void didChangeDependencies() {    
     petsProvider = Provider.of<PetsProvider>(context);
     refineSearchProvider = Provider.of<RefineSearchProvider>(context);        
-
+    petsProvider.loadDisappearedPETS();
+    petsProvider.loadDonatePETS();
     super.didChangeDependencies();
   }
 
@@ -50,7 +51,7 @@ class _PetsListState extends State<PetsList> with SingleTickerProviderStateMixin
     if(_controller.index == 1) {
       petsProvider.changePetKind('Disappeared');
       if(refineSearchProvider.getSearchPetByTypeOnHome && refineSearchProvider.getIsHomeFilteringByDisappeared) {
-        refineSearchProvider.changeSearchHomePetTypeInitialValue(refineSearchProvider.getHomePetTypeFilterByDisappeared);
+        refineSearchProvider.changeSearchHomePetTypeInitialValue(refineSearchProvider.getHomePetTypeFilterByDisappeared);        
         petsProvider.changePetType(refineSearchProvider.getHomePetTypeFilterByDisappeared);        
         petsProvider.changeIsFiltering(true);        
       } else {
@@ -63,7 +64,7 @@ class _PetsListState extends State<PetsList> with SingleTickerProviderStateMixin
     } else {
       petsProvider.changePetKind('Donate');
       if(refineSearchProvider.getSearchPetByTypeOnHome && refineSearchProvider.getIsHomeFilteringByDonate) {
-        refineSearchProvider.changeSearchHomePetTypeInitialValue(refineSearchProvider.getHomePetTypeFilterByDonate);
+        refineSearchProvider.changeSearchHomePetTypeInitialValue(refineSearchProvider.getHomePetTypeFilterByDonate);        
         petsProvider.changePetType(refineSearchProvider.getHomePetTypeFilterByDonate);        
         petsProvider.changeIsFiltering(true);        
       } else {
@@ -156,11 +157,11 @@ class _PetsListState extends State<PetsList> with SingleTickerProviderStateMixin
             ],
           ),
         ),
-        body: TabBarView(       
+        body: TabBarView(
           controller: _controller,   
           children: [
-            DonateDisappearedList(kind: 'Donate'),
-            DonateDisappearedList(kind: 'Disappeared'),
+            DonateDisappearedList(stream: petsProvider.petsDonate),
+            DonateDisappearedList(stream: petsProvider.petsDisappeared),
           ],
         ),
       ),

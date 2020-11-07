@@ -20,7 +20,7 @@ class RefineSearchProvider with ChangeNotifier {
   final _isHomeFilteringByDisappeared = BehaviorSubject<bool>.seeded(false);
 
   final _homePetTypeFilterByDonate = BehaviorSubject<String>();
-  final _homePetTypeFilterByDisappeared = BehaviorSubject<String>();
+  final _homePetTypeFilterByDisappeared = BehaviorSubject<String>();    
 
   Stream<int> get kindSelected => _kindSelected.stream;  
   Stream<String> get breedSelected => _breedSelected.stream;  
@@ -38,7 +38,7 @@ class RefineSearchProvider with ChangeNotifier {
   Stream<bool> get isHomeFilteringByDonate => _isHomeFilteringByDonate.stream;  
   Stream<bool> get isHomeFilteringByDisappeared => _isHomeFilteringByDisappeared.stream;  
   Stream<String> get homePetTypeFilterByDonate => _homePetTypeFilterByDonate.stream;  
-  Stream<String> get homePetTypeFilterByDisappeared => _homePetTypeFilterByDisappeared.stream;    
+Stream<String> get homePetTypeFilterByDisappeared => _homePetTypeFilterByDisappeared.stream;        
   
   void changeKindSelected(int kind) {
     _kindSelected.sink.add(kind);
@@ -80,7 +80,7 @@ class RefineSearchProvider with ChangeNotifier {
   void Function(bool) get changeIsHomeFilteringByDonate => _isHomeFilteringByDonate.sink.add;  
   void Function(bool) get changeIsHomeFilteringByDisappeared => _isHomeFilteringByDisappeared.sink.add;  
   void Function(String) get changeHomePetTypeFilterByDonate => _homePetTypeFilterByDonate.sink.add;  
-  void Function(String) get changeHomePetTypeFilterByDisappeared => _homePetTypeFilterByDisappeared.sink.add;    
+void Function(String) get changeHomePetTypeFilterByDisappeared => _homePetTypeFilterByDisappeared.sink.add;        
 
   void changeIsDisappeared(bool newValue) {
     _isDisappeared.sink.add(newValue);
@@ -103,5 +103,5 @@ class RefineSearchProvider with ChangeNotifier {
   bool get getIsHomeFilteringByDonate => _isHomeFilteringByDonate.value;  
   bool get getIsHomeFilteringByDisappeared => _isHomeFilteringByDisappeared.value;  
   String get getHomePetTypeFilterByDonate => _homePetTypeFilterByDonate.value;  
-  String get getHomePetTypeFilterByDisappeared => _homePetTypeFilterByDisappeared.value;    
+String get getHomePetTypeFilterByDisappeared => _homePetTypeFilterByDisappeared.value;        
 }
