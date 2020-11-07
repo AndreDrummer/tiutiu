@@ -10,11 +10,17 @@ class RefineSearchProvider with ChangeNotifier {
   final _healthSelected = BehaviorSubject<String>.seeded('');
   final _distancieSelected = BehaviorSubject<String>.seeded('');
   final _isDisappeared = BehaviorSubject<bool>.seeded(false);
-  final _searchPetByTypeOnHome = BehaviorSubject<bool>.seeded(true);
+  final _searchPetByTypeOnHome = BehaviorSubject<bool>.seeded(true);    
   final _searchHomeType = BehaviorSubject<List<String>>.seeded(['Tipo', 'Nome do PET', 'Raça do PET']);
   final _searchHomePetType = BehaviorSubject<List<String>>.seeded(['Todos', 'Cachorro', 'Gato', 'Pássaro', 'Hamster', 'Outro']);
   final _searchHomePetTypeInitialValue = BehaviorSubject<String>.seeded('Todos');
-  final _searchHomeTypeInitialValue = BehaviorSubject<String>.seeded('Tipo');
+  final _searchHomeTypeInitialValue = BehaviorSubject<String>.seeded('Tipo');  
+
+  final _isHomeFilteringByDonate = BehaviorSubject<bool>.seeded(false);
+  final _isHomeFilteringByDisappeared = BehaviorSubject<bool>.seeded(false);
+
+  final _homePetTypeFilterByDonate = BehaviorSubject<String>();
+  final _homePetTypeFilterByDisappeared = BehaviorSubject<String>();
 
   Stream<int> get kindSelected => _kindSelected.stream;  
   Stream<String> get breedSelected => _breedSelected.stream;  
@@ -24,11 +30,15 @@ class RefineSearchProvider with ChangeNotifier {
   Stream<String> get healthSelected => _healthSelected.stream;  
   Stream<String> get distancieSelected => _distancieSelected.stream;  
   Stream<bool> get isDisappeared => _isDisappeared.stream;  
-  Stream<bool> get searchPetByTypeOnHome => _searchPetByTypeOnHome.stream;  
+  Stream<bool> get searchPetByTypeOnHome => _searchPetByTypeOnHome.stream;      
   Stream<List<String>> get searchHomeType => _searchHomeType.stream;  
   Stream<List<String>> get searchHomePetType => _searchHomePetType.stream;  
   Stream<String> get searchHomePetTypeInitialValue => _searchHomePetTypeInitialValue.stream;  
   Stream<String> get searchHomeTypeInitialValue => _searchHomeTypeInitialValue.stream;  
+  Stream<bool> get isHomeFilteringByDonate => _isHomeFilteringByDonate.stream;  
+  Stream<bool> get isHomeFilteringByDisappeared => _isHomeFilteringByDisappeared.stream;  
+  Stream<String> get homePetTypeFilterByDonate => _homePetTypeFilterByDonate.stream;  
+  Stream<String> get homePetTypeFilterByDisappeared => _homePetTypeFilterByDisappeared.stream;    
   
   void changeKindSelected(int kind) {
     _kindSelected.sink.add(kind);
@@ -66,7 +76,11 @@ class RefineSearchProvider with ChangeNotifier {
   }  
   void Function(String) get changeSearchHomePetTypeInitialValue => _searchHomePetTypeInitialValue.sink.add;
   void Function(String) get changeSearchHomeTypeInitialValue => _searchHomeTypeInitialValue.sink.add;  
-  void Function(bool) get changeSearchPetByTypeOnHome => _searchPetByTypeOnHome.sink.add;
+  void Function(bool) get changeSearchPetByTypeOnHome => _searchPetByTypeOnHome.sink.add;    
+  void Function(bool) get changeIsHomeFilteringByDonate => _isHomeFilteringByDonate.sink.add;  
+  void Function(bool) get changeIsHomeFilteringByDisappeared => _isHomeFilteringByDisappeared.sink.add;  
+  void Function(String) get changeHomePetTypeFilterByDonate => _homePetTypeFilterByDonate.sink.add;  
+  void Function(String) get changeHomePetTypeFilterByDisappeared => _homePetTypeFilterByDisappeared.sink.add;    
 
   void changeIsDisappeared(bool newValue) {
     _isDisappeared.sink.add(newValue);
@@ -81,9 +95,13 @@ class RefineSearchProvider with ChangeNotifier {
   String get getHealthSelected => _healthSelected.stream.value; 
   String get getDistancieSelected => _distancieSelected.stream.value; 
   bool get getIsDisappeared => _isDisappeared.stream.value; 
-  bool get getSearchPetByTypeOnHome => _searchPetByTypeOnHome.stream.value; 
+  bool get getSearchPetByTypeOnHome => _searchPetByTypeOnHome.stream.value;     
   List<String> get getSearchHomeType => _searchHomeType.value;  
   List<String> get getSearchHomePetType => _searchHomePetType.value;  
   String get getSearchHomePetTypeInitialValue => _searchHomePetTypeInitialValue.value;  
   String get getSearchHomeTypeInitialValue => _searchHomeTypeInitialValue.value;  
+  bool get getIsHomeFilteringByDonate => _isHomeFilteringByDonate.value;  
+  bool get getIsHomeFilteringByDisappeared => _isHomeFilteringByDisappeared.value;  
+  String get getHomePetTypeFilterByDonate => _homePetTypeFilterByDonate.value;  
+  String get getHomePetTypeFilterByDisappeared => _homePetTypeFilterByDisappeared.value;    
 }
