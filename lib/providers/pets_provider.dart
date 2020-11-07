@@ -12,7 +12,8 @@ class PetsProvider with ChangeNotifier {
   final _ageSelected = BehaviorSubject<String>();
   final _sexSelected = BehaviorSubject<String>();
   final _healthSelected = BehaviorSubject<String>();
-  final _pets = BehaviorSubject<List<Pet>>();
+  final _petsDonate = BehaviorSubject<List<Pet>>();
+  final _petsDisappeared = BehaviorSubject<List<Pet>>();
   bool _isFiltering = false;
   bool _isFilteringByName = false;
   bool _isFilteringByBreed = false;
@@ -26,7 +27,8 @@ class PetsProvider with ChangeNotifier {
   Stream<String> get ageSelected => _ageSelected.stream;
   Stream<String> get sexSelected => _sexSelected.stream;
   Stream<String> get healthSelected => _healthSelected.stream;
-  Stream<List<Pet>> get pets => _pets.stream;
+  Stream<List<Pet>> get petsDonate => _petsDonate.stream;
+  Stream<List<Pet>> get petsDisappeared => _petsDisappeared.stream;
 
   // Changing the data
   void Function(String) get changePetName => _petName.sink.add;
@@ -37,7 +39,8 @@ class PetsProvider with ChangeNotifier {
   void Function(String) get changeAgeSelected => _ageSelected.sink.add;
   void Function(String) get changeSexSelected => _sexSelected.sink.add;
   void Function(String) get changeHealthSelected => _healthSelected.sink.add;
-  void Function(List<Pet>) get changePets => _pets.sink.add;
+  void Function(List<Pet>) get changePetsDonate => _petsDonate.sink.add;
+  void Function(List<Pet>) get changePetsDisappeared => _petsDisappeared.sink.add;
 
   // Getting data
   String get getPetName => _petName.value;
@@ -51,18 +54,30 @@ class PetsProvider with ChangeNotifier {
   bool get isFiltering => _isFiltering;  
   bool get isFilteringByName => _isFilteringByName;  
   bool get isFilteringByBreed => _isFilteringByBreed;  
-  List<Pet> get getPets => _pets.value;
+  List<Pet> get getPetsDonate => _petsDonate.value;
+  List<Pet> get getPetsDisappeared => _petsDisappeared.value;
 
   void changeIsFiltering(bool status) {
     _isFiltering = status;
   }
 
   void changeIsFilteringByName(bool status) {
-    _isFiltering = status;
+    _isFilteringByName = status;
   }
 
   void changeIsFilteringByBreed(bool status) {
-    _isFiltering = status;
+    _isFilteringByBreed = status;
+  }
+
+  void clearOthersFilters() {
+    changePetType('');
+    changeBreedSelected('');
+    changeSizeSelected('');
+    changeAgeSelected('');
+    changeSexSelected('');
+    changeHealthSelected('');
+    changePetsDonate([]);
+    changePetsDisappeared([]);
   }
 
   List<Pet> getPetListFromSnapshots(List<DocumentSnapshot> docs) {
@@ -73,8 +88,7 @@ class PetsProvider with ChangeNotifier {
     return pets;
   }
 
-  void loadDonatePETS() async {
-    changePets([]);
+  void loadDonatePETS() async {    
     if(_isFiltering) {
       loadFilteredPETS();
     } else {
@@ -84,12 +98,11 @@ class PetsProvider with ChangeNotifier {
       for (int i = 0; i < querySnapshot.docs.length; i++) {
         pets.add(Pet.fromSnapshot(querySnapshot.docs[i]));
       }
-      changePets(pets);
+      changePetsDonate(pets);
     }
   }
 
-  void loadDisappearedPETS() async {
-    changePets([]);
+  void loadDisappearedPETS() async {    
     if(_isFiltering) {
       loadFilteredPETS();
     } else {
@@ -99,7 +112,7 @@ class PetsProvider with ChangeNotifier {
       for (int i = 0; i < querySnapshot.docs.length; i++) {
         pets.add(Pet.fromSnapshot(querySnapshot.docs[i]));
       }
-      changePets(pets);
+      changePetsDisappeared(pets);
     }
   }  
  
@@ -128,11 +141,10 @@ class PetsProvider with ChangeNotifier {
   }
 
   void loadFilteredPETS() async {
-    Query query = FirebaseFirestore.instance
-        .collection(getPetKind)
-        .where(getPetKind == 'Donate' ? 'donated' : 'found', isEqualTo: false);    
+    Query query = FirebaseFirestore.instance.collection(getPetKind).where(getPetKind == 'Donate' ? 'donated' : 'found', isEqualTo: false);    
 
     if(isFilteringByName) {
+      print(query.parameters);
       query = query.where('name', isEqualTo: getPetName);
     } else if (isFilteringByBreed) {
       query = query.where('breed', isEqualTo: getBreedSelected);
@@ -140,10 +152,9 @@ class PetsProvider with ChangeNotifier {
       for (int i = 0; i < _filters().length; i++) {
         if (_filters()[i] != null && _filters()[i].isNotEmpty) {        
           if(i == 3) {          
-            if(_filters()[i] == "10") {            
+            if(_filters()[i] == "10") {}
+            else if(_filters()[i] == "0") {            
               query = query.where(_filtersType()[i], isEqualTo: int.tryParse(_filters()[i]) ?? 0);
-            } else if(_filters()[i] == "0") {            
-              query = query.where(_filtersType()[i], isEqualTo: 0);
             } else {            
               query = query.where(_filtersType()[i], isEqualTo: int.tryParse(_filters()[i]) ?? 0);
             }
@@ -161,6 +172,6 @@ class PetsProvider with ChangeNotifier {
       pets.add(Pet.fromSnapshot(querySnapshot.docs[i]));
     }      
 
-    return changePets(pets);
+    getPetKind == 'Donate' ? changePetsDonate(pets) : changePetsDisappeared(pets);
   }
 }
