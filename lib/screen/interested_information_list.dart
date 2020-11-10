@@ -115,8 +115,8 @@ class _InterestedListState extends State<InterestedList> {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.kind == 'Donate'
-            ? 'Pessoas interessadas em ${widget.pet.name}'.toUpperCase()
-            : 'Pessoas que informaram sobre ${widget.pet.name}'.toUpperCase()),
+            ? 'Interessados em ${widget.pet.name}'.toUpperCase()
+            : 'Quem informou sobre ${widget.pet.name}'.toUpperCase()),
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(vertical: 8.0),
