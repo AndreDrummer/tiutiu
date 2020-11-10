@@ -14,6 +14,8 @@ class PetsProvider with ChangeNotifier {
   final _healthSelected = BehaviorSubject<String>();
   final _petsDonate = BehaviorSubject<List<Pet>>();
   final _petsDisappeared = BehaviorSubject<List<Pet>>();
+  final _orderType = BehaviorSubject<String>.seeded('Data de postagem');
+  final _orderTypeList = BehaviorSubject<List<String>>.seeded(['Data de postagem', 'Nome', 'Idade']);
   bool _isFiltering = false;
   bool _isFilteringByName = false;
   bool _isFilteringByBreed = false;
@@ -29,6 +31,8 @@ class PetsProvider with ChangeNotifier {
   Stream<String> get healthSelected => _healthSelected.stream;
   Stream<List<Pet>> get petsDonate => _petsDonate.stream;
   Stream<List<Pet>> get petsDisappeared => _petsDisappeared.stream;
+  Stream<List<String>> get orderTypeList => _orderTypeList.stream;
+  Stream<String> get orderType => _orderType.stream;
 
   // Changing the data
   void Function(String) get changePetName => _petName.sink.add;
@@ -41,6 +45,12 @@ class PetsProvider with ChangeNotifier {
   void Function(String) get changeHealthSelected => _healthSelected.sink.add;
   void Function(List<Pet>) get changePetsDonate => _petsDonate.sink.add;
   void Function(List<Pet>) get changePetsDisappeared => _petsDisappeared.sink.add;
+  void Function(List<String>) get changeOrderTypeList => _orderTypeList.sink.add;
+  
+  void changeOrderType(String text) {
+    _orderType.sink.add(text);
+    reloadList();
+  } 
 
   // Getting data
   String get getPetName => _petName.value;
@@ -56,6 +66,8 @@ class PetsProvider with ChangeNotifier {
   bool get isFilteringByBreed => _isFilteringByBreed;  
   List<Pet> get getPetsDonate => _petsDonate.value;
   List<Pet> get getPetsDisappeared => _petsDisappeared.value;
+  List<String> get getOrderTypeList => _orderTypeList.value;
+  String get getOrderType => _orderType.value;
 
   void changeIsFiltering(bool status) {
     _isFiltering = status;
@@ -67,6 +79,14 @@ class PetsProvider with ChangeNotifier {
 
   void changeIsFilteringByBreed(bool status) {
     _isFilteringByBreed = status;
+  }
+
+   void reloadList() {
+    if (getPetKind == 'Donate') {
+      loadDonatePETS();
+    } else {
+      loadDisappearedPETS();
+    }
   }
 
   void clearOthersFilters() {
@@ -114,7 +134,15 @@ class PetsProvider with ChangeNotifier {
       }
       changePetsDisappeared(pets);
     }
-  }  
+  }
+
+  Stream<QuerySnapshot> loadInfoOrInterested({String kind, DocumentReference petReference}) {
+    return kind == 'Donate' ?  petReference.collection('adoptInteresteds').snapshots() : petReference.collection('infoInteresteds').snapshots();
+  }
+
+  void increaseViews({int actualViews, DocumentReference petReference}) {
+    petReference.set({'views': ++actualViews}, SetOptions(merge: true));
+  }
  
   List<String> _filters() {
     String age = getAgeSelected;

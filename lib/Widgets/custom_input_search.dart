@@ -5,10 +5,12 @@ class CustomDropdownButtonSearch extends StatefulWidget {
   CustomDropdownButtonSearch({
     this.initialValue,
     this.itemList,
+    this.fontSize,
     this.onChange,
     this.isExpanded,
     this.withPipe = true,
     this.label,
+    this.colorText = Colors.black
   });
   final List<String> itemList;
   String initialValue;
@@ -16,6 +18,8 @@ class CustomDropdownButtonSearch extends StatefulWidget {
   final Function(String) onChange;
   final bool isExpanded;
   final bool withPipe;
+  final Color colorText;
+  final double fontSize;
 
   @override
   _CustomDropdownButtonSearchState createState() =>
@@ -36,7 +40,7 @@ class _CustomDropdownButtonSearchState
           },
           items: widget.itemList.map<DropdownMenuItem<String>>((String e) {
             return DropdownMenuItem<String>(
-              child: Text(e),
+              child: Text(e, style: TextStyle(color: widget.colorText, fontSize: widget.fontSize)),
               value: e,
             );
           }).toList(),
