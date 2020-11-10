@@ -85,6 +85,14 @@ void Function(String) get changeHomePetTypeFilterByDisappeared => _homePetTypeFi
   void changeIsDisappeared(bool newValue) {
     _isDisappeared.sink.add(newValue);
     notifyListeners();
+  }
+
+  void clearRefineSelections() {
+    changeBreedSelected('');
+    changeSizeSelected('');
+    changeAgeSelected('');
+    changeHealthSelected('');
+    changeSexSelected('');    
   }       
 
   int get getKindSelected => _kindSelected.stream.value; 
