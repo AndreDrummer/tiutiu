@@ -93,6 +93,7 @@ void Function(String) get changeHomePetTypeFilterByDisappeared => _homePetTypeFi
     changeAgeSelected('');
     changeHealthSelected('');
     changeSexSelected('');    
+    changeDistancieSelected('');
   }       
 
   int get getKindSelected => _kindSelected.stream.value; 
