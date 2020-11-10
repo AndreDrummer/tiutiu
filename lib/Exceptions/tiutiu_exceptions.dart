@@ -3,7 +3,7 @@ class TiuTiuException {
   final String keyException;
 
   Map<String, String> Errors = {
-    'INVALID_PATH': ':Error: OPET pode ter sido excluído'
+    'INVALID_PATH': 'Error: O PET pode ter sido excluído'
   };
 
   @override

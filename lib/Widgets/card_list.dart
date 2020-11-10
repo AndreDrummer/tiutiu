@@ -97,7 +97,7 @@ class _CardListState extends State<CardList> {
       children: [
         InkWell(
           onTap: () async {
-            PetsProvider().increaseViews(actualViews: widget.petInfo.views ?? 0, petReference: widget.petInfo.petReference);
+            PetsProvider().increaseViews(actualViews: widget.petInfo.views ?? 1, petReference: widget.petInfo.petReference);
             final user = await loadOwner(widget.petInfo.ownerReference);
             Navigator.push(
               context,
@@ -203,7 +203,7 @@ class _CardListState extends State<CardList> {
                                           child: Row(                                            
                                             children: [
                                               Icon(Tiutiu.eye, size: 14, color: Colors.grey),
-                                              Text('  ${widget.petInfo.views ?? 0} visualizações', style: TextStyle(color: Colors.grey, fontWeight: FontWeight.w700)),
+                                              Text('  ${widget.petInfo.views ?? 1} visualizações', style: TextStyle(color: Colors.grey, fontWeight: FontWeight.w700)),
                                               SizedBox(width: 30),
                                               Icon(widget.petInfo.kind == 'Donate' ? Icons.favorite : Icons.info, size: 14, color: Colors.grey),
                                               StreamBuilder(
