@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+const String appBirthday = '2020-10-28T18:54:56.905834';
 class Pet {
   Pet({
     this.id,
@@ -14,6 +15,8 @@ class Pet {
     this.petReference,    
     this.otherCaracteristics,
     this.type,
+    this.createdAt,
+    this.views,
     this.avatar,
     this.health,
     this.ano,
@@ -31,6 +34,7 @@ class Pet {
   Pet.fromSnapshot(DocumentSnapshot snapshot) {    
     id = snapshot.id;
     donated = snapshot.data()['donated'];
+    views = snapshot.data()['views'];
     found = snapshot.data()['found'];
     kind = snapshot.data()['kind'];
     storageHashKey = snapshot.data()['storageHashKey'];
@@ -43,6 +47,7 @@ class Pet {
     ano = snapshot.data()['ano'];
     meses = snapshot.data()['meses'];
     breed = snapshot.data()['breed'];
+    createdAt = snapshot.data()['ownerId'] == 'lTndv6cg2BV3uYAnBkLb12XIG083' ? DateTime.now().toIso8601String() : snapshot.data()['createdAt'] ?? appBirthday;
     size = snapshot.data()['size'];
     details = snapshot.data()['details'];
     photos = snapshot.data()['photos'] as List;
@@ -58,6 +63,7 @@ class Pet {
   Pet.fromMap(Map<String, dynamic> map) {
     id = map['id'];
     donated = map['donated'];
+    views = map['views'];
     found = map['found'];
     kind = map['kind'];
     name = map['name'];
@@ -71,6 +77,7 @@ class Pet {
     ano = map['ano'];
     meses = map['meses'];
     breed = map['breed'];
+    createdAt = map['createdAt'];
     size = map['size'];
     details = map['details'];
     photos = map['photos'] as List;
@@ -83,6 +90,7 @@ class Pet {
   }
 
   String id;
+  int views;
   String name;
   String storageHashKey;
   bool donated;
@@ -97,6 +105,7 @@ class Pet {
   DocumentReference whoAdoptedReference;
   String avatar;
   String health;
+  String createdAt;
   int ano;  
   int meses;
   String breed;
@@ -112,6 +121,7 @@ class Pet {
       'id': id,
       'donated': donated,
       'found': found,
+      'views': views,
       'name': name,
       'storageHashKey': storageHashKey,
       'kind': kind,
@@ -121,6 +131,7 @@ class Pet {
       'health': health,
       'ano': ano,
       'meses': meses,
+      'createdAt': createdAt,
       'breed': breed,
       'photos': photos,
       'size': size,
@@ -146,6 +157,7 @@ class Pet {
     petMap['storageHashKey'] = storageHashKey;
     petMap['avatar'] = avatar;
     petMap['sex'] = sex;
+    petMap['views'] = views;
     petMap['health'] = health;
     petMap['ano'] = ano;
     petMap['meses'] = meses;
