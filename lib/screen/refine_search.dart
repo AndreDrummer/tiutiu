@@ -37,11 +37,7 @@ class _RefineSearchState extends State<RefineSearch> {
   }
 
   void handleSelectedKind(int index) {
-    refineSearchProvider.changeBreedSelected('');
-    refineSearchProvider.changeSizeSelected('');
-    refineSearchProvider.changeAgeSelected('');
-    refineSearchProvider.changeHealthSelected('');
-    refineSearchProvider.changeSexSelected('');
+    refineSearchProvider.clearRefineSelections();
     if(index == 0) petsProvider.changePetType('Todos');
     petsProvider.changePetType(petsType[index - 1]);
     refineSearchProvider.changeKindSelected(index);
