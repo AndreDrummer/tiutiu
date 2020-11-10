@@ -7,20 +7,91 @@ import 'package:tiutiu/Widgets/badge.dart';
 import 'package:tiutiu/backend/Controller/user_controller.dart';
 import 'package:tiutiu/providers/auth2.dart';
 import 'package:tiutiu/providers/pets_provider.dart';
+import 'package:tiutiu/providers/refine_search.dart';
 import 'package:tiutiu/providers/user_provider.dart';
 import 'package:tiutiu/screen/donate_disappeared_list.dart';
 import 'package:tiutiu/utils/routes.dart';
 
-class PetsList extends StatelessWidget {
+class PetsList extends StatefulWidget {
+  @override
+  _PetsListState createState() => _PetsListState();
+}
+
+class _PetsListState extends State<PetsList> with SingleTickerProviderStateMixin {  
+  TabController _controller;
+  int initialIndex = 0;
+  PetsProvider petsProvider;
+  RefineSearchProvider refineSearchProvider;  
+
+  @override
+  void didChangeDependencies() {    
+    petsProvider = Provider.of<PetsProvider>(context);
+    refineSearchProvider = Provider.of<RefineSearchProvider>(context);        
+    petsProvider.loadDisappearedPETS();
+    petsProvider.loadDonatePETS();
+    super.didChangeDependencies();
+  }
+
+  @override
+  void initState() {
+     _controller = TabController(
+      vsync: this,
+      length: 2,
+      initialIndex: initialIndex,
+    );
+
+    _controller.addListener(onTabChange);
+
+    super.initState();
+  }
+
+  void onTabChange(){
+    initialIndex = _controller.index;   
+
+    if(_controller.index == 1) {
+      petsProvider.changePetKind('Disappeared');
+      if(refineSearchProvider.getSearchPetByTypeOnHome && refineSearchProvider.getIsHomeFilteringByDisappeared) {
+        refineSearchProvider.changeSearchHomePetTypeInitialValue(refineSearchProvider.getHomePetTypeFilterByDisappeared);        
+        petsProvider.changePetType(refineSearchProvider.getHomePetTypeFilterByDisappeared);        
+        petsProvider.changeIsFiltering(true);        
+      } else {
+        refineSearchProvider.changeSearchHomePetTypeInitialValue(refineSearchProvider.getSearchHomePetType.first);
+        petsProvider.changeIsFiltering(false);
+      }
+      
+      petsProvider.loadDisappearedPETS();
+
+    } else {
+      petsProvider.changePetKind('Donate');
+      if(refineSearchProvider.getSearchPetByTypeOnHome && refineSearchProvider.getIsHomeFilteringByDonate) {
+        refineSearchProvider.changeSearchHomePetTypeInitialValue(refineSearchProvider.getHomePetTypeFilterByDonate);        
+        petsProvider.changePetType(refineSearchProvider.getHomePetTypeFilterByDonate);        
+        petsProvider.changeIsFiltering(true);        
+      } else {
+        refineSearchProvider.changeSearchHomePetTypeInitialValue(refineSearchProvider.getSearchHomePetType.first);
+        petsProvider.changeIsFiltering(false);
+      }
+      
+      petsProvider.loadDonatePETS();
+    }   
+  }
+
+  void changeInitialIndex(int index) {
+    setState((){
+      initialIndex = index;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    final indexTab = ModalRoute.of(context).settings.arguments;
-    final petProvider = Provider.of<PetsProvider>(context);
+    final indexTab = ModalRoute.of(context).settings.arguments;    
     void navigateToAuth() {
       Navigator.pushNamed(context, Routes.AUTH, arguments: true);
     }
 
-    return DefaultTabController(
+    if(indexTab != initialIndex) changeInitialIndex(indexTab);
+
+    return DefaultTabController(      
       length: 2,
       initialIndex: indexTab ?? 0,
       child: Scaffold(
@@ -75,8 +146,9 @@ class PetsList extends StatelessWidget {
                 ),
               )
             ],
-          ),
-          bottom: TabBar(
+          ),        
+          bottom: TabBar(            
+            controller: _controller,
             indicatorColor: Colors.white,
             labelColor: Colors.white,
             tabs: [
@@ -86,9 +158,10 @@ class PetsList extends StatelessWidget {
           ),
         ),
         body: TabBarView(
+          controller: _controller,   
           children: [
-            DonateDisappearedList(stream: petProvider.loadDonatedPETS),
-            DonateDisappearedList(stream: petProvider.loadDisappearedPETS),
+            DonateDisappearedList(stream: petsProvider.petsDonate),
+            DonateDisappearedList(stream: petsProvider.petsDisappeared),
           ],
         ),
       ),
