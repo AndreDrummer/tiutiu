@@ -42,9 +42,11 @@ class _RefineSearchState extends State<RefineSearch> {
     refineSearchProvider.changeAgeSelected('');
     refineSearchProvider.changeHealthSelected('');
     refineSearchProvider.changeSexSelected('');
+    if(index == 0) petsProvider.changePetType('Todos');
+    petsProvider.changePetType(petsType[index - 1]);
     refineSearchProvider.changeKindSelected(index);
   }
-
+  
   @override
   void didChangeDependencies() {
     petsProvider = Provider.of<PetsProvider>(context);
@@ -171,7 +173,7 @@ class _RefineSearchState extends State<RefineSearch> {
                 ),
                 _PetSelector(
                   handleSelectedKind: handleSelectedKind,
-                  selectedKind: selectedKind,
+                  selectedKind: petsProvider.getPetType == 'Todos' ? 0 : petsType.indexOf(petsProvider.getPetType) + 1,
                 ),
                 Stack(
                   children: [
@@ -183,7 +185,7 @@ class _RefineSearchState extends State<RefineSearch> {
                             titleTile: optionTile['title'],
                             valueSelected: optionTile['valueSelected'],
                             clear: optionTile['clearFunction'],
-                            onTap: selectedKind == 0
+                            onTap: petsProvider.getPetType == 'Todos'
                                 ? null
                                 : () {
                                     Navigator.push(
@@ -210,7 +212,7 @@ class _RefineSearchState extends State<RefineSearch> {
                         );
                       }).toList(),
                     ),
-                    selectedKind == 0
+                    petsProvider.getPetType == 'Todos'
                         ? Container(color: Colors.black12, height: 328)
                         : Container(),
                   ],
@@ -258,9 +260,7 @@ class _RefineSearchState extends State<RefineSearch> {
                                 refineSearchProvider.getIsDisappeared
                                     ? 'Disappeared'
                                     : 'Donate');
-                            petsProvider.changePetType(selectedKind == 0
-                                ? 'Todos'
-                                : petsType[selectedKind - 1]);
+                            refineSearchProvider.changeSearchHomePetTypeInitialValue(petsProvider.getPetType);                                
                             petsProvider.changeBreedSelected(
                                 refineSearchProvider.getBreedSelected);
                             petsProvider.changeSizeSelected(
@@ -272,7 +272,9 @@ class _RefineSearchState extends State<RefineSearch> {
                             petsProvider.changeHealthSelected(
                                 refineSearchProvider.getHealthSelected);
                             petsProvider.changeIsFiltering(
-                                selectedKind == 0 ? false : true);
+                                petsProvider.getPetType == 'Todos' ? false : true);
+
+                                print('Filter pet type ${petsProvider.getPetType}');
 
                             Navigator.pushNamed(context, Routes.HOME,
                                 arguments: refineSearchProvider.getIsDisappeared
