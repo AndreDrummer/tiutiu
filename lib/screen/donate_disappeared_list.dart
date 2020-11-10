@@ -400,44 +400,27 @@ class __HomeSearchState extends State<_HomeSearch> {
                                               .changeSearchHomeTypeInitialValue(
                                                   text);
                                         } else {
-                                          petsProvider
-                                              .changeIsFilteringByName(false);
-                                          refineSearchProvider
-                                              .changeSearchPetByTypeOnHome(
-                                                  false);
-                                          refineSearchProvider
-                                              .changeSearchHomeTypeInitialValue(
-                                                  text);
+                                          petsProvider.changeIsFilteringByName(false);
+                                          refineSearchProvider.changeSearchPetByTypeOnHome(false);
+                                          refineSearchProvider.changeSearchHomeTypeInitialValue(text);
                                         }
                                       },
                                       onDropdownPetTypeChange: (String text) {
                                         petsProvider.clearOthersFilters();
-                                        refineSearchProvider
-                                            .changeSearchHomePetTypeInitialValue(
-                                                text);
+                                        refineSearchProvider.changeSearchHomePetTypeInitialValue(text);
                                         petsProvider.changePetType(text);
 
                                         if (text == 'Todos') {
-                                          if (petsProvider.getPetKind ==
-                                              'Donate') {
-                                            refineSearchProvider
-                                                .changeIsHomeFilteringByDonate(
-                                                    false);
-                                            refineSearchProvider
-                                                .changeHomePetTypeFilterByDonate(
-                                                    text);
-                                            petsProvider
-                                                .changeIsFiltering(false);
+                                          refineSearchProvider.clearRefineSelections();                                          
+                                          if (petsProvider.getPetKind =='Donate') {
+                                            refineSearchProvider.changeIsHomeFilteringByDonate(false);
+                                            refineSearchProvider.changeHomePetTypeFilterByDonate(text);
+                                            petsProvider.changeIsFiltering(false);
                                             petsProvider.loadDonatePETS();
                                           } else {
-                                            refineSearchProvider
-                                                .changeIsHomeFilteringByDisappeared(
-                                                    false);
-                                            refineSearchProvider
-                                                .changeHomePetTypeFilterByDisappeared(
-                                                    text);
-                                            petsProvider
-                                                .changeIsFiltering(false);
+                                            refineSearchProvider.changeIsHomeFilteringByDisappeared(false);
+                                            refineSearchProvider.changeHomePetTypeFilterByDisappeared(text);
+                                            petsProvider.changeIsFiltering(false);
                                             petsProvider.loadDisappearedPETS();
                                           }
                                         } else {
