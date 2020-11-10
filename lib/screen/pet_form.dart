@@ -35,9 +35,11 @@ class PetForm extends StatefulWidget {
   PetForm({
     this.editMode = false,
     this.pet,
+    this.localChanged = false
   });
 
   final bool editMode;
+  final bool localChanged;
   final Pet pet;
 
   @override
@@ -107,14 +109,16 @@ class _PetFormState extends State<PetForm> {
     petFormProvider.changePetColor(widget.pet.color);
     petFormProvider
         .changePetHealthIndex(DummyData.health.indexOf(widget.pet.health));
-    petFormProvider.changePetPhotos(widget.pet.photos);
+    petFormProvider.changePetPhotos(widget.pet?.photos ?? [widget.pet.avatar]);
     petFormProvider.changePetInEdition(widget.pet);
+
+
 
     _nome.text = petFormProvider.getPetName;
     _ano.text = petFormProvider.getPetAge.toString();
     _meses.text = petFormProvider.getPetMonths.toString();
     _descricao.text = petFormProvider.getPetDescription;
-    petPhotosToUpload.addAll(widget.pet.photos);
+    petPhotosToUpload.addAll(widget.pet?.photos ?? [widget.pet.avatar]);
     storageHashKey = widget.pet.storageHashKey;
   }
 
@@ -123,8 +127,7 @@ class _PetFormState extends State<PetForm> {
   }
 
   @override
-  void initState() {
-    currentLocation = Provider.of<Location>(context, listen: false).getLocation;
+  void initState() {    
     userId =
         Provider.of<Authentication>(context, listen: false).firebaseUser.uid;
 
@@ -132,8 +135,15 @@ class _PetFormState extends State<PetForm> {
     dropvalueColor = DummyData.color[0];
 
     if (!widget.editMode) {
-      storageHashKey = generateStorageHashKey();
-    }
+      storageHashKey = generateStorageHashKey();      
+      if (!widget.localChanged) {
+      currentLocation = Provider.of<Location>(context, listen: false).getLocation;
+      } else {
+        currentLocation = LatLng(widget.pet.latitude, widget.pet.longitude);
+      }
+    } else {
+      currentLocation = Provider.of<Location>(context, listen: false).getLocation;
+    }    
 
     convertingImages = false;
     isSaving = false;
@@ -370,7 +380,7 @@ class _PetFormState extends State<PetForm> {
         await storageReference.delete();
       }
     } catch (error) {
-      throw TiuTiuException('INVALID_PATH');
+      // throw TiuTiuException('INVALID_PATH');
     }
   }
 
@@ -403,6 +413,8 @@ class _PetFormState extends State<PetForm> {
       color: petFormProvider.getPetColor,
       name: petFormProvider.getPetName,
       kind: kind,
+      createdAt: DateTime.now().toIso8601String(),
+      views: 0,
       petReference: widget?.pet?.petReference ?? null,
       avatar: petPhotosToUpload.isNotEmpty
           ? petPhotosToUpload.first
