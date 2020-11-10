@@ -66,7 +66,7 @@ class _ChooseLocationState extends State<ChooseLocation> {
                       text: kind == 'Donate'
                           ? 'O PET ESTÁ NESTA REGIÃO'
                           : 'VISTO POR ÚLTIMO AQUI',
-                      action: !snapshot.data || snapshot.data == null
+                      action: snapshot.data == null || !snapshot.data
                           ? null
                           : () {
                               widget.editMode
@@ -77,6 +77,7 @@ class _ChooseLocationState extends State<ChooseLocation> {
                                           return PetForm(
                                             editMode: true,
                                             pet: widget.pet,
+                                            localChanged: true,
                                           );
                                         },
                                       ),
