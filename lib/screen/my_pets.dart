@@ -13,6 +13,7 @@ import 'package:tiutiu/providers/user_provider.dart';
 import 'package:tiutiu/providers/pets_provider.dart';
 import 'package:tiutiu/screen/auth_screen.dart';
 import 'package:tiutiu/screen/choose_location.dart';
+import 'package:tiutiu/screen/pet_form.dart';
 import 'package:tiutiu/utils/routes.dart';
 import 'interested_information_list.dart';
 
@@ -321,17 +322,42 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
                                                       size: 30,
                                                       color: Colors.black),
                                                   onPressed: () {
-                                                    Navigator.push(
-                                                      context,
-                                                      MaterialPageRoute(
-                                                        builder: (context) {
-                                                          return ChooseLocation(
-                                                            editMode: true,
-                                                            pet: pets[index],
-                                                          );
+                                                    showDialog(
+                                                      context: context,
+                                                      builder: (context) => PopUpMessage(                                                        
+                                                        title: 'Localização',
+                                                        message: 'Deseja alterar a localização do PET ?',
+                                                        confirmText: 'Sim',
+                                                        confirmAction: () {
+                                                        Navigator.pop(context);
+                                                        Navigator.push(
+                                                        context,
+                                                        MaterialPageRoute(
+                                                          builder: (context) {
+                                                            return ChooseLocation(
+                                                              editMode: true,
+                                                              pet: pets[index],
+                                                            );
+                                                          },
+                                                        ),                                                        
+                                                      );
                                                         },
-                                                      ),
-                                                    );
+                                                      denyText: 'Não',
+                                                        denyAction: () {
+                                                          Navigator.pop(context);
+                                                          Navigator.push(
+                                                        context,
+                                                        MaterialPageRoute(
+                                                          builder: (context) {
+                                                            return PetForm(
+                                                              editMode: true,
+                                                              pet: pets[index],
+                                                              localChanged: false,
+                                                            );
+                                                          },
+                                                        ));
+                                                      },                                                      
+                                                    ));
                                                   },
                                                   color: Colors.white,
                                                 ),
