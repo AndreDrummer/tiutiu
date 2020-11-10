@@ -109,7 +109,8 @@ class _DonateDisappearedListState extends State<DonateDisappearedList> {
   }
 
   bool ifUserIsNewer() {
-    return DateTime.now().difference(DateTime.parse(userProvider.createdAt)).inDays < 1;
+    return userProvider.createdAt == null ? true :
+    DateTime.now().difference(DateTime.parse(userProvider.createdAt)).inDays < 1;
   }
 
   List<Pet> filterResultsByDistancie(List<Pet> petsListResult) {
