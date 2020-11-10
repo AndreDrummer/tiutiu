@@ -10,6 +10,8 @@ import 'package:tiutiu/providers/ads_provider.dart';
 import 'package:tiutiu/providers/location.dart';
 import 'package:tiutiu/providers/pets_provider.dart';
 import 'package:tiutiu/providers/refine_search.dart';
+import 'package:tiutiu/providers/user_provider.dart';
+import 'package:tiutiu/utils/constantes.dart';
 import 'package:tiutiu/utils/math_functions.dart';
 import 'package:tiutiu/utils/routes.dart';
 
@@ -27,6 +29,7 @@ class _DonateDisappearedListState extends State<DonateDisappearedList> {
   bool filtering = false;
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   PetsProvider petsProvider;
+  UserProvider userProvider;
   RefineSearchProvider refineSearchProvider;
   Location location;
   AdsProvider adsProvider;
@@ -45,6 +48,7 @@ class _DonateDisappearedListState extends State<DonateDisappearedList> {
   void didChangeDependencies() {
     adsProvider = Provider.of(context);
     refineSearchProvider = Provider.of<RefineSearchProvider>(context);
+    userProvider = Provider.of<UserProvider>(context);
     petsProvider = Provider.of<PetsProvider>(context);
 
     super.didChangeDependencies();
@@ -102,6 +106,10 @@ class _DonateDisappearedListState extends State<DonateDisappearedList> {
   int orderByAge(Pet a, Pet b) {
     if (a.ano == b.ano) return a.meses - b.meses;
     return a.ano - b.ano;
+  }
+
+  bool ifUserIsNewer() {
+    return DateTime.now().difference(DateTime.parse(userProvider.createdAt)).inDays < 1;
   }
 
   List<Pet> filterResultsByDistancie(List<Pet> petsListResult) {
@@ -164,6 +172,10 @@ class _DonateDisappearedListState extends State<DonateDisappearedList> {
                 }
 
                 List<Pet> petsList = filterResultsByDistancie(snapshot.data);
+
+                if(!ifUserIsNewer()) {
+                  petsList.removeWhere((element) => element.ownerId == Constantes.ADMIN_ID);
+                }
 
                 if (petsProvider.getAgeSelected != null &&
                     petsProvider.getAgeSelected.isNotEmpty &&
