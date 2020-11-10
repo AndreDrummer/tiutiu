@@ -89,7 +89,7 @@ class PetsProvider with ChangeNotifier {
     }
   }
 
-  void clearOthersFilters() {
+  void clearOthersFilters({String withExceptioOf}) {
     changePetType('');
     changeBreedSelected('');
     changeSizeSelected('');
