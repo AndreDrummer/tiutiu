@@ -175,6 +175,24 @@ class _PetFormState extends State<PetForm> {
     changePhotosFieldStatus();
   }
 
+  String firstCharacterUpper(String text) {
+    List arrayPieces = List();
+
+    String outPut = '';    
+
+    text.split(' ').forEach((sepparetedWord) {
+      arrayPieces.add(sepparetedWord);
+    });
+
+    arrayPieces.forEach((word) {
+      word =
+          "${word[0].toString().toUpperCase()}${word.toString().substring(1)} ";
+      outPut += word;
+    });
+
+    return outPut.trim();
+}
+
   void openModalSelectMedia(BuildContext context, int index) {
     showDialog(
       context: context,
@@ -411,7 +429,7 @@ class _PetFormState extends State<PetForm> {
     var dataPetSave = Pet(
       type: DummyData.type[petFormProvider.getPetTypeIndex],
       color: petFormProvider.getPetColor,
-      name: petFormProvider.getPetName,
+      name: firstCharacterUpper(petFormProvider.getPetName),
       kind: kind,
       createdAt: DateTime.now().toIso8601String(),
       views: 0,
