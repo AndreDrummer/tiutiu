@@ -97,7 +97,9 @@ class _CardListState extends State<CardList> {
       children: [
         InkWell(
           onTap: () async {
-            PetsProvider().increaseViews(actualViews: widget.petInfo.views ?? 1, petReference: widget.petInfo.petReference);
+            if(userProvider.uid != null && userProvider.uid != widget.petInfo.ownerId) {
+              PetsProvider().increaseViews(actualViews: widget.petInfo.views ?? 1, petReference: widget.petInfo.petReference);
+            }
             final user = await loadOwner(widget.petInfo.ownerReference);
             Navigator.push(
               context,
