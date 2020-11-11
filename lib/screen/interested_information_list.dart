@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:tiutiu/Widgets/empty_list.dart';
+import 'package:tiutiu/Widgets/interested_info_card.dart';
+import 'package:tiutiu/Widgets/interested_list_tile.dart';
 import 'package:tiutiu/Widgets/load_dark_screen.dart';
 import 'package:tiutiu/Widgets/loading_page.dart';
 import 'package:tiutiu/Widgets/popup_message.dart';
@@ -52,7 +54,7 @@ class _InterestedListState extends State<InterestedList> {
   }) async {
     await userController
         .donatePetToSomeone(
-      pet: pet,      
+      pet: pet,
       interestedID: interestedID,
       interestedName: interestedName,
       ownerReference: ownerReference,
@@ -110,6 +112,67 @@ class _InterestedListState extends State<InterestedList> {
     super.didChangeDependencies();
   }
 
+  void doar(User interestedUser, InterestedModel interestedModel) {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => PopUpMessage(
+        confirmAction: () async {
+          Navigator.pop(context);
+          changeIsSinalizingStatus(true);
+          await donatePetToSomeone(
+            interestedName: interestedUser.name,
+            ownerReference: userProvider.userReference,
+            pet: widget.pet,
+            interestedID: interestedUser.id,
+            interestedNotificationToken: interestedUser.notificationToken,
+            ownerNotificationToken: userProvider.notificationToken,
+            interestedReference:
+                await userController.getReferenceById(interestedUser.id),
+            userPosition: interestedModel.position,
+          );
+          changeIsSinalizingStatus(false);
+        },
+        confirmText: 'Confirmo',
+        denyAction: () => Navigator.pop(context),
+        denyText: 'Não, escolher outro',
+        message: 'Deseja doar ${widget.pet.name} para ${interestedUser.name} ?',
+        title: 'Confirme doação do PET',
+        warning: true,
+      ),
+    );
+  }
+
+  void seeInfo(InterestedModel interestedModel) {
+    Navigator.pushNamed(context, Routes.INFO, arguments: {
+      'petName': widget.pet.name,
+      'informanteInfo': interestedModel
+    });
+  }
+
+  void navigateToInterestedDetail(User interestedUser) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => AnnouncerDetails(interestedUser),
+      ),
+    );
+  }
+
+  Widget badge(InterestedModel interestedModel) {
+    if (widget.kind == 'Donate' && !interestedModel.sinalized) {
+      return _bagde('Doar');
+    } else if (widget.kind == 'Donate' && interestedModel.gaveup) {
+      return _bagde('Desistiu', color: Colors.red);
+    } else if (interestedModel.donated) {
+      return _bagde('Adotado', color: Colors.green);
+    } else if (widget.kind == 'Donate' && interestedModel.sinalized) {
+      return _bagde('Aguardando confirmação', color: Colors.amber);
+    } else {
+      return _bagde('Ver info', color: Colors.blue);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -132,18 +195,19 @@ class _InterestedListState extends State<InterestedList> {
               );
             }
 
-            if (!snapshot.hasData || snapshot.data.isEmpty) {
-              return EmptyListScreen(
-                text: widget.kind == 'Donate'
-                    ? 'Ninguém ainda está interessado'
-                    : 'Ninguém ainda passou informações',
-              );
-            }
+            // if (!snapshot.hasData || snapshot.data.isEmpty) {
+            //   return EmptyListScreen(
+            //     text: widget.kind == 'Donate'
+            //         ? 'Ninguém ainda está interessado'
+            //         : 'Ninguém ainda passou informações',
+            //   );
+            // }
             return Stack(
               children: [
                 ListView.builder(
-                  itemCount: snapshot.data.length,
-                  itemBuilder: (_, index) {
+                  itemCount: 3,//snapshot.data.length,
+                  itemBuilder: (_, index) {                    
+                    return InterestedInfoCard();
                     return FutureBuilder<Object>(
                       future: snapshot.data[index]?.userReference?.get(),
                       builder: (context, interestedReferenceSnapshot) {
@@ -154,95 +218,24 @@ class _InterestedListState extends State<InterestedList> {
                         if (!interestedReferenceSnapshot.hasData) {
                           return Container();
                         }
-                        User interestedUser =
-                            User.fromSnapshot(interestedReferenceSnapshot.data);
-                        return ListTile(
-                          leading: InkWell(
-                            onTap: interestedUser.photoURL == null
-                                ? null
-                                : () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) =>
-                                            AnnouncerDetails(interestedUser),
-                                      ),
-                                    );
-                                  },
-                            child: CircleAvatar(
-                              backgroundColor: Colors.transparent,
-                              child: ClipOval(
-                                child: Hero(
-                                  tag: '${interestedUser.photoURL}',
-                                  child: FadeInImage(
-                                    placeholder: AssetImage('assets/fundo.jpg'),
-                                    image: interestedUser.photoURL != null
-                                        ? NetworkImage(interestedUser.photoURL)
-                                        : AssetImage(
-                                            'assets/fundo.jpg',
-                                          ),
-                                    fit: BoxFit.fill,
-                                    width: 1000,
-                                    height: 1000,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                          title: Text(interestedUser.name),
-                          subtitle: Text(
-                              '${widget.kind == 'Donate' ? 'Interessou dia' : 'Informou dia'} ${DateFormat('dd/MM/y hh:mm').format(DateTime.parse(snapshot.data[index].interestedAt))}'),
-                          trailing: InkWell(
-                            onTap: widget.kind == 'Donate'
-                                ? snapshot.data[index].sinalized
-                                    ? () {}
-                                    : () {                                      
-                                        showDialog(
-                                          context: context,
-                                          barrierDismissible: false,
-                                          builder: (context) => PopUpMessage(
-                                            confirmAction: () async {
-                                              Navigator.pop(context);
-                                              changeIsSinalizingStatus(true);
-                                              await donatePetToSomeone(
-                                                interestedName: interestedUser.name,                                                
-                                                ownerReference: userProvider.userReference,
-                                                pet: widget.pet,
-                                                interestedID: interestedUser.id,
-                                                interestedNotificationToken: interestedUser.notificationToken,
-                                                ownerNotificationToken: userProvider .notificationToken,
-                                                interestedReference: await userController.getReferenceById(interestedUser.id),
-                                                userPosition: snapshot.data[index].position,
-                                              );
-                                              changeIsSinalizingStatus(false);
-                                            },
-                                            confirmText: 'Confirmo',
-                                            denyAction: () =>
-                                                Navigator.pop(context),
-                                            denyText: 'Não, escolher outro',
-                                            message:
-                                                'Deseja doar ${widget.pet.name} para ${interestedUser.name} ?',
-                                            title: 'Confirme doação do PET',
-                                            warning: true,
-                                          ),
-                                        );
-                                      }
-                                : () {                                  
-                                    Navigator.pushNamed(context, Routes.INFO,
-                                        arguments: {
-                                          'petName': widget.pet.name,
-                                          'informanteInfo': snapshot.data[index]
-                                        });
-                                  },
-                            child: widget.kind == 'Donate'
-                                ? !snapshot.data[index].sinalized
-                                    ? _bagde('Doar')
-                                    : snapshot.data[index].gaveup
-                                        ? _bagde('Desistiu', color: Colors.red)
-                                        : _bagde(snapshot.data[index].donated ? 'Adotado' :  'Aguardando confirmação',
-                                            color: snapshot.data[index].donated ? Colors.green : Colors.amber)
-                                : _bagde('Ver info', color: Colors.blue)
-                          ),
+                        User interestedUser = User.fromSnapshot(interestedReferenceSnapshot.data);
+                        String subtitle = '${widget.kind == 'Donate' ? 'Interessou dia' : 'Informou dia'} ${DateFormat('dd/MM/y HH:mm').format(DateTime.parse(snapshot.data[index].interestedAt))}';
+                        return InterestedListTile(
+                          subtitle: subtitle,
+                          interestedUser: interestedUser,
+                          navigateToInterestedDetail: interestedUser.photoURL ==
+                                  null
+                              ? null
+                              : () =>
+                                  navigateToInterestedDetail(interestedUser),
+                          trailingFunction: () {
+                            if (widget.kind == 'Donate' && !snapshot.data[index].sinalized) {
+                              doar(interestedUser, snapshot.data[index]);
+                            } else {
+                              seeInfo(snapshot.data[index]);
+                            }
+                          },
+                          trailingChild: badge(snapshot.data[index]),
                         );
                       },
                     );
