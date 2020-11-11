@@ -174,9 +174,9 @@ class _DonateDisappearedListState extends State<DonateDisappearedList> {
 
                 List<Pet> petsList = filterResultsByDistancie(snapshot.data);
 
-                if(!ifUserIsNewer()) {
-                  petsList.removeWhere((element) => element.ownerId == Constantes.ADMIN_ID);
-                }
+                // if(!ifUserIsNewer()) {
+                //   petsList.removeWhere((element) => element.ownerId == Constantes.ADMIN_ID);
+                // }
 
                 if (petsProvider.getAgeSelected != null &&
                     petsProvider.getAgeSelected.isNotEmpty &&
