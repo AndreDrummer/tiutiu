@@ -105,7 +105,7 @@ class _MyAccountState extends State<MyAccount> {
                         Align(
                           alignment: Alignment(0.5, 1),
                           child: Text(
-                            'Usuário desde ${DateFormat('dd/MM/y hh:mm').format(DateTime.parse(userProvider.createdAt)).split(' ').first}',
+                            'Usuário desde ${DateFormat('dd/MM/y HH:mm').format(DateTime.parse(userProvider.createdAt)).split(' ').first}',
                             textAlign: TextAlign.end,
                             style:
                                 Theme.of(context).textTheme.headline1.copyWith(
