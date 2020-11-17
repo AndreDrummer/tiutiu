@@ -12,6 +12,7 @@ import 'package:tiutiu/providers/pets_provider.dart';
 import 'package:tiutiu/providers/user_provider.dart';
 import 'package:tiutiu/screen/pet_detail.dart';
 import 'package:tiutiu/utils/math_functions.dart';
+import 'package:tiutiu/utils/other_functions.dart';
 
 // ignore: must_be_immutable
 class CardList extends StatefulWidget {
@@ -45,38 +46,6 @@ class _CardListState extends State<CardList> {
     return Future.value(owner.data());
   }
 
-  List<String> distanceCalculate(double petLatitude, double petLongitude) {
-    provider_location.Location currentLoction =
-        Provider.of(context, listen: false);
-    String textDistance = '';
-    String textTime = '';
-
-    String distance = MathFunctions.distanceMatrix(
-      latX: currentLoction.getLocation?.latitude ?? 0.0,
-      longX: currentLoction.getLocation?.longitude ?? 0.0,
-      latY: petLatitude ?? 0.0,
-      longY: petLongitude ?? 0.0,
-    );
-
-    String time = MathFunctions.time(double.parse(distance));    
-
-    if (double.parse(time) > 60) {
-      textTime = "$time\ h";
-    } else {
-      textTime = "${time.split('.').first}\ min";
-    }
-
-    if (double.parse(distance) < 1000) {
-      textDistance = "${distance.split('.').first}m";
-    } else {
-      textDistance = (double.parse(distance) / 1000).toStringAsFixed(0);
-      textDistance = textDistance.split('.').first + ' Km';
-    }
-
-
-    return [textDistance, textTime];
-  }  
-
   @override
   void didChangeDependencies() {
     userProvider = Provider.of<UserProvider>(context);
@@ -89,16 +58,23 @@ class _CardListState extends State<CardList> {
     UserController user = UserController();
     Authentication auth = Provider.of(context, listen: false);
     FavoritesProvider favoritesProvider = Provider.of(context);
-    List<String> distanceText = distanceCalculate(
-        widget.petInfo.toMap()['latitude'],
-        widget.petInfo.toMap()['longitude']);
+
+    List<String> distanceText = OtherFunctions.distanceCalculate(
+      context,
+      widget.petInfo.latitude,
+      widget.petInfo.longitude,
+    );
 
     return Stack(
       children: [
         InkWell(
           onTap: () async {
-            if(userProvider.uid != null && userProvider.uid != widget.petInfo.ownerId) {
-              PetsProvider().increaseViews(actualViews: widget.petInfo.views ?? 1, petReference: widget.petInfo.petReference);
+            if (userProvider.uid != null &&
+                userProvider.uid != widget.petInfo.ownerId) {
+              PetsProvider().increaseViews(
+                actualViews: widget.petInfo.views ?? 1,
+                petReference: widget.petInfo.petReference,
+              );
             }
             final user = await loadOwner(widget.petInfo.ownerReference);
             Navigator.push(
@@ -121,13 +97,16 @@ class _CardListState extends State<CardList> {
               children: [
                 Container(
                   decoration: BoxDecoration(
-                      color: Colors.white54,
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(12),
-                        topRight: Radius.circular(12),
-                      ),
-                      border: Border.all(
-                          style: BorderStyle.solid, color: Colors.grey)),
+                    color: Colors.white54,
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(12),
+                      topRight: Radius.circular(12),
+                    ),
+                    border: Border.all(
+                      style: BorderStyle.solid,
+                      color: Colors.grey,
+                    ),
+                  ),
                   height: 190,
                   width: double.infinity,
                   child: ClipRRect(
@@ -178,15 +157,23 @@ class _CardListState extends State<CardList> {
                               ),
                               SizedBox(height: 10),
                               StreamBuilder(
-                                  stream: UserController().getUserSnapshot(widget.petInfo.ownerReference),
+                                  stream: UserController().getUserSnapshot(
+                                      widget.petInfo.ownerReference),
                                   builder: (context, snapshot) {
-                                    if (snapshot.connectionState == ConnectionState.waiting || snapshot.data == null) {
+                                    if (snapshot.connectionState ==
+                                            ConnectionState.waiting ||
+                                        snapshot.data == null) {
                                       return Text('');
-                                    }                 
+                                    }
 
-                                    String announcerName = snapshot.data.data()['uid'] == userProvider.uid ? 'Você' : snapshot.data.data()['displayName'];
+                                    String announcerName = snapshot.data
+                                                .data()['uid'] ==
+                                            userProvider.uid
+                                        ? 'Você'
+                                        : snapshot.data.data()['displayName'];
                                     return Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
                                         Text(
                                           '$announcerName está ${widget.kind.toUpperCase() == 'DONATE' ? 'doando' : 'procurando'}.',
@@ -201,19 +188,43 @@ class _CardListState extends State<CardList> {
                                               ),
                                         ),
                                         Padding(
-                                          padding: const EdgeInsets.only(top: 16.0, bottom: 2.0),
-                                          child: Row(                                            
+                                          padding: const EdgeInsets.only(
+                                              top: 16.0, bottom: 2.0),
+                                          child: Row(
                                             children: [
-                                              Icon(Tiutiu.eye, size: 14, color: Colors.grey),
-                                              Text('  ${widget.petInfo.views ?? 1} visualizações', style: TextStyle(color: Colors.grey, fontWeight: FontWeight.w700)),
+                                              Icon(Tiutiu.eye,
+                                                  size: 14, color: Colors.grey),
+                                              Text(
+                                                  '  ${widget.petInfo.views ?? 1} visualizações',
+                                                  style: TextStyle(
+                                                      color: Colors.grey,
+                                                      fontWeight:
+                                                          FontWeight.w700)),
                                               SizedBox(width: 30),
-                                              Icon(widget.petInfo.kind == 'Donate' ? Icons.favorite : Icons.info, size: 14, color: Colors.grey),
+                                              Icon(
+                                                  widget.petInfo.kind ==
+                                                          'Donate'
+                                                      ? Icons.favorite
+                                                      : Icons.info,
+                                                  size: 14,
+                                                  color: Colors.grey),
                                               StreamBuilder(
-                                                stream: PetsProvider().loadInfoOrInterested(kind: widget.petInfo.kind, petReference: widget.petInfo.petReference),
-                                                builder: (context, snapshot) {
-                                                  return Text('  ${snapshot.data?.docs?.length ?? 0} ${widget.petInfo.kind == 'Donate' ? 'interessados' : 'informações'}', style: TextStyle(color: Colors.grey, fontWeight: FontWeight.w700));
-                                                }
-                                              ),
+                                                  stream: PetsProvider()
+                                                      .loadInfoOrInterested(
+                                                          kind: widget
+                                                              .petInfo.kind,
+                                                          petReference: widget
+                                                              .petInfo
+                                                              .petReference),
+                                                  builder: (context, snapshot) {
+                                                    return Text(
+                                                        '  ${snapshot.data?.docs?.length ?? 0} ${widget.petInfo.kind == 'Donate' ? 'interessados' : 'informações'}',
+                                                        style: TextStyle(
+                                                            color: Colors.grey,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .w700));
+                                                  }),
                                             ],
                                           ),
                                         )
@@ -229,28 +240,51 @@ class _CardListState extends State<CardList> {
                             IconButton(
                               icon: widget.favorite
                                   ? Icon(
-                                      favoritesProvider.getFavoritesPETSIDList.contains(widget.petInfo.toMap()['id'])
-                                      ? Icons.favorite
-                                      : Icons.favorite_border, size: 40, color: Colors.red,
+                                      favoritesProvider.getFavoritesPETSIDList
+                                              .contains(
+                                                  widget.petInfo.toMap()['id'])
+                                          ? Icons.favorite
+                                          : Icons.favorite_border,
+                                      size: 40,
+                                      color: Colors.red,
                                     )
-                                  : Icon(Tiutiu.location_arrow, size: 25, color: Theme.of(context).primaryColor),
-                              onPressed: !widget.favorite ? null : () {
-                                if (favoritesProvider.getFavoritesPETSIDList.contains(widget.petInfo.toMap()['id'])) {
-                                  user.favorite(userProvider.userReference, widget.petInfo.toMap()['petReference'],false);
-                                  favoritesProvider.handleFavorite(widget.petInfo.toMap()['id']);
-                                } else {
-                                  user.favorite(userProvider.userReference, widget.petInfo.toMap()['petReference'], true);
-                                  favoritesProvider.loadFavoritesReference();
-                                  favoritesProvider.handleFavorite(widget.petInfo.toMap()['id']);                                  
-                                }
-                              },
+                                  : Icon(Tiutiu.location_arrow,
+                                      size: 25,
+                                      color: Theme.of(context).primaryColor),
+                              onPressed: !widget.favorite
+                                  ? null
+                                  : () {
+                                      if (favoritesProvider
+                                          .getFavoritesPETSIDList
+                                          .contains(
+                                              widget.petInfo.toMap()['id'])) {
+                                        user.favorite(
+                                            userProvider.userReference,
+                                            widget.petInfo
+                                                .toMap()['petReference'],
+                                            false);
+                                        favoritesProvider.handleFavorite(
+                                            widget.petInfo.toMap()['id']);
+                                      } else {
+                                        user.favorite(
+                                            userProvider.userReference,
+                                            widget.petInfo
+                                                .toMap()['petReference'],
+                                            true);
+                                        favoritesProvider
+                                            .loadFavoritesReference();
+                                        favoritesProvider.handleFavorite(
+                                            widget.petInfo.toMap()['id']);
+                                      }
+                                    },
                             ),
                             SizedBox(height: 10),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: <Widget>[
                                 Padding(
-                                  padding: const EdgeInsets.symmetric(vertical: 7.0),
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 7.0),
                                   child: Row(
                                     children: [
                                       Text(
@@ -277,7 +311,7 @@ class _CardListState extends State<CardList> {
               ],
             ),
           ),
-        ),       
+        ),
       ],
     );
   }
