@@ -356,9 +356,9 @@ class _StateFilterState extends State<_StateFilter> {
                         underline: Container(),
                         value: widget.refineSearchProvider.getStateOfResultSearch ?? DummyData.statesName.first,
                         onChanged: (String value) async {
+                        if(value == 'Brasil') { value = null;}
                         widget.refineSearchProvider.changeStateOfResultSearch(value);
-                        widget.petsProvider.reloadList(state: value);
-                        print(value);
+                        widget.petsProvider.reloadList(state: value);                        
                       },
                         items: DummyData.statesName
                             .map<DropdownMenuItem<String>>((String e) {
