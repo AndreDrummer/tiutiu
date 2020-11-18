@@ -6,7 +6,7 @@ class CustomInput extends StatefulWidget {
 
   CustomInput({
     this.onDropdownTypeChange,
-    this.onDropdownPetTypeChange,
+    this.onDropdownHomeSearchOptionsChange,
     this.onSubmit,
     this.isType = false,
     this.searchInitialValue,
@@ -16,7 +16,7 @@ class CustomInput extends StatefulWidget {
   });
 
   final Function(String) onDropdownTypeChange;
-  final Function(String) onDropdownPetTypeChange;
+  final Function(String) onDropdownHomeSearchOptionsChange;
   final Function(String) onSubmit;
   final bool isType;
   String searchInitialValue;
@@ -88,7 +88,7 @@ class _CustomInputState extends State<CustomInput> {
                 withPipe: false,
                 itemList: widget.searchPetTypeValues,
                 label: '',
-                onChange: widget.onDropdownPetTypeChange,
+                onChange: widget.onDropdownHomeSearchOptionsChange,
               ),
             ),
           ),

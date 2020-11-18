@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:dio/dio.dart';
+import 'package:tiutiu/data/dummy_data.dart';
 
 class RefineSearchProvider with ChangeNotifier {
   final _kindSelected = BehaviorSubject<int>.seeded(0);
@@ -10,7 +12,7 @@ class RefineSearchProvider with ChangeNotifier {
   final _healthSelected = BehaviorSubject<String>.seeded('');
   final _distancieSelected = BehaviorSubject<String>.seeded('');
   final _isDisappeared = BehaviorSubject<bool>.seeded(false);
-  final _searchPetByTypeOnHome = BehaviorSubject<bool>.seeded(true);    
+  final _searchPetByTypeOnHome = BehaviorSubject<bool>.seeded(true);
   final _searchHomeType = BehaviorSubject<List<String>>.seeded(['Tipo', 'Nome do PET', 'Raça do PET']);
   final _searchHomePetType = BehaviorSubject<List<String>>.seeded(['Todos', 'Cachorro', 'Gato', 'Pássaro', 'Hamster', 'Outro']);
   final _searchHomePetTypeInitialValue = BehaviorSubject<String>.seeded('Todos');
@@ -20,7 +22,9 @@ class RefineSearchProvider with ChangeNotifier {
   final _isHomeFilteringByDisappeared = BehaviorSubject<bool>.seeded(false);
 
   final _homePetTypeFilterByDonate = BehaviorSubject<String>();
-  final _homePetTypeFilterByDisappeared = BehaviorSubject<String>();    
+  final _homePetTypeFilterByDisappeared = BehaviorSubject<String>();
+
+  final _stateOfResultSearch = BehaviorSubject<String>.seeded(DummyData.statesName.first);
 
   Stream<int> get kindSelected => _kindSelected.stream;  
   Stream<String> get breedSelected => _breedSelected.stream;  
@@ -38,7 +42,8 @@ class RefineSearchProvider with ChangeNotifier {
   Stream<bool> get isHomeFilteringByDonate => _isHomeFilteringByDonate.stream;  
   Stream<bool> get isHomeFilteringByDisappeared => _isHomeFilteringByDisappeared.stream;  
   Stream<String> get homePetTypeFilterByDonate => _homePetTypeFilterByDonate.stream;  
-Stream<String> get homePetTypeFilterByDisappeared => _homePetTypeFilterByDisappeared.stream;        
+  Stream<String> get homePetTypeFilterByDisappeared => _homePetTypeFilterByDisappeared.stream;        
+  Stream<String> get stateOfResultSearch => _stateOfResultSearch.stream;        
   
   void changeKindSelected(int kind) {
     _kindSelected.sink.add(kind);
@@ -80,7 +85,17 @@ Stream<String> get homePetTypeFilterByDisappeared => _homePetTypeFilterByDisappe
   void Function(bool) get changeIsHomeFilteringByDonate => _isHomeFilteringByDonate.sink.add;  
   void Function(bool) get changeIsHomeFilteringByDisappeared => _isHomeFilteringByDisappeared.sink.add;  
   void Function(String) get changeHomePetTypeFilterByDonate => _homePetTypeFilterByDonate.sink.add;  
-void Function(String) get changeHomePetTypeFilterByDisappeared => _homePetTypeFilterByDisappeared.sink.add;        
+  void Function(String) get changeHomePetTypeFilterByDisappeared => _homePetTypeFilterByDisappeared.sink.add;        
+  void Function(String) get changeStateOfResultSearch => _stateOfResultSearch.sink.add;        
+
+  void loadCityByState(String stateInitial) async {
+    try {
+      Response response = await Dio().get('https://servicodados.ibge.gov.br/api/v1/localidades/estados/${stateInitial.toLowerCase()}/municipios');
+      print(response);
+    } catch (e) {
+      print(e);
+    }        
+  }  
 
   void changeIsDisappeared(bool newValue) {
     _isDisappeared.sink.add(newValue);
@@ -112,5 +127,6 @@ void Function(String) get changeHomePetTypeFilterByDisappeared => _homePetTypeFi
   bool get getIsHomeFilteringByDonate => _isHomeFilteringByDonate.value;  
   bool get getIsHomeFilteringByDisappeared => _isHomeFilteringByDisappeared.value;  
   String get getHomePetTypeFilterByDonate => _homePetTypeFilterByDonate.value;  
-String get getHomePetTypeFilterByDisappeared => _homePetTypeFilterByDisappeared.value;        
+  String get getHomePetTypeFilterByDisappeared => _homePetTypeFilterByDisappeared.value;        
+  String get getStateOfResultSearch => _stateOfResultSearch.value;        
 }
