@@ -35,6 +35,8 @@ class _DonateDisappearedListState extends State<DonateDisappearedList> {
   Location location;
   AdsProvider adsProvider;
   GlobalKey<ScaffoldState> scaffoldState = GlobalKey();
+  GlobalKey dataKey = GlobalKey();
+  ScrollController _scrollController;
 
   void showSnackBar(String content) {
     scaffoldState.currentState.showSnackBar(
@@ -57,8 +59,9 @@ class _DonateDisappearedListState extends State<DonateDisappearedList> {
   }
 
   @override
-  void dispose() {
-    super.dispose();
+  void initState() {
+    _scrollController = new ScrollController();
+    super.initState();
   }
 
   bool isFiltering() {
@@ -121,187 +124,218 @@ class _DonateDisappearedListState extends State<DonateDisappearedList> {
 
   @override
   Widget build(BuildContext context) {
-    final marginTop = MediaQuery.of(context).size.height / 1.55;
+    final marginTop = MediaQuery.of(context).size.height / 1.75;
     final height = MediaQuery.of(context).size.height;
 
     return Scaffold(
       key: _scaffoldKey,
       backgroundColor: Colors.blueGrey[50],
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            _HomeSearch(),
-            Padding(
-              padding: const EdgeInsets.only(bottom: 8.0),
-              child: _StateFilter(
-                refineSearchProvider: refineSearchProvider,
-                petsProvider: petsProvider,                
-              ),
+      body: Column(
+        children: [
+          _HomeSearch(),
+          Padding(
+            padding: const EdgeInsets.only(bottom: 8.0),
+            child: _StateFilter(
+              refineSearchProvider: refineSearchProvider,
+              petsProvider: petsProvider,                
             ),
-            StreamBuilder<List<Pet>>(
-              stream: widget.stream,
-              builder: (BuildContext context, AsyncSnapshot snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Padding(
-                    padding: EdgeInsets.only(top: height / 4.5),
-                    child: LoadingPage(
-                      messageLoading: 'Carregando PETS perto de você...',
-                      circle: true,
-                      textColor: Colors.black26,
-                    ),
-                  );
-                }
-
-                if (snapshot.hasError) {
-                  return ErrorPage();
-                }
-
-                List<Pet> petsList = OtherFunctions.filterResultsByDistancie(
-                  context,
-                  snapshot.data,
-                  refineSearchProvider.getDistancieSelected,
-                );
-
-                if (!ifUserIsNewer()) {
-                  petsList.removeWhere(
-                      (element) => element.ownerId == Constantes.ADMIN_ID);
-                }
-
-                if (petsProvider.getAgeSelected != null &&
-                    petsProvider.getAgeSelected.isNotEmpty &&
-                    petsProvider.getAgeSelected == 'Mais de 10 anos') {
-                  petsList = filterResultsByAgeOver10(snapshot.data);
-                }
-
-                switch (petsProvider.getOrderType) {
-                  case 'Nome':
-                    petsList.sort(orderByName);
-                    break;
-                  case 'Idade':
-                    petsList.sort(orderByAge);
-                    break;
-                  default:
-                    petsList.sort(orderByPostDate);
-                }
-
-                if (snapshot.data == null || petsList.length == 0) {
-                  return InkWell(
-                    onTap: () {
-                      Navigator.pushNamed(context, Routes.SEARCH_REFINE);
-                    },
-                    child: Padding(
-                      padding: EdgeInsets.only(top: height / 3.5),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: [
-                          Text(
-                            'Nenhum PET encontrado',
-                            textAlign: TextAlign.center,
-                            style:
-                                Theme.of(context).textTheme.headline1.copyWith(
-                                      color: Colors.black,
-                                    ),
-                          ),
-                          SizedBox(height: 5),
-                          Text(
-                            'Verifique seus filtros de busca.',
-                            textAlign: TextAlign.center,
-                            style:
-                                Theme.of(context).textTheme.headline1.copyWith(
-                                      color: Colors.blueAccent,
-                                    ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  );
-                }
-
-                return Container(
-                  height: marginTop + 30,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      Column(
-                        children: [
-                          Container(
-                            height: 20,
-                            alignment: Alignment(-0.9, 1),
-                            padding: const EdgeInsets.only(left: 10, right: 10),
-                            margin: const EdgeInsets.only(bottom: 10),
-                            child: Row(
-                              children: [
-                                Text('${petsList.length} encontrados',
-                                    style: TextStyle(
-                                      fontSize: 13,
-                                      fontWeight: FontWeight.w700,
-                                      color: Colors.black26,
-                                    )),
-                                Spacer(),
-                                Row(
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.only(top: 3.0),
-                                      child: Text(
-                                        'ordenar por:  ',
-                                        style: TextStyle(
-                                          fontSize: 13,
-                                          fontWeight: FontWeight.w700,
-                                          color: Colors.black26,
-                                        ),
-                                      ),
-                                    ),
-                                    StreamBuilder<Object>(
-                                        stream: petsProvider.orderType,
-                                        builder: (context, snapshot) {
-                                          return CustomDropdownButtonSearch(
-                                            colorText: Colors.black54,
-                                            fontSize: 13,
-                                            initialValue:
-                                                petsProvider.getOrderType,
-                                            isExpanded: false,
-                                            withPipe: false,
-                                            itemList:
-                                                petsProvider.getOrderTypeList,
-                                            label: '',
-                                            onChange: (String text) {
-                                              petsProvider.changeOrderType(text, refineSearchProvider.getStateOfResultSearch);
-                                            },
-                                          );
-                                        }),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ),                          
-                        ],
-                      ),
-                      Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.only(bottom: 130.0),
-                          child: ListView.builder(
-                            itemCount: petsList.length + 1,
-                            itemBuilder: (_, index) {
-                              if (index == petsList.length &&
-                                  adsProvider.getCanShowAds) {
-                                return Container();
-                              }
-                              return CardList(
-                                kind: petsList[index].kind,
-                                petInfo: petsList[index],
-                              );
-                            },
-                          ),
-                        ),
-                      ),
-                    ],
+          ),
+          StreamBuilder<List<Pet>>(
+            stream: widget.stream,
+            builder: (BuildContext context, AsyncSnapshot snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return Padding(
+                  padding: EdgeInsets.only(top: height / 4.5),
+                  child: LoadingPage(
+                    messageLoading: 'Carregando PETS perto de você...',
+                    circle: true,
+                    textColor: Colors.black26,
                   ),
                 );
-              },
-            ),
-          ],
-        ),
+              }
+
+              if (snapshot.hasError) {
+                return ErrorPage();
+              }
+
+              List<Pet> petsList = OtherFunctions.filterResultsByDistancie(
+                context,
+                snapshot.data,
+                refineSearchProvider.getDistancieSelected,
+              );
+
+              if (!ifUserIsNewer()) {
+                petsList.removeWhere(
+                    (element) => element.ownerId == Constantes.ADMIN_ID);
+              }
+
+              if (petsProvider.getAgeSelected != null &&
+                  petsProvider.getAgeSelected.isNotEmpty &&
+                  petsProvider.getAgeSelected == 'Mais de 10 anos') {
+                petsList = filterResultsByAgeOver10(snapshot.data);
+              }
+
+              switch (petsProvider.getOrderType) {
+                case 'Nome':
+                  petsList.sort(orderByName);
+                  break;
+                case 'Idade':
+                  petsList.sort(orderByAge);
+                  break;
+                default:
+                  petsList.sort(orderByPostDate);
+              }
+
+              if (snapshot.data == null || petsList.length == 0) {
+                return InkWell(
+                  onTap: () {
+                    Navigator.pushNamed(context, Routes.SEARCH_REFINE);
+                  },
+                  child: Padding(
+                    padding: EdgeInsets.only(top: height / 3.5),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        Text(
+                          'Nenhum PET encontrado',
+                          textAlign: TextAlign.center,
+                          style:
+                              Theme.of(context).textTheme.headline1.copyWith(
+                                    color: Colors.black,
+                                  ),
+                        ),
+                        SizedBox(height: 5),
+                        Text(
+                          'Verifique seus filtros de busca.',
+                          textAlign: TextAlign.center,
+                          style:
+                              Theme.of(context).textTheme.headline1.copyWith(
+                                    color: Colors.blueAccent,
+                                  ),
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              }
+
+              return Container(
+                height: marginTop,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Column(
+                      children: [
+                        Container(
+                          height: 20,
+                          alignment: Alignment(-0.9, 1),
+                          padding: const EdgeInsets.only(left: 10, right: 10),
+                          margin: const EdgeInsets.only(bottom: 10),
+                          child: Row(
+                            children: [
+                              Row(
+                                children: [
+                                  Text('${petsList.length} ',
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w700,
+                                      color: Colors.black26,
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(top: 2.0),
+                                    child: Text('encontrados',
+                                      style: TextStyle(
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.w700,
+                                        color: Colors.black26,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Spacer(),
+                              Row(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(top: 3.0),
+                                    child: Text(
+                                      'ordenar por:  ',
+                                      style: TextStyle(
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.w700,
+                                        color: Colors.black26,
+                                      ),
+                                    ),
+                                  ),
+                                  StreamBuilder<Object>(
+                                      stream: petsProvider.orderType,
+                                      builder: (context, snapshot) {
+                                        return CustomDropdownButtonSearch(
+                                          colorText: Colors.black54,
+                                          fontSize: 13,
+                                          initialValue:
+                                              petsProvider.getOrderType,
+                                          isExpanded: false,
+                                          withPipe: false,
+                                          itemList:
+                                              petsProvider.getOrderTypeList,
+                                          label: '',
+                                          onChange: (String text) {
+                                            petsProvider.changeOrderType(text, refineSearchProvider.getStateOfResultSearch);
+                                          },
+                                        );
+                                      }),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),                          
+                      ],
+                    ),
+                    Expanded(
+                      child: ListView.builder(
+                        controller: _scrollController,
+                        itemCount: petsList.length + 1,
+                        itemBuilder: (_, index) {
+                          if (index == petsList.length && adsProvider.getCanShowAds) {
+                            return petsList.length > 1 ? InkWell(
+                              onTap: (){
+                                _scrollController.animateTo(0 * height / 3, duration: new Duration(seconds: 2), curve: Curves.ease);
+                              },
+                              child: Container(
+                                alignment: Alignment.center,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(16.0),
+                                  child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                      Text(
+                                        'Voltar ao topo'.toUpperCase(),
+                                        style: TextStyle(color: Colors.blue)
+                                      ),
+                                      Icon(Icons.arrow_drop_up_sharp, color: Colors.blue)
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ) : Container();
+                          }
+                          // return Container();
+                          return CardList(
+                            kind: petsList[index].kind,
+                            petInfo: petsList[index],
+                          );
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            },
+          ),
+        ],
       ),
     );
   }
@@ -404,100 +438,110 @@ class __HomeSearchState extends State<_HomeSearch> {
     super.didChangeDependencies();
   }
 
+  void handleSearchType(String searchType) {
+    switch(searchType) {
+      case 'Nome do PET':
+        petsProvider.changeIsFilteringByBreed(false);
+        refineSearchProvider.changeSearchPetByTypeOnHome(false);
+        refineSearchProvider.changeSearchHomeTypeInitialValue(searchType);
+      break;
+      case 'Tipo':
+        petsProvider.changeIsFilteringByBreed(false);
+        petsProvider.changeIsFilteringByName(false);
+        refineSearchProvider.changeSearchPetByTypeOnHome(true);
+        refineSearchProvider.changeSearchHomeTypeInitialValue(searchType);
+      break;
+      default:
+        petsProvider.changeIsFilteringByName(false);
+        refineSearchProvider.changeSearchPetByTypeOnHome(false);
+        refineSearchProvider.changeSearchHomeTypeInitialValue(searchType);
+    }
+  }
+
+  void handleSearchOptions(String searchOption) {
+    petsProvider.clearOthersFilters();
+    refineSearchProvider.changeSearchHomePetTypeInitialValue(searchOption);
+    petsProvider.changePetType(searchOption);
+    
+    if (searchOption == 'Todos') {
+      refineSearchProvider.clearRefineSelections();
+      switch(petsProvider.getPetKind) {
+      case 'Donate':
+        refineSearchProvider.changeIsHomeFilteringByDonate(false);
+        refineSearchProvider.changeHomePetTypeFilterByDonate(searchOption);
+        petsProvider.changeIsFiltering(false);
+        petsProvider.loadDonatePETS(state: refineSearchProvider.getStateOfResultSearch);
+        break;
+      case 'Disappeared':
+        refineSearchProvider.changeIsHomeFilteringByDisappeared(false);
+        refineSearchProvider.changeHomePetTypeFilterByDisappeared(searchOption);
+        petsProvider.changeIsFiltering(false);
+        petsProvider.loadDisappearedPETS(state: refineSearchProvider.getStateOfResultSearch);
+        break;
+      }
+    } else {    
+      switch(petsProvider.getPetKind) {
+      case 'Donate':
+        refineSearchProvider.changeIsHomeFilteringByDonate(true);
+        refineSearchProvider.changeHomePetTypeFilterByDonate(searchOption);
+        petsProvider.changeIsFiltering(true);
+        petsProvider.loadDonatePETS(state: refineSearchProvider.getStateOfResultSearch);
+        break;
+      case 'Disappeared':
+        refineSearchProvider.changeIsHomeFilteringByDisappeared(true);
+        refineSearchProvider.changeHomePetTypeFilterByDisappeared(searchOption);
+        petsProvider.changeIsFiltering(true);
+        petsProvider.loadDisappearedPETS(state: refineSearchProvider.getStateOfResultSearch);
+        break;
+      }           
+    }
+  }
+
+  void handleOnTextSearchSubmit(String textSearch) {
+    if (refineSearchProvider.getSearchHomeTypeInitialValue == 'Nome do PET') {
+      petsProvider.changeIsFilteringByName(true);
+      petsProvider.clearOthersFilters();
+      petsProvider.changePetName(textSearch);
+    } else {
+      petsProvider.changeIsFilteringByBreed(true);
+      petsProvider.clearOthersFilters();
+      petsProvider.changeBreedSelected(textSearch);
+    }
+    petsProvider.changeIsFiltering(true);
+    petsProvider.reloadList(state: refineSearchProvider.getStateOfResultSearch);
+  }
+
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<String>(
-        stream: refineSearchProvider.searchHomeTypeInitialValue,
-        builder: (context, snapshotSearchHomeInitialValue) {
-          return StreamBuilder<List<String>>(
-              stream: refineSearchProvider.searchHomeType,
-              builder: (context, snapshotsnapshotSearchHomeValues) {
-                return StreamBuilder<String>(
-                    stream: refineSearchProvider.searchHomePetTypeInitialValue,
-                    builder: (context, snapshotHomePetTypeInitialValue) {
-                      return StreamBuilder<List<String>>(
-                          stream: refineSearchProvider.searchHomePetType,
-                          builder: (context, snapshotHomePetTypeValues) {
-                            return StreamBuilder<bool>(
-                                stream: refineSearchProvider.searchPetByTypeOnHome,
-                                builder: (context, snapshotSearchPetByTypeOnHome) {
-                                  return CustomInput(
-                                      searchInitialValue: snapshotSearchHomeInitialValue ?.data ?? '',
-                                      searchValues: snapshotsnapshotSearchHomeValues ?.data ?? [''],
-                                      searchPetTypeInitialValue: snapshotHomePetTypeInitialValue ?.data ?? '',
-                                      searchPetTypeValues: snapshotHomePetTypeValues?.data ?? [''],
-                                      isType: snapshotSearchPetByTypeOnHome?.data ?? false,
-                                      onDropdownTypeChange: (String text) {
-                                        if (text == 'Nome do PET') {
-                                          petsProvider.changeIsFilteringByBreed(false);
-                                          refineSearchProvider.changeSearchPetByTypeOnHome(false);
-                                          refineSearchProvider.changeSearchHomeTypeInitialValue(text);
-                                        } else if (text == 'Tipo') {
-                                          petsProvider.changeIsFilteringByBreed(false);
-                                          petsProvider.changeIsFilteringByName(false);
-                                          refineSearchProvider.changeSearchPetByTypeOnHome(true);
-                                          refineSearchProvider.changeSearchHomeTypeInitialValue(text);
-                                        } else if (text == 'Estado') {
-                                          petsProvider.changeIsFilteringByName(false);
-                                          petsProvider.changeIsFilteringByBreed(false);
-                                          refineSearchProvider.changeSearchPetByTypeOnHome(false);                                          
-                                          refineSearchProvider.changeSearchHomeTypeInitialValue(text);                                          
-                                        } else {
-                                          petsProvider.changeIsFilteringByName(false);
-                                          refineSearchProvider.changeSearchPetByTypeOnHome(false);
-                                          refineSearchProvider.changeSearchHomeTypeInitialValue(text);
-                                        }
-                                      },
-                                      onDropdownHomeSearchOptionsChange: (String text) {
-                                        petsProvider.clearOthersFilters();
-                                        refineSearchProvider.changeSearchHomePetTypeInitialValue(text);
-                                        petsProvider.changePetType(text);                                        
-
-                                        if (text == 'Todos') {
-                                          refineSearchProvider.clearRefineSelections();
-                                          if (petsProvider.getPetKind =='Donate') {
-                                            refineSearchProvider.changeIsHomeFilteringByDonate(false);
-                                            refineSearchProvider.changeHomePetTypeFilterByDonate(text);
-                                            petsProvider.changeIsFiltering(false);
-                                            petsProvider.loadDonatePETS(state: refineSearchProvider.getStateOfResultSearch);
-                                          } else {
-                                            refineSearchProvider.changeIsHomeFilteringByDisappeared(false);
-                                            refineSearchProvider.changeHomePetTypeFilterByDisappeared(text);
-                                            petsProvider.changeIsFiltering(false);
-                                            petsProvider.loadDisappearedPETS(state: refineSearchProvider.getStateOfResultSearch);
-                                          }
-                                        } else {   
-                                          print('EXCEPTION $text ${refineSearchProvider.getStateOfResultSearch}');                                     
-                                          if (petsProvider.getPetKind == 'Donate') {
-                                            refineSearchProvider.changeIsHomeFilteringByDonate(true);
-                                            refineSearchProvider.changeHomePetTypeFilterByDonate(text);
-                                            petsProvider.changeIsFiltering(true);
-                                            petsProvider.loadDonatePETS(state: refineSearchProvider.getStateOfResultSearch);
-                                          } else {
-                                            refineSearchProvider.changeIsHomeFilteringByDisappeared(true);
-                                            refineSearchProvider.changeHomePetTypeFilterByDisappeared(text);
-                                            petsProvider.changeIsFiltering(true);
-                                            petsProvider.loadDisappearedPETS(state: refineSearchProvider.getStateOfResultSearch);
-                                          }
-                                        }
-                                      },
-                                      onSubmit: (String text) {
-                                        if (refineSearchProvider.getSearchHomeTypeInitialValue == 'Nome do PET') {
-                                          petsProvider.changeIsFilteringByName(true);
-                                          petsProvider.clearOthersFilters();
-                                          petsProvider.changePetName(text);
-                                        } else {
-                                          petsProvider.changeIsFilteringByBreed(true);
-                                          petsProvider.clearOthersFilters();
-                                          petsProvider.changeBreedSelected(text);
-                                        }
-                                        petsProvider.changeIsFiltering(true);
-                                        petsProvider.reloadList(state: refineSearchProvider.getStateOfResultSearch);
-                                      });
-                                });
-                          });
-                    });
-              });
+    return StreamBuilder<String> (
+      stream: refineSearchProvider.searchHomeTypeInitialValue,
+      builder: (context, snapshotSearchHomeInitialValue) {
+      return StreamBuilder<List<String>> (
+        stream: refineSearchProvider.searchHomeType,
+        builder: (context, snapshotsnapshotSearchHomeValues) {
+        return StreamBuilder<String> (
+          stream: refineSearchProvider.searchHomePetTypeInitialValue,
+          builder: (context, snapshotHomePetTypeInitialValue) {
+          return StreamBuilder<List<String>> (
+            stream: refineSearchProvider.searchHomePetType,
+            builder: (context, snapshotHomePetTypeValues) {
+            return StreamBuilder<bool> (
+              stream: refineSearchProvider.searchPetByTypeOnHome,
+              builder: (context, snapshotSearchPetByTypeOnHome) {
+              return CustomInput(
+                searchInitialValue: snapshotSearchHomeInitialValue ?.data ?? '',
+                searchValues: snapshotsnapshotSearchHomeValues ?.data ?? [''],
+                searchPetTypeInitialValue: snapshotHomePetTypeInitialValue ?.data ?? '',
+                searchPetTypeValues: snapshotHomePetTypeValues?.data ?? [''],
+                isType: snapshotSearchPetByTypeOnHome?.data ?? false,
+                onDropdownTypeChange: handleSearchType,
+                onDropdownHomeSearchOptionsChange: handleSearchOptions,
+                onSubmit: handleOnTextSearchSubmit,
+              );
+            });
+          });
         });
+      });
+    });
   }
 }
