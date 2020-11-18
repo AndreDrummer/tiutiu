@@ -90,7 +90,7 @@ class _CardListState extends State<CardList> {
             );
           },
           child: Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(4.0),
             child: Column(
               children: [
                 Container(
