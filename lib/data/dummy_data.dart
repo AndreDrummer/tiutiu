@@ -1,6 +1,4 @@
 class DummyData {
-
-
   static const otherCaracteristicsList = [
     'Vermifugado',
     'Castrado',
@@ -14,7 +12,7 @@ class DummyData {
 
   static const breed = [
     [''],
-    [      
+    [
       'Akita',
       'Basset',
       'Beagle',
@@ -66,7 +64,7 @@ class DummyData {
       'Weimaraner',
       'Yorkshire'
     ],
-    [      
+    [
       'Abissínio',
       'Angorá',
       'Ashera',
@@ -119,7 +117,7 @@ class DummyData {
       'Usuri',
       'Sem raça definida',
     ],
-    [      
+    [
       'Abelharuco',
       'Agapornis',
       'Agapornis canus',
@@ -256,7 +254,7 @@ class DummyData {
       'Yemen Linnet'
     ],
     [
-      'Raça Indefinida',      
+      'Raça Indefinida',
       'Hamster russo',
       'Hamster de Roborovski',
       'Hamster sírio ou dourado',
@@ -295,7 +293,7 @@ class DummyData {
 
   static const health = ['Saudável', 'Doente', 'Machucado', 'Paliativo'];
 
-  static const type = [  
+  static const type = [
     'Cachorro',
     'Gato',
     'Pássaro',
@@ -382,5 +380,36 @@ class DummyData {
     'Vinho',
     'Violeta',
     'Dálmata'
+  ];
+
+  static const statesName = [
+    'Brasil',
+    'Acre',
+    'Alagoas',
+    'Amapá',
+    'Amazonas',
+    'Bahia',
+    'Ceará',
+    'Distrito Federal',
+    'Espírito Santo',
+    'Goiás',
+    'Maranhão',
+    'Mato Grosso',
+    'Mato Grosso do Sul',
+    'Minas Gerais',
+    'Pará',
+    'Paraíba',
+    'Paraná',
+    'Pernambuco',
+    'Piauí',
+    'Rio de Janeiro',
+    'Rio Grande do Norte',
+    'Rio Grande do Sul',
+    'Rondônia',
+    'Roraima',
+    'Santa Catarina',
+    'São Paulo',
+    'Sergipe',
+    'Tocantins',
   ];
 }
