@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:tiutiu/backend/Model/pet_model.dart';
+import 'package:tiutiu/utils/other_functions.dart';
 
 class PetsProvider with ChangeNotifier {
   final _petName = BehaviorSubject<String>();
@@ -18,7 +19,7 @@ class PetsProvider with ChangeNotifier {
   final _orderTypeList = BehaviorSubject<List<String>>.seeded(['Data de postagem', 'Nome', 'Idade']);
   bool _isFiltering = false;
   bool _isFilteringByName = false;
-  bool _isFilteringByBreed = false;
+  bool _isFilteringByBreed = false;  
 
   // Listenning to The Data
   Stream<String> get petName => _petName.stream;
@@ -47,9 +48,9 @@ class PetsProvider with ChangeNotifier {
   void Function(List<Pet>) get changePetsDisappeared => _petsDisappeared.sink.add;
   void Function(List<String>) get changeOrderTypeList => _orderTypeList.sink.add;
   
-  void changeOrderType(String text) {
+  void changeOrderType(String text, String state) {
     _orderType.sink.add(text);
-    reloadList();
+    reloadList(state: state);
   } 
 
   // Getting data
@@ -63,7 +64,7 @@ class PetsProvider with ChangeNotifier {
   String get getHealthSelected => _healthSelected.value;
   bool get isFiltering => _isFiltering;  
   bool get isFilteringByName => _isFilteringByName;  
-  bool get isFilteringByBreed => _isFilteringByBreed;  
+  bool get isFilteringByBreed => _isFilteringByBreed;    
   List<Pet> get getPetsDonate => _petsDonate.value;
   List<Pet> get getPetsDisappeared => _petsDisappeared.value;
   List<String> get getOrderTypeList => _orderTypeList.value;
@@ -81,11 +82,11 @@ class PetsProvider with ChangeNotifier {
     _isFilteringByBreed = status;
   }
 
-   void reloadList() {
+   void reloadList({String state}) {
     if (getPetKind == 'Donate') {
-      loadDonatePETS();
+      loadDonatePETS(state: state);
     } else {
-      loadDisappearedPETS();
+      loadDisappearedPETS(state: state);
     }
   }
 
@@ -108,21 +109,27 @@ class PetsProvider with ChangeNotifier {
     return pets;
   }
 
-  void loadDonatePETS() async {    
+  void loadDonatePETS({String state}) async {    
     if(_isFiltering) {
-      loadFilteredPETS();
+      loadFilteredPETS(state: state);
     } else {
       QuerySnapshot querySnapshot = await FirebaseFirestore.instance.collection('Donate') .where('donated', isEqualTo: false).get();      
       
       List<Pet> pets = [];
       for (int i = 0; i < querySnapshot.docs.length; i++) {
         pets.add(Pet.fromSnapshot(querySnapshot.docs[i]));
+      }      
+
+      if(state != null) {
+        changePetsDonate(await OtherFunctions.filterResultsByState(pets, state));
+      } else {
+        changePetsDonate(pets);
       }
-      changePetsDonate(pets);
+      
     }
   }
 
-  void loadDisappearedPETS() async {    
+  void loadDisappearedPETS({String state}) async {    
     if(_isFiltering) {
       loadFilteredPETS();
     } else {
@@ -132,7 +139,13 @@ class PetsProvider with ChangeNotifier {
       for (int i = 0; i < querySnapshot.docs.length; i++) {
         pets.add(Pet.fromSnapshot(querySnapshot.docs[i]));
       }
-      changePetsDisappeared(pets);
+
+      if(state != null) {
+        changePetsDisappeared(await OtherFunctions.filterResultsByState(pets, state));        
+      } else {
+        changePetsDisappeared(pets);
+      }
+
     }
   }
 
@@ -168,7 +181,7 @@ class PetsProvider with ChangeNotifier {
     return ["type", "breed", "size", "ano", "sex", "health"];
   }
 
-  void loadFilteredPETS() async {
+  void loadFilteredPETS({String state}) async {
     Query query = FirebaseFirestore.instance.collection(getPetKind).where(getPetKind == 'Donate' ? 'donated' : 'found', isEqualTo: false);    
 
     if(isFilteringByName) {
@@ -199,6 +212,8 @@ class PetsProvider with ChangeNotifier {
     for (int i = 0; i < querySnapshot.docs.length; i++) {
       pets.add(Pet.fromSnapshot(querySnapshot.docs[i]));
     }      
+
+    pets = await OtherFunctions.filterResultsByState(pets, state);
 
     getPetKind == 'Donate' ? changePetsDonate(pets) : changePetsDisappeared(pets);
   }
