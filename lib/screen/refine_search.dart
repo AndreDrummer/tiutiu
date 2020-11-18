@@ -123,9 +123,9 @@ class _RefineSearchState extends State<RefineSearch> {
         }
       },
       {
-        'title': 'Distância',
+        'title': 'Numa distância de até',
         'valueSelected': refineSearchProvider.getDistancieSelected,
-        'selectionPageTitle': 'Distância',
+        'selectionPageTitle': 'Numa distância de até',
         'selectionPageList': DummyData.distancies,
         'onValueSelected': (String value) {
           refineSearchProvider.changeDistancieSelected(value);
