@@ -383,6 +383,7 @@ class DummyData {
   ];
 
   static const statesName = [
+    'Brasil',
     'Acre',
     'Alagoas',
     'Amapá',
