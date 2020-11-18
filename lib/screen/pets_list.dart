@@ -27,8 +27,8 @@ class _PetsListState extends State<PetsList> with SingleTickerProviderStateMixin
   void didChangeDependencies() {    
     petsProvider = Provider.of<PetsProvider>(context);
     refineSearchProvider = Provider.of<RefineSearchProvider>(context);        
-    petsProvider.loadDisappearedPETS();
-    petsProvider.loadDonatePETS();
+    petsProvider.loadDisappearedPETS(state: refineSearchProvider.getStateOfResultSearch);
+    petsProvider.loadDonatePETS(state: refineSearchProvider.getStateOfResultSearch);
     super.didChangeDependencies();
   }
 
@@ -59,7 +59,7 @@ class _PetsListState extends State<PetsList> with SingleTickerProviderStateMixin
         petsProvider.changeIsFiltering(false);
       }
       
-      petsProvider.loadDisappearedPETS();
+      petsProvider.loadDisappearedPETS(state: refineSearchProvider.getStateOfResultSearch);
 
     } else {
       petsProvider.changePetKind('Donate');
@@ -72,7 +72,7 @@ class _PetsListState extends State<PetsList> with SingleTickerProviderStateMixin
         petsProvider.changeIsFiltering(false);
       }
       
-      petsProvider.loadDonatePETS();
+      petsProvider.loadDonatePETS(state: refineSearchProvider.getStateOfResultSearch);
     }   
   }
 
