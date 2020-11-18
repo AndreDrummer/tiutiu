@@ -7,11 +7,9 @@ import 'package:tiutiu/backend/Model/pet_model.dart';
 import 'package:tiutiu/backend/Model/user_model.dart';
 import 'package:tiutiu/providers/auth2.dart';
 import 'package:tiutiu/providers/favorites_provider.dart';
-import 'package:tiutiu/providers/location.dart' as provider_location;
 import 'package:tiutiu/providers/pets_provider.dart';
 import 'package:tiutiu/providers/user_provider.dart';
 import 'package:tiutiu/screen/pet_detail.dart';
-import 'package:tiutiu/utils/math_functions.dart';
 import 'package:tiutiu/utils/other_functions.dart';
 
 // ignore: must_be_immutable
