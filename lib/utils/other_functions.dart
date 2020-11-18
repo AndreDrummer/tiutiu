@@ -72,25 +72,30 @@ class OtherFunctions {
     return newPetList;
   }
 
-   static Future<String> _getAddress(Location location) async {
+   static Future<String> getAddress(Location location) async {
     final geocoding = new GoogleMapsGeocoding(apiKey: Constantes.WEB_API_KEY);
     final result = await geocoding.searchByLocation(location);
     GeocodingModel local = GeocodingModel.fromSnapshot(result.results.first);
     return local.formattedAddress;
   }
 
-  static Future<List<Pet>> filterResultsByState(BuildContext context, List<Pet> petsListResult, String stateName) async {
+  static Future<List<Pet>> filterResultsByState(List<Pet> petsListResult, String stateName) async {
   List<Pet> newPetList = [];
   
   for(int i = 0; i < petsListResult.length; i++) {
-    List<Address> addresses = await Geocoder.local.findAddressesFromCoordinates(Coordinates(petsListResult[i].latitude, petsListResult[i].longitude));
-    print("ESTADO ${addresses.first.adminArea}, PET ${petsListResult[i].name}");
-    if(addresses.first.adminArea == 'Goiás') {
+    List<Address> addresses = await Geocoder.local.findAddressesFromCoordinates(Coordinates(petsListResult[i].latitude, petsListResult[i].longitude));    
+    if(addresses.first.adminArea == stateName) {
       newPetList.add(petsListResult[i]);
     }
   }  
 
     return newPetList;
+  }
+
+  static Future<String> getUserLocalState(LatLng local) async {    
+    List<Address> addresses = await Geocoder.local.findAddressesFromCoordinates(Coordinates(local.latitude, local.longitude));
+
+    return addresses.first.adminArea;
   }
 
 }
