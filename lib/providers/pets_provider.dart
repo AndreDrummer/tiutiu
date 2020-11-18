@@ -131,7 +131,7 @@ class PetsProvider with ChangeNotifier {
 
   void loadDisappearedPETS({String state}) async {    
     if(_isFiltering) {
-      loadFilteredPETS();
+      loadFilteredPETS(state: state);
     } else {
       QuerySnapshot querySnapshot = await FirebaseFirestore.instance.collection('Disappeared').where('found', isEqualTo: false).get();      
       
@@ -213,7 +213,9 @@ class PetsProvider with ChangeNotifier {
       pets.add(Pet.fromSnapshot(querySnapshot.docs[i]));
     }      
 
-    pets = await OtherFunctions.filterResultsByState(pets, state);
+    if(state != null) {
+      pets = await OtherFunctions.filterResultsByState(pets, state);
+    }
 
     getPetKind == 'Donate' ? changePetsDonate(pets) : changePetsDisappeared(pets);
   }
