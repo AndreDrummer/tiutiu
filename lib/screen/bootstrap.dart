@@ -3,6 +3,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:provider/provider.dart';
 import 'package:tiutiu/Widgets/loading_page.dart';
 import 'package:tiutiu/providers/location.dart';
+import 'package:tiutiu/providers/refine_search.dart';
 import 'package:tiutiu/screen/auth_or_home.dart';
 import 'package:tiutiu/screen/local_permission.dart';
 
@@ -13,6 +14,7 @@ class Bootstrap extends StatefulWidget {
 
 class _BootstrapState extends State<Bootstrap> {
   Location local;
+  RefineSearchProvider refineSearchProvider;
 
   @override
   void initState() {    
@@ -22,6 +24,7 @@ class _BootstrapState extends State<Bootstrap> {
   @override
   void didChangeDependencies() {
     local = Provider.of<Location>(context);
+    refineSearchProvider = Provider.of<RefineSearchProvider>(context);
     local.permissionCheck();
     local.locationServiceIsEnabled();    
     super.didChangeDependencies();
@@ -34,8 +37,7 @@ class _BootstrapState extends State<Bootstrap> {
       builder: (ctx, snapshot) { 
         if (snapshot.connectionState == ConnectionState.waiting) {
           return LoadingPage();
-        }
-        print('GPS ${snapshot.data}');
+        }        
         if (!snapshot.data) {
           return LocalPermissionScreen(
             permissionCallBack: local.openLocalSettings,
@@ -53,8 +55,17 @@ class _BootstrapState extends State<Bootstrap> {
               return LocalPermissionScreen(permissionCallBack: local.permissionRequest,
               );
             }
-            if(local.getLocation == null) local.setLocation();
+            if (local.getLocation == null) {
+              local.setLocation();                
+            }
             return AuthOrHome();
+            // return FutureBuilder<Object>(
+            //   future: OtherFunctions.getUserLocalState(local.getLocation),
+            //   builder: (context, snapshot) {
+            //     refineSearchProvider.changeStateOfResultSearch(snapshot.data);
+                
+            //   }
+            // );
           },
         );
       },
