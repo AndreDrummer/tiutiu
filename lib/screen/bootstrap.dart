@@ -6,7 +6,6 @@ import 'package:tiutiu/providers/location.dart';
 import 'package:tiutiu/providers/refine_search.dart';
 import 'package:tiutiu/screen/auth_or_home.dart';
 import 'package:tiutiu/screen/local_permission.dart';
-import 'package:tiutiu/utils/other_functions.dart';
 
 class Bootstrap extends StatefulWidget {
   @override
@@ -59,13 +58,14 @@ class _BootstrapState extends State<Bootstrap> {
             if (local.getLocation == null) {
               local.setLocation();                
             }
-            return FutureBuilder<Object>(
-              future: OtherFunctions.getUserLocalState(local.getLocation),
-              builder: (context, snapshot) {
-                refineSearchProvider.changeStateOfResultSearch(snapshot.data);
-                return AuthOrHome();
-              }
-            );
+            return AuthOrHome();
+            // return FutureBuilder<Object>(
+            //   future: OtherFunctions.getUserLocalState(local.getLocation),
+            //   builder: (context, snapshot) {
+            //     refineSearchProvider.changeStateOfResultSearch(snapshot.data);
+                
+            //   }
+            // );
           },
         );
       },
