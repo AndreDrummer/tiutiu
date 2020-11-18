@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:dio/dio.dart';
-import 'package:tiutiu/data/dummy_data.dart';
 
 class RefineSearchProvider with ChangeNotifier {
   final _kindSelected = BehaviorSubject<int>.seeded(0);
@@ -24,7 +23,7 @@ class RefineSearchProvider with ChangeNotifier {
   final _homePetTypeFilterByDonate = BehaviorSubject<String>();
   final _homePetTypeFilterByDisappeared = BehaviorSubject<String>();
 
-  final _stateOfResultSearch = BehaviorSubject<String>.seeded(DummyData.statesName.first);
+  final _stateOfResultSearch = BehaviorSubject<String>();
 
   Stream<int> get kindSelected => _kindSelected.stream;  
   Stream<String> get breedSelected => _breedSelected.stream;  
