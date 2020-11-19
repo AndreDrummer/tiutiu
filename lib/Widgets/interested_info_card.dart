@@ -1,7 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:tiutiu/Custom/icons.dart';
+import 'package:tiutiu/backend/Model/user_model.dart';
+import 'package:tiutiu/utils/launcher_functions.dart';
 
 class InterestedInfoCard extends StatefulWidget {
+  InterestedInfoCard({
+    this.navigateToInterestedDetail,
+    this.infoOrDonteFunction,
+    this.interestedUser,
+    this.infoOrDonteText,
+    this.subtitle,
+    this.color,
+  });
+
+  final Function() navigateToInterestedDetail;
+  final Function() infoOrDonteFunction;
+  final User interestedUser;
+  final String subtitle;
+  final String infoOrDonteText;
+  final Color color;
+
   @override
   _InterestedInfoCardState createState() => _InterestedInfoCardState();
 }
@@ -11,6 +29,21 @@ class _InterestedInfoCardState extends State<InterestedInfoCard> {
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
 
+    bool canMakeCallLandline =     
+    widget.interestedUser.landline != null &&
+    widget.interestedUser.landline.isNotEmpty;
+
+    bool canOpenWhatsApp = 
+    widget.interestedUser.phoneNumber != null &&
+    widget.interestedUser.phoneNumber.isNotEmpty;
+
+    String phoneToCall;
+    
+    if(canMakeCallLandline || canOpenWhatsApp) {
+      phoneToCall = canMakeCallLandline ? widget.interestedUser.landline : widget.interestedUser.phoneNumber;
+    }
+    
+
     return Card(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(7.0)),
       child: Padding(
@@ -19,12 +52,27 @@ class _InterestedInfoCardState extends State<InterestedInfoCard> {
           children: [
             Row(
               children: [
-                CircleAvatar(
-                  radius: 25,
-                  backgroundColor: Colors.transparent,
-                  child: ClipOval(
-                    child: Image.asset('assets/bones.jpg'),
-                  ),
+                InkWell(
+                  onTap: widget.navigateToInterestedDetail,
+                  child: CircleAvatar(
+          backgroundColor: Colors.transparent,
+          child: ClipOval(
+            child: Hero(
+              tag: '${widget.interestedUser.photoURL}',
+              child: FadeInImage(
+                placeholder: AssetImage('assets/fundo.jpg'),
+                image: widget.interestedUser.photoURL != null
+                    ? NetworkImage(widget.interestedUser.photoURL)
+                    : AssetImage(
+                        'assets/fundo.jpg',
+                      ),
+                fit: BoxFit.fill,
+                width: 1000,
+                height: 1000,
+              ),
+            ),
+          ),
+        ),
                 ),
                 SizedBox(width: 15),
                 Column(
@@ -33,7 +81,7 @@ class _InterestedInfoCardState extends State<InterestedInfoCard> {
                     Container(
                       width: width - 100,
                       child: Text(
-                        'André Felipe Jesus do Nascimento Silva',
+                        widget.interestedUser.name,
                         style: TextStyle(
                           fontWeight: FontWeight.w700,
                           fontSize: 16,
@@ -42,7 +90,7 @@ class _InterestedInfoCardState extends State<InterestedInfoCard> {
                     ),
                     SizedBox(height: 5),
                     Text(
-                      'Interessou dia 09/10/2020 10:11',
+                      widget.subtitle,
                       style: TextStyle(
                         fontWeight: FontWeight.w700,
                         fontSize: 12,
@@ -57,30 +105,37 @@ class _InterestedInfoCardState extends State<InterestedInfoCard> {
             Row(
               // mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                _ActionButton(
-                  icon: Icons.chat,
-                  text: 'Chat',
-                  color: Colors.red,
-                ),
-                SizedBox(width: width * 0.14),
-                _ActionButton(
+                // _ActionButton(
+                //   icon: Icons.chat,
+                //   text: 'Chat',
+                //   color: Colors.red,
+                // ),
+                // SizedBox(width: width * 0.14),
+                canOpenWhatsApp ? _ActionButton(
+                  onPressed: () {
+                    Launcher.openWhatsApp(number: widget.interestedUser.phoneNumber);
+                  },
                   icon: Tiutiu.whatsapp,
                   text: 'WhatsApp',
                   color: Theme.of(context).primaryColor,
-                ),
+                ) : Text(''),
                 SizedBox(width: width * 0.14),
-                _ActionButton(
+                phoneToCall != null ? _ActionButton(
+                  onPressed: () {
+                    Launcher.makePhoneCall('tel: $phoneToCall');
+                  },
                   icon: Icons.phone,
                   text: 'Ligar',
                   color: Colors.orange,
-                ),
+                ) : Text(''),
               ],
             ),
             SizedBox(height: 5),
             _ActionButton(
-              text: 'VER INFO',
+              onPressed: widget.infoOrDonteFunction,
+              text: widget.infoOrDonteText.toUpperCase(),
               fontSize: 22,
-              color: Colors.blue,
+              color: widget.color,
               isExpanded: true,
             ),
           ],
@@ -97,6 +152,7 @@ class _ActionButton extends StatelessWidget {
     this.color,
     this.isExpanded = false,
     this.fontSize,
+    this.onPressed,
   });
 
   final IconData icon;
@@ -104,35 +160,39 @@ class _ActionButton extends StatelessWidget {
   final Color color;
   final bool isExpanded;
   final double fontSize;
+  final Function() onPressed;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      alignment: Alignment.center,
-      height: 50,
-      width: isExpanded ? double.infinity : null,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(8.0),
-        color: color,
-      ),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8.0),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            icon != null
-                ? Icon(icon, size: 18, color: Colors.white)
-                : Container(),
-            SizedBox(width: 5),
-            Text(
-              text,
-              style: Theme.of(context).textTheme.headline1.copyWith(
-                    color: Colors.white,
-                    fontSize: fontSize != null ? fontSize : null,
-                    fontWeight: FontWeight.w700,
-                  ),
-            ),
-          ],
+    return InkWell(
+      onTap: onPressed,
+      child: Container(
+        alignment: Alignment.center,
+        height: 40,
+        width: isExpanded ? double.infinity : null,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(8.0),
+          color: color,
+        ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              icon != null
+                  ? Icon(icon, size: 18, color: Colors.white)
+                  : Container(),
+              SizedBox(width: 5),
+              Text(
+                text,
+                style: Theme.of(context).textTheme.headline1.copyWith(
+                      color: Colors.white,
+                      fontSize: fontSize != null ? fontSize : null,
+                      fontWeight: FontWeight.w700,
+                    ),
+              ),
+            ],
+          ),
         ),
       ),
     );
