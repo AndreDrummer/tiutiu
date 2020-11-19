@@ -2,9 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-import 'package:tiutiu/Widgets/empty_list.dart';
 import 'package:tiutiu/Widgets/interested_info_card.dart';
-import 'package:tiutiu/Widgets/interested_list_tile.dart';
 import 'package:tiutiu/Widgets/load_dark_screen.dart';
 import 'package:tiutiu/Widgets/loading_page.dart';
 import 'package:tiutiu/Widgets/popup_message.dart';
@@ -159,6 +157,34 @@ class _InterestedListState extends State<InterestedList> {
     );
   }
 
+  Color color(InterestedModel interestedModel) {
+    if (widget.kind == 'Donate' && !interestedModel.sinalized) {
+      return Colors.purple;
+    } else if (widget.kind == 'Donate' && interestedModel.gaveup) {
+      return Colors.red;
+    } else if (interestedModel.donated) {
+      return Colors.green;
+    } else if (widget.kind == 'Donate' && interestedModel.sinalized) {
+      return Colors.amber;
+    } else {
+      return Colors.blue;
+    }
+  }
+
+  String text(InterestedModel interestedModel) {
+    if (widget.kind == 'Donate' && !interestedModel.sinalized) {
+      return 'Doar';
+    } else if (widget.kind == 'Donate' && interestedModel.gaveup) {
+      return 'Desistiu';
+    } else if (interestedModel.donated) {
+      return 'Adotado';
+    } else if (widget.kind == 'Donate' && interestedModel.sinalized) {
+      return 'Aguardando confirmação';
+    } else {
+      return 'Ver info';
+    }
+  }
+
   Widget badge(InterestedModel interestedModel) {
     if (widget.kind == 'Donate' && !interestedModel.sinalized) {
       return _bagde('Doar');
@@ -205,44 +231,45 @@ class _InterestedListState extends State<InterestedList> {
             return Stack(
               children: [
                 ListView.builder(
-                  itemCount: 3,//snapshot.data.length,
-                  itemBuilder: (_, index) {                    
-                    return InterestedInfoCard();
-                    return FutureBuilder<Object>(
+                  itemCount: snapshot.data.length,
+                  itemBuilder: (_, index) {                                        
+                    return FutureBuilder<DocumentSnapshot>(
                       future: snapshot.data[index]?.userReference?.get(),
                       builder: (context, interestedReferenceSnapshot) {
-                        if (snapshot.connectionState ==
-                            ConnectionState.waiting) {
+
+                        if (snapshot.connectionState == ConnectionState.waiting) {
                           return CircularProgressIndicator();
                         }
-                        if (!interestedReferenceSnapshot.hasData) {
+
+                        if (!interestedReferenceSnapshot.hasData || interestedReferenceSnapshot.data.data() == null) {
                           return Container();
                         }
+
                         User interestedUser = User.fromSnapshot(interestedReferenceSnapshot.data);
                         String subtitle = '${widget.kind == 'Donate' ? 'Interessou dia' : 'Informou dia'} ${DateFormat('dd/MM/y HH:mm').format(DateTime.parse(snapshot.data[index].interestedAt))}';
-                        return InterestedListTile(
+
+                        return InterestedInfoCard(
                           subtitle: subtitle,
                           interestedUser: interestedUser,
-                          navigateToInterestedDetail: interestedUser.photoURL ==
-                                  null
+                          navigateToInterestedDetail: interestedUser.photoURL == null
                               ? null
-                              : () =>
-                                  navigateToInterestedDetail(interestedUser),
-                          trailingFunction: () {
+                              : () => navigateToInterestedDetail(interestedUser),
+                          infoOrDonteFunction: () {
+
                             if (widget.kind == 'Donate' && !snapshot.data[index].sinalized) {
                               doar(interestedUser, snapshot.data[index]);
                             } else {
                               seeInfo(snapshot.data[index]);
                             }
                           },
-                          trailingChild: badge(snapshot.data[index]),
-                        );
+                          infoOrDonteText: text(snapshot.data[index]),
+                          color: color(snapshot.data[index])
+                        );                        
                       },
                     );
                   },
                 ),
-                LoadDarkScreen(
-                    show: isSinalizing, message: 'Sinalizando adoção..'),
+                LoadDarkScreen(show: isSinalizing, message: 'Sinalizando adoção..'),
               ],
             );
           },

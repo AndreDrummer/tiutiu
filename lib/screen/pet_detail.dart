@@ -21,6 +21,7 @@ import 'package:tiutiu/providers/location.dart';
 import 'package:tiutiu/providers/user_infos_interests.dart';
 import 'package:tiutiu/providers/user_provider.dart';
 import 'package:tiutiu/screen/announcer_datails.dart';
+import 'package:tiutiu/utils/constantes.dart';
 import 'package:tiutiu/utils/formatter.dart';
 import 'package:tiutiu/utils/launcher_functions.dart';
 import 'package:tiutiu/utils/routes.dart';
@@ -439,6 +440,8 @@ class _PetDetailsState extends State<PetDetails> {
               ],
             ),
           ),
+          
+          Constantes.ADMIN_ID == widget.pet.ownerId ? Container() :
           !widget.isMine
               ? Positioned(
                   bottom: 20.0,
