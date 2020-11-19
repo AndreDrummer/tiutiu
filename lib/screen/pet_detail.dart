@@ -54,6 +54,7 @@ class _PetDetailsState extends State<PetDetails> {
   UserProvider userProvider;
   bool isAuthenticated = false;
   bool interestOrInfoWasFired;
+  int timeToSendRequestAgain = 120;
 
   @override
   void didChangeDependencies() {
@@ -61,13 +62,33 @@ class _PetDetailsState extends State<PetDetails> {
     userLocation = Provider.of<Location>(context, listen: false);
     auth = Provider.of<Authentication>(context);
     userProvider = Provider.of<UserProvider>(context, listen: false);
-    userInfosAdopts =
-        Provider.of<UserInfoOrAdoptInterestsProvider>(context, listen: false);
+    userInfosAdopts = Provider.of<UserInfoOrAdoptInterestsProvider>(context, listen: false);
     isAuthenticated = auth.firebaseUser != null;
     if (isAuthenticated) {
-      userInfosAdopts.checkInfo(widget.pet.petReference, auth.firebaseUser.uid);
-      userInfosAdopts.checkInterested(
-          widget.pet.petReference, auth.firebaseUser.uid);
+      userInfosAdopts.checkInfo(widget.pet.petReference, userProvider.userReference);
+      userInfosAdopts.checkInterested(widget.pet.petReference, userProvider.userReference);
+    }
+  }
+
+  String timeFormmated(int minutes) {
+    int hour = minutes ~/ 60;
+    int min = minutes % 60;
+    if (hour == 0 && min == 1) {
+      return '$min minuto';
+    } else if(hour > 1 && min == 0){
+      return '$hour horas';
+    } else if(hour == 1 && min == 0){
+      return '$hour hora';
+    } else if(hour == 0 && min > 1) {
+      return '$min minutos';
+    } else if(hour == 1  && min == 1) {
+      return '$hour hora e $min minuto';    
+    } else if(hour == 1  && min > 1) {
+      return '$hour hora e $min minutos';
+    } else if(hour > 1  && min == 1) {
+      return '$hour horas e $min minuto';
+    } else {
+      return '$hour horas e $min minutos';
     }
   }
 
@@ -75,9 +96,8 @@ class _PetDetailsState extends State<PetDetails> {
   void initState() {
     super.initState();
     interestOrInfoWasFired = false;
-    if (isAuthenticated)
-      Provider.of<FavoritesProvider>(context, listen: false)
-          .loadFavoritesReference();
+    Provider.of<UserInfoOrAdoptInterestsProvider>(context, listen: false).changeLastimeInterestOrInfo(null);
+    if (isAuthenticated) Provider.of<FavoritesProvider>(context, listen: false).loadFavoritesReference();
   }
 
   Map<String, dynamic> petIconType = {
@@ -135,11 +155,8 @@ class _PetDetailsState extends State<PetDetails> {
       interestOrInfoWasFired = true;
     });
 
-    if (widget.kind == 'DONATE') {
-      userInfosAdopts.insertAdoptInterestID(widget.pet.id);
-    } else {
-      userInfosAdopts.insertInfosID(widget.pet.id);
-    }
+    userInfosAdopts.changeLastimeInterestOrInfo(DateTime.now().toIso8601String());
+    
   }
 
   void showSnackBar(String message) {
@@ -158,14 +175,16 @@ class _PetDetailsState extends State<PetDetails> {
 
   void showInterestOrPassInfo(String ownerName) async {
     final petRef = await widget.pet.petReference.get();
-    int userPosition = 1;        
+    int userPosition = 1;
     String messageTextSnackBar;
-
-    if (widget.kind == 'DONATE') {
-      if (userInfosAdopts.getAdoptInterest.contains(widget.pet.id)) {        
-        messageTextSnackBar = '$ownerName já sabe sobre seu interesse. Aguarde retorno.';
+      int hoursSinceLastRequest = DateTime.now().difference(DateTime.parse(userInfosAdopts.getLastimeInterestOrInfo ?? Constantes.APP_BIRTHDAY)).inMinutes;
+      switch(widget.kind) {
+      case 'DONATE':
+      if (hoursSinceLastRequest < timeToSendRequestAgain) {        
+        messageTextSnackBar = '$ownerName já sabe sobre seu interesse. Você pode tentar enviar outra solicitação dentro de ${timeFormmated(timeToSendRequestAgain - hoursSinceLastRequest)}.';
         showSnackBar(messageTextSnackBar);
       } else {
+        await PetController().deleteOldInterest(petRef.reference, userProvider.userReference);
         var adoptInterestedsRef = await petRef.reference.collection('adoptInteresteds').get();
         if (adoptInterestedsRef.docs.isNotEmpty) {
           userPosition = adoptInterestedsRef.docs.length + 1;
@@ -174,7 +193,8 @@ class _PetDetailsState extends State<PetDetails> {
         sendData(userPosition);
         showSnackBar(messageTextSnackBar);
       }
-    } else {           
+      break;
+      default:              
       var infoInterestedsRef = await petRef.reference.collection('infoInteresteds').get();
 
       if (infoInterestedsRef.docs.isNotEmpty) {

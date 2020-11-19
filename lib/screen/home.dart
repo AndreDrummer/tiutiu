@@ -174,8 +174,7 @@ class _HomeState extends State<Home> {
     userProvider.changeBetterContact(doc.data()['betterContact']);
     userProvider.calculateTotals();    
     userProvider.changeNotificationToken(await fbm.getToken());
-    userController.updateUser(userProvider.uid, {"notificationToken": userProvider.notificationToken});
-
+    userController.updateUser(userProvider.uid, {"notificationToken": userProvider.notificationToken});    
     if (auth.firebaseUser != null) {
       favoritesProvider.loadFavoritesReference();
     }
