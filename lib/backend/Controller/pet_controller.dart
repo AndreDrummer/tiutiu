@@ -50,8 +50,18 @@ class PetController {
   Stream<QuerySnapshot> getAdoptionsToConfirm(String userId) {
     return firestore.collection('Adopted')
     .where('interestedID', isEqualTo: userId)
-    .where('confirmed', isEqualTo: false).snapshots();    
-  }  
+    .where('confirmed', isEqualTo: false).snapshots();
+  }
+
+  Future<void> deleteOldInterest(DocumentReference petReference, DocumentReference userReference) async {
+    QuerySnapshot adoptInterestedsRef = await petReference.collection('adoptInteresteds').where('userReference', isEqualTo: userReference).get();
+  
+    List<QueryDocumentSnapshot> docs = adoptInterestedsRef.docs;
+    for(int i = 0; i < docs.length; i++) {
+      docs[i].reference.delete();
+    }
+    
+  }
      
   Future<void> showInterestOrInfo({
     DocumentReference petReference,
