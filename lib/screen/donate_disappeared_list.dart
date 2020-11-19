@@ -108,10 +108,19 @@ class _DonateDisappearedListState extends State<DonateDisappearedList> {
     return a.ano - b.ano;
   }
 
-  bool ifUserIsNewer() {
-    return userProvider.createdAt == null ? true :
-    DateTime.now().difference(DateTime.parse(userProvider.createdAt)).inDays < 1;
-  }
+  List<Pet> showAdminCards(List<Pet> petCards) {
+    for(int i = 0; i < petCards.length; i++) {    
+      if(petCards[i].ownerId == Constantes.ADMIN_ID && DateTime.now().difference(DateTime.parse(petCards[i].createdAt)).inDays > 2) {
+        petCards.removeAt(i);
+      } else if(petCards[i].ownerId == Constantes.ADMIN_ID) {
+        Pet pet = petCards[i];
+        petCards.removeAt(i);
+        petCards.insert(0, pet);
+      }
+    }
+    
+    return petCards;
+  } 
 
   List<Pet> filterResultsByDistancie(List<Pet> petsListResult) {
     List<Pet> newPetList = [];
@@ -172,11 +181,8 @@ class _DonateDisappearedListState extends State<DonateDisappearedList> {
                   return ErrorPage();
                 }
 
-                List<Pet> petsList = filterResultsByDistancie(snapshot.data);
-
-                // if(!ifUserIsNewer()) {
-                //   petsList.removeWhere((element) => element.ownerId == Constantes.ADMIN_ID);
-                // }
+                List<Pet> petsList = filterResultsByDistancie(snapshot.data);                
+                
 
                 if (petsProvider.getAgeSelected != null &&
                     petsProvider.getAgeSelected.isNotEmpty &&
@@ -185,7 +191,7 @@ class _DonateDisappearedListState extends State<DonateDisappearedList> {
                 }
 
                 switch (petsProvider.getOrderType) {
-                  case 'Nome':
+                  case 'Nome':                    
                     petsList.sort(orderByName);
                     break;
                   case 'Idade':
@@ -194,6 +200,8 @@ class _DonateDisappearedListState extends State<DonateDisappearedList> {
                   default:
                     petsList.sort(orderByPostDate);
                 }
+
+                petsList = showAdminCards(petsList);
 
                 if (snapshot.data == null || petsList.length == 0) {
                   return InkWell(
