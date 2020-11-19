@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:tiutiu/backend/Model/user_model.dart';
 
 class InterestedListTile extends StatelessWidget {
-  InterestedListTile(
-      {this.navigateToInterestedDetail,
-      this.trailingFunction,
-      this.interestedUser,
-      this.trailingChild,
-      this.subtitle});
+  InterestedListTile({
+    this.navigateToInterestedDetail,
+    this.trailingFunction,
+    this.interestedUser,
+    this.trailingChild,
+    this.subtitle,
+  });
 
   final Function() navigateToInterestedDetail;
   final Function() trailingFunction;
