@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:tiutiu/utils/constantes.dart';
 
 const String appBirthday = '2020-10-28T18:54:56.905834';
 class Pet {
@@ -48,7 +47,7 @@ class Pet {
     ano = snapshot.data()['ano'];
     meses = snapshot.data()['meses'];
     breed = snapshot.data()['breed'];
-    createdAt = snapshot.data()['ownerId'] == Constantes.ADMIN_ID ? DateTime.now().toIso8601String() : snapshot.data()['createdAt'] ?? appBirthday;
+    createdAt = snapshot.data()['createdAt'] ?? appBirthday;
     size = snapshot.data()['size'];
     details = snapshot.data()['details'];
     photos = snapshot.data()['photos'] as List;
@@ -160,6 +159,7 @@ class Pet {
     petMap['sex'] = sex;
     petMap['views'] = views;
     petMap['health'] = health;
+    petMap['createdAt'] = createdAt;
     petMap['ano'] = ano;
     petMap['meses'] = meses;
     petMap['breed'] = breed;
