@@ -1,9 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:tiutiu/utils/constantes.dart';
 
 class InterestedModel {
 
   InterestedModel({
     this.position,
+    this.lastNotificationSend,
     this.userLat,
     this.userLog,
     this.userReference,
@@ -18,6 +20,7 @@ class InterestedModel {
 
   InterestedModel.fromSnapshot(DocumentSnapshot snapshot) {
     position = snapshot.data()['position'];
+    lastNotificationSend = snapshot.data()['lastNotificationSend'] ?? Constantes.APP_BIRTHDAY;
     userLat = snapshot.data()['userLat'];
     userLog = snapshot.data()['userLog'];
     userReference = snapshot.data()['userReference'];
@@ -32,6 +35,7 @@ class InterestedModel {
 
   InterestedModel.fromMap(Map<String, dynamic> map) {
     position = map['position'];
+    lastNotificationSend = map['lastNotificationSend'] ?? Constantes.APP_BIRTHDAY;
     userLat = map['userLat'];
     userLog = map['userLog'];
     userReference = map['userReference'];
@@ -45,7 +49,8 @@ class InterestedModel {
   }
 
   int position;
-  double userLat;
+  String lastNotificationSend;
+  double userLat;  
   bool sinalized;
   bool gaveup;
   bool donated;
@@ -62,6 +67,7 @@ class InterestedModel {
       'infoDetails': infoDetails,
       'petName': petName,
       'position': position,
+      'lastNotificationSend': lastNotificationSend,
       'userLat': userLat,
       'userLog': userLog,
       'userReference': userReference,
