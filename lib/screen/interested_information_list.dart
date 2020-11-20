@@ -40,6 +40,10 @@ class _InterestedListState extends State<InterestedList> {
     });
   }
 
+  int getLastNotification() {
+    
+  }
+
   Future<void> donatePetToSomeone({
     DocumentReference interestedReference,
     DocumentReference ownerReference,
@@ -50,8 +54,7 @@ class _InterestedListState extends State<InterestedList> {
     int userPosition,
     Pet pet,
   }) async {
-    await userController
-        .donatePetToSomeone(
+    await userController.donatePetToSomeone(
       pet: pet,
       interestedID: interestedID,
       interestedName: interestedName,
@@ -158,13 +161,14 @@ class _InterestedListState extends State<InterestedList> {
   }
 
   Color color(InterestedModel interestedModel) {
-    if (widget.kind == 'Donate' && !interestedModel.sinalized) {
+    int hoursSinceLastNotification = DateTime.now().difference(DateTime.parse(interestedModel.lastNotificationSend)).inMinutes;
+    if (widget.kind == 'Donate' && hoursSinceLastNotification >= 6) {
       return Colors.purple;
     } else if (widget.kind == 'Donate' && interestedModel.gaveup) {
       return Colors.red;
     } else if (interestedModel.donated) {
       return Colors.green;
-    } else if (widget.kind == 'Donate' && interestedModel.sinalized) {
+    } else if (widget.kind == 'Donate' && hoursSinceLastNotification < 6) {
       return Colors.amber;
     } else {
       return Colors.blue;
@@ -172,13 +176,14 @@ class _InterestedListState extends State<InterestedList> {
   }
 
   String text(InterestedModel interestedModel) {
-    if (widget.kind == 'Donate' && !interestedModel.sinalized) {
+    int hoursSinceLastNotification = DateTime.now().difference(DateTime.parse(interestedModel.lastNotificationSend)).inMinutes;
+    if (widget.kind == 'Donate' && hoursSinceLastNotification >= 6) {
       return 'Doar';
     } else if (widget.kind == 'Donate' && interestedModel.gaveup) {
       return 'Desistiu';
     } else if (interestedModel.donated) {
       return 'Adotado';
-    } else if (widget.kind == 'Donate' && interestedModel.sinalized) {
+    } else if (widget.kind == 'Donate' && hoursSinceLastNotification < 6) {
       return 'Aguardando confirmação';
     } else {
       return 'Ver info';
@@ -186,13 +191,14 @@ class _InterestedListState extends State<InterestedList> {
   }
 
   Widget badge(InterestedModel interestedModel) {
-    if (widget.kind == 'Donate' && !interestedModel.sinalized) {
+    int hoursSinceLastNotification = DateTime.now().difference(DateTime.parse(interestedModel.lastNotificationSend)).inMinutes;
+    if (widget.kind == 'Donate' && hoursSinceLastNotification >= 6) {
       return _bagde('Doar');
     } else if (widget.kind == 'Donate' && interestedModel.gaveup) {
       return _bagde('Desistiu', color: Colors.red);
     } else if (interestedModel.donated) {
       return _bagde('Adotado', color: Colors.green);
-    } else if (widget.kind == 'Donate' && interestedModel.sinalized) {
+    } else if (widget.kind == 'Donate' && hoursSinceLastNotification < 6) {
       return _bagde('Aguardando confirmação', color: Colors.amber);
     } else {
       return _bagde('Ver info', color: Colors.blue);
@@ -220,14 +226,7 @@ class _InterestedListState extends State<InterestedList> {
                 circle: true,
               );
             }
-
-            // if (!snapshot.hasData || snapshot.data.isEmpty) {
-            //   return EmptyListScreen(
-            //     text: widget.kind == 'Donate'
-            //         ? 'Ninguém ainda está interessado'
-            //         : 'Ninguém ainda passou informações',
-            //   );
-            // }
+            
             return Stack(
               children: [
                 ListView.builder(
@@ -254,9 +253,9 @@ class _InterestedListState extends State<InterestedList> {
                           navigateToInterestedDetail: interestedUser.photoURL == null
                               ? null
                               : () => navigateToInterestedDetail(interestedUser),
-                          infoOrDonteFunction: () {
-
-                            if (widget.kind == 'Donate' && !snapshot.data[index].sinalized) {
+                          infoOrDonateFunction: () {
+                            int hoursSinceLastNotification = DateTime.now().difference(DateTime.parse(snapshot.data[index].lastNotificationSend)).inMinutes;
+                            if (widget.kind == 'Donate' && hoursSinceLastNotification >= 6) {
                               doar(interestedUser, snapshot.data[index]);
                             } else {
                               seeInfo(snapshot.data[index]);
