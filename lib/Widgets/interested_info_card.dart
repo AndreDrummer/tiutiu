@@ -6,7 +6,7 @@ import 'package:tiutiu/utils/launcher_functions.dart';
 class InterestedInfoCard extends StatefulWidget {
   InterestedInfoCard({
     this.navigateToInterestedDetail,
-    this.infoOrDonteFunction,
+    this.infoOrDonateFunction,
     this.interestedUser,
     this.infoOrDonteText,
     this.subtitle,
@@ -14,7 +14,7 @@ class InterestedInfoCard extends StatefulWidget {
   });
 
   final Function() navigateToInterestedDetail;
-  final Function() infoOrDonteFunction;
+  final Function() infoOrDonateFunction;
   final User interestedUser;
   final String subtitle;
   final String infoOrDonteText;
@@ -132,7 +132,7 @@ class _InterestedInfoCardState extends State<InterestedInfoCard> {
             ),
             SizedBox(height: 5),
             _ActionButton(
-              onPressed: widget.infoOrDonteFunction,
+              onPressed: widget.infoOrDonateFunction,
               text: widget.infoOrDonteText.toUpperCase(),
               fontSize: 22,
               color: widget.color,

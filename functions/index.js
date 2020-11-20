@@ -37,17 +37,19 @@ exports.createNotificationAdoptionConfirmed = functions.firestore
 
 exports.createNotificationAdoptionDenied = functions.firestore
     .document('Adopted/{id}')
-    .onDelete((snap, context) => {
-        admin.messaging().sendToDevice(`${snap.data()['ownerNotificationToken']}`, {
-            notification: {
-                title: 'Adoção NÃO confirmada!',
-                body: `${snap.data()['interestedName']} negou que tenha adotado ${snap.data()['name']}.`,
-                clickAction: 'FLUTTER_NOTIFICATION_CLICK'
-            },
-            data: {
-                data: JSON.stringify(snap.data())
-            }
-        })
+    .onUpdate((snap, context) => {        
+        if (snap.after.data()['gaveup'] === true) {
+            admin.messaging().sendToDevice(`${snap.after.data()['ownerNotificationToken']}`, {
+                notification: {
+                    title: 'Adoção NÃO confirmada!',
+                    body: `${snap.after.data()['interestedName']} negou que tenha adotado ${snap.after.data()['name']}.`,
+                    clickAction: 'FLUTTER_NOTIFICATION_CLICK'
+                },
+                data: {
+                    data: JSON.stringify(snap.after.data())
+                }
+            })
+        }
 
     })
 
