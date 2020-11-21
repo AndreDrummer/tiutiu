@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:tiutiu/utils/constantes.dart';
 
 class InterestedModel {
-
   InterestedModel({
     this.position,
     this.lastNotificationSend,
@@ -13,9 +12,9 @@ class InterestedModel {
     this.sinalized = false,
     this.gaveup = false,
     this.donated = false,
-    this.userName,
+    this.interestedName,
     this.infoDetails,
-    this.petName
+    this.petName,
   });
 
   InterestedModel.fromSnapshot(DocumentSnapshot snapshot) {
@@ -28,9 +27,9 @@ class InterestedModel {
     sinalized = snapshot.data()['sinalized'];
     gaveup = snapshot.data()['gaveup'];
     donated = snapshot.data()['donated'];
-    userName = snapshot.data()['userName'];
-    petName = snapshot.data()['petName'];    
-    infoDetails = snapshot.data()['infoDetails'];    
+    interestedName = snapshot.data()['interestedName'];
+    petName = snapshot.data()['petName'];
+    infoDetails = snapshot.data()['infoDetails'];
   }
 
   InterestedModel.fromMap(Map<String, dynamic> map) {
@@ -45,25 +44,25 @@ class InterestedModel {
     donated = map['donated'];
     petName = map['petName'];
     infoDetails = map['infoDetails'];
-    userName = map['userName'];
+    interestedName = map['interestedName'];
   }
 
   int position;
   String lastNotificationSend;
-  double userLat;  
+  double userLat;
   bool sinalized;
   bool gaveup;
   bool donated;
   double userLog;
   String interestedAt;
-  String userName;
+  String interestedName;
   String petName;
   String infoDetails;
   DocumentReference userReference;
 
   Map<String, dynamic> toJson() {
     return {
-      'userName': userName,
+      'interestedName': interestedName,
       'infoDetails': infoDetails,
       'petName': petName,
       'position': position,
@@ -74,6 +73,6 @@ class InterestedModel {
       'interestedAt': interestedAt,
       'sinalized': sinalized,
       'gaveup': gaveup,
-    };      
+    };
   }
 }
