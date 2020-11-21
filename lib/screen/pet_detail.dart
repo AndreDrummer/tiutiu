@@ -6,7 +6,6 @@ import 'package:tiutiu/Custom/icons.dart';
 import 'package:tiutiu/Widgets/badge.dart';
 import 'package:tiutiu/Widgets/button.dart';
 import 'package:tiutiu/Widgets/card_details.dart';
-import 'package:tiutiu/Widgets/divider.dart';
 import 'package:tiutiu/Widgets/dots_indicator.dart';
 import 'package:tiutiu/Widgets/fullscreen_images.dart';
 import 'package:tiutiu/Widgets/pop_up_text_field.dart';
@@ -17,7 +16,7 @@ import 'package:tiutiu/backend/Model/user_model.dart';
 import 'package:tiutiu/providers/auth2.dart';
 import 'package:tiutiu/providers/favorites_provider.dart';
 import 'package:maps_launcher/maps_launcher.dart';
-import 'package:tiutiu/providers/location.dart';
+import 'package:tiutiu/providers/location.dart' as provider;
 import 'package:tiutiu/providers/user_infos_interests.dart';
 import 'package:tiutiu/providers/user_provider.dart';
 import 'package:tiutiu/screen/announcer_datails.dart';
@@ -25,6 +24,10 @@ import 'package:tiutiu/utils/constantes.dart';
 import 'package:tiutiu/utils/formatter.dart';
 import 'package:tiutiu/utils/launcher_functions.dart';
 import 'package:tiutiu/utils/routes.dart';
+import 'package:tiutiu/Widgets/background.dart';
+import 'package:tiutiu/Widgets/play_store_rating.dart';
+import 'package:tiutiu/utils/other_functions.dart';
+import "package:google_maps_webservice/geocoding.dart";
 
 class PetDetails extends StatefulWidget {
   PetDetails({
@@ -48,7 +51,7 @@ class _PetDetailsState extends State<PetDetails> {
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   FavoritesProvider favoritesProvider;
 
-  Location userLocation;
+  provider.Location userLocation;
   UserInfoOrAdoptInterestsProvider userInfosAdopts;
   Authentication auth;
   UserProvider userProvider;
@@ -59,7 +62,7 @@ class _PetDetailsState extends State<PetDetails> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    userLocation = Provider.of<Location>(context, listen: false);
+    userLocation = Provider.of<provider.Location>(context, listen: false);
     auth = Provider.of<Authentication>(context);
     userProvider = Provider.of<UserProvider>(context, listen: false);
     userInfosAdopts = Provider.of<UserInfoOrAdoptInterestsProvider>(context, listen: false);
@@ -213,6 +216,8 @@ class _PetDetailsState extends State<PetDetails> {
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
+
     double wannaAdoptButton = widget.kind == 'DONATE' ? width * 0.7 : width * 0.8;
     List otherCaracteristics = widget.pet?.otherCaracteristics ?? ['Teste'];
     List petDetails = [
@@ -275,18 +280,6 @@ class _PetDetailsState extends State<PetDetails> {
           }
         }
       },
-      {
-        'text': 'Localização',
-        'image': 'assets/static_map.jpg',
-        // 'imageN': 'https://maps.googleapis.com/maps/api/staticmap?center=${pet.latitude}, ${pet.longitude}&zoom=14&markers=color&markers=color:red%7Clabel:%7c-16.7502014,%20-49.256370000000004&size=600x400&key=${Constantes.WEB_API_KEY}',
-        'callback': () {
-          MapsLauncher.launchCoordinates(
-            widget.pet.latitude,
-            widget.pet.longitude,
-            widget.pet.name,
-          );
-        }
-      },
     ];
 
     return Scaffold(
@@ -326,17 +319,8 @@ class _PetDetailsState extends State<PetDetails> {
       ),
       body: Stack(
         children: [
-          Opacity(
-            opacity: 0.5,
-            child: Container(
-              decoration: BoxDecoration(
-                  image: DecorationImage(
-                fit: BoxFit.fill,
-                image: AssetImage(
-                  'assets/cao e gato.png',
-                ),
-              )),
-            ),
+          Background(
+            dark: true,
           ),
           SingleChildScrollView(
             child: Column(
@@ -377,7 +361,7 @@ class _PetDetailsState extends State<PetDetails> {
                     child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: ConstrainedBox(
-                          constraints: BoxConstraints(minHeight: 0.0, maxHeight: 120),
+                          constraints: BoxConstraints(minHeight: 0.0, maxHeight: 165),
                           child: Container(
                             width: double.infinity,
                             child: Stack(
@@ -404,30 +388,106 @@ class _PetDetailsState extends State<PetDetails> {
                         )),
                   ),
                 ),
-                SizedBox(height: 5),
-                CustomDivider(text: 'Informações do anunciante'),
-                Container(
-                  height: 170,
-                  child: Padding(
-                    padding: EdgeInsets.only(left: width < 365 ? 0 : 20.0),
-                    child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      itemCount: ownerDetails.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return UserCardInfo(
-                          text: ownerDetails[index]['text'],
-                          icon: ownerDetails[index]['icon'],
-                          image: ownerDetails[index]['image'],
-                          imageN: ownerDetails[index]['imageN'],
-                          color: ownerDetails[index]['color'],
-                          callback: ownerDetails[index]['callback'],
-                          launchIcon: ownerDetails[index]['launchIcon'],
-                        );
-                      },
-                    ),
-                  ),
-                ),
-                SizedBox(height: 90.0),
+                Constantes.ADMIN_ID != widget.pet.ownerId
+                    ? Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(4.0),
+                            child: Card(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              elevation: 8.0,
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: ConstrainedBox(
+                                  constraints: BoxConstraints(minHeight: 0.0, maxHeight: 120),
+                                  child: SingleChildScrollView(
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.only(top: 4.0),
+                                          child: Row(
+                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Text(
+                                                'Localização',
+                                                style: Theme.of(context).textTheme.headline1.copyWith(color: Colors.black54),
+                                              ),
+                                              InkWell(
+                                                onTap: () {
+                                                  MapsLauncher.launchCoordinates(
+                                                    widget.pet.latitude,
+                                                    widget.pet.longitude,
+                                                    widget.pet.name,
+                                                  );
+                                                },
+                                                child: Icon(Icons.launch, size: 16, color: Colors.blue),
+                                              )
+                                            ],
+                                          ),
+                                        ),
+                                        Divider(),
+                                        FutureBuilder<Object>(
+                                          future: OtherFunctions.getAddress(Location(widget.pet.latitude, widget.pet.longitude)),
+                                          builder: (context, snapshot) {
+                                            if (snapshot.data == null) {
+                                              return Center(
+                                                child: Column(
+                                                  children: [
+                                                    LoadingBumpingLine.circle(size: 15),
+                                                    Text('Carregando endereço...'),
+                                                  ],
+                                                ),
+                                              );
+                                            }
+                                            return Text(
+                                              snapshot.data,
+                                              style: TextStyle(fontSize: 12, color: Colors.blueGrey),
+                                            );
+                                          },
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(8.0, 30.0, 8.0, 8.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                Expanded(
+                                  child: ButtonWide(
+                                    action: () {},
+                                    color: Colors.green,
+                                    icon: Tiutiu.whatsapp,
+                                    isToExpand: false,
+                                    text: 'WhatsApp',
+                                  ),
+                                ),
+                                SizedBox(width: 15),
+                                Expanded(
+                                  child: ButtonWide(
+                                    action: () {},
+                                    color: Colors.orange,
+                                    icon: Icons.phone,
+                                    isToExpand: false,
+                                    text: 'Ligar',
+                                  ),
+                                ),
+                              ],
+                            ),
+                          )
+                        ],
+                      )
+                    : Padding(
+                        padding: EdgeInsets.only(top: height / 12),
+                        child: RatingUs(),
+                      )
               ],
             ),
           ),
@@ -457,7 +517,52 @@ class _PetDetailsState extends State<PetDetails> {
                         action: () {},
                         text: widget.kind == 'DONATE' ? 'VOCÊ ESTÁ DOANDO' : 'VOCÊ ESTÁ PROCURANDO',
                       ),
-                    )
+                    ),
+          Positioned(
+            top: 190,
+            left: 10,
+            child: Container(
+              decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment(0.0, 0.8),
+                    end: Alignment(0.0, 0.0),
+                    colors: [
+                      Color.fromRGBO(0, 0, 0, 0),
+                      Color.fromRGBO(0, 0, 0, 0.6),
+                    ],
+                  ),
+                  borderRadius: BorderRadius.circular(50)),
+              child: Row(
+                children: [
+                  UserCardInfo(
+                    text: ownerDetails[0]['text'],
+                    icon: ownerDetails[0]['icon'],
+                    image: ownerDetails[0]['image'],
+                    imageN: ownerDetails[0]['imageN'],
+                    color: ownerDetails[0]['color'],
+                    callback: ownerDetails[0]['callback'],
+                    launchIcon: ownerDetails[0]['launchIcon'],
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(right: 18.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Anunciante',
+                          style: TextStyle(color: Colors.white, fontStyle: FontStyle.italic, fontSize: 10),
+                        ),
+                        Text(
+                          ownerDetails[0]['text'] ?? '',
+                          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                        ),
+                      ],
+                    ),
+                  )
+                ],
+              ),
+            ),
+          ),
         ],
       ),
       floatingActionButton: (!widget.isMine && widget.kind == 'DONATE')
@@ -465,6 +570,7 @@ class _PetDetailsState extends State<PetDetails> {
               builder: (context, favoritesProvider, child) {
                 bool isFavorite = favoritesProvider.getFavoritesPETSIDList.contains(widget.pet.id);
                 return FloatingActionButton(
+                  heroTag: 'favorite',
                   onPressed: !isAuthenticated
                       ? navigateToAuth
                       : () async {
@@ -472,10 +578,12 @@ class _PetDetailsState extends State<PetDetails> {
 
                           await user.favorite(userProvider.userReference, widget.pet.petReference, !isFavorite);
 
-                          _scaffoldKey.currentState.showSnackBar(SnackBar(
-                            duration: Duration(seconds: 1),
-                            content: Text(isFavorite ? 'Removido dos favoritos' : 'Adicionado como favorito'),
-                          ));
+                          _scaffoldKey.currentState.showSnackBar(
+                            SnackBar(
+                              duration: Duration(seconds: 1),
+                              content: Text(isFavorite ? 'Removido dos favoritos' : 'Adicionado como favorito'),
+                            ),
+                          );
 
                           favoritesProvider.loadFavoritesReference();
                           favoritesProvider.handleFavorite(widget.pet.id);
