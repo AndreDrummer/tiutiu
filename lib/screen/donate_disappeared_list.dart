@@ -64,10 +64,6 @@ class _DonateDisappearedListState extends State<DonateDisappearedList> {
     super.initState();
   }
 
-  bool isFiltering() {
-    return filtering;
-  }
-
   List<Pet> filterResultsByAgeOver10(List<Pet> petsListResult) {
     List<Pet> newPetList = [];
 
@@ -136,16 +132,16 @@ class _DonateDisappearedListState extends State<DonateDisappearedList> {
       backgroundColor: Colors.blueGrey[50],
       body: Column(
         children: [
-          _HomeSearch(),
           Padding(
-            padding: const EdgeInsets.only(bottom: 8.0),
+            padding: const EdgeInsets.symmetric(vertical: 8.0),
             child: _StateFilter(
               refineSearchProvider: refineSearchProvider,
               petsProvider: petsProvider,
             ),
           ),
+          _HomeSearch(),
           StreamBuilder<List<Pet>>(
-            stream: widget.stream,
+            stream: (petsProvider.getIsFilteringByBreed || petsProvider.getIsFilteringByName) ? petsProvider.typingSearchResult : widget.stream,
             builder: (BuildContext context, AsyncSnapshot snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return Padding(
@@ -309,12 +305,15 @@ class _DonateDisappearedListState extends State<DonateDisappearedList> {
                                         child: Column(
                                           children: [
                                             adsProvider.getCanShowAds ? adsProvider.bannerAdMob(adId: adsProvider.topAdId, medium_banner: true) : Container(),
-                                            Row(
-                                              mainAxisAlignment: MainAxisAlignment.center,
-                                              children: [
-                                                Text('Voltar ao topo'.toUpperCase(), style: TextStyle(color: Colors.blue)),
-                                                Icon(Icons.arrow_drop_up_sharp, color: Colors.blue)
-                                              ],
+                                            Padding(
+                                              padding: const EdgeInsets.only(top: 8.0, bottom: 16.0),
+                                              child: Row(
+                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                children: [
+                                                  Text('Voltar ao topo'.toUpperCase(), style: TextStyle(color: Colors.blue, fontWeight: FontWeight.w700)),
+                                                  Icon(Icons.arrow_drop_up_sharp, color: Colors.blue)
+                                                ],
+                                              ),
                                             ),
                                           ],
                                         ),
@@ -361,7 +360,7 @@ class _StateFilterState extends State<_StateFilter> {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Row(
-          mainAxisAlignment: MainAxisAlignment.center,
+          // mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Padding(
               padding: const EdgeInsets.only(top: 7.0, left: 24),
@@ -450,6 +449,7 @@ class __HomeSearchState extends State<_HomeSearch> {
         petsProvider.changeIsFilteringByName(false);
         refineSearchProvider.changeSearchPetByTypeOnHome(true);
         refineSearchProvider.changeSearchHomeTypeInitialValue(searchType);
+        handleSearchOptions(refineSearchProvider.getSearchHomePetTypeInitialValue);
         break;
       default:
         petsProvider.changeIsFilteringByName(false);
@@ -508,7 +508,25 @@ class __HomeSearchState extends State<_HomeSearch> {
       petsProvider.changeBreedSelected(textSearch);
     }
     petsProvider.changeIsFiltering(true);
-    petsProvider.reloadList(state: refineSearchProvider.getStateOfResultSearch);
+    performTypingSearch(textSearch);
+    // petsProvider.reloadList(state: refineSearchProvider.getStateOfResultSearch);
+  }
+
+  void performTypingSearch(String text) {
+    petsProvider.changeTypingSearchResult([]);
+    List<Pet> oldPetList = petsProvider.getPetKind == 'Donate' ? petsProvider.getPetsDonate : petsProvider.getPetsDisappeared;
+    if (text.trim().isNotEmpty) {
+      List<Pet> newPetList = [];
+      for (Pet pet in oldPetList) {
+        print(
+            'SEARCHING petname ${pet.name.toLowerCase()} ${text.toLowerCase()} ${petsProvider.getIsFilteringByName && pet.name.toLowerCase().contains(text.toLowerCase())}');
+        if (petsProvider.getIsFilteringByName && pet.name.toLowerCase().contains(text.toLowerCase())) newPetList.add(pet);
+        if (petsProvider.getIsFilteringByBreed && pet.breed.toLowerCase().contains(text.toLowerCase())) newPetList.add(pet);
+      }
+      print(newPetList.length);
+      petsProvider.changeTypingSearchResult(newPetList);
+    }
+    if (text.trim().isEmpty) petsProvider.changeTypingSearchResult(oldPetList);
   }
 
   @override
@@ -536,7 +554,7 @@ class __HomeSearchState extends State<_HomeSearch> {
                                     isType: snapshotSearchPetByTypeOnHome?.data ?? false,
                                     onDropdownTypeChange: handleSearchType,
                                     onDropdownHomeSearchOptionsChange: handleSearchOptions,
-                                    onSubmit: handleOnTextSearchSubmit,
+                                    onChanged: handleOnTextSearchSubmit,
                                   );
                                 });
                           });
