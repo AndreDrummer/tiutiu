@@ -1,3 +1,4 @@
+import 'package:flutter_open_whatsapp/flutter_open_whatsapp.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class Launcher {
@@ -18,5 +19,9 @@ class Launcher {
     } else {
       throw 'Could not launch $url';
     }
+  }
+
+  static Future<void> openWhatsApp({String number}) async {
+    FlutterOpenWhatsapp.sendSingleMessage('+55$number', 'Olá! Vamos conversar sobre o Pet postado no *Tiu, tiu* ?');
   }
 }
