@@ -218,6 +218,10 @@ class _PetDetailsState extends State<PetDetails> {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
 
+    final String whatsappMessage = 'Olá! Tenho interesse e gostaria de saber mais detalhes sobre o PET *${widget.pet.name}* que postou no app *_Tiu, Tiu_*.';
+    final String emailMessage = 'Olá! Tenho interesse e gostaria de saber mais detalhes sobre o PET ${widget.pet.name} que postou no app Tiu, Tiu.';
+    final String emailSubject = 'Tenho interesse no PET ${widget.pet.name}';
+
     double wannaAdoptButton = widget.kind == 'DONATE' ? width * 0.7 : width * 0.8;
     List otherCaracteristics = widget.pet?.otherCaracteristics ?? ['Teste'];
     List petDetails = [
@@ -266,17 +270,12 @@ class _PetDetailsState extends State<PetDetails> {
           String serializedNumber = Formatter.unmaskNumber(widget.petOwner.phoneNumber);
 
           if (widget.petOwner.betterContact == 0) {
-            FlutterOpenWhatsapp.sendSingleMessage('+55$serializedNumber',
-                'Olá! Tenho interesse e gostaria de saber mais detalhes sobre o PET *${widget.pet.name}* que postou no app *_Tiu, Tiu_*.');
+            FlutterOpenWhatsapp.sendSingleMessage('+55$serializedNumber', whatsappMessage);
           } else if (widget.petOwner.betterContact == 1) {
             String serializedNumber = Formatter.unmaskNumber(widget.petOwner.landline);
-            Launcher.makePhoneCall('tel: $serializedNumber');
+            Launcher.makePhoneCall(number: serializedNumber);
           } else {
-            Launcher.sendEmail(
-              emailAddress: widget.petOwner.email,
-              subject: 'Tenho interesse no PET ${widget.pet.name}',
-              message: 'Olá! Tenho interesse e gostaria de saber mais detalhes sobre o PET ${widget.pet.name} que postou no app Tiu, Tiu.',
-            );
+            Launcher.sendEmail(emailAddress: widget.petOwner.email, subject: emailSubject, message: emailMessage);
           }
         }
       },
@@ -457,29 +456,11 @@ class _PetDetailsState extends State<PetDetails> {
                           ),
                           Padding(
                             padding: const EdgeInsets.fromLTRB(8.0, 30.0, 8.0, 8.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: [
-                                Expanded(
-                                  child: ButtonWide(
-                                    action: () {},
-                                    color: Colors.green,
-                                    icon: Tiutiu.whatsapp,
-                                    isToExpand: false,
-                                    text: 'WhatsApp',
-                                  ),
-                                ),
-                                SizedBox(width: 15),
-                                Expanded(
-                                  child: ButtonWide(
-                                    action: () {},
-                                    color: Colors.orange,
-                                    icon: Icons.phone,
-                                    isToExpand: false,
-                                    text: 'Ligar',
-                                  ),
-                                ),
-                              ],
+                            child: _ownerPetcontact(
+                              user: widget.petOwner,
+                              whatsappMessage: whatsappMessage,
+                              emailMessage: emailMessage,
+                              emailSubject: emailSubject,
                             ),
                           )
                         ],
@@ -521,45 +502,48 @@ class _PetDetailsState extends State<PetDetails> {
           Positioned(
             top: 190,
             left: 10,
-            child: Container(
-              decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment(0.0, 0.8),
-                    end: Alignment(0.0, 0.0),
-                    colors: [
-                      Color.fromRGBO(0, 0, 0, 0),
-                      Color.fromRGBO(0, 0, 0, 0.6),
-                    ],
-                  ),
-                  borderRadius: BorderRadius.circular(50)),
-              child: Row(
-                children: [
-                  UserCardInfo(
-                    text: ownerDetails[0]['text'],
-                    icon: ownerDetails[0]['icon'],
-                    image: ownerDetails[0]['image'],
-                    imageN: ownerDetails[0]['imageN'],
-                    color: ownerDetails[0]['color'],
-                    callback: ownerDetails[0]['callback'],
-                    launchIcon: ownerDetails[0]['launchIcon'],
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(right: 18.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Anunciante',
-                          style: TextStyle(color: Colors.white, fontStyle: FontStyle.italic, fontSize: 10),
-                        ),
-                        Text(
-                          ownerDetails[0]['text'] ?? '',
-                          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-                        ),
+            child: InkWell(
+              onTap: ownerDetails[0]['callback'],
+              child: Container(
+                decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment(0.0, 0.8),
+                      end: Alignment(0.0, 0.0),
+                      colors: [
+                        Color.fromRGBO(0, 0, 0, 0),
+                        Color.fromRGBO(0, 0, 0, 0.6),
                       ],
                     ),
-                  )
-                ],
+                    borderRadius: BorderRadius.circular(50)),
+                child: Row(
+                  children: [
+                    UserCardInfo(
+                      text: ownerDetails[0]['text'],
+                      icon: ownerDetails[0]['icon'],
+                      image: ownerDetails[0]['image'],
+                      imageN: ownerDetails[0]['imageN'],
+                      color: ownerDetails[0]['color'],
+                      callback: ownerDetails[0]['callback'],
+                      launchIcon: ownerDetails[0]['launchIcon'],
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(right: 18.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Anunciante',
+                            style: TextStyle(color: Colors.white, fontStyle: FontStyle.italic, fontSize: 10),
+                          ),
+                          Text(
+                            ownerDetails[0]['text'] ?? '',
+                            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                          ),
+                        ],
+                      ),
+                    )
+                  ],
+                ),
               ),
             ),
           ),
@@ -693,5 +677,70 @@ class _PetDetailsState extends State<PetDetails> {
         ],
       ),
     );
+  }
+
+  Widget _ownerPetcontact({User user, String whatsappMessage, String emailSubject, String emailMessage}) {
+    switch (user.betterContact) {
+      case 0:
+        return Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Expanded(
+              child: ButtonWide(
+                action: () {
+                  Launcher.openWhatsApp(number: user.phoneNumber, message: whatsappMessage);
+                },
+                color: Colors.green,
+                icon: Tiutiu.whatsapp,
+                isToExpand: false,
+                text: 'WhatsApp',
+              ),
+            ),
+            SizedBox(width: 15),
+            Expanded(
+              child: ButtonWide(
+                action: () {
+                  Launcher.makePhoneCall(number: user.phoneNumber ?? user.landline);
+                },
+                color: Colors.orange,
+                icon: Icons.phone,
+                isToExpand: false,
+                text: 'Ligar',
+              ),
+            ),
+          ],
+        );
+        break;
+      case 1:
+        return Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            ButtonWide(
+              action: () {
+                Launcher.makePhoneCall(number: user.landline ?? user.phoneNumber);
+              },
+              color: Colors.orange,
+              icon: Icons.phone,
+              isToExpand: false,
+              text: 'Ligar',
+            ),
+          ],
+        );
+      default:
+        return Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            ButtonWide(
+              action: () {
+                Launcher.sendEmail(emailAddress: user.email, message: emailMessage, subject: emailSubject);
+              },
+              color: Colors.red,
+              icon: Icons.mail,
+              isToExpand: false,
+              text: 'Enviar e-mail',
+            ),
+          ],
+        );
+    }
   }
 }
