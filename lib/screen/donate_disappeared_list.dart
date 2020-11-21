@@ -84,8 +84,7 @@ class _DonateDisappearedListState extends State<DonateDisappearedList> {
   }
 
   int orderByPostDate(Pet a, Pet b) {
-    return DateTime.parse(b.createdAt).millisecondsSinceEpoch -
-        DateTime.parse(a.createdAt).millisecondsSinceEpoch;
+    return DateTime.parse(b.createdAt).millisecondsSinceEpoch - DateTime.parse(a.createdAt).millisecondsSinceEpoch;
   }
 
   int orderByName(Pet a, Pet b) {
@@ -113,13 +112,18 @@ class _DonateDisappearedListState extends State<DonateDisappearedList> {
     return a.ano - b.ano;
   }
 
-  bool ifUserIsNewer() {
-    return userProvider.createdAt == null
-        ? true
-        : DateTime.now()
-                .difference(DateTime.parse(userProvider.createdAt))
-                .inDays <
-            1;
+  List<Pet> showAdminCards(List<Pet> petCards) {
+    for (int i = 0; i < petCards.length; i++) {
+      if (petCards[i].ownerId == Constantes.ADMIN_ID && DateTime.now().difference(DateTime.parse(petCards[i].createdAt)).inDays > 2) {
+        petCards.removeAt(i);
+      } else if (petCards[i].ownerId == Constantes.ADMIN_ID) {
+        Pet pet = petCards[i];
+        petCards.removeAt(i);
+        petCards.insert(0, pet);
+      }
+    }
+
+    return petCards;
   }
 
   @override
@@ -137,7 +141,7 @@ class _DonateDisappearedListState extends State<DonateDisappearedList> {
             padding: const EdgeInsets.only(bottom: 8.0),
             child: _StateFilter(
               refineSearchProvider: refineSearchProvider,
-              petsProvider: petsProvider,                
+              petsProvider: petsProvider,
             ),
           ),
           StreamBuilder<List<Pet>>(
@@ -164,14 +168,7 @@ class _DonateDisappearedListState extends State<DonateDisappearedList> {
                 refineSearchProvider.getDistancieSelected,
               );
 
-              if (!ifUserIsNewer()) {
-                petsList.removeWhere(
-                    (element) => element.ownerId == Constantes.ADMIN_ID);
-              }
-
-              if (petsProvider.getAgeSelected != null &&
-                  petsProvider.getAgeSelected.isNotEmpty &&
-                  petsProvider.getAgeSelected == 'Mais de 10 anos') {
+              if (petsProvider.getAgeSelected != null && petsProvider.getAgeSelected.isNotEmpty && petsProvider.getAgeSelected == 'Mais de 10 anos') {
                 petsList = filterResultsByAgeOver10(snapshot.data);
               }
 
@@ -185,6 +182,8 @@ class _DonateDisappearedListState extends State<DonateDisappearedList> {
                 default:
                   petsList.sort(orderByPostDate);
               }
+
+              petsList = showAdminCards(petsList);
 
               if (snapshot.data == null || petsList.length == 0) {
                 return InkWell(
@@ -200,19 +199,17 @@ class _DonateDisappearedListState extends State<DonateDisappearedList> {
                         Text(
                           'Nenhum PET encontrado',
                           textAlign: TextAlign.center,
-                          style:
-                              Theme.of(context).textTheme.headline1.copyWith(
-                                    color: Colors.black,
-                                  ),
+                          style: Theme.of(context).textTheme.headline1.copyWith(
+                                color: Colors.black,
+                              ),
                         ),
                         SizedBox(height: 5),
                         Text(
                           'Verifique seus filtros de busca.',
                           textAlign: TextAlign.center,
-                          style:
-                              Theme.of(context).textTheme.headline1.copyWith(
-                                    color: Colors.blueAccent,
-                                  ),
+                          style: Theme.of(context).textTheme.headline1.copyWith(
+                                color: Colors.blueAccent,
+                              ),
                         ),
                       ],
                     ),
@@ -236,7 +233,8 @@ class _DonateDisappearedListState extends State<DonateDisappearedList> {
                             children: [
                               Row(
                                 children: [
-                                  Text('${petsList.length} ',
+                                  Text(
+                                    '${petsList.length} ',
                                     style: TextStyle(
                                       fontSize: 16,
                                       fontWeight: FontWeight.w700,
@@ -245,7 +243,8 @@ class _DonateDisappearedListState extends State<DonateDisappearedList> {
                                   ),
                                   Padding(
                                     padding: const EdgeInsets.only(top: 2.0),
-                                    child: Text('encontrados',
+                                    child: Text(
+                                      'encontrados',
                                       style: TextStyle(
                                         fontSize: 13,
                                         fontWeight: FontWeight.w700,
@@ -275,12 +274,10 @@ class _DonateDisappearedListState extends State<DonateDisappearedList> {
                                         return CustomDropdownButtonSearch(
                                           colorText: Colors.black54,
                                           fontSize: 13,
-                                          initialValue:
-                                              petsProvider.getOrderType,
+                                          initialValue: petsProvider.getOrderType,
                                           isExpanded: false,
                                           withPipe: false,
-                                          itemList:
-                                              petsProvider.getOrderTypeList,
+                                          itemList: petsProvider.getOrderTypeList,
                                           label: '',
                                           onChange: (String text) {
                                             petsProvider.changeOrderType(text, refineSearchProvider.getStateOfResultSearch);
@@ -291,7 +288,7 @@ class _DonateDisappearedListState extends State<DonateDisappearedList> {
                               ),
                             ],
                           ),
-                        ),                          
+                        ),
                       ],
                     ),
                     Expanded(
@@ -300,27 +297,26 @@ class _DonateDisappearedListState extends State<DonateDisappearedList> {
                         itemCount: petsList.length + 1,
                         itemBuilder: (_, index) {
                           if (index == petsList.length && adsProvider.getCanShowAds) {
-                            return petsList.length > 1 ? InkWell(
-                              onTap: (){
-                                _scrollController.animateTo(0 * height / 3, duration: new Duration(seconds: 2), curve: Curves.ease);
-                              },
-                              child: Container(
-                                alignment: Alignment.center,
-                                child: Padding(
-                                  padding: const EdgeInsets.all(16.0),
-                                  child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      children: [
-                                      Text(
-                                        'Voltar ao topo'.toUpperCase(),
-                                        style: TextStyle(color: Colors.blue)
+                            return petsList.length > 1
+                                ? InkWell(
+                                    onTap: () {
+                                      _scrollController.animateTo(0 * height / 3, duration: new Duration(seconds: 2), curve: Curves.ease);
+                                    },
+                                    child: Container(
+                                      alignment: Alignment.center,
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(16.0),
+                                        child: Row(
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          children: [
+                                            Text('Voltar ao topo'.toUpperCase(), style: TextStyle(color: Colors.blue)),
+                                            Icon(Icons.arrow_drop_up_sharp, color: Colors.blue)
+                                          ],
+                                        ),
                                       ),
-                                      Icon(Icons.arrow_drop_up_sharp, color: Colors.blue)
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ) : Container();
+                                    ),
+                                  )
+                                : Container();
                           }
                           // return Container();
                           return CardList(
@@ -342,10 +338,9 @@ class _DonateDisappearedListState extends State<DonateDisappearedList> {
 }
 
 class _StateFilter extends StatefulWidget {
-  
   _StateFilter({
     this.refineSearchProvider,
-    this.petsProvider,    
+    this.petsProvider,
   });
 
   final RefineSearchProvider refineSearchProvider;
@@ -360,20 +355,20 @@ class _StateFilterState extends State<_StateFilter> {
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [        
+      children: [
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-          Padding(
-          padding: const EdgeInsets.only(top: 7.0, left: 24),
-          child: Text(
-            'Resultados de ',
-              style: TextStyle(
-              fontSize: 13,
-              fontWeight: FontWeight.w700,
-              color: Colors.black26,
+            Padding(
+              padding: const EdgeInsets.only(top: 7.0, left: 24),
+              child: Text(
+                'Resultados de ',
+                style: TextStyle(
+                  fontSize: 13,
+                  fontWeight: FontWeight.w700,
+                  color: Colors.black26,
+                ),
               ),
-            ),
             ),
             SizedBox(
               width: 10,
@@ -390,12 +385,13 @@ class _StateFilterState extends State<_StateFilter> {
                         underline: Container(),
                         value: widget.refineSearchProvider.getStateOfResultSearch ?? DummyData.statesName.first,
                         onChanged: (String value) async {
-                        if(value == 'Brasil') { value = null;}
-                        widget.refineSearchProvider.changeStateOfResultSearch(value);
-                        widget.petsProvider.reloadList(state: value);                        
-                      },
-                        items: DummyData.statesName
-                            .map<DropdownMenuItem<String>>((String e) {
+                          if (value == 'Brasil') {
+                            value = null;
+                          }
+                          widget.refineSearchProvider.changeStateOfResultSearch(value);
+                          widget.petsProvider.reloadList(state: value);
+                        },
+                        items: DummyData.statesName.map<DropdownMenuItem<String>>((String e) {
                           return DropdownMenuItem<String>(
                             child: Padding(
                               padding: const EdgeInsets.only(top: 5.0),
@@ -439,18 +435,18 @@ class __HomeSearchState extends State<_HomeSearch> {
   }
 
   void handleSearchType(String searchType) {
-    switch(searchType) {
+    switch (searchType) {
       case 'Nome do PET':
         petsProvider.changeIsFilteringByBreed(false);
         refineSearchProvider.changeSearchPetByTypeOnHome(false);
         refineSearchProvider.changeSearchHomeTypeInitialValue(searchType);
-      break;
+        break;
       case 'Tipo':
         petsProvider.changeIsFilteringByBreed(false);
         petsProvider.changeIsFilteringByName(false);
         refineSearchProvider.changeSearchPetByTypeOnHome(true);
         refineSearchProvider.changeSearchHomeTypeInitialValue(searchType);
-      break;
+        break;
       default:
         petsProvider.changeIsFilteringByName(false);
         refineSearchProvider.changeSearchPetByTypeOnHome(false);
@@ -462,38 +458,38 @@ class __HomeSearchState extends State<_HomeSearch> {
     petsProvider.clearOthersFilters();
     refineSearchProvider.changeSearchHomePetTypeInitialValue(searchOption);
     petsProvider.changePetType(searchOption);
-    
+
     if (searchOption == 'Todos') {
       refineSearchProvider.clearRefineSelections();
-      switch(petsProvider.getPetKind) {
-      case 'Donate':
-        refineSearchProvider.changeIsHomeFilteringByDonate(false);
-        refineSearchProvider.changeHomePetTypeFilterByDonate(searchOption);
-        petsProvider.changeIsFiltering(false);
-        petsProvider.loadDonatePETS(state: refineSearchProvider.getStateOfResultSearch);
-        break;
-      case 'Disappeared':
-        refineSearchProvider.changeIsHomeFilteringByDisappeared(false);
-        refineSearchProvider.changeHomePetTypeFilterByDisappeared(searchOption);
-        petsProvider.changeIsFiltering(false);
-        petsProvider.loadDisappearedPETS(state: refineSearchProvider.getStateOfResultSearch);
-        break;
+      switch (petsProvider.getPetKind) {
+        case 'Donate':
+          refineSearchProvider.changeIsHomeFilteringByDonate(false);
+          refineSearchProvider.changeHomePetTypeFilterByDonate(searchOption);
+          petsProvider.changeIsFiltering(false);
+          petsProvider.loadDonatePETS(state: refineSearchProvider.getStateOfResultSearch);
+          break;
+        case 'Disappeared':
+          refineSearchProvider.changeIsHomeFilteringByDisappeared(false);
+          refineSearchProvider.changeHomePetTypeFilterByDisappeared(searchOption);
+          petsProvider.changeIsFiltering(false);
+          petsProvider.loadDisappearedPETS(state: refineSearchProvider.getStateOfResultSearch);
+          break;
       }
-    } else {    
-      switch(petsProvider.getPetKind) {
-      case 'Donate':
-        refineSearchProvider.changeIsHomeFilteringByDonate(true);
-        refineSearchProvider.changeHomePetTypeFilterByDonate(searchOption);
-        petsProvider.changeIsFiltering(true);
-        petsProvider.loadDonatePETS(state: refineSearchProvider.getStateOfResultSearch);
-        break;
-      case 'Disappeared':
-        refineSearchProvider.changeIsHomeFilteringByDisappeared(true);
-        refineSearchProvider.changeHomePetTypeFilterByDisappeared(searchOption);
-        petsProvider.changeIsFiltering(true);
-        petsProvider.loadDisappearedPETS(state: refineSearchProvider.getStateOfResultSearch);
-        break;
-      }           
+    } else {
+      switch (petsProvider.getPetKind) {
+        case 'Donate':
+          refineSearchProvider.changeIsHomeFilteringByDonate(true);
+          refineSearchProvider.changeHomePetTypeFilterByDonate(searchOption);
+          petsProvider.changeIsFiltering(true);
+          petsProvider.loadDonatePETS(state: refineSearchProvider.getStateOfResultSearch);
+          break;
+        case 'Disappeared':
+          refineSearchProvider.changeIsHomeFilteringByDisappeared(true);
+          refineSearchProvider.changeHomePetTypeFilterByDisappeared(searchOption);
+          petsProvider.changeIsFiltering(true);
+          petsProvider.loadDisappearedPETS(state: refineSearchProvider.getStateOfResultSearch);
+          break;
+      }
     }
   }
 
@@ -513,35 +509,35 @@ class __HomeSearchState extends State<_HomeSearch> {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<String> (
-      stream: refineSearchProvider.searchHomeTypeInitialValue,
-      builder: (context, snapshotSearchHomeInitialValue) {
-      return StreamBuilder<List<String>> (
-        stream: refineSearchProvider.searchHomeType,
-        builder: (context, snapshotsnapshotSearchHomeValues) {
-        return StreamBuilder<String> (
-          stream: refineSearchProvider.searchHomePetTypeInitialValue,
-          builder: (context, snapshotHomePetTypeInitialValue) {
-          return StreamBuilder<List<String>> (
-            stream: refineSearchProvider.searchHomePetType,
-            builder: (context, snapshotHomePetTypeValues) {
-            return StreamBuilder<bool> (
-              stream: refineSearchProvider.searchPetByTypeOnHome,
-              builder: (context, snapshotSearchPetByTypeOnHome) {
-              return CustomInput(
-                searchInitialValue: snapshotSearchHomeInitialValue ?.data ?? '',
-                searchValues: snapshotsnapshotSearchHomeValues ?.data ?? [''],
-                searchPetTypeInitialValue: snapshotHomePetTypeInitialValue ?.data ?? '',
-                searchPetTypeValues: snapshotHomePetTypeValues?.data ?? [''],
-                isType: snapshotSearchPetByTypeOnHome?.data ?? false,
-                onDropdownTypeChange: handleSearchType,
-                onDropdownHomeSearchOptionsChange: handleSearchOptions,
-                onSubmit: handleOnTextSearchSubmit,
-              );
-            });
-          });
+    return StreamBuilder<String>(
+        stream: refineSearchProvider.searchHomeTypeInitialValue,
+        builder: (context, snapshotSearchHomeInitialValue) {
+          return StreamBuilder<List<String>>(
+              stream: refineSearchProvider.searchHomeType,
+              builder: (context, snapshotsnapshotSearchHomeValues) {
+                return StreamBuilder<String>(
+                    stream: refineSearchProvider.searchHomePetTypeInitialValue,
+                    builder: (context, snapshotHomePetTypeInitialValue) {
+                      return StreamBuilder<List<String>>(
+                          stream: refineSearchProvider.searchHomePetType,
+                          builder: (context, snapshotHomePetTypeValues) {
+                            return StreamBuilder<bool>(
+                                stream: refineSearchProvider.searchPetByTypeOnHome,
+                                builder: (context, snapshotSearchPetByTypeOnHome) {
+                                  return CustomInput(
+                                    searchInitialValue: snapshotSearchHomeInitialValue?.data ?? '',
+                                    searchValues: snapshotsnapshotSearchHomeValues?.data ?? [''],
+                                    searchPetTypeInitialValue: snapshotHomePetTypeInitialValue?.data ?? '',
+                                    searchPetTypeValues: snapshotHomePetTypeValues?.data ?? [''],
+                                    isType: snapshotSearchPetByTypeOnHome?.data ?? false,
+                                    onDropdownTypeChange: handleSearchType,
+                                    onDropdownHomeSearchOptionsChange: handleSearchOptions,
+                                    onSubmit: handleOnTextSearchSubmit,
+                                  );
+                                });
+                          });
+                    });
+              });
         });
-      });
-    });
   }
 }
