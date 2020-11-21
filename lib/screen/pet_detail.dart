@@ -75,17 +75,17 @@ class _PetDetailsState extends State<PetDetails> {
     int min = minutes % 60;
     if (hour == 0 && min == 1) {
       return '$min minuto';
-    } else if(hour > 1 && min == 0){
+    } else if (hour > 1 && min == 0) {
       return '$hour horas';
-    } else if(hour == 1 && min == 0){
+    } else if (hour == 1 && min == 0) {
       return '$hour hora';
-    } else if(hour == 0 && min > 1) {
+    } else if (hour == 0 && min > 1) {
       return '$min minutos';
-    } else if(hour == 1  && min == 1) {
-      return '$hour hora e $min minuto';    
-    } else if(hour == 1  && min > 1) {
+    } else if (hour == 1 && min == 1) {
+      return '$hour hora e $min minuto';
+    } else if (hour == 1 && min > 1) {
       return '$hour hora e $min minutos';
-    } else if(hour > 1  && min == 1) {
+    } else if (hour > 1 && min == 1) {
       return '$hour horas e $min minuto';
     } else {
       return '$hour horas e $min minutos';
@@ -114,7 +114,7 @@ class _PetDetailsState extends State<PetDetails> {
 
   Future<void> passInfoDetails(int userPosition) async {
     TextEditingController controller = TextEditingController();
-    
+
     return showDialog(
       context: context,
       builder: (context) {
@@ -156,12 +156,10 @@ class _PetDetailsState extends State<PetDetails> {
     });
 
     userInfosAdopts.changeLastimeInterestOrInfo(DateTime.now().toIso8601String());
-    
   }
 
   void showSnackBar(String message) {
-    _scaffoldKey.currentState.showSnackBar(
-      SnackBar(
+    _scaffoldKey.currentState.showSnackBar(SnackBar(
       content: Row(
         children: [
           Expanded(
@@ -171,75 +169,59 @@ class _PetDetailsState extends State<PetDetails> {
       ),
       duration: Duration(seconds: 5),
     ));
-  }  
+  }
 
   void showInterestOrPassInfo(String ownerName) async {
     final petRef = await widget.pet.petReference.get();
     int userPosition = 1;
     String messageTextSnackBar;
-      int hoursSinceLastRequest = DateTime.now().difference(DateTime.parse(userInfosAdopts.getLastimeInterestOrInfo ?? Constantes.APP_BIRTHDAY)).inMinutes;
-      switch(widget.kind) {
+    int hoursSinceLastRequest = DateTime.now().difference(DateTime.parse(userInfosAdopts.getLastimeInterestOrInfo ?? Constantes.APP_BIRTHDAY)).inMinutes;
+    switch (widget.kind) {
       case 'DONATE':
-      if (hoursSinceLastRequest < timeToSendRequestAgain) {        
-        messageTextSnackBar = '$ownerName já sabe sobre seu interesse. Você pode tentar enviar outra solicitação dentro de ${timeFormmated(timeToSendRequestAgain - hoursSinceLastRequest)}.';
-        showSnackBar(messageTextSnackBar);
-      } else {
-        await PetController().deleteOldInterest(petRef.reference, userProvider.userReference);
-        var adoptInterestedsRef = await petRef.reference.collection('adoptInteresteds').get();
-        if (adoptInterestedsRef.docs.isNotEmpty) {
-          userPosition = adoptInterestedsRef.docs.length + 1;
+        if (hoursSinceLastRequest < timeToSendRequestAgain) {
+          messageTextSnackBar =
+              '$ownerName já sabe sobre seu interesse. Você pode tentar enviar outra solicitação dentro de ${timeFormmated(timeToSendRequestAgain - hoursSinceLastRequest)}.';
+          showSnackBar(messageTextSnackBar);
+        } else {
+          await PetController().deleteOldInterest(petRef.reference, userProvider.userReference);
+          var adoptInterestedsRef = await petRef.reference.collection('adoptInteresteds').get();
+          if (adoptInterestedsRef.docs.isNotEmpty) {
+            userPosition = adoptInterestedsRef.docs.length + 1;
+          }
+          messageTextSnackBar = 'Você é o $userPositionº interessado no ${widget.pet.name}. Te avisaremos caso o dono aceite seu pedido de adoção!';
+          sendData(userPosition);
+          showSnackBar(messageTextSnackBar);
         }
-        messageTextSnackBar = 'Você é o $userPositionº interessado no ${widget.pet.name}. Te avisaremos caso o dono aceite seu pedido de adoção!';
-        sendData(userPosition);
-        showSnackBar(messageTextSnackBar);
-      }
-      break;
-      default:              
-      var infoInterestedsRef = await petRef.reference.collection('infoInteresteds').get();
+        break;
+      default:
+        var infoInterestedsRef = await petRef.reference.collection('infoInteresteds').get();
 
-      if (infoInterestedsRef.docs.isNotEmpty) {
-        infoInterestedsRef.docs.length + 1;
-      } else {
-        userPosition = 1;
-      }
-      
-      messageTextSnackBar = 'Obrigado pela informação! $ownerName será avisado.';
-      
-      passInfoDetails(userPosition).then((value) {
-        if(interestOrInfoWasFired) showSnackBar(messageTextSnackBar);
-      });      
-    }    
+        if (infoInterestedsRef.docs.isNotEmpty) {
+          infoInterestedsRef.docs.length + 1;
+        } else {
+          userPosition = 1;
+        }
+
+        messageTextSnackBar = 'Obrigado pela informação! $ownerName será avisado.';
+
+        passInfoDetails(userPosition).then((value) {
+          if (interestOrInfoWasFired) showSnackBar(messageTextSnackBar);
+        });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
-    double wannaAdoptButton =
-        widget.kind == 'DONATE' ? width * 0.7 : width * 0.8;
+    double wannaAdoptButton = widget.kind == 'DONATE' ? width * 0.7 : width * 0.8;
     List otherCaracteristics = widget.pet?.otherCaracteristics ?? ['Teste'];
     List petDetails = [
-      {
-        'title': 'TIPO',
-        'text': widget.pet.type,
-        'icon': petIconType[widget.pet.type]
-      },
-      {
-        'title': 'SEXO',
-        'text': widget.pet.sex,
-        'icon': Icons.all_inclusive_outlined
-      },
+      {'title': 'TIPO', 'text': widget.pet.type, 'icon': petIconType[widget.pet.type]},
+      {'title': 'SEXO', 'text': widget.pet.sex, 'icon': Icons.all_inclusive_outlined},
       {'title': 'RAÇA', 'text': widget.pet.breed, 'icon': Icons.linear_scale},
-      {
-        'title': 'TAMANHO',
-        'text': widget.pet.size,
-        'icon': Tiutiu.resize_small
-      },
+      {'title': 'TAMANHO', 'text': widget.pet.size, 'icon': Tiutiu.resize_small},
       {'title': 'SAÚDE', 'text': widget.pet.health, 'icon': Tiutiu.healing},
-      {
-        'title': 'IDADE',
-        'text': '${widget.pet.ano}a ${widget.pet.meses}m',
-        'icon': Tiutiu.birthday_cake
-      },
+      {'title': 'IDADE', 'text': '${widget.pet.ano}a ${widget.pet.meses}m', 'icon': Tiutiu.birthday_cake},
     ];
 
     List ownerDetails = [
@@ -276,22 +258,19 @@ class _PetDetailsState extends State<PetDetails> {
                 ? Colors.orange
                 : Colors.red,
         'callback': () {
-          String serializedNumber =
-              Formatter.unmaskNumber(widget.petOwner.phoneNumber);
+          String serializedNumber = Formatter.unmaskNumber(widget.petOwner.phoneNumber);
 
           if (widget.petOwner.betterContact == 0) {
             FlutterOpenWhatsapp.sendSingleMessage('+55$serializedNumber',
                 'Olá! Tenho interesse e gostaria de saber mais detalhes sobre o PET *${widget.pet.name}* que postou no app *_Tiu, Tiu_*.');
           } else if (widget.petOwner.betterContact == 1) {
-            String serializedNumber =
-                Formatter.unmaskNumber(widget.petOwner.landline);
+            String serializedNumber = Formatter.unmaskNumber(widget.petOwner.landline);
             Launcher.makePhoneCall('tel: $serializedNumber');
           } else {
             Launcher.sendEmail(
               emailAddress: widget.petOwner.email,
               subject: 'Tenho interesse no PET ${widget.pet.name}',
-              message:
-                  'Olá! Tenho interesse e gostaria de saber mais detalhes sobre o PET ${widget.pet.name} que postou no app Tiu, Tiu.',
+              message: 'Olá! Tenho interesse e gostaria de saber mais detalhes sobre o PET ${widget.pet.name} que postou no app Tiu, Tiu.',
             );
           }
         }
@@ -339,8 +318,7 @@ class _PetDetailsState extends State<PetDetails> {
               Positioned(
                 top: 2,
                 right: 10,
-                child:
-                    Badge(text: 'Em breve', color: Colors.purple, textSize: 6),
+                child: Badge(text: 'Em breve', color: Colors.purple, textSize: 6),
               ),
             ],
           )
@@ -382,8 +360,7 @@ class _PetDetailsState extends State<PetDetails> {
                           return CardDetails(
                             title: '  Características',
                             icon: Icons.auto_awesome,
-                            text:
-                                otherCaracteristics[index - petDetails.length],
+                            text: otherCaracteristics[index - petDetails.length],
                           );
                         }
                       },
@@ -400,26 +377,20 @@ class _PetDetailsState extends State<PetDetails> {
                     child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: ConstrainedBox(
-                          constraints:
-                              BoxConstraints(minHeight: 0.0, maxHeight: 120),
+                          constraints: BoxConstraints(minHeight: 0.0, maxHeight: 120),
                           child: Container(
                             width: double.infinity,
                             child: Stack(
                               children: [
                                 SingleChildScrollView(
                                   child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       Padding(
-                                        padding:
-                                            const EdgeInsets.only(top: 4.0),
+                                        padding: const EdgeInsets.only(top: 4.0),
                                         child: Text(
                                           'Descrição',
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .headline1
-                                              .copyWith(color: Colors.black54),
+                                          style: Theme.of(context).textTheme.headline1.copyWith(color: Colors.black54),
                                         ),
                                       ),
                                       Divider(),
@@ -460,59 +431,50 @@ class _PetDetailsState extends State<PetDetails> {
               ],
             ),
           ),
-          
-          Constantes.ADMIN_ID == widget.pet.ownerId ? Container() :
-          !widget.isMine
-              ? Positioned(
-                  bottom: 20.0,
-                  left: widget.kind == 'DONATE'
-                      ? 20.0
-                      : MediaQuery.of(context).size.width * 0.1,
-                  child: Row(
-                    children: [
-                      Container(
-                        width: wannaAdoptButton,
-                        child: ButtonWide(
-                          text: widget.kind == 'DONATE' ? 'QUERO ADOTAR' : 'VI ${widget.pet.sex == 'Macho' ? 'ELE' : 'ELA'} AQUI PERTO',
-                          color: widget.kind == 'DONATE' ? Colors.red : Theme.of(context).primaryColor,
-                          action: !isAuthenticated ? navigateToAuth : () => showInterestOrPassInfo(ownerDetails[0]['text'])
-                        ),
+          Constantes.ADMIN_ID == widget.pet.ownerId
+              ? Container()
+              : !widget.isMine
+                  ? Positioned(
+                      bottom: 20.0,
+                      left: widget.kind == 'DONATE' ? 20.0 : MediaQuery.of(context).size.width * 0.1,
+                      child: Row(
+                        children: [
+                          Container(
+                            width: wannaAdoptButton,
+                            child: ButtonWide(
+                                text: widget.kind == 'DONATE' ? 'QUERO ADOTAR' : 'VI ${widget.pet.sex == 'Macho' ? 'ELE' : 'ELA'} AQUI PERTO',
+                                color: widget.kind == 'DONATE' ? Colors.red : Theme.of(context).primaryColor,
+                                action: !isAuthenticated ? navigateToAuth : () => showInterestOrPassInfo(ownerDetails[0]['text'])),
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
-                )
-              : Positioned(
-                  bottom: 0.0,
-                  child: ButtonWide(
-                    isToExpand: true,
-                    rounded: false,
-                    action: () {},
-                    text: widget.kind == 'DONATE'
-                        ? 'VOCÊ ESTÁ DOANDO'
-                        : 'VOCÊ ESTÁ PROCURANDO',
-                  ),
-                )
+                    )
+                  : Positioned(
+                      bottom: 0.0,
+                      child: ButtonWide(
+                        isToExpand: true,
+                        rounded: false,
+                        action: () {},
+                        text: widget.kind == 'DONATE' ? 'VOCÊ ESTÁ DOANDO' : 'VOCÊ ESTÁ PROCURANDO',
+                      ),
+                    )
         ],
       ),
       floatingActionButton: (!widget.isMine && widget.kind == 'DONATE')
           ? Consumer<FavoritesProvider>(
               builder: (context, favoritesProvider, child) {
-                bool isFavorite = favoritesProvider.getFavoritesPETSIDList
-                    .contains(widget.pet.id);
+                bool isFavorite = favoritesProvider.getFavoritesPETSIDList.contains(widget.pet.id);
                 return FloatingActionButton(
                   onPressed: !isAuthenticated
                       ? navigateToAuth
                       : () async {
                           final user = UserController();
 
-                          await user.favorite(userProvider.userReference,
-                              widget.pet.petReference, !isFavorite);
+                          await user.favorite(userProvider.userReference, widget.pet.petReference, !isFavorite);
 
                           _scaffoldKey.currentState.showSnackBar(SnackBar(
                             duration: Duration(seconds: 1),
-                            content: Text(isFavorite
-                                ? 'Removido dos favoritos'
-                                : 'Adicionado como favorito'),
+                            content: Text(isFavorite ? 'Removido dos favoritos' : 'Adicionado como favorito'),
                           ));
 
                           favoritesProvider.loadFavoritesReference();
@@ -612,8 +574,7 @@ class _PetDetailsState extends State<PetDetails> {
     );
   }
 
-  Widget loadingImage(
-      BuildContext context, Widget child, ImageChunkEvent loadingProgress) {
+  Widget loadingImage(BuildContext context, Widget child, ImageChunkEvent loadingProgress) {
     if (loadingProgress == null) return child;
     return Center(
       child: Column(
