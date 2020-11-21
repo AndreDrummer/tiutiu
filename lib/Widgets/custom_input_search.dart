@@ -40,7 +40,10 @@ class _CustomDropdownButtonSearchState
           },
           items: widget.itemList.map<DropdownMenuItem<String>>((String e) {
             return DropdownMenuItem<String>(
-              child: Text(e, style: TextStyle(color: widget.colorText, fontSize: widget.fontSize)),
+              child: Padding(
+                padding: const EdgeInsets.only(top: 4.0),
+                child: Text(e, style: TextStyle(color: widget.colorText, fontSize: widget.fontSize)),
+              ),
               value: e,
             );
           }).toList(),
