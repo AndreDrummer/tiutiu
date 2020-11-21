@@ -23,13 +23,11 @@ class _InformantesScreenState extends State<InformantesScreen> {
 
   @override
   void didChangeDependencies() {
-    userInfoOrAdoptInterestsProvider =
-        Provider.of<UserInfoOrAdoptInterestsProvider>(context);
+    userInfoOrAdoptInterestsProvider = Provider.of<UserInfoOrAdoptInterestsProvider>(context);
     super.didChangeDependencies();
   }
 
-  Future<DocumentSnapshot> loadInformateInfo(
-      DocumentReference infoReference) async {
+  Future<DocumentSnapshot> loadInformateInfo(DocumentReference infoReference) async {
     return await infoReference.get();
   }
 
@@ -41,13 +39,11 @@ class _InformantesScreenState extends State<InformantesScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final arguments =
-        ModalRoute.of(context).settings.arguments as Map<String, dynamic>;
+    final arguments = ModalRoute.of(context).settings.arguments as Map<String, dynamic>;
     InterestedModel informante = arguments['informanteInfo'] as InterestedModel;
 
     return Scaffold(
-      appBar: AppBar(
-          title: Text('${arguments['petName']} foi visto aqui'.toUpperCase())),
+      appBar: AppBar(title: Text('${arguments['petName']} foi visto aqui'.toUpperCase())),
       body: StreamBuilder(
         stream: userInfoOrAdoptInterestsProvider.info,
         builder: (context, snapshot) {
@@ -170,8 +166,7 @@ class _InformantesScreenState extends State<InformantesScreen> {
                         Container(
                           width: MediaQuery.of(context).size.width * 0.8,
                           child: FutureBuilder(
-                            future: getAddress(
-                                Location(informanteLat, informanteLng)),
+                            future: getAddress(Location(informanteLat, informanteLng)),
                             builder: (context, snapshot) {
                               if (snapshot.data == null) {
                                 return Center(
@@ -180,8 +175,7 @@ class _InformantesScreenState extends State<InformantesScreen> {
                               }
                               return Text(
                                 snapshot.data,
-                                style: TextStyle(
-                                    fontSize: 12, color: Colors.blueGrey),
+                                style: TextStyle(fontSize: 12, color: Colors.blueGrey),
                               );
                             },
                           ),
@@ -228,21 +222,21 @@ class _InformantesScreenState extends State<InformantesScreen> {
                   ],
                 ),
               ),
-              details.isNotEmpty
-                  ? SingleChildScrollView(
-                      child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SizedBox(height: 10),
-                        Text(
-                          'Detalhes: $details',
-                          style: TextStyle(
-                            fontSize: 12,
-                          ),
-                        ),
-                      ],
-                    ))
-                  : Container()
+              SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(height: 10),
+                    Text(
+                      'Detalhes: ${details ?? 'Não informado'}',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 12,
+                      ),
+                    ),
+                  ],
+                ),
+              )
             ],
           ),
         ),

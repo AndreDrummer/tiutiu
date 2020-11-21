@@ -29,20 +29,15 @@ class _InterestedInfoCardState extends State<InterestedInfoCard> {
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
 
-    bool canMakeCallLandline =     
-    widget.interestedUser.landline != null &&
-    widget.interestedUser.landline.isNotEmpty;
+    bool canMakeCallLandline = widget.interestedUser.landline != null && widget.interestedUser.landline.isNotEmpty;
 
-    bool canOpenWhatsApp = 
-    widget.interestedUser.phoneNumber != null &&
-    widget.interestedUser.phoneNumber.isNotEmpty;
+    bool canOpenWhatsApp = widget.interestedUser.phoneNumber != null && widget.interestedUser.phoneNumber.isNotEmpty;
 
     String phoneToCall;
-    
-    if(canMakeCallLandline || canOpenWhatsApp) {
+
+    if (canMakeCallLandline || canOpenWhatsApp) {
       phoneToCall = canMakeCallLandline ? widget.interestedUser.landline : widget.interestedUser.phoneNumber;
     }
-    
 
     return Card(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(7.0)),
@@ -55,24 +50,21 @@ class _InterestedInfoCardState extends State<InterestedInfoCard> {
                 InkWell(
                   onTap: widget.navigateToInterestedDetail,
                   child: CircleAvatar(
-          backgroundColor: Colors.transparent,
-          child: ClipOval(
-            child: Hero(
-              tag: '${widget.interestedUser.photoURL}',
-              child: FadeInImage(
-                placeholder: AssetImage('assets/fundo.jpg'),
-                image: widget.interestedUser.photoURL != null
-                    ? NetworkImage(widget.interestedUser.photoURL)
-                    : AssetImage(
-                        'assets/fundo.jpg',
+                    backgroundColor: Colors.transparent,
+                    child: ClipOval(
+                      child: FadeInImage(
+                        placeholder: AssetImage('assets/fundo.jpg'),
+                        image: widget.interestedUser.photoURL != null
+                            ? NetworkImage(widget.interestedUser.photoURL)
+                            : AssetImage(
+                                'assets/fundo.jpg',
+                              ),
+                        fit: BoxFit.fill,
+                        width: 1000,
+                        height: 1000,
                       ),
-                fit: BoxFit.fill,
-                width: 1000,
-                height: 1000,
-              ),
-            ),
-          ),
-        ),
+                    ),
+                  ),
                 ),
                 SizedBox(width: 15),
                 Column(
@@ -111,23 +103,27 @@ class _InterestedInfoCardState extends State<InterestedInfoCard> {
                 //   color: Colors.red,
                 // ),
                 // SizedBox(width: width * 0.14),
-                canOpenWhatsApp ? _ActionButton(
-                  onPressed: () {
-                    Launcher.openWhatsApp(number: widget.interestedUser.phoneNumber);
-                  },
-                  icon: Tiutiu.whatsapp,
-                  text: 'WhatsApp',
-                  color: Theme.of(context).primaryColor,
-                ) : Text(''),
+                canOpenWhatsApp
+                    ? _ActionButton(
+                        onPressed: () {
+                          Launcher.openWhatsApp(number: widget.interestedUser.phoneNumber);
+                        },
+                        icon: Tiutiu.whatsapp,
+                        text: 'WhatsApp',
+                        color: Theme.of(context).primaryColor,
+                      )
+                    : Text(''),
                 SizedBox(width: width * 0.14),
-                phoneToCall != null ? _ActionButton(
-                  onPressed: () {
-                    Launcher.makePhoneCall('tel: $phoneToCall');
-                  },
-                  icon: Icons.phone,
-                  text: 'Ligar',
-                  color: Colors.orange,
-                ) : Text(''),
+                phoneToCall != null
+                    ? _ActionButton(
+                        onPressed: () {
+                          Launcher.makePhoneCall('tel: $phoneToCall');
+                        },
+                        icon: Icons.phone,
+                        text: 'Ligar',
+                        color: Colors.orange,
+                      )
+                    : Text(''),
               ],
             ),
             SizedBox(height: 5),
@@ -179,9 +175,7 @@ class _ActionButton extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              icon != null
-                  ? Icon(icon, size: 18, color: Colors.white)
-                  : Container(),
+              icon != null ? Icon(icon, size: 18, color: Colors.white) : Container(),
               SizedBox(width: 5),
               Text(
                 text,
