@@ -72,22 +72,22 @@ class _AnnouncerDetailsState extends State<AnnouncerDetails> {
     }
 
     void openFullScreenMode(List photos_list, String tag) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => FullScreenImage(
-          images: photos_list,
-          tag: tag,
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => FullScreenImage(
+            images: photos_list,
+            tag: tag,
+          ),
         ),
-      ),
-    );
-  }
+      );
+    }
 
     return Scaffold(
       body: Container(
         child: Stack(
           children: [
-            Background(),            
+            Background(),
             Column(
               children: [
                 SizedBox(height: 25),
@@ -128,10 +128,9 @@ class _AnnouncerDetailsState extends State<AnnouncerDetails> {
                           SizedBox(height: 10),
                           Text(
                             'P/ adoção',
-                            style:
-                                Theme.of(context).textTheme.headline1.copyWith(
-                                      color: Colors.black,
-                                    ),
+                            style: Theme.of(context).textTheme.headline1.copyWith(
+                                  color: Colors.black,
+                                ),
                           )
                         ],
                       ),
@@ -141,19 +140,15 @@ class _AnnouncerDetailsState extends State<AnnouncerDetails> {
                             avatarRadius: 25,
                             child: Text(
                               '$userTotalDonated',
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold),
+                              style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
                             ),
                           ),
                           SizedBox(height: 10),
                           Text(
                             'Doados',
-                            style:
-                                Theme.of(context).textTheme.headline1.copyWith(
-                                      color: Colors.black,
-                                    ),
+                            style: Theme.of(context).textTheme.headline1.copyWith(
+                                  color: Colors.black,
+                                ),
                           )
                         ],
                       ),
@@ -163,19 +158,15 @@ class _AnnouncerDetailsState extends State<AnnouncerDetails> {
                             avatarRadius: 25,
                             child: Text(
                               "$userTotalAdopted",
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold),
+                              style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
                             ),
                           ),
                           SizedBox(height: 10),
                           Text(
                             'Adotados',
-                            style:
-                                Theme.of(context).textTheme.headline1.copyWith(
-                                      color: Colors.black,
-                                    ),
+                            style: Theme.of(context).textTheme.headline1.copyWith(
+                                  color: Colors.black,
+                                ),
                           )
                         ],
                       ),
@@ -185,19 +176,15 @@ class _AnnouncerDetailsState extends State<AnnouncerDetails> {
                             avatarRadius: 25,
                             child: Text(
                               "$userTotalDisap",
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold),
+                              style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
                             ),
                           ),
                           SizedBox(height: 10),
                           Text(
                             'Desaparecidos',
-                            style:
-                                Theme.of(context).textTheme.headline1.copyWith(
-                                      color: Colors.black,
-                                    ),
+                            style: Theme.of(context).textTheme.headline1.copyWith(
+                                  color: Colors.black,
+                                ),
                           )
                         ],
                       ),
@@ -269,7 +256,7 @@ class _AnnouncerDetailsState extends State<AnnouncerDetails> {
               left: width * 0.3,
               top: height / 3.5,
               child: InkWell(
-                onTap: widget.user.photoURL != null ? () => openFullScreenMode([widget.user.photoURL], 'profilePic') : (){},
+                onTap: widget.user.photoURL != null ? () => openFullScreenMode([widget.user.photoURL], 'profilePic') : () {},
                 child: CircleChild(
                   avatarRadius: 80,
                   child: Hero(
