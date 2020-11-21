@@ -306,11 +306,16 @@ class _DonateDisappearedListState extends State<DonateDisappearedList> {
                                       alignment: Alignment.center,
                                       child: Padding(
                                         padding: const EdgeInsets.all(16.0),
-                                        child: Row(
-                                          mainAxisAlignment: MainAxisAlignment.center,
+                                        child: Column(
                                           children: [
-                                            Text('Voltar ao topo'.toUpperCase(), style: TextStyle(color: Colors.blue)),
-                                            Icon(Icons.arrow_drop_up_sharp, color: Colors.blue)
+                                            adsProvider.getCanShowAds ? adsProvider.bannerAdMob(adId: adsProvider.topAdId, medium_banner: true) : Container(),
+                                            Row(
+                                              mainAxisAlignment: MainAxisAlignment.center,
+                                              children: [
+                                                Text('Voltar ao topo'.toUpperCase(), style: TextStyle(color: Colors.blue)),
+                                                Icon(Icons.arrow_drop_up_sharp, color: Colors.blue)
+                                              ],
+                                            ),
                                           ],
                                         ),
                                       ),
@@ -318,7 +323,6 @@ class _DonateDisappearedListState extends State<DonateDisappearedList> {
                                   )
                                 : Container();
                           }
-                          // return Container();
                           return CardList(
                             kind: petsList[index].kind,
                             petInfo: petsList[index],
