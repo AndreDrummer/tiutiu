@@ -147,7 +147,7 @@ class UserController {
     List interestedUsers = interestedRef.docs;
 
     for (int i = 0; i < interestedUsers.length; i++) {
-      if (interestedUsers[i].data()['interestedReference'] == userThatAdoptedReference) {
+      if (interestedUsers[i].data()['userReference'] == userThatAdoptedReference) {
         var data = interestedUsers[i].data();
         data['gaveup'] = true;
         data['notificationType'] = 'adoptionDeny';
@@ -218,13 +218,19 @@ class UserController {
     for (int i = 0; i < petsDonated.docs.length; i++) {
       await petsDonated.docs[i].reference.delete();
       final adoptInterestedsReference = await petsDonated.docs[i].reference.collection('adoptInteresteds').get();
-      adoptInterestedsReference.docs.first.reference.delete();
+
+      for (QueryDocumentSnapshot doc in adoptInterestedsReference.docs) {
+        doc.reference.delete();
+      }
     }
 
     for (int i = 0; i < petsDisappeared.docs.length; i++) {
       await petsDisappeared.docs[i].reference.delete();
       final infoInterestedsReference = await petsDonated.docs[i].reference.collection('infoInteresteds').get();
-      infoInterestedsReference.docs.first.reference.delete();
+
+      for (QueryDocumentSnapshot doc in infoInterestedsReference.docs) {
+        doc.reference.delete();
+      }
     }
 
     for (int i = 0; i < petsFavorited.docs.length; i++) {
