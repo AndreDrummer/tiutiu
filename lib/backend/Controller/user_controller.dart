@@ -7,12 +7,6 @@ import '../Model/user_model.dart';
 class UserController {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
 
-  Future<DocumentReference> getReferenceById(String id) async {
-    FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
-    DocumentSnapshot documentSnapshot = await firebaseFirestore.collection('Users').doc('$id').get();
-    return documentSnapshot.reference;
-  }
-
   Future<User> getUserByID(String id) async {
     User user;
     await firestore.collection('User').doc(id).snapshots().first.then((value) {
