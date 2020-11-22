@@ -91,78 +91,38 @@ class UserCardInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
     return InkWell(
       onTap: () {
         callback();
       },
-      child: Card(
-        elevation: 4.0,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
-        ),
-        child: Container(
-          width: width < 365 ? 112 : 109,
-          child: Column(
-            children: [              
-              Container(
-                height: 120,
-                width: 135,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(12),
-                  ),
-                ),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(12),
-                      topRight: Radius.circular(12)),
-                  child: Container(
-                    color: color,
-                    child: icon != null
-                        ? Icon(icon, color: Colors.white, size: 60)
-                        : imageN != null
-                            ? Image.network(
-                                imageN,
-                                fit: BoxFit.cover,
-                                width: 105,
-                              )
-                            : Image.asset(
-                                image,
-                                fit: BoxFit.cover,
-                                width: 105,
-                              ),
-                  ),
-                ),
-              ),
-              Center(
-                child: Padding(
-                  padding: const EdgeInsets.all(4.0),
-                  child: Column(
-                    children: [
-                      FittedBox(
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Text(
-                              text,
-                              textAlign: TextAlign.center,
-                              overflow: TextOverflow.fade,
-                              style: TextStyle(
-                                fontWeight: FontWeight.w700,
-                              ),
-                            ),
-                            SizedBox(width: 10),
-                            Icon(launchIcon ?? Icons.launch,
-                                size: 14, color: Colors.blue)
-                          ],
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: CircleAvatar(
+          backgroundColor: Colors.transparent,
+          radius: 20,
+          child: ClipOval(
+            child: Container(
+              color: color,
+              child: icon != null
+                  ? Icon(icon, color: Colors.white, size: 60)
+                  : imageN != null
+                      ? FadeInImage(
+                          placeholder: AssetImage('assets/profileEmpty.png'),
+                          image: imageN != null
+                              ? NetworkImage(
+                                  imageN,
+                                )
+                              : AssetImage('assets/profileEmpty.png'),
+                          fit: BoxFit.cover,
+                          width: 1000,
+                          height: 100,
+                        )
+                      : Image.asset(
+                          image,
+                          fit: BoxFit.fill,
+                          width: 105,
                         ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ],
+            ),
           ),
         ),
       ),
