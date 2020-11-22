@@ -18,10 +18,14 @@ class PetsProvider with ChangeNotifier {
   final _orderType = BehaviorSubject<String>.seeded('Data de postagem');
   final _orderTypeList = BehaviorSubject<List<String>>.seeded(['Data de postagem', 'Nome', 'Idade']);
   bool _isFiltering = false;
-  bool _isFilteringByName = false;
-  bool _isFilteringByBreed = false;
+  final _isFilteringByName = BehaviorSubject<bool>.seeded(false);
+  final _isFilteringByBreed = BehaviorSubject<bool>.seeded(false);
+
+  final _typingSearchResult = BehaviorSubject<List<Pet>>();
 
   // Listenning to The Data
+  Stream<bool> get isFilteringByName => _isFilteringByName.stream;
+  Stream<bool> get isFilteringByBreed => _isFilteringByBreed.stream;
   Stream<String> get petName => _petName.stream;
   Stream<String> get petKind => _petKind.stream;
   Stream<String> get petType => _petType.stream;
@@ -32,6 +36,7 @@ class PetsProvider with ChangeNotifier {
   Stream<String> get healthSelected => _healthSelected.stream;
   Stream<List<Pet>> get petsDonate => _petsDonate.stream;
   Stream<List<Pet>> get petsDisappeared => _petsDisappeared.stream;
+  Stream<List<Pet>> get typingSearchResult => _typingSearchResult.stream;
   Stream<List<String>> get orderTypeList => _orderTypeList.stream;
   Stream<String> get orderType => _orderType.stream;
 
@@ -46,6 +51,7 @@ class PetsProvider with ChangeNotifier {
   void Function(String) get changeHealthSelected => _healthSelected.sink.add;
   void Function(List<Pet>) get changePetsDonate => _petsDonate.sink.add;
   void Function(List<Pet>) get changePetsDisappeared => _petsDisappeared.sink.add;
+  void Function(List<Pet>) get changeTypingSearchResult => _typingSearchResult.sink.add;
   void Function(List<String>) get changeOrderTypeList => _orderTypeList.sink.add;
 
   void changeOrderType(String text, String state) {
@@ -63,10 +69,11 @@ class PetsProvider with ChangeNotifier {
   String get getSexSelected => _sexSelected.value;
   String get getHealthSelected => _healthSelected.value;
   bool get isFiltering => _isFiltering;
-  bool get isFilteringByName => _isFilteringByName;
-  bool get isFilteringByBreed => _isFilteringByBreed;
+  bool get getIsFilteringByName => _isFilteringByName.value;
+  bool get getIsFilteringByBreed => _isFilteringByBreed.value;
   List<Pet> get getPetsDonate => _petsDonate.value;
   List<Pet> get getPetsDisappeared => _petsDisappeared.value;
+  List<Pet> get getTypingSearchResult => _typingSearchResult.value;
   List<String> get getOrderTypeList => _orderTypeList.value;
   String get getOrderType => _orderType.value;
 
@@ -75,11 +82,11 @@ class PetsProvider with ChangeNotifier {
   }
 
   void changeIsFilteringByName(bool status) {
-    _isFilteringByName = status;
+    _isFilteringByName.sink.add(status);
   }
 
   void changeIsFilteringByBreed(bool status) {
-    _isFilteringByBreed = status;
+    _isFilteringByBreed.sink.add(status);
   }
 
   void reloadList({String state}) {
@@ -97,8 +104,8 @@ class PetsProvider with ChangeNotifier {
     changeAgeSelected('');
     changeSexSelected('');
     changeHealthSelected('');
-    changePetsDonate([]);
-    changePetsDisappeared([]);
+    // changePetsDonate([]);
+    // changePetsDisappeared([]);
   }
 
   List<Pet> getPetListFromSnapshots(List<DocumentSnapshot> docs) {
@@ -183,10 +190,9 @@ class PetsProvider with ChangeNotifier {
   void loadFilteredPETS({String state}) async {
     Query query = FirebaseFirestore.instance.collection(getPetKind).where(getPetKind == 'Donate' ? 'donated' : 'found', isEqualTo: false);
 
-    if (isFilteringByName) {
-      print(query.parameters);
+    if (getIsFilteringByName) {
       query = query.where('name', isEqualTo: getPetName);
-    } else if (isFilteringByBreed) {
+    } else if (getIsFilteringByBreed) {
       query = query.where('breed', isEqualTo: getBreedSelected);
     } else {
       for (int i = 0; i < _filters().length; i++) {
