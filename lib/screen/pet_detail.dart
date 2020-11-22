@@ -283,6 +283,7 @@ class _PetDetailsState extends State<PetDetails> {
       {'title': 'TIPO', 'text': widget.pet.type, 'icon': petIconType[widget.pet.type]},
       {'title': 'SEXO', 'text': widget.pet.sex, 'icon': widget.pet.sex == 'Fêmea' ? Gender.female : Gender.male},
       {'title': 'RAÇA', 'text': widget.pet.breed, 'icon': Icons.linear_scale},
+      {'title': 'COR', 'text': widget.pet.color, 'icon': Icons.color_lens},
       {'title': 'TAMANHO', 'text': widget.pet.size, 'icon': Tiutiu.resize_small},
       {'title': 'SAÚDE', 'text': widget.pet.health, 'icon': Tiutiu.healing},
       {'title': 'IDADE', 'text': '${widget.pet.ano}a ${widget.pet.meses}m', 'icon': Tiutiu.birthday_cake},
