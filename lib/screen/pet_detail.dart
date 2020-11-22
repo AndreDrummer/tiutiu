@@ -1,13 +1,18 @@
+import 'dart:io';
+
+import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_open_whatsapp/flutter_open_whatsapp.dart';
 import 'package:loading_animations/loading_animations.dart';
 import 'package:provider/provider.dart';
 import 'package:tiutiu/Custom/icons.dart';
-import 'package:tiutiu/Widgets/badge.dart';
+import 'package:share/share.dart';
 import 'package:tiutiu/Widgets/button.dart';
 import 'package:tiutiu/Widgets/card_details.dart';
 import 'package:tiutiu/Widgets/dots_indicator.dart';
 import 'package:tiutiu/Widgets/fullscreen_images.dart';
+import 'package:tiutiu/Widgets/load_dark_screen.dart';
 import 'package:tiutiu/Widgets/pop_up_text_field.dart';
 import 'package:tiutiu/backend/Controller/pet_controller.dart';
 import 'package:tiutiu/backend/Controller/user_controller.dart';
@@ -23,10 +28,10 @@ import 'package:tiutiu/screen/announcer_datails.dart';
 import 'package:tiutiu/utils/constantes.dart';
 import 'package:tiutiu/utils/formatter.dart';
 import 'package:tiutiu/utils/launcher_functions.dart';
+import 'package:tiutiu/utils/other_functions.dart';
 import 'package:tiutiu/utils/routes.dart';
 import 'package:tiutiu/Widgets/background.dart';
 import 'package:tiutiu/Widgets/play_store_rating.dart';
-import 'package:tiutiu/utils/other_functions.dart';
 import "package:google_maps_webservice/geocoding.dart";
 
 class PetDetails extends StatefulWidget {
@@ -213,11 +218,61 @@ class _PetDetailsState extends State<PetDetails> {
     }
   }
 
+  Future<String> _downloadFile() async {
+    String filename = OtherFunctions.getPhotoName(widget.pet.avatar, widget.pet.storageHashKey);
+    StorageReference ref =
+        FirebaseStorage.instance.ref().child('${widget.pet.ownerId}/').child('petsPhotos/${widget.pet.kind}/${widget.pet.storageHashKey}/$filename');
+    final Directory systemTempDir = Directory.systemTemp;
+    final File tempFile = File('${systemTempDir.path}/pet.jpg');
+
+    if (tempFile.existsSync()) {
+      await tempFile.delete();
+    }
+
+    await tempFile.create();
+    final StorageFileDownloadTask task = ref.writeToFile(tempFile);
+    await task.future;
+
+    return tempFile.path;
+  }
+
+  Future<Uri> generateDynamicLink() async {
+    String uriPrefix = Constantes.DYNAMIC_LINK_PREFIX;
+    final DynamicLinkParameters parameters = DynamicLinkParameters(
+      uriPrefix: uriPrefix,
+      link: Uri.parse('$uriPrefix/${widget.pet.kind}/${widget.pet.id}'),
+      androidParameters: AndroidParameters(
+        packageName: 'com.anjasolutions.tiutiu',
+        minimumVersion: 1,
+      ),
+    );
+
+    final dynamicUrl = await parameters.buildUrl();
+    return dynamicUrl;
+  }
+
+  Future<void> sharePet() async {
+    String subject = 'Hey! Dá uma olhada nesse bichinho.';
+    String message = 'Encontre este e vários outros no aplicativo Tiu, tiu: ${await generateDynamicLink()}';
+    String tags = '#tiutiu #adocao #pets';
+    String followUs = 'Siga @tiutiuapp no Instagram.';
+    try {
+      userProvider.changeIsGeneratingSharedLink(true);
+      String filePath = await _downloadFile();
+      userProvider.changeIsGeneratingSharedLink(false);
+      Share.shareFiles(['$filePath'], text: '$subject\n$message\n$tags\n$followUs', subject: subject);
+    } catch (e) {
+      userProvider.changeIsGeneratingSharedLink(false);
+      Share.share('$subject\n$message\n$tags\n$followUs', subject: subject);
+      print(e);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
-
+    final buttonHorizontalSpacing = widget.kind == 'DONATE' ? 20.0 : MediaQuery.of(context).size.width * 0.1;
     final String whatsappMessage = 'Olá! Tenho interesse e gostaria de saber mais detalhes sobre o PET *${widget.pet.name}* que postou no app *_Tiu, Tiu_*.';
     final String emailMessage = 'Olá! Tenho interesse e gostaria de saber mais detalhes sobre o PET ${widget.pet.name} que postou no app Tiu, Tiu.';
     final String emailSubject = 'Tenho interesse no PET ${widget.pet.name}';
@@ -226,8 +281,9 @@ class _PetDetailsState extends State<PetDetails> {
     List otherCaracteristics = widget.pet?.otherCaracteristics ?? ['Teste'];
     List petDetails = [
       {'title': 'TIPO', 'text': widget.pet.type, 'icon': petIconType[widget.pet.type]},
-      {'title': 'SEXO', 'text': widget.pet.sex, 'icon': Icons.all_inclusive_outlined},
+      {'title': 'SEXO', 'text': widget.pet.sex, 'icon': widget.pet.sex == 'Fêmea' ? Gender.female : Gender.male},
       {'title': 'RAÇA', 'text': widget.pet.breed, 'icon': Icons.linear_scale},
+      {'title': 'COR', 'text': widget.pet.color, 'icon': Icons.color_lens},
       {'title': 'TAMANHO', 'text': widget.pet.size, 'icon': Tiutiu.resize_small},
       {'title': 'SAÚDE', 'text': widget.pet.health, 'icon': Tiutiu.healing},
       {'title': 'IDADE', 'text': '${widget.pet.ano}a ${widget.pet.meses}m', 'icon': Tiutiu.birthday_cake},
@@ -300,20 +356,21 @@ class _PetDetailsState extends State<PetDetails> {
           ),
         ),
         actions: [
-          Stack(
-            children: [
-              IconButton(
-                onPressed: !isAuthenticated ? navigateToAuth : () {},
-                color: Colors.white,
-                icon: Icon(Icons.chat),
-              ),
-              Positioned(
-                top: 2,
-                right: 10,
-                child: Badge(text: 'Em breve', color: Colors.purple, textSize: 6),
-              ),
-            ],
-          )
+          // Stack(
+          //   children: [
+          //     IconButton(
+          //       onPressed: !isAuthenticated ? navigateToAuth : () {},
+          //       color: Colors.white,
+          //       icon: Icon(Icons.chat),
+          //     ),
+          //     Positioned(
+          //       top: 2,
+          //       right: 10,
+          //       child: Badge(text: 'Em breve', color: Colors.purple, textSize: 6),
+          //     ),
+          //   ],
+          // ),
+          IconButton(icon: Icon(Icons.share), onPressed: sharePet)
         ],
       ),
       body: Stack(
@@ -324,7 +381,7 @@ class _PetDetailsState extends State<PetDetails> {
           SingleChildScrollView(
             child: Column(
               children: [
-                showImages(widget.pet.photos),
+                showImages(widget.pet.photos, widget.pet.details.length > 150 ? height / 4 : height / 3),
                 Container(
                   height: 100,
                   child: Padding(
@@ -360,28 +417,24 @@ class _PetDetailsState extends State<PetDetails> {
                     child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: ConstrainedBox(
-                          constraints: BoxConstraints(minHeight: 0.0, maxHeight: 165),
+                          constraints: BoxConstraints(minHeight: 0.0, maxHeight: 120),
                           child: Container(
                             width: double.infinity,
-                            child: Stack(
-                              children: [
-                                SingleChildScrollView(
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.only(top: 4.0),
-                                        child: Text(
-                                          'Descrição',
-                                          style: Theme.of(context).textTheme.headline1.copyWith(color: Colors.black54),
-                                        ),
-                                      ),
-                                      Divider(),
-                                      Text(widget.pet.details),
-                                    ],
+                            child: SingleChildScrollView(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(top: 4.0),
+                                    child: Text(
+                                      'Descrição',
+                                      style: Theme.of(context).textTheme.headline1.copyWith(color: Colors.black54),
+                                    ),
                                   ),
-                                ),
-                              ],
+                                  Divider(),
+                                  Text(widget.pet.details),
+                                ],
+                              ),
                             ),
                           ),
                         )),
@@ -399,63 +452,60 @@ class _PetDetailsState extends State<PetDetails> {
                               elevation: 8.0,
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
-                                child: ConstrainedBox(
-                                  constraints: BoxConstraints(minHeight: 0.0, maxHeight: 120),
-                                  child: SingleChildScrollView(
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsets.only(top: 4.0),
-                                          child: Row(
-                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Text(
-                                                'Localização',
-                                                style: Theme.of(context).textTheme.headline1.copyWith(color: Colors.black54),
+                                child: Container(
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.only(top: 4.0),
+                                        child: Row(
+                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text(
+                                              'Localização',
+                                              style: Theme.of(context).textTheme.headline1.copyWith(color: Colors.black54),
+                                            ),
+                                            InkWell(
+                                              onTap: () {
+                                                MapsLauncher.launchCoordinates(
+                                                  widget.pet.latitude,
+                                                  widget.pet.longitude,
+                                                  widget.pet.name,
+                                                );
+                                              },
+                                              child: Icon(Icons.launch, size: 16, color: Colors.blue),
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                      Divider(),
+                                      FutureBuilder<Object>(
+                                        future: OtherFunctions.getAddress(Location(widget.pet.latitude, widget.pet.longitude)),
+                                        builder: (context, snapshot) {
+                                          if (snapshot.data == null) {
+                                            return Center(
+                                              child: Column(
+                                                children: [
+                                                  LoadingBumpingLine.circle(size: 15),
+                                                  Text('Carregando endereço...'),
+                                                ],
                                               ),
-                                              InkWell(
-                                                onTap: () {
-                                                  MapsLauncher.launchCoordinates(
-                                                    widget.pet.latitude,
-                                                    widget.pet.longitude,
-                                                    widget.pet.name,
-                                                  );
-                                                },
-                                                child: Icon(Icons.launch, size: 16, color: Colors.blue),
-                                              )
-                                            ],
-                                          ),
-                                        ),
-                                        Divider(),
-                                        FutureBuilder<Object>(
-                                          future: OtherFunctions.getAddress(Location(widget.pet.latitude, widget.pet.longitude)),
-                                          builder: (context, snapshot) {
-                                            if (snapshot.data == null) {
-                                              return Center(
-                                                child: Column(
-                                                  children: [
-                                                    LoadingBumpingLine.circle(size: 15),
-                                                    Text('Carregando endereço...'),
-                                                  ],
-                                                ),
-                                              );
-                                            }
-                                            return Text(
-                                              snapshot.data,
-                                              style: TextStyle(fontSize: 12, color: Colors.blueGrey),
                                             );
-                                          },
-                                        ),
-                                      ],
-                                    ),
+                                          }
+                                          return Text(
+                                            snapshot.data,
+                                            style: TextStyle(fontSize: 12, color: Colors.blueGrey),
+                                          );
+                                        },
+                                      ),
+                                    ],
                                   ),
                                 ),
                               ),
                             ),
                           ),
                           Padding(
-                            padding: const EdgeInsets.fromLTRB(8.0, 30.0, 8.0, 8.0),
+                            padding: EdgeInsets.fromLTRB(20.0, 30.0, 20.0, 8.0),
                             child: _ownerPetcontact(
                               user: widget.petOwner,
                               whatsappMessage: whatsappMessage,
@@ -477,7 +527,7 @@ class _PetDetailsState extends State<PetDetails> {
               : !widget.isMine
                   ? Positioned(
                       bottom: 20.0,
-                      left: widget.kind == 'DONATE' ? 20.0 : MediaQuery.of(context).size.width * 0.1,
+                      left: buttonHorizontalSpacing,
                       child: Row(
                         children: [
                           Container(
@@ -500,7 +550,7 @@ class _PetDetailsState extends State<PetDetails> {
                       ),
                     ),
           Positioned(
-            top: 190,
+            top: widget.pet.details.length > 150 ? height / 7 : height / 4.3,
             left: 10,
             child: InkWell(
               onTap: ownerDetails[0]['callback'],
@@ -547,6 +597,15 @@ class _PetDetailsState extends State<PetDetails> {
               ),
             ),
           ),
+          StreamBuilder<Object>(
+            stream: userProvider.isGeneratingSharedLink,
+            builder: (context, snapshot) {
+              return LoadDarkScreen(
+                message: 'Gerando link compartilhável',
+                show: snapshot.data ?? false,
+              );
+            },
+          )
         ],
       ),
       floatingActionButton: (!widget.isMine && widget.kind == 'DONATE')
@@ -596,14 +655,14 @@ class _PetDetailsState extends State<PetDetails> {
     );
   }
 
-  Widget showImages(List photos) {
+  Widget showImages(List photos, double boxHeight) {
     return Stack(
       children: [
         InkWell(
           onTap: () => openFullScreenMode(photos),
           child: Container(
             color: Colors.black,
-            height: MediaQuery.of(context).size.height / 3,
+            height: boxHeight,
             width: double.infinity,
             child: PageView.builder(
               physics: AlwaysScrollableScrollPhysics(),

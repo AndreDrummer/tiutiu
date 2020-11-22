@@ -4,6 +4,7 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_admob/firebase_admob.dart';
+import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
@@ -11,13 +12,17 @@ import 'package:provider/provider.dart';
 import 'package:tiutiu/Custom/icons.dart';
 import 'package:tiutiu/Widgets/button.dart';
 import 'package:tiutiu/Widgets/popup_message.dart';
+import 'package:tiutiu/backend/Model/pet_model.dart';
+import 'package:tiutiu/backend/Model/user_model.dart';
 import 'package:tiutiu/providers/ads_provider.dart';
 import 'package:tiutiu/providers/auth2.dart';
 import 'package:tiutiu/providers/favorites_provider.dart';
+import 'package:tiutiu/providers/pets_provider.dart';
 import 'package:tiutiu/providers/user_provider.dart';
 import 'package:tiutiu/screen/auth_screen.dart';
 import 'package:tiutiu/screen/favorites.dart';
 import 'package:tiutiu/screen/my_account.dart';
+import 'package:tiutiu/screen/pet_detail.dart';
 import 'package:tiutiu/screen/pets_list.dart';
 import '../Widgets/floating_button_option.dart';
 import 'package:tiutiu/backend/Controller/user_controller.dart';
@@ -32,6 +37,7 @@ class _HomeState extends State<Home> {
   int _selectedIndex = 0;
   bool isAuthenticated;
   UserProvider userProvider;
+  PetsProvider petsProvider;
   FavoritesProvider favoritesProvider;
   Authentication auth;
   final fbm = FirebaseMessaging();
@@ -80,6 +86,7 @@ class _HomeState extends State<Home> {
 
   @override
   void initState() {
+    this.initDynamicLinks();
     adsProvider = Provider.of(context, listen: false);
     adsProvider.changeCanShowAds(true);
     adsProvider.initReward();
@@ -108,6 +115,7 @@ class _HomeState extends State<Home> {
   void didChangeDependencies() {
     adsProvider.changeBannerWidth(MediaQuery.of(context).size.width ~/ 1);
     userProvider = Provider.of<UserProvider>(context, listen: false);
+    petsProvider = Provider.of<PetsProvider>(context, listen: false);
     auth = Provider.of<Authentication>(context, listen: false);
     favoritesProvider = Provider.of<FavoritesProvider>(context, listen: false);
     if (auth.firebaseUser != null) setUserMetaData();
@@ -175,6 +183,40 @@ class _HomeState extends State<Home> {
     if (auth.firebaseUser != null) {
       favoritesProvider.loadFavoritesReference();
     }
+  }
+
+  void openPetDetail(Uri deepLink) async {
+    final String qParams = deepLink.toString().split('.link/').last;
+    final String kind = qParams.toString().split('/').first;
+    final String id = qParams.toString().split('/').last;
+    Pet pet = await petsProvider.openPetDetails(id, kind);
+    User user = await UserController().getUserByID(pet.ownerId);
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) {
+          return PetDetails(
+            petOwner: user,
+            isMine: user.id == auth.firebaseUser?.uid,
+            pet: pet,
+            kind: pet.kind.toUpperCase(),
+          );
+        },
+      ),
+    );
+  }
+
+  void initDynamicLinks() async {
+    FirebaseDynamicLinks.instance.onLink(onSuccess: (PendingDynamicLinkData dynamicLink) async {
+      final Uri deepLink = dynamicLink?.link;
+      if (deepLink != null) openPetDetail(deepLink);
+    }, onError: (OnLinkErrorException e) async {
+      print('LinkError: ${e.message}');
+    });
+
+    final PendingDynamicLinkData data = await FirebaseDynamicLinks.instance.getInitialLink();
+    final Uri deepLink = data?.link;
+    if (deepLink != null) {/*openPetDetail(deepLink); */}
   }
 
   @override
