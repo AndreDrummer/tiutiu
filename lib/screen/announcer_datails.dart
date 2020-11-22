@@ -65,7 +65,7 @@ class _AnnouncerDetailsState extends State<AnnouncerDetails> {
 
     void callLandline() {
       String tel = userLandline != null && userLandline != '' ? userLandline : userWhatsapp;
-      Launcher.makePhoneCall('tel: $tel');
+      Launcher.makePhoneCall(number: tel);
     }
 
     void callEmail() {

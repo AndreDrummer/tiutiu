@@ -86,26 +86,25 @@ class _HomeState extends State<Home> {
   // }
   // }
 
-  
   @override
   void initState() {
     this.initDynamicLinks();
     adsProvider = Provider.of(context, listen: false);
-    adsProvider.changeCanShowAds(true);    
+    adsProvider.changeCanShowAds(true);
     adsProvider.initReward();
     fbm.configure(
-      onMessage: (notification) {      
-        print(notification['data']);        
+      onMessage: (notification) {
+        print(notification['data']);
         userProvider.handleNotifications(json.decode(notification['data']['data']));
         return;
       },
-      onResume: (notification) {   
-        print(notification['data']);     
+      onResume: (notification) {
+        print(notification['data']);
         userProvider.handleNotifications(json.decode(notification['data']['data']));
         return;
       },
-      onLaunch: (notification) {    
-        print(notification['data']);    
+      onLaunch: (notification) {
+        print(notification['data']);
         userProvider.handleNotifications(json.decode(notification['data']['data']));
         return;
       },
@@ -126,7 +125,7 @@ class _HomeState extends State<Home> {
     super.didChangeDependencies();
   }
 
-  void _onItemTapped(int index) {    
+  void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
     });
@@ -162,17 +161,15 @@ class _HomeState extends State<Home> {
   }
 
   void setUserMetaData() async {
-    final CollectionReference usersEntrepreneur =
-        FirebaseFirestore.instance.collection('Users');
-    DocumentSnapshot doc =
-        await usersEntrepreneur.doc(auth.firebaseUser.uid).get();
+    final CollectionReference usersEntrepreneur = FirebaseFirestore.instance.collection('Users');
+    DocumentSnapshot doc = await usersEntrepreneur.doc(auth.firebaseUser.uid).get();
     UserController userController = UserController();
 
     Future.delayed(Duration(seconds: 60), () {
       userProvider.changeRecentlyAuthenticated(false);
       print('Não autenticado recentemente...');
     });
-    
+
     userProvider.changeUserReference(doc.reference);
     userProvider.changeUid(auth.firebaseUser.uid);
     userProvider.changePhotoUrl(doc.data()['photoURL']);
@@ -182,9 +179,9 @@ class _HomeState extends State<Home> {
     userProvider.changeCreatedAt(doc.data()['createdAt']);
     userProvider.changeTelefone(doc.data()['landline']);
     userProvider.changeBetterContact(doc.data()['betterContact']);
-    userProvider.calculateTotals();    
+    userProvider.calculateTotals();
     userProvider.changeNotificationToken(await fbm.getToken());
-    userController.updateUser(userProvider.uid, {"notificationToken": userProvider.notificationToken});    
+    userController.updateUser(userProvider.uid, {"notificationToken": userProvider.notificationToken});
     if (auth.firebaseUser != null) {
       favoritesProvider.loadFavoritesReference();
     }
@@ -312,8 +309,7 @@ class _HomeState extends State<Home> {
                 marginBottom: 20,
                 animatedIcon: AnimatedIcons.add_event,
                 animatedIconTheme: IconThemeData(size: 22.0),
-                visible:
-                    MediaQuery.of(context).orientation == Orientation.portrait,
+                visible: MediaQuery.of(context).orientation == Orientation.portrait,
                 closeManually: false,
                 curve: Curves.bounceIn,
                 overlayOpacity: 0.5,
@@ -334,20 +330,18 @@ class _HomeState extends State<Home> {
                     onTap: !isAuthenticated
                         ? navigateToAuth
                         : () {
-                            Navigator.pushNamed(context, Routes.CHOOSE_LOCATION,
-                                arguments: {'kind': 'Disappeared'});
+                            Navigator.pushNamed(context, Routes.CHOOSE_LOCATION, arguments: {'kind': 'Disappeared'});
                           },
                   ),
                   SpeedDialChild(
-                    child: FloatingButtonOption(image: 'assets/pata2.jpg'),
+                    child: FloatingButtonOption(image: 'assets/pata.jpg'),
                     label: 'Doar PET',
                     backgroundColor: Theme.of(context).primaryColor,
                     labelStyle: TextStyle(fontSize: 14.0),
                     onTap: !isAuthenticated
                         ? navigateToAuth
                         : () {
-                            Navigator.pushNamed(context, Routes.CHOOSE_LOCATION,
-                                arguments: {'kind': 'Donate'});
+                            Navigator.pushNamed(context, Routes.CHOOSE_LOCATION, arguments: {'kind': 'Donate'});
                           },
                   ),
                 ],
