@@ -19,7 +19,7 @@ class PetsProvider with ChangeNotifier {
   final _orderTypeList = BehaviorSubject<List<String>>.seeded(['Data de postagem', 'Nome', 'Idade']);
   bool _isFiltering = false;
   bool _isFilteringByName = false;
-  bool _isFilteringByBreed = false;  
+  bool _isFilteringByBreed = false;
 
   // Listenning to The Data
   Stream<String> get petName => _petName.stream;
@@ -47,11 +47,11 @@ class PetsProvider with ChangeNotifier {
   void Function(List<Pet>) get changePetsDonate => _petsDonate.sink.add;
   void Function(List<Pet>) get changePetsDisappeared => _petsDisappeared.sink.add;
   void Function(List<String>) get changeOrderTypeList => _orderTypeList.sink.add;
-  
+
   void changeOrderType(String text, String state) {
     _orderType.sink.add(text);
     reloadList(state: state);
-  } 
+  }
 
   // Getting data
   String get getPetName => _petName.value;
@@ -62,9 +62,9 @@ class PetsProvider with ChangeNotifier {
   String get getAgeSelected => _ageSelected.value;
   String get getSexSelected => _sexSelected.value;
   String get getHealthSelected => _healthSelected.value;
-  bool get isFiltering => _isFiltering;  
-  bool get isFilteringByName => _isFilteringByName;  
-  bool get isFilteringByBreed => _isFilteringByBreed;    
+  bool get isFiltering => _isFiltering;
+  bool get isFilteringByName => _isFilteringByName;
+  bool get isFilteringByBreed => _isFilteringByBreed;
   List<Pet> get getPetsDonate => _petsDonate.value;
   List<Pet> get getPetsDisappeared => _petsDisappeared.value;
   List<String> get getOrderTypeList => _orderTypeList.value;
@@ -82,7 +82,7 @@ class PetsProvider with ChangeNotifier {
     _isFilteringByBreed = status;
   }
 
-   void reloadList({String state}) {
+  void reloadList({String state}) {
     if (getPetKind == 'Donate') {
       loadDonatePETS(state: state);
     } else {
@@ -102,79 +102,78 @@ class PetsProvider with ChangeNotifier {
   }
 
   List<Pet> getPetListFromSnapshots(List<DocumentSnapshot> docs) {
-    List<Pet> pets = [];    
+    List<Pet> pets = [];
     for (int i = 0; i < docs.length; i++) {
       pets.add(Pet.fromSnapshot(docs[i]));
     }
     return pets;
   }
 
-  void loadDonatePETS({String state}) async {    
-    if(_isFiltering) {
+  Future<Pet> openPetDetails(String petId, String petKind) async {
+    DocumentReference petRef = await OtherFunctions.getReferenceById(petId, petKind);
+    DocumentSnapshot petSnapshot = await petRef.get();
+    Pet petData = Pet.fromSnapshot(petSnapshot);
+    print('USER ${petData.id}');
+    return petData;
+  }
+
+  void loadDonatePETS({String state}) async {
+    if (_isFiltering) {
       loadFilteredPETS(state: state);
     } else {
-      QuerySnapshot querySnapshot = await FirebaseFirestore.instance.collection('Donate') .where('donated', isEqualTo: false).get();      
-      
+      QuerySnapshot querySnapshot = await FirebaseFirestore.instance.collection('Donate').where('donated', isEqualTo: false).get();
+
       List<Pet> pets = [];
       for (int i = 0; i < querySnapshot.docs.length; i++) {
         pets.add(Pet.fromSnapshot(querySnapshot.docs[i]));
-      }      
+      }
 
-      if(state != null) {
+      if (state != null) {
         changePetsDonate(await OtherFunctions.filterResultsByState(pets, state));
       } else {
         changePetsDonate(pets);
       }
-      
     }
   }
 
-  void loadDisappearedPETS({String state}) async {    
-    if(_isFiltering) {
+  void loadDisappearedPETS({String state}) async {
+    if (_isFiltering) {
       loadFilteredPETS(state: state);
     } else {
-      QuerySnapshot querySnapshot = await FirebaseFirestore.instance.collection('Disappeared').where('found', isEqualTo: false).get();      
-      
+      QuerySnapshot querySnapshot = await FirebaseFirestore.instance.collection('Disappeared').where('found', isEqualTo: false).get();
+
       List<Pet> pets = [];
       for (int i = 0; i < querySnapshot.docs.length; i++) {
         pets.add(Pet.fromSnapshot(querySnapshot.docs[i]));
       }
 
-      if(state != null) {
-        changePetsDisappeared(await OtherFunctions.filterResultsByState(pets, state));        
+      if (state != null) {
+        changePetsDisappeared(await OtherFunctions.filterResultsByState(pets, state));
       } else {
         changePetsDisappeared(pets);
       }
-
     }
   }
 
   Stream<QuerySnapshot> loadInfoOrInterested({String kind, DocumentReference petReference}) {
-    return kind == 'Donate' ?  petReference.collection('adoptInteresteds').snapshots() : petReference.collection('infoInteresteds').snapshots();
+    return kind == 'Donate' ? petReference.collection('adoptInteresteds').snapshots() : petReference.collection('infoInteresteds').snapshots();
   }
 
   void increaseViews({int actualViews, DocumentReference petReference}) {
     petReference.set({'views': ++actualViews}, SetOptions(merge: true));
   }
- 
+
   List<String> _filters() {
     String age = getAgeSelected;
-    if(age == 'Mais de 10 anos') {
+    if (age == 'Mais de 10 anos') {
       age = '10';
-    } else if(age == 'Menos de 1 ano') {
+    } else if (age == 'Menos de 1 ano') {
       age = '0';
-    } else if(age != null && age.isNotEmpty) {
+    } else if (age != null && age.isNotEmpty) {
       age = age.split('').first;
     }
 
-    return [
-      getPetType,
-      getBreedSelected,
-      getSizeSelected,
-      age,
-      getSexSelected,
-      getHealthSelected
-    ];
+    return [getPetType, getBreedSelected, getSizeSelected, age, getSexSelected, getHealthSelected];
   }
 
   List<String> _filtersType() {
@@ -182,21 +181,21 @@ class PetsProvider with ChangeNotifier {
   }
 
   void loadFilteredPETS({String state}) async {
-    Query query = FirebaseFirestore.instance.collection(getPetKind).where(getPetKind == 'Donate' ? 'donated' : 'found', isEqualTo: false);    
+    Query query = FirebaseFirestore.instance.collection(getPetKind).where(getPetKind == 'Donate' ? 'donated' : 'found', isEqualTo: false);
 
-    if(isFilteringByName) {
+    if (isFilteringByName) {
       print(query.parameters);
       query = query.where('name', isEqualTo: getPetName);
     } else if (isFilteringByBreed) {
       query = query.where('breed', isEqualTo: getBreedSelected);
     } else {
       for (int i = 0; i < _filters().length; i++) {
-        if (_filters()[i] != null && _filters()[i].isNotEmpty) {        
-          if(i == 3) {          
-            if(_filters()[i] == "10") {}
-            else if(_filters()[i] == "0") {            
+        if (_filters()[i] != null && _filters()[i].isNotEmpty) {
+          if (i == 3) {
+            if (_filters()[i] == "10") {
+            } else if (_filters()[i] == "0") {
               query = query.where(_filtersType()[i], isEqualTo: int.tryParse(_filters()[i]) ?? 0);
-            } else {            
+            } else {
               query = query.where(_filtersType()[i], isEqualTo: int.tryParse(_filters()[i]) ?? 0);
             }
           } else {
@@ -204,16 +203,16 @@ class PetsProvider with ChangeNotifier {
           }
         }
       }
-    }    
+    }
 
     QuerySnapshot querySnapshot = await query.get();
-    
+
     List<Pet> pets = [];
     for (int i = 0; i < querySnapshot.docs.length; i++) {
       pets.add(Pet.fromSnapshot(querySnapshot.docs[i]));
-    }      
+    }
 
-    if(state != null) {
+    if (state != null) {
       pets = await OtherFunctions.filterResultsByState(pets, state);
     }
 
