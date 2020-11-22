@@ -10,6 +10,7 @@ import 'package:tiutiu/backend/Controller/pet_controller.dart';
 import 'package:tiutiu/backend/Controller/user_controller.dart';
 import 'package:tiutiu/backend/Model/user_model.dart';
 import 'package:tiutiu/utils/launcher_functions.dart';
+import 'package:tiutiu/utils/other_functions.dart';
 
 class AnnouncerDetails extends StatefulWidget {
   AnnouncerDetails(this.user);
@@ -28,7 +29,7 @@ class _AnnouncerDetailsState extends State<AnnouncerDetails> {
 
   void calculateTotals(user) async {
     PetController petController = PetController();
-    DocumentReference userReference = await userController.getReferenceById(user.id);
+    DocumentReference userReference = await OtherFunctions.getReferenceById(user.id, 'Users');
 
     QuerySnapshot adopteds = await petController.getPetToCount(userReference, 'Adopted');
     QuerySnapshot donates = await petController.getPetToCount(userReference, 'Donate');
