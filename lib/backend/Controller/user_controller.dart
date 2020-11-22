@@ -8,20 +8,9 @@ class UserController {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
 
   Future<User> getUserByID(String id) async {
-    User user;
-    await firestore.collection('User').doc(id).snapshots().first.then((value) {
-      user = User(
-        id: value.data()['id'],
-        name: value.data()['name'],
-        photoURL: value.data()['photoURL'],
-        email: value.data()['email'],
-        password: value.data()['password'],
-        phoneNumber: value.data()['phoneNumber'],
-        landline: value.data()['landline'],
-      );
-    });
+    DocumentSnapshot userSnaphsot = await firestore.collection('Users').doc(id).get();
 
-    return user;
+    return User.fromSnapshot(userSnaphsot);
   }
 
   Future<User> getUserDataByReference(DocumentReference userReference) async {
