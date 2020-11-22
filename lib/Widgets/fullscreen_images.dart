@@ -41,25 +41,21 @@ class _FullScreenImageState extends State<FullScreenImage> {
                     minScale: 0.5,
                     autoCenter: true,
                     initialScale: 1.0,
-                    child: Hero(
-                      tag: widget.tag ?? '$index',
-                      child: Image(
-                        loadingBuilder: (BuildContext context, Widget child,
-                            ImageChunkEvent loadingProgress) {
-                          if (loadingProgress == null) return child;
-                          return Center(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text('Carregando imagem..'),
-                                LoadingJumpingLine.circle(),
-                              ],
-                            ),
-                          );
-                        },
-                        image: AdvancedNetworkImage(widget.images[index]),
-                        fit: BoxFit.fill,
-                      ),
+                    child: Image(
+                      loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent loadingProgress) {
+                        if (loadingProgress == null) return child;
+                        return Center(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text('Carregando imagem..'),
+                              LoadingJumpingLine.circle(),
+                            ],
+                          ),
+                        );
+                      },
+                      image: AdvancedNetworkImage(widget.images[index]),
+                      fit: BoxFit.fill,
                     ),
                     onZoomChanged: (double value) {
                       if (value >= 1.01) {
