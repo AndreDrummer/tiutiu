@@ -509,7 +509,6 @@ class __HomeSearchState extends State<_HomeSearch> {
     }
     petsProvider.changeIsFiltering(true);
     performTypingSearch(textSearch);
-    // petsProvider.reloadList(state: refineSearchProvider.getStateOfResultSearch);
   }
 
   void performTypingSearch(String text) {
@@ -518,12 +517,9 @@ class __HomeSearchState extends State<_HomeSearch> {
     if (text.trim().isNotEmpty) {
       List<Pet> newPetList = [];
       for (Pet pet in oldPetList) {
-        print(
-            'SEARCHING petname ${pet.name.toLowerCase()} ${text.toLowerCase()} ${petsProvider.getIsFilteringByName && pet.name.toLowerCase().contains(text.toLowerCase())}');
         if (petsProvider.getIsFilteringByName && pet.name.toLowerCase().contains(text.toLowerCase())) newPetList.add(pet);
         if (petsProvider.getIsFilteringByBreed && pet.breed.toLowerCase().contains(text.toLowerCase())) newPetList.add(pet);
       }
-      print(newPetList.length);
       petsProvider.changeTypingSearchResult(newPetList);
     }
     if (text.trim().isEmpty) petsProvider.changeTypingSearchResult(oldPetList);
