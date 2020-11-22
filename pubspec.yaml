@@ -98,6 +98,9 @@ flutter:
     - family:  Tiutiu
       fonts:
        - asset: fonts/Tiutiu.ttf
+    - family:  Gender
+      fonts:
+       - asset: fonts/Gender.ttf
     - family: Rajdhani
       fonts:
         - asset: fonts/Rajdhani-Bold.ttf

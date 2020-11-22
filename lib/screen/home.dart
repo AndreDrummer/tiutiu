@@ -11,8 +11,6 @@ import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:provider/provider.dart';
 import 'package:tiutiu/Custom/icons.dart';
 import 'package:tiutiu/Widgets/button.dart';
-import 'package:tiutiu/Widgets/error_page.dart';
-import 'package:tiutiu/Widgets/loading_page.dart';
 import 'package:tiutiu/Widgets/popup_message.dart';
 import 'package:tiutiu/backend/Model/pet_model.dart';
 import 'package:tiutiu/backend/Model/user_model.dart';
@@ -187,53 +185,24 @@ class _HomeState extends State<Home> {
     }
   }
 
-  Widget _errorPage() {
-    return ErrorPage(errorText: 'Não consegui localizar o Pet. Feche o app e abra-o novamente!');
-  }
-
-  Widget openPetDetail(Uri deepLink) {
+  void openPetDetail(Uri deepLink) async {
     final String qParams = deepLink.toString().split('.link/').last;
     final String kind = qParams.toString().split('/').first;
     final String id = qParams.toString().split('/').last;
-    return FutureBuilder(
-      future: petsProvider.openPetDetails(id, kind),
-      builder: (BuildContext context, AsyncSnapshot<Pet> petSnapshot) {
-        print('PET ${petSnapshot.data}');
-        if (petSnapshot.connectionState == ConnectionState.waiting) {
-          return LoadingPage(
-            messageLoading: 'Abrindo detalhes do PET',
+    Pet pet = await petsProvider.openPetDetails(id, kind);
+    User user = await UserController().getUserByID(pet.ownerId);
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) {
+          return PetDetails(
+            petOwner: user,
+            isMine: user.id == auth.firebaseUser?.uid,
+            pet: pet,
+            kind: pet.kind.toUpperCase(),
           );
-        } else if (petSnapshot.hasData && !petSnapshot.hasError) {
-          print('PET $kind $id');
-          return FutureBuilder(
-            future: UserController().getUserByID(petSnapshot.data.ownerId),
-            builder: (BuildContext context, AsyncSnapshot<User> userSnapshot) {
-              if (petSnapshot.connectionState == ConnectionState.waiting) {
-                return LoadingPage(
-                  messageLoading: 'Abrindo detalhes do PET',
-                );
-              } else if (userSnapshot.hasData && !userSnapshot.hasError) {
-                print('USER $kind $id');
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) {
-                      return PetDetails(
-                        petOwner: userSnapshot.data,
-                        isMine: userSnapshot.data.id == auth.firebaseUser?.uid,
-                        pet: petSnapshot.data,
-                        kind: petSnapshot.data.kind.toUpperCase(),
-                      );
-                    },
-                  ),
-                );
-              }
-              return _errorPage();
-            },
-          );
-        }
-        return _errorPage();
-      },
+        },
+      ),
     );
   }
 
@@ -247,7 +216,7 @@ class _HomeState extends State<Home> {
 
     final PendingDynamicLinkData data = await FirebaseDynamicLinks.instance.getInitialLink();
     final Uri deepLink = data?.link;
-    if (deepLink != null) openPetDetail(deepLink);
+    if (deepLink != null) {/*openPetDetail(deepLink); */}
   }
 
   @override

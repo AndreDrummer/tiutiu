@@ -104,8 +104,6 @@ class PetsProvider with ChangeNotifier {
     changeAgeSelected('');
     changeSexSelected('');
     changeHealthSelected('');
-    // changePetsDonate([]);
-    // changePetsDisappeared([]);
   }
 
   List<Pet> getPetListFromSnapshots(List<DocumentSnapshot> docs) {
@@ -120,8 +118,7 @@ class PetsProvider with ChangeNotifier {
     DocumentReference petRef = await OtherFunctions.getReferenceById(petId, petKind);
     DocumentSnapshot petSnapshot = await petRef.get();
     Pet petData = Pet.fromSnapshot(petSnapshot);
-    print('USER ${petData.id}');
-    return petData;
+    return Future.value(petData);
   }
 
   void loadDonatePETS({String state}) async {
@@ -190,23 +187,17 @@ class PetsProvider with ChangeNotifier {
   void loadFilteredPETS({String state}) async {
     Query query = FirebaseFirestore.instance.collection(getPetKind).where(getPetKind == 'Donate' ? 'donated' : 'found', isEqualTo: false);
 
-    if (getIsFilteringByName) {
-      query = query.where('name', isEqualTo: getPetName);
-    } else if (getIsFilteringByBreed) {
-      query = query.where('breed', isEqualTo: getBreedSelected);
-    } else {
-      for (int i = 0; i < _filters().length; i++) {
-        if (_filters()[i] != null && _filters()[i].isNotEmpty) {
-          if (i == 3) {
-            if (_filters()[i] == "10") {
-            } else if (_filters()[i] == "0") {
-              query = query.where(_filtersType()[i], isEqualTo: int.tryParse(_filters()[i]) ?? 0);
-            } else {
-              query = query.where(_filtersType()[i], isEqualTo: int.tryParse(_filters()[i]) ?? 0);
-            }
+    for (int i = 0; i < _filters().length; i++) {
+      if (_filters()[i] != null && _filters()[i].isNotEmpty) {
+        if (i == 3) {
+          if (_filters()[i] == "10") {
+          } else if (_filters()[i] == "0") {
+            query = query.where(_filtersType()[i], isEqualTo: int.tryParse(_filters()[i]) ?? 0);
           } else {
-            query = query.where(_filtersType()[i], isEqualTo: _filters()[i]);
+            query = query.where(_filtersType()[i], isEqualTo: int.tryParse(_filters()[i]) ?? 0);
           }
+        } else {
+          query = query.where(_filtersType()[i], isEqualTo: _filters()[i]);
         }
       }
     }
