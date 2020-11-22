@@ -13,6 +13,7 @@ import 'package:tiutiu/backend/Model/user_model.dart';
 import 'package:tiutiu/providers/user_infos_interests.dart';
 import 'package:tiutiu/providers/user_provider.dart';
 import 'package:tiutiu/screen/announcer_datails.dart';
+import 'package:tiutiu/utils/other_functions.dart';
 import 'package:tiutiu/utils/routes.dart';
 
 class InterestedList extends StatefulWidget {
@@ -124,7 +125,7 @@ class _InterestedListState extends State<InterestedList> {
             interestedID: interestedUser.id,
             interestedNotificationToken: interestedUser.notificationToken,
             ownerNotificationToken: userProvider.notificationToken,
-            interestedReference: await userController.getReferenceById(interestedUser.id),
+            interestedReference: await OtherFunctions.getReferenceById(interestedUser.id, 'Users'),
             userPosition: interestedModel.position,
           );
           changeIsSinalizingStatus(false);
