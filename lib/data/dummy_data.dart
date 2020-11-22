@@ -1,14 +1,5 @@
 class DummyData {
-  static const otherCaracteristicsList = [
-    'Vermifugado',
-    'Castrado',
-    'Dócil',
-    'Prenhez',
-    'Tranquilo',
-    'Brincalhão',
-    'Tímido',
-    'Vacinado'
-  ];
+  static const otherCaracteristicsList = ['Vermifugado', 'Castrado', 'Dócil', 'Prenhez', 'Tranquilo', 'Brincalhão', 'Tímido', 'Vacinado'];
 
   static const breed = [
     [''],
@@ -253,14 +244,7 @@ class DummyData {
       'Warsangli Linnet',
       'Yemen Linnet'
     ],
-    [
-      'Raça Indefinida',
-      'Hamster russo',
-      'Hamster de Roborovski',
-      'Hamster sírio ou dourado',
-      'Hamster-chinês',
-      'Hamster anão de Campbell'
-    ],
+    ['Raça Indefinida', 'Hamster russo', 'Hamster de Roborovski', 'Hamster sírio ou dourado', 'Hamster-chinês', 'Hamster anão de Campbell'],
     ['Todas']
   ];
 
@@ -312,6 +296,7 @@ class DummyData {
     'Anil',
     'Azul',
     'Bege',
+    'Bicolor',
     'Bordô',
     'Branco',
     'Bronze',
@@ -330,9 +315,11 @@ class DummyData {
     'Creme',
     'Damasco',
     'Dourado',
+    'Escaminha',
     'Escarlate',
     'Esmeralda',
     'Ferrugem',
+    'Frajola',
     'Fúcsia',
     'Gelo',
     'Grená',
@@ -344,7 +331,9 @@ class DummyData {
     'Lavanda',
     'Lilás ',
     'Limão',
+    'Liso',
     'Loiro',
+    'Lobinho',
     'Magenta',
     'Malva',
     'Marfim',
@@ -358,6 +347,7 @@ class DummyData {
     'Negro',
     'Ocre',
     'Oliva',
+    'Oncinha',
     'Ouro',
     'Pêssego',
     'Prata',
@@ -371,8 +361,12 @@ class DummyData {
     'Rubro',
     'Salmão',
     'Sépia',
+    'Siamês',
+    'Sialata',
     'Terracota',
     'Tijolo',
+    'Tigrado',
+    'Tricolor',
     'Turquesa',
     'Uva',
     'Verde',

@@ -10,7 +10,6 @@ import 'package:tiutiu/Custom/icons.dart';
 import 'package:share/share.dart';
 import 'package:tiutiu/Widgets/button.dart';
 import 'package:tiutiu/Widgets/card_details.dart';
-import 'package:tiutiu/Widgets/divider.dart';
 import 'package:tiutiu/Widgets/dots_indicator.dart';
 import 'package:tiutiu/Widgets/fullscreen_images.dart';
 import 'package:tiutiu/Widgets/load_dark_screen.dart';
@@ -22,7 +21,7 @@ import 'package:tiutiu/backend/Model/user_model.dart';
 import 'package:tiutiu/providers/auth2.dart';
 import 'package:tiutiu/providers/favorites_provider.dart';
 import 'package:maps_launcher/maps_launcher.dart';
-import 'package:tiutiu/providers/location.dart';
+import 'package:tiutiu/providers/location.dart' as provider;
 import 'package:tiutiu/providers/user_infos_interests.dart';
 import 'package:tiutiu/providers/user_provider.dart';
 import 'package:tiutiu/screen/announcer_datails.dart';
@@ -31,6 +30,9 @@ import 'package:tiutiu/utils/formatter.dart';
 import 'package:tiutiu/utils/launcher_functions.dart';
 import 'package:tiutiu/utils/other_functions.dart';
 import 'package:tiutiu/utils/routes.dart';
+import 'package:tiutiu/Widgets/background.dart';
+import 'package:tiutiu/Widgets/play_store_rating.dart';
+import "package:google_maps_webservice/geocoding.dart";
 
 class PetDetails extends StatefulWidget {
   PetDetails({
@@ -54,7 +56,7 @@ class _PetDetailsState extends State<PetDetails> {
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   FavoritesProvider favoritesProvider;
 
-  Location userLocation;
+  provider.Location userLocation;
   UserInfoOrAdoptInterestsProvider userInfosAdopts;
   Authentication auth;
   UserProvider userProvider;
@@ -65,7 +67,7 @@ class _PetDetailsState extends State<PetDetails> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    userLocation = Provider.of<Location>(context, listen: false);
+    userLocation = Provider.of<provider.Location>(context, listen: false);
     auth = Provider.of<Authentication>(context);
     userProvider = Provider.of<UserProvider>(context, listen: false);
     userInfosAdopts = Provider.of<UserInfoOrAdoptInterestsProvider>(context, listen: false);
@@ -269,6 +271,12 @@ class _PetDetailsState extends State<PetDetails> {
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
+
+    final String whatsappMessage = 'Olá! Tenho interesse e gostaria de saber mais detalhes sobre o PET *${widget.pet.name}* que postou no app *_Tiu, Tiu_*.';
+    final String emailMessage = 'Olá! Tenho interesse e gostaria de saber mais detalhes sobre o PET ${widget.pet.name} que postou no app Tiu, Tiu.';
+    final String emailSubject = 'Tenho interesse no PET ${widget.pet.name}';
+
     double wannaAdoptButton = widget.kind == 'DONATE' ? width * 0.7 : width * 0.8;
     List otherCaracteristics = widget.pet?.otherCaracteristics ?? ['Teste'];
     List petDetails = [
@@ -317,30 +325,13 @@ class _PetDetailsState extends State<PetDetails> {
           String serializedNumber = Formatter.unmaskNumber(widget.petOwner.phoneNumber);
 
           if (widget.petOwner.betterContact == 0) {
-            FlutterOpenWhatsapp.sendSingleMessage('+55$serializedNumber',
-                'Olá! Tenho interesse e gostaria de saber mais detalhes sobre o PET *${widget.pet.name}* que postou no app *_Tiu, Tiu_*.');
+            FlutterOpenWhatsapp.sendSingleMessage('+55$serializedNumber', whatsappMessage);
           } else if (widget.petOwner.betterContact == 1) {
             String serializedNumber = Formatter.unmaskNumber(widget.petOwner.landline);
             Launcher.makePhoneCall(number: serializedNumber);
           } else {
-            Launcher.sendEmail(
-              emailAddress: widget.petOwner.email,
-              subject: 'Tenho interesse no PET ${widget.pet.name}',
-              message: 'Olá! Tenho interesse e gostaria de saber mais detalhes sobre o PET ${widget.pet.name} que postou no app Tiu, Tiu.',
-            );
+            Launcher.sendEmail(emailAddress: widget.petOwner.email, subject: emailSubject, message: emailMessage);
           }
-        }
-      },
-      {
-        'text': 'Localização',
-        'image': 'assets/static_map.jpg',
-        // 'imageN': 'https://maps.googleapis.com/maps/api/staticmap?center=${pet.latitude}, ${pet.longitude}&zoom=14&markers=color&markers=color:red%7Clabel:%7c-16.7502014,%20-49.256370000000004&size=600x400&key=${Constantes.WEB_API_KEY}',
-        'callback': () {
-          MapsLauncher.launchCoordinates(
-            widget.pet.latitude,
-            widget.pet.longitude,
-            widget.pet.name,
-          );
         }
       },
     ];
@@ -383,17 +374,8 @@ class _PetDetailsState extends State<PetDetails> {
       ),
       body: Stack(
         children: [
-          Opacity(
-            opacity: 0.5,
-            child: Container(
-              decoration: BoxDecoration(
-                  image: DecorationImage(
-                fit: BoxFit.fill,
-                image: AssetImage(
-                  'assets/cao e gato.png',
-                ),
-              )),
-            ),
+          Background(
+            dark: true,
           ),
           SingleChildScrollView(
             child: Column(
@@ -434,7 +416,7 @@ class _PetDetailsState extends State<PetDetails> {
                     child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: ConstrainedBox(
-                          constraints: BoxConstraints(minHeight: 0.0, maxHeight: 120),
+                          constraints: BoxConstraints(minHeight: 0.0, maxHeight: 165),
                           child: Container(
                             width: double.infinity,
                             child: Stack(
@@ -461,30 +443,88 @@ class _PetDetailsState extends State<PetDetails> {
                         )),
                   ),
                 ),
-                SizedBox(height: 5),
-                CustomDivider(text: 'Informações do anunciante'),
-                Container(
-                  height: 170,
-                  child: Padding(
-                    padding: EdgeInsets.only(left: width < 365 ? 0 : 20.0),
-                    child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      itemCount: ownerDetails.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return UserCardInfo(
-                          text: ownerDetails[index]['text'],
-                          icon: ownerDetails[index]['icon'],
-                          image: ownerDetails[index]['image'],
-                          imageN: ownerDetails[index]['imageN'],
-                          color: ownerDetails[index]['color'],
-                          callback: ownerDetails[index]['callback'],
-                          launchIcon: ownerDetails[index]['launchIcon'],
-                        );
-                      },
-                    ),
-                  ),
-                ),
-                SizedBox(height: 90.0),
+                Constantes.ADMIN_ID != widget.pet.ownerId
+                    ? Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(4.0),
+                            child: Card(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              elevation: 8.0,
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: ConstrainedBox(
+                                  constraints: BoxConstraints(minHeight: 0.0, maxHeight: 120),
+                                  child: SingleChildScrollView(
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.only(top: 4.0),
+                                          child: Row(
+                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Text(
+                                                'Localização',
+                                                style: Theme.of(context).textTheme.headline1.copyWith(color: Colors.black54),
+                                              ),
+                                              InkWell(
+                                                onTap: () {
+                                                  MapsLauncher.launchCoordinates(
+                                                    widget.pet.latitude,
+                                                    widget.pet.longitude,
+                                                    widget.pet.name,
+                                                  );
+                                                },
+                                                child: Icon(Icons.launch, size: 16, color: Colors.blue),
+                                              )
+                                            ],
+                                          ),
+                                        ),
+                                        Divider(),
+                                        FutureBuilder<Object>(
+                                          future: OtherFunctions.getAddress(Location(widget.pet.latitude, widget.pet.longitude)),
+                                          builder: (context, snapshot) {
+                                            if (snapshot.data == null) {
+                                              return Center(
+                                                child: Column(
+                                                  children: [
+                                                    LoadingBumpingLine.circle(size: 15),
+                                                    Text('Carregando endereço...'),
+                                                  ],
+                                                ),
+                                              );
+                                            }
+                                            return Text(
+                                              snapshot.data,
+                                              style: TextStyle(fontSize: 12, color: Colors.blueGrey),
+                                            );
+                                          },
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(8.0, 30.0, 8.0, 8.0),
+                            child: _ownerPetcontact(
+                              user: widget.petOwner,
+                              whatsappMessage: whatsappMessage,
+                              emailMessage: emailMessage,
+                              emailSubject: emailSubject,
+                            ),
+                          )
+                        ],
+                      )
+                    : Padding(
+                        padding: EdgeInsets.only(top: height / 12),
+                        child: RatingUs(),
+                      )
               ],
             ),
           ),
@@ -531,6 +571,7 @@ class _PetDetailsState extends State<PetDetails> {
               builder: (context, favoritesProvider, child) {
                 bool isFavorite = favoritesProvider.getFavoritesPETSIDList.contains(widget.pet.id);
                 return FloatingActionButton(
+                  heroTag: 'favorite',
                   onPressed: !isAuthenticated
                       ? navigateToAuth
                       : () async {
@@ -538,10 +579,12 @@ class _PetDetailsState extends State<PetDetails> {
 
                           await user.favorite(userProvider.userReference, widget.pet.petReference, !isFavorite);
 
-                          _scaffoldKey.currentState.showSnackBar(SnackBar(
-                            duration: Duration(seconds: 1),
-                            content: Text(isFavorite ? 'Removido dos favoritos' : 'Adicionado como favorito'),
-                          ));
+                          _scaffoldKey.currentState.showSnackBar(
+                            SnackBar(
+                              duration: Duration(seconds: 1),
+                              content: Text(isFavorite ? 'Removido dos favoritos' : 'Adicionado como favorito'),
+                            ),
+                          );
 
                           favoritesProvider.loadFavoritesReference();
                           favoritesProvider.handleFavorite(widget.pet.id);
@@ -651,5 +694,70 @@ class _PetDetailsState extends State<PetDetails> {
         ],
       ),
     );
+  }
+
+  Widget _ownerPetcontact({User user, String whatsappMessage, String emailSubject, String emailMessage}) {
+    switch (user.betterContact) {
+      case 0:
+        return Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Expanded(
+              child: ButtonWide(
+                action: () {
+                  Launcher.openWhatsApp(number: user.phoneNumber, message: whatsappMessage);
+                },
+                color: Colors.green,
+                icon: Tiutiu.whatsapp,
+                isToExpand: false,
+                text: 'WhatsApp',
+              ),
+            ),
+            SizedBox(width: 15),
+            Expanded(
+              child: ButtonWide(
+                action: () {
+                  Launcher.makePhoneCall(number: user.phoneNumber ?? user.landline);
+                },
+                color: Colors.orange,
+                icon: Icons.phone,
+                isToExpand: false,
+                text: 'Ligar',
+              ),
+            ),
+          ],
+        );
+        break;
+      case 1:
+        return Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            ButtonWide(
+              action: () {
+                Launcher.makePhoneCall(number: user.landline ?? user.phoneNumber);
+              },
+              color: Colors.orange,
+              icon: Icons.phone,
+              isToExpand: false,
+              text: 'Ligar',
+            ),
+          ],
+        );
+      default:
+        return Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            ButtonWide(
+              action: () {
+                Launcher.sendEmail(emailAddress: user.email, message: emailMessage, subject: emailSubject);
+              },
+              color: Colors.red,
+              icon: Icons.mail,
+              isToExpand: false,
+              text: 'Enviar e-mail',
+            ),
+          ],
+        );
+    }
   }
 }
