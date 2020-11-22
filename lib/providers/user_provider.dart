@@ -31,6 +31,7 @@ class UserProvider with ChangeNotifier {
   final _disappearedPets = BehaviorSubject<List<Pet>>();
   final _donatedPets = BehaviorSubject<List<Pet>>();
   final _notifications = BehaviorSubject<int>();
+  final _isGeneratingSharedLink = BehaviorSubject<bool>.seeded(false);
 
   // Listenning to the date
   Stream<int> get betterContact => _betterContact.stream;
@@ -44,6 +45,7 @@ class UserProvider with ChangeNotifier {
   Stream<List<Pet>> get disappearedPets => _disappearedPets.stream;
   Stream<List<Pet>> get donatedPets => _donatedPets.stream;
   Stream<int> get notifications => _notifications.stream;
+  Stream<bool> get isGeneratingSharedLink => _isGeneratingSharedLink.stream;
 
   // Getting data
   int get getBetterContact => _betterContact.stream.value;
@@ -57,6 +59,7 @@ class UserProvider with ChangeNotifier {
   List<Pet> get getDisappearedPets => _disappearedPets.stream.value;
   List<Pet> get getDonatedPets => _donatedPets.stream.value;
   int get getNotifications => _notifications.stream.value;
+  bool get getIsGeneratingSharedLink => _isGeneratingSharedLink.value;
 
   // Changing data
   void Function(int) get changeBetterContact => _betterContact.sink.add;
@@ -69,6 +72,7 @@ class UserProvider with ChangeNotifier {
   void Function(List<Pet>) get changeAdoptedPets => _adoptedPets.sink.add;
   void Function(List<Pet>) get changeDisappearedPets => _disappearedPets.sink.add;
   void Function(List<Pet>) get changeDonatedPets => _donatedPets.sink.add;
+  void Function(bool) get changeIsGeneratingSharedLink => _isGeneratingSharedLink.sink.add;
 
   void changeNotifications(int list) {
     _notifications.sink.add(list);

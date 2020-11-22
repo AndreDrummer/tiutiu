@@ -1,14 +1,19 @@
+import 'dart:io';
+
+import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_open_whatsapp/flutter_open_whatsapp.dart';
 import 'package:loading_animations/loading_animations.dart';
 import 'package:provider/provider.dart';
 import 'package:tiutiu/Custom/icons.dart';
-import 'package:tiutiu/Widgets/badge.dart';
+import 'package:share/share.dart';
 import 'package:tiutiu/Widgets/button.dart';
 import 'package:tiutiu/Widgets/card_details.dart';
 import 'package:tiutiu/Widgets/divider.dart';
 import 'package:tiutiu/Widgets/dots_indicator.dart';
 import 'package:tiutiu/Widgets/fullscreen_images.dart';
+import 'package:tiutiu/Widgets/load_dark_screen.dart';
 import 'package:tiutiu/Widgets/pop_up_text_field.dart';
 import 'package:tiutiu/backend/Controller/pet_controller.dart';
 import 'package:tiutiu/backend/Controller/user_controller.dart';
@@ -24,6 +29,7 @@ import 'package:tiutiu/screen/announcer_datails.dart';
 import 'package:tiutiu/utils/constantes.dart';
 import 'package:tiutiu/utils/formatter.dart';
 import 'package:tiutiu/utils/launcher_functions.dart';
+import 'package:tiutiu/utils/other_functions.dart';
 import 'package:tiutiu/utils/routes.dart';
 
 class PetDetails extends StatefulWidget {
@@ -210,6 +216,56 @@ class _PetDetailsState extends State<PetDetails> {
     }
   }
 
+  Future<String> _downloadFile() async {
+    String filename = OtherFunctions.getPhotoName(widget.pet.avatar, widget.pet.storageHashKey);
+    StorageReference ref =
+        FirebaseStorage.instance.ref().child('${widget.pet.ownerId}/').child('petsPhotos/${widget.pet.kind}/${widget.pet.storageHashKey}/$filename');
+    final Directory systemTempDir = Directory.systemTemp;
+    final File tempFile = File('${systemTempDir.path}/pet.jpg');
+
+    if (tempFile.existsSync()) {
+      await tempFile.delete();
+    }
+
+    await tempFile.create();
+    final StorageFileDownloadTask task = ref.writeToFile(tempFile);
+    await task.future;
+
+    return tempFile.path;
+  }
+
+  Future<Uri> generateDynamicLink() async {
+    String uriPrefix = Constantes.DYNAMIC_LINK_PREFIX;
+    final DynamicLinkParameters parameters = DynamicLinkParameters(
+      uriPrefix: uriPrefix,
+      link: Uri.parse('$uriPrefix/${widget.pet.kind}/${widget.pet.id}'),
+      androidParameters: AndroidParameters(
+        packageName: 'com.anjasolutions.tiutiu',
+        minimumVersion: 1,
+      ),
+    );
+
+    final dynamicUrl = await parameters.buildUrl();
+    return dynamicUrl;
+  }
+
+  Future<void> sharePet() async {
+    String subject = 'Hey! Dá uma olhada nesse bichinho.';
+    String message = 'Encontre este e vários outros no aplicativo Tiu, tiu: ${await generateDynamicLink()}';
+    String tags = '#tiutiu #adocao #pets';
+    String followUs = 'Siga @tiutiuapp no Instagram.';
+    try {
+      userProvider.changeIsGeneratingSharedLink(true);
+      String filePath = await _downloadFile();
+      userProvider.changeIsGeneratingSharedLink(false);
+      Share.shareFiles(['$filePath'], text: '$subject\n$message\n$tags\n$followUs', subject: subject);
+    } catch (e) {
+      userProvider.changeIsGeneratingSharedLink(false);
+      Share.share('$subject\n$message\n$tags\n$followUs', subject: subject);
+      print(e);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
@@ -265,7 +321,7 @@ class _PetDetailsState extends State<PetDetails> {
                 'Olá! Tenho interesse e gostaria de saber mais detalhes sobre o PET *${widget.pet.name}* que postou no app *_Tiu, Tiu_*.');
           } else if (widget.petOwner.betterContact == 1) {
             String serializedNumber = Formatter.unmaskNumber(widget.petOwner.landline);
-            Launcher.makePhoneCall('tel: $serializedNumber');
+            Launcher.makePhoneCall(number: serializedNumber);
           } else {
             Launcher.sendEmail(
               emailAddress: widget.petOwner.email,
@@ -308,20 +364,21 @@ class _PetDetailsState extends State<PetDetails> {
           ),
         ),
         actions: [
-          Stack(
-            children: [
-              IconButton(
-                onPressed: !isAuthenticated ? navigateToAuth : () {},
-                color: Colors.white,
-                icon: Icon(Icons.chat),
-              ),
-              Positioned(
-                top: 2,
-                right: 10,
-                child: Badge(text: 'Em breve', color: Colors.purple, textSize: 6),
-              ),
-            ],
-          )
+          // Stack(
+          //   children: [
+          //     IconButton(
+          //       onPressed: !isAuthenticated ? navigateToAuth : () {},
+          //       color: Colors.white,
+          //       icon: Icon(Icons.chat),
+          //     ),
+          //     Positioned(
+          //       top: 2,
+          //       right: 10,
+          //       child: Badge(text: 'Em breve', color: Colors.purple, textSize: 6),
+          //     ),
+          //   ],
+          // ),
+          IconButton(icon: Icon(Icons.share), onPressed: sharePet)
         ],
       ),
       body: Stack(
@@ -457,7 +514,16 @@ class _PetDetailsState extends State<PetDetails> {
                         action: () {},
                         text: widget.kind == 'DONATE' ? 'VOCÊ ESTÁ DOANDO' : 'VOCÊ ESTÁ PROCURANDO',
                       ),
-                    )
+                    ),
+          StreamBuilder<Object>(
+            stream: userProvider.isGeneratingSharedLink,
+            builder: (context, snapshot) {
+              return LoadDarkScreen(
+                message: 'Gerando link compartilhável',
+                show: snapshot.data ?? false,
+              );
+            },
+          )
         ],
       ),
       floatingActionButton: (!widget.isMine && widget.kind == 'DONATE')
