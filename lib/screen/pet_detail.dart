@@ -272,7 +272,7 @@ class _PetDetailsState extends State<PetDetails> {
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
-
+    final buttonHorizontalSpacing = widget.kind == 'DONATE' ? 20.0 : MediaQuery.of(context).size.width * 0.1;
     final String whatsappMessage = 'Olá! Tenho interesse e gostaria de saber mais detalhes sobre o PET *${widget.pet.name}* que postou no app *_Tiu, Tiu_*.';
     final String emailMessage = 'Olá! Tenho interesse e gostaria de saber mais detalhes sobre o PET ${widget.pet.name} que postou no app Tiu, Tiu.';
     final String emailSubject = 'Tenho interesse no PET ${widget.pet.name}';
@@ -281,7 +281,7 @@ class _PetDetailsState extends State<PetDetails> {
     List otherCaracteristics = widget.pet?.otherCaracteristics ?? ['Teste'];
     List petDetails = [
       {'title': 'TIPO', 'text': widget.pet.type, 'icon': petIconType[widget.pet.type]},
-      {'title': 'SEXO', 'text': widget.pet.sex, 'icon': Icons.all_inclusive_outlined},
+      {'title': 'SEXO', 'text': widget.pet.sex, 'icon': widget.pet.sex == 'Fêmea' ? Gender.female : Gender.male},
       {'title': 'RAÇA', 'text': widget.pet.breed, 'icon': Icons.linear_scale},
       {'title': 'TAMANHO', 'text': widget.pet.size, 'icon': Tiutiu.resize_small},
       {'title': 'SAÚDE', 'text': widget.pet.health, 'icon': Tiutiu.healing},
@@ -380,7 +380,7 @@ class _PetDetailsState extends State<PetDetails> {
           SingleChildScrollView(
             child: Column(
               children: [
-                showImages(widget.pet.photos),
+                showImages(widget.pet.photos, widget.pet.details.length > 150 ? height / 4 : height / 3),
                 Container(
                   height: 100,
                   child: Padding(
@@ -416,28 +416,24 @@ class _PetDetailsState extends State<PetDetails> {
                     child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: ConstrainedBox(
-                          constraints: BoxConstraints(minHeight: 0.0, maxHeight: 165),
+                          constraints: BoxConstraints(minHeight: 0.0, maxHeight: 120),
                           child: Container(
                             width: double.infinity,
-                            child: Stack(
-                              children: [
-                                SingleChildScrollView(
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.only(top: 4.0),
-                                        child: Text(
-                                          'Descrição',
-                                          style: Theme.of(context).textTheme.headline1.copyWith(color: Colors.black54),
-                                        ),
-                                      ),
-                                      Divider(),
-                                      Text(widget.pet.details),
-                                    ],
+                            child: SingleChildScrollView(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(top: 4.0),
+                                    child: Text(
+                                      'Descrição',
+                                      style: Theme.of(context).textTheme.headline1.copyWith(color: Colors.black54),
+                                    ),
                                   ),
-                                ),
-                              ],
+                                  Divider(),
+                                  Text(widget.pet.details),
+                                ],
+                              ),
                             ),
                           ),
                         )),
@@ -455,63 +451,60 @@ class _PetDetailsState extends State<PetDetails> {
                               elevation: 8.0,
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
-                                child: ConstrainedBox(
-                                  constraints: BoxConstraints(minHeight: 0.0, maxHeight: 120),
-                                  child: SingleChildScrollView(
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsets.only(top: 4.0),
-                                          child: Row(
-                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Text(
-                                                'Localização',
-                                                style: Theme.of(context).textTheme.headline1.copyWith(color: Colors.black54),
+                                child: Container(
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.only(top: 4.0),
+                                        child: Row(
+                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text(
+                                              'Localização',
+                                              style: Theme.of(context).textTheme.headline1.copyWith(color: Colors.black54),
+                                            ),
+                                            InkWell(
+                                              onTap: () {
+                                                MapsLauncher.launchCoordinates(
+                                                  widget.pet.latitude,
+                                                  widget.pet.longitude,
+                                                  widget.pet.name,
+                                                );
+                                              },
+                                              child: Icon(Icons.launch, size: 16, color: Colors.blue),
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                      Divider(),
+                                      FutureBuilder<Object>(
+                                        future: OtherFunctions.getAddress(Location(widget.pet.latitude, widget.pet.longitude)),
+                                        builder: (context, snapshot) {
+                                          if (snapshot.data == null) {
+                                            return Center(
+                                              child: Column(
+                                                children: [
+                                                  LoadingBumpingLine.circle(size: 15),
+                                                  Text('Carregando endereço...'),
+                                                ],
                                               ),
-                                              InkWell(
-                                                onTap: () {
-                                                  MapsLauncher.launchCoordinates(
-                                                    widget.pet.latitude,
-                                                    widget.pet.longitude,
-                                                    widget.pet.name,
-                                                  );
-                                                },
-                                                child: Icon(Icons.launch, size: 16, color: Colors.blue),
-                                              )
-                                            ],
-                                          ),
-                                        ),
-                                        Divider(),
-                                        FutureBuilder<Object>(
-                                          future: OtherFunctions.getAddress(Location(widget.pet.latitude, widget.pet.longitude)),
-                                          builder: (context, snapshot) {
-                                            if (snapshot.data == null) {
-                                              return Center(
-                                                child: Column(
-                                                  children: [
-                                                    LoadingBumpingLine.circle(size: 15),
-                                                    Text('Carregando endereço...'),
-                                                  ],
-                                                ),
-                                              );
-                                            }
-                                            return Text(
-                                              snapshot.data,
-                                              style: TextStyle(fontSize: 12, color: Colors.blueGrey),
                                             );
-                                          },
-                                        ),
-                                      ],
-                                    ),
+                                          }
+                                          return Text(
+                                            snapshot.data,
+                                            style: TextStyle(fontSize: 12, color: Colors.blueGrey),
+                                          );
+                                        },
+                                      ),
+                                    ],
                                   ),
                                 ),
                               ),
                             ),
                           ),
                           Padding(
-                            padding: const EdgeInsets.fromLTRB(8.0, 30.0, 8.0, 8.0),
+                            padding: EdgeInsets.fromLTRB(20.0, 30.0, 20.0, 8.0),
                             child: _ownerPetcontact(
                               user: widget.petOwner,
                               whatsappMessage: whatsappMessage,
@@ -533,7 +526,7 @@ class _PetDetailsState extends State<PetDetails> {
               : !widget.isMine
                   ? Positioned(
                       bottom: 20.0,
-                      left: widget.kind == 'DONATE' ? 20.0 : MediaQuery.of(context).size.width * 0.1,
+                      left: buttonHorizontalSpacing,
                       child: Row(
                         children: [
                           Container(
@@ -555,6 +548,54 @@ class _PetDetailsState extends State<PetDetails> {
                         text: widget.kind == 'DONATE' ? 'VOCÊ ESTÁ DOANDO' : 'VOCÊ ESTÁ PROCURANDO',
                       ),
                     ),
+          Positioned(
+            top: widget.pet.details.length > 150 ? height / 7 : height / 4.3,
+            left: 10,
+            child: InkWell(
+              onTap: ownerDetails[0]['callback'],
+              child: Container(
+                decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment(0.0, 0.8),
+                      end: Alignment(0.0, 0.0),
+                      colors: [
+                        Color.fromRGBO(0, 0, 0, 0),
+                        Color.fromRGBO(0, 0, 0, 0.6),
+                      ],
+                    ),
+                    borderRadius: BorderRadius.circular(50)),
+                child: Row(
+                  children: [
+                    UserCardInfo(
+                      text: ownerDetails[0]['text'],
+                      icon: ownerDetails[0]['icon'],
+                      image: ownerDetails[0]['image'],
+                      imageN: ownerDetails[0]['imageN'],
+                      color: ownerDetails[0]['color'],
+                      callback: ownerDetails[0]['callback'],
+                      launchIcon: ownerDetails[0]['launchIcon'],
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(right: 18.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Anunciante',
+                            style: TextStyle(color: Colors.white, fontStyle: FontStyle.italic, fontSize: 10),
+                          ),
+                          Text(
+                            ownerDetails[0]['text'] ?? '',
+                            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                          ),
+                        ],
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            ),
+          ),
           StreamBuilder<Object>(
             stream: userProvider.isGeneratingSharedLink,
             builder: (context, snapshot) {
@@ -613,14 +654,14 @@ class _PetDetailsState extends State<PetDetails> {
     );
   }
 
-  Widget showImages(List photos) {
+  Widget showImages(List photos, double boxHeight) {
     return Stack(
       children: [
         InkWell(
           onTap: () => openFullScreenMode(photos),
           child: Container(
             color: Colors.black,
-            height: MediaQuery.of(context).size.height / 3,
+            height: boxHeight,
             width: double.infinity,
             child: PageView.builder(
               physics: AlwaysScrollableScrollPhysics(),

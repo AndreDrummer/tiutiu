@@ -17,16 +17,16 @@ class PetsList extends StatefulWidget {
   _PetsListState createState() => _PetsListState();
 }
 
-class _PetsListState extends State<PetsList> with SingleTickerProviderStateMixin {  
+class _PetsListState extends State<PetsList> with SingleTickerProviderStateMixin {
   TabController _controller;
   int initialIndex = 0;
   PetsProvider petsProvider;
-  RefineSearchProvider refineSearchProvider;  
+  RefineSearchProvider refineSearchProvider;
 
   @override
-  void didChangeDependencies() {    
+  void didChangeDependencies() {
     petsProvider = Provider.of<PetsProvider>(context);
-    refineSearchProvider = Provider.of<RefineSearchProvider>(context);        
+    refineSearchProvider = Provider.of<RefineSearchProvider>(context);
     petsProvider.loadDisappearedPETS(state: refineSearchProvider.getStateOfResultSearch);
     petsProvider.loadDonatePETS(state: refineSearchProvider.getStateOfResultSearch);
     super.didChangeDependencies();
@@ -34,7 +34,7 @@ class _PetsListState extends State<PetsList> with SingleTickerProviderStateMixin
 
   @override
   void initState() {
-     _controller = TabController(
+    _controller = TabController(
       vsync: this,
       length: 2,
       initialIndex: initialIndex,
@@ -45,60 +45,61 @@ class _PetsListState extends State<PetsList> with SingleTickerProviderStateMixin
     super.initState();
   }
 
-  void onTabChange(){
-    initialIndex = _controller.index;   
+  void onTabChange() {
+    initialIndex = _controller.index;
 
-    if(_controller.index == 1) {
+    if (_controller.index == 1) {
       petsProvider.changePetKind('Disappeared');
-      if(refineSearchProvider.getSearchPetByTypeOnHome && refineSearchProvider.getIsHomeFilteringByDisappeared) {
-        refineSearchProvider.changeSearchHomePetTypeInitialValue(refineSearchProvider.getHomePetTypeFilterByDisappeared);        
-        petsProvider.changePetType(refineSearchProvider.getHomePetTypeFilterByDisappeared);        
-        petsProvider.changeIsFiltering(true);        
+      if (refineSearchProvider.getSearchPetByTypeOnHome && refineSearchProvider.getIsHomeFilteringByDisappeared) {
+        refineSearchProvider.changeSearchHomePetTypeInitialValue(refineSearchProvider.getHomePetTypeFilterByDisappeared);
+        petsProvider.changePetType(refineSearchProvider.getHomePetTypeFilterByDisappeared);
+        petsProvider.changeIsFiltering(true);
       } else {
         refineSearchProvider.changeSearchHomePetTypeInitialValue(refineSearchProvider.getSearchHomePetType.first);
         petsProvider.changeIsFiltering(false);
       }
-      
-      petsProvider.loadDisappearedPETS(state: refineSearchProvider.getStateOfResultSearch);
 
+      petsProvider.loadDisappearedPETS(state: refineSearchProvider.getStateOfResultSearch);
+      if (petsProvider.getIsFilteringByBreed || petsProvider.getIsFilteringByName) petsProvider.changeTypingSearchResult(petsProvider.getPetsDisappeared);
     } else {
       petsProvider.changePetKind('Donate');
-      if(refineSearchProvider.getSearchPetByTypeOnHome && refineSearchProvider.getIsHomeFilteringByDonate) {
-        refineSearchProvider.changeSearchHomePetTypeInitialValue(refineSearchProvider.getHomePetTypeFilterByDonate);        
-        petsProvider.changePetType(refineSearchProvider.getHomePetTypeFilterByDonate);        
-        petsProvider.changeIsFiltering(true);        
+      if (refineSearchProvider.getSearchPetByTypeOnHome && refineSearchProvider.getIsHomeFilteringByDonate) {
+        refineSearchProvider.changeSearchHomePetTypeInitialValue(refineSearchProvider.getHomePetTypeFilterByDonate);
+        petsProvider.changePetType(refineSearchProvider.getHomePetTypeFilterByDonate);
+        petsProvider.changeIsFiltering(true);
       } else {
         refineSearchProvider.changeSearchHomePetTypeInitialValue(refineSearchProvider.getSearchHomePetType.first);
         petsProvider.changeIsFiltering(false);
       }
-      
+
       petsProvider.loadDonatePETS(state: refineSearchProvider.getStateOfResultSearch);
-    }   
+      if (petsProvider.getIsFilteringByBreed || petsProvider.getIsFilteringByName) petsProvider.changeTypingSearchResult(petsProvider.getPetsDonate);
+    }
   }
 
   void changeInitialIndex(int index) {
-    setState((){
+    setState(() {
       initialIndex = index;
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    final indexTab = ModalRoute.of(context).settings.arguments;    
+    final indexTab = ModalRoute.of(context).settings.arguments;
     void navigateToAuth() {
       Navigator.pushNamed(context, Routes.AUTH, arguments: true);
     }
 
-    if(indexTab != initialIndex) changeInitialIndex(indexTab);
+    if (indexTab != initialIndex) changeInitialIndex(indexTab);
 
-    return DefaultTabController(      
+    return DefaultTabController(
       length: 2,
       initialIndex: indexTab ?? 0,
       child: Scaffold(
         appBar: AppBar(
           leading: null,
-          title: Row(            
-            children: [                            
+          title: Row(
+            children: [
               Text(
                 'Tiu, tiu',
                 style: GoogleFonts.miltonianTattoo(
@@ -130,24 +131,23 @@ class _PetsListState extends State<PetsList> with SingleTickerProviderStateMixin
                               ),
                             ),
                             StreamBuilder<QuerySnapshot>(
-                              stream: UserController().loadNotificationsCount(userProvider.uid),
-                              builder: (context, snapshot) {
-                                return Positioned(
-                                  right: 10,
-                                  child: Badge(
-                                    color: Colors.red,
-                                    text: snapshot.data?.docs?.length ?? 0,
-                                  ),
-                                );
-                              }
-                            )
+                                stream: UserController().loadNotificationsCount(userProvider.uid),
+                                builder: (context, snapshot) {
+                                  return Positioned(
+                                    right: 10,
+                                    child: Badge(
+                                      color: Colors.red,
+                                      text: snapshot.data?.docs?.length ?? 0,
+                                    ),
+                                  );
+                                })
                           ],
                         ),
                 ),
               )
             ],
-          ),        
-          bottom: TabBar(            
+          ),
+          bottom: TabBar(
             controller: _controller,
             indicatorColor: Colors.white,
             labelColor: Colors.white,
@@ -158,7 +158,7 @@ class _PetsListState extends State<PetsList> with SingleTickerProviderStateMixin
           ),
         ),
         body: TabBarView(
-          controller: _controller,   
+          controller: _controller,
           children: [
             DonateDisappearedList(stream: petsProvider.petsDonate),
             DonateDisappearedList(stream: petsProvider.petsDisappeared),
