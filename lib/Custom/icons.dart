@@ -11,7 +11,7 @@
 ///      fonts:
 ///       - asset: fonts/Tiutiu.ttf
 ///
-/// 
+///
 /// * Linecons, Copyright (C) 2013 by Designmodo
 ///         Author:    Designmodo for Smashing Magazine
 ///         License:   CC BY ()
@@ -58,4 +58,14 @@ class Tiutiu {
   static const IconData twitter_bird = IconData(0xf303, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData cat = IconData(0xf6be, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData dog = IconData(0xf6d3, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+}
+
+class Gender {
+  Gender._();
+
+  static const _kFontFam = 'Gender';
+  static const _kFontPkg = null;
+
+  static const IconData female = IconData(0xe800, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData male = IconData(0xe801, fontFamily: _kFontFam, fontPackage: _kFontPkg);
 }
