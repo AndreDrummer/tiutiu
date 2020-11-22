@@ -117,7 +117,7 @@ class _InterestedInfoCardState extends State<InterestedInfoCard> {
                 phoneToCall != null
                     ? _ActionButton(
                         onPressed: () {
-                          Launcher.makePhoneCall('tel: $phoneToCall');
+                          Launcher.makePhoneCall(number: phoneToCall);
                         },
                         icon: Icons.phone,
                         text: 'Ligar',
