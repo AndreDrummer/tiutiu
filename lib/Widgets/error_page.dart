@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
 
 class ErrorPage extends StatelessWidget {
+  ErrorPage({
+    this.errorText = 'Ocorreu um erro Inesperado! Tente sair e entrar novamente. Se não resolver, aguarde nova atualização do app.',
+  });
+
+  final String errorText;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -18,7 +24,7 @@ class ErrorPage extends StatelessWidget {
             ),
             SizedBox(height: 30.0),
             Text(
-              'Ocorreu um erro Inesperado! Tente sair e entrar novamente. Se não resolver, aguarde nova atualização do app.',
+              errorText,
               textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.headline1.copyWith(
                     color: Colors.white,
