@@ -239,11 +239,12 @@ class _PetDetailsState extends State<PetDetails> {
   Future<Uri> generateDynamicLink() async {
     String uriPrefix = Constantes.DYNAMIC_LINK_PREFIX;
     final DynamicLinkParameters parameters = DynamicLinkParameters(
-      uriPrefix: uriPrefix,
+      uriPrefix: '$uriPrefix',
       link: Uri.parse('$uriPrefix/${widget.pet.kind}/${widget.pet.id}'),
       androidParameters: AndroidParameters(
         packageName: 'com.anjasolutions.tiutiu',
         minimumVersion: 1,
+        fallbackUrl: Uri.parse('$uriPrefix/jdF1'),
       ),
     );
 
@@ -516,7 +517,7 @@ class _PetDetailsState extends State<PetDetails> {
                         ],
                       )
                     : Padding(
-                        padding: EdgeInsets.only(top: height / 12),
+                        padding: EdgeInsets.only(top: 20),
                         child: RatingUs(),
                       )
               ],

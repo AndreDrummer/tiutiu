@@ -24,6 +24,7 @@ import 'package:tiutiu/screen/favorites.dart';
 import 'package:tiutiu/screen/my_account.dart';
 import 'package:tiutiu/screen/pet_detail.dart';
 import 'package:tiutiu/screen/pets_list.dart';
+import 'package:tiutiu/utils/constantes.dart';
 import '../Widgets/floating_button_option.dart';
 import 'package:tiutiu/backend/Controller/user_controller.dart';
 import '../utils/routes.dart';
@@ -186,9 +187,14 @@ class _HomeState extends State<Home> {
   }
 
   void openPetDetail(Uri deepLink) async {
-    final String qParams = deepLink.toString().split('.link/').last;
+    final String qParams = deepLink.toString().split(Constantes.DYNAMIC_LINK_PREFIX + '/').last;
     final String kind = qParams.toString().split('/').first;
     final String id = qParams.toString().split('/').last;
+
+    print('DeepLink $deepLink');
+    print('qParams $qParams');
+    print('Kind $kind');
+    print('Id $id');
     Pet pet = await petsProvider.openPetDetails(id, kind);
     User user = await UserController().getUserByID(pet.ownerId);
     Navigator.push(
@@ -216,7 +222,9 @@ class _HomeState extends State<Home> {
 
     final PendingDynamicLinkData data = await FirebaseDynamicLinks.instance.getInitialLink();
     final Uri deepLink = data?.link;
-    if (deepLink != null) {/*openPetDetail(deepLink); */}
+    if (deepLink != null) {
+      openPetDetail(deepLink);
+    }
   }
 
   @override
