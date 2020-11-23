@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:tiutiu/Custom/icons.dart';
 import 'package:tiutiu/Widgets/badge.dart';
+import 'package:tiutiu/Widgets/play_store_rating.dart';
 import 'package:tiutiu/backend/Controller/user_controller.dart';
 import 'package:tiutiu/providers/auth2.dart';
 import 'package:tiutiu/providers/pets_provider.dart';
@@ -83,6 +84,28 @@ class _PetsListState extends State<PetsList> with SingleTickerProviderStateMixin
     });
   }
 
+  void openSocial() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          actions: [
+            FlatButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Text('OK'),
+            )
+          ],
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+          content: RatingUs(),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final indexTab = ModalRoute.of(context).settings.arguments;
@@ -100,12 +123,15 @@ class _PetsListState extends State<PetsList> with SingleTickerProviderStateMixin
           leading: null,
           title: Row(
             children: [
-              Text(
-                'Tiu, tiu',
-                style: GoogleFonts.miltonianTattoo(
-                  textStyle: TextStyle(
-                    color: Colors.white,
-                    fontSize: 25,
+              InkWell(
+                onTap: openSocial,
+                child: Text(
+                  'Tiu, tiu',
+                  style: GoogleFonts.miltonianTattoo(
+                    textStyle: TextStyle(
+                      color: Colors.white,
+                      fontSize: 25,
+                    ),
                   ),
                 ),
               ),
