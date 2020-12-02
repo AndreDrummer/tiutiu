@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:tiutiu/chat/widgets/messages.dart';
+import 'package:tiutiu/chat/widgets/new_message.dart';
 
 FirebaseFirestore firestore = FirebaseFirestore.instance;
 
@@ -22,6 +23,7 @@ class ChatScreen extends StatelessWidget {
             Expanded(
               child: Messages(chatId: chatId),
             ),
+            NewMessage()
           ],
         ),
       ),
