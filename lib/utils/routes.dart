@@ -18,4 +18,5 @@ class Routes {
   static const INFO = '/info';
   static const CONFIRM_ADOPTION = '/confirm-adoption';
   static const NOTIFICATIONS = '/notications';
+  static const CHAT = '/chat';
 }
