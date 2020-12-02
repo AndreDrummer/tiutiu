@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:tiutiu/Widgets/new_map.dart';
+import 'package:tiutiu/chat/screens/chat_screen.dart';
 import 'package:tiutiu/providers/ads_provider.dart';
 import 'package:tiutiu/providers/auth2.dart';
 import 'package:tiutiu/providers/favorites_provider.dart';
@@ -122,10 +123,11 @@ class App extends StatelessWidget {
               ),
               debugShowCheckedModeBanner: false,
               routes: {
-                Routes.BOOTSTRAP: (ctx) => Bootstrap(),
+                Routes.BOOTSTRAP: (ctx) => ChatScreen(),
+                // Routes.BOOTSTRAP: (ctx) => Bootstrap(),
                 Routes.AUTH: (ctx) => AuthScreen(),
                 Routes.PET_FORM: (ctx) => PetForm(),
-                // Routes.BOOTSTRAP: (ctx) => PetForm(),
+                Routes.CHAT: (ctx) => ChatScreen(),
                 Routes.SETTINGS: (ctx) => Settings(),
                 Routes.MEUS_PETS: (ctx) => MyPetsScreen(),
                 Routes.FAVORITES: (ctx) => Favorites(),
