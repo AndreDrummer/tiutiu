@@ -37,7 +37,7 @@ exports.createNotificationAdoptionConfirmed = functions.firestore
 
 exports.createNotificationAdoptionDenied = functions.firestore
     .document('Adopted/{id}')
-    .onUpdate((snap, context) => {        
+    .onUpdate((snap, context) => {
         if (snap.after.data()['gaveup'] === true) {
             admin.messaging().sendToDevice(`${snap.after.data()['ownerNotificationToken']}`, {
                 notification: {
@@ -82,3 +82,60 @@ exports.createNotificationInfo = functions.firestore
             }
         })
     })
+
+
+module.exports.storage = functions.runWith({ memory: "2GB", timeoutSeconds: functions.MAX_TIMEOUT_SECONDS }).pubsub.schedule('0 0 * * 6').onRun(async context => {
+
+    const users = await admin.firestore().collection('Users').get();
+    let ids = [];
+
+    users.forEach(async user => {
+        let userData = user.data();
+        let doNotNeedClean = false;
+
+        const disappeared = await admin.firestore().collection('Disappeared').get();
+
+        disappeared.forEach((pet) => {
+            const data = pet.data();
+            if (data.ownerId === userData.uid) {
+                doNotNeedClean = true;
+            }
+        });
+
+        if (!doNotNeedClean) {
+            const donate = await admin.firestore().collection('Donate').get();
+            donate.forEach((pet) => {
+                const data = pet.data();
+                if (data.ownerId === userData.uid) {
+                    doNotNeedClean = true;
+                }
+            });
+        }
+
+        if (!doNotNeedClean) {
+            ids.push(userData.uid);
+
+            userData.photoURL = null;
+            await user.ref.set(userData, { merge: true });
+        }
+    });
+
+    const bucket = admin.storage().bucket();
+
+    console.log(ids.length);
+
+    ids.forEach((id) => {
+        bucket.getFiles({
+            prefix: `${id}/avatar`
+        }, function (err, files) {
+            if (!err) {
+                files.forEach((file) => {
+                    console.log(file);
+                });
+            }
+        });
+
+
+    })
+    return null;
+});
