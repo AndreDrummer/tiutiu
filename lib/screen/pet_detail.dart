@@ -373,6 +373,8 @@ class _PetDetailsState extends State<PetDetails> {
                                 arguments: {
                                   'chatId': GenerateHashKey.cesar(userProvider.uid, widget.petOwner.id),
                                   'chatTitle': widget.pet.ownerName,
+                                  'receiverNotificationToken': widget.petOwner.notificationToken,
+                                  'receiverId': widget.petOwner.id,
                                   'message': Messages(
                                     firstUserId: userProvider.uid,
                                     secondUserId: widget.petOwner.id,
@@ -382,6 +384,8 @@ class _PetDetailsState extends State<PetDetails> {
                                     lastMessage: '',
                                     lastMessageTime: Timestamp.now(),
                                     secondUserName: widget.petOwner.name,
+                                    firstReceiverNotificationToken: userProvider.notificationToken,
+                                    secondReceiverNotificationToken: widget.petOwner.notificationToken,
                                   ),
                                 },
                               );
@@ -531,7 +535,7 @@ class _PetDetailsState extends State<PetDetails> {
                               ),
                             ),
                           ),
-                          SizedBox(height: height / 24),
+                          SizedBox(height: widget.kind != 'DONATE' ? height / 16 : height / 28),
                           Padding(
                             padding: EdgeInsets.symmetric(horizontal: 12.0, vertical: 30.0),
                             child: _ownerPetcontact(
@@ -541,7 +545,7 @@ class _PetDetailsState extends State<PetDetails> {
                               emailSubject: emailSubject,
                             ),
                           ),
-                          SizedBox(height: height / 26),
+                          SizedBox(height: widget.kind != 'DONATE' ? height / 18 : height / 36),
                           Constantes.ADMIN_ID == widget.pet.ownerId
                               ? Container()
                               : !widget.isMine

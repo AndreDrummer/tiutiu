@@ -10,6 +10,8 @@ class Messages {
     this.secondUserImagePath,
     this.lastMessage,
     this.lastMessageTime,
+    this.firstReceiverNotificationToken,
+    this.secondReceiverNotificationToken,
   });
 
   Messages.fromSnapshot(DocumentSnapshot snapshot)
@@ -20,7 +22,9 @@ class Messages {
         firstUserImagePath = snapshot.data()['firstUserImagePath'],
         secondUserImagePath = snapshot.data()['secondUserImagePath'],
         lastMessage = snapshot.data()['lastMessage'],
-        lastMessageTime = snapshot.data()['lastMessageTime'];
+        lastMessageTime = snapshot.data()['lastMessageTime'],
+        firstReceiverNotificationToken = snapshot.data()['firstReceiverNotificationToken'],
+        secondReceiverNotificationToken = snapshot.data()['secondReceiverNotificationToken'];
 
   Map<String, dynamic> toJson() {
     return {
@@ -32,6 +36,8 @@ class Messages {
       'secondUserImagePath': secondUserImagePath,
       'lastMessage': lastMessage,
       'lastMessageTime': lastMessageTime,
+      'firstReceiverNotificationToken': firstReceiverNotificationToken,
+      'secondReceiverNotificationToken': secondReceiverNotificationToken,
     };
   }
 
@@ -39,6 +45,8 @@ class Messages {
   String secondUserId;
   String firstUserName;
   String secondUserName;
+  String firstReceiverNotificationToken;
+  String secondReceiverNotificationToken;
   String firstUserImagePath;
   String secondUserImagePath;
   String lastMessage;
