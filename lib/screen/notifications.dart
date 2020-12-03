@@ -28,7 +28,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
     super.didChangeDependencies();
   }
 
-  List<QueryDocumentSnapshot> orderedList(List<QueryDocumentSnapshot> docs) {
+  List<QueryDocumentSnapshot> orderedListByTime(List<QueryDocumentSnapshot> docs) {
     List<QueryDocumentSnapshot> newList = docs;
     newList.sort((a, b) => DateTime.parse(b.data()['time']).millisecondsSinceEpoch - DateTime.parse(a.data()['time']).millisecondsSinceEpoch);
     return newList;
@@ -75,7 +75,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                       child: ListView.builder(
                         itemCount: snapshot.data.docs.length,
                         itemBuilder: (BuildContext context, int index) {
-                          NotificationModel notificationModel = NotificationModel.fromSnapshot(orderedList(snapshot.data.docs)[index]);
+                          NotificationModel notificationModel = NotificationModel.fromSnapshot(orderedListByTime(snapshot.data.docs)[index]);
 
                           return _ListTile(notificationModel: notificationModel, userProvider: userProvider);
                         },
