@@ -9,6 +9,7 @@ import 'package:loading_animations/loading_animations.dart';
 import 'package:provider/provider.dart';
 import 'package:tiutiu/Custom/icons.dart';
 import 'package:share/share.dart';
+import 'package:tiutiu/Widgets/badge.dart';
 import 'package:tiutiu/Widgets/button.dart';
 import 'package:tiutiu/Widgets/card_details.dart';
 import 'package:tiutiu/Widgets/dots_indicator.dart';
@@ -27,6 +28,7 @@ import 'package:tiutiu/providers/location.dart' as provider;
 import 'package:tiutiu/providers/user_infos_interests.dart';
 import 'package:tiutiu/providers/user_provider.dart';
 import 'package:tiutiu/screen/announcer_datails.dart';
+import 'package:tiutiu/utils/cesar_cripto.dart';
 import 'package:tiutiu/utils/constantes.dart';
 import 'package:tiutiu/utils/formatter.dart';
 import 'package:tiutiu/utils/launcher_functions.dart';
@@ -35,7 +37,6 @@ import 'package:tiutiu/utils/routes.dart';
 import 'package:tiutiu/Widgets/background.dart';
 import 'package:tiutiu/Widgets/play_store_rating.dart';
 import "package:google_maps_webservice/geocoding.dart";
-import 'package:tiutiu/utils/vegenere_cripto.dart';
 
 class PetDetails extends StatefulWidget {
   PetDetails({
@@ -360,31 +361,44 @@ class _PetDetailsState extends State<PetDetails> {
           IconButton(icon: Icon(Icons.share), onPressed: sharePet),
           auth.firebaseUser == null
               ? Container()
-              : IconButton(
-                  onPressed: !isAuthenticated
-                      ? navigateToAuth
-                      : () {
-                          Navigator.pushNamed(
-                            context,
-                            Routes.CHAT,
-                            arguments: {
-                              'chatId': GenerateHashKey.cesar(userProvider.uid, widget.petOwner.id),
-                              'chatTitle': widget.pet.ownerName,
-                              'message': Messages(
-                                firstUserId: userProvider.uid,
-                                secondUserId: widget.petOwner.id,
-                                firstUserImagePath: userProvider.photoURL,
-                                secondUserImagePath: widget.petOwner.photoURL,
-                                firstUserName: userProvider.displayName,
-                                lastMessage: '',
-                                lastMessageTime: Timestamp.now(),
-                                secondUserName: widget.petOwner.name,
-                              ),
+              : Stack(
+                  children: [
+                    IconButton(
+                      onPressed: !isAuthenticated
+                          ? navigateToAuth
+                          : () {
+                              Navigator.pushNamed(
+                                context,
+                                Routes.CHAT,
+                                arguments: {
+                                  'chatId': GenerateHashKey.cesar(userProvider.uid, widget.petOwner.id),
+                                  'chatTitle': widget.pet.ownerName,
+                                  'message': Messages(
+                                    firstUserId: userProvider.uid,
+                                    secondUserId: widget.petOwner.id,
+                                    firstUserImagePath: userProvider.photoURL,
+                                    secondUserImagePath: widget.petOwner.photoURL,
+                                    firstUserName: userProvider.displayName,
+                                    lastMessage: '',
+                                    lastMessageTime: Timestamp.now(),
+                                    secondUserName: widget.petOwner.name,
+                                  ),
+                                },
+                              );
                             },
-                          );
-                        },
-                  color: Colors.white,
-                  icon: Icon(Icons.chat),
+                      color: Colors.white,
+                      icon: Icon(Icons.chat),
+                    ),
+                    Positioned(
+                      top: 5,
+                      right: 5,
+                      child: Badge(
+                        text: 'New!',
+                        color: Colors.purple,
+                        textSize: 8,
+                      ),
+                    )
+                  ],
                 ),
         ],
       ),
