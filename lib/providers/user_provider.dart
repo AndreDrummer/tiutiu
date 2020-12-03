@@ -234,7 +234,7 @@ class UserProvider with ChangeNotifier {
 
     print('NOTIFICATION ${data['notificationType']}');
 
-    String notificationId = data['petReference']['_path']['segments'][1];
+    String notificationId = data['notificationType'] == 'chatNotification' ? null : data['petReference']['_path']['segments'][1];
     await userController.createNotification(userId: userThatWillReceiveNotification, data: notificationData, notificationId: notificationId);
   }
 

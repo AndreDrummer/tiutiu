@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:tiutiu/chat/common/functions.dart';
 
 import 'message_bubble.dart';
 
@@ -20,7 +21,7 @@ class Messages extends StatelessWidget {
           return Center(child: CircularProgressIndicator());
         }
 
-        List<DocumentSnapshot> chatDocs = snapshot.data.documents;
+        List<DocumentSnapshot> chatDocs = CommonFunctions.orderedListByTime(snapshot.data.documents, parameterOrder: 'createdAt');
         return ListView.builder(
           reverse: true,
           itemCount: chatDocs.length,
@@ -31,7 +32,7 @@ class Messages extends StatelessWidget {
                 message: chatDocs[index].get('text'),
                 userImage: chatDocs[index].get('userImage'),
                 userName: chatDocs[index].get('userName'),
-                belongToMe: chatDocs[index].get('userId') == myUserId, //FirebaseAuth.instance.currentUser.uid,
+                belongToMe: chatDocs[index].get('userId') == myUserId,
                 key: ValueKey(chatDocs[index].id),
               ),
             );

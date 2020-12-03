@@ -9,6 +9,7 @@ import 'package:tiutiu/providers/ads_provider.dart';
 import 'package:tiutiu/providers/chat_provider.dart';
 import 'package:tiutiu/providers/user_provider.dart';
 import 'package:tiutiu/utils/routes.dart';
+import 'package:tiutiu/chat/common/functions.dart';
 
 class ChatList extends StatefulWidget {
   @override
@@ -26,19 +27,6 @@ class _ChatListState extends State<ChatList> {
     adsProvider = Provider.of(context);
     chatProvider = Provider.of(context);
     userProvider = Provider.of(context);
-  }
-
-  List<QueryDocumentSnapshot> orderedList(List<QueryDocumentSnapshot> docs) {
-    List<QueryDocumentSnapshot> newList = docs;
-    newList.sort((a, b) {
-      Timestamp stampA = a.data()['lastMessageTime'];
-      Timestamp stampB = b.data()['lastMessageTime'];
-      DateTime dateA = stampA.toDate();
-      DateTime dateB = stampB.toDate();
-      return dateB.millisecondsSinceEpoch - dateA.millisecondsSinceEpoch;
-    });
-
-    return newList;
   }
 
   @override
@@ -79,7 +67,7 @@ class _ChatListState extends State<ChatList> {
                     itemCount: messagesList.length,
                     itemBuilder: (ctx, index) {
                       return _ListTileMessage(
-                        message: Messages.fromSnapshot(orderedList(messagesList)[index]),
+                        message: Messages.fromSnapshot(CommonFunctions.orderedListByTime(messagesList, parameterOrder: 'lastMessageTime')[index]),
                         messageId: messagesList[index].id,
                         myUserId: userProvider.uid,
                       );
