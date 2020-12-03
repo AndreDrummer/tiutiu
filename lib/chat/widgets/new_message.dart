@@ -26,15 +26,21 @@ class NewMessage extends StatefulWidget {
 class _NewMessageState extends State<NewMessage> {
   final _controller = TextEditingController();
   String _enteredMessage = '';
+  final Color destakColor = Colors.purple;
+  final Color whiteColor = Colors.white;
 
   void _sendMessage() async {
     FocusScope.of(context).unfocus();
-    var docs = await firestore.collection('Chats').doc(widget.chatId).collection('messages').get();
+
+    if (widget.message != null) {
+      print('Vazio');
+      firestore.collection('Chats').doc(widget.chatId).set(widget.message.toJson(), SetOptions(merge: true));
+    }
 
     firestore.collection('Chats').doc(widget.chatId).collection('messages').add(
       {
         'text': _enteredMessage,
-        'createdAt': Timestamp.now(),
+        'createdAt': FieldValue.serverTimestamp(),
         'userId': userProvider.uid,
         'userName': userProvider.displayName,
         'userImage': userProvider.photoURL,
@@ -46,15 +52,10 @@ class _NewMessageState extends State<NewMessage> {
 
     firestore.collection('Chats').doc(widget.chatId).set({
       'lastMessage': _enteredMessage,
-      'lastMessageTime': Timestamp.now(),
+      'lastMessageTime': FieldValue.serverTimestamp(),
     }, SetOptions(merge: true));
 
     _controller.clear();
-
-    if (docs.docs.isEmpty) {
-      print('Vazio');
-      firestore.collection('Chats').doc(widget.chatId).set(widget.message.toJson(), SetOptions(merge: true));
-    }
   }
 
   UserProvider userProvider;
@@ -68,24 +69,58 @@ class _NewMessageState extends State<NewMessage> {
   @override
   Widget build(BuildContext context) {
     return Container(
+        padding: const EdgeInsets.all(6.0),
         child: Row(
-      children: [
-        Expanded(
-          child: TextField(
-            controller: _controller,
-            decoration: InputDecoration(labelText: 'Enviar mensagem'),
-            onChanged: (value) {
-              setState(() {
-                _enteredMessage = value;
-              });
-            },
-          ),
-        ),
-        IconButton(
-          icon: Icon(Icons.send),
-          onPressed: _enteredMessage.trim().isEmpty ? null : _sendMessage,
-        )
-      ],
-    ));
+          children: [
+            Expanded(
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(12),
+                    topLeft: Radius.circular(12),
+                  ),
+                  color: whiteColor,
+                ),
+                padding: const EdgeInsets.symmetric(horizontal: 6.0),
+                child: TextField(
+                  controller: _controller,
+                  onSubmitted: (value) => _sendMessage(),
+                  textCapitalization: TextCapitalization.sentences,
+                  style: TextStyle(color: Colors.black54),
+                  decoration: InputDecoration(
+                    labelText: 'Escreva sua mensagem...',
+                    labelStyle: TextStyle(color: Colors.blueGrey),
+                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide.none),
+                    disabledBorder: UnderlineInputBorder(borderSide: BorderSide.none),
+                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide.none),
+                  ),
+                  onChanged: (value) {
+                    setState(() {
+                      _enteredMessage = value;
+                    });
+                  },
+                ),
+              ),
+            ),
+            Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.only(
+                  bottomRight: Radius.circular(12),
+                  topRight: Radius.circular(12),
+                ),
+                color: destakColor,
+              ),
+              padding: const EdgeInsets.all(6.0),
+              child: IconButton(
+                iconSize: 25,
+                icon: Icon(
+                  Icons.send_rounded,
+                  color: whiteColor,
+                ),
+                onPressed: _enteredMessage.trim().isEmpty ? null : _sendMessage,
+              ),
+            )
+          ],
+        ));
   }
 }
