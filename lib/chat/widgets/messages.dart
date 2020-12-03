@@ -29,7 +29,7 @@ class Messages extends StatelessWidget {
               padding: const EdgeInsets.symmetric(vertical: 2.0),
               child: MessageBubble(
                 message: chatDocs[index].get('text'),
-                userImage: '', //chatDocs[index].get('userImage'),
+                userImage: chatDocs[index].get('userImage'),
                 userName: chatDocs[index].get('userName'),
                 belongToMe: chatDocs[index].get('userId') == myUserId, //FirebaseAuth.instance.currentUser.uid,
                 key: ValueKey(chatDocs[index].id),

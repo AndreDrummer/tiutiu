@@ -10,10 +10,14 @@ class NewMessage extends StatefulWidget {
   NewMessage({
     this.chatId,
     this.message,
+    this.receiverNotificationToken,
+    this.receiverId,
   });
 
   final String chatId;
   final Messages message;
+  final String receiverNotificationToken;
+  final String receiverId;
 
   @override
   _NewMessageState createState() => _NewMessageState();
@@ -34,6 +38,9 @@ class _NewMessageState extends State<NewMessage> {
         'userId': userProvider.uid,
         'userName': userProvider.displayName,
         'userImage': userProvider.photoURL,
+        'receiverId': widget.receiverId,
+        'receiverNotificationToken': widget.receiverNotificationToken,
+        'notificationType': 'chatNotification'
       },
     );
 
