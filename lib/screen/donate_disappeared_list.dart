@@ -289,6 +289,7 @@ class _DonateDisappearedListState extends State<DonateDisappearedList> {
                     ),
                     Expanded(
                       child: ListView.builder(
+                        key: UniqueKey(),
                         controller: _scrollController,
                         itemCount: petsList.length + 1,
                         itemBuilder: (_, index) {
