@@ -1,7 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class MessageBubble extends StatelessWidget {
-  MessageBubble({this.message, this.belongToMe, this.userImage, this.userName, this.key}) : super(key: key);
+  MessageBubble({
+    this.message,
+    this.belongToMe,
+    this.userImage,
+    this.userName,
+    this.key,
+    this.time,
+  }) : super(key: key);
 
   @override
   final Key key;
@@ -9,6 +17,7 @@ class MessageBubble extends StatelessWidget {
   final bool belongToMe;
   final String userName;
   final String userImage;
+  final String time;
 
   @override
   Widget build(BuildContext context) {
@@ -36,19 +45,38 @@ class MessageBubble extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: belongToMe ? CrossAxisAlignment.end : CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      userName,
-                      style: TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.bold,
-                        color: belongToMe ? Colors.white : Theme.of(context).accentTextTheme.headline1.color,
+                    Padding(
+                      padding: EdgeInsets.only(left: belongToMe ? 8.0 : 0.0, right: belongToMe ? 0.0 : 8.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            DateFormat('dd/MM/y HH:mm').format(DateTime.parse(time)).split(' ').last,
+                            style: TextStyle(
+                              fontSize: 11,
+                              fontWeight: FontWeight.bold,
+                              color: belongToMe ? Colors.white : Theme.of(context).accentTextTheme.headline1.color,
+                            ),
+                          ),
+                          Spacer(),
+                          Text(
+                            belongToMe ? 'Eu' : userName,
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              color: belongToMe ? Colors.white : Theme.of(context).accentTextTheme.headline1.color,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
+                    Divider(height: 0.2, color: Colors.white),
                     Text(
                       message,
                       textAlign: belongToMe ? TextAlign.end : TextAlign.start,
                       style: TextStyle(
                         height: 2,
+                        fontWeight: FontWeight.w600,
                         color: belongToMe ? Colors.white : Theme.of(context).accentTextTheme.headline1.color,
                       ),
                     ),

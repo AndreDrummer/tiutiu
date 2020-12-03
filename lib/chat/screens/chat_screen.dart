@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:tiutiu/Widgets/background.dart';
 import 'package:tiutiu/chat/widgets/messages.dart';
 import 'package:tiutiu/chat/widgets/new_message.dart';
 
@@ -25,16 +26,25 @@ class ChatScreen extends StatelessWidget {
               ),
         ),
       ),
-      body: Container(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          children: [
-            Expanded(
-              child: Messages(chatId: chatId),
+      body: Stack(
+        children: [
+          Background(
+            dark: true,
+          ),
+          Container(
+            child: Column(
+              children: [
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 8.0, right: 16.0, top: 8.0),
+                    child: Messages(chatId: chatId),
+                  ),
+                ),
+                NewMessage(chatId: chatId, message: message, receiverNotificationToken: receiverNotificationToken, receiverId: receiverId),
+              ],
             ),
-            NewMessage(chatId: chatId, message: message, receiverNotificationToken: receiverNotificationToken, receiverId: receiverId)
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
