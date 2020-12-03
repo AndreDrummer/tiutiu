@@ -6,16 +6,23 @@ import 'package:tiutiu/chat/widgets/new_message.dart';
 FirebaseFirestore firestore = FirebaseFirestore.instance;
 
 class ChatScreen extends StatelessWidget {
-  ChatScreen({
-    this.chatId = 'NmCCTS278fS56PzdutXj',
-  });
-
-  final String chatId;
-
   @override
   Widget build(BuildContext context) {
+    final routeArguments = ModalRoute.of(context).settings.arguments;
+    final chatId = (routeArguments as Map)['chatId'];
+    final chatTitle = (routeArguments as Map)['chatTitle'];
+    final message = (routeArguments as Map)['message'];
+
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        title: Text(
+          chatTitle,
+          style: Theme.of(context).textTheme.headline1.copyWith(
+                fontSize: 20,
+                fontWeight: FontWeight.w700,
+              ),
+        ),
+      ),
       body: Container(
         padding: const EdgeInsets.all(8.0),
         child: Column(
@@ -23,7 +30,7 @@ class ChatScreen extends StatelessWidget {
             Expanded(
               child: Messages(chatId: chatId),
             ),
-            NewMessage()
+            NewMessage(chatId: chatId, message: message)
           ],
         ),
       ),
