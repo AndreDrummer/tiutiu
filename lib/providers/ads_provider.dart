@@ -7,24 +7,21 @@ class AdsProvider with ChangeNotifier {
   // Streams
   final _canShowAds = BehaviorSubject<bool>.seeded(false);
 
-  Stream<bool> get canShowAds => _canShowAds.stream;  
-  void Function(bool) get changeCanShowAds => _canShowAds.sink.add;  
+  Stream<bool> get canShowAds => _canShowAds.stream;
+  void Function(bool) get changeCanShowAds => _canShowAds.sink.add;
   bool get getCanShowAds => _canShowAds.value;
 
   String get homeAdId => 'ca-app-pub-2837828701670824/9751920293';
   String get bottomAdId => 'ca-app-pub-2837828701670824/5937594529';
   String get topAdId => 'ca-app-pub-2837828701670824/3311431180';
   String get intertitialAdId => 'ca-app-pub-2837828701670824/9030661721';
-  
-  
-  
+
   int bannerWidth = 300;
   void changeBannerWidth(int width) {
     bannerWidth = width;
   }
 
-  void handleEvent(
-      AdmobAdEvent event, Map<String, dynamic> args, String adType) {
+  void handleEvent(AdmobAdEvent event, Map<String, dynamic> args, String adType) {
     switch (event) {
       case AdmobAdEvent.loaded:
         print('New Admob $adType Ad loaded!');
@@ -38,7 +35,7 @@ class AdsProvider with ChangeNotifier {
       case AdmobAdEvent.failedToLoad:
         print('Admob $adType failed to load. :(');
         break;
-      case AdmobAdEvent.rewarded:        
+      case AdmobAdEvent.rewarded:
         break;
       default:
     }
@@ -47,7 +44,7 @@ class AdsProvider with ChangeNotifier {
   AdmobBanner bannerAdMob({String adId, bool medium_banner = false, bool testeAdId = false}) {
     return AdmobBanner(
       adUnitId: !testeAdId ? adId : BannerAd.testAdUnitId,
-      adSize: medium_banner?  AdmobBannerSize.MEDIUM_RECTANGLE : AdmobBannerSize.ADAPTIVE_BANNER(width: bannerWidth),
+      adSize: medium_banner ? AdmobBannerSize.MEDIUM_RECTANGLE : AdmobBannerSize.ADAPTIVE_BANNER(width: bannerWidth),
       listener: (AdmobAdEvent event, Map<String, dynamic> args) {
         handleEvent(event, args, 'Banner');
       },
@@ -76,7 +73,7 @@ class AdsProvider with ChangeNotifier {
   AdmobReward get getRewardAd => _rewardAd.value;
 
   void initReward() {
-    changeRewardAd(_createAdmobReward());    
+    changeRewardAd(_createAdmobReward());
   }
 
   @override
