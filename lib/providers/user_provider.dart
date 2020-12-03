@@ -6,6 +6,7 @@ import 'package:rxdart/rxdart.dart';
 import 'package:tiutiu/backend/Controller/pet_controller.dart';
 import 'package:tiutiu/backend/Controller/user_controller.dart';
 import 'package:tiutiu/backend/Model/pet_model.dart';
+import 'package:tiutiu/utils/other_functions.dart';
 
 class UserProvider with ChangeNotifier {
   File _photoFILE;
@@ -219,6 +220,15 @@ class UserProvider with ChangeNotifier {
         notificationData.putIfAbsent('message', () => '${data['ownerName']} pediu que você confirme a adoção de ${data['name']}.');
         notificationData.putIfAbsent('open', () => false);
         userThatWillReceiveNotification = data['interestedID'];
+        break;
+      case 'chatNotification':
+        notificationData.putIfAbsent('userReference', () async => OtherFunctions.getReferenceById(data['userId'], 'Users'));
+        notificationData.putIfAbsent('notificationType', () => data['notificationType']);
+        notificationData.putIfAbsent('time', () => DateTime.now().toIso8601String());
+        notificationData.putIfAbsent('title', () => data['userName']);
+        notificationData.putIfAbsent('message', () => data['text']);
+        notificationData.putIfAbsent('open', () => false);
+        userThatWillReceiveNotification = data['receiverId'];
         break;
     }
 

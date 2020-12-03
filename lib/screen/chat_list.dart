@@ -100,9 +100,9 @@ class _ListTileMessage extends StatelessWidget {
     this.messageId,
   });
 
-  Messages message;
-  String messageId;
-  String myUserId;
+  final Messages message;
+  final String messageId;
+  final String myUserId;
 
   @override
   Widget build(BuildContext context) {
@@ -121,6 +121,8 @@ class _ListTileMessage extends StatelessWidget {
             'chatId': messageId,
             'chatTitle': itsMe ? message.secondUserName : message.firstUserName,
             'secondUserId': itsMe ? message.secondUserId : message.firstUserId,
+            'receiverId': itsMe ? message.secondUserId : message.firstUserId,
+            'receiverNotificationToken': itsMe ? message.secondReceiverNotificationToken : message.firstReceiverNotificationToken,
           },
         );
       },
