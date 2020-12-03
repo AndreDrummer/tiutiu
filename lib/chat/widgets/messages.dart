@@ -7,13 +7,12 @@ import 'message_bubble.dart';
 FirebaseFirestore firestore = FirebaseFirestore.instance;
 
 class Messages extends StatelessWidget {
-  Messages({
-    this.chatId = 'NmCCTS278fS56PzdutXj',
-  });
+  Messages({this.chatId});
 
   final String chatId;
   @override
   Widget build(BuildContext context) {
+    final myUserId = FirebaseAuth.instance.currentUser.uid;
     return StreamBuilder(
       stream: firestore.collection('Chats').doc(chatId).collection('messages').orderBy('createdAt', descending: true).snapshots(),
       builder: (context, AsyncSnapshot snapshot) {
@@ -32,7 +31,7 @@ class Messages extends StatelessWidget {
                 message: chatDocs[index].get('text'),
                 userImage: '', //chatDocs[index].get('userImage'),
                 userName: chatDocs[index].get('userName'),
-                belongToMe: chatDocs[index].get('userId') == 'b', //FirebaseAuth.instance.currentUser.uid,
+                belongToMe: chatDocs[index].get('userId') == myUserId, //FirebaseAuth.instance.currentUser.uid,
                 key: ValueKey(chatDocs[index].id),
               ),
             );
