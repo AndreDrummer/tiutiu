@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:tiutiu/Widgets/empty_list.dart';
 import 'package:tiutiu/backend/Model/messages_model.dart';
 import 'package:tiutiu/providers/ads_provider.dart';
 import 'package:tiutiu/providers/chat_provider.dart';
@@ -25,6 +26,19 @@ class _ChatListState extends State<ChatList> {
     adsProvider = Provider.of(context);
     chatProvider = Provider.of(context);
     userProvider = Provider.of(context);
+  }
+
+  List<QueryDocumentSnapshot> orderedList(List<QueryDocumentSnapshot> docs) {
+    List<QueryDocumentSnapshot> newList = docs;
+    newList.sort((a, b) {
+      Timestamp stampA = a.data()['lastMessageTime'];
+      Timestamp stampB = b.data()['lastMessageTime'];
+      DateTime dateA = stampA.toDate();
+      DateTime dateB = stampB.toDate();
+      return dateB.millisecondsSinceEpoch - dateA.millisecondsSinceEpoch;
+    });
+
+    return newList;
   }
 
   @override
@@ -51,18 +65,23 @@ class _ChatListState extends State<ChatList> {
                   if (snapshot.connectionState == ConnectionState.waiting) return Center(child: CircularProgressIndicator());
 
                   snapshot.data.docs.forEach((element) {
-                    if (element.get('firstUserId') == 'lTndv6cg2BV3uYAnBkLb12XIG083' || element.get('secondUserId') == 'lTndv6cg2BV3uYAnBkLb12XIG083') messagesList.add(element);
+                    if (element.get('firstUserId') == userProvider.uid || element.get('secondUserId') == userProvider.uid) messagesList.add(element);
                   });
 
-                  print(messagesList.length);
+                  if (messagesList.isEmpty) {
+                    return EmptyListScreen(
+                      text: 'Nenhuma conversa encontrada!',
+                      icon: Icons.chat,
+                    );
+                  }
 
                   return ListView.builder(
                     itemCount: messagesList.length,
                     itemBuilder: (ctx, index) {
                       return _ListTileMessage(
-                        message: Messages.fromSnapshot(messagesList[index]),
+                        message: Messages.fromSnapshot(orderedList(messagesList)[index]),
                         messageId: messagesList[index].id,
-                        myUserId: 'lTndv6cg2BV3uYAnBkLb12XIG083',
+                        myUserId: userProvider.uid,
                       );
                     },
                   );
