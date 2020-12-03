@@ -9,7 +9,6 @@ import 'package:tiutiu/providers/ads_provider.dart';
 import 'package:tiutiu/providers/chat_provider.dart';
 import 'package:tiutiu/providers/user_provider.dart';
 import 'package:tiutiu/utils/routes.dart';
-import 'package:tiutiu/chat/common/functions.dart';
 
 class ChatList extends StatefulWidget {
   @override
@@ -46,7 +45,7 @@ class _ChatListState extends State<ChatList> {
           adsProvider.getCanShowAds ? adsProvider.bannerAdMob(adId: adsProvider.bottomAdId) : Container(),
           Expanded(
             child: StreamBuilder(
-                stream: chatProvider.firestore.collection('Chats').snapshots(),
+                stream: chatProvider.firestore.collection('Chats').orderBy('lastMessageTime', descending: true).snapshots(),
                 builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
                   List<QueryDocumentSnapshot> messagesList = [];
 
@@ -67,7 +66,7 @@ class _ChatListState extends State<ChatList> {
                     itemCount: messagesList.length,
                     itemBuilder: (ctx, index) {
                       return _ListTileMessage(
-                        message: Messages.fromSnapshot(CommonFunctions.orderedListByTime(messagesList, parameterOrder: 'lastMessageTime')[index]),
+                        message: Messages.fromSnapshot(messagesList[index]),
                         messageId: messagesList[index].id,
                         myUserId: userProvider.uid,
                       );
@@ -98,6 +97,7 @@ class _ListTileMessage extends StatelessWidget {
     bool itsMe = myUserId == message.firstUserId;
     Timestamp stamp = message.lastMessageTime;
     DateTime date = stamp.toDate();
+
     String profilePic = itsMe ? message.secondUserImagePath : message.firstUserImagePath;
 
     return InkWell(
