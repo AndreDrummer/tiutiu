@@ -12,6 +12,7 @@ class ChatScreen extends StatelessWidget {
     final chatId = (routeArguments as Map)['chatId'];
     final chatTitle = (routeArguments as Map)['chatTitle'];
     final message = (routeArguments as Map)['message'];
+    final receiverNotificationToken = (routeArguments as Map)['receiverNotificationToken'];
 
     return Scaffold(
       appBar: AppBar(
@@ -30,7 +31,7 @@ class ChatScreen extends StatelessWidget {
             Expanded(
               child: Messages(chatId: chatId),
             ),
-            NewMessage(chatId: chatId, message: message)
+            NewMessage(chatId: chatId, message: message, receiverNotificationToken: receiverNotificationToken)
           ],
         ),
       ),

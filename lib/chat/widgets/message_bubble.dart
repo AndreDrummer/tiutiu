@@ -62,15 +62,18 @@ class MessageBubble extends StatelessWidget {
           left: belongToMe ? null : 130,
           right: belongToMe ? 130 : null,
           child: Container(
-            decoration: BoxDecoration(
-                border: Border.all(
-                  width: 1,
-                  style: BorderStyle.solid,
-                ),
-                shape: BoxShape.circle),
+            decoration: BoxDecoration(shape: BoxShape.circle),
             child: CircleAvatar(
               backgroundColor: Colors.transparent,
-              backgroundImage: AssetImage(belongToMe ? 'assets/icone.png' : 'assets/trofeu.jpg'),
+              child: ClipOval(
+                child: FadeInImage(
+                  placeholder: AssetImage('assets/profileEmpty.png'),
+                  image: userImage != null ? NetworkImage(userImage) : AssetImage('assets/profileEmpty.jpg'),
+                  fit: BoxFit.cover,
+                  width: 1000,
+                  height: 100,
+                ),
+              ),
             ),
           ),
         )
