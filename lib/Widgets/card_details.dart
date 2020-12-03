@@ -19,7 +19,7 @@ class CardDetails extends StatelessWidget {
         borderRadius: BorderRadius.circular(12),
       ),
       child: Container(
-        // height: 75,
+        height: 75,
         width: 170,
         alignment: Alignment.center,
         child: Padding(

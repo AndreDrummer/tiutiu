@@ -53,6 +53,7 @@ class _CardListState extends State<CardList> {
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
     UserController user = UserController();
     Authentication auth = Provider.of(context, listen: false);
     FavoritesProvider favoritesProvider = Provider.of(context);
@@ -104,7 +105,7 @@ class _CardListState extends State<CardList> {
                       color: Colors.grey,
                     ),
                   ),
-                  height: 190,
+                  height: height / 6,
                   width: double.infinity,
                   child: ClipRRect(
                     borderRadius: BorderRadius.only(
@@ -113,7 +114,7 @@ class _CardListState extends State<CardList> {
                     ),
                     child: FadeInImage(
                       placeholder: AssetImage('assets/fadeIn.jpg'),
-                      image: NetworkImage(widget.petInfo.toMap()['avatar']),
+                      image: NetworkImage(widget.petInfo.avatar),
                       height: 1000,
                       width: 1000,
                       fit: BoxFit.fitWidth,
@@ -146,49 +147,37 @@ class _CardListState extends State<CardList> {
                                 widget.petInfo.breed,
                               ),
                               SizedBox(height: 10),
-                              StreamBuilder(
-                                  stream: UserController().getUserSnapshot(widget.petInfo.ownerReference),
-                                  builder: (context, snapshot) {
-                                    if (snapshot.connectionState == ConnectionState.waiting || snapshot.data == null) {
-                                      return Text('');
-                                    }
-
-                                    String announcerName = snapshot.data.data()['uid'] == userProvider.uid ? 'Você' : snapshot.data.data()['displayName'];
-                                    return Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          '$announcerName está ${widget.kind.toUpperCase() == 'DONATE' ? 'doando' : 'procurando'}.',
-                                          textAlign: TextAlign.left,
-                                          overflow: TextOverflow.fade,
-                                          style: Theme.of(context).textTheme.headline1.copyWith(
-                                                fontWeight: FontWeight.w700,
-                                                color: Colors.black,
-                                              ),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    '${widget.petInfo.ownerName ?? ''} está ${widget.kind.toUpperCase() == 'DONATE' ? 'doando' : 'procurando'}.',
+                                    textAlign: TextAlign.left,
+                                    overflow: TextOverflow.fade,
+                                    style: Theme.of(context).textTheme.headline1.copyWith(
+                                          fontWeight: FontWeight.w700,
+                                          color: Colors.black,
                                         ),
-                                        Padding(
-                                          padding: const EdgeInsets.only(top: 16.0, bottom: 2.0),
-                                          child: Row(
-                                            children: [
-                                              Icon(Tiutiu.eye, size: 14, color: Colors.grey),
-                                              Text('  ${widget.petInfo.views ?? 1} visualizações',
-                                                  style: TextStyle(color: Colors.grey, fontWeight: FontWeight.w700)),
-                                              SizedBox(width: 30),
-                                              Icon(widget.petInfo.kind == 'Donate' ? Icons.favorite : Icons.info, size: 14, color: Colors.grey),
-                                              StreamBuilder(
-                                                  stream:
-                                                      PetsProvider().loadInfoOrInterested(kind: widget.petInfo.kind, petReference: widget.petInfo.petReference),
-                                                  builder: (context, snapshot) {
-                                                    return Text(
-                                                        '  ${snapshot.data?.docs?.length ?? 0} ${widget.petInfo.kind == 'Donate' ? 'interessados' : 'informações'}',
-                                                        style: TextStyle(color: Colors.grey, fontWeight: FontWeight.w700));
-                                                  }),
-                                            ],
-                                          ),
-                                        )
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(top: 16.0, bottom: 2.0),
+                                    child: Row(
+                                      children: [
+                                        Icon(Tiutiu.eye, size: 14, color: Colors.grey),
+                                        Text('  ${widget.petInfo.views ?? 1} visualizações', style: TextStyle(color: Colors.grey, fontWeight: FontWeight.w700)),
+                                        SizedBox(width: 20),
+                                        Icon(widget.petInfo.kind == 'Donate' ? Icons.favorite : Icons.info, size: 14, color: Colors.grey),
+                                        StreamBuilder(
+                                            stream: PetsProvider().loadInfoOrInterested(kind: widget.petInfo.kind, petReference: widget.petInfo.petReference),
+                                            builder: (context, snapshot) {
+                                              return Text('  ${snapshot.data?.docs?.length ?? 0} ${widget.petInfo.kind == 'Donate' ? 'interessados' : 'informações'}',
+                                                  style: TextStyle(color: Colors.grey, fontWeight: FontWeight.w700));
+                                            }),
                                       ],
-                                    );
-                                  }),
+                                    ),
+                                  )
+                                ],
+                              ),
                             ],
                           ),
                         ),

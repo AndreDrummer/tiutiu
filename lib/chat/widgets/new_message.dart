@@ -1,10 +1,20 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:tiutiu/backend/Model/messages_model.dart';
+import 'package:tiutiu/providers/user_provider.dart';
 
 FirebaseFirestore firestore = FirebaseFirestore.instance;
 
 class NewMessage extends StatefulWidget {
+  NewMessage({
+    this.chatId,
+    this.message,
+  });
+
+  final String chatId;
+  final Messages message;
+
   @override
   _NewMessageState createState() => _NewMessageState();
 }
@@ -13,21 +23,39 @@ class _NewMessageState extends State<NewMessage> {
   final _controller = TextEditingController();
   String _enteredMessage = '';
 
-  void _sendMessage() {
-    final user = FirebaseAuth.instance.currentUser;
-
+  void _sendMessage() async {
     FocusScope.of(context).unfocus();
-    firestore.collection('Chats').doc('NmCCTS278fS56PzdutXj').collection('messages').add(
+    var docs = await firestore.collection('Chats').doc(widget.chatId).collection('messages').get();
+
+    firestore.collection('Chats').doc(widget.chatId).collection('messages').add(
       {
         'text': _enteredMessage,
         'createdAt': Timestamp.now(),
-        'userId': 'b', //user.uid,
-        'userName': 'André',
-        'userImage': ''
+        'userId': userProvider.uid,
+        'userName': userProvider.displayName,
+        'userImage': userProvider.photoURL,
       },
     );
 
+    firestore.collection('Chats').doc(widget.chatId).set({
+      'lastMessage': _enteredMessage,
+      'lastMessageTime': Timestamp.now(),
+    }, SetOptions(merge: true));
+
     _controller.clear();
+
+    if (docs.docs.isEmpty) {
+      print('Vazio');
+      firestore.collection('Chats').doc(widget.chatId).set(widget.message.toJson(), SetOptions(merge: true));
+    }
+  }
+
+  UserProvider userProvider;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    userProvider = Provider.of(context);
   }
 
   @override
