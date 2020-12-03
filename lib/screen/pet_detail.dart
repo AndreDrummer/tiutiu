@@ -374,7 +374,7 @@ class _PetDetailsState extends State<PetDetails> {
                                   'chatId': GenerateHashKey.cesar(userProvider.uid, widget.petOwner.id),
                                   'chatTitle': widget.pet.ownerName,
                                   'receiverNotificationToken': widget.petOwner.notificationToken,
-                                  'receiverId': widget.petOwner.id,
+                                  'receiverId': widget.pet.ownerId,
                                   'message': Messages(
                                     firstUserId: userProvider.uid,
                                     secondUserId: widget.petOwner.id,
