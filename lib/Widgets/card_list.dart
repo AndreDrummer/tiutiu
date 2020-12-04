@@ -150,15 +150,28 @@ class _CardListState extends State<CardList> {
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text(
-                                    '${widget.petInfo.ownerName ?? ''} está ${widget.kind.toUpperCase() == 'DONATE' ? 'doando' : 'procurando'}.',
-                                    textAlign: TextAlign.left,
-                                    overflow: TextOverflow.fade,
-                                    style: Theme.of(context).textTheme.headline1.copyWith(
-                                          fontWeight: FontWeight.w700,
-                                          color: Colors.black,
-                                        ),
-                                  ),
+                                  StreamBuilder(
+                                      stream: widget.petInfo.ownerName == null ? UserController().getUserSnapshot(widget.petInfo.ownerReference) : null,
+                                      builder: (context, snapshot) {
+                                        String announcerName = widget.petInfo.ownerName;
+
+                                        if (announcerName == null) {
+                                          String announcerUid = snapshot.data.data()['uid'];
+                                          String announcerDisplayName = snapshot.data.data()['displayName'];
+                                          announcerName = announcerUid == userProvider.uid ? 'Você' : announcerDisplayName;
+                                          widget.petInfo.petReference.set({'ownerName': announcerName}, SetOptions(merge: true));
+                                        }
+
+                                        return Text(
+                                          '$announcerName está ${widget.kind.toUpperCase() == 'DONATE' ? 'doando' : 'procurando'}.',
+                                          textAlign: TextAlign.left,
+                                          overflow: TextOverflow.fade,
+                                          style: Theme.of(context).textTheme.headline1.copyWith(
+                                                fontWeight: FontWeight.w700,
+                                                color: Colors.black,
+                                              ),
+                                        );
+                                      }),
                                   Padding(
                                     padding: const EdgeInsets.only(top: 16.0, bottom: 2.0),
                                     child: Row(
