@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:tiutiu/Widgets/badge.dart';
 import 'package:tiutiu/Widgets/empty_list.dart';
-import 'package:tiutiu/backend/Model/messages_model.dart';
+import 'package:tiutiu/backend/Model/chat_model.dart';
 import 'package:tiutiu/providers/ads_provider.dart';
 import 'package:tiutiu/providers/chat_provider.dart';
 import 'package:tiutiu/providers/user_provider.dart';
@@ -66,9 +67,11 @@ class _ChatListState extends State<ChatList> {
                     itemCount: messagesList.length,
                     itemBuilder: (ctx, index) {
                       return _ListTileMessage(
-                        message: Messages.fromSnapshot(messagesList[index]),
+                        chat: Chat.fromSnapshot(messagesList[index]),
                         messageId: messagesList[index].id,
                         myUserId: userProvider.uid,
+                        chatProvider: chatProvider,
+                        newMessage: !Chat.fromSnapshot(messagesList[index]).open && Chat.fromSnapshot(messagesList[index]).lastSender != userProvider.uid,
                       );
                     },
                   );
@@ -82,23 +85,27 @@ class _ChatListState extends State<ChatList> {
 
 class _ListTileMessage extends StatelessWidget {
   _ListTileMessage({
-    this.message,
+    this.chat,
     this.myUserId,
     this.messageId,
+    this.newMessage,
+    this.chatProvider,
   });
 
-  final Messages message;
+  final Chat chat;
   final String messageId;
+  final bool newMessage;
   final String myUserId;
+  final ChatProvider chatProvider;
 
   @override
   Widget build(BuildContext context) {
     // Determina se o usuário logado é o primeiro usuário do chat.
-    bool itsMe = myUserId == message.firstUserId;
-    Timestamp stamp = message.lastMessageTime;
+    bool itsMe = myUserId == chat.firstUserId;
+    Timestamp stamp = chat.lastMessageTime;
     DateTime date = stamp.toDate();
 
-    String profilePic = itsMe ? message.secondUserImagePath : message.firstUserImagePath;
+    String profilePic = itsMe ? chat.secondUserImagePath : chat.firstUserImagePath;
 
     return InkWell(
       onTap: () {
@@ -107,12 +114,13 @@ class _ListTileMessage extends StatelessWidget {
           Routes.CHAT,
           arguments: {
             'chatId': messageId,
-            'chatTitle': itsMe ? message.secondUserName : message.firstUserName,
-            'secondUserId': itsMe ? message.secondUserId : message.firstUserId,
-            'receiverId': itsMe ? message.secondUserId : message.firstUserId,
-            'receiverNotificationToken': itsMe ? message.secondReceiverNotificationToken : message.firstReceiverNotificationToken,
+            'chatTitle': itsMe ? chat.secondUserName : chat.firstUserName,
+            'secondUserId': itsMe ? chat.secondUserId : chat.firstUserId,
+            'receiverId': itsMe ? chat.secondUserId : chat.firstUserId,
+            'receiverNotificationToken': itsMe ? chat.secondReceiverNotificationToken : chat.firstReceiverNotificationToken,
           },
         );
+        chatProvider.markMessageAsRead(messageId);
       },
       child: Column(
         children: [
@@ -129,13 +137,19 @@ class _ListTileMessage extends StatelessWidget {
                 ),
               ),
             ),
-            title: Text(itsMe ? message.secondUserName : message.firstUserName),
-            subtitle: Text(message.lastMessage),
+            title: Text(itsMe ? chat.secondUserName : chat.firstUserName),
+            subtitle: Text(chat.lastMessage),
             trailing: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Column(
                   children: [
+                    newMessage
+                        ? Badge(
+                            color: Colors.green,
+                            text: 'Nova',
+                          )
+                        : Text(''),
                     Text('${DateFormat('dd/MM/y HH:mm').format(DateTime.parse(date.toIso8601String())).split(' ').last}'),
                     SizedBox(height: 2),
                     Text('${DateFormat('dd/MM/y HH:mm').format(DateTime.parse(date.toIso8601String())).split(' ').first}'),

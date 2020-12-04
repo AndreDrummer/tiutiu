@@ -42,7 +42,6 @@ class CardDetails extends StatelessWidget {
                           title.toUpperCase(),
                           style: TextStyle(
                             letterSpacing: 1.2,
-                            // fontSize: 18,
                             fontWeight: FontWeight.w300,
                           ),
                         ),
