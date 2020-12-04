@@ -1,10 +1,8 @@
 import 'dart:io';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_open_whatsapp/flutter_open_whatsapp.dart';
 import 'package:loading_animations/loading_animations.dart';
 import 'package:provider/provider.dart';
 import 'package:tiutiu/Custom/icons.dart';
@@ -18,7 +16,6 @@ import 'package:tiutiu/Widgets/load_dark_screen.dart';
 import 'package:tiutiu/Widgets/pop_up_text_field.dart';
 import 'package:tiutiu/backend/Controller/pet_controller.dart';
 import 'package:tiutiu/backend/Controller/user_controller.dart';
-import 'package:tiutiu/backend/Model/messages_model.dart';
 import 'package:tiutiu/backend/Model/pet_model.dart';
 import 'package:tiutiu/backend/Model/user_model.dart';
 import 'package:tiutiu/providers/auth2.dart';
@@ -28,9 +25,7 @@ import 'package:tiutiu/providers/location.dart' as provider;
 import 'package:tiutiu/providers/user_infos_interests.dart';
 import 'package:tiutiu/providers/user_provider.dart';
 import 'package:tiutiu/screen/announcer_datails.dart';
-import 'package:tiutiu/utils/cesar_cripto.dart';
 import 'package:tiutiu/utils/constantes.dart';
-import 'package:tiutiu/utils/formatter.dart';
 import 'package:tiutiu/utils/launcher_functions.dart';
 import 'package:tiutiu/utils/other_functions.dart';
 import 'package:tiutiu/utils/routes.dart';
@@ -318,30 +313,11 @@ class _PetDetailsState extends State<PetDetails> {
                     IconButton(
                       onPressed: !isAuthenticated
                           ? navigateToAuth
-                          : () {
-                              Navigator.pushNamed(
-                                context,
-                                Routes.CHAT,
-                                arguments: {
-                                  'chatId': GenerateHashKey.cesar(userProvider.uid, widget.petOwner.id),
-                                  'chatTitle': widget.pet.ownerName,
-                                  'receiverNotificationToken': widget.petOwner.notificationToken,
-                                  'receiverId': widget.pet.ownerId,
-                                  'message': Messages(
-                                    firstUserId: userProvider.uid,
-                                    secondUserId: widget.petOwner.id,
-                                    firstUserImagePath: userProvider.photoURL,
-                                    secondUserImagePath: widget.petOwner.photoURL,
-                                    firstUserName: userProvider.displayName,
-                                    lastMessage: '',
-                                    lastMessageTime: Timestamp.now(),
-                                    secondUserName: widget.petOwner.name,
-                                    firstReceiverNotificationToken: userProvider.notificationToken,
-                                    secondReceiverNotificationToken: widget.petOwner.notificationToken,
-                                  ),
-                                },
-                              );
-                            },
+                          : () => OtherFunctions.openChat(
+                                context: context,
+                                firstUser: userProvider.user(),
+                                secondUser: widget.petOwner,
+                              ),
                       color: Colors.white,
                       icon: Icon(Icons.chat),
                     ),
@@ -497,7 +473,7 @@ class _PetDetailsState extends State<PetDetails> {
                               emailSubject: emailSubject,
                             ),
                           ),
-                          SizedBox(height: widget.kind != 'DONATE' ? height / 18 : height / 36),
+                          if (widget.kind != 'DONATE') SizedBox(height: height / 16),
                           Constantes.ADMIN_ID == widget.pet.ownerId
                               ? Container()
                               : !widget.isMine
@@ -698,16 +674,24 @@ class _PetDetailsState extends State<PetDetails> {
                   borderRadius: BorderRadius.circular(50)),
               child: Row(
                 children: [
-                  UserCardInfo(
-                    text: widget.petOwner.name,
-                    icon: getBetterContactIconAndColor(widget.petOwner.betterContact),
-                    imageN: widget.petOwner.photoURL ?? '',
-                    color: getBetterContactIconAndColor(widget.petOwner.betterContact, getColor: true),
-                    callback: navigateToAnnouncerDetail,
-                    launchIcon: Icons.remove_red_eye,
+                  CircleAvatar(
+                    backgroundColor: Colors.transparent,
+                    child: ClipOval(
+                      child: FadeInImage(
+                        placeholder: AssetImage('assets/profileEmpty.png'),
+                        image: widget.petOwner.photoURL != null
+                            ? NetworkImage(
+                                widget.petOwner.photoURL,
+                              )
+                            : AssetImage('assets/profileEmpty.png'),
+                        fit: BoxFit.cover,
+                        width: 1000,
+                        height: 100,
+                      ),
+                    ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(right: 18.0),
+                    padding: const EdgeInsets.only(left: 8.0, right: 18.0),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -791,7 +775,7 @@ class _PetDetailsState extends State<PetDetails> {
             ),
           ],
         );
-      default:
+      case 2:
         return Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -803,6 +787,25 @@ class _PetDetailsState extends State<PetDetails> {
               icon: Icons.mail,
               isToExpand: false,
               text: 'Enviar e-mail',
+            ),
+          ],
+        );
+      default:
+        return Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            ButtonWide(
+              action: () {
+                OtherFunctions.openChat(
+                  context: context,
+                  firstUser: userProvider.user(),
+                  secondUser: widget.petOwner,
+                );
+              },
+              color: Colors.purple,
+              icon: Icons.phone,
+              isToExpand: false,
+              text: 'Chat',
             ),
           ],
         );

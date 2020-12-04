@@ -85,7 +85,7 @@ exports.createNotificationInfo = functions.firestore
 
 
 exports.createNotificationChat = functions.firestore
-    .document('Chats/{chatId}/messages/{messageId}')
+    .document('Chats/{chatId}/chat/{messageId}')
     .onCreate((snap, context) => {
         console.log(snap.data());
         admin.messaging().sendToDevice(`${snap.data()['receiverNotificationToken']}`, {

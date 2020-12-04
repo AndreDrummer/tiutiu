@@ -20,7 +20,7 @@ class InputText extends StatefulWidget {
     this.hintText,
     this.inputFormatters = const [],
   });
-  
+
   InputText.login({
     this.size = 55,
     this.controller,
@@ -53,7 +53,6 @@ class InputText extends StatefulWidget {
   final Function(String) validator;
   final List<TextInputFormatter> inputFormatters;
 
-
   @override
   _InputTextState createState() => _InputTextState();
 }
@@ -77,16 +76,19 @@ class _InputTextState extends State<InputText> {
           children: <Widget>[
             Expanded(
               child: TextFormField(
+                textCapitalization: TextCapitalization.sentences,
                 cursorColor: Theme.of(context).primaryColor,
                 inputFormatters: widget.inputFormatters,
-                validator: widget.validator != null ? (value) {
-                  return widget.validator(value);
-                } : (value) {
-                  if (value.isEmpty) {
-                    return 'Preencha corretamente esse campo';
-                  }
-                  return null;
-                },                                         
+                validator: widget.validator != null
+                    ? (value) {
+                        return widget.validator(value);
+                      }
+                    : (value) {
+                        if (value.isEmpty) {
+                          return 'Preencha corretamente esse campo';
+                        }
+                        return null;
+                      },
                 readOnly: widget.readOnly,
                 controller: widget.controller,
                 textInputAction: TextInputAction.done,
@@ -97,14 +99,12 @@ class _InputTextState extends State<InputText> {
                     ? TextInputType.multiline
                     : widget.keyBoardTypeNumber
                         ? TextInputType.number
-                        : TextInputType.text,                                                
-                decoration: InputDecoration(                                                 
-                  hintText: widget.hintText,                  
+                        : TextInputType.text,
+                decoration: InputDecoration(
+                  hintText: widget.hintText,
                   labelText: widget.placeholder,
                   labelStyle: TextStyle(
-                    color: widget.isLogin
-                        ? Colors.black38
-                        : Colors.black26,
+                    color: widget.isLogin ? Colors.black38 : Colors.black26,
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderSide: BorderSide(style: BorderStyle.none),
@@ -123,9 +123,7 @@ class _InputTextState extends State<InputText> {
                     padding: const EdgeInsets.all(8.0),
                     child: IconButton(
                       icon: Icon(
-                        widget.seePassword
-                            ? Tiutiu.eye
-                            : Tiutiu.eye_slash,
+                        widget.seePassword ? Tiutiu.eye : Tiutiu.eye_slash,
                         color: Colors.grey,
                         size: 18,
                       ),
