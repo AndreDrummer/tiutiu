@@ -128,7 +128,7 @@ class App extends StatelessWidget {
               ),
               debugShowCheckedModeBanner: false,
               routes: {
-                // Routes.BOOTSTRAP: (ctx) => ChatList(),
+                // Routes.BOOTSTRAP: (ctx) => Register(),
                 Routes.BOOTSTRAP: (ctx) => Bootstrap(),
                 Routes.AUTH: (ctx) => AuthScreen(),
                 Routes.PET_FORM: (ctx) => PetForm(),

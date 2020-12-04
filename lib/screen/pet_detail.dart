@@ -280,7 +280,7 @@ class _PetDetailsState extends State<PetDetails> {
     final String emailSubject = 'Tenho interesse no PET ${widget.pet.name}';
 
     double wannaAdoptButton = widget.kind == 'DONATE' ? width * 0.7 : width;
-    List otherCaracteristics = widget.pet?.otherCaracteristics ?? ['Teste'];
+    List otherCaracteristics = widget.pet?.otherCaracteristics ?? [''];
     List petDetails = [
       {'title': 'TIPO', 'text': widget.pet.type, 'icon': petIconType[widget.pet.type]},
       {'title': 'SEXO', 'text': widget.pet.sex, 'icon': widget.pet.sex == 'Fêmea' ? Gender.female : Gender.male},
@@ -289,54 +289,6 @@ class _PetDetailsState extends State<PetDetails> {
       {'title': 'TAMANHO', 'text': widget.pet.size, 'icon': Tiutiu.resize_small},
       {'title': 'SAÚDE', 'text': widget.pet.health, 'icon': Tiutiu.healing},
       {'title': 'IDADE', 'text': '${widget.pet.ano}a ${widget.pet.meses}m', 'icon': Tiutiu.birthday_cake},
-    ];
-
-    List ownerDetails = [
-      {
-        'uid': widget.petOwner.id,
-        'text': widget.petOwner.name ?? '',
-        'launchIcon': Icons.remove_red_eye,
-        'imageN': widget.petOwner.photoURL ?? '',
-        'callback': () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) {
-                return AnnouncerDetails(widget.petOwner);
-              },
-            ),
-          );
-        },
-      },
-      {
-        'text': widget.petOwner.betterContact == 0
-            ? widget.petOwner.phoneNumber
-            : widget.petOwner.betterContact == 1
-                ? widget.petOwner.landline
-                : widget.petOwner.email,
-        'icon': widget.petOwner.betterContact == 0
-            ? Tiutiu.whatsapp
-            : widget.petOwner.betterContact == 1
-                ? Icons.phone
-                : Icons.email,
-        'color': widget.petOwner.betterContact == 0
-            ? Colors.green
-            : widget.petOwner.betterContact == 1
-                ? Colors.orange
-                : Colors.red,
-        'callback': () {
-          String serializedNumber = Formatter.unmaskNumber(widget.petOwner.phoneNumber);
-
-          if (widget.petOwner.betterContact == 0) {
-            FlutterOpenWhatsapp.sendSingleMessage('+55$serializedNumber', whatsappMessage);
-          } else if (widget.petOwner.betterContact == 1) {
-            String serializedNumber = Formatter.unmaskNumber(widget.petOwner.landline);
-            Launcher.makePhoneCall(number: serializedNumber);
-          } else {
-            Launcher.sendEmail(emailAddress: widget.petOwner.email, subject: emailSubject, message: emailMessage);
-          }
-        }
-      },
     ];
 
     return Scaffold(
@@ -414,7 +366,7 @@ class _PetDetailsState extends State<PetDetails> {
           SingleChildScrollView(
             child: Column(
               children: [
-                showImages(context: context, photos: widget.pet.photos, boxHeight: height / 4, ownerDetails: ownerDetails),
+                showImages(context: context, photos: widget.pet.photos, boxHeight: height / 4),
                 Container(
                   height: 100,
                   child: Padding(
@@ -558,7 +510,7 @@ class _PetDetailsState extends State<PetDetails> {
                                               rounded: widget.kind == 'DONATE',
                                               text: widget.kind == 'DONATE' ? 'QUERO ADOTAR' : 'VI ${widget.pet.sex == 'Macho' ? 'ELE' : 'ELA'} AQUI PERTO',
                                               color: widget.kind == 'DONATE' ? Colors.red : Theme.of(context).primaryColor,
-                                              action: !isAuthenticated ? navigateToAuth : () => showInterestOrPassInfo(ownerDetails[0]['text'])),
+                                              action: !isAuthenticated ? navigateToAuth : () => showInterestOrPassInfo(widget.petOwner.name)),
                                         ),
                                         (!widget.isMine && widget.kind == 'DONATE')
                                             ? Consumer<FavoritesProvider>(
@@ -635,7 +587,34 @@ class _PetDetailsState extends State<PetDetails> {
     );
   }
 
-  Widget showImages({BuildContext context, List photos, double boxHeight, List ownerDetails}) {
+  dynamic getBetterContactIconAndColor(int betterContect, {bool getColor = false}) {
+    switch (betterContect) {
+      case 0:
+        return getColor ? Colors.green : Tiutiu.whatsapp;
+        break;
+      case 1:
+        return getColor ? Colors.orange : Icons.phone;
+        break;
+      case 2:
+        return getColor ? Colors.red : Icons.email;
+        break;
+      default:
+        getColor ? Colors.redAccent : Icons.chat;
+    }
+  }
+
+  void navigateToAnnouncerDetail() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) {
+          return AnnouncerDetails(widget.petOwner);
+        },
+      ),
+    );
+  }
+
+  Widget showImages({BuildContext context, List photos, double boxHeight}) {
     final height = MediaQuery.of(context).size.height;
     return Stack(
       children: [
@@ -705,7 +684,7 @@ class _PetDetailsState extends State<PetDetails> {
           top: height / 7,
           left: 5,
           child: InkWell(
-            onTap: ownerDetails[0]['callback'],
+            onTap: navigateToAnnouncerDetail,
             child: Container(
               decoration: BoxDecoration(
                   gradient: LinearGradient(
@@ -720,13 +699,12 @@ class _PetDetailsState extends State<PetDetails> {
               child: Row(
                 children: [
                   UserCardInfo(
-                    text: ownerDetails[0]['text'],
-                    icon: ownerDetails[0]['icon'],
-                    image: ownerDetails[0]['image'],
-                    imageN: ownerDetails[0]['imageN'],
-                    color: ownerDetails[0]['color'],
-                    callback: ownerDetails[0]['callback'],
-                    launchIcon: ownerDetails[0]['launchIcon'],
+                    text: widget.petOwner.name,
+                    icon: getBetterContactIconAndColor(widget.petOwner.betterContact),
+                    imageN: widget.petOwner.photoURL ?? '',
+                    color: getBetterContactIconAndColor(widget.petOwner.betterContact, getColor: true),
+                    callback: navigateToAnnouncerDetail,
+                    launchIcon: Icons.remove_red_eye,
                   ),
                   Padding(
                     padding: const EdgeInsets.only(right: 18.0),
@@ -738,7 +716,7 @@ class _PetDetailsState extends State<PetDetails> {
                           style: TextStyle(color: Colors.white, fontStyle: FontStyle.italic, fontSize: 10),
                         ),
                         Text(
-                          ownerDetails[0]['text'] ?? '',
+                          widget.petOwner.name ?? '',
                           style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
                         ),
                       ],

@@ -112,12 +112,8 @@ class UserController {
     }
 
     await petReference.set({'donated': true, 'whoAdoptedReference': userThatAdoptedReference}, SetOptions(merge: true));
-    final pathToPetAdopted = await firestore
-        .collection('Adopted')
-        .where('confirmed', isEqualTo: false)
-        .where('petReference', isEqualTo: petReference)
-        .where('interestedReference', isEqualTo: userThatAdoptedReference)
-        .get();
+    final pathToPetAdopted =
+        await firestore.collection('Adopted').where('confirmed', isEqualTo: false).where('petReference', isEqualTo: petReference).where('interestedReference', isEqualTo: userThatAdoptedReference).get();
 
     pathToPetAdopted.docs.first.reference.set({
       'confirmed': true,
@@ -194,10 +190,6 @@ class UserController {
     QuerySnapshot petsDisappeared = await FirebaseFirestore.instance.collection('Disappeared').where('ownerReference', isEqualTo: userReference).get();
     QuerySnapshot petsAdopted = await FirebaseFirestore.instance.collection('Adopted').where('interestedReference', isEqualTo: userReference).get();
 
-    for (int i = 0; i < notifications.docs.length; i++) {
-      await notifications.docs[i].reference.delete();
-    }
-
     for (int i = 0; i < petsDonated.docs.length; i++) {
       await petsDonated.docs[i].reference.delete();
       final adoptInterestedsReference = await petsDonated.docs[i].reference.collection('adoptInteresteds').get();
@@ -222,6 +214,10 @@ class UserController {
 
     for (int i = 0; i < petsAdopted.docs.length; i++) {
       await petsAdopted.docs[i].reference.delete();
+    }
+
+    for (int i = 0; i < notifications.docs.length; i++) {
+      await notifications.docs[i].reference.delete();
     }
 
     await userReference.delete();
