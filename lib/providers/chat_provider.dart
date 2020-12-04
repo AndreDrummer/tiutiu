@@ -1,28 +1,32 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:rxdart/rxdart.dart';
+import 'package:tiutiu/backend/Model/chat_model.dart';
+import 'package:tiutiu/backend/Model/message_model.dart';
 
 class ChatProvider extends ChangeNotifier {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
-  final _messagesList = BehaviorSubject<List<QueryDocumentSnapshot>>();
 
-  // Listening data
-  Stream<List<QueryDocumentSnapshot>> get messagesList => _messagesList.stream;
+  Stream<QuerySnapshot> messagesList(String chatId) {
+    return firestore.collection('Chats').doc(chatId).collection('chat').orderBy('createdAt', descending: true).snapshots();
+  }
 
-  // Changing data
-  void Function(List<QueryDocumentSnapshot>) get changeMessagesList => _messagesList.sink.add;
+  void createFirstMessage(String chatId, Chat chat) {
+    firestore.collection('Chats').doc(chatId).set(chat.toJson(), SetOptions(merge: true));
+  }
 
-  // Getting data
-  List<QueryDocumentSnapshot> get getMessagesList => _messagesList.value;
+  void sendNewMessage(String chatId, Message message) {
+    firestore.collection('Chats').doc(chatId).collection('chat').add(message.toJson());
+  }
 
-  void listOfMessages({String userId}) async {
-    List<QueryDocumentSnapshot> messages = [];
-    QuerySnapshot chats = await firestore.collection('Chats').get();
+  void updateLastMessage(String chatId, Map<String, dynamic> messageData) {
+    firestore.collection('Chats').doc(chatId).set(messageData, SetOptions(merge: true));
+  }
 
-    chats.docs.forEach((element) {
-      if (element.get('user1') == userId || element.get('user2') == userId) messages.add(element);
-    });
+  void markMessageAsRead(String chatId) {
+    firestore.collection('Chats').doc(chatId).set({'open': true}, SetOptions(merge: true));
+  }
 
-    changeMessagesList(messages);
+  Stream<QuerySnapshot> newMessages() {
+    return FirebaseFirestore.instance.collection('Chats').snapshots();
   }
 }
