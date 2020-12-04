@@ -60,9 +60,9 @@ class MessageBubble extends StatelessWidget {
                           ),
                           Spacer(),
                           Text(
-                            belongToMe ? 'Eu' : userName,
+                            belongToMe ? 'Eu' : userName.split(' ').first,
                             style: TextStyle(
-                              fontSize: 16,
+                              fontSize: 14,
                               fontWeight: FontWeight.bold,
                               color: belongToMe ? Colors.white : Theme.of(context).accentTextTheme.headline1.color,
                             ),
