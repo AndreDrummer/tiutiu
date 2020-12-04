@@ -153,9 +153,9 @@ class _CardListState extends State<CardList> {
                                   StreamBuilder(
                                       stream: widget.petInfo.ownerName == null ? UserController().getUserSnapshot(widget.petInfo.ownerReference) : null,
                                       builder: (context, snapshot) {
-                                        String announcerName = widget.petInfo.ownerName;
+                                        String announcerName = widget.petInfo.ownerName ?? '';
 
-                                        if (announcerName == null) {
+                                        if (widget.petInfo.ownerName == null) {
                                           String announcerUid = snapshot.data.data()['uid'];
                                           String announcerDisplayName = snapshot.data.data()['displayName'];
                                           announcerName = announcerUid == userProvider.uid ? 'Você' : announcerDisplayName;
