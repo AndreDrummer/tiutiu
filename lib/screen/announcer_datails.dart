@@ -84,8 +84,6 @@ class _AnnouncerDetailsState extends State<AnnouncerDetails> {
       );
     }
 
-    print(widget.user.betterContact);
-
     return Scaffold(
       body: Container(
         child: Stack(
