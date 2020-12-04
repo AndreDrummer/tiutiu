@@ -1,10 +1,9 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:tiutiu/Widgets/background.dart';
 import 'package:tiutiu/chat/widgets/messages.dart';
 import 'package:tiutiu/chat/widgets/new_message.dart';
-
-FirebaseFirestore firestore = FirebaseFirestore.instance;
+import 'package:tiutiu/providers/chat_provider.dart';
 
 class ChatScreen extends StatelessWidget {
   @override
@@ -37,10 +36,10 @@ class ChatScreen extends StatelessWidget {
                 Expanded(
                   child: Padding(
                     padding: const EdgeInsets.only(left: 8.0, right: 16.0, top: 8.0),
-                    child: Messages(chatId: chatId),
+                    child: Messages(chatId: chatId, chatProvider: Provider.of<ChatProvider>(context)),
                   ),
                 ),
-                NewMessage(chatId: chatId, message: message, receiverNotificationToken: receiverNotificationToken, receiverId: receiverId),
+                NewMessage(chatId: chatId, chat: message, receiverNotificationToken: receiverNotificationToken, receiverId: receiverId),
               ],
             ),
           ),
