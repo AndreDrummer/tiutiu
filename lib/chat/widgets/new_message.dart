@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:tiutiu/backend/Model/messages_model.dart';
+import 'package:tiutiu/backend/Model/chat_model.dart';
+import 'package:tiutiu/backend/Model/message_model.dart';
+import 'package:tiutiu/providers/chat_provider.dart';
 import 'package:tiutiu/providers/user_provider.dart';
 
 FirebaseFirestore firestore = FirebaseFirestore.instance;
@@ -9,13 +11,13 @@ FirebaseFirestore firestore = FirebaseFirestore.instance;
 class NewMessage extends StatefulWidget {
   NewMessage({
     this.chatId,
-    this.message,
+    this.chat,
     this.receiverNotificationToken,
     this.receiverId,
   });
 
   final String chatId;
-  final Messages message;
+  final Chat chat;
   final String receiverNotificationToken;
   final String receiverId;
 
@@ -29,41 +31,50 @@ class _NewMessageState extends State<NewMessage> {
   final Color destakColor = Colors.purple;
   final Color whiteColor = Colors.white;
 
+  ChatProvider chatProvider;
+  UserProvider userProvider;
+
   void _sendMessage() async {
     FocusScope.of(context).unfocus();
 
-    if (widget.message != null) {
-      print('Vazio');
-      firestore.collection('Chats').doc(widget.chatId).set(widget.message.toJson(), SetOptions(merge: true));
+    if (widget.chat != null) {
+      chatProvider.createFirstMessage(widget.chatId, widget.chat);
     }
 
-    firestore.collection('Chats').doc(widget.chatId).collection('messages').add(
-      {
-        'text': _enteredMessage,
-        'createdAt': FieldValue.serverTimestamp(),
-        'userId': userProvider.uid,
-        'userName': userProvider.displayName,
-        'userImage': userProvider.photoURL,
-        'receiverId': widget.receiverId,
-        'receiverNotificationToken': widget.receiverNotificationToken,
-        'notificationType': 'chatNotification'
-      },
+    chatProvider.sendNewMessage(
+      widget.chatId,
+      Message(
+        text: _enteredMessage,
+        createdAt: FieldValue.serverTimestamp(),
+        userId: userProvider.uid,
+        userName: userProvider.displayName,
+        userImage: userProvider.photoURL,
+        receiverId: widget.receiverId,
+        receiverNotificationToken: widget.receiverNotificationToken,
+        notificationType: 'chatNotification',
+        userReference: userProvider.userReference,
+        open: false,
+      ),
     );
 
-    firestore.collection('Chats').doc(widget.chatId).set({
-      'lastMessage': _enteredMessage,
-      'lastMessageTime': FieldValue.serverTimestamp(),
-    }, SetOptions(merge: true));
+    chatProvider.updateLastMessage(
+      widget.chatId,
+      {
+        'lastMessage': _enteredMessage,
+        'lastMessageTime': FieldValue.serverTimestamp(),
+        'open': false,
+        'lastSender': userProvider.uid,
+      },
+    );
 
     _controller.clear();
   }
 
-  UserProvider userProvider;
-
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    userProvider = Provider.of(context);
+    chatProvider = Provider.of<ChatProvider>(context);
+    userProvider = Provider.of<UserProvider>(context);
   }
 
   @override

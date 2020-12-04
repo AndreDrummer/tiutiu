@@ -84,6 +84,8 @@ class _AnnouncerDetailsState extends State<AnnouncerDetails> {
       );
     }
 
+    print(widget.user.betterContact);
+
     return Scaffold(
       body: Container(
         child: Stack(
@@ -195,53 +197,55 @@ class _AnnouncerDetailsState extends State<AnnouncerDetails> {
                 Divider(color: Colors.black),
                 Spacer(),
                 CustomDivider(text: 'Contato'),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      userWhatsapp != null
-                          ? InkWell(
-                              onTap: () {
-                                callWhatsapp();
-                              },
-                              child: CircleChild(
-                                avatarRadius: 25,
-                                child: Icon(
-                                  Tiutiu.whatsapp,
-                                ),
-                              ),
-                            )
-                          : Container(),
-                      userLandline != null
-                          ? InkWell(
-                              onTap: () {
-                                callLandline();
-                              },
-                              child: CircleChild(
-                                avatarRadius: 25,
-                                child: Icon(
-                                  Icons.phone,
-                                ),
-                              ),
-                            )
-                          : Container(),
-                      userEmail != null
-                          ? InkWell(
-                              onTap: () {
-                                callEmail();
-                              },
-                              child: CircleChild(
-                                avatarRadius: 25,
-                                child: Icon(
-                                  Icons.email,
-                                ),
-                              ),
-                            )
-                          : Container(),
-                    ],
-                  ),
-                ),
+                widget.user.betterContact == 3
+                    ? _OnlyChatButton()
+                    : Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            userWhatsapp != null
+                                ? InkWell(
+                                    onTap: () {
+                                      callWhatsapp();
+                                    },
+                                    child: CircleChild(
+                                      avatarRadius: 25,
+                                      child: Icon(
+                                        Tiutiu.whatsapp,
+                                      ),
+                                    ),
+                                  )
+                                : Container(),
+                            userLandline != null
+                                ? InkWell(
+                                    onTap: () {
+                                      callLandline();
+                                    },
+                                    child: CircleChild(
+                                      avatarRadius: 25,
+                                      child: Icon(
+                                        Icons.phone,
+                                      ),
+                                    ),
+                                  )
+                                : Container(),
+                            userEmail != null
+                                ? InkWell(
+                                    onTap: () {
+                                      callEmail();
+                                    },
+                                    child: CircleChild(
+                                      avatarRadius: 25,
+                                      child: Icon(
+                                        Icons.email,
+                                      ),
+                                    ),
+                                  )
+                                : Container(),
+                          ],
+                        ),
+                      ),
               ],
             ),
             Positioned(
@@ -276,6 +280,32 @@ class _AnnouncerDetailsState extends State<AnnouncerDetails> {
               ),
             ),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+class _OnlyChatButton extends StatelessWidget {
+  @override
+  Widget build(BuildContext contextt) {
+    return Container(
+      margin: const EdgeInsets.all(8.0),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(8.0),
+        color: Colors.deepPurpleAccent,
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          child: Text(
+            'CHAT',
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+            ),
+          ),
         ),
       ),
     );
