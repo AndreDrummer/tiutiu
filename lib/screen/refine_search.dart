@@ -38,11 +38,11 @@ class _RefineSearchState extends State<RefineSearch> {
 
   void handleSelectedKind(int index) {
     refineSearchProvider.clearRefineSelections();
-    if(index == 0) petsProvider.changePetType('Todos');
+    if (index == 0) petsProvider.changePetType('Todos');
     petsProvider.changePetType(petsType[index - 1]);
     refineSearchProvider.changeKindSelected(index);
   }
-  
+
   @override
   void didChangeDependencies() {
     petsProvider = Provider.of<PetsProvider>(context);
@@ -160,10 +160,7 @@ class _RefineSearchState extends State<RefineSearch> {
                     padding: const EdgeInsets.only(top: 20.0, left: 15.0),
                     child: Text(
                       'Tipo de PET',
-                      style: Theme.of(context)
-                          .textTheme
-                          .headline1
-                          .copyWith(color: Colors.black),
+                      style: Theme.of(context).textTheme.headline1.copyWith(color: Colors.black),
                     ),
                   ),
                 ),
@@ -189,12 +186,9 @@ class _RefineSearchState extends State<RefineSearch> {
                                       MaterialPageRoute(
                                         builder: (context) {
                                           return SelectionPage(
-                                            title: optionTile[
-                                                'selectionPageTitle'],
-                                            list:
-                                                optionTile['selectionPageList'],
-                                            valueSelected:
-                                                optionTile['valueSelected'],
+                                            title: optionTile['selectionPageTitle'],
+                                            list: optionTile['selectionPageList'],
+                                            valueSelected: optionTile['valueSelected'],
                                           );
                                         },
                                       ),
@@ -208,9 +202,7 @@ class _RefineSearchState extends State<RefineSearch> {
                         );
                       }).toList(),
                     ),
-                    petsProvider.getPetType == 'Todos'
-                        ? Container(color: Colors.black12, height: 328)
-                        : Container(),
+                    petsProvider.getPetType == 'Todos' ? Container(color: Colors.black12, height: 328) : Container(),
                   ],
                 ),
                 Padding(
@@ -252,41 +244,26 @@ class _RefineSearchState extends State<RefineSearch> {
                     action: isRefiningSearch
                         ? null
                         : () async {
-                            petsProvider.changePetKind(
-                                refineSearchProvider.getIsDisappeared
-                                    ? 'Disappeared'
-                                    : 'Donate');
-                            refineSearchProvider.changeSearchHomePetTypeInitialValue(petsProvider.getPetType);                                
-                            petsProvider.changeBreedSelected(
-                                refineSearchProvider.getBreedSelected);
-                            petsProvider.changeSizeSelected(
-                                refineSearchProvider.getSizeSelected);
-                            petsProvider.changeAgeSelected(
-                                refineSearchProvider.getAgeSelected);
-                            petsProvider.changeSexSelected(
-                                refineSearchProvider.getSexSelected);
-                            petsProvider.changeHealthSelected(
-                                refineSearchProvider.getHealthSelected);
-                            petsProvider.changeIsFiltering(
-                                petsProvider.getPetType == 'Todos' ? false : true);
+                            petsProvider.changePetKind(refineSearchProvider.getIsDisappeared ? 'Disappeared' : 'Donate');
+                            refineSearchProvider.changeSearchHomePetTypeInitialValue(petsProvider.getPetType);
+                            petsProvider.changeBreedSelected(refineSearchProvider.getBreedSelected);
+                            petsProvider.changeSizeSelected(refineSearchProvider.getSizeSelected);
+                            petsProvider.changeAgeSelected(refineSearchProvider.getAgeSelected);
+                            petsProvider.changeSexSelected(refineSearchProvider.getSexSelected);
+                            petsProvider.changeHealthSelected(refineSearchProvider.getHealthSelected);
+                            petsProvider.changeIsFiltering(petsProvider.getPetType == 'Todos' ? false : true);
 
-                                print('Filter pet type ${petsProvider.getPetType}');
+                            print('Filter pet type ${petsProvider.getPetType}');
 
-                            Navigator.pushNamed(context, Routes.HOME,
-                                arguments: refineSearchProvider.getIsDisappeared
-                                    ? 1
-                                    : 0);
+                            Navigator.pushNamed(context, Routes.HOME, arguments: refineSearchProvider.getIsDisappeared ? 1 : 0);
                           },
                   ),
                 ),
-                adsProvider.getCanShowAds
-                    ? adsProvider.bannerAdMob(adId: adsProvider.bottomAdId)
-                    : Container(),
+                adsProvider.getCanShowAds ? adsProvider.bannerAdMob(adId: adsProvider.bottomAdId) : Container(),
               ],
             ),
           ),
-          LoadDarkScreen(
-              show: isRefiningSearch, message: 'Refinando resultados...')
+          LoadDarkScreen(show: isRefiningSearch, message: 'Refinando resultados...')
         ],
       ),
     );
@@ -314,23 +291,20 @@ class _PetSelector extends StatelessWidget {
       child: Container(
         height: 120,
         child: ListView.builder(
+          key: UniqueKey(),
           scrollDirection: Axis.horizontal,
           itemCount: selector.length,
           itemBuilder: (_, index) {
             return Card(
-              margin:
-                  const EdgeInsets.symmetric(horizontal: 0.0, vertical: 8.0),
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(0.0)),
+              margin: const EdgeInsets.symmetric(horizontal: 0.0, vertical: 8.0),
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0.0)),
               elevation: index == selectedKind ? 6.0 : null,
               child: InkWell(
                 onTap: () {
                   handleSelectedKind(index);
                 },
                 child: Container(
-                  color: index == selectedKind
-                      ? Theme.of(context).primaryColor
-                      : null,
+                  color: index == selectedKind ? Theme.of(context).primaryColor : null,
                   width: 120,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -338,18 +312,14 @@ class _PetSelector extends StatelessWidget {
                       Icon(
                         selector[index].values.first,
                         size: 40,
-                        color:
-                            index == selectedKind ? Colors.white : Colors.black,
+                        color: index == selectedKind ? Colors.white : Colors.black,
                       ),
                       SizedBox(height: 10),
                       Text(
                         selector[index].keys.first,
                         style: TextStyle(
-                          fontWeight:
-                              index == selectedKind ? FontWeight.bold : null,
-                          color: index == selectedKind
-                              ? Colors.white
-                              : Colors.black,
+                          fontWeight: index == selectedKind ? FontWeight.bold : null,
+                          color: index == selectedKind ? Colors.white : Colors.black,
                         ),
                       ),
                     ],
@@ -398,16 +368,14 @@ class __SelecterTileState extends State<_SelecterTile> {
                     style: TextStyle(fontSize: 18),
                   ),
                   Spacer(),
-                  widget.valueSelected != null &&
-                          widget.valueSelected.isNotEmpty
+                  widget.valueSelected != null && widget.valueSelected.isNotEmpty
                       ? Container(
                           height: 20,
                           child: Badge(text: widget.valueSelected),
                         )
                       : Container(),
                   Spacer(),
-                  widget.valueSelected != null &&
-                          widget.valueSelected.isNotEmpty
+                  widget.valueSelected != null && widget.valueSelected.isNotEmpty
                       ? FlatButton(
                           child: Text('Limpar'),
                           onPressed: () => widget.clear(),
