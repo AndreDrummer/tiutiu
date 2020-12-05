@@ -27,6 +27,7 @@ class _FullScreenImageState extends State<FullScreenImage> {
         child: Container(
           height: MediaQuery.of(context).size.height * 1.2,
           child: ListView.builder(
+            key: UniqueKey(),
             physics: zoom ? const NeverScrollableScrollPhysics() : null,
             scrollDirection: Axis.horizontal,
             itemCount: widget.images.length,

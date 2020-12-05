@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:tiutiu/backend/Model/geocoding_model.dart';
 import 'package:tiutiu/backend/Model/pet_model.dart';
 import 'package:tiutiu/providers/location.dart' as provider;
+import 'package:tiutiu/screen/announcer_datails.dart';
 import 'package:tiutiu/utils/constantes.dart';
 import 'package:tiutiu/utils/math_functions.dart';
 import "package:google_maps_webservice/geocoding.dart";
@@ -13,6 +14,7 @@ import 'package:tiutiu/backend/Model/user_model.dart';
 import 'package:tiutiu/utils/cesar_cripto.dart';
 import 'package:tiutiu/backend/Model/chat_model.dart';
 import 'package:tiutiu/utils/routes.dart';
+import 'package:tiutiu/utils/string_extension.dart';
 
 class OtherFunctions {
   static List<String> distanceCalculate(BuildContext context, double petLatitude, double petLongitude) {
@@ -68,6 +70,10 @@ class OtherFunctions {
     }
 
     return newPetList;
+  }
+
+  static String firstCharacterUpper(String text) {
+    return text.trim().capitalize();
   }
 
   static Future<String> getAddress(Location location) async {
@@ -129,6 +135,17 @@ class OtherFunctions {
           secondReceiverNotificationToken: secondUser.notificationToken,
         ),
       },
+    );
+  }
+
+  static void navigateToAnnouncerDetail(BuildContext context, User user, {bool showOnlyChat = false}) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) {
+          return AnnouncerDetails(user, showOnlyChat: showOnlyChat);
+        },
+      ),
     );
   }
 }

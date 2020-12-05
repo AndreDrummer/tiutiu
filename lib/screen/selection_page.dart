@@ -66,6 +66,7 @@ class _SelectionPageState extends State<SelectionPage> {
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: ListView.builder(
+          key: UniqueKey(),
           itemCount: list.length,
           itemBuilder: (_, index) {
             return InkWell(
@@ -80,10 +81,7 @@ class _SelectionPageState extends State<SelectionPage> {
                     },
               child: ListTile(
                 title: Text(list[index]),
-                trailing: widget.onTap != null &&
-                        widget.valueSelected.contains(list[index])
-                    ? Icon(Icons.done, color: Colors.purple)
-                    : null,
+                trailing: widget.onTap != null && widget.valueSelected.contains(list[index]) ? Icon(Icons.done, color: Colors.purple) : null,
               ),
             );
           },

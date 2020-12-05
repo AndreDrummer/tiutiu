@@ -380,7 +380,7 @@ class _PetFormState extends State<PetForm> {
     changeSavingStatus(true);
     var petController = PetController();
 
-    await uploadPhotos(_nome.text);
+    await uploadPhotos(_nome.text.trim());
 
     if (photosToDelete.isNotEmpty) {
       try {
@@ -557,6 +557,7 @@ class _PetFormState extends State<PetForm> {
                                 Container(
                                   height: 200,
                                   child: ListView.builder(
+                                    key: UniqueKey(),
                                     scrollDirection: Axis.horizontal,
                                     itemCount: petFormProvider.getPetPhotos.length + 1,
                                     itemBuilder: (ctx, index) {
@@ -856,6 +857,7 @@ class _PetFormState extends State<PetForm> {
                                                   height: 20,
                                                   width: 140,
                                                   child: ListView.builder(
+                                                    key: UniqueKey(),
                                                     scrollDirection: Axis.horizontal,
                                                     itemCount: list.length,
                                                     itemBuilder: (_, index) {

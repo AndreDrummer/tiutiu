@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 
 class Badge extends StatelessWidget {
-  
   Badge({
     this.text,
     this.color = Colors.blue,
-    this.textSize = 10
+    this.textSize = 10,
   });
 
   final text;

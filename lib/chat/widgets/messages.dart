@@ -30,13 +30,14 @@ class Messages extends StatelessWidget {
         List<DocumentSnapshot> chatDocs = snapshot.data.documents;
 
         return ListView.builder(
+          key: UniqueKey(),
           reverse: true,
           itemCount: chatDocs.length,
           itemBuilder: (ctx, index) {
             return Padding(
               padding: const EdgeInsets.symmetric(vertical: 2.0),
               child: MessageBubble(
-                message: Message.fromSnapshot(chatDocs[index]).text,
+                message: Message.fromSnapshot(chatDocs[index]).text.trim(),
                 userImage: Message.fromSnapshot(chatDocs[index]).userImage,
                 userName: Message.fromSnapshot(chatDocs[index]).userName,
                 belongToMe: Message.fromSnapshot(chatDocs[index]).userId == myUserId,
