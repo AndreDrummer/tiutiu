@@ -37,7 +37,7 @@ exports.createNotificationAdoptionConfirmed = functions.firestore
 
 exports.createNotificationAdoptionDenied = functions.firestore
     .document('Adopted/{id}')
-    .onUpdate((snap, context) => {        
+    .onUpdate((snap, context) => {
         if (snap.after.data()['gaveup'] === true) {
             admin.messaging().sendToDevice(`${snap.after.data()['ownerNotificationToken']}`, {
                 notification: {
@@ -75,6 +75,23 @@ exports.createNotificationInfo = functions.firestore
             notification: {
                 title: 'Informações sobre seu PET desaparecido',
                 body: `${snap.data()['interestedName']} viu seu PET próximo a localização dele.`,
+                clickAction: 'FLUTTER_NOTIFICATION_CLICK'
+            },
+            data: {
+                data: JSON.stringify(snap.data())
+            }
+        })
+    })
+
+
+exports.createNotificationChat = functions.firestore
+    .document('Chats/{chatId}/chat/{messageId}')
+    .onCreate((snap, context) => {
+        console.log(snap.data());
+        admin.messaging().sendToDevice(`${snap.data()['receiverNotificationToken']}`, {
+            notification: {
+                title: `Nova mensagem de ${snap.data()['userName']}`,
+                body: `${snap.data()['text']}`,
                 clickAction: 'FLUTTER_NOTIFICATION_CLICK'
             },
             data: {
