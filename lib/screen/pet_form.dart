@@ -334,8 +334,7 @@ class _PetFormState extends State<PetForm> {
     StorageReference storageReference;
 
     for (int i = 0; i < convertedImageList.length; i++) {
-      storageReference =
-          FirebaseStorage.instance.ref().child('$userId/').child('petsPhotos/$kind/$storageHashKey/$petName-${DateTime.now().millisecondsSinceEpoch}');
+      storageReference = FirebaseStorage.instance.ref().child('$userId/').child('petsPhotos/$kind/$storageHashKey/$petName-${DateTime.now().millisecondsSinceEpoch}');
       uploadTask = storageReference.putData(convertedImageList[i]);
       await uploadTask.onComplete;
       petPhotosToUpload.add(await storageReference.getDownloadURL());
@@ -381,7 +380,7 @@ class _PetFormState extends State<PetForm> {
     changeSavingStatus(true);
     var petController = PetController();
 
-    await uploadPhotos(_nome.text);
+    await uploadPhotos(_nome.text.trim());
 
     if (photosToDelete.isNotEmpty) {
       try {
@@ -417,6 +416,7 @@ class _PetFormState extends State<PetForm> {
       size: petFormProvider.getPetSize,
       sex: petFormProvider.getPetSex,
       ownerId: userProvider.uid,
+      ownerName: userProvider.displayName,
       latitude: currentLocation?.latitude ?? 0,
       longitude: currentLocation?.longitude ?? 0,
       details: petFormProvider.getPetDescription,
@@ -557,6 +557,7 @@ class _PetFormState extends State<PetForm> {
                                 Container(
                                   height: 200,
                                   child: ListView.builder(
+                                    key: UniqueKey(),
                                     scrollDirection: Axis.horizontal,
                                     itemCount: petFormProvider.getPetPhotos.length + 1,
                                     itemBuilder: (ctx, index) {
@@ -856,6 +857,7 @@ class _PetFormState extends State<PetForm> {
                                                   height: 20,
                                                   width: 140,
                                                   child: ListView.builder(
+                                                    key: UniqueKey(),
                                                     scrollDirection: Axis.horizontal,
                                                     itemCount: list.length,
                                                     itemBuilder: (_, index) {
