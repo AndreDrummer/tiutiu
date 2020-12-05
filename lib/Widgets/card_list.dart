@@ -163,7 +163,7 @@ class _CardListState extends State<CardList> {
                                         }
 
                                         return Text(
-                                          '$announcerName está ${widget.kind.toUpperCase() == 'DONATE' ? 'doando' : 'procurando'}.',
+                                          '${OtherFunctions.firstCharacterUpper(announcerName)} está ${widget.kind.toUpperCase() == 'DONATE' ? 'doando' : 'procurando'}.',
                                           textAlign: TextAlign.left,
                                           overflow: TextOverflow.fade,
                                           style: Theme.of(context).textTheme.headline1.copyWith(
