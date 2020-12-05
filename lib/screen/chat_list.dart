@@ -32,51 +32,44 @@ class _ChatListState extends State<ChatList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'Mensagens',
-          style: Theme.of(context).textTheme.headline1.copyWith(
-                fontSize: 20,
-                fontWeight: FontWeight.w700,
-              ),
-        ),
-      ),
       body: Column(
         children: [
-          adsProvider.getCanShowAds ? adsProvider.bannerAdMob(adId: adsProvider.bottomAdId) : Container(),
           Expanded(
             child: StreamBuilder(
-                stream: chatProvider.firestore.collection('Chats').orderBy('lastMessageTime', descending: true).snapshots(),
-                builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-                  List<QueryDocumentSnapshot> messagesList = [];
+              stream: chatProvider.firestore.collection('Chats').orderBy('lastMessageTime', descending: true).snapshots(),
+              builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                List<QueryDocumentSnapshot> messagesList = [];
 
-                  if (snapshot.connectionState == ConnectionState.waiting) return Center(child: CircularProgressIndicator());
+                if (snapshot.connectionState == ConnectionState.waiting) return Center(child: CircularProgressIndicator());
 
-                  snapshot.data.docs.forEach((element) {
-                    if (element.get('firstUserId') == userProvider.uid || element.get('secondUserId') == userProvider.uid) messagesList.add(element);
-                  });
+                snapshot.data.docs.forEach((element) {
+                  if (element.get('firstUserId') == userProvider.uid || element.get('secondUserId') == userProvider.uid) messagesList.add(element);
+                });
 
-                  if (messagesList.isEmpty) {
-                    return EmptyListScreen(
-                      text: 'Nenhuma conversa encontrada!',
-                      icon: Icons.chat,
-                    );
-                  }
-
-                  return ListView.builder(
-                    itemCount: messagesList.length,
-                    itemBuilder: (ctx, index) {
-                      return _ListTileMessage(
-                        chat: Chat.fromSnapshot(messagesList[index]),
-                        messageId: messagesList[index].id,
-                        myUserId: userProvider.uid,
-                        chatProvider: chatProvider,
-                        newMessage: !Chat.fromSnapshot(messagesList[index]).open && Chat.fromSnapshot(messagesList[index]).lastSender != userProvider.uid,
-                      );
-                    },
+                if (messagesList.isEmpty) {
+                  return EmptyListScreen(
+                    text: 'Nenhuma conversa encontrada!',
+                    icon: Icons.chat,
                   );
-                }),
+                }
+
+                return ListView.builder(
+                  key: UniqueKey(),
+                  itemCount: messagesList.length,
+                  itemBuilder: (ctx, index) {
+                    return _ListTileMessage(
+                      chat: Chat.fromSnapshot(messagesList[index]),
+                      messageId: messagesList[index].id,
+                      myUserId: userProvider.uid,
+                      chatProvider: chatProvider,
+                      newMessage: !Chat.fromSnapshot(messagesList[index]).open && Chat.fromSnapshot(messagesList[index]).lastSender != userProvider.uid,
+                    );
+                  },
+                );
+              },
+            ),
           ),
+          // adsProvider.getCanShowAds ? adsProvider.bannerAdMob(adId: adsProvider.bottomAdId) : Container(),
         ],
       ),
     );

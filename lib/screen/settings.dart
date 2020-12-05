@@ -202,19 +202,19 @@ class _SettingsState extends State<Settings> {
   }
 
   bool passwordWasTouched() {
-    return _newPassword.text.isNotEmpty && _repeatNewPassword.text.isNotEmpty;
+    return _newPassword.text.trim().isNotEmpty && _repeatNewPassword.text.trim().isNotEmpty;
   }
 
   bool validatePersonalData() {
     String patttern = r'(^[0-9]*$)';
     RegExp regExp = new RegExp(patttern);
 
-    bool validWhatsapp = _whatsAppController.text.isNotEmpty && _whatsAppController.text.contains('-') && regExp.hasMatch(_whatsAppController.text.split('-')[1]);
+    bool validWhatsapp = _whatsAppController.text.trim().isNotEmpty && _whatsAppController.text.trim().contains('-') && regExp.hasMatch(_whatsAppController.text.trim().split('-')[1]);
 
-    bool validTelefone = _telefoneController.text.isNotEmpty && _telefoneController.text.contains('-') && regExp.hasMatch(_telefoneController.text.split('-')[1]);
+    bool validTelefone = _telefoneController.text.trim().isNotEmpty && _telefoneController.text.trim().contains('-') && regExp.hasMatch(_telefoneController.text.trim().split('-')[1]);
 
     if (userProvider.getBetterContact == 0) {
-      var serializedWhatsappNumber = Formatter.unmaskNumber(_telefoneController.text);
+      var serializedWhatsappNumber = Formatter.unmaskNumber(_telefoneController.text.trim());
       if (serializedWhatsappNumber == null) {
         _telefoneController.clear();
       }
@@ -228,7 +228,7 @@ class _SettingsState extends State<Settings> {
     }
 
     if (userProvider.getBetterContact == 1) {
-      var serializedWhatsappNumber = Formatter.unmaskNumber(_whatsAppController.text);
+      var serializedWhatsappNumber = Formatter.unmaskNumber(_whatsAppController.text.trim());
       if (serializedWhatsappNumber == null) {
         _whatsAppController.clear();
       }
@@ -241,22 +241,22 @@ class _SettingsState extends State<Settings> {
       }
     }
 
-    if (_telefoneController.text.isNotEmpty) {
-      if (!_telefoneController.text.contains('-'))
+    if (_telefoneController.text.trim().isNotEmpty) {
+      if (!_telefoneController.text.trim().contains('-'))
         setState(() {
           telefoneHasError = true;
           _telefoneController.text = 'Insira um número válido ou deixe vazio';
         });
-      return _telefoneController.text.contains('-');
+      return _telefoneController.text.trim().contains('-');
     }
 
-    if (_whatsAppController.text.isNotEmpty) {
-      if (!_whatsAppController.text.contains('-'))
+    if (_whatsAppController.text.trim().isNotEmpty) {
+      if (!_whatsAppController.text.trim().contains('-'))
         setState(() {
           whatsappHasError = true;
           _whatsAppController.text = 'Insira um número válido ou deixe vazio';
         });
-      return _whatsAppController.text.contains('-');
+      return _whatsAppController.text.trim().contains('-');
     }
     setState(() {
       telefoneHasError = false;
@@ -271,7 +271,7 @@ class _SettingsState extends State<Settings> {
       if (passwordWasTouched()) {
         changeSaveFormStatus(true);
         try {
-          await auth.firebaseUser.updatePassword(_newPassword.text);
+          await auth.firebaseUser.updatePassword(_newPassword.text.trim());
         } catch (error) {
           changeSaveFormStatus(false);
           isToShowDialog ? showMessageWarningUpdatePasswordOrDeleteAccount() : SizedBox();
@@ -285,21 +285,21 @@ class _SettingsState extends State<Settings> {
       }
 
       await userController.updateUser(userProvider.uid, {
-        'displayName': _nameController.text,
+        'displayName': _nameController.text.trim(),
         'uid': auth.firebaseUser.uid,
         'photoURL': userProfile.isNotEmpty ? photoURL : userProvider.photoURL,
         'photoBACK': userProfile.isNotEmpty ? photoBACK : userProvider.photoBACK,
-        'phoneNumber': _whatsAppController.text,
-        'landline': _telefoneController.text,
+        'phoneNumber': _whatsAppController.text.trim(),
+        'landline': _telefoneController.text.trim(),
         'betterContact': userProvider.getBetterContact,
         'email': auth.firebaseUser.email,
         'createdAt': userProvider.createdAt
       });
 
-      userProvider.changeDisplayName(_nameController.text);
+      userProvider.changeDisplayName(_nameController.text.trim());
       userProvider.changeBetterContact(userProvider.getBetterContact);
-      userProvider.changeWhatsapp(_whatsAppController.text);
-      userProvider.changeTelefone(_telefoneController.text);
+      userProvider.changeWhatsapp(_whatsAppController.text.trim());
+      userProvider.changeTelefone(_telefoneController.text.trim());
       userProvider.changePhotoUrl(photoURL);
       userProvider.changePhotoBack(photoBACK);
       userProfile.clear();
@@ -546,12 +546,12 @@ class _SettingsState extends State<Settings> {
                                     style: Theme.of(context).textTheme.headline1.copyWith(color: Colors.black54, fontWeight: FontWeight.w300),
                                     controller: _nameController,
                                   )
-                                : Text(_nameController.text, style: Theme.of(context).textTheme.headline1.copyWith(color: Colors.black)),
+                                : Text(_nameController.text.trim(), style: Theme.of(context).textTheme.headline1.copyWith(color: Colors.black)),
                             trailing: IconButton(
                               icon: isNameEditing ? Icon(Icons.save) : Icon(Icons.mode_edit),
                               onPressed: () {
                                 if (isNameEditing) {
-                                  userProvider.changeDisplayName(_nameController.text);
+                                  userProvider.changeDisplayName(_nameController.text.trim());
                                   changeFieldEditingState(false, 'isNameEditing');
                                 } else {
                                   changeFieldEditingState(true, 'isNameEditing');
@@ -573,12 +573,12 @@ class _SettingsState extends State<Settings> {
                                     keyboardType: TextInputType.number,
                                     controller: _whatsAppController,
                                   )
-                                : Text(_whatsAppController.text, style: whatsappHasError ? TextStyle(color: Colors.red, fontSize: 11) : null),
+                                : Text(_whatsAppController.text.trim(), style: whatsappHasError ? TextStyle(color: Colors.red, fontSize: 11) : null),
                             trailing: IconButton(
                               icon: isWhatsAppEditing ? Icon(Icons.save) : Icon(Icons.mode_edit),
                               onPressed: () {
                                 if (isWhatsAppEditing) {
-                                  userProvider.changeWhatsapp(_whatsAppController.text);
+                                  userProvider.changeWhatsapp(_whatsAppController.text.trim());
                                   if (_personalDataFormKey.currentState.validate()) {
                                     changeFieldEditingState(false, 'isWhatsAppEditing');
                                   }
@@ -603,12 +603,12 @@ class _SettingsState extends State<Settings> {
                                     keyboardType: TextInputType.number,
                                     controller: _telefoneController,
                                   )
-                                : Text(_telefoneController.text, style: telefoneHasError ? TextStyle(color: Colors.red, fontSize: 11) : null),
+                                : Text(_telefoneController.text.trim(), style: telefoneHasError ? TextStyle(color: Colors.red, fontSize: 11) : null),
                             trailing: IconButton(
                               icon: isTelefoneEditing ? Icon(Icons.save) : Icon(Icons.mode_edit),
                               onPressed: () {
                                 if (isTelefoneEditing) {
-                                  userProvider.changeTelefone(_telefoneController.text);
+                                  userProvider.changeTelefone(_telefoneController.text.trim());
                                   if (_personalDataFormKey.currentState.validate()) {
                                     changeFieldEditingState(false, 'isTelefoneEditing');
                                   }
@@ -737,7 +737,7 @@ class _SettingsState extends State<Settings> {
                             hintText: 'Nova Senha',
                             controller: _newPassword,
                             validator: (String value) {
-                              if (value.isEmpty && _repeatNewPassword.text.isEmpty) {
+                              if (value.isEmpty && _repeatNewPassword.text.trim().isEmpty) {
                                 return null;
                               }
                               if (value.length < 6) {
@@ -751,10 +751,10 @@ class _SettingsState extends State<Settings> {
                             hintText: 'Repita a nova senha',
                             controller: _repeatNewPassword,
                             validator: (String value) {
-                              if (value.isEmpty && _newPassword.text.isEmpty) {
+                              if (value.isEmpty && _newPassword.text.trim().isEmpty) {
                                 return null;
                               }
-                              if (value != _newPassword.text) {
+                              if (value != _newPassword.text.trim()) {
                                 return 'Senhas não conferem';
                               }
                             },
