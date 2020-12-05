@@ -189,6 +189,7 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
                   adsProvider.getCanShowAds ? adsProvider.bannerAdMob(adId: adsProvider.topAdId) : Container(),
                   Expanded(
                     child: ListView.builder(
+                      key: UniqueKey(),
                       itemCount: pets.length,
                       itemBuilder: (_, index) {
                         return Padding(
