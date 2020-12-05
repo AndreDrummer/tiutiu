@@ -54,21 +54,19 @@ class _FavoritesState extends State<Favorites> {
                           child: Text(
                             'Nenhum PET Favoritado',
                             textAlign: TextAlign.center,
-                            style:
-                                Theme.of(context).textTheme.headline1.copyWith(
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.w100,
-                                    ),
+                            style: Theme.of(context).textTheme.headline1.copyWith(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w100,
+                                ),
                           ),
                         );
                       }
                       return Column(
                         children: [
-                          adsProvider.getCanShowAds
-                              ? Container()//adsProvider.bannerAdMob(adId: adsProvider.topAdId)
-                              : Container(),
+                          adsProvider.getCanShowAds ? adsProvider.bannerAdMob(adId: adsProvider.topAdId) : Container(),
                           Expanded(
                             child: ListView.builder(
+                              key: UniqueKey(),
                               itemCount: snapshot.data.length,
                               itemBuilder: (_, index) {
                                 return CardList(

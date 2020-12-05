@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_open_whatsapp/flutter_open_whatsapp.dart';
+import 'package:provider/provider.dart';
 import 'package:tiutiu/Custom/icons.dart';
 import 'package:tiutiu/Widgets/background.dart';
 import 'package:tiutiu/Widgets/circle_child.dart';
@@ -9,12 +10,20 @@ import 'package:tiutiu/Widgets/fullscreen_images.dart';
 import 'package:tiutiu/backend/Controller/pet_controller.dart';
 import 'package:tiutiu/backend/Controller/user_controller.dart';
 import 'package:tiutiu/backend/Model/user_model.dart';
+import 'package:tiutiu/providers/ads_provider.dart';
+import 'package:tiutiu/providers/user_provider.dart';
 import 'package:tiutiu/utils/launcher_functions.dart';
 import 'package:tiutiu/utils/other_functions.dart';
+import 'package:tiutiu/utils/string_extension.dart';
 
 class AnnouncerDetails extends StatefulWidget {
-  AnnouncerDetails(this.user);
+  AnnouncerDetails(
+    this.user, {
+    this.showOnlyChat = false,
+  });
+
   final User user;
+  final bool showOnlyChat;
 
   @override
   _AnnouncerDetailsState createState() => _AnnouncerDetailsState();
@@ -26,6 +35,7 @@ class _AnnouncerDetailsState extends State<AnnouncerDetails> {
   int userTotalAdopted = 0;
   int userTotalDisap = 0;
   UserController userController = UserController();
+  AdsProvider adsProvider;
 
   void calculateTotals(user) async {
     PetController petController = PetController();
@@ -48,6 +58,18 @@ class _AnnouncerDetailsState extends State<AnnouncerDetails> {
   void initState() {
     calculateTotals(widget.user);
     super.initState();
+  }
+
+  @override
+  void setState(fn) {
+    if (!mounted) return;
+    super.setState(fn);
+  }
+
+  @override
+  void didChangeDependencies() {
+    adsProvider = Provider.of(context);
+    super.didChangeDependencies();
   }
 
   @override
@@ -93,7 +115,7 @@ class _AnnouncerDetailsState extends State<AnnouncerDetails> {
               children: [
                 SizedBox(height: 25),
                 Container(
-                  height: height / 2.5,
+                  height: height / 3.5,
                   child: FadeInImage(
                     placeholder: AssetImage('assets/fundo.jpg'),
                     image: widget.user.photoBACK != null
@@ -106,8 +128,8 @@ class _AnnouncerDetailsState extends State<AnnouncerDetails> {
                     height: 100,
                   ),
                 ),
-                SizedBox(height: 65),
-                CustomDivider(text: "${widget.user.name}"),
+                SizedBox(height: 50),
+                CustomDivider(text: "${widget.user.name.capitalize()}", fontSize: 18),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Row(
@@ -193,55 +215,69 @@ class _AnnouncerDetailsState extends State<AnnouncerDetails> {
                   ),
                 ),
                 Divider(color: Colors.black),
+                adsProvider.getCanShowAds ? adsProvider.bannerAdMob(adId: adsProvider.bottomAdId, medium_banner: true) : Container(),
                 Spacer(),
                 CustomDivider(text: 'Contato'),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      userWhatsapp != null
-                          ? InkWell(
+                widget.user.betterContact == 3 || widget.showOnlyChat
+                    ? _OnlyChatButton(secondUser: widget.user)
+                    : Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            userWhatsapp != null
+                                ? InkWell(
+                                    onTap: () {
+                                      callWhatsapp();
+                                    },
+                                    child: CircleChild(
+                                      avatarRadius: 25,
+                                      child: Icon(
+                                        Tiutiu.whatsapp,
+                                      ),
+                                    ),
+                                  )
+                                : Container(),
+                            userLandline != null
+                                ? InkWell(
+                                    onTap: () {
+                                      callLandline();
+                                    },
+                                    child: CircleChild(
+                                      avatarRadius: 25,
+                                      child: Icon(
+                                        Icons.phone,
+                                      ),
+                                    ),
+                                  )
+                                : Container(),
+                            userEmail != null
+                                ? InkWell(
+                                    onTap: () {
+                                      callEmail();
+                                    },
+                                    child: CircleChild(
+                                      avatarRadius: 25,
+                                      child: Icon(
+                                        Icons.email,
+                                      ),
+                                    ),
+                                  )
+                                : Container(),
+                            InkWell(
                               onTap: () {
-                                callWhatsapp();
+                                OtherFunctions.openChat(context: context, firstUser: Provider.of<UserProvider>(context, listen: false).user(), secondUser: widget.user);
                               },
                               child: CircleChild(
                                 avatarRadius: 25,
                                 child: Icon(
-                                  Tiutiu.whatsapp,
+                                  Icons.chat,
                                 ),
                               ),
                             )
-                          : Container(),
-                      userLandline != null
-                          ? InkWell(
-                              onTap: () {
-                                callLandline();
-                              },
-                              child: CircleChild(
-                                avatarRadius: 25,
-                                child: Icon(
-                                  Icons.phone,
-                                ),
-                              ),
-                            )
-                          : Container(),
-                      userEmail != null
-                          ? InkWell(
-                              onTap: () {
-                                callEmail();
-                              },
-                              child: CircleChild(
-                                avatarRadius: 25,
-                                child: Icon(
-                                  Icons.email,
-                                ),
-                              ),
-                            )
-                          : Container(),
-                    ],
-                  ),
-                ),
+                          ],
+                        ),
+                      ),
               ],
             ),
             Positioned(
@@ -255,11 +291,11 @@ class _AnnouncerDetailsState extends State<AnnouncerDetails> {
             ),
             Positioned(
               left: width * 0.3,
-              top: height / 3.5,
+              top: height / 5,
               child: InkWell(
                 onTap: widget.user.photoURL != null ? () => openFullScreenMode([widget.user.photoURL], 'profilePic') : () {},
                 child: CircleChild(
-                  avatarRadius: 80,
+                  avatarRadius: 70,
                   child: Hero(
                     tag: 'profilePic',
                     child: FadeInImage(
@@ -276,6 +312,37 @@ class _AnnouncerDetailsState extends State<AnnouncerDetails> {
               ),
             ),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+class _OnlyChatButton extends StatelessWidget {
+  _OnlyChatButton({
+    this.secondUser,
+  });
+
+  final User secondUser;
+
+  @override
+  Widget build(BuildContext context) {
+    return RaisedButton(
+      onPressed: () {
+        OtherFunctions.openChat(
+          context: context,
+          firstUser: Provider.of<UserProvider>(context, listen: false).user(),
+          secondUser: secondUser,
+        );
+      },
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
+      ),
+      color: Colors.purple,
+      child: Text(
+        'CHAT',
+        style: TextStyle(
+          color: Colors.white,
         ),
       ),
     );
