@@ -123,16 +123,10 @@ class OtherFunctions {
         'receiverNotificationToken': secondUser.notificationToken,
         'receiverId': secondUser.id,
         'message': Chat(
-          firstUserId: firstUser.id,
-          secondUserId: secondUser.id,
-          firstUserImagePath: firstUser.photoURL,
-          secondUserImagePath: secondUser.photoURL,
-          firstUserName: firstUser.name,
+          firstUser: firstUser,
+          secondUser: secondUser,
           lastMessage: '',
           lastMessageTime: Timestamp.now(),
-          secondUserName: secondUser.name,
-          firstReceiverNotificationToken: firstUser.notificationToken,
-          secondReceiverNotificationToken: secondUser.notificationToken,
         ),
       },
     );

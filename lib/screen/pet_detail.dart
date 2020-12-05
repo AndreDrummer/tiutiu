@@ -288,14 +288,16 @@ class _PetDetailsState extends State<PetDetails> {
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
-        leading: IconButton(
-            icon: Icon(
-              Icons.arrow_back,
-              color: Colors.white,
-            ),
-            onPressed: () {
-              Navigator.pop(context);
-            }),
+        leading: Container(
+          child: IconButton(
+              icon: Icon(
+                Icons.arrow_back,
+                color: Colors.white,
+              ),
+              onPressed: () {
+                Navigator.pop(context);
+              }),
+        ),
         title: Text(
           'Detalhes de ${widget.pet.name}',
           style: TextStyle(
@@ -652,15 +654,16 @@ class _PetDetailsState extends State<PetDetails> {
             onTap: () => OtherFunctions.navigateToAnnouncerDetail(context, widget.petOwner),
             child: Container(
               decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment(0.0, 0.8),
-                    end: Alignment(0.0, 0.0),
-                    colors: [
-                      Color.fromRGBO(0, 0, 0, 0),
-                      Color.fromRGBO(0, 0, 0, 0.6),
-                    ],
-                  ),
-                  borderRadius: BorderRadius.circular(50)),
+                gradient: LinearGradient(
+                  begin: Alignment(0.0, 0.8),
+                  end: Alignment(0.0, 0.0),
+                  colors: [
+                    Color.fromRGBO(0, 0, 0, 0),
+                    Color.fromRGBO(0, 0, 0, 0.6),
+                  ],
+                ),
+                borderRadius: BorderRadius.circular(50),
+              ),
               child: Row(
                 children: [
                   CircleAvatar(

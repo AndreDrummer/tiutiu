@@ -6,6 +6,7 @@ import 'package:tiutiu/Custom/icons.dart';
 import 'package:tiutiu/Widgets/badge.dart';
 import 'package:tiutiu/Widgets/play_store_rating.dart';
 import 'package:tiutiu/backend/Controller/user_controller.dart';
+import 'package:tiutiu/backend/Model/user_model.dart';
 import 'package:tiutiu/providers/auth2.dart';
 import 'package:tiutiu/providers/chat_provider.dart';
 import 'package:tiutiu/providers/pets_provider.dart';
@@ -114,11 +115,11 @@ class _PetsListState extends State<PetsList> with SingleTickerProviderStateMixin
     List<QueryDocumentSnapshot> messagesList = [];
     if (snapshot.data != null) {
       snapshot.data.docs.forEach((element) {
-        if (element.get('firstUserId') == uid || element.get('secondUserId') == uid) messagesList.add(element);
+        if (User.fromMap(element.get('firstUser')).id == uid || User.fromMap(element.get('secondUser')).id == uid) messagesList.add(element);
       });
 
       messagesList.forEach((e) {
-        if (!e.get('open') && e.get('lastSender') != uid) {
+        if (e.get('open') != null && !e.get('open') && e.get('lastSender') != uid) {
           qtd++;
         }
       });
@@ -236,7 +237,7 @@ class _PetsListState extends State<PetsList> with SingleTickerProviderStateMixin
           ),
           bottom: TabBar(
             controller: _controller,
-            indicatorColor: Colors.white,
+            indicatorColor: Colors.purple,
             labelColor: Colors.white,
             tabs: [
               Tab(icon: Icon(Tiutiu.dog), text: 'ADOTAR'),
