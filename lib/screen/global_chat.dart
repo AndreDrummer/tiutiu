@@ -9,7 +9,6 @@ import 'package:tiutiu/providers/ads_provider.dart';
 import 'package:tiutiu/providers/chat_provider.dart';
 import 'package:tiutiu/providers/user_provider.dart';
 import 'package:tiutiu/utils/other_functions.dart';
-import 'package:tiutiu/utils/routes.dart';
 
 class GlobalChat extends StatefulWidget {
   @override
@@ -56,20 +55,31 @@ class _GlobalChatState extends State<GlobalChat> {
     return 1;
   }
 
+  List<User> search(List<User> userList, String textToFilter) {
+    List<User> newPetList = [];
+    if (textToFilter.isNotEmpty) {
+      for (User user in userList) {
+        if (user.name.toLowerCase().contains(textToFilter.toLowerCase())) newPetList.add(user);
+      }
+      return newPetList;
+    } else {
+      return userList;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Column(
         children: [
+          _Search(onChanged: chatProvider.changeTextGlobalCharSearch),
           Expanded(
             child: StreamBuilder(
-              stream: chatProvider.firestore.collection('Users').snapshots(),
+              stream: chatProvider.globalChatList(),
               builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) return Center(child: CircularProgressIndicator());
 
                 List<User> messagesList = snapshot.data.docs.map((e) => User.fromSnapshot(e)).toList();
-
-                messagesList.sort(orderByName);
 
                 if (messagesList.isEmpty) {
                   return EmptyListScreen(
@@ -78,47 +88,59 @@ class _GlobalChatState extends State<GlobalChat> {
                   );
                 }
 
-                return Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Row(
+                return StreamBuilder(
+                    stream: chatProvider.textGlobalCharSearch,
+                    builder: (context, AsyncSnapshot<String> snapshot) {
+                      if (snapshot.data != null && snapshot.data.isNotEmpty) {
+                        messagesList = search(messagesList, snapshot.data);
+                        messagesList.sort(orderByName);
+                      } else {
+                        messagesList.sort(orderByName);
+                      }
+
+                      return Column(
                         children: [
-                          Text(
-                            '${messagesList.length} ',
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w700,
-                              color: Colors.black26,
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              children: [
+                                Text(
+                                  '${messagesList.length} ',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w700,
+                                    color: Colors.black26,
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 2.0),
+                                  child: Text(
+                                    'usuários encontrados',
+                                    style: TextStyle(
+                                      fontSize: 13,
+                                      fontWeight: FontWeight.w700,
+                                      color: Colors.black26,
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 2.0),
-                            child: Text(
-                              'usuário encontrados',
-                              style: TextStyle(
-                                fontSize: 13,
-                                fontWeight: FontWeight.w700,
-                                color: Colors.black26,
-                              ),
+                          Expanded(
+                            child: ListView.builder(
+                              key: UniqueKey(),
+                              itemCount: messagesList.length,
+                              itemBuilder: (ctx, index) {
+                                return _ListTileMessage(
+                                  myUser: userProvider.user(),
+                                  user: messagesList[index],
+                                );
+                              },
                             ),
                           ),
                         ],
-                      ),
-                    ),
-                    Expanded(
-                      child: ListView.builder(
-                        key: UniqueKey(),
-                        itemCount: messagesList.length,
-                        itemBuilder: (ctx, index) {
-                          return _ListTileMessage(
-                            user: messagesList[index],
-                          );
-                        },
-                      ),
-                    ),
-                  ],
-                );
+                      );
+                    });
               },
             ),
           ),
@@ -129,11 +151,51 @@ class _GlobalChatState extends State<GlobalChat> {
   }
 }
 
+class _Search extends StatelessWidget {
+  _Search({
+    this.onChanged,
+  });
+
+  final Function(String) onChanged;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        border: Border.all(color: Colors.black12),
+        borderRadius: BorderRadius.circular(12),
+      ),
+      margin: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.only(left: 10),
+      child: TextFormField(
+        textCapitalization: TextCapitalization.sentences,
+        onChanged: onChanged,
+        cursorColor: Colors.grey,
+        style: TextStyle(fontSize: 20, color: Colors.grey),
+        decoration: InputDecoration(
+          labelText: 'Pesquisar',
+          labelStyle: TextStyle(
+            color: Colors.black12,
+          ),
+          focusedBorder: UnderlineInputBorder(
+            borderSide: BorderSide(style: BorderStyle.none),
+          ),
+          enabledBorder: UnderlineInputBorder(
+            borderSide: BorderSide(style: BorderStyle.none),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
 class _ListTileMessage extends StatelessWidget {
   _ListTileMessage({
+    this.myUser,
     this.user,
   });
 
+  final User myUser;
   final User user;
 
   @override
@@ -141,15 +203,10 @@ class _ListTileMessage extends StatelessWidget {
     String name = OtherFunctions.firstCharacterUpper(user.name);
     return InkWell(
       onTap: () {
-        Navigator.pushNamed(
-          context,
-          Routes.CHAT,
-          arguments: {
-            'chatTitle': OtherFunctions.firstCharacterUpper(user.name),
-            'secondUserId': user.id,
-            'receiverId': user.id,
-            'receiverNotificationToken': user.notificationToken,
-          },
+        OtherFunctions.openChat(
+          context: context,
+          firstUser: myUser,
+          secondUser: user,
         );
       },
       child: Column(

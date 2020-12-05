@@ -124,7 +124,6 @@ class _RegisterState extends State<Register> {
       return null;
     } else if (value.length < 11) {
       setState(() {
-        print("${value.length} KKK");
         whatsappHasErrorMessage = "O celular deve ter 11 dígitos";
         whatsappHasError = true;
       });
@@ -269,9 +268,6 @@ class _RegisterState extends State<Register> {
 
   @override
   Widget build(BuildContext context) {
-    print(userProvider.photoURL);
-    print(userProvider.telefone);
-    print(userProvider.whatsapp);
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
