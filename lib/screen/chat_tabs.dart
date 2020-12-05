@@ -11,16 +11,17 @@ class ChatTab extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           title: Text(
-            'Tiu, tiu Chat',
+            'CHAT',
             style: Theme.of(context).textTheme.headline1.copyWith(
                   fontSize: 20,
                   fontWeight: FontWeight.w700,
                 ),
           ),
           bottom: TabBar(
+            indicatorColor: Colors.purple,
             tabs: [
               Tab(icon: Icon(Icons.chat_bubble), text: 'MINHAS CONVERSAS'),
-              Tab(icon: Icon(Icons.chat_sharp), text: 'CHAT'),
+              Tab(icon: Icon(Icons.chat_sharp), text: 'TIU, TIU CHAT'),
             ],
           ),
         ),

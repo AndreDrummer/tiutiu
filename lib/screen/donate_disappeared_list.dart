@@ -498,7 +498,7 @@ class __HomeSearchState extends State<_HomeSearch> {
     }
   }
 
-  void handleOnTextSearchSubmit(String textSearch) {
+  void handleOnTextSearchChange(String textSearch) {
     if (refineSearchProvider.getSearchHomeTypeInitialValue == 'Nome do PET') {
       petsProvider.changeIsFilteringByName(true);
       petsProvider.clearOthersFilters();
@@ -551,7 +551,7 @@ class __HomeSearchState extends State<_HomeSearch> {
                                     isType: snapshotSearchPetByTypeOnHome?.data ?? false,
                                     onDropdownTypeChange: handleSearchType,
                                     onDropdownHomeSearchOptionsChange: handleSearchOptions,
-                                    onChanged: handleOnTextSearchSubmit,
+                                    onChanged: handleOnTextSearchChange,
                                   );
                                 });
                           });
