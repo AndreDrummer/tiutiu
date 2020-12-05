@@ -249,8 +249,11 @@ class DummyData {
   ];
 
   static const size = [
+    'Porte-Mini',
     'Pequeno-porte',
+    'Pequeno-médio-porte',
     'Médio-porte',
+    'Porte-médio-grande',
     'Grande-porte',
   ];
 

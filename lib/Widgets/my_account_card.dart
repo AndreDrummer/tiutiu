@@ -22,13 +22,10 @@ class MyAccountCard extends StatelessWidget {
     return InkWell(
       onTap: () => onTap(),
       child: Container(
-        width: isToExpand
-            ? MediaQuery.of(context).size.width - 10
-            : MediaQuery.of(context).size.width * 0.485,
+        width: isToExpand ? MediaQuery.of(context).size.width - 10 : MediaQuery.of(context).size.width * 0.485,
         child: Card(
           elevation: 6.0,
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
           child: Padding(
             padding: const EdgeInsets.all(16.0),
             child: Column(
@@ -37,7 +34,7 @@ class MyAccountCard extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Icon(icone, color: Colors.grey, size: 30),                    
+                    Icon(icone, color: Colors.grey, size: 30),
                     Container(
                       width: 100,
                       child: Text(

@@ -34,11 +34,18 @@ class _InterestedListState extends State<InterestedList> {
   UserProvider userProvider;
   UserController userController = UserController();
   bool isSinalizing = false;
+  bool isOpeningChat = false;
   int timeToSendNotificationAgain = 120;
 
   void changeIsSinalizingStatus(bool value) {
     setState(() {
       isSinalizing = value;
+    });
+  }
+
+  void changeIsOpenningChatStatus(bool value) {
+    setState(() {
+      isOpeningChat = value;
     });
   }
 
@@ -200,73 +207,84 @@ class _InterestedListState extends State<InterestedList> {
       appBar: AppBar(
         title: Text(widget.kind == 'Donate' ? 'Interessados em ${widget.pet.name}'.toUpperCase() : 'Quem informou sobre ${widget.pet.name}'.toUpperCase()),
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 8.0),
-        child: StreamBuilder<List<InterestedModel>>(
-          stream: widget.kind == 'Donate' ? userInfoOrAdoptInterestsProvider.interested : userInfoOrAdoptInterestsProvider.info,
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return LoadingPage(
-                messageLoading: 'Carregando lista de interessados',
-                circle: true,
-              );
-            }
+      body: Stack(
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 8.0),
+            child: StreamBuilder<List<InterestedModel>>(
+              stream: widget.kind == 'Donate' ? userInfoOrAdoptInterestsProvider.interested : userInfoOrAdoptInterestsProvider.info,
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return LoadingPage(
+                    messageLoading: 'Carregando lista de interessados',
+                    circle: true,
+                  );
+                }
 
-            List<InterestedModel> interesteds = snapshot.data;
-            interesteds.sort((a, b) {
-              return DateTime.parse(b.interestedAt).millisecondsSinceEpoch - DateTime.parse(a.interestedAt).millisecondsSinceEpoch;
-            });
+                List<InterestedModel> interesteds = snapshot.data;
+                interesteds.sort((a, b) {
+                  return DateTime.parse(b.interestedAt).millisecondsSinceEpoch - DateTime.parse(a.interestedAt).millisecondsSinceEpoch;
+                });
 
-            return Stack(
-              children: [
-                ListView.builder(
-                  itemCount: interesteds.length,
-                  itemBuilder: (_, index) {
-                    return FutureBuilder<DocumentSnapshot>(
-                      future: interesteds[index]?.userReference?.get(),
-                      builder: (context, interestedReferenceSnapshot) {
-                        if (snapshot.connectionState == ConnectionState.waiting) {
-                          return CircularProgressIndicator();
-                        }
-
-                        if (!interestedReferenceSnapshot.hasData || interestedReferenceSnapshot.data.data() == null) {
-                          return Container();
-                        }
-
-                        User interestedUser = User.fromSnapshot(interestedReferenceSnapshot.data);
-                        String subtitle =
-                            '${widget.kind == 'Donate' ? 'Interessou dia' : 'Informou dia'} ${DateFormat('dd/MM/y HH:mm').format(DateTime.parse(interesteds[index].interestedAt))}';
-
-                        return InterestedInfoCard(
-                          subtitle: subtitle,
-                          interestedUser: interestedUser,
-                          navigateToInterestedDetail: interestedUser.photoURL == null ? null : () => navigateToInterestedDetail(interestedUser),
-                          infoOrDonateFunction: () {
-                            int hoursSinceLastNotification = DateTime.now().difference(DateTime.parse(interesteds[index].lastNotificationSend)).inMinutes;
-                            bool canSendNewNotification = widget.kind == 'Donate' &&
-                                hoursSinceLastNotification >= timeToSendNotificationAgain &&
-                                (!interesteds[index].donated && !interesteds[index].gaveup);
-
-                            if (canSendNewNotification) {
-                              doar(interestedUser, interesteds[index]);
-                            } else if (widget.kind == 'Disappeared') {
-                              seeInfo(interesteds[index]);
+                return Stack(
+                  children: [
+                    ListView.builder(
+                      key: UniqueKey(),
+                      itemCount: interesteds.length,
+                      itemBuilder: (_, index) {
+                        return FutureBuilder<DocumentSnapshot>(
+                          future: interesteds[index]?.userReference?.get(),
+                          builder: (context, interestedReferenceSnapshot) {
+                            if (snapshot.connectionState == ConnectionState.waiting) {
+                              return CircularProgressIndicator();
                             }
+
+                            if (!interestedReferenceSnapshot.hasData || interestedReferenceSnapshot.data.data() == null) {
+                              return Container();
+                            }
+
+                            User interestedUser = User.fromSnapshot(interestedReferenceSnapshot.data);
+                            String subtitle = '${widget.kind == 'Donate' ? 'Interessou dia' : 'Informou dia'} ${DateFormat('dd/MM/y HH:mm').format(DateTime.parse(interesteds[index].interestedAt))}';
+
+                            return InterestedInfoCard(
+                              subtitle: subtitle,
+                              interestedUser: interestedUser,
+                              navigateToInterestedDetail: interestedUser.photoURL == null ? null : () => navigateToInterestedDetail(interestedUser),
+                              infoOrDonateFunction: () {
+                                int hoursSinceLastNotification = DateTime.now().difference(DateTime.parse(interesteds[index].lastNotificationSend)).inMinutes;
+                                bool canSendNewNotification = widget.kind == 'Donate' && hoursSinceLastNotification >= timeToSendNotificationAgain && (!interesteds[index].donated && !interesteds[index].gaveup);
+
+                                if (canSendNewNotification) {
+                                  doar(interestedUser, interesteds[index]);
+                                } else if (widget.kind == 'Disappeared') {
+                                  seeInfo(interesteds[index]);
+                                }
+                              },
+                              openChat: () => OtherFunctions.openChat(
+                                context: context,
+                                firstUser: userProvider.user(),
+                                secondUser: interestedUser,
+                              ),
+                              infoOrDonteText: text(interesteds[index]),
+                              color: color(
+                                interesteds[index],
+                              ),
+                            );
                           },
-                          infoOrDonteText: text(interesteds[index]),
-                          color: color(
-                            interesteds[index],
-                          ),
                         );
                       },
-                    );
-                  },
-                ),
-                LoadDarkScreen(show: isSinalizing, message: 'Sinalizando adoção..'),
-              ],
-            );
-          },
-        ),
+                    ),
+                    LoadDarkScreen(show: isSinalizing, message: 'Sinalizando adoção..'),
+                  ],
+                );
+              },
+            ),
+          ),
+          LoadDarkScreen(
+            message: 'Abrindo chat...',
+            show: isOpeningChat,
+          )
+        ],
       ),
     );
   }
