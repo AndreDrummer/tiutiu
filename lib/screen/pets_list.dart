@@ -7,6 +7,7 @@ import 'package:tiutiu/Widgets/badge.dart';
 import 'package:tiutiu/Widgets/play_store_rating.dart';
 import 'package:tiutiu/backend/Controller/user_controller.dart';
 import 'package:tiutiu/providers/auth2.dart';
+import 'package:tiutiu/providers/chat_provider.dart';
 import 'package:tiutiu/providers/pets_provider.dart';
 import 'package:tiutiu/providers/refine_search.dart';
 import 'package:tiutiu/providers/user_provider.dart';
@@ -22,11 +23,13 @@ class _PetsListState extends State<PetsList> with SingleTickerProviderStateMixin
   TabController _controller;
   int initialIndex = 0;
   PetsProvider petsProvider;
+  ChatProvider chatProvider;
   RefineSearchProvider refineSearchProvider;
 
   @override
   void didChangeDependencies() {
     petsProvider = Provider.of<PetsProvider>(context);
+    chatProvider = Provider.of<ChatProvider>(context);
     refineSearchProvider = Provider.of<RefineSearchProvider>(context);
     petsProvider.loadDisappearedPETS(state: refineSearchProvider.getStateOfResultSearch);
     petsProvider.loadDonatePETS(state: refineSearchProvider.getStateOfResultSearch);
@@ -106,6 +109,25 @@ class _PetsListState extends State<PetsList> with SingleTickerProviderStateMixin
     );
   }
 
+  int filterOnlyMyChats(AsyncSnapshot<QuerySnapshot> snapshot, String uid) {
+    int qtd = 0;
+    List<QueryDocumentSnapshot> messagesList = [];
+    if (snapshot.data != null) {
+      snapshot.data.docs.forEach((element) {
+        if (element.get('firstUserId') == uid || element.get('secondUserId') == uid) messagesList.add(element);
+      });
+
+      messagesList.forEach((e) {
+        if (!e.get('open') && e.get('lastSender') != uid) {
+          qtd++;
+        }
+      });
+
+      return qtd;
+    }
+    return qtd;
+  }
+
   @override
   Widget build(BuildContext context) {
     final indexTab = ModalRoute.of(context).settings.arguments;
@@ -136,40 +158,79 @@ class _PetsListState extends State<PetsList> with SingleTickerProviderStateMixin
                 ),
               ),
               Spacer(),
-              Consumer<UserProvider>(
-                builder: (_, userProvider, child) => Consumer<Authentication>(
-                  builder: (_, auth, child) => auth.firebaseUser == null
-                      ? Container()
-                      : Stack(
-                          children: [
-                            IconButton(
-                              onPressed: auth.firebaseUser == null
-                                  ? navigateToAuth
-                                  : () {
-                                      Navigator.pushNamed(
-                                        context,
-                                        Routes.NOTIFICATIONS,
-                                      );
-                                    },
-                              icon: Icon(
-                                Icons.notifications,
-                                color: Colors.white,
-                              ),
+              Row(
+                children: [
+                  Consumer<UserProvider>(
+                    builder: (_, userProvider, child) => Consumer<Authentication>(
+                      builder: (_, auth, child) => auth.firebaseUser == null
+                          ? Container()
+                          : Stack(
+                              children: [
+                                IconButton(
+                                  onPressed: auth.firebaseUser == null
+                                      ? navigateToAuth
+                                      : () {
+                                          Navigator.pushNamed(context, Routes.CHATLIST);
+                                        },
+                                  icon: Icon(
+                                    Icons.chat,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                                StreamBuilder<QuerySnapshot>(
+                                  stream: chatProvider.newMessages(),
+                                  builder: (context, snapshot) {
+                                    int newMessagesQty = filterOnlyMyChats(snapshot, userProvider.uid) ?? 0;
+                                    return Positioned(
+                                      right: 10,
+                                      child: Badge(
+                                        color: Colors.red,
+                                        text: newMessagesQty,
+                                      ),
+                                    );
+                                  },
+                                )
+                              ],
                             ),
-                            StreamBuilder<QuerySnapshot>(
-                                stream: UserController().loadNotificationsCount(userProvider.uid),
-                                builder: (context, snapshot) {
-                                  return Positioned(
-                                    right: 10,
-                                    child: Badge(
-                                      color: Colors.red,
-                                      text: snapshot.data?.docs?.length ?? 0,
-                                    ),
-                                  );
-                                })
-                          ],
-                        ),
-                ),
+                    ),
+                  ),
+                  Consumer<UserProvider>(
+                    builder: (_, userProvider, child) => Consumer<Authentication>(
+                      builder: (_, auth, child) => auth.firebaseUser == null
+                          ? Container()
+                          : Stack(
+                              children: [
+                                IconButton(
+                                  onPressed: auth.firebaseUser == null
+                                      ? navigateToAuth
+                                      : () {
+                                          Navigator.pushNamed(
+                                            context,
+                                            Routes.NOTIFICATIONS,
+                                          );
+                                        },
+                                  icon: Icon(
+                                    Icons.notifications,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                                StreamBuilder<QuerySnapshot>(
+                                  stream: UserController().loadNotificationsCount(userProvider.uid),
+                                  builder: (context, snapshot) {
+                                    return Positioned(
+                                      right: 10,
+                                      child: Badge(
+                                        color: Colors.red,
+                                        text: snapshot.data?.docs?.length ?? 0,
+                                      ),
+                                    );
+                                  },
+                                )
+                              ],
+                            ),
+                    ),
+                  ),
+                ],
               )
             ],
           ),

@@ -6,6 +6,7 @@ import 'package:tiutiu/utils/launcher_functions.dart';
 class InterestedInfoCard extends StatefulWidget {
   InterestedInfoCard({
     this.navigateToInterestedDetail,
+    this.openChat,
     this.infoOrDonateFunction,
     this.interestedUser,
     this.infoOrDonteText,
@@ -14,6 +15,7 @@ class InterestedInfoCard extends StatefulWidget {
   });
 
   final Function() navigateToInterestedDetail;
+  final Function() openChat;
   final Function() infoOrDonateFunction;
   final User interestedUser;
   final String subtitle;
@@ -95,14 +97,14 @@ class _InterestedInfoCardState extends State<InterestedInfoCard> {
             ),
             SizedBox(height: 20),
             Row(
-              // mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                // _ActionButton(
-                //   icon: Icons.chat,
-                //   text: 'Chat',
-                //   color: Colors.red,
-                // ),
-                // SizedBox(width: width * 0.14),
+                _ActionButton(
+                  icon: Icons.chat,
+                  onPressed: widget.openChat,
+                  text: 'Chat',
+                  color: Colors.purple,
+                ),
+                SizedBox(width: width * 0.14),
                 canOpenWhatsApp
                     ? _ActionButton(
                         onPressed: () {

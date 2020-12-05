@@ -12,6 +12,7 @@ key.properties
 local.properties
 .flutter-plugins-*
 node_modules/
+/lib/utils/constantes.dart
 
 
 

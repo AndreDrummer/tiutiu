@@ -4,8 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:tiutiu/Widgets/new_map.dart';
+import 'package:tiutiu/chat/screens/chat_screen.dart';
 import 'package:tiutiu/providers/ads_provider.dart';
 import 'package:tiutiu/providers/auth2.dart';
+import 'package:tiutiu/providers/chat_provider.dart';
 import 'package:tiutiu/providers/favorites_provider.dart';
 import 'package:tiutiu/providers/location.dart';
 import 'package:tiutiu/providers/my_pets_provider.dart';
@@ -16,6 +18,7 @@ import 'package:tiutiu/providers/user_infos_interests.dart';
 import 'package:tiutiu/providers/user_provider.dart';
 import 'package:tiutiu/screen/auth_screen.dart';
 import 'package:tiutiu/screen/bootstrap.dart';
+import 'package:tiutiu/screen/chat_tabs.dart';
 import 'package:tiutiu/screen/choose_location.dart';
 import 'package:tiutiu/screen/favorites.dart';
 import 'package:tiutiu/screen/home.dart';
@@ -91,6 +94,9 @@ class App extends StatelessWidget {
               ),
               ChangeNotifierProvider(
                 create: (_) => UserInfoOrAdoptInterestsProvider(),
+              ),
+              ChangeNotifierProvider(
+                create: (_) => ChatProvider(),
               )
             ],
             child: MaterialApp(
@@ -122,10 +128,12 @@ class App extends StatelessWidget {
               ),
               debugShowCheckedModeBanner: false,
               routes: {
+                // Routes.BOOTSTRAP: (ctx) => Register(),
                 Routes.BOOTSTRAP: (ctx) => Bootstrap(),
                 Routes.AUTH: (ctx) => AuthScreen(),
                 Routes.PET_FORM: (ctx) => PetForm(),
-                // Routes.BOOTSTRAP: (ctx) => PetForm(),
+                Routes.CHAT: (ctx) => ChatScreen(),
+                Routes.CHATLIST: (ctx) => ChatTab(),
                 Routes.SETTINGS: (ctx) => Settings(),
                 Routes.MEUS_PETS: (ctx) => MyPetsScreen(),
                 Routes.FAVORITES: (ctx) => Favorites(),
