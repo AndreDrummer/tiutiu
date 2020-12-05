@@ -4,7 +4,6 @@ extension StringExtension on String {
     return this
         .split(' ')
         .map((word) {
-          print(word);
           if (!word.isEmpty) {
             return output += word[0].toUpperCase() + word.substring(1) + " ";
           } else {
