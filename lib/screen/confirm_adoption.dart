@@ -35,9 +35,7 @@ class _ConfirmAdoptionScreenState extends State<ConfirmAdoptionScreen> {
     bool confirmAction,
   }) async {
     String title = confirmAction ? 'Confirmar adoção' : 'Negar adoção';
-    String message = confirmAction
-        ? 'Tem certeza que adotou $petName ?'
-        : 'Tem certeza que NÃO adotou $petName ?';
+    String message = confirmAction ? 'Tem certeza que adotou $petName ?' : 'Tem certeza que NÃO adotou $petName ?';
 
     showDialog(
       context: context,
@@ -97,8 +95,8 @@ class _ConfirmAdoptionScreenState extends State<ConfirmAdoptionScreen> {
 
   @override
   void didChangeDependencies() {
-    userProvider = Provider.of<UserProvider>(context);    
-    petsProvider = Provider.of<PetsProvider>(context);    
+    userProvider = Provider.of<UserProvider>(context);
+    petsProvider = Provider.of<PetsProvider>(context);
     adsProvider = Provider.of(context);
     super.didChangeDependencies();
   }
@@ -136,13 +134,14 @@ class _ConfirmAdoptionScreenState extends State<ConfirmAdoptionScreen> {
             );
           }
 
-        List<Pet> pets = petsProvider.getPetListFromSnapshots(snapshot.data.docs);
+          List<Pet> pets = petsProvider.getPetListFromSnapshots(snapshot.data.docs);
 
           return Column(
             children: [
               adsProvider.getCanShowAds ? adsProvider.bannerAdMob(adId: adsProvider.topAdId) : Container(),
               Expanded(
                 child: ListView.builder(
+                  key: UniqueKey(),
                   itemCount: pets.length,
                   itemBuilder: (_, index) {
                     return Padding(
@@ -165,8 +164,7 @@ class _ConfirmAdoptionScreenState extends State<ConfirmAdoptionScreen> {
                             ),
                           ),
                         ),
-                        SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.05),
+                        SizedBox(width: MediaQuery.of(context).size.width * 0.05),
                         Expanded(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -188,8 +186,7 @@ class _ConfirmAdoptionScreenState extends State<ConfirmAdoptionScreen> {
                             ],
                           ),
                         ),
-                        SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.2),
+                        SizedBox(width: MediaQuery.of(context).size.width * 0.2),
                         Expanded(
                           child: Row(
                             children: [
@@ -204,10 +201,7 @@ class _ConfirmAdoptionScreenState extends State<ConfirmAdoptionScreen> {
                                 },
                                 child: Column(
                                   children: [
-                                    CircleChild(
-                                        child: Icon(Icons.done),
-                                        avatarRadius: 20,
-                                        color: Colors.green),
+                                    CircleChild(child: Icon(Icons.done), avatarRadius: 20, color: Colors.green),
                                     Text(
                                       'Confirmar',
                                       style: TextStyle(fontSize: 10),
@@ -215,9 +209,7 @@ class _ConfirmAdoptionScreenState extends State<ConfirmAdoptionScreen> {
                                   ],
                                 ),
                               ),
-                              SizedBox(
-                                  width: MediaQuery.of(context).size.width *
-                                      0.025),
+                              SizedBox(width: MediaQuery.of(context).size.width * 0.025),
                               InkWell(
                                 onTap: () {
                                   denyOrConfirmAdoption(
@@ -228,14 +220,7 @@ class _ConfirmAdoptionScreenState extends State<ConfirmAdoptionScreen> {
                                   );
                                 },
                                 child: Column(
-                                  children: [
-                                    CircleChild(
-                                        child: Icon(Icons.close),
-                                        avatarRadius: 20,
-                                        color: Colors.red),
-                                    Text('Negar',
-                                        style: TextStyle(fontSize: 10))
-                                  ],
+                                  children: [CircleChild(child: Icon(Icons.close), avatarRadius: 20, color: Colors.red), Text('Negar', style: TextStyle(fontSize: 10))],
                                 ),
                               )
                             ],

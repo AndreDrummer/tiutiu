@@ -73,6 +73,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                     SizedBox(height: 20),
                     Expanded(
                       child: ListView.builder(
+                        key: UniqueKey(),
                         itemCount: snapshot.data.docs.length,
                         itemBuilder: (BuildContext context, int index) {
                           NotificationModel notificationModel = NotificationModel.fromSnapshot(orderedListByTime(snapshot.data.docs)[index]);
