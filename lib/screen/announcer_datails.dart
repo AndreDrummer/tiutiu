@@ -282,11 +282,25 @@ class _AnnouncerDetailsState extends State<AnnouncerDetails> {
             ),
             Positioned(
               top: 30,
-              child: IconButton(
-                icon: Icon(Icons.arrow_back, size: 30),
-                onPressed: () {
-                  Navigator.pop(context);
-                },
+              child: Container(
+                margin: const EdgeInsets.only(left: 8.0, top: 8.0),
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment(0.0, 0.8),
+                    end: Alignment(0.0, 0.0),
+                    colors: [
+                      Color.fromRGBO(0, 0, 0, 0),
+                      Color.fromRGBO(0, 0, 0, 0.4),
+                    ],
+                  ),
+                  borderRadius: BorderRadius.circular(50),
+                ),
+                child: IconButton(
+                  icon: Icon(Icons.arrow_back, size: 30, color: Colors.white),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                ),
               ),
             ),
             Positioned(

@@ -176,8 +176,6 @@ class GenerateHashKey {
 
     String output;
 
-    print(palavra);
-
     for (int i = 0; i < palavra.length; i++) {
       arrChar.add(palavra[i]);
     }
