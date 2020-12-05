@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:loading_animations/loading_animations.dart';
 
 class LoadingScreen extends StatelessWidget {
-  
   LoadingScreen({
-    @required this.text
+    @required this.text,
   });
 
   final String text;
@@ -21,10 +20,7 @@ class LoadingScreen extends StatelessWidget {
           SizedBox(height: 15),
           Text(
             text,
-            style: Theme.of(context)
-                .textTheme
-                .headline1
-                .copyWith(color: Colors.black),
+            style: Theme.of(context).textTheme.headline1.copyWith(color: Colors.black),
           )
         ],
       ),

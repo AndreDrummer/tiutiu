@@ -229,6 +229,7 @@ class _InterestedListState extends State<InterestedList> {
                 return Stack(
                   children: [
                     ListView.builder(
+                      key: UniqueKey(),
                       itemCount: interesteds.length,
                       itemBuilder: (_, index) {
                         return FutureBuilder<DocumentSnapshot>(

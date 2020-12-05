@@ -4,6 +4,7 @@ import 'package:tiutiu/Widgets/background.dart';
 import 'package:tiutiu/chat/widgets/messages.dart';
 import 'package:tiutiu/chat/widgets/new_message.dart';
 import 'package:tiutiu/providers/chat_provider.dart';
+import 'package:tiutiu/utils/other_functions.dart';
 
 class ChatScreen extends StatelessWidget {
   @override
@@ -18,7 +19,7 @@ class ChatScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          chatTitle,
+          OtherFunctions.firstCharacterUpper(chatTitle),
           style: Theme.of(context).textTheme.headline1.copyWith(
                 fontSize: 20,
                 fontWeight: FontWeight.w700,

@@ -24,7 +24,6 @@ import 'package:maps_launcher/maps_launcher.dart';
 import 'package:tiutiu/providers/location.dart' as provider;
 import 'package:tiutiu/providers/user_infos_interests.dart';
 import 'package:tiutiu/providers/user_provider.dart';
-import 'package:tiutiu/screen/announcer_datails.dart';
 import 'package:tiutiu/utils/constantes.dart';
 import 'package:tiutiu/utils/launcher_functions.dart';
 import 'package:tiutiu/utils/other_functions.dart';
@@ -129,7 +128,7 @@ class _PetDetailsState extends State<PetDetails> {
           controller: controller,
           callback: () {
             Navigator.pop(context);
-            sendData(userPosition, controller.text);
+            sendData(userPosition, controller.text.trim());
           },
         );
       },
@@ -348,6 +347,7 @@ class _PetDetailsState extends State<PetDetails> {
                   child: Padding(
                     padding: const EdgeInsets.all(4.0),
                     child: ListView.builder(
+                      key: UniqueKey(),
                       scrollDirection: Axis.horizontal,
                       itemCount: petDetails.length + otherCaracteristics.length,
                       itemBuilder: (BuildContext context, int index) {
@@ -579,17 +579,6 @@ class _PetDetailsState extends State<PetDetails> {
     }
   }
 
-  void navigateToAnnouncerDetail() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) {
-          return AnnouncerDetails(widget.petOwner);
-        },
-      ),
-    );
-  }
-
   Widget showImages({BuildContext context, List photos, double boxHeight}) {
     final height = MediaQuery.of(context).size.height;
     return Stack(
@@ -660,7 +649,7 @@ class _PetDetailsState extends State<PetDetails> {
           top: height / 7,
           left: 5,
           child: InkWell(
-            onTap: navigateToAnnouncerDetail,
+            onTap: () => OtherFunctions.navigateToAnnouncerDetail(context, widget.petOwner),
             child: Container(
               decoration: BoxDecoration(
                   gradient: LinearGradient(
