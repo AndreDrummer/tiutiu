@@ -212,20 +212,20 @@ class _RegisterState extends State<Register> {
     String patttern = r'(^[0-9]*$)';
     RegExp regExp = new RegExp(patttern);
 
-    if (_whatsapp.text.isEmpty) {
+    if (_whatsapp.text.trim().isEmpty) {
       setState(() {
         whatsappHasError = true;
       });
     }
 
-    if (_name.text.isEmpty) {
+    if (_name.text.trim().isEmpty) {
       setState(() {
         nameHasError = true;
       });
     }
 
-    if (_whatsapp.text.isNotEmpty) {
-      String unMaskNumber = Formatter.unmaskNumber(_whatsapp.text);
+    if (_whatsapp.text.trim().isNotEmpty) {
+      String unMaskNumber = Formatter.unmaskNumber(_whatsapp.text.trim());
       if (!regExp.hasMatch(unMaskNumber) || unMaskNumber.length < 11) {
         setState(() {
           whatsappHasError = true;
@@ -238,7 +238,7 @@ class _RegisterState extends State<Register> {
       }
     }
 
-    if (_name.text.isNotEmpty) {
+    if (_name.text.trim().isNotEmpty) {
       setState(() {
         nameHasError = false;
       });
@@ -251,11 +251,11 @@ class _RegisterState extends State<Register> {
     await uploadPhotos();
     UserController userController = UserController();
     await userController.updateUser(auth.firebaseUser.uid, {
-      'displayName': _name.text,
+      'displayName': _name.text.trim(),
       'uid': auth.firebaseUser.uid,
       'photoURL': photoURL,
-      'phoneNumber': _whatsapp.text,
-      'landline': _telefone.text,
+      'phoneNumber': _whatsapp.text.trim(),
+      'landline': _telefone.text.trim(),
       'betterContact': userProvider.getBetterContact,
       'email': auth.firebaseUser.email,
       'createdAt': DateTime.now().toIso8601String()
@@ -370,7 +370,7 @@ class _RegisterState extends State<Register> {
                         controller: _whatsapp,
                         validator: validarCelular,
                         onChanged: (text) {
-                          userProvider.changeWhatsapp(_whatsapp.text);
+                          userProvider.changeWhatsapp(_whatsapp.text.trim());
                         },
                       ),
                       whatsappHasError ? HintError(message: whatsappHasErrorMessage) : Container(),
@@ -384,7 +384,7 @@ class _RegisterState extends State<Register> {
                         keyBoardTypeNumber: true,
                         controller: _telefone,
                         onChanged: (text) {
-                          userProvider.changeTelefone(_telefone.text);
+                          userProvider.changeTelefone(_telefone.text.trim());
                         },
                       ),
                       telefoneHasError ? HintError(message: telefoneHasErrorMessage) : Container(),
@@ -407,7 +407,7 @@ class _RegisterState extends State<Register> {
                                       value: 0,
                                       onChanged: (value) {
                                         userProvider.changeBetterContact(value);
-                                        if (_whatsapp.text.isEmpty) {
+                                        if (_whatsapp.text.trim().isEmpty) {
                                           setState(() {
                                             whatsappHasErrorMessage = 'Quando este é seu melhor contato, deve ser preenchido.';
                                             whatsappHasError = true;
@@ -427,7 +427,7 @@ class _RegisterState extends State<Register> {
                                       value: 1,
                                       onChanged: (value) {
                                         userProvider.changeBetterContact(value);
-                                        if (_telefone.text.isEmpty) {
+                                        if (_telefone.text.trim().isEmpty) {
                                           setState(() {
                                             telefoneHasError = true;
                                             whatsappHasError = false;
@@ -495,7 +495,7 @@ class _RegisterState extends State<Register> {
             ? null
             : () async {
                 if (_formKey.currentState.validate()) {
-                  if (userProvider.getBetterContact == 1 && (_telefone.text.isEmpty || _telefone.text.length < 12)) {
+                  if (userProvider.getBetterContact == 1 && (_telefone.text.trim().isEmpty || _telefone.text.trim().length < 12)) {
                     _scaffoldKey.currentState.showSnackBar(
                       SnackBar(
                         backgroundColor: Colors.red,
