@@ -19,7 +19,7 @@ class CardDetails extends StatelessWidget {
         borderRadius: BorderRadius.circular(12),
       ),
       child: Container(
-        // height: 75,
+        height: 75,
         width: 170,
         alignment: Alignment.center,
         child: Padding(
@@ -42,7 +42,6 @@ class CardDetails extends StatelessWidget {
                           title.toUpperCase(),
                           style: TextStyle(
                             letterSpacing: 1.2,
-                            // fontSize: 18,
                             fontWeight: FontWeight.w300,
                           ),
                         ),

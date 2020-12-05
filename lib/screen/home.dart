@@ -191,10 +191,6 @@ class _HomeState extends State<Home> {
     final String kind = qParams.toString().split('/').first;
     final String id = qParams.toString().split('/').last;
 
-    print('DeepLink $deepLink');
-    print('qParams $qParams');
-    print('Kind $kind');
-    print('Id $id');
     Pet pet = await petsProvider.openPetDetails(id, kind);
     User user = await UserController().getUserByID(pet.ownerId);
     Navigator.push(
