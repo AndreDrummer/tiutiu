@@ -15,6 +15,7 @@ import 'package:tiutiu/providers/user_provider.dart';
 import 'package:tiutiu/utils/constantes.dart';
 import 'package:tiutiu/utils/other_functions.dart';
 import 'package:tiutiu/utils/routes.dart';
+import 'package:tiutiu/utils/string_extension.dart';
 
 class DonateDisappearedList extends StatefulWidget {
   DonateDisappearedList({
@@ -124,14 +125,19 @@ class _DonateDisappearedListState extends State<DonateDisappearedList> {
 
   @override
   Widget build(BuildContext context) {
-    final marginTop = MediaQuery.of(context).size.height / 1.4;
+    final marginTop = MediaQuery.of(context).size.height / 1.55;
     final height = MediaQuery.of(context).size.height;
 
     return Scaffold(
       key: _scaffoldKey,
       backgroundColor: Colors.blueGrey[50],
-      body: Column(
+      body: ListView(
+        key: UniqueKey(),
         children: [
+          FilterCard(
+            petsProvider: petsProvider,
+            refineSearchProvider: refineSearchProvider,
+          ),
           StreamBuilder<List<Pet>>(
             stream: (petsProvider.getIsFilteringByBreed || petsProvider.getIsFilteringByName) ? petsProvider.typingSearchResult : widget.stream,
             builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -210,16 +216,11 @@ class _DonateDisappearedListState extends State<DonateDisappearedList> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    FilterCard(
-                      petsProvider: petsProvider,
-                      refineSearchProvider: refineSearchProvider,
-                      qtyPets: petsList.length,
-                    ),
                     Container(
                       height: 20,
                       alignment: Alignment(-0.9, 1),
                       padding: const EdgeInsets.only(left: 10, right: 10),
-                      margin: const EdgeInsets.only(bottom: 10),
+                      margin: const EdgeInsets.only(bottom: 10, top: 5),
                       child: Row(
                         children: [
                           Row(
@@ -301,7 +302,7 @@ class _DonateDisappearedListState extends State<DonateDisappearedList> {
                                           children: [
                                             adsProvider.getCanShowAds ? adsProvider.bannerAdMob(adId: adsProvider.topAdId, medium_banner: true) : Container(),
                                             Padding(
-                                              padding: const EdgeInsets.only(top: 8.0, bottom: 16.0),
+                                              padding: const EdgeInsets.only(top: 8.0, bottom: 24.0),
                                               child: Row(
                                                 mainAxisAlignment: MainAxisAlignment.center,
                                                 children: [
@@ -508,15 +509,15 @@ class __HomeSearchState extends State<_HomeSearch> {
   void performTypingSearch(String text) {
     petsProvider.changeTypingSearchResult([]);
     List<Pet> oldPetList = petsProvider.getPetKind == 'Donate' ? petsProvider.getPetsDonate : petsProvider.getPetsDisappeared;
-    if (text.trim().isNotEmpty) {
+    if (text.trim().removeAccent().isNotEmpty) {
       List<Pet> newPetList = [];
       for (Pet pet in oldPetList) {
-        if (petsProvider.getIsFilteringByName && pet.name.toLowerCase().contains(text.toLowerCase())) newPetList.add(pet);
-        if (petsProvider.getIsFilteringByBreed && pet.breed.toLowerCase().contains(text.toLowerCase())) newPetList.add(pet);
+        if (petsProvider.getIsFilteringByName && pet.name.toLowerCase().contains(text.removeAccent().toLowerCase())) newPetList.add(pet);
+        if (petsProvider.getIsFilteringByBreed && pet.breed.toLowerCase().contains(text.removeAccent().toLowerCase())) newPetList.add(pet);
       }
       petsProvider.changeTypingSearchResult(newPetList);
     }
-    if (text.trim().isEmpty) petsProvider.changeTypingSearchResult(oldPetList);
+    if (text.trim().removeAccent().isEmpty) petsProvider.changeTypingSearchResult(oldPetList);
   }
 
   @override
@@ -558,12 +559,10 @@ class FilterCard extends StatefulWidget {
   FilterCard({
     this.refineSearchProvider,
     this.petsProvider,
-    this.qtyPets,
   });
 
   final RefineSearchProvider refineSearchProvider;
   final PetsProvider petsProvider;
-  final qtyPets;
 
   @override
   _FilterCardState createState() => _FilterCardState();
@@ -577,12 +576,12 @@ class _FilterCardState extends State<FilterCard> {
     final itemsHeight = (3 * 25.0);
     return AnimatedContainer(
       duration: Duration(milliseconds: 500),
-      height: _isExpanded ? itemsHeight + 185 : 80,
+      height: _isExpanded ? itemsHeight + 180 : 70,
       child: Card(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(25),
         ),
-        margin: const EdgeInsets.all(10),
+        margin: const EdgeInsets.all(6.0),
         child: Column(
           children: <Widget>[
             ListTile(
@@ -598,7 +597,7 @@ class _FilterCardState extends State<FilterCard> {
             ),
             AnimatedContainer(
               duration: Duration(milliseconds: 500),
-              height: _isExpanded ? 150 : 0,
+              height: _isExpanded ? 170 : 0,
               child: ListView(
                 children: [
                   Divider(),
@@ -611,6 +610,7 @@ class _FilterCardState extends State<FilterCard> {
                   ),
                   Divider(),
                   _HomeSearch(),
+                  Divider(),
                 ],
               ),
             )
