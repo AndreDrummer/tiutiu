@@ -6,7 +6,6 @@ import 'package:provider/provider.dart';
 import 'package:tiutiu/Widgets/empty_list.dart';
 import 'package:tiutiu/backend/Model/user_model.dart';
 import 'package:tiutiu/chat/common/functions.dart';
-import 'package:tiutiu/chat/widgets/search.dart';
 import 'package:tiutiu/providers/ads_provider.dart';
 import 'package:tiutiu/providers/chat_provider.dart';
 import 'package:tiutiu/providers/user_provider.dart';
@@ -35,7 +34,7 @@ class _GlobalChatState extends State<GlobalChat> {
     return Scaffold(
       body: Column(
         children: [
-          Search(onChanged: chatProvider.changeTextGlobalChatSearch, placeholder: 'Pesquisar uma pessoa'),
+          // Search(onChanged: chatProvider.changeTextGlobalChatSearch, placeholder: 'Pesquisar uma pessoa'),
           Expanded(
             child: StreamBuilder(
               stream: chatProvider.globalChatList(),
@@ -60,6 +59,8 @@ class _GlobalChatState extends State<GlobalChat> {
                       } else {
                         messagesList.sort(CommonChatFunctions.orderByName);
                       }
+
+                      messagesList.removeWhere((element) => element.id == userProvider.uid);
 
                       return Column(
                         children: [
