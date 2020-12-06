@@ -4,6 +4,7 @@ import 'package:tiutiu/backend/Model/chat_model.dart';
 import 'package:tiutiu/backend/Model/user_model.dart';
 import 'package:tiutiu/utils/cesar_cripto.dart';
 import 'package:tiutiu/utils/routes.dart';
+import 'package:tiutiu/utils/string_extension.dart';
 
 class CommonChatFunctions {
   static List<QueryDocumentSnapshot> orderedListByTime(List<QueryDocumentSnapshot> docs, {String parameterOrder}) {
@@ -38,8 +39,8 @@ class CommonChatFunctions {
     List<Chat> newChat = [];
     if (textToFilter.isNotEmpty) {
       for (Chat chat in chatList) {
-        if (chat.firstUser.id != myId && chat.firstUser.name.toLowerCase().contains(textToFilter.toLowerCase())) newChat.add(chat);
-        if (chat.secondUser != myId && chat.secondUser.name.toLowerCase().contains(textToFilter.toLowerCase())) newChat.add(chat);
+        if (chat.firstUser.id != myId && chat.firstUser.name.removeAccent().toLowerCase().contains(textToFilter.toLowerCase())) newChat.add(chat);
+        if (chat.secondUser != myId && chat.secondUser.name.removeAccent().toLowerCase().contains(textToFilter.toLowerCase())) newChat.add(chat);
       }
       return newChat;
     } else {
@@ -51,7 +52,7 @@ class CommonChatFunctions {
     List<User> newUserList = [];
     if (textToFilter.isNotEmpty) {
       for (User user in userList) {
-        if (user.name.toLowerCase().contains(textToFilter.toLowerCase())) newUserList.add(user);
+        if (user.name.removeAccent().toLowerCase().contains(textToFilter.removeAccent().toLowerCase())) newUserList.add(user);
       }
       return newUserList;
     } else {
@@ -60,8 +61,8 @@ class CommonChatFunctions {
   }
 
   static int orderByName(User a, User b) {
-    List<int> aname = a.name.trim().codeUnits;
-    List<int> bname = b.name.trim().codeUnits;
+    List<int> aname = a.name.trim().removeAccent().codeUnits;
+    List<int> bname = b.name.trim().removeAccent().codeUnits;
 
     if (a.name.isEmpty) {
       aname = 'z'.codeUnits;
