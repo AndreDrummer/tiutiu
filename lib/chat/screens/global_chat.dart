@@ -5,6 +5,8 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:tiutiu/Widgets/empty_list.dart';
 import 'package:tiutiu/backend/Model/user_model.dart';
+import 'package:tiutiu/chat/common/functions.dart';
+import 'package:tiutiu/chat/widgets/search.dart';
 import 'package:tiutiu/providers/ads_provider.dart';
 import 'package:tiutiu/providers/chat_provider.dart';
 import 'package:tiutiu/providers/user_provider.dart';
@@ -28,51 +30,12 @@ class _GlobalChatState extends State<GlobalChat> {
     userProvider = Provider.of(context);
   }
 
-  int orderByName(User a, User b) {
-    List<int> aname = a.name.trim().codeUnits;
-    List<int> bname = b.name.trim().codeUnits;
-
-    if (a.name.isEmpty) {
-      aname = 'z'.codeUnits;
-    }
-    if (b.name.isEmpty) {
-      bname = 'z'.codeUnits;
-    }
-
-    int i = 0;
-    while (i < bname.length) {
-      if (bname[i] < aname[i]) {
-        return 1;
-      } else if (bname[i] == aname[i]) {
-        i++;
-        if (i >= aname.length) {
-          return 1;
-        }
-      } else {
-        return -1;
-      }
-    }
-    return 1;
-  }
-
-  List<User> search(List<User> userList, String textToFilter) {
-    List<User> newPetList = [];
-    if (textToFilter.isNotEmpty) {
-      for (User user in userList) {
-        if (user.name.toLowerCase().contains(textToFilter.toLowerCase())) newPetList.add(user);
-      }
-      return newPetList;
-    } else {
-      return userList;
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Column(
         children: [
-          _Search(onChanged: chatProvider.changeTextGlobalCharSearch),
+          Search(onChanged: chatProvider.changeTextGlobalChatSearch, placeholder: 'Pesquisar uma pessoa'),
           Expanded(
             child: StreamBuilder(
               stream: chatProvider.globalChatList(),
@@ -89,13 +52,13 @@ class _GlobalChatState extends State<GlobalChat> {
                 }
 
                 return StreamBuilder(
-                    stream: chatProvider.textGlobalCharSearch,
+                    stream: chatProvider.textGlobalChatSearch,
                     builder: (context, AsyncSnapshot<String> snapshot) {
                       if (snapshot.data != null && snapshot.data.isNotEmpty) {
-                        messagesList = search(messagesList, snapshot.data);
-                        messagesList.sort(orderByName);
+                        messagesList = CommonChatFunctions.searchUser(messagesList, snapshot.data);
+                        messagesList.sort(CommonChatFunctions.orderByName);
                       } else {
-                        messagesList.sort(orderByName);
+                        messagesList.sort(CommonChatFunctions.orderByName);
                       }
 
                       return Column(
@@ -151,44 +114,6 @@ class _GlobalChatState extends State<GlobalChat> {
   }
 }
 
-class _Search extends StatelessWidget {
-  _Search({
-    this.onChanged,
-  });
-
-  final Function(String) onChanged;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        border: Border.all(color: Colors.black12),
-        borderRadius: BorderRadius.circular(12),
-      ),
-      margin: const EdgeInsets.all(8.0),
-      padding: const EdgeInsets.only(left: 10),
-      child: TextFormField(
-        textCapitalization: TextCapitalization.sentences,
-        onChanged: onChanged,
-        cursorColor: Colors.grey,
-        style: TextStyle(fontSize: 20, color: Colors.grey),
-        decoration: InputDecoration(
-          labelText: 'Pesquisar',
-          labelStyle: TextStyle(
-            color: Colors.black12,
-          ),
-          focusedBorder: UnderlineInputBorder(
-            borderSide: BorderSide(style: BorderStyle.none),
-          ),
-          enabledBorder: UnderlineInputBorder(
-            borderSide: BorderSide(style: BorderStyle.none),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
 class _ListTileMessage extends StatelessWidget {
   _ListTileMessage({
     this.myUser,
@@ -203,7 +128,7 @@ class _ListTileMessage extends StatelessWidget {
     String name = OtherFunctions.firstCharacterUpper(user.name);
     return InkWell(
       onTap: () {
-        OtherFunctions.openChat(
+        CommonChatFunctions.openChat(
           context: context,
           firstUser: myUser,
           secondUser: user,
