@@ -573,15 +573,16 @@ class _FilterCardState extends State<FilterCard> {
 
   @override
   Widget build(BuildContext context) {
-    final itemsHeight = (3 * 25.0);
     return AnimatedContainer(
       duration: Duration(milliseconds: 500),
-      height: _isExpanded ? itemsHeight + 180 : 70,
+      height: _isExpanded ? 240 : 70,
       child: Card(
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(25),
+          borderRadius: BorderRadius.only(
+            bottomLeft: Radius.circular(25),
+            bottomRight: Radius.circular(25),
+          ),
         ),
-        margin: const EdgeInsets.all(6.0),
         child: Column(
           children: <Widget>[
             ListTile(
@@ -610,7 +611,10 @@ class _FilterCardState extends State<FilterCard> {
                   ),
                   Divider(),
                   _HomeSearch(),
-                  Divider(),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                    child: Divider(),
+                  ),
                 ],
               ),
             )

@@ -466,9 +466,9 @@ class _PetDetailsState extends State<PetDetails> {
                               ),
                             ),
                           ),
-                          SizedBox(height: widget.kind != 'DONATE' ? height / 16 : height / 28),
+                          SizedBox(height: widget.kind != 'DONATE' ? height / 16 : height / 64),
                           Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 12.0, vertical: 30.0),
+                            padding: EdgeInsets.only(left: 12.0, right: 12, bottom: 20.0),
                             child: _ownerPetcontact(
                               user: widget.petOwner,
                               whatsappMessage: whatsappMessage,
@@ -652,7 +652,10 @@ class _PetDetailsState extends State<PetDetails> {
           top: height / 7,
           left: 5,
           child: InkWell(
-            onTap: () => OtherFunctions.navigateToAnnouncerDetail(context, widget.petOwner),
+            onTap: () {
+              OtherFunctions.navigateToAnnouncerDetail(context, widget.petOwner);
+              print(widget.petOwner.toJson());
+            },
             child: Container(
               decoration: BoxDecoration(
                 gradient: LinearGradient(
@@ -693,7 +696,7 @@ class _PetDetailsState extends State<PetDetails> {
                           style: TextStyle(color: Colors.white, fontStyle: FontStyle.italic, fontSize: 10),
                         ),
                         Text(
-                          widget.petOwner.name ?? '',
+                          OtherFunctions.firstCharacterUpper(widget.pet.ownerName) ?? '',
                           style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
                         ),
                       ],
