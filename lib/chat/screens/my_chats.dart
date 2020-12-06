@@ -7,18 +7,20 @@ import 'package:tiutiu/Widgets/badge.dart';
 import 'package:tiutiu/Widgets/empty_list.dart';
 import 'package:tiutiu/backend/Model/chat_model.dart';
 import 'package:tiutiu/backend/Model/user_model.dart';
+import 'package:tiutiu/chat/common/functions.dart';
+import 'package:tiutiu/chat/widgets/search.dart';
 import 'package:tiutiu/providers/ads_provider.dart';
 import 'package:tiutiu/providers/chat_provider.dart';
 import 'package:tiutiu/providers/user_provider.dart';
 import 'package:tiutiu/utils/other_functions.dart';
 import 'package:tiutiu/utils/routes.dart';
 
-class ChatList extends StatefulWidget {
+class MyChats extends StatefulWidget {
   @override
-  _ChatListState createState() => _ChatListState();
+  _MyChatsState createState() => _MyChatsState();
 }
 
-class _ChatListState extends State<ChatList> {
+class _MyChatsState extends State<MyChats> {
   AdsProvider adsProvider;
   ChatProvider chatProvider;
   UserProvider userProvider;
@@ -40,6 +42,7 @@ class _ChatListState extends State<ChatList> {
     return Scaffold(
       body: Column(
         children: [
+          Search(onChanged: chatProvider.changeTextChatSearch, placeholder: 'Pesquisar uma conversa'),
           Expanded(
             child: StreamBuilder(
               stream: chatProvider.firestore.collection('Chats').orderBy('lastMessageTime', descending: true).snapshots(),
@@ -52,26 +55,36 @@ class _ChatListState extends State<ChatList> {
                   if (User.fromMap(element.get('firstUser')).id == userProvider.uid || User.fromMap(element.get('secondUser')).id == userProvider.uid) messagesList.add(element);
                 });
 
-                if (messagesList.isEmpty) {
+                List<Chat> chatList = messagesList.map((e) => Chat.fromSnapshot(e)).toList();
+
+                if (chatList.isEmpty) {
                   return EmptyListScreen(
                     text: 'Nenhuma conversa encontrada!',
                     icon: Icons.chat,
                   );
                 }
 
-                return ListView.builder(
-                  key: UniqueKey(),
-                  itemCount: messagesList.length,
-                  itemBuilder: (ctx, index) {
-                    return _ListTileMessage(
-                      chat: Chat.fromSnapshot(messagesList[index]),
-                      messageId: messagesList[index].id,
-                      myUserId: userProvider.uid,
-                      chatProvider: chatProvider,
-                      newMessage: existsNewMessage(Chat.fromSnapshot(messagesList[index])),
-                    );
-                  },
-                );
+                return StreamBuilder(
+                    stream: chatProvider.textChatSearch,
+                    builder: (context, AsyncSnapshot<String> snapshot) {
+                      if (snapshot.data != null && snapshot.data.isNotEmpty) {
+                        chatList = CommonChatFunctions.searchChat(chatList, snapshot.data, userProvider.uid);
+                      }
+
+                      return ListView.builder(
+                        key: UniqueKey(),
+                        itemCount: chatList.length,
+                        itemBuilder: (ctx, index) {
+                          return _ListTileMessage(
+                            chat: chatList[index],
+                            messageId: messagesList[index].id,
+                            myUserId: userProvider.uid,
+                            chatProvider: chatProvider,
+                            newMessage: existsNewMessage(chatList[index]),
+                          );
+                        },
+                      );
+                    });
               },
             ),
           ),

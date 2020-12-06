@@ -18,6 +18,7 @@ import 'package:tiutiu/backend/Controller/pet_controller.dart';
 import 'package:tiutiu/backend/Controller/user_controller.dart';
 import 'package:tiutiu/backend/Model/pet_model.dart';
 import 'package:tiutiu/backend/Model/user_model.dart';
+import 'package:tiutiu/chat/common/functions.dart';
 import 'package:tiutiu/providers/auth2.dart';
 import 'package:tiutiu/providers/favorites_provider.dart';
 import 'package:maps_launcher/maps_launcher.dart';
@@ -314,7 +315,7 @@ class _PetDetailsState extends State<PetDetails> {
                     IconButton(
                       onPressed: !isAuthenticated
                           ? navigateToAuth
-                          : () => OtherFunctions.openChat(
+                          : () => CommonChatFunctions.openChat(
                                 context: context,
                                 firstUser: userProvider.user(),
                                 secondUser: widget.petOwner,
@@ -788,7 +789,7 @@ class _PetDetailsState extends State<PetDetails> {
           children: [
             ButtonWide(
               action: () {
-                OtherFunctions.openChat(
+                CommonChatFunctions.openChat(
                   context: context,
                   firstUser: userProvider.user(),
                   secondUser: widget.petOwner,

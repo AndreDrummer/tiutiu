@@ -7,11 +7,17 @@ import 'package:tiutiu/backend/Model/message_model.dart';
 class ChatProvider extends ChangeNotifier {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
 
-  final _textGlobalCharSearch = BehaviorSubject<String>.seeded('');
+  final _textGlobalChatSearch = BehaviorSubject<String>.seeded('');
+  final _textChatSearch = BehaviorSubject<String>.seeded('');
 
-  Stream<String> get textGlobalCharSearch => _textGlobalCharSearch.stream;
-  void Function(String) get changeTextGlobalCharSearch => _textGlobalCharSearch.sink.add;
-  String get getTextGlobalCharSearch => _textGlobalCharSearch.value;
+  Stream<String> get textGlobalChatSearch => _textGlobalChatSearch.stream;
+  Stream<String> get textChatSearch => _textChatSearch.stream;
+
+  void Function(String) get changeTextGlobalChatSearch => _textGlobalChatSearch.sink.add;
+  void Function(String) get changeTextChatSearch => _textChatSearch.sink.add;
+
+  String get getTextGlobalChatSearch => _textGlobalChatSearch.value;
+  String get getTextChatSearch => _textChatSearch.value;
 
   Stream<QuerySnapshot> messagesList(String chatId) {
     return firestore.collection('Chats').doc(chatId).collection('chat').orderBy('createdAt', descending: true).snapshots();
@@ -43,7 +49,8 @@ class ChatProvider extends ChangeNotifier {
 
   @override
   void dispose() {
-    _textGlobalCharSearch.close();
+    _textGlobalChatSearch.close();
+    _textChatSearch.close();
     super.dispose();
   }
 }
