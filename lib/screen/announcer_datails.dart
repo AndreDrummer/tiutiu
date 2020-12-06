@@ -216,7 +216,10 @@ class _AnnouncerDetailsState extends State<AnnouncerDetails> {
                   ),
                 ),
                 Divider(color: Colors.black),
-                adsProvider.getCanShowAds ? adsProvider.bannerAdMob(adId: adsProvider.bottomAdId, medium_banner: true) : Container(),
+                Padding(
+                  padding: EdgeInsets.only(top: height / 10),
+                  child: adsProvider.getCanShowAds ? adsProvider.bannerAdMob(adId: adsProvider.bottomAdId, medium_banner: true) : Container(),
+                ),
                 Spacer(),
                 CustomDivider(text: 'Contato'),
                 widget.user.betterContact == 3 || widget.showOnlyChat
