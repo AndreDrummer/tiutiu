@@ -258,6 +258,8 @@ class UserProvider with ChangeNotifier {
       createdAt: createdAt,
       email: FirebaseAuth.instance.currentUser.email,
       id: uid,
+      betterContact: getBetterContact,
+      photoBACK: photoBACK,
       landline: telefone,
       name: displayName,
       notificationToken: notificationToken,

@@ -3,11 +3,7 @@ import 'package:loading_animations/loading_animations.dart';
 import 'package:tiutiu/providers/ads_provider.dart';
 
 class LoadingPage extends StatefulWidget {
-  LoadingPage({
-    this.messageLoading = 'Carregando aplicativo...',
-    this.circle = false,
-    this.textColor = Colors.white
-  });
+  LoadingPage({this.messageLoading = 'Carregando aplicativo...', this.circle = false, this.textColor = Colors.white});
 
   final String messageLoading;
   final textColor;
@@ -29,12 +25,12 @@ class _LoadingPageState extends State<LoadingPage> {
         children: [
           !widget.circle
               ? LoadingRotating.square(
-                  size: 50.0,
+                  size: 40.0,
                   borderColor: Colors.white,
                   backgroundColor: Theme.of(context).primaryColor,
                 )
               : LoadingJumpingLine.circle(
-                  size: 50.0,
+                  size: 40.0,
                   backgroundColor: Theme.of(context).primaryColor,
                 ),
           SizedBox(height: 30.0),
