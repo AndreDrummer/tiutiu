@@ -140,11 +140,8 @@ class _AuthScreenState extends State<AuthScreen> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Container(
-                                  decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.white),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(16.0),
-                                    child: Image.asset('assets/pata.jpg'),
-                                  ),
+                                  width: 150,
+                                  child: Image.asset('assets/newLogo.png'),
                                 ),
                                 SizedBox(height: 10),
                                 Text(
