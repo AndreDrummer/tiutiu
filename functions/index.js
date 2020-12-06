@@ -90,7 +90,7 @@ exports.createNotificationChat = functions.firestore
         console.log(snap.data());
         admin.messaging().sendToDevice(`${snap.data()['receiverNotificationToken']}`, {
             notification: {
-                title: `Nova mensagem de ${snap.data()['userName']}`,
+                title: `Nova mensagem de ${snap.data()['user']['name']}`,
                 body: `${snap.data()['text']}`,
                 clickAction: 'FLUTTER_NOTIFICATION_CLICK'
             },

@@ -226,15 +226,6 @@ class UserProvider with ChangeNotifier {
         notificationData.putIfAbsent('open', () => false);
         userThatWillReceiveNotification = data['interestedID'];
         break;
-      case 'chatNotification':
-        notificationData.putIfAbsent('userReference', () => data['userReference']);
-        notificationData.putIfAbsent('notificationType', () => data['notificationType']);
-        notificationData.putIfAbsent('time', () => DateTime.now().toIso8601String());
-        notificationData.putIfAbsent('title', () => data['userName']);
-        notificationData.putIfAbsent('message', () => data['text']);
-        notificationData.putIfAbsent('open', () => data['open']);
-        userThatWillReceiveNotification = data['receiverId'];
-        break;
     }
 
     print('NOTIFICATION ${data['notificationType']}');
@@ -267,6 +258,8 @@ class UserProvider with ChangeNotifier {
       createdAt: createdAt,
       email: FirebaseAuth.instance.currentUser.email,
       id: uid,
+      betterContact: getBetterContact,
+      photoBACK: photoBACK,
       landline: telefone,
       name: displayName,
       notificationToken: notificationToken,

@@ -37,7 +37,7 @@
         <meta-data android:name="com.google.android.geo.API_KEY" android:value="AIzaSyD0-3gCxQaLljM1fJolnfdpeaUpZsh00XY" />
 
         <meta-data android:name="com.google.firebase.messaging.default_notification_icon" android:resource="@drawable/noitificationicon" />
-        <meta-data android:name="com.google.firebase.messaging.default_notification_color" android:resource="@color/colorPrimary" />
+        <meta-data android:name="com.google.firebase.messaging.default_notification_color" android:resource="@color/primary" />
 
         <meta-data android:name="com.google.android.gms.ads.APPLICATION_ID" android:value="ca-app-pub-2837828701670824~5532122619" />
     </application>
