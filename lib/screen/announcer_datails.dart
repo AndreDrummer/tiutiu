@@ -10,6 +10,7 @@ import 'package:tiutiu/Widgets/fullscreen_images.dart';
 import 'package:tiutiu/backend/Controller/pet_controller.dart';
 import 'package:tiutiu/backend/Controller/user_controller.dart';
 import 'package:tiutiu/backend/Model/user_model.dart';
+import 'package:tiutiu/chat/common/functions.dart';
 import 'package:tiutiu/providers/ads_provider.dart';
 import 'package:tiutiu/providers/user_provider.dart';
 import 'package:tiutiu/utils/launcher_functions.dart';
@@ -266,7 +267,7 @@ class _AnnouncerDetailsState extends State<AnnouncerDetails> {
                                 : Container(),
                             InkWell(
                               onTap: () {
-                                OtherFunctions.openChat(context: context, firstUser: Provider.of<UserProvider>(context, listen: false).user(), secondUser: widget.user);
+                                CommonChatFunctions.openChat(context: context, firstUser: Provider.of<UserProvider>(context, listen: false).user(), secondUser: widget.user);
                               },
                               child: CircleChild(
                                 avatarRadius: 25,
@@ -343,7 +344,7 @@ class _OnlyChatButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return RaisedButton(
       onPressed: () {
-        OtherFunctions.openChat(
+        CommonChatFunctions.openChat(
           context: context,
           firstUser: Provider.of<UserProvider>(context, listen: false).user(),
           secondUser: secondUser,

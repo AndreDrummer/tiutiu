@@ -10,6 +10,7 @@ import 'package:tiutiu/backend/Controller/user_controller.dart';
 import 'package:tiutiu/backend/Model/interested_model.dart';
 import 'package:tiutiu/backend/Model/pet_model.dart';
 import 'package:tiutiu/backend/Model/user_model.dart';
+import 'package:tiutiu/chat/common/functions.dart';
 import 'package:tiutiu/providers/user_infos_interests.dart';
 import 'package:tiutiu/providers/user_provider.dart';
 import 'package:tiutiu/screen/announcer_datails.dart';
@@ -260,7 +261,7 @@ class _InterestedListState extends State<InterestedList> {
                                   seeInfo(interesteds[index]);
                                 }
                               },
-                              openChat: () => OtherFunctions.openChat(
+                              openChat: () => CommonChatFunctions.openChat(
                                 context: context,
                                 firstUser: userProvider.user(),
                                 secondUser: interestedUser,
