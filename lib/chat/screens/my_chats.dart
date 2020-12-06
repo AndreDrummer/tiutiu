@@ -8,7 +8,6 @@ import 'package:tiutiu/Widgets/empty_list.dart';
 import 'package:tiutiu/backend/Model/chat_model.dart';
 import 'package:tiutiu/backend/Model/user_model.dart';
 import 'package:tiutiu/chat/common/functions.dart';
-import 'package:tiutiu/chat/widgets/search.dart';
 import 'package:tiutiu/providers/ads_provider.dart';
 import 'package:tiutiu/providers/chat_provider.dart';
 import 'package:tiutiu/providers/user_provider.dart';
@@ -42,7 +41,7 @@ class _MyChatsState extends State<MyChats> {
     return Scaffold(
       body: Column(
         children: [
-          Search(onChanged: chatProvider.changeTextChatSearch, placeholder: 'Pesquisar uma conversa'),
+          // Search(onChanged: chatProvider.changeTextChatSearch, placeholder: 'Pesquisar uma conversa'),
           Expanded(
             child: StreamBuilder(
               stream: chatProvider.firestore.collection('Chats').orderBy('lastMessageTime', descending: true).snapshots(),
@@ -77,7 +76,7 @@ class _MyChatsState extends State<MyChats> {
                         itemBuilder: (ctx, index) {
                           return _ListTileMessage(
                             chat: chatList[index],
-                            messageId: messagesList[index].id,
+                            messageId: chatList[index].id,
                             myUserId: userProvider.uid,
                             chatProvider: chatProvider,
                             newMessage: existsNewMessage(chatList[index]),

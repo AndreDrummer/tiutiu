@@ -5,6 +5,7 @@ class Chat {
   Chat({
     this.open,
     this.firstUser,
+    this.id,
     this.secondUser,
     this.lastSender,
     this.lastMessage,
@@ -16,12 +17,14 @@ class Chat {
         firstUser = User.fromMap(snapshot.data()['firstUser']),
         secondUser = User.fromMap(snapshot.data()['secondUser']),
         lastSender = snapshot.data()['lastSender'],
+        id = snapshot.id,
         lastMessage = snapshot.data()['lastMessage'],
         lastMessageTime = snapshot.data()['lastMessageTime'];
 
   Map<String, dynamic> toJson() {
     return {
       'open': open,
+      'id': id,
       'lastSender': lastSender,
       'firstUser': firstUser.toJson(),
       'secondUser': secondUser.toJson(),
@@ -34,6 +37,7 @@ class Chat {
   User secondUser;
   String lastSender;
   String lastMessage;
+  String id;
   bool open;
   Timestamp lastMessageTime;
 }
