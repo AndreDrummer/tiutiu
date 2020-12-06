@@ -41,7 +41,10 @@ class _CardListState extends State<CardList> {
         return Future.value(map);
       }
     }
-    return Future.value(owner.data());
+    Map<String, dynamic> userData = owner.data();
+    userData.putIfAbsent('name', () => owner.data()['displayName']);
+    userData.putIfAbsent('id', () => owner.data()['uid']);
+    return Future.value(userData);
   }
 
   @override
@@ -74,7 +77,7 @@ class _CardListState extends State<CardList> {
                 petReference: widget.petInfo.petReference,
               );
             }
-            final user = await loadOwner(widget.petInfo.ownerReference);
+            final user = await loadOwner(widget.petInfo.ownerReference, auth: auth);
             Navigator.push(
               context,
               MaterialPageRoute(

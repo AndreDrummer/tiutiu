@@ -253,8 +253,6 @@ class _RefineSearchState extends State<RefineSearch> {
                             petsProvider.changeHealthSelected(refineSearchProvider.getHealthSelected);
                             petsProvider.changeIsFiltering(petsProvider.getPetType == 'Todos' ? false : true);
 
-                            print('Filter pet type ${petsProvider.getPetType}');
-
                             Navigator.pushNamed(context, Routes.HOME, arguments: refineSearchProvider.getIsDisappeared ? 1 : 0);
                           },
                   ),

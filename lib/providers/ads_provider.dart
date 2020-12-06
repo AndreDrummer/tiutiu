@@ -44,7 +44,7 @@ class AdsProvider with ChangeNotifier {
   AdmobBanner bannerAdMob({String adId, bool medium_banner = false, bool testeAdId = false}) {
     return AdmobBanner(
       adUnitId: !testeAdId ? adId : BannerAd.testAdUnitId,
-      adSize: medium_banner ? AdmobBannerSize.MEDIUM_RECTANGLE : AdmobBannerSize.ADAPTIVE_BANNER(width: bannerWidth),
+      adSize: medium_banner ? AdmobBannerSize.LARGE_BANNER : AdmobBannerSize.ADAPTIVE_BANNER(width: bannerWidth),
       listener: (AdmobAdEvent event, Map<String, dynamic> args) {
         handleEvent(event, args, 'Banner');
       },

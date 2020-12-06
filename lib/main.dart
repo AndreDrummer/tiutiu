@@ -16,9 +16,10 @@ import 'package:tiutiu/providers/pet_form_provider.dart';
 import 'package:tiutiu/providers/refine_search.dart';
 import 'package:tiutiu/providers/user_infos_interests.dart';
 import 'package:tiutiu/providers/user_provider.dart';
+import 'package:tiutiu/screen/about.dart';
 import 'package:tiutiu/screen/auth_screen.dart';
 import 'package:tiutiu/screen/bootstrap.dart';
-import 'package:tiutiu/screen/chat_tabs.dart';
+import 'package:tiutiu/chat/screens/chat_tabs.dart';
 import 'package:tiutiu/screen/choose_location.dart';
 import 'package:tiutiu/screen/favorites.dart';
 import 'package:tiutiu/screen/home.dart';
@@ -135,6 +136,7 @@ class App extends StatelessWidget {
                 Routes.CHAT: (ctx) => ChatScreen(),
                 Routes.CHATLIST: (ctx) => ChatTab(),
                 Routes.SETTINGS: (ctx) => Settings(),
+                Routes.ABOUT: (ctx) => About(),
                 Routes.MEUS_PETS: (ctx) => MyPetsScreen(),
                 Routes.FAVORITES: (ctx) => Favorites(),
                 Routes.REGISTER: (ctx) => Register(),
