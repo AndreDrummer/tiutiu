@@ -18,6 +18,7 @@ import 'package:tiutiu/backend/Controller/pet_controller.dart';
 import 'package:tiutiu/backend/Controller/user_controller.dart';
 import 'package:tiutiu/backend/Model/pet_model.dart';
 import 'package:tiutiu/backend/Model/user_model.dart';
+import 'package:tiutiu/chat/common/functions.dart';
 import 'package:tiutiu/providers/auth2.dart';
 import 'package:tiutiu/providers/favorites_provider.dart';
 import 'package:maps_launcher/maps_launcher.dart';
@@ -288,14 +289,16 @@ class _PetDetailsState extends State<PetDetails> {
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
-        leading: IconButton(
-            icon: Icon(
-              Icons.arrow_back,
-              color: Colors.white,
-            ),
-            onPressed: () {
-              Navigator.pop(context);
-            }),
+        leading: Container(
+          child: IconButton(
+              icon: Icon(
+                Icons.arrow_back,
+                color: Colors.white,
+              ),
+              onPressed: () {
+                Navigator.pop(context);
+              }),
+        ),
         title: Text(
           'Detalhes de ${widget.pet.name}',
           style: TextStyle(
@@ -312,7 +315,7 @@ class _PetDetailsState extends State<PetDetails> {
                     IconButton(
                       onPressed: !isAuthenticated
                           ? navigateToAuth
-                          : () => OtherFunctions.openChat(
+                          : () => CommonChatFunctions.openChat(
                                 context: context,
                                 firstUser: userProvider.user(),
                                 secondUser: widget.petOwner,
@@ -463,9 +466,9 @@ class _PetDetailsState extends State<PetDetails> {
                               ),
                             ),
                           ),
-                          SizedBox(height: widget.kind != 'DONATE' ? height / 16 : height / 28),
+                          SizedBox(height: widget.kind != 'DONATE' ? height / 16 : height / 64),
                           Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 12.0, vertical: 30.0),
+                            padding: EdgeInsets.only(left: 12.0, right: 12, bottom: 20.0),
                             child: _ownerPetcontact(
                               user: widget.petOwner,
                               whatsappMessage: whatsappMessage,
@@ -649,18 +652,22 @@ class _PetDetailsState extends State<PetDetails> {
           top: height / 7,
           left: 5,
           child: InkWell(
-            onTap: () => OtherFunctions.navigateToAnnouncerDetail(context, widget.petOwner),
+            onTap: () {
+              OtherFunctions.navigateToAnnouncerDetail(context, widget.petOwner);
+              print(widget.petOwner.toJson());
+            },
             child: Container(
               decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment(0.0, 0.8),
-                    end: Alignment(0.0, 0.0),
-                    colors: [
-                      Color.fromRGBO(0, 0, 0, 0),
-                      Color.fromRGBO(0, 0, 0, 0.6),
-                    ],
-                  ),
-                  borderRadius: BorderRadius.circular(50)),
+                gradient: LinearGradient(
+                  begin: Alignment(0.0, 0.8),
+                  end: Alignment(0.0, 0.0),
+                  colors: [
+                    Color.fromRGBO(0, 0, 0, 0),
+                    Color.fromRGBO(0, 0, 0, 0.6),
+                  ],
+                ),
+                borderRadius: BorderRadius.circular(50),
+              ),
               child: Row(
                 children: [
                   CircleAvatar(
@@ -689,7 +696,7 @@ class _PetDetailsState extends State<PetDetails> {
                           style: TextStyle(color: Colors.white, fontStyle: FontStyle.italic, fontSize: 10),
                         ),
                         Text(
-                          widget.petOwner.name ?? '',
+                          OtherFunctions.firstCharacterUpper(widget.pet.ownerName) ?? '',
                           style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
                         ),
                       ],
@@ -785,7 +792,7 @@ class _PetDetailsState extends State<PetDetails> {
           children: [
             ButtonWide(
               action: () {
-                OtherFunctions.openChat(
+                CommonChatFunctions.openChat(
                   context: context,
                   firstUser: userProvider.user(),
                   secondUser: widget.petOwner,

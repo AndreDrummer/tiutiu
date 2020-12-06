@@ -6,17 +6,20 @@ import 'package:provider/provider.dart';
 import 'package:tiutiu/Widgets/badge.dart';
 import 'package:tiutiu/Widgets/empty_list.dart';
 import 'package:tiutiu/backend/Model/chat_model.dart';
+import 'package:tiutiu/backend/Model/user_model.dart';
+import 'package:tiutiu/chat/common/functions.dart';
 import 'package:tiutiu/providers/ads_provider.dart';
 import 'package:tiutiu/providers/chat_provider.dart';
 import 'package:tiutiu/providers/user_provider.dart';
+import 'package:tiutiu/utils/other_functions.dart';
 import 'package:tiutiu/utils/routes.dart';
 
-class ChatList extends StatefulWidget {
+class MyChats extends StatefulWidget {
   @override
-  _ChatListState createState() => _ChatListState();
+  _MyChatsState createState() => _MyChatsState();
 }
 
-class _ChatListState extends State<ChatList> {
+class _MyChatsState extends State<MyChats> {
   AdsProvider adsProvider;
   ChatProvider chatProvider;
   UserProvider userProvider;
@@ -29,11 +32,16 @@ class _ChatListState extends State<ChatList> {
     userProvider = Provider.of(context);
   }
 
+  bool existsNewMessage(Chat chat) {
+    return chat.open != null && !chat.open && chat.lastSender != null && chat.lastSender != userProvider.uid;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Column(
         children: [
+          // Search(onChanged: chatProvider.changeTextChatSearch, placeholder: 'Pesquisar uma conversa'),
           Expanded(
             child: StreamBuilder(
               stream: chatProvider.firestore.collection('Chats').orderBy('lastMessageTime', descending: true).snapshots(),
@@ -43,29 +51,39 @@ class _ChatListState extends State<ChatList> {
                 if (snapshot.connectionState == ConnectionState.waiting) return Center(child: CircularProgressIndicator());
 
                 snapshot.data.docs.forEach((element) {
-                  if (element.get('firstUserId') == userProvider.uid || element.get('secondUserId') == userProvider.uid) messagesList.add(element);
+                  if (User.fromMap(element.get('firstUser')).id == userProvider.uid || User.fromMap(element.get('secondUser')).id == userProvider.uid) messagesList.add(element);
                 });
 
-                if (messagesList.isEmpty) {
+                List<Chat> chatList = messagesList.map((e) => Chat.fromSnapshot(e)).toList();
+
+                if (chatList.isEmpty) {
                   return EmptyListScreen(
                     text: 'Nenhuma conversa encontrada!',
                     icon: Icons.chat,
                   );
                 }
 
-                return ListView.builder(
-                  key: UniqueKey(),
-                  itemCount: messagesList.length,
-                  itemBuilder: (ctx, index) {
-                    return _ListTileMessage(
-                      chat: Chat.fromSnapshot(messagesList[index]),
-                      messageId: messagesList[index].id,
-                      myUserId: userProvider.uid,
-                      chatProvider: chatProvider,
-                      newMessage: !Chat.fromSnapshot(messagesList[index]).open && Chat.fromSnapshot(messagesList[index]).lastSender != userProvider.uid,
-                    );
-                  },
-                );
+                return StreamBuilder(
+                    stream: chatProvider.textChatSearch,
+                    builder: (context, AsyncSnapshot<String> snapshot) {
+                      if (snapshot.data != null && snapshot.data.isNotEmpty) {
+                        chatList = CommonChatFunctions.searchChat(chatList, snapshot.data, userProvider.uid);
+                      }
+
+                      return ListView.builder(
+                        key: UniqueKey(),
+                        itemCount: chatList.length,
+                        itemBuilder: (ctx, index) {
+                          return _ListTileMessage(
+                            chat: chatList[index],
+                            messageId: chatList[index].id,
+                            myUserId: userProvider.uid,
+                            chatProvider: chatProvider,
+                            newMessage: existsNewMessage(chatList[index]),
+                          );
+                        },
+                      );
+                    });
               },
             ),
           ),
@@ -94,11 +112,11 @@ class _ListTileMessage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Determina se o usuário logado é o primeiro usuário do chat.
-    bool itsMe = myUserId == chat.firstUserId;
+    bool itsMe = myUserId == chat.firstUser.id;
     Timestamp stamp = chat.lastMessageTime;
     DateTime date = stamp.toDate();
 
-    String profilePic = itsMe ? chat.secondUserImagePath : chat.firstUserImagePath;
+    String profilePic = itsMe ? chat.secondUser.photoURL : chat.firstUser.photoURL;
 
     return InkWell(
       onTap: () {
@@ -107,10 +125,10 @@ class _ListTileMessage extends StatelessWidget {
           Routes.CHAT,
           arguments: {
             'chatId': messageId,
-            'chatTitle': itsMe ? chat.secondUserName : chat.firstUserName,
-            'secondUserId': itsMe ? chat.secondUserId : chat.firstUserId,
-            'receiverId': itsMe ? chat.secondUserId : chat.firstUserId,
-            'receiverNotificationToken': itsMe ? chat.secondReceiverNotificationToken : chat.firstReceiverNotificationToken,
+            'chatTitle': itsMe ? chat.secondUser.name : chat.firstUser.name,
+            'secondUserId': itsMe ? chat.secondUser.id : chat.firstUser.id,
+            'receiverId': itsMe ? chat.secondUser.id : chat.firstUser.id,
+            'receiverNotificationToken': itsMe ? chat.secondUser.notificationToken : chat.firstUser.notificationToken,
           },
         );
         chatProvider.markMessageAsRead(messageId);
@@ -118,19 +136,22 @@ class _ListTileMessage extends StatelessWidget {
       child: Column(
         children: [
           ListTile(
-            leading: CircleAvatar(
-              backgroundColor: Colors.transparent,
-              child: ClipOval(
-                child: FadeInImage(
-                  placeholder: AssetImage('assets/profileEmpty.png'),
-                  image: profilePic != null ? NetworkImage(profilePic) : AssetImage('assets/profileEmpty.jpg'),
-                  fit: BoxFit.cover,
-                  width: 1000,
-                  height: 100,
+            leading: InkWell(
+              onTap: () => OtherFunctions.navigateToAnnouncerDetail(context, itsMe ? chat.secondUser : chat.firstUser, showOnlyChat: true),
+              child: CircleAvatar(
+                backgroundColor: Colors.transparent,
+                child: ClipOval(
+                  child: FadeInImage(
+                    placeholder: AssetImage('assets/profileEmpty.png'),
+                    image: profilePic != null ? NetworkImage(profilePic) : AssetImage('assets/profileEmpty.jpg'),
+                    fit: BoxFit.cover,
+                    width: 1000,
+                    height: 100,
+                  ),
                 ),
               ),
             ),
-            title: Text(itsMe ? chat.secondUserName : chat.firstUserName),
+            title: Text(itsMe ? chat.secondUser.name : chat.firstUser.name),
             subtitle: Text(chat.lastMessage),
             trailing: Column(
               mainAxisAlignment: MainAxisAlignment.center,

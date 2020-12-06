@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:tiutiu/backend/Model/user_model.dart';
+import 'package:tiutiu/utils/other_functions.dart';
 
 class MessageBubble extends StatelessWidget {
   MessageBubble({
     this.message,
     this.belongToMe,
-    this.userImage,
-    this.userName,
+    this.user,
     this.key,
     this.time,
   }) : super(key: key);
@@ -15,8 +16,7 @@ class MessageBubble extends StatelessWidget {
   final Key key;
   final String message;
   final bool belongToMe;
-  final String userName;
-  final String userImage;
+  final User user;
   final String time;
 
   @override
@@ -60,7 +60,7 @@ class MessageBubble extends StatelessWidget {
                           ),
                           Spacer(),
                           Text(
-                            belongToMe ? 'Eu' : userName.split(' ').first,
+                            belongToMe ? 'Eu' : user.name.split(' ').first,
                             style: TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.bold,
@@ -91,15 +91,20 @@ class MessageBubble extends StatelessWidget {
           right: belongToMe ? 130 : null,
           child: Container(
             decoration: BoxDecoration(shape: BoxShape.circle),
-            child: CircleAvatar(
-              backgroundColor: Colors.transparent,
-              child: ClipOval(
-                child: FadeInImage(
-                  placeholder: AssetImage('assets/profileEmpty.png'),
-                  image: userImage != null ? NetworkImage(userImage) : AssetImage('assets/profileEmpty.jpg'),
-                  fit: BoxFit.cover,
-                  width: 1000,
-                  height: 100,
+            child: InkWell(
+              onTap: () {
+                OtherFunctions.navigateToAnnouncerDetail(context, user);
+              },
+              child: CircleAvatar(
+                backgroundColor: Colors.transparent,
+                child: ClipOval(
+                  child: FadeInImage(
+                    placeholder: AssetImage('assets/profileEmpty.png'),
+                    image: user.photoURL != null ? NetworkImage(user.photoURL) : AssetImage('assets/profileEmpty.jpg'),
+                    fit: BoxFit.cover,
+                    width: 1000,
+                    height: 100,
+                  ),
                 ),
               ),
             ),

@@ -121,6 +121,7 @@ class _HomeState extends State<Home> {
     favoritesProvider = Provider.of<FavoritesProvider>(context, listen: false);
     if (auth.firebaseUser != null) setUserMetaData();
     isAuthenticated = auth.firebaseUser != null;
+    // update();
     super.didChangeDependencies();
   }
 
@@ -154,6 +155,16 @@ class _HomeState extends State<Home> {
       return false;
     });
   }
+
+  // Future<void> update() async {
+  //   final docs = await FirebaseFirestore.instance.collection('Users').get();
+  //   for(int i = 0; i < docs.docs.length; i++) {
+  //     String newName = docs.docs[i].data()['displayName'];
+  //     String newId = docs.docs[i].data()['uid'];
+  //     docs.docs[i].reference.set({'id': newId}, SetOptions(merge: true));
+  //     docs.docs[i].reference.set({'name': newName}, SetOptions(merge: true));
+  //   }
+  // }
 
   void navigateToAuth() {
     Navigator.pushNamed(context, Routes.AUTH, arguments: true);

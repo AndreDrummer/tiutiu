@@ -38,8 +38,7 @@ class Messages extends StatelessWidget {
               padding: const EdgeInsets.symmetric(vertical: 2.0),
               child: MessageBubble(
                 message: Message.fromSnapshot(chatDocs[index]).text.trim(),
-                userImage: Message.fromSnapshot(chatDocs[index]).userImage,
-                userName: Message.fromSnapshot(chatDocs[index]).userName,
+                user: Message.fromSnapshot(chatDocs[index]).user,
                 belongToMe: Message.fromSnapshot(chatDocs[index]).userId == myUserId,
                 time: (Message.fromSnapshot(chatDocs[index]).createdAt)?.toDate()?.toIso8601String() ?? DateTime.now().toIso8601String(),
                 key: ValueKey(chatDocs[index].id),
