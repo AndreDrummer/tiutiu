@@ -11,9 +11,6 @@ import 'package:tiutiu/utils/math_functions.dart';
 import "package:google_maps_webservice/geocoding.dart";
 import 'package:geocoder/geocoder.dart';
 import 'package:tiutiu/backend/Model/user_model.dart';
-import 'package:tiutiu/utils/cesar_cripto.dart';
-import 'package:tiutiu/backend/Model/chat_model.dart';
-import 'package:tiutiu/utils/routes.dart';
 import 'package:tiutiu/utils/string_extension.dart';
 
 class OtherFunctions {
@@ -111,25 +108,6 @@ class OtherFunctions {
     FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
     DocumentSnapshot documentSnapshot = await firebaseFirestore.collection(collectionName).doc('$id').get();
     return documentSnapshot.reference;
-  }
-
-  static void openChat({BuildContext context, User firstUser, User secondUser}) {
-    Navigator.pushNamed(
-      context,
-      Routes.CHAT,
-      arguments: {
-        'chatId': GenerateHashKey.cesar(firstUser.id, secondUser.id),
-        'chatTitle': secondUser.name,
-        'receiverNotificationToken': secondUser.notificationToken,
-        'receiverId': secondUser.id,
-        'message': Chat(
-          firstUser: firstUser,
-          secondUser: secondUser,
-          lastMessage: '',
-          lastMessageTime: Timestamp.now(),
-        ),
-      },
-    );
   }
 
   static void navigateToAnnouncerDetail(BuildContext context, User user, {bool showOnlyChat = false}) {
