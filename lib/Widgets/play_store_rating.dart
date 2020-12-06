@@ -7,10 +7,15 @@ class RatingUs extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       alignment: Alignment.center,
-      height: MediaQuery.of(context).size.height / 3.7,
+      height: MediaQuery.of(context).size.height / 3.6,
       child: Column(
         children: [
-          buttons(context: context, imagePath: 'assets/playstore.png', text: 'Avalie-nos na PlayStore.', urlToOpen: 'https://cutt.ly/4gIMH8V'),
+          buttons(
+            context: context,
+            imagePath: 'assets/playstore.png',
+            text: 'Avalie-nos na PlayStore.',
+            urlToOpen: 'https://cutt.ly/4gIMH8V',
+          ),
           buttons(
             context: context,
             imagePath: 'assets/insta.png',
@@ -34,7 +39,7 @@ class RatingUs extends StatelessWidget {
         Launcher.openBrowser(url: urlToOpen);
       },
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 4.0, vertical: 4.0),
+        padding: const EdgeInsets.symmetric(vertical: 3.0),
         child: Container(
           child: Card(
             shape: RoundedRectangleBorder(
@@ -42,7 +47,7 @@ class RatingUs extends StatelessWidget {
             ),
             elevation: 6.0,
             child: Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.symmetric(horizontal: 4.0, vertical: 8.0),
               child: Row(
                 children: [
                   Container(
