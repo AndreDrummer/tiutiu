@@ -10,6 +10,17 @@ class ChatProvider extends ChangeNotifier {
   final _textGlobalChatSearch = BehaviorSubject<String>.seeded('');
   final _textChatSearch = BehaviorSubject<String>.seeded('');
 
+  int _currentlyTabChat = 0;
+  int get getCurrentlyTabChat => _currentlyTabChat;
+  void changeCurrentlyTabChat(int tab) {
+    _currentlyTabChat = tab;
+  }
+
+  final _isSearching = BehaviorSubject<bool>.seeded(false);
+  Stream<bool> get isSearching => _isSearching.stream;
+  void Function(bool) get changeIsSearching => _isSearching.sink.add;
+  bool get getIsSearching => _isSearching.value;
+
   Stream<String> get textGlobalChatSearch => _textGlobalChatSearch.stream;
   Stream<String> get textChatSearch => _textChatSearch.stream;
 
