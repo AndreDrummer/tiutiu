@@ -47,13 +47,11 @@ class _NewMessageState extends State<NewMessage> {
         text: _enteredMessage,
         createdAt: FieldValue.serverTimestamp(),
         userId: userProvider.uid,
-        userName: userProvider.displayName,
-        userImage: userProvider.photoURL,
+        user: userProvider.user(),
         receiverId: widget.receiverId,
         receiverNotificationToken: widget.receiverNotificationToken,
         notificationType: 'chatNotification',
         userReference: userProvider.userReference,
-        open: false,
       ),
     );
 

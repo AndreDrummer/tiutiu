@@ -190,8 +190,8 @@ class _MyAccountState extends State<MyAccount> {
                       Text(
                         'Doados',
                         style: Theme.of(context).textTheme.headline1.copyWith(
-                              color: Colors.black,
                               fontSize: 14,
+                              color: Colors.blueGrey[400],
                             ),
                       )
                     ],
@@ -396,12 +396,12 @@ class _MyAccountState extends State<MyAccount> {
                             padding: const EdgeInsets.all(8.0),
                             child: Row(
                               children: [
-                                Icon(Icons.settings, color: Colors.grey, size: 30),
+                                Icon(Icons.settings, color: Colors.grey, size: 22),
                                 SizedBox(width: 20),
                                 Text(
                                   'Configurações',
                                   style: Theme.of(context).textTheme.headline1.copyWith(
-                                        fontSize: 22,
+                                        fontSize: 18,
                                         color: Colors.blueGrey[400],
                                       ),
                                 )
@@ -410,7 +410,32 @@ class _MyAccountState extends State<MyAccount> {
                           ),
                         ),
                         Divider(
-                          color: Theme.of(context).primaryColor,
+                          color: Colors.grey,
+                          height: 1.0,
+                        ),
+                        InkWell(
+                          onTap: () async {
+                            Navigator.pushNamed(context, Routes.ABOUT);
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              children: [
+                                Icon(Icons.info, color: Colors.grey, size: 22),
+                                SizedBox(width: 20),
+                                Text(
+                                  'Sobre',
+                                  style: Theme.of(context).textTheme.headline1.copyWith(
+                                        fontSize: 18,
+                                        color: Colors.blueGrey[400],
+                                      ),
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                        Divider(
+                          color: Colors.grey,
                           height: 1.0,
                         ),
                         InkWell(
@@ -439,12 +464,12 @@ class _MyAccountState extends State<MyAccount> {
                             padding: const EdgeInsets.all(8.0),
                             child: Row(
                               children: [
-                                Icon(Icons.exit_to_app, color: Colors.grey, size: 30),
+                                Icon(Icons.exit_to_app, color: Colors.grey, size: 22),
                                 SizedBox(width: 20),
                                 Text(
                                   'Sair',
                                   style: Theme.of(context).textTheme.headline1.copyWith(
-                                        fontSize: 22,
+                                        fontSize: 18,
                                         color: Colors.blueGrey[400],
                                       ),
                                 )
