@@ -10,6 +10,7 @@ import 'package:tiutiu/Widgets/fullscreen_images.dart';
 import 'package:tiutiu/backend/Controller/pet_controller.dart';
 import 'package:tiutiu/backend/Controller/user_controller.dart';
 import 'package:tiutiu/backend/Model/user_model.dart';
+import 'package:tiutiu/chat/common/functions.dart';
 import 'package:tiutiu/providers/ads_provider.dart';
 import 'package:tiutiu/providers/user_provider.dart';
 import 'package:tiutiu/utils/launcher_functions.dart';
@@ -215,7 +216,10 @@ class _AnnouncerDetailsState extends State<AnnouncerDetails> {
                   ),
                 ),
                 Divider(color: Colors.black),
-                adsProvider.getCanShowAds ? adsProvider.bannerAdMob(adId: adsProvider.bottomAdId, medium_banner: true) : Container(),
+                Padding(
+                  padding: EdgeInsets.only(top: height / 10),
+                  child: adsProvider.getCanShowAds ? adsProvider.bannerAdMob(adId: adsProvider.bottomAdId, medium_banner: true) : Container(),
+                ),
                 Spacer(),
                 CustomDivider(text: 'Contato'),
                 widget.user.betterContact == 3 || widget.showOnlyChat
@@ -266,7 +270,7 @@ class _AnnouncerDetailsState extends State<AnnouncerDetails> {
                                 : Container(),
                             InkWell(
                               onTap: () {
-                                OtherFunctions.openChat(context: context, firstUser: Provider.of<UserProvider>(context, listen: false).user(), secondUser: widget.user);
+                                CommonChatFunctions.openChat(context: context, firstUser: Provider.of<UserProvider>(context, listen: false).user(), secondUser: widget.user);
                               },
                               child: CircleChild(
                                 avatarRadius: 25,
@@ -282,11 +286,25 @@ class _AnnouncerDetailsState extends State<AnnouncerDetails> {
             ),
             Positioned(
               top: 30,
-              child: IconButton(
-                icon: Icon(Icons.arrow_back, size: 30),
-                onPressed: () {
-                  Navigator.pop(context);
-                },
+              child: Container(
+                margin: const EdgeInsets.only(left: 8.0, top: 8.0),
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment(0.0, 0.8),
+                    end: Alignment(0.0, 0.0),
+                    colors: [
+                      Color.fromRGBO(0, 0, 0, 0),
+                      Color.fromRGBO(0, 0, 0, 0.4),
+                    ],
+                  ),
+                  borderRadius: BorderRadius.circular(50),
+                ),
+                child: IconButton(
+                  icon: Icon(Icons.arrow_back, size: 30, color: Colors.white),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                ),
               ),
             ),
             Positioned(
@@ -329,7 +347,7 @@ class _OnlyChatButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return RaisedButton(
       onPressed: () {
-        OtherFunctions.openChat(
+        CommonChatFunctions.openChat(
           context: context,
           firstUser: Provider.of<UserProvider>(context, listen: false).user(),
           secondUser: secondUser,

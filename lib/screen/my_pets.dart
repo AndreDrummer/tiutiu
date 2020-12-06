@@ -51,7 +51,6 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
   }
 
   Stream<QuerySnapshot> myPetsStream() {
-    print("PETS ${widget.kind}");
     if (widget.kind != null) {
       switch (widget.kind) {
         case 'Donate':
@@ -366,39 +365,41 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
                                                           decoration: TextDecoration.underline,
                                                         ),
                                                       ),
-                                                      pets[index].kind == 'Disappeared'
-                                                          ? Row(
-                                                              children: [
-                                                                SizedBox(width: 50),
-                                                                Text('Econtrado'),
-                                                                StreamBuilder<Object>(
-                                                                    stream: null,
-                                                                    builder: (context, snapshot) {
-                                                                      return Switch(
-                                                                          value: pets[index].found,
-                                                                          onChanged: (value) {
-                                                                            showDialog(
-                                                                                context: context,
-                                                                                builder: (context) {
-                                                                                  return PopUpMessage(
-                                                                                    warning: true,
-                                                                                    title: 'Marcar como encontrado',
-                                                                                    message:
-                                                                                        'Ao ${!pets[index].found ? 'marcar' : 'desmarcar'} o PET ${!pets[index].found ? 'deixará de' : 'voltará a'} aparecer para o público',
-                                                                                    confirmAction: () {
-                                                                                      Navigator.pop(context);
-                                                                                      pets[index].petReference.set({'found': !pets[index].found}, SetOptions(merge: true));
-                                                                                    },
-                                                                                    confirmText: !pets[index].found ? 'Pode marcar' : 'Desmarcar',
-                                                                                    denyAction: () => Navigator.pop(context),
-                                                                                    denyText: !pets[index].found ? 'Não marcar agora' : 'Não desmarcar',
-                                                                                  );
-                                                                                });
+                                                      Row(
+                                                        children: [
+                                                          SizedBox(width: 50),
+                                                          Text(pets[index].kind == 'Disappeared' ? 'Econtrado' : 'Doado'),
+                                                          StreamBuilder<Object>(
+                                                              stream: null,
+                                                              builder: (context, snapshot) {
+                                                                return Switch(
+                                                                    value: pets[index].kind == 'Disappeared' ? pets[index].found : pets[index].donated,
+                                                                    onChanged: (value) {
+                                                                      showDialog(
+                                                                          context: context,
+                                                                          builder: (context) {
+                                                                            return PopUpMessage(
+                                                                              warning: true,
+                                                                              title: 'Marcar como ${pets[index].kind == 'Disappeared' ? 'encontrado' : 'doado'}',
+                                                                              message:
+                                                                                  'Ao ${!pets[index].found ? 'marcar' : 'desmarcar'} o PET ${!pets[index].found ? 'deixará de' : 'voltará a'} aparecer para o público.',
+                                                                              confirmAction: () {
+                                                                                Navigator.pop(context);
+                                                                                if (pets[index].kind == 'Disappeared') {
+                                                                                  pets[index].petReference.set({'found': !pets[index].found}, SetOptions(merge: true));
+                                                                                } else {
+                                                                                  pets[index].petReference.set({'donated': !pets[index].donated}, SetOptions(merge: true));
+                                                                                }
+                                                                              },
+                                                                              confirmText: !pets[index].found ? 'Pode marcar' : 'Desmarcar',
+                                                                              denyAction: () => Navigator.pop(context),
+                                                                              denyText: !pets[index].found ? 'Não marcar agora' : 'Não desmarcar',
+                                                                            );
                                                                           });
-                                                                    }),
-                                                              ],
-                                                            )
-                                                          : Container()
+                                                                    });
+                                                              }),
+                                                        ],
+                                                      )
                                                     ],
                                                   ),
                                                 ],

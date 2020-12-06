@@ -102,7 +102,6 @@ class UserController {
     List interestedUsers = interestedRef.docs;
 
     for (int i = 0; i < interestedUsers.length; i++) {
-      print("${interestedUsers[i].data()['userReference']} == $userThatAdoptedReference");
       if (interestedUsers[i].data()['userReference'] == userThatAdoptedReference) {
         var data = interestedUsers[i].data();
         data['donated'] = true;
