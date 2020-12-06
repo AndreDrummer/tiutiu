@@ -124,7 +124,6 @@ class _RegisterState extends State<Register> {
       return null;
     } else if (value.length < 11) {
       setState(() {
-        print("${value.length} KKK");
         whatsappHasErrorMessage = "O celular deve ter 11 dígitos";
         whatsappHasError = true;
       });
@@ -269,9 +268,6 @@ class _RegisterState extends State<Register> {
 
   @override
   Widget build(BuildContext context) {
-    print(userProvider.photoURL);
-    print(userProvider.telefone);
-    print(userProvider.whatsapp);
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
@@ -294,16 +290,6 @@ class _RegisterState extends State<Register> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(
-                        'Conclua seu cadastro para continuar.',
-                        textAlign: TextAlign.left,
-                        style: Theme.of(context).textTheme.headline1.copyWith(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w400,
-                              color: Colors.black54,
-                            ),
-                      ),
-                      SizedBox(height: 20),
                       InkWell(
                         onTap: () {
                           openModalSelectMedia(context);
@@ -328,7 +314,12 @@ class _RegisterState extends State<Register> {
                               ),
                             ),
                             SizedBox(height: 5),
-                            Text('Adicione sua foto *'),
+                            Text(
+                              'Adicione sua foto',
+                              style: TextStyle(
+                                fontSize: 10,
+                              ),
+                            ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
@@ -342,7 +333,7 @@ class _RegisterState extends State<Register> {
                           ],
                         ),
                       ),
-                      SizedBox(height: 20),
+                      SizedBox(height: 15),
                       InputText(
                         placeholder: 'Como quer ser chamado (Obrigatório)',
                         controller: _name,
@@ -361,7 +352,7 @@ class _RegisterState extends State<Register> {
                         },
                       ),
                       nameHasError ? HintError(message: nameHasErrorMessage) : Container(),
-                      SizedBox(height: 20),
+                      SizedBox(height: 15),
                       InputText(
                         inputFormatters: [celularMask],
                         placeholder: 'Informe seu Whatsapp',
@@ -374,8 +365,7 @@ class _RegisterState extends State<Register> {
                         },
                       ),
                       whatsappHasError ? HintError(message: whatsappHasErrorMessage) : Container(),
-                      SizedBox(height: 30),
-                      SizedBox(height: 5),
+                      SizedBox(height: 15),
                       InputText(
                         inputFormatters: [telefoneMask],
                         validator: validarTelefone,
@@ -391,7 +381,7 @@ class _RegisterState extends State<Register> {
                       SizedBox(height: 20),
                       Align(
                         alignment: Alignment(-0.8, 1),
-                        child: Text('Escolha sua melhor forma de contato'),
+                        child: Text('Escolha sua melhor forma de contato.'),
                       ),
                       StreamBuilder<Object>(
                         stream: userProvider.betterContact,
@@ -399,79 +389,99 @@ class _RegisterState extends State<Register> {
                           return Container(
                             child: Column(
                               children: [
-                                Row(
-                                  children: [
-                                    Radio(
-                                      activeColor: Theme.of(context).primaryColor,
-                                      groupValue: snapshot.data,
-                                      value: 0,
-                                      onChanged: (value) {
-                                        userProvider.changeBetterContact(value);
-                                        if (_whatsapp.text.trim().isEmpty) {
+                                InkWell(
+                                  onTap: () {
+                                    userProvider.changeBetterContact(0);
+                                  },
+                                  child: Row(
+                                    children: [
+                                      Radio(
+                                        activeColor: Theme.of(context).primaryColor,
+                                        groupValue: snapshot.data,
+                                        value: 0,
+                                        onChanged: (value) {
+                                          userProvider.changeBetterContact(value);
+                                          if (_whatsapp.text.trim().isEmpty) {
+                                            setState(() {
+                                              whatsappHasErrorMessage = 'Quando este é seu melhor contato, deve ser preenchido.';
+                                              whatsappHasError = true;
+                                              telefoneHasError = false;
+                                            });
+                                          }
+                                        },
+                                      ),
+                                      Text('WhatsApp'),
+                                    ],
+                                  ),
+                                ),
+                                InkWell(
+                                  onTap: () {
+                                    userProvider.changeBetterContact(1);
+                                  },
+                                  child: Row(
+                                    children: [
+                                      Radio(
+                                        activeColor: Colors.orange,
+                                        groupValue: snapshot.data,
+                                        value: 1,
+                                        onChanged: (value) {
+                                          userProvider.changeBetterContact(value);
+                                          if (_telefone.text.trim().isEmpty) {
+                                            setState(() {
+                                              telefoneHasError = true;
+                                              whatsappHasError = false;
+                                              telefoneHasErrorMessage = 'Quando este é seu melhor contato, deve ser preenchido.';
+                                            });
+                                          }
+                                        },
+                                      ),
+                                      Text('Telefone Fixo'),
+                                    ],
+                                  ),
+                                ),
+                                InkWell(
+                                  onTap: () {
+                                    userProvider.changeBetterContact(2);
+                                  },
+                                  child: Row(
+                                    children: [
+                                      Radio(
+                                        activeColor: Colors.red,
+                                        groupValue: snapshot.data,
+                                        value: 2,
+                                        onChanged: (value) {
                                           setState(() {
-                                            whatsappHasErrorMessage = 'Quando este é seu melhor contato, deve ser preenchido.';
-                                            whatsappHasError = true;
                                             telefoneHasError = false;
-                                          });
-                                        }
-                                      },
-                                    ),
-                                    Text('WhatsApp'),
-                                  ],
-                                ),
-                                Row(
-                                  children: [
-                                    Radio(
-                                      activeColor: Colors.orange,
-                                      groupValue: snapshot.data,
-                                      value: 1,
-                                      onChanged: (value) {
-                                        userProvider.changeBetterContact(value);
-                                        if (_telefone.text.trim().isEmpty) {
-                                          setState(() {
-                                            telefoneHasError = true;
                                             whatsappHasError = false;
-                                            telefoneHasErrorMessage = 'Quando este é seu melhor contato, deve ser preenchido.';
                                           });
-                                        }
-                                      },
-                                    ),
-                                    Text('Telefone Fixo'),
-                                  ],
+                                          userProvider.changeBetterContact(value);
+                                        },
+                                      ),
+                                      Text('E-mail'),
+                                    ],
+                                  ),
                                 ),
-                                Row(
-                                  children: [
-                                    Radio(
-                                      activeColor: Colors.red,
-                                      groupValue: snapshot.data,
-                                      value: 2,
-                                      onChanged: (value) {
-                                        setState(() {
-                                          telefoneHasError = false;
-                                          whatsappHasError = false;
-                                        });
-                                        userProvider.changeBetterContact(value);
-                                      },
-                                    ),
-                                    Text('E-mail'),
-                                  ],
-                                ),
-                                Row(
-                                  children: [
-                                    Radio(
-                                      activeColor: Colors.purple,
-                                      groupValue: snapshot.data,
-                                      value: 3,
-                                      onChanged: (value) {
-                                        setState(() {
-                                          telefoneHasError = false;
-                                          whatsappHasError = false;
-                                        });
-                                        userProvider.changeBetterContact(value);
-                                      },
-                                    ),
-                                    Text('Somente pelo chat do aplicativo'),
-                                  ],
+                                InkWell(
+                                  onTap: () {
+                                    userProvider.changeBetterContact(3);
+                                  },
+                                  child: Row(
+                                    children: [
+                                      Radio(
+                                        activeColor: Colors.purple,
+                                        groupValue: snapshot.data,
+                                        value: 3,
+                                        onChanged: (value) {
+                                          setState(() {
+                                            telefoneHasError = false;
+                                            whatsappHasError = false;
+                                          });
+                                          userProvider.changeBetterContact(value);
+                                        },
+                                      ),
+                                      Text('Somente pelo chat do aplicativo'),
+                                    ],
+                                  ),
                                 ),
                               ],
                             ),

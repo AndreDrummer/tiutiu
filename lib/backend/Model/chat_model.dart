@@ -1,62 +1,43 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:tiutiu/backend/Model/user_model.dart';
 
 class Chat {
   Chat({
-    this.firstUserId,
     this.open,
-    this.secondUserId,
-    this.firstUserName,
-    this.secondUserName,
-    this.firstUserImagePath,
-    this.secondUserImagePath,
+    this.firstUser,
+    this.id,
+    this.secondUser,
     this.lastSender,
     this.lastMessage,
     this.lastMessageTime,
-    this.firstReceiverNotificationToken,
-    this.secondReceiverNotificationToken,
   });
 
   Chat.fromSnapshot(DocumentSnapshot snapshot)
-      : firstUserId = snapshot.data()['firstUserId'],
-        open = snapshot.data()['open'],
-        secondUserId = snapshot.data()['secondUserId'],
-        firstUserName = snapshot.data()['firstUserName'],
-        secondUserName = snapshot.data()['secondUserName'],
-        firstUserImagePath = snapshot.data()['firstUserImagePath'],
-        secondUserImagePath = snapshot.data()['secondUserImagePath'],
+      : open = snapshot.data()['open'],
+        firstUser = User.fromMap(snapshot.data()['firstUser']),
+        secondUser = User.fromMap(snapshot.data()['secondUser']),
         lastSender = snapshot.data()['lastSender'],
+        id = snapshot.id,
         lastMessage = snapshot.data()['lastMessage'],
-        lastMessageTime = snapshot.data()['lastMessageTime'],
-        firstReceiverNotificationToken = snapshot.data()['firstReceiverNotificationToken'],
-        secondReceiverNotificationToken = snapshot.data()['secondReceiverNotificationToken'];
+        lastMessageTime = snapshot.data()['lastMessageTime'];
 
   Map<String, dynamic> toJson() {
     return {
-      'firstUserId': firstUserId,
       'open': open,
-      'secondUserId': secondUserId,
-      'firstUserName': firstUserName,
-      'secondUserName': secondUserName,
-      'firstUserImagePath': firstUserImagePath,
-      'secondUserImagePath': secondUserImagePath,
+      'id': id,
       'lastSender': lastSender,
+      'firstUser': firstUser.toJson(),
+      'secondUser': secondUser.toJson(),
       'lastMessage': lastMessage,
       'lastMessageTime': lastMessageTime,
-      'firstReceiverNotificationToken': firstReceiverNotificationToken,
-      'secondReceiverNotificationToken': secondReceiverNotificationToken,
     };
   }
 
-  String firstUserId;
-  String secondUserId;
-  String firstUserName;
-  String secondUserName;
-  String firstReceiverNotificationToken;
-  String secondReceiverNotificationToken;
-  String firstUserImagePath;
-  String secondUserImagePath;
+  User firstUser;
+  User secondUser;
   String lastSender;
   String lastMessage;
+  String id;
   bool open;
   Timestamp lastMessageTime;
 }

@@ -15,6 +15,7 @@ import 'package:tiutiu/providers/user_provider.dart';
 import 'package:tiutiu/utils/constantes.dart';
 import 'package:tiutiu/utils/other_functions.dart';
 import 'package:tiutiu/utils/routes.dart';
+import 'package:tiutiu/utils/string_extension.dart';
 
 class DonateDisappearedList extends StatefulWidget {
   DonateDisappearedList({
@@ -124,22 +125,19 @@ class _DonateDisappearedListState extends State<DonateDisappearedList> {
 
   @override
   Widget build(BuildContext context) {
-    final marginTop = MediaQuery.of(context).size.height / 1.75;
+    final marginTop = MediaQuery.of(context).size.height / 1.55;
     final height = MediaQuery.of(context).size.height;
 
     return Scaffold(
       key: _scaffoldKey,
       backgroundColor: Colors.blueGrey[50],
-      body: Column(
+      body: ListView(
+        key: UniqueKey(),
         children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 8.0),
-            child: _StateFilter(
-              refineSearchProvider: refineSearchProvider,
-              petsProvider: petsProvider,
-            ),
+          FilterCard(
+            petsProvider: petsProvider,
+            refineSearchProvider: refineSearchProvider,
           ),
-          _HomeSearch(),
           StreamBuilder<List<Pet>>(
             stream: (petsProvider.getIsFilteringByBreed || petsProvider.getIsFilteringByName) ? petsProvider.typingSearchResult : widget.stream,
             builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -218,74 +216,71 @@ class _DonateDisappearedListState extends State<DonateDisappearedList> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    Column(
-                      children: [
-                        Container(
-                          height: 20,
-                          alignment: Alignment(-0.9, 1),
-                          padding: const EdgeInsets.only(left: 10, right: 10),
-                          margin: const EdgeInsets.only(bottom: 10),
-                          child: Row(
+                    Container(
+                      height: 20,
+                      alignment: Alignment(-0.9, 1),
+                      padding: const EdgeInsets.only(left: 10, right: 10),
+                      margin: const EdgeInsets.only(bottom: 10, top: 5),
+                      child: Row(
+                        children: [
+                          Row(
                             children: [
-                              Row(
-                                children: [
-                                  Text(
-                                    '${petsList.length} ',
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w700,
-                                      color: Colors.black26,
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(top: 2.0),
-                                    child: Text(
-                                      'encontrados',
-                                      style: TextStyle(
-                                        fontSize: 13,
-                                        fontWeight: FontWeight.w700,
-                                        color: Colors.black26,
-                                      ),
-                                    ),
-                                  ),
-                                ],
+                              Text(
+                                '${petsList.length} ',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w700,
+                                  color: Colors.black26,
+                                ),
                               ),
-                              Spacer(),
-                              Row(
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(top: 3.0),
-                                    child: Text(
-                                      'ordenar por:  ',
-                                      style: TextStyle(
-                                        fontSize: 13,
-                                        fontWeight: FontWeight.w700,
-                                        color: Colors.black26,
-                                      ),
-                                    ),
+                              Padding(
+                                padding: const EdgeInsets.only(top: 2.0),
+                                child: Text(
+                                  'encontrados',
+                                  style: TextStyle(
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.w700,
+                                    color: Colors.black26,
                                   ),
-                                  StreamBuilder<Object>(
-                                      stream: petsProvider.orderType,
-                                      builder: (context, snapshot) {
-                                        return CustomDropdownButtonSearch(
-                                          colorText: Colors.black54,
-                                          fontSize: 13,
-                                          initialValue: petsProvider.getOrderType,
-                                          isExpanded: false,
-                                          withPipe: false,
-                                          itemList: petsProvider.getOrderTypeList,
-                                          label: '',
-                                          onChange: (String text) {
-                                            petsProvider.changeOrderType(text, refineSearchProvider.getStateOfResultSearch);
-                                          },
-                                        );
-                                      }),
-                                ],
+                                ),
                               ),
                             ],
                           ),
-                        ),
-                      ],
+                          Spacer(),
+                          Row(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(top: 3.0),
+                                child: Text(
+                                  'ordenar por:  ',
+                                  style: TextStyle(
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.w700,
+                                    color: Colors.black26,
+                                  ),
+                                ),
+                              ),
+                              StreamBuilder<Object>(
+                                stream: petsProvider.orderType,
+                                builder: (context, snapshot) {
+                                  return CustomDropdownButtonSearch(
+                                    colorText: Colors.black54,
+                                    fontSize: 13,
+                                    initialValue: petsProvider.getOrderType,
+                                    isExpanded: false,
+                                    withPipe: false,
+                                    itemList: petsProvider.getOrderTypeList,
+                                    label: '',
+                                    onChange: (String text) {
+                                      petsProvider.changeOrderType(text, refineSearchProvider.getStateOfResultSearch);
+                                    },
+                                  );
+                                },
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
                     Expanded(
                       child: ListView.builder(
@@ -307,7 +302,7 @@ class _DonateDisappearedListState extends State<DonateDisappearedList> {
                                           children: [
                                             adsProvider.getCanShowAds ? adsProvider.bannerAdMob(adId: adsProvider.topAdId, medium_banner: true) : Container(),
                                             Padding(
-                                              padding: const EdgeInsets.only(top: 8.0, bottom: 16.0),
+                                              padding: const EdgeInsets.only(top: 8.0, bottom: 24.0),
                                               child: Row(
                                                 mainAxisAlignment: MainAxisAlignment.center,
                                                 children: [
@@ -361,7 +356,6 @@ class _StateFilterState extends State<_StateFilter> {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Row(
-          // mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Padding(
               padding: const EdgeInsets.only(top: 7.0, left: 24),
@@ -498,7 +492,7 @@ class __HomeSearchState extends State<_HomeSearch> {
     }
   }
 
-  void handleOnTextSearchSubmit(String textSearch) {
+  void handleOnTextSearchChange(String textSearch) {
     if (refineSearchProvider.getSearchHomeTypeInitialValue == 'Nome do PET') {
       petsProvider.changeIsFilteringByName(true);
       petsProvider.clearOthersFilters();
@@ -515,15 +509,15 @@ class __HomeSearchState extends State<_HomeSearch> {
   void performTypingSearch(String text) {
     petsProvider.changeTypingSearchResult([]);
     List<Pet> oldPetList = petsProvider.getPetKind == 'Donate' ? petsProvider.getPetsDonate : petsProvider.getPetsDisappeared;
-    if (text.trim().isNotEmpty) {
+    if (text.trim().removeAccent().isNotEmpty) {
       List<Pet> newPetList = [];
       for (Pet pet in oldPetList) {
-        if (petsProvider.getIsFilteringByName && pet.name.toLowerCase().contains(text.toLowerCase())) newPetList.add(pet);
-        if (petsProvider.getIsFilteringByBreed && pet.breed.toLowerCase().contains(text.toLowerCase())) newPetList.add(pet);
+        if (petsProvider.getIsFilteringByName && pet.name.toLowerCase().contains(text.removeAccent().toLowerCase())) newPetList.add(pet);
+        if (petsProvider.getIsFilteringByBreed && pet.breed.toLowerCase().contains(text.removeAccent().toLowerCase())) newPetList.add(pet);
       }
       petsProvider.changeTypingSearchResult(newPetList);
     }
-    if (text.trim().isEmpty) petsProvider.changeTypingSearchResult(oldPetList);
+    if (text.trim().removeAccent().isEmpty) petsProvider.changeTypingSearchResult(oldPetList);
   }
 
   @override
@@ -551,12 +545,82 @@ class __HomeSearchState extends State<_HomeSearch> {
                                     isType: snapshotSearchPetByTypeOnHome?.data ?? false,
                                     onDropdownTypeChange: handleSearchType,
                                     onDropdownHomeSearchOptionsChange: handleSearchOptions,
-                                    onChanged: handleOnTextSearchSubmit,
+                                    onChanged: handleOnTextSearchChange,
                                   );
                                 });
                           });
                     });
               });
         });
+  }
+}
+
+class FilterCard extends StatefulWidget {
+  FilterCard({
+    this.refineSearchProvider,
+    this.petsProvider,
+  });
+
+  final RefineSearchProvider refineSearchProvider;
+  final PetsProvider petsProvider;
+
+  @override
+  _FilterCardState createState() => _FilterCardState();
+}
+
+class _FilterCardState extends State<FilterCard> {
+  bool _isExpanded = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedContainer(
+      duration: Duration(milliseconds: 500),
+      height: _isExpanded ? 240 : 70,
+      child: Card(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+            bottomLeft: Radius.circular(25),
+            bottomRight: Radius.circular(25),
+          ),
+        ),
+        child: Column(
+          children: <Widget>[
+            ListTile(
+              title: Text("Filtrar resultado"),
+              trailing: IconButton(
+                icon: Icon(_isExpanded ? Icons.keyboard_arrow_up : Icons.expand_more),
+                onPressed: () {
+                  setState(() {
+                    _isExpanded = !_isExpanded;
+                  });
+                },
+              ),
+            ),
+            AnimatedContainer(
+              duration: Duration(milliseconds: 500),
+              height: _isExpanded ? 170 : 0,
+              child: ListView(
+                children: [
+                  Divider(),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 15.0),
+                    child: _StateFilter(
+                      refineSearchProvider: widget.refineSearchProvider,
+                      petsProvider: widget.petsProvider,
+                    ),
+                  ),
+                  Divider(),
+                  _HomeSearch(),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                    child: Divider(),
+                  ),
+                ],
+              ),
+            )
+          ],
+        ),
+      ),
+    );
   }
 }

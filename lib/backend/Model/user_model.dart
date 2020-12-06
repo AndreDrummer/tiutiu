@@ -8,33 +8,35 @@ class User {
     this.photoURL,
     this.email,
     this.password,
-    this.landline,        
+    this.landline,
     this.phoneNumber,
     this.createdAt,
+    this.betterContact,
+    this.photoBACK,
   });
-  
+
   User.fromSnapshot(DocumentSnapshot snapshot) {
     id = snapshot.data()['uid'];
     betterContact = snapshot.data()['betterContact'];
     createdAt = snapshot.data()['createdAt'];
     name = snapshot.data()['displayName'];
     notificationToken = snapshot.data()['notificationToken'];
-    photoURL = snapshot.data()['photoURL'];        
-    photoBACK = snapshot.data()['photoBACK'];        
+    photoURL = snapshot.data()['photoURL'];
+    photoBACK = snapshot.data()['photoBACK'];
     email = snapshot.data()['email'];
     password = snapshot.data()['password'];
     phoneNumber = snapshot.data()['phoneNumber'];
     landline = snapshot.data()['landline'];
   }
-  
+
   User.fromMap(Map<String, dynamic> map) {
-    id = map['uid'];
+    id = map['id'];
     betterContact = map['betterContact'];
     createdAt = map['createdAt'];
-    name = map['displayName'];
+    name = map['name'];
     notificationToken = map['notificationToken'];
-    photoURL = map['photoURL'];        
-    photoBACK = map['photoBACK'];        
+    photoURL = map['photoURL'];
+    photoBACK = map['photoBACK'];
     email = map['email'];
     password = map['password'];
     phoneNumber = map['phoneNumber'];
@@ -51,12 +53,11 @@ class User {
   String email;
   String password;
   String landline;
-  String phoneNumber;      
-
+  String phoneNumber;
 
   Map<String, dynamic> toJson() {
     return {
-      'betterContact': betterContact,      
+      'betterContact': betterContact,
       'id': id,
       'name': name,
       'notificationToken': notificationToken,
@@ -66,7 +67,7 @@ class User {
       'email': email,
       'password': password,
       'landline': landline,
-      'phoneNumber': phoneNumber,            
+      'phoneNumber': phoneNumber,
     };
   }
 
@@ -82,8 +83,7 @@ class User {
     userMap['email'] = email;
     userMap['password'] = password;
     userMap['landline'] = landline;
-    userMap['phoneNumber'] = phoneNumber;        
+    userMap['phoneNumber'] = phoneNumber;
     return userMap;
   }
-
 }

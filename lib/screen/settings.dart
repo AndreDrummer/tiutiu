@@ -504,7 +504,7 @@ class _SettingsState extends State<Settings> {
                               },
                               child: CircleAvatar(
                                 radius: 50,
-                                backgroundColor: Colors.black12,
+                                backgroundColor: Colors.black38,
                                 child: ClipOval(
                                   child: userProfile['photoFile'] == null
                                       ? userProvider.photoURL != null
@@ -517,7 +517,7 @@ class _SettingsState extends State<Settings> {
                                               width: 1000,
                                               height: 100,
                                             )
-                                          : Icon(Icons.person, color: Colors.white54, size: 50)
+                                          : Icon(Icons.person, color: Colors.white70, size: 50)
                                       : Image.file(
                                           userProfile['photoFile'],
                                           width: 1000,
@@ -533,7 +533,7 @@ class _SettingsState extends State<Settings> {
                     ],
                   ),
                   Container(
-                    height: MediaQuery.of(context).size.height / 2,
+                    height: MediaQuery.of(context).size.height / 2.19,
                     child: Form(
                       key: _personalDataFormKey,
                       child: Column(
@@ -620,97 +620,108 @@ class _SettingsState extends State<Settings> {
                             ),
                           ),
                           CustomDivider(text: 'Sua melhor forma de contato'),
-                          StreamBuilder<Object>(
+                          StreamBuilder(
                             stream: userProvider.betterContact,
                             builder: (context, snapshot) {
                               return Container(
-                                height: 120,
+                                height: 100,
                                 child: Column(
                                   children: [
                                     Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
                                       children: [
-                                        Container(
-                                          width: width / 3,
-                                          child: Row(
-                                            children: [
-                                              Radio(
-                                                activeColor: Theme.of(context).primaryColor,
-                                                groupValue: snapshot.data,
-                                                value: 0,
-                                                onChanged: (value) {
-                                                  userProvider.changeBetterContact(value);
-                                                },
-                                              ),
-                                              Text(
-                                                'WhatsApp',
-                                                style: Theme.of(context).textTheme.headline1.copyWith(color: Colors.black),
-                                              ),
-                                            ],
+                                        InkWell(
+                                          onTap: () {
+                                            userProvider.changeBetterContact(0);
+                                          },
+                                          child: Container(
+                                            width: width / 3,
+                                            child: Row(
+                                              children: [
+                                                Radio(
+                                                  activeColor: Theme.of(context).primaryColor,
+                                                  groupValue: snapshot.data,
+                                                  value: 0,
+                                                  onChanged: (value) {
+                                                    userProvider.changeBetterContact(value);
+                                                  },
+                                                ),
+                                                Text('WhatsApp'),
+                                              ],
+                                            ),
                                           ),
                                         ),
-                                        Container(
-                                          child: Row(
-                                            children: [
-                                              Radio(
-                                                activeColor: Colors.orange,
-                                                groupValue: snapshot.data,
-                                                value: 1,
-                                                onChanged: (value) {
-                                                  userProvider.changeBetterContact(value);
-                                                },
-                                              ),
-                                              Padding(
-                                                padding: const EdgeInsets.only(right: 8.0),
-                                                child: Text(
-                                                  'Telefone Fixo',
-                                                  style: Theme.of(context).textTheme.headline1.copyWith(color: Colors.black),
+                                        InkWell(
+                                          onTap: () {
+                                            userProvider.changeBetterContact(1);
+                                          },
+                                          child: Container(
+                                            child: Row(
+                                              children: [
+                                                Radio(
+                                                  activeColor: Colors.orange,
+                                                  groupValue: snapshot.data,
+                                                  value: 1,
+                                                  onChanged: (value) {
+                                                    userProvider.changeBetterContact(value);
+                                                  },
                                                 ),
-                                              ),
-                                            ],
+                                                Padding(
+                                                  padding: const EdgeInsets.only(right: 8.0),
+                                                  child: Text('Telefone Fixo'),
+                                                ),
+                                              ],
+                                            ),
                                           ),
                                         )
                                       ],
                                     ),
+                                    Spacer(),
                                     Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
                                       children: [
-                                        Container(
-                                          width: width / 3,
-                                          child: Row(
-                                            children: [
-                                              Radio(
-                                                activeColor: Colors.red,
-                                                groupValue: snapshot.data,
-                                                value: 2,
-                                                onChanged: (value) {
-                                                  userProvider.changeBetterContact(value);
-                                                },
-                                              ),
-                                              Text(
-                                                'E-mail',
-                                                style: Theme.of(context).textTheme.headline1.copyWith(color: Colors.black),
-                                              ),
-                                            ],
+                                        InkWell(
+                                          onTap: () {
+                                            userProvider.changeBetterContact(2);
+                                          },
+                                          child: Container(
+                                            width: width / 3,
+                                            child: Row(
+                                              children: [
+                                                Radio(
+                                                  activeColor: Colors.red,
+                                                  groupValue: snapshot.data,
+                                                  value: 2,
+                                                  onChanged: (value) {
+                                                    userProvider.changeBetterContact(value);
+                                                  },
+                                                ),
+                                                Text('E-mail'),
+                                              ],
+                                            ),
                                           ),
                                         ),
-                                        Container(
-                                          child: Row(
-                                            children: [
-                                              Radio(
-                                                activeColor: Colors.purple,
-                                                groupValue: snapshot.data,
-                                                value: 3,
-                                                onChanged: (value) {
-                                                  userProvider.changeBetterContact(value);
-                                                },
-                                              ),
-                                              Padding(
-                                                padding: const EdgeInsets.only(right: 8.0),
-                                                child: Text(
-                                                  'Somente pelo chat do aplicativo',
-                                                  style: Theme.of(context).textTheme.headline1.copyWith(color: Colors.black),
+                                        InkWell(
+                                          onTap: () {
+                                            userProvider.changeBetterContact(3);
+                                          },
+                                          child: Container(
+                                            child: Row(
+                                              children: [
+                                                Radio(
+                                                  activeColor: Colors.purple,
+                                                  groupValue: snapshot.data,
+                                                  value: 3,
+                                                  onChanged: (value) {
+                                                    userProvider.changeBetterContact(value);
+                                                  },
                                                 ),
-                                              ),
-                                            ],
+                                                Padding(
+                                                  padding: const EdgeInsets.only(right: 8.0),
+                                                  child: Text('Só pelo chat'),
+                                                ),
+                                              ],
+                                            ),
                                           ),
                                         )
                                       ],
