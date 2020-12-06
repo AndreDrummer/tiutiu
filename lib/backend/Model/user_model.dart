@@ -11,6 +11,8 @@ class User {
     this.landline,
     this.phoneNumber,
     this.createdAt,
+    this.betterContact,
+    this.photoBACK,
   });
 
   User.fromSnapshot(DocumentSnapshot snapshot) {
