@@ -124,7 +124,7 @@ class _DonateDisappearedListState extends State<DonateDisappearedList> {
 
   @override
   Widget build(BuildContext context) {
-    final marginTop = MediaQuery.of(context).size.height / 1.75;
+    final marginTop = MediaQuery.of(context).size.height / 1.4;
     final height = MediaQuery.of(context).size.height;
 
     return Scaffold(
@@ -132,14 +132,6 @@ class _DonateDisappearedListState extends State<DonateDisappearedList> {
       backgroundColor: Colors.blueGrey[50],
       body: Column(
         children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 8.0),
-            child: _StateFilter(
-              refineSearchProvider: refineSearchProvider,
-              petsProvider: petsProvider,
-            ),
-          ),
-          _HomeSearch(),
           StreamBuilder<List<Pet>>(
             stream: (petsProvider.getIsFilteringByBreed || petsProvider.getIsFilteringByName) ? petsProvider.typingSearchResult : widget.stream,
             builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -218,74 +210,76 @@ class _DonateDisappearedListState extends State<DonateDisappearedList> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    Column(
-                      children: [
-                        Container(
-                          height: 20,
-                          alignment: Alignment(-0.9, 1),
-                          padding: const EdgeInsets.only(left: 10, right: 10),
-                          margin: const EdgeInsets.only(bottom: 10),
-                          child: Row(
+                    FilterCard(
+                      petsProvider: petsProvider,
+                      refineSearchProvider: refineSearchProvider,
+                      qtyPets: petsList.length,
+                    ),
+                    Container(
+                      height: 20,
+                      alignment: Alignment(-0.9, 1),
+                      padding: const EdgeInsets.only(left: 10, right: 10),
+                      margin: const EdgeInsets.only(bottom: 10),
+                      child: Row(
+                        children: [
+                          Row(
                             children: [
-                              Row(
-                                children: [
-                                  Text(
-                                    '${petsList.length} ',
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w700,
-                                      color: Colors.black26,
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(top: 2.0),
-                                    child: Text(
-                                      'encontrados',
-                                      style: TextStyle(
-                                        fontSize: 13,
-                                        fontWeight: FontWeight.w700,
-                                        color: Colors.black26,
-                                      ),
-                                    ),
-                                  ),
-                                ],
+                              Text(
+                                '${petsList.length} ',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w700,
+                                  color: Colors.black26,
+                                ),
                               ),
-                              Spacer(),
-                              Row(
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(top: 3.0),
-                                    child: Text(
-                                      'ordenar por:  ',
-                                      style: TextStyle(
-                                        fontSize: 13,
-                                        fontWeight: FontWeight.w700,
-                                        color: Colors.black26,
-                                      ),
-                                    ),
+                              Padding(
+                                padding: const EdgeInsets.only(top: 2.0),
+                                child: Text(
+                                  'encontrados',
+                                  style: TextStyle(
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.w700,
+                                    color: Colors.black26,
                                   ),
-                                  StreamBuilder<Object>(
-                                      stream: petsProvider.orderType,
-                                      builder: (context, snapshot) {
-                                        return CustomDropdownButtonSearch(
-                                          colorText: Colors.black54,
-                                          fontSize: 13,
-                                          initialValue: petsProvider.getOrderType,
-                                          isExpanded: false,
-                                          withPipe: false,
-                                          itemList: petsProvider.getOrderTypeList,
-                                          label: '',
-                                          onChange: (String text) {
-                                            petsProvider.changeOrderType(text, refineSearchProvider.getStateOfResultSearch);
-                                          },
-                                        );
-                                      }),
-                                ],
+                                ),
                               ),
                             ],
                           ),
-                        ),
-                      ],
+                          Spacer(),
+                          Row(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(top: 3.0),
+                                child: Text(
+                                  'ordenar por:  ',
+                                  style: TextStyle(
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.w700,
+                                    color: Colors.black26,
+                                  ),
+                                ),
+                              ),
+                              StreamBuilder<Object>(
+                                stream: petsProvider.orderType,
+                                builder: (context, snapshot) {
+                                  return CustomDropdownButtonSearch(
+                                    colorText: Colors.black54,
+                                    fontSize: 13,
+                                    initialValue: petsProvider.getOrderType,
+                                    isExpanded: false,
+                                    withPipe: false,
+                                    itemList: petsProvider.getOrderTypeList,
+                                    label: '',
+                                    onChange: (String text) {
+                                      petsProvider.changeOrderType(text, refineSearchProvider.getStateOfResultSearch);
+                                    },
+                                  );
+                                },
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
                     Expanded(
                       child: ListView.builder(
@@ -361,7 +355,6 @@ class _StateFilterState extends State<_StateFilter> {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Row(
-          // mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Padding(
               padding: const EdgeInsets.only(top: 7.0, left: 24),
@@ -558,5 +551,73 @@ class __HomeSearchState extends State<_HomeSearch> {
                     });
               });
         });
+  }
+}
+
+class FilterCard extends StatefulWidget {
+  FilterCard({
+    this.refineSearchProvider,
+    this.petsProvider,
+    this.qtyPets,
+  });
+
+  final RefineSearchProvider refineSearchProvider;
+  final PetsProvider petsProvider;
+  final qtyPets;
+
+  @override
+  _FilterCardState createState() => _FilterCardState();
+}
+
+class _FilterCardState extends State<FilterCard> {
+  bool _isExpanded = false;
+
+  @override
+  Widget build(BuildContext context) {
+    final itemsHeight = (3 * 25.0);
+    return AnimatedContainer(
+      duration: Duration(milliseconds: 500),
+      height: _isExpanded ? itemsHeight + 150 : 80,
+      child: Card(
+        margin: const EdgeInsets.all(10),
+        child: Column(
+          children: <Widget>[
+            ListTile(
+              title: Text("Filter"),
+              trailing: IconButton(
+                icon: Icon(_isExpanded ? Icons.keyboard_arrow_up : Icons.expand_more),
+                onPressed: () {
+                  setState(() {
+                    _isExpanded = !_isExpanded;
+                  });
+                },
+              ),
+            ),
+            AnimatedContainer(
+              duration: Duration(milliseconds: 500),
+              height: _isExpanded ? 120 : 0,
+              padding: const EdgeInsets.symmetric(horizontal: 15),
+              child: ListView(
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8.0),
+                        child: _StateFilter(
+                          refineSearchProvider: widget.refineSearchProvider,
+                          petsProvider: widget.petsProvider,
+                        ),
+                      ),
+                      _HomeSearch(),
+                    ],
+                  ),
+                ],
+              ),
+            )
+          ],
+        ),
+      ),
+    );
   }
 }
