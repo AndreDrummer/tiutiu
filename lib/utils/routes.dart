@@ -6,6 +6,7 @@ class Routes {
   static const MEUS_PETS = '/meus-pets';
   static const REGISTER = '/register';
   static const SETTINGS = '/settings';
+  static const ABOUT = '/about';
   static const FAVORITES = '/favorites';
   static const AUTH = '/auth';
   static const MAPA = '/map';
