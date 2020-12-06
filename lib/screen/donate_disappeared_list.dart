@@ -577,13 +577,16 @@ class _FilterCardState extends State<FilterCard> {
     final itemsHeight = (3 * 25.0);
     return AnimatedContainer(
       duration: Duration(milliseconds: 500),
-      height: _isExpanded ? itemsHeight + 150 : 80,
+      height: _isExpanded ? itemsHeight + 185 : 80,
       child: Card(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(25),
+        ),
         margin: const EdgeInsets.all(10),
         child: Column(
           children: <Widget>[
             ListTile(
-              title: Text("Filter"),
+              title: Text("Filtrar resultado"),
               trailing: IconButton(
                 icon: Icon(_isExpanded ? Icons.keyboard_arrow_up : Icons.expand_more),
                 onPressed: () {
@@ -595,23 +598,19 @@ class _FilterCardState extends State<FilterCard> {
             ),
             AnimatedContainer(
               duration: Duration(milliseconds: 500),
-              height: _isExpanded ? 120 : 0,
-              padding: const EdgeInsets.symmetric(horizontal: 15),
+              height: _isExpanded ? 150 : 0,
               child: ListView(
                 children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 8.0),
-                        child: _StateFilter(
-                          refineSearchProvider: widget.refineSearchProvider,
-                          petsProvider: widget.petsProvider,
-                        ),
-                      ),
-                      _HomeSearch(),
-                    ],
+                  Divider(),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 15.0),
+                    child: _StateFilter(
+                      refineSearchProvider: widget.refineSearchProvider,
+                      petsProvider: widget.petsProvider,
+                    ),
                   ),
+                  Divider(),
+                  _HomeSearch(),
                 ],
               ),
             )
