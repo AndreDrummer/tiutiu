@@ -18,7 +18,7 @@ import 'package:tiutiu/providers/user_infos_interests.dart';
 import 'package:tiutiu/providers/user_provider.dart';
 import 'package:tiutiu/screen/auth_screen.dart';
 import 'package:tiutiu/screen/bootstrap.dart';
-import 'package:tiutiu/screen/chat_tabs.dart';
+import 'package:tiutiu/chat/screens/chat_tabs.dart';
 import 'package:tiutiu/screen/choose_location.dart';
 import 'package:tiutiu/screen/favorites.dart';
 import 'package:tiutiu/screen/home.dart';
