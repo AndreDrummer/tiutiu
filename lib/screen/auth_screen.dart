@@ -135,27 +135,25 @@ class _AuthScreenState extends State<AuthScreen> {
                       children: <Widget>[
                         Container(
                           width: double.infinity,
-                          child: Center(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Container(
-                                  width: 150,
-                                  child: Image.asset('assets/newLogo.png'),
-                                ),
-                                SizedBox(height: 10),
-                                Text(
-                                  'Tiu,tiu',
-                                  style: GoogleFonts.miltonianTattoo(
-                                    textStyle: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 60,
-                                      letterSpacing: 12,
-                                    ),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Container(
+                                width: 100,
+                                child: Image.asset('assets/newLogo.png'),
+                              ),
+                              SizedBox(height: 10),
+                              Text(
+                                'Tiu,tiu',
+                                style: GoogleFonts.miltonianTattoo(
+                                  textStyle: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 50,
+                                    letterSpacing: 12,
                                   ),
-                                )
-                              ],
-                            ),
+                                ),
+                              )
+                            ],
                           ),
                         ),
                         isNewAccount
@@ -178,29 +176,32 @@ class _AuthScreenState extends State<AuthScreen> {
                       ],
                     ),
                     InputText.login(
+                      textCapitalization: TextCapitalization.none,
                       placeholder: isToResetPassword ? 'Digite seu email cadastrado' : 'E-mail',
                       onChanged: (text) => validateFields,
                       controller: email,
                       readOnly: fieldsAreReadyOnly,
                     ),
                     emailError ? HintError(message: validateEmail() ? '* Campo obrigatório.' : 'E-mail inválido') : Container(),
-                    SizedBox(height: 12),
+                    SizedBox(height: 10),
                     isToResetPassword
                         ? Container()
                         : InputText.login(
                             placeholder: 'Senha',
+                            textCapitalization: TextCapitalization.none,
                             controller: password,
                             readOnly: fieldsAreReadyOnly,
                             onChanged: (text) => validateFields,
                             isPassword: true,
                           ),
                     passwordError && !isToResetPassword ? HintError() : Container(),
-                    SizedBox(height: 12),
+                    SizedBox(height: 10),
                     isNewAccount
                         ? InputText.login(
                             placeholder: 'Repita sua senha',
                             controller: repeatPassword,
                             readOnly: fieldsAreReadyOnly,
+                            textCapitalization: TextCapitalization.none,
                             onChanged: (text) => validateFields,
                             isPassword: true,
                           )
@@ -340,11 +341,11 @@ class _AuthScreenState extends State<AuthScreen> {
                                         )
                                       : Container(),
                                 ),
-                                SizedBox(height: 30),
+                                SizedBox(height: 14),
                                 Text(
                                   ' acesse com',
                                   style: TextStyle(
-                                    fontSize: 16,
+                                    fontSize: 14,
                                     color: Colors.white,
                                     fontWeight: FontWeight.w700,
                                   ),

@@ -1,4 +1,5 @@
 import 'package:admob_flutter/admob_flutter.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_admob/firebase_admob.dart';
 import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
@@ -7,7 +8,7 @@ class AdsProvider with ChangeNotifier {
   // Streams
   final _canShowAds = BehaviorSubject<bool>.seeded(false);
 
-  Stream<bool> get canShowAds => _canShowAds.stream;
+  // Stream<bool> get canShowAds => _canShowAds.stream;
   void Function(bool) get changeCanShowAds => _canShowAds.sink.add;
   bool get getCanShowAds => _canShowAds.value;
 
@@ -19,6 +20,11 @@ class AdsProvider with ChangeNotifier {
   int bannerWidth = 300;
   void changeBannerWidth(int width) {
     bannerWidth = width;
+  }
+
+  Future<bool> canShowAds() async {
+    var ads = await FirebaseFirestore.instance.collection('Ads').doc('canShow').get();
+    return ads.data()['canShow'];
   }
 
   void handleEvent(AdmobAdEvent event, Map<String, dynamic> args, String adType) {
