@@ -7,6 +7,7 @@ import 'package:tiutiu/Widgets/load_dark_screen.dart';
 import 'package:tiutiu/data/dummy_data.dart';
 import 'package:tiutiu/providers/ads_provider.dart';
 import 'package:tiutiu/providers/pets_provider.dart';
+import 'package:tiutiu/utils/constantes.dart';
 import 'package:tiutiu/providers/refine_search.dart';
 import 'package:tiutiu/screen/selection_page.dart';
 import 'package:tiutiu/utils/routes.dart';
@@ -244,7 +245,7 @@ class _RefineSearchState extends State<RefineSearch> {
                     action: isRefiningSearch
                         ? null
                         : () async {
-                            petsProvider.changePetKind(refineSearchProvider.getIsDisappeared ? 'Disappeared' : 'Donate');
+                            petsProvider.changePetKind(refineSearchProvider.getIsDisappeared ? Constantes.DISAPPEARED : Constantes.DONATE);
                             refineSearchProvider.changeSearchHomePetTypeInitialValue(petsProvider.getPetType);
                             petsProvider.changeBreedSelected(refineSearchProvider.getBreedSelected);
                             petsProvider.changeSizeSelected(refineSearchProvider.getSizeSelected);
