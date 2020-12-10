@@ -59,7 +59,7 @@ class About extends StatelessWidget {
                 ),
                 SizedBox(height: 10),
                 Text(
-                  '   Por ser sem fins lucrativos, o app é open source, gratuito e apenas está disponível para dispositivos android. Para fazer esta boa idéia ficar disponível para dispositivos iOS, entre em contato através de nossas redes sociais e faça uma contribuição.',
+                  '   Por ser sem fins lucrativos, o app é gratuito e apenas está disponível para dispositivos android. Para fazer esta boa idéia ficar disponível para dispositivos iOS, entre em contato através de nossas redes sociais e faça uma contribuição.',
                   textAlign: TextAlign.justify,
                   style: Theme.of(context).textTheme.headline1.copyWith(
                         fontSize: 18,

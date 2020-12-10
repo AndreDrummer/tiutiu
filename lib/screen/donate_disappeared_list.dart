@@ -320,6 +320,7 @@ class _DonateDisappearedListState extends State<DonateDisappearedList> {
                           }
 
                           return CardList(
+                            donate: petsList[index].kind == Constantes.DONATE,
                             kind: petsList[index].kind,
                             petInfo: petsList[index],
                           );
