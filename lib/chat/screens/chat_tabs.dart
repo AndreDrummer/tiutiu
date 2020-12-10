@@ -37,6 +37,8 @@ class _ChatTabState extends State<ChatTab> with SingleTickerProviderStateMixin {
 
   void onTabChange() {
     initialIndex = _controller.index;
+    chatProvider.changeTextChatSearch('');
+    chatProvider.changeTextGlobalChatSearch('');
     chatProvider.changeCurrentlyTabChat(_controller.index);
   }
 

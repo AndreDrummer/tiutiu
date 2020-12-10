@@ -28,7 +28,7 @@ class CustomInput extends StatefulWidget {
 }
 
 class _CustomInputState extends State<CustomInput> {
-  TextEditingController _controller = TextEditingController();
+  final TextEditingController _controller = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -61,6 +61,7 @@ class _CustomInputState extends State<CustomInput> {
                 ? Container(
                     padding: const EdgeInsets.only(left: 10),
                     child: TextFormField(
+                      key: widget.key,
                       onChanged: (text) {
                         widget.onChanged(text);
                       },
