@@ -5,7 +5,7 @@ import 'package:tiutiu/Custom/icons.dart';
 // ignore: must_be_immutable
 class InputText extends StatefulWidget {
   InputText({
-    this.size = 55,
+    this.size = 75,
     this.controller,
     this.isLogin = false,
     this.isPassword = false,
@@ -13,6 +13,7 @@ class InputText extends StatefulWidget {
     this.readOnly = false,
     this.onChanged,
     this.keyBoardTypeNumber = false,
+    this.textCapitalization = TextCapitalization.sentences,
     this.placeholder,
     this.maxlines = 1,
     this.multiline = false,
@@ -20,9 +21,9 @@ class InputText extends StatefulWidget {
     this.hintText,
     this.inputFormatters = const [],
   });
-  
+
   InputText.login({
-    this.size = 55,
+    this.size = 75,
     this.controller,
     this.onChanged,
     this.placeholder,
@@ -36,6 +37,7 @@ class InputText extends StatefulWidget {
     this.validator,
     this.hintText,
     this.inputFormatters = const [],
+    this.textCapitalization = TextCapitalization.sentences,
   });
 
   final double size;
@@ -52,7 +54,7 @@ class InputText extends StatefulWidget {
   final Function(String) onChanged;
   final Function(String) validator;
   final List<TextInputFormatter> inputFormatters;
-
+  final TextCapitalization textCapitalization;
 
   @override
   _InputTextState createState() => _InputTextState();
@@ -77,16 +79,19 @@ class _InputTextState extends State<InputText> {
           children: <Widget>[
             Expanded(
               child: TextFormField(
+                textCapitalization: widget.textCapitalization,
                 cursorColor: Theme.of(context).primaryColor,
                 inputFormatters: widget.inputFormatters,
-                validator: widget.validator != null ? (value) {
-                  return widget.validator(value);
-                } : (value) {
-                  if (value.isEmpty) {
-                    return 'Preencha corretamente esse campo';
-                  }
-                  return null;
-                },                                         
+                validator: widget.validator != null
+                    ? (value) {
+                        return widget.validator(value);
+                      }
+                    : (value) {
+                        if (value.isEmpty) {
+                          return 'Preencha corretamente esse campo';
+                        }
+                        return null;
+                      },
                 readOnly: widget.readOnly,
                 controller: widget.controller,
                 textInputAction: TextInputAction.done,
@@ -97,14 +102,12 @@ class _InputTextState extends State<InputText> {
                     ? TextInputType.multiline
                     : widget.keyBoardTypeNumber
                         ? TextInputType.number
-                        : TextInputType.text,                                                
-                decoration: InputDecoration(                                                 
-                  hintText: widget.hintText,                  
+                        : TextInputType.text,
+                decoration: InputDecoration(
+                  hintText: widget.hintText,
                   labelText: widget.placeholder,
                   labelStyle: TextStyle(
-                    color: widget.isLogin
-                        ? Colors.black38
-                        : Colors.black26,
+                    color: widget.isLogin ? Colors.black38 : Colors.black26,
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderSide: BorderSide(style: BorderStyle.none),
@@ -123,9 +126,7 @@ class _InputTextState extends State<InputText> {
                     padding: const EdgeInsets.all(8.0),
                     child: IconButton(
                       icon: Icon(
-                        widget.seePassword
-                            ? Tiutiu.eye
-                            : Tiutiu.eye_slash,
+                        widget.seePassword ? Tiutiu.eye : Tiutiu.eye_slash,
                         color: Colors.grey,
                         size: 18,
                       ),

@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:firebase_admob/firebase_admob.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:provider/provider.dart';
@@ -32,7 +33,7 @@ class _SettingsState extends State<Settings> {
 
   bool isNameEditing = false;
   bool isWhatsAppEditing = false;
-  bool isTelefoneEditing = false;  
+  bool isTelefoneEditing = false;
   int betterContact;
 
   bool isSavingForm = false;
@@ -70,10 +71,7 @@ class _SettingsState extends State<Settings> {
 
     String patttern = r'(^[0-9]*$)';
     RegExp regExp = new RegExp(patttern);
-    if (userProvider.getBetterContact == 0 &&
-        value.isEmpty &&
-        userProvider.whatsapp != null &&
-        userProvider.whatsapp.isEmpty) {
+    if (userProvider.getBetterContact == 0 && value.isEmpty && userProvider.whatsapp != null && userProvider.whatsapp.isEmpty) {
       return 'Número é obrigatório';
     }
     if (value.isNotEmpty && value.length < 11) {
@@ -89,10 +87,7 @@ class _SettingsState extends State<Settings> {
 
     String patttern = r'(^[0-9]*$)';
     RegExp regExp = new RegExp(patttern);
-    if (userProvider.getBetterContact == 1 &&
-        value.isEmpty &&
-        userProvider.telefone != null &&
-        userProvider.telefone.isEmpty) {
+    if (userProvider.getBetterContact == 1 && value.isEmpty && userProvider.telefone != null && userProvider.telefone.isEmpty) {
       return 'Número é obrigatório';
     }
     if (value.isNotEmpty && value.length < 10) {
@@ -107,12 +102,9 @@ class _SettingsState extends State<Settings> {
   void initState() {
     FirebaseAdMob.instance.initialize(appId: Constantes.ADMOB_APP_ID);
     userProvider = Provider.of(context, listen: false);
-    if (userProvider.displayName != null)
-      _nameController.text = userProvider.displayName;
-    if (userProvider.whatsapp != null)
-      _whatsAppController.text = userProvider.whatsapp;
-    if (userProvider.telefone != null)
-      _telefoneController.text = userProvider.telefone;
+    if (userProvider.displayName != null) _nameController.text = userProvider.displayName;
+    if (userProvider.whatsapp != null) _whatsAppController.text = userProvider.whatsapp;
+    if (userProvider.telefone != null) _telefoneController.text = userProvider.telefone;
     if (userProvider.photoURL != null) photoURL = userProvider.photoURL;
     if (userProvider.photoBACK != null) photoBACK = userProvider.photoBACK;
     super.initState();
@@ -150,8 +142,7 @@ class _SettingsState extends State<Settings> {
         },
         denyText: 'Não',
         warning: true,
-        message:
-            'Esta operação é confidencial e requer autenticação recente. Faça login novamente antes de tentar novamente esta solicitação.',
+        message: 'Esta operação é confidencial e requer autenticação recente. Faça login novamente antes de tentar novamente esta solicitação.',
         title: 'Faça login novamente',
       ),
     );
@@ -183,10 +174,7 @@ class _SettingsState extends State<Settings> {
     StorageReference storageReferenceback;
 
     if (userProfile['photoFile'] != null) {
-      storageReferenceProfile = FirebaseStorage.instance
-          .ref()
-          .child('${auth.firebaseUser.uid}')
-          .child('avatar/foto_perfil');
+      storageReferenceProfile = FirebaseStorage.instance.ref().child('${auth.firebaseUser.uid}').child('avatar/foto_perfil');
 
       storageReferenceProfile.delete();
       uploadTask = storageReferenceProfile.putFile(userProfile['photoFile']);
@@ -199,10 +187,7 @@ class _SettingsState extends State<Settings> {
     }
 
     if (userProfile['photoFileBack'] != null) {
-      storageReferenceback = FirebaseStorage.instance
-          .ref()
-          .child('${auth.firebaseUser.uid}')
-          .child('avatar/foto_fundo');
+      storageReferenceback = FirebaseStorage.instance.ref().child('${auth.firebaseUser.uid}').child('avatar/foto_fundo');
 
       storageReferenceback.delete();
       uploadTask = storageReferenceback.putFile(userProfile['photoFileBack']);
@@ -218,70 +203,62 @@ class _SettingsState extends State<Settings> {
   }
 
   bool passwordWasTouched() {
-    return _newPassword.text.isNotEmpty && _repeatNewPassword.text.isNotEmpty;
+    return _newPassword.text.trim().isNotEmpty && _repeatNewPassword.text.trim().isNotEmpty;
   }
 
   bool validatePersonalData() {
     String patttern = r'(^[0-9]*$)';
     RegExp regExp = new RegExp(patttern);
 
-    bool validWhatsapp = _whatsAppController.text.isNotEmpty &&
-        _whatsAppController.text.contains('-') &&
-        regExp.hasMatch(_whatsAppController.text.split('-')[1]);
+    bool validWhatsapp = _whatsAppController.text.trim().isNotEmpty && _whatsAppController.text.trim().contains('-') && regExp.hasMatch(_whatsAppController.text.trim().split('-')[1]);
 
-    bool validTelefone = _telefoneController.text.isNotEmpty &&
-        _telefoneController.text.contains('-') &&
-        regExp.hasMatch(_telefoneController.text.split('-')[1]);
+    bool validTelefone = _telefoneController.text.trim().isNotEmpty && _telefoneController.text.trim().contains('-') && regExp.hasMatch(_telefoneController.text.trim().split('-')[1]);
 
     if (userProvider.getBetterContact == 0) {
-      var serializedWhatsappNumber =
-          Formatter.unmaskNumber(_telefoneController.text);
+      var serializedWhatsappNumber = Formatter.unmaskNumber(_telefoneController.text.trim());
       if (serializedWhatsappNumber == null) {
         _telefoneController.clear();
       }
       if (!validWhatsapp) {
         setState(() {
           whatsappHasError = true;
-          _whatsAppController.text =
-              'Quando este é o seu melhor contato, deve ser preenchido!';
+          _whatsAppController.text = 'Quando este é o seu melhor contato, deve ser preenchido!';
         });
         return false;
       }
     }
 
     if (userProvider.getBetterContact == 1) {
-      var serializedWhatsappNumber =
-          Formatter.unmaskNumber(_whatsAppController.text);
+      var serializedWhatsappNumber = Formatter.unmaskNumber(_whatsAppController.text.trim());
       if (serializedWhatsappNumber == null) {
         _whatsAppController.clear();
       }
       if (!validTelefone) {
         setState(() {
           telefoneHasError = true;
-          _telefoneController.text =
-              'Quando este é o seu melhor contato, deve ser preenchido!';
+          _telefoneController.text = 'Quando este é o seu melhor contato, deve ser preenchido!';
         });
         return false;
       }
     }
 
-    if (_telefoneController.text.isNotEmpty) {
-      if (!_telefoneController.text.contains('-'))
+    if (_telefoneController.text.trim().isNotEmpty) {
+      if (!_telefoneController.text.trim().contains('-'))
         setState(() {
           telefoneHasError = true;
           _telefoneController.text = 'Insira um número válido ou deixe vazio';
         });
-      return _telefoneController.text.contains('-');
+      return _telefoneController.text.trim().contains('-');
     }
 
-    if (_whatsAppController.text.isNotEmpty) {
-      if (!_whatsAppController.text.contains('-'))
+    if (_whatsAppController.text.trim().isNotEmpty) {
+      if (!_whatsAppController.text.trim().contains('-'))
         setState(() {
           whatsappHasError = true;
           _whatsAppController.text = 'Insira um número válido ou deixe vazio';
         });
-      return _whatsAppController.text.contains('-');
-    }    
+      return _whatsAppController.text.trim().contains('-');
+    }
     setState(() {
       telefoneHasError = false;
       whatsappHasError = false;
@@ -295,12 +272,10 @@ class _SettingsState extends State<Settings> {
       if (passwordWasTouched()) {
         changeSaveFormStatus(true);
         try {
-          await auth.firebaseUser.updatePassword(_newPassword.text);
+          await auth.firebaseUser.updatePassword(_newPassword.text.trim());
         } catch (error) {
           changeSaveFormStatus(false);
-          isToShowDialog
-              ? showMessageWarningUpdatePasswordOrDeleteAccount()
-              : SizedBox();
+          isToShowDialog ? showMessageWarningUpdatePasswordOrDeleteAccount() : SizedBox();
           throw '';
         }
       }
@@ -311,22 +286,21 @@ class _SettingsState extends State<Settings> {
       }
 
       await userController.updateUser(userProvider.uid, {
-        'displayName': _nameController.text,
+        'displayName': _nameController.text.trim(),
         'uid': auth.firebaseUser.uid,
         'photoURL': userProfile.isNotEmpty ? photoURL : userProvider.photoURL,
-        'photoBACK':
-            userProfile.isNotEmpty ? photoBACK : userProvider.photoBACK,
-        'phoneNumber': _whatsAppController.text,
-        'landline': _telefoneController.text,
+        'photoBACK': userProfile.isNotEmpty ? photoBACK : userProvider.photoBACK,
+        'phoneNumber': _whatsAppController.text.trim(),
+        'landline': _telefoneController.text.trim(),
         'betterContact': userProvider.getBetterContact,
         'email': auth.firebaseUser.email,
         'createdAt': userProvider.createdAt
       });
 
-      userProvider.changeDisplayName(_nameController.text);
+      userProvider.changeDisplayName(_nameController.text.trim());
       userProvider.changeBetterContact(userProvider.getBetterContact);
-      userProvider.changeWhatsapp(_whatsAppController.text);
-      userProvider.changeTelefone(_telefoneController.text);
+      userProvider.changeWhatsapp(_whatsAppController.text.trim());
+      userProvider.changeTelefone(_telefoneController.text.trim());
       userProvider.changePhotoUrl(photoURL);
       userProvider.changePhotoBack(photoBACK);
       userProfile.clear();
@@ -379,8 +353,7 @@ class _SettingsState extends State<Settings> {
   }
 
   void openModalSelectMedia(BuildContext context, bool perfil) {
-    bool conditionsToRemoveBackPhoto =
-        !perfil && userProfile.containsKey('photoFileBack');
+    bool conditionsToRemoveBackPhoto = !perfil && userProfile.containsKey('photoFileBack');
 
     showDialog(
       context: context,
@@ -450,12 +423,8 @@ class _SettingsState extends State<Settings> {
     void navigateToHomeAfterDeleteAccount() {
       showDialog(
         context: context,
-        builder: (context) => PopUpMessage(
-            confirmAction: () =>
-                Navigator.popUntil(context, ModalRoute.withName('/')),
-            confirmText: 'OK',
-            message: 'Sua conta Tiu, tiu foi deletada pra sempre!',
-            title: 'Conta Excluída'),
+        builder: (context) =>
+            PopUpMessage(confirmAction: () => Navigator.popUntil(context, ModalRoute.withName('/')), confirmText: 'OK', message: 'Sua conta Tiu, tiu foi deletada pra sempre!', title: 'Conta Excluída'),
       );
     }
 
@@ -475,396 +444,333 @@ class _SettingsState extends State<Settings> {
         backgroundColor: Colors.blueGrey[50],
         body: Stack(
           children: [
-            SingleChildScrollView(
-              child: Column(
-                children: [
-                  Stack(
-                    children: [
-                      InkWell(
-                        onTap: () {
-                          openModalSelectMedia(context, false);
-                        },
-                        child: Container(
-                          height: 200,
-                          width: double.infinity,
-                          child: Opacity(
-                            child: userProfile['photoFileBack'] == null
-                                ? FadeInImage(
-                                    placeholder: AssetImage('assets/fundo.jpg'),
-                                    image: NetworkImage(
-                                      userProvider.photoBACK ?? '',
+            Card(
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    Stack(
+                      children: [
+                        InkWell(
+                          onTap: () {
+                            openModalSelectMedia(context, false);
+                          },
+                          child: Container(
+                            height: 200,
+                            width: double.infinity,
+                            child: Opacity(
+                              child: userProfile['photoFileBack'] == null
+                                  ? ClipRRect(
+                                      borderRadius: BorderRadius.circular(8.0),
+                                      child: FadeInImage(
+                                        placeholder: AssetImage('assets/fundo.jpg'),
+                                        image: NetworkImage(
+                                          userProvider.photoBACK ?? '',
+                                        ),
+                                        fit: BoxFit.fill,
+                                        width: 1000,
+                                        height: 1000,
+                                      ),
+                                    )
+                                  : Image.file(
+                                      userProfile['photoFileBack'],
+                                      width: 1000,
+                                      height: 1000,
+                                      fit: BoxFit.cover,
                                     ),
-                                    fit: BoxFit.cover,
-                                    width: 1000,
-                                    height: 100,
-                                  )
-                                : Image.file(
-                                    userProfile['photoFileBack'],
-                                    width: 1000,
-                                    height: 1000,
-                                    fit: BoxFit.cover,
-                                  ),
-                            opacity: 0.25,
-                          ),
-                        ),
-                      ),
-                      Positioned(
-                        bottom: 5,
-                        right: 5,
-                        child: Container(
-                          height: 30,
-                          color: Colors.black38,
-                          child: FlatButton(
-                            onPressed: () =>
-                                openModalSelectMedia(context, false),
-                            child: Text(
-                              'ALTERAR PLANO DE FUNDO',
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w700),
+                              opacity: 0.25,
                             ),
                           ),
                         ),
-                      ),
-                      Positioned(
-                        top: 50,
-                        left: 0,
-                        right: 0,
+                        Positioned(
+                          bottom: 5,
+                          right: 5,
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(12),
+                              color: Colors.black38,
+                            ),
+                            height: 25,
+                            child: FlatButton(
+                              onPressed: () => openModalSelectMedia(context, false),
+                              child: Text(
+                                'Toque p/ alterar plano de fundo',
+                                style: TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.w700),
+                              ),
+                            ),
+                          ),
+                        ),
+                        Positioned(
+                          top: 50,
+                          left: 0,
+                          right: 0,
+                          child: Column(
+                            children: [
+                              InkWell(
+                                onTap: () {
+                                  openModalSelectMedia(context, true);
+                                },
+                                child: CircleAvatar(
+                                  radius: 50,
+                                  backgroundColor: Colors.black38,
+                                  child: ClipOval(
+                                    child: userProfile['photoFile'] == null
+                                        ? userProvider.photoURL != null
+                                            ? FadeInImage(
+                                                placeholder: AssetImage('assets/profileEmpty.png'),
+                                                image: NetworkImage(
+                                                  userProvider.photoURL,
+                                                ),
+                                                fit: BoxFit.cover,
+                                                width: 1000,
+                                                height: 100,
+                                              )
+                                            : Icon(Icons.person, color: Colors.white70, size: 50)
+                                        : Image.file(
+                                            userProfile['photoFile'],
+                                            width: 1000,
+                                            height: 1000,
+                                            fit: BoxFit.cover,
+                                          ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
+                    Container(
+                      height: MediaQuery.of(context).size.height / 2,
+                      child: Form(
+                        key: _personalDataFormKey,
                         child: Column(
                           children: [
-                            InkWell(
-                              onTap: () {
-                                openModalSelectMedia(context, true);
-                              },
-                              child: CircleAvatar(
-                                radius: 50,
-                                backgroundColor: Colors.black12,
-                                child: ClipOval(
-                                  child: userProfile['photoFile'] == null
-                                      ? userProvider.photoURL != null
-                                          ? FadeInImage(
-                                              placeholder: AssetImage(
-                                                  'assets/profileEmpty.png'),
-                                              image: NetworkImage(
-                                                userProvider.photoURL,
+                            Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 4.0),
+                              child: Column(
+                                children: [
+                                  _textField(
+                                    controller: _nameController,
+                                    fieldLabel: 'Nome',
+                                    isFieldEditing: isNameEditing,
+                                    onPressed: () {
+                                      if (isNameEditing) {
+                                        userProvider.changeDisplayName(_nameController.text.trim());
+                                        changeFieldEditingState(false, 'isNameEditing');
+                                      } else {
+                                        changeFieldEditingState(true, 'isNameEditing');
+                                      }
+                                    },
+                                  ),
+                                  _textField(
+                                    controller: _whatsAppController,
+                                    fieldLabel: 'WhatsApp',
+                                    isFieldEditing: isWhatsAppEditing,
+                                    onFieldSubmitted: (_) => validatePersonalData(),
+                                    inputFormatters: [celularMask],
+                                    validator: (String value) => validarCelular(value),
+                                    keyboardType: TextInputType.number,
+                                    fieldHasError: whatsappHasError,
+                                    onPressed: () {
+                                      if (isWhatsAppEditing) {
+                                        userProvider.changeWhatsapp(_whatsAppController.text.trim());
+                                        if (_personalDataFormKey.currentState.validate()) {
+                                          changeFieldEditingState(false, 'isWhatsAppEditing');
+                                        }
+                                      } else {
+                                        _whatsAppController.text = userProvider.whatsapp;
+                                        changeFieldEditingState(true, 'isWhatsAppEditing');
+                                      }
+                                    },
+                                  ),
+                                  _textField(
+                                    controller: _telefoneController,
+                                    fieldLabel: 'Telefone Fixo',
+                                    isFieldEditing: isTelefoneEditing,
+                                    onFieldSubmitted: (_) => validatePersonalData(),
+                                    inputFormatters: [telefoneMask],
+                                    validator: (String value) => validarTelefone(value),
+                                    keyboardType: TextInputType.number,
+                                    fieldHasError: telefoneHasError,
+                                    onPressed: () {
+                                      if (isTelefoneEditing) {
+                                        userProvider.changeTelefone(_telefoneController.text.trim());
+                                        if (_personalDataFormKey.currentState.validate()) {
+                                          changeFieldEditingState(false, 'isTelefoneEditing');
+                                        }
+                                      } else {
+                                        _telefoneController.text = userProvider.telefone;
+                                        changeFieldEditingState(true, 'isTelefoneEditing');
+                                      }
+                                    },
+                                  ),
+                                ],
+                              ),
+                            ),
+                            CustomDivider(text: 'Sua melhor forma de contato'),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: StreamBuilder(
+                                stream: userProvider.betterContact,
+                                builder: (context, snapshot) {
+                                  return Card(
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(12),
+                                    ),
+                                    elevation: 6.0,
+                                    child: Container(
+                                      height: 100,
+                                      child: Column(
+                                        children: [
+                                          Row(
+                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            children: [
+                                              radio(
+                                                groupValue: snapshot.data,
+                                                labelText: 'WhatsApp',
+                                                onTap: () => userProvider.changeBetterContact(0),
+                                                value: 0,
+                                                color: Colors.green,
                                               ),
-                                              fit: BoxFit.cover,
-                                              width: 1000,
-                                              height: 100,
-                                            )
-                                          : Icon(Icons.person,
-                                              color: Colors.white54, size: 50)
-                                      : Image.file(
-                                          userProfile['photoFile'],
-                                          width: 1000,
-                                          height: 1000,
-                                          fit: BoxFit.cover,
-                                        ),
-                                ),
+                                              radio(
+                                                groupValue: snapshot.data,
+                                                labelText: 'Telefone Fixo',
+                                                onTap: () => userProvider.changeBetterContact(1),
+                                                value: 1,
+                                                color: Colors.orange,
+                                              ),
+                                            ],
+                                          ),
+                                          Spacer(),
+                                          Row(
+                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            children: [
+                                              radio(
+                                                groupValue: snapshot.data,
+                                                labelText: 'E-mail',
+                                                onTap: () => userProvider.changeBetterContact(2),
+                                                value: 2,
+                                                color: Colors.red,
+                                              ),
+                                              radio(
+                                                groupValue: snapshot.data,
+                                                labelText: 'Só pelo chatt',
+                                                onTap: () => userProvider.changeBetterContact(3),
+                                                value: 3,
+                                                color: Colors.purple,
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  );
+                                },
                               ),
                             ),
                           ],
                         ),
-                      )
-                    ],
-                  ),
-                  Container(
-                    height: MediaQuery.of(context).size.height / 2,
-                    child: Form(
-                      key: _personalDataFormKey,
-                      child: Column(
-                        children: [
-                          ListTile(
-                            title: Text('Nome',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .headline1
-                                    .copyWith(color: Colors.black)),
-                            subtitle: isNameEditing
-                                ? TextFormField(
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .headline1
-                                        .copyWith(
-                                            color: Colors.black54,
-                                            fontWeight: FontWeight.w300),
-                                    controller: _nameController,
-                                  )
-                                : Text(_nameController.text,
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .headline1
-                                        .copyWith(color: Colors.black)),
-                            trailing: IconButton(
-                              icon: isNameEditing
-                                  ? Icon(Icons.save)
-                                  : Icon(Icons.mode_edit),
-                              onPressed: () {
-                                if (isNameEditing) {
-                                  userProvider
-                                      .changeDisplayName(_nameController.text);
-                                  changeFieldEditingState(
-                                      false, 'isNameEditing');
-                                } else {
-                                  changeFieldEditingState(
-                                      true, 'isNameEditing');
-                                }
-                              },
-                            ),
-                          ),
-                          ListTile(
-                            title: Text('WhatsApp',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .headline1
-                                    .copyWith(color: Colors.black)),
-                            subtitle: isWhatsAppEditing
-                                ? TextFormField(
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .headline1
-                                        .copyWith(
-                                            color: Colors.black54,
-                                            fontWeight: FontWeight.w300),
-                                    onFieldSubmitted: (_) {
-                                      validatePersonalData();
-                                    },
-                                    inputFormatters: [celularMask],
-                                    validator: (String value) =>
-                                        validarCelular(value),
-                                    keyboardType: TextInputType.number,
-                                    controller: _whatsAppController,
-                                  )
-                                : Text(_whatsAppController.text,
-                                    style: whatsappHasError
-                                        ? TextStyle(
-                                            color: Colors.red, fontSize: 11)
-                                        : null),
-                            trailing: IconButton(
-                              icon: isWhatsAppEditing
-                                  ? Icon(Icons.save)
-                                  : Icon(Icons.mode_edit),
-                              onPressed: () {
-                                if (isWhatsAppEditing) {
-                                  userProvider
-                                      .changeWhatsapp(_whatsAppController.text);
-                                  if (_personalDataFormKey.currentState
-                                      .validate()) {
-                                    changeFieldEditingState(
-                                        false, 'isWhatsAppEditing');
-                                  }
-                                } else {
-                                  _whatsAppController.text =
-                                      userProvider.whatsapp;
-                                  changeFieldEditingState(
-                                      true, 'isWhatsAppEditing');
-                                }
-                              },
-                            ),
-                          ),
-                          ListTile(
-                            title: Text('Telefone Fixo',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .headline1
-                                    .copyWith(color: Colors.black)),
-                            subtitle: isTelefoneEditing
-                                ? TextFormField(
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .headline1
-                                        .copyWith(
-                                            color: Colors.black54,
-                                            fontWeight: FontWeight.w300),
-                                    onFieldSubmitted: (_) {
-                                      validatePersonalData();
-                                    },
-                                    inputFormatters: [telefoneMask],
-                                    validator: (String value) =>
-                                        validarTelefone(value),
-                                    keyboardType: TextInputType.number,
-                                    controller: _telefoneController,
-                                  )
-                                : Text(_telefoneController.text,
-                                    style: telefoneHasError
-                                        ? TextStyle(
-                                            color: Colors.red, fontSize: 11)
-                                        : null),
-                            trailing: IconButton(
-                              icon: isTelefoneEditing
-                                  ? Icon(Icons.save)
-                                  : Icon(Icons.mode_edit),
-                              onPressed: () {
-                                if (isTelefoneEditing) {
-                                  userProvider
-                                      .changeTelefone(_telefoneController.text);
-                                  if (_personalDataFormKey.currentState
-                                      .validate()) {
-                                    changeFieldEditingState(
-                                        false, 'isTelefoneEditing');
-                                  }
-                                } else {
-                                  _telefoneController.text =
-                                      userProvider.telefone;
-                                  changeFieldEditingState(
-                                      true, 'isTelefoneEditing');
-                                }
-                              },
-                            ),
-                          ),
-                          Align(
-                            alignment: Alignment(-0.8, 1),
-                            child: Text('Sua melhor forma de contato',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .headline1
-                                    .copyWith(color: Colors.black)),
-                          ),
-                          StreamBuilder<Object>(
-                            stream: userProvider.betterContact,
-                            builder: (context, snapshot) {
-                              return Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  Radio(
-                                    activeColor: Theme.of(context).primaryColor,
-                                    groupValue: snapshot.data,
-                                    value: 0,
-                                    onChanged: (value) {
-                                      userProvider.changeBetterContact(value);
-                                    },
-                                  ),
-                                  Text('WhatsApp',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .headline1
-                                          .copyWith(color: Colors.black)),
-                                  Radio(
-                                    activeColor: Colors.orange,
-                                    groupValue: snapshot.data,
-                                    value: 1,
-                                    onChanged: (value) {
-                                      userProvider.changeBetterContact(value);
-                                    },
-                                  ),
-                                  Text('Telefone Fixo',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .headline1
-                                          .copyWith(color: Colors.black)),
-                                  Radio(
-                                    activeColor: Colors.red,
-                                    groupValue: snapshot.data,
-                                    value: 2,
-                                    onChanged: (value) {
-                                      userProvider.changeBetterContact(value);
-                                    },
-                                  ),
-                                  Text('E-mail',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .headline1
-                                          .copyWith(color: Colors.black)),
-                                ],
-                              );
-                            },
-                          ),
-                        ],
                       ),
                     ),
-                  ),
-                  CustomDivider(text: 'Alterar senha'),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                    child: Form(
-                      key: _passwordFormKey,
-                      child: Column(
-                        children: [
-                          SizedBox(height: 15),
-                          InputText(
-                            isPassword: true,
-                            hintText: 'Nova Senha',
-                            controller: _newPassword,
-                            validator: (String value) {
-                              if (value.isEmpty &&
-                                  _repeatNewPassword.text.isEmpty) {
-                                return null;
-                              }
-                              if (value.length < 6) {
-                                return 'A nova senha deve ter no mínimo 6 dígitos';
-                              }
-                            },
+                    CustomDivider(text: 'Sobre a conta'),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                      child: Card(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        elevation: 6.0,
+                        child: Form(
+                          key: _passwordFormKey,
+                          child: Padding(
+                            padding: const EdgeInsets.all(12.0),
+                            child: Column(
+                              children: [
+                                SizedBox(height: 15),
+                                InputText(
+                                  isPassword: true,
+                                  hintText: 'Nova Senha',
+                                  controller: _newPassword,
+                                  validator: (String value) {
+                                    if (value.isEmpty && _repeatNewPassword.text.trim().isEmpty) {
+                                      return null;
+                                    }
+                                    if (value.length < 6) {
+                                      return 'A nova senha deve ter no mínimo 6 dígitos';
+                                    }
+                                  },
+                                ),
+                                SizedBox(height: 15),
+                                InputText(
+                                  isPassword: true,
+                                  hintText: 'Repita a nova senha',
+                                  controller: _repeatNewPassword,
+                                  validator: (String value) {
+                                    if (value.isEmpty && _newPassword.text.trim().isEmpty) {
+                                      return null;
+                                    }
+                                    if (value != _newPassword.text.trim()) {
+                                      return 'Senhas não conferem';
+                                    }
+                                  },
+                                ),
+                              ],
+                            ),
                           ),
-                          SizedBox(height: 15),
-                          InputText(
-                            isPassword: true,
-                            hintText: 'Repita a nova senha',
-                            controller: _repeatNewPassword,
-                            validator: (String value) {
-                              if (value.isEmpty && _newPassword.text.isEmpty) {
-                                return null;
-                              }
-                              if (value != _newPassword.text) {
-                                return 'Senhas não conferem';
-                              }
-                            },
-                          ),
-                        ],
+                        ),
                       ),
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 10, vertical: 15),
-                    child: FlatButton(
-                      onPressed: () async {
-                        await showDialog(
-                          context: context,
-                          builder: (context) => PopUpMessage(
-                            title: 'Excluir Conta',
-                            message:
-                                'DESEJA DELETAR PERMANENTEMENTE SUA CONTA ?',
-                            confirmText: 'Deletar minha conta',
-                            confirmAction: () async {
-                              if (userProvider.recentlyAuthenticated) {                                
-                                Navigator.pop(context);
-                                changeSaveFormStatus(true, deleting: true);
-                                try {
-                                  await userController.deleteUserAccount(auth, userProvider.userReference);
-                                  navigateToHomeAfterDeleteAccount();
-                                } catch (error) {
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
+                      child: FlatButton(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(16),
+                        ),
+                        color: Colors.red,
+                        onPressed: () async {
+                          await showDialog(
+                            context: context,
+                            builder: (context) => PopUpMessage(
+                              title: 'Excluir Conta',
+                              message: 'DESEJA DELETAR PERMANENTEMENTE SUA CONTA ?',
+                              confirmText: 'Deletar minha conta',
+                              confirmAction: () async {
+                                if (userProvider.recentlyAuthenticated) {
+                                  Navigator.pop(context);
+                                  changeSaveFormStatus(true, deleting: true);
+                                  try {
+                                    await userController.deleteUserAccount(auth, userProvider.userReference);
+                                    navigateToHomeAfterDeleteAccount();
+                                  } catch (error) {
+                                    changeSaveFormStatus(false);
+                                    showMessageWarningUpdatePasswordOrDeleteAccount();
+                                    throw '$error';
+                                  }
                                   changeSaveFormStatus(false);
+                                } else {
+                                  Navigator.pop(context);
                                   showMessageWarningUpdatePasswordOrDeleteAccount();
-                                  throw '$error';
                                 }
-                                changeSaveFormStatus(false);
-                              } else {
-                                Navigator.pop(context);
-                                showMessageWarningUpdatePasswordOrDeleteAccount();
-                              }
-                            },
-                            denyText: 'NÃO',
-                            denyAction: () => Navigator.pop(context),
-                          ),
-                        );
-                      },
-                      child: Text(
-                        'DELETAR MINHA CONTA',
-                        style: TextStyle(color: Colors.red),
+                              },
+                              denyText: 'NÃO',
+                              denyAction: () => Navigator.pop(context),
+                            ),
+                          );
+                        },
+                        child: Text(
+                          'DELETAR MINHA CONTA',
+                          style: TextStyle(color: Colors.white),
+                        ),
                       ),
                     ),
-                  ),
-                  adsProvider.getCanShowAds
-                      ? adsProvider.bannerAdMob(adId: adsProvider.bottomAdId)
-                      : Container(),
-                  SizedBox(height: height < 500 ? 210 : 0)
-                ],
+                    adsProvider.getCanShowAds ? adsProvider.bannerAdMob(adId: adsProvider.bottomAdId) : Container(),
+                    SizedBox(height: height < 500 ? 210 : 0)
+                  ],
+                ),
               ),
             ),
             LoadDarkScreen(
-              message: !deleting
-                  ? 'Salvando informações'
-                  : 'Deletando conta Tiu, tiu...',
+              message: !deleting ? 'Salvando informações' : 'Deletando conta Tiu, tiu...',
               show: isSavingForm,
             ),
           ],
@@ -874,6 +780,75 @@ class _SettingsState extends State<Settings> {
           isToExpand: true,
           rounded: false,
           text: 'SALVAR',
+        ),
+      ),
+    );
+  }
+
+  Widget _textField({
+    TextEditingController controller,
+    String fieldLabel,
+    bool isFieldEditing,
+    Function() onPressed,
+    Function(String) onFieldSubmitted,
+    List<TextInputFormatter> inputFormatters,
+    Function(String) validator,
+    TextInputType keyboardType,
+    TextCapitalization textCapitalization = TextCapitalization.sentences,
+    bool fieldHasError = false,
+  }) {
+    return Card(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
+      ),
+      elevation: 6.0,
+      child: ListTile(
+        title: Text(fieldLabel, style: Theme.of(context).textTheme.headline1.copyWith(color: Colors.black)),
+        subtitle: isFieldEditing
+            ? TextFormField(
+                cursorColor: Colors.black,
+                textCapitalization: textCapitalization,
+                style: Theme.of(context).textTheme.headline1.copyWith(color: Colors.black54, fontWeight: FontWeight.w300),
+                onFieldSubmitted: onFieldSubmitted,
+                inputFormatters: inputFormatters,
+                validator: validator,
+                keyboardType: keyboardType,
+                controller: controller,
+                decoration: InputDecoration(
+                  focusedBorder: UnderlineInputBorder(borderSide: BorderSide.none),
+                  enabledBorder: UnderlineInputBorder(borderSide: BorderSide.none),
+                ),
+              )
+            : Text(controller.text.trim(), style: fieldHasError ? Theme.of(context).textTheme.headline1.copyWith(color: Colors.red) : null),
+        trailing: IconButton(
+          icon: isFieldEditing ? Icon(Icons.save) : Icon(Icons.mode_edit),
+          onPressed: onPressed,
+        ),
+      ),
+    );
+  }
+
+  Widget radio({String labelText, dynamic groupValue, Function() onTap, dynamic value, Color color}) {
+    return InkWell(
+      onTap: () {
+        onTap();
+      },
+      child: Container(
+        child: Row(
+          children: [
+            Radio(
+              activeColor: color,
+              groupValue: groupValue,
+              value: value,
+              onChanged: (value) {
+                onTap();
+              },
+            ),
+            Padding(
+              padding: const EdgeInsets.only(right: 8.0),
+              child: Text(labelText),
+            ),
+          ],
         ),
       ),
     );

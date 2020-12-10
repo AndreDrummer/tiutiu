@@ -2,16 +2,17 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:tiutiu/backend/Controller/pet_controller.dart';
 
 class NotificationModel {
-
   NotificationModel.fromSnapshot(DocumentSnapshot snapshot) {
-    notificationType = snapshot.data()['notificationType'];    
-    if(snapshot.data()['petReference'].runtimeType != DocumentReference) {      
-      getReference(snapshot.data()['petReference']['_path']['segments'], snapshot, 'petReference').then((value) => petReference = value);
-    } else {
-      petReference = snapshot.data()['petReference'];
+    notificationType = snapshot.data()['notificationType'];
+    if (snapshot.data()['petReference'] != null) {
+      if (snapshot.data()['petReference'].runtimeType != DocumentReference) {
+        getReference(snapshot.data()['petReference']['_path']['segments'], snapshot, 'petReference').then((value) => petReference = value);
+      } else {
+        petReference = snapshot.data()['petReference'];
+      }
     }
 
-    if(snapshot.data()['userReference'].runtimeType != DocumentReference) {
+    if (snapshot.data()['userReference'].runtimeType != DocumentReference) {
       getReference(snapshot.data()['userReference']['_path']['segments'], snapshot, 'userReference').then((value) => userReference = value);
     } else {
       userReference = snapshot.data()['userReference'];
@@ -40,14 +41,12 @@ class NotificationModel {
 
   Future<DocumentReference> getReference(List listReference, DocumentSnapshot snapshot, String fieldName) async {
     String mountPath = '';
-    for(int i = 0; i < listReference.length; i++) {      
+    for (int i = 0; i < listReference.length; i++) {
       mountPath += '/${listReference[i]}';
-    }        
-    final ref = await petController.getReferenceFromPath(mountPath, snapshot, fieldName);    
+    }
+    final ref = await petController.getReferenceFromPath(mountPath, snapshot, fieldName);
     return ref;
   }
-
-  
 
   String notificationType;
   DocumentReference petReference;
@@ -57,5 +56,4 @@ class NotificationModel {
   String title;
   String message;
   bool open;
-
 }
