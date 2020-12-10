@@ -12,6 +12,7 @@ import 'package:tiutiu/providers/favorites_provider.dart';
 import 'package:tiutiu/providers/location.dart';
 import 'package:tiutiu/providers/my_pets_provider.dart';
 import 'package:tiutiu/providers/pets_provider.dart';
+import 'package:tiutiu/utils/constantes.dart';
 import 'package:tiutiu/providers/pet_form_provider.dart';
 import 'package:tiutiu/providers/refine_search.dart';
 import 'package:tiutiu/providers/user_infos_interests.dart';
@@ -33,7 +34,6 @@ import 'package:tiutiu/screen/pet_detail.dart';
 import 'package:tiutiu/screen/refine_search.dart';
 import 'package:tiutiu/screen/register.dart';
 import 'package:tiutiu/screen/settings.dart';
-import 'package:tiutiu/utils/constantes.dart';
 import './utils/routes.dart';
 import 'package:admob_flutter/admob_flutter.dart';
 
@@ -56,7 +56,7 @@ class App extends StatelessWidget {
           return Directionality(
             child: MediaQuery(
               data: MediaQueryData(),
-              child: Center(child: Text('${snapshot.error}')),
+              child: Center(child: Text('Ocorreu um erro inesperado!')),
             ),
             textDirection: TextDirection.ltr,
           );
@@ -129,7 +129,7 @@ class App extends StatelessWidget {
               ),
               debugShowCheckedModeBanner: false,
               routes: {
-                // Routes.BOOTSTRAP: (ctx) => Register(),
+                // Routes.BOOTSTRAP: (ctx) => Settings(),
                 Routes.BOOTSTRAP: (ctx) => Bootstrap(),
                 Routes.AUTH: (ctx) => AuthScreen(),
                 Routes.PET_FORM: (ctx) => PetForm(),
