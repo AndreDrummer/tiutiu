@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
 import 'package:tiutiu/Widgets/card_list.dart';
 import 'package:tiutiu/Widgets/custom_input_search.dart';
 import 'package:tiutiu/Widgets/error_page.dart';
@@ -52,7 +53,7 @@ class _DonateDisappearedListState extends State<DonateDisappearedList> {
   void didChangeDependencies() {
     adsProvider = Provider.of(context);
     refineSearchProvider = Provider.of<RefineSearchProvider>(context);
-    userProvider = Provider.of<UserProvider>(context);
+    userProvider = Provider.of<UserProvider>(context, listen: false);
     petsProvider = Provider.of<PetsProvider>(context);
     location = Provider.of<Location>(context);
 
@@ -125,14 +126,13 @@ class _DonateDisappearedListState extends State<DonateDisappearedList> {
 
   @override
   Widget build(BuildContext context) {
-    final marginTop = MediaQuery.of(context).size.height / 1.55;
+    final marginTop = MediaQuery.of(context).size.height / 1.25;
     final height = MediaQuery.of(context).size.height;
 
     return Scaffold(
       key: _scaffoldKey,
       backgroundColor: Colors.blueGrey[50],
       body: ListView(
-        key: UniqueKey(),
         children: [
           FilterCard(
             petsProvider: petsProvider,
@@ -187,7 +187,6 @@ class _DonateDisappearedListState extends State<DonateDisappearedList> {
                   child: Padding(
                     padding: EdgeInsets.only(top: height / 3.5),
                     child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
                         Text(
@@ -288,7 +287,7 @@ class _DonateDisappearedListState extends State<DonateDisappearedList> {
                         controller: _scrollController,
                         itemCount: petsList.length + 1,
                         itemBuilder: (_, index) {
-                          if (index == petsList.length && adsProvider.getCanShowAds) {
+                          if (index == petsList.length) {
                             return petsList.length > 1
                                 ? InkWell(
                                     onTap: () {
@@ -318,6 +317,7 @@ class _DonateDisappearedListState extends State<DonateDisappearedList> {
                                   )
                                 : Container();
                           }
+
                           return CardList(
                             kind: petsList[index].kind,
                             petInfo: petsList[index],
@@ -416,21 +416,14 @@ class _StateFilterState extends State<_StateFilter> {
   }
 }
 
-class _HomeSearch extends StatefulWidget {
-  @override
-  __HomeSearchState createState() => __HomeSearchState();
-}
+class _HomeSearch extends StatelessWidget {
+  _HomeSearch({
+    this.petsProvider,
+    this.refineSearchProvider,
+  });
 
-class __HomeSearchState extends State<_HomeSearch> {
-  PetsProvider petsProvider;
-  RefineSearchProvider refineSearchProvider;
-
-  @override
-  void didChangeDependencies() {
-    refineSearchProvider = Provider.of<RefineSearchProvider>(context);
-    petsProvider = Provider.of<PetsProvider>(context);
-    super.didChangeDependencies();
-  }
+  final PetsProvider petsProvider;
+  final RefineSearchProvider refineSearchProvider;
 
   void handleSearchType(String searchType) {
     switch (searchType) {
@@ -575,7 +568,7 @@ class _FilterCardState extends State<FilterCard> {
   Widget build(BuildContext context) {
     return AnimatedContainer(
       duration: Duration(milliseconds: 500),
-      height: _isExpanded ? 240 : 70,
+      height: _isExpanded ? 240 : 48,
       child: Card(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
@@ -585,15 +578,21 @@ class _FilterCardState extends State<FilterCard> {
         ),
         child: Column(
           children: <Widget>[
-            ListTile(
-              title: Text("Filtrar resultado"),
-              trailing: IconButton(
-                icon: Icon(_isExpanded ? Icons.keyboard_arrow_up : Icons.expand_more),
-                onPressed: () {
-                  setState(() {
-                    _isExpanded = !_isExpanded;
-                  });
-                },
+            InkWell(
+              onTap: () {
+                setState(() {
+                  _isExpanded = !_isExpanded;
+                });
+              },
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text("Filtrar resultado"),
+                    Icon(_isExpanded ? Icons.keyboard_arrow_up : Icons.expand_more),
+                  ],
+                ),
               ),
             ),
             AnimatedContainer(
@@ -610,7 +609,10 @@ class _FilterCardState extends State<FilterCard> {
                     ),
                   ),
                   Divider(),
-                  _HomeSearch(),
+                  _HomeSearch(
+                    refineSearchProvider: widget.refineSearchProvider,
+                    petsProvider: widget.petsProvider,
+                  ),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 8.0),
                     child: Divider(),
