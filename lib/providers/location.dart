@@ -14,8 +14,7 @@ class Location with ChangeNotifier {
   Stream<bool> get locationServiceEnabled => _locationServiceEnabled.stream;
   Stream<bool> get canContinue => _canContinue.stream;
 
-  void Function(LocationPermission) get changePermission =>
-      _permission.sink.add;
+  void Function(LocationPermission) get changePermission => _permission.sink.add;
   void Function(LatLng) get changeLocation => _location.sink.add;
   void Function(bool) get changeLocationServiceEnabled => _locationServiceEnabled.sink.add;
   void Function(bool) get changeCanContinue => _canContinue.sink.add;
@@ -51,8 +50,7 @@ class Location with ChangeNotifier {
     var position;
 
     if (currentLocation == null) {
-      position =
-          await getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+      position = await getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
       changeLocation(LatLng(position.latitude, position.longitude));
     } else {
       changeLocation(currentLocation);

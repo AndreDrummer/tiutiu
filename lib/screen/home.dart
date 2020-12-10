@@ -17,13 +17,13 @@ import 'package:tiutiu/providers/ads_provider.dart';
 import 'package:tiutiu/providers/auth2.dart';
 import 'package:tiutiu/providers/favorites_provider.dart';
 import 'package:tiutiu/providers/pets_provider.dart';
+import 'package:tiutiu/utils/constantes.dart';
 import 'package:tiutiu/providers/user_provider.dart';
 import 'package:tiutiu/screen/auth_screen.dart';
 import 'package:tiutiu/screen/favorites.dart';
 import 'package:tiutiu/screen/my_account.dart';
 import 'package:tiutiu/screen/pet_detail.dart';
 import 'package:tiutiu/screen/pets_list.dart';
-import 'package:tiutiu/utils/constantes.dart';
 import '../Widgets/floating_button_option.dart';
 import 'package:tiutiu/backend/Controller/user_controller.dart';
 import '../utils/routes.dart';
@@ -222,8 +222,8 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     var _screens = <Widget>[
-      PetsList(petKind: 'Donate'),
-      PetsList(petKind: 'Disappeared'),
+      PetsList(petKind: Constantes.DONATE),
+      PetsList(petKind: Constantes.DISAPPEARED),
       isAuthenticated ? Favorites() : AuthScreen(),
       isAuthenticated ? MyAccount() : AuthScreen(),
     ];
@@ -264,7 +264,7 @@ class _HomeState extends State<Home> {
             )
           ],
         ),
-        floatingActionButton: _selectedIndex != 0
+        floatingActionButton: _selectedIndex > 1
             ? null
             : SpeedDial(
                 marginRight: 18,
@@ -292,7 +292,7 @@ class _HomeState extends State<Home> {
                     onTap: !isAuthenticated
                         ? navigateToAuth
                         : () {
-                            Navigator.pushNamed(context, Routes.CHOOSE_LOCATION, arguments: {'kind': 'Disappeared'});
+                            Navigator.pushNamed(context, Routes.CHOOSE_LOCATION, arguments: {'kind': Constantes.DISAPPEARED});
                           },
                   ),
                   SpeedDialChild(
@@ -303,7 +303,7 @@ class _HomeState extends State<Home> {
                     onTap: !isAuthenticated
                         ? navigateToAuth
                         : () {
-                            Navigator.pushNamed(context, Routes.CHOOSE_LOCATION, arguments: {'kind': 'Donate'});
+                            Navigator.pushNamed(context, Routes.CHOOSE_LOCATION, arguments: {'kind': Constantes.DONATE});
                           },
                   ),
                 ],

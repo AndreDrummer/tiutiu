@@ -444,34 +444,32 @@ class _SettingsState extends State<Settings> {
         backgroundColor: Colors.blueGrey[50],
         body: Stack(
           children: [
-            SingleChildScrollView(
-              child: Column(
-                children: [
-                  Stack(
-                    children: [
-                      InkWell(
-                        onTap: () {
-                          openModalSelectMedia(context, false);
-                        },
-                        child: Card(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          elevation: 4.0,
+            Card(
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    Stack(
+                      children: [
+                        InkWell(
+                          onTap: () {
+                            openModalSelectMedia(context, false);
+                          },
                           child: Container(
-                            margin: const EdgeInsets.all(4.0),
                             height: 200,
                             width: double.infinity,
                             child: Opacity(
                               child: userProfile['photoFileBack'] == null
-                                  ? FadeInImage(
-                                      placeholder: AssetImage('assets/fundo.jpg'),
-                                      image: NetworkImage(
-                                        userProvider.photoBACK ?? '',
+                                  ? ClipRRect(
+                                      borderRadius: BorderRadius.circular(8.0),
+                                      child: FadeInImage(
+                                        placeholder: AssetImage('assets/fundo.jpg'),
+                                        image: NetworkImage(
+                                          userProvider.photoBACK ?? '',
+                                        ),
+                                        fit: BoxFit.fill,
+                                        width: 1000,
+                                        height: 1000,
                                       ),
-                                      fit: BoxFit.cover,
-                                      width: 1000,
-                                      height: 100,
                                     )
                                   : Image.file(
                                       userProfile['photoFileBack'],
@@ -483,73 +481,71 @@ class _SettingsState extends State<Settings> {
                             ),
                           ),
                         ),
-                      ),
-                      Positioned(
-                        bottom: 5,
-                        right: 5,
-                        child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(12),
-                            color: Colors.black38,
-                          ),
-                          height: 25,
-                          child: FlatButton(
-                            onPressed: () => openModalSelectMedia(context, false),
-                            child: Text(
-                              'Toque p/ alterar plano de fundo',
-                              style: TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.w700),
+                        Positioned(
+                          bottom: 5,
+                          right: 5,
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(12),
+                              color: Colors.black38,
                             ),
-                          ),
-                        ),
-                      ),
-                      Positioned(
-                        top: 50,
-                        left: 0,
-                        right: 0,
-                        child: Column(
-                          children: [
-                            InkWell(
-                              onTap: () {
-                                openModalSelectMedia(context, true);
-                              },
-                              child: CircleAvatar(
-                                radius: 50,
-                                backgroundColor: Colors.black38,
-                                child: ClipOval(
-                                  child: userProfile['photoFile'] == null
-                                      ? userProvider.photoURL != null
-                                          ? FadeInImage(
-                                              placeholder: AssetImage('assets/profileEmpty.png'),
-                                              image: NetworkImage(
-                                                userProvider.photoURL,
-                                              ),
-                                              fit: BoxFit.cover,
-                                              width: 1000,
-                                              height: 100,
-                                            )
-                                          : Icon(Icons.person, color: Colors.white70, size: 50)
-                                      : Image.file(
-                                          userProfile['photoFile'],
-                                          width: 1000,
-                                          height: 1000,
-                                          fit: BoxFit.cover,
-                                        ),
-                                ),
+                            height: 25,
+                            child: FlatButton(
+                              onPressed: () => openModalSelectMedia(context, false),
+                              child: Text(
+                                'Toque p/ alterar plano de fundo',
+                                style: TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.w700),
                               ),
                             ),
-                          ],
+                          ),
                         ),
-                      )
-                    ],
-                  ),
-                  Container(
-                    height: MediaQuery.of(context).size.height / 2,
-                    child: Form(
-                      key: _personalDataFormKey,
-                      child: Column(
-                        children: [
-                          Card(
-                            child: Padding(
+                        Positioned(
+                          top: 50,
+                          left: 0,
+                          right: 0,
+                          child: Column(
+                            children: [
+                              InkWell(
+                                onTap: () {
+                                  openModalSelectMedia(context, true);
+                                },
+                                child: CircleAvatar(
+                                  radius: 50,
+                                  backgroundColor: Colors.black38,
+                                  child: ClipOval(
+                                    child: userProfile['photoFile'] == null
+                                        ? userProvider.photoURL != null
+                                            ? FadeInImage(
+                                                placeholder: AssetImage('assets/profileEmpty.png'),
+                                                image: NetworkImage(
+                                                  userProvider.photoURL,
+                                                ),
+                                                fit: BoxFit.cover,
+                                                width: 1000,
+                                                height: 100,
+                                              )
+                                            : Icon(Icons.person, color: Colors.white70, size: 50)
+                                        : Image.file(
+                                            userProfile['photoFile'],
+                                            width: 1000,
+                                            height: 1000,
+                                            fit: BoxFit.cover,
+                                          ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
+                    Container(
+                      height: MediaQuery.of(context).size.height / 2,
+                      child: Form(
+                        key: _personalDataFormKey,
+                        child: Column(
+                          children: [
+                            Padding(
                               padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 4.0),
                               child: Column(
                                 children: [
@@ -611,166 +607,166 @@ class _SettingsState extends State<Settings> {
                                 ],
                               ),
                             ),
-                          ),
-                          CustomDivider(text: 'Sua melhor forma de contato'),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: StreamBuilder(
-                              stream: userProvider.betterContact,
-                              builder: (context, snapshot) {
-                                return Card(
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(12),
-                                  ),
-                                  elevation: 6.0,
-                                  child: Container(
-                                    height: 100,
-                                    child: Column(
-                                      children: [
-                                        Row(
-                                          mainAxisAlignment: MainAxisAlignment.center,
-                                          children: [
-                                            radio(
-                                              groupValue: snapshot.data,
-                                              labelText: 'WhatsApp',
-                                              onTap: () => userProvider.changeBetterContact(0),
-                                              value: 0,
-                                              color: Colors.green,
-                                            ),
-                                            radio(
-                                              groupValue: snapshot.data,
-                                              labelText: 'Telefone Fixo',
-                                              onTap: () => userProvider.changeBetterContact(1),
-                                              value: 1,
-                                              color: Colors.orange,
-                                            ),
-                                          ],
-                                        ),
-                                        Spacer(),
-                                        Row(
-                                          mainAxisAlignment: MainAxisAlignment.center,
-                                          children: [
-                                            radio(
-                                              groupValue: snapshot.data,
-                                              labelText: 'E-mail',
-                                              onTap: () => userProvider.changeBetterContact(2),
-                                              value: 2,
-                                              color: Colors.red,
-                                            ),
-                                            radio(
-                                              groupValue: snapshot.data,
-                                              labelText: 'Só pelo chatt',
-                                              onTap: () => userProvider.changeBetterContact(3),
-                                              value: 3,
-                                              color: Colors.purple,
-                                            ),
-                                          ],
-                                        ),
-                                      ],
+                            CustomDivider(text: 'Sua melhor forma de contato'),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: StreamBuilder(
+                                stream: userProvider.betterContact,
+                                builder: (context, snapshot) {
+                                  return Card(
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(12),
                                     ),
-                                  ),
-                                );
-                              },
+                                    elevation: 6.0,
+                                    child: Container(
+                                      height: 100,
+                                      child: Column(
+                                        children: [
+                                          Row(
+                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            children: [
+                                              radio(
+                                                groupValue: snapshot.data,
+                                                labelText: 'WhatsApp',
+                                                onTap: () => userProvider.changeBetterContact(0),
+                                                value: 0,
+                                                color: Colors.green,
+                                              ),
+                                              radio(
+                                                groupValue: snapshot.data,
+                                                labelText: 'Telefone Fixo',
+                                                onTap: () => userProvider.changeBetterContact(1),
+                                                value: 1,
+                                                color: Colors.orange,
+                                              ),
+                                            ],
+                                          ),
+                                          Spacer(),
+                                          Row(
+                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            children: [
+                                              radio(
+                                                groupValue: snapshot.data,
+                                                labelText: 'E-mail',
+                                                onTap: () => userProvider.changeBetterContact(2),
+                                                value: 2,
+                                                color: Colors.red,
+                                              ),
+                                              radio(
+                                                groupValue: snapshot.data,
+                                                labelText: 'Só pelo chatt',
+                                                onTap: () => userProvider.changeBetterContact(3),
+                                                value: 3,
+                                                color: Colors.purple,
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  );
+                                },
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                  CustomDivider(text: 'Sobre a conta'),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                    child: Card(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      elevation: 6.0,
-                      child: Form(
-                        key: _passwordFormKey,
-                        child: Padding(
-                          padding: const EdgeInsets.all(12.0),
-                          child: Column(
-                            children: [
-                              SizedBox(height: 15),
-                              InputText(
-                                isPassword: true,
-                                hintText: 'Nova Senha',
-                                controller: _newPassword,
-                                validator: (String value) {
-                                  if (value.isEmpty && _repeatNewPassword.text.trim().isEmpty) {
-                                    return null;
-                                  }
-                                  if (value.length < 6) {
-                                    return 'A nova senha deve ter no mínimo 6 dígitos';
-                                  }
-                                },
-                              ),
-                              SizedBox(height: 15),
-                              InputText(
-                                isPassword: true,
-                                hintText: 'Repita a nova senha',
-                                controller: _repeatNewPassword,
-                                validator: (String value) {
-                                  if (value.isEmpty && _newPassword.text.trim().isEmpty) {
-                                    return null;
-                                  }
-                                  if (value != _newPassword.text.trim()) {
-                                    return 'Senhas não conferem';
-                                  }
-                                },
-                              ),
-                            ],
+                    CustomDivider(text: 'Sobre a conta'),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                      child: Card(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        elevation: 6.0,
+                        child: Form(
+                          key: _passwordFormKey,
+                          child: Padding(
+                            padding: const EdgeInsets.all(12.0),
+                            child: Column(
+                              children: [
+                                SizedBox(height: 15),
+                                InputText(
+                                  isPassword: true,
+                                  hintText: 'Nova Senha',
+                                  controller: _newPassword,
+                                  validator: (String value) {
+                                    if (value.isEmpty && _repeatNewPassword.text.trim().isEmpty) {
+                                      return null;
+                                    }
+                                    if (value.length < 6) {
+                                      return 'A nova senha deve ter no mínimo 6 dígitos';
+                                    }
+                                  },
+                                ),
+                                SizedBox(height: 15),
+                                InputText(
+                                  isPassword: true,
+                                  hintText: 'Repita a nova senha',
+                                  controller: _repeatNewPassword,
+                                  validator: (String value) {
+                                    if (value.isEmpty && _newPassword.text.trim().isEmpty) {
+                                      return null;
+                                    }
+                                    if (value != _newPassword.text.trim()) {
+                                      return 'Senhas não conferem';
+                                    }
+                                  },
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ),
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
-                    child: FlatButton(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(16),
-                      ),
-                      color: Colors.red,
-                      onPressed: () async {
-                        await showDialog(
-                          context: context,
-                          builder: (context) => PopUpMessage(
-                            title: 'Excluir Conta',
-                            message: 'DESEJA DELETAR PERMANENTEMENTE SUA CONTA ?',
-                            confirmText: 'Deletar minha conta',
-                            confirmAction: () async {
-                              if (userProvider.recentlyAuthenticated) {
-                                Navigator.pop(context);
-                                changeSaveFormStatus(true, deleting: true);
-                                try {
-                                  await userController.deleteUserAccount(auth, userProvider.userReference);
-                                  navigateToHomeAfterDeleteAccount();
-                                } catch (error) {
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
+                      child: FlatButton(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(16),
+                        ),
+                        color: Colors.red,
+                        onPressed: () async {
+                          await showDialog(
+                            context: context,
+                            builder: (context) => PopUpMessage(
+                              title: 'Excluir Conta',
+                              message: 'DESEJA DELETAR PERMANENTEMENTE SUA CONTA ?',
+                              confirmText: 'Deletar minha conta',
+                              confirmAction: () async {
+                                if (userProvider.recentlyAuthenticated) {
+                                  Navigator.pop(context);
+                                  changeSaveFormStatus(true, deleting: true);
+                                  try {
+                                    await userController.deleteUserAccount(auth, userProvider.userReference);
+                                    navigateToHomeAfterDeleteAccount();
+                                  } catch (error) {
+                                    changeSaveFormStatus(false);
+                                    showMessageWarningUpdatePasswordOrDeleteAccount();
+                                    throw '$error';
+                                  }
                                   changeSaveFormStatus(false);
+                                } else {
+                                  Navigator.pop(context);
                                   showMessageWarningUpdatePasswordOrDeleteAccount();
-                                  throw '$error';
                                 }
-                                changeSaveFormStatus(false);
-                              } else {
-                                Navigator.pop(context);
-                                showMessageWarningUpdatePasswordOrDeleteAccount();
-                              }
-                            },
-                            denyText: 'NÃO',
-                            denyAction: () => Navigator.pop(context),
-                          ),
-                        );
-                      },
-                      child: Text(
-                        'DELETAR MINHA CONTA',
-                        style: TextStyle(color: Colors.white),
+                              },
+                              denyText: 'NÃO',
+                              denyAction: () => Navigator.pop(context),
+                            ),
+                          );
+                        },
+                        child: Text(
+                          'DELETAR MINHA CONTA',
+                          style: TextStyle(color: Colors.white),
+                        ),
                       ),
                     ),
-                  ),
-                  adsProvider.getCanShowAds ? adsProvider.bannerAdMob(adId: adsProvider.bottomAdId) : Container(),
-                  SizedBox(height: height < 500 ? 210 : 0)
-                ],
+                    adsProvider.getCanShowAds ? adsProvider.bannerAdMob(adId: adsProvider.bottomAdId) : Container(),
+                    SizedBox(height: height < 500 ? 210 : 0)
+                  ],
+                ),
               ),
             ),
             LoadDarkScreen(
