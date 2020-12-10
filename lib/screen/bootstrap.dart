@@ -17,7 +17,7 @@ class _BootstrapState extends State<Bootstrap> {
   RefineSearchProvider refineSearchProvider;
 
   @override
-  void initState() {    
+  void initState() {
     super.initState();
   }
 
@@ -26,7 +26,7 @@ class _BootstrapState extends State<Bootstrap> {
     local = Provider.of<Location>(context);
     refineSearchProvider = Provider.of<RefineSearchProvider>(context);
     local.permissionCheck();
-    local.locationServiceIsEnabled();    
+    local.locationServiceIsEnabled();
     super.didChangeDependencies();
   }
 
@@ -34,16 +34,16 @@ class _BootstrapState extends State<Bootstrap> {
   Widget build(BuildContext context) {
     return StreamBuilder<bool>(
       stream: local.locationServiceEnabled,
-      builder: (ctx, snapshot) { 
+      builder: (ctx, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return LoadingPage();
-        }        
+        }
         if (!snapshot.data) {
           return LocalPermissionScreen(
             permissionCallBack: local.openLocalSettings,
             serviceEnabled: snapshot.data,
           );
-        }      
+        }
         return StreamBuilder<LocationPermission>(
           stream: local.permission,
           builder: (context, snapshot) {
@@ -52,20 +52,14 @@ class _BootstrapState extends State<Bootstrap> {
             } else if (snapshot.data == LocationPermission.deniedForever) {
               return LocalPermissionScreen(permissionCallBack: local.openSeetings, deniedForever: true);
             } else if (snapshot.data == LocationPermission.denied) {
-              return LocalPermissionScreen(permissionCallBack: local.permissionRequest,
+              return LocalPermissionScreen(
+                permissionCallBack: local.permissionRequest,
               );
             }
             if (local.getLocation == null) {
-              local.setLocation();                
+              local.setLocation();
             }
             return AuthOrHome();
-            // return FutureBuilder<Object>(
-            //   future: OtherFunctions.getUserLocalState(local.getLocation),
-            //   builder: (context, snapshot) {
-            //     refineSearchProvider.changeStateOfResultSearch(snapshot.data);
-                
-            //   }
-            // );
           },
         );
       },

@@ -56,7 +56,7 @@ class App extends StatelessWidget {
           return Directionality(
             child: MediaQuery(
               data: MediaQueryData(),
-              child: Center(child: Text('${snapshot.error}')),
+              child: Center(child: Text('Ocorreu um erro inesperado!')),
             ),
             textDirection: TextDirection.ltr,
           );
@@ -129,7 +129,7 @@ class App extends StatelessWidget {
               ),
               debugShowCheckedModeBanner: false,
               routes: {
-                // Routes.BOOTSTRAP: (ctx) => Register(),
+                // Routes.BOOTSTRAP: (ctx) => Settings(),
                 Routes.BOOTSTRAP: (ctx) => Bootstrap(),
                 Routes.AUTH: (ctx) => AuthScreen(),
                 Routes.PET_FORM: (ctx) => PetForm(),
