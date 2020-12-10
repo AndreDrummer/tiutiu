@@ -18,7 +18,7 @@ class SquaredAddImage extends StatefulWidget {
 
 class _SquaredAddImageState extends State<SquaredAddImage> {
   @override
-  Widget build(BuildContext context) {    
+  Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.only(right: 10, bottom: 10, left: 10),
       decoration: BoxDecoration(
@@ -30,28 +30,22 @@ class _SquaredAddImageState extends State<SquaredAddImage> {
         color: Colors.white,
       ),
       height: 200,
-      width: widget.width != null
-          ? widget.width
-          : MediaQuery.of(context).size.width - 49,
+      width: widget.width != null ? widget.width : MediaQuery.of(context).size.width - 49,
       child: Center(
         child: widget.addButton
             ? Icon(Icons.add, size: 50, color: Colors.white)
             : widget.imageUrl != null
-                ? widget.imageUrl.runtimeType != String &&
-                        widget.imageUrl.runtimeType != Asset
+                ? widget.imageUrl.runtimeType != String && widget.imageUrl.runtimeType != Asset
                     ? ClipRRect(
                         borderRadius: BorderRadius.circular(12),
                         child: Image.file(
                           widget.imageUrl,
                           fit: BoxFit.fill,
-                          width: widget.width != null
-                              ? widget.width
-                              : (MediaQuery.of(context).size.width - 32),
+                          width: widget.width != null ? widget.width : (MediaQuery.of(context).size.width - 32),
                           height: 300,
                         ),
                       )
-                    : widget.imageUrl.runtimeType != String &&
-                            widget.imageUrl.runtimeType == Asset
+                    : widget.imageUrl.runtimeType != String && widget.imageUrl.runtimeType == Asset
                         ? ClipRRect(
                             borderRadius: BorderRadius.circular(12),
                             child: AssetThumb(
@@ -65,9 +59,7 @@ class _SquaredAddImageState extends State<SquaredAddImage> {
                             child: Image.network(
                               widget.imageUrl,
                               fit: BoxFit.fill,
-                              width: widget.width != null
-                                  ? widget.width
-                                  : (MediaQuery.of(context).size.width - 32),
+                              width: widget.width != null ? widget.width : (MediaQuery.of(context).size.width - 32),
                               height: 300,
                             ),
                           )

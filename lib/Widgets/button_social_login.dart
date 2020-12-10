@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 
 class ButtonSocialLogin extends StatelessWidget {
-  
   ButtonSocialLogin({
     this.imageUrl,
-    this.text
+    this.text,
   });
 
   final String imageUrl;
@@ -41,12 +40,11 @@ class ButtonSocialLogin extends StatelessWidget {
             ),
             Container(
               margin: const EdgeInsets.only(top: 12),
-              decoration:
-                  BoxDecoration(shape: BoxShape.circle, color: Colors.white),
+              decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.white),
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Image.asset(
-                  imageUrl,                  
+                  imageUrl,
                   width: 50,
                   height: 50,
                 ),

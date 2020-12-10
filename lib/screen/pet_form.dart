@@ -23,6 +23,7 @@ import 'package:tiutiu/providers/auth2.dart';
 import 'package:tiutiu/providers/location.dart';
 import 'package:tiutiu/providers/pet_form_provider.dart';
 import 'package:tiutiu/providers/pets_provider.dart';
+import 'package:tiutiu/utils/constantes.dart';
 import 'package:tiutiu/providers/user_provider.dart';
 import 'package:tiutiu/screen/selection_page.dart';
 import 'package:tiutiu/utils/other_functions.dart';
@@ -334,8 +335,7 @@ class _PetFormState extends State<PetForm> {
     StorageReference storageReference;
 
     for (int i = 0; i < convertedImageList.length; i++) {
-      storageReference =
-          FirebaseStorage.instance.ref().child('$userId/').child('petsPhotos/$kind/$storageHashKey/$petName-${DateTime.now().millisecondsSinceEpoch}');
+      storageReference = FirebaseStorage.instance.ref().child('$userId/').child('petsPhotos/$kind/$storageHashKey/$petName-${DateTime.now().millisecondsSinceEpoch}');
       uploadTask = storageReference.putData(convertedImageList[i]);
       await uploadTask.onComplete;
       petPhotosToUpload.add(await storageReference.getDownloadURL());
@@ -381,7 +381,7 @@ class _PetFormState extends State<PetForm> {
     changeSavingStatus(true);
     var petController = PetController();
 
-    await uploadPhotos(_nome.text);
+    await uploadPhotos(_nome.text.trim());
 
     if (photosToDelete.isNotEmpty) {
       try {
@@ -417,6 +417,7 @@ class _PetFormState extends State<PetForm> {
       size: petFormProvider.getPetSize,
       sex: petFormProvider.getPetSex,
       ownerId: userProvider.uid,
+      ownerName: userProvider.displayName,
       latitude: currentLocation?.latitude ?? 0,
       longitude: currentLocation?.longitude ?? 0,
       details: petFormProvider.getPetDescription,
@@ -496,7 +497,7 @@ class _PetFormState extends State<PetForm> {
           title: widget.editMode
               ? Text('Editar dados do ${widget.pet.name}')
               : Text(
-                  kind == 'Donate' ? 'PET PARA ADOÇÃO' : 'PET DESAPARECIDO',
+                  kind == Constantes.DONATE ? 'PET PARA ADOÇÃO' : 'PET DESAPARECIDO',
                   style: Theme.of(context).textTheme.headline1.copyWith(
                         fontSize: 20,
                         color: Colors.white,
@@ -530,7 +531,7 @@ class _PetFormState extends State<PetForm> {
                           child: Row(
                             children: <Widget>[
                               Text(
-                                kind == 'Donate'
+                                kind == Constantes.DONATE
                                     ? '${petFormProvider.getPetPhotos.isEmpty ? 'Insira pelo menos uma foto' : 'Insira algumas fotos do seu bichinho.'}'
                                     : '${petFormProvider.getPetPhotos.isEmpty ? 'Insira pelo menos uma foto' : 'Insira fotos dele.'}',
                                 style: Theme.of(context).textTheme.headline1.copyWith(
@@ -557,6 +558,7 @@ class _PetFormState extends State<PetForm> {
                                 Container(
                                   height: 200,
                                   child: ListView.builder(
+                                    key: UniqueKey(),
                                     scrollDirection: Axis.horizontal,
                                     itemCount: petFormProvider.getPetPhotos.length + 1,
                                     itemBuilder: (ctx, index) {
@@ -674,7 +676,7 @@ class _PetFormState extends State<PetForm> {
                                         controller: _ano,
                                         readOnly: readOnly,
                                       ),
-                                      kind == 'Donate' && snapshot.hasError ? HintError() : SizedBox(),
+                                      kind == Constantes.DONATE && snapshot.hasError ? HintError() : SizedBox(),
                                     ],
                                   );
                                 },
@@ -696,7 +698,7 @@ class _PetFormState extends State<PetForm> {
                                         controller: _meses,
                                         readOnly: readOnly,
                                       ),
-                                      kind == 'Donate' && snapshot.data == null ? HintError() : SizedBox(),
+                                      kind == Constantes.DONATE && snapshot.data == null ? HintError() : SizedBox(),
                                     ],
                                   );
                                 },
@@ -856,6 +858,7 @@ class _PetFormState extends State<PetForm> {
                                                   height: 20,
                                                   width: 140,
                                                   child: ListView.builder(
+                                                    key: UniqueKey(),
                                                     scrollDirection: Axis.horizontal,
                                                     itemCount: list.length,
                                                     itemBuilder: (_, index) {
