@@ -1,32 +1,33 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import 'package:tiutiu/Custom/icons.dart';
-import 'package:tiutiu/Widgets/badge.dart';
 import 'package:tiutiu/Widgets/play_store_rating.dart';
-import 'package:tiutiu/backend/Controller/user_controller.dart';
-import 'package:tiutiu/providers/auth2.dart';
+import 'package:tiutiu/providers/chat_provider.dart';
 import 'package:tiutiu/providers/pets_provider.dart';
+import 'package:tiutiu/screen/appBar.dart';
+import 'package:tiutiu/utils/constantes.dart';
 import 'package:tiutiu/providers/refine_search.dart';
-import 'package:tiutiu/providers/user_provider.dart';
 import 'package:tiutiu/screen/donate_disappeared_list.dart';
 import 'package:tiutiu/utils/routes.dart';
 
 class PetsList extends StatefulWidget {
+  PetsList({
+    this.petKind = Constantes.DONATE,
+  });
+  final String petKind;
+
   @override
   _PetsListState createState() => _PetsListState();
 }
 
-class _PetsListState extends State<PetsList> with SingleTickerProviderStateMixin {
-  TabController _controller;
-  int initialIndex = 0;
+class _PetsListState extends State<PetsList> {
   PetsProvider petsProvider;
+  ChatProvider chatProvider;
   RefineSearchProvider refineSearchProvider;
 
   @override
   void didChangeDependencies() {
     petsProvider = Provider.of<PetsProvider>(context);
+    chatProvider = Provider.of<ChatProvider>(context);
     refineSearchProvider = Provider.of<RefineSearchProvider>(context);
     petsProvider.loadDisappearedPETS(state: refineSearchProvider.getStateOfResultSearch);
     petsProvider.loadDonatePETS(state: refineSearchProvider.getStateOfResultSearch);
@@ -34,23 +35,17 @@ class _PetsListState extends State<PetsList> with SingleTickerProviderStateMixin
   }
 
   @override
-  void initState() {
-    _controller = TabController(
-      vsync: this,
-      length: 2,
-      initialIndex: initialIndex,
-    );
-
-    _controller.addListener(onTabChange);
-
-    super.initState();
+  void didUpdateWidget(PetsList oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.petKind != oldWidget.petKind) {
+      onPetTypeChange();
+    }
   }
 
-  void onTabChange() {
-    initialIndex = _controller.index;
-
-    if (_controller.index == 1) {
-      petsProvider.changePetKind('Disappeared');
+  void onPetTypeChange() {
+    print(widget.petKind);
+    if (widget.petKind == Constantes.DISAPPEARED) {
+      petsProvider.changePetKind(Constantes.DISAPPEARED);
       if (refineSearchProvider.getSearchPetByTypeOnHome && refineSearchProvider.getIsHomeFilteringByDisappeared) {
         refineSearchProvider.changeSearchHomePetTypeInitialValue(refineSearchProvider.getHomePetTypeFilterByDisappeared);
         petsProvider.changePetType(refineSearchProvider.getHomePetTypeFilterByDisappeared);
@@ -63,7 +58,7 @@ class _PetsListState extends State<PetsList> with SingleTickerProviderStateMixin
       petsProvider.loadDisappearedPETS(state: refineSearchProvider.getStateOfResultSearch);
       if (petsProvider.getIsFilteringByBreed || petsProvider.getIsFilteringByName) petsProvider.changeTypingSearchResult(petsProvider.getPetsDisappeared);
     } else {
-      petsProvider.changePetKind('Donate');
+      petsProvider.changePetKind(Constantes.DONATE);
       if (refineSearchProvider.getSearchPetByTypeOnHome && refineSearchProvider.getIsHomeFilteringByDonate) {
         refineSearchProvider.changeSearchHomePetTypeInitialValue(refineSearchProvider.getHomePetTypeFilterByDonate);
         petsProvider.changePetType(refineSearchProvider.getHomePetTypeFilterByDonate);
@@ -76,12 +71,6 @@ class _PetsListState extends State<PetsList> with SingleTickerProviderStateMixin
       petsProvider.loadDonatePETS(state: refineSearchProvider.getStateOfResultSearch);
       if (petsProvider.getIsFilteringByBreed || petsProvider.getIsFilteringByName) petsProvider.changeTypingSearchResult(petsProvider.getPetsDonate);
     }
-  }
-
-  void changeInitialIndex(int index) {
-    setState(() {
-      initialIndex = index;
-    });
   }
 
   void openSocial() {
@@ -108,87 +97,22 @@ class _PetsListState extends State<PetsList> with SingleTickerProviderStateMixin
 
   @override
   Widget build(BuildContext context) {
-    final indexTab = ModalRoute.of(context).settings.arguments;
     void navigateToAuth() {
       Navigator.pushNamed(context, Routes.AUTH, arguments: true);
     }
 
-    if (indexTab != initialIndex) changeInitialIndex(indexTab);
-
-    return DefaultTabController(
-      length: 2,
-      initialIndex: indexTab ?? 0,
-      child: Scaffold(
-        appBar: AppBar(
-          leading: null,
-          title: Row(
-            children: [
-              InkWell(
-                onTap: openSocial,
-                child: Text(
-                  'Tiu, tiu',
-                  style: GoogleFonts.miltonianTattoo(
-                    textStyle: TextStyle(
-                      color: Colors.white,
-                      fontSize: 25,
-                    ),
-                  ),
-                ),
-              ),
-              Spacer(),
-              Consumer<UserProvider>(
-                builder: (_, userProvider, child) => Consumer<Authentication>(
-                  builder: (_, auth, child) => auth.firebaseUser == null
-                      ? Container()
-                      : Stack(
-                          children: [
-                            IconButton(
-                              onPressed: auth.firebaseUser == null
-                                  ? navigateToAuth
-                                  : () {
-                                      Navigator.pushNamed(
-                                        context,
-                                        Routes.NOTIFICATIONS,
-                                      );
-                                    },
-                              icon: Icon(
-                                Icons.notifications,
-                                color: Colors.white,
-                              ),
-                            ),
-                            StreamBuilder<QuerySnapshot>(
-                                stream: UserController().loadNotificationsCount(userProvider.uid),
-                                builder: (context, snapshot) {
-                                  return Positioned(
-                                    right: 10,
-                                    child: Badge(
-                                      color: Colors.red,
-                                      text: snapshot.data?.docs?.length ?? 0,
-                                    ),
-                                  );
-                                })
-                          ],
-                        ),
-                ),
-              )
-            ],
-          ),
-          bottom: TabBar(
-            controller: _controller,
-            indicatorColor: Colors.white,
-            labelColor: Colors.white,
-            tabs: [
-              Tab(icon: Icon(Tiutiu.dog), text: 'ADOTAR'),
-              Tab(icon: Icon(Tiutiu.exclamation), text: 'DESAPARECIDOS'),
-            ],
-          ),
+    return Scaffold(
+      appBar: AppBar(
+        leading: null,
+        title: TitleAppBar(
+          navigateToAuth: navigateToAuth,
+          openSocial: openSocial,
+          newMessagesStream: chatProvider.newMessages(),
         ),
-        body: TabBarView(
-          controller: _controller,
-          children: [
-            DonateDisappearedList(stream: petsProvider.petsDonate),
-            DonateDisappearedList(stream: petsProvider.petsDisappeared),
-          ],
+      ),
+      body: Container(
+        child: DonateDisappearedList(
+          stream: widget.petKind == Constantes.DONATE ? petsProvider.petsDonate : petsProvider.petsDisappeared,
         ),
       ),
     );

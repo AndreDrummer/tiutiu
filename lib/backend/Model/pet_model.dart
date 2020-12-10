@@ -1,36 +1,37 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:tiutiu/utils/constantes.dart';
-class Pet {
-  Pet({
-    this.id,
-    this.donated,
-    this.found,
-    this.storageHashKey,
-    this.name,
-    this.sex,
-    this.color,    
-    this.ownerReference,    
-    this.ownerId,    
-    this.petReference,    
-    this.otherCaracteristics,
-    this.type,
-    this.createdAt,
-    this.views,
-    this.avatar,
-    this.health,
-    this.ano,
-    this.meses,
-    this.breed,
-    this.size,
-    this.details,
-    this.photos,    
-    this.latitude,
-    this.longitude,    
-    this.whoAdoptedReference,    
-    this.kind
-  });
 
-  Pet.fromSnapshot(DocumentSnapshot snapshot) {    
+class Pet {
+  Pet(
+      {this.id,
+      this.donated,
+      this.found,
+      this.storageHashKey,
+      this.name,
+      this.sex,
+      this.color,
+      this.ownerReference,
+      this.ownerId,
+      this.ownerName,
+      this.petReference,
+      this.otherCaracteristics,
+      this.type,
+      this.createdAt,
+      this.views,
+      this.avatar,
+      this.health,
+      this.ano,
+      this.meses,
+      this.breed,
+      this.size,
+      this.details,
+      this.photos,
+      this.latitude,
+      this.longitude,
+      this.whoAdoptedReference,
+      this.kind});
+
+  Pet.fromSnapshot(DocumentSnapshot snapshot) {
     id = snapshot.id;
     donated = snapshot.data()['donated'];
     views = snapshot.data()['views'];
@@ -40,7 +41,7 @@ class Pet {
     name = snapshot.data()['name'];
     sex = snapshot.data()['sex'];
     color = snapshot.data()['color'];
-    type = snapshot.data()['type'];    
+    type = snapshot.data()['type'];
     avatar = snapshot.data()['avatar'];
     health = snapshot.data()['health'];
     ano = snapshot.data()['ano'];
@@ -52,9 +53,11 @@ class Pet {
     photos = snapshot.data()['photos'] as List;
     latitude = snapshot.data()['latitude'];
     longitude = snapshot.data()['longitude'];
-    otherCaracteristics = snapshot.data()['otherCaracteristics'];    
+    otherCaracteristics = snapshot.data()['otherCaracteristics'];
     ownerReference = snapshot.data()['ownerReference'];
     ownerId = snapshot.data()['ownerId'];
+    ownerId = snapshot.data()['ownerId'];
+    ownerName = snapshot.data()['ownerName'];
     whoAdoptedReference = snapshot.data()['whoAdoptedReference'];
     petReference = snapshot.reference;
   }
@@ -68,7 +71,7 @@ class Pet {
     name = map['name'];
     storageHashKey = map['storageHashKey'];
     color = map['color'];
-    type = map['type'];    
+    type = map['type'];
     avatar = map['avatar'];
     sex = map['sex'];
     health = map['health'];
@@ -81,9 +84,11 @@ class Pet {
     details = map['details'];
     photos = map['photos'] as List;
     latitude = map['latitude'];
-    longitude = map['longitude'];    
+    longitude = map['longitude'];
     ownerReference = map['ownerReference'];
     ownerId = map['ownerId'];
+    ownerId = map['ownerId'];
+    ownerName = map['ownerName'];
     petReference = map['petReference'];
     whoAdoptedReference = map['whoAdoptedReference'];
   }
@@ -100,20 +105,21 @@ class Pet {
   String type;
   DocumentReference ownerReference;
   String ownerId;
+  String ownerName;
   DocumentReference petReference;
   DocumentReference whoAdoptedReference;
   String avatar;
   String health;
   String createdAt;
-  int ano;  
+  int ano;
   int meses;
   String breed;
   List otherCaracteristics;
   String size;
   String details;
-  List photos;  
+  List photos;
   double latitude;
-  double longitude;  
+  double longitude;
 
   Map<String, dynamic> toJson() {
     return {
@@ -135,12 +141,13 @@ class Pet {
       'photos': photos,
       'size': size,
       'otherCaracteristics': otherCaracteristics,
-      'details': details,            
+      'details': details,
       'latitude': latitude,
-      'longitude': longitude,      
+      'longitude': longitude,
       'type': type,
-      'ownerReference': ownerReference,      
-      'ownerId': ownerId,      
+      'ownerReference': ownerReference,
+      'ownerId': ownerId,
+      'ownerName': ownerName,
       'petReference': petReference,
       'whoAdoptedReference': whoAdoptedReference
     };
@@ -165,13 +172,15 @@ class Pet {
     petMap['size'] = size;
     petMap['otherCaracteristics'] = otherCaracteristics;
     petMap['details'] = details;
-    petMap['photos'] = photos;        
+    petMap['photos'] = photos;
     petMap['latitude'] = latitude;
-    petMap['longitude'] = longitude;    
+    petMap['longitude'] = longitude;
     petMap['type'] = type;
-    petMap['color'] = color;    
+    petMap['color'] = color;
     petMap['ownerReference'] = ownerReference;
     petMap['ownerId'] = ownerId;
+    petMap['ownerId'] = ownerId;
+    petMap['ownerName'] = ownerName;
     petMap['petReference'] = petReference;
 
     return petMap;

@@ -86,8 +86,7 @@ class _RegisterState extends State<Register> {
         return SimpleDialog(
           children: <Widget>[
             FlatButton(
-              child:
-                  Text('Tirar uma foto', style: TextStyle(color: Colors.black)),
+              child: Text('Tirar uma foto', style: TextStyle(color: Colors.black)),
               onPressed: () {
                 Navigator.pop(context);
                 selectImage(ImageSource.camera);
@@ -122,12 +121,8 @@ class _RegisterState extends State<Register> {
     String patttern = r'(^[0-9]*$)';
     RegExp regExp = new RegExp(patttern);
     if (value.length == 0) {
-      setState(() {
-        whatsappHasErrorMessage = "Informe o seu WhatsApp";
-        whatsappHasError = true;
-      });
       return null;
-    } else if (value.length < 10) {
+    } else if (value.length < 11) {
       setState(() {
         whatsappHasErrorMessage = "O celular deve ter 11 dígitos";
         whatsappHasError = true;
@@ -156,7 +151,7 @@ class _RegisterState extends State<Register> {
       return null;
     } else if (value.length < 10) {
       setState(() {
-        telefoneHasErrorMessage = "O telefone deve ter 12 dígitos";
+        telefoneHasErrorMessage = "O telefone deve ter 10 dígitos";
         telefoneHasError = true;
       });
       return null;
@@ -199,10 +194,7 @@ class _RegisterState extends State<Register> {
     StorageUploadTask uploadTask;
     StorageReference storageReference;
 
-    storageReference = FirebaseStorage.instance
-        .ref()
-        .child('${auth.firebaseUser.uid}')
-        .child('avatar/foto_perfil');
+    storageReference = FirebaseStorage.instance.ref().child('${auth.firebaseUser.uid}').child('avatar/foto_perfil');
 
     uploadTask = storageReference.putFile(userProfile['photoFile']);
 
@@ -219,20 +211,20 @@ class _RegisterState extends State<Register> {
     String patttern = r'(^[0-9]*$)';
     RegExp regExp = new RegExp(patttern);
 
-    if (_whatsapp.text.isEmpty) {
+    if (_whatsapp.text.trim().isEmpty) {
       setState(() {
         whatsappHasError = true;
       });
     }
 
-    if (_name.text.isEmpty) {
+    if (_name.text.trim().isEmpty) {
       setState(() {
         nameHasError = true;
       });
     }
 
-    if (_whatsapp.text.isNotEmpty) {
-      String unMaskNumber = Formatter.unmaskNumber(_whatsapp.text);
+    if (_whatsapp.text.trim().isNotEmpty) {
+      String unMaskNumber = Formatter.unmaskNumber(_whatsapp.text.trim());
       if (!regExp.hasMatch(unMaskNumber) || unMaskNumber.length < 11) {
         setState(() {
           whatsappHasError = true;
@@ -245,11 +237,11 @@ class _RegisterState extends State<Register> {
       }
     }
 
-    if (_name.text.isNotEmpty) {
+    if (_name.text.trim().isNotEmpty) {
       setState(() {
         nameHasError = false;
       });
-    }    
+    }
 
     return !finishing && !nameHasError && !userProfileHasError;
   }
@@ -258,11 +250,11 @@ class _RegisterState extends State<Register> {
     await uploadPhotos();
     UserController userController = UserController();
     await userController.updateUser(auth.firebaseUser.uid, {
-      'displayName': _name.text,
+      'displayName': _name.text.trim(),
       'uid': auth.firebaseUser.uid,
       'photoURL': photoURL,
-      'phoneNumber': _whatsapp.text,
-      'landline': _telefone.text,
+      'phoneNumber': _whatsapp.text.trim(),
+      'landline': _telefone.text.trim(),
       'betterContact': userProvider.getBetterContact,
       'email': auth.firebaseUser.email,
       'createdAt': DateTime.now().toIso8601String()
@@ -276,14 +268,11 @@ class _RegisterState extends State<Register> {
 
   @override
   Widget build(BuildContext context) {
-    print(userProvider.photoURL);
-    print(userProvider.telefone);
-    print(userProvider.whatsapp);
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
         title: Text(
-          'Bem vindo!',
+          'Seja bem vindo!',
           style: Theme.of(context).textTheme.headline1.copyWith(
                 fontSize: 20,
                 fontWeight: FontWeight.w700,
@@ -301,16 +290,6 @@ class _RegisterState extends State<Register> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(
-                        'Seja bem vindo! Conclua seu cadastro para continuar.',
-                        textAlign: TextAlign.center,
-                        style: Theme.of(context).textTheme.headline1.copyWith(
-                              fontSize: 22,
-                              fontWeight: FontWeight.w400,
-                              color: Colors.black54,
-                            ),
-                      ),
-                      SizedBox(height: 20),
                       InkWell(
                         onTap: () {
                           openModalSelectMedia(context);
@@ -324,8 +303,7 @@ class _RegisterState extends State<Register> {
                                 backgroundColor: Colors.black12,
                                 child: ClipOval(
                                   child: userProfile.isEmpty
-                                      ? Icon(Icons.person,
-                                          color: Colors.white38, size: 50)
+                                      ? Icon(Icons.person, color: Colors.white38, size: 50)
                                       : Image.file(
                                           userProfile['photoFile'],
                                           width: 1000,
@@ -336,7 +314,12 @@ class _RegisterState extends State<Register> {
                               ),
                             ),
                             SizedBox(height: 5),
-                            Text('Adicione sua foto *'),
+                            Text(
+                              'Adicione sua foto',
+                              style: TextStyle(
+                                fontSize: 10,
+                              ),
+                            ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
@@ -350,9 +333,9 @@ class _RegisterState extends State<Register> {
                           ],
                         ),
                       ),
-                      SizedBox(height: 20),
+                      SizedBox(height: 15),
                       InputText(
-                        placeholder: 'Como quer ser chamado *',
+                        placeholder: 'Como quer ser chamado (Obrigatório)',
                         controller: _name,
                         validator: (String text) {
                           if (text.isEmpty || text.length < 3) {
@@ -368,111 +351,137 @@ class _RegisterState extends State<Register> {
                           }
                         },
                       ),
-                      nameHasError
-                          ? HintError(message: nameHasErrorMessage)
-                          : Container(),
-                      SizedBox(height: 20),
+                      nameHasError ? HintError(message: nameHasErrorMessage) : Container(),
+                      SizedBox(height: 15),
                       InputText(
                         inputFormatters: [celularMask],
-                        placeholder: 'Informe seu Whatsapp *',
+                        placeholder: 'Informe seu Whatsapp',
                         hintText: '(XX) X XXXX-XXXX',
                         keyBoardTypeNumber: true,
                         controller: _whatsapp,
                         validator: validarCelular,
                         onChanged: (text) {
-                          userProvider.changeWhatsapp(_whatsapp.text);
+                          userProvider.changeWhatsapp(_whatsapp.text.trim());
                         },
                       ),
-                      whatsappHasError
-                          ? HintError(message: whatsappHasErrorMessage)
-                          : Container(),
-                      SizedBox(height: 30),
-                      SizedBox(height: 5),
+                      whatsappHasError ? HintError(message: whatsappHasErrorMessage) : Container(),
+                      SizedBox(height: 15),
                       InputText(
                         inputFormatters: [telefoneMask],
                         validator: validarTelefone,
-                        placeholder: 'Informe um telefone fixo (Opcional)',
+                        placeholder: 'Informe um telefone fixo',
                         hintText: '(XX) XXXX-XXXX',
                         keyBoardTypeNumber: true,
                         controller: _telefone,
                         onChanged: (text) {
-                          userProvider.changeTelefone(_telefone.text);
+                          userProvider.changeTelefone(_telefone.text.trim());
                         },
                       ),
-                      telefoneHasError
-                          ? HintError(message: telefoneHasErrorMessage)
-                          : Container(),
+                      telefoneHasError ? HintError(message: telefoneHasErrorMessage) : Container(),
                       SizedBox(height: 20),
                       Align(
                         alignment: Alignment(-0.8, 1),
-                        child: Text('Escolha sua melhor forma de contato'),
+                        child: Text('Escolha sua melhor forma de contato.'),
                       ),
                       StreamBuilder<Object>(
                         stream: userProvider.betterContact,
                         builder: (context, snapshot) {
                           return Container(
-                            // width: MediaQuery.of(context).size.width - 100,
                             child: Column(
                               children: [
-                                Row(
-                                  children: [
-                                    Radio(
-                                      activeColor:
-                                          Theme.of(context).primaryColor,
-                                      groupValue: snapshot.data,
-                                      value: 0,
-                                      onChanged: (value) {
-                                        userProvider.changeBetterContact(value);
-                                        if (_whatsapp.text.isEmpty) {
+                                InkWell(
+                                  onTap: () {
+                                    userProvider.changeBetterContact(0);
+                                  },
+                                  child: Row(
+                                    children: [
+                                      Radio(
+                                        activeColor: Theme.of(context).primaryColor,
+                                        groupValue: snapshot.data,
+                                        value: 0,
+                                        onChanged: (value) {
+                                          userProvider.changeBetterContact(value);
+                                          if (_whatsapp.text.trim().isEmpty) {
+                                            setState(() {
+                                              whatsappHasErrorMessage = 'Quando este é seu melhor contato, deve ser preenchido.';
+                                              whatsappHasError = true;
+                                              telefoneHasError = false;
+                                            });
+                                          }
+                                        },
+                                      ),
+                                      Text('WhatsApp'),
+                                    ],
+                                  ),
+                                ),
+                                InkWell(
+                                  onTap: () {
+                                    userProvider.changeBetterContact(1);
+                                  },
+                                  child: Row(
+                                    children: [
+                                      Radio(
+                                        activeColor: Colors.orange,
+                                        groupValue: snapshot.data,
+                                        value: 1,
+                                        onChanged: (value) {
+                                          userProvider.changeBetterContact(value);
+                                          if (_telefone.text.trim().isEmpty) {
+                                            setState(() {
+                                              telefoneHasError = true;
+                                              whatsappHasError = false;
+                                              telefoneHasErrorMessage = 'Quando este é seu melhor contato, deve ser preenchido.';
+                                            });
+                                          }
+                                        },
+                                      ),
+                                      Text('Telefone Fixo'),
+                                    ],
+                                  ),
+                                ),
+                                InkWell(
+                                  onTap: () {
+                                    userProvider.changeBetterContact(2);
+                                  },
+                                  child: Row(
+                                    children: [
+                                      Radio(
+                                        activeColor: Colors.red,
+                                        groupValue: snapshot.data,
+                                        value: 2,
+                                        onChanged: (value) {
                                           setState(() {
-                                            whatsappHasError = true;
                                             telefoneHasError = false;
-                                            whatsappHasErrorMessage =
-                                                'Quando este é seu melhor contato, deve ser preenchido.';
-                                          });
-                                        }
-                                      },
-                                    ),
-                                    Text('WhatsApp'),
-                                  ],
-                                ),
-                                Row(
-                                  children: [
-                                    Radio(
-                                      activeColor: Colors.orange,
-                                      groupValue: snapshot.data,
-                                      value: 1,
-                                      onChanged: (value) {
-                                        userProvider.changeBetterContact(value);
-                                        if (_telefone.text.isEmpty) {
-                                          setState(() {
-                                            telefoneHasError = true;
                                             whatsappHasError = false;
-                                            telefoneHasErrorMessage =
-                                                'Quando este é seu melhor contato, deve ser preenchido.';
                                           });
-                                        }
-                                      },
-                                    ),
-                                    Text('Telefone Fixo'),
-                                  ],
+                                          userProvider.changeBetterContact(value);
+                                        },
+                                      ),
+                                      Text('E-mail'),
+                                    ],
+                                  ),
                                 ),
-                                Row(
-                                  children: [
-                                    Radio(
-                                      activeColor: Colors.red,
-                                      groupValue: snapshot.data,
-                                      value: 2,
-                                      onChanged: (value) {
-                                        setState(() {
-                                          telefoneHasError = false;
-                                          whatsappHasError = false;
-                                        });
-                                        userProvider.changeBetterContact(value);
-                                      },
-                                    ),
-                                    Text('E-mail'),
-                                  ],
+                                InkWell(
+                                  onTap: () {
+                                    userProvider.changeBetterContact(3);
+                                  },
+                                  child: Row(
+                                    children: [
+                                      Radio(
+                                        activeColor: Colors.purple,
+                                        groupValue: snapshot.data,
+                                        value: 3,
+                                        onChanged: (value) {
+                                          setState(() {
+                                            telefoneHasError = false;
+                                            whatsappHasError = false;
+                                          });
+                                          userProvider.changeBetterContact(value);
+                                        },
+                                      ),
+                                      Text('Somente pelo chat do aplicativo'),
+                                    ],
+                                  ),
                                 ),
                               ],
                             ),
@@ -494,9 +503,9 @@ class _RegisterState extends State<Register> {
         rounded: false,
         action: finishing
             ? null
-            : () async {                
+            : () async {
                 if (_formKey.currentState.validate()) {
-                  if (userProvider.getBetterContact == 1 && (_telefone.text.isEmpty || _telefone.text.length < 12)) {
+                  if (userProvider.getBetterContact == 1 && (_telefone.text.trim().isEmpty || _telefone.text.trim().length < 12)) {
                     _scaffoldKey.currentState.showSnackBar(
                       SnackBar(
                         backgroundColor: Colors.red,
@@ -512,7 +521,7 @@ class _RegisterState extends State<Register> {
                       await auth.alreadyRegistered();
                       Navigator.pushReplacementNamed(context, Routes.AUTH_HOME);
                     }
-                  }                  
+                  }
                 }
               },
       ),

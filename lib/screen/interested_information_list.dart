@@ -10,9 +10,11 @@ import 'package:tiutiu/backend/Controller/user_controller.dart';
 import 'package:tiutiu/backend/Model/interested_model.dart';
 import 'package:tiutiu/backend/Model/pet_model.dart';
 import 'package:tiutiu/backend/Model/user_model.dart';
+import 'package:tiutiu/chat/common/functions.dart';
 import 'package:tiutiu/providers/user_infos_interests.dart';
 import 'package:tiutiu/providers/user_provider.dart';
 import 'package:tiutiu/screen/announcer_datails.dart';
+import 'package:tiutiu/utils/constantes.dart';
 import 'package:tiutiu/utils/other_functions.dart';
 import 'package:tiutiu/utils/routes.dart';
 
@@ -34,11 +36,18 @@ class _InterestedListState extends State<InterestedList> {
   UserProvider userProvider;
   UserController userController = UserController();
   bool isSinalizing = false;
+  bool isOpeningChat = false;
   int timeToSendNotificationAgain = 120;
 
   void changeIsSinalizingStatus(bool value) {
     setState(() {
       isSinalizing = value;
+    });
+  }
+
+  void changeIsOpenningChatStatus(bool value) {
+    setState(() {
+      isOpeningChat = value;
     });
   }
 
@@ -101,7 +110,7 @@ class _InterestedListState extends State<InterestedList> {
     userInfoOrAdoptInterestsProvider = Provider.of<UserInfoOrAdoptInterestsProvider>(context);
     userProvider = Provider.of<UserProvider>(context);
 
-    if (widget.kind == 'Donate') {
+    if (widget.kind == Constantes.DONATE) {
       userInfoOrAdoptInterestsProvider.loadInterested(widget.pet.petReference);
     } else {
       userInfoOrAdoptInterestsProvider.loadInfo(widget.pet.petReference);
@@ -156,7 +165,7 @@ class _InterestedListState extends State<InterestedList> {
   Color color(InterestedModel interestedModel) {
     int hoursSinceLastNotification = DateTime.now().difference(DateTime.parse(interestedModel.lastNotificationSend)).inMinutes;
     switch (widget.kind) {
-      case 'Donate':
+      case Constantes.DONATE:
         if (interestedModel.donated) return Colors.green;
         if (interestedModel.gaveup) return Colors.red;
         if (hoursSinceLastNotification >= timeToSendNotificationAgain) return Colors.purple;
@@ -170,7 +179,7 @@ class _InterestedListState extends State<InterestedList> {
     int hoursSinceLastNotification = DateTime.now().difference(DateTime.parse(interestedModel.lastNotificationSend)).inMinutes;
 
     switch (widget.kind) {
-      case 'Donate':
+      case Constantes.DONATE:
         if (interestedModel.donated) return 'Adotado';
         if (interestedModel.gaveup) return 'Desistiu';
         if (hoursSinceLastNotification >= timeToSendNotificationAgain && interestedModel.sinalized) return 'REENVIAR DOAÇÃO';
@@ -184,7 +193,7 @@ class _InterestedListState extends State<InterestedList> {
   Widget badge(InterestedModel interestedModel) {
     int hoursSinceLastNotification = DateTime.now().difference(DateTime.parse(interestedModel.lastNotificationSend)).inMinutes;
     switch (widget.kind) {
-      case 'Donate':
+      case Constantes.DONATE:
         if (interestedModel.donated) return _bagde('Adotado', color: Colors.green);
         if (interestedModel.gaveup) return _bagde('Desistiu', color: Colors.red);
         if (hoursSinceLastNotification >= timeToSendNotificationAgain) return _bagde('Doar');
@@ -198,75 +207,87 @@ class _InterestedListState extends State<InterestedList> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.kind == 'Donate' ? 'Interessados em ${widget.pet.name}'.toUpperCase() : 'Quem informou sobre ${widget.pet.name}'.toUpperCase()),
+        title: Text(widget.kind == Constantes.DONATE ? 'Interessados em ${widget.pet.name}'.toUpperCase() : 'Quem informou sobre ${widget.pet.name}'.toUpperCase()),
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 8.0),
-        child: StreamBuilder<List<InterestedModel>>(
-          stream: widget.kind == 'Donate' ? userInfoOrAdoptInterestsProvider.interested : userInfoOrAdoptInterestsProvider.info,
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return LoadingPage(
-                messageLoading: 'Carregando lista de interessados',
-                circle: true,
-              );
-            }
+      body: Stack(
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 8.0),
+            child: StreamBuilder<List<InterestedModel>>(
+              stream: widget.kind == Constantes.DONATE ? userInfoOrAdoptInterestsProvider.interested : userInfoOrAdoptInterestsProvider.info,
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return LoadingPage(
+                    messageLoading: 'Carregando lista de interessados',
+                    circle: true,
+                  );
+                }
 
-            List<InterestedModel> interesteds = snapshot.data;
-            interesteds.sort((a, b) {
-              return DateTime.parse(b.interestedAt).millisecondsSinceEpoch - DateTime.parse(a.interestedAt).millisecondsSinceEpoch;
-            });
+                List<InterestedModel> interesteds = snapshot.data;
+                interesteds.sort((a, b) {
+                  return DateTime.parse(b.interestedAt).millisecondsSinceEpoch - DateTime.parse(a.interestedAt).millisecondsSinceEpoch;
+                });
 
-            return Stack(
-              children: [
-                ListView.builder(
-                  itemCount: interesteds.length,
-                  itemBuilder: (_, index) {
-                    return FutureBuilder<DocumentSnapshot>(
-                      future: interesteds[index]?.userReference?.get(),
-                      builder: (context, interestedReferenceSnapshot) {
-                        if (snapshot.connectionState == ConnectionState.waiting) {
-                          return CircularProgressIndicator();
-                        }
-
-                        if (!interestedReferenceSnapshot.hasData || interestedReferenceSnapshot.data.data() == null) {
-                          return Container();
-                        }
-
-                        User interestedUser = User.fromSnapshot(interestedReferenceSnapshot.data);
-                        String subtitle =
-                            '${widget.kind == 'Donate' ? 'Interessou dia' : 'Informou dia'} ${DateFormat('dd/MM/y HH:mm').format(DateTime.parse(interesteds[index].interestedAt))}';
-
-                        return InterestedInfoCard(
-                          subtitle: subtitle,
-                          interestedUser: interestedUser,
-                          navigateToInterestedDetail: interestedUser.photoURL == null ? null : () => navigateToInterestedDetail(interestedUser),
-                          infoOrDonateFunction: () {
-                            int hoursSinceLastNotification = DateTime.now().difference(DateTime.parse(interesteds[index].lastNotificationSend)).inMinutes;
-                            bool canSendNewNotification = widget.kind == 'Donate' &&
-                                hoursSinceLastNotification >= timeToSendNotificationAgain &&
-                                (!interesteds[index].donated && !interesteds[index].gaveup);
-
-                            if (canSendNewNotification) {
-                              doar(interestedUser, interesteds[index]);
-                            } else if (widget.kind == 'Disappeared') {
-                              seeInfo(interesteds[index]);
+                return Stack(
+                  children: [
+                    ListView.builder(
+                      key: UniqueKey(),
+                      itemCount: interesteds.length,
+                      itemBuilder: (_, index) {
+                        return FutureBuilder<DocumentSnapshot>(
+                          future: interesteds[index]?.userReference?.get(),
+                          builder: (context, interestedReferenceSnapshot) {
+                            if (snapshot.connectionState == ConnectionState.waiting) {
+                              return CircularProgressIndicator();
                             }
+
+                            if (!interestedReferenceSnapshot.hasData || interestedReferenceSnapshot.data.data() == null) {
+                              return Container();
+                            }
+
+                            User interestedUser = User.fromSnapshot(interestedReferenceSnapshot.data);
+                            String subtitle = '${widget.kind == Constantes.DONATE ? 'Interessou dia' : 'Informou dia'} ${DateFormat('dd/MM/y HH:mm').format(DateTime.parse(interesteds[index].interestedAt))}';
+
+                            return InterestedInfoCard(
+                              subtitle: subtitle,
+                              interestedUser: interestedUser,
+                              navigateToInterestedDetail: interestedUser.photoURL == null ? null : () => navigateToInterestedDetail(interestedUser),
+                              infoOrDonateFunction: () {
+                                int hoursSinceLastNotification = DateTime.now().difference(DateTime.parse(interesteds[index].lastNotificationSend)).inMinutes;
+                                bool canSendNewNotification =
+                                    widget.kind == Constantes.DONATE && hoursSinceLastNotification >= timeToSendNotificationAgain && (!interesteds[index].donated && !interesteds[index].gaveup);
+
+                                if (canSendNewNotification) {
+                                  doar(interestedUser, interesteds[index]);
+                                } else if (widget.kind == Constantes.DISAPPEARED) {
+                                  seeInfo(interesteds[index]);
+                                }
+                              },
+                              openChat: () => CommonChatFunctions.openChat(
+                                context: context,
+                                firstUser: userProvider.user(),
+                                secondUser: interestedUser,
+                              ),
+                              infoOrDonteText: text(interesteds[index]),
+                              color: color(
+                                interesteds[index],
+                              ),
+                            );
                           },
-                          infoOrDonteText: text(interesteds[index]),
-                          color: color(
-                            interesteds[index],
-                          ),
                         );
                       },
-                    );
-                  },
-                ),
-                LoadDarkScreen(show: isSinalizing, message: 'Sinalizando adoção..'),
-              ],
-            );
-          },
-        ),
+                    ),
+                    LoadDarkScreen(show: isSinalizing, message: 'Sinalizando adoção..'),
+                  ],
+                );
+              },
+            ),
+          ),
+          LoadDarkScreen(
+            message: 'Abrindo chat...',
+            show: isOpeningChat,
+          )
+        ],
       ),
     );
   }

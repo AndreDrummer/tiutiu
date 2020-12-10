@@ -5,10 +5,13 @@ import 'package:provider/provider.dart';
 import 'package:tiutiu/backend/Model/geocoding_model.dart';
 import 'package:tiutiu/backend/Model/pet_model.dart';
 import 'package:tiutiu/providers/location.dart' as provider;
+import 'package:tiutiu/screen/announcer_datails.dart';
 import 'package:tiutiu/utils/constantes.dart';
 import 'package:tiutiu/utils/math_functions.dart';
 import "package:google_maps_webservice/geocoding.dart";
 import 'package:geocoder/geocoder.dart';
+import 'package:tiutiu/backend/Model/user_model.dart';
+import 'package:tiutiu/utils/string_extension.dart';
 
 class OtherFunctions {
   static List<String> distanceCalculate(BuildContext context, double petLatitude, double petLongitude) {
@@ -66,6 +69,10 @@ class OtherFunctions {
     return newPetList;
   }
 
+  static String firstCharacterUpper(String text) {
+    return text.trim().capitalize();
+  }
+
   static Future<String> getAddress(Location location) async {
     final geocoding = new GoogleMapsGeocoding(apiKey: Constantes.WEB_API_KEY);
     final result = await geocoding.searchByLocation(location);
@@ -101,5 +108,16 @@ class OtherFunctions {
     FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
     DocumentSnapshot documentSnapshot = await firebaseFirestore.collection(collectionName).doc('$id').get();
     return documentSnapshot.reference;
+  }
+
+  static void navigateToAnnouncerDetail(BuildContext context, User user, {bool showOnlyChat = false}) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) {
+          return AnnouncerDetails(user, showOnlyChat: showOnlyChat);
+        },
+      ),
+    );
   }
 }

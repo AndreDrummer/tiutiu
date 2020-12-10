@@ -38,10 +38,7 @@ class CustomBottomNavigatorBar extends StatelessWidget {
                   SizedBox(width: 10),
                   Text(
                     'Perto de você',
-                    style: Theme.of(context).textTheme.headline1.copyWith(
-                          fontWeight: FontWeight.w700,
-                          color: Colors.black
-                        ),
+                    style: Theme.of(context).textTheme.headline1.copyWith(fontWeight: FontWeight.w700, color: Colors.black),
                   ),
                 ],
               ),
