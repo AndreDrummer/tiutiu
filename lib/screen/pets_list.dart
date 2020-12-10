@@ -152,6 +152,15 @@ class _PetsListState extends State<PetsList> with SingleTickerProviderStateMixin
               Spacer(),
               Row(
                 children: [
+                  IconButton(
+                    onPressed: () {
+                      Navigator.pushNamed(context, Routes.SEARCH_REFINE);
+                    },
+                    icon: Icon(
+                      Icons.settings_input_component_sharp,
+                      color: Colors.white,
+                    ),
+                  ),
                   Consumer<UserProvider>(
                     builder: (_, userProvider, child) => Consumer<Authentication>(
                       builder: (_, auth, child) => auth.firebaseUser == null
