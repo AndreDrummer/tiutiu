@@ -5,9 +5,8 @@
     <application android:name="io.flutter.app.FlutterApplication" android:label="Tiu, tiu" android:icon="@mipmap/launcher_icon">
         <activity android:name=".MainActivity" android:launchMode="singleTop" android:theme="@style/LaunchTheme" android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode" android:hardwareAccelerated="true" android:windowSoftInputMode="adjustResize">
 
-
-            <meta-data android:name="io.flutter.embedding.android.NormalTheme" android:resource="@style/NormalTheme" />
-
+            <!-- <meta-data android:name="io.flutter.embedding.android.NormalTheme" android:resource="@style/NormalTheme" /> -->
+            <meta-data android:name="io.flutter.app.android.SplashScreenUntilFirstFrame" android:value="true" />
             <meta-data android:name="io.flutter.embedding.android.SplashScreenDrawable" android:resource="@drawable/launch_background" />
 
             <meta-data android:name="flutterEmbedding" android:value="2" />
@@ -37,7 +36,8 @@
 
         <meta-data android:name="com.google.android.geo.API_KEY" android:value="AIzaSyD0-3gCxQaLljM1fJolnfdpeaUpZsh00XY" />
 
-        <meta-data android:name="com.google.firebase.messaging.default_notification_channel_id" android:value="@string/default_notification_channel_id" />
+        <meta-data android:name="com.google.firebase.messaging.default_notification_icon" android:resource="@drawable/noitificationicon" />
+        <meta-data android:name="com.google.firebase.messaging.default_notification_color" android:resource="@color/primary" />
 
         <meta-data android:name="com.google.android.gms.ads.APPLICATION_ID" android:value="ca-app-pub-2837828701670824~5532122619" />
     </application>

@@ -2,16 +2,7 @@ import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
 class CustomDropdownButtonSearch extends StatefulWidget {
-  CustomDropdownButtonSearch({
-    this.initialValue,
-    this.itemList,
-    this.fontSize,
-    this.onChange,
-    this.isExpanded,
-    this.withPipe = true,
-    this.label,
-    this.colorText = Colors.black
-  });
+  CustomDropdownButtonSearch({this.initialValue, this.itemList, this.fontSize, this.onChange, this.isExpanded, this.withPipe = true, this.label, this.colorText = Colors.black});
   final List<String> itemList;
   String initialValue;
   final String label;
@@ -22,12 +13,10 @@ class CustomDropdownButtonSearch extends StatefulWidget {
   final double fontSize;
 
   @override
-  _CustomDropdownButtonSearchState createState() =>
-      _CustomDropdownButtonSearchState();
+  _CustomDropdownButtonSearchState createState() => _CustomDropdownButtonSearchState();
 }
 
-class _CustomDropdownButtonSearchState
-    extends State<CustomDropdownButtonSearch> {
+class _CustomDropdownButtonSearchState extends State<CustomDropdownButtonSearch> {
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -35,7 +24,7 @@ class _CustomDropdownButtonSearchState
         DropdownButton<String>(
           underline: Container(),
           value: widget.initialValue,
-          onChanged: (String value) {          
+          onChanged: (String value) {
             widget.onChange(value);
           },
           items: widget.itemList.map<DropdownMenuItem<String>>((String e) {
@@ -48,9 +37,7 @@ class _CustomDropdownButtonSearchState
             );
           }).toList(),
         ),
-        widget.withPipe
-            ? Container(height: 30, width: 1, color: Colors.black38)
-            : Container()
+        widget.withPipe ? Container(height: 30, width: 1, color: Colors.black38) : Container()
       ],
     );
   }

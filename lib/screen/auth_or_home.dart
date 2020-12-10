@@ -17,18 +17,17 @@ class AuthOrHome extends StatefulWidget {
 class _AuthOrHomeState extends State<AuthOrHome> {
   StreamSubscription<ConnectivityResult> _connectivitySubscription;
   final Connectivity _connectivity = Connectivity();
-  bool isConnected;  
+  bool isConnected;
 
   @override
   void initState() {
     isConnected = true;
-    _connectivitySubscription =
-        Connectivity().onConnectivityChanged.listen(_updateStatus);                
+    _connectivitySubscription = Connectivity().onConnectivityChanged.listen(_updateStatus);
     super.initState();
   }
 
   @override
-  void didChangeDependencies() {    
+  void didChangeDependencies() {
     super.didChangeDependencies();
   }
 

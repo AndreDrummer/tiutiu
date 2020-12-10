@@ -1,6 +1,7 @@
 import 'package:rxdart/subjects.dart';
 import 'package:flutter/material.dart';
 import 'package:tiutiu/backend/Model/pet_model.dart';
+import 'package:tiutiu/utils/constantes.dart';
 import 'package:tiutiu/utils/form_validators.dart';
 
 class PetFormProvider with ChangeNotifier, FormValidator {
@@ -30,8 +31,7 @@ class PetFormProvider with ChangeNotifier, FormValidator {
   Stream<int> get petHealthIndex => _petHealthIndex.stream;
   Stream<int> get petBreedIndex => _petBreedIndex.stream;
   Stream<String> get petSex => _petSex.stream;
-  Stream<List> get petSelectedCaracteristics =>
-      _petSelectedCaracteristics.stream;
+  Stream<List> get petSelectedCaracteristics => _petSelectedCaracteristics.stream;
   Stream<String> get petDescription => _petDescription.stream;
   Stream<List> get petPhotos => _petPhotos.stream;
   Stream<Pet> get petInEdition => _petInEdition.stream;
@@ -47,8 +47,7 @@ class PetFormProvider with ChangeNotifier, FormValidator {
   void Function(int) get changePetHealthIndex => _petHealthIndex.sink.add;
   void Function(int) get changePetBreedIndex => _petBreedIndex.sink.add;
   void Function(String) get changePetSex => _petSex.sink.add;
-  void Function(List) get changePetSelectedCaracteristics =>
-      _petSelectedCaracteristics.sink.add;
+  void Function(List) get changePetSelectedCaracteristics => _petSelectedCaracteristics.sink.add;
   void Function(String) get changePetDescription => _petDescription.sink.add;
   void Function(List) get changePetPhotos => _petPhotos.sink.add;
   void Function(Pet) get changePetInEdition => _petInEdition.sink.add;
@@ -76,7 +75,7 @@ class PetFormProvider with ChangeNotifier, FormValidator {
   bool formIsvalid() {
     bool formStatus = true;
     List<BehaviorSubject> newList = _subjects();
-    if (getPetKind != 'Donate') newList.removeAt(1);
+    if (getPetKind != Constantes.DONATE) newList.removeAt(1);
 
     for (BehaviorSubject subject in newList) {
       if (subject.value == null || subject.value == "") {
