@@ -139,7 +139,7 @@ class _AuthScreenState extends State<AuthScreen> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Container(
-                                width: 140,
+                                width: 100,
                                 child: Image.asset('assets/newLogo.png'),
                               ),
                               SizedBox(height: 10),
@@ -148,7 +148,7 @@ class _AuthScreenState extends State<AuthScreen> {
                                 style: GoogleFonts.miltonianTattoo(
                                   textStyle: TextStyle(
                                     color: Colors.white,
-                                    fontSize: 60,
+                                    fontSize: 50,
                                     letterSpacing: 12,
                                   ),
                                 ),
@@ -183,7 +183,7 @@ class _AuthScreenState extends State<AuthScreen> {
                       readOnly: fieldsAreReadyOnly,
                     ),
                     emailError ? HintError(message: validateEmail() ? '* Campo obrigatório.' : 'E-mail inválido') : Container(),
-                    SizedBox(height: 12),
+                    SizedBox(height: 10),
                     isToResetPassword
                         ? Container()
                         : InputText.login(
@@ -195,7 +195,7 @@ class _AuthScreenState extends State<AuthScreen> {
                             isPassword: true,
                           ),
                     passwordError && !isToResetPassword ? HintError() : Container(),
-                    SizedBox(height: 12),
+                    SizedBox(height: 10),
                     isNewAccount
                         ? InputText.login(
                             placeholder: 'Repita sua senha',
@@ -341,11 +341,11 @@ class _AuthScreenState extends State<AuthScreen> {
                                         )
                                       : Container(),
                                 ),
-                                SizedBox(height: 20),
+                                SizedBox(height: 14),
                                 Text(
                                   ' acesse com',
                                   style: TextStyle(
-                                    fontSize: 16,
+                                    fontSize: 14,
                                     color: Colors.white,
                                     fontWeight: FontWeight.w700,
                                   ),
