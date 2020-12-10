@@ -11,9 +11,9 @@ import 'package:tiutiu/data/dummy_data.dart';
 import 'package:tiutiu/providers/ads_provider.dart';
 import 'package:tiutiu/providers/location.dart';
 import 'package:tiutiu/providers/pets_provider.dart';
+import 'package:tiutiu/utils/constantes.dart';
 import 'package:tiutiu/providers/refine_search.dart';
 import 'package:tiutiu/providers/user_provider.dart';
-import 'package:tiutiu/utils/constantes.dart';
 import 'package:tiutiu/utils/other_functions.dart';
 import 'package:tiutiu/utils/routes.dart';
 import 'package:tiutiu/utils/string_extension.dart';
@@ -126,7 +126,7 @@ class _DonateDisappearedListState extends State<DonateDisappearedList> {
 
   @override
   Widget build(BuildContext context) {
-    final marginTop = MediaQuery.of(context).size.height / 1.25;
+    final marginTop = MediaQuery.of(context).size.height / 1.15;
     final height = MediaQuery.of(context).size.height;
 
     return Scaffold(
@@ -294,6 +294,7 @@ class _DonateDisappearedListState extends State<DonateDisappearedList> {
                                       _scrollController.animateTo(0 * height / 3, duration: new Duration(seconds: 2), curve: Curves.ease);
                                     },
                                     child: Container(
+                                      height: 280,
                                       alignment: Alignment.center,
                                       child: Padding(
                                         padding: const EdgeInsets.all(16.0),
@@ -454,13 +455,13 @@ class _HomeSearch extends StatelessWidget {
     if (searchOption == 'Todos') {
       refineSearchProvider.clearRefineSelections();
       switch (petsProvider.getPetKind) {
-        case 'Donate':
+        case Constantes.DONATE:
           refineSearchProvider.changeIsHomeFilteringByDonate(false);
           refineSearchProvider.changeHomePetTypeFilterByDonate(searchOption);
           petsProvider.changeIsFiltering(false);
           petsProvider.loadDonatePETS(state: refineSearchProvider.getStateOfResultSearch);
           break;
-        case 'Disappeared':
+        case Constantes.DISAPPEARED:
           refineSearchProvider.changeIsHomeFilteringByDisappeared(false);
           refineSearchProvider.changeHomePetTypeFilterByDisappeared(searchOption);
           petsProvider.changeIsFiltering(false);
@@ -469,13 +470,13 @@ class _HomeSearch extends StatelessWidget {
       }
     } else {
       switch (petsProvider.getPetKind) {
-        case 'Donate':
+        case Constantes.DONATE:
           refineSearchProvider.changeIsHomeFilteringByDonate(true);
           refineSearchProvider.changeHomePetTypeFilterByDonate(searchOption);
           petsProvider.changeIsFiltering(true);
           petsProvider.loadDonatePETS(state: refineSearchProvider.getStateOfResultSearch);
           break;
-        case 'Disappeared':
+        case Constantes.DISAPPEARED:
           refineSearchProvider.changeIsHomeFilteringByDisappeared(true);
           refineSearchProvider.changeHomePetTypeFilterByDisappeared(searchOption);
           petsProvider.changeIsFiltering(true);
@@ -501,7 +502,8 @@ class _HomeSearch extends StatelessWidget {
 
   void performTypingSearch(String text) {
     petsProvider.changeTypingSearchResult([]);
-    List<Pet> oldPetList = petsProvider.getPetKind == 'Donate' ? petsProvider.getPetsDonate : petsProvider.getPetsDisappeared;
+
+    List<Pet> oldPetList = petsProvider.getPetKind == Constantes.DONATE ? petsProvider.getPetsDonate : petsProvider.getPetsDisappeared;
     if (text.trim().removeAccent().isNotEmpty) {
       List<Pet> newPetList = [];
       for (Pet pet in oldPetList) {
