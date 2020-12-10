@@ -344,7 +344,7 @@ class _PetDetailsState extends State<PetDetails> {
           SingleChildScrollView(
             child: Column(
               children: [
-                showImages(context: context, photos: widget.pet.photos, boxHeight: height / 4),
+                showImages(context: context, photos: widget.pet.photos, boxHeight: height / 3.8),
                 Container(
                   height: 100,
                   child: Padding(
@@ -649,7 +649,7 @@ class _PetDetailsState extends State<PetDetails> {
           ),
         ),
         Positioned(
-          top: height / 7,
+          top: height / 6,
           left: 5,
           child: InkWell(
             onTap: () {
