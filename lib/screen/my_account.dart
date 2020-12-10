@@ -11,6 +11,7 @@ import 'package:tiutiu/providers/ads_provider.dart';
 import 'package:tiutiu/providers/auth2.dart';
 import 'package:tiutiu/providers/user_provider.dart';
 import 'package:tiutiu/screen/my_pets.dart';
+import 'package:tiutiu/utils/constantes.dart';
 import 'package:tiutiu/utils/routes.dart';
 
 class MyAccount extends StatefulWidget {
@@ -107,16 +108,14 @@ class _MyAccountState extends State<MyAccount> {
                           child: Text(
                             'Usuário desde ${DateFormat('dd/MM/y HH:mm').format(DateTime.parse(userProvider.createdAt)).split(' ').first}',
                             textAlign: TextAlign.end,
-                            style:
-                                Theme.of(context).textTheme.headline1.copyWith(
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.w800,
-                                      fontSize: 12,
-                                    ),
+                            style: Theme.of(context).textTheme.headline1.copyWith(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w800,
+                                  fontSize: 12,
+                                ),
                           ),
                         ),
-                        SizedBox(
-                            height: MediaQuery.of(context).size.height * 0.07),
+                        SizedBox(height: MediaQuery.of(context).size.height * 0.07),
                       ],
                     ),
                   )
@@ -136,7 +135,7 @@ class _MyAccountState extends State<MyAccount> {
                                 return MyPetsScreen(
                                   title: 'PETs p/ adoção',
                                   streamBuilder: userProvider.donatePets,
-                                  kind: 'Donate',
+                                  kind: Constantes.DONATE,
                                 );
                               },
                             ),
@@ -192,8 +191,8 @@ class _MyAccountState extends State<MyAccount> {
                       Text(
                         'Doados',
                         style: Theme.of(context).textTheme.headline1.copyWith(
-                              color: Colors.black,
                               fontSize: 14,
+                              color: Colors.blueGrey[400],
                             ),
                       )
                     ],
@@ -209,7 +208,7 @@ class _MyAccountState extends State<MyAccount> {
                                 return MyPetsScreen(
                                   title: 'PETs Adotados',
                                   streamBuilder: userProvider.adoptedPets,
-                                  kind: 'Adopted',
+                                  kind: Constantes.ADOPTED,
                                 );
                               },
                             ),
@@ -217,9 +216,7 @@ class _MyAccountState extends State<MyAccount> {
                         },
                         child: CircleChild(
                           avatarRadius: 25,
-                          child: Text(userProvider.getTotalAdopted?.toString(),
-                              style: TextStyle(
-                                  color: Theme.of(context).primaryColor)),
+                          child: Text(userProvider.getTotalAdopted?.toString(), style: TextStyle(color: Theme.of(context).primaryColor)),
                         ),
                       ),
                       Text(
@@ -242,7 +239,7 @@ class _MyAccountState extends State<MyAccount> {
                                 return MyPetsScreen(
                                   title: 'PETs desaparecidos',
                                   streamBuilder: userProvider.disappearedPets,
-                                  kind: 'Disappeared',
+                                  kind: Constantes.DISAPPEARED,
                                 );
                               },
                             ),
@@ -309,7 +306,7 @@ class _MyAccountState extends State<MyAccount> {
                                 return MyPetsScreen(
                                   title: 'PETs p/ adoção',
                                   streamBuilder: userProvider.donatePets,
-                                  kind: 'Donate',
+                                  kind: Constantes.DONATE,
                                 );
                               },
                             ),
@@ -327,7 +324,7 @@ class _MyAccountState extends State<MyAccount> {
                                 return MyPetsScreen(
                                   title: 'PETs Adotados',
                                   streamBuilder: userProvider.adoptedPets,
-                                  kind: 'Adopted',
+                                  kind: Constantes.ADOPTED,
                                 );
                               },
                             ),
@@ -347,11 +344,7 @@ class _MyAccountState extends State<MyAccount> {
                             context,
                             MaterialPageRoute(
                               builder: (context) {
-                                return MyPetsScreen(
-                                    title: 'PETs doados',
-                                    streamBuilder: userProvider.donatedPets,
-                                    kind: null,
-                                    userId: auth.firebaseUser.uid);
+                                return MyPetsScreen(title: 'PETs doados', streamBuilder: userProvider.donatedPets, kind: null, userId: auth.firebaseUser.uid);
                               },
                             ),
                           );
@@ -368,7 +361,7 @@ class _MyAccountState extends State<MyAccount> {
                                 return MyPetsScreen(
                                   title: 'PETs desaparecidos',
                                   streamBuilder: userProvider.disappearedPets,
-                                  kind: 'Disappeared',
+                                  kind: Constantes.DISAPPEARED,
                                 );
                               },
                             ),
@@ -377,51 +370,24 @@ class _MyAccountState extends State<MyAccount> {
                       ),
                     ],
                   ),
-                  Stack(
+                  Row(
                     children: [
                       MyAccountCard(
-                        isToExpand: true,
+                        isToExpand: false,
                         icone: Icons.chat_bubble_outline,
                         text: 'Chat',
                         onTap: () {
-                          // Navigator.pushNamed(context, Routes.MEUS_PETS);
+                          Navigator.pushNamed(context, Routes.CHATLIST);
                         },
                       ),
-                      Positioned(
-                        top: 3.5,
-                        left: 3,
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: Colors.black26,
-                            borderRadius: BorderRadius.circular(
-                              12,
-                            ),
-                          ),
-                          alignment: Alignment.center,
-                          height: 98.5,
-                          width: MediaQuery.of(context).size.width - 17,
-                          child: Text(
-                            'Em breve',
-                            style: TextStyle(
-                              shadows: <Shadow>[
-                                Shadow(
-                                  offset: Offset(2.5, 2.5),
-                                  blurRadius: 3.0,
-                                  color: Colors.black,
-                                ),
-                                Shadow(
-                                  offset: Offset(2.5, 2.5),
-                                  blurRadius: 8.0,
-                                  color: Colors.white70,
-                                ),
-                              ],
-                              color: Colors.purple,
-                              fontSize: 25,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                        ),
-                      )
+                      MyAccountCard(
+                        isToExpand: false,
+                        icone: Icons.info,
+                        text: 'Sobre',
+                        onTap: () {
+                          Navigator.pushNamed(context, Routes.ABOUT);
+                        },
+                      ),
                     ],
                   ),
                   Card(
@@ -439,16 +405,12 @@ class _MyAccountState extends State<MyAccount> {
                             padding: const EdgeInsets.all(8.0),
                             child: Row(
                               children: [
-                                Icon(Icons.settings,
-                                    color: Colors.grey, size: 30),
+                                Icon(Icons.settings, color: Colors.grey, size: 22),
                                 SizedBox(width: 20),
                                 Text(
                                   'Configurações',
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .headline1
-                                      .copyWith(
-                                        fontSize: 22,
+                                  style: Theme.of(context).textTheme.headline1.copyWith(
+                                        fontSize: 18,
                                         color: Colors.blueGrey[400],
                                       ),
                                 )
@@ -457,7 +419,7 @@ class _MyAccountState extends State<MyAccount> {
                           ),
                         ),
                         Divider(
-                          color: Theme.of(context).primaryColor,
+                          color: Colors.grey,
                           height: 1.0,
                         ),
                         InkWell(
@@ -467,8 +429,8 @@ class _MyAccountState extends State<MyAccount> {
                               context: context,
                               builder: (context) => PopUpMessage(
                                 confirmAction: () {
-                                  auth.signOut();                                  
-                                  userProvider.clearUserDataOnSignOut();                                  
+                                  auth.signOut();
+                                  userProvider.clearUserDataOnSignOut();
                                   Navigator.pop(context);
                                 },
                                 confirmText: 'Sim',
@@ -486,16 +448,12 @@ class _MyAccountState extends State<MyAccount> {
                             padding: const EdgeInsets.all(8.0),
                             child: Row(
                               children: [
-                                Icon(Icons.exit_to_app,
-                                    color: Colors.grey, size: 30),
+                                Icon(Icons.exit_to_app, color: Colors.grey, size: 22),
                                 SizedBox(width: 20),
                                 Text(
                                   'Sair',
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .headline1
-                                      .copyWith(
-                                        fontSize: 22,
+                                  style: Theme.of(context).textTheme.headline1.copyWith(
+                                        fontSize: 18,
                                         color: Colors.blueGrey[400],
                                       ),
                                 )
@@ -506,13 +464,7 @@ class _MyAccountState extends State<MyAccount> {
                       ],
                     ),
                   ),
-                  adsProvider.getCanShowAds
-                      ? adsProvider.bannerAdMob(adId: adsProvider.bottomAdId)
-                      : Container(),
-                  Opacity(
-                    opacity: 0.7,
-                    child: Image.asset('assets/trofeu.jpg', fit: BoxFit.fill),
-                  ),
+                  adsProvider.getCanShowAds ? adsProvider.bannerAdMob(adId: adsProvider.bottomAdId) : Container(),
                   SizedBox(height: height < 500 ? 220 : 0)
                 ],
               ),

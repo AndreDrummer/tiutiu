@@ -53,13 +53,11 @@ class _AuthScreenState extends State<AuthScreen> {
   }
 
   bool validatePassword() {
-    return password.text == repeatPassword.text;
+    return password.text == repeatPassword.text.trim();
   }
 
   bool validateEmail() {
-    return RegExp(
-            r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?)*$")
-        .hasMatch(email.text);
+    return RegExp(r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?)*$").hasMatch(email.text.trim());
   }
 
   bool validateFields() {
@@ -78,7 +76,7 @@ class _AuthScreenState extends State<AuthScreen> {
       });
     }
 
-    if (password.text.isEmpty && !isToResetPassword) {
+    if (password.text.trim().isEmpty && !isToResetPassword) {
       setState(() {
         passwordError = true;
         fieldsAreValids = false;
@@ -92,7 +90,7 @@ class _AuthScreenState extends State<AuthScreen> {
     }
 
     if (isNewAccount) {
-      if (repeatPassword.text.isEmpty || repeatPassword.text != password.text) {
+      if (repeatPassword.text.trim().isEmpty || repeatPassword.text.trim() != password.text.trim()) {
         setState(() {
           repeatPasswordError = true;
           fieldsAreValids = false;
@@ -137,38 +135,30 @@ class _AuthScreenState extends State<AuthScreen> {
                       children: <Widget>[
                         Container(
                           width: double.infinity,
-                          child: Center(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Container(
-                                  decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      color: Colors.white),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(16.0),
-                                    child: Image.asset('assets/pata.jpg'),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Container(
+                                width: 100,
+                                child: Image.asset('assets/newLogo.png'),
+                              ),
+                              SizedBox(height: 10),
+                              Text(
+                                'Tiu,tiu',
+                                style: GoogleFonts.miltonianTattoo(
+                                  textStyle: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 50,
+                                    letterSpacing: 12,
                                   ),
                                 ),
-                                SizedBox(height: 10),
-                                Text(
-                                  'Tiu,tiu',
-                                  style: GoogleFonts.miltonianTattoo(
-                                    textStyle: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 60,
-                                      letterSpacing: 12,
-                                    ),
-                                  ),
-                                )
-                              ],
-                            ),
+                              )
+                            ],
                           ),
                         ),
                         isNewAccount
                             ? Padding(
-                                padding: const EdgeInsets.only(
-                                    top: 16.0, bottom: 8.0),
+                                padding: const EdgeInsets.only(top: 16.0, bottom: 8.0),
                                 child: Align(
                                   alignment: Alignment(-0.9, 1),
                                   child: Text(
@@ -186,38 +176,32 @@ class _AuthScreenState extends State<AuthScreen> {
                       ],
                     ),
                     InputText.login(
-                      placeholder: isToResetPassword
-                          ? 'Digite seu email cadastrado'
-                          : 'E-mail',
+                      textCapitalization: TextCapitalization.none,
+                      placeholder: isToResetPassword ? 'Digite seu email cadastrado' : 'E-mail',
                       onChanged: (text) => validateFields,
                       controller: email,
                       readOnly: fieldsAreReadyOnly,
                     ),
-                    emailError
-                        ? HintError(
-                            message: validateEmail()
-                                ? '* Campo obrigatório.'
-                                : 'E-mail inválido')
-                        : Container(),
-                    SizedBox(height: 12),
+                    emailError ? HintError(message: validateEmail() ? '* Campo obrigatório.' : 'E-mail inválido') : Container(),
+                    SizedBox(height: 10),
                     isToResetPassword
                         ? Container()
                         : InputText.login(
                             placeholder: 'Senha',
+                            textCapitalization: TextCapitalization.none,
                             controller: password,
                             readOnly: fieldsAreReadyOnly,
                             onChanged: (text) => validateFields,
                             isPassword: true,
                           ),
-                    passwordError && !isToResetPassword
-                        ? HintError()
-                        : Container(),
-                    SizedBox(height: 12),
+                    passwordError && !isToResetPassword ? HintError() : Container(),
+                    SizedBox(height: 10),
                     isNewAccount
                         ? InputText.login(
                             placeholder: 'Repita sua senha',
                             controller: repeatPassword,
                             readOnly: fieldsAreReadyOnly,
+                            textCapitalization: TextCapitalization.none,
                             onChanged: (text) => validateFields,
                             isPassword: true,
                           )
@@ -234,8 +218,7 @@ class _AuthScreenState extends State<AuthScreen> {
                                 isNewAccount = !isNewAccount;
                               });
                             } else {
-                              changeResetPasswordStatus(
-                                  isToResetPassword ? false : true);
+                              changeResetPasswordStatus(isToResetPassword ? false : true);
                             }
                           },
                           child: isNewAccount
@@ -248,9 +231,7 @@ class _AuthScreenState extends State<AuthScreen> {
                                   ),
                                 )
                               : Text(
-                                  !isToResetPassword
-                                      ? 'Esqueci minha senha'
-                                      : 'Fazer login',
+                                  !isToResetPassword ? 'Esqueci minha senha' : 'Fazer login',
                                   style: TextStyle(
                                     fontSize: 14,
                                     color: Colors.white,
@@ -260,24 +241,20 @@ class _AuthScreenState extends State<AuthScreen> {
                         ),
                       ),
                     ),
-                    // SizedBox(height: 12),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         Padding(
                           padding: const EdgeInsets.symmetric(vertical: 8.0),
                           child: ButtonWide(
-                            text:
-                                '${isToResetPassword ? 'RESETAR SENHA' : !isNewAccount ? 'LOGIN' : 'CADASTRE-SE'}',
+                            text: '${isToResetPassword ? 'RESETAR SENHA' : !isNewAccount ? 'LOGIN' : 'CADASTRE-SE'}',
                             action: () async {
                               try {
                                 if (isNewAccount) {
                                   if (validateFields()) {
                                     if (validatePassword()) {
                                       changeLogginStatus(true);
-                                      await auth.createUserWithEmailAndPassword(
-                                          email.text.trim(),
-                                          password.text.trim());
+                                      await auth.createUserWithEmailAndPassword(email.text.trim(), password.text.trim());
                                       changeLogginStatus(false);
                                       setState(() {
                                         isNewAccount = !isNewAccount;
@@ -285,13 +262,7 @@ class _AuthScreenState extends State<AuthScreen> {
                                     } else {
                                       await showDialog(
                                         context: context,
-                                        builder: (context) => PopUpMessage(
-                                            title: 'Erro',
-                                            warning: true,
-                                            confirmText: 'OK',
-                                            confirmAction: () =>
-                                                Navigator.pop(context),
-                                            message: 'Senhas não conferem!'),
+                                        builder: (context) => PopUpMessage(title: 'Erro', warning: true, confirmText: 'OK', confirmAction: () => Navigator.pop(context), message: 'Senhas não conferem!'),
                                       );
                                       changeLogginStatus(false);
                                     }
@@ -300,23 +271,20 @@ class _AuthScreenState extends State<AuthScreen> {
                                   }
                                 } else if (isToResetPassword) {
                                   changeLogginStatus(true);
-                                  await auth.passwordReset(email.text);
+                                  await auth.passwordReset(email.text.trim());
                                   await showDialog(
                                     context: context,
                                     builder: (context) => PopUpMessage(
                                       title: 'E-mail enviado',
-                                      message:
-                                          'Um link com instruções para redefinir sua senha foi enviado para o e-mail informado.',
+                                      message: 'Um link com instruções para redefinir sua senha foi enviado para o e-mail informado.',
                                     ),
                                   ).then((_) => resetPage());
                                 } else if (validateFields()) {
                                   changeLogginStatus(true);
-                                  await auth.signInWithEmailAndPassword(
-                                      email.text, password.text);
+                                  await auth.signInWithEmailAndPassword(email.text.trim(), password.text.trim());
                                   changeLogginStatus(false);
                                 }
                               } on TiuTiuAuthException catch (error) {
-                                print('ERROR');
                                 await showDialog(
                                   context: context,
                                   builder: (context) => PopUpMessage(
@@ -347,8 +315,7 @@ class _AuthScreenState extends State<AuthScreen> {
                                   },
                                   child: !isNewAccount
                                       ? Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
+                                          mainAxisAlignment: MainAxisAlignment.center,
                                           children: <Widget>[
                                             Text(
                                               'Novo usuário?',
@@ -374,11 +341,11 @@ class _AuthScreenState extends State<AuthScreen> {
                                         )
                                       : Container(),
                                 ),
-                                SizedBox(height: 30),
+                                SizedBox(height: 14),
                                 Text(
                                   ' acesse com',
                                   style: TextStyle(
-                                    fontSize: 16,
+                                    fontSize: 14,
                                     color: Colors.white,
                                     fontWeight: FontWeight.w700,
                                   ),
@@ -392,10 +359,8 @@ class _AuthScreenState extends State<AuthScreen> {
                                         changeLogginStatus(true);
                                         auth.loginWithGoogle().then((_) {
                                           changeLogginStatus(false);
-                                          if (canPop != null &&
-                                              canPop == true) {
-                                            Navigator.popUntil(context,
-                                                ModalRoute.withName('/'));
+                                          if (canPop != null && canPop == true) {
+                                            Navigator.popUntil(context, ModalRoute.withName('/'));
                                           }
                                         });
                                       },
@@ -409,10 +374,8 @@ class _AuthScreenState extends State<AuthScreen> {
                                       onTap: () {
                                         changeLogginStatus(true);
                                         auth.signInWithFacebook().then((_) {
-                                          if (canPop != null &&
-                                              canPop == true) {
-                                            Navigator.popUntil(context,
-                                                ModalRoute.withName('/'));
+                                          if (canPop != null && canPop == true) {
+                                            Navigator.popUntil(context, ModalRoute.withName('/'));
                                           }
                                         });
                                         changeLogginStatus(false);

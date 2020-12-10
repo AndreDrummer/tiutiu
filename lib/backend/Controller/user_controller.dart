@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:tiutiu/backend/Controller/pet_controller.dart';
 import 'package:tiutiu/backend/Model/pet_model.dart';
 import 'package:tiutiu/providers/auth2.dart';
+import 'package:tiutiu/utils/constantes.dart';
 import '../Model/user_model.dart';
 
 class UserController {
@@ -52,7 +53,7 @@ class UserController {
     var user = await ownerReference.get();
 
     // Deleta notificação antiga
-    final pathToPetAdopted = await firestore.collection('Adopted').where('interestedReference', isEqualTo: interestedReference).get();
+    final pathToPetAdopted = await firestore.collection(Constantes.ADOPTED).where('interestedReference', isEqualTo: interestedReference).get();
     if (pathToPetAdopted.docs.isNotEmpty) pathToPetAdopted.docs.first.reference.delete();
 
     Map<String, dynamic> data = {
@@ -75,7 +76,7 @@ class UserController {
 
     data.addAll(petData);
 
-    await firestore.collection('Adopted').doc().set(data);
+    await firestore.collection(Constantes.ADOPTED).doc().set(data);
 
     final interestedRef = await pet.petReference.collection('adoptInteresteds').get();
     List interestedUsers = interestedRef.docs;
@@ -102,7 +103,6 @@ class UserController {
     List interestedUsers = interestedRef.docs;
 
     for (int i = 0; i < interestedUsers.length; i++) {
-      print("${interestedUsers[i].data()['userReference']} == $userThatAdoptedReference");
       if (interestedUsers[i].data()['userReference'] == userThatAdoptedReference) {
         var data = interestedUsers[i].data();
         data['donated'] = true;
@@ -113,7 +113,7 @@ class UserController {
 
     await petReference.set({'donated': true, 'whoAdoptedReference': userThatAdoptedReference}, SetOptions(merge: true));
     final pathToPetAdopted = await firestore
-        .collection('Adopted')
+        .collection(Constantes.ADOPTED)
         .where('confirmed', isEqualTo: false)
         .where('petReference', isEqualTo: petReference)
         .where('interestedReference', isEqualTo: userThatAdoptedReference)
@@ -139,7 +139,7 @@ class UserController {
       }
     }
 
-    final pathToPetAdopted = await firestore.collection('Adopted').where('interestedReference', isEqualTo: userThatAdoptedReference).get();
+    final pathToPetAdopted = await firestore.collection(Constantes.ADOPTED).where('interestedReference', isEqualTo: userThatAdoptedReference).get();
     pathToPetAdopted.docs.first.reference.set({'notificationType': 'adoptionDeny', 'gaveup': true}, SetOptions(merge: true));
     if (pathToPetAdopted.docs.isNotEmpty) pathToPetAdopted.docs.first.reference.delete();
   }
@@ -169,34 +169,30 @@ class UserController {
 
   Stream<QuerySnapshot> loadMyPostedPetsToDonate({String userId}) {
     PetController petController = PetController();
-    return petController.getPetsByUser('Donate', userId);
+    return petController.getPetsByUser(Constantes.DONATE, userId);
   }
 
   Stream<QuerySnapshot> loadMyPostedPetsDisappeared({String userId}) {
     PetController petController = PetController();
-    return petController.getPetsByUser('Disappeared', userId);
+    return petController.getPetsByUser(Constantes.DISAPPEARED, userId);
   }
 
   Stream<QuerySnapshot> loadMyAdoptedPets({String userId}) {
     PetController petController = PetController();
-    return petController.getPetsByUser('Adopted', userId, isAdopted: true);
+    return petController.getPetsByUser(Constantes.ADOPTED, userId, isAdopted: true);
   }
 
   Stream<QuerySnapshot> loadMyDonatedPets(DocumentReference userReference) {
-    return firestore.collection('Donate').where("donated", isEqualTo: true).where("ownerReference", isEqualTo: userReference).snapshots();
+    return firestore.collection(Constantes.DONATE).where("donated", isEqualTo: true).where("ownerReference", isEqualTo: userReference).snapshots();
   }
 
   Future<void> deleteUserData(DocumentReference userReference) async {
     QuerySnapshot notifications = await userReference.collection('Notifications').get();
     QuerySnapshot petsFavorited = await userReference.collection('Favorites').get();
 
-    QuerySnapshot petsDonated = await FirebaseFirestore.instance.collection('Donate').where('ownerReference', isEqualTo: userReference).get();
-    QuerySnapshot petsDisappeared = await FirebaseFirestore.instance.collection('Disappeared').where('ownerReference', isEqualTo: userReference).get();
-    QuerySnapshot petsAdopted = await FirebaseFirestore.instance.collection('Adopted').where('interestedReference', isEqualTo: userReference).get();
-
-    for (int i = 0; i < notifications.docs.length; i++) {
-      await notifications.docs[i].reference.delete();
-    }
+    QuerySnapshot petsDonated = await FirebaseFirestore.instance.collection(Constantes.DONATE).where('ownerReference', isEqualTo: userReference).get();
+    QuerySnapshot petsDisappeared = await FirebaseFirestore.instance.collection(Constantes.DISAPPEARED).where('ownerReference', isEqualTo: userReference).get();
+    QuerySnapshot petsAdopted = await FirebaseFirestore.instance.collection(Constantes.ADOPTED).where('interestedReference', isEqualTo: userReference).get();
 
     for (int i = 0; i < petsDonated.docs.length; i++) {
       await petsDonated.docs[i].reference.delete();
@@ -222,6 +218,10 @@ class UserController {
 
     for (int i = 0; i < petsAdopted.docs.length; i++) {
       await petsAdopted.docs[i].reference.delete();
+    }
+
+    for (int i = 0; i < notifications.docs.length; i++) {
+      await notifications.docs[i].reference.delete();
     }
 
     await userReference.delete();
