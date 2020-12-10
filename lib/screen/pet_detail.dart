@@ -155,7 +155,7 @@ class _PetDetailsState extends State<PetDetails> {
       userLocation: userLocal,
       userPosition: userPosition,
       infoDetails: details,
-      isAdopt: widget.kind == Constantes.DONATE,
+      isAdopt: widget.kind == Constantes.DONATE.toUpperCase(),
     );
 
     setState(() {
@@ -184,7 +184,7 @@ class _PetDetailsState extends State<PetDetails> {
     String messageTextSnackBar;
     int hoursSinceLastRequest = DateTime.now().difference(DateTime.parse(userInfosAdopts.getLastimeInterestOrInfo ?? Constantes.APP_BIRTHDAY)).inMinutes;
     switch (widget.kind) {
-      case Constantes.DONATE:
+      case 'DONATE':
         if (hoursSinceLastRequest < timeToSendRequestAgain) {
           messageTextSnackBar = '$ownerName já sabe sobre seu interesse. Você pode tentar enviar outra solicitação dentro de ${timeFormmated(timeToSendRequestAgain - hoursSinceLastRequest)}.';
           showSnackBar(messageTextSnackBar);
@@ -274,7 +274,7 @@ class _PetDetailsState extends State<PetDetails> {
     final String emailMessage = 'Olá! Tenho interesse e gostaria de saber mais detalhes sobre o PET ${widget.pet.name} que postou no app Tiu, Tiu.';
     final String emailSubject = 'Tenho interesse no PET ${widget.pet.name}';
 
-    double wannaAdoptButton = widget.kind == Constantes.DONATE ? width * 0.7 : width;
+    double wannaAdoptButton = widget.kind == Constantes.DONATE.toUpperCase() ? width * 0.7 : width;
     List otherCaracteristics = widget.pet?.otherCaracteristics ?? [''];
     List petDetails = [
       {'title': 'TIPO', 'text': widget.pet.type, 'icon': petIconType[widget.pet.type]},
@@ -466,7 +466,7 @@ class _PetDetailsState extends State<PetDetails> {
                               ),
                             ),
                           ),
-                          SizedBox(height: widget.kind != Constantes.DONATE ? height / 16 : height / 64),
+                          SizedBox(height: widget.kind != Constantes.DONATE.toUpperCase() ? height / 16 : height / 64),
                           Padding(
                             padding: EdgeInsets.only(left: 12.0, right: 12, bottom: 20.0),
                             child: _ownerPetcontact(
@@ -476,7 +476,7 @@ class _PetDetailsState extends State<PetDetails> {
                               emailSubject: emailSubject,
                             ),
                           ),
-                          if (widget.kind != Constantes.DONATE) SizedBox(height: height / 16),
+                          if (widget.kind != Constantes.DONATE.toUpperCase()) SizedBox(height: height / 16),
                           Constantes.ADMIN_ID == widget.pet.ownerId
                               ? Container()
                               : !widget.isMine
@@ -486,12 +486,12 @@ class _PetDetailsState extends State<PetDetails> {
                                         Container(
                                           width: wannaAdoptButton,
                                           child: ButtonWide(
-                                              rounded: widget.kind == Constantes.DONATE,
-                                              text: widget.kind == Constantes.DONATE ? 'QUERO ADOTAR' : 'VI ${widget.pet.sex == 'Macho' ? 'ELE' : 'ELA'} AQUI PERTO',
-                                              color: widget.kind == Constantes.DONATE ? Colors.red : Theme.of(context).primaryColor,
+                                              rounded: widget.kind == Constantes.DONATE.toUpperCase(),
+                                              text: widget.kind == Constantes.DONATE.toUpperCase() ? 'QUERO ADOTAR' : 'VI ${widget.pet.sex == 'Macho' ? 'ELE' : 'ELA'} AQUI PERTO',
+                                              color: widget.kind == Constantes.DONATE.toUpperCase() ? Colors.red : Theme.of(context).primaryColor,
                                               action: !isAuthenticated ? navigateToAuth : () => showInterestOrPassInfo(widget.petOwner.name)),
                                         ),
-                                        (!widget.isMine && widget.kind == Constantes.DONATE)
+                                        (!widget.isMine && widget.kind == Constantes.DONATE.toUpperCase())
                                             ? Consumer<FavoritesProvider>(
                                                 builder: (context, favoritesProvider, child) {
                                                   bool isFavorite = favoritesProvider.getFavoritesPETSIDList.contains(widget.pet.id);
@@ -530,7 +530,7 @@ class _PetDetailsState extends State<PetDetails> {
                                       isToExpand: true,
                                       rounded: false,
                                       action: () {},
-                                      text: widget.kind == Constantes.DONATE ? 'VOCÊ ESTÁ DOANDO' : 'VOCÊ ESTÁ PROCURANDO',
+                                      text: widget.kind == Constantes.DONATE.toUpperCase() ? 'VOCÊ ESTÁ DOANDO' : 'VOCÊ ESTÁ PROCURANDO',
                                     ),
                         ],
                       )
