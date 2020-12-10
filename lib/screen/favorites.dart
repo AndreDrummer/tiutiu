@@ -18,6 +18,7 @@ class _FavoritesState extends State<Favorites> {
   @override
   void didChangeDependencies() {
     favoritesProvider = Provider.of(context);
+    favoritesProvider.loadFavoritesReference();
     adsProvider = Provider.of(context);
     super.didChangeDependencies();
   }
