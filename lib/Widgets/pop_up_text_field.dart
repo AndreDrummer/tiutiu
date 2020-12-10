@@ -4,11 +4,7 @@ import 'package:tiutiu/Widgets/button.dart';
 import 'package:tiutiu/Widgets/input_text.dart';
 
 class PopupTextField extends StatelessWidget {
-  
-  PopupTextField({
-    this.controller,
-    this.callback
-  });
+  PopupTextField({this.controller, this.callback});
 
   final TextEditingController controller;
   final void Function() callback;
@@ -16,9 +12,7 @@ class PopupTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20)
-      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       content: Container(
         height: 300,
         child: Stack(
@@ -38,8 +32,8 @@ class PopupTextField extends StatelessWidget {
                 ),
                 SizedBox(height: 20),
                 InputText(
-                  placeholder: 'Escreva aqui...',              
-                  size: 150,              
+                  placeholder: 'Escreva aqui...',
+                  size: 150,
                   controller: controller,
                   multiline: true,
                   maxlines: 5,

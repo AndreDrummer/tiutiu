@@ -11,6 +11,7 @@ import 'package:tiutiu/providers/ads_provider.dart';
 import 'package:tiutiu/providers/auth2.dart';
 import 'package:tiutiu/providers/user_provider.dart';
 import 'package:tiutiu/screen/my_pets.dart';
+import 'package:tiutiu/utils/constantes.dart';
 import 'package:tiutiu/utils/routes.dart';
 
 class MyAccount extends StatefulWidget {
@@ -134,7 +135,7 @@ class _MyAccountState extends State<MyAccount> {
                                 return MyPetsScreen(
                                   title: 'PETs p/ adoção',
                                   streamBuilder: userProvider.donatePets,
-                                  kind: 'Donate',
+                                  kind: Constantes.DONATE,
                                 );
                               },
                             ),
@@ -207,7 +208,7 @@ class _MyAccountState extends State<MyAccount> {
                                 return MyPetsScreen(
                                   title: 'PETs Adotados',
                                   streamBuilder: userProvider.adoptedPets,
-                                  kind: 'Adopted',
+                                  kind: Constantes.ADOPTED,
                                 );
                               },
                             ),
@@ -238,7 +239,7 @@ class _MyAccountState extends State<MyAccount> {
                                 return MyPetsScreen(
                                   title: 'PETs desaparecidos',
                                   streamBuilder: userProvider.disappearedPets,
-                                  kind: 'Disappeared',
+                                  kind: Constantes.DISAPPEARED,
                                 );
                               },
                             ),
@@ -305,7 +306,7 @@ class _MyAccountState extends State<MyAccount> {
                                 return MyPetsScreen(
                                   title: 'PETs p/ adoção',
                                   streamBuilder: userProvider.donatePets,
-                                  kind: 'Donate',
+                                  kind: Constantes.DONATE,
                                 );
                               },
                             ),
@@ -323,7 +324,7 @@ class _MyAccountState extends State<MyAccount> {
                                 return MyPetsScreen(
                                   title: 'PETs Adotados',
                                   streamBuilder: userProvider.adoptedPets,
-                                  kind: 'Adopted',
+                                  kind: Constantes.ADOPTED,
                                 );
                               },
                             ),
@@ -360,7 +361,7 @@ class _MyAccountState extends State<MyAccount> {
                                 return MyPetsScreen(
                                   title: 'PETs desaparecidos',
                                   streamBuilder: userProvider.disappearedPets,
-                                  kind: 'Disappeared',
+                                  kind: Constantes.DISAPPEARED,
                                 );
                               },
                             ),

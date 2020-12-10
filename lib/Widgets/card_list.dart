@@ -8,6 +8,7 @@ import 'package:tiutiu/backend/Model/user_model.dart';
 import 'package:tiutiu/providers/auth2.dart';
 import 'package:tiutiu/providers/favorites_provider.dart';
 import 'package:tiutiu/providers/pets_provider.dart';
+import 'package:tiutiu/utils/constantes.dart';
 import 'package:tiutiu/providers/user_provider.dart';
 import 'package:tiutiu/screen/pet_detail.dart';
 import 'package:tiutiu/utils/other_functions.dart';
@@ -167,7 +168,7 @@ class _CardListState extends State<CardList> {
                                   //     }
 
                                   //     return Text(
-                                  //       '${OtherFunctions.firstCharacterUpper(announcerName)} está ${widget.kind.toUpperCase() == 'DONATE' ? 'doando' : 'procurando'}.',
+                                  //       '${OtherFunctions.firstCharacterUpper(announcerName)} está ${widget.kind.toUpperCase() == Constantes.DONATE ? 'doando' : 'procurando'}.',
                                   //       textAlign: TextAlign.left,
                                   //       overflow: TextOverflow.fade,
                                   //       style: Theme.of(context).textTheme.headline1.copyWith(
@@ -186,11 +187,11 @@ class _CardListState extends State<CardList> {
                                     Icon(Tiutiu.eye, size: 14, color: Colors.grey),
                                     Text('  ${widget.petInfo.views ?? 1} visualizações', style: TextStyle(color: Colors.grey, fontWeight: FontWeight.w700)),
                                     SizedBox(width: 20),
-                                    Icon(widget.petInfo.kind == 'Donate' ? Icons.favorite : Icons.info, size: 14, color: Colors.grey),
+                                    Icon(widget.petInfo.kind == Constantes.DONATE ? Icons.favorite : Icons.info, size: 14, color: Colors.grey),
                                     StreamBuilder(
                                       stream: PetsProvider().loadInfoOrInterested(kind: widget.petInfo.kind, petReference: widget.petInfo.petReference),
                                       builder: (context, snapshot) {
-                                        return Text('  ${snapshot.data?.docs?.length ?? 0} ${widget.petInfo.kind == 'Donate' ? 'interessados' : 'informações'}',
+                                        return Text('  ${snapshot.data?.docs?.length ?? 0} ${widget.petInfo.kind == Constantes.DONATE ? 'interessados' : 'informações'}',
                                             style: TextStyle(color: Colors.grey, fontWeight: FontWeight.w700));
                                       },
                                     ),
