@@ -10,7 +10,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:provider/provider.dart';
 import 'package:tiutiu/Custom/icons.dart';
-import 'package:tiutiu/Widgets/button.dart';
 import 'package:tiutiu/Widgets/popup_message.dart';
 import 'package:tiutiu/backend/Model/pet_model.dart';
 import 'package:tiutiu/backend/Model/user_model.dart';
@@ -236,20 +235,6 @@ class _HomeState extends State<Home> {
         body: Stack(
           children: [
             _screens.elementAt(_selectedIndex),
-            _selectedIndex == 0
-                ? Positioned(
-                    bottom: 0.0,
-                    child: ButtonWide(
-                      action: () {
-                        Navigator.pushNamed(context, Routes.SEARCH_REFINE);
-                      },
-                      icon: Tiutiu.params,
-                      rounded: false,
-                      isToExpand: true,
-                      text: 'REFINAR BUSCA',
-                    ),
-                  )
-                : SizedBox()
           ],
         ),
         bottomNavigationBar: BottomNavigationBar(
