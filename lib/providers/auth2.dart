@@ -51,12 +51,10 @@ class Authentication extends ChangeNotifier {
     return Future.value();
   }
 
-  Future<void> createUserWithEmailAndPassword(
-      String email, String password) async {
+  Future<void> createUserWithEmailAndPassword(String email, String password) async {
     try {
       // ignore: omit_local_variable_types
-      UserCredential result = await _auth.createUserWithEmailAndPassword(
-          email: email, password: password);
+      UserCredential result = await _auth.createUserWithEmailAndPassword(email: email, password: password);
       firebaseUser = result.user;
 
       if (firebaseUser != null) {
@@ -107,7 +105,7 @@ class Authentication extends ChangeNotifier {
   Future<void> signInWithFacebook({String token}) async {
     FacebookAuthCredential facebookAuthCredential;
 
-    if (token == null) {      
+    if (token == null) {
       // Trigger the sign-in flow
       final LoginResult result = await FacebookAuth.instance.login();
 
@@ -119,7 +117,7 @@ class Authentication extends ChangeNotifier {
           'token': result.accessToken.token,
         });
       }
-    } else {      
+    } else {
       facebookAuthCredential = FacebookAuthProvider.credential(token);
     }
 
@@ -137,13 +135,12 @@ class Authentication extends ChangeNotifier {
     await Store.remove('userLoggedWithEmailPassword');
     await Store.remove('userLoggedWithFacebook');
     firebaseUser = null;
-    notifyListeners();    
+    notifyListeners();
     print('Deslogado!');
   }
 
   Future<void> alreadyRegistered() async {
-    final CollectionReference usersEntrepreneur =
-        FirebaseFirestore.instance.collection('Users');
+    final CollectionReference usersEntrepreneur = FirebaseFirestore.instance.collection('Users');
     String id = firebaseUser.uid;
     DocumentSnapshot doc = await usersEntrepreneur.doc(id).get();
 
@@ -166,10 +163,8 @@ class Authentication extends ChangeNotifier {
       return Future.value();
     }
 
-    var userLoggedWithEmailPassword =
-        await Store.getMap('userLoggedWithEmailPassword');
-    var userLoggedWithFacebook =
-        await Store.getMap('userLoggedWithFacebook');
+    var userLoggedWithEmailPassword = await Store.getMap('userLoggedWithEmailPassword');
+    var userLoggedWithFacebook = await Store.getMap('userLoggedWithFacebook');
 
     if (userLoggedWithEmailPassword != null) {
       print('Login com email e senha');
