@@ -369,14 +369,22 @@ class _MyAccountState extends State<MyAccount> {
                       ),
                     ],
                   ),
-                  Stack(
+                  Row(
                     children: [
                       MyAccountCard(
-                        isToExpand: true,
+                        isToExpand: false,
                         icone: Icons.chat_bubble_outline,
                         text: 'Chat',
                         onTap: () {
                           Navigator.pushNamed(context, Routes.CHATLIST);
+                        },
+                      ),
+                      MyAccountCard(
+                        isToExpand: false,
+                        icone: Icons.info,
+                        text: 'Sobre',
+                        onTap: () {
+                          Navigator.pushNamed(context, Routes.ABOUT);
                         },
                       ),
                     ],
@@ -400,31 +408,6 @@ class _MyAccountState extends State<MyAccount> {
                                 SizedBox(width: 20),
                                 Text(
                                   'Configurações',
-                                  style: Theme.of(context).textTheme.headline1.copyWith(
-                                        fontSize: 18,
-                                        color: Colors.blueGrey[400],
-                                      ),
-                                )
-                              ],
-                            ),
-                          ),
-                        ),
-                        Divider(
-                          color: Colors.grey,
-                          height: 1.0,
-                        ),
-                        InkWell(
-                          onTap: () async {
-                            Navigator.pushNamed(context, Routes.ABOUT);
-                          },
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Row(
-                              children: [
-                                Icon(Icons.info, color: Colors.grey, size: 22),
-                                SizedBox(width: 20),
-                                Text(
-                                  'Sobre',
                                   style: Theme.of(context).textTheme.headline1.copyWith(
                                         fontSize: 18,
                                         color: Colors.blueGrey[400],

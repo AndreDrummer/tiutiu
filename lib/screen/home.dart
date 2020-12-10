@@ -89,7 +89,7 @@ class _HomeState extends State<Home> {
   void initState() {
     this.initDynamicLinks();
     adsProvider = Provider.of(context, listen: false);
-    adsProvider.changeCanShowAds(true);
+    adsProvider.canShowAds().then((value) => adsProvider.changeCanShowAds(value));
     adsProvider.initReward();
     fbm.configure(
       onMessage: (notification) {
@@ -121,7 +121,6 @@ class _HomeState extends State<Home> {
     favoritesProvider = Provider.of<FavoritesProvider>(context, listen: false);
     if (auth.firebaseUser != null) setUserMetaData();
     isAuthenticated = auth.firebaseUser != null;
-    // update();
     super.didChangeDependencies();
   }
 
@@ -156,16 +155,6 @@ class _HomeState extends State<Home> {
     });
   }
 
-  // Future<void> update() async {
-  //   final docs = await FirebaseFirestore.instance.collection('Users').get();
-  //   for(int i = 0; i < docs.docs.length; i++) {
-  //     String newName = docs.docs[i].data()['displayName'];
-  //     String newId = docs.docs[i].data()['uid'];
-  //     docs.docs[i].reference.set({'id': newId}, SetOptions(merge: true));
-  //     docs.docs[i].reference.set({'name': newName}, SetOptions(merge: true));
-  //   }
-  // }
-
   void navigateToAuth() {
     Navigator.pushNamed(context, Routes.AUTH, arguments: true);
   }
@@ -192,9 +181,6 @@ class _HomeState extends State<Home> {
     userProvider.calculateTotals();
     userProvider.changeNotificationToken(await fbm.getToken());
     userController.updateUser(userProvider.uid, {"notificationToken": userProvider.notificationToken});
-    if (auth.firebaseUser != null) {
-      favoritesProvider.loadFavoritesReference();
-    }
   }
 
   void openPetDetail(Uri deepLink) async {
@@ -237,7 +223,8 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     var _screens = <Widget>[
-      PetsList(),
+      PetsList(petKind: 'Donate'),
+      PetsList(petKind: 'Disappeared'),
       isAuthenticated ? Favorites() : AuthScreen(),
       isAuthenticated ? MyAccount() : AuthScreen(),
     ];
@@ -270,11 +257,17 @@ class _HomeState extends State<Home> {
           selectedItemColor: Colors.white,
           unselectedItemColor: Colors.white54,
           backgroundColor: Colors.black,
+          showSelectedLabels: true,
           onTap: _onItemTapped,
+          type: BottomNavigationBarType.fixed,
           items: const <BottomNavigationBarItem>[
             BottomNavigationBarItem(
               icon: Icon(Tiutiu.pets),
-              label: 'PETS',
+              label: 'Adotar',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Tiutiu.exclamation),
+              label: 'Desaparecidos',
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.favorite_border),
