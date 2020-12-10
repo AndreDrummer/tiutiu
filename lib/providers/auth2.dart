@@ -103,27 +103,38 @@ class Authentication extends ChangeNotifier {
   }
 
   Future<void> signInWithFacebook({String token}) async {
-    FacebookAuthCredential facebookAuthCredential;
+    try {
+      FacebookAuthCredential facebookAuthCredential;
 
-    if (token == null) {
-      // Trigger the sign-in flow
-      final LoginResult result = await FacebookAuth.instance.login();
+      if (token == null) {
+        // Trigger the sign-in flow
+        final LoginResult result = await FacebookAuth.instance.login();
 
-      // Create a credential from the access token
-      facebookAuthCredential = FacebookAuthProvider.credential(result.accessToken.token);
+        // Create a credential from the access token
+        facebookAuthCredential = FacebookAuthProvider.credential(result.accessToken.token);
 
-      if (facebookAuthCredential != null) {
-        Store.saveMap('userLoggedWithFacebook', {
-          'token': result.accessToken.token,
-        });
+        if (facebookAuthCredential != null) {
+          Store.saveMap('userLoggedWithFacebook', {
+            'token': result.accessToken.token,
+          });
+        }
+      } else {
+        facebookAuthCredential = FacebookAuthProvider.credential(token);
       }
-    } else {
-      facebookAuthCredential = FacebookAuthProvider.credential(token);
-    }
 
-    // Once signed in, return the UserCredential
-    UserCredential userCredential = await FirebaseAuth.instance.signInWithCredential(facebookAuthCredential);
-    firebaseUser = userCredential.user;
+      // Once signed in, return the UserCredential
+      UserCredential userCredential = await FirebaseAuth.instance.signInWithCredential(facebookAuthCredential);
+      firebaseUser = userCredential.user;
+    } catch (error) {
+      if (Platform.isAndroid) {
+        if (error.message.contains('Error validating access token')) {
+          print("ERROR ${error.message}");
+          throw TiuTiuAuthException('Error validating access token');
+        } else {
+          throw TiuTiuAuthException(error.code);
+        }
+      }
+    }
     notifyListeners();
     await alreadyRegistered();
     return Future.value();

@@ -371,14 +371,26 @@ class _AuthScreenState extends State<AuthScreen> {
                                     ),
                                     SizedBox(width: 10),
                                     InkWell(
-                                      onTap: () {
-                                        changeLogginStatus(true);
-                                        auth.signInWithFacebook().then((_) {
+                                      onTap: () async {
+                                        try {
+                                          changeLogginStatus(true);
+                                          await auth.signInWithFacebook();
                                           if (canPop != null && canPop == true) {
                                             Navigator.popUntil(context, ModalRoute.withName('/'));
                                           }
-                                        });
-                                        changeLogginStatus(false);
+                                        } on TiuTiuAuthException catch (error) {
+                                          await showDialog(
+                                            context: context,
+                                            builder: (context) => PopUpMessage(
+                                              title: 'Falha na autenticação',
+                                              confirmText: 'OK',
+                                              confirmAction: () => Navigator.pop(context),
+                                              error: true,
+                                              message: error.toString(),
+                                            ),
+                                          );
+                                          changeLogginStatus(false);
+                                        }
                                       },
                                       child: ButtonSocialLogin(
                                         imageUrl: 'assets/face.png',
