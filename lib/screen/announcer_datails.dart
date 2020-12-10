@@ -13,6 +13,7 @@ import 'package:tiutiu/backend/Model/user_model.dart';
 import 'package:tiutiu/chat/common/functions.dart';
 import 'package:tiutiu/providers/ads_provider.dart';
 import 'package:tiutiu/providers/user_provider.dart';
+import 'package:tiutiu/utils/constantes.dart';
 import 'package:tiutiu/utils/launcher_functions.dart';
 import 'package:tiutiu/utils/other_functions.dart';
 import 'package:tiutiu/utils/string_extension.dart';
@@ -42,10 +43,10 @@ class _AnnouncerDetailsState extends State<AnnouncerDetails> {
     PetController petController = PetController();
     DocumentReference userReference = await OtherFunctions.getReferenceById(user.id, 'Users');
 
-    QuerySnapshot adopteds = await petController.getPetToCount(userReference, 'Adopted');
-    QuerySnapshot donates = await petController.getPetToCount(userReference, 'Donate');
-    QuerySnapshot disap = await petController.getPetToCount(userReference, 'Disappeared');
-    QuerySnapshot donated = await petController.getPetToCount(userReference, 'Donate', avalaible: false);
+    QuerySnapshot adopteds = await petController.getPetToCount(userReference, Constantes.ADOPTED);
+    QuerySnapshot donates = await petController.getPetToCount(userReference, Constantes.DONATE);
+    QuerySnapshot disap = await petController.getPetToCount(userReference, Constantes.DISAPPEARED);
+    QuerySnapshot donated = await petController.getPetToCount(userReference, Constantes.DONATE, avalaible: false);
 
     setState(() {
       userTotalAdopted = adopteds.docs.length;
@@ -124,7 +125,7 @@ class _AnnouncerDetailsState extends State<AnnouncerDetails> {
                             widget.user.photoBACK,
                           )
                         : AssetImage('assets/fundo.jpg'),
-                    fit: BoxFit.cover,
+                    fit: BoxFit.fill,
                     width: 1000,
                     height: 100,
                   ),

@@ -12,6 +12,7 @@ import 'package:tiutiu/providers/ads_provider.dart';
 import 'package:tiutiu/providers/auth2.dart';
 import 'package:tiutiu/providers/user_provider.dart';
 import 'package:tiutiu/providers/pets_provider.dart';
+import 'package:tiutiu/utils/constantes.dart';
 import 'package:tiutiu/screen/auth_screen.dart';
 import 'package:tiutiu/screen/choose_location.dart';
 import 'package:tiutiu/screen/pet_form.dart';
@@ -53,10 +54,10 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
   Stream<QuerySnapshot> myPetsStream() {
     if (widget.kind != null) {
       switch (widget.kind) {
-        case 'Donate':
+        case Constantes.DONATE:
           return userController.loadMyPostedPetsToDonate(userId: userProvider.uid);
           break;
-        case 'Disappeared':
+        case Constantes.DISAPPEARED:
           return userController.loadMyPostedPetsDisappeared(userId: userProvider.uid);
           break;
         default:
@@ -80,7 +81,7 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
 
   void delete(DocumentReference petRef) {
     petController.deletePet(petRef);
-    if (widget.kind == 'Donate') {
+    if (widget.kind == Constantes.DONATE) {
       userController.loadMyPostedPetsToDonate(userId: userProvider.uid);
     } else {
       userController.loadMyPostedPetsDisappeared(userId: userProvider.uid);
@@ -89,7 +90,7 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
   }
 
   void _addNewPet() {
-    if ((widget.kind != 'Adopted' || widget.kind == null) && isAuthenticated) {
+    if ((widget.kind != Constantes.ADOPTED || widget.kind == null) && isAuthenticated) {
       Navigator.pushReplacementNamed(context, Routes.CHOOSE_LOCATION, arguments: {'kind': widget.kind});
     } else {
       Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (BuildContext context) => AuthScreen()), ModalRoute.withName(Routes.AUTH));
@@ -134,7 +135,7 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
             Navigator.pop(context);
           },
         ),
-        actions: widget.kind == 'Adopted' || widget.kind == null
+        actions: widget.kind == Constantes.ADOPTED || widget.kind == null
             ? null
             : [
                 IconButton(
@@ -150,7 +151,7 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
               ),
         ),
       ),
-      floatingActionButton: widget.kind == 'Adopted' || widget.kind == null
+      floatingActionButton: widget.kind == Constantes.ADOPTED || widget.kind == null
           ? null
           : Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -222,7 +223,7 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
                                         ),
                                       ),
                                     ),
-                                    widget.kind == null || widget.kind == 'Adopted'
+                                    widget.kind == null || widget.kind == Constantes.ADOPTED
                                         ? Container()
                                         : Positioned(
                                             top: 20,
@@ -264,7 +265,7 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
                                     ),
                                     Expanded(
                                       flex: 2,
-                                      child: widget.kind == null || widget.kind == 'Adopted'
+                                      child: widget.kind == null || widget.kind == Constantes.ADOPTED
                                           ? Container()
                                           : Row(
                                               mainAxisAlignment: MainAxisAlignment.end,
@@ -324,7 +325,7 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
                                     )
                                   ],
                                 ),
-                                widget.kind == null || widget.kind == 'Adopted'
+                                widget.kind == null || widget.kind == Constantes.ADOPTED
                                     ? Container()
                                     : Column(
                                         children: [
@@ -360,7 +361,7 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
                                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                     children: [
                                                       Text(
-                                                        pets[index].kind == 'Donate' ? 'Ver lista de interessados' : 'Ver notificações',
+                                                        pets[index].kind == Constantes.DONATE ? 'Ver lista de interessados' : 'Ver notificações',
                                                         style: TextStyle(
                                                           decoration: TextDecoration.underline,
                                                         ),
@@ -368,24 +369,24 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
                                                       Row(
                                                         children: [
                                                           SizedBox(width: 50),
-                                                          Text(pets[index].kind == 'Disappeared' ? 'Econtrado' : 'Doado'),
+                                                          Text(pets[index].kind == Constantes.DISAPPEARED ? 'Econtrado' : 'Doado'),
                                                           StreamBuilder<Object>(
                                                               stream: null,
                                                               builder: (context, snapshot) {
                                                                 return Switch(
-                                                                    value: pets[index].kind == 'Disappeared' ? pets[index].found : pets[index].donated,
+                                                                    value: pets[index].kind == Constantes.DISAPPEARED ? pets[index].found : pets[index].donated,
                                                                     onChanged: (value) {
                                                                       showDialog(
                                                                           context: context,
                                                                           builder: (context) {
                                                                             return PopUpMessage(
                                                                               warning: true,
-                                                                              title: 'Marcar como ${pets[index].kind == 'Disappeared' ? 'encontrado' : 'doado'}',
+                                                                              title: 'Marcar como ${pets[index].kind == Constantes.DISAPPEARED ? 'encontrado' : 'doado'}',
                                                                               message:
                                                                                   'Ao ${!pets[index].found ? 'marcar' : 'desmarcar'} o PET ${!pets[index].found ? 'deixará de' : 'voltará a'} aparecer para o público.',
                                                                               confirmAction: () {
                                                                                 Navigator.pop(context);
-                                                                                if (pets[index].kind == 'Disappeared') {
+                                                                                if (pets[index].kind == Constantes.DISAPPEARED) {
                                                                                   pets[index].petReference.set({'found': !pets[index].found}, SetOptions(merge: true));
                                                                                 } else {
                                                                                   pets[index].petReference.set({'donated': !pets[index].donated}, SetOptions(merge: true));
@@ -428,17 +429,17 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
 Widget _lablePetKind(String kind) {
   String textLabel;
   switch (kind) {
-    case 'Disappeared':
+    case Constantes.DISAPPEARED:
       textLabel = 'Desaparecido';
       break;
-    case 'Donate':
+    case Constantes.DONATE:
       textLabel = 'Doação';
   }
 
   return Container(
     decoration: BoxDecoration(
       borderRadius: BorderRadius.circular(12),
-      color: kind == 'Donate' ? Colors.purple : Colors.black,
+      color: kind == Constantes.DONATE ? Colors.purple : Colors.black,
     ),
     child: Padding(
       padding: const EdgeInsets.all(8.0),
