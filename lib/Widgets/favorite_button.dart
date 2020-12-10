@@ -17,8 +17,7 @@ class FavoriteButton extends StatelessWidget {
             Icon(Icons.favorite_border, color: Colors.white, size: 50),
             Text(
               'FAVORITAR',
-              style:
-                  Theme.of(context).textTheme.headline1.copyWith(fontSize: 30),
+              style: Theme.of(context).textTheme.headline1.copyWith(fontSize: 30),
             )
           ],
         ),

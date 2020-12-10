@@ -1,11 +1,14 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:tiutiu/utils/constantes.dart';
 import 'package:tiutiu/backend/Controller/pet_controller.dart';
 import 'package:tiutiu/backend/Controller/user_controller.dart';
 import 'package:tiutiu/backend/Model/pet_model.dart';
+import 'package:tiutiu/backend/Model/user_model.dart' as userModel;
 
 class UserProvider with ChangeNotifier {
   File _photoFILE;
@@ -21,6 +24,7 @@ class UserProvider with ChangeNotifier {
   bool recentlyAuthenticated = false;
 
   final _betterContact = BehaviorSubject<int>.seeded(0);
+  final _newMessages = BehaviorSubject<int>.seeded(0);
   final _totaToDonate = BehaviorSubject<int>.seeded(0);
   final _totalDonated = BehaviorSubject<int>.seeded(0);
   final _totalAdopted = BehaviorSubject<int>.seeded(0);
@@ -35,6 +39,7 @@ class UserProvider with ChangeNotifier {
 
   // Listenning to the date
   Stream<int> get betterContact => _betterContact.stream;
+  Stream<int> get newMessages => _newMessages.stream;
   Stream<int> get totalToDonate => _totaToDonate.stream;
   Stream<int> get totalDonated => _totalDonated.stream;
   Stream<int> get totalAdopted => _totalAdopted.stream;
@@ -49,6 +54,7 @@ class UserProvider with ChangeNotifier {
 
   // Getting data
   int get getBetterContact => _betterContact.stream.value;
+  int get getNewMessages => _newMessages.stream.value;
   int get getTotalToDonate => _totaToDonate.stream.value;
   int get getTotalDonated => _totalDonated.stream.value;
   int get getTotalAdopted => _totalAdopted.stream.value;
@@ -63,6 +69,7 @@ class UserProvider with ChangeNotifier {
 
   // Changing data
   void Function(int) get changeBetterContact => _betterContact.sink.add;
+  void Function(int) get changeNewMessages => _newMessages.sink.add;
   void Function(int) get changeTotalToDonate => _totaToDonate.sink.add;
   void Function(int) get changeTotalDonated => _totalDonated.sink.add;
   void Function(int) get changeTotalAdopted => _totalAdopted.sink.add;
@@ -147,10 +154,10 @@ class UserProvider with ChangeNotifier {
 
   void calculateTotals() async {
     PetController petController = PetController();
-    QuerySnapshot adopteds = await petController.getPetToCount(userReference, 'Adopted');
-    QuerySnapshot donates = await petController.getPetToCount(userReference, 'Donate');
-    QuerySnapshot disap = await petController.getPetToCount(userReference, 'Disappeared');
-    QuerySnapshot donated = await petController.getPetToCount(userReference, 'Donate', avalaible: false);
+    QuerySnapshot adopteds = await petController.getPetToCount(userReference, Constantes.ADOPTED);
+    QuerySnapshot donates = await petController.getPetToCount(userReference, Constantes.DONATE);
+    QuerySnapshot disap = await petController.getPetToCount(userReference, Constantes.DISAPPEARED);
+    QuerySnapshot donated = await petController.getPetToCount(userReference, Constantes.DONATE, avalaible: false);
 
     changeTotalAdopted(adopteds.docs.length);
     changeTotalDisappeared(disap.docs.length);
@@ -224,8 +231,10 @@ class UserProvider with ChangeNotifier {
 
     print('NOTIFICATION ${data['notificationType']}');
 
-    String notificationId = data['petReference']['_path']['segments'][1];
-    await userController.createNotification(userId: userThatWillReceiveNotification, data: notificationData, notificationId: notificationId);
+    if (data['notificationType'] != 'chatNotification') {
+      String notificationId = data['petReference']['_path']['segments'][1];
+      await userController.createNotification(userId: userThatWillReceiveNotification, data: notificationData, notificationId: notificationId);
+    }
   }
 
   Stream<QuerySnapshot> loadNotifications() {
@@ -243,5 +252,20 @@ class UserProvider with ChangeNotifier {
     changeTotalDisappeared(0);
     changeTotalDonated(0);
     changeTotalToDonate(0);
+  }
+
+  userModel.User user() {
+    return userModel.User(
+      createdAt: createdAt,
+      email: FirebaseAuth.instance.currentUser.email,
+      id: uid,
+      betterContact: getBetterContact,
+      photoBACK: photoBACK,
+      landline: telefone,
+      name: displayName,
+      notificationToken: notificationToken,
+      photoURL: photoURL,
+      phoneNumber: whatsapp,
+    );
   }
 }

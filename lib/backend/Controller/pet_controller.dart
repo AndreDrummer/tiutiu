@@ -1,5 +1,6 @@
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:tiutiu/providers/auth2.dart';
+import 'package:tiutiu/utils/constantes.dart';
 
 import '../Model/pet_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -18,18 +19,11 @@ class PetController {
   }
 
   Future getPetToCount(DocumentReference userReference, String kind, {bool avalaible = true}) async {
-    if (kind == 'Adopted') {
-      return await firestore
-      .collection('Adopted')
-      .where('interestedReference', isEqualTo: userReference)      
-      .get();
+    if (kind == Constantes.ADOPTED) {
+      return await firestore.collection(Constantes.ADOPTED).where('interestedReference', isEqualTo: userReference).get();
     }
 
-    return await firestore                
-        .collection(kind)
-        .where('ownerReference', isEqualTo: userReference)
-        .where(kind == 'Donate' ? 'donated' : 'found', isEqualTo: !avalaible)
-        .get();
+    return await firestore.collection(kind).where('ownerReference', isEqualTo: userReference).where(kind == Constantes.DONATE ? 'donated' : 'found', isEqualTo: !avalaible).get();
   }
 
   Future<Pet> getPetByReference(DocumentReference petRef) async {
@@ -39,30 +33,26 @@ class PetController {
   }
 
   Stream<QuerySnapshot> getPetsByUser(String petKind, String userId, {bool isAdopted = false}) {
-    Query query = firestore.collection(petKind)
-    .where(isAdopted ? 'interestedID' : 'ownerId', isEqualTo: userId);    
-    if(petKind == 'Donate') query  = query..where('donated', isEqualTo: false);
-    if(isAdopted) query  = query.where('confirmed', isEqualTo: true);
+    Query query = firestore.collection(petKind).where(isAdopted ? 'interestedID' : 'ownerId', isEqualTo: userId);
+    if (petKind == Constantes.DONATE) query = query..where('donated', isEqualTo: false);
+    if (isAdopted) query = query.where('confirmed', isEqualTo: true);
 
     return query.snapshots();
   }
 
   Stream<QuerySnapshot> getAdoptionsToConfirm(String userId) {
-    return firestore.collection('Adopted')
-    .where('interestedID', isEqualTo: userId)
-    .where('confirmed', isEqualTo: false).snapshots();
+    return firestore.collection(Constantes.ADOPTED).where('interestedID', isEqualTo: userId).where('confirmed', isEqualTo: false).snapshots();
   }
 
   Future<void> deleteOldInterest(DocumentReference petReference, DocumentReference userReference) async {
     QuerySnapshot adoptInterestedsRef = await petReference.collection('adoptInteresteds').where('userReference', isEqualTo: userReference).get();
-  
+
     List<QueryDocumentSnapshot> docs = adoptInterestedsRef.docs;
-    for(int i = 0; i < docs.length; i++) {
+    for (int i = 0; i < docs.length; i++) {
       docs[i].reference.delete();
     }
-    
   }
-     
+
   Future<void> showInterestOrInfo({
     DocumentReference petReference,
     DocumentReference userReference,
@@ -77,7 +67,7 @@ class PetController {
     String petBreed,
     String infoDetails,
     LatLng userLocation,
-    int userPosition, 
+    int userPosition,
     bool isAdopt = false,
   }) async {
     var petRef = await petReference.get();
@@ -109,7 +99,7 @@ class PetController {
       );
     } else {
       await petRef.reference.collection('infoInteresteds').doc().set(
-        {          
+        {
           'notificationType': 'petInfo',
           'interestedName': interestedName,
           'petName': petName,

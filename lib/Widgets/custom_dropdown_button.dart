@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
 class CustomDropdownButton extends StatefulWidget {
-  CustomDropdownButton(
-      {this.initialValue,
-      this.itemList,
-      this.onChange,
-      this.isExpanded,
-      this.label,});
+  CustomDropdownButton({
+    this.initialValue,
+    this.itemList,
+    this.onChange,
+    this.isExpanded,
+    this.label,
+  });
   final List<String> itemList;
   String initialValue;
   final String label;
@@ -44,8 +45,7 @@ class _CustomDropdownButtonState extends State<CustomDropdownButton> {
               alignment: Alignment(-0.93, 1),
             ),
             Padding(
-              padding: EdgeInsets.symmetric(
-                  horizontal: widget.isExpanded ? 15.0 : 0.0),
+              padding: EdgeInsets.symmetric(horizontal: widget.isExpanded ? 15.0 : 0.0),
               child: DropdownButton<String>(
                 underline: Container(),
                 isExpanded: widget.isExpanded,
@@ -56,8 +56,7 @@ class _CustomDropdownButtonState extends State<CustomDropdownButton> {
                     widget.onChange(value);
                   });
                 },
-                items:
-                    widget.itemList.map<DropdownMenuItem<String>>((String e) {
+                items: widget.itemList.map<DropdownMenuItem<String>>((String e) {
                   return DropdownMenuItem<String>(
                     child: Text(e),
                     value: e,
