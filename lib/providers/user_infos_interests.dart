@@ -16,14 +16,11 @@ class UserInfoOrAdoptInterestsProvider with ChangeNotifier {
   Stream<List<InterestedModel>> get info => _infoList.stream;
   Stream<String> get lastimeInterestToAdopt => _lastimeInterestOrInfo.stream;
 
-  void Function(List<String>) get changeAdoptInterest =>
-      _adoptInterest.sink.add;
+  void Function(List<String>) get changeAdoptInterest => _adoptInterest.sink.add;
   void Function(List<String>) get changeInfos => _infos.sink.add;
-  void Function(List<InterestedModel>) get changeInterested =>
-      _interedtedList.sink.add;
+  void Function(List<InterestedModel>) get changeInterested => _interedtedList.sink.add;
   void Function(List<InterestedModel>) get changeInfo => _infoList.sink.add;
-  void Function(String) get changeLastimeInterestOrInfo =>
-      _lastimeInterestOrInfo.sink.add;
+  void Function(String) get changeLastimeInterestOrInfo => _lastimeInterestOrInfo.sink.add;
 
   List<String> get getAdoptInterest => _adoptInterest.value;
   List<String> get getInfos => _infos.value;
@@ -51,7 +48,7 @@ class UserInfoOrAdoptInterestsProvider with ChangeNotifier {
     return Future.value(refData.data()['uid']);
   }
 
-  void checkInterested(DocumentReference petRef, DocumentReference userReference) async {    
+  void checkInterested(DocumentReference petRef, DocumentReference userReference) async {
     final pet = await petRef.get();
 
     if (pet.data() != null) {
@@ -59,7 +56,7 @@ class UserInfoOrAdoptInterestsProvider with ChangeNotifier {
       var interestedList = interestedRef.docs;
 
       if (interestedList != null) {
-        for (int i = 0; i < interestedList.length; i++) {                    
+        for (int i = 0; i < interestedList.length; i++) {
           if (userReference == interestedList[i].data()['userReference']) {
             changeLastimeInterestOrInfo(interestedList[i].data()['interestedAt']);
           }
@@ -68,14 +65,14 @@ class UserInfoOrAdoptInterestsProvider with ChangeNotifier {
     }
   }
 
-  void checkInfo(DocumentReference petRef, DocumentReference userReference) async {    
+  void checkInfo(DocumentReference petRef, DocumentReference userReference) async {
     final pet = await petRef.get();
 
     if (pet.data() != null) {
       var infoRef = await petRef.collection('infoInteresteds').get();
       var infoList = infoRef.docs;
       if (infoList != null) {
-        for (int i = 0; i < infoList.length; i++) {          
+        for (int i = 0; i < infoList.length; i++) {
           if (userReference == infoList[i].data()['userReference']) {
             changeLastimeInterestOrInfo(infoList[i].data()['interestedAt']);
           }

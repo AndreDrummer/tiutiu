@@ -14,6 +14,7 @@ import 'package:tiutiu/chat/common/functions.dart';
 import 'package:tiutiu/providers/user_infos_interests.dart';
 import 'package:tiutiu/providers/user_provider.dart';
 import 'package:tiutiu/screen/announcer_datails.dart';
+import 'package:tiutiu/utils/constantes.dart';
 import 'package:tiutiu/utils/other_functions.dart';
 import 'package:tiutiu/utils/routes.dart';
 
@@ -109,7 +110,7 @@ class _InterestedListState extends State<InterestedList> {
     userInfoOrAdoptInterestsProvider = Provider.of<UserInfoOrAdoptInterestsProvider>(context);
     userProvider = Provider.of<UserProvider>(context);
 
-    if (widget.kind == 'Donate') {
+    if (widget.kind == Constantes.DONATE) {
       userInfoOrAdoptInterestsProvider.loadInterested(widget.pet.petReference);
     } else {
       userInfoOrAdoptInterestsProvider.loadInfo(widget.pet.petReference);
@@ -164,7 +165,7 @@ class _InterestedListState extends State<InterestedList> {
   Color color(InterestedModel interestedModel) {
     int hoursSinceLastNotification = DateTime.now().difference(DateTime.parse(interestedModel.lastNotificationSend)).inMinutes;
     switch (widget.kind) {
-      case 'Donate':
+      case Constantes.DONATE:
         if (interestedModel.donated) return Colors.green;
         if (interestedModel.gaveup) return Colors.red;
         if (hoursSinceLastNotification >= timeToSendNotificationAgain) return Colors.purple;
@@ -178,7 +179,7 @@ class _InterestedListState extends State<InterestedList> {
     int hoursSinceLastNotification = DateTime.now().difference(DateTime.parse(interestedModel.lastNotificationSend)).inMinutes;
 
     switch (widget.kind) {
-      case 'Donate':
+      case Constantes.DONATE:
         if (interestedModel.donated) return 'Adotado';
         if (interestedModel.gaveup) return 'Desistiu';
         if (hoursSinceLastNotification >= timeToSendNotificationAgain && interestedModel.sinalized) return 'REENVIAR DOAÇÃO';
@@ -192,7 +193,7 @@ class _InterestedListState extends State<InterestedList> {
   Widget badge(InterestedModel interestedModel) {
     int hoursSinceLastNotification = DateTime.now().difference(DateTime.parse(interestedModel.lastNotificationSend)).inMinutes;
     switch (widget.kind) {
-      case 'Donate':
+      case Constantes.DONATE:
         if (interestedModel.donated) return _bagde('Adotado', color: Colors.green);
         if (interestedModel.gaveup) return _bagde('Desistiu', color: Colors.red);
         if (hoursSinceLastNotification >= timeToSendNotificationAgain) return _bagde('Doar');
@@ -206,14 +207,14 @@ class _InterestedListState extends State<InterestedList> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.kind == 'Donate' ? 'Interessados em ${widget.pet.name}'.toUpperCase() : 'Quem informou sobre ${widget.pet.name}'.toUpperCase()),
+        title: Text(widget.kind == Constantes.DONATE ? 'Interessados em ${widget.pet.name}'.toUpperCase() : 'Quem informou sobre ${widget.pet.name}'.toUpperCase()),
       ),
       body: Stack(
         children: [
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 8.0),
             child: StreamBuilder<List<InterestedModel>>(
-              stream: widget.kind == 'Donate' ? userInfoOrAdoptInterestsProvider.interested : userInfoOrAdoptInterestsProvider.info,
+              stream: widget.kind == Constantes.DONATE ? userInfoOrAdoptInterestsProvider.interested : userInfoOrAdoptInterestsProvider.info,
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return LoadingPage(
@@ -245,7 +246,7 @@ class _InterestedListState extends State<InterestedList> {
                             }
 
                             User interestedUser = User.fromSnapshot(interestedReferenceSnapshot.data);
-                            String subtitle = '${widget.kind == 'Donate' ? 'Interessou dia' : 'Informou dia'} ${DateFormat('dd/MM/y HH:mm').format(DateTime.parse(interesteds[index].interestedAt))}';
+                            String subtitle = '${widget.kind == Constantes.DONATE ? 'Interessou dia' : 'Informou dia'} ${DateFormat('dd/MM/y HH:mm').format(DateTime.parse(interesteds[index].interestedAt))}';
 
                             return InterestedInfoCard(
                               subtitle: subtitle,
@@ -253,11 +254,12 @@ class _InterestedListState extends State<InterestedList> {
                               navigateToInterestedDetail: interestedUser.photoURL == null ? null : () => navigateToInterestedDetail(interestedUser),
                               infoOrDonateFunction: () {
                                 int hoursSinceLastNotification = DateTime.now().difference(DateTime.parse(interesteds[index].lastNotificationSend)).inMinutes;
-                                bool canSendNewNotification = widget.kind == 'Donate' && hoursSinceLastNotification >= timeToSendNotificationAgain && (!interesteds[index].donated && !interesteds[index].gaveup);
+                                bool canSendNewNotification =
+                                    widget.kind == Constantes.DONATE && hoursSinceLastNotification >= timeToSendNotificationAgain && (!interesteds[index].donated && !interesteds[index].gaveup);
 
                                 if (canSendNewNotification) {
                                   doar(interestedUser, interesteds[index]);
-                                } else if (widget.kind == 'Disappeared') {
+                                } else if (widget.kind == Constantes.DISAPPEARED) {
                                   seeInfo(interesteds[index]);
                                 }
                               },
