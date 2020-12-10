@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import 'package:tiutiu/Custom/icons.dart';
 import 'package:tiutiu/Widgets/badge.dart';
 import 'package:tiutiu/Widgets/play_store_rating.dart';
 import 'package:tiutiu/backend/Controller/user_controller.dart';
@@ -16,6 +15,11 @@ import 'package:tiutiu/screen/donate_disappeared_list.dart';
 import 'package:tiutiu/utils/routes.dart';
 
 class PetsList extends StatefulWidget {
+  PetsList({
+    this.petKind = 'Donate',
+  });
+  final String petKind;
+
   @override
   _PetsListState createState() => _PetsListState();
 }
@@ -34,6 +38,7 @@ class _PetsListState extends State<PetsList> with SingleTickerProviderStateMixin
     refineSearchProvider = Provider.of<RefineSearchProvider>(context);
     petsProvider.loadDisappearedPETS(state: refineSearchProvider.getStateOfResultSearch);
     petsProvider.loadDonatePETS(state: refineSearchProvider.getStateOfResultSearch);
+    onPetTypeChange();
     super.didChangeDependencies();
   }
 
@@ -45,15 +50,13 @@ class _PetsListState extends State<PetsList> with SingleTickerProviderStateMixin
       initialIndex: initialIndex,
     );
 
-    _controller.addListener(onTabChange);
-
     super.initState();
   }
 
-  void onTabChange() {
+  void onPetTypeChange() {
     initialIndex = _controller.index;
 
-    if (_controller.index == 1) {
+    if (widget.petKind == 'Disappeared') {
       petsProvider.changePetKind('Disappeared');
       if (refineSearchProvider.getSearchPetByTypeOnHome && refineSearchProvider.getIsHomeFilteringByDisappeared) {
         refineSearchProvider.changeSearchHomePetTypeInitialValue(refineSearchProvider.getHomePetTypeFilterByDisappeared);
@@ -80,12 +83,6 @@ class _PetsListState extends State<PetsList> with SingleTickerProviderStateMixin
       petsProvider.loadDonatePETS(state: refineSearchProvider.getStateOfResultSearch);
       if (petsProvider.getIsFilteringByBreed || petsProvider.getIsFilteringByName) petsProvider.changeTypingSearchResult(petsProvider.getPetsDonate);
     }
-  }
-
-  void changeInitialIndex(int index) {
-    setState(() {
-      initialIndex = index;
-    });
   }
 
   void openSocial() {
@@ -131,17 +128,11 @@ class _PetsListState extends State<PetsList> with SingleTickerProviderStateMixin
 
   @override
   Widget build(BuildContext context) {
-    final indexTab = ModalRoute.of(context).settings.arguments;
     void navigateToAuth() {
       Navigator.pushNamed(context, Routes.AUTH, arguments: true);
     }
 
-    if (indexTab != initialIndex) changeInitialIndex(indexTab);
-
-    return DefaultTabController(
-      length: 2,
-      initialIndex: indexTab ?? 0,
-      child: Scaffold(
+    return Scaffold(
         appBar: AppBar(
           leading: null,
           title: Row(
@@ -235,24 +226,28 @@ class _PetsListState extends State<PetsList> with SingleTickerProviderStateMixin
               )
             ],
           ),
-          bottom: TabBar(
-            controller: _controller,
-            indicatorColor: Colors.purple,
-            labelColor: Colors.white,
-            tabs: [
-              Tab(icon: Icon(Tiutiu.dog), text: 'ADOTAR'),
-              Tab(icon: Icon(Tiutiu.exclamation), text: 'DESAPARECIDOS'),
-            ],
+          // bottom: TabBar(
+          //   controller: _controller,
+          //   indicatorColor: Colors.purple,
+          //   labelColor: Colors.white,
+          //   tabs: [
+          //     Tab(icon: Icon(Tiutiu.dog), text: 'ADOTAR'),
+          //     Tab(icon: Icon(Tiutiu.exclamation), text: 'DESAPARECIDOS'),
+          //   ],
+          // ),
+        ),
+        body: Container(
+          child: DonateDisappearedList(
+            stream: widget.petKind == 'Donate' ? petsProvider.petsDonate : petsProvider.petsDisappeared,
           ),
-        ),
-        body: TabBarView(
-          controller: _controller,
-          children: [
-            DonateDisappearedList(stream: petsProvider.petsDonate),
-            DonateDisappearedList(stream: petsProvider.petsDisappeared),
-          ],
-        ),
-      ),
-    );
+        )
+        //  TabBarView(
+        //   controller: _controller,
+        //   children: [
+
+        //     DonateDisappearedList(stream: petsProvider.petsDisappeared),
+        //   ],
+        // ),
+        );
   }
 }

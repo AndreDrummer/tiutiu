@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:firebase_admob/firebase_admob.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:provider/provider.dart';
@@ -418,7 +419,6 @@ class _SettingsState extends State<Settings> {
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
-    final width = MediaQuery.of(context).size.width;
 
     void navigateToHomeAfterDeleteAccount() {
       showDialog(
@@ -453,27 +453,34 @@ class _SettingsState extends State<Settings> {
                         onTap: () {
                           openModalSelectMedia(context, false);
                         },
-                        child: Container(
-                          height: 200,
-                          width: double.infinity,
-                          child: Opacity(
-                            child: userProfile['photoFileBack'] == null
-                                ? FadeInImage(
-                                    placeholder: AssetImage('assets/fundo.jpg'),
-                                    image: NetworkImage(
-                                      userProvider.photoBACK ?? '',
+                        child: Card(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          elevation: 4.0,
+                          child: Container(
+                            margin: const EdgeInsets.all(4.0),
+                            height: 200,
+                            width: double.infinity,
+                            child: Opacity(
+                              child: userProfile['photoFileBack'] == null
+                                  ? FadeInImage(
+                                      placeholder: AssetImage('assets/fundo.jpg'),
+                                      image: NetworkImage(
+                                        userProvider.photoBACK ?? '',
+                                      ),
+                                      fit: BoxFit.cover,
+                                      width: 1000,
+                                      height: 100,
+                                    )
+                                  : Image.file(
+                                      userProfile['photoFileBack'],
+                                      width: 1000,
+                                      height: 1000,
+                                      fit: BoxFit.cover,
                                     ),
-                                    fit: BoxFit.cover,
-                                    width: 1000,
-                                    height: 100,
-                                  )
-                                : Image.file(
-                                    userProfile['photoFileBack'],
-                                    width: 1000,
-                                    height: 1000,
-                                    fit: BoxFit.cover,
-                                  ),
-                            opacity: 0.25,
+                              opacity: 0.25,
+                            ),
                           ),
                         ),
                       ),
@@ -481,13 +488,16 @@ class _SettingsState extends State<Settings> {
                         bottom: 5,
                         right: 5,
                         child: Container(
-                          height: 30,
-                          color: Colors.black38,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(12),
+                            color: Colors.black38,
+                          ),
+                          height: 25,
                           child: FlatButton(
                             onPressed: () => openModalSelectMedia(context, false),
                             child: Text(
-                              'ALTERAR PLANO DE FUNDO',
-                              style: TextStyle(color: Colors.white, fontWeight: FontWeight.w700),
+                              'Toque p/ alterar plano de fundo',
+                              style: TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.w700),
                             ),
                           ),
                         ),
@@ -533,203 +543,135 @@ class _SettingsState extends State<Settings> {
                     ],
                   ),
                   Container(
-                    height: MediaQuery.of(context).size.height / 2.19,
+                    height: MediaQuery.of(context).size.height / 2,
                     child: Form(
                       key: _personalDataFormKey,
                       child: Column(
                         children: [
-                          ListTile(
-                            title: Text('Nome', style: Theme.of(context).textTheme.headline1.copyWith(color: Colors.black)),
-                            subtitle: isNameEditing
-                                ? TextFormField(
-                                    textCapitalization: TextCapitalization.sentences,
-                                    style: Theme.of(context).textTheme.headline1.copyWith(color: Colors.black54, fontWeight: FontWeight.w300),
+                          Card(
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 4.0),
+                              child: Column(
+                                children: [
+                                  _textField(
                                     controller: _nameController,
-                                  )
-                                : Text(_nameController.text.trim(), style: Theme.of(context).textTheme.headline1.copyWith(color: Colors.black)),
-                            trailing: IconButton(
-                              icon: isNameEditing ? Icon(Icons.save) : Icon(Icons.mode_edit),
-                              onPressed: () {
-                                if (isNameEditing) {
-                                  userProvider.changeDisplayName(_nameController.text.trim());
-                                  changeFieldEditingState(false, 'isNameEditing');
-                                } else {
-                                  changeFieldEditingState(true, 'isNameEditing');
-                                }
-                              },
-                            ),
-                          ),
-                          ListTile(
-                            title: Text('WhatsApp', style: Theme.of(context).textTheme.headline1.copyWith(color: Colors.black)),
-                            subtitle: isWhatsAppEditing
-                                ? TextFormField(
-                                    textCapitalization: TextCapitalization.sentences,
-                                    style: Theme.of(context).textTheme.headline1.copyWith(color: Colors.black54, fontWeight: FontWeight.w300),
-                                    onFieldSubmitted: (_) {
-                                      validatePersonalData();
+                                    fieldLabel: 'Nome',
+                                    isFieldEditing: isNameEditing,
+                                    onPressed: () {
+                                      if (isNameEditing) {
+                                        userProvider.changeDisplayName(_nameController.text.trim());
+                                        changeFieldEditingState(false, 'isNameEditing');
+                                      } else {
+                                        changeFieldEditingState(true, 'isNameEditing');
+                                      }
                                     },
+                                  ),
+                                  _textField(
+                                    controller: _whatsAppController,
+                                    fieldLabel: 'WhatsApp',
+                                    isFieldEditing: isWhatsAppEditing,
+                                    onFieldSubmitted: (_) => validatePersonalData(),
                                     inputFormatters: [celularMask],
                                     validator: (String value) => validarCelular(value),
                                     keyboardType: TextInputType.number,
-                                    controller: _whatsAppController,
-                                  )
-                                : Text(_whatsAppController.text.trim(), style: whatsappHasError ? TextStyle(color: Colors.red, fontSize: 11) : null),
-                            trailing: IconButton(
-                              icon: isWhatsAppEditing ? Icon(Icons.save) : Icon(Icons.mode_edit),
-                              onPressed: () {
-                                if (isWhatsAppEditing) {
-                                  userProvider.changeWhatsapp(_whatsAppController.text.trim());
-                                  if (_personalDataFormKey.currentState.validate()) {
-                                    changeFieldEditingState(false, 'isWhatsAppEditing');
-                                  }
-                                } else {
-                                  _whatsAppController.text = userProvider.whatsapp;
-                                  changeFieldEditingState(true, 'isWhatsAppEditing');
-                                }
-                              },
-                            ),
-                          ),
-                          ListTile(
-                            title: Text('Telefone Fixo', style: Theme.of(context).textTheme.headline1.copyWith(color: Colors.black)),
-                            subtitle: isTelefoneEditing
-                                ? TextFormField(
-                                    textCapitalization: TextCapitalization.sentences,
-                                    style: Theme.of(context).textTheme.headline1.copyWith(color: Colors.black54, fontWeight: FontWeight.w300),
-                                    onFieldSubmitted: (_) {
-                                      validatePersonalData();
+                                    fieldHasError: whatsappHasError,
+                                    onPressed: () {
+                                      if (isWhatsAppEditing) {
+                                        userProvider.changeWhatsapp(_whatsAppController.text.trim());
+                                        if (_personalDataFormKey.currentState.validate()) {
+                                          changeFieldEditingState(false, 'isWhatsAppEditing');
+                                        }
+                                      } else {
+                                        _whatsAppController.text = userProvider.whatsapp;
+                                        changeFieldEditingState(true, 'isWhatsAppEditing');
+                                      }
                                     },
+                                  ),
+                                  _textField(
+                                    controller: _telefoneController,
+                                    fieldLabel: 'Telefone Fixo',
+                                    isFieldEditing: isTelefoneEditing,
+                                    onFieldSubmitted: (_) => validatePersonalData(),
                                     inputFormatters: [telefoneMask],
                                     validator: (String value) => validarTelefone(value),
                                     keyboardType: TextInputType.number,
-                                    controller: _telefoneController,
-                                  )
-                                : Text(_telefoneController.text.trim(), style: telefoneHasError ? TextStyle(color: Colors.red, fontSize: 11) : null),
-                            trailing: IconButton(
-                              icon: isTelefoneEditing ? Icon(Icons.save) : Icon(Icons.mode_edit),
-                              onPressed: () {
-                                if (isTelefoneEditing) {
-                                  userProvider.changeTelefone(_telefoneController.text.trim());
-                                  if (_personalDataFormKey.currentState.validate()) {
-                                    changeFieldEditingState(false, 'isTelefoneEditing');
-                                  }
-                                } else {
-                                  _telefoneController.text = userProvider.telefone;
-                                  changeFieldEditingState(true, 'isTelefoneEditing');
-                                }
-                              },
+                                    fieldHasError: telefoneHasError,
+                                    onPressed: () {
+                                      if (isTelefoneEditing) {
+                                        userProvider.changeTelefone(_telefoneController.text.trim());
+                                        if (_personalDataFormKey.currentState.validate()) {
+                                          changeFieldEditingState(false, 'isTelefoneEditing');
+                                        }
+                                      } else {
+                                        _telefoneController.text = userProvider.telefone;
+                                        changeFieldEditingState(true, 'isTelefoneEditing');
+                                      }
+                                    },
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                           CustomDivider(text: 'Sua melhor forma de contato'),
-                          StreamBuilder(
-                            stream: userProvider.betterContact,
-                            builder: (context, snapshot) {
-                              return Container(
-                                height: 100,
-                                child: Column(
-                                  children: [
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.center,
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: StreamBuilder(
+                              stream: userProvider.betterContact,
+                              builder: (context, snapshot) {
+                                return Card(
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                  elevation: 6.0,
+                                  child: Container(
+                                    height: 100,
+                                    child: Column(
                                       children: [
-                                        InkWell(
-                                          onTap: () {
-                                            userProvider.changeBetterContact(0);
-                                          },
-                                          child: Container(
-                                            width: width / 3,
-                                            child: Row(
-                                              children: [
-                                                Radio(
-                                                  activeColor: Theme.of(context).primaryColor,
-                                                  groupValue: snapshot.data,
-                                                  value: 0,
-                                                  onChanged: (value) {
-                                                    userProvider.changeBetterContact(value);
-                                                  },
-                                                ),
-                                                Text('WhatsApp'),
-                                              ],
+                                        Row(
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          children: [
+                                            radio(
+                                              groupValue: snapshot.data,
+                                              labelText: 'WhatsApp',
+                                              onTap: () => userProvider.changeBetterContact(0),
+                                              value: 0,
+                                              color: Colors.green,
                                             ),
-                                          ),
+                                            radio(
+                                              groupValue: snapshot.data,
+                                              labelText: 'Telefone Fixo',
+                                              onTap: () => userProvider.changeBetterContact(1),
+                                              value: 1,
+                                              color: Colors.orange,
+                                            ),
+                                          ],
                                         ),
-                                        InkWell(
-                                          onTap: () {
-                                            userProvider.changeBetterContact(1);
-                                          },
-                                          child: Container(
-                                            child: Row(
-                                              children: [
-                                                Radio(
-                                                  activeColor: Colors.orange,
-                                                  groupValue: snapshot.data,
-                                                  value: 1,
-                                                  onChanged: (value) {
-                                                    userProvider.changeBetterContact(value);
-                                                  },
-                                                ),
-                                                Padding(
-                                                  padding: const EdgeInsets.only(right: 8.0),
-                                                  child: Text('Telefone Fixo'),
-                                                ),
-                                              ],
+                                        Spacer(),
+                                        Row(
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          children: [
+                                            radio(
+                                              groupValue: snapshot.data,
+                                              labelText: 'E-mail',
+                                              onTap: () => userProvider.changeBetterContact(2),
+                                              value: 2,
+                                              color: Colors.red,
                                             ),
-                                          ),
-                                        )
+                                            radio(
+                                              groupValue: snapshot.data,
+                                              labelText: 'Só pelo chatt',
+                                              onTap: () => userProvider.changeBetterContact(3),
+                                              value: 3,
+                                              color: Colors.purple,
+                                            ),
+                                          ],
+                                        ),
                                       ],
                                     ),
-                                    Spacer(),
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      children: [
-                                        InkWell(
-                                          onTap: () {
-                                            userProvider.changeBetterContact(2);
-                                          },
-                                          child: Container(
-                                            width: width / 3,
-                                            child: Row(
-                                              children: [
-                                                Radio(
-                                                  activeColor: Colors.red,
-                                                  groupValue: snapshot.data,
-                                                  value: 2,
-                                                  onChanged: (value) {
-                                                    userProvider.changeBetterContact(value);
-                                                  },
-                                                ),
-                                                Text('E-mail'),
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                        InkWell(
-                                          onTap: () {
-                                            userProvider.changeBetterContact(3);
-                                          },
-                                          child: Container(
-                                            child: Row(
-                                              children: [
-                                                Radio(
-                                                  activeColor: Colors.purple,
-                                                  groupValue: snapshot.data,
-                                                  value: 3,
-                                                  onChanged: (value) {
-                                                    userProvider.changeBetterContact(value);
-                                                  },
-                                                ),
-                                                Padding(
-                                                  padding: const EdgeInsets.only(right: 8.0),
-                                                  child: Text('Só pelo chat'),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              );
-                            },
+                                  ),
+                                );
+                              },
+                            ),
                           ),
                         ],
                       ),
@@ -737,40 +679,49 @@ class _SettingsState extends State<Settings> {
                   ),
                   CustomDivider(text: 'Sobre a conta'),
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                    child: Form(
-                      key: _passwordFormKey,
-                      child: Column(
-                        children: [
-                          SizedBox(height: 15),
-                          InputText(
-                            isPassword: true,
-                            hintText: 'Nova Senha',
-                            controller: _newPassword,
-                            validator: (String value) {
-                              if (value.isEmpty && _repeatNewPassword.text.trim().isEmpty) {
-                                return null;
-                              }
-                              if (value.length < 6) {
-                                return 'A nova senha deve ter no mínimo 6 dígitos';
-                              }
-                            },
+                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                    child: Card(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      elevation: 6.0,
+                      child: Form(
+                        key: _passwordFormKey,
+                        child: Padding(
+                          padding: const EdgeInsets.all(12.0),
+                          child: Column(
+                            children: [
+                              SizedBox(height: 15),
+                              InputText(
+                                isPassword: true,
+                                hintText: 'Nova Senha',
+                                controller: _newPassword,
+                                validator: (String value) {
+                                  if (value.isEmpty && _repeatNewPassword.text.trim().isEmpty) {
+                                    return null;
+                                  }
+                                  if (value.length < 6) {
+                                    return 'A nova senha deve ter no mínimo 6 dígitos';
+                                  }
+                                },
+                              ),
+                              SizedBox(height: 15),
+                              InputText(
+                                isPassword: true,
+                                hintText: 'Repita a nova senha',
+                                controller: _repeatNewPassword,
+                                validator: (String value) {
+                                  if (value.isEmpty && _newPassword.text.trim().isEmpty) {
+                                    return null;
+                                  }
+                                  if (value != _newPassword.text.trim()) {
+                                    return 'Senhas não conferem';
+                                  }
+                                },
+                              ),
+                            ],
                           ),
-                          SizedBox(height: 15),
-                          InputText(
-                            isPassword: true,
-                            hintText: 'Repita a nova senha',
-                            controller: _repeatNewPassword,
-                            validator: (String value) {
-                              if (value.isEmpty && _newPassword.text.trim().isEmpty) {
-                                return null;
-                              }
-                              if (value != _newPassword.text.trim()) {
-                                return 'Senhas não conferem';
-                              }
-                            },
-                          ),
-                        ],
+                        ),
                       ),
                     ),
                   ),
@@ -833,6 +784,75 @@ class _SettingsState extends State<Settings> {
           isToExpand: true,
           rounded: false,
           text: 'SALVAR',
+        ),
+      ),
+    );
+  }
+
+  Widget _textField({
+    TextEditingController controller,
+    String fieldLabel,
+    bool isFieldEditing,
+    Function() onPressed,
+    Function(String) onFieldSubmitted,
+    List<TextInputFormatter> inputFormatters,
+    Function(String) validator,
+    TextInputType keyboardType,
+    TextCapitalization textCapitalization = TextCapitalization.sentences,
+    bool fieldHasError = false,
+  }) {
+    return Card(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
+      ),
+      elevation: 6.0,
+      child: ListTile(
+        title: Text(fieldLabel, style: Theme.of(context).textTheme.headline1.copyWith(color: Colors.black)),
+        subtitle: isFieldEditing
+            ? TextFormField(
+                cursorColor: Colors.black,
+                textCapitalization: textCapitalization,
+                style: Theme.of(context).textTheme.headline1.copyWith(color: Colors.black54, fontWeight: FontWeight.w300),
+                onFieldSubmitted: onFieldSubmitted,
+                inputFormatters: inputFormatters,
+                validator: validator,
+                keyboardType: keyboardType,
+                controller: controller,
+                decoration: InputDecoration(
+                  focusedBorder: UnderlineInputBorder(borderSide: BorderSide.none),
+                  enabledBorder: UnderlineInputBorder(borderSide: BorderSide.none),
+                ),
+              )
+            : Text(controller.text.trim(), style: fieldHasError ? Theme.of(context).textTheme.headline1.copyWith(color: Colors.red) : null),
+        trailing: IconButton(
+          icon: isFieldEditing ? Icon(Icons.save) : Icon(Icons.mode_edit),
+          onPressed: onPressed,
+        ),
+      ),
+    );
+  }
+
+  Widget radio({String labelText, dynamic groupValue, Function() onTap, dynamic value, Color color}) {
+    return InkWell(
+      onTap: () {
+        onTap();
+      },
+      child: Container(
+        child: Row(
+          children: [
+            Radio(
+              activeColor: color,
+              groupValue: groupValue,
+              value: value,
+              onChanged: (value) {
+                onTap();
+              },
+            ),
+            Padding(
+              padding: const EdgeInsets.only(right: 8.0),
+              child: Text(labelText),
+            ),
+          ],
         ),
       ),
     );

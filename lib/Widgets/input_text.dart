@@ -5,7 +5,7 @@ import 'package:tiutiu/Custom/icons.dart';
 // ignore: must_be_immutable
 class InputText extends StatefulWidget {
   InputText({
-    this.size = 55,
+    this.size = 75,
     this.controller,
     this.isLogin = false,
     this.isPassword = false,
@@ -13,6 +13,7 @@ class InputText extends StatefulWidget {
     this.readOnly = false,
     this.onChanged,
     this.keyBoardTypeNumber = false,
+    this.textCapitalization = TextCapitalization.sentences,
     this.placeholder,
     this.maxlines = 1,
     this.multiline = false,
@@ -22,7 +23,7 @@ class InputText extends StatefulWidget {
   });
 
   InputText.login({
-    this.size = 55,
+    this.size = 75,
     this.controller,
     this.onChanged,
     this.placeholder,
@@ -36,6 +37,7 @@ class InputText extends StatefulWidget {
     this.validator,
     this.hintText,
     this.inputFormatters = const [],
+    this.textCapitalization = TextCapitalization.sentences,
   });
 
   final double size;
@@ -52,6 +54,7 @@ class InputText extends StatefulWidget {
   final Function(String) onChanged;
   final Function(String) validator;
   final List<TextInputFormatter> inputFormatters;
+  final TextCapitalization textCapitalization;
 
   @override
   _InputTextState createState() => _InputTextState();
@@ -76,7 +79,7 @@ class _InputTextState extends State<InputText> {
           children: <Widget>[
             Expanded(
               child: TextFormField(
-                textCapitalization: TextCapitalization.sentences,
+                textCapitalization: widget.textCapitalization,
                 cursorColor: Theme.of(context).primaryColor,
                 inputFormatters: widget.inputFormatters,
                 validator: widget.validator != null
