@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:tiutiu/utils/constantes.dart';
 import 'package:tiutiu/backend/Controller/pet_controller.dart';
 import 'package:tiutiu/backend/Controller/user_controller.dart';
 import 'package:tiutiu/backend/Model/pet_model.dart';
@@ -153,10 +154,10 @@ class UserProvider with ChangeNotifier {
 
   void calculateTotals() async {
     PetController petController = PetController();
-    QuerySnapshot adopteds = await petController.getPetToCount(userReference, 'Adopted');
-    QuerySnapshot donates = await petController.getPetToCount(userReference, 'Donate');
-    QuerySnapshot disap = await petController.getPetToCount(userReference, 'Disappeared');
-    QuerySnapshot donated = await petController.getPetToCount(userReference, 'Donate', avalaible: false);
+    QuerySnapshot adopteds = await petController.getPetToCount(userReference, Constantes.ADOPTED);
+    QuerySnapshot donates = await petController.getPetToCount(userReference, Constantes.DONATE);
+    QuerySnapshot disap = await petController.getPetToCount(userReference, Constantes.DISAPPEARED);
+    QuerySnapshot donated = await petController.getPetToCount(userReference, Constantes.DONATE, avalaible: false);
 
     changeTotalAdopted(adopteds.docs.length);
     changeTotalDisappeared(disap.docs.length);
