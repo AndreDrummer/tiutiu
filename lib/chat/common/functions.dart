@@ -86,4 +86,23 @@ class CommonChatFunctions {
     }
     return 1;
   }
+
+  static int filterOnlyMyChats(AsyncSnapshot<QuerySnapshot> snapshot, String uid) {
+    int qtd = 0;
+    List<QueryDocumentSnapshot> messagesList = [];
+    if (snapshot.data != null) {
+      snapshot.data.docs.forEach((element) {
+        if (User.fromMap(element.get('firstUser')).id == uid || User.fromMap(element.get('secondUser')).id == uid) messagesList.add(element);
+      });
+
+      messagesList.forEach((e) {
+        if (e.get('open') != null && !e.get('open') && e.get('lastSender') != uid) {
+          qtd++;
+        }
+      });
+
+      return qtd;
+    }
+    return qtd;
+  }
 }

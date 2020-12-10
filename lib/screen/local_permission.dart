@@ -61,7 +61,11 @@ class LocalPermissionScreen extends StatelessWidget {
                         action: () {
                           permissionCallBack();
                         },
-                        text: deniedForever ? 'IR P/ CONFIGURAÇÕES' : serviceEnabled ? 'CONCEDER ACESSO' : 'ATIVAR LOCALIZAÇÃO',
+                        text: deniedForever
+                            ? 'IR P/ CONFIGURAÇÕES'
+                            : serviceEnabled
+                                ? 'CONCEDER ACESSO'
+                                : 'ATIVAR LOCALIZAÇÃO',
                       ),
                     ],
                   ),
