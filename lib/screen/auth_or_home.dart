@@ -88,7 +88,7 @@ class _AuthOrHomeState extends State<AuthOrHome> {
                           ),
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
-                            child: Image.asset('assets/pata.jpg'),
+                            child: Image.asset('assets/newLogo.png'),
                           ),
                         ),
                         SizedBox(height: 10),

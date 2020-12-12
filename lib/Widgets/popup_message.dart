@@ -33,7 +33,7 @@ class PopUpMessage extends StatelessWidget {
               border: Border.all(color: Colors.white),
               borderRadius: BorderRadius.circular(25),
             ),
-            child: Image.asset('assets/pata.jpg', width: 20, height: 20, color: Colors.white),
+            child: Image.asset('assets/newLogo.png', width: 20, height: 20, color: Colors.white),
           )
         ],
       ),
