@@ -53,11 +53,11 @@ class _AuthScreenState extends State<AuthScreen> {
   }
 
   bool validatePassword() {
-    return password.text == repeatPassword.text.trim();
+    return password.text == repeatPassword.text?.trim();
   }
 
   bool validateEmail() {
-    return RegExp(r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?)*$").hasMatch(email.text.trim());
+    return RegExp(r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?)*$").hasMatch(email.text?.trim());
   }
 
   bool validateFields() {
@@ -90,7 +90,7 @@ class _AuthScreenState extends State<AuthScreen> {
     }
 
     if (isNewAccount) {
-      if (repeatPassword.text.trim().isEmpty || repeatPassword.text.trim() != password.text.trim()) {
+      if (repeatPassword.text.trim().isEmpty || repeatPassword.text?.trim() != password.text?.trim()) {
         setState(() {
           repeatPasswordError = true;
           fieldsAreValids = false;
@@ -254,7 +254,7 @@ class _AuthScreenState extends State<AuthScreen> {
                                   if (validateFields()) {
                                     if (validatePassword()) {
                                       changeLogginStatus(true);
-                                      await auth.createUserWithEmailAndPassword(email.text.trim(), password.text.trim());
+                                      await auth.createUserWithEmailAndPassword(email.text?.trim(), password.text?.trim());
                                       changeLogginStatus(false);
                                       setState(() {
                                         isNewAccount = !isNewAccount;
@@ -271,7 +271,7 @@ class _AuthScreenState extends State<AuthScreen> {
                                   }
                                 } else if (isToResetPassword) {
                                   changeLogginStatus(true);
-                                  await auth.passwordReset(email.text.trim());
+                                  await auth.passwordReset(email.text?.trim());
                                   await showDialog(
                                     context: context,
                                     builder: (context) => PopUpMessage(
@@ -281,7 +281,7 @@ class _AuthScreenState extends State<AuthScreen> {
                                   ).then((_) => resetPage());
                                 } else if (validateFields()) {
                                   changeLogginStatus(true);
-                                  await auth.signInWithEmailAndPassword(email.text.trim(), password.text.trim());
+                                  await auth.signInWithEmailAndPassword(email.text?.trim(), password.text?.trim());
                                   changeLogginStatus(false);
                                 }
                               } on TiuTiuAuthException catch (error) {

@@ -215,7 +215,7 @@ class _SettingsState extends State<Settings> {
     bool validTelefone = _telefoneController.text.trim().isNotEmpty && _telefoneController.text.trim().contains('-') && regExp.hasMatch(_telefoneController.text.trim().split('-')[1]);
 
     if (userProvider.getBetterContact == 0) {
-      var serializedWhatsappNumber = Formatter.unmaskNumber(_telefoneController.text.trim());
+      var serializedWhatsappNumber = Formatter.unmaskNumber(_telefoneController.text?.trim());
       if (serializedWhatsappNumber == null) {
         _telefoneController.clear();
       }
@@ -229,7 +229,7 @@ class _SettingsState extends State<Settings> {
     }
 
     if (userProvider.getBetterContact == 1) {
-      var serializedWhatsappNumber = Formatter.unmaskNumber(_whatsAppController.text.trim());
+      var serializedWhatsappNumber = Formatter.unmaskNumber(_whatsAppController.text?.trim());
       if (serializedWhatsappNumber == null) {
         _whatsAppController.clear();
       }
@@ -272,7 +272,7 @@ class _SettingsState extends State<Settings> {
       if (passwordWasTouched()) {
         changeSaveFormStatus(true);
         try {
-          await auth.firebaseUser.updatePassword(_newPassword.text.trim());
+          await auth.firebaseUser.updatePassword(_newPassword.text?.trim());
         } catch (error) {
           changeSaveFormStatus(false);
           isToShowDialog ? showMessageWarningUpdatePasswordOrDeleteAccount() : SizedBox();
@@ -286,21 +286,21 @@ class _SettingsState extends State<Settings> {
       }
 
       await userController.updateUser(userProvider.uid, {
-        'displayName': _nameController.text.trim(),
+        'displayName': _nameController.text?.trim(),
         'uid': auth.firebaseUser.uid,
         'photoURL': userProfile.isNotEmpty ? photoURL : userProvider.photoURL,
         'photoBACK': userProfile.isNotEmpty ? photoBACK : userProvider.photoBACK,
-        'phoneNumber': _whatsAppController.text.trim(),
-        'landline': _telefoneController.text.trim(),
+        'phoneNumber': _whatsAppController.text?.trim(),
+        'landline': _telefoneController.text?.trim(),
         'betterContact': userProvider.getBetterContact,
         'email': auth.firebaseUser.email,
         'createdAt': userProvider.createdAt
       });
 
-      userProvider.changeDisplayName(_nameController.text.trim());
+      userProvider.changeDisplayName(_nameController.text?.trim());
       userProvider.changeBetterContact(userProvider.getBetterContact);
-      userProvider.changeWhatsapp(_whatsAppController.text.trim());
-      userProvider.changeTelefone(_telefoneController.text.trim());
+      userProvider.changeWhatsapp(_whatsAppController.text?.trim());
+      userProvider.changeTelefone(_telefoneController.text?.trim());
       userProvider.changePhotoUrl(photoURL);
       userProvider.changePhotoBack(photoBACK);
       userProfile.clear();
@@ -555,7 +555,7 @@ class _SettingsState extends State<Settings> {
                                     isFieldEditing: isNameEditing,
                                     onPressed: () {
                                       if (isNameEditing) {
-                                        userProvider.changeDisplayName(_nameController.text.trim());
+                                        userProvider.changeDisplayName(_nameController.text?.trim());
                                         changeFieldEditingState(false, 'isNameEditing');
                                       } else {
                                         changeFieldEditingState(true, 'isNameEditing');
@@ -573,7 +573,7 @@ class _SettingsState extends State<Settings> {
                                     fieldHasError: whatsappHasError,
                                     onPressed: () {
                                       if (isWhatsAppEditing) {
-                                        userProvider.changeWhatsapp(_whatsAppController.text.trim());
+                                        userProvider.changeWhatsapp(_whatsAppController.text?.trim());
                                         if (_personalDataFormKey.currentState.validate()) {
                                           changeFieldEditingState(false, 'isWhatsAppEditing');
                                         }
@@ -594,7 +594,7 @@ class _SettingsState extends State<Settings> {
                                     fieldHasError: telefoneHasError,
                                     onPressed: () {
                                       if (isTelefoneEditing) {
-                                        userProvider.changeTelefone(_telefoneController.text.trim());
+                                        userProvider.changeTelefone(_telefoneController.text?.trim());
                                         if (_personalDataFormKey.currentState.validate()) {
                                           changeFieldEditingState(false, 'isTelefoneEditing');
                                         }
@@ -709,7 +709,7 @@ class _SettingsState extends State<Settings> {
                                     if (value.isEmpty && _newPassword.text.trim().isEmpty) {
                                       return null;
                                     }
-                                    if (value != _newPassword.text.trim()) {
+                                    if (value != _newPassword.text?.trim()) {
                                       return 'Senhas não conferem';
                                     }
                                   },
@@ -819,7 +819,7 @@ class _SettingsState extends State<Settings> {
                   enabledBorder: UnderlineInputBorder(borderSide: BorderSide.none),
                 ),
               )
-            : Text(controller.text.trim(), style: fieldHasError ? Theme.of(context).textTheme.headline1.copyWith(color: Colors.red) : null),
+            : Text(controller.text?.trim(), style: fieldHasError ? Theme.of(context).textTheme.headline1.copyWith(color: Colors.red) : null),
         trailing: IconButton(
           icon: isFieldEditing ? Icon(Icons.save) : Icon(Icons.mode_edit),
           onPressed: onPressed,
