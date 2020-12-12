@@ -38,7 +38,7 @@ class _CardListState extends State<CardList> {
     final owner = await doc.get();
     if (auth.firebaseUser != null) {
       if (auth.firebaseUser.uid == owner.data()['uid']) {
-        Map map = {'displayName': 'Você'};
+        Map<String, dynamic> map = {'displayName': 'Você'};
         return Future.value(map);
       }
     }
