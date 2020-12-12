@@ -61,14 +61,14 @@ class CommonChatFunctions {
   }
 
   static int orderByName(User a, User b) {
-    List<int> aname = a.name.trim().removeAccent().codeUnits;
-    List<int> bname = b.name.trim().removeAccent().codeUnits;
+    List<int> aname = a.name?.trim()?.removeAccent()?.codeUnits ?? '';
+    List<int> bname = b.name?.trim()?.removeAccent()?.codeUnits ?? '';
 
     if (a.name.isEmpty) {
-      aname = 'z'.codeUnits;
+      aname = 'u'.codeUnits;
     }
     if (b.name.isEmpty) {
-      bname = 'z'.codeUnits;
+      bname = 'u'.codeUnits;
     }
 
     int i = 0;

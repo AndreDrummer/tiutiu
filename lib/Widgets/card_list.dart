@@ -79,6 +79,12 @@ class _CardListState extends State<CardList> {
               );
             }
             final user = await loadOwner(widget.petInfo.ownerReference, auth: auth);
+            if (widget.petInfo.ownerName == null) {
+              print('Was null');
+              widget.petInfo.petReference.set({"ownerName": user['name']});
+              widget.petInfo.ownerName = user['name'];
+            }
+
             Navigator.push(
               context,
               MaterialPageRoute(
