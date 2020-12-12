@@ -129,7 +129,7 @@ class _PetDetailsState extends State<PetDetails> {
           controller: controller,
           callback: () {
             Navigator.pop(context);
-            sendData(userPosition, controller.text.trim());
+            sendData(userPosition, controller.text?.trim());
           },
         );
       },
