@@ -224,7 +224,7 @@ class _RegisterState extends State<Register> {
     }
 
     if (_whatsapp.text.trim().isNotEmpty) {
-      String unMaskNumber = Formatter.unmaskNumber(_whatsapp.text.trim());
+      String unMaskNumber = Formatter.unmaskNumber(_whatsapp.text?.trim());
       if (!regExp.hasMatch(unMaskNumber) || unMaskNumber.length < 11) {
         setState(() {
           whatsappHasError = true;
@@ -250,11 +250,11 @@ class _RegisterState extends State<Register> {
     await uploadPhotos();
     UserController userController = UserController();
     await userController.updateUser(auth.firebaseUser.uid, {
-      'displayName': _name.text.trim(),
+      'displayName': _name.text?.trim(),
       'uid': auth.firebaseUser.uid,
       'photoURL': photoURL,
-      'phoneNumber': _whatsapp.text.trim(),
-      'landline': _telefone.text.trim(),
+      'phoneNumber': _whatsapp.text?.trim(),
+      'landline': _telefone.text?.trim(),
       'betterContact': userProvider.getBetterContact,
       'email': auth.firebaseUser.email,
       'createdAt': DateTime.now().toIso8601String()
@@ -361,7 +361,7 @@ class _RegisterState extends State<Register> {
                         controller: _whatsapp,
                         validator: validarCelular,
                         onChanged: (text) {
-                          userProvider.changeWhatsapp(_whatsapp.text.trim());
+                          userProvider.changeWhatsapp(_whatsapp.text?.trim());
                         },
                       ),
                       whatsappHasError ? HintError(message: whatsappHasErrorMessage) : Container(),
@@ -374,7 +374,7 @@ class _RegisterState extends State<Register> {
                         keyBoardTypeNumber: true,
                         controller: _telefone,
                         onChanged: (text) {
-                          userProvider.changeTelefone(_telefone.text.trim());
+                          userProvider.changeTelefone(_telefone.text?.trim());
                         },
                       ),
                       telefoneHasError ? HintError(message: telefoneHasErrorMessage) : Container(),
