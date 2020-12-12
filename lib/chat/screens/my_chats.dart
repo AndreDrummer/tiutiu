@@ -125,7 +125,7 @@ class _ListTileMessage extends StatelessWidget {
           Routes.CHAT,
           arguments: {
             'chatId': messageId,
-            'chatTitle': itsMe ? chat.secondUser.name : chat.firstUser.name,
+            'chatTitle': itsMe ? OtherFunctions.firstCharacterUpper(chat.secondUser.name) : OtherFunctions.firstCharacterUpper(chat.firstUser.name),
             'secondUserId': itsMe ? chat.secondUser.id : chat.firstUser.id,
             'receiverId': itsMe ? chat.secondUser.id : chat.firstUser.id,
             'receiverNotificationToken': itsMe ? chat.secondUser.notificationToken : chat.firstUser.notificationToken,
@@ -151,7 +151,7 @@ class _ListTileMessage extends StatelessWidget {
                 ),
               ),
             ),
-            title: Text(itsMe ? chat.secondUser.name : chat.firstUser.name),
+            title: Text(itsMe ? OtherFunctions.firstCharacterUpper(chat.secondUser.name) : OtherFunctions.firstCharacterUpper(chat.firstUser.name)),
             subtitle: Text(chat.lastMessage),
             trailing: Column(
               mainAxisAlignment: MainAxisAlignment.center,
