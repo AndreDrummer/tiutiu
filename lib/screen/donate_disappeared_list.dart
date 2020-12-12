@@ -210,124 +210,127 @@ class _DonateDisappearedListState extends State<DonateDisappearedList> {
                 );
               }
 
-              return Container(
-                height: marginTop,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Container(
-                      height: 20,
-                      alignment: Alignment(-0.9, 1),
-                      padding: const EdgeInsets.only(left: 10, right: 10),
-                      margin: const EdgeInsets.only(bottom: 10, top: 5),
-                      child: Row(
-                        children: [
-                          Row(
-                            children: [
-                              Text(
-                                '${petsList.length} ',
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w700,
-                                  color: Colors.black26,
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(top: 2.0),
-                                child: Text(
-                                  'encontrados',
+              return RefreshIndicator(
+                onRefresh: () => petsProvider.reloadList(state: refineSearchProvider.getStateOfResultSearch),
+                child: Container(
+                  height: marginTop,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Container(
+                        height: 20,
+                        alignment: Alignment(-0.9, 1),
+                        padding: const EdgeInsets.only(left: 10, right: 10),
+                        margin: const EdgeInsets.only(bottom: 10, top: 5),
+                        child: Row(
+                          children: [
+                            Row(
+                              children: [
+                                Text(
+                                  '${petsList.length} ',
                                   style: TextStyle(
-                                    fontSize: 13,
+                                    fontSize: 16,
                                     fontWeight: FontWeight.w700,
                                     color: Colors.black26,
                                   ),
                                 ),
-                              ),
-                            ],
-                          ),
-                          Spacer(),
-                          Row(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.only(top: 3.0),
-                                child: Text(
-                                  'ordenar por:  ',
-                                  style: TextStyle(
-                                    fontSize: 13,
-                                    fontWeight: FontWeight.w700,
-                                    color: Colors.black26,
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 2.0),
+                                  child: Text(
+                                    'encontrados',
+                                    style: TextStyle(
+                                      fontSize: 13,
+                                      fontWeight: FontWeight.w700,
+                                      color: Colors.black26,
+                                    ),
                                   ),
                                 ),
-                              ),
-                              StreamBuilder<Object>(
-                                stream: petsProvider.orderType,
-                                builder: (context, snapshot) {
-                                  return CustomDropdownButtonSearch(
-                                    colorText: Colors.black54,
-                                    fontSize: 13,
-                                    initialValue: petsProvider.getOrderType,
-                                    isExpanded: false,
-                                    withPipe: false,
-                                    itemList: petsProvider.getOrderTypeList,
-                                    label: '',
-                                    onChange: (String text) {
-                                      petsProvider.changeOrderType(text, refineSearchProvider.getStateOfResultSearch);
-                                    },
-                                  );
-                                },
-                              ),
-                            ],
-                          ),
-                        ],
+                              ],
+                            ),
+                            Spacer(),
+                            Row(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 3.0),
+                                  child: Text(
+                                    'ordenar por:  ',
+                                    style: TextStyle(
+                                      fontSize: 13,
+                                      fontWeight: FontWeight.w700,
+                                      color: Colors.black26,
+                                    ),
+                                  ),
+                                ),
+                                StreamBuilder<Object>(
+                                  stream: petsProvider.orderType,
+                                  builder: (context, snapshot) {
+                                    return CustomDropdownButtonSearch(
+                                      colorText: Colors.black54,
+                                      fontSize: 13,
+                                      initialValue: petsProvider.getOrderType,
+                                      isExpanded: false,
+                                      withPipe: false,
+                                      itemList: petsProvider.getOrderTypeList,
+                                      label: '',
+                                      onChange: (String text) {
+                                        petsProvider.changeOrderType(text, refineSearchProvider.getStateOfResultSearch);
+                                      },
+                                    );
+                                  },
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                    Expanded(
-                      child: ListView.builder(
-                        key: UniqueKey(),
-                        controller: _scrollController,
-                        itemCount: petsList.length + 1,
-                        itemBuilder: (_, index) {
-                          if (index == petsList.length) {
-                            return petsList.length > 1
-                                ? InkWell(
-                                    onTap: () {
-                                      _scrollController.animateTo(0 * height / 3, duration: new Duration(seconds: 2), curve: Curves.ease);
-                                    },
-                                    child: Container(
-                                      height: 280,
-                                      alignment: Alignment.center,
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(16.0),
-                                        child: Column(
-                                          children: [
-                                            adsProvider.getCanShowAds ? adsProvider.bannerAdMob(adId: adsProvider.topAdId, medium_banner: true) : Container(),
-                                            Padding(
-                                              padding: const EdgeInsets.only(top: 8.0, bottom: 24.0),
-                                              child: Row(
-                                                mainAxisAlignment: MainAxisAlignment.center,
-                                                children: [
-                                                  Text('Voltar ao topo'.toUpperCase(), style: TextStyle(color: Colors.blue, fontWeight: FontWeight.w700)),
-                                                  Icon(Icons.arrow_drop_up_sharp, color: Colors.blue)
-                                                ],
+                      Expanded(
+                        child: ListView.builder(
+                          key: UniqueKey(),
+                          controller: _scrollController,
+                          itemCount: petsList.length + 1,
+                          itemBuilder: (_, index) {
+                            if (index == petsList.length) {
+                              return petsList.length > 1
+                                  ? InkWell(
+                                      onTap: () {
+                                        _scrollController.animateTo(0 * height / 3, duration: new Duration(seconds: 2), curve: Curves.ease);
+                                      },
+                                      child: Container(
+                                        height: 280,
+                                        alignment: Alignment.center,
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(16.0),
+                                          child: Column(
+                                            children: [
+                                              adsProvider.getCanShowAds ? adsProvider.bannerAdMob(adId: adsProvider.topAdId, medium_banner: true) : Container(),
+                                              Padding(
+                                                padding: const EdgeInsets.only(top: 8.0, bottom: 24.0),
+                                                child: Row(
+                                                  mainAxisAlignment: MainAxisAlignment.center,
+                                                  children: [
+                                                    Text('Voltar ao topo'.toUpperCase(), style: TextStyle(color: Colors.blue, fontWeight: FontWeight.w700)),
+                                                    Icon(Icons.arrow_drop_up_sharp, color: Colors.blue)
+                                                  ],
+                                                ),
                                               ),
-                                            ),
-                                          ],
+                                            ],
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                  )
-                                : Container();
-                          }
+                                    )
+                                  : Container();
+                            }
 
-                          return CardList(
-                            donate: petsList[index].kind == Constantes.DONATE,
-                            kind: petsList[index].kind,
-                            petInfo: petsList[index],
-                          );
-                        },
+                            return CardList(
+                              donate: petsList[index].kind == Constantes.DONATE,
+                              kind: petsList[index].kind,
+                              petInfo: petsList[index],
+                            );
+                          },
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               );
             },
@@ -396,7 +399,7 @@ class _StateFilterState extends State<_StateFilter> {
                             child: Padding(
                               padding: const EdgeInsets.only(top: 5.0),
                               child: Text(
-                                e.trim(),
+                                e?.trim(),
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                   fontSize: 14,
