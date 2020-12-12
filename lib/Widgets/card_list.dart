@@ -123,7 +123,7 @@ class _CardListState extends State<CardList> {
                       topRight: Radius.circular(12),
                     ),
                     child: FadeInImage(
-                      placeholder: AssetImage('assets/dog placeholder.png'),
+                      placeholder: AssetImage('assets/fadeIn.jpg'),
                       image: NetworkImage(widget.petInfo.avatar),
                       height: 1000,
                       width: 1000,

@@ -296,7 +296,7 @@ class _HomeState extends State<Home> {
                           },
                   ),
                   SpeedDialChild(
-                    child: FloatingButtonOption(image: 'assets/newLogo.jpg'),
+                    child: FloatingButtonOption(image: 'assets/dogCat.png'),
                     label: 'Doar PET',
                     backgroundColor: Theme.of(context).primaryColor,
                     labelStyle: TextStyle(fontSize: 14.0),
