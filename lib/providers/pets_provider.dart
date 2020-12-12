@@ -90,7 +90,7 @@ class PetsProvider with ChangeNotifier {
     _isFilteringByBreed.sink.add(status);
   }
 
-  void reloadList({String state}) {
+  Future<void> reloadList({String state}) async {
     if (getPetKind == Constantes.DONATE) {
       loadDonatePETS(state: state);
     } else {

@@ -180,7 +180,7 @@ class _PetFormState extends State<PetForm> {
       outPut += word;
     });
 
-    return outPut.trim();
+    return outPut?.trim();
   }
 
   void openModalSelectMedia(BuildContext context, int index) {
@@ -381,7 +381,7 @@ class _PetFormState extends State<PetForm> {
     changeSavingStatus(true);
     var petController = PetController();
 
-    await uploadPhotos(_nome.text.trim());
+    await uploadPhotos(_nome.text?.trim());
 
     if (photosToDelete.isNotEmpty) {
       try {
