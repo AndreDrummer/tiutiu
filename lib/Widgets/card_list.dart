@@ -68,200 +68,171 @@ class _CardListState extends State<CardList> {
       widget.petInfo.longitude,
     );
 
-    return Stack(
-      children: [
-        InkWell(
-          onTap: () async {
-            if (userProvider.uid != null && userProvider.uid != widget.petInfo.ownerId) {
-              PetsProvider().increaseViews(
-                actualViews: widget.petInfo.views ?? 1,
-                petReference: widget.petInfo.petReference,
+    return InkWell(
+      onTap: () async {
+        if (userProvider.uid != null && userProvider.uid != widget.petInfo.ownerId) {
+          PetsProvider().increaseViews(
+            actualViews: widget.petInfo.views ?? 1,
+            petReference: widget.petInfo.petReference,
+          );
+        }
+        final user = await loadOwner(widget.petInfo.ownerReference, auth: auth);
+        if (widget.petInfo.ownerName == null) {
+          print('Was null');
+          widget.petInfo.petReference.set({"ownerName": user['name']});
+          widget.petInfo.ownerName = user['name'];
+        }
+
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) {
+              return PetDetails(
+                petOwner: User.fromMap(user),
+                isMine: User.fromMap(user).id == auth.firebaseUser?.uid,
+                pet: widget.petInfo,
+                kind: widget.petInfo.kind.toUpperCase(),
               );
-            }
-            final user = await loadOwner(widget.petInfo.ownerReference, auth: auth);
-            if (widget.petInfo.ownerName == null) {
-              print('Was null');
-              widget.petInfo.petReference.set({"ownerName": user['name']});
-              widget.petInfo.ownerName = user['name'];
-            }
-
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) {
-                  return PetDetails(
-                    petOwner: User.fromMap(user),
-                    isMine: User.fromMap(user).id == auth.firebaseUser?.uid,
-                    pet: widget.petInfo,
-                    kind: widget.petInfo.kind.toUpperCase(),
-                  );
-                },
-              ),
-            );
-          },
-          child: Padding(
-            padding: const EdgeInsets.all(4.0),
-            child: Column(
-              children: [
-                Container(
-                  decoration: BoxDecoration(
-                    color: Colors.white54,
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(12),
-                      topRight: Radius.circular(12),
-                    ),
-                    border: Border.all(
-                      style: BorderStyle.solid,
-                      color: Colors.grey,
-                    ),
-                  ),
-                  height: height / 3,
-                  width: double.infinity,
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(12),
-                      topRight: Radius.circular(12),
-                    ),
-                    child: FadeInImage(
-                      placeholder: AssetImage('assets/fadeIn.jpg'),
-                      image: NetworkImage(widget.petInfo.avatar),
-                      height: 1000,
-                      width: 1000,
-                      fit: BoxFit.fill,
-                    ),
-                  ),
+            },
+          ),
+        );
+      },
+      child: Card(
+        elevation: 4.0,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8),
+        ),
+        child: Column(
+          children: [
+            Container(
+              decoration: BoxDecoration(
+                color: Colors.white54,
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(8),
+                  topRight: Radius.circular(8),
                 ),
-                Container(
-                  decoration: BoxDecoration(
-                      color: Colors.white54,
-                      borderRadius: BorderRadius.only(
-                        bottomLeft: Radius.circular(12),
-                        bottomRight: Radius.circular(12),
-                      ),
-                      border: Border.all(style: BorderStyle.solid, color: Colors.grey)),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Row(
-                      children: [
-                        Container(
-                          width: width - 100,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                widget.petInfo.name,
-                                style: Theme.of(context).textTheme.headline1.copyWith(fontWeight: FontWeight.w700, color: Colors.black, fontSize: 20, letterSpacing: 1.5),
-                              ),
-                              SizedBox(height: 5),
-                              Text(
-                                widget.petInfo.breed,
-                                style: Theme.of(context).textTheme.headline1.copyWith(fontWeight: FontWeight.w300, color: Colors.grey, fontSize: 14),
-                              ),
-                              SizedBox(height: 5),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  // StreamBuilder(
-                                  //   stream: widget.petInfo.ownerName == null ? UserController().getUserSnapshot(widget.petInfo.ownerReference) : null,
-                                  //   builder: (context, snapshot) {
-                                  //     String announcerName = widget.petInfo.ownerName ?? '';
-
-                                  //     if (widget.petInfo.ownerName == null) {
-                                  //       String announcerUid = snapshot.data.data()['uid'];
-                                  //       String announcerDisplayName = snapshot.data.data()['displayName'];
-                                  //       announcerName = announcerUid == userProvider.uid ? 'Você' : announcerDisplayName;
-                                  //       widget.petInfo.petReference.set({'ownerName': announcerName}, SetOptions(merge: true));
-                                  //     }
-
-                                  //     return Text(
-                                  //       '${OtherFunctions.firstCharacterUpper(announcerName)} está ${widget.kind.toUpperCase() == Constantes.DONATE ? 'doando' : 'procurando'}.',
-                                  //       textAlign: TextAlign.left,
-                                  //       overflow: TextOverflow.fade,
-                                  //       style: Theme.of(context).textTheme.headline1.copyWith(
-                                  //             fontWeight: FontWeight.w700,
-                                  //             color: Colors.black,
-                                  //           ),
-                                  //     );
-                                  //   },
-                                  // ),
-                                ],
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(top: 8.0, bottom: 2.0),
-                                child: Row(
-                                  children: [
-                                    Icon(Tiutiu.eye, size: 14, color: Colors.grey),
-                                    Text('  ${widget.petInfo.views ?? 1} visualizações', style: TextStyle(color: Colors.grey, fontWeight: FontWeight.w700)),
-                                    SizedBox(width: 20),
-                                    Icon(widget.petInfo.kind == Constantes.DONATE ? Icons.favorite : Icons.info, size: 14, color: Colors.grey),
-                                    StreamBuilder(
-                                      stream: PetsProvider().loadInfoOrInterested(kind: widget.petInfo.kind, petReference: widget.petInfo.petReference),
-                                      builder: (context, snapshot) {
-                                        return Text('  ${snapshot.data?.docs?.length ?? 0} ${widget.petInfo.kind == Constantes.DONATE ? 'interessados' : 'informações'}',
-                                            style: TextStyle(color: Colors.grey, fontWeight: FontWeight.w700));
-                                      },
-                                    ),
-                                  ],
-                                ),
-                              )
-                            ],
+              ),
+              height: height / 4,
+              width: double.infinity,
+              child: ClipRRect(
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(8),
+                  topRight: Radius.circular(8),
+                ),
+                child: FadeInImage(
+                  placeholder: AssetImage('assets/fadeIn.jpg'),
+                  image: NetworkImage(widget.petInfo.avatar),
+                  height: 1000,
+                  width: 1000,
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
+            Container(
+              decoration: BoxDecoration(
+                  color: Colors.white54,
+                  borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(8),
+                    bottomRight: Radius.circular(8),
+                  ),
+                  border: Border.all(style: BorderStyle.solid, color: Colors.grey)),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  children: [
+                    Container(
+                      width: width - 100,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            widget.petInfo.name,
+                            style: Theme.of(context).textTheme.headline1.copyWith(fontWeight: FontWeight.w700, color: Colors.black, fontSize: 20),
                           ),
-                        ),
-                        Spacer(),
-                        Column(
-                          children: [
-                            IconButton(
-                              icon: widget.favorite
-                                  ? Icon(
-                                      favoritesProvider.getFavoritesPETSIDList.contains(widget.petInfo.toMap()['id']) ? Icons.favorite : Icons.favorite_border,
-                                      size: 40,
-                                      color: Colors.red,
-                                    )
-                                  : Icon(Tiutiu.location_arrow, size: 25, color: Theme.of(context).primaryColor),
-                              onPressed: !widget.favorite
-                                  ? null
-                                  : () {
-                                      if (favoritesProvider.getFavoritesPETSIDList.contains(widget.petInfo.toMap()['id'])) {
-                                        user.favorite(userProvider.userReference, widget.petInfo.toMap()['petReference'], false);
-                                        favoritesProvider.handleFavorite(widget.petInfo.toMap()['id']);
-                                      } else {
-                                        user.favorite(userProvider.userReference, widget.petInfo.toMap()['petReference'], true);
-                                        favoritesProvider.loadFavoritesReference();
-                                        favoritesProvider.handleFavorite(widget.petInfo.toMap()['id']);
-                                      }
-                                    },
-                            ),
-                            SizedBox(height: 10),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: <Widget>[
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(vertical: 7.0),
-                                  child: Row(
-                                    children: [
-                                      Text(
-                                        '${distanceText[0]}',
-                                        style: Theme.of(context).textTheme.headline1.copyWith(
-                                              fontWeight: FontWeight.w700,
-                                              color: Colors.black,
-                                            ),
-                                      ),
-                                    ],
-                                  ),
+                          SizedBox(height: 5),
+                          Text(
+                            widget.petInfo.breed,
+                            style: Theme.of(context).textTheme.headline1.copyWith(fontWeight: FontWeight.w300, color: Colors.grey, fontSize: 14),
+                          ),
+                          SizedBox(height: 5),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [],
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 8.0, bottom: 2.0),
+                            child: Row(
+                              children: [
+                                Icon(Tiutiu.eye, size: 14, color: Colors.grey),
+                                Text('  ${widget.petInfo.views ?? 1} visualizações', style: TextStyle(color: Colors.grey, fontWeight: FontWeight.w700)),
+                                SizedBox(width: 20),
+                                Icon(widget.petInfo.kind == Constantes.DONATE ? Icons.favorite : Icons.info, size: 14, color: Colors.grey),
+                                StreamBuilder(
+                                  stream: PetsProvider().loadInfoOrInterested(kind: widget.petInfo.kind, petReference: widget.petInfo.petReference),
+                                  builder: (context, snapshot) {
+                                    return Text('  ${snapshot.data?.docs?.length ?? 0} ${widget.petInfo.kind == Constantes.DONATE ? 'interessados' : 'informações'}',
+                                        style: TextStyle(color: Colors.grey, fontWeight: FontWeight.w700));
+                                  },
                                 ),
                               ],
                             ),
-                          ],
-                        )
-                      ],
+                          )
+                        ],
+                      ),
                     ),
-                  ),
-                )
-              ],
-            ),
-          ),
+                    Spacer(),
+                    Column(
+                      children: [
+                        IconButton(
+                          icon: widget.favorite
+                              ? Icon(
+                                  favoritesProvider.getFavoritesPETSIDList.contains(widget.petInfo.toMap()['id']) ? Icons.favorite : Icons.favorite_border,
+                                  size: 40,
+                                  color: Colors.red,
+                                )
+                              : Icon(Tiutiu.location_arrow, size: 25, color: Theme.of(context).primaryColor),
+                          onPressed: !widget.favorite
+                              ? null
+                              : () {
+                                  if (favoritesProvider.getFavoritesPETSIDList.contains(widget.petInfo.toMap()['id'])) {
+                                    user.favorite(userProvider.userReference, widget.petInfo.toMap()['petReference'], false);
+                                    favoritesProvider.handleFavorite(widget.petInfo.toMap()['id']);
+                                  } else {
+                                    user.favorite(userProvider.userReference, widget.petInfo.toMap()['petReference'], true);
+                                    favoritesProvider.loadFavoritesReference();
+                                    favoritesProvider.handleFavorite(widget.petInfo.toMap()['id']);
+                                  }
+                                },
+                        ),
+                        SizedBox(height: 10),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: <Widget>[
+                            Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 7.0),
+                              child: Row(
+                                children: [
+                                  Text(
+                                    '${distanceText[0]}',
+                                    style: Theme.of(context).textTheme.headline1.copyWith(
+                                          fontWeight: FontWeight.w700,
+                                          color: Colors.black,
+                                        ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    )
+                  ],
+                ),
+              ),
+            )
+          ],
         ),
-      ],
+      ),
     );
   }
 }
