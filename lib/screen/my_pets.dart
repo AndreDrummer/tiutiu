@@ -376,14 +376,16 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
                                                                 return Switch(
                                                                     value: pets[index].kind == Constantes.DISAPPEARED ? pets[index].found : pets[index].donated,
                                                                     onChanged: (value) {
+                                                                      print("PET ${pets[index].toMap()}");
                                                                       showDialog(
                                                                           context: context,
                                                                           builder: (context) {
+                                                                            final bool textToDisplay = pets[index].kind == Constantes.DISAPPEARED ? pets[index].found : pets[index].donated;
                                                                             return PopUpMessage(
                                                                               warning: true,
-                                                                              title: 'Marcar como ${pets[index].kind == Constantes.DISAPPEARED ? 'encontrado' : 'doado'}',
+                                                                              title: '${!textToDisplay ? 'Marcar' : 'Desmarcar'} como ${pets[index].kind == Constantes.DISAPPEARED ? 'encontrado' : 'doado'}',
                                                                               message:
-                                                                                  'Ao ${!pets[index].found ? 'marcar' : 'desmarcar'} o PET ${!pets[index].found ? 'deixará de' : 'voltará a'} aparecer para o público.',
+                                                                                  'Ao ${!textToDisplay ? 'marcar' : 'desmarcar'} o PET ${!textToDisplay ? 'deixará de' : 'voltará a'} aparecer para o público.',
                                                                               confirmAction: () {
                                                                                 Navigator.pop(context);
                                                                                 if (pets[index].kind == Constantes.DISAPPEARED) {
@@ -392,9 +394,9 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
                                                                                   pets[index].petReference.set({'donated': !pets[index].donated}, SetOptions(merge: true));
                                                                                 }
                                                                               },
-                                                                              confirmText: !pets[index].found ? 'Pode marcar' : 'Desmarcar',
+                                                                              confirmText: !textToDisplay ? 'Pode marcar' : 'Desmarcar',
                                                                               denyAction: () => Navigator.pop(context),
-                                                                              denyText: !pets[index].found ? 'Não marcar agora' : 'Não desmarcar',
+                                                                              denyText: !textToDisplay ? 'Não marcar agora' : 'Não desmarcar',
                                                                             );
                                                                           });
                                                                     });

@@ -445,6 +445,9 @@ class _SettingsState extends State<Settings> {
         body: Stack(
           children: [
             Card(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.only(topLeft: Radius.circular(12), topRight: Radius.circular(12)),
+              ),
               child: SingleChildScrollView(
                 child: Column(
                   children: [
@@ -454,30 +457,39 @@ class _SettingsState extends State<Settings> {
                           onTap: () {
                             openModalSelectMedia(context, false);
                           },
-                          child: Container(
-                            height: 200,
-                            width: double.infinity,
-                            child: Opacity(
-                              child: userProfile['photoFileBack'] == null
-                                  ? ClipRRect(
-                                      borderRadius: BorderRadius.circular(8.0),
-                                      child: FadeInImage(
-                                        placeholder: AssetImage('assets/fundo.jpg'),
-                                        image: NetworkImage(
-                                          userProvider.photoBACK ?? '',
+                          child: Card(
+                            elevation: 6.0,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              height: 200,
+                              width: double.infinity,
+                              child: Opacity(
+                                child: userProfile['photoFileBack'] == null
+                                    ? ClipRRect(
+                                        borderRadius: BorderRadius.circular(8.0),
+                                        child: FadeInImage(
+                                          placeholder: AssetImage('assets/fundo.jpg'),
+                                          image: NetworkImage(
+                                            userProvider.photoBACK ?? '',
+                                          ),
+                                          fit: BoxFit.fill,
+                                          width: 1000,
+                                          height: 1000,
                                         ),
-                                        fit: BoxFit.fill,
+                                      )
+                                    : Image.file(
+                                        userProfile['photoFileBack'],
                                         width: 1000,
                                         height: 1000,
+                                        fit: BoxFit.cover,
                                       ),
-                                    )
-                                  : Image.file(
-                                      userProfile['photoFileBack'],
-                                      width: 1000,
-                                      height: 1000,
-                                      fit: BoxFit.cover,
-                                    ),
-                              opacity: 0.25,
+                                opacity: 0.15,
+                              ),
                             ),
                           ),
                         ),
@@ -509,28 +521,34 @@ class _SettingsState extends State<Settings> {
                                 onTap: () {
                                   openModalSelectMedia(context, true);
                                 },
-                                child: CircleAvatar(
-                                  radius: 50,
-                                  backgroundColor: Colors.black38,
-                                  child: ClipOval(
-                                    child: userProfile['photoFile'] == null
-                                        ? userProvider.photoURL != null
-                                            ? FadeInImage(
-                                                placeholder: AssetImage('assets/profileEmpty.png'),
-                                                image: NetworkImage(
-                                                  userProvider.photoURL,
-                                                ),
-                                                fit: BoxFit.cover,
-                                                width: 1000,
-                                                height: 100,
-                                              )
-                                            : Icon(Icons.person, color: Colors.white70, size: 50)
-                                        : Image.file(
-                                            userProfile['photoFile'],
-                                            width: 1000,
-                                            height: 1000,
-                                            fit: BoxFit.cover,
-                                          ),
+                                child: Card(
+                                  elevation: 20,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(50),
+                                  ),
+                                  child: CircleAvatar(
+                                    radius: 50,
+                                    backgroundColor: Colors.black38,
+                                    child: ClipOval(
+                                      child: userProfile['photoFile'] == null
+                                          ? userProvider.photoURL != null
+                                              ? FadeInImage(
+                                                  placeholder: AssetImage('assets/profileEmpty.png'),
+                                                  image: NetworkImage(
+                                                    userProvider.photoURL,
+                                                  ),
+                                                  fit: BoxFit.cover,
+                                                  width: 1000,
+                                                  height: 100,
+                                                )
+                                              : Icon(Icons.person, color: Colors.white70, size: 50)
+                                          : Image.file(
+                                              userProfile['photoFile'],
+                                              width: 1000,
+                                              height: 1000,
+                                              fit: BoxFit.cover,
+                                            ),
+                                    ),
                                   ),
                                 ),
                               ),
