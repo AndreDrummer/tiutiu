@@ -11,7 +11,7 @@ class About extends StatelessWidget {
           'Sobre Tiu, tiu'.toUpperCase(),
           style: Theme.of(context).textTheme.headline1.copyWith(
                 fontSize: 20,
-                fontWeight: FontWeight.w700,
+                fontWeight: FontWeight.w600,
               ),
         ),
       ),
@@ -40,9 +40,8 @@ class About extends StatelessWidget {
                   style: Theme.of(context).textTheme.headline1.copyWith(
                         fontSize: 18,
                         color: Colors.black45,
-                        letterSpacing: 2,
                         height: 1.5,
-                        fontWeight: FontWeight.w700,
+                        fontWeight: FontWeight.w600,
                       ),
                 ),
                 SizedBox(height: 10),
@@ -52,9 +51,8 @@ class About extends StatelessWidget {
                   style: Theme.of(context).textTheme.headline1.copyWith(
                         fontSize: 18,
                         color: Colors.black45,
-                        letterSpacing: 2,
                         height: 1.5,
-                        fontWeight: FontWeight.w700,
+                        fontWeight: FontWeight.w600,
                       ),
                 ),
                 SizedBox(height: 10),
@@ -64,9 +62,8 @@ class About extends StatelessWidget {
                   style: Theme.of(context).textTheme.headline1.copyWith(
                         fontSize: 18,
                         color: Colors.black45,
-                        letterSpacing: 2,
                         height: 1.5,
-                        fontWeight: FontWeight.w700,
+                        fontWeight: FontWeight.w600,
                       ),
                 ),
                 SizedBox(height: 10),

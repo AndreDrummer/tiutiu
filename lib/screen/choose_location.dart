@@ -38,52 +38,54 @@ class _ChooseLocationState extends State<ChooseLocation> {
 
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        title: Text(
-          kind == Constantes.DONATE ? 'localização do PET'.toUpperCase() : 'Visto pela última vez em'.toUpperCase(),
-          style: Theme.of(context).textTheme.headline1.copyWith(
-                fontSize: 20,
-                fontWeight: FontWeight.w700,
-              ),
-        ),
-      ),
+      // appBar: AppBar(
+      //   title: Text(
+      //     kind == Constantes.DONATE ? 'localização do PET'.toUpperCase() : 'Visto pela última vez em'.toUpperCase(),
+      //     style: Theme.of(context).textTheme.headline1.copyWith(
+      //           fontSize: 20,
+      //           fontWeight: FontWeight.w700,
+      //         ),
+      //   ),
+      // ),
       body: Stack(
         children: <Widget>[
           NewMap(),
           Positioned(
-              bottom: 0.0,
-              child: StreamBuilder<bool>(
-                  stream: locationProvider.canContinue,
-                  builder: (context, snapshot) {
-                    return ButtonWide(
-                      color: snapshot.data != null && snapshot.data ? Colors.purple : Colors.grey,
-                      rounded: false,
-                      isToExpand: true,
-                      text: kind == Constantes.DONATE ? 'O PET ESTÁ NESTA REGIÃO' : 'VISTO POR ÚLTIMO AQUI',
-                      action: snapshot.data == null || !snapshot.data
-                          ? null
-                          : () {
-                              widget.editMode
-                                  ? Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) {
-                                          return PetForm(
-                                            editMode: true,
-                                            pet: widget.pet,
-                                            localChanged: true,
-                                          );
-                                        },
-                                      ),
-                                    )
-                                  : Navigator.pushNamed(
-                                      context,
-                                      Routes.PET_FORM,
-                                      arguments: {'kind': kind},
-                                    );
-                            },
-                    );
-                  }))
+            bottom: 0.0,
+            child: StreamBuilder<bool>(
+              stream: locationProvider.canContinue,
+              builder: (context, snapshot) {
+                return ButtonWide(
+                  color: snapshot.data != null && snapshot.data ? Colors.purple : Colors.grey,
+                  rounded: false,
+                  isToExpand: true,
+                  text: kind == Constantes.DONATE ? 'O PET ESTÁ NESTA REGIÃO' : 'VISTO POR ÚLTIMO AQUI',
+                  action: snapshot.data == null || !snapshot.data
+                      ? null
+                      : () {
+                          widget.editMode
+                              ? Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) {
+                                      return PetForm(
+                                        editMode: true,
+                                        pet: widget.pet,
+                                        localChanged: true,
+                                      );
+                                    },
+                                  ),
+                                )
+                              : Navigator.pushNamed(
+                                  context,
+                                  Routes.PET_FORM,
+                                  arguments: {'kind': kind},
+                                );
+                        },
+                );
+              },
+            ),
+          )
         ],
       ),
     );
