@@ -29,10 +29,6 @@ class PopUpMessage extends StatelessWidget {
           Text(title, style: TextStyle(color: Colors.white, fontSize: 16)),
           Container(
             padding: const EdgeInsets.all(2.50),
-            decoration: BoxDecoration(
-              border: Border.all(color: Colors.white),
-              borderRadius: BorderRadius.circular(25),
-            ),
             child: Image.asset('assets/newLogo.png', width: 20, height: 20, color: Colors.white),
           )
         ],

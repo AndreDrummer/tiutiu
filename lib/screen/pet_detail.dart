@@ -7,7 +7,6 @@ import 'package:loading_animations/loading_animations.dart';
 import 'package:provider/provider.dart';
 import 'package:tiutiu/Custom/icons.dart';
 import 'package:share/share.dart';
-import 'package:tiutiu/Widgets/badge.dart';
 import 'package:tiutiu/Widgets/button.dart';
 import 'package:tiutiu/Widgets/card_details.dart';
 import 'package:tiutiu/Widgets/dots_indicator.dart';
@@ -310,29 +309,16 @@ class _PetDetailsState extends State<PetDetails> {
           IconButton(icon: Icon(Icons.share), onPressed: sharePet),
           auth.firebaseUser == null
               ? Container()
-              : Stack(
-                  children: [
-                    IconButton(
-                      onPressed: !isAuthenticated
-                          ? navigateToAuth
-                          : () => CommonChatFunctions.openChat(
-                                context: context,
-                                firstUser: userProvider.user(),
-                                secondUser: widget.petOwner,
-                              ),
-                      color: Colors.white,
-                      icon: Icon(Icons.chat),
-                    ),
-                    Positioned(
-                      top: 5,
-                      right: 5,
-                      child: Badge(
-                        text: 'New!',
-                        color: Colors.purple,
-                        textSize: 8,
-                      ),
-                    )
-                  ],
+              : IconButton(
+                  onPressed: !isAuthenticated
+                      ? navigateToAuth
+                      : () => CommonChatFunctions.openChat(
+                            context: context,
+                            firstUser: userProvider.user(),
+                            secondUser: widget.petOwner,
+                          ),
+                  color: Colors.white,
+                  icon: Icon(Icons.chat),
                 ),
         ],
       ),
@@ -600,6 +586,8 @@ class _PetDetailsState extends State<PetDetails> {
                 return Image.network(
                   photos.elementAt(index),
                   loadingBuilder: loadingImage,
+                  fit: BoxFit.fitWidth,
+                  alignment: Alignment(1, -0.15),
                 );
               },
             ),
