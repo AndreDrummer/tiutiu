@@ -26,11 +26,11 @@ class _NewMapState extends State<NewMap> with SingleTickerProviderStateMixin {
       pinBuilder: (context, state) {
         return Image.asset('assets/new-pin2.png', width: 150, height: 150);
       },
-      autoCompleteDebounceInMilliseconds: 1000,
+      searchingText: 'Buscando...',
+      autoCompleteDebounceInMilliseconds: 600,
       autocompleteLanguage: 'pt-BR',
       automaticallyImplyAppBarLeading: false,
       autocompleteOnTrailingWhitespace: true,
-      forceSearchOnZoomChanged: false,
       apiKey: Constantes.WEB_API_KEY,
       selectedPlaceWidgetBuilder: (context, PickResult result, state, isSearchBarFocused) {
         if (isSearchBarFocused) {
