@@ -33,242 +33,256 @@ class _MyAccountState extends State<MyAccount> {
   Widget appBar(UserProvider userProvider, Authentication auth) {
     return PreferredSize(
       preferredSize: Size.fromHeight(MediaQuery.of(context).size.height / 3),
-      child: Stack(
-        children: [
-          Opacity(
-            child: FadeInImage(
-              placeholder: AssetImage('assets/fundo.jpg'),
-              image: userProvider.photoBACK != null
-                  ? NetworkImage(
-                      userProvider.photoBACK,
-                    )
-                  : AssetImage(
-                      'assets/fundo.jpg',
-                    ),
-              fit: BoxFit.fill,
-              width: 1000,
-              height: 1000,
-            ),
-            opacity: 0.25,
-          ),
-          Column(
-            children: [
-              SizedBox(height: 20),
-              Row(
+      child: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 0.0),
+          child: InkWell(
+            onTap: userProvider.photoURL == null
+                ? null
+                : () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => FullScreenImage(
+                          tag: 'myProfile',
+                          images: [userProvider.photoURL],
+                        ),
+                      ),
+                    );
+                  },
+            child: Card(
+              elevation: 6.0,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Stack(
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: CircleChild(
-                      avatarRadius: 45,
-                      child: InkWell(
-                        onTap: userProvider.photoURL == null
-                            ? null
-                            : () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => FullScreenImage(
-                                      tag: 'myProfile',
-                                      images: [userProvider.photoURL],
+                  Opacity(
+                    child: FadeInImage(
+                      placeholder: AssetImage('assets/fundo.jpg'),
+                      image: userProvider.photoBACK != null
+                          ? NetworkImage(
+                              userProvider.photoBACK,
+                            )
+                          : AssetImage(
+                              'assets/fundo.jpg',
+                            ),
+                      fit: BoxFit.fill,
+                      width: 1000,
+                      height: 1000,
+                    ),
+                    opacity: 0.15,
+                  ),
+                  Column(
+                    children: [
+                      Row(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Card(
+                              elevation: 20,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(50),
+                              ),
+                              child: CircleAvatar(
+                                radius: 50,
+                                backgroundColor: Colors.black38,
+                                child: ClipOval(
+                                  child: userProvider.photoURL != null
+                                      ? FadeInImage(
+                                          placeholder: AssetImage('assets/profileEmpty.png'),
+                                          image: NetworkImage(
+                                            userProvider.photoURL,
+                                          ),
+                                          fit: BoxFit.cover,
+                                          width: 1000,
+                                          height: 100,
+                                        )
+                                      : Icon(Icons.person, color: Colors.white70, size: 50),
+                                ),
+                              ),
+                            ),
+                          ),
+                          Expanded(
+                            child: Column(
+                              children: [
+                                SizedBox(height: 40),
+                                Text(
+                                  userProvider.displayName,
+                                  textAlign: TextAlign.start,
+                                  style: Theme.of(context).textTheme.headline1.copyWith(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 25,
+                                      ),
+                                ),
+                                SizedBox(height: 10),
+                                Align(
+                                  child: Text(
+                                    'Usuário desde ${DateFormat('dd/MM/y HH:mm').format(DateTime.parse(userProvider.createdAt)).split(' ').first}',
+                                    textAlign: TextAlign.start,
+                                    style: Theme.of(context).textTheme.headline1.copyWith(
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.w400,
+                                          fontSize: 12,
+                                        ),
+                                  ),
+                                ),
+                                SizedBox(height: MediaQuery.of(context).size.height * 0.07),
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Column(
+                            children: [
+                              InkWell(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) {
+                                        return MyPetsScreen(
+                                          title: 'PETs p/ adoção',
+                                          streamBuilder: userProvider.donatePets,
+                                          kind: Constantes.DONATE,
+                                        );
+                                      },
+                                    ),
+                                  );
+                                },
+                                child: CircleChild(
+                                  avatarRadius: 25,
+                                  child: Text(
+                                    userProvider.getTotalToDonate?.toString(),
+                                    style: TextStyle(
+                                      color: Theme.of(context).primaryColor,
                                     ),
                                   ),
-                                );
-                              },
-                        child: Hero(
-                          tag: 'myProfile',
-                          child: FadeInImage(
-                            placeholder: AssetImage('assets/profileEmpty.png'),
-                            image: NetworkImage(
-                              userProvider.photoURL,
-                            ),
-                            fit: BoxFit.cover,
-                            width: 1000,
-                            height: 1000,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    child: Column(
-                      children: [
-                        SizedBox(height: 40),
-                        Text(
-                          userProvider.displayName,
-                          textAlign: TextAlign.start,
-                          style: Theme.of(context).textTheme.headline1.copyWith(
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 25,
-                              ),
-                        ),
-                        SizedBox(height: 10),
-                        Align(
-                          alignment: Alignment(0.5, 1),
-                          child: Text(
-                            'Usuário desde ${DateFormat('dd/MM/y HH:mm').format(DateTime.parse(userProvider.createdAt)).split(' ').first}',
-                            textAlign: TextAlign.end,
-                            style: Theme.of(context).textTheme.headline1.copyWith(
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.w800,
-                                  fontSize: 12,
                                 ),
+                              ),
+                              Text(
+                                'P/ adoção',
+                                style: Theme.of(context).textTheme.headline1.copyWith(
+                                      color: Colors.black,
+                                      fontSize: 14,
+                                    ),
+                              )
+                            ],
                           ),
-                        ),
-                        SizedBox(height: MediaQuery.of(context).size.height * 0.07),
-                      ],
-                    ),
-                  )
+                          Column(
+                            children: [
+                              InkWell(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) {
+                                        return MyPetsScreen(
+                                          title: 'PETs doados',
+                                          streamBuilder: userProvider.donatedPets,
+                                          kind: null,
+                                          userId: auth.firebaseUser.uid,
+                                        );
+                                      },
+                                    ),
+                                  );
+                                },
+                                child: CircleChild(
+                                  avatarRadius: 25,
+                                  child: Text(
+                                    userProvider.getTotalDonated?.toString(),
+                                    style: TextStyle(
+                                      color: Theme.of(context).primaryColor,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Text(
+                                'Doados',
+                                style: Theme.of(context).textTheme.headline1.copyWith(fontSize: 14, color: Colors.black),
+                              )
+                            ],
+                          ),
+                          Column(
+                            children: [
+                              InkWell(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) {
+                                        return MyPetsScreen(
+                                          title: 'PETs Adotados',
+                                          streamBuilder: userProvider.adoptedPets,
+                                          kind: Constantes.ADOPTED,
+                                        );
+                                      },
+                                    ),
+                                  );
+                                },
+                                child: CircleChild(
+                                  avatarRadius: 25,
+                                  child: Text(userProvider.getTotalAdopted?.toString(), style: TextStyle(color: Theme.of(context).primaryColor)),
+                                ),
+                              ),
+                              Text(
+                                'Adotados',
+                                style: Theme.of(context).textTheme.headline1.copyWith(
+                                      color: Colors.black,
+                                      fontSize: 14,
+                                    ),
+                              )
+                            ],
+                          ),
+                          Column(
+                            children: [
+                              InkWell(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) {
+                                        return MyPetsScreen(
+                                          title: 'PETs desaparecidos',
+                                          streamBuilder: userProvider.disappearedPets,
+                                          kind: Constantes.DISAPPEARED,
+                                        );
+                                      },
+                                    ),
+                                  );
+                                },
+                                child: CircleChild(
+                                  avatarRadius: 25,
+                                  child: Text(
+                                    userProvider.getTotalDisappeared?.toString(),
+                                    style: TextStyle(
+                                      color: Theme.of(context).primaryColor,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Text(
+                                'Desaparecidos',
+                                style: Theme.of(context).textTheme.headline1.copyWith(
+                                      color: Colors.black,
+                                      fontSize: 14,
+                                    ),
+                              )
+                            ],
+                          ),
+                        ],
+                      )
+                    ],
+                  ),
                 ],
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Column(
-                    children: [
-                      InkWell(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) {
-                                return MyPetsScreen(
-                                  title: 'PETs p/ adoção',
-                                  streamBuilder: userProvider.donatePets,
-                                  kind: Constantes.DONATE,
-                                );
-                              },
-                            ),
-                          );
-                        },
-                        child: CircleChild(
-                          avatarRadius: 25,
-                          child: Text(
-                            userProvider.getTotalToDonate?.toString(),
-                            style: TextStyle(
-                              color: Theme.of(context).primaryColor,
-                            ),
-                          ),
-                        ),
-                      ),
-                      Text(
-                        'P/ adoção',
-                        style: Theme.of(context).textTheme.headline1.copyWith(
-                              color: Colors.black,
-                              fontSize: 14,
-                            ),
-                      )
-                    ],
-                  ),
-                  Column(
-                    children: [
-                      InkWell(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) {
-                                return MyPetsScreen(
-                                  title: 'PETs doados',
-                                  streamBuilder: userProvider.donatedPets,
-                                  kind: null,
-                                  userId: auth.firebaseUser.uid,
-                                );
-                              },
-                            ),
-                          );
-                        },
-                        child: CircleChild(
-                          avatarRadius: 25,
-                          child: Text(
-                            userProvider.getTotalDonated?.toString(),
-                            style: TextStyle(
-                              color: Theme.of(context).primaryColor,
-                            ),
-                          ),
-                        ),
-                      ),
-                      Text(
-                        'Doados',
-                        style: Theme.of(context).textTheme.headline1.copyWith(
-                              fontSize: 14,
-                              color: Colors.blueGrey[400],
-                            ),
-                      )
-                    ],
-                  ),
-                  Column(
-                    children: [
-                      InkWell(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) {
-                                return MyPetsScreen(
-                                  title: 'PETs Adotados',
-                                  streamBuilder: userProvider.adoptedPets,
-                                  kind: Constantes.ADOPTED,
-                                );
-                              },
-                            ),
-                          );
-                        },
-                        child: CircleChild(
-                          avatarRadius: 25,
-                          child: Text(userProvider.getTotalAdopted?.toString(), style: TextStyle(color: Theme.of(context).primaryColor)),
-                        ),
-                      ),
-                      Text(
-                        'Adotados',
-                        style: Theme.of(context).textTheme.headline1.copyWith(
-                              color: Colors.black,
-                              fontSize: 14,
-                            ),
-                      )
-                    ],
-                  ),
-                  Column(
-                    children: [
-                      InkWell(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) {
-                                return MyPetsScreen(
-                                  title: 'PETs desaparecidos',
-                                  streamBuilder: userProvider.disappearedPets,
-                                  kind: Constantes.DISAPPEARED,
-                                );
-                              },
-                            ),
-                          );
-                        },
-                        child: CircleChild(
-                          avatarRadius: 25,
-                          child: Text(
-                            userProvider.getTotalDisappeared?.toString(),
-                            style: TextStyle(
-                              color: Theme.of(context).primaryColor,
-                            ),
-                          ),
-                        ),
-                      ),
-                      Text(
-                        'Desaparecidos',
-                        style: Theme.of(context).textTheme.headline1.copyWith(
-                              color: Colors.black,
-                              fontSize: 14,
-                            ),
-                      )
-                    ],
-                  ),
-                ],
-              )
-            ],
+            ),
           ),
-        ],
+        ),
       ),
     );
   }
@@ -390,78 +404,81 @@ class _MyAccountState extends State<MyAccount> {
                       ),
                     ],
                   ),
-                  Card(
-                    elevation: 6.0,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: Column(
-                      children: [
-                        InkWell(
-                          onTap: () async {
-                            Navigator.pushNamed(context, Routes.SETTINGS);
-                          },
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Row(
-                              children: [
-                                Icon(Icons.settings, color: Colors.grey, size: 22),
-                                SizedBox(width: 20),
-                                Text(
-                                  'Configurações',
-                                  style: Theme.of(context).textTheme.headline1.copyWith(
-                                        fontSize: 18,
-                                        color: Colors.blueGrey[400],
-                                      ),
-                                )
-                              ],
-                            ),
-                          ),
-                        ),
-                        Divider(
-                          color: Colors.grey,
-                          height: 1.0,
-                        ),
-                        InkWell(
-                          onTap: () async {
-                            await showDialog(
-                              barrierDismissible: false,
-                              context: context,
-                              builder: (context) => PopUpMessage(
-                                confirmAction: () {
-                                  auth.signOut();
-                                  userProvider.clearUserDataOnSignOut();
-                                  Navigator.pop(context);
-                                },
-                                confirmText: 'Sim',
-                                denyAction: () {
-                                  Navigator.pop(context);
-                                },
-                                denyText: 'Não',
-                                warning: true,
-                                message: 'Tem certeza que deseja deslogar?',
-                                title: 'Deslogar',
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 10.0),
+                    child: Card(
+                      elevation: 6.0,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Column(
+                        children: [
+                          InkWell(
+                            onTap: () async {
+                              Navigator.pushNamed(context, Routes.SETTINGS);
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Row(
+                                children: [
+                                  Icon(Icons.settings, color: Colors.grey, size: 22),
+                                  SizedBox(width: 20),
+                                  Text(
+                                    'Configurações',
+                                    style: Theme.of(context).textTheme.headline1.copyWith(
+                                          fontSize: 18,
+                                          color: Colors.blueGrey[400],
+                                        ),
+                                  )
+                                ],
                               ),
-                            );
-                          },
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Row(
-                              children: [
-                                Icon(Icons.exit_to_app, color: Colors.grey, size: 22),
-                                SizedBox(width: 20),
-                                Text(
-                                  'Sair',
-                                  style: Theme.of(context).textTheme.headline1.copyWith(
-                                        fontSize: 18,
-                                        color: Colors.blueGrey[400],
-                                      ),
-                                )
-                              ],
                             ),
                           ),
-                        )
-                      ],
+                          Divider(
+                            color: Colors.grey,
+                            height: 1.0,
+                          ),
+                          InkWell(
+                            onTap: () async {
+                              await showDialog(
+                                barrierDismissible: false,
+                                context: context,
+                                builder: (context) => PopUpMessage(
+                                  confirmAction: () {
+                                    auth.signOut();
+                                    userProvider.clearUserDataOnSignOut();
+                                    Navigator.pop(context);
+                                  },
+                                  confirmText: 'Sim',
+                                  denyAction: () {
+                                    Navigator.pop(context);
+                                  },
+                                  denyText: 'Não',
+                                  warning: true,
+                                  message: 'Tem certeza que deseja deslogar?',
+                                  title: 'Deslogar',
+                                ),
+                              );
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Row(
+                                children: [
+                                  Icon(Icons.exit_to_app, color: Colors.grey, size: 22),
+                                  SizedBox(width: 20),
+                                  Text(
+                                    'Sair',
+                                    style: Theme.of(context).textTheme.headline1.copyWith(
+                                          fontSize: 18,
+                                          color: Colors.blueGrey[400],
+                                        ),
+                                  )
+                                ],
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
                     ),
                   ),
                   adsProvider.getCanShowAds ? adsProvider.bannerAdMob(adId: adsProvider.bottomAdId) : Container(),

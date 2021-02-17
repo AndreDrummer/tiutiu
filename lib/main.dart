@@ -108,17 +108,17 @@ class App extends StatelessWidget {
                 appBarTheme: AppBarTheme(
                     iconTheme: IconThemeData(color: Colors.white),
                     textTheme: ThemeData.dark().textTheme.copyWith(
-                          headline1: GoogleFonts.lato(
+                          headline1: GoogleFonts.roboto(
                             color: Colors.white,
                             fontSize: 20,
                             fontWeight: FontWeight.w700,
                           ),
                         )),
                 textTheme: ThemeData.light().textTheme.copyWith(
-                      headline1: GoogleFonts.lato(
+                      headline1: GoogleFonts.roboto(
                         color: Colors.white,
                         fontSize: 14,
-                        fontWeight: FontWeight.w700,
+                        fontWeight: FontWeight.w400,
                       ),
                       button: GoogleFonts.raleway(
                         color: Color(0XFFFFFFFF),
@@ -129,7 +129,6 @@ class App extends StatelessWidget {
               ),
               debugShowCheckedModeBanner: false,
               routes: {
-                // Routes.BOOTSTRAP: (ctx) => Settings(),
                 Routes.BOOTSTRAP: (ctx) => Bootstrap(),
                 Routes.AUTH: (ctx) => AuthScreen(),
                 Routes.PET_FORM: (ctx) => PetForm(),
