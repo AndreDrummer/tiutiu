@@ -9,18 +9,19 @@ import 'package:tiutiu/utils/other_functions.dart';
 class ChatScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final routeArguments = ModalRoute.of(context).settings.arguments;
+    final routeArguments = ModalRoute.of(context)!.settings.arguments;
     final chatId = (routeArguments as Map)['chatId'];
-    final chatTitle = (routeArguments as Map)['chatTitle'];
-    final message = (routeArguments as Map)['message'];
-    final receiverNotificationToken = (routeArguments as Map)['receiverNotificationToken'];
-    final receiverId = (routeArguments as Map)['receiverId'];
+    final chatTitle = (routeArguments)['chatTitle'];
+    final message = (routeArguments)['message'];
+    final receiverNotificationToken =
+        (routeArguments)['receiverNotificationToken'];
+    final receiverId = (routeArguments)['receiverId'];
 
     return Scaffold(
       appBar: AppBar(
         title: Text(
           OtherFunctions.firstCharacterUpper(chatTitle),
-          style: Theme.of(context).textTheme.headline1.copyWith(
+          style: Theme.of(context).textTheme.headline1!.copyWith(
                 fontSize: 20,
                 fontWeight: FontWeight.w700,
               ),
@@ -36,11 +37,20 @@ class ChatScreen extends StatelessWidget {
               children: [
                 Expanded(
                   child: Padding(
-                    padding: const EdgeInsets.only(left: 8.0, right: 16.0, top: 8.0),
-                    child: Messages(chatId: chatId, chatProvider: Provider.of<ChatProvider>(context)),
+                    padding:
+                        const EdgeInsets.only(left: 8.0, right: 16.0, top: 8.0),
+                    child: Messages(
+                      chatId: chatId,
+                      chatProvider: Provider.of<ChatProvider>(context),
+                    ),
                   ),
                 ),
-                NewMessage(chatId: chatId, chat: message, receiverNotificationToken: receiverNotificationToken, receiverId: receiverId),
+                NewMessage(
+                  receiverNotificationToken: receiverNotificationToken,
+                  receiverId: receiverId,
+                  chatId: chatId,
+                  chat: message,
+                ),
               ],
             ),
           ),

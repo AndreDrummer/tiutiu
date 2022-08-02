@@ -8,8 +8,8 @@ class TiuTiuException {
 
   @override
   String toString() {
-    if(Errors.containsKey(keyException)) {
-      return Errors[keyException];
+    if (Errors.containsKey(keyException)) {
+      return Errors[keyException]!;
     } else {
       return 'Ocorreu um erro inesperado!';
     }
