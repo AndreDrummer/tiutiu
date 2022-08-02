@@ -3,25 +3,28 @@ import 'package:tiutiu/backend/Model/user_model.dart';
 
 class Message {
   Message({
-    this.text,
-    this.createdAt,
-    this.userId,
-    this.user,
-    this.receiverId,
-    this.receiverNotificationToken,
-    this.notificationType,
-    this.userReference,
+    required this.receiverNotificationToken,
+    required this.notificationType,
+    required this.userReference,
+    required this.receiverId,
+    required this.createdAt,
+    required this.userId,
+    required this.user,
+    required this.text,
   });
 
   Message.fromSnapshot(DocumentSnapshot snapshot)
-      : text = snapshot.data()['text'],
-        createdAt = snapshot.data()['createdAt'],
-        userId = snapshot.data()['userId'],
-        user = User.fromMap(snapshot.data()['user']),
-        receiverId = snapshot.data()['receiverId'],
-        receiverNotificationToken = snapshot.data()['receiverNotificationToken'],
-        notificationType = snapshot.data()['notificationType'],
-        userReference = snapshot.data()['userReference'];
+      : text = (snapshot.data() as Map<String, dynamic>)['text'],
+        createdAt = (snapshot.data() as Map<String, dynamic>)['createdAt'],
+        userId = (snapshot.data() as Map<String, dynamic>)['userId'],
+        user = User.fromMap((snapshot.data() as Map<String, dynamic>)['user']),
+        receiverId = (snapshot.data() as Map<String, dynamic>)['receiverId'],
+        receiverNotificationToken = (snapshot.data()
+            as Map<String, dynamic>)['receiverNotificationToken'],
+        notificationType =
+            (snapshot.data() as Map<String, dynamic>)['notificationType'],
+        userReference =
+            (snapshot.data() as Map<String, dynamic>)['userReference'];
 
   Map<String, dynamic> toJson() {
     return {

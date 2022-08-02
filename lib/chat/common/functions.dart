@@ -7,7 +7,10 @@ import 'package:tiutiu/utils/routes.dart';
 import 'package:tiutiu/utils/string_extension.dart';
 
 class CommonChatFunctions {
-  static List<QueryDocumentSnapshot> orderedListByTime(List<QueryDocumentSnapshot> docs, {String parameterOrder}) {
+  static List<QueryDocumentSnapshot> orderedListByTime({
+    required List<QueryDocumentSnapshot> docs,
+    required String parameterOrder,
+  }) {
     List<QueryDocumentSnapshot> newList = docs;
     newList.sort((a, b) {
       return b.get(parameterOrder) - a.get(parameterOrder);
@@ -16,7 +19,11 @@ class CommonChatFunctions {
     return newList;
   }
 
-  static void openChat({BuildContext context, User firstUser, User secondUser}) {
+  static void openChat({
+    required BuildContext context,
+    required User firstUser,
+    required User secondUser,
+  }) {
     Navigator.pushNamed(
       context,
       Routes.CHAT,
@@ -26,21 +33,32 @@ class CommonChatFunctions {
         'receiverNotificationToken': secondUser.notificationToken,
         'receiverId': secondUser.id,
         'message': Chat(
-          firstUser: firstUser,
-          secondUser: secondUser,
-          lastMessage: '',
           lastMessageTime: Timestamp.now(),
+          secondUser: secondUser,
+          firstUser: firstUser,
+          lastMessage: '',
+          lastSender: '',
+          id: '',
         ),
       },
     );
   }
 
-  static List<Chat> searchChat(List<Chat> chatList, String textToFilter, String myId) {
+  static List<Chat> searchChat(
+      List<Chat> chatList, String textToFilter, String myId) {
     List<Chat> newChat = [];
     if (textToFilter.isNotEmpty) {
       for (Chat chat in chatList) {
-        if (chat.firstUser.id != myId && chat.firstUser.name.removeAccent().toLowerCase().contains(textToFilter.toLowerCase())) newChat.add(chat);
-        if (chat.secondUser != myId && chat.secondUser.name.removeAccent().toLowerCase().contains(textToFilter.toLowerCase())) newChat.add(chat);
+        if (chat.firstUser.id != myId &&
+            chat.firstUser.name
+                .removeAccent()
+                .toLowerCase()
+                .contains(textToFilter.toLowerCase())) newChat.add(chat);
+        if (chat.secondUser != myId &&
+            chat.secondUser.name
+                .removeAccent()
+                .toLowerCase()
+                .contains(textToFilter.toLowerCase())) newChat.add(chat);
       }
       return newChat;
     } else {
@@ -52,7 +70,11 @@ class CommonChatFunctions {
     List<User> newUserList = [];
     if (textToFilter.isNotEmpty) {
       for (User user in userList) {
-        if (user.name.removeAccent().toLowerCase().contains(textToFilter.removeAccent().toLowerCase())) newUserList.add(user);
+        if (user.name
+            .removeAccent()
+            .toLowerCase()
+            .contains(textToFilter.removeAccent().toLowerCase()))
+          newUserList.add(user);
       }
       return newUserList;
     } else {
@@ -61,8 +83,8 @@ class CommonChatFunctions {
   }
 
   static int orderByName(User a, User b) {
-    List<int> aname = a.name?.trim()?.removeAccent()?.codeUnits ?? '';
-    List<int> bname = b.name?.trim()?.removeAccent()?.codeUnits ?? '';
+    List<int> aname = a.name.trim().removeAccent().codeUnits;
+    List<int> bname = b.name.trim().removeAccent().codeUnits;
 
     if (a.name.isEmpty) {
       aname = 'u'.codeUnits;
@@ -87,16 +109,21 @@ class CommonChatFunctions {
     return 1;
   }
 
-  static int filterOnlyMyChats(AsyncSnapshot<QuerySnapshot> snapshot, String uid) {
+  static int filterOnlyMyChats(
+      AsyncSnapshot<QuerySnapshot> snapshot, String uid) {
     int qtd = 0;
     List<QueryDocumentSnapshot> messagesList = [];
     if (snapshot.data != null) {
-      snapshot.data.docs.forEach((element) {
-        if (User.fromMap(element.get('firstUser')).id == uid || User.fromMap(element.get('secondUser')).id == uid) messagesList.add(element);
+      snapshot.data!.docs.forEach((element) {
+        if (User.fromMap(element.get('firstUser')).id == uid ||
+            User.fromMap(element.get('secondUser')).id == uid)
+          messagesList.add(element);
       });
 
       messagesList.forEach((e) {
-        if (e.get('open') != null && !e.get('open') && e.get('lastSender') != uid) {
+        if (e.get('open') != null &&
+            !e.get('open') &&
+            e.get('lastSender') != uid) {
           qtd++;
         }
       });
