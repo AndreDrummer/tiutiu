@@ -8,6 +8,7 @@ import 'package:tiutiu/Widgets/empty_list.dart';
 import 'package:tiutiu/backend/Model/chat_model.dart';
 import 'package:tiutiu/backend/Model/user_model.dart';
 import 'package:tiutiu/chat/common/functions.dart';
+import 'package:tiutiu/core/image_handle.dart';
 import 'package:tiutiu/providers/ads_provider.dart';
 import 'package:tiutiu/providers/chat_provider.dart';
 import 'package:tiutiu/providers/user_provider.dart';
@@ -20,20 +21,23 @@ class MyChats extends StatefulWidget {
 }
 
 class _MyChatsState extends State<MyChats> {
-  AdsProvider adsProvider;
-  ChatProvider chatProvider;
-  UserProvider userProvider;
+  // AdsProvider adsProvider;
+  late ChatProvider chatProvider;
+  late UserProvider userProvider;
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    adsProvider = Provider.of(context);
+    // adsProvider = Provider.of(context);
     chatProvider = Provider.of(context);
     userProvider = Provider.of(context);
   }
 
   bool existsNewMessage(Chat chat) {
-    return chat.open != null && !chat.open && chat.lastSender != null && chat.lastSender != userProvider.uid;
+    return chat.open != null &&
+        !chat.open! &&
+        chat.lastSender != null &&
+        chat.lastSender != userProvider.uid;
   }
 
   @override
@@ -44,17 +48,25 @@ class _MyChatsState extends State<MyChats> {
           // Search(onChanged: chatProvider.changeTextChatSearch, placeholder: 'Pesquisar uma conversa'),
           Expanded(
             child: StreamBuilder(
-              stream: chatProvider.firestore.collection('Chats').orderBy('lastMessageTime', descending: true).snapshots(),
+              stream: chatProvider.firestore
+                  .collection('Chats')
+                  .orderBy('lastMessageTime', descending: true)
+                  .snapshots(),
               builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
                 List<QueryDocumentSnapshot> messagesList = [];
 
-                if (snapshot.connectionState == ConnectionState.waiting) return Center(child: CircularProgressIndicator());
+                if (snapshot.connectionState == ConnectionState.waiting)
+                  return Center(child: CircularProgressIndicator());
 
-                snapshot.data.docs.forEach((element) {
-                  if (User.fromMap(element.get('firstUser')).id == userProvider.uid || User.fromMap(element.get('secondUser')).id == userProvider.uid) messagesList.add(element);
+                snapshot.data!.docs.forEach((element) {
+                  if (User.fromMap(element.get('firstUser')).id ==
+                          userProvider.uid ||
+                      User.fromMap(element.get('secondUser')).id ==
+                          userProvider.uid) messagesList.add(element);
                 });
 
-                List<Chat> chatList = messagesList.map((e) => Chat.fromSnapshot(e)).toList();
+                List<Chat> chatList =
+                    messagesList.map((e) => Chat.fromSnapshot(e)).toList();
 
                 if (chatList.isEmpty) {
                   return EmptyListScreen(
@@ -66,8 +78,9 @@ class _MyChatsState extends State<MyChats> {
                 return StreamBuilder(
                     stream: chatProvider.textChatSearch,
                     builder: (context, AsyncSnapshot<String> snapshot) {
-                      if (snapshot.data != null && snapshot.data.isNotEmpty) {
-                        chatList = CommonChatFunctions.searchChat(chatList, snapshot.data, userProvider.uid);
+                      if (snapshot.data != null && snapshot.data!.isNotEmpty) {
+                        chatList = CommonChatFunctions.searchChat(
+                            chatList, snapshot.data!, userProvider.uid);
                       }
 
                       return ListView.builder(
@@ -76,7 +89,7 @@ class _MyChatsState extends State<MyChats> {
                         itemBuilder: (ctx, index) {
                           return _ListTileMessage(
                             chat: chatList[index],
-                            messageId: chatList[index].id,
+                            messageId: chatList[index].id!,
                             myUserId: userProvider.uid,
                             chatProvider: chatProvider,
                             newMessage: existsNewMessage(chatList[index]),
@@ -87,7 +100,10 @@ class _MyChatsState extends State<MyChats> {
               },
             ),
           ),
-          // adsProvider.getCanShowAds ? adsProvider.bannerAdMob(adId: adsProvider.bottomAdId) : Container(),
+          // TODO: Tinha um anuncio aqui
+          // adsProvider.getCanShowAds
+          //     ? adsProvider.bannerAdMob(adId: adsProvider.bottomAdId)
+          //     : Container(),
         ],
       ),
     );
@@ -96,27 +112,28 @@ class _MyChatsState extends State<MyChats> {
 
 class _ListTileMessage extends StatelessWidget {
   _ListTileMessage({
-    this.chat,
-    this.myUserId,
-    this.messageId,
-    this.newMessage,
-    this.chatProvider,
+    required this.chatProvider,
+    required this.newMessage,
+    required this.messageId,
+    required this.myUserId,
+    required this.chat,
   });
 
-  final Chat chat;
-  final String messageId;
-  final bool newMessage;
-  final String myUserId;
   final ChatProvider chatProvider;
+  final String messageId;
+  final String myUserId;
+  final bool newMessage;
+  final Chat chat;
 
   @override
   Widget build(BuildContext context) {
     // Determina se o usuário logado é o primeiro usuário do chat.
     bool itsMe = myUserId == chat.firstUser.id;
-    Timestamp stamp = chat.lastMessageTime;
+    Timestamp stamp = chat.lastMessageTime!;
     DateTime date = stamp.toDate();
 
-    String profilePic = itsMe ? chat.secondUser.photoURL : chat.firstUser.photoURL;
+    String profilePic =
+        itsMe ? chat.secondUser.photoURL : chat.firstUser.photoURL;
 
     return InkWell(
       onTap: () {
@@ -125,10 +142,14 @@ class _ListTileMessage extends StatelessWidget {
           Routes.CHAT,
           arguments: {
             'chatId': messageId,
-            'chatTitle': itsMe ? OtherFunctions.firstCharacterUpper(chat.secondUser.name) : OtherFunctions.firstCharacterUpper(chat.firstUser.name),
+            'chatTitle': itsMe
+                ? OtherFunctions.firstCharacterUpper(chat.secondUser.name)
+                : OtherFunctions.firstCharacterUpper(chat.firstUser.name),
             'secondUserId': itsMe ? chat.secondUser.id : chat.firstUser.id,
             'receiverId': itsMe ? chat.secondUser.id : chat.firstUser.id,
-            'receiverNotificationToken': itsMe ? chat.secondUser.notificationToken : chat.firstUser.notificationToken,
+            'receiverNotificationToken': itsMe
+                ? chat.secondUser.notificationToken
+                : chat.firstUser.notificationToken,
           },
         );
         chatProvider.markMessageAsRead(messageId);
@@ -137,13 +158,15 @@ class _ListTileMessage extends StatelessWidget {
         children: [
           ListTile(
             leading: InkWell(
-              onTap: () => OtherFunctions.navigateToAnnouncerDetail(context, itsMe ? chat.secondUser : chat.firstUser, showOnlyChat: true),
+              onTap: () => OtherFunctions.navigateToAnnouncerDetail(
+                  context, itsMe ? chat.secondUser : chat.firstUser,
+                  showOnlyChat: true),
               child: CircleAvatar(
                 backgroundColor: Colors.transparent,
                 child: ClipOval(
                   child: FadeInImage(
                     placeholder: AssetImage('assets/profileEmpty.png'),
-                    image: profilePic != null ? NetworkImage(profilePic) : AssetImage('assets/profileEmpty.jpg'),
+                    image: AssetHandle(profilePic).build(),
                     fit: BoxFit.cover,
                     width: 1000,
                     height: 100,
@@ -151,8 +174,10 @@ class _ListTileMessage extends StatelessWidget {
                 ),
               ),
             ),
-            title: Text(itsMe ? OtherFunctions.firstCharacterUpper(chat.secondUser.name) : OtherFunctions.firstCharacterUpper(chat.firstUser.name)),
-            subtitle: Text(chat.lastMessage),
+            title: Text(itsMe
+                ? OtherFunctions.firstCharacterUpper(chat.secondUser.name)
+                : OtherFunctions.firstCharacterUpper(chat.firstUser.name)),
+            subtitle: Text(chat.lastMessage!),
             trailing: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -164,9 +189,11 @@ class _ListTileMessage extends StatelessWidget {
                             text: 'Nova',
                           )
                         : Text(''),
-                    Text('${DateFormat('dd/MM/y HH:mm').format(DateTime.parse(date.toIso8601String())).split(' ').last}'),
+                    Text(
+                        '${DateFormat('dd/MM/y HH:mm').format(DateTime.parse(date.toIso8601String())).split(' ').last}'),
                     SizedBox(height: 2),
-                    Text('${DateFormat('dd/MM/y HH:mm').format(DateTime.parse(date.toIso8601String())).split(' ').first}'),
+                    Text(
+                        '${DateFormat('dd/MM/y HH:mm').format(DateTime.parse(date.toIso8601String())).split(' ').first}'),
                   ],
                 )
               ],
