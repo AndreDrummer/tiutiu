@@ -1,33 +1,37 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:tiutiu/backend/Model/user_model.dart';
+import 'package:tiutiu/core/image_handle.dart';
 import 'package:tiutiu/utils/other_functions.dart';
 
 class MessageBubble extends StatelessWidget {
   MessageBubble({
-    this.message,
-    this.belongToMe,
-    this.user,
-    this.key,
-    this.time,
+    required this.belongToMe,
+    required this.message,
+    required this.user,
+    required this.time,
+    required this.key,
   }) : super(key: key);
 
   @override
-  final Key key;
-  final String message;
   final bool belongToMe;
-  final User user;
+  final String message;
   final String time;
+  final User user;
+  final Key key;
 
   @override
   Widget build(BuildContext context) {
     return Stack(
       children: [
         Row(
-          mainAxisAlignment: belongToMe ? MainAxisAlignment.end : MainAxisAlignment.start,
+          mainAxisAlignment:
+              belongToMe ? MainAxisAlignment.end : MainAxisAlignment.start,
           children: [
             Card(
-              color: belongToMe ? Theme.of(context).primaryColor : Colors.grey[350],
+              color: belongToMe
+                  ? Theme.of(context).primaryColor
+                  : Colors.grey[350],
               elevation: 6.0,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.only(
@@ -43,19 +47,31 @@ class MessageBubble extends StatelessWidget {
                 margin: EdgeInsets.only(top: 15, left: 8, right: 8),
                 padding: EdgeInsets.symmetric(vertical: 10, horizontal: 16),
                 child: Column(
-                  crossAxisAlignment: belongToMe ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+                  crossAxisAlignment: belongToMe
+                      ? CrossAxisAlignment.end
+                      : CrossAxisAlignment.start,
                   children: [
                     Padding(
-                      padding: EdgeInsets.only(left: belongToMe ? 8.0 : 0.0, right: belongToMe ? 0.0 : 8.0),
+                      padding: EdgeInsets.only(
+                          left: belongToMe ? 8.0 : 0.0,
+                          right: belongToMe ? 0.0 : 8.0),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            DateFormat('dd/MM/y HH:mm').format(DateTime.parse(time)).split(' ').last,
+                            DateFormat('dd/MM/y HH:mm')
+                                .format(DateTime.parse(time))
+                                .split(' ')
+                                .last,
                             style: TextStyle(
                               fontSize: 11,
                               fontWeight: FontWeight.bold,
-                              color: belongToMe ? Colors.white : Theme.of(context).accentTextTheme.headline1.color,
+                              color: belongToMe
+                                  ? Colors.white
+                                  : Theme.of(context)
+                                      .accentTextTheme
+                                      .headline1!
+                                      .color,
                             ),
                           ),
                           Spacer(),
@@ -64,7 +80,12 @@ class MessageBubble extends StatelessWidget {
                             style: TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.bold,
-                              color: belongToMe ? Colors.white : Theme.of(context).accentTextTheme.headline1.color,
+                              color: belongToMe
+                                  ? Colors.white
+                                  : Theme.of(context)
+                                      .accentTextTheme
+                                      .headline1!
+                                      .color,
                             ),
                           ),
                         ],
@@ -77,7 +98,12 @@ class MessageBubble extends StatelessWidget {
                       style: TextStyle(
                         height: 2,
                         fontWeight: FontWeight.w600,
-                        color: belongToMe ? Colors.white : Theme.of(context).accentTextTheme.headline1.color,
+                        color: belongToMe
+                            ? Colors.white
+                            : Theme.of(context)
+                                .accentTextTheme
+                                .headline1!
+                                .color,
                       ),
                     ),
                   ],
@@ -100,7 +126,7 @@ class MessageBubble extends StatelessWidget {
                 child: ClipOval(
                   child: FadeInImage(
                     placeholder: AssetImage('assets/profileEmpty.png'),
-                    image: user.photoURL != null ? NetworkImage(user.photoURL) : AssetImage('assets/profileEmpty.jpg'),
+                    image: AssetHandle(user.photoURL).build(),
                     fit: BoxFit.cover,
                     width: 1000,
                     height: 100,

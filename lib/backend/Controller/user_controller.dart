@@ -9,7 +9,8 @@ class UserController {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
 
   Future<User> getUserByID(String id) async {
-    DocumentSnapshot userSnaphsot = await firestore.collection('Users').doc(id).get();
+    DocumentSnapshot userSnaphsot =
+        await firestore.collection('Users').doc(id).get();
 
     return User.fromSnapshot(userSnaphsot);
   }
@@ -24,7 +25,8 @@ class UserController {
     return userReference.snapshots();
   }
 
-  Future<void> favorite(DocumentReference userReference, DocumentReference petReference, bool add) async {
+  Future<void> favorite(DocumentReference userReference,
+      DocumentReference petReference, bool add) async {
     final favorites = userReference.collection('Favorites');
 
     if (add) {
@@ -41,20 +43,24 @@ class UserController {
   }
 
   Future<void> donatePetToSomeone({
-    DocumentReference interestedReference,
-    DocumentReference ownerReference,
-    String interestedNotificationToken,
-    String ownerNotificationToken,
-    String interestedName,
-    String interestedID,
-    int userPosition,
-    Pet pet,
+    required DocumentReference interestedReference,
+    required String interestedNotificationToken,
+    required DocumentReference ownerReference,
+    required String ownerNotificationToken,
+    required String interestedName,
+    required String interestedID,
+    required int userPosition,
+    required Pet pet,
   }) async {
     var user = await ownerReference.get();
 
     // Deleta notificação antiga
-    final pathToPetAdopted = await firestore.collection(Constantes.ADOPTED).where('interestedReference', isEqualTo: interestedReference).get();
-    if (pathToPetAdopted.docs.isNotEmpty) pathToPetAdopted.docs.first.reference.delete();
+    final pathToPetAdopted = await firestore
+        .collection(Constantes.ADOPTED)
+        .where('interestedReference', isEqualTo: interestedReference)
+        .get();
+    if (pathToPetAdopted.docs.isNotEmpty)
+      pathToPetAdopted.docs.first.reference.delete();
 
     Map<String, dynamic> data = {
       'notificationType': 'confirmAdoption',
@@ -63,7 +69,7 @@ class UserController {
       'confirmed': false,
       'petReference': pet.petReference,
       'ownerReference': pet.ownerReference,
-      'ownerName': user.data()['displayName'],
+      'ownerName': (user.data() as Map<String, dynamic>)['displayName'],
       'interestedName': interestedName,
       'interestedReference': interestedReference,
       'ownerID': pet.ownerId,
@@ -78,7 +84,8 @@ class UserController {
 
     await firestore.collection(Constantes.ADOPTED).doc().set(data);
 
-    final interestedRef = await pet.petReference.collection('adoptInteresteds').get();
+    final interestedRef =
+        await pet.petReference.collection('adoptInteresteds').get();
     List interestedUsers = interestedRef.docs;
 
     for (int i = 0; i < interestedUsers.length; i++) {
@@ -86,32 +93,44 @@ class UserController {
         Map<String, dynamic> data = interestedUsers[i].data();
 
         if (data['lastNotificationSend'] == null) {
-          data.putIfAbsent('lastNotificationSend', () => DateTime.now().toIso8601String());
+          data.putIfAbsent(
+              'lastNotificationSend', () => DateTime.now().toIso8601String());
         } else {
           data['lastNotificationSend'] = DateTime.now().toIso8601String();
         }
 
         data['sinalized'] = true;
-        pet.petReference.collection('adoptInteresteds').doc(interestedUsers[i].id).set(data);
+        pet.petReference
+            .collection('adoptInteresteds')
+            .doc(interestedUsers[i].id)
+            .set(data);
         break;
       }
     }
   }
 
-  Future<void> confirmDonate(DocumentReference petReference, DocumentReference userThatAdoptedReference) async {
-    final interestedRef = await petReference.collection('adoptInteresteds').get();
+  Future<void> confirmDonate(DocumentReference petReference,
+      DocumentReference userThatAdoptedReference) async {
+    final interestedRef =
+        await petReference.collection('adoptInteresteds').get();
     List interestedUsers = interestedRef.docs;
 
     for (int i = 0; i < interestedUsers.length; i++) {
-      if (interestedUsers[i].data()['userReference'] == userThatAdoptedReference) {
+      if (interestedUsers[i].data()['userReference'] ==
+          userThatAdoptedReference) {
         var data = interestedUsers[i].data();
         data['donated'] = true;
-        petReference.collection('adoptInteresteds').doc(interestedUsers[i].id).set(data);
+        petReference
+            .collection('adoptInteresteds')
+            .doc(interestedUsers[i].id)
+            .set(data);
         break;
       }
     }
 
-    await petReference.set({'donated': true, 'whoAdoptedReference': userThatAdoptedReference}, SetOptions(merge: true));
+    await petReference.set(
+        {'donated': true, 'whoAdoptedReference': userThatAdoptedReference},
+        SetOptions(merge: true));
     final pathToPetAdopted = await firestore
         .collection(Constantes.ADOPTED)
         .where('confirmed', isEqualTo: false)
@@ -125,23 +144,35 @@ class UserController {
     }, SetOptions(merge: true));
   }
 
-  Future<void> denyDonate(DocumentReference petReference, DocumentReference userThatAdoptedReference) async {
-    final interestedRef = await petReference.collection('adoptInteresteds').get();
+  Future<void> denyDonate(DocumentReference petReference,
+      DocumentReference userThatAdoptedReference) async {
+    final interestedRef =
+        await petReference.collection('adoptInteresteds').get();
     List interestedUsers = interestedRef.docs;
 
     for (int i = 0; i < interestedUsers.length; i++) {
-      if (interestedUsers[i].data()['userReference'] == userThatAdoptedReference) {
+      if (interestedUsers[i].data()['userReference'] ==
+          userThatAdoptedReference) {
         var data = interestedUsers[i].data();
         data['gaveup'] = true;
         data['notificationType'] = 'adoptionDeny';
-        petReference.collection('adoptInteresteds').doc(interestedUsers[i].id).set(data);
+        petReference
+            .collection('adoptInteresteds')
+            .doc(interestedUsers[i].id)
+            .set(data);
         break;
       }
     }
 
-    final pathToPetAdopted = await firestore.collection(Constantes.ADOPTED).where('interestedReference', isEqualTo: userThatAdoptedReference).get();
-    pathToPetAdopted.docs.first.reference.set({'notificationType': 'adoptionDeny', 'gaveup': true}, SetOptions(merge: true));
-    if (pathToPetAdopted.docs.isNotEmpty) pathToPetAdopted.docs.first.reference.delete();
+    final pathToPetAdopted = await firestore
+        .collection(Constantes.ADOPTED)
+        .where('interestedReference', isEqualTo: userThatAdoptedReference)
+        .get();
+    pathToPetAdopted.docs.first.reference.set(
+        {'notificationType': 'adoptionDeny', 'gaveup': true},
+        SetOptions(merge: true));
+    if (pathToPetAdopted.docs.isNotEmpty)
+      pathToPetAdopted.docs.first.reference.delete();
   }
 
   Future<void> insertUser(User user) async {
@@ -149,54 +180,93 @@ class UserController {
   }
 
   Future<void> updateUser(String userId, Map<String, dynamic> data) async {
-    await FirebaseFirestore.instance.collection('Users').doc(userId).set(data, SetOptions(merge: true));
+    await FirebaseFirestore.instance
+        .collection('Users')
+        .doc(userId)
+        .set(data, SetOptions(merge: true));
   }
 
-  Future<void> createNotification({String userId, Map<String, dynamic> data, String notificationId}) async {
-    await firestore.collection('Users').doc(userId).collection('Notifications').doc(notificationId).set(
+  Future<void> createNotification({
+    required Map<String, dynamic> data,
+    required String notificationId,
+    required String userId,
+  }) async {
+    await firestore
+        .collection('Users')
+        .doc(userId)
+        .collection('Notifications')
+        .doc(notificationId)
+        .set(
           data,
           SetOptions(merge: true),
         );
   }
 
   Stream<QuerySnapshot> loadNotifications(String userId) {
-    return firestore.collection('Users').doc(userId).collection('Notifications').snapshots();
+    return firestore
+        .collection('Users')
+        .doc(userId)
+        .collection('Notifications')
+        .snapshots();
   }
 
   Stream<QuerySnapshot> loadNotificationsCount(String userId) {
-    return firestore.collection('Users').doc(userId).collection('Notifications').where('open', isEqualTo: false).snapshots();
+    return firestore
+        .collection('Users')
+        .doc(userId)
+        .collection('Notifications')
+        .where('open', isEqualTo: false)
+        .snapshots();
   }
 
-  Stream<QuerySnapshot> loadMyPostedPetsToDonate({String userId}) {
+  Stream<QuerySnapshot> loadMyPostedPetsToDonate({required String userId}) {
     PetController petController = PetController();
     return petController.getPetsByUser(Constantes.DONATE, userId);
   }
 
-  Stream<QuerySnapshot> loadMyPostedPetsDisappeared({String userId}) {
+  Stream<QuerySnapshot> loadMyPostedPetsDisappeared({required String userId}) {
     PetController petController = PetController();
     return petController.getPetsByUser(Constantes.DISAPPEARED, userId);
   }
 
-  Stream<QuerySnapshot> loadMyAdoptedPets({String userId}) {
+  Stream<QuerySnapshot> loadMyAdoptedPets({required String userId}) {
     PetController petController = PetController();
-    return petController.getPetsByUser(Constantes.ADOPTED, userId, isAdopted: true);
+    return petController.getPetsByUser(Constantes.ADOPTED, userId,
+        isAdopted: true);
   }
 
   Stream<QuerySnapshot> loadMyDonatedPets(DocumentReference userReference) {
-    return firestore.collection(Constantes.DONATE).where("donated", isEqualTo: true).where("ownerReference", isEqualTo: userReference).snapshots();
+    return firestore
+        .collection(Constantes.DONATE)
+        .where("donated", isEqualTo: true)
+        .where("ownerReference", isEqualTo: userReference)
+        .snapshots();
   }
 
   Future<void> deleteUserData(DocumentReference userReference) async {
-    QuerySnapshot notifications = await userReference.collection('Notifications').get();
-    QuerySnapshot petsFavorited = await userReference.collection('Favorites').get();
+    QuerySnapshot notifications =
+        await userReference.collection('Notifications').get();
+    QuerySnapshot petsFavorited =
+        await userReference.collection('Favorites').get();
 
-    QuerySnapshot petsDonated = await FirebaseFirestore.instance.collection(Constantes.DONATE).where('ownerReference', isEqualTo: userReference).get();
-    QuerySnapshot petsDisappeared = await FirebaseFirestore.instance.collection(Constantes.DISAPPEARED).where('ownerReference', isEqualTo: userReference).get();
-    QuerySnapshot petsAdopted = await FirebaseFirestore.instance.collection(Constantes.ADOPTED).where('interestedReference', isEqualTo: userReference).get();
+    QuerySnapshot petsDonated = await FirebaseFirestore.instance
+        .collection(Constantes.DONATE)
+        .where('ownerReference', isEqualTo: userReference)
+        .get();
+    QuerySnapshot petsDisappeared = await FirebaseFirestore.instance
+        .collection(Constantes.DISAPPEARED)
+        .where('ownerReference', isEqualTo: userReference)
+        .get();
+    QuerySnapshot petsAdopted = await FirebaseFirestore.instance
+        .collection(Constantes.ADOPTED)
+        .where('interestedReference', isEqualTo: userReference)
+        .get();
 
     for (int i = 0; i < petsDonated.docs.length; i++) {
       await petsDonated.docs[i].reference.delete();
-      final adoptInterestedsReference = await petsDonated.docs[i].reference.collection('adoptInteresteds').get();
+      final adoptInterestedsReference = await petsDonated.docs[i].reference
+          .collection('adoptInteresteds')
+          .get();
 
       for (QueryDocumentSnapshot doc in adoptInterestedsReference.docs) {
         doc.reference.delete();
@@ -205,7 +275,9 @@ class UserController {
 
     for (int i = 0; i < petsDisappeared.docs.length; i++) {
       await petsDisappeared.docs[i].reference.delete();
-      final infoInterestedsReference = await petsDonated.docs[i].reference.collection('infoInteresteds').get();
+      final infoInterestedsReference = await petsDonated.docs[i].reference
+          .collection('infoInteresteds')
+          .get();
 
       for (QueryDocumentSnapshot doc in infoInterestedsReference.docs) {
         doc.reference.delete();
@@ -229,9 +301,12 @@ class UserController {
     print('Dados de usuário deletados!');
   }
 
-  Future<void> deleteUserAccount(Authentication auth, DocumentReference userReference) async {
+  Future<void> deleteUserAccount({
+    required DocumentReference userReference,
+    required Authentication auth,
+  }) async {
     await deleteUserData(userReference);
     await auth.firebaseUser.delete();
-    await auth.signOut();
+    auth.signOut();
   }
 }

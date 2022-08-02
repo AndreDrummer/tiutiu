@@ -3,75 +3,83 @@ import 'package:tiutiu/utils/constantes.dart';
 
 class InterestedModel {
   InterestedModel({
-    this.position,
-    this.lastNotificationSend,
-    this.userLat,
-    this.userLog,
-    this.userReference,
-    this.interestedAt,
+    required this.lastNotificationSend,
+    required this.interestedName,
+    required this.userReference,
+    required this.interestedAt,
+    required this.infoDetails,
+    required this.position,
     this.sinalized = false,
-    this.gaveup = false,
+    required this.userLat,
+    required this.userLog,
+    required this.petName,
     this.donated = false,
-    this.interestedName,
-    this.infoDetails,
-    this.petName,
+    this.gaveup = false,
   });
 
-  InterestedModel.fromSnapshot(DocumentSnapshot snapshot) {
-    position = snapshot.data()['position'];
-    lastNotificationSend = snapshot.data()['lastNotificationSend'] ?? Constantes.APP_BIRTHDAY;
-    userLat = snapshot.data()['userLat'];
-    userLog = snapshot.data()['userLog'];
-    userReference = snapshot.data()['userReference'];
-    interestedAt = snapshot.data()['interestedAt'];
-    sinalized = snapshot.data()['sinalized'];
-    gaveup = snapshot.data()['gaveup'];
-    donated = snapshot.data()['donated'];
-    interestedName = snapshot.data()['interestedName'];
-    petName = snapshot.data()['petName'];
-    infoDetails = snapshot.data()['infoDetails'];
+  InterestedModel fromSnapshot(DocumentSnapshot snapshot) {
+    return InterestedModel(
+      position: (snapshot.data() as Map<String, dynamic>)['position'],
+      lastNotificationSend:
+          (snapshot.data() as Map<String, dynamic>)['lastNotificationSend'] ??
+              Constantes.APP_BIRTHDAY,
+      userLat: (snapshot.data() as Map<String, dynamic>)['userLat'],
+      userLog: (snapshot.data() as Map<String, dynamic>)['userLog'],
+      userReference: (snapshot.data() as Map<String, dynamic>)['userReference'],
+      interestedAt: (snapshot.data() as Map<String, dynamic>)['interestedAt'],
+      sinalized: (snapshot.data() as Map<String, dynamic>)['sinalized'],
+      gaveup: (snapshot.data() as Map<String, dynamic>)['gaveup'],
+      donated: (snapshot.data() as Map<String, dynamic>)['donated'],
+      interestedName:
+          (snapshot.data() as Map<String, dynamic>)['interestedName'],
+      petName: (snapshot.data() as Map<String, dynamic>)['petName'],
+      infoDetails: (snapshot.data() as Map<String, dynamic>)['infoDetails'],
+    );
   }
 
-  InterestedModel.fromMap(Map<String, dynamic> map) {
-    position = map['position'];
-    lastNotificationSend = map['lastNotificationSend'] ?? Constantes.APP_BIRTHDAY;
-    userLat = map['userLat'];
-    userLog = map['userLog'];
-    userReference = map['userReference'];
-    interestedAt = map['interestedAt'];
-    sinalized = map['sinalized'];
-    gaveup = map['gaveup'];
-    donated = map['donated'];
-    petName = map['petName'];
-    infoDetails = map['infoDetails'];
-    interestedName = map['interestedName'];
+  InterestedModel fromMap(Map<String, dynamic> map) {
+    return InterestedModel(
+      lastNotificationSend:
+          map['lastNotificationSend'] ?? Constantes.APP_BIRTHDAY,
+      interestedName: map['interestedName'],
+      userReference: map['userReference'],
+      interestedAt: map['interestedAt'],
+      infoDetails: map['infoDetails'],
+      sinalized: map['sinalized'],
+      position: map['position'],
+      donated: map['donated'],
+      petName: map['petName'],
+      userLat: map['userLat'],
+      userLog: map['userLog'],
+      gaveup: map['gaveup'],
+    );
   }
 
-  int position;
+  DocumentReference userReference;
   String lastNotificationSend;
+  String interestedName;
+  String interestedAt;
+  String infoDetails;
   double userLat;
   bool sinalized;
-  bool gaveup;
-  bool donated;
   double userLog;
-  String interestedAt;
-  String interestedName;
   String petName;
-  String infoDetails;
-  DocumentReference userReference;
+  int position;
+  bool donated;
+  bool gaveup;
 
   Map<String, dynamic> toJson() {
     return {
-      'interestedName': interestedName,
-      'infoDetails': infoDetails,
-      'petName': petName,
-      'position': position,
       'lastNotificationSend': lastNotificationSend,
-      'userLat': userLat,
-      'userLog': userLog,
+      'interestedName': interestedName,
       'userReference': userReference,
       'interestedAt': interestedAt,
+      'infoDetails': infoDetails,
       'sinalized': sinalized,
+      'position': position,
+      'userLat': userLat,
+      'userLog': userLog,
+      'petName': petName,
       'gaveup': gaveup,
     };
   }
