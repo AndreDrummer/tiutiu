@@ -3,25 +3,42 @@ import 'package:tiutiu/backend/Controller/pet_controller.dart';
 
 class NotificationModel {
   NotificationModel.fromSnapshot(DocumentSnapshot snapshot) {
-    notificationType = snapshot.data()['notificationType'];
-    if (snapshot.data()['petReference'] != null) {
-      if (snapshot.data()['petReference'].runtimeType != DocumentReference) {
-        getReference(snapshot.data()['petReference']['_path']['segments'], snapshot, 'petReference').then((value) => petReference = value);
+    if ((snapshot.data() as Map<String, dynamic>)['petReference'] != null) {
+      if ((snapshot.data() as Map<String, dynamic>)['petReference']
+              .runtimeType !=
+          DocumentReference) {
+        getReference(
+                (snapshot.data() as Map<String, dynamic>)['petReference']
+                    ['_path']['segments'],
+                snapshot,
+                'petReference')
+            .then((value) => petReference = value);
       } else {
-        petReference = snapshot.data()['petReference'];
+        petReference =
+            (snapshot.data() as Map<String, dynamic>)['petReference'];
       }
     }
 
-    if (snapshot.data()['userReference'].runtimeType != DocumentReference) {
-      getReference(snapshot.data()['userReference']['_path']['segments'], snapshot, 'userReference').then((value) => userReference = value);
+    if ((snapshot.data() as Map<String, dynamic>)['userReference']
+            .runtimeType !=
+        DocumentReference) {
+      getReference(
+              (snapshot.data() as Map<String, dynamic>)['userReference']
+                  ['_path']['segments'],
+              snapshot,
+              'userReference')
+          .then((value) => userReference = value);
     } else {
-      userReference = snapshot.data()['userReference'];
+      userReference =
+          (snapshot.data() as Map<String, dynamic>)['userReference'];
     }
+    notificationType =
+        (snapshot.data() as Map<String, dynamic>)['notificationType'];
     notificationReference = snapshot.reference;
-    time = snapshot.data()['time'];
-    title = snapshot.data()['title'];
-    message = snapshot.data()['message'];
-    open = snapshot.data()['open'];
+    time = (snapshot.data() as Map<String, dynamic>)['time'];
+    title = (snapshot.data() as Map<String, dynamic>)['title'];
+    message = (snapshot.data() as Map<String, dynamic>)['message'];
+    open = (snapshot.data() as Map<String, dynamic>)['open'];
   }
 
   PetController petController = PetController();
@@ -39,21 +56,23 @@ class NotificationModel {
     };
   }
 
-  Future<DocumentReference> getReference(List listReference, DocumentSnapshot snapshot, String fieldName) async {
+  Future<DocumentReference> getReference(
+      List listReference, DocumentSnapshot snapshot, String fieldName) async {
     String mountPath = '';
     for (int i = 0; i < listReference.length; i++) {
       mountPath += '/${listReference[i]}';
     }
-    final ref = await petController.getReferenceFromPath(mountPath, snapshot, fieldName);
+    final ref = await petController.getReferenceFromPath(
+        mountPath, snapshot, fieldName);
     return ref;
   }
 
-  String notificationType;
-  DocumentReference petReference;
-  DocumentReference userReference;
-  DocumentReference notificationReference;
-  String time;
-  String title;
-  String message;
-  bool open;
+  DocumentReference? notificationReference;
+  DocumentReference? petReference;
+  DocumentReference? userReference;
+  String? notificationType;
+  String? message;
+  String? time;
+  String? title;
+  bool? open;
 }

@@ -78,7 +78,8 @@ class _InterestedListState extends State<InterestedList> {
           title: 'Sucesso',
           message: '$interestedName será notificado sobre a adoção!',
           confirmAction: () {
-            userInfoOrAdoptInterestsProvider.loadInterested(widget.pet.petReference);
+            userInfoOrAdoptInterestsProvider
+                .loadInterested(widget.pet.petReference);
             Navigator.pop(context);
           },
           confirmText: 'OK',
@@ -107,7 +108,8 @@ class _InterestedListState extends State<InterestedList> {
 
   @override
   void didChangeDependencies() {
-    userInfoOrAdoptInterestsProvider = Provider.of<UserInfoOrAdoptInterestsProvider>(context);
+    userInfoOrAdoptInterestsProvider =
+        Provider.of<UserInfoOrAdoptInterestsProvider>(context);
     userProvider = Provider.of<UserProvider>(context);
 
     if (widget.kind == Constantes.DONATE) {
@@ -134,7 +136,8 @@ class _InterestedListState extends State<InterestedList> {
             interestedID: interestedUser.id,
             interestedNotificationToken: interestedUser.notificationToken,
             ownerNotificationToken: userProvider.notificationToken,
-            interestedReference: await OtherFunctions.getReferenceById(interestedUser.id, 'Users'),
+            interestedReference: await OtherFunctions.getReferenceById(
+                interestedUser.id, 'Users'),
             userPosition: interestedModel.position,
           );
           changeIsSinalizingStatus(false);
@@ -150,7 +153,10 @@ class _InterestedListState extends State<InterestedList> {
   }
 
   void seeInfo(InterestedModel interestedModel) {
-    Navigator.pushNamed(context, Routes.INFO, arguments: {'petName': widget.pet.name, 'informanteInfo': interestedModel});
+    Navigator.pushNamed(context, Routes.INFO, arguments: {
+      'petName': widget.pet.name,
+      'informanteInfo': interestedModel
+    });
   }
 
   void navigateToInterestedDetail(User interestedUser) {
@@ -163,41 +169,56 @@ class _InterestedListState extends State<InterestedList> {
   }
 
   Color color(InterestedModel interestedModel) {
-    int hoursSinceLastNotification = DateTime.now().difference(DateTime.parse(interestedModel.lastNotificationSend)).inMinutes;
+    int hoursSinceLastNotification = DateTime.now()
+        .difference(DateTime.parse(interestedModel.lastNotificationSend))
+        .inMinutes;
     switch (widget.kind) {
       case Constantes.DONATE:
         if (interestedModel.donated) return Colors.green;
         if (interestedModel.gaveup) return Colors.red;
-        if (hoursSinceLastNotification >= timeToSendNotificationAgain) return Colors.purple;
-        if (hoursSinceLastNotification < timeToSendNotificationAgain) return Colors.amber;
+        if (hoursSinceLastNotification >= timeToSendNotificationAgain)
+          return Colors.purple;
+        if (hoursSinceLastNotification < timeToSendNotificationAgain)
+          return Colors.amber;
         break;
     }
     return Colors.blue;
   }
 
   String text(InterestedModel interestedModel) {
-    int hoursSinceLastNotification = DateTime.now().difference(DateTime.parse(interestedModel.lastNotificationSend)).inMinutes;
+    int hoursSinceLastNotification = DateTime.now()
+        .difference(DateTime.parse(interestedModel.lastNotificationSend))
+        .inMinutes;
 
     switch (widget.kind) {
       case Constantes.DONATE:
         if (interestedModel.donated) return 'Adotado';
         if (interestedModel.gaveup) return 'Desistiu';
-        if (hoursSinceLastNotification >= timeToSendNotificationAgain && interestedModel.sinalized) return 'REENVIAR DOAÇÃO';
-        if (hoursSinceLastNotification >= timeToSendNotificationAgain) return 'Doar';
-        if (hoursSinceLastNotification < timeToSendNotificationAgain) return 'Aguardando confirmação';
+        if (hoursSinceLastNotification >= timeToSendNotificationAgain &&
+            interestedModel.sinalized) return 'REENVIAR DOAÇÃO';
+        if (hoursSinceLastNotification >= timeToSendNotificationAgain)
+          return 'Doar';
+        if (hoursSinceLastNotification < timeToSendNotificationAgain)
+          return 'Aguardando confirmação';
         break;
     }
     return 'Ver info';
   }
 
   Widget badge(InterestedModel interestedModel) {
-    int hoursSinceLastNotification = DateTime.now().difference(DateTime.parse(interestedModel.lastNotificationSend)).inMinutes;
+    int hoursSinceLastNotification = DateTime.now()
+        .difference(DateTime.parse(interestedModel.lastNotificationSend))
+        .inMinutes;
     switch (widget.kind) {
       case Constantes.DONATE:
-        if (interestedModel.donated) return _bagde('Adotado', color: Colors.green);
-        if (interestedModel.gaveup) return _bagde('Desistiu', color: Colors.red);
-        if (hoursSinceLastNotification >= timeToSendNotificationAgain) return _bagde('Doar');
-        if (hoursSinceLastNotification < timeToSendNotificationAgain) return _bagde('Aguardando confirmação', color: Colors.amber);
+        if (interestedModel.donated)
+          return _bagde('Adotado', color: Colors.green);
+        if (interestedModel.gaveup)
+          return _bagde('Desistiu', color: Colors.red);
+        if (hoursSinceLastNotification >= timeToSendNotificationAgain)
+          return _bagde('Doar');
+        if (hoursSinceLastNotification < timeToSendNotificationAgain)
+          return _bagde('Aguardando confirmação', color: Colors.amber);
         break;
     }
     return _bagde('Ver info', color: Colors.blue);
@@ -207,14 +228,18 @@ class _InterestedListState extends State<InterestedList> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.kind == Constantes.DONATE ? 'Interessados em ${widget.pet.name}'.toUpperCase() : 'Quem informou sobre ${widget.pet.name}'.toUpperCase()),
+        title: Text(widget.kind == Constantes.DONATE
+            ? 'Interessados em ${widget.pet.name}'.toUpperCase()
+            : 'Quem informou sobre ${widget.pet.name}'.toUpperCase()),
       ),
       body: Stack(
         children: [
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 8.0),
             child: StreamBuilder<List<InterestedModel>>(
-              stream: widget.kind == Constantes.DONATE ? userInfoOrAdoptInterestsProvider.interested : userInfoOrAdoptInterestsProvider.info,
+              stream: widget.kind == Constantes.DONATE
+                  ? userInfoOrAdoptInterestsProvider.interested
+                  : userInfoOrAdoptInterestsProvider.info,
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return LoadingPage(
@@ -225,7 +250,8 @@ class _InterestedListState extends State<InterestedList> {
 
                 List<InterestedModel> interesteds = snapshot.data;
                 interesteds.sort((a, b) {
-                  return DateTime.parse(b.interestedAt).millisecondsSinceEpoch - DateTime.parse(a.interestedAt).millisecondsSinceEpoch;
+                  return DateTime.parse(b.interestedAt).millisecondsSinceEpoch -
+                      DateTime.parse(a.interestedAt).millisecondsSinceEpoch;
                 });
 
                 return Stack(
@@ -237,29 +263,47 @@ class _InterestedListState extends State<InterestedList> {
                         return FutureBuilder<DocumentSnapshot>(
                           future: interesteds[index]?.userReference?.get(),
                           builder: (context, interestedReferenceSnapshot) {
-                            if (snapshot.connectionState == ConnectionState.waiting) {
+                            if (snapshot.connectionState ==
+                                ConnectionState.waiting) {
                               return CircularProgressIndicator();
                             }
 
-                            if (!interestedReferenceSnapshot.hasData || interestedReferenceSnapshot.data.data() == null) {
+                            if (!interestedReferenceSnapshot.hasData ||
+                                interestedReferencesnapshot.data!.data() ==
+                                    null) {
                               return Container();
                             }
 
-                            User interestedUser = User.fromSnapshot(interestedReferenceSnapshot.data);
-                            String subtitle = '${widget.kind == Constantes.DONATE ? 'Interessou dia' : 'Informou dia'} ${DateFormat('dd/MM/y HH:mm').format(DateTime.parse(interesteds[index].interestedAt))}';
+                            User interestedUser = User.fromSnapshot(
+                                interestedReferenceSnapshot.data);
+                            String subtitle =
+                                '${widget.kind == Constantes.DONATE ? 'Interessou dia' : 'Informou dia'} ${DateFormat('dd/MM/y HH:mm').format(DateTime.parse(interesteds[index].interestedAt))}';
 
                             return InterestedInfoCard(
                               subtitle: subtitle,
                               interestedUser: interestedUser,
-                              navigateToInterestedDetail: interestedUser.photoURL == null ? null : () => navigateToInterestedDetail(interestedUser),
+                              navigateToInterestedDetail:
+                                  interestedUser.photoURL == null
+                                      ? null
+                                      : () => navigateToInterestedDetail(
+                                          interestedUser),
                               infoOrDonateFunction: () {
-                                int hoursSinceLastNotification = DateTime.now().difference(DateTime.parse(interesteds[index].lastNotificationSend)).inMinutes;
+                                int hoursSinceLastNotification = DateTime.now()
+                                    .difference(DateTime.parse(
+                                        interesteds[index]
+                                            .lastNotificationSend))
+                                    .inMinutes;
                                 bool canSendNewNotification =
-                                    widget.kind == Constantes.DONATE && hoursSinceLastNotification >= timeToSendNotificationAgain && (!interesteds[index].donated && !interesteds[index].gaveup);
+                                    widget.kind == Constantes.DONATE &&
+                                        hoursSinceLastNotification >=
+                                            timeToSendNotificationAgain &&
+                                        (!interesteds[index].donated &&
+                                            !interesteds[index].gaveup);
 
                                 if (canSendNewNotification) {
                                   doar(interestedUser, interesteds[index]);
-                                } else if (widget.kind == Constantes.DISAPPEARED) {
+                                } else if (widget.kind ==
+                                    Constantes.DISAPPEARED) {
                                   seeInfo(interesteds[index]);
                                 }
                               },
@@ -277,7 +321,8 @@ class _InterestedListState extends State<InterestedList> {
                         );
                       },
                     ),
-                    LoadDarkScreen(show: isSinalizing, message: 'Sinalizando adoção..'),
+                    LoadDarkScreen(
+                        show: isSinalizing, message: 'Sinalizando adoção..'),
                   ],
                 );
               },
