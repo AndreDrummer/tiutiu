@@ -10,8 +10,8 @@ FirebaseFirestore firestore = FirebaseFirestore.instance;
 
 class Messages extends StatelessWidget {
   Messages({
-    this.chatId,
-    this.chatProvider,
+    required this.chatProvider,
+    required this.chatId,
   });
 
   final String chatId;
@@ -19,7 +19,8 @@ class Messages extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final myUserId = FirebaseAuth.instance.currentUser.uid;
+    final myUserId = FirebaseAuth.instance.currentUser!.uid;
+
     return StreamBuilder(
       stream: chatProvider.messagesList(chatId),
       builder: (context, AsyncSnapshot snapshot) {
@@ -27,7 +28,7 @@ class Messages extends StatelessWidget {
           return Center(child: CircularProgressIndicator());
         }
 
-        List<DocumentSnapshot> chatDocs = snapshot.data.documents;
+        List<DocumentSnapshot> chatDocs = snapshot.data!.documents;
 
         return ListView.builder(
           key: UniqueKey(),
@@ -37,10 +38,14 @@ class Messages extends StatelessWidget {
             return Padding(
               padding: const EdgeInsets.symmetric(vertical: 2.0),
               child: MessageBubble(
-                message: Message.fromSnapshot(chatDocs[index]).text?.trim(),
+                message: Message.fromSnapshot(chatDocs[index]).text.trim(),
                 user: Message.fromSnapshot(chatDocs[index]).user,
-                belongToMe: Message.fromSnapshot(chatDocs[index]).userId == myUserId,
-                time: (Message.fromSnapshot(chatDocs[index]).createdAt)?.toDate()?.toIso8601String() ?? DateTime.now().toIso8601String(),
+                belongToMe:
+                    Message.fromSnapshot(chatDocs[index]).userId == myUserId,
+                time: (Message.fromSnapshot(chatDocs[index]).createdAt)
+                        ?.toDate()
+                        ?.toIso8601String() ??
+                    DateTime.now().toIso8601String(),
                 key: ValueKey(chatDocs[index].id),
               ),
             );

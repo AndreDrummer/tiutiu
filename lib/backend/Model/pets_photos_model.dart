@@ -1,26 +1,22 @@
 class PetsPhotos {
-  String id;
-  String petId;
-  String photo;
+  String? petId;
+  String? photo;
+  String? id;
 
   Map<String, dynamic> topJson() {
     return {
-      'id': id,
       'petId': petId,
-      'photo': photo
+      'photo': photo,
+      'id': id,
     };
   }
 
-  Map<String, Object> topMap() {
-    var petPhoto = {};
-    petPhoto['id'] = id;
+  Map<String, dynamic> topMap() {
+    var petPhoto = <String, dynamic>{};
     petPhoto['petId'] = petId;
     petPhoto['photo'] = photo;
+    petPhoto['id'] = id;
 
     return petPhoto;
   }
-
-  // petsPhotos.fromSnapshot(DocumentSnapshot snapshot) {
-
-  // }
 }

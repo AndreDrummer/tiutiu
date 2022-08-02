@@ -28,9 +28,12 @@ class _NotificationScreenState extends State<NotificationScreen> {
     super.didChangeDependencies();
   }
 
-  List<QueryDocumentSnapshot> orderedListByTime(List<QueryDocumentSnapshot> docs) {
+  List<QueryDocumentSnapshot> orderedListByTime(
+      List<QueryDocumentSnapshot> docs) {
     List<QueryDocumentSnapshot> newList = docs;
-    newList.sort((a, b) => DateTime.parse(b.data()['time']).millisecondsSinceEpoch - DateTime.parse(a.data()['time']).millisecondsSinceEpoch);
+    newList.sort((a, b) =>
+        DateTime.parse(b.data()['time']).millisecondsSinceEpoch -
+        DateTime.parse(a.data()['time']).millisecondsSinceEpoch);
     return newList;
   }
 
@@ -53,11 +56,14 @@ class _NotificationScreenState extends State<NotificationScreen> {
             child: StreamBuilder<QuerySnapshot>(
               stream: userProvider.loadNotifications(),
               builder: (context, snapshot) {
-                if (snapshot.data == null || snapshot.data.docs.isEmpty) {
+                if (snapshot.data == null || snapshot.data!.docs.isEmpty) {
                   return Column(
                     children: [
                       SizedBox(height: 100),
-                      adsProvider.getCanShowAds ? adsProvider.bannerAdMob(medium_banner: true, adId: adsProvider.topAdId) : Container(),
+                      adsProvider.getCanShowAds
+                          ? adsProvider.bannerAdMob(
+                              medium_banner: true, adId: adsProvider.topAdId)
+                          : Container(),
                       SizedBox(height: 40),
                       EmptyListScreen(
                         text: 'Nenhuma notificação!',
@@ -69,16 +75,22 @@ class _NotificationScreenState extends State<NotificationScreen> {
 
                 return Column(
                   children: [
-                    adsProvider.getCanShowAds ? adsProvider.bannerAdMob(adId: adsProvider.topAdId) : Container(),
+                    adsProvider.getCanShowAds
+                        ? adsProvider.bannerAdMob(adId: adsProvider.topAdId)
+                        : Container(),
                     SizedBox(height: 20),
                     Expanded(
                       child: ListView.builder(
                         key: UniqueKey(),
-                        itemCount: snapshot.data.docs.length,
+                        itemCount: snapshot.data!.docs.length,
                         itemBuilder: (BuildContext context, int index) {
-                          NotificationModel notificationModel = NotificationModel.fromSnapshot(orderedListByTime(snapshot.data.docs)[index]);
+                          NotificationModel notificationModel =
+                              NotificationModel.fromSnapshot(orderedListByTime(
+                                  snapshot.data!.docs)[index]);
 
-                          return _ListTile(notificationModel: notificationModel, userProvider: userProvider);
+                          return _ListTile(
+                              notificationModel: notificationModel,
+                              userProvider: userProvider);
                         },
                       ),
                     ),
@@ -114,7 +126,8 @@ class _ListTile extends StatelessWidget {
 
   void handleNavigation(String notificationType, BuildContext context) async {
     if (!notificationModel.open) {
-      await notificationModel.notificationReference.set({'open': true}, SetOptions(merge: true));
+      await notificationModel.notificationReference
+          .set({'open': true}, SetOptions(merge: true));
     }
 
     if (notificationType == 'confirmAdoption') {
@@ -181,8 +194,14 @@ class _ListTile extends StatelessWidget {
                         text: 'Nova',
                       )
                     : Text(''),
-                Text(DateFormat('dd/MM/y HH:mm').format(DateTime.parse(notificationModel.time)).split(' ').last),
-                Text(DateFormat('dd/MM/y HH:mm').format(DateTime.parse(notificationModel.time)).split(' ').first)
+                Text(DateFormat('dd/MM/y HH:mm')
+                    .format(DateTime.parse(notificationModel.time))
+                    .split(' ')
+                    .last),
+                Text(DateFormat('dd/MM/y HH:mm')
+                    .format(DateTime.parse(notificationModel.time))
+                    .split(' ')
+                    .first)
               ],
             ),
           ),

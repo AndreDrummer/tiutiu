@@ -3,41 +3,44 @@ import 'package:tiutiu/backend/Model/user_model.dart';
 
 class Chat {
   Chat({
-    this.open,
-    this.firstUser,
-    this.id,
-    this.secondUser,
-    this.lastSender,
-    this.lastMessage,
-    this.lastMessageTime,
+    required this.lastMessageTime,
+    required this.lastMessage,
+    required this.secondUser,
+    required this.lastSender,
+    required this.firstUser,
+    this.open = false,
+    required this.id,
   });
 
   Chat.fromSnapshot(DocumentSnapshot snapshot)
-      : open = snapshot.data()['open'],
-        firstUser = User.fromMap(snapshot.data()['firstUser']),
-        secondUser = User.fromMap(snapshot.data()['secondUser']),
-        lastSender = snapshot.data()['lastSender'],
+      : open = (snapshot.data() as Map<String, dynamic>)['open'],
+        firstUser = User.fromMap(
+            (snapshot.data() as Map<String, dynamic>)['firstUser']),
+        secondUser = User.fromMap(
+            (snapshot.data() as Map<String, dynamic>)['secondUser']),
+        lastSender = (snapshot.data() as Map<String, dynamic>)['lastSender'],
         id = snapshot.id,
-        lastMessage = snapshot.data()['lastMessage'],
-        lastMessageTime = snapshot.data()['lastMessageTime'];
+        lastMessage = (snapshot.data() as Map<String, dynamic>)['lastMessage'],
+        lastMessageTime =
+            (snapshot.data() as Map<String, dynamic>)['lastMessageTime'];
 
   Map<String, dynamic> toJson() {
     return {
+      'lastMessageTime': lastMessageTime,
+      'secondUser': secondUser.toJson(),
+      'firstUser': firstUser.toJson(),
+      'lastMessage': lastMessage,
+      'lastSender': lastSender,
       'open': open,
       'id': id,
-      'lastSender': lastSender,
-      'firstUser': firstUser.toJson(),
-      'secondUser': secondUser.toJson(),
-      'lastMessage': lastMessage,
-      'lastMessageTime': lastMessageTime,
     };
   }
 
-  User firstUser;
+  Timestamp? lastMessageTime;
+  String? lastMessage;
+  String? lastSender;
   User secondUser;
-  String lastSender;
-  String lastMessage;
-  String id;
-  bool open;
-  Timestamp lastMessageTime;
+  User firstUser;
+  String? id;
+  bool? open;
 }

@@ -1,12 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:tiutiu/Widgets/empty_list.dart';
 import 'package:tiutiu/backend/Model/user_model.dart';
 import 'package:tiutiu/chat/common/functions.dart';
-import 'package:tiutiu/providers/ads_provider.dart';
+import 'package:tiutiu/core/image_handle.dart';
 import 'package:tiutiu/providers/chat_provider.dart';
 import 'package:tiutiu/providers/user_provider.dart';
 import 'package:tiutiu/utils/other_functions.dart';
@@ -17,14 +16,14 @@ class GlobalChat extends StatefulWidget {
 }
 
 class _GlobalChatState extends State<GlobalChat> {
-  AdsProvider adsProvider;
-  ChatProvider chatProvider;
-  UserProvider userProvider;
+  // AdsProvider adsProvider;
+  late ChatProvider chatProvider;
+  late UserProvider userProvider;
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    adsProvider = Provider.of(context);
+    // adsProvider = Provider.of(context);
     chatProvider = Provider.of(context);
     userProvider = Provider.of(context);
   }
@@ -39,9 +38,12 @@ class _GlobalChatState extends State<GlobalChat> {
             child: StreamBuilder(
               stream: chatProvider.globalChatList(),
               builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) return Center(child: CircularProgressIndicator());
+                if (snapshot.connectionState == ConnectionState.waiting)
+                  return Center(child: CircularProgressIndicator());
 
-                List<User> messagesList = snapshot.data.docs.map((e) => User.fromSnapshot(e)).toList();
+                List<User> messagesList = snapshot.data!.docs
+                    .map((e) => User.fromSnapshot(e))
+                    .toList();
 
                 if (messagesList.isEmpty) {
                   return EmptyListScreen(
@@ -53,14 +55,16 @@ class _GlobalChatState extends State<GlobalChat> {
                 return StreamBuilder(
                     stream: chatProvider.textGlobalChatSearch,
                     builder: (context, AsyncSnapshot<String> snapshot) {
-                      if (snapshot.data != null && snapshot.data.isNotEmpty) {
-                        messagesList = CommonChatFunctions.searchUser(messagesList, snapshot.data);
+                      if (snapshot.data != null && snapshot.data!.isNotEmpty) {
+                        messagesList = CommonChatFunctions.searchUser(
+                            messagesList, snapshot.data!);
                         messagesList.sort(CommonChatFunctions.orderByName);
                       } else {
                         messagesList.sort(CommonChatFunctions.orderByName);
                       }
 
-                      messagesList.removeWhere((element) => element.id == userProvider.uid);
+                      messagesList.removeWhere(
+                          (element) => element.id == userProvider.uid);
 
                       return Column(
                         children: [
@@ -108,7 +112,10 @@ class _GlobalChatState extends State<GlobalChat> {
               },
             ),
           ),
-          // adsProvider.getCanShowAds ? adsProvider.bannerAdMob(adId: adsProvider.bottomAdId) : Container(),
+          // TODO: Tinha um anuncio aqui
+          // adsProvider.getCanShowAds
+          //     ? adsProvider.bannerAdMob(adId: adsProvider.bottomAdId)
+          //     : Container(),
         ],
       ),
     );
@@ -117,8 +124,8 @@ class _GlobalChatState extends State<GlobalChat> {
 
 class _ListTileMessage extends StatelessWidget {
   _ListTileMessage({
-    this.myUser,
-    this.user,
+    required this.myUser,
+    required this.user,
   });
 
   final User myUser;
@@ -140,14 +147,15 @@ class _ListTileMessage extends StatelessWidget {
           ListTile(
             leading: InkWell(
               onTap: () {
-                OtherFunctions.navigateToAnnouncerDetail(context, user, showOnlyChat: true);
+                OtherFunctions.navigateToAnnouncerDetail(context, user,
+                    showOnlyChat: true);
               },
               child: CircleAvatar(
                 backgroundColor: Colors.transparent,
                 child: ClipOval(
                   child: FadeInImage(
                     placeholder: AssetImage('assets/profileEmpty.png'),
-                    image: user.photoURL != null ? NetworkImage(user.photoURL) : AssetImage('assets/profileEmpty.jpg'),
+                    image: AssetHandle(user.photoURL).build(),
                     fit: BoxFit.cover,
                     width: 1000,
                     height: 100,
@@ -161,7 +169,8 @@ class _ListTileMessage extends StatelessWidget {
               style: TextStyle(fontSize: 10),
             ),
             trailing: Container(
-              decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.green),
+              decoration:
+                  BoxDecoration(shape: BoxShape.circle, color: Colors.green),
               width: 10,
               height: 10,
             ),

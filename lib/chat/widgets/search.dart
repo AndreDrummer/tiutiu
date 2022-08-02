@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 
 class Search extends StatelessWidget {
-  Search({this.onChanged, this.placeholder = 'Pesquisar'});
+  Search({
+    this.placeholder = 'Pesquisar',
+    required this.onChanged,
+  });
 
   final Function(String) onChanged;
   final String placeholder;

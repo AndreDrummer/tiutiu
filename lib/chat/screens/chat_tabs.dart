@@ -11,9 +11,9 @@ class ChatTab extends StatefulWidget {
 }
 
 class _ChatTabState extends State<ChatTab> with SingleTickerProviderStateMixin {
-  TabController _controller;
-  ChatProvider chatProvider;
   Color inputColor = Colors.white;
+  late TabController _controller;
+  late ChatProvider chatProvider;
   int initialIndex = 0;
 
   @override
@@ -51,7 +51,10 @@ class _ChatTabState extends State<ChatTab> with SingleTickerProviderStateMixin {
   }
 
   Widget _textFieldSearch() {
-    final _textSearchController = TextEditingController(text: chatProvider.getCurrentlyTabChat == 0 ? chatProvider.getTextChatSearch : chatProvider.getTextGlobalChatSearch);
+    final _textSearchController = TextEditingController(
+        text: chatProvider.getCurrentlyTabChat == 0
+            ? chatProvider.getTextChatSearch
+            : chatProvider.getTextGlobalChatSearch);
     return TextField(
       controller: _textSearchController,
       onSubmitted: (value) => chatProvider.changeIsSearching(false),
@@ -95,15 +98,15 @@ class _ChatTabState extends State<ChatTab> with SingleTickerProviderStateMixin {
                 return Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    if (snapshot.data == null || !snapshot.data)
+                    if (snapshot.data == null || !snapshot.data!)
                       Text(
                         'CHAT',
-                        style: Theme.of(context).textTheme.headline1.copyWith(
+                        style: Theme.of(context).textTheme.headline1!.copyWith(
                               fontSize: 20,
                               fontWeight: FontWeight.w700,
                             ),
                       ),
-                    if (snapshot.data != null && snapshot.data)
+                    if (snapshot.data != null && snapshot.data!)
                       Container(
                         width: MediaQuery.of(context).size.width / 1.8,
                         child: Padding(
@@ -113,9 +116,14 @@ class _ChatTabState extends State<ChatTab> with SingleTickerProviderStateMixin {
                       ),
                     IconButton(
                       onPressed: () {
-                        chatProvider.changeIsSearching(!chatProvider.getIsSearching);
+                        chatProvider
+                            .changeIsSearching(!chatProvider.getIsSearching);
                       },
-                      icon: Icon(chatProvider.getIsSearching ? Icons.done : Icons.search_outlined, color: Colors.white),
+                      icon: Icon(
+                          chatProvider.getIsSearching
+                              ? Icons.done
+                              : Icons.search_outlined,
+                          color: Colors.white),
                     )
                   ],
                 );
