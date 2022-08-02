@@ -10,10 +10,10 @@ FirebaseFirestore firestore = FirebaseFirestore.instance;
 
 class NewMessage extends StatefulWidget {
   NewMessage({
-    this.chatId,
-    this.chat,
-    this.receiverNotificationToken,
-    this.receiverId,
+    required this.receiverNotificationToken,
+    required this.receiverId,
+    required this.chatId,
+    required this.chat,
   });
 
   final String chatId;
@@ -31,8 +31,8 @@ class _NewMessageState extends State<NewMessage> {
   final Color destakColor = Colors.purple;
   final Color whiteColor = Colors.white;
 
-  ChatProvider chatProvider;
-  UserProvider userProvider;
+  late ChatProvider chatProvider;
+  late UserProvider userProvider;
 
   void _sendMessage() async {
     FocusScope.of(context).unfocus();
@@ -99,9 +99,12 @@ class _NewMessageState extends State<NewMessage> {
                   decoration: InputDecoration(
                     labelText: 'Escreva sua mensagem...',
                     labelStyle: TextStyle(color: Colors.blueGrey),
-                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide.none),
-                    disabledBorder: UnderlineInputBorder(borderSide: BorderSide.none),
-                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide.none),
+                    focusedBorder:
+                        UnderlineInputBorder(borderSide: BorderSide.none),
+                    disabledBorder:
+                        UnderlineInputBorder(borderSide: BorderSide.none),
+                    enabledBorder:
+                        UnderlineInputBorder(borderSide: BorderSide.none),
                   ),
                   onChanged: (value) {
                     setState(() {

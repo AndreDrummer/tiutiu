@@ -1,21 +1,22 @@
 class AdoptedDonatedDisappeared {
-  String id;
-  String ownerId;
-  String petId;
+  String? ownerId;
+  String? petId;
+  String? id;
 
   Map<String, dynamic> toJson() {
     return {
-      'id': id,
       'ownerId': ownerId,
-      'petId': petId
+      'petId': petId,
+      'id': id,
     };
   }
 
-  Map<String, Object> toMap() {
-    var petAdoptedMap = {};
-    petAdoptedMap['id'] = id;
+  Map<String, dynamic> toMap() {
+    var petAdoptedMap = <String, dynamic>{};
+
     petAdoptedMap['ownerId'] = ownerId;
     petAdoptedMap['petId'] = petId;
+    petAdoptedMap['id'] = id;
 
     return petAdoptedMap;
   }
