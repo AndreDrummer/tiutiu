@@ -33,7 +33,12 @@ class RatingUs extends StatelessWidget {
     );
   }
 
-  Widget buttons({BuildContext context, String text, String imagePath, String urlToOpen}) {
+  Widget buttons({
+    required BuildContext context,
+    String? urlToOpen,
+    String? imagePath,
+    String? text,
+  }) {
     return InkWell(
       onTap: () {
         Launcher.openBrowser(url: urlToOpen);
@@ -47,17 +52,19 @@ class RatingUs extends StatelessWidget {
             ),
             elevation: 6.0,
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 4.0, vertical: 8.0),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 4.0, vertical: 8.0),
               child: Row(
                 children: [
                   Container(
                     height: 38,
-                    child: Image.asset(imagePath),
+                    child: Image.asset(imagePath!),
                   ),
                   SizedBox(width: 10),
                   Text(
-                    text,
-                    style: GoogleFonts.roboto(fontSize: 14, fontWeight: FontWeight.w700),
+                    text!,
+                    style: GoogleFonts.roboto(
+                        fontSize: 14, fontWeight: FontWeight.w700),
                   ),
                 ],
               ),

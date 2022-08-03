@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:google_maps_place_picker/google_maps_place_picker.dart';
 import 'package:loading_animations/loading_animations.dart';
 import 'package:provider/provider.dart';
 import 'package:tiutiu/providers/location.dart';
@@ -12,7 +11,7 @@ class NewMap extends StatefulWidget {
 }
 
 class _NewMapState extends State<NewMap> with SingleTickerProviderStateMixin {
-  Location locationProvider;
+  Location? locationProvider;
 
   @override
   void didChangeDependencies() {
@@ -22,55 +21,9 @@ class _NewMapState extends State<NewMap> with SingleTickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    return PlacePicker(
-      pinBuilder: (context, state) {
-        return Image.asset('assets/new-pin2.png', width: 150, height: 150);
-      },
-      searchingText: 'Buscando...',
-      autoCompleteDebounceInMilliseconds: 600,
-      autocompleteLanguage: 'pt-BR',
-      automaticallyImplyAppBarLeading: false,
-      autocompleteOnTrailingWhitespace: true,
-      apiKey: Constantes.WEB_API_KEY,
-      selectedPlaceWidgetBuilder:
-          (context, PickResult result, state, isSearchBarFocused) {
-        if (isSearchBarFocused) {
-          return Container();
-        } else {
-          if (state != SearchingState.Searching) {
-            locationProvider.setLocation(
-              currentLocation: LatLng(
-                result.geometry.location.lat,
-                result.geometry.location.lng,
-              ),
-            );
-            locationProvider
-                .changeCanContinue(state != SearchingState.Searching);
-          } else {
-            locationProvider
-                .changeCanContinue(state != SearchingState.Searching);
-          }
-          return FloatingCard(
-            bottomPosition: 60.0,
-            leftPosition: 0.0,
-            rightPosition: 0.0,
-            width: 500,
-            borderRadius: BorderRadius.circular(12.0),
-            child: state == SearchingState.Searching
-                ? Center(
-                    child: LoadingBumpingLine.circle(
-                      size: 30,
-                      backgroundColor: Theme.of(context).primaryColor,
-                    ),
-                  )
-                : CardTextLocation(result.formattedAddress),
-          );
-        }
-      },
-      initialPosition: LatLng(locationProvider.getLocation.latitude,
-          locationProvider.getLocation.longitude),
-      useCurrentLocation: true,
-      selectInitialPosition: true,
+    return Center(
+      child: Text(
+          'Tem que arrumar um meio de selecionar local no mapa... antes era place picker'),
     );
   }
 

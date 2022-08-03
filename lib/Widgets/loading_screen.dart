@@ -3,7 +3,7 @@ import 'package:loading_animations/loading_animations.dart';
 
 class LoadingScreen extends StatelessWidget {
   LoadingScreen({
-    @required this.text,
+    required this.text,
   });
 
   final String text;
