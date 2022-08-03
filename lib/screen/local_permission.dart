@@ -4,11 +4,15 @@ import 'package:tiutiu/Widgets/background.dart';
 import 'package:tiutiu/Widgets/button.dart';
 
 class LocalPermissionScreen extends StatelessWidget {
-  LocalPermissionScreen({this.permissionCallBack, this.deniedForever = false, this.serviceEnabled = true});
+  LocalPermissionScreen({
+    this.serviceEnabled = true,
+    this.deniedForever = false,
+    this.permissionCallBack,
+  });
 
-  final Function permissionCallBack;
-  final bool deniedForever;
-  final bool serviceEnabled;
+  final Function? permissionCallBack;
+  final bool? serviceEnabled;
+  final bool? deniedForever;
 
   @override
   Widget build(BuildContext context) {
@@ -56,14 +60,15 @@ class LocalPermissionScreen extends StatelessWidget {
                           fontSize: 16,
                         ),
                       ),
-                      SizedBox(height: MediaQuery.of(context).size.height / 3.2),
+                      SizedBox(
+                          height: MediaQuery.of(context).size.height / 3.2),
                       ButtonWide(
                         action: () {
-                          permissionCallBack();
+                          permissionCallBack?.call();
                         },
-                        text: deniedForever
+                        text: deniedForever!
                             ? 'IR P/ CONFIGURAÇÕES'
-                            : serviceEnabled
+                            : serviceEnabled!
                                 ? 'CONCEDER ACESSO'
                                 : 'ATIVAR LOCALIZAÇÃO',
                       ),

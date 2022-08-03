@@ -24,20 +24,20 @@ class InterestedList extends StatefulWidget {
     this.kind,
   });
 
-  final Pet pet;
-  final String kind;
+  final String? kind;
+  final Pet? pet;
 
   @override
   _InterestedListState createState() => _InterestedListState();
 }
 
 class _InterestedListState extends State<InterestedList> {
-  UserInfoOrAdoptInterestsProvider userInfoOrAdoptInterestsProvider;
-  UserProvider userProvider;
+  UserInfoOrAdoptInterestsProvider? userInfoOrAdoptInterestsProvider;
   UserController userController = UserController();
-  bool isSinalizing = false;
-  bool isOpeningChat = false;
   int timeToSendNotificationAgain = 120;
+  UserProvider? userProvider;
+  bool isOpeningChat = false;
+  bool isSinalizing = false;
 
   void changeIsSinalizingStatus(bool value) {
     setState(() {
@@ -52,25 +52,25 @@ class _InterestedListState extends State<InterestedList> {
   }
 
   Future<void> donatePetToSomeone({
-    DocumentReference interestedReference,
-    DocumentReference ownerReference,
-    String interestedNotificationToken,
-    String ownerNotificationToken,
-    String interestedName,
-    String interestedID,
-    int userPosition,
-    Pet pet,
+    DocumentReference? interestedReference,
+    DocumentReference? ownerReference,
+    String? interestedNotificationToken,
+    String? ownerNotificationToken,
+    String? interestedName,
+    String? interestedID,
+    int? userPosition,
+    Pet? pet,
   }) async {
     await userController
         .donatePetToSomeone(
-      pet: pet,
-      interestedID: interestedID,
-      interestedName: interestedName,
-      ownerReference: ownerReference,
-      interestedReference: interestedReference,
-      userPosition: userPosition,
-      ownerNotificationToken: ownerNotificationToken,
-      interestedNotificationToken: interestedNotificationToken,
+      interestedNotificationToken: interestedNotificationToken!,
+      ownerNotificationToken: ownerNotificationToken!,
+      interestedReference: interestedReference!,
+      interestedName: interestedName!,
+      ownerReference: ownerReference!,
+      userPosition: userPosition!,
+      interestedID: interestedID!,
+      pet: pet!,
     )
         .then(
       (_) {
@@ -78,8 +78,9 @@ class _InterestedListState extends State<InterestedList> {
           title: 'Sucesso',
           message: '$interestedName será notificado sobre a adoção!',
           confirmAction: () {
-            userInfoOrAdoptInterestsProvider
-                .loadInterested(widget.pet.petReference);
+            userInfoOrAdoptInterestsProvider!.loadInterested(
+              widget.pet!.petReference,
+            );
             Navigator.pop(context);
           },
           confirmText: 'OK',
@@ -89,19 +90,19 @@ class _InterestedListState extends State<InterestedList> {
   }
 
   void _showDialogCard({
-    Function confirmAction,
-    String confirmText,
-    String message,
-    String title,
+    Function? confirmAction,
+    String? confirmText,
+    String? message,
+    String? title,
   }) {
     showDialog(
       context: context,
       barrierDismissible: false,
       builder: (context) => PopUpMessage(
-        confirmAction: () => confirmAction(),
-        confirmText: confirmText,
-        message: message,
-        title: title,
+        confirmAction: () => confirmAction?.call(),
+        confirmText: confirmText!,
+        message: message!,
+        title: title!,
       ),
     );
   }
@@ -113,9 +114,13 @@ class _InterestedListState extends State<InterestedList> {
     userProvider = Provider.of<UserProvider>(context);
 
     if (widget.kind == Constantes.DONATE) {
-      userInfoOrAdoptInterestsProvider.loadInterested(widget.pet.petReference);
+      userInfoOrAdoptInterestsProvider!.loadInterested(
+        widget.pet!.petReference,
+      );
     } else {
-      userInfoOrAdoptInterestsProvider.loadInfo(widget.pet.petReference);
+      userInfoOrAdoptInterestsProvider!.loadInfo(
+        widget.pet!.petReference,
+      );
     }
 
     super.didChangeDependencies();
@@ -131,13 +136,13 @@ class _InterestedListState extends State<InterestedList> {
           changeIsSinalizingStatus(true);
           await donatePetToSomeone(
             interestedName: interestedUser.name,
-            ownerReference: userProvider.userReference,
-            pet: widget.pet,
+            ownerReference: userProvider!.userReference,
+            pet: widget.pet!,
             interestedID: interestedUser.id,
             interestedNotificationToken: interestedUser.notificationToken,
-            ownerNotificationToken: userProvider.notificationToken,
+            ownerNotificationToken: userProvider!.notificationToken,
             interestedReference: await OtherFunctions.getReferenceById(
-                interestedUser.id, 'Users'),
+                interestedUser.id!, 'Users'),
             userPosition: interestedModel.position,
           );
           changeIsSinalizingStatus(false);
@@ -145,7 +150,8 @@ class _InterestedListState extends State<InterestedList> {
         confirmText: 'Confirmo',
         denyAction: () => Navigator.pop(context),
         denyText: 'Não, escolher outro',
-        message: 'Deseja doar ${widget.pet.name} para ${interestedUser.name} ?',
+        message:
+            'Deseja doar ${widget.pet!.name} para ${interestedUser.name} ?',
         title: 'Confirme doação do PET',
         warning: true,
       ),
@@ -154,7 +160,7 @@ class _InterestedListState extends State<InterestedList> {
 
   void seeInfo(InterestedModel interestedModel) {
     Navigator.pushNamed(context, Routes.INFO, arguments: {
-      'petName': widget.pet.name,
+      'petName': widget.pet!.name,
       'informanteInfo': interestedModel
     });
   }
@@ -229,8 +235,8 @@ class _InterestedListState extends State<InterestedList> {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.kind == Constantes.DONATE
-            ? 'Interessados em ${widget.pet.name}'.toUpperCase()
-            : 'Quem informou sobre ${widget.pet.name}'.toUpperCase()),
+            ? 'Interessados em ${widget.pet!.name}'.toUpperCase()
+            : 'Quem informou sobre ${widget.pet!.name}'.toUpperCase()),
       ),
       body: Stack(
         children: [
@@ -238,8 +244,8 @@ class _InterestedListState extends State<InterestedList> {
             padding: const EdgeInsets.symmetric(vertical: 8.0),
             child: StreamBuilder<List<InterestedModel>>(
               stream: widget.kind == Constantes.DONATE
-                  ? userInfoOrAdoptInterestsProvider.interested
-                  : userInfoOrAdoptInterestsProvider.info,
+                  ? userInfoOrAdoptInterestsProvider!.interested
+                  : userInfoOrAdoptInterestsProvider!.info,
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return LoadingPage(
@@ -248,7 +254,7 @@ class _InterestedListState extends State<InterestedList> {
                   );
                 }
 
-                List<InterestedModel> interesteds = snapshot.data;
+                List<InterestedModel> interesteds = snapshot.data!;
                 interesteds.sort((a, b) {
                   return DateTime.parse(b.interestedAt).millisecondsSinceEpoch -
                       DateTime.parse(a.interestedAt).millisecondsSinceEpoch;
@@ -269,13 +275,14 @@ class _InterestedListState extends State<InterestedList> {
                             }
 
                             if (!interestedReferenceSnapshot.hasData ||
-                                interestedReferencesnapshot.data!.data() ==
+                                interestedReferenceSnapshot.data!.data() ==
                                     null) {
                               return Container();
                             }
 
                             User interestedUser = User.fromSnapshot(
-                                interestedReferenceSnapshot.data);
+                              interestedReferenceSnapshot.data!,
+                            );
                             String subtitle =
                                 '${widget.kind == Constantes.DONATE ? 'Interessou dia' : 'Informou dia'} ${DateFormat('dd/MM/y HH:mm').format(DateTime.parse(interesteds[index].interestedAt))}';
 
@@ -286,7 +293,8 @@ class _InterestedListState extends State<InterestedList> {
                                   interestedUser.photoURL == null
                                       ? null
                                       : () => navigateToInterestedDetail(
-                                          interestedUser),
+                                            interestedUser,
+                                          ),
                               infoOrDonateFunction: () {
                                 int hoursSinceLastNotification = DateTime.now()
                                     .difference(DateTime.parse(
@@ -309,7 +317,7 @@ class _InterestedListState extends State<InterestedList> {
                               },
                               openChat: () => CommonChatFunctions.openChat(
                                 context: context,
-                                firstUser: userProvider.user(),
+                                firstUser: userProvider!.user(),
                                 secondUser: interestedUser,
                               ),
                               infoOrDonteText: text(interesteds[index]),

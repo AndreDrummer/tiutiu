@@ -2,16 +2,16 @@ import 'package:flutter/material.dart';
 
 class FilterSearch extends StatefulWidget {
   FilterSearch({
-    this.filterNames,
     this.filterValues,
+    this.filterNames,
     this.isFiltering,
     this.showFilter,
   });
 
-  final List<String> filterNames;
-  final List<List<String>> filterValues;
-  final Function() isFiltering;
-  final Function() showFilter;
+  final List<List<String>>? filterValues;
+  final List<String>? filterNames;
+  final Function()? isFiltering;
+  final Function()? showFilter;
 
   @override
   _FilterSearchState createState() => _FilterSearchState();
@@ -24,17 +24,17 @@ class _FilterSearchState extends State<FilterSearch> {
     ['Pequeno-porte', 'Médio-porte', 'Grande-porte']
   ];
   List<String> initialValues = [];
-  List filters;
-  Function() isFiltering;
-  Function() showFilter;
+  late Function() isFiltering;
+  late Function() showFilter;
+  late List filters;
 
   @override
   void initState() {
     super.initState();
 
     initializesDropdownValues();
-    isFiltering = widget.isFiltering;
-    showFilter = widget.showFilter;
+    isFiltering = widget.isFiltering!;
+    showFilter = widget.showFilter!;
   }
 
   @override
@@ -43,7 +43,8 @@ class _FilterSearchState extends State<FilterSearch> {
         ? Card(
             elevation: 8,
             color: Theme.of(context).primaryColor,
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
             child: Padding(
               padding: const EdgeInsets.all(10),
               child: Column(children: mountFilter().toList()),
@@ -63,9 +64,9 @@ class _FilterSearchState extends State<FilterSearch> {
             SizedBox(width: 10),
             DropdownButton<String>(
                 value: initialValues[index],
-                onChanged: (String newValue) {
+                onChanged: (newValue) {
                   setState(() {
-                    initialValues[index] = newValue;
+                    initialValues[index] = newValue!;
                   });
                 },
                 iconDisabledColor: Colors.white,
@@ -75,11 +76,13 @@ class _FilterSearchState extends State<FilterSearch> {
                   return filterValues[index].map((String value) {
                     return Padding(
                       padding: const EdgeInsets.only(top: 16.0),
-                      child: Text(value, style: Theme.of(context).textTheme.headline1),
+                      child: Text(value,
+                          style: Theme.of(context).textTheme.headline1),
                     );
                   }).toList();
                 },
-                items: filterValues[index].map<DropdownMenuItem<String>>((String value) {
+                items: filterValues[index]
+                    .map<DropdownMenuItem<String>>((String value) {
                   return DropdownMenuItem<String>(
                     value: value,
                     child: Text(value),
@@ -96,7 +99,8 @@ class _FilterSearchState extends State<FilterSearch> {
           onPressed: () {
             showFilter();
           },
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
           child: Text(
             'OK',
             style: Theme.of(context).textTheme.button,
@@ -109,9 +113,13 @@ class _FilterSearchState extends State<FilterSearch> {
   }
 
   void initializesDropdownValues() {
-    widget.filterNames != null ? filterNames = [...widget.filterNames] : filterNames = filterNames;
+    widget.filterNames != null
+        ? filterNames = [...widget.filterNames!]
+        : filterNames = filterNames;
 
-    widget.filterValues != null ? filterValues = [...widget.filterValues] : filterValues = filterValues;
+    widget.filterValues != null
+        ? filterValues = [...widget.filterValues!]
+        : filterValues = filterValues;
 
     filterValues.asMap.call().forEach((index, element) {
       initialValues.add(element[0]);

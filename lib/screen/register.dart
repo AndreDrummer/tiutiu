@@ -86,7 +86,8 @@ class _RegisterState extends State<Register> {
         return SimpleDialog(
           children: <Widget>[
             FlatButton(
-              child: Text('Tirar uma foto', style: TextStyle(color: Colors.black)),
+              child:
+                  Text('Tirar uma foto', style: TextStyle(color: Colors.black)),
               onPressed: () {
                 Navigator.pop(context);
                 selectImage(ImageSource.camera);
@@ -194,7 +195,10 @@ class _RegisterState extends State<Register> {
     StorageUploadTask uploadTask;
     StorageReference storageReference;
 
-    storageReference = FirebaseStorage.instance.ref().child('${auth.firebaseUser.uid}').child('avatar/foto_perfil');
+    storageReference = FirebaseStorage.instance
+        .ref()
+        .child('${auth.firebaseUser.uid}')
+        .child('avatar/foto_perfil');
 
     uploadTask = storageReference.putFile(userProfile['photoFile']);
 
@@ -273,7 +277,7 @@ class _RegisterState extends State<Register> {
       appBar: AppBar(
         title: Text(
           'Seja bem vindo!',
-          style: Theme.of(context).textTheme.headline1.copyWith(
+          style: Theme.of(context).textTheme.headline1!.copyWith(
                 fontSize: 20,
                 fontWeight: FontWeight.w700,
               ),
@@ -303,7 +307,8 @@ class _RegisterState extends State<Register> {
                                 backgroundColor: Colors.black12,
                                 child: ClipOval(
                                   child: userProfile.isEmpty
-                                      ? Icon(Icons.person, color: Colors.white38, size: 50)
+                                      ? Icon(Icons.person,
+                                          color: Colors.white38, size: 50)
                                       : Image.file(
                                           userProfile['photoFile'],
                                           width: 1000,
@@ -351,7 +356,9 @@ class _RegisterState extends State<Register> {
                           }
                         },
                       ),
-                      nameHasError ? HintError(message: nameHasErrorMessage) : Container(),
+                      nameHasError
+                          ? HintError(message: nameHasErrorMessage)
+                          : Container(),
                       SizedBox(height: 15),
                       InputText(
                         inputFormatters: [celularMask],
@@ -364,7 +371,9 @@ class _RegisterState extends State<Register> {
                           userProvider.changeWhatsapp(_whatsapp.text?.trim());
                         },
                       ),
-                      whatsappHasError ? HintError(message: whatsappHasErrorMessage) : Container(),
+                      whatsappHasError
+                          ? HintError(message: whatsappHasErrorMessage)
+                          : Container(),
                       SizedBox(height: 15),
                       InputText(
                         inputFormatters: [telefoneMask],
@@ -377,7 +386,9 @@ class _RegisterState extends State<Register> {
                           userProvider.changeTelefone(_telefone.text?.trim());
                         },
                       ),
-                      telefoneHasError ? HintError(message: telefoneHasErrorMessage) : Container(),
+                      telefoneHasError
+                          ? HintError(message: telefoneHasErrorMessage)
+                          : Container(),
                       SizedBox(height: 20),
                       Align(
                         alignment: Alignment(-0.8, 1),
@@ -396,14 +407,17 @@ class _RegisterState extends State<Register> {
                                   child: Row(
                                     children: [
                                       Radio(
-                                        activeColor: Theme.of(context).primaryColor,
+                                        activeColor:
+                                            Theme.of(context).primaryColor,
                                         groupValue: snapshot.data,
                                         value: 0,
                                         onChanged: (value) {
-                                          userProvider.changeBetterContact(value);
+                                          userProvider
+                                              .changeBetterContact(value);
                                           if (_whatsapp.text.trim().isEmpty) {
                                             setState(() {
-                                              whatsappHasErrorMessage = 'Quando este é seu melhor contato, deve ser preenchido.';
+                                              whatsappHasErrorMessage =
+                                                  'Quando este é seu melhor contato, deve ser preenchido.';
                                               whatsappHasError = true;
                                               telefoneHasError = false;
                                             });
@@ -425,12 +439,14 @@ class _RegisterState extends State<Register> {
                                         groupValue: snapshot.data,
                                         value: 1,
                                         onChanged: (value) {
-                                          userProvider.changeBetterContact(value);
+                                          userProvider
+                                              .changeBetterContact(value);
                                           if (_telefone.text.trim().isEmpty) {
                                             setState(() {
                                               telefoneHasError = true;
                                               whatsappHasError = false;
-                                              telefoneHasErrorMessage = 'Quando este é seu melhor contato, deve ser preenchido.';
+                                              telefoneHasErrorMessage =
+                                                  'Quando este é seu melhor contato, deve ser preenchido.';
                                             });
                                           }
                                         },
@@ -454,7 +470,8 @@ class _RegisterState extends State<Register> {
                                             telefoneHasError = false;
                                             whatsappHasError = false;
                                           });
-                                          userProvider.changeBetterContact(value);
+                                          userProvider
+                                              .changeBetterContact(value);
                                         },
                                       ),
                                       Text('E-mail'),
@@ -476,7 +493,8 @@ class _RegisterState extends State<Register> {
                                             telefoneHasError = false;
                                             whatsappHasError = false;
                                           });
-                                          userProvider.changeBetterContact(value);
+                                          userProvider
+                                              .changeBetterContact(value);
                                         },
                                       ),
                                       Text('Somente pelo chat do aplicativo'),
@@ -505,12 +523,15 @@ class _RegisterState extends State<Register> {
             ? null
             : () async {
                 if (_formKey.currentState.validate()) {
-                  if (userProvider.getBetterContact == 1 && (_telefone.text.trim().isEmpty || _telefone.text.trim().length < 12)) {
+                  if (userProvider.getBetterContact == 1 &&
+                      (_telefone.text.trim().isEmpty ||
+                          _telefone.text.trim().length < 12)) {
                     _scaffoldKey.currentState.showSnackBar(
                       SnackBar(
                         backgroundColor: Colors.red,
                         duration: Duration(seconds: 1),
-                        content: Text('Quando este é seu melhor contato, deve ser preenchido.'),
+                        content: Text(
+                            'Quando este é seu melhor contato, deve ser preenchido.'),
                       ),
                     );
                   } else {

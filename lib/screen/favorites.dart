@@ -12,14 +12,14 @@ class Favorites extends StatefulWidget {
 }
 
 class _FavoritesState extends State<Favorites> {
-  FavoritesProvider favoritesProvider;
-  AdsProvider adsProvider;
+  late FavoritesProvider favoritesProvider;
+  // AdsProvider adsProvider;
 
   @override
   void didChangeDependencies() {
     favoritesProvider = Provider.of(context);
     favoritesProvider.loadFavoritesReference();
-    adsProvider = Provider.of(context);
+    // adsProvider = Provider.of(context);
     super.didChangeDependencies();
   }
 
@@ -30,7 +30,7 @@ class _FavoritesState extends State<Favorites> {
         leading: null,
         title: Text(
           'Favoritos'.toUpperCase(),
-          style: Theme.of(context).textTheme.headline1.copyWith(
+          style: Theme.of(context).textTheme.headline1!.copyWith(
                 fontSize: 20,
                 fontWeight: FontWeight.w700,
               ),
@@ -56,7 +56,7 @@ class _FavoritesState extends State<Favorites> {
                             'Nenhum PET Favoritado',
                             textAlign: TextAlign.center,
                             style:
-                                Theme.of(context).textTheme.headline1.copyWith(
+                                Theme.of(context).textTheme.headline1!.copyWith(
                                       color: Colors.black,
                                       fontWeight: FontWeight.w100,
                                     ),
@@ -65,10 +65,10 @@ class _FavoritesState extends State<Favorites> {
                       }
                       return Column(
                         children: [
-                          adsProvider.getCanShowAds
-                              ? adsProvider.bannerAdMob(
-                                  adId: adsProvider.topAdId)
-                              : Container(),
+                          // adsProvider.getCanShowAds
+                          // ? adsProvider.bannerAdMob(
+                          // adId: adsProvider.topAdId)
+                          // : Container(),
                           Expanded(
                             child: ListView.builder(
                               key: UniqueKey(),
