@@ -13,8 +13,8 @@ class Bootstrap extends StatefulWidget {
 }
 
 class _BootstrapState extends State<Bootstrap> {
-  Location local;
-  RefineSearchProvider refineSearchProvider;
+  late RefineSearchProvider refineSearchProvider;
+  late Location local;
 
   @override
   void initState() {
@@ -38,10 +38,10 @@ class _BootstrapState extends State<Bootstrap> {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return LoadingPage();
         }
-        if (!snapshot.data) {
+        if (!snapshot.data!!) {
           return LocalPermissionScreen(
             permissionCallBack: local.openLocalSettings,
-            serviceEnabled: snapshot.data,
+            serviceEnabled: snapshot.data!,
           );
         }
         return StreamBuilder<LocationPermission>(
@@ -50,7 +50,8 @@ class _BootstrapState extends State<Bootstrap> {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return LoadingPage();
             } else if (snapshot.data == LocationPermission.deniedForever) {
-              return LocalPermissionScreen(permissionCallBack: local.openSeetings, deniedForever: true);
+              return LocalPermissionScreen(
+                  permissionCallBack: local.openSeetings, deniedForever: true);
             } else if (snapshot.data == LocationPermission.denied) {
               return LocalPermissionScreen(
                 permissionCallBack: local.permissionRequest,

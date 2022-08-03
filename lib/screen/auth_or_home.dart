@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:connectivity/connectivity.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tiutiu/Widgets/loading_page.dart';
@@ -15,14 +15,15 @@ class AuthOrHome extends StatefulWidget {
 }
 
 class _AuthOrHomeState extends State<AuthOrHome> {
-  StreamSubscription<ConnectivityResult> _connectivitySubscription;
+  late StreamSubscription<ConnectivityResult> _connectivitySubscription;
   final Connectivity _connectivity = Connectivity();
-  bool isConnected;
+  late bool isConnected;
 
   @override
   void initState() {
     isConnected = true;
-    _connectivitySubscription = Connectivity().onConnectivityChanged.listen(_updateStatus);
+    _connectivitySubscription =
+        Connectivity().onConnectivityChanged.listen(_updateStatus);
     super.initState();
   }
 
@@ -34,14 +35,6 @@ class _AuthOrHomeState extends State<AuthOrHome> {
   void _updateStatus(ConnectivityResult connectivityResult) async {
     if (connectivityResult == ConnectivityResult.mobile) {
       print("3G/4G");
-      setState(() {
-        isConnected = true;
-      });
-    } else if (connectivityResult == ConnectivityResult.wifi) {
-      String wifiName = await _connectivity.getWifiName();
-      String wifiSsid = await _connectivity.getWifiBSSID();
-      String wifiIp = await _connectivity.getWifiIP();
-      print("Wi-Fi\n$wifiName\n$wifiSsid\n$wifiIp");
       setState(() {
         isConnected = true;
       });
@@ -115,9 +108,13 @@ class _AuthOrHomeState extends State<AuthOrHome> {
                     stream: auth.registered,
                     builder: (ctx, snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
-                        return LoadingPage(messageLoading: 'Carregando dados de usuário...', circle: true);
+                        return LoadingPage(
+                            messageLoading: 'Carregando dados de usuário...',
+                            circle: true);
                       }
-                      return !snapshot.data || snapshot.data == null ? Register() : Home();
+                      return !snapshot.data!! || snapshot.data == null
+                          ? Register()
+                          : Home();
                     },
                   );
                 }

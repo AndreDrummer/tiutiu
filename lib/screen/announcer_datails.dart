@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_open_whatsapp/flutter_open_whatsapp.dart';
+
 import 'package:provider/provider.dart';
 import 'package:tiutiu/Custom/icons.dart';
 import 'package:tiutiu/Widgets/background.dart';
@@ -11,6 +11,7 @@ import 'package:tiutiu/backend/Controller/pet_controller.dart';
 import 'package:tiutiu/backend/Controller/user_controller.dart';
 import 'package:tiutiu/backend/Model/user_model.dart';
 import 'package:tiutiu/chat/common/functions.dart';
+import 'package:tiutiu/core/image_handle.dart';
 import 'package:tiutiu/providers/ads_provider.dart';
 import 'package:tiutiu/providers/user_provider.dart';
 import 'package:tiutiu/utils/constantes.dart';
@@ -37,16 +38,21 @@ class _AnnouncerDetailsState extends State<AnnouncerDetails> {
   int userTotalAdopted = 0;
   int userTotalDisap = 0;
   UserController userController = UserController();
-  AdsProvider adsProvider;
+  // AdsProvider adsProvider;
 
   void calculateTotals(user) async {
     PetController petController = PetController();
-    DocumentReference userReference = await OtherFunctions.getReferenceById(user.id, 'Users');
+    DocumentReference userReference =
+        await OtherFunctions.getReferenceById(user.id, 'Users');
 
-    QuerySnapshot adopteds = await petController.getPetToCount(userReference, Constantes.ADOPTED);
-    QuerySnapshot donates = await petController.getPetToCount(userReference, Constantes.DONATE);
-    QuerySnapshot disap = await petController.getPetToCount(userReference, Constantes.DISAPPEARED);
-    QuerySnapshot donated = await petController.getPetToCount(userReference, Constantes.DONATE, avalaible: false);
+    QuerySnapshot adopteds =
+        await petController.getPetToCount(userReference, Constantes.ADOPTED);
+    QuerySnapshot donates =
+        await petController.getPetToCount(userReference, Constantes.DONATE);
+    QuerySnapshot disap = await petController.getPetToCount(
+        userReference, Constantes.DISAPPEARED);
+    QuerySnapshot donated = await petController
+        .getPetToCount(userReference, Constantes.DONATE, avalaible: false);
 
     setState(() {
       userTotalAdopted = adopteds.docs.length;
@@ -70,7 +76,7 @@ class _AnnouncerDetailsState extends State<AnnouncerDetails> {
 
   @override
   void didChangeDependencies() {
-    adsProvider = Provider.of(context);
+    // adsProvider = Provider.of(context);
     super.didChangeDependencies();
   }
 
@@ -84,16 +90,18 @@ class _AnnouncerDetailsState extends State<AnnouncerDetails> {
     final userEmail = widget.user.email ?? null;
 
     void callWhatsapp() {
-      FlutterOpenWhatsapp.sendSingleMessage('+55$userWhatsapp', 'Olá!');
+      // FlutterOpenWhatsapp.sendSingleMessage('+55$userWhatsapp', 'Olá!');
     }
 
     void callLandline() {
-      String tel = userLandline != null && userLandline != '' ? userLandline : userWhatsapp;
-      Launcher.makePhoneCall(number: tel);
+      String? tel = userLandline != null && userLandline != ''
+          ? userLandline
+          : userWhatsapp;
+      Launcher.makePhoneCall(number: tel!);
     }
 
     void callEmail() {
-      Launcher.sendEmail(emailAddress: userEmail, message: '', subject: '');
+      Launcher.sendEmail(emailAddress: userEmail!, message: '', subject: '');
     }
 
     void openFullScreenMode(List photos_list, String tag) {
@@ -120,18 +128,17 @@ class _AnnouncerDetailsState extends State<AnnouncerDetails> {
                   height: height / 3.5,
                   child: FadeInImage(
                     placeholder: AssetImage('assets/fundo.jpg'),
-                    image: widget.user.photoBACK != null
-                        ? NetworkImage(
-                            widget.user.photoBACK,
-                          )
-                        : AssetImage('assets/fundo.jpg'),
+                    image: AssetHandle(
+                      widget.user.photoBACK,
+                    ).build(),
                     fit: BoxFit.fill,
                     width: 1000,
                     height: 100,
                   ),
                 ),
                 SizedBox(height: 50),
-                CustomDivider(text: "${widget.user.name.capitalize()}", fontSize: 18),
+                CustomDivider(
+                    text: "${widget.user.name!.capitalize()}", fontSize: 18),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Row(
@@ -153,9 +160,10 @@ class _AnnouncerDetailsState extends State<AnnouncerDetails> {
                           SizedBox(height: 10),
                           Text(
                             'P/ adoção',
-                            style: Theme.of(context).textTheme.headline1.copyWith(
-                                  color: Colors.black,
-                                ),
+                            style:
+                                Theme.of(context).textTheme.headline1!.copyWith(
+                                      color: Colors.black,
+                                    ),
                           )
                         ],
                       ),
@@ -165,15 +173,19 @@ class _AnnouncerDetailsState extends State<AnnouncerDetails> {
                             avatarRadius: 25,
                             child: Text(
                               '$userTotalDonated',
-                              style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold),
                             ),
                           ),
                           SizedBox(height: 10),
                           Text(
                             'Doados',
-                            style: Theme.of(context).textTheme.headline1.copyWith(
-                                  color: Colors.black,
-                                ),
+                            style:
+                                Theme.of(context).textTheme.headline1!.copyWith(
+                                      color: Colors.black,
+                                    ),
                           )
                         ],
                       ),
@@ -183,15 +195,19 @@ class _AnnouncerDetailsState extends State<AnnouncerDetails> {
                             avatarRadius: 25,
                             child: Text(
                               "$userTotalAdopted",
-                              style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold),
                             ),
                           ),
                           SizedBox(height: 10),
                           Text(
                             'Adotados',
-                            style: Theme.of(context).textTheme.headline1.copyWith(
-                                  color: Colors.black,
-                                ),
+                            style:
+                                Theme.of(context).textTheme.headline1!.copyWith(
+                                      color: Colors.black,
+                                    ),
                           )
                         ],
                       ),
@@ -201,15 +217,19 @@ class _AnnouncerDetailsState extends State<AnnouncerDetails> {
                             avatarRadius: 25,
                             child: Text(
                               "$userTotalDisap",
-                              style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold),
                             ),
                           ),
                           SizedBox(height: 10),
                           Text(
                             'Desaparecidos',
-                            style: Theme.of(context).textTheme.headline1.copyWith(
-                                  color: Colors.black,
-                                ),
+                            style:
+                                Theme.of(context).textTheme.headline1!.copyWith(
+                                      color: Colors.black,
+                                    ),
                           )
                         ],
                       ),
@@ -219,7 +239,11 @@ class _AnnouncerDetailsState extends State<AnnouncerDetails> {
                 Divider(color: Colors.black),
                 Padding(
                   padding: EdgeInsets.only(top: height / 10),
-                  child: adsProvider.getCanShowAds ? adsProvider.bannerAdMob(adId: adsProvider.bottomAdId, medium_banner: true) : Container(),
+                  // TODO: Tinha um anuncio aqui
+                  // child: adsProvider.getCanShowAds
+                  // ? adsProvider.bannerAdMob(
+                  // adId: adsProvider.bottomAdId, medium_banner: true)
+                  // : Container(),
                 ),
                 Spacer(),
                 CustomDivider(text: 'Contato'),
@@ -271,7 +295,13 @@ class _AnnouncerDetailsState extends State<AnnouncerDetails> {
                                 : Container(),
                             InkWell(
                               onTap: () {
-                                CommonChatFunctions.openChat(context: context, firstUser: Provider.of<UserProvider>(context, listen: false).user(), secondUser: widget.user);
+                                CommonChatFunctions.openChat(
+                                    context: context,
+                                    firstUser: Provider.of<UserProvider>(
+                                            context,
+                                            listen: false)
+                                        .user(),
+                                    secondUser: widget.user);
                               },
                               child: CircleChild(
                                 avatarRadius: 25,
@@ -312,7 +342,10 @@ class _AnnouncerDetailsState extends State<AnnouncerDetails> {
               left: width * 0.3,
               top: height / 5,
               child: InkWell(
-                onTap: widget.user.photoURL != null ? () => openFullScreenMode([widget.user.photoURL], 'profilePic') : () {},
+                onTap: widget.user.photoURL != null
+                    ? () =>
+                        openFullScreenMode([widget.user.photoURL], 'profilePic')
+                    : () {},
                 child: CircleChild(
                   avatarRadius: 70,
                   child: Hero(
@@ -320,7 +353,7 @@ class _AnnouncerDetailsState extends State<AnnouncerDetails> {
                     child: FadeInImage(
                       placeholder: AssetImage('assets/profileEmpty.png'),
                       image: NetworkImage(
-                        widget.user.photoURL,
+                        widget.user.photoURL!,
                       ),
                       fit: BoxFit.cover,
                       width: 1000,
@@ -342,7 +375,7 @@ class _OnlyChatButton extends StatelessWidget {
     this.secondUser,
   });
 
-  final User secondUser;
+  final User? secondUser;
 
   @override
   Widget build(BuildContext context) {
@@ -351,7 +384,7 @@ class _OnlyChatButton extends StatelessWidget {
         CommonChatFunctions.openChat(
           context: context,
           firstUser: Provider.of<UserProvider>(context, listen: false).user(),
-          secondUser: secondUser,
+          secondUser: secondUser!,
         );
       },
       shape: RoundedRectangleBorder(

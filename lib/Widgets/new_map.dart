@@ -32,7 +32,8 @@ class _NewMapState extends State<NewMap> with SingleTickerProviderStateMixin {
       automaticallyImplyAppBarLeading: false,
       autocompleteOnTrailingWhitespace: true,
       apiKey: Constantes.WEB_API_KEY,
-      selectedPlaceWidgetBuilder: (context, PickResult result, state, isSearchBarFocused) {
+      selectedPlaceWidgetBuilder:
+          (context, PickResult result, state, isSearchBarFocused) {
         if (isSearchBarFocused) {
           return Container();
         } else {
@@ -43,9 +44,11 @@ class _NewMapState extends State<NewMap> with SingleTickerProviderStateMixin {
                 result.geometry.location.lng,
               ),
             );
-            locationProvider.changeCanContinue(state != SearchingState.Searching);
+            locationProvider
+                .changeCanContinue(state != SearchingState.Searching);
           } else {
-            locationProvider.changeCanContinue(state != SearchingState.Searching);
+            locationProvider
+                .changeCanContinue(state != SearchingState.Searching);
           }
           return FloatingCard(
             bottomPosition: 60.0,
@@ -64,7 +67,8 @@ class _NewMapState extends State<NewMap> with SingleTickerProviderStateMixin {
           );
         }
       },
-      initialPosition: LatLng(locationProvider.getLocation.latitude, locationProvider.getLocation.longitude),
+      initialPosition: LatLng(locationProvider.getLocation.latitude,
+          locationProvider.getLocation.longitude),
       useCurrentLocation: true,
       selectInitialPosition: true,
     );
@@ -92,7 +96,10 @@ class CardTextLocation extends StatelessWidget {
         child: Text(
           text,
           textAlign: TextAlign.center,
-          style: Theme.of(context).textTheme.headline1.copyWith(color: Colors.black),
+          style: Theme.of(context)
+              .textTheme
+              .headline1!
+              .copyWith(color: Colors.black),
         ),
       ),
     );

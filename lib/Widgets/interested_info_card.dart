@@ -1,26 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:tiutiu/Custom/icons.dart';
 import 'package:tiutiu/backend/Model/user_model.dart';
+import 'package:tiutiu/core/image_handle.dart';
 import 'package:tiutiu/utils/launcher_functions.dart';
 
 class InterestedInfoCard extends StatefulWidget {
   InterestedInfoCard({
     this.navigateToInterestedDetail,
-    this.openChat,
     this.infoOrDonateFunction,
-    this.interestedUser,
     this.infoOrDonteText,
+    this.interestedUser,
     this.subtitle,
+    this.openChat,
     this.color,
   });
 
-  final Function() navigateToInterestedDetail;
-  final Function() openChat;
-  final Function() infoOrDonateFunction;
-  final User interestedUser;
-  final String subtitle;
-  final String infoOrDonteText;
-  final Color color;
+  final Function()? navigateToInterestedDetail;
+  final Function()? infoOrDonateFunction;
+  final String? infoOrDonteText;
+  final Function()? openChat;
+  final User? interestedUser;
+  final String? subtitle;
+  final Color? color;
 
   @override
   _InterestedInfoCardState createState() => _InterestedInfoCardState();
@@ -31,14 +32,18 @@ class _InterestedInfoCardState extends State<InterestedInfoCard> {
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
 
-    bool canMakeCallLandline = widget.interestedUser.landline != null && widget.interestedUser.landline.isNotEmpty;
+    bool canMakeCallLandline = widget.interestedUser!.landline != null &&
+        widget.interestedUser!.landline!.isNotEmpty;
 
-    bool canOpenWhatsApp = widget.interestedUser.phoneNumber != null && widget.interestedUser.phoneNumber.isNotEmpty;
+    bool canOpenWhatsApp = widget.interestedUser!.phoneNumber != null &&
+        widget.interestedUser!.phoneNumber!.isNotEmpty;
 
-    String phoneToCall;
+    String? phoneToCall;
 
     if (canMakeCallLandline || canOpenWhatsApp) {
-      phoneToCall = canMakeCallLandline ? widget.interestedUser.landline : widget.interestedUser.phoneNumber;
+      phoneToCall = canMakeCallLandline
+          ? widget.interestedUser!.landline
+          : widget.interestedUser!.phoneNumber;
     }
 
     return Card(
@@ -56,11 +61,8 @@ class _InterestedInfoCardState extends State<InterestedInfoCard> {
                     child: ClipOval(
                       child: FadeInImage(
                         placeholder: AssetImage('assets/fundo.jpg'),
-                        image: widget.interestedUser.photoURL != null
-                            ? NetworkImage(widget.interestedUser.photoURL)
-                            : AssetImage(
-                                'assets/fundo.jpg',
-                              ),
+                        image: AssetHandle(widget.interestedUser!.photoURL)
+                            .build(),
                         fit: BoxFit.fill,
                         width: 1000,
                         height: 1000,
@@ -75,7 +77,7 @@ class _InterestedInfoCardState extends State<InterestedInfoCard> {
                     Container(
                       width: width - 100,
                       child: Text(
-                        widget.interestedUser.name,
+                        widget.interestedUser!.name!,
                         style: TextStyle(
                           fontWeight: FontWeight.w700,
                           fontSize: 16,
@@ -108,7 +110,8 @@ class _InterestedInfoCardState extends State<InterestedInfoCard> {
                 canOpenWhatsApp
                     ? _ActionButton(
                         onPressed: () {
-                          Launcher.openWhatsApp(number: widget.interestedUser.phoneNumber);
+                          Launcher.openWhatsApp(
+                              number: widget.interestedUser.phoneNumber);
                         },
                         icon: Tiutiu.whatsapp,
                         text: 'WhatsApp',
@@ -177,11 +180,13 @@ class _ActionButton extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              icon != null ? Icon(icon, size: 18, color: Colors.white) : Container(),
+              icon != null
+                  ? Icon(icon, size: 18, color: Colors.white)
+                  : Container(),
               SizedBox(width: 5),
               Text(
                 text,
-                style: Theme.of(context).textTheme.headline1.copyWith(
+                style: Theme.of(context).textTheme.headline1!.copyWith(
                       color: Colors.white,
                       fontSize: fontSize != null ? fontSize : null,
                       fontWeight: FontWeight.w700,

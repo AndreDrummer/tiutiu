@@ -28,7 +28,7 @@ class CommonChatFunctions {
       context,
       Routes.CHAT,
       arguments: {
-        'chatId': GenerateHashKey.cesar(firstUser.id, secondUser.id),
+        'chatId': GenerateHashKey.cesar(firstUser.id!, secondUser.id!),
         'chatTitle': secondUser.name,
         'receiverNotificationToken': secondUser.notificationToken,
         'receiverId': secondUser.id,
@@ -50,12 +50,12 @@ class CommonChatFunctions {
     if (textToFilter.isNotEmpty) {
       for (Chat chat in chatList) {
         if (chat.firstUser.id != myId &&
-            chat.firstUser.name
+            chat.firstUser.name!
                 .removeAccent()
                 .toLowerCase()
                 .contains(textToFilter.toLowerCase())) newChat.add(chat);
         if (chat.secondUser != myId &&
-            chat.secondUser.name
+            chat.secondUser.name!
                 .removeAccent()
                 .toLowerCase()
                 .contains(textToFilter.toLowerCase())) newChat.add(chat);
@@ -70,7 +70,7 @@ class CommonChatFunctions {
     List<User> newUserList = [];
     if (textToFilter.isNotEmpty) {
       for (User user in userList) {
-        if (user.name
+        if (user.name!
             .removeAccent()
             .toLowerCase()
             .contains(textToFilter.removeAccent().toLowerCase()))
@@ -83,13 +83,13 @@ class CommonChatFunctions {
   }
 
   static int orderByName(User a, User b) {
-    List<int> aname = a.name.trim().removeAccent().codeUnits;
-    List<int> bname = b.name.trim().removeAccent().codeUnits;
+    List<int> aname = a.name!.trim().removeAccent().codeUnits;
+    List<int> bname = b.name!.trim().removeAccent().codeUnits;
 
-    if (a.name.isEmpty) {
+    if (a.name!.isEmpty) {
       aname = 'u'.codeUnits;
     }
-    if (b.name.isEmpty) {
+    if (b.name!.isEmpty) {
       bname = 'u'.codeUnits;
     }
 

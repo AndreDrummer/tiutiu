@@ -20,7 +20,10 @@ class LoadingScreen extends StatelessWidget {
           SizedBox(height: 15),
           Text(
             text,
-            style: Theme.of(context).textTheme.headline1.copyWith(color: Colors.black),
+            style: Theme.of(context)
+                .textTheme
+                .headline1!
+                .copyWith(color: Colors.black),
           )
         ],
       ),

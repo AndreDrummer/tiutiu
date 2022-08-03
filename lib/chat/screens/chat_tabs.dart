@@ -98,7 +98,7 @@ class _ChatTabState extends State<ChatTab> with SingleTickerProviderStateMixin {
                 return Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    if (snapshot.data == null || !snapshot.data!)
+                    if (snapshot.data == null || !snapshot.data!!)
                       Text(
                         'CHAT',
                         style: Theme.of(context).textTheme.headline1!.copyWith(

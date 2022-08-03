@@ -133,7 +133,7 @@ class _ListTileMessage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String name = OtherFunctions.firstCharacterUpper(user.name);
+    String name = OtherFunctions.firstCharacterUpper(user.name!);
     return InkWell(
       onTap: () {
         CommonChatFunctions.openChat(
@@ -165,7 +165,7 @@ class _ListTileMessage extends StatelessWidget {
             ),
             title: Text(name.isEmpty ? 'Usuário sem nome' : name),
             subtitle: Text(
-              'Usuário desde ${DateFormat('dd/MM/y HH:mm').format(DateTime.parse(user.createdAt)).split(' ').first}',
+              'Usuário desde ${DateFormat('dd/MM/y HH:mm').format(DateTime.parse(user.createdAt!)).split(' ').first}',
               style: TextStyle(fontSize: 10),
             ),
             trailing: Container(

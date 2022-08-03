@@ -5,6 +5,7 @@ import 'package:tiutiu/Widgets/circle_child.dart';
 import 'package:tiutiu/Widgets/popup_message.dart';
 import 'package:tiutiu/backend/Controller/user_controller.dart';
 import 'package:tiutiu/backend/Model/pet_model.dart';
+import 'package:tiutiu/core/image_handle.dart';
 import 'package:tiutiu/providers/ads_provider.dart';
 import 'package:tiutiu/providers/pets_provider.dart';
 import 'package:tiutiu/providers/user_provider.dart';
@@ -15,12 +16,12 @@ class ConfirmAdoptionScreen extends StatefulWidget {
 }
 
 class _ConfirmAdoptionScreenState extends State<ConfirmAdoptionScreen> {
-  UserProvider userProvider;
+  // UserProvider userProvider;
   UserController userController = UserController();
   bool confirmingAdoption = false;
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  AdsProvider adsProvider;
-  PetsProvider petsProvider;
+  // AdsProvider adsProvider;
+  late PetsProvider petsProvider;
 
   void changeConfirmingOrDenyAdoptionStatus(bool value) {
     setState(() {
@@ -29,12 +30,12 @@ class _ConfirmAdoptionScreenState extends State<ConfirmAdoptionScreen> {
   }
 
   Future<void> denyOrConfirmAdoption({
-    DocumentReference petRef,
-    DocumentReference userRef,
-    String petName,
-    bool confirmAction,
+    DocumentReference? petRef,
+    DocumentReference? userRef,
+    bool? confirmAction,
+    String? petName,
   }) async {
-    String title = confirmAction ? 'Confirmar adoção' : 'Negar adoção';
+    String title = confirmAction! ? 'Confirmar adoção' : 'Negar adoção';
     String message = confirmAction
         ? 'Tem certeza que adotou $petName ?'
         : 'Tem certeza que NÃO adotou $petName ?';
@@ -55,12 +56,12 @@ class _ConfirmAdoptionScreenState extends State<ConfirmAdoptionScreen> {
             changeConfirmingOrDenyAdoptionStatus(true);
             await userController
                 .confirmDonate(
-              petRef,
-              userRef,
+              petRef!,
+              userRef!,
             )
                 .then(
               (value) {
-                _scaffoldKey.currentState.showSnackBar(
+                _scaffoldKey.currentState!.showSnackBar(
                   SnackBar(
                     content: Text(
                       'Ação realizada com sucesso!',
@@ -74,12 +75,12 @@ class _ConfirmAdoptionScreenState extends State<ConfirmAdoptionScreen> {
             changeConfirmingOrDenyAdoptionStatus(true);
             await userController
                 .denyDonate(
-              petRef,
-              userRef,
+              petRef!,
+              userRef!,
             )
                 .then(
               (value) {
-                _scaffoldKey.currentState.showSnackBar(
+                _scaffoldKey.currentState!.showSnackBar(
                   SnackBar(
                     content: Text(
                       'Ação realizada com sucesso!',
@@ -97,9 +98,9 @@ class _ConfirmAdoptionScreenState extends State<ConfirmAdoptionScreen> {
 
   @override
   void didChangeDependencies() {
-    userProvider = Provider.of<UserProvider>(context);
+    // // userProvider = Provider.of<UserProvider>(context);
     petsProvider = Provider.of<PetsProvider>(context);
-    adsProvider = Provider.of(context);
+    // adsProvider = Provider.of(context);
     super.didChangeDependencies();
   }
 
@@ -109,7 +110,7 @@ class _ConfirmAdoptionScreenState extends State<ConfirmAdoptionScreen> {
       key: _scaffoldKey,
       appBar: AppBar(title: Text('Adoções pendentes de confirmação')),
       body: StreamBuilder<QuerySnapshot>(
-        stream: userProvider.adoptionToConfirm(),
+        // stream: userProvider.adoptionToConfirm(),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(
@@ -124,7 +125,7 @@ class _ConfirmAdoptionScreenState extends State<ConfirmAdoptionScreen> {
                   Text(
                     'Nenhuma notificação para adoção.',
                     textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.headline1.copyWith(
+                    style: Theme.of(context).textTheme.headline1!.copyWith(
                           color: Colors.black,
                           fontWeight: FontWeight.w100,
                         ),
@@ -141,9 +142,9 @@ class _ConfirmAdoptionScreenState extends State<ConfirmAdoptionScreen> {
 
           return Column(
             children: [
-              adsProvider.getCanShowAds
-                  ? adsProvider.bannerAdMob(adId: adsProvider.topAdId)
-                  : Container(),
+              // adsProvider.getCanShowAds
+              // // ? adsProvider.bannerAdMob(adId: adsProvider.topAdId)
+              // : Container(),
               Expanded(
                 child: ListView.builder(
                   key: UniqueKey(),
@@ -158,11 +159,9 @@ class _ConfirmAdoptionScreenState extends State<ConfirmAdoptionScreen> {
                           child: ClipOval(
                             child: FadeInImage(
                               placeholder: AssetImage('assets/fundo.jpg'),
-                              image: pets[index].avatar != null
-                                  ? NetworkImage(
-                                      pets[index].avatar,
-                                    )
-                                  : AssetImage('assets/fundo.jpg'),
+                              image: AssetHandle(
+                                pets[index].avatar,
+                              ).build(),
                               fit: BoxFit.cover,
                               width: 1000,
                               height: 100,
@@ -170,7 +169,8 @@ class _ConfirmAdoptionScreenState extends State<ConfirmAdoptionScreen> {
                           ),
                         ),
                         SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.05),
+                          width: MediaQuery.of(context).size.width * 0.05,
+                        ),
                         Expanded(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -204,7 +204,7 @@ class _ConfirmAdoptionScreenState extends State<ConfirmAdoptionScreen> {
                                     petName: pets[index].name,
                                     petRef: snapshot.data!.docs[index]
                                         .data()['petReference'],
-                                    userRef: userProvider.userReference,
+                                    // userRef: userProvider.userReference,
                                   );
                                 },
                                 child: Column(
@@ -230,7 +230,7 @@ class _ConfirmAdoptionScreenState extends State<ConfirmAdoptionScreen> {
                                     petName: pets[index].name,
                                     petRef: snapshot.data!.docs[index]
                                         .data()['petReference'],
-                                    userRef: userProvider.userReference,
+                                    // userRef: userProvider.userReference,
                                   );
                                 },
                                 child: Column(
