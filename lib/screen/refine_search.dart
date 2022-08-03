@@ -18,12 +18,12 @@ class RefineSearch extends StatefulWidget {
 }
 
 class _RefineSearchState extends State<RefineSearch> {
-  PetsProvider petsProvider;
-  RefineSearchProvider refineSearchProvider;
-  bool isRefiningSearch = false;
-  bool isPetDisappeared = false;
-  int selectedKind;
-  AdsProvider adsProvider;
+  PetsProvider? petsProvider;
+  RefineSearchProvider? refineSearchProvider;
+  bool? isRefiningSearch = false;
+  bool? isPetDisappeared = false;
+  int? selectedKind;
+  // AdsProvider? adsProvider;
 
   List petsType = ['Cachorro', 'Gato', 'Pássaro', 'Hamster', 'Outro'];
 
@@ -34,22 +34,22 @@ class _RefineSearchState extends State<RefineSearch> {
   }
 
   void changePetKind(bool value) {
-    refineSearchProvider.changeIsDisappeared(value);
+    refineSearchProvider!.changeIsDisappeared(value);
   }
 
   void handleSelectedKind(int index) {
-    refineSearchProvider.clearRefineSelections();
-    if (index == 0) petsProvider.changePetType('Todos');
-    petsProvider.changePetType(petsType[index - 1]);
-    refineSearchProvider.changeKindSelected(index);
+    refineSearchProvider!.clearRefineSelections();
+    if (index == 0) petsProvider!.changePetType('Todos');
+    petsProvider!.changePetType(petsType[index - 1]);
+    refineSearchProvider!.changeKindSelected(index);
   }
 
   @override
   void didChangeDependencies() {
     petsProvider = Provider.of<PetsProvider>(context);
     refineSearchProvider = Provider.of<RefineSearchProvider>(context);
-    selectedKind = refineSearchProvider.getKindSelected;
-    adsProvider = Provider.of(context);
+    selectedKind = refineSearchProvider!.getKindSelected;
+    // adsProvider = Provider.of(context);
     super.didChangeDependencies();
   }
 
@@ -58,81 +58,81 @@ class _RefineSearchState extends State<RefineSearch> {
     List listOptions = [
       {
         'title': 'Raça',
-        'valueSelected': refineSearchProvider.getBreedSelected,
+        'valueSelected': refineSearchProvider!.getBreedSelected,
         'selectionPageTitle': 'Selecione as Raças',
-        'selectionPageList': DummyData.breed[selectedKind],
+        'selectionPageList': DummyData.breed[selectedKind!],
         'onValueSelected': (String value) {
-          refineSearchProvider.changeBreedSelected(value);
+          refineSearchProvider!.changeBreedSelected(value);
         },
         'clearFunction': () {
-          refineSearchProvider.changeBreedSelected('');
+          refineSearchProvider!.changeBreedSelected('');
         }
       },
       {
         'title': 'Tamanho',
-        'valueSelected': refineSearchProvider.getSizeSelected,
+        'valueSelected': refineSearchProvider!.getSizeSelected,
         'selectionPageTitle': 'Tamanhos',
         'selectionPageList': DummyData.size,
         'onValueSelected': (String value) {
-          refineSearchProvider.changeSizeSelected(value);
+          refineSearchProvider!.changeSizeSelected(value);
         },
         'clearFunction': () {
-          refineSearchProvider.changeSizeSelected('');
+          refineSearchProvider!.changeSizeSelected('');
         }
       },
       {
         'title': 'Idade',
-        'valueSelected': refineSearchProvider.getAgeSelected,
+        'valueSelected': refineSearchProvider!.getAgeSelected,
         'selectionPageTitle': 'Idades',
         'selectionPageList': DummyData.ages,
         'onValueSelected': (String value) {
           print('value $value');
           if (value == '-1 ano') {
-            refineSearchProvider.changeAgeSelected('Menos de 1 ano');
+            refineSearchProvider!.changeAgeSelected('Menos de 1 ano');
           } else if (value == '10+ anos') {
-            refineSearchProvider.changeAgeSelected('Mais de 10 anos');
+            refineSearchProvider!.changeAgeSelected('Mais de 10 anos');
           } else {
-            refineSearchProvider.changeAgeSelected(value);
+            refineSearchProvider!.changeAgeSelected(value);
           }
         },
         'clearFunction': () {
-          refineSearchProvider.changeAgeSelected('');
+          refineSearchProvider!.changeAgeSelected('');
         }
       },
       {
         'title': 'Sexo',
-        'valueSelected': refineSearchProvider.getSexSelected,
+        'valueSelected': refineSearchProvider!.getSexSelected,
         'selectionPageTitle': 'Sexo',
         'selectionPageList': ['Macho', 'Fêmea'],
         'onValueSelected': (String value) {
-          refineSearchProvider.changeSexSelected(value);
+          refineSearchProvider!.changeSexSelected(value);
         },
         'clearFunction': () {
-          refineSearchProvider.changeSexSelected('');
+          refineSearchProvider!.changeSexSelected('');
         }
       },
       {
         'title': 'Saúde',
-        'valueSelected': refineSearchProvider.getHealthSelected,
+        'valueSelected': refineSearchProvider!.getHealthSelected,
         'selectionPageTitle': 'Estado de saúde',
         'selectionPageList': DummyData.health,
         'onValueSelected': (String value) {
-          refineSearchProvider.changeHealthSelected(value);
+          refineSearchProvider!.changeHealthSelected(value);
         },
         'clearFunction': () {
-          refineSearchProvider.changeHealthSelected('');
+          refineSearchProvider!.changeHealthSelected('');
         }
       },
       {
         'title': 'Numa distância de até',
-        'valueSelected': refineSearchProvider.getDistancieSelected,
+        'valueSelected': refineSearchProvider!.getDistancieSelected,
         'selectionPageTitle': 'Numa distância de até',
         'selectionPageList': DummyData.distancies,
         'onValueSelected': (String value) {
-          refineSearchProvider.changeDistancieSelected(value);
+          refineSearchProvider!.changeDistancieSelected(value);
         },
         'clearFunction': () {
-          refineSearchProvider.changeDistancieSelected('');
+          refineSearchProvider!.changeDistancieSelected('');
         }
       },
     ];
@@ -170,9 +170,9 @@ class _RefineSearchState extends State<RefineSearch> {
                 ),
                 _PetSelector(
                   handleSelectedKind: handleSelectedKind,
-                  selectedKind: petsProvider.getPetType == 'Todos'
+                  selectedKind: petsProvider!.getPetType == 'Todos'
                       ? 0
-                      : petsType.indexOf(petsProvider.getPetType) + 1,
+                      : petsType.indexOf(petsProvider!.getPetType) + 1,
                 ),
                 Stack(
                   children: [
@@ -184,7 +184,7 @@ class _RefineSearchState extends State<RefineSearch> {
                             titleTile: optionTile['title'],
                             valueSelected: optionTile['valueSelected'],
                             clear: optionTile['clearFunction'],
-                            onTap: petsProvider.getPetType == 'Todos'
+                            onTap: petsProvider!.getPetType == 'Todos'
                                 ? null
                                 : () {
                                     Navigator.push(
@@ -211,7 +211,7 @@ class _RefineSearchState extends State<RefineSearch> {
                         );
                       }).toList(),
                     ),
-                    petsProvider.getPetType == 'Todos'
+                    petsProvider!.getPetType == 'Todos'
                         ? Container(color: Colors.black12, height: 328)
                         : Container(),
                   ],
@@ -225,9 +225,9 @@ class _RefineSearchState extends State<RefineSearch> {
                         style: TextStyle(fontSize: 18),
                       ),
                       Checkbox(
-                        value: refineSearchProvider.getIsDisappeared,
+                        value: refineSearchProvider!.getIsDisappeared,
                         onChanged: (value) {
-                          changePetKind(value);
+                          changePetKind(value!);
                         },
                       ),
                       Text(
@@ -235,9 +235,9 @@ class _RefineSearchState extends State<RefineSearch> {
                         style: TextStyle(fontSize: 18),
                       ),
                       Checkbox(
-                        value: !refineSearchProvider.getIsDisappeared,
+                        value: !refineSearchProvider!.getIsDisappeared,
                         onChanged: (value) {
-                          changePetKind(!value);
+                          changePetKind(!value!);
                         },
                       ),
                       Text(
@@ -250,48 +250,51 @@ class _RefineSearchState extends State<RefineSearch> {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: ButtonWide(
-                    color: isRefiningSearch ? Colors.grey : Colors.purple,
+                    color: isRefiningSearch! ? Colors.grey : Colors.purple,
                     text: 'BUSCAR',
-                    action: isRefiningSearch
+                    action: isRefiningSearch!
                         ? null
                         : () async {
-                            petsProvider.changePetKind(
-                                refineSearchProvider.getIsDisappeared
+                            petsProvider!.changePetKind(
+                                refineSearchProvider!.getIsDisappeared
                                     ? Constantes.DISAPPEARED
                                     : Constantes.DONATE);
-                            refineSearchProvider
+                            refineSearchProvider!
                                 .changeSearchHomePetTypeInitialValue(
-                                    petsProvider.getPetType);
-                            petsProvider.changeBreedSelected(
-                                refineSearchProvider.getBreedSelected);
-                            petsProvider.changeSizeSelected(
-                                refineSearchProvider.getSizeSelected);
-                            petsProvider.changeAgeSelected(
-                                refineSearchProvider.getAgeSelected);
-                            petsProvider.changeSexSelected(
-                                refineSearchProvider.getSexSelected);
-                            petsProvider.changeHealthSelected(
-                                refineSearchProvider.getHealthSelected);
-                            petsProvider.changeIsFiltering(
-                                petsProvider.getPetType == 'Todos'
+                                    petsProvider!.getPetType);
+                            petsProvider!.changeBreedSelected(
+                                refineSearchProvider!.getBreedSelected);
+                            petsProvider!.changeSizeSelected(
+                                refineSearchProvider!.getSizeSelected);
+                            petsProvider!.changeAgeSelected(
+                                refineSearchProvider!.getAgeSelected);
+                            petsProvider!.changeSexSelected(
+                                refineSearchProvider!.getSexSelected);
+                            petsProvider!.changeHealthSelected(
+                                refineSearchProvider!.getHealthSelected);
+                            petsProvider!.changeIsFiltering(
+                                petsProvider!.getPetType == 'Todos'
                                     ? false
                                     : true);
 
                             Navigator.pushNamed(context, Routes.HOME,
-                                arguments: refineSearchProvider.getIsDisappeared
-                                    ? 1
-                                    : 0);
+                                arguments:
+                                    refineSearchProvider!.getIsDisappeared
+                                        ? 1
+                                        : 0);
                           },
                   ),
                 ),
-                adsProvider.getCanShowAds
-                    ? adsProvider.bannerAdMob(adId: adsProvider.bottomAdId)
-                    : Container(),
+                // adsProvider.getCanShowAds
+                // // ? adsProvider.bannerAdMob(adId: adsProvider.bottomAdId)
+                // : Container(),
               ],
             ),
           ),
           LoadDarkScreen(
-              show: isRefiningSearch, message: 'Refinando resultados...')
+            show: isRefiningSearch!,
+            message: 'Refinando resultados...',
+          )
         ],
       ),
     );
@@ -299,9 +302,12 @@ class _RefineSearchState extends State<RefineSearch> {
 }
 
 class _PetSelector extends StatelessWidget {
-  _PetSelector({this.handleSelectedKind, this.selectedKind});
-  final Function(int) handleSelectedKind;
-  final int selectedKind;
+  _PetSelector({
+    this.handleSelectedKind,
+    this.selectedKind,
+  });
+  final Function(int)? handleSelectedKind;
+  final int? selectedKind;
 
   final List selector = [
     {'Todos': Icons.all_inclusive},
@@ -331,7 +337,7 @@ class _PetSelector extends StatelessWidget {
               elevation: index == selectedKind ? 6.0 : null,
               child: InkWell(
                 onTap: () {
-                  handleSelectedKind(index);
+                  handleSelectedKind!(index);
                 },
                 child: Container(
                   color: index == selectedKind
@@ -378,10 +384,10 @@ class _SelecterTile extends StatefulWidget {
     this.clear,
   });
 
-  final String titleTile;
-  final String valueSelected;
-  final Function() onTap;
-  final Function() clear;
+  final String? titleTile;
+  final String? valueSelected;
+  final Function()? onTap;
+  final Function()? clear;
 
   @override
   __SelecterTileState createState() => __SelecterTileState();
@@ -400,12 +406,12 @@ class __SelecterTileState extends State<_SelecterTile> {
               child: Row(
                 children: [
                   Text(
-                    widget.titleTile,
+                    widget.titleTile!,
                     style: TextStyle(fontSize: 18),
                   ),
                   Spacer(),
                   widget.valueSelected != null &&
-                          widget.valueSelected.isNotEmpty
+                          widget.valueSelected!.isNotEmpty
                       ? Container(
                           height: 20,
                           child: Badge(text: widget.valueSelected),
@@ -413,10 +419,10 @@ class __SelecterTileState extends State<_SelecterTile> {
                       : Container(),
                   Spacer(),
                   widget.valueSelected != null &&
-                          widget.valueSelected.isNotEmpty
+                          widget.valueSelected!.isNotEmpty
                       ? FlatButton(
                           child: Text('Limpar'),
-                          onPressed: () => widget.clear(),
+                          onPressed: () => widget.clear?.call(),
                         )
                       : Icon(Tiutiu.plus_squared_alt),
                 ],

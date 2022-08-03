@@ -1,6 +1,4 @@
 import 'dart:io';
-
-import 'package:firebase_admob/firebase_admob.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -12,10 +10,8 @@ import 'package:tiutiu/Widgets/divider.dart';
 import 'package:tiutiu/Widgets/input_text.dart';
 import 'package:tiutiu/Widgets/load_dark_screen.dart';
 import 'package:tiutiu/Widgets/popup_message.dart';
-import 'package:tiutiu/providers/ads_provider.dart';
 import 'package:tiutiu/providers/auth2.dart';
 import 'package:tiutiu/providers/user_provider.dart';
-import 'package:tiutiu/utils/constantes.dart';
 import 'package:tiutiu/utils/formatter.dart';
 import 'package:tiutiu/backend/Controller/user_controller.dart';
 
@@ -25,16 +21,17 @@ class Settings extends StatefulWidget {
 }
 
 class _SettingsState extends State<Settings> {
-  File imageFile0;
-  File imageFile1;
-  String photoURL;
-  String photoBACK;
+  String? photoBACK;
+  File? imageFile0;
+  File? imageFile1;
+  String? photoURL;
+
   Map<String, File> userProfile = {};
 
-  bool isNameEditing = false;
   bool isWhatsAppEditing = false;
   bool isTelefoneEditing = false;
-  int betterContact;
+  bool isNameEditing = false;
+  int? betterContact;
 
   bool isSavingForm = false;
   bool deleting = false;
@@ -48,10 +45,10 @@ class _SettingsState extends State<Settings> {
 
   GlobalKey<FormState> _passwordFormKey = GlobalKey<FormState>();
   GlobalKey<FormState> _personalDataFormKey = GlobalKey<FormState>();
-  UserProvider userProvider;
+  late UserProvider userProvider;
   UserController userController = UserController();
-  Authentication auth;
-  AdsProvider adsProvider;
+  late Authentication auth;
+  // AdsProvider adsProvider;
 
   bool telefoneHasError = false;
   bool whatsappHasError = false;
@@ -66,7 +63,7 @@ class _SettingsState extends State<Settings> {
     filter: {"#": RegExp(r'[0-9]')},
   );
 
-  String validarCelular(String value) {
+  String? validarCelular(String value) {
     value = celularMask.getUnmaskedText();
 
     String patttern = r'(^[0-9]*$)';
@@ -74,7 +71,7 @@ class _SettingsState extends State<Settings> {
     if (userProvider.getBetterContact == 0 &&
         value.isEmpty &&
         userProvider.whatsapp != null &&
-        userProvider.whatsapp.isEmpty) {
+        userProvider.whatsapp!.isEmpty) {
       return 'Número é obrigatório';
     }
     if (value.isNotEmpty && value.length < 11) {
@@ -85,7 +82,7 @@ class _SettingsState extends State<Settings> {
     return null;
   }
 
-  String validarTelefone(String value) {
+  String? validarTelefone(String value) {
     value = telefoneMask.getUnmaskedText();
 
     String patttern = r'(^[0-9]*$)';
@@ -93,7 +90,7 @@ class _SettingsState extends State<Settings> {
     if (userProvider.getBetterContact == 1 &&
         value.isEmpty &&
         userProvider.telefone != null &&
-        userProvider.telefone.isEmpty) {
+        userProvider.telefone!.isEmpty) {
       return 'Número é obrigatório';
     }
     if (value.isNotEmpty && value.length < 10) {
@@ -106,14 +103,14 @@ class _SettingsState extends State<Settings> {
 
   @override
   void initState() {
-    FirebaseAdMob.instance.initialize(appId: Constantes.ADMOB_APP_ID);
+    // FirebaseAdMob.instance.initialize(appId: Constantes.ADMOB_APP_ID);
     userProvider = Provider.of(context, listen: false);
     if (userProvider.displayName != null)
-      _nameController.text = userProvider.displayName;
+      _nameController.text = userProvider.displayName!;
     if (userProvider.whatsapp != null)
-      _whatsAppController.text = userProvider.whatsapp;
+      _whatsAppController.text = userProvider.whatsapp!;
     if (userProvider.telefone != null)
-      _telefoneController.text = userProvider.telefone;
+      _telefoneController.text = userProvider.telefone!;
     if (userProvider.photoURL != null) photoURL = userProvider.photoURL;
     if (userProvider.photoBACK != null) photoBACK = userProvider.photoBACK;
     super.initState();
@@ -122,7 +119,7 @@ class _SettingsState extends State<Settings> {
   @override
   void didChangeDependencies() {
     auth = Provider.of(context);
-    adsProvider = Provider.of(context);
+    // adsProvider = Provider.of(context);
     super.didChangeDependencies();
   }
 
@@ -135,27 +132,26 @@ class _SettingsState extends State<Settings> {
 
   void showMessageWarningUpdatePasswordOrDeleteAccount() {
     showDialog(
-      context: context,
-      barrierDismissible: false,
-      child: PopUpMessage(
-        confirmAction: () {
-          auth.signOut();
-          userProvider.clearUserDataOnSignOut();
-          userProvider.changeRecentlyAuthenticated(true);
-          Navigator.popUntil(context, ModalRoute.withName('/'));
-        },
-        confirmText: 'Deslogar Agora',
-        denyAction: () {
-          Navigator.pop(context);
-          changeSaveFormStatus(false);
-        },
-        denyText: 'Não',
-        warning: true,
-        message:
-            'Esta operação é confidencial e requer autenticação recente. Faça login novamente antes de tentar novamente esta solicitação.',
-        title: 'Faça login novamente',
-      ),
-    );
+        context: context,
+        barrierDismissible: false,
+        builder: ((context) => PopUpMessage(
+              confirmAction: () {
+                auth.signOut();
+                userProvider.clearUserDataOnSignOut();
+                userProvider.changeRecentlyAuthenticated(true);
+                Navigator.popUntil(context, ModalRoute.withName('/'));
+              },
+              confirmText: 'Deslogar Agora',
+              denyAction: () {
+                Navigator.pop(context);
+                changeSaveFormStatus(false);
+              },
+              denyText: 'Não',
+              warning: true,
+              message:
+                  'Esta operação é confidencial e requer autenticação recente. Faça login novamente antes de tentar novamente esta solicitação.',
+              title: 'Faça login novamente',
+            )));
   }
 
   void changeFieldEditingState(bool newState, String field) {
@@ -179,39 +175,43 @@ class _SettingsState extends State<Settings> {
   }
 
   Future<void> uploadPhotos() async {
-    StorageUploadTask uploadTask;
-    StorageReference storageReferenceProfile;
-    StorageReference storageReferenceback;
+    Reference storageReferenceProfile;
+    Reference storageReferenceback;
+    UploadTask uploadTask;
 
     if (userProfile['photoFile'] != null) {
       storageReferenceProfile = FirebaseStorage.instance
           .ref()
-          .child('${auth.firebaseUser.uid}')
+          .child('${auth.firebaseUser!.uid}')
           .child('avatar/foto_perfil');
 
       storageReferenceProfile.delete();
-      uploadTask = storageReferenceProfile.putFile(userProfile['photoFile']);
+      uploadTask = storageReferenceProfile.putFile(userProfile['photoFile']!);
 
-      await uploadTask.onComplete;
-      await storageReferenceProfile.getDownloadURL().then((urlDownload) async {
-        photoURL = await urlDownload;
-        print('URL DOWNLOAD $urlDownload');
+      await uploadTask.then((_) async {
+        await storageReferenceProfile
+            .getDownloadURL()
+            .then((urlDownload) async {
+          photoURL = await urlDownload;
+          print('URL DOWNLOAD $urlDownload');
+        });
       });
     }
 
     if (userProfile['photoFileBack'] != null) {
       storageReferenceback = FirebaseStorage.instance
           .ref()
-          .child('${auth.firebaseUser.uid}')
+          .child('${auth.firebaseUser!.uid}')
           .child('avatar/foto_fundo');
 
       storageReferenceback.delete();
-      uploadTask = storageReferenceback.putFile(userProfile['photoFileBack']);
+      uploadTask = storageReferenceback.putFile(userProfile['photoFileBack']!);
 
-      await uploadTask.onComplete;
-      await storageReferenceback.getDownloadURL().then((urlDownload) async {
-        photoBACK = await urlDownload;
-        print('URL DOWNLOAD $urlDownload');
+      await uploadTask.then((_) async {
+        await storageReferenceback.getDownloadURL().then((urlDownload) async {
+          photoBACK = await urlDownload;
+          print('URL DOWNLOAD $urlDownload');
+        });
       });
     }
 
@@ -237,7 +237,7 @@ class _SettingsState extends State<Settings> {
 
     if (userProvider.getBetterContact == 0) {
       var serializedWhatsappNumber =
-          Formatter.unmaskNumber(_telefoneController.text?.trim());
+          Formatter.unmaskNumber(_telefoneController.text.trim());
       if (serializedWhatsappNumber == null) {
         _telefoneController.clear();
       }
@@ -253,7 +253,7 @@ class _SettingsState extends State<Settings> {
 
     if (userProvider.getBetterContact == 1) {
       var serializedWhatsappNumber =
-          Formatter.unmaskNumber(_whatsAppController.text?.trim());
+          Formatter.unmaskNumber(_whatsAppController.text.trim());
       if (serializedWhatsappNumber == null) {
         _whatsAppController.clear();
       }
@@ -293,11 +293,11 @@ class _SettingsState extends State<Settings> {
   }
 
   void save({bool isToShowDialog = true}) async {
-    if (_passwordFormKey.currentState.validate() && validatePersonalData()) {
+    if (_passwordFormKey.currentState!.validate() && validatePersonalData()) {
       if (passwordWasTouched()) {
         changeSaveFormStatus(true);
         try {
-          await auth.firebaseUser.updatePassword(_newPassword.text?.trim());
+          await auth.firebaseUser!.updatePassword(_newPassword.text.trim());
         } catch (error) {
           changeSaveFormStatus(false);
           isToShowDialog
@@ -312,25 +312,25 @@ class _SettingsState extends State<Settings> {
         await uploadPhotos();
       }
 
-      await userController.updateUser(userProvider.uid, {
-        'displayName': _nameController.text?.trim(),
-        'uid': auth.firebaseUser.uid,
+      await userController.updateUser(userProvider.uid!, {
+        'displayName': _nameController.text.trim(),
+        'uid': auth.firebaseUser!.uid,
         'photoURL': userProfile.isNotEmpty ? photoURL : userProvider.photoURL,
         'photoBACK':
             userProfile.isNotEmpty ? photoBACK : userProvider.photoBACK,
-        'phoneNumber': _whatsAppController.text?.trim(),
-        'landline': _telefoneController.text?.trim(),
+        'phoneNumber': _whatsAppController.text.trim(),
+        'landline': _telefoneController.text.trim(),
         'betterContact': userProvider.getBetterContact,
-        'email': auth.firebaseUser.email,
+        'email': auth.firebaseUser!.email,
         'createdAt': userProvider.createdAt
       });
 
-      userProvider.changeDisplayName(_nameController.text?.trim());
+      userProvider.changeDisplayName(_nameController.text.trim());
       userProvider.changeBetterContact(userProvider.getBetterContact);
-      userProvider.changeWhatsapp(_whatsAppController.text?.trim());
-      userProvider.changeTelefone(_telefoneController.text?.trim());
-      userProvider.changePhotoUrl(photoURL);
-      userProvider.changePhotoBack(photoBACK);
+      userProvider.changeWhatsapp(_whatsAppController.text.trim());
+      userProvider.changeTelefone(_telefoneController.text.trim());
+      userProvider.changePhotoBack(photoBACK!);
+      userProvider.changePhotoUrl(photoURL!);
       userProfile.clear();
 
       changeSaveFormStatus(false);
@@ -364,7 +364,7 @@ class _SettingsState extends State<Settings> {
         () {
           imageFile0 = image;
           userProfile.remove('photoFile');
-          userProfile.putIfAbsent('photoFile', () => imageFile0);
+          userProfile.putIfAbsent('photoFile', () => imageFile0!);
           userProvider.changePhotoFILE(userProfile['photoFile']);
         },
       );
@@ -373,7 +373,7 @@ class _SettingsState extends State<Settings> {
         () {
           imageFile1 = image;
           userProfile.remove('photoFileBack');
-          userProfile.putIfAbsent('photoFileBack', () => imageFile1);
+          userProfile.putIfAbsent('photoFileBack', () => imageFile1!);
           userProvider.changePhotoFILE(userProfile['photoFileBack']);
         },
       );
@@ -432,7 +432,7 @@ class _SettingsState extends State<Settings> {
                         userProfile.remove('photoFileBack');
                       });
 
-                      userProvider.changePhotoBack(null);
+                      userProvider.changePhotoBack('');
                       Navigator.pop(context);
                     },
                   )
@@ -463,7 +463,7 @@ class _SettingsState extends State<Settings> {
 
     return WillPopScope(
       onWillPop: () async {
-        if (_personalDataFormKey.currentState.validate()) {
+        if (_personalDataFormKey.currentState!.validate()) {
           return Future.value(true);
         }
         return Future.value(false);
@@ -520,7 +520,7 @@ class _SettingsState extends State<Settings> {
                                         ),
                                       )
                                     : Image.file(
-                                        userProfile['photoFileBack'],
+                                        userProfile['photoFileBack']!,
                                         width: 1000,
                                         height: 1000,
                                         fit: BoxFit.cover,
@@ -577,7 +577,7 @@ class _SettingsState extends State<Settings> {
                                                   placeholder: AssetImage(
                                                       'assets/profileEmpty.png'),
                                                   image: NetworkImage(
-                                                    userProvider.photoURL,
+                                                    userProvider.photoURL!,
                                                   ),
                                                   fit: BoxFit.cover,
                                                   width: 1000,
@@ -587,7 +587,7 @@ class _SettingsState extends State<Settings> {
                                                   color: Colors.white70,
                                                   size: 50)
                                           : Image.file(
-                                              userProfile['photoFile'],
+                                              userProfile['photoFile']!,
                                               width: 1000,
                                               height: 1000,
                                               fit: BoxFit.cover,
@@ -619,7 +619,7 @@ class _SettingsState extends State<Settings> {
                                     onPressed: () {
                                       if (isNameEditing) {
                                         userProvider.changeDisplayName(
-                                            _nameController.text?.trim());
+                                            _nameController.text.trim());
                                         changeFieldEditingState(
                                             false, 'isNameEditing');
                                       } else {
@@ -635,22 +635,22 @@ class _SettingsState extends State<Settings> {
                                     onFieldSubmitted: (_) =>
                                         validatePersonalData(),
                                     inputFormatters: [celularMask],
-                                    validator: (String value) =>
-                                        validarCelular(value),
+                                    validator: (value) =>
+                                        validarCelular(value!),
                                     keyboardType: TextInputType.number,
                                     fieldHasError: whatsappHasError,
                                     onPressed: () {
                                       if (isWhatsAppEditing) {
                                         userProvider.changeWhatsapp(
-                                            _whatsAppController.text?.trim());
-                                        if (_personalDataFormKey.currentState
+                                            _whatsAppController.text.trim());
+                                        if (_personalDataFormKey.currentState!
                                             .validate()) {
                                           changeFieldEditingState(
                                               false, 'isWhatsAppEditing');
                                         }
                                       } else {
                                         _whatsAppController.text =
-                                            userProvider.whatsapp;
+                                            userProvider.whatsapp!;
                                         changeFieldEditingState(
                                             true, 'isWhatsAppEditing');
                                       }
@@ -663,22 +663,22 @@ class _SettingsState extends State<Settings> {
                                     onFieldSubmitted: (_) =>
                                         validatePersonalData(),
                                     inputFormatters: [telefoneMask],
-                                    validator: (String value) =>
-                                        validarTelefone(value),
+                                    validator: (value) =>
+                                        validarTelefone(value!),
                                     keyboardType: TextInputType.number,
                                     fieldHasError: telefoneHasError,
                                     onPressed: () {
                                       if (isTelefoneEditing) {
                                         userProvider.changeTelefone(
-                                            _telefoneController.text?.trim());
-                                        if (_personalDataFormKey.currentState
+                                            _telefoneController.text.trim());
+                                        if (_personalDataFormKey.currentState!
                                             .validate()) {
                                           changeFieldEditingState(
                                               false, 'isTelefoneEditing');
                                         }
                                       } else {
                                         _telefoneController.text =
-                                            userProvider.telefone;
+                                            userProvider.telefone!;
                                         changeFieldEditingState(
                                             true, 'isTelefoneEditing');
                                       }
@@ -690,7 +690,7 @@ class _SettingsState extends State<Settings> {
                             CustomDivider(text: 'Sua melhor forma de contato'),
                             Padding(
                               padding: const EdgeInsets.all(8.0),
-                              child: StreamBuilder(
+                              child: StreamBuilder<int>(
                                 stream: userProvider.betterContact,
                                 builder: (context, snapshot) {
                                   return Card(
@@ -799,7 +799,7 @@ class _SettingsState extends State<Settings> {
                                         _newPassword.text.trim().isEmpty) {
                                       return null;
                                     }
-                                    if (value != _newPassword.text?.trim()) {
+                                    if (value != _newPassword.text.trim()) {
                                       return 'Senhas não conferem';
                                     }
                                   },
@@ -832,7 +832,10 @@ class _SettingsState extends State<Settings> {
                                   changeSaveFormStatus(true, deleting: true);
                                   try {
                                     await userController.deleteUserAccount(
-                                        auth, userProvider.userReference);
+                                      auth: auth,
+                                      userReference:
+                                          userProvider.userReference!,
+                                    );
                                     navigateToHomeAfterDeleteAccount();
                                   } catch (error) {
                                     changeSaveFormStatus(false);
@@ -856,9 +859,9 @@ class _SettingsState extends State<Settings> {
                         ),
                       ),
                     ),
-                    adsProvider.getCanShowAds
-                        ? adsProvider.bannerAdMob(adId: adsProvider.bottomAdId)
-                        : Container(),
+                    // adsProvider.getCanShowAds
+                    // // ? adsProvider.bannerAdMob(adId: adsProvider.bottomAdId)
+                    // : Container(),
                     SizedBox(height: height < 500 ? 210 : 0)
                   ],
                 ),
@@ -883,16 +886,16 @@ class _SettingsState extends State<Settings> {
   }
 
   Widget _textField({
-    TextEditingController controller,
-    String fieldLabel,
-    bool isFieldEditing,
-    Function() onPressed,
-    Function(String) onFieldSubmitted,
-    List<TextInputFormatter> inputFormatters,
-    Function(String) validator,
-    TextInputType keyboardType,
     TextCapitalization textCapitalization = TextCapitalization.sentences,
+    List<TextInputFormatter>? inputFormatters,
+    String? Function(String?)? validator,
+    Function(String)? onFieldSubmitted,
+    TextEditingController? controller,
+    TextInputType? keyboardType,
     bool fieldHasError = false,
+    bool isFieldEditing = false,
+    Function()? onPressed,
+    String? fieldLabel,
   }) {
     return Card(
       shape: RoundedRectangleBorder(
@@ -900,7 +903,7 @@ class _SettingsState extends State<Settings> {
       ),
       elevation: 6.0,
       child: ListTile(
-        title: Text(fieldLabel,
+        title: Text(fieldLabel!,
             style: Theme.of(context)
                 .textTheme
                 .headline1!
@@ -923,7 +926,7 @@ class _SettingsState extends State<Settings> {
                       UnderlineInputBorder(borderSide: BorderSide.none),
                 ),
               )
-            : Text(controller.text?.trim(),
+            : Text(controller!.text.trim(),
                 style: fieldHasError
                     ? Theme.of(context)
                         .textTheme
@@ -938,30 +941,29 @@ class _SettingsState extends State<Settings> {
     );
   }
 
-  Widget radio(
-      {String labelText,
-      dynamic groupValue,
-      Function() onTap,
-      dynamic value,
-      Color color}) {
+  Widget radio({
+    Function()? onTap,
+    String? labelText,
+    int? groupValue,
+    int? value,
+    Color? color,
+  }) {
     return InkWell(
-      onTap: () {
-        onTap();
-      },
+      onTap: onTap,
       child: Container(
         child: Row(
           children: [
-            Radio(
+            Radio<int>(
               activeColor: color,
               groupValue: groupValue,
-              value: value,
-              onChanged: (value) {
-                onTap();
+              value: value!,
+              onChanged: (_) {
+                onTap?.call();
               },
             ),
             Padding(
               padding: const EdgeInsets.only(right: 8.0),
-              child: Text(labelText),
+              child: Text(labelText!),
             ),
           ],
         ),

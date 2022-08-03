@@ -2,27 +2,27 @@ import 'package:flutter/material.dart';
 
 class MyAccountCard extends StatelessWidget {
   MyAccountCard({
+    this.isToCenterText = false,
+    this.isToExpand = false,
     this.textIcon = '',
     this.icone,
     this.onTap,
     this.text,
-    this.isToExpand = false,
-    this.isToCenterText = false,
   });
 
-  final String text;
-  final String textIcon;
-  final IconData icone;
-  final Function onTap;
-  final bool isToExpand;
-  final bool isToCenterText;
+  final bool? isToCenterText;
+  final bool? isToExpand;
+  final String? textIcon;
+  final IconData? icone;
+  final Function? onTap;
+  final String? text;
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () => onTap(),
+      onTap: () => onTap?.call(),
       child: Container(
-        width: isToExpand
+        width: isToExpand!
             ? MediaQuery.of(context).size.width - 10
             : MediaQuery.of(context).size.width * 0.485,
         child: Card(
@@ -32,7 +32,7 @@ class MyAccountCard extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.all(16.0),
             child: Column(
-              crossAxisAlignment: isToCenterText
+              crossAxisAlignment: isToCenterText!
                   ? CrossAxisAlignment.center
                   : CrossAxisAlignment.start,
               children: [
@@ -43,7 +43,7 @@ class MyAccountCard extends StatelessWidget {
                     Container(
                       width: 100,
                       child: Text(
-                        textIcon,
+                        textIcon!,
                         style: Theme.of(context).textTheme.headline1!.copyWith(
                               fontSize: 18,
                               color: Colors.blueGrey[400],
@@ -54,7 +54,7 @@ class MyAccountCard extends StatelessWidget {
                 ),
                 SizedBox(height: 10),
                 Text(
-                  text,
+                  text!,
                   style: Theme.of(context).textTheme.headline1!.copyWith(
                         fontSize: 18,
                         color: Colors.blueGrey[400],

@@ -5,56 +5,56 @@ import 'package:tiutiu/Custom/icons.dart';
 // ignore: must_be_immutable
 class InputText extends StatefulWidget {
   InputText({
-    this.size = 75,
-    this.controller,
-    this.isLogin = false,
-    this.isPassword = false,
-    this.seePassword = false,
-    this.readOnly = false,
-    this.onChanged,
-    this.keyBoardTypeNumber = false,
     this.textCapitalization = TextCapitalization.sentences,
-    this.placeholder,
-    this.maxlines = 1,
+    this.keyBoardTypeNumber = false,
+    this.inputFormatters = const [],
+    this.seePassword = false,
+    this.isPassword = false,
     this.multiline = false,
+    this.readOnly = false,
+    this.isLogin = false,
+    this.maxlines = 1,
+    this.placeholder,
+    this.controller,
+    this.size = 75,
+    this.onChanged,
     this.validator,
     this.hintText,
-    this.inputFormatters = const [],
   });
 
   InputText.login({
     this.size = 75,
-    this.controller,
-    this.onChanged,
-    this.placeholder,
-    this.maxlines = 1,
+    this.textCapitalization = TextCapitalization.sentences,
+    this.keyBoardTypeNumber = false,
+    this.inputFormatters = const [],
+    this.seePassword = false,
+    this.isPassword = false,
     this.multiline = false,
     this.readOnly = false,
-    this.keyBoardTypeNumber = false,
-    this.isPassword = false,
-    this.seePassword = false,
     this.isLogin = true,
+    this.maxlines = 1,
+    this.placeholder,
+    this.controller,
+    this.onChanged,
     this.validator,
     this.hintText,
-    this.inputFormatters = const [],
-    this.textCapitalization = TextCapitalization.sentences,
   });
 
-  final double size;
-  final String placeholder;
-  final String hintText;
-  final TextEditingController controller;
-  final bool multiline;
-  final bool isLogin;
-  final bool isPassword;
-  final bool readOnly;
-  final bool keyBoardTypeNumber;
-  bool seePassword;
-  final int maxlines;
-  final Function(String) onChanged;
-  final Function(String) validator;
-  final List<TextInputFormatter> inputFormatters;
-  final TextCapitalization textCapitalization;
+  final List<TextInputFormatter>? inputFormatters;
+  final TextCapitalization? textCapitalization;
+  final TextEditingController? controller;
+  final Function(String)? onChanged;
+  final Function(String)? validator;
+  final bool? keyBoardTypeNumber;
+  final String? placeholder;
+  final bool? isPassword;
+  final String? hintText;
+  final bool? multiline;
+  final bool? readOnly;
+  final bool? isLogin;
+  final int? maxlines;
+  final double? size;
+  bool? seePassword;
 
   @override
   _InputTextState createState() => _InputTextState();
@@ -67,10 +67,10 @@ class _InputTextState extends State<InputText> {
       height: widget.hintText != null ? 70 : widget.size,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12.0),
-        color: widget.isLogin ? Colors.white70 : Colors.white,
+        color: widget.isLogin! ? Colors.white70 : Colors.white,
         border: Border.all(
           style: BorderStyle.solid,
-          color: Colors.lightGreenAccent[200],
+          color: Colors.lightGreenAccent[200]!,
         ),
       ),
       child: Padding(
@@ -79,35 +79,35 @@ class _InputTextState extends State<InputText> {
           children: <Widget>[
             Expanded(
               child: TextFormField(
-                textCapitalization: widget.textCapitalization,
+                textCapitalization: widget.textCapitalization!,
                 cursorColor: Theme.of(context).primaryColor,
                 inputFormatters: widget.inputFormatters,
                 validator: widget.validator != null
                     ? (value) {
-                        return widget.validator(value);
+                        return widget.validator!(value!);
                       }
                     : (value) {
-                        if (value.isEmpty) {
+                        if (value!.isEmpty) {
                           return 'Preencha corretamente esse campo';
                         }
                         return null;
                       },
-                readOnly: widget.readOnly,
+                readOnly: widget.readOnly!,
                 controller: widget.controller,
                 textInputAction: TextInputAction.done,
-                obscureText: widget.isPassword && !widget.seePassword,
+                obscureText: widget.isPassword! && !widget.seePassword!,
                 maxLines: widget.maxlines,
-                onChanged: (String text) => widget.onChanged(text),
-                keyboardType: widget.multiline
+                onChanged: (String text) => widget.onChanged!(text),
+                keyboardType: widget.multiline!
                     ? TextInputType.multiline
-                    : widget.keyBoardTypeNumber
+                    : widget.keyBoardTypeNumber!
                         ? TextInputType.number
                         : TextInputType.text,
                 decoration: InputDecoration(
                   hintText: widget.hintText,
                   labelText: widget.placeholder,
                   labelStyle: TextStyle(
-                    color: widget.isLogin ? Colors.black38 : Colors.black26,
+                    color: widget.isLogin! ? Colors.black38 : Colors.black26,
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderSide: BorderSide(style: BorderStyle.none),
@@ -121,18 +121,18 @@ class _InputTextState extends State<InputText> {
                 ),
               ),
             ),
-            widget.isPassword
+            widget.isPassword!
                 ? Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: IconButton(
                       icon: Icon(
-                        widget.seePassword ? Tiutiu.eye : Tiutiu.eye_slash,
+                        widget.seePassword! ? Tiutiu.eye : Tiutiu.eye_slash,
                         color: Colors.grey,
                         size: 18,
                       ),
                       onPressed: () {
                         setState(() {
-                          widget.seePassword = !widget.seePassword;
+                          widget.seePassword = !widget.seePassword!;
                         });
                       },
                     ),

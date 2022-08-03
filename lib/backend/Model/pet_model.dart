@@ -3,33 +3,33 @@ import 'package:tiutiu/utils/constantes.dart';
 
 class Pet {
   Pet({
-    required this.whoAdoptedReference,
-    required this.otherCaracteristics,
-    required this.storageHashKey,
-    required this.ownerReference,
-    required this.petReference,
-    required this.longitude,
-    required this.ownerName,
-    required this.createdAt,
-    required this.latitude,
-    required this.donated,
-    required this.ownerId,
-    required this.details,
-    required this.photos,
-    required this.health,
-    required this.found,
-    required this.color,
-    required this.views,
-    required this.avatar,
-    required this.type,
-    required this.meses,
-    required this.breed,
-    required this.size,
-    required this.name,
-    required this.sex,
-    required this.kind,
-    required this.ano,
-    required this.id,
+    this.otherCaracteristics,
+    this.whoAdoptedReference,
+    this.donated = false,
+    this.storageHashKey,
+    this.ownerReference,
+    this.found = false,
+    this.petReference,
+    this.longitude,
+    this.ownerName,
+    this.createdAt,
+    this.latitude,
+    this.ownerId,
+    this.details,
+    this.photos,
+    this.health,
+    this.color,
+    this.views,
+    this.avatar,
+    this.type,
+    this.meses,
+    this.breed,
+    this.size,
+    this.name,
+    this.sex,
+    this.kind,
+    this.ano,
+    this.id,
   });
 
   static Pet fromSnapshot(DocumentSnapshot snapshot) {
@@ -101,33 +101,33 @@ class Pet {
     );
   }
 
-  DocumentReference whoAdoptedReference;
-  DocumentReference ownerReference;
-  DocumentReference petReference;
-  List otherCaracteristics;
-  String storageHashKey;
-  String createdAt;
-  String ownerName;
-  double longitude;
-  double latitude;
-  String ownerId;
-  String details;
-  String avatar;
-  String health;
-  String color;
-  String breed;
+  DocumentReference? whoAdoptedReference;
+  DocumentReference? ownerReference;
+  DocumentReference? petReference;
+  List? otherCaracteristics;
+  String? storageHashKey;
+  String? createdAt;
+  String? ownerName;
+  double? longitude;
+  double? latitude;
+  String? ownerId;
+  String? details;
+  String? avatar;
+  String? health;
+  String? color;
+  String? breed;
   bool donated;
-  String size;
-  String type;
-  String kind;
-  List photos;
-  String name;
+  String? size;
+  String? type;
+  String? kind;
+  List? photos;
+  String? name;
   bool found;
-  String sex;
-  int views;
-  int meses;
-  String id;
-  int ano;
+  String? sex;
+  String? id;
+  int? views;
+  int? meses;
+  int? ano;
 
   Map<String, dynamic> toJson() {
     return {

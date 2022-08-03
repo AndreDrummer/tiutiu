@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:loading_animations/loading_animations.dart';
-import 'package:tiutiu/providers/ads_provider.dart';
 
 class LoadingPage extends StatefulWidget {
   LoadingPage(
@@ -17,7 +16,7 @@ class LoadingPage extends StatefulWidget {
 }
 
 class _LoadingPageState extends State<LoadingPage> {
-  AdsProvider adsProvider;
+  // AdsProvider adsProvider;
 
   @override
   Widget build(BuildContext context) {
