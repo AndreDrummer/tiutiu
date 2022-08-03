@@ -85,7 +85,7 @@ class UserController {
     await firestore.collection(Constantes.ADOPTED).doc().set(data);
 
     final interestedRef =
-        await pet.petReference.collection('adoptInteresteds').get();
+        await pet.petReference!.collection('adoptInteresteds').get();
     List interestedUsers = interestedRef.docs;
 
     for (int i = 0; i < interestedUsers.length; i++) {
@@ -100,7 +100,7 @@ class UserController {
         }
 
         data['sinalized'] = true;
-        pet.petReference
+        pet.petReference!
             .collection('adoptInteresteds')
             .doc(interestedUsers[i].id)
             .set(data);

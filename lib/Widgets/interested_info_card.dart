@@ -86,7 +86,7 @@ class _InterestedInfoCardState extends State<InterestedInfoCard> {
                     ),
                     SizedBox(height: 5),
                     Text(
-                      widget.subtitle,
+                      widget.subtitle!,
                       style: TextStyle(
                         fontWeight: FontWeight.w700,
                         fontSize: 12,
@@ -102,7 +102,7 @@ class _InterestedInfoCardState extends State<InterestedInfoCard> {
               children: [
                 _ActionButton(
                   icon: Icons.chat,
-                  onPressed: widget.openChat,
+                  onPressed: widget.openChat!,
                   text: 'Chat',
                   color: Colors.purple,
                 ),
@@ -111,7 +111,8 @@ class _InterestedInfoCardState extends State<InterestedInfoCard> {
                     ? _ActionButton(
                         onPressed: () {
                           Launcher.openWhatsApp(
-                              number: widget.interestedUser.phoneNumber);
+                            number: widget.interestedUser!.phoneNumber,
+                          );
                         },
                         icon: Tiutiu.whatsapp,
                         text: 'WhatsApp',
@@ -133,11 +134,11 @@ class _InterestedInfoCardState extends State<InterestedInfoCard> {
             ),
             SizedBox(height: 5),
             _ActionButton(
-              onPressed: widget.infoOrDonateFunction,
-              text: widget.infoOrDonteText.toUpperCase(),
-              fontSize: 22,
-              color: widget.color,
+              text: widget.infoOrDonteText!.toUpperCase(),
+              onPressed: widget.infoOrDonateFunction!,
+              color: widget.color!,
               isExpanded: true,
+              fontSize: 22,
             ),
           ],
         ),
@@ -148,20 +149,20 @@ class _InterestedInfoCardState extends State<InterestedInfoCard> {
 
 class _ActionButton extends StatelessWidget {
   _ActionButton({
-    this.icon,
+    this.isExpanded = false,
+    this.onPressed,
+    this.fontSize,
     this.text,
     this.color,
-    this.isExpanded = false,
-    this.fontSize,
-    this.onPressed,
+    this.icon,
   });
 
-  final IconData icon;
-  final String text;
-  final Color color;
-  final bool isExpanded;
-  final double fontSize;
-  final Function() onPressed;
+  final Function()? onPressed;
+  final double? fontSize;
+  final bool? isExpanded;
+  final IconData? icon;
+  final String? text;
+  final Color? color;
 
   @override
   Widget build(BuildContext context) {
@@ -170,7 +171,7 @@ class _ActionButton extends StatelessWidget {
       child: Container(
         alignment: Alignment.center,
         height: 40,
-        width: isExpanded ? double.infinity : null,
+        width: isExpanded! ? double.infinity : null,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8.0),
           color: color,
@@ -185,7 +186,7 @@ class _ActionButton extends StatelessWidget {
                   : Container(),
               SizedBox(width: 5),
               Text(
-                text,
+                text!,
                 style: Theme.of(context).textTheme.headline1!.copyWith(
                       color: Colors.white,
                       fontSize: fontSize != null ? fontSize : null,
