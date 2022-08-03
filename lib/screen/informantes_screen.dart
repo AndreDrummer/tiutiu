@@ -8,8 +8,9 @@ import 'package:tiutiu/Widgets/badge.dart';
 import 'package:tiutiu/Widgets/loading_page.dart';
 import 'package:tiutiu/backend/Model/interested_model.dart';
 import 'package:tiutiu/backend/Model/user_model.dart';
+import 'package:tiutiu/core/image_handle.dart';
+import 'package:tiutiu/providers/location.dart';
 import 'package:tiutiu/providers/user_infos_interests.dart';
-import "package:google_maps_webservice/geocoding.dart";
 import 'package:tiutiu/screen/announcer_datails.dart';
 import 'package:tiutiu/utils/constantes.dart';
 
@@ -19,7 +20,7 @@ class InformantesScreen extends StatefulWidget {
 }
 
 class _InformantesScreenState extends State<InformantesScreen> {
-  UserInfoOrAdoptInterestsProvider userInfoOrAdoptInterestsProvider;
+  UserInfoOrAdoptInterestsProvider? userInfoOrAdoptInterestsProvider;
 
   @override
   void didChangeDependencies() {
@@ -34,22 +35,23 @@ class _InformantesScreenState extends State<InformantesScreen> {
   }
 
   Future<String> getAddress(Location location) async {
-    final geocoding = new GoogleMapsGeocoding(apiKey: Constantes.WEB_API_KEY);
-    final result = await geocoding.searchByLocation(location);
-    return result.results.first.formattedAddress;
+    // final geocoding = new GoogleMapsGeocoding(apiKey: Constantes.WEB_API_KEY);
+    // final result = await geocoding.searchByLocation(location);
+    // return result.results.first.formattedAddress;
+    return '';
   }
 
   @override
   Widget build(BuildContext context) {
     final arguments =
-        ModalRoute.of(context).settings.arguments as Map<String, dynamic>;
+        ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
     InterestedModel informante = arguments['informanteInfo'] as InterestedModel;
 
     return Scaffold(
-      appBar: AppBar(
-          title: Text('${arguments['petName']} foi visto aqui'.toUpperCase())),
-      body: StreamBuilder(
-        stream: userInfoOrAdoptInterestsProvider.info,
+      // appBar: AppBar(
+      //     title: Text('${arguments['petName']} foi visto aqui'.toUpperCase())),
+      body: StreamBuilder<List<InterestedModel>>(
+        stream: userInfoOrAdoptInterestsProvider!.info,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return LoadingPage(
@@ -64,9 +66,9 @@ class _InformantesScreenState extends State<InformantesScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    'Ninguém ainda informou sobre ${arguments['petName']}',
+                    'Ninguém ainda informou sobre ${['petName']}',
                     textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.headline1.copyWith(
+                    style: Theme.of(context).textTheme.headline1!.copyWith(
                           color: Colors.black,
                           fontWeight: FontWeight.w100,
                         ),
@@ -92,16 +94,18 @@ class _InformantesScreenState extends State<InformantesScreen> {
                       MaterialPageRoute(
                         builder: (context) {
                           return AnnouncerDetails(
-                            User.fromSnapshot(snapshot.data),
+                            User.fromSnapshot(snapshot.data!),
                           );
                         },
                       ),
                     );
                   },
-                  informanteImage: snapshot.data!.data()['photoURL'],
+                  informanteImage: (snapshot.data!.data()
+                      as Map<String, dynamic>)['photoURL'],
                   informanteLat: informante.userLat,
                   informanteLng: informante.userLog,
-                  informanteName: snapshot.data!.data()['displayName'],
+                  informanteName: (snapshot.data!.data()
+                      as Map<String, dynamic>)['displayName'],
                   petName: arguments['petName'],
                   dateTime: informante.interestedAt,
                   details: informante.infoDetails);
@@ -113,14 +117,14 @@ class _InformantesScreenState extends State<InformantesScreen> {
   }
 
   Widget _cardInfo({
-    String informanteName,
-    String details,
-    String informanteImage,
-    String dateTime,
-    String petName,
-    double informanteLat,
-    double informanteLng,
-    Function() onUserView,
+    String? informanteImage,
+    String? informanteName,
+    Function()? onUserView,
+    double? informanteLng,
+    double? informanteLat,
+    String? dateTime,
+    String? petName,
+    String? details,
   }) {
     return Card(
       shape: RoundedRectangleBorder(
@@ -136,7 +140,7 @@ class _InformantesScreenState extends State<InformantesScreen> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               InkWell(
-                onTap: () => onUserView(),
+                onTap: () => onUserView?.call(),
                 child: Row(
                   children: [
                     CircleAvatar(
@@ -144,11 +148,9 @@ class _InformantesScreenState extends State<InformantesScreen> {
                       child: ClipOval(
                         child: FadeInImage(
                           placeholder: AssetImage('assets/profileEmpty.png'),
-                          image: informanteImage != null
-                              ? NetworkImage(
-                                  informanteImage,
-                                )
-                              : AssetImage('assets/profileEmpty.png'),
+                          image: AssetHandle(
+                            informanteImage,
+                          ).build(),
                           fit: BoxFit.cover,
                           width: 100,
                           height: 100,
@@ -160,7 +162,7 @@ class _InformantesScreenState extends State<InformantesScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Visto dia ${DateFormat('dd/MM/yyyy HH:mm').format(DateTime.parse(dateTime)).split(' ').first} às ${DateFormat('dd/MM/yyyy HH:mm').format(DateTime.parse(dateTime)).split(' ').last}, próximo à',
+                          'Visto dia ${DateFormat('dd/MM/yyyy HH:mm').format(DateTime.parse(dateTime!)).split(' ').first} às ${DateFormat('dd/MM/yyyy HH:mm').format(DateTime.parse(dateTime)).split(' ').last}, próximo à',
                           style: TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.w700,
@@ -171,7 +173,8 @@ class _InformantesScreenState extends State<InformantesScreen> {
                           width: MediaQuery.of(context).size.width * 0.8,
                           child: FutureBuilder(
                             future: getAddress(
-                                Location(informanteLat, informanteLng)),
+                              Location(),
+                            ),
                             builder: (context, snapshot) {
                               if (snapshot.data == null) {
                                 return Center(
@@ -179,7 +182,7 @@ class _InformantesScreenState extends State<InformantesScreen> {
                                 );
                               }
                               return Text(
-                                snapshot.data,
+                                '${snapshot.data}',
                                 style: TextStyle(
                                     fontSize: 12, color: Colors.blueGrey),
                               );
@@ -196,9 +199,9 @@ class _InformantesScreenState extends State<InformantesScreen> {
               InkWell(
                 onTap: () {
                   MapsLauncher.launchCoordinates(
-                    informanteLat,
-                    informanteLng,
-                    informanteName.split(' ').first,
+                    informanteLat!,
+                    informanteLng!,
+                    informanteName!.split(' ').first,
                   );
                 },
                 child: Stack(
@@ -206,7 +209,7 @@ class _InformantesScreenState extends State<InformantesScreen> {
                     Container(
                       padding: const EdgeInsets.symmetric(horizontal: 2.0),
                       width: MediaQuery.of(context).size.width - 10,
-                      height: details.isEmpty ? 222 : 160,
+                      height: details!.isEmpty ? 222 : 160,
                       child: FadeInImage(
                         placeholder: AssetImage('assets/static_map.jpg'),
                         image: NetworkImage(

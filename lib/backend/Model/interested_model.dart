@@ -17,7 +17,7 @@ class InterestedModel {
     this.gaveup = false,
   });
 
-  InterestedModel fromSnapshot(DocumentSnapshot snapshot) {
+  static InterestedModel fromSnapshot(DocumentSnapshot snapshot) {
     return InterestedModel(
       position: (snapshot.data() as Map<String, dynamic>)['position'],
       lastNotificationSend:
@@ -37,7 +37,7 @@ class InterestedModel {
     );
   }
 
-  InterestedModel fromMap(Map<String, dynamic> map) {
+  static InterestedModel fromMap(Map<String, dynamic> map) {
     return InterestedModel(
       lastNotificationSend:
           map['lastNotificationSend'] ?? Constantes.APP_BIRTHDAY,

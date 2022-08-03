@@ -71,7 +71,10 @@ class _SettingsState extends State<Settings> {
 
     String patttern = r'(^[0-9]*$)';
     RegExp regExp = new RegExp(patttern);
-    if (userProvider.getBetterContact == 0 && value.isEmpty && userProvider.whatsapp != null && userProvider.whatsapp.isEmpty) {
+    if (userProvider.getBetterContact == 0 &&
+        value.isEmpty &&
+        userProvider.whatsapp != null &&
+        userProvider.whatsapp.isEmpty) {
       return 'Número é obrigatório';
     }
     if (value.isNotEmpty && value.length < 11) {
@@ -87,7 +90,10 @@ class _SettingsState extends State<Settings> {
 
     String patttern = r'(^[0-9]*$)';
     RegExp regExp = new RegExp(patttern);
-    if (userProvider.getBetterContact == 1 && value.isEmpty && userProvider.telefone != null && userProvider.telefone.isEmpty) {
+    if (userProvider.getBetterContact == 1 &&
+        value.isEmpty &&
+        userProvider.telefone != null &&
+        userProvider.telefone.isEmpty) {
       return 'Número é obrigatório';
     }
     if (value.isNotEmpty && value.length < 10) {
@@ -102,9 +108,12 @@ class _SettingsState extends State<Settings> {
   void initState() {
     FirebaseAdMob.instance.initialize(appId: Constantes.ADMOB_APP_ID);
     userProvider = Provider.of(context, listen: false);
-    if (userProvider.displayName != null) _nameController.text = userProvider.displayName;
-    if (userProvider.whatsapp != null) _whatsAppController.text = userProvider.whatsapp;
-    if (userProvider.telefone != null) _telefoneController.text = userProvider.telefone;
+    if (userProvider.displayName != null)
+      _nameController.text = userProvider.displayName;
+    if (userProvider.whatsapp != null)
+      _whatsAppController.text = userProvider.whatsapp;
+    if (userProvider.telefone != null)
+      _telefoneController.text = userProvider.telefone;
     if (userProvider.photoURL != null) photoURL = userProvider.photoURL;
     if (userProvider.photoBACK != null) photoBACK = userProvider.photoBACK;
     super.initState();
@@ -142,7 +151,8 @@ class _SettingsState extends State<Settings> {
         },
         denyText: 'Não',
         warning: true,
-        message: 'Esta operação é confidencial e requer autenticação recente. Faça login novamente antes de tentar novamente esta solicitação.',
+        message:
+            'Esta operação é confidencial e requer autenticação recente. Faça login novamente antes de tentar novamente esta solicitação.',
         title: 'Faça login novamente',
       ),
     );
@@ -174,7 +184,10 @@ class _SettingsState extends State<Settings> {
     StorageReference storageReferenceback;
 
     if (userProfile['photoFile'] != null) {
-      storageReferenceProfile = FirebaseStorage.instance.ref().child('${auth.firebaseUser.uid}').child('avatar/foto_perfil');
+      storageReferenceProfile = FirebaseStorage.instance
+          .ref()
+          .child('${auth.firebaseUser.uid}')
+          .child('avatar/foto_perfil');
 
       storageReferenceProfile.delete();
       uploadTask = storageReferenceProfile.putFile(userProfile['photoFile']);
@@ -187,7 +200,10 @@ class _SettingsState extends State<Settings> {
     }
 
     if (userProfile['photoFileBack'] != null) {
-      storageReferenceback = FirebaseStorage.instance.ref().child('${auth.firebaseUser.uid}').child('avatar/foto_fundo');
+      storageReferenceback = FirebaseStorage.instance
+          .ref()
+          .child('${auth.firebaseUser.uid}')
+          .child('avatar/foto_fundo');
 
       storageReferenceback.delete();
       uploadTask = storageReferenceback.putFile(userProfile['photoFileBack']);
@@ -203,40 +219,49 @@ class _SettingsState extends State<Settings> {
   }
 
   bool passwordWasTouched() {
-    return _newPassword.text.trim().isNotEmpty && _repeatNewPassword.text.trim().isNotEmpty;
+    return _newPassword.text.trim().isNotEmpty &&
+        _repeatNewPassword.text.trim().isNotEmpty;
   }
 
   bool validatePersonalData() {
     String patttern = r'(^[0-9]*$)';
     RegExp regExp = new RegExp(patttern);
 
-    bool validWhatsapp = _whatsAppController.text.trim().isNotEmpty && _whatsAppController.text.trim().contains('-') && regExp.hasMatch(_whatsAppController.text.trim().split('-')[1]);
+    bool validWhatsapp = _whatsAppController.text.trim().isNotEmpty &&
+        _whatsAppController.text.trim().contains('-') &&
+        regExp.hasMatch(_whatsAppController.text.trim().split('-')[1]);
 
-    bool validTelefone = _telefoneController.text.trim().isNotEmpty && _telefoneController.text.trim().contains('-') && regExp.hasMatch(_telefoneController.text.trim().split('-')[1]);
+    bool validTelefone = _telefoneController.text.trim().isNotEmpty &&
+        _telefoneController.text.trim().contains('-') &&
+        regExp.hasMatch(_telefoneController.text.trim().split('-')[1]);
 
     if (userProvider.getBetterContact == 0) {
-      var serializedWhatsappNumber = Formatter.unmaskNumber(_telefoneController.text?.trim());
+      var serializedWhatsappNumber =
+          Formatter.unmaskNumber(_telefoneController.text?.trim());
       if (serializedWhatsappNumber == null) {
         _telefoneController.clear();
       }
       if (!validWhatsapp) {
         setState(() {
           whatsappHasError = true;
-          _whatsAppController.text = 'Quando este é o seu melhor contato, deve ser preenchido!';
+          _whatsAppController.text =
+              'Quando este é o seu melhor contato, deve ser preenchido!';
         });
         return false;
       }
     }
 
     if (userProvider.getBetterContact == 1) {
-      var serializedWhatsappNumber = Formatter.unmaskNumber(_whatsAppController.text?.trim());
+      var serializedWhatsappNumber =
+          Formatter.unmaskNumber(_whatsAppController.text?.trim());
       if (serializedWhatsappNumber == null) {
         _whatsAppController.clear();
       }
       if (!validTelefone) {
         setState(() {
           telefoneHasError = true;
-          _telefoneController.text = 'Quando este é o seu melhor contato, deve ser preenchido!';
+          _telefoneController.text =
+              'Quando este é o seu melhor contato, deve ser preenchido!';
         });
         return false;
       }
@@ -275,7 +300,9 @@ class _SettingsState extends State<Settings> {
           await auth.firebaseUser.updatePassword(_newPassword.text?.trim());
         } catch (error) {
           changeSaveFormStatus(false);
-          isToShowDialog ? showMessageWarningUpdatePasswordOrDeleteAccount() : SizedBox();
+          isToShowDialog
+              ? showMessageWarningUpdatePasswordOrDeleteAccount()
+              : SizedBox();
           throw '';
         }
       }
@@ -289,7 +316,8 @@ class _SettingsState extends State<Settings> {
         'displayName': _nameController.text?.trim(),
         'uid': auth.firebaseUser.uid,
         'photoURL': userProfile.isNotEmpty ? photoURL : userProvider.photoURL,
-        'photoBACK': userProfile.isNotEmpty ? photoBACK : userProvider.photoBACK,
+        'photoBACK':
+            userProfile.isNotEmpty ? photoBACK : userProvider.photoBACK,
         'phoneNumber': _whatsAppController.text?.trim(),
         'landline': _telefoneController.text?.trim(),
         'betterContact': userProvider.getBetterContact,
@@ -353,7 +381,8 @@ class _SettingsState extends State<Settings> {
   }
 
   void openModalSelectMedia(BuildContext context, bool perfil) {
-    bool conditionsToRemoveBackPhoto = !perfil && userProfile.containsKey('photoFileBack');
+    bool conditionsToRemoveBackPhoto =
+        !perfil && userProfile.containsKey('photoFileBack');
 
     showDialog(
       context: context,
@@ -363,7 +392,7 @@ class _SettingsState extends State<Settings> {
             FlatButton(
               child: Text(
                 'Tirar uma foto',
-                style: Theme.of(context).textTheme.headline1.copyWith(
+                style: Theme.of(context).textTheme.headline1!.copyWith(
                       color: Colors.black,
                     ),
               ),
@@ -378,7 +407,7 @@ class _SettingsState extends State<Settings> {
             FlatButton(
               child: Text(
                 'Abrir galeria',
-                style: Theme.of(context).textTheme.headline1.copyWith(
+                style: Theme.of(context).textTheme.headline1!.copyWith(
                       color: Colors.black,
                     ),
               ),
@@ -394,7 +423,7 @@ class _SettingsState extends State<Settings> {
                 ? FlatButton(
                     child: Text(
                       'Remover foto',
-                      style: Theme.of(context).textTheme.headline1.copyWith(
+                      style: Theme.of(context).textTheme.headline1!.copyWith(
                             color: Colors.black,
                           ),
                     ),
@@ -423,8 +452,12 @@ class _SettingsState extends State<Settings> {
     void navigateToHomeAfterDeleteAccount() {
       showDialog(
         context: context,
-        builder: (context) =>
-            PopUpMessage(confirmAction: () => Navigator.popUntil(context, ModalRoute.withName('/')), confirmText: 'OK', message: 'Sua conta Tiu, tiu foi deletada pra sempre!', title: 'Conta Excluída'),
+        builder: (context) => PopUpMessage(
+            confirmAction: () =>
+                Navigator.popUntil(context, ModalRoute.withName('/')),
+            confirmText: 'OK',
+            message: 'Sua conta Tiu, tiu foi deletada pra sempre!',
+            title: 'Conta Excluída'),
       );
     }
 
@@ -446,7 +479,9 @@ class _SettingsState extends State<Settings> {
           children: [
             Card(
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.only(topLeft: Radius.circular(12), topRight: Radius.circular(12)),
+                borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(12),
+                    topRight: Radius.circular(12)),
               ),
               child: SingleChildScrollView(
                 child: Column(
@@ -471,9 +506,11 @@ class _SettingsState extends State<Settings> {
                               child: Opacity(
                                 child: userProfile['photoFileBack'] == null
                                     ? ClipRRect(
-                                        borderRadius: BorderRadius.circular(8.0),
+                                        borderRadius:
+                                            BorderRadius.circular(8.0),
                                         child: FadeInImage(
-                                          placeholder: AssetImage('assets/fundo.jpg'),
+                                          placeholder:
+                                              AssetImage('assets/fundo.jpg'),
                                           image: NetworkImage(
                                             userProvider.photoBACK ?? '',
                                           ),
@@ -503,10 +540,14 @@ class _SettingsState extends State<Settings> {
                             ),
                             height: 25,
                             child: FlatButton(
-                              onPressed: () => openModalSelectMedia(context, false),
+                              onPressed: () =>
+                                  openModalSelectMedia(context, false),
                               child: Text(
                                 'Toque p/ alterar plano de fundo',
-                                style: TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.w700),
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w700),
                               ),
                             ),
                           ),
@@ -533,7 +574,8 @@ class _SettingsState extends State<Settings> {
                                       child: userProfile['photoFile'] == null
                                           ? userProvider.photoURL != null
                                               ? FadeInImage(
-                                                  placeholder: AssetImage('assets/profileEmpty.png'),
+                                                  placeholder: AssetImage(
+                                                      'assets/profileEmpty.png'),
                                                   image: NetworkImage(
                                                     userProvider.photoURL,
                                                   ),
@@ -541,7 +583,9 @@ class _SettingsState extends State<Settings> {
                                                   width: 1000,
                                                   height: 100,
                                                 )
-                                              : Icon(Icons.person, color: Colors.white70, size: 50)
+                                              : Icon(Icons.person,
+                                                  color: Colors.white70,
+                                                  size: 50)
                                           : Image.file(
                                               userProfile['photoFile'],
                                               width: 1000,
@@ -564,7 +608,8 @@ class _SettingsState extends State<Settings> {
                         child: Column(
                           children: [
                             Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 4.0),
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 8.0, horizontal: 4.0),
                               child: Column(
                                 children: [
                                   _textField(
@@ -573,10 +618,13 @@ class _SettingsState extends State<Settings> {
                                     isFieldEditing: isNameEditing,
                                     onPressed: () {
                                       if (isNameEditing) {
-                                        userProvider.changeDisplayName(_nameController.text?.trim());
-                                        changeFieldEditingState(false, 'isNameEditing');
+                                        userProvider.changeDisplayName(
+                                            _nameController.text?.trim());
+                                        changeFieldEditingState(
+                                            false, 'isNameEditing');
                                       } else {
-                                        changeFieldEditingState(true, 'isNameEditing');
+                                        changeFieldEditingState(
+                                            true, 'isNameEditing');
                                       }
                                     },
                                   ),
@@ -584,20 +632,27 @@ class _SettingsState extends State<Settings> {
                                     controller: _whatsAppController,
                                     fieldLabel: 'WhatsApp',
                                     isFieldEditing: isWhatsAppEditing,
-                                    onFieldSubmitted: (_) => validatePersonalData(),
+                                    onFieldSubmitted: (_) =>
+                                        validatePersonalData(),
                                     inputFormatters: [celularMask],
-                                    validator: (String value) => validarCelular(value),
+                                    validator: (String value) =>
+                                        validarCelular(value),
                                     keyboardType: TextInputType.number,
                                     fieldHasError: whatsappHasError,
                                     onPressed: () {
                                       if (isWhatsAppEditing) {
-                                        userProvider.changeWhatsapp(_whatsAppController.text?.trim());
-                                        if (_personalDataFormKey.currentState.validate()) {
-                                          changeFieldEditingState(false, 'isWhatsAppEditing');
+                                        userProvider.changeWhatsapp(
+                                            _whatsAppController.text?.trim());
+                                        if (_personalDataFormKey.currentState
+                                            .validate()) {
+                                          changeFieldEditingState(
+                                              false, 'isWhatsAppEditing');
                                         }
                                       } else {
-                                        _whatsAppController.text = userProvider.whatsapp;
-                                        changeFieldEditingState(true, 'isWhatsAppEditing');
+                                        _whatsAppController.text =
+                                            userProvider.whatsapp;
+                                        changeFieldEditingState(
+                                            true, 'isWhatsAppEditing');
                                       }
                                     },
                                   ),
@@ -605,20 +660,27 @@ class _SettingsState extends State<Settings> {
                                     controller: _telefoneController,
                                     fieldLabel: 'Telefone Fixo',
                                     isFieldEditing: isTelefoneEditing,
-                                    onFieldSubmitted: (_) => validatePersonalData(),
+                                    onFieldSubmitted: (_) =>
+                                        validatePersonalData(),
                                     inputFormatters: [telefoneMask],
-                                    validator: (String value) => validarTelefone(value),
+                                    validator: (String value) =>
+                                        validarTelefone(value),
                                     keyboardType: TextInputType.number,
                                     fieldHasError: telefoneHasError,
                                     onPressed: () {
                                       if (isTelefoneEditing) {
-                                        userProvider.changeTelefone(_telefoneController.text?.trim());
-                                        if (_personalDataFormKey.currentState.validate()) {
-                                          changeFieldEditingState(false, 'isTelefoneEditing');
+                                        userProvider.changeTelefone(
+                                            _telefoneController.text?.trim());
+                                        if (_personalDataFormKey.currentState
+                                            .validate()) {
+                                          changeFieldEditingState(
+                                              false, 'isTelefoneEditing');
                                         }
                                       } else {
-                                        _telefoneController.text = userProvider.telefone;
-                                        changeFieldEditingState(true, 'isTelefoneEditing');
+                                        _telefoneController.text =
+                                            userProvider.telefone;
+                                        changeFieldEditingState(
+                                            true, 'isTelefoneEditing');
                                       }
                                     },
                                   ),
@@ -641,19 +703,22 @@ class _SettingsState extends State<Settings> {
                                       child: Column(
                                         children: [
                                           Row(
-                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
                                             children: [
                                               radio(
                                                 groupValue: snapshot.data,
                                                 labelText: 'WhatsApp',
-                                                onTap: () => userProvider.changeBetterContact(0),
+                                                onTap: () => userProvider
+                                                    .changeBetterContact(0),
                                                 value: 0,
                                                 color: Colors.green,
                                               ),
                                               radio(
                                                 groupValue: snapshot.data,
                                                 labelText: 'Telefone Fixo',
-                                                onTap: () => userProvider.changeBetterContact(1),
+                                                onTap: () => userProvider
+                                                    .changeBetterContact(1),
                                                 value: 1,
                                                 color: Colors.orange,
                                               ),
@@ -661,19 +726,22 @@ class _SettingsState extends State<Settings> {
                                           ),
                                           Spacer(),
                                           Row(
-                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
                                             children: [
                                               radio(
                                                 groupValue: snapshot.data,
                                                 labelText: 'E-mail',
-                                                onTap: () => userProvider.changeBetterContact(2),
+                                                onTap: () => userProvider
+                                                    .changeBetterContact(2),
                                                 value: 2,
                                                 color: Colors.red,
                                               ),
                                               radio(
                                                 groupValue: snapshot.data,
                                                 labelText: 'Só pelo chatt',
-                                                onTap: () => userProvider.changeBetterContact(3),
+                                                onTap: () => userProvider
+                                                    .changeBetterContact(3),
                                                 value: 3,
                                                 color: Colors.purple,
                                               ),
@@ -710,7 +778,10 @@ class _SettingsState extends State<Settings> {
                                   hintText: 'Nova Senha',
                                   controller: _newPassword,
                                   validator: (String value) {
-                                    if (value.isEmpty && _repeatNewPassword.text.trim().isEmpty) {
+                                    if (value.isEmpty &&
+                                        _repeatNewPassword.text
+                                            .trim()
+                                            .isEmpty) {
                                       return null;
                                     }
                                     if (value.length < 6) {
@@ -724,7 +795,8 @@ class _SettingsState extends State<Settings> {
                                   hintText: 'Repita a nova senha',
                                   controller: _repeatNewPassword,
                                   validator: (String value) {
-                                    if (value.isEmpty && _newPassword.text.trim().isEmpty) {
+                                    if (value.isEmpty &&
+                                        _newPassword.text.trim().isEmpty) {
                                       return null;
                                     }
                                     if (value != _newPassword.text?.trim()) {
@@ -739,7 +811,8 @@ class _SettingsState extends State<Settings> {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 10, vertical: 15),
                       child: FlatButton(
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(16),
@@ -750,14 +823,16 @@ class _SettingsState extends State<Settings> {
                             context: context,
                             builder: (context) => PopUpMessage(
                               title: 'Excluir Conta',
-                              message: 'DESEJA DELETAR PERMANENTEMENTE SUA CONTA ?',
+                              message:
+                                  'DESEJA DELETAR PERMANENTEMENTE SUA CONTA ?',
                               confirmText: 'Deletar minha conta',
                               confirmAction: () async {
                                 if (userProvider.recentlyAuthenticated) {
                                   Navigator.pop(context);
                                   changeSaveFormStatus(true, deleting: true);
                                   try {
-                                    await userController.deleteUserAccount(auth, userProvider.userReference);
+                                    await userController.deleteUserAccount(
+                                        auth, userProvider.userReference);
                                     navigateToHomeAfterDeleteAccount();
                                   } catch (error) {
                                     changeSaveFormStatus(false);
@@ -781,14 +856,18 @@ class _SettingsState extends State<Settings> {
                         ),
                       ),
                     ),
-                    adsProvider.getCanShowAds ? adsProvider.bannerAdMob(adId: adsProvider.bottomAdId) : Container(),
+                    adsProvider.getCanShowAds
+                        ? adsProvider.bannerAdMob(adId: adsProvider.bottomAdId)
+                        : Container(),
                     SizedBox(height: height < 500 ? 210 : 0)
                   ],
                 ),
               ),
             ),
             LoadDarkScreen(
-              message: !deleting ? 'Salvando informações' : 'Deletando conta Tiu, tiu...',
+              message: !deleting
+                  ? 'Salvando informações'
+                  : 'Deletando conta Tiu, tiu...',
               show: isSavingForm,
             ),
           ],
@@ -821,23 +900,36 @@ class _SettingsState extends State<Settings> {
       ),
       elevation: 6.0,
       child: ListTile(
-        title: Text(fieldLabel, style: Theme.of(context).textTheme.headline1.copyWith(color: Colors.black)),
+        title: Text(fieldLabel,
+            style: Theme.of(context)
+                .textTheme
+                .headline1!
+                .copyWith(color: Colors.black)),
         subtitle: isFieldEditing
             ? TextFormField(
                 cursorColor: Colors.black,
                 textCapitalization: textCapitalization,
-                style: Theme.of(context).textTheme.headline1.copyWith(color: Colors.black54, fontWeight: FontWeight.w300),
+                style: Theme.of(context).textTheme.headline1!.copyWith(
+                    color: Colors.black54, fontWeight: FontWeight.w300),
                 onFieldSubmitted: onFieldSubmitted,
                 inputFormatters: inputFormatters,
                 validator: validator,
                 keyboardType: keyboardType,
                 controller: controller,
                 decoration: InputDecoration(
-                  focusedBorder: UnderlineInputBorder(borderSide: BorderSide.none),
-                  enabledBorder: UnderlineInputBorder(borderSide: BorderSide.none),
+                  focusedBorder:
+                      UnderlineInputBorder(borderSide: BorderSide.none),
+                  enabledBorder:
+                      UnderlineInputBorder(borderSide: BorderSide.none),
                 ),
               )
-            : Text(controller.text?.trim(), style: fieldHasError ? Theme.of(context).textTheme.headline1.copyWith(color: Colors.red) : null),
+            : Text(controller.text?.trim(),
+                style: fieldHasError
+                    ? Theme.of(context)
+                        .textTheme
+                        .headline1!
+                        .copyWith(color: Colors.red)
+                    : null),
         trailing: IconButton(
           icon: isFieldEditing ? Icon(Icons.save) : Icon(Icons.mode_edit),
           onPressed: onPressed,
@@ -846,7 +938,12 @@ class _SettingsState extends State<Settings> {
     );
   }
 
-  Widget radio({String labelText, dynamic groupValue, Function() onTap, dynamic value, Color color}) {
+  Widget radio(
+      {String labelText,
+      dynamic groupValue,
+      Function() onTap,
+      dynamic value,
+      Color color}) {
     return InkWell(
       onTap: () {
         onTap();

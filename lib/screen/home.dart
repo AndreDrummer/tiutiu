@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_admob/firebase_admob.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -34,15 +33,16 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  late FavoritesProvider favoritesProvider;
+  // TODO: Configurar PushNotification
+  // final fbm = FirebaseMessaging();
+  late PetsProvider petsProvider;
+  late UserProvider userProvider;
+  // AdsProvider adsProvider;
   int _selectedIndex = 0;
-  bool isAuthenticated;
-  UserProvider userProvider;
-  PetsProvider petsProvider;
-  FavoritesProvider favoritesProvider;
-  Authentication auth;
-  final fbm = FirebaseMessaging();
-  BannerAd homeBanner;
-  AdsProvider adsProvider;
+  late bool isAuthenticated;
+  // BannerAd homeBanner;
+  late Authentication auth;
 
   // Widget _buildDialog(BuildContext context) {
   //   return AlertDialog(
@@ -87,33 +87,38 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     this.initDynamicLinks();
-    adsProvider = Provider.of(context, listen: false);
-    adsProvider.canShowAds().then((value) => adsProvider.changeCanShowAds(value));
-    adsProvider.initReward();
-    fbm.configure(
-      onMessage: (notification) {
-        print(notification['data']);
-        userProvider.handleNotifications(json.decode(notification['data']['data']));
-        return;
-      },
-      onResume: (notification) {
-        print(notification['data']);
-        userProvider.handleNotifications(json.decode(notification['data']['data']));
-        return;
-      },
-      onLaunch: (notification) {
-        print(notification['data']);
-        userProvider.handleNotifications(json.decode(notification['data']['data']));
-        return;
-      },
-    );
-    fbm.requestNotificationPermissions();
+    // adsProvider = Provider.of(context, listen: false);
+    // adsProvider
+    //     .canShowAds()
+    //     .then((value) => adsProvider.changeCanShowAds(value));
+    // adsProvider.initReward();
+    // fbm.configure(
+    //   onMessage: (notification) {
+    //     print(notification['data']);
+    //     userProvider
+    //         .handleNotifications(json.decode(notification['data']['data']));
+    //     return;
+    //   },
+    //   onResume: (notification) {
+    //     print(notification['data']);
+    //     userProvider
+    //         .handleNotifications(json.decode(notification['data']['data']));
+    //     return;
+    //   },
+    //   onLaunch: (notification) {
+    //     print(notification['data']);
+    //     userProvider
+    //         .handleNotifications(json.decode(notification['data']['data']));
+    //     return;
+    //   },
+    // );
+    // fbm.requestNotificationPermissions();
     super.initState();
   }
 
   @override
   void didChangeDependencies() {
-    adsProvider.changeBannerWidth(MediaQuery.of(context).size.width ~/ 1);
+    // adsProvider.changeBannerWidth(MediaQuery.of(context).size.width ~/ 1);
     userProvider = Provider.of<UserProvider>(context, listen: false);
     petsProvider = Provider.of<PetsProvider>(context, listen: false);
     auth = Provider.of<Authentication>(context, listen: false);
@@ -159,8 +164,10 @@ class _HomeState extends State<Home> {
   }
 
   void setUserMetaData() async {
-    final CollectionReference usersEntrepreneur = FirebaseFirestore.instance.collection('Users');
-    DocumentSnapshot doc = await usersEntrepreneur.doc(auth.firebaseUser.uid).get();
+    final CollectionReference usersEntrepreneur =
+        FirebaseFirestore.instance.collection('Users');
+    DocumentSnapshot doc =
+        await usersEntrepreneur.doc(auth.firebaseUser!.uid).get();
     UserController userController = UserController();
 
     Future.delayed(Duration(seconds: 60), () {
@@ -169,21 +176,30 @@ class _HomeState extends State<Home> {
     });
 
     userProvider.changeUserReference(doc.reference);
-    userProvider.changeUid(auth.firebaseUser.uid);
-    userProvider.changePhotoUrl(doc.data()['photoURL']);
-    userProvider.changePhotoBack(doc.data()['photoBACK']);
-    userProvider.changeWhatsapp(doc.data()['phoneNumber']);
-    userProvider.changeDisplayName(doc.data()['displayName']);
-    userProvider.changeCreatedAt(doc.data()['createdAt']);
-    userProvider.changeTelefone(doc.data()['landline']);
-    userProvider.changeBetterContact(doc.data()['betterContact']);
+    userProvider.changeUid(auth.firebaseUser!.uid);
+    userProvider
+        .changePhotoUrl((doc.data() as Map<String, dynamic>)['photoURL']);
+    userProvider
+        .changePhotoBack((doc.data() as Map<String, dynamic>)['photoBACK']);
+    userProvider
+        .changeWhatsapp((doc.data() as Map<String, dynamic>)['phoneNumber']);
+    userProvider
+        .changeDisplayName((doc.data() as Map<String, dynamic>)['displayName']);
+    userProvider
+        .changeCreatedAt((doc.data() as Map<String, dynamic>)['createdAt']);
+    userProvider
+        .changeTelefone((doc.data() as Map<String, dynamic>)['landline']);
+    userProvider.changeBetterContact(
+        (doc.data() as Map<String, dynamic>)['betterContact']);
     userProvider.calculateTotals();
-    userProvider.changeNotificationToken(await fbm.getToken());
-    userController.updateUser(userProvider.uid, {"notificationToken": userProvider.notificationToken});
+    // userProvider.changeNotificationToken(await fbm.getToken());
+    // userController.updateUser(userProvider.uid,
+    //     {"notificationToken": userProvider.notificationToken});
   }
 
   void openPetDetail(Uri deepLink) async {
-    final String qParams = deepLink.toString().split(Constantes.DYNAMIC_LINK_PREFIX + '/').last;
+    final String qParams =
+        deepLink.toString().split(Constantes.DYNAMIC_LINK_PREFIX + '/').last;
     final String kind = qParams.toString().split('/').first;
     final String id = qParams.toString().split('/').last;
 
@@ -205,18 +221,21 @@ class _HomeState extends State<Home> {
   }
 
   void initDynamicLinks() async {
-    FirebaseDynamicLinks.instance.onLink(onSuccess: (PendingDynamicLinkData dynamicLink) async {
-      final Uri deepLink = dynamicLink?.link;
-      if (deepLink != null) openPetDetail(deepLink);
-    }, onError: (OnLinkErrorException e) async {
-      print('LinkError: ${e.message}');
-    });
+    // TODO: Configurar Deeplink
+    // FirebaseDynamicLinks.instance.onLink(
+    //     onSuccess: (PendingDynamicLinkData dynamicLink) async {
+    //   final Uri deepLink = dynamicLink?.link;
+    //   if (deepLink != null) openPetDetail(deepLink);
+    // }, onError: (OnLinkErrorException e) async {
+    //   print('LinkError: ${e.message}');
+    // });
 
-    final PendingDynamicLinkData data = await FirebaseDynamicLinks.instance.getInitialLink();
-    final Uri deepLink = data?.link;
-    if (deepLink != null) {
-      openPetDetail(deepLink);
-    }
+    // final PendingDynamicLinkData data =
+    //     await FirebaseDynamicLinks.instance.getInitialLink();
+    // final Uri deepLink = data?.link;
+    // if (deepLink != null) {
+    //   openPetDetail(deepLink);
+    // }
   }
 
   @override
@@ -267,11 +286,10 @@ class _HomeState extends State<Home> {
         floatingActionButton: _selectedIndex > 1
             ? null
             : SpeedDial(
-                marginRight: 18,
-                marginBottom: 20,
                 animatedIcon: AnimatedIcons.add_event,
                 animatedIconTheme: IconThemeData(size: 22.0),
-                visible: MediaQuery.of(context).orientation == Orientation.portrait,
+                visible:
+                    MediaQuery.of(context).orientation == Orientation.portrait,
                 closeManually: false,
                 curve: Curves.bounceIn,
                 overlayOpacity: 0.5,
@@ -292,7 +310,8 @@ class _HomeState extends State<Home> {
                     onTap: !isAuthenticated
                         ? navigateToAuth
                         : () {
-                            Navigator.pushNamed(context, Routes.CHOOSE_LOCATION, arguments: {'kind': Constantes.DISAPPEARED});
+                            Navigator.pushNamed(context, Routes.CHOOSE_LOCATION,
+                                arguments: {'kind': Constantes.DISAPPEARED});
                           },
                   ),
                   SpeedDialChild(
@@ -303,7 +322,8 @@ class _HomeState extends State<Home> {
                     onTap: !isAuthenticated
                         ? navigateToAuth
                         : () {
-                            Navigator.pushNamed(context, Routes.CHOOSE_LOCATION, arguments: {'kind': Constantes.DONATE});
+                            Navigator.pushNamed(context, Routes.CHOOSE_LOCATION,
+                                arguments: {'kind': Constantes.DONATE});
                           },
                   ),
                 ],
