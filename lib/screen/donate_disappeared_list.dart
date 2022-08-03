@@ -71,7 +71,7 @@ class _DonateDisappearedListState extends State<DonateDisappearedList> {
 
     if (petsListResult != null) {
       for (int i = 0; i < petsListResult.length; i++) {
-        if (petsListResult[i].ano >= 10) {
+        if (petsListResult[i].ano! >= 10) {
           newPetList.add(petsListResult[i]);
         }
       }
@@ -82,13 +82,13 @@ class _DonateDisappearedListState extends State<DonateDisappearedList> {
   }
 
   int orderByPostDate(Pet a, Pet b) {
-    return DateTime.parse(b.createdAt).millisecondsSinceEpoch -
-        DateTime.parse(a.createdAt).millisecondsSinceEpoch;
+    return DateTime.parse(b.createdAt!).millisecondsSinceEpoch -
+        DateTime.parse(a.createdAt!).millisecondsSinceEpoch;
   }
 
   int orderByName(Pet a, Pet b) {
-    List<int> aname = a.name.codeUnits;
-    List<int> bname = b.name.codeUnits;
+    List<int> aname = a.name!.codeUnits;
+    List<int> bname = b.name!.codeUnits;
 
     int i = 0;
     while (i < bname.length) {
@@ -107,15 +107,15 @@ class _DonateDisappearedListState extends State<DonateDisappearedList> {
   }
 
   int orderByAge(Pet a, Pet b) {
-    if (a.ano == b.ano) return a.meses - b.meses;
-    return a.ano - b.ano;
+    if (a.ano == b.ano) return a.meses! - b.meses!;
+    return a.ano! - b.ano!;
   }
 
   List<Pet> showAdminCards(List<Pet> petCards) {
     for (int i = 0; i < petCards.length; i++) {
       if (petCards[i].ownerId == Constantes.ADMIN_ID &&
           DateTime.now()
-                  .difference(DateTime.parse(petCards[i].createdAt))
+                  .difference(DateTime.parse(petCards[i].createdAt!))
                   .inDays >
               2) {
         petCards.removeAt(i);
@@ -143,9 +143,9 @@ class _DonateDisappearedListState extends State<DonateDisappearedList> {
             refineSearchProvider: refineSearchProvider,
           ),
           StreamBuilder<List<Pet>>(
-            stream: (petsProvider!.getIsFilteringByBreed ||
-                    petsProvider!.getIsFilteringByName)
-                ? petsProvider!.typingSearchResult
+            stream: (petsProvider.getIsFilteringByBreed ||
+                    petsProvider.getIsFilteringByName)
+                ? petsProvider.typingSearchResult
                 : widget.stream,
             builder: (BuildContext context, AsyncSnapshot snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
@@ -166,16 +166,15 @@ class _DonateDisappearedListState extends State<DonateDisappearedList> {
               List<Pet> petsList = OtherFunctions.filterResultsByDistancie(
                 context,
                 snapshot.data,
-                refineSearchProvider!.getDistancieSelected,
+                refineSearchProvider.getDistancieSelected,
               );
 
-              if (petsProvider!.getAgeSelected != null &&
-                  petsProvider!.getAgeSelected.isNotEmpty &&
-                  petsProvider!.getAgeSelected == 'Mais de 10 anos') {
+              if (petsProvider.getAgeSelected.isNotEmpty &&
+                  petsProvider.getAgeSelected == 'Mais de 10 anos') {
                 petsList = filterResultsByAgeOver10(snapshot.data);
               }
 
-              switch (petsProvider!.getOrderType) {
+              switch (petsProvider.getOrderType) {
                 case 'Nome':
                   petsList.sort(orderByName);
                   break;
@@ -222,8 +221,8 @@ class _DonateDisappearedListState extends State<DonateDisappearedList> {
               }
 
               return RefreshIndicator(
-                onRefresh: () => petsProvider!.reloadList(
-                    state: refineSearchProvider!.getStateOfResultSearch),
+                onRefresh: () => petsProvider.reloadList(
+                    state: refineSearchProvider.getStateOfResultSearch),
                 child: Container(
                   height: marginTop,
                   child: Column(
@@ -558,10 +557,12 @@ class _HomeSearch extends StatelessWidget {
       List<Pet> newPetList = [];
       for (Pet pet in oldPetList) {
         if (petsProvider!.getIsFilteringByName &&
-            pet.name.toLowerCase().contains(text.removeAccent().toLowerCase()))
+            pet.name!.toLowerCase().contains(text.removeAccent().toLowerCase()))
           newPetList.add(pet);
         if (petsProvider!.getIsFilteringByBreed &&
-            pet.breed.toLowerCase().contains(text.removeAccent().toLowerCase()))
+            pet.breed!
+                .toLowerCase()
+                .contains(text.removeAccent().toLowerCase()))
           newPetList.add(pet);
       }
       petsProvider!.changeTypingSearchResult(newPetList);

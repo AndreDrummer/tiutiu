@@ -1,16 +1,25 @@
 import 'package:flutter/material.dart';
 
 class PopUpMessage extends StatelessWidget {
-  PopUpMessage({this.title, this.message, this.confirmText, this.denyText = '', this.error = false, this.warning = false, this.confirmAction, this.denyAction});
+  PopUpMessage({
+    this.warning = false,
+    this.confirmAction,
+    this.error = false,
+    this.confirmText,
+    this.denyText = '',
+    this.denyAction,
+    this.message,
+    this.title,
+  });
 
-  final String title;
-  final String message;
-  final String confirmText;
-  final String denyText;
-  final bool error;
-  final bool warning;
-  final Function confirmAction;
-  final Function denyAction;
+  final Function? confirmAction;
+  final Function? denyAction;
+  final String? confirmText;
+  final String? denyText;
+  final String? message;
+  final String? title;
+  final bool? warning;
+  final bool? error;
 
   @override
   Widget build(BuildContext context) {
@@ -18,33 +27,38 @@ class PopUpMessage extends StatelessWidget {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
       ),
-      backgroundColor: error
+      backgroundColor: error!
           ? Color(0XFFDC3545)
-          : warning
+          : warning!
               ? Color(0XFFFFC107)
               : Colors.green,
       title: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-          Text(title, style: TextStyle(color: Colors.white, fontSize: 16)),
+          Text(title!, style: TextStyle(color: Colors.white, fontSize: 16)),
           Container(
             padding: const EdgeInsets.all(2.50),
-            child: Image.asset('assets/newLogo.png', width: 20, height: 20, color: Colors.white),
+            child: Image.asset('assets/newLogo.png',
+                width: 20, height: 20, color: Colors.white),
           )
         ],
       ),
       content: Text(
-        message,
-        style: TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.w500),
+        message!,
+        style: TextStyle(
+          color: Colors.white,
+          fontSize: 15,
+          fontWeight: FontWeight.w500,
+        ),
       ),
       actions: <Widget>[
         confirmAction != null
             ? FlatButton(
                 onPressed: () {
-                  confirmAction();
+                  confirmAction!();
                 },
                 child: Text(
-                  confirmText,
+                  confirmText!,
                   style: TextStyle(color: Colors.white),
                 ),
               )
@@ -52,10 +66,10 @@ class PopUpMessage extends StatelessWidget {
         denyAction != null
             ? FlatButton(
                 onPressed: () {
-                  denyAction();
+                  denyAction!();
                 },
                 child: Text(
-                  denyText,
+                  denyText!,
                   style: TextStyle(color: Colors.white),
                 ),
               )

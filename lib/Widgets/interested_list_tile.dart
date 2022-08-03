@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tiutiu/backend/Model/user_model.dart';
+import 'package:tiutiu/core/image_handle.dart';
 
 class InterestedListTile extends StatelessWidget {
   InterestedListTile({
@@ -10,11 +11,11 @@ class InterestedListTile extends StatelessWidget {
     this.subtitle,
   });
 
-  final Function() navigateToInterestedDetail;
-  final Function() trailingFunction;
-  final User interestedUser;
-  final String subtitle;
-  final Widget trailingChild;
+  final Function()? navigateToInterestedDetail;
+  final Function()? trailingFunction;
+  final Widget? trailingChild;
+  final User? interestedUser;
+  final String? subtitle;
 
   @override
   Widget build(BuildContext context) {
@@ -25,14 +26,10 @@ class InterestedListTile extends StatelessWidget {
           backgroundColor: Colors.transparent,
           child: ClipOval(
             child: Hero(
-              tag: '${interestedUser.photoURL}',
+              tag: '${interestedUser!.photoURL}',
               child: FadeInImage(
                 placeholder: AssetImage('assets/fundo.jpg'),
-                image: interestedUser.photoURL != null
-                    ? NetworkImage(interestedUser.photoURL)
-                    : AssetImage(
-                        'assets/fundo.jpg',
-                      ),
+                image: AssetHandle(interestedUser!.photoURL).build(),
                 fit: BoxFit.fill,
                 width: 1000,
                 height: 1000,
@@ -41,8 +38,8 @@ class InterestedListTile extends StatelessWidget {
           ),
         ),
       ),
-      title: Text(interestedUser.name),
-      subtitle: Text(subtitle),
+      title: Text(interestedUser!.name!),
+      subtitle: Text(subtitle!),
       trailing: InkWell(
         onTap: trailingFunction,
         child: trailingChild,

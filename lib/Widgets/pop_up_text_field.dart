@@ -4,10 +4,13 @@ import 'package:tiutiu/Widgets/button.dart';
 import 'package:tiutiu/Widgets/input_text.dart';
 
 class PopupTextField extends StatelessWidget {
-  PopupTextField({this.controller, this.callback});
+  PopupTextField({
+    this.controller,
+    this.callback,
+  });
 
-  final TextEditingController controller;
-  final void Function() callback;
+  final TextEditingController? controller;
+  final void Function()? callback;
 
   @override
   Widget build(BuildContext context) {
