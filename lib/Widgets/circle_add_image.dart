@@ -45,7 +45,7 @@ class _CircleAddImageState extends State<CircleAddImage> {
             shape: BoxShape.circle,
             border: Border.all(
               style: BorderStyle.solid,
-              color: Colors.lightGreenAccent[200],
+              color: Colors.lightGreenAccent[200]!,
             ),
           ),
           child: Center(

@@ -16,11 +16,14 @@ class UserInfoOrAdoptInterestsProvider with ChangeNotifier {
   Stream<List<InterestedModel>> get info => _infoList.stream;
   Stream<String> get lastimeInterestToAdopt => _lastimeInterestOrInfo.stream;
 
-  void Function(List<String>) get changeAdoptInterest => _adoptInterest.sink.add;
+  void Function(List<String>) get changeAdoptInterest =>
+      _adoptInterest.sink.add;
   void Function(List<String>) get changeInfos => _infos.sink.add;
-  void Function(List<InterestedModel>) get changeInterested => _interedtedList.sink.add;
+  void Function(List<InterestedModel>) get changeInterested =>
+      _interedtedList.sink.add;
   void Function(List<InterestedModel>) get changeInfo => _infoList.sink.add;
-  void Function(String) get changeLastimeInterestOrInfo => _lastimeInterestOrInfo.sink.add;
+  void Function(String) get changeLastimeInterestOrInfo =>
+      _lastimeInterestOrInfo.sink.add;
 
   List<String> get getAdoptInterest => _adoptInterest.value;
   List<String> get getInfos => _infos.value;
@@ -45,10 +48,11 @@ class UserInfoOrAdoptInterestsProvider with ChangeNotifier {
   Future<String> getUidByReference(DocumentReference ref) async {
     final refData = await ref.get();
     if (refData.data() == null) return '';
-    return Future.value(refData.data()['uid']);
+    return Future.value((refData.data() as Map<String, dynamic>)['uid']);
   }
 
-  void checkInterested(DocumentReference petRef, DocumentReference userReference) async {
+  void checkInterested(
+      DocumentReference petRef, DocumentReference userReference) async {
     final pet = await petRef.get();
 
     if (pet.data() != null) {
@@ -58,14 +62,16 @@ class UserInfoOrAdoptInterestsProvider with ChangeNotifier {
       if (interestedList != null) {
         for (int i = 0; i < interestedList.length; i++) {
           if (userReference == interestedList[i].data()['userReference']) {
-            changeLastimeInterestOrInfo(interestedList[i].data()['interestedAt']);
+            changeLastimeInterestOrInfo(
+                interestedList[i].data()['interestedAt']);
           }
         }
       }
     }
   }
 
-  void checkInfo(DocumentReference petRef, DocumentReference userReference) async {
+  void checkInfo(
+      DocumentReference petRef, DocumentReference userReference) async {
     final pet = await petRef.get();
 
     if (pet.data() != null) {

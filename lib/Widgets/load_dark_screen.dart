@@ -26,7 +26,7 @@ class LoadDarkScreen extends StatelessWidget {
                   SizedBox(height: 15),
                   Text(
                     message,
-                    style: Theme.of(context).textTheme.headline1.copyWith(),
+                    style: Theme.of(context).textTheme.headline1!.copyWith(),
                   )
                 ],
               ),

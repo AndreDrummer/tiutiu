@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:tiutiu/core/image_handle.dart';
 
 class CardDetails extends StatelessWidget {
   CardDetails({
-    this.icon,
     this.title,
+    this.icon,
     this.text,
   });
 
-  final String title;
-  final String text;
-  final IconData icon;
+  final IconData? icon;
+  final String? title;
+  final String? text;
 
   @override
   Widget build(BuildContext context) {
@@ -25,12 +26,12 @@ class CardDetails extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.all(10.0),
           child: Row(
-            // mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               SizedBox(width: 8.0),
               Opacity(
                 opacity: 0.4,
-                child: Icon(icon, color: Theme.of(context).primaryColor, size: 35),
+                child:
+                    Icon(icon, color: Theme.of(context).primaryColor, size: 35),
               ),
               Expanded(
                 child: Container(
@@ -39,7 +40,7 @@ class CardDetails extends StatelessWidget {
                     children: [
                       FittedBox(
                         child: Text(
-                          title.toUpperCase(),
+                          title!.toUpperCase(),
                           style: TextStyle(
                             letterSpacing: 1.2,
                             fontWeight: FontWeight.w300,
@@ -69,30 +70,30 @@ class CardDetails extends StatelessWidget {
 
 class UserCardInfo extends StatelessWidget {
   UserCardInfo({
+    this.launchIcon,
+    this.callback,
     this.imageN,
+    this.title,
     this.image,
     this.text,
-    this.title,
     this.icon,
     this.color,
-    this.callback,
-    this.launchIcon,
   });
 
-  final String text;
-  final String title;
-  final String image;
-  final String imageN;
-  final IconData icon;
-  final IconData launchIcon;
-  final Function() callback;
-  final Color color;
+  final Function()? callback;
+  final IconData? launchIcon;
+  final String? imageN;
+  final IconData? icon;
+  final String? title;
+  final String? image;
+  final String? text;
+  final Color? color;
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        callback();
+        callback?.call();
       },
       child: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -107,17 +108,15 @@ class UserCardInfo extends StatelessWidget {
                   : imageN != null
                       ? FadeInImage(
                           placeholder: AssetImage('assets/profileEmpty.png'),
-                          image: imageN != null
-                              ? NetworkImage(
-                                  imageN,
-                                )
-                              : AssetImage('assets/profileEmpty.png'),
+                          image: AssetHandle(
+                            imageN,
+                          ).build(),
                           fit: BoxFit.cover,
                           width: 1000,
                           height: 100,
                         )
                       : Image.asset(
-                          image,
+                          image!,
                           fit: BoxFit.fill,
                           width: 105,
                         ),

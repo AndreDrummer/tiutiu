@@ -3,7 +3,10 @@ import 'package:loading_animations/loading_animations.dart';
 import 'package:tiutiu/providers/ads_provider.dart';
 
 class LoadingPage extends StatefulWidget {
-  LoadingPage({this.messageLoading = 'Carregando aplicativo...', this.circle = false, this.textColor = Colors.white});
+  LoadingPage(
+      {this.messageLoading = 'Carregando aplicativo...',
+      this.circle = false,
+      this.textColor = Colors.white});
 
   final String messageLoading;
   final textColor;
@@ -37,7 +40,7 @@ class _LoadingPageState extends State<LoadingPage> {
           Text(
             widget.messageLoading,
             textAlign: TextAlign.center,
-            style: Theme.of(context).textTheme.headline1.copyWith(
+            style: Theme.of(context).textTheme.headline1!.copyWith(
                   color: widget.textColor,
                 ),
           )
