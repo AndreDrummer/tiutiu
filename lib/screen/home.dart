@@ -204,7 +204,7 @@ class _HomeState extends State<Home> {
     final String id = qParams.toString().split('/').last;
 
     Pet pet = await petsProvider.openPetDetails(id, kind);
-    User user = await UserController().getUserByID(pet.ownerId);
+    User user = await UserController().getUserByID(pet.ownerId!);
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -213,7 +213,7 @@ class _HomeState extends State<Home> {
             petOwner: user,
             isMine: user.id == auth.firebaseUser?.uid,
             pet: pet,
-            kind: pet.kind.toUpperCase(),
+            kind: pet.kind!.toUpperCase(),
           );
         },
       ),

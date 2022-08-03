@@ -237,7 +237,7 @@ class _InformantesScreenState extends State<InformantesScreen> {
                   children: [
                     SizedBox(height: 10),
                     Text(
-                      'Detalhes: ${details ?? 'Não informado'}',
+                      'Detalhes: $details',
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: 12,

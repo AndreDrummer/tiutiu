@@ -4,24 +4,24 @@ import 'package:tiutiu/Widgets/custom_input_search.dart';
 // ignore: must_be_immutable
 class CustomInput extends StatefulWidget {
   CustomInput({
-    this.onDropdownTypeChange,
     this.onDropdownHomeSearchOptionsChange,
-    this.onChanged,
-    this.isType = false,
-    this.searchInitialValue,
-    this.searchValues,
     this.searchPetTypeInitialValue,
+    this.onDropdownTypeChange,
     this.searchPetTypeValues,
+    this.searchInitialValue,
+    this.isType = false,
+    this.searchValues,
+    this.onChanged,
   });
 
-  final Function(String) onDropdownTypeChange;
-  final Function(String) onDropdownHomeSearchOptionsChange;
-  final Function(String) onChanged;
-  final bool isType;
-  String searchInitialValue;
-  String searchPetTypeInitialValue;
-  final List<String> searchValues;
-  final List<String> searchPetTypeValues;
+  final Function(String)? onDropdownHomeSearchOptionsChange;
+  final Function(String)? onDropdownTypeChange;
+  final List<String>? searchPetTypeValues;
+  final Function(String)? onChanged;
+  String? searchPetTypeInitialValue;
+  final List<String>? searchValues;
+  String? searchInitialValue;
+  final bool? isType;
 
   @override
   _CustomInputState createState() => _CustomInputState();
@@ -57,13 +57,13 @@ class _CustomInputState extends State<CustomInput> {
             ),
           ),
           Expanded(
-            child: !widget.isType
+            child: !widget.isType!
                 ? Container(
                     padding: const EdgeInsets.only(left: 10),
                     child: TextFormField(
                       key: widget.key,
                       onChanged: (text) {
-                        widget.onChanged(text);
+                        widget.onChanged!(text);
                       },
                       controller: _controller,
                       cursorColor: Colors.grey,
@@ -83,7 +83,8 @@ class _CustomInputState extends State<CustomInput> {
                     ),
                   )
                 : Padding(
-                    padding: EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.18),
+                    padding: EdgeInsets.only(
+                        left: MediaQuery.of(context).size.width * 0.18),
                     child: CustomDropdownButtonSearch(
                       initialValue: widget.searchPetTypeInitialValue,
                       isExpanded: true,

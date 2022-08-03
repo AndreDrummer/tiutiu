@@ -79,7 +79,7 @@ class _InterestedListState extends State<InterestedList> {
           message: '$interestedName será notificado sobre a adoção!',
           confirmAction: () {
             userInfoOrAdoptInterestsProvider!.loadInterested(
-              widget.pet!.petReference,
+              widget.pet!.petReference!,
             );
             Navigator.pop(context);
           },
@@ -115,11 +115,11 @@ class _InterestedListState extends State<InterestedList> {
 
     if (widget.kind == Constantes.DONATE) {
       userInfoOrAdoptInterestsProvider!.loadInterested(
-        widget.pet!.petReference,
+        widget.pet!.petReference!,
       );
     } else {
       userInfoOrAdoptInterestsProvider!.loadInfo(
-        widget.pet!.petReference,
+        widget.pet!.petReference!,
       );
     }
 
