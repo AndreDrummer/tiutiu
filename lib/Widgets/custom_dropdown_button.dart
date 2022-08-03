@@ -4,16 +4,16 @@ import 'package:flutter/material.dart';
 class CustomDropdownButton extends StatefulWidget {
   CustomDropdownButton({
     this.initialValue,
+    this.isExpanded,
     this.itemList,
     this.onChange,
-    this.isExpanded,
     this.label,
   });
-  final List<String> itemList;
-  String initialValue;
-  final String label;
-  final Function(String) onChange;
-  final bool isExpanded;
+  final Function(String)? onChange;
+  final List<String>? itemList;
+  String? initialValue;
+  final bool? isExpanded;
+  final String? label;
 
   @override
   _CustomDropdownButtonState createState() => _CustomDropdownButtonState();
@@ -30,14 +30,14 @@ class _CustomDropdownButtonState extends State<CustomDropdownButton> {
           color: Colors.white,
           border: Border.all(
             style: BorderStyle.solid,
-            color: Colors.lightGreenAccent[200],
+            color: Colors.lightGreenAccent[200]!,
           ),
         ),
         child: Column(
           children: <Widget>[
             SizedBox(height: 8.0),
             Align(
-              child: Text(widget.label,
+              child: Text(widget.label!,
                   style: TextStyle(
                     color: Colors.black26,
                     fontSize: 16,
@@ -45,18 +45,20 @@ class _CustomDropdownButtonState extends State<CustomDropdownButton> {
               alignment: Alignment(-0.93, 1),
             ),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: widget.isExpanded ? 15.0 : 0.0),
+              padding: EdgeInsets.symmetric(
+                  horizontal: widget.isExpanded! ? 15.0 : 0.0),
               child: DropdownButton<String>(
                 underline: Container(),
-                isExpanded: widget.isExpanded,
+                isExpanded: widget.isExpanded!,
                 value: widget.initialValue,
-                onChanged: (String value) {
+                onChanged: (value) {
                   setState(() {
                     widget.initialValue = value;
-                    widget.onChange(value);
+                    widget.onChange?.call(value!);
                   });
                 },
-                items: widget.itemList.map<DropdownMenuItem<String>>((String e) {
+                items:
+                    widget.itemList!.map<DropdownMenuItem<String>>((String e) {
                   return DropdownMenuItem<String>(
                     child: Text(e),
                     value: e,

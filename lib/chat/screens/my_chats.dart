@@ -80,7 +80,7 @@ class _MyChatsState extends State<MyChats> {
                     builder: (context, AsyncSnapshot<String> snapshot) {
                       if (snapshot.data != null && snapshot.data!.isNotEmpty) {
                         chatList = CommonChatFunctions.searchChat(
-                            chatList, snapshot.data!, userProvider.uid);
+                            chatList, snapshot.data!, userProvider.uid!);
                       }
 
                       return ListView.builder(
@@ -90,7 +90,7 @@ class _MyChatsState extends State<MyChats> {
                           return _ListTileMessage(
                             chat: chatList[index],
                             messageId: chatList[index].id!,
-                            myUserId: userProvider.uid,
+                            myUserId: userProvider.uid!,
                             chatProvider: chatProvider,
                             newMessage: existsNewMessage(chatList[index]),
                           );
@@ -133,7 +133,7 @@ class _ListTileMessage extends StatelessWidget {
     DateTime date = stamp.toDate();
 
     String profilePic =
-        itsMe ? chat.secondUser.photoURL : chat.firstUser.photoURL;
+        itsMe ? chat.secondUser.photoURL! : chat.firstUser.photoURL!;
 
     return InkWell(
       onTap: () {
@@ -143,8 +143,8 @@ class _ListTileMessage extends StatelessWidget {
           arguments: {
             'chatId': messageId,
             'chatTitle': itsMe
-                ? OtherFunctions.firstCharacterUpper(chat.secondUser.name)
-                : OtherFunctions.firstCharacterUpper(chat.firstUser.name),
+                ? OtherFunctions.firstCharacterUpper(chat.secondUser.name!)
+                : OtherFunctions.firstCharacterUpper(chat.firstUser.name!),
             'secondUserId': itsMe ? chat.secondUser.id : chat.firstUser.id,
             'receiverId': itsMe ? chat.secondUser.id : chat.firstUser.id,
             'receiverNotificationToken': itsMe
@@ -175,8 +175,8 @@ class _ListTileMessage extends StatelessWidget {
               ),
             ),
             title: Text(itsMe
-                ? OtherFunctions.firstCharacterUpper(chat.secondUser.name)
-                : OtherFunctions.firstCharacterUpper(chat.firstUser.name)),
+                ? OtherFunctions.firstCharacterUpper(chat.secondUser.name!)
+                : OtherFunctions.firstCharacterUpper(chat.firstUser.name!)),
             subtitle: Text(chat.lastMessage!),
             trailing: Column(
               mainAxisAlignment: MainAxisAlignment.center,

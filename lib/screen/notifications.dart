@@ -6,6 +6,7 @@ import 'package:tiutiu/Widgets/badge.dart';
 import 'package:tiutiu/Widgets/empty_list.dart';
 import 'package:tiutiu/backend/Model/pet_model.dart';
 import 'package:tiutiu/backend/Model/user_model.dart';
+import 'package:tiutiu/core/image_handle.dart';
 import 'package:tiutiu/providers/ads_provider.dart';
 import 'package:tiutiu/providers/user_provider.dart';
 import 'package:tiutiu/backend/Model/notification_model.dart';
@@ -18,12 +19,12 @@ class NotificationScreen extends StatefulWidget {
 }
 
 class _NotificationScreenState extends State<NotificationScreen> {
-  AdsProvider adsProvider;
-  UserProvider userProvider;
+  // AdsProvider adsProvider;
+  late UserProvider userProvider;
 
   @override
   void didChangeDependencies() {
-    adsProvider = Provider.of(context);
+    // adsProvider = Provider.of(context);
     userProvider = Provider.of(context);
     super.didChangeDependencies();
   }
@@ -32,8 +33,10 @@ class _NotificationScreenState extends State<NotificationScreen> {
       List<QueryDocumentSnapshot> docs) {
     List<QueryDocumentSnapshot> newList = docs;
     newList.sort((a, b) =>
-        DateTime.parse(b.data()['time']).millisecondsSinceEpoch -
-        DateTime.parse(a.data()['time']).millisecondsSinceEpoch);
+        DateTime.parse((b.data() as Map<String, dynamic>)['time'])
+            .millisecondsSinceEpoch -
+        DateTime.parse((a.data() as Map<String, dynamic>)['time'])
+            .millisecondsSinceEpoch);
     return newList;
   }
 
@@ -43,7 +46,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
       appBar: AppBar(
         title: Text(
           'Notificações'.toUpperCase(),
-          style: Theme.of(context).textTheme.headline1.copyWith(
+          style: Theme.of(context).textTheme.headline1!.copyWith(
                 fontSize: 20,
                 fontWeight: FontWeight.w700,
               ),
@@ -60,10 +63,10 @@ class _NotificationScreenState extends State<NotificationScreen> {
                   return Column(
                     children: [
                       SizedBox(height: 100),
-                      adsProvider.getCanShowAds
-                          ? adsProvider.bannerAdMob(
-                              medium_banner: true, adId: adsProvider.topAdId)
-                          : Container(),
+                      // adsProvider.getCanShowAds
+                      //     ? adsProvider.bannerAdMob(
+                      //         medium_banner: true, adId: adsProvider.topAdId)
+                      //     : Container(),
                       SizedBox(height: 40),
                       EmptyListScreen(
                         text: 'Nenhuma notificação!',
@@ -75,9 +78,9 @@ class _NotificationScreenState extends State<NotificationScreen> {
 
                 return Column(
                   children: [
-                    adsProvider.getCanShowAds
-                        ? adsProvider.bannerAdMob(adId: adsProvider.topAdId)
-                        : Container(),
+                    // adsProvider.getCanShowAds
+                    //     ? adsProvider.bannerAdMob(adId: adsProvider.topAdId)
+                    //     : Container(),
                     SizedBox(height: 20),
                     Expanded(
                       child: ListView.builder(
@@ -107,8 +110,8 @@ class _NotificationScreenState extends State<NotificationScreen> {
 
 class _ListTile extends StatelessWidget {
   _ListTile({
-    @required this.notificationModel,
-    @required this.userProvider,
+    required this.notificationModel,
+    required this.userProvider,
   });
 
   final NotificationModel notificationModel;
@@ -125,8 +128,8 @@ class _ListTile extends StatelessWidget {
   }
 
   void handleNavigation(String notificationType, BuildContext context) async {
-    if (!notificationModel.open) {
-      await notificationModel.notificationReference
+    if (!notificationModel.open!) {
+      await notificationModel.notificationReference!
           .set({'open': true}, SetOptions(merge: true));
     }
 
@@ -138,7 +141,7 @@ class _ListTile extends StatelessWidget {
         }),
       );
     } else {
-      Pet petInfo = await loadPetInfo(notificationModel.petReference);
+      Pet petInfo = await loadPetInfo(notificationModel.petReference!);
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) {
@@ -155,7 +158,7 @@ class _ListTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        handleNavigation(notificationModel.notificationType, context);
+        handleNavigation(notificationModel.notificationType!, context);
       },
       child: Column(
         children: [
@@ -164,15 +167,13 @@ class _ListTile extends StatelessWidget {
               backgroundColor: Colors.transparent,
               child: ClipOval(
                 child: FutureBuilder<String>(
-                  future: loadUserAvatar(notificationModel.userReference),
+                  future: loadUserAvatar(notificationModel.userReference!),
                   builder: (context, snapshot) {
                     return FadeInImage(
                       placeholder: AssetImage('assets/profileEmpty.png'),
-                      image: snapshot.data != null
-                          ? NetworkImage(
-                              snapshot.data,
-                            )
-                          : AssetImage('assets/profileEmpty.png'),
+                      image: AssetHandle(
+                        snapshot.data,
+                      ).build(),
                       fit: BoxFit.cover,
                       width: 1000,
                       height: 100,
@@ -182,24 +183,24 @@ class _ListTile extends StatelessWidget {
               ),
             ),
             title: Text(
-              notificationModel.title,
+              notificationModel.title!,
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
-            subtitle: Text(notificationModel.message),
+            subtitle: Text(notificationModel.message!),
             trailing: Column(
               children: [
-                !notificationModel.open
+                !notificationModel.open!
                     ? Badge(
                         color: Colors.green,
                         text: 'Nova',
                       )
                     : Text(''),
                 Text(DateFormat('dd/MM/y HH:mm')
-                    .format(DateTime.parse(notificationModel.time))
+                    .format(DateTime.parse(notificationModel.time!))
                     .split(' ')
                     .last),
                 Text(DateFormat('dd/MM/y HH:mm')
-                    .format(DateTime.parse(notificationModel.time))
+                    .format(DateTime.parse(notificationModel.time!))
                     .split(' ')
                     .first)
               ],

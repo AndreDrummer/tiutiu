@@ -2,17 +2,17 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class User {
   User({
-    required this.notificationToken,
-    required this.betterContact,
-    required this.phoneNumber,
-    required this.createdAt,
-    required this.photoBACK,
-    required this.photoURL,
-    required this.password,
-    required this.landline,
-    required this.email,
-    required this.name,
-    required this.id,
+    this.notificationToken,
+    this.betterContact,
+    this.phoneNumber,
+    this.createdAt,
+    this.photoBACK,
+    this.photoURL,
+    this.password,
+    this.landline,
+    this.email,
+    this.name,
+    this.id,
   });
 
   static User fromSnapshot(DocumentSnapshot snapshot) {
@@ -48,17 +48,17 @@ class User {
     );
   }
 
-  String notificationToken;
-  String phoneNumber;
-  int betterContact;
-  String createdAt;
-  String photoBACK;
-  String photoURL;
-  String landline;
-  String password;
-  String email;
-  String name;
-  String id;
+  String? notificationToken;
+  String? phoneNumber;
+  int? betterContact;
+  String? createdAt;
+  String? photoBACK;
+  String? photoURL;
+  String? landline;
+  String? password;
+  String? email;
+  String? name;
+  String? id;
 
   Map<String, dynamic> toJson() {
     return {

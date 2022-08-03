@@ -7,6 +7,7 @@ import 'package:tiutiu/Widgets/circle_child.dart';
 import 'package:tiutiu/Widgets/fullscreen_images.dart';
 import 'package:tiutiu/Widgets/my_account_card.dart';
 import 'package:tiutiu/Widgets/popup_message.dart';
+import 'package:tiutiu/core/image_handle.dart';
 import 'package:tiutiu/providers/ads_provider.dart';
 import 'package:tiutiu/providers/auth2.dart';
 import 'package:tiutiu/providers/user_provider.dart';
@@ -20,13 +21,13 @@ class MyAccount extends StatefulWidget {
 }
 
 class _MyAccountState extends State<MyAccount> {
-  UserProvider userProvider;
-  AdsProvider adsProvider;
+  late UserProvider userProvider;
+  // AdsProvider adsProvider;
 
   @override
   void didChangeDependencies() {
     userProvider = Provider.of<UserProvider>(context, listen: false);
-    adsProvider = Provider.of(context);
+    // adsProvider = Provider.of(context);
     super.didChangeDependencies();
   }
 
@@ -60,13 +61,9 @@ class _MyAccountState extends State<MyAccount> {
                   Opacity(
                     child: FadeInImage(
                       placeholder: AssetImage('assets/fundo.jpg'),
-                      image: userProvider.photoBACK != null
-                          ? NetworkImage(
-                              userProvider.photoBACK,
-                            )
-                          : AssetImage(
-                              'assets/fundo.jpg',
-                            ),
+                      image: AssetHandle(
+                        userProvider.photoBACK,
+                      ).build(),
                       fit: BoxFit.fill,
                       width: 1000,
                       height: 1000,
@@ -90,15 +87,17 @@ class _MyAccountState extends State<MyAccount> {
                                 child: ClipOval(
                                   child: userProvider.photoURL != null
                                       ? FadeInImage(
-                                          placeholder: AssetImage('assets/profileEmpty.png'),
+                                          placeholder: AssetImage(
+                                              'assets/profileEmpty.png'),
                                           image: NetworkImage(
-                                            userProvider.photoURL,
+                                            userProvider.photoURL!,
                                           ),
                                           fit: BoxFit.cover,
                                           width: 1000,
                                           height: 100,
                                         )
-                                      : Icon(Icons.person, color: Colors.white70, size: 50),
+                                      : Icon(Icons.person,
+                                          color: Colors.white70, size: 50),
                                 ),
                               ),
                             ),
@@ -108,9 +107,12 @@ class _MyAccountState extends State<MyAccount> {
                               children: [
                                 SizedBox(height: 40),
                                 Text(
-                                  userProvider.displayName,
+                                  userProvider.displayName!,
                                   textAlign: TextAlign.start,
-                                  style: Theme.of(context).textTheme.headline1.copyWith(
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .headline1!
+                                      .copyWith(
                                         color: Colors.black,
                                         fontWeight: FontWeight.bold,
                                         fontSize: 25,
@@ -119,16 +121,21 @@ class _MyAccountState extends State<MyAccount> {
                                 SizedBox(height: 10),
                                 Align(
                                   child: Text(
-                                    'Usuário desde ${DateFormat('dd/MM/y HH:mm').format(DateTime.parse(userProvider.createdAt)).split(' ').first}',
+                                    'Usuário desde ${DateFormat('dd/MM/y HH:mm').format(DateTime.parse(userProvider.createdAt!)).split(' ').first}',
                                     textAlign: TextAlign.start,
-                                    style: Theme.of(context).textTheme.headline1.copyWith(
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .headline1!
+                                        .copyWith(
                                           color: Colors.black,
                                           fontWeight: FontWeight.w400,
                                           fontSize: 12,
                                         ),
                                   ),
                                 ),
-                                SizedBox(height: MediaQuery.of(context).size.height * 0.07),
+                                SizedBox(
+                                    height: MediaQuery.of(context).size.height *
+                                        0.07),
                               ],
                             ),
                           )
@@ -147,7 +154,8 @@ class _MyAccountState extends State<MyAccount> {
                                       builder: (context) {
                                         return MyPetsScreen(
                                           title: 'PETs p/ adoção',
-                                          streamBuilder: userProvider.donatePets,
+                                          streamBuilder:
+                                              userProvider.donatePets,
                                           kind: Constantes.DONATE,
                                         );
                                       },
@@ -157,7 +165,7 @@ class _MyAccountState extends State<MyAccount> {
                                 child: CircleChild(
                                   avatarRadius: 25,
                                   child: Text(
-                                    userProvider.getTotalToDonate?.toString(),
+                                    userProvider.getTotalToDonate.toString(),
                                     style: TextStyle(
                                       color: Theme.of(context).primaryColor,
                                     ),
@@ -166,7 +174,10 @@ class _MyAccountState extends State<MyAccount> {
                               ),
                               Text(
                                 'P/ adoção',
-                                style: Theme.of(context).textTheme.headline1.copyWith(
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .headline1!
+                                    .copyWith(
                                       color: Colors.black,
                                       fontSize: 14,
                                     ),
@@ -183,9 +194,10 @@ class _MyAccountState extends State<MyAccount> {
                                       builder: (context) {
                                         return MyPetsScreen(
                                           title: 'PETs doados',
-                                          streamBuilder: userProvider.donatedPets,
+                                          streamBuilder:
+                                              userProvider.donatedPets,
                                           kind: null,
-                                          userId: auth.firebaseUser.uid,
+                                          userId: auth.firebaseUser!.uid,
                                         );
                                       },
                                     ),
@@ -194,7 +206,7 @@ class _MyAccountState extends State<MyAccount> {
                                 child: CircleChild(
                                   avatarRadius: 25,
                                   child: Text(
-                                    userProvider.getTotalDonated?.toString(),
+                                    userProvider.getTotalDonated.toString(),
                                     style: TextStyle(
                                       color: Theme.of(context).primaryColor,
                                     ),
@@ -203,7 +215,11 @@ class _MyAccountState extends State<MyAccount> {
                               ),
                               Text(
                                 'Doados',
-                                style: Theme.of(context).textTheme.headline1.copyWith(fontSize: 14, color: Colors.black),
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .headline1!
+                                    .copyWith(
+                                        fontSize: 14, color: Colors.black),
                               )
                             ],
                           ),
@@ -217,7 +233,8 @@ class _MyAccountState extends State<MyAccount> {
                                       builder: (context) {
                                         return MyPetsScreen(
                                           title: 'PETs Adotados',
-                                          streamBuilder: userProvider.adoptedPets,
+                                          streamBuilder:
+                                              userProvider.adoptedPets,
                                           kind: Constantes.ADOPTED,
                                         );
                                       },
@@ -226,12 +243,19 @@ class _MyAccountState extends State<MyAccount> {
                                 },
                                 child: CircleChild(
                                   avatarRadius: 25,
-                                  child: Text(userProvider.getTotalAdopted?.toString(), style: TextStyle(color: Theme.of(context).primaryColor)),
+                                  child: Text(
+                                      userProvider.getTotalAdopted.toString(),
+                                      style: TextStyle(
+                                          color:
+                                              Theme.of(context).primaryColor)),
                                 ),
                               ),
                               Text(
                                 'Adotados',
-                                style: Theme.of(context).textTheme.headline1.copyWith(
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .headline1!
+                                    .copyWith(
                                       color: Colors.black,
                                       fontSize: 14,
                                     ),
@@ -248,7 +272,8 @@ class _MyAccountState extends State<MyAccount> {
                                       builder: (context) {
                                         return MyPetsScreen(
                                           title: 'PETs desaparecidos',
-                                          streamBuilder: userProvider.disappearedPets,
+                                          streamBuilder:
+                                              userProvider.disappearedPets,
                                           kind: Constantes.DISAPPEARED,
                                         );
                                       },
@@ -258,7 +283,7 @@ class _MyAccountState extends State<MyAccount> {
                                 child: CircleChild(
                                   avatarRadius: 25,
                                   child: Text(
-                                    userProvider.getTotalDisappeared?.toString(),
+                                    userProvider.getTotalDisappeared.toString(),
                                     style: TextStyle(
                                       color: Theme.of(context).primaryColor,
                                     ),
@@ -267,7 +292,10 @@ class _MyAccountState extends State<MyAccount> {
                               ),
                               Text(
                                 'Desaparecidos',
-                                style: Theme.of(context).textTheme.headline1.copyWith(
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .headline1!
+                                    .copyWith(
                                       color: Colors.black,
                                       fontSize: 14,
                                     ),
@@ -297,7 +325,7 @@ class _MyAccountState extends State<MyAccount> {
     return Scaffold(
       key: _formScaffold,
       backgroundColor: Color(0XFFF9F9F9),
-      appBar: appBar(userProvider, auth),
+      // appBar: appBar(userProvider, auth),
       body: Stack(
         children: [
           Background(),
@@ -358,7 +386,12 @@ class _MyAccountState extends State<MyAccount> {
                             context,
                             MaterialPageRoute(
                               builder: (context) {
-                                return MyPetsScreen(title: 'PETs doados', streamBuilder: userProvider.donatedPets, kind: null, userId: auth.firebaseUser.uid);
+                                return MyPetsScreen(
+                                  title: 'PETs doados',
+                                  streamBuilder: userProvider.donatedPets,
+                                  kind: null,
+                                  userId: auth.firebaseUser!.uid,
+                                );
                               },
                             ),
                           );
@@ -421,11 +454,15 @@ class _MyAccountState extends State<MyAccount> {
                               padding: const EdgeInsets.all(8.0),
                               child: Row(
                                 children: [
-                                  Icon(Icons.settings, color: Colors.grey, size: 22),
+                                  Icon(Icons.settings,
+                                      color: Colors.grey, size: 22),
                                   SizedBox(width: 20),
                                   Text(
                                     'Configurações',
-                                    style: Theme.of(context).textTheme.headline1.copyWith(
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .headline1!
+                                        .copyWith(
                                           fontSize: 18,
                                           color: Colors.blueGrey[400],
                                         ),
@@ -464,11 +501,15 @@ class _MyAccountState extends State<MyAccount> {
                               padding: const EdgeInsets.all(8.0),
                               child: Row(
                                 children: [
-                                  Icon(Icons.exit_to_app, color: Colors.grey, size: 22),
+                                  Icon(Icons.exit_to_app,
+                                      color: Colors.grey, size: 22),
                                   SizedBox(width: 20),
                                   Text(
                                     'Sair',
-                                    style: Theme.of(context).textTheme.headline1.copyWith(
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .headline1!
+                                        .copyWith(
                                           fontSize: 18,
                                           color: Colors.blueGrey[400],
                                         ),
@@ -481,7 +522,9 @@ class _MyAccountState extends State<MyAccount> {
                       ),
                     ),
                   ),
-                  adsProvider.getCanShowAds ? adsProvider.bannerAdMob(adId: adsProvider.bottomAdId) : Container(),
+                  // adsProvider.getCanShowAds
+                  // // ? adsProvider.bannerAdMob(adId: adsProvider.bottomAdId)
+                  // : Container(),
                   SizedBox(height: height < 500 ? 220 : 0)
                 ],
               ),

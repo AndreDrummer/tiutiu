@@ -15,15 +15,15 @@ class ChooseLocation extends StatefulWidget {
     this.pet,
   });
 
-  final bool editMode;
-  final Pet pet;
+  final bool? editMode;
+  final Pet? pet;
 
   @override
   _ChooseLocationState createState() => _ChooseLocationState();
 }
 
 class _ChooseLocationState extends State<ChooseLocation> {
-  AdsProvider adsProvider;
+  // AdsProvider adsProvider;
 
   @override
   void didChangeDependencies() {
@@ -33,15 +33,16 @@ class _ChooseLocationState extends State<ChooseLocation> {
   @override
   Widget build(BuildContext context) {
     Location locationProvider = Provider.of<Location>(context);
-    var params = ModalRoute.of(context).settings.arguments as Map<String, dynamic>;
-    var kind = widget.editMode ? widget.pet.kind : params['kind'];
+    var params =
+        ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+    var kind = widget.editMode! ? widget.pet!.kind : params['kind'];
 
     return Scaffold(
       backgroundColor: Colors.white,
       // appBar: AppBar(
       //   title: Text(
       //     kind == Constantes.DONATE ? 'localização do PET'.toUpperCase() : 'Visto pela última vez em'.toUpperCase(),
-      //     style: Theme.of(context).textTheme.headline1.copyWith(
+      //     style: Theme.of(context).textTheme.headline1!.copyWith(
       //           fontSize: 20,
       //           fontWeight: FontWeight.w700,
       //         ),
@@ -56,21 +57,25 @@ class _ChooseLocationState extends State<ChooseLocation> {
               stream: locationProvider.canContinue,
               builder: (context, snapshot) {
                 return ButtonWide(
-                  color: snapshot.data != null && snapshot.data ? Colors.purple : Colors.grey,
+                  color: snapshot.data != null && snapshot.data!
+                      ? Colors.purple
+                      : Colors.grey,
                   rounded: false,
                   isToExpand: true,
-                  text: kind == Constantes.DONATE ? 'O PET ESTÁ NESTA REGIÃO' : 'VISTO POR ÚLTIMO AQUI',
-                  action: snapshot.data == null || !snapshot.data
+                  text: kind == Constantes.DONATE
+                      ? 'O PET ESTÁ NESTA REGIÃO'
+                      : 'VISTO POR ÚLTIMO AQUI',
+                  action: snapshot.data == null || !snapshot.data!
                       ? null
                       : () {
-                          widget.editMode
+                          widget.editMode!
                               ? Navigator.push(
                                   context,
                                   MaterialPageRoute(
                                     builder: (context) {
                                       return PetForm(
                                         editMode: true,
-                                        pet: widget.pet,
+                                        pet: widget.pet!,
                                         localChanged: true,
                                       );
                                     },

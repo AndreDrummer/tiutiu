@@ -46,12 +46,12 @@ class _NewMessageState extends State<NewMessage> {
       Message(
         text: _enteredMessage,
         createdAt: FieldValue.serverTimestamp(),
-        userId: userProvider.uid,
+        userId: userProvider.uid!,
         user: userProvider.user(),
         receiverId: widget.receiverId,
         receiverNotificationToken: widget.receiverNotificationToken,
         notificationType: 'chatNotification',
-        userReference: userProvider.userReference,
+        userReference: userProvider.userReference!,
       ),
     );
 

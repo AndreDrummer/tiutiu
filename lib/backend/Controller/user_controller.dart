@@ -306,7 +306,7 @@ class UserController {
     required Authentication auth,
   }) async {
     await deleteUserData(userReference);
-    await auth.firebaseUser.delete();
+    await auth.firebaseUser?.delete();
     auth.signOut();
   }
 }
