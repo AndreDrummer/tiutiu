@@ -70,8 +70,8 @@ class _CardListState extends State<CardList> {
 
     List<String> distanceText = OtherFunctions.distanceCalculate(
       context,
-      widget.petInfo!.latitude,
-      widget.petInfo!.longitude,
+      widget.petInfo!.latitude!,
+      widget.petInfo!.longitude!,
     );
 
     return InkWell(
@@ -79,15 +79,15 @@ class _CardListState extends State<CardList> {
         if (userProvider.uid != null &&
             userProvider.uid != widget.petInfo!.ownerId) {
           PetsProvider().increaseViews(
-            actualViews: widget.petInfo!.views,
-            petReference: widget.petInfo!.petReference,
+            actualViews: widget.petInfo!.views!,
+            petReference: widget.petInfo!.petReference!,
           );
         }
         final user =
-            await loadOwner(widget.petInfo!.ownerReference, auth: auth);
+            await loadOwner(widget.petInfo!.ownerReference!, auth: auth);
         if (widget.petInfo!.ownerName == null) {
           print('Was null');
-          widget.petInfo!.petReference.set({"ownerName": user['name']});
+          widget.petInfo!.petReference!.set({"ownerName": user['name']});
           widget.petInfo!.ownerName = user['name'];
         }
 
@@ -98,8 +98,8 @@ class _CardListState extends State<CardList> {
               return PetDetails(
                 petOwner: User.fromMap(user),
                 isMine: User.fromMap(user).id == auth.firebaseUser?.uid,
-                pet: widget.petInfo!!,
-                kind: widget.petInfo!.kind.toUpperCase(),
+                pet: widget.petInfo!,
+                kind: widget.petInfo!.kind!.toUpperCase(),
               );
             },
           ),
@@ -129,7 +129,7 @@ class _CardListState extends State<CardList> {
                 ),
                 child: FadeInImage(
                   placeholder: AssetImage('assets/fadeIn.jpg'),
-                  image: NetworkImage(widget.petInfo!.avatar),
+                  image: NetworkImage(widget.petInfo!.avatar!),
                   height: 1000,
                   width: 1000,
                   fit: BoxFit.cover,
@@ -155,7 +155,7 @@ class _CardListState extends State<CardList> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            widget.petInfo!.name,
+                            widget.petInfo!.name!,
                             style: Theme.of(context)
                                 .textTheme
                                 .headline1!
@@ -166,7 +166,7 @@ class _CardListState extends State<CardList> {
                           ),
                           SizedBox(height: 5),
                           Text(
-                            widget.petInfo!.breed,
+                            widget.petInfo!.breed!,
                             style: Theme.of(context)
                                 .textTheme
                                 .headline1!
@@ -200,9 +200,9 @@ class _CardListState extends State<CardList> {
                                     color: Colors.grey),
                                 StreamBuilder<QuerySnapshot<Object?>>(
                                   stream: PetsProvider().loadInfoOrInterested(
-                                      kind: widget.petInfo!.kind,
-                                      petReference:
-                                          widget.petInfo!.petReference),
+                                    kind: widget.petInfo!.kind!,
+                                    petReference: widget.petInfo!.petReference!,
+                                  ),
                                   builder: (context, snapshot) {
                                     return Text(
                                       '  ${snapshot.data?.docs.length ?? 0} ${widget.petInfo!.kind == Constantes.DONATE ? 'interessados' : 'informações'}',

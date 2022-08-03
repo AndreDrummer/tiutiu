@@ -3,15 +3,15 @@ import 'package:flutter/material.dart';
 class ListTileDrawer extends StatelessWidget {
   ListTileDrawer({this.imageAsset, this.tileName, this.callback, this.icon});
 
-  final String imageAsset;
-  final String tileName;
-  final IconData icon;
-  final Function() callback;
+  final Function()? callback;
+  final String? imageAsset;
+  final String? tileName;
+  final IconData? icon;
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () => callback(),
+      onTap: () => callback!(),
       child: Column(
         children: <Widget>[
           ListTile(
@@ -20,13 +20,13 @@ class ListTileDrawer extends StatelessWidget {
                     width: 30,
                     height: 30,
                     child: Image.asset(
-                      imageAsset,
+                      imageAsset!,
                       fit: BoxFit.cover,
                     ),
                   )
                 : Icon(icon, color: Colors.black, size: 30),
             title: Text(
-              tileName,
+              tileName!,
               style: TextStyle(fontSize: 18),
             ),
           ),

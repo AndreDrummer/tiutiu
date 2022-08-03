@@ -50,7 +50,7 @@ class CardDetails extends StatelessWidget {
                       SizedBox(height: 10),
                       FittedBox(
                         child: Text(
-                          text,
+                          text!,
                           style: TextStyle(
                             fontWeight: FontWeight.w700,
                           ),

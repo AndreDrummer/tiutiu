@@ -115,7 +115,7 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
           denyAction: () => Navigator.pop(context),
           denyText: 'Não',
           confirmAction: () {
-            delete(pet.petReference);
+            delete(pet.petReference!);
             Navigator.pop(context);
             _scaffoldKey.currentState!.showSnackBar(
               SnackBar(
@@ -229,7 +229,7 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
                                           placeholder:
                                               AssetImage('assets/fadeIn.jpg'),
                                           image:
-                                              NetworkImage(pets[index].avatar),
+                                              NetworkImage(pets[index].avatar!),
                                           height: 1000,
                                           width: 1000,
                                           fit: BoxFit.fitWidth,
@@ -242,8 +242,8 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
                                         : Positioned(
                                             top: 20,
                                             right: 5,
-                                            child:
-                                                _lablePetKind(pets[index].kind),
+                                            child: _lablePetKind(
+                                                pets[index].kind!),
                                           )
                                   ],
                                 ),
@@ -260,7 +260,7 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
                                               CrossAxisAlignment.start,
                                           children: [
                                             Text(
-                                              pets[index].name,
+                                              pets[index].name!,
                                               style: Theme.of(context)
                                                   .textTheme
                                                   .headline1!
@@ -272,7 +272,7 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
                                             ),
                                             SizedBox(height: 10),
                                             Text(
-                                              pets[index].breed,
+                                              pets[index].breed!,
                                               style: Theme.of(context)
                                                   .textTheme
                                                   .headline1!
@@ -468,11 +468,11 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
                                                                               confirmAction: () {
                                                                                 Navigator.pop(context);
                                                                                 if (pets[index].kind == Constantes.DISAPPEARED) {
-                                                                                  pets[index].petReference.set({
+                                                                                  pets[index].petReference!.set({
                                                                                     'found': !pets[index].found
                                                                                   }, SetOptions(merge: true));
                                                                                 } else {
-                                                                                  pets[index].petReference.set({
+                                                                                  pets[index].petReference!.set({
                                                                                     'donated': !pets[index].donated
                                                                                   }, SetOptions(merge: true));
                                                                                 }

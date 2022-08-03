@@ -170,11 +170,11 @@ class GenerateHashKey {
   }
 
   static String encodeWord(String palavra, int key) {
-    List<String> arrChar;
-    List<int> arrInt;
-    List<int> arrInt2;
+    List<String> arrChar = [];
+    List<int> arrInt = [];
+    List<int> arrInt2 = [];
 
-    String output;
+    String output = '';
 
     for (int i = 0; i < palavra.length; i++) {
       arrChar.add(palavra[i]);
@@ -206,10 +206,10 @@ class GenerateHashKey {
   }
 
   static String decodeWord(String palavra, int key) {
-    List<int> arr;
-    List<int> arrInt2;
-    List<String> arrChar;
-    String output;
+    List<String> arrChar = [];
+    List<int> arrInt2 = [];
+    List<int> arr = [];
+    String output = '';
 
     for (int i = 0; i < palavra.length; i++) {
       arrChar.add(palavra[i]);
