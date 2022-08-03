@@ -10,11 +10,15 @@ import 'package:tiutiu/providers/user_provider.dart';
 import 'package:tiutiu/utils/routes.dart';
 
 class TitleAppBar extends StatelessWidget {
-  TitleAppBar({this.openSocial, this.navigateToAuth, this.newMessagesStream});
+  TitleAppBar({
+    this.newMessagesStream,
+    this.navigateToAuth,
+    this.openSocial,
+  });
 
-  final Function() openSocial;
-  final Function() navigateToAuth;
-  final Stream newMessagesStream;
+  final Stream<QuerySnapshot>? newMessagesStream;
+  final Function()? navigateToAuth;
+  final Function()? openSocial;
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +58,8 @@ class TitleAppBar extends StatelessWidget {
                             onPressed: auth.firebaseUser == null
                                 ? navigateToAuth
                                 : () {
-                                    Navigator.pushNamed(context, Routes.CHATLIST);
+                                    Navigator.pushNamed(
+                                        context, Routes.CHATLIST);
                                   },
                             icon: Icon(
                               Icons.chat,
@@ -64,7 +69,12 @@ class TitleAppBar extends StatelessWidget {
                           StreamBuilder<QuerySnapshot>(
                             stream: newMessagesStream,
                             builder: (context, snapshot) {
-                              int newMessagesQty = CommonChatFunctions.filterOnlyMyChats(snapshot, userProvider.uid) ?? 0;
+                              int newMessagesQty =
+                                  CommonChatFunctions.filterOnlyMyChats(
+                                snapshot,
+                                userProvider.uid!,
+                              );
+
                               return Positioned(
                                 right: 10,
                                 child: Badge(
@@ -99,13 +109,14 @@ class TitleAppBar extends StatelessWidget {
                             ),
                           ),
                           StreamBuilder<QuerySnapshot>(
-                            stream: UserController().loadNotificationsCount(userProvider.uid),
+                            stream: UserController()
+                                .loadNotificationsCount(userProvider.uid!),
                             builder: (context, snapshot) {
                               return Positioned(
                                 right: 10,
                                 child: Badge(
                                   color: Colors.red,
-                                  text: snapshot.data?.docs?.length ?? 0,
+                                  text: snapshot.data?.docs.length ?? 0,
                                 ),
                               );
                             },

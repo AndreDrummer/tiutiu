@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class CustomBottomNavigatorBar extends StatelessWidget {
   CustomBottomNavigatorBar({this.children});
 
-  final List<Widget> children;
+  final List<Widget>? children;
 
   @override
   Widget build(BuildContext context) {
@@ -38,14 +38,15 @@ class CustomBottomNavigatorBar extends StatelessWidget {
                   SizedBox(width: 10),
                   Text(
                     'Perto de você',
-                    style: Theme.of(context).textTheme.headline1.copyWith(fontWeight: FontWeight.w700, color: Colors.black),
+                    style: Theme.of(context).textTheme.headline1!.copyWith(
+                        fontWeight: FontWeight.w700, color: Colors.black),
                   ),
                 ],
               ),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: children.toList(),
+              children: children!.toList(),
             ),
           ],
         ),

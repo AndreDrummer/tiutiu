@@ -76,7 +76,7 @@ class MessageBubble extends StatelessWidget {
                           ),
                           Spacer(),
                           Text(
-                            belongToMe ? 'Eu' : user.name.split(' ').first,
+                            belongToMe ? 'Eu' : user.name!.split(' ').first,
                             style: TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.bold,

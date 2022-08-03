@@ -14,9 +14,11 @@ class Location with ChangeNotifier {
   Stream<bool> get locationServiceEnabled => _locationServiceEnabled.stream;
   Stream<bool> get canContinue => _canContinue.stream;
 
-  void Function(LocationPermission) get changePermission => _permission.sink.add;
+  void Function(LocationPermission) get changePermission =>
+      _permission.sink.add;
   void Function(LatLng) get changeLocation => _location.sink.add;
-  void Function(bool) get changeLocationServiceEnabled => _locationServiceEnabled.sink.add;
+  void Function(bool) get changeLocationServiceEnabled =>
+      _locationServiceEnabled.sink.add;
   void Function(bool) get changeCanContinue => _canContinue.sink.add;
 
   LocationPermission get getPermission => _permission.stream.value;
@@ -25,32 +27,37 @@ class Location with ChangeNotifier {
   bool get getCanContinue => _canContinue.stream.value;
 
   Future<void> permissionCheck() async {
-    final permission = await checkPermission();
-    changePermission(permission);
+    // TODO: Ver depois como solicitar essa permissão de localização para o usuário!
+    changePermission(LocationPermission.always);
   }
 
   Future<void> permissionRequest() async {
-    final permission = await requestPermission();
-    changePermission(permission);
+    // TODO: Ver depois como solicitar essa permissão de localização para o usuário!
+    changePermission(LocationPermission.always);
   }
 
   Future<void> locationServiceIsEnabled() async {
-    changeLocationServiceEnabled(await isLocationServiceEnabled());
+    // TODO: Ver depois como solicitar essa permissão de localização para o usuário!
+    // changeLocationServiceEnabled(await isLocationServiceEnabled());
   }
 
   Future<bool> openSeetings() async {
-    return await openAppSettings();
+    // TODO: Ver depois como solicitar essa permissão de localização para o usuário!
+    return true;
   }
 
   Future<bool> openLocalSettings() async {
-    return await openLocationSettings();
+    // TODO: Ver depois como solicitar essa permissão de localização para o usuário!
+    return true;
   }
 
-  Future<void> setLocation({LatLng currentLocation}) async {
+  Future<void> setLocation({LatLng? currentLocation}) async {
     var position;
 
+    // TODO: Ver depois como solicitar essa permissão de localização para o usuário!
     if (currentLocation == null) {
-      position = await getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+      // position =
+      // await getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
       changeLocation(LatLng(position.latitude, position.longitude));
     } else {
       changeLocation(currentLocation);
