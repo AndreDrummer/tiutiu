@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 
 class SelectionPage extends StatefulWidget {
   SelectionPage({
-    @required this.list,
-    @required this.title,
-    @required this.valueSelected,
+    required this.valueSelected,
+    required this.title,
+    required this.list,
     this.onTap,
   });
 
-  final List list;
+  final Function(String text)? onTap;
   final valueSelected;
-  final Function(String text) onTap;
+  final List list;
 
   final String title;
 
@@ -19,8 +19,8 @@ class SelectionPage extends StatefulWidget {
 }
 
 class _SelectionPageState extends State<SelectionPage> {
-  List list;
   dynamic valueSelected = '';
+  late List list;
 
   @override
   void initState() {
@@ -73,7 +73,7 @@ class _SelectionPageState extends State<SelectionPage> {
               onTap: widget.onTap != null
                   ? () {
                       setState(() {
-                        widget.onTap(list[index]);
+                        widget.onTap!(list[index]);
                       });
                     }
                   : () {
@@ -81,7 +81,10 @@ class _SelectionPageState extends State<SelectionPage> {
                     },
               child: ListTile(
                 title: Text(list[index]),
-                trailing: widget.onTap != null && widget.valueSelected.contains(list[index]) ? Icon(Icons.done, color: Colors.purple) : null,
+                trailing: widget.onTap != null &&
+                        widget.valueSelected.contains(list[index])
+                    ? Icon(Icons.done, color: Colors.purple)
+                    : null,
               ),
             );
           },

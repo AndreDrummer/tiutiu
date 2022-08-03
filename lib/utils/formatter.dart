@@ -1,14 +1,14 @@
 class Formatter {
-  static String unmaskNumber(String number) {
+  static String? unmaskNumber(String number) {
     try {
       String serializedNumber = number
-        .split('(')[1]
-        .replaceAll(')', '')
-        .replaceAll('-', '')
-        .replaceAll(' ', '');
-        return serializedNumber;
+          .split('(')[1]
+          .replaceAll(')', '')
+          .replaceAll('-', '')
+          .replaceAll(' ', '');
+      return serializedNumber;
     } catch (error) {
-      return null;      
-    }    
+      return null;
+    }
   }
 }

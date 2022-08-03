@@ -5,7 +5,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:multi_image_picker/multi_image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:tiutiu/Exceptions/tiutiu_exceptions.dart';
@@ -36,107 +35,108 @@ import 'package:tiutiu/data/dummy_data.dart';
 class PetForm extends StatefulWidget {
   PetForm({this.editMode = false, this.pet, this.localChanged = false});
 
-  final bool editMode;
-  final bool localChanged;
-  final Pet pet;
+  final bool? localChanged;
+  final bool? editMode;
+  final Pet? pet;
 
   @override
   _PetFormState createState() => _PetFormState();
 }
 
 class _PetFormState extends State<PetForm> {
-  PetFormProvider petFormProvider;
-  PetsProvider petsProvider;
+  PetFormProvider? petFormProvider;
+  PetsProvider? petsProvider;
 
   var params;
   var kind;
 
-  File imageFile0;
-  File imageFile1;
-  File imageFile2;
-  File imageFile3;
-  File imageFile4;
-  File imageFile5;
-  File imageFile6;
-  File imageFile7;
+  File? imageFile0;
+  File? imageFile1;
+  File? imageFile2;
+  File? imageFile3;
+  File? imageFile4;
+  File? imageFile5;
+  File? imageFile6;
+  File? imageFile7;
 
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  final TextEditingController _descricao = TextEditingController();
+  final TextEditingController _meses = TextEditingController();
   final TextEditingController _nome = TextEditingController();
   final TextEditingController _ano = TextEditingController();
-  final TextEditingController _meses = TextEditingController();
-  final TextEditingController _descricao = TextEditingController();
 
-  GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-
-  List<Asset> petPhotosMulti = List<Asset>();
-  List petPhotosToUpload = [];
-  List<String> photosToDelete = [];
   List<Uint8List> convertedImageList = [];
+  List<String> photosToDelete = [];
+  List petPhotosToUpload = [];
+  List petPhotosMulti = [];
 
   int maxImages = 6;
 
-  bool macho = true;
-  Authentication auth;
-  UserProvider userProvider;
-  String dropvalueSize;
-  String dropvalueColor;
-  int dropvalueType = 0;
-  int dropvalueHealth = 0;
-  int dropvalueBreed = 0;
-  String userId;
-  LatLng currentLocation;
-  bool isSaving;
-  bool readOnly = false;
-  bool convertingImages;
-  bool photosFieldIsValid = true;
-  AdsProvider adsProvider;
-  String storageHashKey;
+  bool? macho = true;
+  Authentication? auth;
+  UserProvider? userProvider;
+  String? dropvalueSize;
+  String? dropvalueColor;
+  int? dropvalueType = 0;
+  int? dropvalueHealth = 0;
+  int? dropvalueBreed = 0;
+  String? userId;
+  LatLng? currentLocation;
+  bool? isSaving;
+  bool? readOnly = false;
+  bool? convertingImages;
+  bool? photosFieldIsValid = true;
+  // AdsProvider adsProvider;
+  String? storageHashKey;
 
   void preloadTextFields() {
-    petFormProvider.changePetName(widget.pet.name);
-    petFormProvider.changePetAge(widget.pet.ano);
-    petFormProvider.changePetMonths(widget.pet.meses);
-    petFormProvider.changePetDescription(widget.pet.details);
-    petFormProvider.changePetSex(widget.pet.sex);
-    petFormProvider
-        .changePetSelectedCaracteristics(widget.pet.otherCaracteristics);
-    petFormProvider.changePetTypeIndex(DummyData.type.indexOf(widget.pet.type));
-    petFormProvider.changePetBreedIndex(DummyData
-        .breed[petFormProvider.getPetTypeIndex + 1]
-        .indexOf(widget.pet.breed));
-    petFormProvider.changePetSize(widget.pet.size);
-    petFormProvider.changePetColor(widget.pet.color);
-    petFormProvider
-        .changePetHealthIndex(DummyData.health.indexOf(widget.pet.health));
-    petFormProvider.changePetPhotos(widget.pet?.photos ?? [widget.pet.avatar]);
-    petFormProvider.changePetInEdition(widget.pet);
+    petFormProvider!.changePetName(widget.pet!.name!);
+    petFormProvider!.changePetAge(widget.pet!.ano!);
+    petFormProvider!.changePetMonths(widget.pet!.meses!);
+    petFormProvider!.changePetDescription(widget.pet!.details!);
+    petFormProvider!.changePetSex(widget.pet!.sex!);
+    petFormProvider!
+        .changePetSelectedCaracteristics(widget.pet!.otherCaracteristics!);
+    petFormProvider!
+        .changePetTypeIndex(DummyData.type.indexOf(widget.pet!.type!));
+    petFormProvider!.changePetBreedIndex(DummyData
+        .breed[petFormProvider!.getPetTypeIndex + 1]
+        .indexOf(widget.pet!.breed!));
+    petFormProvider!.changePetSize(widget.pet!.size!);
+    petFormProvider!.changePetColor(widget.pet!.color!);
+    petFormProvider!
+        .changePetHealthIndex(DummyData.health.indexOf(widget.pet!.health!));
+    petFormProvider!
+        .changePetPhotos(widget.pet?.photos ?? [widget.pet!.avatar]);
+    petFormProvider!.changePetInEdition(widget.pet!);
 
-    _nome.text = petFormProvider.getPetName;
-    _ano.text = petFormProvider.getPetAge.toString();
-    _meses.text = petFormProvider.getPetMonths.toString();
-    _descricao.text = petFormProvider.getPetDescription;
-    petPhotosToUpload.addAll(widget.pet?.photos ?? [widget.pet.avatar]);
-    storageHashKey = widget.pet.storageHashKey;
+    _nome.text = petFormProvider!.getPetName;
+    _ano.text = petFormProvider!.getPetAge.toString();
+    _meses.text = petFormProvider!.getPetMonths.toString();
+    _descricao.text = petFormProvider!.getPetDescription;
+    petPhotosToUpload.addAll(widget.pet?.photos ?? [widget.pet!.avatar]);
+    storageHashKey = widget.pet!.storageHashKey;
   }
 
   void clearUpCaracteristics() {
-    petFormProvider.changePetSelectedCaracteristics([]);
+    petFormProvider!.changePetSelectedCaracteristics([]);
   }
 
   @override
   void initState() {
     userId =
-        Provider.of<Authentication>(context, listen: false).firebaseUser.uid;
+        Provider.of<Authentication>(context, listen: false).firebaseUser!.uid;
 
     dropvalueSize = DummyData.size[0];
     dropvalueColor = DummyData.color[0];
 
-    if (!widget.editMode) {
+    if (!widget.editMode!) {
       storageHashKey = generateStorageHashKey();
-      if (!widget.localChanged) {
+      if (!widget.localChanged!) {
         currentLocation =
             Provider.of<Location>(context, listen: false).getLocation;
       } else {
-        currentLocation = LatLng(widget.pet.latitude, widget.pet.longitude);
+        currentLocation = LatLng(widget.pet!.latitude!, widget.pet!.longitude!);
       }
     } else {
       currentLocation =
@@ -150,13 +150,13 @@ class _PetFormState extends State<PetForm> {
 
   @override
   void didChangeDependencies() {
-    adsProvider = Provider.of(context);
+    // adsProvider = Provider.of(context);
     auth = Provider.of<Authentication>(context, listen: false);
     userProvider = Provider.of<UserProvider>(context, listen: false);
     petFormProvider = Provider.of<PetFormProvider>(context);
     petsProvider = Provider.of(context, listen: false);
 
-    if (widget.editMode) {
+    if (widget.editMode!) {
       preloadTextFields();
     }
     super.didChangeDependencies();
@@ -164,17 +164,17 @@ class _PetFormState extends State<PetForm> {
 
   void selectImage(ImageSource source, int index) async {
     var picker = ImagePicker();
-    PickedFile image = await picker.getImage(source: source);
-    List actualPhotoList = [...petFormProvider.getPetPhotos];
+    PickedFile? image = await picker.getImage(source: source);
+    List actualPhotoList = [...petFormProvider!.getPetPhotos];
 
-    actualPhotoList.add(File(image.path));
-    petFormProvider.changePetPhotos(actualPhotoList);
-    convertImageToUint8List(petFormProvider.getPetPhotos);
+    actualPhotoList.add(File(image!.path));
+    petFormProvider!.changePetPhotos(actualPhotoList);
+    convertImageToUint8List(petFormProvider!.getPetPhotos);
     changePhotosFieldStatus();
   }
 
   String firstCharacterUpper(String text) {
-    List arrayPieces = List();
+    List arrayPieces = [];
 
     String outPut = '';
 
@@ -188,7 +188,7 @@ class _PetFormState extends State<PetForm> {
       outPut += word;
     });
 
-    return outPut?.trim();
+    return outPut.trim();
   }
 
   void openModalSelectMedia(BuildContext context, int index) {
@@ -196,31 +196,31 @@ class _PetFormState extends State<PetForm> {
       context: context,
       builder: (context) {
         return SimpleDialog(
-          children: petFormProvider.getPetPhotos.isNotEmpty &&
-                  petFormProvider.getPetPhotos.length > index &&
-                  petFormProvider.getPetPhotos[index] != null
+          children: petFormProvider!.getPetPhotos.isNotEmpty &&
+                  petFormProvider!.getPetPhotos.length > index &&
+                  petFormProvider!.getPetPhotos[index] != null
               ? [
                   FlatButton(
                     child: Text('Remover'),
                     onPressed: () {
                       Navigator.pop(context);
-                      if (widget.editMode) {
-                        photosToDelete
-                            .add(petFormProvider.getPetPhotos.elementAt(index));
+                      if (widget.editMode!) {
+                        photosToDelete.add(
+                            petFormProvider!.getPetPhotos.elementAt(index));
                       }
 
-                      petFormProvider.getPetPhotos.removeAt(index);
+                      petFormProvider!.getPetPhotos.removeAt(index);
 
-                      if (widget.editMode) {
+                      if (widget.editMode!) {
                         petPhotosToUpload.clear();
-                        petPhotosToUpload.addAll(petFormProvider.getPetPhotos);
+                        petPhotosToUpload.addAll(petFormProvider!.getPetPhotos);
                       }
 
-                      List actualPhotoList = petFormProvider.getPetPhotos;
-                      petFormProvider.changePetPhotos(actualPhotoList);
+                      List actualPhotoList = petFormProvider!.getPetPhotos;
+                      petFormProvider!.changePetPhotos(actualPhotoList);
 
-                      if (!widget.editMode) {
-                        convertImageToUint8List(petFormProvider.getPetPhotos);
+                      if (!widget.editMode!) {
+                        convertImageToUint8List(petFormProvider!.getPetPhotos);
                       }
                       changePhotosFieldStatus();
                     },
@@ -258,7 +258,7 @@ class _PetFormState extends State<PetForm> {
     PermissionStatus galleryPermissionStatus =
         await Permission.photos.request();
 
-    if (galleryPermissionStatus == PermissionStatus.undetermined ||
+    if (galleryPermissionStatus == PermissionStatus.restricted ||
         galleryPermissionStatus == PermissionStatus.denied) {
       galleryPermissionStatus = await Permission.photos.request();
     } else if (galleryPermissionStatus == PermissionStatus.permanentlyDenied) {
@@ -288,21 +288,22 @@ class _PetFormState extends State<PetForm> {
   }
 
   Future<void> multiImages() async {
-    List<Asset> resultList = List<Asset>();
-    List actualPhotoList = petFormProvider.getPetPhotos;
+    List resultList = [];
+    List actualPhotoList = petFormProvider!.getPetPhotos;
 
     try {
-      resultList = await MultiImagePicker.pickImages(
-        maxImages: maxImages - actualPhotoList.length,
-        selectedAssets: petPhotosMulti,
-        materialOptions: MaterialOptions(
-          actionBarColor: "#4CAF50",
-          actionBarTitle: "Selecione fotos do PET",
-          allViewTitle: "Todas as fotos",
-          useDetailsView: false,
-          selectCircleStrokeColor: "#000000",
-        ),
-      );
+      resultList = [];
+      // await MultiImagePicker.pickImages(
+      //   maxImages: maxImages - actualPhotoList.length,
+      //   selectedAssets: petPhotosMulti,
+      //   materialOptions: MaterialOptions(
+      //     actionBarColor: "#4CAF50",
+      //     actionBarTitle: "Selecione fotos do PET",
+      //     allViewTitle: "Todas as fotos",
+      //     useDetailsView: false,
+      //     selectCircleStrokeColor: "#000000",
+      //   ),
+      // );
     } on Exception catch (e) {
       print(e.toString());
     }
@@ -310,11 +311,11 @@ class _PetFormState extends State<PetForm> {
 
     if (resultList.isNotEmpty) {
       actualPhotoList.addAll(resultList);
-      petFormProvider.changePetPhotos(actualPhotoList);
-      convertImageToUint8List(petFormProvider.getPetPhotos);
+      petFormProvider!.changePetPhotos(actualPhotoList);
+      convertImageToUint8List(petFormProvider!.getPetPhotos);
       changePhotosFieldStatus();
       setState(() {
-        petPhotosMulti = actualPhotoList as List<Asset>;
+        petPhotosMulti = actualPhotoList;
       });
     }
   }
@@ -325,7 +326,7 @@ class _PetFormState extends State<PetForm> {
     print('Convertendo imagens...');
     for (int i = 0; i < images.length; i++) {
       if (images[i].runtimeType == String) continue;
-      if (images[i].runtimeType == Asset) {
+      if (images[i].runtimeType == int /*Asset*/) {
         ByteData byteData = await images[i].getByteData();
         convertedImageList.add(Uint8List.view(byteData.buffer));
       } else {
@@ -345,16 +346,17 @@ class _PetFormState extends State<PetForm> {
   }
 
   Future<void> uploadPhotos(String petName) async {
-    StorageUploadTask uploadTask;
-    StorageReference storageReference;
+    UploadTask uploadTask;
+    Reference storageReference;
 
     for (int i = 0; i < convertedImageList.length; i++) {
       storageReference = FirebaseStorage.instance.ref().child('$userId/').child(
           'petsPhotos/$kind/$storageHashKey/$petName-${DateTime.now().millisecondsSinceEpoch}');
       uploadTask = storageReference.putData(convertedImageList[i]);
-      await uploadTask.onComplete;
-      petPhotosToUpload.add(await storageReference.getDownloadURL());
-      print('URL DOWNLOAD ${petPhotosToUpload.last}');
+      await uploadTask.whenComplete(() {
+        petPhotosToUpload.add(storageReference.getDownloadURL());
+        print('URL DOWNLOAD ${petPhotosToUpload.last}');
+      });
     }
 
     return Future.value();
@@ -378,12 +380,12 @@ class _PetFormState extends State<PetForm> {
   }
 
   Future<void> deletePhotosFromStorage() async {
-    StorageReference storageReference;
+    Reference storageReference;
     try {
-      await deleteField(widget.pet.petReference);
+      await deleteField(widget.pet!.petReference!);
       for (String photo in photosToDelete) {
         String filename =
-            OtherFunctions.getPhotoName(photo, widget.pet.storageHashKey);
+            OtherFunctions.getPhotoName(photo, widget.pet!.storageHashKey!);
         storageReference = FirebaseStorage.instance
             .ref()
             .child('$userId/')
@@ -400,7 +402,7 @@ class _PetFormState extends State<PetForm> {
     changeSavingStatus(true);
     var petController = PetController();
 
-    await uploadPhotos(_nome.text?.trim());
+    await uploadPhotos(_nome.text.trim());
 
     if (photosToDelete.isNotEmpty) {
       try {
@@ -420,39 +422,39 @@ class _PetFormState extends State<PetForm> {
     }
 
     var dataPetSave = Pet(
-      type: DummyData.type[petFormProvider.getPetTypeIndex],
-      color: petFormProvider.getPetColor,
-      name: firstCharacterUpper(petFormProvider.getPetName),
+      type: DummyData.type[petFormProvider!.getPetTypeIndex],
+      color: petFormProvider!.getPetColor,
+      name: firstCharacterUpper(petFormProvider!.getPetName),
       kind: kind,
       createdAt: DateTime.now().toIso8601String(),
       views: 0,
-      petReference: widget?.pet?.petReference ?? null,
+      petReference: widget.pet!.petReference,
       avatar: petPhotosToUpload.isNotEmpty
           ? petPhotosToUpload.first
-          : petFormProvider.getPetPhotos.first,
-      breed: DummyData.breed[petFormProvider.getPetTypeIndex + 1]
-          [petFormProvider.getPetBreedIndex],
-      health: DummyData.health[petFormProvider.getPetHealthIndex],
-      ownerReference: userProvider.userReference,
-      otherCaracteristics: petFormProvider.getPetSelectedCaracteristics,
+          : petFormProvider!.getPetPhotos.first,
+      breed: DummyData.breed[petFormProvider!.getPetTypeIndex + 1]
+          [petFormProvider!.getPetBreedIndex],
+      health: DummyData.health[petFormProvider!.getPetHealthIndex],
+      ownerReference: userProvider!.userReference!,
+      otherCaracteristics: petFormProvider!.getPetSelectedCaracteristics,
       photos: petPhotosToUpload,
-      size: petFormProvider.getPetSize,
-      sex: petFormProvider.getPetSex,
-      ownerId: userProvider.uid,
-      ownerName: userProvider.displayName,
+      size: petFormProvider!.getPetSize,
+      sex: petFormProvider!.getPetSex,
+      ownerId: userProvider!.uid!,
+      ownerName: userProvider!.displayName!,
       latitude: currentLocation?.latitude ?? 0,
       longitude: currentLocation?.longitude ?? 0,
-      details: petFormProvider.getPetDescription,
+      details: petFormProvider!.getPetDescription,
       donated: false,
       found: false,
-      ano: petFormProvider.getPetAge,
-      meses: petFormProvider.getPetMonths,
-      storageHashKey: storageHashKey,
+      ano: petFormProvider!.getPetAge,
+      meses: petFormProvider!.getPetMonths,
+      storageHashKey: storageHashKey!,
     );
 
-    !widget.editMode
-        ? await petController.insertPet(dataPetSave, kind, auth)
-        : await petController.updatePet(dataPetSave, widget.pet.petReference);
+    !widget.editMode!
+        ? await petController.insertPet(dataPetSave, kind, auth!)
+        : await petController.updatePet(dataPetSave, widget.pet!.petReference!);
 
     final finishin = DateTime.now();
     print('DEMOROU ${finishin.difference(startIn).inSeconds}');
@@ -463,31 +465,31 @@ class _PetFormState extends State<PetForm> {
     convertedImageList.clear();
     petPhotosMulti.clear();
     petPhotosToUpload.clear();
-    petFormProvider.changePetPhotos([]);
-    petFormProvider.changePetName('');
-    petFormProvider.changePetColor('Abóbora');
-    petFormProvider.changePetTypeIndex(0);
-    petFormProvider.changePetAge(0);
-    petFormProvider.changePetMonths(0);
-    petFormProvider.changePetSize('Pequeno-porte');
-    petFormProvider.changePetHealthIndex(0);
-    petFormProvider.changePetBreedIndex(0);
-    petFormProvider.changePetSex('Macho');
-    petFormProvider.changePetSelectedCaracteristics([]);
-    petFormProvider.changePetDescription('');
-    petFormProvider.changePetInEdition(Pet());
+    petFormProvider!.changePetPhotos([]);
+    petFormProvider!.changePetName('');
+    petFormProvider!.changePetColor('Abóbora');
+    petFormProvider!.changePetTypeIndex(0);
+    petFormProvider!.changePetAge(0);
+    petFormProvider!.changePetMonths(0);
+    petFormProvider!.changePetSize('Pequeno-porte');
+    petFormProvider!.changePetHealthIndex(0);
+    petFormProvider!.changePetBreedIndex(0);
+    petFormProvider!.changePetSex('Macho');
+    petFormProvider!.changePetSelectedCaracteristics([]);
+    petFormProvider!.changePetDescription('');
+    petFormProvider!.changePetInEdition(Pet());
     changeSavingStatus(false);
   }
 
   bool validateForm() {
     changePhotosFieldStatus();
-    bool result = petFormProvider.formIsvalid() && photosFieldIsValid;
+    bool result = petFormProvider!.formIsvalid() && photosFieldIsValid!;
     return result;
   }
 
   void changePhotosFieldStatus() {
     setState(() {
-      photosFieldIsValid = petFormProvider.getPetPhotos.isNotEmpty;
+      photosFieldIsValid = petFormProvider!.getPetPhotos.isNotEmpty;
     });
   }
 
@@ -499,16 +501,16 @@ class _PetFormState extends State<PetForm> {
 
   @override
   Widget build(BuildContext context) {
-    params = ModalRoute.of(context).settings.arguments;
-    kind = widget.editMode ? widget.pet.kind : params['kind'];
-    petFormProvider.changePetKind(kind);
+    params = ModalRoute.of(context)!.settings.arguments;
+    kind = widget.editMode! ? widget.pet!.kind : params['kind'];
+    petFormProvider!.changePetKind(kind);
 
     Future<bool> _onWillPopScope() {
-      if (isSaving || convertingImages) {
+      if (isSaving! || convertingImages!) {
         return Future.value(false);
       }
       Navigator.pushReplacementNamed(context, Routes.HOME);
-      petFormProvider.getPetPhotos.clear();
+      petFormProvider!.getPetPhotos.clear();
       petPhotosToUpload.clear();
       return Future.value(true);
     }
@@ -518,8 +520,8 @@ class _PetFormState extends State<PetForm> {
       child: Scaffold(
         key: _scaffoldKey,
         appBar: AppBar(
-          title: widget.editMode
-              ? Text('Editar dados do ${widget.pet.name}')
+          title: widget.editMode!
+              ? Text('Editar dados do ${widget.pet!.name}')
               : Text(
                   kind == Constantes.DONATE
                       ? 'PET PARA ADOÇÃO'
@@ -558,8 +560,8 @@ class _PetFormState extends State<PetForm> {
                             children: <Widget>[
                               Text(
                                 kind == Constantes.DONATE
-                                    ? '${petFormProvider.getPetPhotos.isEmpty ? 'Insira pelo menos uma foto' : 'Insira algumas fotos do seu bichinho.'}'
-                                    : '${petFormProvider.getPetPhotos.isEmpty ? 'Insira pelo menos uma foto' : 'Insira fotos dele.'}',
+                                    ? '${petFormProvider!.getPetPhotos.isEmpty ? 'Insira pelo menos uma foto' : 'Insira algumas fotos do seu bichinho.'}'
+                                    : '${petFormProvider!.getPetPhotos.isEmpty ? 'Insira pelo menos uma foto' : 'Insira fotos dele.'}',
                                 style: Theme.of(context)
                                     .textTheme
                                     .headline1!
@@ -580,7 +582,7 @@ class _PetFormState extends State<PetForm> {
                     child: Column(
                       children: [
                         StreamBuilder(
-                          stream: petFormProvider.petPhotos,
+                          stream: petFormProvider!.petPhotos,
                           builder: (context, snapshot) {
                             return Column(
                               children: [
@@ -590,11 +592,13 @@ class _PetFormState extends State<PetForm> {
                                     key: UniqueKey(),
                                     scrollDirection: Axis.horizontal,
                                     itemCount:
-                                        petFormProvider.getPetPhotos.length + 1,
+                                        petFormProvider!.getPetPhotos.length +
+                                            1,
                                     itemBuilder: (ctx, index) {
                                       if (index ==
-                                          petFormProvider.getPetPhotos.length) {
-                                        return petFormProvider
+                                          petFormProvider!
+                                              .getPetPhotos.length) {
+                                        return petFormProvider!
                                                     .getPetPhotos.length <
                                                 maxImages
                                             ? InkWell(
@@ -603,10 +607,7 @@ class _PetFormState extends State<PetForm> {
                                                       context, index);
                                                 },
                                                 child: SquaredAddImage(
-                                                  width: petFormProvider
-                                                          .getPetPhotos.isEmpty
-                                                      ? null
-                                                      : 120,
+                                                  width: 120,
                                                 ),
                                               )
                                             : Container();
@@ -616,19 +617,16 @@ class _PetFormState extends State<PetForm> {
                                           openModalSelectMedia(context, index);
                                         },
                                         child: SquaredAddImage(
-                                          width: petFormProvider
-                                                  .getPetPhotos.isEmpty
-                                              ? null
-                                              : 235,
-                                          imageUrl: petFormProvider
+                                          width: 235,
+                                          imageUrl: petFormProvider!
                                                       .getPetPhotos[index] !=
                                                   null
-                                              ? petFormProvider
+                                              ? petFormProvider!
                                                   .getPetPhotos[index]
-                                              : petFormProvider.getPetPhotos[
+                                              : petFormProvider!.getPetPhotos[
                                                           index] !=
                                                       null
-                                                  ? petFormProvider
+                                                  ? petFormProvider!
                                                       .getPetPhotos[index]
                                                   : null,
                                         ),
@@ -636,7 +634,7 @@ class _PetFormState extends State<PetForm> {
                                     },
                                   ),
                                 ),
-                                !photosFieldIsValid
+                                !photosFieldIsValid!
                                     ? HintError(
                                         message: '* Insira pelo menos uma foto')
                                     : SizedBox(),
@@ -646,15 +644,15 @@ class _PetFormState extends State<PetForm> {
                         ),
                         SizedBox(height: 12),
                         StreamBuilder<String>(
-                          stream: petFormProvider.petName,
+                          stream: petFormProvider!.petName,
                           builder: (context, snapshot) {
                             return Column(
                               children: [
                                 InputText(
                                   placeholder: 'Nome',
-                                  onChanged: petFormProvider.changePetName,
+                                  onChanged: petFormProvider!.changePetName,
+                                  readOnly: readOnly!,
                                   controller: _nome,
-                                  readOnly: readOnly,
                                 ),
                                 snapshot.hasError ? HintError() : SizedBox(),
                               ],
@@ -665,16 +663,16 @@ class _PetFormState extends State<PetForm> {
                           height: 12,
                         ),
                         StreamBuilder<int>(
-                          stream: petFormProvider.petTypeIndex,
+                          stream: petFormProvider!.petTypeIndex,
                           builder: (context, snapshot) {
                             return CustomDropdownButton(
                               label: 'Tipo',
                               initialValue: DummyData.type[snapshot.data ?? 0],
                               itemList: DummyData.type,
                               onChange: (String value) {
-                                petFormProvider.changePetTypeIndex(
+                                petFormProvider!.changePetTypeIndex(
                                     DummyData.type.indexOf(value));
-                                petFormProvider.changePetBreedIndex(0);
+                                petFormProvider!.changePetBreedIndex(0);
                               },
                               isExpanded: true,
                             );
@@ -684,13 +682,13 @@ class _PetFormState extends State<PetForm> {
                           height: 12,
                         ),
                         StreamBuilder<String>(
-                          stream: petFormProvider.petColor,
+                          stream: petFormProvider!.petColor,
                           builder: (context, snapshot) {
                             return CustomDropdownButton(
                               label: 'Cor',
                               initialValue: snapshot.data,
                               itemList: DummyData.color,
-                              onChange: petFormProvider.changePetColor,
+                              onChange: petFormProvider!.changePetColor,
                               isExpanded: true,
                             );
                           },
@@ -713,7 +711,7 @@ class _PetFormState extends State<PetForm> {
                           children: <Widget>[
                             Expanded(
                               child: StreamBuilder<int>(
-                                stream: petFormProvider.petAge,
+                                stream: petFormProvider!.petAge,
                                 builder: (context, snapshot) {
                                   return Column(
                                     children: [
@@ -721,11 +719,11 @@ class _PetFormState extends State<PetForm> {
                                         placeholder: 'Anos',
                                         keyBoardTypeNumber: true,
                                         onChanged: (value) {
-                                          petFormProvider
+                                          petFormProvider!
                                               .changePetAge(int.parse(value));
                                         },
                                         controller: _ano,
-                                        readOnly: readOnly,
+                                        readOnly: readOnly!,
                                       ),
                                       kind == Constantes.DONATE &&
                                               snapshot.hasError
@@ -739,7 +737,7 @@ class _PetFormState extends State<PetForm> {
                             SizedBox(width: 4),
                             Expanded(
                               child: StreamBuilder<int>(
-                                stream: petFormProvider.petMonths,
+                                stream: petFormProvider!.petMonths,
                                 builder: (context, snapshot) {
                                   return Column(
                                     children: [
@@ -747,11 +745,11 @@ class _PetFormState extends State<PetForm> {
                                         placeholder: 'Meses',
                                         keyBoardTypeNumber: true,
                                         onChanged: (value) {
-                                          petFormProvider.changePetMonths(
+                                          petFormProvider!.changePetMonths(
                                               int.parse(value));
                                         },
                                         controller: _meses,
-                                        readOnly: readOnly,
+                                        readOnly: readOnly!,
                                       ),
                                       kind == Constantes.DONATE &&
                                               snapshot.data == null
@@ -768,14 +766,14 @@ class _PetFormState extends State<PetForm> {
                           height: 12,
                         ),
                         StreamBuilder<String>(
-                          stream: petFormProvider.petSize,
+                          stream: petFormProvider!.petSize,
                           builder: (context, snapshot) {
                             if (snapshot.data == null) {}
                             return CustomDropdownButton(
                               label: 'Tamanho',
                               initialValue: snapshot.data,
                               itemList: DummyData.size,
-                              onChange: petFormProvider.changePetSize,
+                              onChange: petFormProvider!.changePetSize,
                               isExpanded: true,
                             );
                           },
@@ -784,7 +782,7 @@ class _PetFormState extends State<PetForm> {
                           height: 12,
                         ),
                         StreamBuilder<int>(
-                          stream: petFormProvider.petHealthIndex,
+                          stream: petFormProvider!.petHealthIndex,
                           builder: (context, snapshot) {
                             return CustomDropdownButton(
                               label: 'Saúde',
@@ -792,7 +790,7 @@ class _PetFormState extends State<PetForm> {
                                   DummyData.health[snapshot.data ?? 0],
                               itemList: DummyData.health,
                               onChange: (String value) {
-                                petFormProvider.changePetHealthIndex(
+                                petFormProvider!.changePetHealthIndex(
                                     DummyData.health.indexOf(value));
                               },
                               isExpanded: true,
@@ -801,26 +799,26 @@ class _PetFormState extends State<PetForm> {
                         ),
                         SizedBox(height: 12),
                         StreamBuilder<int>(
-                          stream: petFormProvider.petBreedIndex,
+                          stream: petFormProvider!.petBreedIndex,
                           builder: (context, snapshot) {
                             return CustomDropdownButton(
                               isExpanded: true,
                               label: 'Raça',
                               initialValue: DummyData.breed[
-                                      petFormProvider.getPetTypeIndex + 1]
-                                  [petFormProvider.getPetBreedIndex],
+                                      petFormProvider!.getPetTypeIndex + 1]
+                                  [petFormProvider!.getPetBreedIndex],
                               itemList: DummyData
-                                  .breed[petFormProvider.getPetTypeIndex + 1],
+                                  .breed[petFormProvider!.getPetTypeIndex + 1],
                               onChange: (String value) {
-                                petFormProvider.changePetBreedIndex(DummyData
-                                    .breed[petFormProvider.getPetTypeIndex + 1]
+                                petFormProvider!.changePetBreedIndex(DummyData
+                                    .breed[petFormProvider!.getPetTypeIndex + 1]
                                     .indexOf(value));
                               },
                             );
                           },
                         ),
                         StreamBuilder<String>(
-                            stream: petFormProvider.petSex,
+                            stream: petFormProvider!.petSex,
                             builder: (context, snapshot) {
                               return Container(
                                 padding: const EdgeInsets.all(8.0),
@@ -829,7 +827,7 @@ class _PetFormState extends State<PetForm> {
                                   color: Colors.white,
                                   border: Border.all(
                                     style: BorderStyle.solid,
-                                    color: Colors.lightGreenAccent[200],
+                                    color: Colors.lightGreenAccent[200]!,
                                   ),
                                   borderRadius: BorderRadius.circular(12),
                                 ),
@@ -842,7 +840,7 @@ class _PetFormState extends State<PetForm> {
                                     Checkbox(
                                       value: snapshot.data == 'Macho',
                                       onChanged: (value) {
-                                        petFormProvider.changePetSex('Macho');
+                                        petFormProvider!.changePetSex('Macho');
                                       },
                                     ),
                                     Text(
@@ -852,7 +850,7 @@ class _PetFormState extends State<PetForm> {
                                     Checkbox(
                                       value: snapshot.data == 'Fêmea',
                                       onChanged: (value) {
-                                        petFormProvider.changePetSex('Fêmea');
+                                        petFormProvider!.changePetSex('Fêmea');
                                       },
                                     ),
                                     Text(
@@ -864,11 +862,11 @@ class _PetFormState extends State<PetForm> {
                               );
                             }),
                         StreamBuilder<List>(
-                          stream: petFormProvider.petSelectedCaracteristics,
+                          stream: petFormProvider!.petSelectedCaracteristics,
                           builder: (context, snapshot) {
                             List list = [];
                             if (snapshot.data != null && snapshot.hasData) {
-                              list = snapshot.data;
+                              list = snapshot.data!;
                             }
                             return InkWell(
                               onTap: () {
@@ -882,13 +880,13 @@ class _PetFormState extends State<PetForm> {
                                           newList.contains(text)
                                               ? newList.remove(text)
                                               : newList.add(text);
-                                          petFormProvider
+                                          petFormProvider!
                                               .changePetSelectedCaracteristics(
                                                   newList);
                                         },
                                         title: 'Outras características',
                                         list: DummyData.otherCaracteristicsList,
-                                        valueSelected: petFormProvider
+                                        valueSelected: petFormProvider!
                                             .getPetSelectedCaracteristics,
                                       );
                                     },
@@ -896,7 +894,7 @@ class _PetFormState extends State<PetForm> {
                                 ).then(
                                   (value) {
                                     if (value != null) {
-                                      petFormProvider
+                                      petFormProvider!
                                           .changePetSelectedCaracteristics(
                                               value);
                                     }
@@ -908,7 +906,7 @@ class _PetFormState extends State<PetForm> {
                                   color: Colors.white,
                                   border: Border.all(
                                     style: BorderStyle.solid,
-                                    color: Colors.lightGreenAccent[200],
+                                    color: Colors.lightGreenAccent[200]!,
                                   ),
                                   borderRadius: BorderRadius.circular(12),
                                 ),
@@ -980,7 +978,7 @@ class _PetFormState extends State<PetForm> {
                         ),
                         SizedBox(height: 12),
                         StreamBuilder<String>(
-                          stream: petFormProvider.petDescription,
+                          stream: petFormProvider!.petDescription,
                           builder: (context, snapshot) {
                             return Stack(
                               children: [
@@ -991,19 +989,19 @@ class _PetFormState extends State<PetForm> {
                                           const EdgeInsets.only(bottom: 16.0),
                                       child: InputText(
                                         placeholder: 'Descrição',
-                                        readOnly: readOnly,
+                                        readOnly: readOnly!,
                                         size: 150,
-                                        onChanged: petFormProvider
+                                        onChanged: petFormProvider!
                                             .changePetDescription,
                                         controller: _descricao,
                                         multiline: true,
                                         maxlines: 5,
                                       ),
                                     ),
-                                    adsProvider.getCanShowAds
-                                        ? adsProvider.bannerAdMob(
-                                            adId: adsProvider.bottomAdId)
-                                        : Container(),
+                                    // adsProvider.getCanShowAds
+                                    // ? adsProvider.bannerAdMob(
+                                    // adId: adsProvider.bottomAdId)
+                                    // : Container(),
                                   ],
                                 ),
                                 Positioned(
@@ -1023,14 +1021,14 @@ class _PetFormState extends State<PetForm> {
                 ],
               ),
             ),
-            LoadDarkScreen(show: isSaving, message: 'Aguarde'),
+            LoadDarkScreen(show: isSaving!, message: 'Aguarde'),
           ],
         ),
         bottomNavigationBar: ButtonWide(
           rounded: false,
-          color: isSaving ? Colors.grey : Theme.of(context).primaryColor,
+          color: isSaving! ? Colors.grey : Theme.of(context).primaryColor,
           isToExpand: true,
-          action: isSaving || convertingImages
+          action: isSaving! || convertingImages!
               ? null
               : () async {
                   if (validateForm()) {
@@ -1049,14 +1047,14 @@ class _PetFormState extends State<PetForm> {
                                   ModalRoute.withName('/'),
                                 );
                               },
-                              message: widget.editMode
+                              message: widget.editMode!
                                   ? 'Os dados do PET foram atualizados.'
                                   : 'PET postado com sucesso!',
                             )).then(
                       (value) => _onWillPopScope,
                     );
                   } else {
-                    _scaffoldKey.currentState.showSnackBar(SnackBar(
+                    _scaffoldKey.currentState!.showSnackBar(SnackBar(
                       duration: Duration(seconds: 1),
                       content: Text('Verifique se há erros no formulário!',
                           style: TextStyle(color: Colors.white)),
@@ -1064,7 +1062,7 @@ class _PetFormState extends State<PetForm> {
                     ));
                   }
                 },
-          text: widget.editMode ? 'SALVAR ALTERAÇÕES' : 'POSTAR',
+          text: widget.editMode! ? 'SALVAR ALTERAÇÕES' : 'POSTAR',
         ),
       ),
     );

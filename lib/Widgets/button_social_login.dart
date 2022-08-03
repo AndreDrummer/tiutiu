@@ -6,8 +6,8 @@ class ButtonSocialLogin extends StatelessWidget {
     this.text,
   });
 
-  final String imageUrl;
-  final String text;
+  final String? imageUrl;
+  final String? text;
 
   @override
   Widget build(BuildContext context) {
@@ -33,18 +33,19 @@ class ButtonSocialLogin extends StatelessWidget {
                       vertical: 8.0,
                       horizontal: 8,
                     ),
-                    child: Text(text),
+                    child: Text(text!),
                   ),
                 ),
               ],
             ),
             Container(
               margin: const EdgeInsets.only(top: 12),
-              decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.white),
+              decoration:
+                  BoxDecoration(shape: BoxShape.circle, color: Colors.white),
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Image.asset(
-                  imageUrl,
+                  imageUrl!,
                   width: 50,
                   height: 50,
                 ),

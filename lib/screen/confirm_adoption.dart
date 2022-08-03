@@ -176,7 +176,7 @@ class _ConfirmAdoptionScreenState extends State<ConfirmAdoptionScreen> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                pets[index].name,
+                                pets[index].name!,
                                 style: TextStyle(
                                   color: Colors.black87,
                                   fontSize: 18,
@@ -184,7 +184,7 @@ class _ConfirmAdoptionScreenState extends State<ConfirmAdoptionScreen> {
                                 ),
                               ),
                               Text(
-                                pets[index].breed,
+                                pets[index].breed!,
                                 style: TextStyle(
                                   color: Colors.grey,
                                 ),
