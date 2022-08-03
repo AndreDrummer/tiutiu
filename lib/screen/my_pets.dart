@@ -22,24 +22,24 @@ import 'interested_information_list.dart';
 class MyPetsScreen extends StatefulWidget {
   MyPetsScreen({this.streamBuilder, this.title, this.kind, this.userId});
 
-  final String title;
-  final String userId;
-  final String kind;
-  final Stream streamBuilder;
+  final Stream? streamBuilder;
+  final String? userId;
+  final String? title;
+  final String? kind;
 
   @override
   _MyPetsScreenState createState() => _MyPetsScreenState();
 }
 
 class _MyPetsScreenState extends State<MyPetsScreen> {
-  UserProvider userProvider;
-  Authentication auth;
-  PetController petController = PetController();
-  UserController userController = UserController();
-  PetsProvider petsProvider;
-  bool isAuthenticated;
-  GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  AdsProvider adsProvider;
+  late GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  late UserController userController = UserController();
+  late PetController petController = PetController();
+  late PetsProvider petsProvider;
+  late UserProvider userProvider;
+  // late AdsProvider adsProvider;
+  late bool isAuthenticated;
+  late Authentication auth;
 
   @override
   void initState() {
@@ -56,17 +56,17 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
       switch (widget.kind) {
         case Constantes.DONATE:
           return userController.loadMyPostedPetsToDonate(
-              userId: userProvider.uid);
+              userId: userProvider.uid!);
           break;
         case Constantes.DISAPPEARED:
           return userController.loadMyPostedPetsDisappeared(
-              userId: userProvider.uid);
+              userId: userProvider.uid!);
           break;
         default:
-          return userController.loadMyAdoptedPets(userId: userProvider.uid);
+          return userController.loadMyAdoptedPets(userId: userProvider.uid!);
       }
     } else {
-      return userController.loadMyDonatedPets(userProvider.userReference);
+      return userController.loadMyDonatedPets(userProvider.userReference!);
     }
   }
 
@@ -77,16 +77,16 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
     auth = Provider.of<Authentication>(context);
     petsProvider = Provider.of<PetsProvider>(context);
     isAuthenticated = auth.firebaseUser != null;
-    adsProvider = Provider.of(context);
+    // adsProvider = Provider.of(context);
     super.didChangeDependencies();
   }
 
   void delete(DocumentReference petRef) {
     petController.deletePet(petRef);
     if (widget.kind == Constantes.DONATE) {
-      userController.loadMyPostedPetsToDonate(userId: userProvider.uid);
+      userController.loadMyPostedPetsToDonate(userId: userProvider.uid!);
     } else {
-      userController.loadMyPostedPetsDisappeared(userId: userProvider.uid);
+      userController.loadMyPostedPetsDisappeared(userId: userProvider.uid!);
     }
     userProvider.calculateTotals();
   }
@@ -117,7 +117,7 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
           confirmAction: () {
             delete(pet.petReference);
             Navigator.pop(context);
-            _scaffoldKey.currentState.showSnackBar(
+            _scaffoldKey.currentState!.showSnackBar(
               SnackBar(
                 content: Text('${pet.name} foi excluído com sucesso!'),
               ),
@@ -151,8 +151,8 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
                 )
               ],
         title: Text(
-          widget.title.toUpperCase(),
-          style: Theme.of(context).textTheme.headline1.copyWith(
+          widget.title!.toUpperCase(),
+          style: Theme.of(context).textTheme.headline1!.copyWith(
                 fontSize: 20,
                 fontWeight: FontWeight.w700,
               ),
@@ -195,9 +195,9 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
               }
               return Column(
                 children: [
-                  adsProvider.getCanShowAds
-                      ? adsProvider.bannerAdMob(adId: adsProvider.topAdId)
-                      : Container(),
+                  // adsProvider.getCanShowAds
+                  //     ? adsProvider.bannerAdMob(adId: adsProvider.topAdId)
+                  //     : Container(),
                   Expanded(
                     child: ListView.builder(
                       key: UniqueKey(),
@@ -263,7 +263,7 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
                                               pets[index].name,
                                               style: Theme.of(context)
                                                   .textTheme
-                                                  .headline1
+                                                  .headline1!
                                                   .copyWith(
                                                     fontSize: 22,
                                                     color: Colors.black,
@@ -275,7 +275,7 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
                                               pets[index].breed,
                                               style: Theme.of(context)
                                                   .textTheme
-                                                  .headline1
+                                                  .headline1!
                                                   .copyWith(
                                                     fontSize: 16,
                                                     color: Colors.grey,
@@ -512,7 +512,7 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
 }
 
 Widget _lablePetKind(String kind) {
-  String textLabel;
+  late String textLabel;
   switch (kind) {
     case Constantes.DISAPPEARED:
       textLabel = 'Desaparecido';
@@ -529,7 +529,7 @@ Widget _lablePetKind(String kind) {
     child: Padding(
       padding: const EdgeInsets.all(8.0),
       child: Text(
-        textLabel,
+        '$textLabel',
         style: TextStyle(
           color: Colors.white,
           fontWeight: FontWeight.w700,

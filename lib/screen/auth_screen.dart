@@ -27,7 +27,7 @@ class _AuthScreenState extends State<AuthScreen> {
   bool isToResetPassword = false;
   bool repeatPasswordError = false;
   bool fieldsAreReadyOnly = false;
-  AdsProvider adsProvider;
+  // AdsProvider adsProvider;
 
   @override
   void setState(fn) {
@@ -53,11 +53,13 @@ class _AuthScreenState extends State<AuthScreen> {
   }
 
   bool validatePassword() {
-    return password.text == repeatPassword.text?.trim();
+    return password.text == repeatPassword.text.trim();
   }
 
   bool validateEmail() {
-    return RegExp(r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?)*$").hasMatch(email.text?.trim());
+    return RegExp(
+            r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?)*$")
+        .hasMatch(email.text.trim());
   }
 
   bool validateFields() {
@@ -90,7 +92,8 @@ class _AuthScreenState extends State<AuthScreen> {
     }
 
     if (isNewAccount) {
-      if (repeatPassword.text.trim().isEmpty || repeatPassword.text?.trim() != password.text?.trim()) {
+      if (repeatPassword.text.trim().isEmpty ||
+          repeatPassword.text?.trim() != password.text?.trim()) {
         setState(() {
           repeatPasswordError = true;
           fieldsAreValids = false;
@@ -117,7 +120,7 @@ class _AuthScreenState extends State<AuthScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final canPop = ModalRoute.of(context).settings.arguments;
+    final canPop = ModalRoute.of(context)!.settings.arguments;
 
     var auth = Provider.of<Authentication>(context);
     return Scaffold(
@@ -158,7 +161,8 @@ class _AuthScreenState extends State<AuthScreen> {
                         ),
                         isNewAccount
                             ? Padding(
-                                padding: const EdgeInsets.only(top: 16.0, bottom: 8.0),
+                                padding: const EdgeInsets.only(
+                                    top: 16.0, bottom: 8.0),
                                 child: Align(
                                   alignment: Alignment(-0.9, 1),
                                   child: Text(
@@ -177,12 +181,19 @@ class _AuthScreenState extends State<AuthScreen> {
                     ),
                     InputText.login(
                       textCapitalization: TextCapitalization.none,
-                      placeholder: isToResetPassword ? 'Digite seu email cadastrado' : 'E-mail',
+                      placeholder: isToResetPassword
+                          ? 'Digite seu email cadastrado'
+                          : 'E-mail',
                       onChanged: (text) => validateFields,
                       controller: email,
                       readOnly: fieldsAreReadyOnly,
                     ),
-                    emailError ? HintError(message: validateEmail() ? '* Campo obrigatório.' : 'E-mail inválido') : Container(),
+                    emailError
+                        ? HintError(
+                            message: validateEmail()
+                                ? '* Campo obrigatório.'
+                                : 'E-mail inválido')
+                        : Container(),
                     SizedBox(height: 10),
                     isToResetPassword
                         ? Container()
@@ -194,7 +205,9 @@ class _AuthScreenState extends State<AuthScreen> {
                             onChanged: (text) => validateFields,
                             isPassword: true,
                           ),
-                    passwordError && !isToResetPassword ? HintError() : Container(),
+                    passwordError && !isToResetPassword
+                        ? HintError()
+                        : Container(),
                     SizedBox(height: 10),
                     isNewAccount
                         ? InputText.login(
@@ -218,7 +231,8 @@ class _AuthScreenState extends State<AuthScreen> {
                                 isNewAccount = !isNewAccount;
                               });
                             } else {
-                              changeResetPasswordStatus(isToResetPassword ? false : true);
+                              changeResetPasswordStatus(
+                                  isToResetPassword ? false : true);
                             }
                           },
                           child: isNewAccount
@@ -231,7 +245,9 @@ class _AuthScreenState extends State<AuthScreen> {
                                   ),
                                 )
                               : Text(
-                                  !isToResetPassword ? 'Esqueci minha senha' : 'Fazer login',
+                                  !isToResetPassword
+                                      ? 'Esqueci minha senha'
+                                      : 'Fazer login',
                                   style: TextStyle(
                                     fontSize: 14,
                                     color: Colors.white,
@@ -247,14 +263,17 @@ class _AuthScreenState extends State<AuthScreen> {
                         Padding(
                           padding: const EdgeInsets.symmetric(vertical: 8.0),
                           child: ButtonWide(
-                            text: '${isToResetPassword ? 'RESETAR SENHA' : !isNewAccount ? 'LOGIN' : 'CADASTRE-SE'}',
+                            text:
+                                '${isToResetPassword ? 'RESETAR SENHA' : !isNewAccount ? 'LOGIN' : 'CADASTRE-SE'}',
                             action: () async {
                               try {
                                 if (isNewAccount) {
                                   if (validateFields()) {
                                     if (validatePassword()) {
                                       changeLogginStatus(true);
-                                      await auth.createUserWithEmailAndPassword(email.text?.trim(), password.text?.trim());
+                                      await auth.createUserWithEmailAndPassword(
+                                          email.text.trim(),
+                                          password.text.trim());
                                       changeLogginStatus(false);
                                       setState(() {
                                         isNewAccount = !isNewAccount;
@@ -262,7 +281,13 @@ class _AuthScreenState extends State<AuthScreen> {
                                     } else {
                                       await showDialog(
                                         context: context,
-                                        builder: (context) => PopUpMessage(title: 'Erro', warning: true, confirmText: 'OK', confirmAction: () => Navigator.pop(context), message: 'Senhas não conferem!'),
+                                        builder: (context) => PopUpMessage(
+                                            title: 'Erro',
+                                            warning: true,
+                                            confirmText: 'OK',
+                                            confirmAction: () =>
+                                                Navigator.pop(context),
+                                            message: 'Senhas não conferem!'),
                                       );
                                       changeLogginStatus(false);
                                     }
@@ -271,17 +296,21 @@ class _AuthScreenState extends State<AuthScreen> {
                                   }
                                 } else if (isToResetPassword) {
                                   changeLogginStatus(true);
-                                  await auth.passwordReset(email.text?.trim());
+                                  await auth.passwordReset(email.text.trim());
                                   await showDialog(
                                     context: context,
                                     builder: (context) => PopUpMessage(
                                       title: 'E-mail enviado',
-                                      message: 'Um link com instruções para redefinir sua senha foi enviado para o e-mail informado.',
+                                      message:
+                                          'Um link com instruções para redefinir sua senha foi enviado para o e-mail informado.',
                                     ),
                                   ).then((_) => resetPage());
                                 } else if (validateFields()) {
                                   changeLogginStatus(true);
-                                  await auth.signInWithEmailAndPassword(email.text?.trim(), password.text?.trim());
+                                  await auth.signInWithEmailAndPassword(
+                                    email.text.trim(),
+                                    password.text.trim(),
+                                  );
                                   changeLogginStatus(false);
                                 }
                               } on TiuTiuAuthException catch (error) {
@@ -315,7 +344,8 @@ class _AuthScreenState extends State<AuthScreen> {
                                   },
                                   child: !isNewAccount
                                       ? Row(
-                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
                                           children: <Widget>[
                                             Text(
                                               'Novo usuário?',
@@ -359,8 +389,10 @@ class _AuthScreenState extends State<AuthScreen> {
                                         changeLogginStatus(true);
                                         auth.loginWithGoogle().then((_) {
                                           changeLogginStatus(false);
-                                          if (canPop != null && canPop == true) {
-                                            Navigator.popUntil(context, ModalRoute.withName('/'));
+                                          if (canPop != null &&
+                                              canPop == true) {
+                                            Navigator.popUntil(context,
+                                                ModalRoute.withName('/'));
                                           }
                                         });
                                       },
@@ -375,8 +407,10 @@ class _AuthScreenState extends State<AuthScreen> {
                                         try {
                                           changeLogginStatus(true);
                                           await auth.signInWithFacebook();
-                                          if (canPop != null && canPop == true) {
-                                            Navigator.popUntil(context, ModalRoute.withName('/'));
+                                          if (canPop != null &&
+                                              canPop == true) {
+                                            Navigator.popUntil(context,
+                                                ModalRoute.withName('/'));
                                           }
                                         } on TiuTiuAuthException catch (error) {
                                           await showDialog(
@@ -384,7 +418,8 @@ class _AuthScreenState extends State<AuthScreen> {
                                             builder: (context) => PopUpMessage(
                                               title: 'Falha na autenticação',
                                               confirmText: 'OK',
-                                              confirmAction: () => Navigator.pop(context),
+                                              confirmAction: () =>
+                                                  Navigator.pop(context),
                                               error: true,
                                               message: error.toString(),
                                             ),

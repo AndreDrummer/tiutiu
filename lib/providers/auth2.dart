@@ -13,7 +13,7 @@ class Authentication extends ChangeNotifier {
   final GoogleSignIn _googleSignIn = GoogleSignIn();
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final _registered = BehaviorSubject<bool>();
-  User firebaseUser;
+  late User? firebaseUser;
 
   Stream<bool> get registered => _registered.stream;
   void Function(bool) get changeRegistered => _registered.sink.add;
@@ -21,7 +21,7 @@ class Authentication extends ChangeNotifier {
 
   Future<void> loginWithGoogle({bool autologin = false}) async {
     // ignore: omit_local_variable_types
-    GoogleSignInAccount googleUser = _googleSignIn.currentUser;
+    GoogleSignInAccount? googleUser = _googleSignIn.currentUser;
 
     /* ??= --> Verifica se é nulo e atribui caso verdade */
     if (autologin) {
@@ -51,10 +51,12 @@ class Authentication extends ChangeNotifier {
     return Future.value();
   }
 
-  Future<void> createUserWithEmailAndPassword(String email, String password) async {
+  Future<void> createUserWithEmailAndPassword(
+      String email, String password) async {
     try {
       // ignore: omit_local_variable_types
-      UserCredential result = await _auth.createUserWithEmailAndPassword(email: email, password: password);
+      UserCredential result = await _auth.createUserWithEmailAndPassword(
+          email: email, password: password);
       firebaseUser = result.user;
 
       if (firebaseUser != null) {
@@ -65,7 +67,7 @@ class Authentication extends ChangeNotifier {
       }
     } catch (error) {
       if (Platform.isAndroid) {
-        throw TiuTiuAuthException(error.code);
+        throw TiuTiuAuthException('$error');
       }
     }
 
@@ -82,7 +84,8 @@ class Authentication extends ChangeNotifier {
   Future<void> signInWithEmailAndPassword(String email, String password) async {
     try {
       // ignore: omit_local_variable_types
-      UserCredential result = await _auth.signInWithEmailAndPassword(email: email, password: password);
+      UserCredential result = await _auth.signInWithEmailAndPassword(
+          email: email, password: password);
       firebaseUser = result.user;
       if (firebaseUser != null) {
         Store.saveMap('userLoggedWithEmailPassword', {
@@ -92,8 +95,8 @@ class Authentication extends ChangeNotifier {
       }
     } catch (error) {
       if (Platform.isAndroid) {
-        print(error.code);
-        throw TiuTiuAuthException(error.code);
+        print(error);
+        throw TiuTiuAuthException('$error');
       }
     }
 
@@ -102,20 +105,21 @@ class Authentication extends ChangeNotifier {
     return Future.value();
   }
 
-  Future<void> signInWithFacebook({String token}) async {
+  Future<void> signInWithFacebook({String? token}) async {
     try {
-      FacebookAuthCredential facebookAuthCredential;
+      final facebookAuthCredential;
 
       if (token == null) {
         // Trigger the sign-in flow
         final LoginResult result = await FacebookAuth.instance.login();
 
         // Create a credential from the access token
-        facebookAuthCredential = FacebookAuthProvider.credential(result.accessToken.token);
+        facebookAuthCredential =
+            FacebookAuthProvider.credential(result.accessToken!.token);
 
         if (facebookAuthCredential != null) {
           Store.saveMap('userLoggedWithFacebook', {
-            'token': result.accessToken.token,
+            'token': result.accessToken!.token,
           });
         }
       } else {
@@ -123,17 +127,11 @@ class Authentication extends ChangeNotifier {
       }
 
       // Once signed in, return the UserCredential
-      UserCredential userCredential = await FirebaseAuth.instance.signInWithCredential(facebookAuthCredential);
+      UserCredential userCredential = await FirebaseAuth.instance
+          .signInWithCredential(facebookAuthCredential);
       firebaseUser = userCredential.user;
     } catch (error) {
-      if (Platform.isAndroid) {
-        if (error.message.contains('Error validating access token')) {
-          print("ERROR ${error.message}");
-          throw TiuTiuAuthException('Error validating access token');
-        } else {
-          throw TiuTiuAuthException(error.code);
-        }
-      }
+      throw TiuTiuAuthException('Error validating access token');
     }
     notifyListeners();
     await alreadyRegistered();
@@ -151,12 +149,13 @@ class Authentication extends ChangeNotifier {
   }
 
   Future<void> alreadyRegistered() async {
-    final CollectionReference usersEntrepreneur = FirebaseFirestore.instance.collection('Users');
-    String id = firebaseUser.uid;
+    final CollectionReference usersEntrepreneur =
+        FirebaseFirestore.instance.collection('Users');
+    String id = firebaseUser!.uid;
     DocumentSnapshot doc = await usersEntrepreneur.doc(id).get();
 
     if (doc.data() != null) {
-      if (doc.data()['uid'].toString() == id) {
+      if ((doc.data() as Map<String, dynamic>)['uid'].toString() == id) {
         changeRegistered(true);
       }
       notifyListeners();
@@ -174,7 +173,8 @@ class Authentication extends ChangeNotifier {
       return Future.value();
     }
 
-    var userLoggedWithEmailPassword = await Store.getMap('userLoggedWithEmailPassword');
+    var userLoggedWithEmailPassword =
+        await Store.getMap('userLoggedWithEmailPassword');
     var userLoggedWithFacebook = await Store.getMap('userLoggedWithFacebook');
 
     if (userLoggedWithEmailPassword != null) {

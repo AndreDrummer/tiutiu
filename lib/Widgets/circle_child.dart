@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 
 class CircleChild extends StatelessWidget {
   CircleChild({
+    this.color = Colors.black,
     this.avatarRadius = 40,
     this.child,
-    this.color = Colors.black,
   });
 
-  final double avatarRadius;
-  final Widget child;
-  final Color color;
+  final double? avatarRadius;
+  final Widget? child;
+  final Color? color;
 
   @override
   Widget build(BuildContext context) {

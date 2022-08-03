@@ -3,16 +3,16 @@ import 'package:flutter/material.dart';
 
 class DotsIndicator extends AnimatedWidget {
   DotsIndicator({
+    this.color: Colors.white,
+    this.onPageSelected,
     this.controller,
     this.itemCount,
-    this.onPageSelected,
-    this.color: Colors.white,
-  }) : super(listenable: controller);
+  }) : super(listenable: controller!);
 
-  final PageController controller;
-  final int itemCount;
-  final ValueChanged<int> onPageSelected;
-  final Color color;
+  final ValueChanged<int>? onPageSelected;
+  final PageController? controller;
+  final int? itemCount;
+  final Color? color;
 
   static const double _dotSize = 12.0;
   static const double _maxZoom = 2.0;
@@ -22,7 +22,7 @@ class DotsIndicator extends AnimatedWidget {
     double selected = Curves.easeOut.transform(
       max(
         0.0,
-        1.0 - ((controller.page ?? controller.initialPage) - index).abs(),
+        1.0 - ((controller!.page ?? controller!.initialPage) - index).abs(),
       ),
     );
     double zoom = 1.0 + (_maxZoom - 1.0) * selected;
@@ -36,7 +36,7 @@ class DotsIndicator extends AnimatedWidget {
             width: _dotSize * zoom,
             height: _dotSize * zoom,
             child: InkWell(
-              onTap: () => onPageSelected(index),
+              onTap: () => onPageSelected?.call(index),
             ),
           ),
         ),
@@ -48,7 +48,7 @@ class DotsIndicator extends AnimatedWidget {
   Widget build(context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
-      children: List<Widget>.generate(itemCount, _buildDot),
+      children: List<Widget>.generate(itemCount!, _buildDot),
     );
   }
 }
