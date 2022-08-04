@@ -199,7 +199,7 @@ class PetsProvider with ChangeNotifier {
       age = '10';
     } else if (age == 'Menos de 1 ano') {
       age = '0';
-    } else if (age != null && age.isNotEmpty) {
+    } else if (age.isNotEmpty) {
       age = age.split('').first;
     }
 
@@ -223,7 +223,7 @@ class PetsProvider with ChangeNotifier {
         isEqualTo: false);
 
     for (int i = 0; i < _filters().length; i++) {
-      if (_filters()[i] != null && _filters()[i].isNotEmpty) {
+      if (_filters()[i].isNotEmpty) {
         if (i == 3) {
           if (_filters()[i] == "10") {
           } else if (_filters()[i] == "0") {

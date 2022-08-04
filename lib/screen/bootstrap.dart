@@ -38,7 +38,7 @@ class _BootstrapState extends State<Bootstrap> {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return LoadingPage();
         }
-        if (!snapshot.data!!) {
+        if (!snapshot.data!) {
           return LocalPermissionScreen(
             permissionCallBack: local.openLocalSettings,
             serviceEnabled: snapshot.data!,
@@ -57,9 +57,8 @@ class _BootstrapState extends State<Bootstrap> {
                 permissionCallBack: local.permissionRequest,
               );
             }
-            if (local.getLocation == null) {
-              local.setLocation();
-            }
+            local.setLocation();
+
             return AuthOrHome();
           },
         );

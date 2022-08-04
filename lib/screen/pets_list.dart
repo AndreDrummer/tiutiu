@@ -96,7 +96,7 @@ class _PetsListState extends State<PetsList> {
       builder: (context) {
         return AlertDialog(
           actions: [
-            FlatButton(
+            TextButton(
               onPressed: () {
                 Navigator.pop(context);
               },
