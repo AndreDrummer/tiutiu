@@ -1,10 +1,7 @@
 import 'dart:async';
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:provider/provider.dart';
@@ -12,7 +9,6 @@ import 'package:tiutiu/Custom/icons.dart';
 import 'package:tiutiu/Widgets/popup_message.dart';
 import 'package:tiutiu/backend/Model/pet_model.dart';
 import 'package:tiutiu/backend/Model/user_model.dart';
-import 'package:tiutiu/providers/ads_provider.dart';
 import 'package:tiutiu/providers/auth2.dart';
 import 'package:tiutiu/providers/favorites_provider.dart';
 import 'package:tiutiu/providers/pets_provider.dart';
@@ -48,13 +44,13 @@ class _HomeState extends State<Home> {
   //   return AlertDialog(
   //     content: Text("Item has been updated"),
   //     actions: <Widget>[
-  //       FlatButton(
+  //       TextButton(
   //         child: const Text('CLOSE'),
   //         onPressed: () {
   //           Navigator.pop(context, false);
   //         },
   //       ),
-  //       FlatButton(
+  //       TextButton(
   //         child: const Text('SHOW'),
   //         onPressed: () {
   //           Navigator.pop(context, true);
@@ -168,7 +164,6 @@ class _HomeState extends State<Home> {
         FirebaseFirestore.instance.collection('Users');
     DocumentSnapshot doc =
         await usersEntrepreneur.doc(auth.firebaseUser!.uid).get();
-    UserController userController = UserController();
 
     Future.delayed(Duration(seconds: 60), () {
       userProvider.changeRecentlyAuthenticated(false);
@@ -305,7 +300,7 @@ class _HomeState extends State<Home> {
                   SpeedDialChild(
                     child: FloatingButtonOption(image: 'assets/dogCat2.png'),
                     label: 'Adicionar Desaparecido',
-                    backgroundColor: Theme.of(context).accentColor,
+                    backgroundColor: Theme.of(context).primaryColor,
                     labelStyle: TextStyle(fontSize: 14.0),
                     onTap: !isAuthenticated
                         ? navigateToAuth

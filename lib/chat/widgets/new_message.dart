@@ -37,9 +37,7 @@ class _NewMessageState extends State<NewMessage> {
   void _sendMessage() async {
     FocusScope.of(context).unfocus();
 
-    if (widget.chat != null) {
-      chatProvider.createFirstMessage(widget.chatId, widget.chat);
-    }
+    chatProvider.createFirstMessage(widget.chatId, widget.chat);
 
     chatProvider.sendNewMessage(
       widget.chatId,

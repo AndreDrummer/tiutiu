@@ -17,7 +17,6 @@ import 'package:tiutiu/Widgets/popup_message.dart';
 import 'package:tiutiu/Widgets/button.dart';
 import 'package:tiutiu/Widgets/squared_add_image.dart';
 import 'package:tiutiu/backend/Model/pet_model.dart';
-import 'package:tiutiu/providers/ads_provider.dart';
 import 'package:tiutiu/providers/auth2.dart';
 import 'package:tiutiu/providers/location.dart';
 import 'package:tiutiu/providers/pet_form_provider.dart';
@@ -164,7 +163,7 @@ class _PetFormState extends State<PetForm> {
 
   void selectImage(ImageSource source, int index) async {
     var picker = ImagePicker();
-    PickedFile? image = await picker.getImage(source: source);
+    XFile? image = await picker.pickImage(source: source);
     List actualPhotoList = [...petFormProvider!.getPetPhotos];
 
     actualPhotoList.add(File(image!.path));
@@ -200,7 +199,7 @@ class _PetFormState extends State<PetForm> {
                   petFormProvider!.getPetPhotos.length > index &&
                   petFormProvider!.getPetPhotos[index] != null
               ? [
-                  FlatButton(
+                  TextButton(
                     child: Text('Remover'),
                     onPressed: () {
                       Navigator.pop(context);
@@ -227,7 +226,7 @@ class _PetFormState extends State<PetForm> {
                   )
                 ]
               : [
-                  FlatButton(
+                  TextButton(
                     child: Text(
                       'Tirar uma foto',
                       style: TextStyle(
@@ -239,7 +238,7 @@ class _PetFormState extends State<PetForm> {
                       selectImage(ImageSource.camera, index);
                     },
                   ),
-                  FlatButton(
+                  TextButton(
                     child: Text('Abrir galeria'),
                     onPressed: () async {
                       if (await checkAndRequestCameraPermissions()) {
@@ -1054,7 +1053,7 @@ class _PetFormState extends State<PetForm> {
                       (value) => _onWillPopScope,
                     );
                   } else {
-                    _scaffoldKey.currentState!.showSnackBar(SnackBar(
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                       duration: Duration(seconds: 1),
                       content: Text('Verifique se há erros no formulário!',
                           style: TextStyle(color: Colors.white)),

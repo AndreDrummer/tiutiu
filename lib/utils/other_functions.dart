@@ -2,11 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
-import 'package:tiutiu/backend/Model/geocoding_model.dart';
 import 'package:tiutiu/backend/Model/pet_model.dart';
 import 'package:tiutiu/providers/location.dart' as provider;
 import 'package:tiutiu/screen/announcer_datails.dart';
-import 'package:tiutiu/utils/constantes.dart';
 import 'package:tiutiu/utils/math_functions.dart';
 import 'package:tiutiu/backend/Model/user_model.dart';
 import 'package:tiutiu/utils/string_extension.dart';
@@ -48,23 +46,21 @@ class OtherFunctions {
     List<Pet> newPetList = [];
     provider.Location location = Provider.of<provider.Location>(context);
 
-    if (petsListResult != null) {
-      for (int i = 0; i < petsListResult.length; i++) {
-        String? distance = MathFunctions.distanceMatrix(
-          latX: location.getLocation.latitude,
-          longX: location.getLocation.longitude,
-          latY: petsListResult[i].latitude,
-          longY: petsListResult[i].longitude,
-        );
+    for (int i = 0; i < petsListResult.length; i++) {
+      String? distance = MathFunctions.distanceMatrix(
+        latX: location.getLocation.latitude,
+        longX: location.getLocation.longitude,
+        latY: petsListResult[i].latitude,
+        longY: petsListResult[i].longitude,
+      );
 
-        String? distancieSelected =
-            providerDistanceSelected.split('Km').first.split('Até').last;
-        double distanceRefineSelected =
-            double.tryParse(distancieSelected) ?? 1000000;
+      String? distancieSelected =
+          providerDistanceSelected.split('Km').first.split('Até').last;
+      double distanceRefineSelected =
+          double.tryParse(distancieSelected) ?? 1000000;
 
-        if (double.parse(distance!) < distanceRefineSelected * 1000) {
-          newPetList.add(petsListResult[i]);
-        }
+      if (double.parse(distance!) < distanceRefineSelected * 1000) {
+        newPetList.add(petsListResult[i]);
       }
     }
 

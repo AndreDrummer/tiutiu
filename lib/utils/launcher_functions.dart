@@ -3,8 +3,8 @@ import 'package:url_launcher/url_launcher.dart';
 class Launcher {
   static Future<void> makePhoneCall({String? number}) async {
     String url = 'tel: $number';
-    if (await canLaunch(url)) {
-      await launch(url);
+    if (await canLaunchUrl(Uri.parse(url))) {
+      await launchUrl(Uri.parse(url));
     } else {
       throw 'Could not launch $url';
     }
@@ -17,8 +17,8 @@ class Launcher {
   }) async {
     var url = 'mailto:$emailAddress?subject=$subject&body=$message';
 
-    if (await canLaunch(url)) {
-      await launch(url);
+    if (await canLaunchUrl(Uri.parse(url))) {
+      await launchUrl(Uri.parse(url));
     } else {
       throw 'Could not launch $url';
     }
@@ -30,11 +30,9 @@ class Launcher {
   }
 
   static Future<void> openBrowser({String? url}) async {
-    if (await canLaunch(url!)) {
-      await launch(
-        url,
-        forceSafariVC: false,
-        forceWebView: false,
+    if (await canLaunchUrl(Uri.parse(url!))) {
+      await launchUrl(
+        Uri.parse(url),
       );
     } else {
       throw 'Could not launch $url';
