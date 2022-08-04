@@ -12,7 +12,6 @@ import 'package:tiutiu/backend/Controller/user_controller.dart';
 import 'package:tiutiu/backend/Model/user_model.dart';
 import 'package:tiutiu/chat/common/functions.dart';
 import 'package:tiutiu/core/image_handle.dart';
-import 'package:tiutiu/providers/ads_provider.dart';
 import 'package:tiutiu/providers/user_provider.dart';
 import 'package:tiutiu/utils/constantes.dart';
 import 'package:tiutiu/utils/launcher_functions.dart';
@@ -379,7 +378,7 @@ class _OnlyChatButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return RaisedButton(
+    return ElevatedButton(
       onPressed: () {
         CommonChatFunctions.openChat(
           context: context,
@@ -387,10 +386,12 @@ class _OnlyChatButton extends StatelessWidget {
           secondUser: secondUser!,
         );
       },
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
+      style: ElevatedButton.styleFrom(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12),
+        ),
+        primary: Colors.purple,
       ),
-      color: Colors.purple,
       child: Text(
         'CHAT',
         style: TextStyle(

@@ -356,7 +356,7 @@ class _SettingsState extends State<Settings> {
 
   void selectImage(ImageSource source, {bool perfil = true}) async {
     var picker = ImagePicker();
-    dynamic image = await picker.getImage(source: source);
+    dynamic image = await picker.pickImage(source: source);
     image = File(image.path);
 
     if (perfil) {
@@ -389,7 +389,7 @@ class _SettingsState extends State<Settings> {
       builder: (context) {
         return SimpleDialog(
           children: <Widget>[
-            FlatButton(
+            TextButton(
               child: Text(
                 'Tirar uma foto',
                 style: Theme.of(context).textTheme.headline1!.copyWith(
@@ -404,7 +404,7 @@ class _SettingsState extends State<Settings> {
                 );
               },
             ),
-            FlatButton(
+            TextButton(
               child: Text(
                 'Abrir galeria',
                 style: Theme.of(context).textTheme.headline1!.copyWith(
@@ -420,7 +420,7 @@ class _SettingsState extends State<Settings> {
               },
             ),
             conditionsToRemoveBackPhoto
-                ? FlatButton(
+                ? TextButton(
                     child: Text(
                       'Remover foto',
                       style: Theme.of(context).textTheme.headline1!.copyWith(
@@ -539,7 +539,7 @@ class _SettingsState extends State<Settings> {
                               color: Colors.black38,
                             ),
                             height: 25,
-                            child: FlatButton(
+                            child: TextButton(
                               onPressed: () =>
                                   openModalSelectMedia(context, false),
                               child: Text(
@@ -813,11 +813,13 @@ class _SettingsState extends State<Settings> {
                     Padding(
                       padding: const EdgeInsets.symmetric(
                           horizontal: 10, vertical: 15),
-                      child: FlatButton(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(16),
+                      child: TextButton(
+                        style: TextButton.styleFrom(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(16),
+                          ),
+                          primary: Colors.red,
                         ),
-                        color: Colors.red,
                         onPressed: () async {
                           await showDialog(
                             context: context,

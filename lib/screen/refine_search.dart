@@ -5,7 +5,6 @@ import 'package:tiutiu/Widgets/button.dart';
 import 'package:tiutiu/Widgets/badge.dart';
 import 'package:tiutiu/Widgets/load_dark_screen.dart';
 import 'package:tiutiu/data/dummy_data.dart';
-import 'package:tiutiu/providers/ads_provider.dart';
 import 'package:tiutiu/providers/pets_provider.dart';
 import 'package:tiutiu/utils/constantes.dart';
 import 'package:tiutiu/providers/refine_search.dart';
@@ -420,7 +419,7 @@ class __SelecterTileState extends State<_SelecterTile> {
                   Spacer(),
                   widget.valueSelected != null &&
                           widget.valueSelected!.isNotEmpty
-                      ? FlatButton(
+                      ? TextButton(
                           child: Text('Limpar'),
                           onPressed: () => widget.clear?.call(),
                         )

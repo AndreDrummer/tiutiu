@@ -267,7 +267,7 @@ class _InterestedListState extends State<InterestedList> {
                       itemCount: interesteds.length,
                       itemBuilder: (_, index) {
                         return FutureBuilder<DocumentSnapshot>(
-                          future: interesteds[index]?.userReference?.get(),
+                          future: interesteds[index].userReference.get(),
                           builder: (context, interestedReferenceSnapshot) {
                             if (snapshot.connectionState ==
                                 ConnectionState.waiting) {

@@ -53,7 +53,7 @@ class PopUpMessage extends StatelessWidget {
       ),
       actions: <Widget>[
         confirmAction != null
-            ? FlatButton(
+            ? TextButton(
                 onPressed: () {
                   confirmAction!();
                 },
@@ -64,7 +64,7 @@ class PopUpMessage extends StatelessWidget {
               )
             : Container(),
         denyAction != null
-            ? FlatButton(
+            ? TextButton(
                 onPressed: () {
                   denyAction!();
                 },
