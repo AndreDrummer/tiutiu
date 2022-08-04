@@ -8,7 +8,6 @@ import 'package:tiutiu/Widgets/input_text.dart';
 import 'package:tiutiu/Widgets/load_dark_screen.dart';
 import 'package:tiutiu/Widgets/popup_message.dart';
 import 'package:tiutiu/Widgets/button.dart';
-import 'package:tiutiu/providers/ads_provider.dart';
 import 'package:tiutiu/providers/auth2.dart';
 
 class AuthScreen extends StatefulWidget {
@@ -93,7 +92,7 @@ class _AuthScreenState extends State<AuthScreen> {
 
     if (isNewAccount) {
       if (repeatPassword.text.trim().isEmpty ||
-          repeatPassword.text?.trim() != password.text?.trim()) {
+          repeatPassword.text.trim() != password.text.trim()) {
         setState(() {
           repeatPasswordError = true;
           fieldsAreValids = false;

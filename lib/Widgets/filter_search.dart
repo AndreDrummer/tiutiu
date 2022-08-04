@@ -95,17 +95,19 @@ class _FilterSearchState extends State<FilterSearch> {
     filters.add(ButtonBar(
       alignment: MainAxisAlignment.end,
       children: <Widget>[
-        RaisedButton(
+        ElevatedButton(
           onPressed: () {
             showFilter();
           },
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          style: ElevatedButton.styleFrom(
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+            primary: Theme.of(context).primaryColor,
+          ),
           child: Text(
             'OK',
             style: Theme.of(context).textTheme.button,
           ),
-          color: Theme.of(context).accentColor,
         )
       ],
     ));

@@ -10,15 +10,13 @@ class MessageBubble extends StatelessWidget {
     required this.message,
     required this.user,
     required this.time,
-    required this.key,
+    Key? key,
   }) : super(key: key);
 
-  @override
   final bool belongToMe;
   final String message;
   final String time;
   final User user;
-  final Key key;
 
   @override
   Widget build(BuildContext context) {
@@ -69,7 +67,7 @@ class MessageBubble extends StatelessWidget {
                               color: belongToMe
                                   ? Colors.white
                                   : Theme.of(context)
-                                      .accentTextTheme
+                                      .textTheme
                                       .headline1!
                                       .color,
                             ),
@@ -83,7 +81,7 @@ class MessageBubble extends StatelessWidget {
                               color: belongToMe
                                   ? Colors.white
                                   : Theme.of(context)
-                                      .accentTextTheme
+                                      .textTheme
                                       .headline1!
                                       .color,
                             ),
@@ -100,10 +98,7 @@ class MessageBubble extends StatelessWidget {
                         fontWeight: FontWeight.w600,
                         color: belongToMe
                             ? Colors.white
-                            : Theme.of(context)
-                                .accentTextTheme
-                                .headline1!
-                                .color,
+                            : Theme.of(context).textTheme.headline1!.color,
                       ),
                     ),
                   ],

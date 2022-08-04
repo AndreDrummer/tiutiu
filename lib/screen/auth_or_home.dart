@@ -16,7 +16,6 @@ class AuthOrHome extends StatefulWidget {
 
 class _AuthOrHomeState extends State<AuthOrHome> {
   late StreamSubscription<ConnectivityResult> _connectivitySubscription;
-  final Connectivity _connectivity = Connectivity();
   late bool isConnected;
 
   @override
@@ -91,7 +90,7 @@ class _AuthOrHomeState extends State<AuthOrHome> {
                           textAlign: TextAlign.center,
                         ),
                         SizedBox(height: 10),
-                        FlatButton.icon(
+                        TextButton.icon(
                           onPressed: () {
                             auth.signOut();
                           },
@@ -112,7 +111,7 @@ class _AuthOrHomeState extends State<AuthOrHome> {
                             messageLoading: 'Carregando dados de usuário...',
                             circle: true);
                       }
-                      return !snapshot.data!! || snapshot.data == null
+                      return !snapshot.data! || snapshot.data == null
                           ? Register()
                           : Home();
                     },

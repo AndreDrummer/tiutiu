@@ -10,7 +10,6 @@ import 'package:tiutiu/providers/favorites_provider.dart';
 import 'package:tiutiu/providers/location.dart';
 import 'package:tiutiu/providers/my_pets_provider.dart';
 import 'package:tiutiu/providers/pets_provider.dart';
-import 'package:tiutiu/utils/constantes.dart';
 import 'package:tiutiu/providers/pet_form_provider.dart';
 import 'package:tiutiu/providers/refine_search.dart';
 import 'package:tiutiu/providers/user_infos_interests.dart';
@@ -101,17 +100,11 @@ class App extends StatelessWidget {
             child: MaterialApp(
               theme: ThemeData(
                 primaryColor: Colors.green,
-                accentColor: Colors.yellow,
+                primarySwatch: Colors.yellow,
                 scaffoldBackgroundColor: Color(0XFFF9F9F9),
                 appBarTheme: AppBarTheme(
-                    iconTheme: IconThemeData(color: Colors.white),
-                    textTheme: ThemeData.dark().textTheme.copyWith(
-                          headline1: GoogleFonts.roboto(
-                            color: Colors.white,
-                            fontSize: 20,
-                            fontWeight: FontWeight.w700,
-                          ),
-                        )),
+                  iconTheme: IconThemeData(color: Colors.white),
+                ),
                 textTheme: ThemeData.light().textTheme.copyWith(
                       headline1: GoogleFonts.roboto(
                         color: Colors.white,
