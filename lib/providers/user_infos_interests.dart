@@ -59,12 +59,9 @@ class UserInfoOrAdoptInterestsProvider with ChangeNotifier {
       var interestedRef = await petRef.collection('adoptInteresteds').get();
       var interestedList = interestedRef.docs;
 
-      if (interestedList != null) {
-        for (int i = 0; i < interestedList.length; i++) {
-          if (userReference == interestedList[i].data()['userReference']) {
-            changeLastimeInterestOrInfo(
-                interestedList[i].data()['interestedAt']);
-          }
+      for (int i = 0; i < interestedList.length; i++) {
+        if (userReference == interestedList[i].data()['userReference']) {
+          changeLastimeInterestOrInfo(interestedList[i].data()['interestedAt']);
         }
       }
     }
@@ -77,11 +74,9 @@ class UserInfoOrAdoptInterestsProvider with ChangeNotifier {
     if (pet.data() != null) {
       var infoRef = await petRef.collection('infoInteresteds').get();
       var infoList = infoRef.docs;
-      if (infoList != null) {
-        for (int i = 0; i < infoList.length; i++) {
-          if (userReference == infoList[i].data()['userReference']) {
-            changeLastimeInterestOrInfo(infoList[i].data()['interestedAt']);
-          }
+      for (int i = 0; i < infoList.length; i++) {
+        if (userReference == infoList[i].data()['userReference']) {
+          changeLastimeInterestOrInfo(infoList[i].data()['interestedAt']);
         }
       }
     }

@@ -53,28 +53,22 @@ class _RegisterState extends State<Register> {
   void didChangeDependencies() {
     userProvider = Provider.of(context, listen: false);
     auth = Provider.of(context, listen: false);
-    if (userProvider!.photoFILE! != null) {
-      userProfile.putIfAbsent('photoFile', () => userProvider!.photoFILE!);
-    }
-    if (userProvider!.whatsapp! != null) {
-      _whatsapp.text = userProvider!.whatsapp!;
-    }
-    if (userProvider!.telefone! != null) {
-      _telefone.text = userProvider!.telefone!;
-    }
+    userProfile.putIfAbsent('photoFile', () => userProvider!.photoFILE!);
+    _whatsapp.text = userProvider!.whatsapp!;
+    _telefone.text = userProvider!.telefone!;
     super.didChangeDependencies();
   }
 
   void selectImage(ImageSource source) async {
     var picker = ImagePicker();
-    dynamic image = await picker.getImage(source: source);
+    dynamic image = await picker.pickImage(source: source);
     image = File(image.path);
     setState(
       () {
         imageFile0 = image;
         userProfile.clear();
         userProfile.putIfAbsent('photoFile', () => imageFile0!);
-        userProvider!.changePhotoFILE!(userProfile['photoFile']);
+        userProvider!.changePhotoFILE(userProfile['photoFile']);
       },
     );
   }
@@ -85,7 +79,7 @@ class _RegisterState extends State<Register> {
       builder: (context) {
         return SimpleDialog(
           children: <Widget>[
-            FlatButton(
+            TextButton(
               child:
                   Text('Tirar uma foto', style: TextStyle(color: Colors.black)),
               onPressed: () {
@@ -93,7 +87,7 @@ class _RegisterState extends State<Register> {
                 selectImage(ImageSource.camera);
               },
             ),
-            FlatButton(
+            TextButton(
               child: Text('Abrir galeria'),
               onPressed: () {
                 Navigator.pop(context);
@@ -370,7 +364,7 @@ class _RegisterState extends State<Register> {
                         controller: _whatsapp,
                         validator: validarCelular,
                         onChanged: (text) {
-                          userProvider!.changeWhatsapp!(_whatsapp.text.trim());
+                          userProvider!.changeWhatsapp(_whatsapp.text.trim());
                         },
                       ),
                       whatsappHasError!
@@ -385,7 +379,7 @@ class _RegisterState extends State<Register> {
                         keyBoardTypeNumber: true,
                         controller: _telefone,
                         onChanged: (text) {
-                          userProvider!.changeTelefone!(_telefone.text.trim());
+                          userProvider!.changeTelefone(_telefone.text.trim());
                         },
                       ),
                       telefoneHasError
@@ -397,7 +391,7 @@ class _RegisterState extends State<Register> {
                         child: Text('Escolha sua melhor forma de contato.'),
                       ),
                       StreamBuilder<Object>(
-                        stream: userProvider!.betterContact!,
+                        stream: userProvider!.betterContact,
                         builder: (context, snapshot) {
                           return Container(
                             child: Column(
@@ -433,7 +427,7 @@ class _RegisterState extends State<Register> {
                                 ),
                                 InkWell(
                                   onTap: () {
-                                    userProvider!.changeBetterContact!(1);
+                                    userProvider!.changeBetterContact(1);
                                   },
                                   child: Row(
                                     children: [
@@ -461,7 +455,7 @@ class _RegisterState extends State<Register> {
                                 ),
                                 InkWell(
                                   onTap: () {
-                                    userProvider!.changeBetterContact!(2);
+                                    userProvider!.changeBetterContact(2);
                                   },
                                   child: Row(
                                     children: [
@@ -484,7 +478,7 @@ class _RegisterState extends State<Register> {
                                 ),
                                 InkWell(
                                   onTap: () {
-                                    userProvider!.changeBetterContact!(3);
+                                    userProvider!.changeBetterContact(3);
                                   },
                                   child: Row(
                                     children: [
@@ -531,7 +525,7 @@ class _RegisterState extends State<Register> {
                   if (userProvider!.getBetterContact == 1 &&
                       (_telefone.text.trim().isEmpty ||
                           _telefone.text.trim().length < 12)) {
-                    _scaffoldKey.currentState!.showSnackBar(
+                    ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
                         backgroundColor: Colors.red,
                         duration: Duration(seconds: 1),

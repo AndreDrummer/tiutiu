@@ -19,7 +19,7 @@ class CustomBottomNavigatorBar extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
           color: Colors.white,
-          border: Border.all(color: Theme.of(context).accentColor, width: 2),
+          border: Border.all(color: Theme.of(context).primaryColor, width: 2),
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(25),
             topRight: Radius.circular(25),

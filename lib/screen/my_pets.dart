@@ -8,7 +8,6 @@ import 'package:tiutiu/Widgets/popup_message.dart';
 import 'package:tiutiu/backend/Controller/pet_controller.dart';
 import 'package:tiutiu/backend/Controller/user_controller.dart';
 import 'package:tiutiu/backend/Model/pet_model.dart';
-import 'package:tiutiu/providers/ads_provider.dart';
 import 'package:tiutiu/providers/auth2.dart';
 import 'package:tiutiu/providers/user_provider.dart';
 import 'package:tiutiu/providers/pets_provider.dart';
@@ -57,11 +56,9 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
         case Constantes.DONATE:
           return userController.loadMyPostedPetsToDonate(
               userId: userProvider.uid!);
-          break;
         case Constantes.DISAPPEARED:
           return userController.loadMyPostedPetsDisappeared(
               userId: userProvider.uid!);
-          break;
         default:
           return userController.loadMyAdoptedPets(userId: userProvider.uid!);
       }
@@ -117,7 +114,7 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
           confirmAction: () {
             delete(pet.petReference!);
             Navigator.pop(context);
-            _scaffoldKey.currentState!.showSnackBar(
+            ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
                 content: Text('${pet.name} foi excluído com sucesso!'),
               ),

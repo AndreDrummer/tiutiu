@@ -6,9 +6,7 @@ import 'package:tiutiu/Widgets/popup_message.dart';
 import 'package:tiutiu/backend/Controller/user_controller.dart';
 import 'package:tiutiu/backend/Model/pet_model.dart';
 import 'package:tiutiu/core/image_handle.dart';
-import 'package:tiutiu/providers/ads_provider.dart';
 import 'package:tiutiu/providers/pets_provider.dart';
-import 'package:tiutiu/providers/user_provider.dart';
 
 class ConfirmAdoptionScreen extends StatefulWidget {
   @override
@@ -61,7 +59,7 @@ class _ConfirmAdoptionScreenState extends State<ConfirmAdoptionScreen> {
             )
                 .then(
               (value) {
-                _scaffoldKey.currentState!.showSnackBar(
+                ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
                     content: Text(
                       'Ação realizada com sucesso!',
@@ -80,7 +78,7 @@ class _ConfirmAdoptionScreenState extends State<ConfirmAdoptionScreen> {
             )
                 .then(
               (value) {
-                _scaffoldKey.currentState!.showSnackBar(
+                ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
                     content: Text(
                       'Ação realizada com sucesso!',
