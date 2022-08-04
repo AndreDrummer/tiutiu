@@ -3,7 +3,6 @@ import 'package:provider/provider.dart';
 import 'package:tiutiu/Widgets/background.dart';
 import 'package:tiutiu/Widgets/card_list.dart';
 import 'package:tiutiu/Widgets/loading_screen.dart';
-import 'package:tiutiu/providers/ads_provider.dart';
 import 'package:tiutiu/providers/favorites_provider.dart';
 
 class Favorites extends StatefulWidget {
