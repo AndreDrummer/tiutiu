@@ -177,7 +177,7 @@ class _PetDetailsState extends State<PetDetails> {
   }
 
   void showSnackBar(String message) {
-    _scaffoldKey.currentState!.showSnackBar(
+    ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Row(
           children: [
@@ -604,8 +604,8 @@ class _PetDetailsState extends State<PetDetails> {
                                                               !isFavorite,
                                                             );
 
-                                                            _scaffoldKey
-                                                                .currentState!
+                                                            ScaffoldMessenger
+                                                                    .of(context)
                                                                 .showSnackBar(
                                                               SnackBar(
                                                                 duration:
@@ -694,13 +694,10 @@ class _PetDetailsState extends State<PetDetails> {
     switch (betterContect) {
       case 0:
         return getColor ? Colors.green : Tiutiu.whatsapp;
-        break;
       case 1:
         return getColor ? Colors.orange : Icons.phone;
-        break;
       case 2:
         return getColor ? Colors.red : Icons.email;
-        break;
       default:
         getColor ? Colors.redAccent : Icons.chat;
     }
@@ -900,7 +897,7 @@ class _PetDetailsState extends State<PetDetails> {
             ),
           ],
         );
-        break;
+
       case 1:
         return Row(
           mainAxisAlignment: MainAxisAlignment.center,

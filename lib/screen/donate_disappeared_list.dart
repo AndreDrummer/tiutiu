@@ -8,7 +8,6 @@ import 'package:tiutiu/Widgets/input_search.dart';
 import 'package:tiutiu/Widgets/loading_page.dart';
 import 'package:tiutiu/backend/Model/pet_model.dart';
 import 'package:tiutiu/data/dummy_data.dart';
-import 'package:tiutiu/providers/ads_provider.dart';
 import 'package:tiutiu/providers/location.dart';
 import 'package:tiutiu/providers/pets_provider.dart';
 import 'package:tiutiu/utils/constantes.dart';
@@ -41,7 +40,7 @@ class _DonateDisappearedListState extends State<DonateDisappearedList> {
   late Location location;
 
   void showSnackBar(String content) {
-    scaffoldState.currentState!.showSnackBar(
+    ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(content),
         duration: Duration(milliseconds: 1500),
@@ -69,16 +68,13 @@ class _DonateDisappearedListState extends State<DonateDisappearedList> {
   List<Pet> filterResultsByAgeOver10(List<Pet> petsListResult) {
     List<Pet> newPetList = [];
 
-    if (petsListResult != null) {
-      for (int i = 0; i < petsListResult.length; i++) {
-        if (petsListResult[i].ano! >= 10) {
-          newPetList.add(petsListResult[i]);
-        }
+    for (int i = 0; i < petsListResult.length; i++) {
+      if (petsListResult[i].ano! >= 10) {
+        newPetList.add(petsListResult[i]);
       }
-      return newPetList;
-    } else {
-      return [];
     }
+
+    return newPetList;
   }
 
   int orderByPostDate(Pet a, Pet b) {
@@ -273,20 +269,20 @@ class _DonateDisappearedListState extends State<DonateDisappearedList> {
                                   ),
                                 ),
                                 StreamBuilder<Object>(
-                                  stream: petsProvider!.orderType,
+                                  stream: petsProvider.orderType,
                                   builder: (context, snapshot) {
                                     return CustomDropdownButtonSearch(
                                       colorText: Colors.black54,
                                       fontSize: 13,
-                                      initialValue: petsProvider!.getOrderType,
+                                      initialValue: petsProvider.getOrderType,
                                       isExpanded: false,
                                       withPipe: false,
-                                      itemList: petsProvider!.getOrderTypeList,
+                                      itemList: petsProvider.getOrderTypeList,
                                       label: '',
                                       onChange: (String text) {
-                                        petsProvider!.changeOrderType(
+                                        petsProvider.changeOrderType(
                                             text,
-                                            refineSearchProvider!
+                                            refineSearchProvider
                                                 .getStateOfResultSearch);
                                       },
                                     );
@@ -592,19 +588,18 @@ class _HomeSearch extends StatelessWidget {
                                     (context, snapshotSearchPetByTypeOnHome) {
                                   return CustomInput(
                                     searchInitialValue:
-                                        snapshotSearchHomeInitialValue?.data ??
+                                        snapshotSearchHomeInitialValue.data ??
                                             '',
                                     searchValues:
-                                        snapshotsnapshotSearchHomeValues
-                                                ?.data ??
+                                        snapshotsnapshotSearchHomeValues.data ??
                                             [''],
                                     searchPetTypeInitialValue:
-                                        snapshotHomePetTypeInitialValue?.data ??
+                                        snapshotHomePetTypeInitialValue.data ??
                                             '',
                                     searchPetTypeValues:
-                                        snapshotHomePetTypeValues?.data ?? [''],
+                                        snapshotHomePetTypeValues.data ?? [''],
                                     isType:
-                                        snapshotSearchPetByTypeOnHome?.data ??
+                                        snapshotSearchPetByTypeOnHome.data ??
                                             false,
                                     onDropdownTypeChange: handleSearchType,
                                     onDropdownHomeSearchOptionsChange:

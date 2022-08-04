@@ -49,7 +49,7 @@ class _SelectionPageState extends State<SelectionPage> {
         ),
         actions: widget.onTap != null
             ? [
-                FlatButton(
+                TextButton(
                   child: Text(
                     'Prosseguir',
                     style: TextStyle(
