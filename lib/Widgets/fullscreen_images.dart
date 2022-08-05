@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:loading_animations/loading_animations.dart';
-import 'package:tiutiu/core/image_handle.dart';
+import 'package:tiutiu/core/utils/image_handle.dart';
 
 class FullScreenImage extends StatefulWidget {
   FullScreenImage({

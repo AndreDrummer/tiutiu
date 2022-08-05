@@ -6,7 +6,7 @@ import 'package:tiutiu/Widgets/badge.dart';
 import 'package:tiutiu/Widgets/empty_list.dart';
 import 'package:tiutiu/backend/Model/pet_model.dart';
 import 'package:tiutiu/backend/Model/user_model.dart';
-import 'package:tiutiu/core/image_handle.dart';
+import 'package:tiutiu/core/utils/image_handle.dart';
 import 'package:tiutiu/providers/user_provider.dart';
 import 'package:tiutiu/backend/Model/notification_model.dart';
 import 'package:tiutiu/screen/confirm_adoption.dart';

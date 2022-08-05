@@ -16,7 +16,7 @@ import 'package:tiutiu/providers/user_provider.dart';
 import 'package:tiutiu/screen/announcer_datails.dart';
 import 'package:tiutiu/utils/constantes.dart';
 import 'package:tiutiu/utils/other_functions.dart';
-import 'package:tiutiu/utils/routes.dart';
+import 'package:tiutiu/core/utils/routes/routes_name.dart';
 
 class InterestedList extends StatefulWidget {
   InterestedList({
@@ -159,7 +159,7 @@ class _InterestedListState extends State<InterestedList> {
   }
 
   void seeInfo(InterestedModel interestedModel) {
-    Navigator.pushNamed(context, Routes.INFO, arguments: {
+    Navigator.pushNamed(context, Routes.info, arguments: {
       'petName': widget.pet!.name,
       'informanteInfo': interestedModel
     });

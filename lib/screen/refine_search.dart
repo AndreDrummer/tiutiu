@@ -9,7 +9,7 @@ import 'package:tiutiu/providers/pets_provider.dart';
 import 'package:tiutiu/utils/constantes.dart';
 import 'package:tiutiu/providers/refine_search.dart';
 import 'package:tiutiu/screen/selection_page.dart';
-import 'package:tiutiu/utils/routes.dart';
+import 'package:tiutiu/core/utils/routes/routes_name.dart';
 
 class RefineSearch extends StatefulWidget {
   @override
@@ -276,7 +276,7 @@ class _RefineSearchState extends State<RefineSearch> {
                                     ? false
                                     : true);
 
-                            Navigator.pushNamed(context, Routes.HOME,
+                            Navigator.pushNamed(context, Routes.home,
                                 arguments:
                                     refineSearchProvider!.getIsDisappeared
                                         ? 1

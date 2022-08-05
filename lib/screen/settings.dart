@@ -15,12 +15,12 @@ import 'package:tiutiu/providers/user_provider.dart';
 import 'package:tiutiu/utils/formatter.dart';
 import 'package:tiutiu/backend/Controller/user_controller.dart';
 
-class Settings extends StatefulWidget {
+class AppSettings extends StatefulWidget {
   @override
-  _SettingsState createState() => _SettingsState();
+  _AppSettingsState createState() => _AppSettingsState();
 }
 
-class _SettingsState extends State<Settings> {
+class _AppSettingsState extends State<AppSettings> {
   String? photoBACK;
   File? imageFile0;
   File? imageFile1;

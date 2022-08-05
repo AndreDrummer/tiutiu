@@ -1,0 +1,105 @@
+import 'package:flutter/material.dart';
+import 'package:tiutiu/Widgets/new_map.dart';
+import 'package:tiutiu/chat/screens/chat_screen.dart';
+import 'package:tiutiu/chat/screens/chat_tabs.dart';
+import 'package:tiutiu/core/utils/routes/routes_name.dart';
+import 'package:tiutiu/screen/about.dart';
+import 'package:tiutiu/screen/auth_screen.dart';
+import 'package:tiutiu/screen/bootstrap.dart';
+import 'package:tiutiu/screen/choose_location.dart';
+import 'package:tiutiu/screen/confirm_adoption.dart';
+import 'package:tiutiu/screen/favorites.dart';
+import 'package:tiutiu/screen/home.dart';
+import 'package:tiutiu/screen/interested_information_list.dart';
+import 'package:tiutiu/screen/informantes_screen.dart';
+import 'package:tiutiu/screen/my_pets.dart';
+import 'package:tiutiu/screen/notifications.dart';
+import 'package:tiutiu/screen/pet_detail.dart';
+import 'package:tiutiu/screen/pet_form.dart';
+import 'package:tiutiu/screen/refine_search.dart';
+import 'package:tiutiu/screen/register.dart';
+import 'package:tiutiu/screen/settings.dart';
+
+class RouterGenerator {
+  static Route<dynamic>? onGenerateRoute(RouteSettings settings) {
+    switch (settings.name) {
+      case Routes.root:
+        return MaterialPageRoute(
+          builder: (_) => Bootstrap(),
+        );
+      case Routes.auth:
+        return MaterialPageRoute(
+          builder: (_) => AuthScreen(),
+        );
+      case Routes.pet_form:
+        return MaterialPageRoute(
+          builder: (_) => PetForm(),
+        );
+      case Routes.chat:
+        return MaterialPageRoute(
+          builder: (_) => ChatScreen(),
+        );
+      case Routes.chat_list:
+        return MaterialPageRoute(
+          builder: (_) => ChatTab(),
+        );
+      case Routes.settings:
+        return MaterialPageRoute(
+          builder: (_) => AppSettings(),
+        );
+      case Routes.about:
+        return MaterialPageRoute(
+          builder: (_) => About(),
+        );
+      case Routes.my_pets:
+        return MaterialPageRoute(
+          builder: (_) => MyPetsScreen(),
+        );
+      case Routes.favorites:
+        return MaterialPageRoute(
+          builder: (_) => Favorites(),
+        );
+      case Routes.register:
+        return MaterialPageRoute(
+          builder: (_) => Register(),
+        );
+      case Routes.home:
+        return MaterialPageRoute(
+          builder: (_) => Home(),
+        );
+      case Routes.new_map:
+        return MaterialPageRoute(
+          builder: (_) => NewMap(),
+        );
+      case Routes.pet_location_picker:
+        return MaterialPageRoute(
+          builder: (_) => ChooseLocation(),
+        );
+      case Routes.pet_details:
+        return MaterialPageRoute(
+          builder: (_) => PetDetails(),
+        );
+      case Routes.search:
+        return MaterialPageRoute(
+          builder: (_) => RefineSearch(),
+        );
+      case Routes.interested_list:
+        return MaterialPageRoute(
+          builder: (_) => InterestedList(),
+        );
+      case Routes.info:
+        return MaterialPageRoute(
+          builder: (_) => InformantesScreen(),
+        );
+      case Routes.confirma_adoption:
+        return MaterialPageRoute(
+          builder: (_) => ConfirmAdoptionScreen(),
+        );
+      case Routes.notifications:
+        return MaterialPageRoute(
+          builder: (_) => NotificationScreen(),
+        );
+    }
+    return null;
+  }
+}

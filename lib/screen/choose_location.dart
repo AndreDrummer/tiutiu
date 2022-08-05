@@ -3,10 +3,10 @@ import 'package:provider/provider.dart';
 import 'package:tiutiu/Widgets/button.dart';
 import 'package:tiutiu/Widgets/new_map.dart';
 import 'package:tiutiu/backend/Model/pet_model.dart';
-import 'package:tiutiu/providers/location.dart';
+import 'package:tiutiu/core/controllers/location_controller.dart';
 import 'package:tiutiu/screen/pet_form.dart';
 import 'package:tiutiu/utils/constantes.dart';
-import 'package:tiutiu/utils/routes.dart';
+import 'package:tiutiu/core/utils/routes/routes_name.dart';
 
 class ChooseLocation extends StatefulWidget {
   ChooseLocation({
@@ -82,7 +82,7 @@ class _ChooseLocationState extends State<ChooseLocation> {
                                 )
                               : Navigator.pushNamed(
                                   context,
-                                  Routes.PET_FORM,
+                                  Routes.pet_form,
                                   arguments: {'kind': kind},
                                 );
                         },
