@@ -11,7 +11,7 @@ import 'package:tiutiu/Widgets/load_dark_screen.dart';
 import 'package:tiutiu/providers/auth2.dart';
 import 'package:tiutiu/providers/user_provider.dart';
 import 'package:tiutiu/utils/formatter.dart';
-import 'package:tiutiu/utils/routes.dart';
+import 'package:tiutiu/core/utils/routes/routes_name.dart';
 import 'package:tiutiu/backend/Controller/user_controller.dart';
 
 class Register extends StatefulWidget {
@@ -539,7 +539,10 @@ class _RegisterState extends State<Register> {
                       await save();
                       setFinishing(false);
                       await auth!.alreadyRegistered();
-                      Navigator.pushReplacementNamed(context, Routes.AUTH_HOME);
+                      Navigator.pushReplacementNamed(
+                        context,
+                        Routes.auth_or_home,
+                      );
                     }
                   }
                 }

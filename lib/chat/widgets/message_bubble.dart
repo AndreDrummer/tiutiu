@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:tiutiu/backend/Model/user_model.dart';
-import 'package:tiutiu/core/image_handle.dart';
+import 'package:tiutiu/core/utils/image_handle.dart';
 import 'package:tiutiu/utils/other_functions.dart';
 
 class MessageBubble extends StatelessWidget {

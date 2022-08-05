@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tiutiu/core/image_handle.dart';
+import 'package:tiutiu/core/utils/image_handle.dart';
 
 class CardDetails extends StatelessWidget {
   CardDetails({

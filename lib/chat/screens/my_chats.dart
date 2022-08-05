@@ -7,11 +7,11 @@ import 'package:tiutiu/Widgets/empty_list.dart';
 import 'package:tiutiu/backend/Model/chat_model.dart';
 import 'package:tiutiu/backend/Model/user_model.dart';
 import 'package:tiutiu/chat/common/functions.dart';
-import 'package:tiutiu/core/image_handle.dart';
+import 'package:tiutiu/core/utils/image_handle.dart';
 import 'package:tiutiu/providers/chat_provider.dart';
 import 'package:tiutiu/providers/user_provider.dart';
 import 'package:tiutiu/utils/other_functions.dart';
-import 'package:tiutiu/utils/routes.dart';
+import 'package:tiutiu/core/utils/routes/routes_name.dart';
 
 class MyChats extends StatefulWidget {
   @override
@@ -137,7 +137,7 @@ class _ListTileMessage extends StatelessWidget {
       onTap: () {
         Navigator.pushNamed(
           context,
-          Routes.CHAT,
+          Routes.chat,
           arguments: {
             'chatId': messageId,
             'chatTitle': itsMe

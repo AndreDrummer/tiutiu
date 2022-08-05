@@ -11,7 +11,7 @@ import 'package:tiutiu/backend/Controller/pet_controller.dart';
 import 'package:tiutiu/backend/Controller/user_controller.dart';
 import 'package:tiutiu/backend/Model/user_model.dart';
 import 'package:tiutiu/chat/common/functions.dart';
-import 'package:tiutiu/core/image_handle.dart';
+import 'package:tiutiu/core/utils/image_handle.dart';
 import 'package:tiutiu/providers/user_provider.dart';
 import 'package:tiutiu/utils/constantes.dart';
 import 'package:tiutiu/utils/launcher_functions.dart';
@@ -393,7 +393,7 @@ class _OnlyChatButton extends StatelessWidget {
         primary: Colors.purple,
       ),
       child: Text(
-        'CHAT',
+        'chat',
         style: TextStyle(
           color: Colors.white,
         ),

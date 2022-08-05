@@ -21,7 +21,7 @@ import 'package:tiutiu/screen/pet_detail.dart';
 import 'package:tiutiu/screen/pets_list.dart';
 import '../Widgets/floating_button_option.dart';
 import 'package:tiutiu/backend/Controller/user_controller.dart';
-import '../utils/routes.dart';
+import '../core/utils/routes/routes_name.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -156,7 +156,7 @@ class _HomeState extends State<Home> {
   }
 
   void navigateToAuth() {
-    Navigator.pushNamed(context, Routes.AUTH, arguments: true);
+    Navigator.pushNamed(context, Routes.auth, arguments: true);
   }
 
   void setUserMetaData() async {
@@ -305,7 +305,8 @@ class _HomeState extends State<Home> {
                     onTap: !isAuthenticated
                         ? navigateToAuth
                         : () {
-                            Navigator.pushNamed(context, Routes.CHOOSE_LOCATION,
+                            Navigator.pushNamed(
+                                context, Routes.pet_location_picker,
                                 arguments: {'kind': Constantes.DISAPPEARED});
                           },
                   ),
@@ -317,7 +318,8 @@ class _HomeState extends State<Home> {
                     onTap: !isAuthenticated
                         ? navigateToAuth
                         : () {
-                            Navigator.pushNamed(context, Routes.CHOOSE_LOCATION,
+                            Navigator.pushNamed(
+                                context, Routes.pet_location_picker,
                                 arguments: {'kind': Constantes.DONATE});
                           },
                   ),

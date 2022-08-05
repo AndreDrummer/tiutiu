@@ -1,13 +1,12 @@
-import 'package:flutter/cupertino.dart';
+import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:rxdart/rxdart.dart';
 
-class Location with ChangeNotifier {
-  final _permission = BehaviorSubject<LocationPermission>();
-  final _location = BehaviorSubject<LatLng>();
-  final _locationServiceEnabled = BehaviorSubject<bool>();
-  final _canContinue = BehaviorSubject<bool>.seeded(false);
+class LocationController extends GetxController {
+  final Rx<LocationPermission> _permission = LocationPermission.denied.obs;
+  final RxBool _locationServiceEnabled = false.obs;
+  final Rx<LatLng> _location = LatLng(0, 0).obs;
+  final RxBool _canContinue = false.obs;
 
   Stream<LatLng> get location => _location.stream;
   Stream<LocationPermission> get permission => _permission.stream;

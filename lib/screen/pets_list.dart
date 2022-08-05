@@ -7,7 +7,7 @@ import 'package:tiutiu/screen/appBar.dart';
 import 'package:tiutiu/utils/constantes.dart';
 import 'package:tiutiu/providers/refine_search.dart';
 import 'package:tiutiu/screen/donate_disappeared_list.dart';
-import 'package:tiutiu/utils/routes.dart';
+import 'package:tiutiu/core/utils/routes/routes_name.dart';
 
 class PetsList extends StatefulWidget {
   PetsList({
@@ -115,7 +115,7 @@ class _PetsListState extends State<PetsList> {
   @override
   Widget build(BuildContext context) {
     void navigateToAuth() {
-      Navigator.pushNamed(context, Routes.AUTH, arguments: true);
+      Navigator.pushNamed(context, Routes.auth, arguments: true);
     }
 
     return Scaffold(
