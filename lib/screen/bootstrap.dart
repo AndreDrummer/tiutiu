@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:provider/provider.dart';
 import 'package:tiutiu/Widgets/loading_page.dart';
-import 'package:tiutiu/providers/location.dart';
+import 'package:tiutiu/core/controllers/location_controller.dart';
 import 'package:tiutiu/providers/refine_search.dart';
 import 'package:tiutiu/screen/auth_or_home.dart';
 import 'package:tiutiu/screen/local_permission.dart';

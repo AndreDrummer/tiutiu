@@ -100,7 +100,7 @@ class _ChatTabState extends State<ChatTab> with SingleTickerProviderStateMixin {
                   children: [
                     if (snapshot.data == null || !snapshot.data!)
                       Text(
-                        'CHAT',
+                        'chat',
                         style: Theme.of(context).textTheme.headline1!.copyWith(
                               fontSize: 20,
                               fontWeight: FontWeight.w700,
@@ -133,7 +133,7 @@ class _ChatTabState extends State<ChatTab> with SingleTickerProviderStateMixin {
             indicatorColor: Colors.purple,
             tabs: [
               Tab(icon: Icon(Icons.chat_bubble), text: 'MINHAS CONVERSAS'),
-              Tab(icon: Icon(Icons.chat_sharp), text: 'TIU, TIU CHAT'),
+              Tab(icon: Icon(Icons.chat_sharp), text: 'TIU, TIU chat'),
             ],
           ),
         ),
