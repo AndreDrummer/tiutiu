@@ -18,18 +18,18 @@ import 'package:tiutiu/backend/Controller/user_controller.dart';
 import 'package:tiutiu/backend/Model/pet_model.dart';
 import 'package:tiutiu/backend/Model/user_model.dart';
 import 'package:tiutiu/chat/common/functions.dart';
-import 'package:tiutiu/core/image_handle.dart';
+import 'package:tiutiu/core/utils/image_handle.dart';
 import 'package:tiutiu/providers/auth2.dart';
 import 'package:tiutiu/providers/favorites_provider.dart';
 import 'package:maps_launcher/maps_launcher.dart';
-import 'package:tiutiu/providers/location.dart' as provider;
-import 'package:tiutiu/providers/location.dart';
+import 'package:tiutiu/core/controllers/location_controller.dart' as provider;
+import 'package:tiutiu/core/controllers/location_controller.dart';
 import 'package:tiutiu/providers/user_infos_interests.dart';
 import 'package:tiutiu/providers/user_provider.dart';
 import 'package:tiutiu/utils/constantes.dart';
 import 'package:tiutiu/utils/launcher_functions.dart';
 import 'package:tiutiu/utils/other_functions.dart';
-import 'package:tiutiu/utils/routes.dart';
+import 'package:tiutiu/core/utils/routes/routes_name.dart';
 import 'package:tiutiu/Widgets/background.dart';
 import 'package:tiutiu/Widgets/play_store_rating.dart';
 
@@ -126,7 +126,7 @@ class _PetDetailsState extends State<PetDetails> {
   };
 
   void navigateToAuth() {
-    Navigator.pushNamed(context, Routes.AUTH, arguments: true);
+    Navigator.pushNamed(context, Routes.auth, arguments: true);
   }
 
   Future<void> passInfoDetails(int userPosition) async {

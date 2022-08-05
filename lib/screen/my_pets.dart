@@ -15,7 +15,7 @@ import 'package:tiutiu/utils/constantes.dart';
 import 'package:tiutiu/screen/auth_screen.dart';
 import 'package:tiutiu/screen/choose_location.dart';
 import 'package:tiutiu/screen/pet_form.dart';
-import 'package:tiutiu/utils/routes.dart';
+import 'package:tiutiu/core/utils/routes/routes_name.dart';
 import 'interested_information_list.dart';
 
 class MyPetsScreen extends StatefulWidget {
@@ -91,13 +91,13 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
   void _addNewPet() {
     if ((widget.kind != Constantes.ADOPTED || widget.kind == null) &&
         isAuthenticated) {
-      Navigator.pushReplacementNamed(context, Routes.CHOOSE_LOCATION,
+      Navigator.pushReplacementNamed(context, Routes.pet_location_picker,
           arguments: {'kind': widget.kind});
     } else {
       Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(builder: (BuildContext context) => AuthScreen()),
-          ModalRoute.withName(Routes.AUTH));
+          ModalRoute.withName(Routes.auth));
     }
   }
 
