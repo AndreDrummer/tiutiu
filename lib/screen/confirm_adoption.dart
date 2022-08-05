@@ -5,7 +5,7 @@ import 'package:tiutiu/Widgets/circle_child.dart';
 import 'package:tiutiu/Widgets/popup_message.dart';
 import 'package:tiutiu/backend/Controller/user_controller.dart';
 import 'package:tiutiu/backend/Model/pet_model.dart';
-import 'package:tiutiu/core/image_handle.dart';
+import 'package:tiutiu/core/utils/image_handle.dart';
 import 'package:tiutiu/providers/pets_provider.dart';
 
 class ConfirmAdoptionScreen extends StatefulWidget {

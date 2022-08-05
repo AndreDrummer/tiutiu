@@ -8,13 +8,13 @@ import 'package:tiutiu/Widgets/input_search.dart';
 import 'package:tiutiu/Widgets/loading_page.dart';
 import 'package:tiutiu/backend/Model/pet_model.dart';
 import 'package:tiutiu/data/dummy_data.dart';
-import 'package:tiutiu/providers/location.dart';
+import 'package:tiutiu/core/controllers/location_controller.dart';
 import 'package:tiutiu/providers/pets_provider.dart';
 import 'package:tiutiu/utils/constantes.dart';
 import 'package:tiutiu/providers/refine_search.dart';
 import 'package:tiutiu/providers/user_provider.dart';
 import 'package:tiutiu/utils/other_functions.dart';
-import 'package:tiutiu/utils/routes.dart';
+import 'package:tiutiu/core/utils/routes/routes_name.dart';
 import 'package:tiutiu/utils/string_extension.dart';
 
 class DonateDisappearedList extends StatefulWidget {
@@ -186,7 +186,7 @@ class _DonateDisappearedListState extends State<DonateDisappearedList> {
               if (snapshot.data == null || petsList.length == 0) {
                 return InkWell(
                   onTap: () {
-                    Navigator.pushNamed(context, Routes.SEARCH_REFINE);
+                    Navigator.pushNamed(context, Routes.search);
                   },
                   child: Padding(
                     padding: EdgeInsets.only(top: height / 3.5),

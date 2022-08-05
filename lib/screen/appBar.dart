@@ -7,7 +7,7 @@ import 'package:tiutiu/backend/Controller/user_controller.dart';
 import 'package:tiutiu/chat/common/functions.dart';
 import 'package:tiutiu/providers/auth2.dart';
 import 'package:tiutiu/providers/user_provider.dart';
-import 'package:tiutiu/utils/routes.dart';
+import 'package:tiutiu/core/utils/routes/routes_name.dart';
 
 class TitleAppBar extends StatelessWidget {
   TitleAppBar({
@@ -41,7 +41,7 @@ class TitleAppBar extends StatelessWidget {
           children: [
             IconButton(
               onPressed: () {
-                Navigator.pushNamed(context, Routes.SEARCH_REFINE);
+                Navigator.pushNamed(context, Routes.search);
               },
               icon: Icon(
                 Icons.settings_input_component_sharp,
@@ -59,7 +59,7 @@ class TitleAppBar extends StatelessWidget {
                                 ? navigateToAuth
                                 : () {
                                     Navigator.pushNamed(
-                                        context, Routes.CHATLIST);
+                                        context, Routes.chat_list);
                                   },
                             icon: Icon(
                               Icons.chat,
@@ -100,7 +100,7 @@ class TitleAppBar extends StatelessWidget {
                                 : () {
                                     Navigator.pushNamed(
                                       context,
-                                      Routes.NOTIFICATIONS,
+                                      Routes.notifications,
                                     );
                                   },
                             icon: Icon(

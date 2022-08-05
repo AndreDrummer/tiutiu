@@ -7,12 +7,12 @@ import 'package:tiutiu/Widgets/circle_child.dart';
 import 'package:tiutiu/Widgets/fullscreen_images.dart';
 import 'package:tiutiu/Widgets/my_account_card.dart';
 import 'package:tiutiu/Widgets/popup_message.dart';
-import 'package:tiutiu/core/image_handle.dart';
+import 'package:tiutiu/core/utils/image_handle.dart';
 import 'package:tiutiu/providers/auth2.dart';
 import 'package:tiutiu/providers/user_provider.dart';
 import 'package:tiutiu/screen/my_pets.dart';
 import 'package:tiutiu/utils/constantes.dart';
-import 'package:tiutiu/utils/routes.dart';
+import 'package:tiutiu/core/utils/routes/routes_name.dart';
 
 class MyAccount extends StatefulWidget {
   @override
@@ -423,7 +423,7 @@ class _MyAccountState extends State<MyAccount> {
                         icone: Icons.chat_bubble_outline,
                         text: 'Chat',
                         onTap: () {
-                          Navigator.pushNamed(context, Routes.CHATLIST);
+                          Navigator.pushNamed(context, Routes.chat_list);
                         },
                       ),
                       MyAccountCard(
@@ -431,7 +431,7 @@ class _MyAccountState extends State<MyAccount> {
                         icone: Icons.info,
                         text: 'Sobre',
                         onTap: () {
-                          Navigator.pushNamed(context, Routes.ABOUT);
+                          Navigator.pushNamed(context, Routes.about);
                         },
                       ),
                     ],
@@ -447,7 +447,7 @@ class _MyAccountState extends State<MyAccount> {
                         children: [
                           InkWell(
                             onTap: () async {
-                              Navigator.pushNamed(context, Routes.SETTINGS);
+                              Navigator.pushNamed(context, Routes.settings);
                             },
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),

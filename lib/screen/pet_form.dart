@@ -18,14 +18,14 @@ import 'package:tiutiu/Widgets/button.dart';
 import 'package:tiutiu/Widgets/squared_add_image.dart';
 import 'package:tiutiu/backend/Model/pet_model.dart';
 import 'package:tiutiu/providers/auth2.dart';
-import 'package:tiutiu/providers/location.dart';
+import 'package:tiutiu/core/controllers/location_controller.dart';
 import 'package:tiutiu/providers/pet_form_provider.dart';
 import 'package:tiutiu/providers/pets_provider.dart';
 import 'package:tiutiu/utils/constantes.dart';
 import 'package:tiutiu/providers/user_provider.dart';
 import 'package:tiutiu/screen/selection_page.dart';
 import 'package:tiutiu/utils/other_functions.dart';
-import 'package:tiutiu/utils/routes.dart';
+import 'package:tiutiu/core/utils/routes/routes_name.dart';
 import '../Widgets/input_text.dart';
 import 'package:image_picker/image_picker.dart';
 import '../backend/Controller/pet_controller.dart';
@@ -508,7 +508,7 @@ class _PetFormState extends State<PetForm> {
       if (isSaving! || convertingImages!) {
         return Future.value(false);
       }
-      Navigator.pushReplacementNamed(context, Routes.HOME);
+      Navigator.pushReplacementNamed(context, Routes.home);
       petFormProvider!.getPetPhotos.clear();
       petPhotosToUpload.clear();
       return Future.value(true);

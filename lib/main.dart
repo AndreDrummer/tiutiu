@@ -1,153 +1,31 @@
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
-import 'package:tiutiu/Widgets/new_map.dart';
-import 'package:tiutiu/chat/screens/chat_screen.dart';
-import 'package:tiutiu/providers/auth2.dart';
-import 'package:tiutiu/providers/chat_provider.dart';
-import 'package:tiutiu/providers/favorites_provider.dart';
-import 'package:tiutiu/providers/location.dart';
-import 'package:tiutiu/providers/my_pets_provider.dart';
-import 'package:tiutiu/providers/pets_provider.dart';
-import 'package:tiutiu/providers/pet_form_provider.dart';
-import 'package:tiutiu/providers/refine_search.dart';
-import 'package:tiutiu/providers/user_infos_interests.dart';
-import 'package:tiutiu/providers/user_provider.dart';
-import 'package:tiutiu/screen/about.dart';
-import 'package:tiutiu/screen/auth_screen.dart';
-import 'package:tiutiu/screen/bootstrap.dart';
-import 'package:tiutiu/chat/screens/chat_tabs.dart';
-import 'package:tiutiu/screen/choose_location.dart';
-import 'package:tiutiu/screen/favorites.dart';
-import 'package:tiutiu/screen/home.dart';
-import 'package:tiutiu/screen/informantes_screen.dart';
-import 'package:tiutiu/screen/interested_information_list.dart';
-import 'package:tiutiu/screen/my_pets.dart';
-import 'package:tiutiu/screen/confirm_adoption.dart';
-import 'package:tiutiu/screen/notifications.dart';
-import 'package:tiutiu/screen/pet_form.dart';
-import 'package:tiutiu/screen/pet_detail.dart';
-import 'package:tiutiu/screen/refine_search.dart';
-import 'package:tiutiu/screen/register.dart';
-import 'package:tiutiu/screen/settings.dart';
-import './utils/routes.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:tiutiu/core/utils/routes/router.dart';
+import 'package:tiutiu/core/utils/routes/routes_name.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  // FirebaseAdMob.instance.initialize(appId: Constantes.ADMOB_APP_ID);
-  // Admob.initialize();
-  runApp(App());
+
+  runApp(TiuTiuApp());
 }
 
-class App extends StatelessWidget {
-  final Future<FirebaseApp> _initialization = Firebase.initializeApp();
-
+class TiuTiuApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: _initialization,
-      builder: (context, snapshot) {
-        if (snapshot.hasError) {
-          return Directionality(
-            child: MediaQuery(
-              data: MediaQueryData(),
-              child: Center(child: Text('Ocorreu um erro inesperado!')),
-            ),
-            textDirection: TextDirection.ltr,
-          );
-        }
-
-        if (snapshot.connectionState == ConnectionState.done) {
-          return MultiProvider(
-            providers: [
-              ChangeNotifierProvider(
-                create: (_) => Location(),
-              ),
-              ChangeNotifierProvider(
-                create: (_) => UserProvider(),
-              ),
-              ChangeNotifierProvider(
-                create: (_) => Authentication(),
-              ),
-              ChangeNotifierProvider(
-                create: (_) => RefineSearchProvider(),
-              ),
-              // ChangeNotifierProvider(
-              //   create: (_) => AdsProvider(),
-              // ),
-              ChangeNotifierProvider(
-                create: (_) => PetsProvider(),
-              ),
-              ChangeNotifierProvider(
-                create: (_) => MyPetsProvider(),
-              ),
-              ChangeNotifierProvider(
-                create: (_) => PetFormProvider(),
-              ),
-              ChangeNotifierProxyProvider<Authentication, FavoritesProvider>(
-                update: (context, auth, favoritesPrevious) =>
-                    FavoritesProvider(auth),
-                create: (_) => FavoritesProvider(),
-              ),
-              ChangeNotifierProvider(
-                create: (_) => UserInfoOrAdoptInterestsProvider(),
-              ),
-              ChangeNotifierProvider(
-                create: (_) => ChatProvider(),
-              )
-            ],
-            child: MaterialApp(
-              theme: ThemeData(
-                primaryColor: Colors.green,
-                primarySwatch: Colors.yellow,
-                scaffoldBackgroundColor: Color(0XFFF9F9F9),
-                appBarTheme: AppBarTheme(
-                  iconTheme: IconThemeData(color: Colors.white),
-                ),
-                textTheme: ThemeData.light().textTheme.copyWith(
-                      headline1: GoogleFonts.roboto(
-                        color: Colors.white,
-                        fontSize: 14,
-                        fontWeight: FontWeight.w400,
-                      ),
-                      button: GoogleFonts.raleway(
-                        color: Color(0XFFFFFFFF),
-                        fontSize: 14,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-              ),
-              debugShowCheckedModeBanner: false,
-              routes: {
-                Routes.BOOTSTRAP: (ctx) => Bootstrap(),
-                Routes.AUTH: (ctx) => AuthScreen(),
-                Routes.PET_FORM: (ctx) => PetForm(),
-                Routes.CHAT: (ctx) => ChatScreen(),
-                Routes.CHATLIST: (ctx) => ChatTab(),
-                Routes.SETTINGS: (ctx) => Settings(),
-                Routes.ABOUT: (ctx) => About(),
-                Routes.MEUS_PETS: (ctx) => MyPetsScreen(),
-                Routes.FAVORITES: (ctx) => Favorites(),
-                Routes.REGISTER: (ctx) => Register(),
-                Routes.HOME: (ctx) => Home(),
-                Routes.NEW_MAP: (ctx) => NewMap(),
-                Routes.CHOOSE_LOCATION: (ctx) => ChooseLocation(),
-                Routes.PET_DETAILS: (ctx) => PetDetails(),
-                Routes.SEARCH_REFINE: (ctx) => RefineSearch(),
-                Routes.INTERESTED_LIST: (ctx) => InterestedList(),
-                Routes.INFO: (ctx) => InformantesScreen(),
-                Routes.CONFIRM_ADOPTION: (ctx) => ConfirmAdoptionScreen(),
-                Routes.NOTIFICATIONS: (ctx) => NotificationScreen(),
-              },
-            ),
-          );
-        }
-
-        return Center(
-          child: CircularProgressIndicator(),
-        );
-      },
+    return ScreenUtilInit(
+      designSize: const Size(360, 690),
+      builder: (_, __) => GetMaterialApp(
+        title: 'Tiu, tiu - App',
+        theme: ThemeData(
+          primaryColor: Colors.green,
+          primarySwatch: Colors.purple,
+          scaffoldBackgroundColor: Color(0XFFF9F9F9),
+        ),
+        onGenerateRoute: RouterGenerator.onGenerateRoute,
+        debugShowCheckedModeBanner: false,
+        initialRoute: Routes.root,
+      ),
     );
   }
 }

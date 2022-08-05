@@ -2,8 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:tiutiu/backend/Model/chat_model.dart';
 import 'package:tiutiu/backend/Model/user_model.dart';
+import 'package:tiutiu/core/utils/routes/routes_name.dart';
 import 'package:tiutiu/utils/cesar_cripto.dart';
-import 'package:tiutiu/utils/routes.dart';
 import 'package:tiutiu/utils/string_extension.dart';
 
 class CommonChatFunctions {
@@ -26,7 +26,7 @@ class CommonChatFunctions {
   }) {
     Navigator.pushNamed(
       context,
-      Routes.CHAT,
+      Routes.chat,
       arguments: {
         'chatId': GenerateHashKey.cesar(firstUser.id!, secondUser.id!),
         'chatTitle': secondUser.name,
