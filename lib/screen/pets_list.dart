@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:tiutiu/Widgets/play_store_rating.dart';
+import 'package:tiutiu/features/refine_search/controller/refine_search_controller.dart';
 import 'package:tiutiu/providers/chat_provider.dart';
 import 'package:tiutiu/providers/pets_provider.dart';
 import 'package:tiutiu/screen/appBar.dart';
 import 'package:tiutiu/utils/constantes.dart';
-import 'package:tiutiu/providers/refine_search.dart';
 import 'package:tiutiu/screen/donate_disappeared_list.dart';
 import 'package:tiutiu/core/utils/routes/routes_name.dart';
+
+final RefineSearchController _refineSearchController = Get.find();
 
 class PetsList extends StatefulWidget {
   PetsList({
@@ -20,7 +23,6 @@ class PetsList extends StatefulWidget {
 }
 
 class _PetsListState extends State<PetsList> {
-  RefineSearchProvider? refineSearchProvider;
   PetsProvider? petsProvider;
   ChatProvider? chatProvider;
 
@@ -28,11 +30,13 @@ class _PetsListState extends State<PetsList> {
   void didChangeDependencies() {
     petsProvider = Provider.of<PetsProvider>(context);
     chatProvider = Provider.of<ChatProvider>(context);
-    refineSearchProvider = Provider.of<RefineSearchProvider>(context);
+
     petsProvider!.loadDisappearedPETS(
-        state: refineSearchProvider!.getStateOfResultSearch);
-    petsProvider!
-        .loadDonatePETS(state: refineSearchProvider!.getStateOfResultSearch);
+      state: 'null',
+    );
+    petsProvider!.loadDonatePETS(
+      state: 'null',
+    );
     super.didChangeDependencies();
   }
 
@@ -48,42 +52,42 @@ class _PetsListState extends State<PetsList> {
     print(widget.petKind);
     if (widget.petKind == Constantes.DISAPPEARED) {
       petsProvider!.changePetKind(Constantes.DISAPPEARED);
-      if (refineSearchProvider!.getSearchPetByTypeOnHome &&
-          refineSearchProvider!.getIsHomeFilteringByDisappeared) {
-        refineSearchProvider!.changeSearchHomePetTypeInitialValue(
-            refineSearchProvider!.getHomePetTypeFilterByDisappeared);
+      if (_refineSearchController.searchPetByTypeOnHome &&
+          _refineSearchController.isHomeFilteringByDisappeared) {
+        _refineSearchController.changeSearchHomePetTypeInitialValue(
+            _refineSearchController.homePetTypeFilterByDisappeared);
         petsProvider!.changePetType(
-            refineSearchProvider!.getHomePetTypeFilterByDisappeared);
+            _refineSearchController.homePetTypeFilterByDisappeared);
         petsProvider!.changeIsFiltering(true);
       } else {
-        refineSearchProvider!.changeSearchHomePetTypeInitialValue(
-            refineSearchProvider!.getSearchHomePetType.first);
+        _refineSearchController.changeSearchHomePetTypeInitialValue(
+            _refineSearchController.searchHomePetType.first);
         petsProvider!.changeIsFiltering(false);
       }
 
       petsProvider!.loadDisappearedPETS(
-          state: refineSearchProvider!.getStateOfResultSearch);
+          state: _refineSearchController.stateOfResultSearch);
       if (petsProvider!.getIsFilteringByBreed ||
           petsProvider!.getIsFilteringByName)
         petsProvider!
             .changeTypingSearchResult(petsProvider!.getPetsDisappeared);
     } else {
       petsProvider!.changePetKind(Constantes.DONATE);
-      if (refineSearchProvider!.getSearchPetByTypeOnHome &&
-          refineSearchProvider!.getIsHomeFilteringByDonate) {
-        refineSearchProvider!.changeSearchHomePetTypeInitialValue(
-            refineSearchProvider!.getHomePetTypeFilterByDonate);
+      if (_refineSearchController.searchPetByTypeOnHome &&
+          _refineSearchController.isHomeFilteringByDonate) {
+        _refineSearchController.changeSearchHomePetTypeInitialValue(
+            _refineSearchController.homePetTypeFilterByDonate);
         petsProvider!
-            .changePetType(refineSearchProvider!.getHomePetTypeFilterByDonate);
+            .changePetType(_refineSearchController.homePetTypeFilterByDonate);
         petsProvider!.changeIsFiltering(true);
       } else {
-        refineSearchProvider!.changeSearchHomePetTypeInitialValue(
-            refineSearchProvider!.getSearchHomePetType.first);
+        _refineSearchController.changeSearchHomePetTypeInitialValue(
+            _refineSearchController.searchHomePetType.first);
         petsProvider!.changeIsFiltering(false);
       }
 
       petsProvider!
-          .loadDonatePETS(state: refineSearchProvider!.getStateOfResultSearch);
+          .loadDonatePETS(state: _refineSearchController.stateOfResultSearch);
       if (petsProvider!.getIsFilteringByBreed ||
           petsProvider!.getIsFilteringByName)
         petsProvider!.changeTypingSearchResult(petsProvider!.getPetsDonate);

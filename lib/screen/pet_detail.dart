@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:loading_animations/loading_animations.dart';
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
@@ -57,7 +58,7 @@ class _PetDetailsState extends State<PetDetails> {
 
   late UserInfoOrAdoptInterestsProvider userInfosAdopts;
   late int timeToSendRequestAgain = 120;
-  late provider.Location userLocation;
+  // late provider.Location userLocation;
   late bool isAuthenticated = false;
   late bool interestOrInfoWasFired;
   late UserProvider userProvider;
@@ -66,7 +67,7 @@ class _PetDetailsState extends State<PetDetails> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    userLocation = Provider.of<provider.Location>(context, listen: false);
+    // userLocation = Provider.of<provider.Location>(context, listen: false);
     auth = Provider.of<Authentication>(context);
     userProvider = Provider.of<UserProvider>(context, listen: false);
     userInfosAdopts =
@@ -148,7 +149,7 @@ class _PetDetailsState extends State<PetDetails> {
 
   void sendData(int userPosition, [String? details]) {
     PetController petController = new PetController();
-    final userLocal = userLocation.getLocation;
+    // final userLocal = userLocation.getLocation;
 
     petController.showInterestOrInfo(
       petName: widget.pet!.name,
@@ -162,7 +163,7 @@ class _PetDetailsState extends State<PetDetails> {
       petReference: widget.pet!.petReference!,
       userReference: userProvider.userReference!,
       interestedAt: DateTime.now().toIso8601String(),
-      userLocation: userLocal,
+      userLocation: LatLng(0, 0),
       userPosition: userPosition,
       infoDetails: details,
       isAdopt: widget.kind == Constantes.DONATE.toUpperCase(),
@@ -500,9 +501,7 @@ class _PetDetailsState extends State<PetDetails> {
                                       ),
                                       Divider(),
                                       FutureBuilder<Object>(
-                                        future: OtherFunctions.getAddress(
-                                          Location(),
-                                        ),
+                                        future: OtherFunctions.getAddress(),
                                         builder: (context, snapshot) {
                                           if (snapshot.data == null) {
                                             return Center(
