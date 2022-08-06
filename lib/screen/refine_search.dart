@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:tiutiu/Custom/icons.dart';
-import 'package:tiutiu/Widgets/button.dart';
 import 'package:tiutiu/Widgets/badge.dart';
+import 'package:tiutiu/Widgets/button.dart';
 import 'package:tiutiu/Widgets/load_dark_screen.dart';
 import 'package:tiutiu/data/dummy_data.dart';
+import 'package:tiutiu/features/refine_search/controller/refine_search_controller.dart';
 import 'package:tiutiu/providers/pets_provider.dart';
 import 'package:tiutiu/utils/constantes.dart';
-import 'package:tiutiu/providers/refine_search.dart';
 import 'package:tiutiu/screen/selection_page.dart';
 import 'package:tiutiu/core/utils/routes/routes_name.dart';
+
+final RefineSearchController _refineSearchController = Get.find();
 
 class RefineSearch extends StatefulWidget {
   @override
@@ -18,7 +21,6 @@ class RefineSearch extends StatefulWidget {
 
 class _RefineSearchState extends State<RefineSearch> {
   PetsProvider? petsProvider;
-  RefineSearchProvider? refineSearchProvider;
   bool? isRefiningSearch = false;
   bool? isPetDisappeared = false;
   int? selectedKind;
@@ -33,21 +35,21 @@ class _RefineSearchState extends State<RefineSearch> {
   }
 
   void changePetKind(bool value) {
-    refineSearchProvider!.changeIsDisappeared(value);
+    _refineSearchController.changeIsDisappeared(value);
   }
 
   void handleSelectedKind(int index) {
-    refineSearchProvider!.clearRefineSelections();
+    _refineSearchController.clearRefineSelections();
     if (index == 0) petsProvider!.changePetType('Todos');
     petsProvider!.changePetType(petsType[index - 1]);
-    refineSearchProvider!.changeKindSelected(index);
+    _refineSearchController.changeKindSelected(index);
   }
 
   @override
   void didChangeDependencies() {
     petsProvider = Provider.of<PetsProvider>(context);
-    refineSearchProvider = Provider.of<RefineSearchProvider>(context);
-    selectedKind = refineSearchProvider!.getKindSelected;
+
+    selectedKind = _refineSearchController.kindSelected;
     // adsProvider = Provider.of(context);
     super.didChangeDependencies();
   }
@@ -57,81 +59,81 @@ class _RefineSearchState extends State<RefineSearch> {
     List listOptions = [
       {
         'title': 'Raça',
-        'valueSelected': refineSearchProvider!.getBreedSelected,
-        'selectionPageTitle': 'Selecione as Raças',
+        'valueSelected': _refineSearchController.breedSelected,
+        'selectionPaitle': 'Selecione as Raças',
         'selectionPageList': DummyData.breed[selectedKind!],
         'onValueSelected': (String value) {
-          refineSearchProvider!.changeBreedSelected(value);
+          _refineSearchController.changeBreedSelected(value);
         },
         'clearFunction': () {
-          refineSearchProvider!.changeBreedSelected('');
+          _refineSearchController.changeBreedSelected('');
         }
       },
       {
         'title': 'Tamanho',
-        'valueSelected': refineSearchProvider!.getSizeSelected,
-        'selectionPageTitle': 'Tamanhos',
+        'valueSelected': _refineSearchController.sizeSelected,
+        'selectionPaitle': 'Tamanhos',
         'selectionPageList': DummyData.size,
         'onValueSelected': (String value) {
-          refineSearchProvider!.changeSizeSelected(value);
+          _refineSearchController.changeSizeSelected(value);
         },
         'clearFunction': () {
-          refineSearchProvider!.changeSizeSelected('');
+          _refineSearchController.changeSizeSelected('');
         }
       },
       {
         'title': 'Idade',
-        'valueSelected': refineSearchProvider!.getAgeSelected,
-        'selectionPageTitle': 'Idades',
+        'valueSelected': _refineSearchController.ageSelected,
+        'selectionPaitle': 'Idades',
         'selectionPageList': DummyData.ages,
         'onValueSelected': (String value) {
           print('value $value');
           if (value == '-1 ano') {
-            refineSearchProvider!.changeAgeSelected('Menos de 1 ano');
+            _refineSearchController.changeAgeSelected('Menos de 1 ano');
           } else if (value == '10+ anos') {
-            refineSearchProvider!.changeAgeSelected('Mais de 10 anos');
+            _refineSearchController.changeAgeSelected('Mais de 10 anos');
           } else {
-            refineSearchProvider!.changeAgeSelected(value);
+            _refineSearchController.changeAgeSelected(value);
           }
         },
         'clearFunction': () {
-          refineSearchProvider!.changeAgeSelected('');
+          _refineSearchController.changeAgeSelected('');
         }
       },
       {
         'title': 'Sexo',
-        'valueSelected': refineSearchProvider!.getSexSelected,
-        'selectionPageTitle': 'Sexo',
+        'valueSelected': _refineSearchController.sexSelected,
+        'selectionPaitle': 'Sexo',
         'selectionPageList': ['Macho', 'Fêmea'],
         'onValueSelected': (String value) {
-          refineSearchProvider!.changeSexSelected(value);
+          _refineSearchController.changeSexSelected(value);
         },
         'clearFunction': () {
-          refineSearchProvider!.changeSexSelected('');
+          _refineSearchController.changeSexSelected('');
         }
       },
       {
         'title': 'Saúde',
-        'valueSelected': refineSearchProvider!.getHealthSelected,
-        'selectionPageTitle': 'Estado de saúde',
+        'valueSelected': _refineSearchController.healthSelected,
+        'selectionPaitle': 'Estado de saúde',
         'selectionPageList': DummyData.health,
         'onValueSelected': (String value) {
-          refineSearchProvider!.changeHealthSelected(value);
+          _refineSearchController.changeHealthSelected(value);
         },
         'clearFunction': () {
-          refineSearchProvider!.changeHealthSelected('');
+          _refineSearchController.changeHealthSelected('');
         }
       },
       {
         'title': 'Numa distância de até',
-        'valueSelected': refineSearchProvider!.getDistancieSelected,
-        'selectionPageTitle': 'Numa distância de até',
+        'valueSelected': _refineSearchController.distancieSelected,
+        'selectionPaitle': 'Numa distância de até',
         'selectionPageList': DummyData.distancies,
         'onValueSelected': (String value) {
-          refineSearchProvider!.changeDistancieSelected(value);
+          _refineSearchController.changeDistancieSelected(value);
         },
         'clearFunction': () {
-          refineSearchProvider!.changeDistancieSelected('');
+          _refineSearchController.changeDistancieSelected('');
         }
       },
     ];
@@ -191,8 +193,8 @@ class _RefineSearchState extends State<RefineSearch> {
                                       MaterialPageRoute(
                                         builder: (context) {
                                           return SelectionPage(
-                                            title: optionTile[
-                                                'selectionPageTitle'],
+                                            title:
+                                                optionTile['selectionPaitle'],
                                             list:
                                                 optionTile['selectionPageList'],
                                             valueSelected:
@@ -224,7 +226,7 @@ class _RefineSearchState extends State<RefineSearch> {
                         style: TextStyle(fontSize: 18),
                       ),
                       Checkbox(
-                        value: refineSearchProvider!.getIsDisappeared,
+                        value: _refineSearchController.isDisappeared,
                         onChanged: (value) {
                           changePetKind(value!);
                         },
@@ -234,7 +236,7 @@ class _RefineSearchState extends State<RefineSearch> {
                         style: TextStyle(fontSize: 18),
                       ),
                       Checkbox(
-                        value: !refineSearchProvider!.getIsDisappeared,
+                        value: !_refineSearchController.isDisappeared,
                         onChanged: (value) {
                           changePetKind(!value!);
                         },
@@ -255,32 +257,31 @@ class _RefineSearchState extends State<RefineSearch> {
                         ? null
                         : () async {
                             petsProvider!.changePetKind(
-                                refineSearchProvider!.getIsDisappeared
+                                _refineSearchController.isDisappeared
                                     ? Constantes.DISAPPEARED
                                     : Constantes.DONATE);
-                            refineSearchProvider!
+                            _refineSearchController
                                 .changeSearchHomePetTypeInitialValue(
                                     petsProvider!.getPetType);
                             petsProvider!.changeBreedSelected(
-                                refineSearchProvider!.getBreedSelected);
+                                _refineSearchController.breedSelected);
                             petsProvider!.changeSizeSelected(
-                                refineSearchProvider!.getSizeSelected);
+                                _refineSearchController.sizeSelected);
                             petsProvider!.changeAgeSelected(
-                                refineSearchProvider!.getAgeSelected);
+                                _refineSearchController.ageSelected);
                             petsProvider!.changeSexSelected(
-                                refineSearchProvider!.getSexSelected);
+                                _refineSearchController.sexSelected);
                             petsProvider!.changeHealthSelected(
-                                refineSearchProvider!.getHealthSelected);
+                                _refineSearchController.healthSelected);
                             petsProvider!.changeIsFiltering(
                                 petsProvider!.getPetType == 'Todos'
                                     ? false
                                     : true);
 
                             Navigator.pushNamed(context, Routes.home,
-                                arguments:
-                                    refineSearchProvider!.getIsDisappeared
-                                        ? 1
-                                        : 0);
+                                arguments: _refineSearchController.isDisappeared
+                                    ? 1
+                                    : 0);
                           },
                   ),
                 ),

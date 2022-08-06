@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:tiutiu/binding.dart';
 import 'package:tiutiu/core/utils/routes/router.dart';
 import 'package:tiutiu/core/utils/routes/routes_name.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
+
+  initControllers();
 
   runApp(TiuTiuApp());
 }

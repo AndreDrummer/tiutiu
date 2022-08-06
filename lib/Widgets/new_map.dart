@@ -8,11 +8,11 @@ class NewMap extends StatefulWidget {
 }
 
 class _NewMapState extends State<NewMap> with SingleTickerProviderStateMixin {
-  Location? locationProvider;
+  // Location? locationProvider;
 
   @override
   void didChangeDependencies() {
-    locationProvider = Provider.of<Location>(context);
+    // locationProvider = Provider.of<Location>(context);
     super.didChangeDependencies();
   }
 

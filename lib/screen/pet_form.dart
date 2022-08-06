@@ -132,14 +132,14 @@ class _PetFormState extends State<PetForm> {
     if (!widget.editMode!) {
       storageHashKey = generateStorageHashKey();
       if (!widget.localChanged!) {
-        currentLocation =
-            Provider.of<Location>(context, listen: false).getLocation;
+        // currentLocation =
+        //     Provider.of<Location>(context, listen: false).getLocation;
       } else {
         currentLocation = LatLng(widget.pet!.latitude!, widget.pet!.longitude!);
       }
     } else {
-      currentLocation =
-          Provider.of<Location>(context, listen: false).getLocation;
+      // currentLocation =
+      //     Provider.of<Location>(context, listen: false).getLocation;
     }
 
     convertingImages = false;

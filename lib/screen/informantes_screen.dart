@@ -34,7 +34,8 @@ class _InformantesScreenState extends State<InformantesScreen> {
     return await infoReference.get();
   }
 
-  Future<String> getAddress(Location location) async {
+  // Future<String> getAddress(Location location) async {
+  Future<String> getAddress() async {
     // final geocoding = new GoogleMapsGeocoding(apiKey: Constantes.WEB_API_KEY);
     // final result = await geocoding.searchByLocation(location);
     // return result.results.first.formattedAddress;
@@ -173,8 +174,8 @@ class _InformantesScreenState extends State<InformantesScreen> {
                           width: MediaQuery.of(context).size.width * 0.8,
                           child: FutureBuilder(
                             future: getAddress(
-                              Location(),
-                            ),
+                                // Location(),
+                                ),
                             builder: (context, snapshot) {
                               if (snapshot.data == null) {
                                 return Center(
