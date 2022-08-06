@@ -8,31 +8,25 @@ class LocationController extends GetxController {
   final Rx<LatLng> _location = LatLng(0, 0).obs;
   final RxBool _canContinue = false.obs;
 
-  Stream<LatLng> get location => _location.stream;
-  Stream<LocationPermission> get permission => _permission.stream;
-  Stream<bool> get locationServiceEnabled => _locationServiceEnabled.stream;
-  Stream<bool> get canContinue => _canContinue.stream;
+  bool get locationServiceEnabled => _locationServiceEnabled.value;
+  LocationPermission get permission => _permission.value;
+  bool get canContinue => _canContinue.value;
+  LatLng get location => _location.value;
 
-  void Function(LocationPermission) get changePermission =>
-      _permission.sink.add;
-  void Function(LatLng) get changeLocation => _location.sink.add;
+  void Function(LocationPermission) get setPermission => _permission;
+  void Function(bool) get changeCanContinue => _canContinue;
   void Function(bool) get changeLocationServiceEnabled =>
-      _locationServiceEnabled.sink.add;
-  void Function(bool) get changeCanContinue => _canContinue.sink.add;
-
-  LocationPermission get getPermission => _permission.stream.value;
-  LatLng get getLocation => _location.stream.value;
-  bool get getLocationServiceEnabled => _locationServiceEnabled.stream.value;
-  bool get getCanContinue => _canContinue.stream.value;
+      _locationServiceEnabled;
+  void Function(LatLng) get changeLocation => _location;
 
   Future<void> permissionCheck() async {
     // TODO: Ver depois como solicitar essa permissão de localização para o usuário!
-    changePermission(LocationPermission.always);
+    setPermission(LocationPermission.always);
   }
 
   Future<void> permissionRequest() async {
     // TODO: Ver depois como solicitar essa permissão de localização para o usuário!
-    changePermission(LocationPermission.always);
+    setPermission(LocationPermission.always);
   }
 
   Future<void> locationServiceIsEnabled() async {
@@ -62,7 +56,6 @@ class LocationController extends GetxController {
       changeLocation(currentLocation);
     }
 
-    notifyListeners();
     return Future.value();
   }
 }
