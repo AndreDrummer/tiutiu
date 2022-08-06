@@ -12,13 +12,13 @@ import 'package:tiutiu/utils/string_extension.dart';
 class OtherFunctions {
   static List<String> distanceCalculate(
       BuildContext context, double petLatitude, double petLongitude) {
-    provider.Location currentLoction = Provider.of(context, listen: false);
+    // provider.Location currentLoction = Provider.of(context, listen: false);
     String textDistance = '';
     String textTime = '';
 
     String? distance = MathFunctions.distanceMatrix(
-      latX: currentLoction.getLocation.latitude,
-      longX: currentLoction.getLocation.longitude,
+      // latX: currentLoction.getLocation.latitude,
+      // longX: currentLoction.getLocation.longitude,
       latY: petLatitude,
       longY: petLongitude,
     );
@@ -44,12 +44,12 @@ class OtherFunctions {
   static List<Pet> filterResultsByDistancie(BuildContext context,
       List<Pet> petsListResult, String providerDistanceSelected) {
     List<Pet> newPetList = [];
-    provider.Location location = Provider.of<provider.Location>(context);
+    // provider.Location location = Provider.of<provider.Location>(context);
 
     for (int i = 0; i < petsListResult.length; i++) {
       String? distance = MathFunctions.distanceMatrix(
-        latX: location.getLocation.latitude,
-        longX: location.getLocation.longitude,
+        // latX: location.getLocation.latitude,
+        // longX: location.getLocation.longitude,
         latY: petsListResult[i].latitude,
         longY: petsListResult[i].longitude,
       );
@@ -71,7 +71,8 @@ class OtherFunctions {
     return text.trim().capitalize();
   }
 
-  static Future<String>? getAddress(provider.Location location) async {
+  // static Future<String>? getAddress(provider.Location location) async {
+  static Future<String>? getAddress() async {
     // final geocoding = new GoogleMapsGeocoding(apiKey: Constantes.WEB_API_KEY);
     // final result = await geocoding.searchByLocation(location);
     // GeocodingModel local = GeocodingModel.fromSnapshot(result.results.first);
