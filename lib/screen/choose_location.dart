@@ -31,7 +31,7 @@ class _ChooseLocationState extends State<ChooseLocation> {
 
   @override
   Widget build(BuildContext context) {
-    Location locationProvider = Provider.of<Location>(context);
+    // Location locationProvider = Provider.of<Location>(context);
     var params =
         ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
     var kind = widget.editMode! ? widget.pet!.kind : params['kind'];
@@ -53,7 +53,7 @@ class _ChooseLocationState extends State<ChooseLocation> {
           Positioned(
             bottom: 0.0,
             child: StreamBuilder<bool>(
-              stream: locationProvider.canContinue,
+              // stream: locationProvider.canContinue,
               builder: (context, snapshot) {
                 return ButtonWide(
                   color: snapshot.data != null && snapshot.data!
