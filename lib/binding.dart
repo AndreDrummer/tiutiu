@@ -1,27 +1,19 @@
-List<Binding> bindings = [
-  UserBindings(),
-  AuthBindings(),
-  HomeBinding(),
-  PriceBinding(),
-  AdFlowsBindindg(),
-  AuctionBinding(),
-  AreaPremiumBinding(),
-  ProfileBinding(),
-  SystemGeneralSettingsBindings(),
+import 'package:get/get.dart';
+import 'package:tiutiu/core/controllers/controller_bindings.dart';
+import 'package:tiutiu/core/controllers/location_controller.dart';
+import 'package:tiutiu/core/models/binding.dart';
+
+List<Binding> _bindings = [
+  ControllerBindings(),
 ];
 
-Future<void> initServices() async {
-  for (var controller in bindings) {
+Future<void> initControllers() async {
+  for (var controller in _bindings) {
     controller.init();
   }
 
-  final PriceController _priceController = Get.find();
-  final SystemGeneralSettings _system = Get.find();
-  _system.setLoginWithAppleIsAvailableStatus(
-    isAvailable: await SignInWithApple.isAvailable(),
-  );
+  final LocationController _locationController = Get.find();
 
-  _priceController.loadCepeaProducts();
-
-  await DataLocalStrings().getUFAndCities();
+  _locationController.permissionCheck();
+  _locationController.locationServiceIsEnabled();
 }
