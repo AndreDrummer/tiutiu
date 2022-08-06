@@ -1,7 +1,10 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:tiutiu/Widgets/background.dart';
 import 'package:tiutiu/Widgets/button.dart';
+import 'package:tiutiu/core/constants/strings.dart';
+import 'package:tiutiu/core/constants/text_styles.dart';
 
 class LocalPermissionScreen extends StatelessWidget {
   LocalPermissionScreen({
@@ -18,7 +21,10 @@ class LocalPermissionScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Permissão para acessar sua localização'),
+        title: AutoSizeText(
+          LocalPermissionStrings.appBarTitle,
+          style: TextStyles.fontSize18(),
+        ),
       ),
       body: Center(
         child: SingleChildScrollView(
