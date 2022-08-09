@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:tiutiu/Widgets/button.dart';
 import 'package:tiutiu/Widgets/new_map.dart';
 import 'package:tiutiu/backend/Model/pet_model.dart';
-import 'package:tiutiu/core/controllers/location_controller.dart';
+import 'package:tiutiu/features/location/controller/current_location_controller.dart';
 import 'package:tiutiu/screen/pet_form.dart';
 import 'package:tiutiu/utils/constantes.dart';
 import 'package:tiutiu/core/utils/routes/routes_name.dart';
