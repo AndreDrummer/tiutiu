@@ -1,5 +1,5 @@
 // ignore_for_file: one_member_abstracts
 
-abstract class Binding {
+abstract class DependencyInjection {
   void init();
 }
