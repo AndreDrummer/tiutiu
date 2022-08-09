@@ -23,8 +23,9 @@ import 'package:tiutiu/core/utils/image_handle.dart';
 import 'package:tiutiu/providers/auth2.dart';
 import 'package:tiutiu/providers/favorites_provider.dart';
 import 'package:maps_launcher/maps_launcher.dart';
-import 'package:tiutiu/core/controllers/location_controller.dart' as provider;
-import 'package:tiutiu/core/controllers/location_controller.dart';
+import 'package:tiutiu/features/location/controller/current_location_controller.dart'
+    as provider;
+import 'package:tiutiu/features/location/controller/current_location_controller.dart';
 import 'package:tiutiu/providers/user_infos_interests.dart';
 import 'package:tiutiu/providers/user_provider.dart';
 import 'package:tiutiu/utils/constantes.dart';
