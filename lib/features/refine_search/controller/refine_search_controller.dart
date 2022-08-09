@@ -34,26 +34,26 @@ class RefineSearchController extends GetxController {
   final RxString _ageSelected = ''.obs;
   final RxInt _kindSelected = 0.obs;
 
-  int get kindSelected => _kindSelected.value;
-  String get breedSelected => _breedSelected.value;
-  String get sexSelected => _sexSelected.value;
-  String get sizeSelected => _sizeSelected.value;
-  String get ageSelected => _ageSelected.value;
-  String get healthSelected => _healthSelected.value;
-  String get distancieSelected => _distancieSelected.value;
-  bool get isDisappeared => _isDisappeared.value;
-  bool get searchPetByTypeOnHome => _searchPetByTypeOnHome.value;
-  List<String> get searchHomeType => _searchHomeType;
-  List<String> get searchHomePetType => _searchHomePetType;
-  String get searchHomePetTypeInitialValue =>
-      _searchHomePetTypeInitialValue.value;
-  String get searchHomeTypeInitialValue => _searchHomeTypeInitialValue.value;
-  bool get isHomeFilteringByDonate => _isHomeFilteringByDonate.value;
   bool get isHomeFilteringByDisappeared => _isHomeFilteringByDisappeared.value;
+  String get searchHomeTypeInitialValue => _searchHomeTypeInitialValue.value;
   String get homePetTypeFilterByDonate => _homePetTypeFilterByDonate.value;
+  bool get isHomeFilteringByDonate => _isHomeFilteringByDonate.value;
+  bool get searchPetByTypeOnHome => _searchPetByTypeOnHome.value;
+  String get stateOfResultSearch => _stateOfResultSearch.value;
+  List<String> get searchHomePetType => _searchHomePetType;
+  String get distancieSelected => _distancieSelected.value;
+  String get healthSelected => _healthSelected.value;
+  List<String> get searchHomeType => _searchHomeType;
+  String get breedSelected => _breedSelected.value;
+  String get sizeSelected => _sizeSelected.value;
+  bool get isDisappeared => _isDisappeared.value;
+  String get ageSelected => _ageSelected.value;
+  String get sexSelected => _sexSelected.value;
+  int get kindSelected => _kindSelected.value;
   String get homePetTypeFilterByDisappeared =>
       _homePetTypeFilterByDisappeared.value;
-  String get stateOfResultSearch => _stateOfResultSearch.value;
+  String get searchHomePetTypeInitialValue =>
+      _searchHomePetTypeInitialValue.value;
 
   void changeDistancieSelected(String) => _distancieSelected;
   void changeHealthSelected(String) => _healthSelected;
