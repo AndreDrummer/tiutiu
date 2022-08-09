@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:tiutiu/backend/Model/pet_model.dart';
-import 'package:tiutiu/core/controllers/location_controller.dart' as provider;
+import 'package:tiutiu/features/location/controller/current_location_controller.dart'
+    as provider;
 import 'package:tiutiu/screen/announcer_datails.dart';
 import 'package:tiutiu/utils/math_functions.dart';
 import 'package:tiutiu/backend/Model/user_model.dart';
