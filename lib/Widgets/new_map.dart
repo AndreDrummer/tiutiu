@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:tiutiu/core/controllers/location_controller.dart';
+import 'package:tiutiu/features/location/controller/current_location_controller.dart';
 
 class NewMap extends StatefulWidget {
   @override
