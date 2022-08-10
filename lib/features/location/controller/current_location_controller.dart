@@ -36,34 +36,35 @@ class CurrentLocationController extends GetxController {
     _canContinue(value);
   }
 
-  Future<void> requestPermission() async {
-    permission = await Geolocator.checkPermission();
-
-    if (permission != LocationPermission.always &&
-        permission != LocationPermission.whileInUse) {
-      permission = await Geolocator.requestPermission();
-    }
-  }
-
   Future<void> updateLocationServiceStatus() async {
     final isLocationServiceEnabled =
         await Geolocator.isLocationServiceEnabled();
 
     if (isLocationServiceEnabled) {
       _locationServiceStatus(LocationServiceStatus.active);
-
-      // TODO: set user current location.
     } else {
       _locationServiceStatus(LocationServiceStatus.deactivated);
     }
-    print(locationServiceStatus);
+  }
+
+  Future<void> checkPermission() async {
+    permission = await Geolocator.checkPermission();
+
+    if (permission == LocationPermission.always ||
+        permission == LocationPermission.whileInUse) {
+      // TODO: set user current location.
+    }
+  }
+
+  Future<void> updatePermission() async {
+    permission = await Geolocator.requestPermission();
   }
 
   Future<void> handleLocationPermission() async {
-    if (permission == LocationPermission.denied) {
+    if (permission == LocationPermission.deniedForever) {
       await Geolocator.openAppSettings();
     } else {
-      await Geolocator.openLocationSettings();
+      updatePermission();
     }
   }
 
@@ -71,27 +72,7 @@ class CurrentLocationController extends GetxController {
     await Geolocator.openLocationSettings();
   }
 
-  Future<void> permissionCheck() async {
-    // TODO: Ver depois como solicitar essa permissão de localização para o usuário!
-    permission = LocationPermission.always;
-  }
-
-  Future<void> permissionRequest() async {
-    // TODO: Ver depois como solicitar essa permissão de localização para o usuário!
-    permission = LocationPermission.always;
-  }
-
-  Future<void> locationServiceIsEnabled() async {
-    // TODO: Ver depois como solicitar essa permissão de localização para o usuário!
-    // changeLocationServiceEnabled(await isLocationServiceEnabled());
-  }
-
-  Future<bool> openAppLocalSettingPermissions() async {
-    // TODO: Ver depois como solicitar essa permissão de localização para o usuário!
-    return true;
-  }
-
-  Future<void> setLocation({LatLng? currentLocation}) async {
+  Future<void> setUserLocation({LatLng? currentLocation}) async {
     var position;
 
     // TODO: Ver depois como solicitar essa permissão de localização para o usuário!
