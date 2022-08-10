@@ -41,7 +41,7 @@ class _RequestPermissionsOrHome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: _currentLocationController.requestPermission(),
+      future: _currentLocationController.checkPermission(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting)
           return Center(
