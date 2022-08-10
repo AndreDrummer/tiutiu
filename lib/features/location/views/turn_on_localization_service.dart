@@ -1,6 +1,5 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:tiutiu/Widgets/background.dart';
@@ -12,17 +11,9 @@ import 'package:tiutiu/features/location/controller/current_location_controller.
 
 final CurrentLocationController _currentLocationController = Get.find();
 
-class CurrentLocalAccessPermissionView extends StatelessWidget {
-  CurrentLocalAccessPermissionView({
-    required this.locationServiceStatus,
-  });
-
-  final LocationServiceStatus locationServiceStatus;
-
+class TurnOnLocalizationService extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final isGPSEnabled = locationServiceStatus == LocationServiceStatus.active;
-
     return Scaffold(
       appBar: AppBar(
         title: AutoSizeText(
@@ -74,10 +65,8 @@ class CurrentLocalAccessPermissionView extends StatelessWidget {
                         height: MediaQuery.of(context).size.height / 3.2,
                       ),
                       ButtonWide(
-                        action: () {
-                          _currentLocationController.handleLocationPermission();
-                        },
-                        text: _getButtonText(isGPSEnabled),
+                        action: _currentLocationController.openDeviceSettings,
+                        text: LocalPermissionStrings.turnOnLocalization,
                       ),
                     ],
                   ),
@@ -88,19 +77,5 @@ class CurrentLocalAccessPermissionView extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  String _getButtonText(bool isGPSEnabled) {
-    final currentPermission = _currentLocationController.permission;
-
-    if (!isGPSEnabled) {
-      return LocalPermissionStrings.turnOnLocalization;
-    } else if (currentPermission == LocationPermission.deniedForever) {
-      return LocalPermissionStrings.openSettings;
-    } else if (currentPermission == LocationPermission.denied) {
-      return LocalPermissionStrings.grantAcess;
-    }
-
-    return LocalPermissionStrings.turnOnLocalization;
   }
 }

@@ -36,12 +36,22 @@ class CurrentLocationController extends GetxController {
     _canContinue(value);
   }
 
+  Future<void> requestPermission() async {
+    permission = await Geolocator.checkPermission();
+
+    if (permission != LocationPermission.always &&
+        permission != LocationPermission.whileInUse) {
+      permission = await Geolocator.requestPermission();
+    }
+  }
+
   Future<void> updateLocationServiceStatus() async {
     final isLocationServiceEnabled =
         await Geolocator.isLocationServiceEnabled();
 
     if (isLocationServiceEnabled) {
       _locationServiceStatus(LocationServiceStatus.active);
+
       // TODO: set user current location.
     } else {
       _locationServiceStatus(LocationServiceStatus.deactivated);
@@ -50,12 +60,14 @@ class CurrentLocationController extends GetxController {
   }
 
   Future<void> handleLocationPermission() async {
-    if (locationServiceStatus == LocationServiceStatus.deactivated) {
-      await Geolocator.openLocationSettings();
-    } else if (permission == LocationPermission.denied) {
+    if (permission == LocationPermission.denied) {
       await Geolocator.openAppSettings();
+    } else {
+      await Geolocator.openLocationSettings();
     }
+  }
 
+  Future<void> openDeviceSettings() async {
     await Geolocator.openLocationSettings();
   }
 
@@ -75,11 +87,6 @@ class CurrentLocationController extends GetxController {
   }
 
   Future<bool> openAppLocalSettingPermissions() async {
-    // TODO: Ver depois como solicitar essa permissão de localização para o usuário!
-    return true;
-  }
-
-  Future<bool> openDeviceLocalSettings() async {
     // TODO: Ver depois como solicitar essa permissão de localização para o usuário!
     return true;
   }
