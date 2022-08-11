@@ -20,7 +20,7 @@ import 'package:tiutiu/backend/Model/pet_model.dart';
 import 'package:tiutiu/backend/Model/user_model.dart';
 import 'package:tiutiu/chat/common/functions.dart';
 import 'package:tiutiu/core/utils/image_handle.dart';
-import 'package:tiutiu/providers/auth2.dart';
+import 'package:tiutiu/features/auth/controller/auth_controller.dart';
 import 'package:tiutiu/providers/favorites_provider.dart';
 import 'package:maps_launcher/maps_launcher.dart';
 import 'package:tiutiu/features/location/controller/current_location_controller.dart'

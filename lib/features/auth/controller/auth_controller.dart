@@ -1,23 +1,16 @@
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
+import 'package:get/get_state_manager/get_state_manager.dart';
+import 'package:tiutiu/Exceptions/titiu_exceptions.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:tiutiu/data/store_login.dart';
 import 'dart:io';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:google_sign_in/google_sign_in.dart';
-import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:rxdart/rxdart.dart';
-import 'package:tiutiu/data/store_login.dart';
-import 'package:tiutiu/Exceptions/titiu_exceptions.dart';
-
-class Authentication extends ChangeNotifier {
+class Authentication extends GetxController {
   final GoogleSignIn _googleSignIn = GoogleSignIn();
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  final _registered = BehaviorSubject<bool>();
   late User? firebaseUser;
-
-  Stream<bool> get registered => _registered.stream;
-  void Function(bool) get changeRegistered => _registered.sink.add;
-  bool get getRegistered => _registered.value;
 
   Future<void> loginWithGoogle({bool autologin = false}) async {
     // ignore: omit_local_variable_types
@@ -46,7 +39,6 @@ class Authentication extends ChangeNotifier {
       firebaseUser = (await _auth.signInWithCredential(credential)).user;
     }
 
-    notifyListeners();
     await alreadyRegistered();
     return Future.value();
   }
@@ -71,7 +63,6 @@ class Authentication extends ChangeNotifier {
       }
     }
 
-    notifyListeners();
     await alreadyRegistered();
     return Future.value();
   }
@@ -100,7 +91,6 @@ class Authentication extends ChangeNotifier {
       }
     }
 
-    notifyListeners();
     await alreadyRegistered();
     return Future.value();
   }
@@ -133,7 +123,6 @@ class Authentication extends ChangeNotifier {
     } catch (error) {
       throw TiuTiuAuthException('Error validating access token');
     }
-    notifyListeners();
     await alreadyRegistered();
     return Future.value();
   }
@@ -144,7 +133,6 @@ class Authentication extends ChangeNotifier {
     await Store.remove('userLoggedWithEmailPassword');
     await Store.remove('userLoggedWithFacebook');
     firebaseUser = null;
-    notifyListeners();
     print('Deslogado!');
   }
 
@@ -156,14 +144,12 @@ class Authentication extends ChangeNotifier {
 
     if (doc.data() != null) {
       if ((doc.data() as Map<String, dynamic>)['uid'].toString() == id) {
-        changeRegistered(true);
+        // changeRegistered(true);
       }
-      notifyListeners();
       return Future.value();
     }
 
-    changeRegistered(false);
-    notifyListeners();
+    // changeRegistered(false);
     return Future.value();
   }
 
@@ -193,7 +179,6 @@ class Authentication extends ChangeNotifier {
       return Future.value();
     }
 
-    notifyListeners();
     return Future.value();
   }
 }

@@ -17,7 +17,7 @@ import 'package:tiutiu/Widgets/popup_message.dart';
 import 'package:tiutiu/Widgets/button.dart';
 import 'package:tiutiu/Widgets/squared_add_image.dart';
 import 'package:tiutiu/backend/Model/pet_model.dart';
-import 'package:tiutiu/providers/auth2.dart';
+import 'package:tiutiu/features/auth/controller/auth_controller.dart';
 import 'package:tiutiu/features/location/controller/current_location_controller.dart';
 import 'package:tiutiu/providers/pet_form_provider.dart';
 import 'package:tiutiu/providers/pets_provider.dart';
