@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:tiutiu/Widgets/badge.dart';
 import 'package:tiutiu/backend/Controller/user_controller.dart';
 import 'package:tiutiu/chat/common/functions.dart';
-import 'package:tiutiu/providers/auth2.dart';
+import 'package:tiutiu/features/auth/controller/auth_controller.dart';
 import 'package:tiutiu/providers/user_provider.dart';
 import 'package:tiutiu/core/utils/routes/routes_name.dart';
 

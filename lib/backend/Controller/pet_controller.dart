@@ -1,5 +1,5 @@
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:tiutiu/providers/auth2.dart';
+import 'package:tiutiu/features/auth/controller/auth_controller.dart';
 import 'package:tiutiu/utils/constantes.dart';
 
 import '../Model/pet_model.dart';

@@ -1,0 +1,72 @@
+{
+  "project_info": {
+    "project_number": "791022711249",
+    "firebase_url": "https://tiutiu-5cd14.firebaseio.com",
+    "project_id": "tiutiu-5cd14",
+    "storage_bucket": "tiutiu-5cd14.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:791022711249:android:c455c3e55aa03aa83170f0",
+        "android_client_info": {
+          "package_name": "com.anjasolutions.tiutiu"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "791022711249-65cb7a3lbas8h7esodtqhtf31idjntil.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.anjasolutions.tiutiu",
+            "certificate_hash": "357982fc6ea6170b7160ffb8da833dff61a9d1f3"
+          }
+        },
+        {
+          "client_id": "791022711249-7vv5b1smr72a4k42u1q2l6n6uomua16o.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.anjasolutions.tiutiu",
+            "certificate_hash": "21dffe6664e491bab83a5d3f6e0477df6ecb45f8"
+          }
+        },
+        {
+          "client_id": "791022711249-f32ckkv6g4fd6nk3m66tpnnmldq3j52e.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.anjasolutions.tiutiu",
+            "certificate_hash": "fb8720b030db883ced935879e9bb2c594c04238b"
+          }
+        },
+        {
+          "client_id": "791022711249-5sm2di56ovcb3fb8aqfif8thl3sfbd1n.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAX9SWKqAIAZ0UvUGW8p8jtkhf4_gBzFKo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "791022711249-5sm2di56ovcb3fb8aqfif8thl3sfbd1n.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "791022711249-9hhuha6rp2eklqq63c151v9ngope111i.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.tiutiu"
+              }
+            }
+          ]
+        }
+      },
+      "admob_app_id": "ca-app-pub-2837828701670824~5532122619"
+    }
+  ],
+  "configuration_version": "1"
+}
