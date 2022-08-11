@@ -4,9 +4,15 @@ import 'package:get/get.dart';
 import 'package:tiutiu/dependencies.dart';
 import 'package:tiutiu/core/utils/routes/router.dart';
 import 'package:tiutiu/core/utils/routes/routes_name.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
 
   await initServices();
   runApp(TiuTiuApp());

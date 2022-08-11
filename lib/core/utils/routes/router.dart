@@ -4,7 +4,7 @@ import 'package:tiutiu/chat/screens/chat_screen.dart';
 import 'package:tiutiu/chat/screens/chat_tabs.dart';
 import 'package:tiutiu/core/utils/routes/routes_name.dart';
 import 'package:tiutiu/screen/about.dart';
-import 'package:tiutiu/screen/app_bootstrap.dart';
+import 'package:tiutiu/features/system/app_bootstrap.dart';
 import 'package:tiutiu/screen/auth_screen.dart';
 import 'package:tiutiu/screen/choose_location.dart';
 import 'package:tiutiu/screen/confirm_adoption.dart';

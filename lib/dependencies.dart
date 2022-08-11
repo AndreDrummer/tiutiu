@@ -12,7 +12,7 @@ Future<void> initServices() async {
 
   final CurrentLocationController _locationController = Get.find();
 
-  _locationController.updateLocationServiceStatus();
+  _locationController.updateGPSStatus();
 }
 
 void _initializeDependencies() {

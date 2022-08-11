@@ -8,7 +8,7 @@ import 'package:tiutiu/Widgets/input_text.dart';
 import 'package:tiutiu/Widgets/load_dark_screen.dart';
 import 'package:tiutiu/Widgets/popup_message.dart';
 import 'package:tiutiu/Widgets/button.dart';
-import 'package:tiutiu/providers/auth2.dart';
+import 'package:tiutiu/features/auth/controller/auth_controller.dart';
 
 class AuthScreen extends StatefulWidget {
   @override
