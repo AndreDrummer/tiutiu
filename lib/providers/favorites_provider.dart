@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:tiutiu/backend/Model/pet_model.dart';
-import 'package:tiutiu/providers/auth2.dart';
+import 'package:tiutiu/features/auth/controller/auth_controller.dart';
 
 class FavoritesProvider with ChangeNotifier {
   FavoritesProvider([this.auth]);

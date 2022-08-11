@@ -1,5 +1,6 @@
 import 'package:tiutiu/features/location/views/request_current_local_acess_permission_view.dart';
 import 'package:tiutiu/features/location/controller/current_location_controller.dart';
+import 'package:tiutiu/features/location/extensions/service_location_status.dart';
 import 'package:tiutiu/features/location/views/turn_on_localization_service.dart';
 import 'package:tiutiu/Widgets/load_dark_screen.dart';
 import 'package:tiutiu/screen/auth_or_home.dart';
@@ -21,12 +22,11 @@ class _BootstrapState extends State<AppBootstrap> {
       stream: Geolocator.getServiceStatusStream(),
       builder: (context, snapshot) {
         if (snapshot.data != null) {
-          _currentLocationController.updateLocationServiceStatus();
+          _currentLocationController.updateGPSStatus();
         }
 
         return Obx(
-          () => _currentLocationController.locationServiceStatus ==
-                  LocationServiceStatus.active
+          () => _currentLocationController.gpsStatus.isActive
               ? _RequestPermissionsOrHome()
               : TurnOnLocalizationService(),
         );
@@ -43,10 +43,11 @@ class _RequestPermissionsOrHome extends StatelessWidget {
     return FutureBuilder(
       future: _currentLocationController.checkPermission(),
       builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting)
+        if (snapshot.connectionState == ConnectionState.waiting) {
           return Center(
             child: LoadDarkScreen(),
           );
+        }
         return Obx(
           () {
             final accessDenied = isLocalAccessPermissionDenied(
@@ -65,7 +66,8 @@ class _RequestPermissionsOrHome extends StatelessWidget {
   }
 
   bool isLocalAccessPermissionDenied(
-      LocationPermission currentLocationPermission) {
+    LocationPermission currentLocationPermission,
+  ) {
     return currentLocationPermission != LocationPermission.always &&
         currentLocationPermission != LocationPermission.whileInUse;
   }
