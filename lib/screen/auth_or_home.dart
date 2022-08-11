@@ -4,7 +4,7 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tiutiu/Widgets/loading_page.dart';
-import 'package:tiutiu/providers/auth2.dart';
+import 'package:tiutiu/features/auth/controller/auth_controller.dart';
 import 'package:tiutiu/screen/home.dart';
 import 'package:tiutiu/screen/no_connection.dart';
 import 'package:tiutiu/screen/register.dart';
@@ -104,7 +104,7 @@ class _AuthOrHomeState extends State<AuthOrHome> {
               } else {
                 if (auth.firebaseUser != null) {
                   return StreamBuilder<bool>(
-                    stream: auth.registered,
+                    // stream: auth.registered,
                     builder: (ctx, snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
                         return LoadingPage(
