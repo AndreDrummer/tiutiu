@@ -1,31 +1,25 @@
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geolocator/geolocator.dart';
-
-enum LocationServiceStatus {
-  active,
-  deactivated,
-}
+import 'package:tiutiu/features/location/extensions/service_location_status.dart';
 
 class CurrentLocationController extends GetxController {
   final Rx<LocationPermission> _permission = LocationPermission.denied.obs;
+  final Rx<GPSStatus> _gpsStatus = GPSStatus.deactivated.obs;
   final Rx<LatLng> _currentLocation = LatLng(0, 0).obs;
-  final Rx<LocationServiceStatus> _locationServiceStatus =
-      LocationServiceStatus.deactivated.obs;
   final RxBool _canContinue = false.obs;
 
-  LocationServiceStatus get locationServiceStatus =>
-      _locationServiceStatus.value;
   LocationPermission get permission => _permission.value;
-  bool get canContinue => _canContinue.value;
   LatLng get location => _currentLocation.value;
+  GPSStatus get gpsStatus => _gpsStatus.value;
+  bool get canContinue => _canContinue.value;
 
   void set permission(LocationPermission value) {
     _permission(value);
   }
 
-  void set locationServiceEnabled(LocationServiceStatus status) {
-    _locationServiceStatus(status);
+  void set locationServiceEnabled(GPSStatus status) {
+    _gpsStatus(status);
   }
 
   void set location(LatLng value) {
@@ -36,14 +30,14 @@ class CurrentLocationController extends GetxController {
     _canContinue(value);
   }
 
-  Future<void> updateLocationServiceStatus() async {
+  Future<void> updateGPSStatus() async {
     final isLocationServiceEnabled =
         await Geolocator.isLocationServiceEnabled();
 
     if (isLocationServiceEnabled) {
-      _locationServiceStatus(LocationServiceStatus.active);
+      _gpsStatus(GPSStatus.active);
     } else {
-      _locationServiceStatus(LocationServiceStatus.deactivated);
+      _gpsStatus(GPSStatus.deactivated);
     }
   }
 
