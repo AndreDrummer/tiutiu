@@ -5,7 +5,7 @@ import 'package:tiutiu/Custom/icons.dart';
 import 'package:tiutiu/backend/Controller/user_controller.dart';
 import 'package:tiutiu/backend/Model/pet_model.dart';
 import 'package:tiutiu/backend/Model/user_model.dart';
-import 'package:tiutiu/features/auth/controller/auth_controller.dart';
+import 'package:tiutiu/features/system/controllers.dart';
 import 'package:tiutiu/providers/favorites_provider.dart';
 import 'package:tiutiu/providers/pets_provider.dart';
 import 'package:tiutiu/utils/constantes.dart';
@@ -13,7 +13,6 @@ import 'package:tiutiu/providers/user_provider.dart';
 import 'package:tiutiu/screen/pet_detail.dart';
 import 'package:tiutiu/utils/other_functions.dart';
 
-// ignore: must_be_immutable
 class CardList extends StatefulWidget {
   CardList({
     this.favorite = false,
@@ -22,10 +21,10 @@ class CardList extends StatefulWidget {
     this.kind,
   });
 
+  final bool favorite;
   final String? kind;
   final Pet? petInfo;
   final bool? donate;
-  bool? favorite;
 
   @override
   _CardListState createState() => _CardListState();
@@ -34,13 +33,10 @@ class CardList extends StatefulWidget {
 class _CardListState extends State<CardList> {
   late UserProvider userProvider;
 
-  Future loadOwner(
-    DocumentReference doc, {
-    Authentication? auth,
-  }) async {
+  Future loadOwner(DocumentReference doc) async {
     final owner = await doc.get();
-    if (auth!.firebaseUser != null) {
-      if (auth.firebaseUser!.uid ==
+    if (authController.firebaseUser != null) {
+      if (authController.firebaseUser!.uid ==
           (owner.data() as Map<String, dynamic>)['uid']) {
         Map<String, dynamic> map = {'displayName': 'Você'};
         return Future.value(map);
@@ -65,7 +61,6 @@ class _CardListState extends State<CardList> {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
     UserController user = UserController();
-    Authentication auth = Provider.of(context, listen: false);
     FavoritesProvider favoritesProvider = Provider.of(context);
 
     List<String> distanceText = OtherFunctions.distanceCalculate(
@@ -83,8 +78,7 @@ class _CardListState extends State<CardList> {
             petReference: widget.petInfo!.petReference!,
           );
         }
-        final user =
-            await loadOwner(widget.petInfo!.ownerReference!, auth: auth);
+        final user = await loadOwner(widget.petInfo!.ownerReference!);
         if (widget.petInfo!.ownerName == null) {
           print('Was null');
           widget.petInfo!.petReference!.set({"ownerName": user['name']});
@@ -97,7 +91,8 @@ class _CardListState extends State<CardList> {
             builder: (context) {
               return PetDetails(
                 petOwner: User.fromMap(user),
-                isMine: User.fromMap(user).id == auth.firebaseUser?.uid,
+                isMine:
+                    User.fromMap(user).id == authController.firebaseUser?.uid,
                 pet: widget.petInfo!,
                 kind: widget.petInfo!.kind!.toUpperCase(),
               );

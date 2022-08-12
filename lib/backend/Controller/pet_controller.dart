@@ -148,7 +148,7 @@ class PetController {
     }
   }
 
-  Future<void> insertPet(Pet pet, String petKind, Authentication auth) async {
+  Future<void> insertPet(Pet pet, String petKind) async {
     await FirebaseFirestore.instance.collection(petKind).doc().set(pet.toMap());
   }
 
