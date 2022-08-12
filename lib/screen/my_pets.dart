@@ -9,6 +9,7 @@ import 'package:tiutiu/backend/Controller/pet_controller.dart';
 import 'package:tiutiu/backend/Controller/user_controller.dart';
 import 'package:tiutiu/backend/Model/pet_model.dart';
 import 'package:tiutiu/features/auth/controller/auth_controller.dart';
+import 'package:tiutiu/features/system/controllers.dart';
 import 'package:tiutiu/providers/user_provider.dart';
 import 'package:tiutiu/providers/pets_provider.dart';
 import 'package:tiutiu/utils/constantes.dart';
@@ -38,7 +39,6 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
   late UserProvider userProvider;
   // late AdsProvider adsProvider;
   late bool isAuthenticated;
-  late Authentication auth;
 
   @override
   void initState() {
@@ -71,9 +71,8 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
   void didChangeDependencies() {
     userProvider = Provider.of(context, listen: false);
 
-    auth = Provider.of<Authentication>(context);
     petsProvider = Provider.of<PetsProvider>(context);
-    isAuthenticated = auth.firebaseUser != null;
+    isAuthenticated = authController.firebaseUser != null;
     // adsProvider = Provider.of(context);
     super.didChangeDependencies();
   }
