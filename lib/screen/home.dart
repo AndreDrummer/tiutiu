@@ -9,7 +9,7 @@ import 'package:tiutiu/Custom/icons.dart';
 import 'package:tiutiu/Widgets/popup_message.dart';
 import 'package:tiutiu/backend/Model/pet_model.dart';
 import 'package:tiutiu/backend/Model/user_model.dart';
-import 'package:tiutiu/features/auth/controller/auth_controller.dart';
+import 'package:tiutiu/features/system/controllers.dart';
 import 'package:tiutiu/providers/favorites_provider.dart';
 import 'package:tiutiu/providers/pets_provider.dart';
 import 'package:tiutiu/utils/constantes.dart';
@@ -38,7 +38,6 @@ class _HomeState extends State<Home> {
   int _selectedIndex = 0;
   late bool isAuthenticated;
   // BannerAd homeBanner;
-  late Authentication auth;
 
   // Widget _buildDialog(BuildContext context) {
   //   return AlertDialog(
@@ -117,10 +116,10 @@ class _HomeState extends State<Home> {
     // adsProvider.changeBannerWidth(MediaQuery.of(context).size.width ~/ 1);
     userProvider = Provider.of<UserProvider>(context, listen: false);
     petsProvider = Provider.of<PetsProvider>(context, listen: false);
-    auth = Provider.of<Authentication>(context, listen: false);
+
     favoritesProvider = Provider.of<FavoritesProvider>(context, listen: false);
-    if (auth.firebaseUser != null) setUserMetaData();
-    isAuthenticated = auth.firebaseUser != null;
+    if (authController.firebaseUser != null) setUserMetaData();
+    isAuthenticated = authController.firebaseUser != null;
     super.didChangeDependencies();
   }
 
@@ -134,22 +133,20 @@ class _HomeState extends State<Home> {
     return showDialog(
       context: context,
       barrierDismissible: false,
-      builder: (_) => Consumer<Authentication>(
-        builder: (context, auth, child) {
-          return PopUpMessage(
-            title: 'Encerrar aplicação',
-            message: 'Deseja realmente sair?',
-            confirmAction: () {
-              exit(0);
-            },
-            confirmText: 'Sim',
-            denyAction: () {
-              Navigator.pop(context);
-            },
-            denyText: 'Não',
-          );
-        },
-      ),
+      builder: (context) {
+        return PopUpMessage(
+          title: 'Encerrar aplicação',
+          message: 'Deseja realmente sair?',
+          confirmAction: () {
+            exit(0);
+          },
+          confirmText: 'Sim',
+          denyAction: () {
+            Navigator.pop(context);
+          },
+          denyText: 'Não',
+        );
+      },
     ).then((value) {
       return false;
     });
@@ -163,7 +160,7 @@ class _HomeState extends State<Home> {
     final CollectionReference usersEntrepreneur =
         FirebaseFirestore.instance.collection('Users');
     DocumentSnapshot doc =
-        await usersEntrepreneur.doc(auth.firebaseUser!.uid).get();
+        await usersEntrepreneur.doc(authController.firebaseUser!.uid).get();
 
     Future.delayed(Duration(seconds: 60), () {
       userProvider.changeRecentlyAuthenticated(false);
@@ -171,7 +168,7 @@ class _HomeState extends State<Home> {
     });
 
     userProvider.changeUserReference(doc.reference);
-    userProvider.changeUid(auth.firebaseUser!.uid);
+    userProvider.changeUid(authController.firebaseUser!.uid);
     userProvider
         .changePhotoUrl((doc.data() as Map<String, dynamic>)['photoURL']);
     userProvider
@@ -206,7 +203,7 @@ class _HomeState extends State<Home> {
         builder: (context) {
           return PetDetails(
             petOwner: user,
-            isMine: user.id == auth.firebaseUser?.uid,
+            isMine: user.id == authController.firebaseUser?.uid,
             pet: pet,
             kind: pet.kind!.toUpperCase(),
           );

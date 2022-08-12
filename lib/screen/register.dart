@@ -9,6 +9,7 @@ import 'package:tiutiu/Widgets/hint_error.dart';
 import 'package:tiutiu/Widgets/input_text.dart';
 import 'package:tiutiu/Widgets/load_dark_screen.dart';
 import 'package:tiutiu/features/auth/controller/auth_controller.dart';
+import 'package:tiutiu/features/system/controllers.dart';
 import 'package:tiutiu/providers/user_provider.dart';
 import 'package:tiutiu/utils/formatter.dart';
 import 'package:tiutiu/core/utils/routes/routes_name.dart';
@@ -24,7 +25,6 @@ class _RegisterState extends State<Register> {
   Map<String, File> userProfile = {};
   bool? whatsappHasError = false;
   UserProvider? userProvider;
-  Authentication? auth;
   File? imageFile0;
   String? photoURL;
 
@@ -52,7 +52,6 @@ class _RegisterState extends State<Register> {
   @override
   void didChangeDependencies() {
     userProvider = Provider.of(context, listen: false);
-    auth = Provider.of(context, listen: false);
     userProfile.putIfAbsent('photoFile', () => userProvider!.photoFILE!);
     _whatsapp.text = userProvider!.whatsapp!;
     _telefone.text = userProvider!.telefone!;
@@ -191,7 +190,7 @@ class _RegisterState extends State<Register> {
 
     storageReference = FirebaseStorage.instance
         .ref()
-        .child('${auth!.firebaseUser!.uid}')
+        .child('${authController.firebaseUser!.uid}')
         .child('avatar/foto_perfil');
 
     uploadTask = storageReference.putFile(userProfile['photoFile']!);
@@ -248,14 +247,14 @@ class _RegisterState extends State<Register> {
   Future<void> save() async {
     await uploadPhotos();
     UserController userController = UserController();
-    await userController.updateUser(auth!.firebaseUser!.uid, {
+    await userController.updateUser(authController.firebaseUser!.uid, {
       'displayName': _name.text.trim(),
-      'uid': auth!.firebaseUser!.uid,
+      'uid': authController.firebaseUser!.uid,
       'photoURL': photoURL,
       'phoneNumber': _whatsapp.text.trim(),
       'landline': _telefone.text.trim(),
       'betterContact': userProvider!.getBetterContact,
-      'email': auth!.firebaseUser!.email,
+      'email': authController.firebaseUser!.email,
       'createdAt': DateTime.now().toIso8601String()
     });
     userProvider!.changePhotoUrl(photoURL!);
@@ -538,7 +537,7 @@ class _RegisterState extends State<Register> {
                       setFinishing(true);
                       await save();
                       setFinishing(false);
-                      await auth!.alreadyRegistered();
+                      await authController.alreadyRegistered();
                       Navigator.pushReplacementNamed(
                         context,
                         Routes.auth_or_home,
