@@ -11,6 +11,7 @@ import 'package:tiutiu/Widgets/input_text.dart';
 import 'package:tiutiu/Widgets/load_dark_screen.dart';
 import 'package:tiutiu/Widgets/popup_message.dart';
 import 'package:tiutiu/features/auth/controller/auth_controller.dart';
+import 'package:tiutiu/features/system/controllers.dart';
 import 'package:tiutiu/providers/user_provider.dart';
 import 'package:tiutiu/utils/formatter.dart';
 import 'package:tiutiu/backend/Controller/user_controller.dart';
@@ -47,7 +48,6 @@ class _AppSettingsState extends State<AppSettings> {
   GlobalKey<FormState> _personalDataFormKey = GlobalKey<FormState>();
   late UserProvider userProvider;
   UserController userController = UserController();
-  late Authentication auth;
   // AdsProvider adsProvider;
 
   bool telefoneHasError = false;
@@ -116,13 +116,6 @@ class _AppSettingsState extends State<AppSettings> {
     super.initState();
   }
 
-  @override
-  void didChangeDependencies() {
-    auth = Provider.of(context);
-    // adsProvider = Provider.of(context);
-    super.didChangeDependencies();
-  }
-
   void changeSaveFormStatus(bool status, {bool deleting = false}) {
     setState(() {
       this.isSavingForm = status;
@@ -136,7 +129,7 @@ class _AppSettingsState extends State<AppSettings> {
         barrierDismissible: false,
         builder: ((context) => PopUpMessage(
               confirmAction: () {
-                auth.signOut();
+                authController.signOut();
                 userProvider.clearUserDataOnSignOut();
                 userProvider.changeRecentlyAuthenticated(true);
                 Navigator.popUntil(context, ModalRoute.withName('/'));
@@ -182,7 +175,7 @@ class _AppSettingsState extends State<AppSettings> {
     if (userProfile['photoFile'] != null) {
       storageReferenceProfile = FirebaseStorage.instance
           .ref()
-          .child('${auth.firebaseUser!.uid}')
+          .child('${authController.firebaseUser!.uid}')
           .child('avatar/foto_perfil');
 
       storageReferenceProfile.delete();
@@ -201,7 +194,7 @@ class _AppSettingsState extends State<AppSettings> {
     if (userProfile['photoFileBack'] != null) {
       storageReferenceback = FirebaseStorage.instance
           .ref()
-          .child('${auth.firebaseUser!.uid}')
+          .child('${authController.firebaseUser!.uid}')
           .child('avatar/foto_fundo');
 
       storageReferenceback.delete();
@@ -297,7 +290,8 @@ class _AppSettingsState extends State<AppSettings> {
       if (passwordWasTouched()) {
         changeSaveFormStatus(true);
         try {
-          await auth.firebaseUser!.updatePassword(_newPassword.text.trim());
+          await authController.firebaseUser!
+              .updatePassword(_newPassword.text.trim());
         } catch (error) {
           changeSaveFormStatus(false);
           isToShowDialog
@@ -314,14 +308,14 @@ class _AppSettingsState extends State<AppSettings> {
 
       await userController.updateUser(userProvider.uid!, {
         'displayName': _nameController.text.trim(),
-        'uid': auth.firebaseUser!.uid,
+        'uid': authController.firebaseUser!.uid,
         'photoURL': userProfile.isNotEmpty ? photoURL : userProvider.photoURL,
         'photoBACK':
             userProfile.isNotEmpty ? photoBACK : userProvider.photoBACK,
         'phoneNumber': _whatsAppController.text.trim(),
         'landline': _telefoneController.text.trim(),
         'betterContact': userProvider.getBetterContact,
-        'email': auth.firebaseUser!.email,
+        'email': authController.firebaseUser!.email,
         'createdAt': userProvider.createdAt
       });
 
@@ -834,7 +828,6 @@ class _AppSettingsState extends State<AppSettings> {
                                   changeSaveFormStatus(true, deleting: true);
                                   try {
                                     await userController.deleteUserAccount(
-                                      auth: auth,
                                       userReference:
                                           userProvider.userReference!,
                                     );
