@@ -19,6 +19,7 @@ import 'package:tiutiu/Widgets/squared_add_image.dart';
 import 'package:tiutiu/backend/Model/pet_model.dart';
 import 'package:tiutiu/features/auth/controller/auth_controller.dart';
 import 'package:tiutiu/features/location/controller/current_location_controller.dart';
+import 'package:tiutiu/features/system/controllers.dart';
 import 'package:tiutiu/providers/pet_form_provider.dart';
 import 'package:tiutiu/providers/pets_provider.dart';
 import 'package:tiutiu/utils/constantes.dart';
@@ -72,7 +73,6 @@ class _PetFormState extends State<PetForm> {
   int maxImages = 6;
 
   bool? macho = true;
-  Authentication? auth;
   UserProvider? userProvider;
   String? dropvalueSize;
   String? dropvalueColor;
@@ -123,8 +123,7 @@ class _PetFormState extends State<PetForm> {
 
   @override
   void initState() {
-    userId =
-        Provider.of<Authentication>(context, listen: false).firebaseUser!.uid;
+    userId = authController.firebaseUser!.uid;
 
     dropvalueSize = DummyData.size[0];
     dropvalueColor = DummyData.color[0];
@@ -149,8 +148,7 @@ class _PetFormState extends State<PetForm> {
 
   @override
   void didChangeDependencies() {
-    // adsProvider = Provider.of(context);
-    auth = Provider.of<Authentication>(context, listen: false);
+    // adsProvider = Provider.of(context)
     userProvider = Provider.of<UserProvider>(context, listen: false);
     petFormProvider = Provider.of<PetFormProvider>(context);
     petsProvider = Provider.of(context, listen: false);
@@ -452,7 +450,7 @@ class _PetFormState extends State<PetForm> {
     );
 
     !widget.editMode!
-        ? await petController.insertPet(dataPetSave, kind, auth!)
+        ? await petController.insertPet(dataPetSave, kind)
         : await petController.updatePet(dataPetSave, widget.pet!.petReference!);
 
     final finishin = DateTime.now();

@@ -21,6 +21,7 @@ import 'package:tiutiu/backend/Model/user_model.dart';
 import 'package:tiutiu/chat/common/functions.dart';
 import 'package:tiutiu/core/utils/image_handle.dart';
 import 'package:tiutiu/features/auth/controller/auth_controller.dart';
+import 'package:tiutiu/features/system/controllers.dart';
 import 'package:tiutiu/providers/favorites_provider.dart';
 import 'package:maps_launcher/maps_launcher.dart';
 import 'package:tiutiu/features/location/controller/current_location_controller.dart'
@@ -63,17 +64,15 @@ class _PetDetailsState extends State<PetDetails> {
   late bool isAuthenticated = false;
   late bool interestOrInfoWasFired;
   late UserProvider userProvider;
-  late Authentication auth;
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     // userLocation = Provider.of<provider.Location>(context, listen: false);
-    auth = Provider.of<Authentication>(context);
     userProvider = Provider.of<UserProvider>(context, listen: false);
     userInfosAdopts =
         Provider.of<UserInfoOrAdoptInterestsProvider>(context, listen: false);
-    isAuthenticated = auth.firebaseUser != null;
+    isAuthenticated = authController.firebaseUser != null;
     if (isAuthenticated) {
       userInfosAdopts.checkInfo(
         widget.pet!.petReference!,
@@ -363,7 +362,7 @@ class _PetDetailsState extends State<PetDetails> {
         ),
         actions: [
           IconButton(icon: Icon(Icons.share), onPressed: sharePet),
-          auth.firebaseUser == null
+          authController.firebaseUser == null
               ? Container()
               : IconButton(
                   onPressed: !isAuthenticated

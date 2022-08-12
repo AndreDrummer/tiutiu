@@ -8,7 +8,7 @@ import 'package:tiutiu/Widgets/fullscreen_images.dart';
 import 'package:tiutiu/Widgets/my_account_card.dart';
 import 'package:tiutiu/Widgets/popup_message.dart';
 import 'package:tiutiu/core/utils/image_handle.dart';
-import 'package:tiutiu/features/auth/controller/auth_controller.dart';
+import 'package:tiutiu/features/system/controllers.dart';
 import 'package:tiutiu/providers/user_provider.dart';
 import 'package:tiutiu/screen/my_pets.dart';
 import 'package:tiutiu/utils/constantes.dart';
@@ -30,7 +30,7 @@ class _MyAccountState extends State<MyAccount> {
     super.didChangeDependencies();
   }
 
-  Widget appBar(UserProvider userProvider, Authentication auth) {
+  Widget appBar(UserProvider userProvider) {
     return PreferredSize(
       preferredSize: Size.fromHeight(MediaQuery.of(context).size.height / 3),
       child: SafeArea(
@@ -196,7 +196,8 @@ class _MyAccountState extends State<MyAccount> {
                                           streamBuilder:
                                               userProvider.donatedPets,
                                           kind: null,
-                                          userId: auth.firebaseUser!.uid,
+                                          userId:
+                                              authController.firebaseUser!.uid,
                                         );
                                       },
                                     ),
@@ -316,7 +317,6 @@ class _MyAccountState extends State<MyAccount> {
 
   @override
   Widget build(BuildContext context) {
-    final auth = Provider.of<Authentication>(context, listen: false);
     GlobalKey<ScaffoldState> _formScaffold = GlobalKey<ScaffoldState>();
 
     final height = MediaQuery.of(context).size.height;
@@ -389,7 +389,7 @@ class _MyAccountState extends State<MyAccount> {
                                   title: 'PETs doados',
                                   streamBuilder: userProvider.donatedPets,
                                   kind: null,
-                                  userId: auth.firebaseUser!.uid,
+                                  userId: authController.firebaseUser!.uid,
                                 );
                               },
                             ),
@@ -481,7 +481,7 @@ class _MyAccountState extends State<MyAccount> {
                                 context: context,
                                 builder: (context) => PopUpMessage(
                                   confirmAction: () {
-                                    auth.signOut();
+                                    authController.signOut();
                                     userProvider.clearUserDataOnSignOut();
                                     Navigator.pop(context);
                                   },

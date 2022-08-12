@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:tiutiu/Exceptions/titiu_exceptions.dart';
@@ -7,48 +8,58 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:tiutiu/data/store_login.dart';
 import 'dart:io';
 
-class Authentication extends GetxController {
-  final GoogleSignIn _googleSignIn = GoogleSignIn();
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-  late User? firebaseUser;
+import 'package:tiutiu/features/auth/services/auth_service.dart';
 
-  Future<void> loginWithGoogle({bool autologin = false}) async {
-    // ignore: omit_local_variable_types
-    GoogleSignInAccount? googleUser = _googleSignIn.currentUser;
+class AuthController extends GetxController {
+  AuthController({
+    required this.authService,
+  });
 
-    /* ??= --> Verifica se é nulo e atribui caso verdade */
-    if (autologin) {
-      googleUser ??= await _googleSignIn.signInSilently();
-    } else {
-      googleUser ??= await _googleSignIn.signIn();
+  late GoogleSignInAccount? _googleUser;
+  final AuthService authService;
+  User? firebaseUser;
+
+  Future<bool> loginWithGoogle({bool autologin = false}) async {
+    try {
+      _googleUser = authService.googleSignIn.currentUser;
+
+      if (_googleUser == null) {
+        if (autologin) {
+          _googleUser ??= await authService.googleSignIn.signInSilently();
+        } else {
+          _googleUser ??= await authService.googleSignIn.signIn();
+        }
+      }
+
+      if (firebaseUser == null) {
+        GoogleSignInAuthentication? googleAuth =
+            await _googleUser?.authentication;
+
+        if (googleAuth?.accessToken == null && googleAuth?.idToken == null)
+          return false;
+
+        AuthCredential credential = GoogleAuthProvider.credential(
+          accessToken: googleAuth?.accessToken,
+          idToken: googleAuth?.idToken,
+        );
+
+        print('Google $credential');
+        firebaseUser =
+            (await authService.firebaseAuth.signInWithCredential(credential))
+                .user;
+      }
+    } on Exception catch (error) {
+      debugPrint('Erro $error ao realizar login com Google.');
     }
 
-    if (googleUser == null) {
-      return Future.value();
-    }
-
-    firebaseUser = _auth.currentUser;
-    // ignore: omit_local_variable_types
-    GoogleSignInAuthentication googleAuth = await googleUser.authentication;
-    if (firebaseUser == null) {
-      // ignore: omit_local_variable_types
-      AuthCredential credential = GoogleAuthProvider.credential(
-        accessToken: googleAuth.accessToken,
-        idToken: googleAuth.idToken,
-      );
-      firebaseUser = (await _auth.signInWithCredential(credential)).user;
-    }
-
-    await alreadyRegistered();
-    return Future.value();
+    return firebaseUser != null;
   }
 
   Future<void> createUserWithEmailAndPassword(
       String email, String password) async {
     try {
-      // ignore: omit_local_variable_types
-      UserCredential result = await _auth.createUserWithEmailAndPassword(
-          email: email, password: password);
+      UserCredential result = await authService.firebaseAuth
+          .createUserWithEmailAndPassword(email: email, password: password);
       firebaseUser = result.user;
 
       if (firebaseUser != null) {
@@ -68,15 +79,14 @@ class Authentication extends GetxController {
   }
 
   Future<void> passwordReset(String email) async {
-    await _auth.sendPasswordResetEmail(email: email);
+    await authService.firebaseAuth.sendPasswordResetEmail(email: email);
     return Future.value();
   }
 
   Future<void> signInWithEmailAndPassword(String email, String password) async {
     try {
-      // ignore: omit_local_variable_types
-      UserCredential result = await _auth.signInWithEmailAndPassword(
-          email: email, password: password);
+      UserCredential result = await authService.firebaseAuth
+          .signInWithEmailAndPassword(email: email, password: password);
       firebaseUser = result.user;
       if (firebaseUser != null) {
         Store.saveMap('userLoggedWithEmailPassword', {
@@ -128,8 +138,8 @@ class Authentication extends GetxController {
   }
 
   void signOut() async {
-    await _googleSignIn.signOut();
-    await _auth.signOut();
+    await authService.googleSignIn.signOut();
+    await authService.firebaseAuth.signOut();
     await Store.remove('userLoggedWithEmailPassword');
     await Store.remove('userLoggedWithFacebook');
     firebaseUser = null;

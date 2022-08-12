@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:get/get.dart';
 import 'package:tiutiu/backend/Controller/pet_controller.dart';
 import 'package:tiutiu/backend/Model/pet_model.dart';
 import 'package:tiutiu/features/auth/controller/auth_controller.dart';
+import 'package:tiutiu/features/system/controllers.dart';
 import 'package:tiutiu/utils/constantes.dart';
 import '../Model/user_model.dart';
 
@@ -303,10 +305,9 @@ class UserController {
 
   Future<void> deleteUserAccount({
     required DocumentReference userReference,
-    required Authentication auth,
   }) async {
     await deleteUserData(userReference);
-    await auth.firebaseUser?.delete();
-    auth.signOut();
+    await authController.firebaseUser?.delete();
+    authController.signOut();
   }
 }

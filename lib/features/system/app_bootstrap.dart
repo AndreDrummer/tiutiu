@@ -1,14 +1,12 @@
 import 'package:tiutiu/features/location/views/request_current_local_acess_permission_view.dart';
-import 'package:tiutiu/features/location/controller/current_location_controller.dart';
 import 'package:tiutiu/features/location/extensions/service_location_status.dart';
 import 'package:tiutiu/features/location/views/turn_on_localization_service.dart';
 import 'package:tiutiu/Widgets/load_dark_screen.dart';
-import 'package:tiutiu/screen/auth_or_home.dart';
+import 'package:tiutiu/features/system/controllers.dart';
+import 'package:tiutiu/features/auth/views/auth_or_home.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
-final CurrentLocationController _currentLocationController = Get.find();
 
 class AppBootstrap extends StatefulWidget {
   @override
@@ -22,11 +20,11 @@ class _BootstrapState extends State<AppBootstrap> {
       stream: Geolocator.getServiceStatusStream(),
       builder: (context, snapshot) {
         if (snapshot.data != null) {
-          _currentLocationController.updateGPSStatus();
+          currentLocationController.updateGPSStatus();
         }
 
         return Obx(
-          () => _currentLocationController.gpsStatus.isActive
+          () => currentLocationController.gpsStatus.isActive
               ? _RequestPermissionsOrHome()
               : TurnOnLocalizationService(),
         );
@@ -41,7 +39,7 @@ class _RequestPermissionsOrHome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: _currentLocationController.checkPermission(),
+      future: currentLocationController.checkPermission(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return Center(
@@ -51,7 +49,7 @@ class _RequestPermissionsOrHome extends StatelessWidget {
         return Obx(
           () {
             final accessDenied = isLocalAccessPermissionDenied(
-              _currentLocationController.permission,
+              currentLocationController.permission,
             );
 
             if (accessDenied) {
