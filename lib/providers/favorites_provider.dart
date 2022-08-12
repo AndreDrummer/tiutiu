@@ -2,11 +2,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:tiutiu/backend/Model/pet_model.dart';
-import 'package:tiutiu/features/auth/controller/auth_controller.dart';
+import 'package:tiutiu/features/system/controllers.dart';
 
 class FavoritesProvider with ChangeNotifier {
-  FavoritesProvider([this.auth]);
-  final Authentication? auth;
+  FavoritesProvider();
 
   final _favoritesListReference =
       BehaviorSubject<List<QueryDocumentSnapshot>>();
@@ -35,7 +34,7 @@ class FavoritesProvider with ChangeNotifier {
         FirebaseFirestore.instance.collection('Users');
     // if(auth.firebaseUser != null) {
     final favoritesListReference = await dataBaseCollection
-        .doc(auth?.firebaseUser?.uid)
+        .doc(authController.firebaseUser?.uid)
         .collection('Favorites')
         .get();
     changefavoritesListReference(favoritesListReference.docs);
