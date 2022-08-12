@@ -1,14 +1,13 @@
 import 'package:google_fonts/google_fonts.dart';
 import 'package:tiutiu/Exceptions/titiu_exceptions.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:tiutiu/Widgets/button_social_login.dart';
 import 'package:tiutiu/Widgets/hint_error.dart';
 import 'package:tiutiu/Widgets/input_text.dart';
 import 'package:tiutiu/Widgets/load_dark_screen.dart';
 import 'package:tiutiu/Widgets/popup_message.dart';
 import 'package:tiutiu/Widgets/button.dart';
-import 'package:tiutiu/features/auth/controller/auth_controller.dart';
+import 'package:tiutiu/features/system/controllers.dart';
 
 class AuthScreen extends StatefulWidget {
   @override
@@ -121,7 +120,6 @@ class _AuthScreenState extends State<AuthScreen> {
   Widget build(BuildContext context) {
     final canPop = ModalRoute.of(context)!.settings.arguments;
 
-    var auth = Provider.of<Authentication>(context);
     return Scaffold(
       backgroundColor: Theme.of(context).primaryColor,
       body: Center(
@@ -270,9 +268,10 @@ class _AuthScreenState extends State<AuthScreen> {
                                   if (validateFields()) {
                                     if (validatePassword()) {
                                       changeLogginStatus(true);
-                                      await auth.createUserWithEmailAndPassword(
-                                          email.text.trim(),
-                                          password.text.trim());
+                                      await authController
+                                          .createUserWithEmailAndPassword(
+                                              email.text.trim(),
+                                              password.text.trim());
                                       changeLogginStatus(false);
                                       setState(() {
                                         isNewAccount = !isNewAccount;
@@ -295,7 +294,8 @@ class _AuthScreenState extends State<AuthScreen> {
                                   }
                                 } else if (isToResetPassword) {
                                   changeLogginStatus(true);
-                                  await auth.passwordReset(email.text.trim());
+                                  await authController
+                                      .passwordReset(email.text.trim());
                                   await showDialog(
                                     context: context,
                                     builder: (context) => PopUpMessage(
@@ -306,7 +306,8 @@ class _AuthScreenState extends State<AuthScreen> {
                                   ).then((_) => resetPage());
                                 } else if (validateFields()) {
                                   changeLogginStatus(true);
-                                  await auth.signInWithEmailAndPassword(
+                                  await authController
+                                      .signInWithEmailAndPassword(
                                     email.text.trim(),
                                     password.text.trim(),
                                   );
@@ -386,7 +387,9 @@ class _AuthScreenState extends State<AuthScreen> {
                                     InkWell(
                                       onTap: () {
                                         changeLogginStatus(true);
-                                        auth.loginWithGoogle().then((_) {
+                                        authController
+                                            .loginWithGoogle()
+                                            .then((_) {
                                           changeLogginStatus(false);
                                           if (canPop != null &&
                                               canPop == true) {
@@ -405,7 +408,8 @@ class _AuthScreenState extends State<AuthScreen> {
                                       onTap: () async {
                                         try {
                                           changeLogginStatus(true);
-                                          await auth.signInWithFacebook();
+                                          await authController
+                                              .signInWithFacebook();
                                           if (canPop != null &&
                                               canPop == true) {
                                             Navigator.popUntil(context,
