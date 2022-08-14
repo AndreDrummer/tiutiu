@@ -23,7 +23,7 @@ import 'package:tiutiu/features/system/controllers.dart';
 import 'package:tiutiu/providers/pet_form_provider.dart';
 import 'package:tiutiu/providers/pets_provider.dart';
 import 'package:tiutiu/utils/constantes.dart';
-import 'package:tiutiu/providers/user_provider.dart';
+import 'package:tiutiu/features/tiutiu_user/controller/user_controller.dart';
 import 'package:tiutiu/screen/selection_page.dart';
 import 'package:tiutiu/utils/other_functions.dart';
 import 'package:tiutiu/core/utils/routes/routes_name.dart';

@@ -7,7 +7,7 @@ import 'package:provider/provider.dart';
 import 'package:tiutiu/Widgets/badge.dart';
 import 'package:tiutiu/Widgets/loading_page.dart';
 import 'package:tiutiu/backend/Model/interested_model.dart';
-import 'package:tiutiu/backend/Model/user_model.dart';
+import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
 import 'package:tiutiu/core/utils/image_handle.dart';
 import 'package:tiutiu/features/location/controller/current_location_controller.dart';
 import 'package:tiutiu/providers/user_infos_interests.dart';

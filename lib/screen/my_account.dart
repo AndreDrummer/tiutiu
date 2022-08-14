@@ -9,7 +9,7 @@ import 'package:tiutiu/Widgets/my_account_card.dart';
 import 'package:tiutiu/Widgets/popup_message.dart';
 import 'package:tiutiu/core/utils/image_handle.dart';
 import 'package:tiutiu/features/system/controllers.dart';
-import 'package:tiutiu/providers/user_provider.dart';
+import 'package:tiutiu/features/tiutiu_user/controller/user_controller.dart';
 import 'package:tiutiu/screen/my_pets.dart';
 import 'package:tiutiu/utils/constantes.dart';
 import 'package:tiutiu/core/utils/routes/routes_name.dart';

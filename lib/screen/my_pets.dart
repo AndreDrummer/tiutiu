@@ -10,7 +10,7 @@ import 'package:tiutiu/backend/Controller/user_controller.dart';
 import 'package:tiutiu/backend/Model/pet_model.dart';
 import 'package:tiutiu/features/auth/controller/auth_controller.dart';
 import 'package:tiutiu/features/system/controllers.dart';
-import 'package:tiutiu/providers/user_provider.dart';
+import 'package:tiutiu/features/tiutiu_user/controller/user_controller.dart';
 import 'package:tiutiu/providers/pets_provider.dart';
 import 'package:tiutiu/utils/constantes.dart';
 import 'package:tiutiu/screen/auth_screen.dart';

@@ -8,7 +8,6 @@ import 'package:tiutiu/features/auth/views/auth_error_page.dart';
 import 'package:tiutiu/features/system/controllers.dart';
 import 'package:tiutiu/screen/home.dart';
 import 'package:tiutiu/screen/no_connection.dart';
-import 'package:tiutiu/screen/register.dart';
 
 class AuthOrHome extends StatefulWidget {
   @override
