@@ -8,12 +8,12 @@ import 'package:provider/provider.dart';
 import 'package:tiutiu/Custom/icons.dart';
 import 'package:tiutiu/Widgets/popup_message.dart';
 import 'package:tiutiu/backend/Model/pet_model.dart';
-import 'package:tiutiu/backend/Model/user_model.dart';
+import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
 import 'package:tiutiu/features/system/controllers.dart';
 import 'package:tiutiu/providers/favorites_provider.dart';
 import 'package:tiutiu/providers/pets_provider.dart';
 import 'package:tiutiu/utils/constantes.dart';
-import 'package:tiutiu/providers/user_provider.dart';
+import 'package:tiutiu/features/tiutiu_user/controller/user_controller.dart';
 import 'package:tiutiu/screen/auth_screen.dart';
 import 'package:tiutiu/screen/favorites.dart';
 import 'package:tiutiu/screen/my_account.dart';
@@ -117,7 +117,6 @@ class _HomeState extends State<Home> {
     userProvider = Provider.of<UserProvider>(context, listen: false);
     petsProvider = Provider.of<PetsProvider>(context, listen: false);
 
-    favoritesProvider = Provider.of<FavoritesProvider>(context, listen: false);
     if (authController.firebaseUser != null) setUserMetaData();
     isAuthenticated = authController.firebaseUser != null;
     super.didChangeDependencies();
