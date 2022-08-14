@@ -17,7 +17,7 @@ import 'package:tiutiu/Widgets/pop_up_text_field.dart';
 import 'package:tiutiu/backend/Controller/pet_controller.dart';
 import 'package:tiutiu/backend/Controller/user_controller.dart';
 import 'package:tiutiu/backend/Model/pet_model.dart';
-import 'package:tiutiu/backend/Model/user_model.dart';
+import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
 import 'package:tiutiu/chat/common/functions.dart';
 import 'package:tiutiu/core/utils/image_handle.dart';
 import 'package:tiutiu/features/auth/controller/auth_controller.dart';
@@ -28,7 +28,7 @@ import 'package:tiutiu/features/location/controller/current_location_controller.
     as provider;
 import 'package:tiutiu/features/location/controller/current_location_controller.dart';
 import 'package:tiutiu/providers/user_infos_interests.dart';
-import 'package:tiutiu/providers/user_provider.dart';
+import 'package:tiutiu/features/tiutiu_user/controller/user_controller.dart';
 import 'package:tiutiu/utils/constantes.dart';
 import 'package:tiutiu/utils/launcher_functions.dart';
 import 'package:tiutiu/utils/other_functions.dart';

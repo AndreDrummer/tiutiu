@@ -1,11 +1,10 @@
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:tiutiu/features/auth/controller/auth_controller.dart';
-import 'package:tiutiu/utils/constantes.dart';
+import 'package:tiutiu/core/constants/firebase_env_path.dart';
 
-import '../Model/pet_model.dart';
+import '../model/pet_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class PetController {
+class PetService {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
 
   Future<DocumentReference> getReferenceFromPath(
@@ -22,9 +21,9 @@ class PetController {
 
   Future getPetToCount(DocumentReference userReference, String kind,
       {bool avalaible = true}) async {
-    if (kind == Constantes.ADOPTED) {
+    if (kind == FirebaseEnvPath.adopted) {
       return await firestore
-          .collection(Constantes.ADOPTED)
+          .collection(FirebaseEnvPath.adopted)
           .where('interestedReference', isEqualTo: userReference)
           .get();
     }
@@ -32,7 +31,7 @@ class PetController {
     return await firestore
         .collection(kind)
         .where('ownerReference', isEqualTo: userReference)
-        .where(kind == Constantes.DONATE ? 'donated' : 'found',
+        .where(kind == FirebaseEnvPath.donate ? 'donated' : 'found',
             isEqualTo: !avalaible)
         .get();
   }
@@ -48,7 +47,7 @@ class PetController {
     Query query = firestore
         .collection(petKind)
         .where(isAdopted ? 'interestedID' : 'ownerId', isEqualTo: userId);
-    if (petKind == Constantes.DONATE)
+    if (petKind == FirebaseEnvPath.donate)
       query = query..where('donated', isEqualTo: false);
     if (isAdopted) query = query.where('confirmed', isEqualTo: true);
 
@@ -57,7 +56,7 @@ class PetController {
 
   Stream<QuerySnapshot> getAdoptionsToConfirm(String userId) {
     return firestore
-        .collection(Constantes.ADOPTED)
+        .collection(FirebaseEnvPath.adopted)
         .where('interestedID', isEqualTo: userId)
         .where('confirmed', isEqualTo: false)
         .snapshots();
