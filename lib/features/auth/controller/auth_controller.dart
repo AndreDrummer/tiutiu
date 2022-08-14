@@ -1,11 +1,11 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
-import 'package:tiutiu/Exceptions/titiu_exceptions.dart';
+import 'package:tiutiu/core/Exceptions/titiu_exceptions.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:tiutiu/data/store_login.dart';
+import 'package:tiutiu/core/data/store_login.dart';
 import 'dart:io';
 
 import 'package:tiutiu/features/auth/services/auth_service.dart';
@@ -17,7 +17,9 @@ class AuthController extends GetxController {
 
   late GoogleSignInAccount? _googleUser;
   final AuthService authService;
-  User? firebaseUser;
+  User? _firebaseUser;
+
+  User? get firebaseUser => _firebaseUser;
 
   Future<bool> loginWithGoogle({bool autologin = false}) async {
     try {
@@ -44,7 +46,7 @@ class AuthController extends GetxController {
         );
 
         print('Google $credential');
-        firebaseUser =
+        _firebaseUser =
             (await authService.firebaseAuth.signInWithCredential(credential))
                 .user;
       }
@@ -60,7 +62,7 @@ class AuthController extends GetxController {
     try {
       UserCredential result = await authService.firebaseAuth
           .createUserWithEmailAndPassword(email: email, password: password);
-      firebaseUser = result.user;
+      _firebaseUser = result.user;
 
       if (firebaseUser != null) {
         Store.saveMap('userLoggedWithEmailPassword', {
@@ -87,7 +89,7 @@ class AuthController extends GetxController {
     try {
       UserCredential result = await authService.firebaseAuth
           .signInWithEmailAndPassword(email: email, password: password);
-      firebaseUser = result.user;
+      _firebaseUser = result.user;
       if (firebaseUser != null) {
         Store.saveMap('userLoggedWithEmailPassword', {
           'email': email,
@@ -129,7 +131,7 @@ class AuthController extends GetxController {
       // Once signed in, return the UserCredential
       UserCredential userCredential = await FirebaseAuth.instance
           .signInWithCredential(facebookAuthCredential);
-      firebaseUser = userCredential.user;
+      _firebaseUser = userCredential.user;
     } catch (error) {
       throw TiuTiuAuthException('Error validating access token');
     }
@@ -142,7 +144,7 @@ class AuthController extends GetxController {
     await authService.firebaseAuth.signOut();
     await Store.remove('userLoggedWithEmailPassword');
     await Store.remove('userLoggedWithFacebook');
-    firebaseUser = null;
+    _firebaseUser = null;
     print('Deslogado!');
   }
 
@@ -164,6 +166,8 @@ class AuthController extends GetxController {
   }
 
   Future<void> tryAutoLoginIn() async {
+    if (authService.firebaseAuth.currentUser != null) {}
+
     if (firebaseUser != null) {
       print('firebaseUser não é nulo');
       return Future.value();

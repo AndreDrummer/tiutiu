@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tiutiu/backend/Model/user_model.dart';
+import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
 import 'package:tiutiu/core/utils/image_handle.dart';
 
 class InterestedListTile extends StatelessWidget {
@@ -14,7 +14,7 @@ class InterestedListTile extends StatelessWidget {
   final Function()? navigateToInterestedDetail;
   final Function()? trailingFunction;
   final Widget? trailingChild;
-  final User? interestedUser;
+  final TiutiuUser? interestedUser;
   final String? subtitle;
 
   @override

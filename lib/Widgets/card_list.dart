@@ -4,12 +4,12 @@ import 'package:provider/provider.dart';
 import 'package:tiutiu/Custom/icons.dart';
 import 'package:tiutiu/backend/Controller/user_controller.dart';
 import 'package:tiutiu/backend/Model/pet_model.dart';
-import 'package:tiutiu/backend/Model/user_model.dart';
+import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
 import 'package:tiutiu/features/system/controllers.dart';
 import 'package:tiutiu/providers/favorites_provider.dart';
 import 'package:tiutiu/providers/pets_provider.dart';
 import 'package:tiutiu/utils/constantes.dart';
-import 'package:tiutiu/providers/user_provider.dart';
+import 'package:tiutiu/features/tiutiu_user/controller/user_controller.dart';
 import 'package:tiutiu/screen/pet_detail.dart';
 import 'package:tiutiu/utils/other_functions.dart';
 
@@ -90,9 +90,9 @@ class _CardListState extends State<CardList> {
           MaterialPageRoute(
             builder: (context) {
               return PetDetails(
-                petOwner: User.fromMap(user),
-                isMine:
-                    User.fromMap(user).id == authController.firebaseUser?.uid,
+                petOwner: TiutiuUser.fromMap(user),
+                isMine: TiutiuUser.fromMap(user).id ==
+                    authController.firebaseUser?.uid,
                 pet: widget.petInfo!,
                 kind: widget.petInfo!.kind!.toUpperCase(),
               );
@@ -218,7 +218,7 @@ class _CardListState extends State<CardList> {
                     Column(
                       children: [
                         IconButton(
-                          icon: widget.favorite!
+                          icon: widget.favorite
                               ? Icon(
                                   favoritesProvider.getFavoritesPETSIDList
                                           .contains(
@@ -231,7 +231,7 @@ class _CardListState extends State<CardList> {
                               : Icon(Tiutiu.location_arrow,
                                   size: 25,
                                   color: Theme.of(context).primaryColor),
-                          onPressed: !widget.favorite!
+                          onPressed: !widget.favorite
                               ? null
                               : () {
                                   if (favoritesProvider.getFavoritesPETSIDList

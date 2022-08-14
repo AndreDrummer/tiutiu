@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:tiutiu/backend/Model/chat_model.dart';
 import 'package:tiutiu/backend/Model/message_model.dart';
 import 'package:tiutiu/providers/chat_provider.dart';
-import 'package:tiutiu/providers/user_provider.dart';
+import 'package:tiutiu/features/tiutiu_user/controller/user_controller.dart';
 
 FirebaseFirestore firestore = FirebaseFirestore.instance;
 

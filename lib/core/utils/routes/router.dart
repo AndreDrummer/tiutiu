@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:tiutiu/Widgets/new_map.dart';
-import 'package:tiutiu/chat/screens/chat_screen.dart';
-import 'package:tiutiu/chat/screens/chat_tabs.dart';
 import 'package:tiutiu/core/utils/routes/routes_name.dart';
+import 'package:tiutiu/features/chat/screens/chat_screen.dart';
+import 'package:tiutiu/features/chat/screens/chat_tabs.dart';
 import 'package:tiutiu/screen/about.dart';
 import 'package:tiutiu/features/system/app_bootstrap.dart';
 import 'package:tiutiu/screen/auth_screen.dart';

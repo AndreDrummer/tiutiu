@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:tiutiu/backend/Model/user_model.dart';
+import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
+import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
 
 class Message {
   Message({
@@ -17,7 +18,8 @@ class Message {
       : text = (snapshot.data() as Map<String, dynamic>)['text'],
         createdAt = (snapshot.data() as Map<String, dynamic>)['createdAt'],
         userId = (snapshot.data() as Map<String, dynamic>)['userId'],
-        user = User.fromMap((snapshot.data() as Map<String, dynamic>)['user']),
+        user = TiutiuUser.fromMap(
+            (snapshot.data() as Map<String, dynamic>)['user']),
         receiverId = (snapshot.data() as Map<String, dynamic>)['receiverId'],
         receiverNotificationToken = (snapshot.data()
             as Map<String, dynamic>)['receiverNotificationToken'],
@@ -31,7 +33,7 @@ class Message {
       'text': text,
       'createdAt': createdAt,
       'userId': userId,
-      'user': user.toJson(),
+      'user': user.toMap(),
       'receiverId': receiverId,
       'receiverNotificationToken': receiverNotificationToken,
       'notificationType': notificationType,
@@ -42,7 +44,7 @@ class Message {
   String text;
   dynamic createdAt;
   String userId;
-  User user;
+  TiutiuUser user;
   String receiverId;
   String receiverNotificationToken;
   String notificationType;
