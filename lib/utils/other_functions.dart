@@ -7,7 +7,7 @@ import 'package:tiutiu/features/location/controller/current_location_controller.
     as provider;
 import 'package:tiutiu/screen/announcer_datails.dart';
 import 'package:tiutiu/utils/math_functions.dart';
-import 'package:tiutiu/backend/Model/user_model.dart';
+import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
 import 'package:tiutiu/utils/string_extension.dart';
 
 class OtherFunctions {

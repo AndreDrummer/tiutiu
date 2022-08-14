@@ -5,11 +5,11 @@ import 'package:provider/provider.dart';
 import 'package:tiutiu/Widgets/badge.dart';
 import 'package:tiutiu/Widgets/empty_list.dart';
 import 'package:tiutiu/backend/Model/chat_model.dart';
-import 'package:tiutiu/backend/Model/user_model.dart';
+import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
 import 'package:tiutiu/chat/common/functions.dart';
 import 'package:tiutiu/core/utils/image_handle.dart';
 import 'package:tiutiu/providers/chat_provider.dart';
-import 'package:tiutiu/providers/user_provider.dart';
+import 'package:tiutiu/features/tiutiu_user/controller/user_controller.dart';
 import 'package:tiutiu/utils/other_functions.dart';
 import 'package:tiutiu/core/utils/routes/routes_name.dart';
 
@@ -57,9 +57,9 @@ class _MyChatsState extends State<MyChats> {
                   return Center(child: CircularProgressIndicator());
 
                 snapshot.data!.docs.forEach((element) {
-                  if (User.fromMap(element.get('firstUser')).id ==
+                  if (TiutiuUser.fromMap(element.get('firstUser')).id ==
                           userProvider.uid ||
-                      User.fromMap(element.get('secondUser')).id ==
+                      TiutiuUser.fromMap(element.get('secondUser')).id ==
                           userProvider.uid) messagesList.add(element);
                 });
 

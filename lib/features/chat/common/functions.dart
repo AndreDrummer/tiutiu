@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:tiutiu/backend/Model/chat_model.dart';
-import 'package:tiutiu/backend/Model/user_model.dart';
+import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
 import 'package:tiutiu/core/utils/routes/routes_name.dart';
 import 'package:tiutiu/utils/cesar_cripto.dart';
 import 'package:tiutiu/utils/string_extension.dart';
@@ -115,8 +115,8 @@ class CommonChatFunctions {
     List<QueryDocumentSnapshot> messagesList = [];
     if (snapshot.data != null) {
       snapshot.data!.docs.forEach((element) {
-        if (User.fromMap(element.get('firstUser')).id == uid ||
-            User.fromMap(element.get('secondUser')).id == uid)
+        if (TiutiuUser.fromMap(element.get('firstUser')).id == uid ||
+            TiutiuUser.fromMap(element.get('secondUser')).id == uid)
           messagesList.add(element);
       });
 

@@ -1,5 +1,5 @@
 import 'package:google_fonts/google_fonts.dart';
-import 'package:tiutiu/Exceptions/titiu_exceptions.dart';
+import 'package:tiutiu/core/Exceptions/titiu_exceptions.dart';
 import 'package:flutter/material.dart';
 import 'package:tiutiu/Widgets/button_social_login.dart';
 import 'package:tiutiu/Widgets/hint_error.dart';
