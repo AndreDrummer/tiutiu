@@ -1,5 +1,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:tiutiu/backend/Model/user_model.dart';
+import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
+
+enum ChatEnum {
+  lastMessageTime,
+  lastMessage,
+  lastSender,
+  secondUser,
+  firstUser,
+  open,
+  id,
+}
 
 class Chat {
   Chat({
@@ -14,9 +24,9 @@ class Chat {
 
   Chat.fromSnapshot(DocumentSnapshot snapshot)
       : open = (snapshot.data() as Map<String, dynamic>)['open'],
-        firstUser = User.fromMap(
+        firstUser = TiutiuUser.fromMap(
             (snapshot.data() as Map<String, dynamic>)['firstUser']),
-        secondUser = User.fromMap(
+        secondUser = TiutiuUser.fromMap(
             (snapshot.data() as Map<String, dynamic>)['secondUser']),
         lastSender = (snapshot.data() as Map<String, dynamic>)['lastSender'],
         id = snapshot.id,
@@ -27,8 +37,8 @@ class Chat {
   Map<String, dynamic> toJson() {
     return {
       'lastMessageTime': lastMessageTime,
-      'secondUser': secondUser.toJson(),
-      'firstUser': firstUser.toJson(),
+      'secondUser': secondUser.toMap(),
+      'firstUser': firstUser.toMap(),
       'lastMessage': lastMessage,
       'lastSender': lastSender,
       'open': open,
@@ -37,10 +47,10 @@ class Chat {
   }
 
   Timestamp? lastMessageTime;
+  TiutiuUser secondUser;
+  TiutiuUser firstUser;
   String? lastMessage;
   String? lastSender;
-  User secondUser;
-  User firstUser;
   String? id;
   bool? open;
 }

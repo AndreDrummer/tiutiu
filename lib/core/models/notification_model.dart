@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:tiutiu/backend/Controller/pet_controller.dart';
+import 'package:tiutiu/features/pets/services/pet_service.dart';
 
 class NotificationModel {
   NotificationModel.fromSnapshot(DocumentSnapshot snapshot) {
@@ -41,7 +41,7 @@ class NotificationModel {
     open = (snapshot.data() as Map<String, dynamic>)['open'];
   }
 
-  PetController petController = PetController();
+  PetService petService = PetService();
 
   Map<String, dynamic> toJson() {
     return {
@@ -62,8 +62,8 @@ class NotificationModel {
     for (int i = 0; i < listReference.length; i++) {
       mountPath += '/${listReference[i]}';
     }
-    final ref = await petController.getReferenceFromPath(
-        mountPath, snapshot, fieldName);
+    final ref =
+        await petService.getReferenceFromPath(mountPath, snapshot, fieldName);
     return ref;
   }
 
