@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:tiutiu/chat/screens/my_chats.dart';
-import 'package:tiutiu/chat/screens/global_chat.dart';
+import 'package:tiutiu/features/chat/screens/my_chats.dart';
+import 'package:tiutiu/features/chat/screens/global_chat.dart';
 import 'package:tiutiu/providers/chat_provider.dart';
 import 'package:tiutiu/utils/string_extension.dart';
 

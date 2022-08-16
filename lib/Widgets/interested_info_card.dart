@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tiutiu/Custom/icons.dart';
+import 'package:tiutiu/core/Custom/icons.dart';
 import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
 import 'package:tiutiu/core/utils/image_handle.dart';
 import 'package:tiutiu/utils/launcher_functions.dart';
@@ -19,7 +19,7 @@ class InterestedInfoCard extends StatefulWidget {
   final Function()? infoOrDonateFunction;
   final String? infoOrDonteText;
   final Function()? openChat;
-  final User? interestedUser;
+  final TiutiuUser? interestedUser;
   final String? subtitle;
   final Color? color;
 
@@ -77,7 +77,7 @@ class _InterestedInfoCardState extends State<InterestedInfoCard> {
                     Container(
                       width: width - 100,
                       child: Text(
-                        widget.interestedUser!.name!,
+                        widget.interestedUser!.displayName!,
                         style: TextStyle(
                           fontWeight: FontWeight.w700,
                           fontSize: 16,

@@ -3,8 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tiutiu/Widgets/circle_child.dart';
 import 'package:tiutiu/Widgets/popup_message.dart';
-import 'package:tiutiu/backend/Controller/user_controller.dart';
-import 'package:tiutiu/backend/Model/pet_model.dart';
+import 'package:tiutiu/features/pets/model/pet_model.dart';
 import 'package:tiutiu/core/utils/image_handle.dart';
 import 'package:tiutiu/providers/pets_provider.dart';
 
@@ -15,7 +14,7 @@ class ConfirmAdoptionScreen extends StatefulWidget {
 
 class _ConfirmAdoptionScreenState extends State<ConfirmAdoptionScreen> {
   // UserProvider userProvider;
-  UserController userController = UserController();
+
   bool confirmingAdoption = false;
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   // AdsProvider adsProvider;
@@ -48,55 +47,14 @@ class _ConfirmAdoptionScreenState extends State<ConfirmAdoptionScreen> {
         denyAction: () => Navigator.pop(context),
         denyText: 'Não',
         confirmText: 'Sim',
-        confirmAction: () async {
-          Navigator.pop(context);
-          if (confirmAction) {
-            changeConfirmingOrDenyAdoptionStatus(true);
-            await userController
-                .confirmDonate(
-              petRef!,
-              userRef!,
-            )
-                .then(
-              (value) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text(
-                      'Ação realizada com sucesso!',
-                    ),
-                  ),
-                );
-              },
-            );
-            changeConfirmingOrDenyAdoptionStatus(false);
-          } else {
-            changeConfirmingOrDenyAdoptionStatus(true);
-            await userController
-                .denyDonate(
-              petRef!,
-              userRef!,
-            )
-                .then(
-              (value) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text(
-                      'Ação realizada com sucesso!',
-                    ),
-                  ),
-                );
-              },
-            );
-            changeConfirmingOrDenyAdoptionStatus(false);
-          }
-        },
+        confirmAction: () async {},
       ),
     );
   }
 
   @override
   void didChangeDependencies() {
-    // // userProvider = Provider.of<UserProvider>(context);
+    // //
     petsProvider = Provider.of<PetsProvider>(context);
     // adsProvider = Provider.of(context);
     super.didChangeDependencies();
@@ -108,7 +66,7 @@ class _ConfirmAdoptionScreenState extends State<ConfirmAdoptionScreen> {
       key: _scaffoldKey,
       appBar: AppBar(title: Text('Adoções pendentes de confirmação')),
       body: StreamBuilder<QuerySnapshot>(
-        // stream: userProvider.adoptionToConfirm(),
+        // stream: tiutiuUserController.tiutiuUseradoptionToConfirm(),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(
@@ -196,15 +154,7 @@ class _ConfirmAdoptionScreenState extends State<ConfirmAdoptionScreen> {
                           child: Row(
                             children: [
                               InkWell(
-                                onTap: () {
-                                  denyOrConfirmAdoption(
-                                    confirmAction: true,
-                                    petName: pets[index].name,
-                                    petRef: snapshot.data!.docs[index]
-                                        .data()['petReference'],
-                                    // userRef: userProvider.userReference,
-                                  );
-                                },
+                                onTap: () {},
                                 child: Column(
                                   children: [
                                     CircleChild(
@@ -222,15 +172,7 @@ class _ConfirmAdoptionScreenState extends State<ConfirmAdoptionScreen> {
                                   width: MediaQuery.of(context).size.width *
                                       0.025),
                               InkWell(
-                                onTap: () {
-                                  denyOrConfirmAdoption(
-                                    confirmAction: false,
-                                    petName: pets[index].name,
-                                    petRef: snapshot.data!.docs[index]
-                                        .data()['petReference'],
-                                    // userRef: userProvider.userReference,
-                                  );
-                                },
+                                onTap: () {},
                                 child: Column(
                                   children: [
                                     CircleChild(

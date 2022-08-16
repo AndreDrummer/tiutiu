@@ -5,22 +5,20 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:provider/provider.dart';
-import 'package:tiutiu/Custom/icons.dart';
+import 'package:tiutiu/core/Custom/icons.dart';
 import 'package:tiutiu/Widgets/popup_message.dart';
-import 'package:tiutiu/backend/Model/pet_model.dart';
+import 'package:tiutiu/features/pets/model/pet_model.dart';
 import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
 import 'package:tiutiu/features/system/controllers.dart';
-import 'package:tiutiu/providers/favorites_provider.dart';
 import 'package:tiutiu/providers/pets_provider.dart';
-import 'package:tiutiu/utils/constantes.dart';
-import 'package:tiutiu/features/tiutiu_user/controller/user_controller.dart';
+import 'package:tiutiu/core/constants/firebase_env_path.dart';
 import 'package:tiutiu/screen/auth_screen.dart';
 import 'package:tiutiu/screen/favorites.dart';
 import 'package:tiutiu/screen/my_account.dart';
 import 'package:tiutiu/screen/pet_detail.dart';
 import 'package:tiutiu/screen/pets_list.dart';
+import 'package:tiutiu/utils/constantes.dart';
 import '../Widgets/floating_button_option.dart';
-import 'package:tiutiu/backend/Controller/user_controller.dart';
 import '../core/utils/routes/routes_name.dart';
 
 class Home extends StatefulWidget {
@@ -29,11 +27,10 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  late FavoritesProvider favoritesProvider;
   // TODO: Configurar PushNotification
   // final fbm = FirebaseMessaging();
   late PetsProvider petsProvider;
-  late UserProvider userProvider;
+
   // AdsProvider adsProvider;
   int _selectedIndex = 0;
   late bool isAuthenticated;
@@ -114,7 +111,7 @@ class _HomeState extends State<Home> {
   @override
   void didChangeDependencies() {
     // adsProvider.changeBannerWidth(MediaQuery.of(context).size.width ~/ 1);
-    userProvider = Provider.of<UserProvider>(context, listen: false);
+
     petsProvider = Provider.of<PetsProvider>(context, listen: false);
 
     if (authController.firebaseUser != null) setUserMetaData();
@@ -157,35 +154,17 @@ class _HomeState extends State<Home> {
 
   void setUserMetaData() async {
     final CollectionReference usersEntrepreneur =
-        FirebaseFirestore.instance.collection('Users');
+        FirebaseFirestore.instance.collection(FirebaseEnvPath.users);
     DocumentSnapshot doc =
         await usersEntrepreneur.doc(authController.firebaseUser!.uid).get();
 
     Future.delayed(Duration(seconds: 60), () {
-      userProvider.changeRecentlyAuthenticated(false);
       print('Não autenticado recentemente...');
     });
 
-    userProvider.changeUserReference(doc.reference);
-    userProvider.changeUid(authController.firebaseUser!.uid);
-    userProvider
-        .changePhotoUrl((doc.data() as Map<String, dynamic>)['photoURL']);
-    userProvider
-        .changePhotoBack((doc.data() as Map<String, dynamic>)['photoBACK']);
-    userProvider
-        .changeWhatsapp((doc.data() as Map<String, dynamic>)['phoneNumber']);
-    userProvider
-        .changeDisplayName((doc.data() as Map<String, dynamic>)['displayName']);
-    userProvider
-        .changeCreatedAt((doc.data() as Map<String, dynamic>)['createdAt']);
-    userProvider
-        .changeTelefone((doc.data() as Map<String, dynamic>)['landline']);
-    userProvider.changeBetterContact(
-        (doc.data() as Map<String, dynamic>)['betterContact']);
-    userProvider.calculateTotals();
-    // userProvider.changeNotificationToken(await fbm.getToken());
-    // userController.updateUser(userProvider.uid,
-    //     {"notificationToken": userProvider.notificationToken});
+    // tiutiuUserController.tiutiuUserchangeNotificationToken(await fbm.getToken());
+    // userController.updateUser(tiutiuUserController.tiutiuUser.uid,
+    //     {"notificationToken": tiutiuUserController.tiutiuUsernotificationToken});
   }
 
   void openPetDetail(Uri deepLink) async {
@@ -195,14 +174,14 @@ class _HomeState extends State<Home> {
     final String id = qParams.toString().split('/').last;
 
     Pet pet = await petsProvider.openPetDetails(id, kind);
-    User user = await UserController().getUserByID(pet.ownerId!);
+    TiutiuUser user = await tiutiuUserController.tiutiuUser;
     Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) {
           return PetDetails(
             petOwner: user,
-            isMine: user.id == authController.firebaseUser?.uid,
+            isMine: user.uid == authController.firebaseUser?.uid,
             pet: pet,
             kind: pet.kind!.toUpperCase(),
           );
@@ -232,8 +211,8 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     var _screens = <Widget>[
-      PetsList(petKind: Constantes.DONATE),
-      PetsList(petKind: Constantes.DISAPPEARED),
+      PetsList(petKind: FirebaseEnvPath.donate),
+      PetsList(petKind: FirebaseEnvPath.disappeared),
       isAuthenticated ? Favorites() : AuthScreen(),
       isAuthenticated ? MyAccount() : AuthScreen(),
     ];
@@ -303,7 +282,9 @@ class _HomeState extends State<Home> {
                         : () {
                             Navigator.pushNamed(
                                 context, Routes.pet_location_picker,
-                                arguments: {'kind': Constantes.DISAPPEARED});
+                                arguments: {
+                                  'kind': FirebaseEnvPath.disappeared
+                                });
                           },
                   ),
                   SpeedDialChild(
@@ -316,7 +297,7 @@ class _HomeState extends State<Home> {
                         : () {
                             Navigator.pushNamed(
                                 context, Routes.pet_location_picker,
-                                arguments: {'kind': Constantes.DONATE});
+                                arguments: {'kind': FirebaseEnvPath.donate});
                           },
                   ),
                 ],

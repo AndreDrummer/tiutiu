@@ -5,6 +5,7 @@ import 'package:tiutiu/core/Exceptions/titiu_exceptions.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:tiutiu/core/constants/firebase_env_path.dart';
 import 'package:tiutiu/core/data/store_login.dart';
 import 'dart:io';
 
@@ -150,7 +151,7 @@ class AuthController extends GetxController {
 
   Future<void> alreadyRegistered() async {
     final CollectionReference usersEntrepreneur =
-        FirebaseFirestore.instance.collection('Users');
+        FirebaseFirestore.instance.collection(FirebaseEnvPath.users);
     String id = firebaseUser!.uid;
     DocumentSnapshot doc = await usersEntrepreneur.doc(id).get();
 

@@ -1,17 +1,16 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
-import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
 
 class Message {
   Message({
     required this.receiverNotificationToken,
     required this.notificationType,
-    required this.userReference,
     required this.receiverId,
     required this.createdAt,
     required this.userId,
-    required this.user,
     required this.text,
+    required this.user,
+    this.userReference,
   });
 
   Message.fromSnapshot(DocumentSnapshot snapshot)
@@ -41,12 +40,12 @@ class Message {
     };
   }
 
-  String text;
-  dynamic createdAt;
-  String userId;
-  TiutiuUser user;
-  String receiverId;
+  DocumentReference? userReference;
   String receiverNotificationToken;
   String notificationType;
-  DocumentReference userReference;
+  String receiverId;
+  dynamic createdAt;
+  TiutiuUser user;
+  String userId;
+  String text;
 }

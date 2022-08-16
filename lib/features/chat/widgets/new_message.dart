@@ -1,10 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:tiutiu/backend/Model/chat_model.dart';
-import 'package:tiutiu/backend/Model/message_model.dart';
+import 'package:tiutiu/core/models/chat_model.dart';
+import 'package:tiutiu/core/models/message_model.dart';
+import 'package:tiutiu/features/system/controllers.dart';
 import 'package:tiutiu/providers/chat_provider.dart';
-import 'package:tiutiu/features/tiutiu_user/controller/user_controller.dart';
 
 FirebaseFirestore firestore = FirebaseFirestore.instance;
 
@@ -32,7 +32,6 @@ class _NewMessageState extends State<NewMessage> {
   final Color whiteColor = Colors.white;
 
   late ChatProvider chatProvider;
-  late UserProvider userProvider;
 
   void _sendMessage() async {
     FocusScope.of(context).unfocus();
@@ -44,12 +43,11 @@ class _NewMessageState extends State<NewMessage> {
       Message(
         text: _enteredMessage,
         createdAt: FieldValue.serverTimestamp(),
-        userId: userProvider.uid!,
-        user: userProvider.user(),
+        userId: tiutiuUserController.tiutiuUser.uid!,
+        user: tiutiuUserController.tiutiuUser,
         receiverId: widget.receiverId,
         receiverNotificationToken: widget.receiverNotificationToken,
         notificationType: 'chatNotification',
-        userReference: userProvider.userReference!,
       ),
     );
 
@@ -57,9 +55,9 @@ class _NewMessageState extends State<NewMessage> {
       widget.chatId,
       {
         'lastMessage': _enteredMessage,
+        'lastSender': tiutiuUserController.tiutiuUser.uid,
         'lastMessageTime': FieldValue.serverTimestamp(),
         'open': false,
-        'lastSender': userProvider.uid,
       },
     );
 
@@ -70,7 +68,6 @@ class _NewMessageState extends State<NewMessage> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     chatProvider = Provider.of<ChatProvider>(context);
-    userProvider = Provider.of<UserProvider>(context);
   }
 
   @override
