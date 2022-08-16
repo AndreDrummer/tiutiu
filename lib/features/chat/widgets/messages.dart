@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:tiutiu/backend/Model/message_model.dart';
+import 'package:tiutiu/core/models/message_model.dart';
 import 'package:tiutiu/providers/chat_provider.dart';
 
 import 'message_bubble.dart';

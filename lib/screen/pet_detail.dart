@@ -7,28 +7,22 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:loading_animations/loading_animations.dart';
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
-import 'package:tiutiu/Custom/icons.dart';
+import 'package:tiutiu/core/Custom/icons.dart';
 import 'package:tiutiu/Widgets/button.dart';
 import 'package:tiutiu/Widgets/card_details.dart';
 import 'package:tiutiu/Widgets/dots_indicator.dart';
 import 'package:tiutiu/Widgets/fullscreen_images.dart';
 import 'package:tiutiu/Widgets/load_dark_screen.dart';
 import 'package:tiutiu/Widgets/pop_up_text_field.dart';
-import 'package:tiutiu/backend/Controller/pet_controller.dart';
-import 'package:tiutiu/backend/Controller/user_controller.dart';
-import 'package:tiutiu/backend/Model/pet_model.dart';
-import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
-import 'package:tiutiu/chat/common/functions.dart';
-import 'package:tiutiu/core/utils/image_handle.dart';
-import 'package:tiutiu/features/auth/controller/auth_controller.dart';
+import 'package:tiutiu/features/pets/services/pet_service.dart';
 import 'package:tiutiu/features/system/controllers.dart';
-import 'package:tiutiu/providers/favorites_provider.dart';
+import 'package:tiutiu/features/pets/model/pet_model.dart';
+import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
+import 'package:tiutiu/features/chat/common/functions.dart';
+import 'package:tiutiu/core/utils/image_handle.dart';
 import 'package:maps_launcher/maps_launcher.dart';
-import 'package:tiutiu/features/location/controller/current_location_controller.dart'
-    as provider;
-import 'package:tiutiu/features/location/controller/current_location_controller.dart';
 import 'package:tiutiu/providers/user_infos_interests.dart';
-import 'package:tiutiu/features/tiutiu_user/controller/user_controller.dart';
+import 'package:tiutiu/core/constants/firebase_env_path.dart';
 import 'package:tiutiu/utils/constantes.dart';
 import 'package:tiutiu/utils/launcher_functions.dart';
 import 'package:tiutiu/utils/other_functions.dart';
@@ -44,7 +38,7 @@ class PetDetails extends StatefulWidget {
     this.pet,
   });
 
-  final User? petOwner;
+  final TiutiuUser? petOwner;
   final bool? isMine;
   final String? kind;
   final Pet? pet;
@@ -56,31 +50,27 @@ class PetDetails extends StatefulWidget {
 class _PetDetailsState extends State<PetDetails> {
   final PageController _pageController = PageController();
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  late FavoritesProvider favoritesProvider;
 
   late UserInfoOrAdoptInterestsProvider userInfosAdopts;
   late int timeToSendRequestAgain = 120;
   // late provider.Location userLocation;
   late bool isAuthenticated = false;
   late bool interestOrInfoWasFired;
-  late UserProvider userProvider;
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     // userLocation = Provider.of<provider.Location>(context, listen: false);
-    userProvider = Provider.of<UserProvider>(context, listen: false);
+
     userInfosAdopts =
         Provider.of<UserInfoOrAdoptInterestsProvider>(context, listen: false);
     isAuthenticated = authController.firebaseUser != null;
     if (isAuthenticated) {
       userInfosAdopts.checkInfo(
         widget.pet!.petReference!,
-        userProvider.userReference!,
       );
       userInfosAdopts.checkInterested(
         widget.pet!.petReference!,
-        userProvider.userReference!,
       );
     }
   }
@@ -113,9 +103,6 @@ class _PetDetailsState extends State<PetDetails> {
     interestOrInfoWasFired = false;
     Provider.of<UserInfoOrAdoptInterestsProvider>(context, listen: false)
         .changeLastimeInterestOrInfo('');
-    if (isAuthenticated)
-      Provider.of<FavoritesProvider>(context, listen: false)
-          .loadFavoritesReference();
   }
 
   Map<String, dynamic> petIconType = {
@@ -148,25 +135,25 @@ class _PetDetailsState extends State<PetDetails> {
   }
 
   void sendData(int userPosition, [String? details]) {
-    PetController petController = new PetController();
+    PetService petService = new PetService();
     // final userLocal = userLocation.getLocation;
 
-    petController.showInterestOrInfo(
+    petService.showInterestOrInfo(
       petName: widget.pet!.name,
       petAvatar: widget.pet!.avatar,
       petBreed: widget.pet!.breed,
-      interestedNotificationToken: userProvider.notificationToken,
+      interestedNotificationToken:
+          tiutiuUserController.tiutiuUser.notificationToken,
       ownerNotificationToken: widget.petOwner!.notificationToken,
-      interestedID: userProvider.uid,
-      ownerID: widget.petOwner!.id,
-      interestedName: userProvider.displayName,
+      interestedID: tiutiuUserController.tiutiuUser.uid,
+      ownerID: widget.petOwner!.uid,
+      interestedName: tiutiuUserController.tiutiuUser.displayName,
       petReference: widget.pet!.petReference!,
-      userReference: userProvider.userReference!,
       interestedAt: DateTime.now().toIso8601String(),
       userLocation: LatLng(0, 0),
       userPosition: userPosition,
       infoDetails: details,
-      isAdopt: widget.kind == Constantes.DONATE.toUpperCase(),
+      isAdopt: widget.kind == FirebaseEnvPath.donate.toUpperCase(),
     );
 
     setState(() {
@@ -210,8 +197,7 @@ class _PetDetailsState extends State<PetDetails> {
               '$ownerName já sabe sobre seu interesse. Você pode tentar enviar outra solicitação dentro de ${timeFormmated(timeToSendRequestAgain - hoursSinceLastRequest)}.';
           showSnackBar(messageTextSnackBar);
         } else {
-          await PetController()
-              .deleteOldInterest(petRef.reference, userProvider.userReference!);
+          await PetService().deleteOldInterest(petRef.reference);
           var adoptInterestedsRef =
               await petRef.reference.collection('adoptInteresteds').get();
           if (adoptInterestedsRef.docs.isNotEmpty) {
@@ -289,13 +275,10 @@ class _PetDetailsState extends State<PetDetails> {
     String tags = '#tiutiu #adocao #pets';
     String followUs = 'Siga @tiutiuapp no Instagram.';
     try {
-      userProvider.changeIsGeneratingSharedLink(true);
       String filePath = await _downloadFile();
-      userProvider.changeIsGeneratingSharedLink(false);
       Share.shareFiles(['$filePath'],
           text: '$subject\n$message\n$tags\n$followUs', subject: subject);
     } catch (e) {
-      userProvider.changeIsGeneratingSharedLink(false);
       Share.share('$subject\n$message\n$tags\n$followUs', subject: subject);
       print(e);
     }
@@ -312,7 +295,9 @@ class _PetDetailsState extends State<PetDetails> {
     final String emailSubject = 'Tenho interesse no PET ${widget.pet!.name}';
 
     double wannaAdoptButton =
-        widget.kind == Constantes.DONATE.toUpperCase() ? width * 0.7 : width;
+        widget.kind == FirebaseEnvPath.donate.toUpperCase()
+            ? width * 0.7
+            : width;
     List otherCaracteristics = widget.pet?.otherCaracteristics ?? [''];
     List petDetails = [
       {
@@ -369,7 +354,7 @@ class _PetDetailsState extends State<PetDetails> {
                       ? navigateToAuth
                       : () => CommonChatFunctions.openChat(
                             context: context,
-                            firstUser: userProvider.user(),
+                            firstUser: tiutiuUserController.tiutiuUser,
                             secondUser: widget.petOwner!,
                           ),
                   color: Colors.white,
@@ -528,10 +513,10 @@ class _PetDetailsState extends State<PetDetails> {
                             ),
                           ),
                           SizedBox(
-                              height:
-                                  widget.kind != Constantes.DONATE.toUpperCase()
-                                      ? height / 16
-                                      : height / 64),
+                              height: widget.kind !=
+                                      FirebaseEnvPath.donate.toUpperCase()
+                                  ? height / 16
+                                  : height / 64),
                           Padding(
                             padding: EdgeInsets.only(
                                 left: 12.0, right: 12, bottom: 20.0),
@@ -542,7 +527,8 @@ class _PetDetailsState extends State<PetDetails> {
                               emailSubject: emailSubject,
                             ),
                           ),
-                          if (widget.kind != Constantes.DONATE.toUpperCase())
+                          if (widget.kind !=
+                              FirebaseEnvPath.donate.toUpperCase())
                             SizedBox(height: height / 16),
                           Constantes.ADMIN_ID == widget.pet!.ownerId
                               ? Container()
@@ -555,15 +541,15 @@ class _PetDetailsState extends State<PetDetails> {
                                           width: wannaAdoptButton,
                                           child: ButtonWide(
                                               rounded: widget.kind ==
-                                                  Constantes.DONATE
+                                                  FirebaseEnvPath.donate
                                                       .toUpperCase(),
                                               text: widget.kind ==
-                                                      Constantes.DONATE
+                                                      FirebaseEnvPath.donate
                                                           .toUpperCase()
                                                   ? 'QUERO ADOTAR'
                                                   : 'VI ${widget.pet!.sex == 'Macho' ? 'ELE' : 'ELA'} AQUI PERTO',
                                               color: widget.kind ==
-                                                      Constantes.DONATE
+                                                      FirebaseEnvPath.donate
                                                           .toUpperCase()
                                                   ? Colors.red
                                                   : Theme.of(context)
@@ -572,75 +558,43 @@ class _PetDetailsState extends State<PetDetails> {
                                                   ? navigateToAuth
                                                   : () =>
                                                       showInterestOrPassInfo(
-                                                        widget.petOwner!.name!,
+                                                        widget.petOwner!
+                                                            .displayName!,
                                                       )),
                                         ),
                                         (!widget.isMine! &&
                                                 widget.kind ==
-                                                    Constantes.DONATE
+                                                    FirebaseEnvPath.donate
                                                         .toUpperCase())
-                                            ? Consumer<FavoritesProvider>(
-                                                builder: (context,
-                                                    favoritesProvider, child) {
-                                                  bool isFavorite =
-                                                      favoritesProvider
-                                                          .getFavoritesPETSIDList
-                                                          .contains(
-                                                              widget.pet!.id);
-                                                  return FloatingActionButton(
-                                                    heroTag: 'favorite',
-                                                    onPressed: !isAuthenticated
-                                                        ? navigateToAuth
-                                                        : () async {
-                                                            final user =
-                                                                UserController();
+                                            ? FloatingActionButton(
+                                                heroTag: 'favorite',
+                                                onPressed: !isAuthenticated
+                                                    ? navigateToAuth
+                                                    : () async {
+                                                        ScaffoldMessenger.of(
+                                                                context)
+                                                            .showSnackBar(
+                                                          SnackBar(
+                                                            duration: Duration(
+                                                                seconds: 1),
+                                                            content: Text(
+                                                                'Adicionado como favorito'),
+                                                          ),
+                                                        );
 
-                                                            await user.favorite(
-                                                              userProvider
-                                                                  .userReference!,
-                                                              widget.pet!
-                                                                  .petReference!,
-                                                              !isFavorite,
-                                                            );
-
-                                                            ScaffoldMessenger
-                                                                    .of(context)
-                                                                .showSnackBar(
-                                                              SnackBar(
-                                                                duration:
-                                                                    Duration(
-                                                                        seconds:
-                                                                            1),
-                                                                content: Text(isFavorite
-                                                                    ? 'Removido dos favoritos'
-                                                                    : 'Adicionado como favorito'),
-                                                              ),
-                                                            );
-
-                                                            favoritesProvider
-                                                                .loadFavoritesReference();
-                                                            favoritesProvider
-                                                                .handleFavorite(
-                                                              widget.pet!.id!,
-                                                            );
-                                                          },
-                                                    tooltip: isFavorite
-                                                        ? 'Favorito'
-                                                        : 'Favoritar',
-                                                    backgroundColor: isFavorite
-                                                        ? Colors.white
-                                                        : Colors.red,
-                                                    child: Icon(
-                                                      isFavorite
-                                                          ? Icons.favorite
-                                                          : Icons
-                                                              .favorite_border,
-                                                      color: isFavorite
-                                                          ? Colors.red
-                                                          : Colors.white,
-                                                    ),
-                                                  );
-                                                },
+                                                        favoritesController
+                                                            .loadFavoritesReference();
+                                                        favoritesController
+                                                            .handleFavorite(
+                                                          widget.pet!.id!,
+                                                        );
+                                                      },
+                                                tooltip: 'Favoritar',
+                                                backgroundColor: Colors.red,
+                                                child: Icon(
+                                                  Icons.favorite_border,
+                                                  color: Colors.white,
+                                                ),
                                               )
                                             : Container()
                                       ],
@@ -650,7 +604,8 @@ class _PetDetailsState extends State<PetDetails> {
                                       rounded: false,
                                       action: () {},
                                       text: widget.kind ==
-                                              Constantes.DONATE.toUpperCase()
+                                              FirebaseEnvPath.donate
+                                                  .toUpperCase()
                                           ? 'VOCÊ ESTÁ DOANDO'
                                           : 'VOCÊ ESTÁ PROCURANDO',
                                     ),
@@ -664,7 +619,6 @@ class _PetDetailsState extends State<PetDetails> {
             ),
           ),
           StreamBuilder<bool>(
-            stream: userProvider.isGeneratingSharedLink,
             builder: (context, snapshot) {
               return LoadDarkScreen(
                 message: 'Gerando link compartilhável',
@@ -781,7 +735,7 @@ class _PetDetailsState extends State<PetDetails> {
             onTap: () {
               OtherFunctions.navigateToAnnouncerDetail(
                   context, widget.petOwner!);
-              print(widget.petOwner!.toJson());
+              print(widget.petOwner!.toMap());
             },
             child: Container(
               decoration: BoxDecoration(
@@ -856,7 +810,7 @@ class _PetDetailsState extends State<PetDetails> {
   }
 
   Widget _ownerPetcontact({
-    User? user,
+    TiutiuUser? user,
     String? whatsappMessage,
     String? emailSubject,
     String? emailMessage,
@@ -940,9 +894,9 @@ class _PetDetailsState extends State<PetDetails> {
             ButtonWide(
               action: () {
                 CommonChatFunctions.openChat(
-                  context: context,
-                  firstUser: userProvider.user(),
+                  firstUser: tiutiuUserController.tiutiuUser,
                   secondUser: widget.petOwner!,
+                  context: context,
                 );
               },
               color: Colors.purple,

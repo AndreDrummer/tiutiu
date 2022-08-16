@@ -4,12 +4,12 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:tiutiu/Widgets/badge.dart';
 import 'package:tiutiu/Widgets/empty_list.dart';
-import 'package:tiutiu/backend/Model/chat_model.dart';
+import 'package:tiutiu/core/models/chat_model.dart';
+import 'package:tiutiu/features/system/controllers.dart';
 import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
-import 'package:tiutiu/chat/common/functions.dart';
+import 'package:tiutiu/features/chat/common/functions.dart';
 import 'package:tiutiu/core/utils/image_handle.dart';
 import 'package:tiutiu/providers/chat_provider.dart';
-import 'package:tiutiu/features/tiutiu_user/controller/user_controller.dart';
 import 'package:tiutiu/utils/other_functions.dart';
 import 'package:tiutiu/core/utils/routes/routes_name.dart';
 
@@ -21,21 +21,19 @@ class MyChats extends StatefulWidget {
 class _MyChatsState extends State<MyChats> {
   // AdsProvider adsProvider;
   late ChatProvider chatProvider;
-  late UserProvider userProvider;
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     // adsProvider = Provider.of(context);
     chatProvider = Provider.of(context);
-    userProvider = Provider.of(context);
   }
 
   bool existsNewMessage(Chat chat) {
     return chat.open != null &&
         !chat.open! &&
         chat.lastSender != null &&
-        chat.lastSender != userProvider.uid;
+        chat.lastSender != tiutiuUserController.tiutiuUser.uid;
   }
 
   @override
@@ -57,10 +55,11 @@ class _MyChatsState extends State<MyChats> {
                   return Center(child: CircularProgressIndicator());
 
                 snapshot.data!.docs.forEach((element) {
-                  if (TiutiuUser.fromMap(element.get('firstUser')).id ==
-                          userProvider.uid ||
-                      TiutiuUser.fromMap(element.get('secondUser')).id ==
-                          userProvider.uid) messagesList.add(element);
+                  if (TiutiuUser.fromMap(element.get('firstUser')).uid ==
+                          tiutiuUserController.tiutiuUser.uid ||
+                      TiutiuUser.fromMap(element.get('secondUser')).uid ==
+                          tiutiuUserController.tiutiuUser.uid)
+                    messagesList.add(element);
                 });
 
                 List<Chat> chatList =
@@ -78,7 +77,9 @@ class _MyChatsState extends State<MyChats> {
                     builder: (context, AsyncSnapshot<String> snapshot) {
                       if (snapshot.data != null && snapshot.data!.isNotEmpty) {
                         chatList = CommonChatFunctions.searchChat(
-                            chatList, snapshot.data!, userProvider.uid!);
+                            chatList,
+                            snapshot.data!,
+                            tiutiuUserController.tiutiuUser.uid!);
                       }
 
                       return ListView.builder(
@@ -88,7 +89,7 @@ class _MyChatsState extends State<MyChats> {
                           return _ListTileMessage(
                             chat: chatList[index],
                             messageId: chatList[index].id!,
-                            myUserId: userProvider.uid!,
+                            myUserId: tiutiuUserController.tiutiuUser.uid!,
                             chatProvider: chatProvider,
                             newMessage: existsNewMessage(chatList[index]),
                           );
@@ -126,7 +127,7 @@ class _ListTileMessage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Determina se o usuário logado é o primeiro usuário do chat.
-    bool itsMe = myUserId == chat.firstUser.id;
+    bool itsMe = myUserId == chat.firstUser.uid;
     Timestamp stamp = chat.lastMessageTime!;
     DateTime date = stamp.toDate();
 
@@ -141,10 +142,12 @@ class _ListTileMessage extends StatelessWidget {
           arguments: {
             'chatId': messageId,
             'chatTitle': itsMe
-                ? OtherFunctions.firstCharacterUpper(chat.secondUser.name!)
-                : OtherFunctions.firstCharacterUpper(chat.firstUser.name!),
-            'secondUserId': itsMe ? chat.secondUser.id : chat.firstUser.id,
-            'receiverId': itsMe ? chat.secondUser.id : chat.firstUser.id,
+                ? OtherFunctions.firstCharacterUpper(
+                    chat.secondUser.displayName!)
+                : OtherFunctions.firstCharacterUpper(
+                    chat.firstUser.displayName!),
+            'secondUserId': itsMe ? chat.secondUser.uid : chat.firstUser.uid,
+            'receiverId': itsMe ? chat.secondUser.uid : chat.firstUser.uid,
             'receiverNotificationToken': itsMe
                 ? chat.secondUser.notificationToken
                 : chat.firstUser.notificationToken,
@@ -173,8 +176,10 @@ class _ListTileMessage extends StatelessWidget {
               ),
             ),
             title: Text(itsMe
-                ? OtherFunctions.firstCharacterUpper(chat.secondUser.name!)
-                : OtherFunctions.firstCharacterUpper(chat.firstUser.name!)),
+                ? OtherFunctions.firstCharacterUpper(
+                    chat.secondUser.displayName!)
+                : OtherFunctions.firstCharacterUpper(
+                    chat.firstUser.displayName!)),
             subtitle: Text(chat.lastMessage!),
             trailing: Column(
               mainAxisAlignment: MainAxisAlignment.center,
