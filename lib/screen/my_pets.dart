@@ -5,14 +5,11 @@ import 'package:tiutiu/Widgets/background.dart';
 import 'package:tiutiu/Widgets/empty_list.dart';
 import 'package:tiutiu/Widgets/loading_screen.dart';
 import 'package:tiutiu/Widgets/popup_message.dart';
-import 'package:tiutiu/backend/Controller/pet_controller.dart';
-import 'package:tiutiu/backend/Controller/user_controller.dart';
-import 'package:tiutiu/backend/Model/pet_model.dart';
-import 'package:tiutiu/features/auth/controller/auth_controller.dart';
+import 'package:tiutiu/features/pets/services/pet_service.dart';
 import 'package:tiutiu/features/system/controllers.dart';
-import 'package:tiutiu/features/tiutiu_user/controller/user_controller.dart';
+import 'package:tiutiu/features/pets/model/pet_model.dart';
 import 'package:tiutiu/providers/pets_provider.dart';
-import 'package:tiutiu/utils/constantes.dart';
+import 'package:tiutiu/core/constants/firebase_env_path.dart';
 import 'package:tiutiu/screen/auth_screen.dart';
 import 'package:tiutiu/screen/choose_location.dart';
 import 'package:tiutiu/screen/pet_form.dart';
@@ -33,10 +30,9 @@ class MyPetsScreen extends StatefulWidget {
 
 class _MyPetsScreenState extends State<MyPetsScreen> {
   late GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  late UserController userController = UserController();
-  late PetController petController = PetController();
+  late PetService petService = PetService();
   late PetsProvider petsProvider;
-  late UserProvider userProvider;
+
   // late AdsProvider adsProvider;
   late bool isAuthenticated;
 
@@ -50,27 +46,8 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
     super.dispose();
   }
 
-  Stream<QuerySnapshot> myPetsStream() {
-    if (widget.kind != null) {
-      switch (widget.kind) {
-        case Constantes.DONATE:
-          return userController.loadMyPostedPetsToDonate(
-              userId: userProvider.uid!);
-        case Constantes.DISAPPEARED:
-          return userController.loadMyPostedPetsDisappeared(
-              userId: userProvider.uid!);
-        default:
-          return userController.loadMyAdoptedPets(userId: userProvider.uid!);
-      }
-    } else {
-      return userController.loadMyDonatedPets(userProvider.userReference!);
-    }
-  }
-
   @override
   void didChangeDependencies() {
-    userProvider = Provider.of(context, listen: false);
-
     petsProvider = Provider.of<PetsProvider>(context);
     isAuthenticated = authController.firebaseUser != null;
     // adsProvider = Provider.of(context);
@@ -78,17 +55,11 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
   }
 
   void delete(DocumentReference petRef) {
-    petController.deletePet(petRef);
-    if (widget.kind == Constantes.DONATE) {
-      userController.loadMyPostedPetsToDonate(userId: userProvider.uid!);
-    } else {
-      userController.loadMyPostedPetsDisappeared(userId: userProvider.uid!);
-    }
-    userProvider.calculateTotals();
+    petService.deletePet(petRef);
   }
 
   void _addNewPet() {
-    if ((widget.kind != Constantes.ADOPTED || widget.kind == null) &&
+    if ((widget.kind != FirebaseEnvPath.adopted || widget.kind == null) &&
         isAuthenticated) {
       Navigator.pushReplacementNamed(context, Routes.pet_location_picker,
           arguments: {'kind': widget.kind});
@@ -138,7 +109,7 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
             Navigator.pop(context);
           },
         ),
-        actions: widget.kind == Constantes.ADOPTED || widget.kind == null
+        actions: widget.kind == FirebaseEnvPath.adopted || widget.kind == null
             ? null
             : [
                 IconButton(
@@ -155,7 +126,7 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
         ),
       ),
       floatingActionButton:
-          widget.kind == Constantes.ADOPTED || widget.kind == null
+          widget.kind == FirebaseEnvPath.adopted || widget.kind == null
               ? null
               : Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -170,7 +141,6 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
         children: [
           Background(),
           StreamBuilder<QuerySnapshot>(
-            stream: myPetsStream(),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return LoadingScreen(text: 'Carregando meus pets');
@@ -233,7 +203,8 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
                                       ),
                                     ),
                                     widget.kind == null ||
-                                            widget.kind == Constantes.ADOPTED
+                                            widget.kind ==
+                                                FirebaseEnvPath.adopted
                                         ? Container()
                                         : Positioned(
                                             top: 20,
@@ -284,91 +255,93 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
                                     ),
                                     Expanded(
                                       flex: 2,
-                                      child: widget.kind == null ||
-                                              widget.kind == Constantes.ADOPTED
-                                          ? Container()
-                                          : Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.end,
-                                              children: [
-                                                Text(
-                                                  ' |',
-                                                  style:
-                                                      TextStyle(fontSize: 20),
+                                      child:
+                                          widget.kind == null ||
+                                                  widget.kind ==
+                                                      FirebaseEnvPath.adopted
+                                              ? Container()
+                                              : Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.end,
+                                                  children: [
+                                                    Text(
+                                                      ' |',
+                                                      style: TextStyle(
+                                                          fontSize: 20),
+                                                    ),
+                                                    IconButton(
+                                                      icon: Icon(Icons.edit,
+                                                          size: 30,
+                                                          color: Colors.black),
+                                                      onPressed: () {
+                                                        showDialog(
+                                                            context: context,
+                                                            builder:
+                                                                (context) =>
+                                                                    PopUpMessage(
+                                                                      title:
+                                                                          'Localização',
+                                                                      message:
+                                                                          'Deseja alterar a localização do PET ?',
+                                                                      confirmText:
+                                                                          'Sim',
+                                                                      confirmAction:
+                                                                          () {
+                                                                        Navigator.pop(
+                                                                            context);
+                                                                        Navigator
+                                                                            .push(
+                                                                          context,
+                                                                          MaterialPageRoute(
+                                                                            builder:
+                                                                                (context) {
+                                                                              return ChooseLocation(
+                                                                                editMode: true,
+                                                                                pet: pets[index],
+                                                                              );
+                                                                            },
+                                                                          ),
+                                                                        );
+                                                                      },
+                                                                      denyText:
+                                                                          'Não',
+                                                                      denyAction:
+                                                                          () {
+                                                                        Navigator.pop(
+                                                                            context);
+                                                                        Navigator.push(
+                                                                            context,
+                                                                            MaterialPageRoute(
+                                                                          builder:
+                                                                              (context) {
+                                                                            return PetForm(
+                                                                              editMode: true,
+                                                                              pet: pets[index],
+                                                                              localChanged: false,
+                                                                            );
+                                                                          },
+                                                                        ));
+                                                                      },
+                                                                    ));
+                                                      },
+                                                      color: Colors.white,
+                                                    ),
+                                                    IconButton(
+                                                      icon: Icon(Icons.delete,
+                                                          size: 30,
+                                                          color: Colors.red),
+                                                      onPressed: () =>
+                                                          openDialog(
+                                                        pets[index],
+                                                      ),
+                                                    )
+                                                  ],
                                                 ),
-                                                IconButton(
-                                                  icon: Icon(Icons.edit,
-                                                      size: 30,
-                                                      color: Colors.black),
-                                                  onPressed: () {
-                                                    showDialog(
-                                                        context: context,
-                                                        builder: (context) =>
-                                                            PopUpMessage(
-                                                              title:
-                                                                  'Localização',
-                                                              message:
-                                                                  'Deseja alterar a localização do PET ?',
-                                                              confirmText:
-                                                                  'Sim',
-                                                              confirmAction:
-                                                                  () {
-                                                                Navigator.pop(
-                                                                    context);
-                                                                Navigator.push(
-                                                                  context,
-                                                                  MaterialPageRoute(
-                                                                    builder:
-                                                                        (context) {
-                                                                      return ChooseLocation(
-                                                                        editMode:
-                                                                            true,
-                                                                        pet: pets[
-                                                                            index],
-                                                                      );
-                                                                    },
-                                                                  ),
-                                                                );
-                                                              },
-                                                              denyText: 'Não',
-                                                              denyAction: () {
-                                                                Navigator.pop(
-                                                                    context);
-                                                                Navigator.push(
-                                                                    context,
-                                                                    MaterialPageRoute(
-                                                                  builder:
-                                                                      (context) {
-                                                                    return PetForm(
-                                                                      editMode:
-                                                                          true,
-                                                                      pet: pets[
-                                                                          index],
-                                                                      localChanged:
-                                                                          false,
-                                                                    );
-                                                                  },
-                                                                ));
-                                                              },
-                                                            ));
-                                                  },
-                                                  color: Colors.white,
-                                                ),
-                                                IconButton(
-                                                  icon: Icon(Icons.delete,
-                                                      size: 30,
-                                                      color: Colors.red),
-                                                  onPressed: () => openDialog(
-                                                    pets[index],
-                                                  ),
-                                                )
-                                              ],
-                                            ),
                                     )
                                   ],
                                 ),
                                 widget.kind == null ||
-                                        widget.kind == Constantes.ADOPTED
+                                        widget.kind == FirebaseEnvPath.adopted
                                     ? Container()
                                     : Column(
                                         children: [
@@ -414,8 +387,8 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
                                                     children: [
                                                       Text(
                                                         pets[index].kind ==
-                                                                Constantes
-                                                                    .DONATE
+                                                                FirebaseEnvPath
+                                                                    .donate
                                                             ? 'Ver lista de interessados'
                                                             : 'Ver notificações',
                                                         style: TextStyle(
@@ -429,8 +402,8 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
                                                           SizedBox(width: 50),
                                                           Text(pets[index]
                                                                       .kind ==
-                                                                  Constantes
-                                                                      .DISAPPEARED
+                                                                  FirebaseEnvPath
+                                                                      .disappeared
                                                               ? 'Econtrado'
                                                               : 'Doado'),
                                                           StreamBuilder<Object>(
@@ -439,8 +412,8 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
                                                                   snapshot) {
                                                                 return Switch(
                                                                     value: pets[index].kind ==
-                                                                            Constantes
-                                                                                .DISAPPEARED
+                                                                            FirebaseEnvPath
+                                                                                .disappeared
                                                                         ? pets[index]
                                                                             .found
                                                                         : pets[index]
@@ -454,16 +427,16 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
                                                                               context,
                                                                           builder:
                                                                               (context) {
-                                                                            final bool textToDisplay = pets[index].kind == Constantes.DISAPPEARED
+                                                                            final bool textToDisplay = pets[index].kind == FirebaseEnvPath.disappeared
                                                                                 ? pets[index].found
                                                                                 : pets[index].donated;
                                                                             return PopUpMessage(
                                                                               warning: true,
-                                                                              title: '${!textToDisplay ? 'Marcar' : 'Desmarcar'} como ${pets[index].kind == Constantes.DISAPPEARED ? 'encontrado' : 'doado'}',
+                                                                              title: '${!textToDisplay ? 'Marcar' : 'Desmarcar'} como ${pets[index].kind == FirebaseEnvPath.disappeared ? 'encontrado' : 'doado'}',
                                                                               message: 'Ao ${!textToDisplay ? 'marcar' : 'desmarcar'} o PET ${!textToDisplay ? 'deixará de' : 'voltará a'} aparecer para o público.',
                                                                               confirmAction: () {
                                                                                 Navigator.pop(context);
-                                                                                if (pets[index].kind == Constantes.DISAPPEARED) {
+                                                                                if (pets[index].kind == FirebaseEnvPath.disappeared) {
                                                                                   pets[index].petReference!.set({
                                                                                     'found': !pets[index].found
                                                                                   }, SetOptions(merge: true));
@@ -510,17 +483,17 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
 Widget _lablePetKind(String kind) {
   late String textLabel;
   switch (kind) {
-    case Constantes.DISAPPEARED:
+    case FirebaseEnvPath.disappeared:
       textLabel = 'Desaparecido';
       break;
-    case Constantes.DONATE:
+    case FirebaseEnvPath.donate:
       textLabel = 'Doação';
   }
 
   return Container(
     decoration: BoxDecoration(
       borderRadius: BorderRadius.circular(12),
-      color: kind == Constantes.DONATE ? Colors.purple : Colors.black,
+      color: kind == FirebaseEnvPath.donate ? Colors.purple : Colors.black,
     ),
     child: Padding(
       padding: const EdgeInsets.all(8.0),

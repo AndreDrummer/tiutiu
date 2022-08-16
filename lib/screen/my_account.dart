@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:provider/provider.dart';
-import 'package:tiutiu/Custom/icons.dart';
+import 'package:tiutiu/core/Custom/icons.dart';
 import 'package:tiutiu/Widgets/background.dart';
 import 'package:tiutiu/Widgets/circle_child.dart';
 import 'package:tiutiu/Widgets/fullscreen_images.dart';
@@ -9,9 +8,8 @@ import 'package:tiutiu/Widgets/my_account_card.dart';
 import 'package:tiutiu/Widgets/popup_message.dart';
 import 'package:tiutiu/core/utils/image_handle.dart';
 import 'package:tiutiu/features/system/controllers.dart';
-import 'package:tiutiu/features/tiutiu_user/controller/user_controller.dart';
 import 'package:tiutiu/screen/my_pets.dart';
-import 'package:tiutiu/utils/constantes.dart';
+import 'package:tiutiu/core/constants/firebase_env_path.dart';
 import 'package:tiutiu/core/utils/routes/routes_name.dart';
 
 class MyAccount extends StatefulWidget {
@@ -20,24 +18,22 @@ class MyAccount extends StatefulWidget {
 }
 
 class _MyAccountState extends State<MyAccount> {
-  late UserProvider userProvider;
   // AdsProvider adsProvider;
 
   @override
   void didChangeDependencies() {
-    userProvider = Provider.of<UserProvider>(context, listen: false);
     // adsProvider = Provider.of(context);
     super.didChangeDependencies();
   }
 
-  Widget appBar(UserProvider userProvider) {
+  Widget appBar() {
     return PreferredSize(
       preferredSize: Size.fromHeight(MediaQuery.of(context).size.height / 3),
       child: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 0.0),
           child: InkWell(
-            onTap: userProvider.photoURL == null
+            onTap: tiutiuUserController.tiutiuUser.photoURL == null
                 ? null
                 : () {
                     Navigator.push(
@@ -45,7 +41,7 @@ class _MyAccountState extends State<MyAccount> {
                       MaterialPageRoute(
                         builder: (context) => FullScreenImage(
                           tag: 'myProfile',
-                          images: [userProvider.photoURL],
+                          images: [tiutiuUserController.tiutiuUser..photoURL],
                         ),
                       ),
                     );
@@ -61,7 +57,7 @@ class _MyAccountState extends State<MyAccount> {
                     child: FadeInImage(
                       placeholder: AssetImage('assets/fundo.jpg'),
                       image: AssetHandle(
-                        userProvider.photoBACK,
+                        tiutiuUserController.tiutiuUser.photoBACK,
                       ).build(),
                       fit: BoxFit.fill,
                       width: 1000,
@@ -84,12 +80,15 @@ class _MyAccountState extends State<MyAccount> {
                                 radius: 50,
                                 backgroundColor: Colors.black38,
                                 child: ClipOval(
-                                  child: userProvider.photoURL != null
+                                  child: tiutiuUserController
+                                              .tiutiuUser.photoURL !=
+                                          null
                                       ? FadeInImage(
                                           placeholder: AssetImage(
                                               'assets/profileEmpty.png'),
                                           image: NetworkImage(
-                                            userProvider.photoURL!,
+                                            tiutiuUserController
+                                                .tiutiuUser.photoURL!,
                                           ),
                                           fit: BoxFit.cover,
                                           width: 1000,
@@ -106,7 +105,7 @@ class _MyAccountState extends State<MyAccount> {
                               children: [
                                 SizedBox(height: 40),
                                 Text(
-                                  userProvider.displayName!,
+                                  tiutiuUserController.tiutiuUser.displayName!,
                                   textAlign: TextAlign.start,
                                   style: Theme.of(context)
                                       .textTheme
@@ -120,7 +119,7 @@ class _MyAccountState extends State<MyAccount> {
                                 SizedBox(height: 10),
                                 Align(
                                   child: Text(
-                                    'Usuário desde ${DateFormat('dd/MM/y HH:mm').format(DateTime.parse(userProvider.createdAt!)).split(' ').first}',
+                                    'Usuário desde ${DateFormat('dd/MM/y HH:mm').format(DateTime.parse(tiutiuUserController.tiutiuUser.createdAt!)).split(' ').first}',
                                     textAlign: TextAlign.start,
                                     style: Theme.of(context)
                                         .textTheme
@@ -153,9 +152,7 @@ class _MyAccountState extends State<MyAccount> {
                                       builder: (context) {
                                         return MyPetsScreen(
                                           title: 'PETs p/ adoção',
-                                          streamBuilder:
-                                              userProvider.donatePets,
-                                          kind: Constantes.DONATE,
+                                          kind: FirebaseEnvPath.donate,
                                         );
                                       },
                                     ),
@@ -164,7 +161,7 @@ class _MyAccountState extends State<MyAccount> {
                                 child: CircleChild(
                                   avatarRadius: 25,
                                   child: Text(
-                                    userProvider.getTotalToDonate.toString(),
+                                    '',
                                     style: TextStyle(
                                       color: Theme.of(context).primaryColor,
                                     ),
@@ -193,8 +190,6 @@ class _MyAccountState extends State<MyAccount> {
                                       builder: (context) {
                                         return MyPetsScreen(
                                           title: 'PETs doados',
-                                          streamBuilder:
-                                              userProvider.donatedPets,
                                           kind: null,
                                           userId:
                                               authController.firebaseUser!.uid,
@@ -206,7 +201,7 @@ class _MyAccountState extends State<MyAccount> {
                                 child: CircleChild(
                                   avatarRadius: 25,
                                   child: Text(
-                                    userProvider.getTotalDonated.toString(),
+                                    toString(),
                                     style: TextStyle(
                                       color: Theme.of(context).primaryColor,
                                     ),
@@ -233,9 +228,7 @@ class _MyAccountState extends State<MyAccount> {
                                       builder: (context) {
                                         return MyPetsScreen(
                                           title: 'PETs Adotados',
-                                          streamBuilder:
-                                              userProvider.adoptedPets,
-                                          kind: Constantes.ADOPTED,
+                                          kind: FirebaseEnvPath.adopted,
                                         );
                                       },
                                     ),
@@ -243,8 +236,7 @@ class _MyAccountState extends State<MyAccount> {
                                 },
                                 child: CircleChild(
                                   avatarRadius: 25,
-                                  child: Text(
-                                      userProvider.getTotalAdopted.toString(),
+                                  child: Text(toString(),
                                       style: TextStyle(
                                           color:
                                               Theme.of(context).primaryColor)),
@@ -272,9 +264,7 @@ class _MyAccountState extends State<MyAccount> {
                                       builder: (context) {
                                         return MyPetsScreen(
                                           title: 'PETs desaparecidos',
-                                          streamBuilder:
-                                              userProvider.disappearedPets,
-                                          kind: Constantes.DISAPPEARED,
+                                          kind: FirebaseEnvPath.disappeared,
                                         );
                                       },
                                     ),
@@ -283,7 +273,7 @@ class _MyAccountState extends State<MyAccount> {
                                 child: CircleChild(
                                   avatarRadius: 25,
                                   child: Text(
-                                    userProvider.getTotalDisappeared.toString(),
+                                    toString(),
                                     style: TextStyle(
                                       color: Theme.of(context).primaryColor,
                                     ),
@@ -346,8 +336,7 @@ class _MyAccountState extends State<MyAccount> {
                               builder: (context) {
                                 return MyPetsScreen(
                                   title: 'PETs p/ adoção',
-                                  streamBuilder: userProvider.donatePets,
-                                  kind: Constantes.DONATE,
+                                  kind: FirebaseEnvPath.donate,
                                 );
                               },
                             ),
@@ -364,8 +353,7 @@ class _MyAccountState extends State<MyAccount> {
                               builder: (context) {
                                 return MyPetsScreen(
                                   title: 'PETs Adotados',
-                                  streamBuilder: userProvider.adoptedPets,
-                                  kind: Constantes.ADOPTED,
+                                  kind: FirebaseEnvPath.adopted,
                                 );
                               },
                             ),
@@ -387,7 +375,6 @@ class _MyAccountState extends State<MyAccount> {
                               builder: (context) {
                                 return MyPetsScreen(
                                   title: 'PETs doados',
-                                  streamBuilder: userProvider.donatedPets,
                                   kind: null,
                                   userId: authController.firebaseUser!.uid,
                                 );
@@ -406,8 +393,7 @@ class _MyAccountState extends State<MyAccount> {
                               builder: (context) {
                                 return MyPetsScreen(
                                   title: 'PETs desaparecidos',
-                                  streamBuilder: userProvider.disappearedPets,
-                                  kind: Constantes.DISAPPEARED,
+                                  kind: FirebaseEnvPath.disappeared,
                                 );
                               },
                             ),
@@ -482,7 +468,7 @@ class _MyAccountState extends State<MyAccount> {
                                 builder: (context) => PopUpMessage(
                                   confirmAction: () {
                                     authController.signOut();
-                                    userProvider.clearUserDataOnSignOut();
+
                                     Navigator.pop(context);
                                   },
                                   confirmText: 'Sim',

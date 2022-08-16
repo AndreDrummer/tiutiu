@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:tiutiu/Widgets/empty_list.dart';
+import 'package:tiutiu/features/system/controllers.dart';
 import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
-import 'package:tiutiu/chat/common/functions.dart';
+import 'package:tiutiu/features/chat/common/functions.dart';
 import 'package:tiutiu/core/utils/image_handle.dart';
 import 'package:tiutiu/providers/chat_provider.dart';
-import 'package:tiutiu/features/tiutiu_user/controller/user_controller.dart';
 import 'package:tiutiu/utils/other_functions.dart';
 
 class GlobalChat extends StatefulWidget {
@@ -18,14 +18,12 @@ class GlobalChat extends StatefulWidget {
 class _GlobalChatState extends State<GlobalChat> {
   // AdsProvider adsProvider;
   late ChatProvider chatProvider;
-  late UserProvider userProvider;
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     // adsProvider = Provider.of(context);
     chatProvider = Provider.of(context);
-    userProvider = Provider.of(context);
   }
 
   @override
@@ -41,8 +39,8 @@ class _GlobalChatState extends State<GlobalChat> {
                 if (snapshot.connectionState == ConnectionState.waiting)
                   return Center(child: CircularProgressIndicator());
 
-                List<User> messagesList = snapshot.data!.docs
-                    .map((e) => User.fromSnapshot(e))
+                List<TiutiuUser> messagesList = snapshot.data!.docs
+                    .map((e) => TiutiuUser.fromSnapshot(e))
                     .toList();
 
                 if (messagesList.isEmpty) {
@@ -64,7 +62,9 @@ class _GlobalChatState extends State<GlobalChat> {
                       }
 
                       messagesList.removeWhere(
-                          (element) => element.id == userProvider.uid);
+                        (element) =>
+                            element.uid == tiutiuUserController.tiutiuUser.uid,
+                      );
 
                       return Column(
                         children: [
@@ -100,7 +100,7 @@ class _GlobalChatState extends State<GlobalChat> {
                               itemCount: messagesList.length,
                               itemBuilder: (ctx, index) {
                                 return _ListTileMessage(
-                                  myUser: userProvider.user(),
+                                  myUser: tiutiuUserController.tiutiuUser,
                                   user: messagesList[index],
                                 );
                               },
@@ -128,12 +128,12 @@ class _ListTileMessage extends StatelessWidget {
     required this.user,
   });
 
-  final User myUser;
-  final User user;
+  final TiutiuUser myUser;
+  final TiutiuUser user;
 
   @override
   Widget build(BuildContext context) {
-    String name = OtherFunctions.firstCharacterUpper(user.name!);
+    String name = OtherFunctions.firstCharacterUpper(user.displayName!);
     return InkWell(
       onTap: () {
         CommonChatFunctions.openChat(

@@ -7,12 +7,12 @@ import 'package:tiutiu/Widgets/custom_input_search.dart';
 import 'package:tiutiu/Widgets/error_page.dart';
 import 'package:tiutiu/Widgets/input_search.dart';
 import 'package:tiutiu/Widgets/loading_page.dart';
-import 'package:tiutiu/backend/Model/pet_model.dart';
-import 'package:tiutiu/data/dummy_data.dart';
+import 'package:tiutiu/core/data/dummy_data.dart';
+import 'package:tiutiu/features/pets/model/pet_model.dart';
 import 'package:tiutiu/features/refine_search/controller/refine_search_controller.dart';
 import 'package:tiutiu/providers/pets_provider.dart';
+import 'package:tiutiu/core/constants/firebase_env_path.dart';
 import 'package:tiutiu/utils/constantes.dart';
-import 'package:tiutiu/features/tiutiu_user/controller/user_controller.dart';
 import 'package:tiutiu/utils/other_functions.dart';
 import 'package:tiutiu/core/utils/routes/routes_name.dart';
 import 'package:tiutiu/utils/string_extension.dart';
@@ -36,7 +36,7 @@ class _DonateDisappearedListState extends State<DonateDisappearedList> {
   late ScrollController _scrollController;
   GlobalKey dataKey = GlobalKey();
   late PetsProvider petsProvider;
-  late UserProvider userProvider;
+
   // AdsProvider adsProvider;
   // late Location location;
 
@@ -52,7 +52,7 @@ class _DonateDisappearedListState extends State<DonateDisappearedList> {
   @override
   void didChangeDependencies() {
     // adsProvider = Provider.of(context);
-    userProvider = Provider.of<UserProvider>(context, listen: false);
+
     petsProvider = Provider.of<PetsProvider>(context);
     // location = Provider.of<Location>(context);
 
@@ -344,7 +344,8 @@ class _DonateDisappearedListState extends State<DonateDisappearedList> {
                           }
 
                           return CardList(
-                            donate: petsList[index].kind == Constantes.DONATE,
+                            donate:
+                                petsList[index].kind == FirebaseEnvPath.donate,
                             kind: petsList[index].kind,
                             petInfo: petsList[index],
                           );
@@ -477,7 +478,7 @@ class _HomeSearch extends StatelessWidget {
     if (searchOption == 'Todos') {
       _refineSearchController.clearRefineSelections();
       switch (petsProvider!.getPetKind) {
-        case Constantes.DONATE:
+        case FirebaseEnvPath.donate:
           _refineSearchController.changeIsHomeFilteringByDonate(false);
           _refineSearchController.changeHomePetTypeFilterByDonate(searchOption);
           petsProvider!.changeIsFiltering(false);
@@ -485,7 +486,7 @@ class _HomeSearch extends StatelessWidget {
             state: _refineSearchController.stateOfResultSearch,
           );
           break;
-        case Constantes.DISAPPEARED:
+        case FirebaseEnvPath.disappeared:
           _refineSearchController.changeIsHomeFilteringByDisappeared(false);
           _refineSearchController
               .changeHomePetTypeFilterByDisappeared(searchOption);
@@ -496,14 +497,14 @@ class _HomeSearch extends StatelessWidget {
       }
     } else {
       switch (petsProvider!.getPetKind) {
-        case Constantes.DONATE:
+        case FirebaseEnvPath.donate:
           _refineSearchController.changeIsHomeFilteringByDonate(true);
           _refineSearchController.changeHomePetTypeFilterByDonate(searchOption);
           petsProvider!.changeIsFiltering(true);
           petsProvider!.loadDonatePETS(
               state: _refineSearchController.stateOfResultSearch);
           break;
-        case Constantes.DISAPPEARED:
+        case FirebaseEnvPath.disappeared:
           _refineSearchController.changeIsHomeFilteringByDisappeared(true);
           _refineSearchController
               .changeHomePetTypeFilterByDisappeared(searchOption);
@@ -532,7 +533,7 @@ class _HomeSearch extends StatelessWidget {
   void performTypingSearch(String text) {
     petsProvider!.changeTypingSearchResult([]);
 
-    List<Pet> oldPetList = petsProvider!.getPetKind == Constantes.DONATE
+    List<Pet> oldPetList = petsProvider!.getPetKind == FirebaseEnvPath.donate
         ? petsProvider!.getPetsDonate
         : petsProvider!.getPetsDisappeared;
     if (text.trim().removeAccent().isNotEmpty) {

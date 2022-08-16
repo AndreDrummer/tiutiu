@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
-import 'package:tiutiu/Exceptions/tiutiu_exceptions.dart';
+import 'package:tiutiu/core/Exceptions/tiutiu_exceptions.dart';
 import 'package:tiutiu/Widgets/background.dart';
 import 'package:tiutiu/Widgets/badge.dart';
 import 'package:tiutiu/Widgets/custom_dropdown_button.dart';
@@ -16,21 +16,18 @@ import 'package:tiutiu/Widgets/load_dark_screen.dart';
 import 'package:tiutiu/Widgets/popup_message.dart';
 import 'package:tiutiu/Widgets/button.dart';
 import 'package:tiutiu/Widgets/squared_add_image.dart';
-import 'package:tiutiu/backend/Model/pet_model.dart';
-import 'package:tiutiu/features/auth/controller/auth_controller.dart';
-import 'package:tiutiu/features/location/controller/current_location_controller.dart';
+import 'package:tiutiu/core/constants/firebase_env_path.dart';
+import 'package:tiutiu/features/pets/model/pet_model.dart';
 import 'package:tiutiu/features/system/controllers.dart';
 import 'package:tiutiu/providers/pet_form_provider.dart';
 import 'package:tiutiu/providers/pets_provider.dart';
-import 'package:tiutiu/utils/constantes.dart';
-import 'package:tiutiu/features/tiutiu_user/controller/user_controller.dart';
 import 'package:tiutiu/screen/selection_page.dart';
 import 'package:tiutiu/utils/other_functions.dart';
 import 'package:tiutiu/core/utils/routes/routes_name.dart';
 import '../Widgets/input_text.dart';
 import 'package:image_picker/image_picker.dart';
-import '../backend/Controller/pet_controller.dart';
-import 'package:tiutiu/data/dummy_data.dart';
+import 'package:tiutiu/features/pets/services/pet_service.dart';
+import 'package:tiutiu/core/data/dummy_data.dart';
 
 class PetForm extends StatefulWidget {
   PetForm({this.editMode = false, this.pet, this.localChanged = false});
@@ -73,7 +70,6 @@ class _PetFormState extends State<PetForm> {
   int maxImages = 6;
 
   bool? macho = true;
-  UserProvider? userProvider;
   String? dropvalueSize;
   String? dropvalueColor;
   int? dropvalueType = 0;
@@ -149,7 +145,6 @@ class _PetFormState extends State<PetForm> {
   @override
   void didChangeDependencies() {
     // adsProvider = Provider.of(context)
-    userProvider = Provider.of<UserProvider>(context, listen: false);
     petFormProvider = Provider.of<PetFormProvider>(context);
     petsProvider = Provider.of(context, listen: false);
 
@@ -397,7 +392,7 @@ class _PetFormState extends State<PetForm> {
   Future<void> save() async {
     final startIn = DateTime.now();
     changeSavingStatus(true);
-    var petController = PetController();
+    var petService = PetService();
 
     await uploadPhotos(_nome.text.trim());
 
@@ -432,13 +427,12 @@ class _PetFormState extends State<PetForm> {
       breed: DummyData.breed[petFormProvider!.getPetTypeIndex + 1]
           [petFormProvider!.getPetBreedIndex],
       health: DummyData.health[petFormProvider!.getPetHealthIndex],
-      ownerReference: userProvider!.userReference!,
       otherCaracteristics: petFormProvider!.getPetSelectedCaracteristics,
       photos: petPhotosToUpload,
       size: petFormProvider!.getPetSize,
       sex: petFormProvider!.getPetSex,
-      ownerId: userProvider!.uid!,
-      ownerName: userProvider!.displayName!,
+      ownerId: tiutiuUserController.tiutiuUser.uid!,
+      ownerName: tiutiuUserController.tiutiuUser.displayName!,
       latitude: currentLocation?.latitude ?? 0,
       longitude: currentLocation?.longitude ?? 0,
       details: petFormProvider!.getPetDescription,
@@ -450,8 +444,8 @@ class _PetFormState extends State<PetForm> {
     );
 
     !widget.editMode!
-        ? await petController.insertPet(dataPetSave, kind)
-        : await petController.updatePet(dataPetSave, widget.pet!.petReference!);
+        ? await petService.insertPet(dataPetSave, kind)
+        : await petService.updatePet(dataPetSave, widget.pet!.petReference!);
 
     final finishin = DateTime.now();
     print('DEMOROU ${finishin.difference(startIn).inSeconds}');
@@ -520,7 +514,7 @@ class _PetFormState extends State<PetForm> {
           title: widget.editMode!
               ? Text('Editar dados do ${widget.pet!.name}')
               : Text(
-                  kind == Constantes.DONATE
+                  kind == FirebaseEnvPath.donate
                       ? 'PET PARA ADOÇÃO'
                       : 'PET DESAPARECIDO',
                   style: Theme.of(context).textTheme.headline1!.copyWith(
@@ -556,7 +550,7 @@ class _PetFormState extends State<PetForm> {
                           child: Row(
                             children: <Widget>[
                               Text(
-                                kind == Constantes.DONATE
+                                kind == FirebaseEnvPath.donate
                                     ? '${petFormProvider!.getPetPhotos.isEmpty ? 'Insira pelo menos uma foto' : 'Insira algumas fotos do seu bichinho.'}'
                                     : '${petFormProvider!.getPetPhotos.isEmpty ? 'Insira pelo menos uma foto' : 'Insira fotos dele.'}',
                                 style: Theme.of(context)
@@ -722,7 +716,7 @@ class _PetFormState extends State<PetForm> {
                                         controller: _ano,
                                         readOnly: readOnly!,
                                       ),
-                                      kind == Constantes.DONATE &&
+                                      kind == FirebaseEnvPath.donate &&
                                               snapshot.hasError
                                           ? HintError()
                                           : SizedBox(),
@@ -748,7 +742,7 @@ class _PetFormState extends State<PetForm> {
                                         controller: _meses,
                                         readOnly: readOnly!,
                                       ),
-                                      kind == Constantes.DONATE &&
+                                      kind == FirebaseEnvPath.donate &&
                                               snapshot.data == null
                                           ? HintError()
                                           : SizedBox(),

@@ -16,7 +16,7 @@ class MessageBubble extends StatelessWidget {
   final bool belongToMe;
   final String message;
   final String time;
-  final User user;
+  final TiutiuUser user;
 
   @override
   Widget build(BuildContext context) {
@@ -74,7 +74,9 @@ class MessageBubble extends StatelessWidget {
                           ),
                           Spacer(),
                           Text(
-                            belongToMe ? 'Eu' : user.name!.split(' ').first,
+                            belongToMe
+                                ? 'Eu'
+                                : user.displayName!.split(' ').first,
                             style: TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.bold,

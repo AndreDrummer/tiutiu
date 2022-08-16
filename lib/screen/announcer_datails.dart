@@ -1,19 +1,18 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-
-import 'package:provider/provider.dart';
-import 'package:tiutiu/Custom/icons.dart';
+import 'package:tiutiu/core/Custom/icons.dart';
 import 'package:tiutiu/Widgets/background.dart';
 import 'package:tiutiu/Widgets/circle_child.dart';
 import 'package:tiutiu/Widgets/divider.dart';
 import 'package:tiutiu/Widgets/fullscreen_images.dart';
-import 'package:tiutiu/backend/Controller/pet_controller.dart';
-import 'package:tiutiu/backend/Controller/user_controller.dart';
+
+import 'package:tiutiu/features/pets/services/pet_service.dart';
+import 'package:tiutiu/features/system/controllers.dart';
+
 import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
-import 'package:tiutiu/chat/common/functions.dart';
+import 'package:tiutiu/features/chat/common/functions.dart';
 import 'package:tiutiu/core/utils/image_handle.dart';
-import 'package:tiutiu/features/tiutiu_user/controller/user_controller.dart';
-import 'package:tiutiu/utils/constantes.dart';
+import 'package:tiutiu/core/constants/firebase_env_path.dart';
 import 'package:tiutiu/utils/launcher_functions.dart';
 import 'package:tiutiu/utils/other_functions.dart';
 import 'package:tiutiu/utils/string_extension.dart';
@@ -24,7 +23,7 @@ class AnnouncerDetails extends StatefulWidget {
     this.showOnlyChat = false,
   });
 
-  final User user;
+  final TiutiuUser user;
   final bool showOnlyChat;
 
   @override
@@ -32,26 +31,27 @@ class AnnouncerDetails extends StatefulWidget {
 }
 
 class _AnnouncerDetailsState extends State<AnnouncerDetails> {
+  // AdsProvider adsProvider;
   int userTotalToDonate = 0;
   int userTotalDonated = 0;
   int userTotalAdopted = 0;
   int userTotalDisap = 0;
-  UserController userController = UserController();
-  // AdsProvider adsProvider;
 
   void calculateTotals(user) async {
-    PetController petController = PetController();
-    DocumentReference userReference =
-        await OtherFunctions.getReferenceById(user.id, 'Users');
+    PetService petService = PetService();
+    DocumentReference userReference = await OtherFunctions.getReferenceById(
+      tiutiuUserController.tiutiuUser.uid!,
+      FirebaseEnvPath.users,
+    );
 
     QuerySnapshot adopteds =
-        await petController.getPetToCount(userReference, Constantes.ADOPTED);
+        await petService.getPetToCount(userReference, FirebaseEnvPath.adopted);
     QuerySnapshot donates =
-        await petController.getPetToCount(userReference, Constantes.DONATE);
-    QuerySnapshot disap = await petController.getPetToCount(
-        userReference, Constantes.DISAPPEARED);
-    QuerySnapshot donated = await petController
-        .getPetToCount(userReference, Constantes.DONATE, avalaible: false);
+        await petService.getPetToCount(userReference, FirebaseEnvPath.donate);
+    QuerySnapshot disap = await petService.getPetToCount(
+        userReference, FirebaseEnvPath.disappeared);
+    QuerySnapshot donated = await petService
+        .getPetToCount(userReference, FirebaseEnvPath.donate, avalaible: false);
 
     setState(() {
       userTotalAdopted = adopteds.docs.length;
@@ -137,7 +137,8 @@ class _AnnouncerDetailsState extends State<AnnouncerDetails> {
                 ),
                 SizedBox(height: 50),
                 CustomDivider(
-                    text: "${widget.user.name!.capitalize()}", fontSize: 18),
+                    text: "${widget.user.displayName!.capitalize()}",
+                    fontSize: 18),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Row(
@@ -295,12 +296,10 @@ class _AnnouncerDetailsState extends State<AnnouncerDetails> {
                             InkWell(
                               onTap: () {
                                 CommonChatFunctions.openChat(
-                                    context: context,
-                                    firstUser: Provider.of<UserProvider>(
-                                            context,
-                                            listen: false)
-                                        .user(),
-                                    secondUser: widget.user);
+                                  firstUser: tiutiuUserController.tiutiuUser,
+                                  secondUser: widget.user,
+                                  context: context,
+                                );
                               },
                               child: CircleChild(
                                 avatarRadius: 25,
@@ -374,16 +373,16 @@ class _OnlyChatButton extends StatelessWidget {
     this.secondUser,
   });
 
-  final User? secondUser;
+  final TiutiuUser? secondUser;
 
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: () {
         CommonChatFunctions.openChat(
-          context: context,
-          firstUser: Provider.of<UserProvider>(context, listen: false).user(),
+          firstUser: tiutiuUserController.tiutiuUser,
           secondUser: secondUser!,
+          context: context,
         );
       },
       style: ElevatedButton.styleFrom(
