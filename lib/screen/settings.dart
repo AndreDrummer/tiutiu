@@ -4,17 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
-import 'package:provider/provider.dart';
 import 'package:tiutiu/Widgets/button.dart';
 import 'package:tiutiu/Widgets/divider.dart';
 import 'package:tiutiu/Widgets/input_text.dart';
 import 'package:tiutiu/Widgets/load_dark_screen.dart';
 import 'package:tiutiu/Widgets/popup_message.dart';
-import 'package:tiutiu/features/auth/controller/auth_controller.dart';
 import 'package:tiutiu/features/system/controllers.dart';
-import 'package:tiutiu/features/tiutiu_user/controller/user_controller.dart';
 import 'package:tiutiu/utils/formatter.dart';
-import 'package:tiutiu/backend/Controller/user_controller.dart';
 
 class AppSettings extends StatefulWidget {
   @override
@@ -46,8 +42,7 @@ class _AppSettingsState extends State<AppSettings> {
 
   GlobalKey<FormState> _passwordFormKey = GlobalKey<FormState>();
   GlobalKey<FormState> _personalDataFormKey = GlobalKey<FormState>();
-  late UserProvider userProvider;
-  UserController userController = UserController();
+
   // AdsProvider adsProvider;
 
   bool telefoneHasError = false;
@@ -68,10 +63,10 @@ class _AppSettingsState extends State<AppSettings> {
 
     String patttern = r'(^[0-9]*$)';
     RegExp regExp = new RegExp(patttern);
-    if (userProvider.getBetterContact == 0 &&
+    if (tiutiuUserController.tiutiuUser.betterContact == 0 &&
         value.isEmpty &&
-        userProvider.whatsapp != null &&
-        userProvider.whatsapp!.isEmpty) {
+        tiutiuUserController.tiutiuUser.phoneNumber != null &&
+        tiutiuUserController.tiutiuUser.phoneNumber!.isEmpty) {
       return 'Número é obrigatório';
     }
     if (value.isNotEmpty && value.length < 11) {
@@ -87,10 +82,10 @@ class _AppSettingsState extends State<AppSettings> {
 
     String patttern = r'(^[0-9]*$)';
     RegExp regExp = new RegExp(patttern);
-    if (userProvider.getBetterContact == 1 &&
+    if (tiutiuUserController.tiutiuUser.betterContact == 1 &&
         value.isEmpty &&
-        userProvider.telefone != null &&
-        userProvider.telefone!.isEmpty) {
+        tiutiuUserController.tiutiuUser.phoneNumber != null &&
+        tiutiuUserController.tiutiuUser.phoneNumber!.isEmpty) {
       return 'Número é obrigatório';
     }
     if (value.isNotEmpty && value.length < 10) {
@@ -104,15 +99,16 @@ class _AppSettingsState extends State<AppSettings> {
   @override
   void initState() {
     // FirebaseAdMob.instance.initialize(appId: Constantes.ADMOB_APP_ID);
-    userProvider = Provider.of(context, listen: false);
-    if (userProvider.displayName != null)
-      _nameController.text = userProvider.displayName!;
-    if (userProvider.whatsapp != null)
-      _whatsAppController.text = userProvider.whatsapp!;
-    if (userProvider.telefone != null)
-      _telefoneController.text = userProvider.telefone!;
-    if (userProvider.photoURL != null) photoURL = userProvider.photoURL;
-    if (userProvider.photoBACK != null) photoBACK = userProvider.photoBACK;
+    if (tiutiuUserController.tiutiuUser.displayName != null)
+      _nameController.text = tiutiuUserController.tiutiuUser.displayName!;
+    if (tiutiuUserController.tiutiuUser.phoneNumber != null)
+      _whatsAppController.text = tiutiuUserController.tiutiuUser.phoneNumber!;
+    if (tiutiuUserController.tiutiuUser.phoneNumber != null)
+      _telefoneController.text = tiutiuUserController.tiutiuUser.phoneNumber!;
+    if (tiutiuUserController.tiutiuUser.photoURL != null)
+      photoURL = tiutiuUserController.tiutiuUser.photoURL;
+    if (tiutiuUserController.tiutiuUser.photoBACK != null)
+      photoBACK = tiutiuUserController.tiutiuUser.photoBACK;
     super.initState();
   }
 
@@ -130,8 +126,6 @@ class _AppSettingsState extends State<AppSettings> {
         builder: ((context) => PopUpMessage(
               confirmAction: () {
                 authController.signOut();
-                userProvider.clearUserDataOnSignOut();
-                userProvider.changeRecentlyAuthenticated(true);
                 Navigator.popUntil(context, ModalRoute.withName('/'));
               },
               confirmText: 'Deslogar Agora',
@@ -228,7 +222,7 @@ class _AppSettingsState extends State<AppSettings> {
         _telefoneController.text.trim().contains('-') &&
         regExp.hasMatch(_telefoneController.text.trim().split('-')[1]);
 
-    if (userProvider.getBetterContact == 0) {
+    if (tiutiuUserController.tiutiuUser.betterContact == 0) {
       var serializedWhatsappNumber =
           Formatter.unmaskNumber(_telefoneController.text.trim());
       if (serializedWhatsappNumber == null) {
@@ -244,7 +238,7 @@ class _AppSettingsState extends State<AppSettings> {
       }
     }
 
-    if (userProvider.getBetterContact == 1) {
+    if (tiutiuUserController.tiutiuUser.betterContact == 1) {
       var serializedWhatsappNumber =
           Formatter.unmaskNumber(_whatsAppController.text.trim());
       if (serializedWhatsappNumber == null) {
@@ -306,27 +300,6 @@ class _AppSettingsState extends State<AppSettings> {
         await uploadPhotos();
       }
 
-      await userController.updateUser(userProvider.uid!, {
-        'displayName': _nameController.text.trim(),
-        'uid': authController.firebaseUser!.uid,
-        'photoURL': userProfile.isNotEmpty ? photoURL : userProvider.photoURL,
-        'photoBACK':
-            userProfile.isNotEmpty ? photoBACK : userProvider.photoBACK,
-        'phoneNumber': _whatsAppController.text.trim(),
-        'landline': _telefoneController.text.trim(),
-        'betterContact': userProvider.getBetterContact,
-        'email': authController.firebaseUser!.email,
-        'createdAt': userProvider.createdAt
-      });
-
-      userProvider.changeDisplayName(_nameController.text.trim());
-      userProvider.changeBetterContact(userProvider.getBetterContact);
-      userProvider.changeWhatsapp(_whatsAppController.text.trim());
-      userProvider.changeTelefone(_telefoneController.text.trim());
-      userProvider.changePhotoBack(photoBACK!);
-      userProvider.changePhotoUrl(photoURL!);
-      userProfile.clear();
-
       changeSaveFormStatus(false);
       isToShowDialog
           ? await showDialog(
@@ -359,7 +332,6 @@ class _AppSettingsState extends State<AppSettings> {
           imageFile0 = image;
           userProfile.remove('photoFile');
           userProfile.putIfAbsent('photoFile', () => imageFile0!);
-          userProvider.changePhotoFILE(userProfile['photoFile']);
         },
       );
     } else {
@@ -368,7 +340,6 @@ class _AppSettingsState extends State<AppSettings> {
           imageFile1 = image;
           userProfile.remove('photoFileBack');
           userProfile.putIfAbsent('photoFileBack', () => imageFile1!);
-          userProvider.changePhotoFILE(userProfile['photoFileBack']);
         },
       );
     }
@@ -426,7 +397,6 @@ class _AppSettingsState extends State<AppSettings> {
                         userProfile.remove('photoFileBack');
                       });
 
-                      userProvider.changePhotoBack('');
                       Navigator.pop(context);
                     },
                   )
@@ -506,7 +476,9 @@ class _AppSettingsState extends State<AppSettings> {
                                           placeholder:
                                               AssetImage('assets/fundo.jpg'),
                                           image: NetworkImage(
-                                            userProvider.photoBACK ?? '',
+                                            tiutiuUserController
+                                                    .tiutiuUser.photoBACK ??
+                                                '',
                                           ),
                                           fit: BoxFit.fill,
                                           width: 1000,
@@ -566,12 +538,15 @@ class _AppSettingsState extends State<AppSettings> {
                                     backgroundColor: Colors.black38,
                                     child: ClipOval(
                                       child: userProfile['photoFile'] == null
-                                          ? userProvider.photoURL != null
+                                          ? tiutiuUserController
+                                                      .tiutiuUser.photoURL !=
+                                                  null
                                               ? FadeInImage(
                                                   placeholder: AssetImage(
                                                       'assets/profileEmpty.png'),
                                                   image: NetworkImage(
-                                                    userProvider.photoURL!,
+                                                    tiutiuUserController
+                                                        .tiutiuUser.photoURL!,
                                                   ),
                                                   fit: BoxFit.cover,
                                                   width: 1000,
@@ -612,8 +587,6 @@ class _AppSettingsState extends State<AppSettings> {
                                     isFieldEditing: isNameEditing,
                                     onPressed: () {
                                       if (isNameEditing) {
-                                        userProvider.changeDisplayName(
-                                            _nameController.text.trim());
                                         changeFieldEditingState(
                                             false, 'isNameEditing');
                                       } else {
@@ -635,8 +608,6 @@ class _AppSettingsState extends State<AppSettings> {
                                     fieldHasError: whatsappHasError,
                                     onPressed: () {
                                       if (isWhatsAppEditing) {
-                                        userProvider.changeWhatsapp(
-                                            _whatsAppController.text.trim());
                                         if (_personalDataFormKey.currentState!
                                             .validate()) {
                                           changeFieldEditingState(
@@ -644,7 +615,8 @@ class _AppSettingsState extends State<AppSettings> {
                                         }
                                       } else {
                                         _whatsAppController.text =
-                                            userProvider.whatsapp!;
+                                            tiutiuUserController
+                                                .tiutiuUser.phoneNumber!;
                                         changeFieldEditingState(
                                             true, 'isWhatsAppEditing');
                                       }
@@ -663,8 +635,6 @@ class _AppSettingsState extends State<AppSettings> {
                                     fieldHasError: telefoneHasError,
                                     onPressed: () {
                                       if (isTelefoneEditing) {
-                                        userProvider.changeTelefone(
-                                            _telefoneController.text.trim());
                                         if (_personalDataFormKey.currentState!
                                             .validate()) {
                                           changeFieldEditingState(
@@ -672,7 +642,8 @@ class _AppSettingsState extends State<AppSettings> {
                                         }
                                       } else {
                                         _telefoneController.text =
-                                            userProvider.telefone!;
+                                            tiutiuUserController
+                                                .tiutiuUser.phoneNumber!;
                                         changeFieldEditingState(
                                             true, 'isTelefoneEditing');
                                       }
@@ -685,7 +656,6 @@ class _AppSettingsState extends State<AppSettings> {
                             Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: StreamBuilder<int>(
-                                stream: userProvider.betterContact,
                                 builder: (context, snapshot) {
                                   return Card(
                                     shape: RoundedRectangleBorder(
@@ -703,16 +673,12 @@ class _AppSettingsState extends State<AppSettings> {
                                               radio(
                                                 groupValue: snapshot.data,
                                                 labelText: 'WhatsApp',
-                                                onTap: () => userProvider
-                                                    .changeBetterContact(0),
                                                 value: 0,
                                                 color: Colors.green,
                                               ),
                                               radio(
                                                 groupValue: snapshot.data,
                                                 labelText: 'Telefone Fixo',
-                                                onTap: () => userProvider
-                                                    .changeBetterContact(1),
                                                 value: 1,
                                                 color: Colors.orange,
                                               ),
@@ -726,16 +692,12 @@ class _AppSettingsState extends State<AppSettings> {
                                               radio(
                                                 groupValue: snapshot.data,
                                                 labelText: 'E-mail',
-                                                onTap: () => userProvider
-                                                    .changeBetterContact(2),
                                                 value: 2,
                                                 color: Colors.red,
                                               ),
                                               radio(
                                                 groupValue: snapshot.data,
                                                 labelText: 'Só pelo chatt',
-                                                onTap: () => userProvider
-                                                    .changeBetterContact(3),
                                                 value: 3,
                                                 color: Colors.purple,
                                               ),
@@ -823,14 +785,10 @@ class _AppSettingsState extends State<AppSettings> {
                                   'DESEJA DELETAR PERMANENTEMENTE SUA CONTA ?',
                               confirmText: 'Deletar minha conta',
                               confirmAction: () async {
-                                if (userProvider.recentlyAuthenticated) {
+                                if (tiutiuUserController.initialized) {
                                   Navigator.pop(context);
                                   changeSaveFormStatus(true, deleting: true);
                                   try {
-                                    await userController.deleteUserAccount(
-                                      userReference:
-                                          userProvider.userReference!,
-                                    );
                                     navigateToHomeAfterDeleteAccount();
                                   } catch (error) {
                                     changeSaveFormStatus(false);

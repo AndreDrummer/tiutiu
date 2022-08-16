@@ -38,7 +38,7 @@ class InterestedListTile extends StatelessWidget {
           ),
         ),
       ),
-      title: Text(interestedUser!.name!),
+      title: Text(interestedUser!.displayName!),
       subtitle: Text(subtitle!),
       trailing: InkWell(
         onTap: trailingFunction,

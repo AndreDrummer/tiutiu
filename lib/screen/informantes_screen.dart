@@ -6,10 +6,9 @@ import 'package:maps_launcher/maps_launcher.dart';
 import 'package:provider/provider.dart';
 import 'package:tiutiu/Widgets/badge.dart';
 import 'package:tiutiu/Widgets/loading_page.dart';
-import 'package:tiutiu/backend/Model/interested_model.dart';
+import 'package:tiutiu/core/models/interested_model.dart';
 import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
 import 'package:tiutiu/core/utils/image_handle.dart';
-import 'package:tiutiu/features/location/controller/current_location_controller.dart';
 import 'package:tiutiu/providers/user_infos_interests.dart';
 import 'package:tiutiu/screen/announcer_datails.dart';
 import 'package:tiutiu/utils/constantes.dart';
@@ -95,7 +94,7 @@ class _InformantesScreenState extends State<InformantesScreen> {
                       MaterialPageRoute(
                         builder: (context) {
                           return AnnouncerDetails(
-                            User.fromSnapshot(snapshot.data!),
+                            TiutiuUser.fromSnapshot(snapshot.data!),
                           );
                         },
                       ),

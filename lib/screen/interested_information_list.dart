@@ -6,16 +6,14 @@ import 'package:tiutiu/Widgets/interested_info_card.dart';
 import 'package:tiutiu/Widgets/load_dark_screen.dart';
 import 'package:tiutiu/Widgets/loading_page.dart';
 import 'package:tiutiu/Widgets/popup_message.dart';
-import 'package:tiutiu/backend/Controller/user_controller.dart';
-import 'package:tiutiu/backend/Model/interested_model.dart';
-import 'package:tiutiu/backend/Model/pet_model.dart';
+import 'package:tiutiu/features/system/controllers.dart';
+import 'package:tiutiu/core/models/interested_model.dart';
+import 'package:tiutiu/features/pets/model/pet_model.dart';
 import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
-import 'package:tiutiu/chat/common/functions.dart';
+import 'package:tiutiu/features/chat/common/functions.dart';
 import 'package:tiutiu/providers/user_infos_interests.dart';
-import 'package:tiutiu/features/tiutiu_user/controller/user_controller.dart';
 import 'package:tiutiu/screen/announcer_datails.dart';
-import 'package:tiutiu/utils/constantes.dart';
-import 'package:tiutiu/utils/other_functions.dart';
+import 'package:tiutiu/core/constants/firebase_env_path.dart';
 import 'package:tiutiu/core/utils/routes/routes_name.dart';
 
 class InterestedList extends StatefulWidget {
@@ -33,9 +31,9 @@ class InterestedList extends StatefulWidget {
 
 class _InterestedListState extends State<InterestedList> {
   UserInfoOrAdoptInterestsProvider? userInfoOrAdoptInterestsProvider;
-  UserController userController = UserController();
+
   int timeToSendNotificationAgain = 120;
-  UserProvider? userProvider;
+
   bool isOpeningChat = false;
   bool isSinalizing = false;
 
@@ -60,60 +58,14 @@ class _InterestedListState extends State<InterestedList> {
     String? interestedID,
     int? userPosition,
     Pet? pet,
-  }) async {
-    await userController
-        .donatePetToSomeone(
-      interestedNotificationToken: interestedNotificationToken!,
-      ownerNotificationToken: ownerNotificationToken!,
-      interestedReference: interestedReference!,
-      interestedName: interestedName!,
-      ownerReference: ownerReference!,
-      userPosition: userPosition!,
-      interestedID: interestedID!,
-      pet: pet!,
-    )
-        .then(
-      (_) {
-        _showDialogCard(
-          title: 'Sucesso',
-          message: '$interestedName será notificado sobre a adoção!',
-          confirmAction: () {
-            userInfoOrAdoptInterestsProvider!.loadInterested(
-              widget.pet!.petReference!,
-            );
-            Navigator.pop(context);
-          },
-          confirmText: 'OK',
-        );
-      },
-    );
-  }
-
-  void _showDialogCard({
-    Function? confirmAction,
-    String? confirmText,
-    String? message,
-    String? title,
-  }) {
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (context) => PopUpMessage(
-        confirmAction: () => confirmAction?.call(),
-        confirmText: confirmText!,
-        message: message!,
-        title: title!,
-      ),
-    );
-  }
+  }) async {}
 
   @override
   void didChangeDependencies() {
     userInfoOrAdoptInterestsProvider =
         Provider.of<UserInfoOrAdoptInterestsProvider>(context);
-    userProvider = Provider.of<UserProvider>(context);
 
-    if (widget.kind == Constantes.DONATE) {
+    if (widget.kind == FirebaseEnvPath.donate) {
       userInfoOrAdoptInterestsProvider!.loadInterested(
         widget.pet!.petReference!,
       );
@@ -126,32 +78,17 @@ class _InterestedListState extends State<InterestedList> {
     super.didChangeDependencies();
   }
 
-  void doar(User interestedUser, InterestedModel interestedModel) {
+  void doar(TiutiuUser interestedUser, InterestedModel interestedModel) {
     showDialog(
       context: context,
       barrierDismissible: false,
       builder: (context) => PopUpMessage(
-        confirmAction: () async {
-          Navigator.pop(context);
-          changeIsSinalizingStatus(true);
-          await donatePetToSomeone(
-            interestedName: interestedUser.name,
-            ownerReference: userProvider!.userReference,
-            pet: widget.pet!,
-            interestedID: interestedUser.id,
-            interestedNotificationToken: interestedUser.notificationToken,
-            ownerNotificationToken: userProvider!.notificationToken,
-            interestedReference: await OtherFunctions.getReferenceById(
-                interestedUser.id!, 'Users'),
-            userPosition: interestedModel.position,
-          );
-          changeIsSinalizingStatus(false);
-        },
+        confirmAction: () async {},
         confirmText: 'Confirmo',
         denyAction: () => Navigator.pop(context),
         denyText: 'Não, escolher outro',
         message:
-            'Deseja doar ${widget.pet!.name} para ${interestedUser.name} ?',
+            'Deseja doar ${widget.pet!.name} para ${interestedUser.displayName} ?',
         title: 'Confirme doação do PET',
         warning: true,
       ),
@@ -165,7 +102,7 @@ class _InterestedListState extends State<InterestedList> {
     });
   }
 
-  void navigateToInterestedDetail(User interestedUser) {
+  void navigateToInterestedDetail(TiutiuUser interestedUser) {
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -179,7 +116,7 @@ class _InterestedListState extends State<InterestedList> {
         .difference(DateTime.parse(interestedModel.lastNotificationSend))
         .inMinutes;
     switch (widget.kind) {
-      case Constantes.DONATE:
+      case FirebaseEnvPath.donate:
         if (interestedModel.donated) return Colors.green;
         if (interestedModel.gaveup) return Colors.red;
         if (hoursSinceLastNotification >= timeToSendNotificationAgain)
@@ -197,7 +134,7 @@ class _InterestedListState extends State<InterestedList> {
         .inMinutes;
 
     switch (widget.kind) {
-      case Constantes.DONATE:
+      case FirebaseEnvPath.donate:
         if (interestedModel.donated) return 'Adotado';
         if (interestedModel.gaveup) return 'Desistiu';
         if (hoursSinceLastNotification >= timeToSendNotificationAgain &&
@@ -216,7 +153,7 @@ class _InterestedListState extends State<InterestedList> {
         .difference(DateTime.parse(interestedModel.lastNotificationSend))
         .inMinutes;
     switch (widget.kind) {
-      case Constantes.DONATE:
+      case FirebaseEnvPath.donate:
         if (interestedModel.donated)
           return _bagde('Adotado', color: Colors.green);
         if (interestedModel.gaveup)
@@ -234,7 +171,7 @@ class _InterestedListState extends State<InterestedList> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.kind == Constantes.DONATE
+        title: Text(widget.kind == FirebaseEnvPath.donate
             ? 'Interessados em ${widget.pet!.name}'.toUpperCase()
             : 'Quem informou sobre ${widget.pet!.name}'.toUpperCase()),
       ),
@@ -243,7 +180,7 @@ class _InterestedListState extends State<InterestedList> {
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 8.0),
             child: StreamBuilder<List<InterestedModel>>(
-              stream: widget.kind == Constantes.DONATE
+              stream: widget.kind == FirebaseEnvPath.donate
                   ? userInfoOrAdoptInterestsProvider!.interested
                   : userInfoOrAdoptInterestsProvider!.info,
               builder: (context, snapshot) {
@@ -280,11 +217,11 @@ class _InterestedListState extends State<InterestedList> {
                               return Container();
                             }
 
-                            User interestedUser = User.fromSnapshot(
+                            TiutiuUser interestedUser = TiutiuUser.fromSnapshot(
                               interestedReferenceSnapshot.data!,
                             );
                             String subtitle =
-                                '${widget.kind == Constantes.DONATE ? 'Interessou dia' : 'Informou dia'} ${DateFormat('dd/MM/y HH:mm').format(DateTime.parse(interesteds[index].interestedAt))}';
+                                '${widget.kind == FirebaseEnvPath.donate ? 'Interessou dia' : 'Informou dia'} ${DateFormat('dd/MM/y HH:mm').format(DateTime.parse(interesteds[index].interestedAt))}';
 
                             return InterestedInfoCard(
                               subtitle: subtitle,
@@ -302,7 +239,7 @@ class _InterestedListState extends State<InterestedList> {
                                             .lastNotificationSend))
                                     .inMinutes;
                                 bool canSendNewNotification =
-                                    widget.kind == Constantes.DONATE &&
+                                    widget.kind == FirebaseEnvPath.donate &&
                                         hoursSinceLastNotification >=
                                             timeToSendNotificationAgain &&
                                         (!interesteds[index].donated &&
@@ -311,13 +248,13 @@ class _InterestedListState extends State<InterestedList> {
                                 if (canSendNewNotification) {
                                   doar(interestedUser, interesteds[index]);
                                 } else if (widget.kind ==
-                                    Constantes.DISAPPEARED) {
+                                    FirebaseEnvPath.disappeared) {
                                   seeInfo(interesteds[index]);
                                 }
                               },
                               openChat: () => CommonChatFunctions.openChat(
                                 context: context,
-                                firstUser: userProvider!.user(),
+                                firstUser: tiutiuUserController.tiutiuUser,
                                 secondUser: interestedUser,
                               ),
                               infoOrDonteText: text(interesteds[index]),
