@@ -1,15 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:tiutiu/Custom/icons.dart';
-import 'package:tiutiu/backend/Controller/user_controller.dart';
-import 'package:tiutiu/backend/Model/pet_model.dart';
-import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
+import 'package:tiutiu/core/Custom/icons.dart';
 import 'package:tiutiu/features/system/controllers.dart';
-import 'package:tiutiu/providers/favorites_provider.dart';
+import 'package:tiutiu/features/pets/model/pet_model.dart';
+import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
 import 'package:tiutiu/providers/pets_provider.dart';
-import 'package:tiutiu/utils/constantes.dart';
-import 'package:tiutiu/features/tiutiu_user/controller/user_controller.dart';
+import 'package:tiutiu/core/constants/firebase_env_path.dart';
 import 'package:tiutiu/screen/pet_detail.dart';
 import 'package:tiutiu/utils/other_functions.dart';
 
@@ -31,8 +27,6 @@ class CardList extends StatefulWidget {
 }
 
 class _CardListState extends State<CardList> {
-  late UserProvider userProvider;
-
   Future loadOwner(DocumentReference doc) async {
     final owner = await doc.get();
     if (authController.firebaseUser != null) {
@@ -52,7 +46,6 @@ class _CardListState extends State<CardList> {
 
   @override
   void didChangeDependencies() {
-    userProvider = Provider.of<UserProvider>(context);
     super.didChangeDependencies();
   }
 
@@ -60,8 +53,6 @@ class _CardListState extends State<CardList> {
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
-    UserController user = UserController();
-    FavoritesProvider favoritesProvider = Provider.of(context);
 
     List<String> distanceText = OtherFunctions.distanceCalculate(
       context,
@@ -71,8 +62,8 @@ class _CardListState extends State<CardList> {
 
     return InkWell(
       onTap: () async {
-        if (userProvider.uid != null &&
-            userProvider.uid != widget.petInfo!.ownerId) {
+        if (tiutiuUserController.tiutiuUser.uid != null &&
+            tiutiuUserController.tiutiuUser.uid != widget.petInfo!.ownerId) {
           PetsProvider().increaseViews(
             actualViews: widget.petInfo!.views!,
             petReference: widget.petInfo!.petReference!,
@@ -91,7 +82,7 @@ class _CardListState extends State<CardList> {
             builder: (context) {
               return PetDetails(
                 petOwner: TiutiuUser.fromMap(user),
-                isMine: TiutiuUser.fromMap(user).id ==
+                isMine: TiutiuUser.fromMap(user).uid ==
                     authController.firebaseUser?.uid,
                 pet: widget.petInfo!,
                 kind: widget.petInfo!.kind!.toUpperCase(),
@@ -188,7 +179,8 @@ class _CardListState extends State<CardList> {
                                         fontWeight: FontWeight.w700)),
                                 SizedBox(width: 20),
                                 Icon(
-                                    widget.petInfo!.kind == Constantes.DONATE
+                                    widget.petInfo!.kind ==
+                                            FirebaseEnvPath.donate
                                         ? Icons.favorite
                                         : Icons.info,
                                     size: 14,
@@ -200,7 +192,7 @@ class _CardListState extends State<CardList> {
                                   ),
                                   builder: (context, snapshot) {
                                     return Text(
-                                      '  ${snapshot.data?.docs.length ?? 0} ${widget.petInfo!.kind == Constantes.DONATE ? 'interessados' : 'informações'}',
+                                      '  ${snapshot.data?.docs.length ?? 0} ${widget.petInfo!.kind == FirebaseEnvPath.donate ? 'interessados' : 'informações'}',
                                       style: TextStyle(
                                         color: Colors.grey,
                                         fontWeight: FontWeight.w700,
@@ -218,42 +210,16 @@ class _CardListState extends State<CardList> {
                     Column(
                       children: [
                         IconButton(
-                          icon: widget.favorite
-                              ? Icon(
-                                  favoritesProvider.getFavoritesPETSIDList
-                                          .contains(
-                                              widget.petInfo!.toMap()['id'])
-                                      ? Icons.favorite
-                                      : Icons.favorite_border,
-                                  size: 40,
-                                  color: Colors.red,
-                                )
-                              : Icon(Tiutiu.location_arrow,
-                                  size: 25,
-                                  color: Theme.of(context).primaryColor),
-                          onPressed: !widget.favorite
-                              ? null
-                              : () {
-                                  if (favoritesProvider.getFavoritesPETSIDList
-                                      .contains(
-                                          widget.petInfo!.toMap()['id'])) {
-                                    user.favorite(
-                                        userProvider.userReference!,
-                                        widget.petInfo!.toMap()['petReference'],
-                                        false);
-                                    favoritesProvider.handleFavorite(
-                                        widget.petInfo!.toMap()['id']);
-                                  } else {
-                                    user.favorite(
-                                        userProvider.userReference!,
-                                        widget.petInfo!.toMap()['petReference'],
-                                        true);
-                                    favoritesProvider.loadFavoritesReference();
-                                    favoritesProvider.handleFavorite(
-                                        widget.petInfo!.toMap()['id']);
-                                  }
-                                },
-                        ),
+                            icon: widget.favorite
+                                ? Icon(
+                                    Icons.favorite_border,
+                                    size: 40,
+                                    color: Colors.red,
+                                  )
+                                : Icon(Tiutiu.location_arrow,
+                                    size: 25,
+                                    color: Theme.of(context).primaryColor),
+                            onPressed: null),
                         SizedBox(height: 10),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.end,

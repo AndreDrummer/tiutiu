@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
-import 'package:tiutiu/Custom/icons.dart';
+import 'package:tiutiu/core/Custom/icons.dart';
 import 'package:tiutiu/Widgets/badge.dart';
 import 'package:tiutiu/Widgets/button.dart';
 import 'package:tiutiu/Widgets/load_dark_screen.dart';
-import 'package:tiutiu/data/dummy_data.dart';
+import 'package:tiutiu/core/data/dummy_data.dart';
 import 'package:tiutiu/features/refine_search/controller/refine_search_controller.dart';
 import 'package:tiutiu/providers/pets_provider.dart';
-import 'package:tiutiu/utils/constantes.dart';
+import 'package:tiutiu/core/constants/firebase_env_path.dart';
 import 'package:tiutiu/screen/selection_page.dart';
 import 'package:tiutiu/core/utils/routes/routes_name.dart';
 
@@ -258,8 +258,8 @@ class _RefineSearchState extends State<RefineSearch> {
                         : () async {
                             petsProvider!.changePetKind(
                                 _refineSearchController.isDisappeared
-                                    ? Constantes.DISAPPEARED
-                                    : Constantes.DONATE);
+                                    ? FirebaseEnvPath.disappeared
+                                    : FirebaseEnvPath.donate);
                             _refineSearchController
                                 .changeSearchHomePetTypeInitialValue(
                                     petsProvider!.getPetType);

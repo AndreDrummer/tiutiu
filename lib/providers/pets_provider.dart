@@ -1,13 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:tiutiu/utils/constantes.dart';
-import 'package:tiutiu/backend/Model/pet_model.dart';
+
+import 'package:tiutiu/core/constants/firebase_env_path.dart';
+import 'package:tiutiu/features/pets/model/pet_model.dart';
 import 'package:tiutiu/utils/other_functions.dart';
 
 class PetsProvider with ChangeNotifier {
   final _orderType = BehaviorSubject<String>.seeded('Data de postagem');
-  final _petKind = BehaviorSubject<String>.seeded(Constantes.DONATE);
+  final _petKind = BehaviorSubject<String>.seeded(FirebaseEnvPath.donate);
   final _isFilteringByBreed = BehaviorSubject<bool>.seeded(false);
   final _isFilteringByName = BehaviorSubject<bool>.seeded(false);
   final _orderTypeList = BehaviorSubject<List<String>>.seeded(
@@ -99,7 +100,7 @@ class PetsProvider with ChangeNotifier {
   }
 
   Future<void> reloadList({String? state}) async {
-    if (getPetKind == Constantes.DONATE) {
+    if (getPetKind == FirebaseEnvPath.donate) {
       loadDonatePETS(state: state!);
     } else {
       loadDisappearedPETS(state: state!);
@@ -136,7 +137,7 @@ class PetsProvider with ChangeNotifier {
       loadFilteredPETS(state: state!);
     } else {
       QuerySnapshot querySnapshot = await FirebaseFirestore.instance
-          .collection(Constantes.DONATE)
+          .collection(FirebaseEnvPath.donate)
           .where('donated', isEqualTo: false)
           .get();
 
@@ -159,7 +160,7 @@ class PetsProvider with ChangeNotifier {
       loadFilteredPETS(state: state!);
     } else {
       QuerySnapshot querySnapshot = await FirebaseFirestore.instance
-          .collection(Constantes.DISAPPEARED)
+          .collection(FirebaseEnvPath.disappeared)
           .where('found', isEqualTo: false)
           .get();
 
@@ -181,7 +182,7 @@ class PetsProvider with ChangeNotifier {
     required DocumentReference petReference,
     required String kind,
   }) {
-    return kind == Constantes.DONATE
+    return kind == FirebaseEnvPath.donate
         ? petReference.collection('adoptInteresteds').snapshots()
         : petReference.collection('infoInteresteds').snapshots();
   }
@@ -219,7 +220,7 @@ class PetsProvider with ChangeNotifier {
 
   void loadFilteredPETS({String? state}) async {
     Query query = FirebaseFirestore.instance.collection(getPetKind).where(
-        getPetKind == Constantes.DONATE ? 'donated' : 'found',
+        getPetKind == FirebaseEnvPath.donate ? 'donated' : 'found',
         isEqualTo: false);
 
     for (int i = 0; i < _filters().length; i++) {
@@ -250,7 +251,7 @@ class PetsProvider with ChangeNotifier {
       pets = await OtherFunctions.filterResultsByState(pets, state);
     }
 
-    getPetKind == Constantes.DONATE
+    getPetKind == FirebaseEnvPath.donate
         ? changePetsDonate(pets)
         : changePetsDisappeared(pets);
   }
