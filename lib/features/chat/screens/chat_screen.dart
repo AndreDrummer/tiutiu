@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tiutiu/Widgets/background.dart';
-import 'package:tiutiu/chat/widgets/messages.dart';
-import 'package:tiutiu/chat/widgets/new_message.dart';
+import 'package:tiutiu/features/chat/widgets/messages.dart';
+import 'package:tiutiu/features/chat/widgets/new_message.dart';
 import 'package:tiutiu/providers/chat_provider.dart';
 import 'package:tiutiu/utils/other_functions.dart';
 

@@ -3,17 +3,13 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
-import 'package:provider/provider.dart';
 import 'package:tiutiu/Widgets/button.dart';
 import 'package:tiutiu/Widgets/hint_error.dart';
 import 'package:tiutiu/Widgets/input_text.dart';
 import 'package:tiutiu/Widgets/load_dark_screen.dart';
-import 'package:tiutiu/features/auth/controller/auth_controller.dart';
 import 'package:tiutiu/features/system/controllers.dart';
-import 'package:tiutiu/features/tiutiu_user/controller/user_controller.dart';
 import 'package:tiutiu/utils/formatter.dart';
 import 'package:tiutiu/core/utils/routes/routes_name.dart';
-import 'package:tiutiu/backend/Controller/user_controller.dart';
 
 class Register extends StatefulWidget {
   @override
@@ -24,7 +20,7 @@ class _RegisterState extends State<Register> {
   String? whatsappHasErrorMessage = '';
   Map<String, File> userProfile = {};
   bool? whatsappHasError = false;
-  UserProvider? userProvider;
+
   File? imageFile0;
   String? photoURL;
 
@@ -49,15 +45,6 @@ class _RegisterState extends State<Register> {
     });
   }
 
-  @override
-  void didChangeDependencies() {
-    userProvider = Provider.of(context, listen: false);
-    userProfile.putIfAbsent('photoFile', () => userProvider!.photoFILE!);
-    _whatsapp.text = userProvider!.whatsapp!;
-    _telefone.text = userProvider!.telefone!;
-    super.didChangeDependencies();
-  }
-
   void selectImage(ImageSource source) async {
     var picker = ImagePicker();
     dynamic image = await picker.pickImage(source: source);
@@ -67,7 +54,6 @@ class _RegisterState extends State<Register> {
         imageFile0 = image;
         userProfile.clear();
         userProfile.putIfAbsent('photoFile', () => imageFile0!);
-        userProvider!.changePhotoFILE(userProfile['photoFile']);
       },
     );
   }
@@ -245,21 +231,6 @@ class _RegisterState extends State<Register> {
   }
 
   Future<void> save() async {
-    await uploadPhotos();
-    UserController userController = UserController();
-    await userController.updateUser(authController.firebaseUser!.uid, {
-      'displayName': _name.text.trim(),
-      'uid': authController.firebaseUser!.uid,
-      'photoURL': photoURL,
-      'phoneNumber': _whatsapp.text.trim(),
-      'landline': _telefone.text.trim(),
-      'betterContact': userProvider!.getBetterContact,
-      'email': authController.firebaseUser!.email,
-      'createdAt': DateTime.now().toIso8601String()
-    });
-    userProvider!.changePhotoUrl(photoURL!);
-    userProvider!.changeTelefone('');
-    userProvider!.changeWhatsapp('');
     userProfile.clear();
 
     return Future.value();
@@ -362,9 +333,7 @@ class _RegisterState extends State<Register> {
                         keyBoardTypeNumber: true,
                         controller: _whatsapp,
                         validator: validarCelular,
-                        onChanged: (text) {
-                          userProvider!.changeWhatsapp(_whatsapp.text.trim());
-                        },
+                        onChanged: (text) {},
                       ),
                       whatsappHasError!
                           ? HintError(message: whatsappHasErrorMessage)
@@ -377,9 +346,7 @@ class _RegisterState extends State<Register> {
                         hintText: '(XX) XXXX-XXXX',
                         keyBoardTypeNumber: true,
                         controller: _telefone,
-                        onChanged: (text) {
-                          userProvider!.changeTelefone(_telefone.text.trim());
-                        },
+                        onChanged: (text) {},
                       ),
                       telefoneHasError
                           ? HintError(message: telefoneHasErrorMessage)
@@ -390,15 +357,12 @@ class _RegisterState extends State<Register> {
                         child: Text('Escolha sua melhor forma de contato.'),
                       ),
                       StreamBuilder<Object>(
-                        stream: userProvider!.betterContact,
                         builder: (context, snapshot) {
                           return Container(
                             child: Column(
                               children: [
                                 InkWell(
-                                  onTap: () {
-                                    userProvider!.changeBetterContact(0);
-                                  },
+                                  onTap: () {},
                                   child: Row(
                                     children: [
                                       Radio(
@@ -407,9 +371,6 @@ class _RegisterState extends State<Register> {
                                         groupValue: snapshot.data,
                                         value: 0,
                                         onChanged: (value) {
-                                          userProvider!.changeBetterContact(
-                                            value as int,
-                                          );
                                           if (_whatsapp.text.trim().isEmpty) {
                                             setState(() {
                                               whatsappHasErrorMessage =
@@ -425,9 +386,7 @@ class _RegisterState extends State<Register> {
                                   ),
                                 ),
                                 InkWell(
-                                  onTap: () {
-                                    userProvider!.changeBetterContact(1);
-                                  },
+                                  onTap: () {},
                                   child: Row(
                                     children: [
                                       Radio(
@@ -435,9 +394,6 @@ class _RegisterState extends State<Register> {
                                         groupValue: snapshot.data,
                                         value: 1,
                                         onChanged: (value) {
-                                          userProvider!.changeBetterContact(
-                                            value as int,
-                                          );
                                           if (_telefone.text.trim().isEmpty) {
                                             setState(() {
                                               telefoneHasError = true;
@@ -453,9 +409,7 @@ class _RegisterState extends State<Register> {
                                   ),
                                 ),
                                 InkWell(
-                                  onTap: () {
-                                    userProvider!.changeBetterContact(2);
-                                  },
+                                  onTap: () {},
                                   child: Row(
                                     children: [
                                       Radio(
@@ -467,8 +421,6 @@ class _RegisterState extends State<Register> {
                                             telefoneHasError = false;
                                             whatsappHasError = false;
                                           });
-                                          userProvider!.changeBetterContact(
-                                              value as int);
                                         },
                                       ),
                                       Text('E-mail'),
@@ -476,9 +428,7 @@ class _RegisterState extends State<Register> {
                                   ),
                                 ),
                                 InkWell(
-                                  onTap: () {
-                                    userProvider!.changeBetterContact(3);
-                                  },
+                                  onTap: () {},
                                   child: Row(
                                     children: [
                                       Radio(
@@ -490,9 +440,6 @@ class _RegisterState extends State<Register> {
                                             telefoneHasError = false;
                                             whatsappHasError = false;
                                           });
-                                          userProvider!.changeBetterContact(
-                                            value as int,
-                                          );
                                         },
                                       ),
                                       Text('Somente pelo chat do aplicativo'),
@@ -521,7 +468,7 @@ class _RegisterState extends State<Register> {
             ? null
             : () async {
                 if (_formKey.currentState!.validate()) {
-                  if (userProvider!.getBetterContact == 1 &&
+                  if (tiutiuUserController.tiutiuUser.betterContact == 1 &&
                       (_telefone.text.trim().isEmpty ||
                           _telefone.text.trim().length < 12)) {
                     ScaffoldMessenger.of(context).showSnackBar(

@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:tiutiu/Widgets/button.dart';
 import 'package:tiutiu/Widgets/new_map.dart';
-import 'package:tiutiu/backend/Model/pet_model.dart';
-import 'package:tiutiu/features/location/controller/current_location_controller.dart';
+import 'package:tiutiu/features/pets/model/pet_model.dart';
 import 'package:tiutiu/screen/pet_form.dart';
-import 'package:tiutiu/utils/constantes.dart';
+import 'package:tiutiu/core/constants/firebase_env_path.dart';
 import 'package:tiutiu/core/utils/routes/routes_name.dart';
 
 class ChooseLocation extends StatefulWidget {
@@ -40,7 +38,7 @@ class _ChooseLocationState extends State<ChooseLocation> {
       backgroundColor: Colors.white,
       // appBar: AppBar(
       //   title: Text(
-      //     kind == Constantes.DONATE ? 'localização do PET'.toUpperCase() : 'Visto pela última vez em'.toUpperCase(),
+      //     kind == FirebaseEnvPath.donate ? 'localização do PET'.toUpperCase() : 'Visto pela última vez em'.toUpperCase(),
       //     style: Theme.of(context).textTheme.headline1!.copyWith(
       //           fontSize: 20,
       //           fontWeight: FontWeight.w700,
@@ -61,7 +59,7 @@ class _ChooseLocationState extends State<ChooseLocation> {
                       : Colors.grey,
                   rounded: false,
                   isToExpand: true,
-                  text: kind == Constantes.DONATE
+                  text: kind == FirebaseEnvPath.donate
                       ? 'O PET ESTÁ NESTA REGIÃO'
                       : 'VISTO POR ÚLTIMO AQUI',
                   action: snapshot.data == null || !snapshot.data!
