@@ -6,7 +6,7 @@ import 'package:tiutiu/features/refine_search/controller/refine_search_controlle
 import 'package:tiutiu/providers/chat_provider.dart';
 import 'package:tiutiu/providers/pets_provider.dart';
 import 'package:tiutiu/screen/appBar.dart';
-import 'package:tiutiu/utils/constantes.dart';
+import 'package:tiutiu/core/constants/firebase_env_path.dart';
 import 'package:tiutiu/screen/donate_disappeared_list.dart';
 import 'package:tiutiu/core/utils/routes/routes_name.dart';
 
@@ -14,7 +14,7 @@ final RefineSearchController _refineSearchController = Get.find();
 
 class PetsList extends StatefulWidget {
   PetsList({
-    this.petKind = Constantes.DONATE,
+    this.petKind = FirebaseEnvPath.donate,
   });
   final String petKind;
 
@@ -50,8 +50,8 @@ class _PetsListState extends State<PetsList> {
 
   void onPetTypeChange() {
     print(widget.petKind);
-    if (widget.petKind == Constantes.DISAPPEARED) {
-      petsProvider!.changePetKind(Constantes.DISAPPEARED);
+    if (widget.petKind == FirebaseEnvPath.disappeared) {
+      petsProvider!.changePetKind(FirebaseEnvPath.disappeared);
       if (_refineSearchController.searchPetByTypeOnHome &&
           _refineSearchController.isHomeFilteringByDisappeared) {
         _refineSearchController.changeSearchHomePetTypeInitialValue(
@@ -72,7 +72,7 @@ class _PetsListState extends State<PetsList> {
         petsProvider!
             .changeTypingSearchResult(petsProvider!.getPetsDisappeared);
     } else {
-      petsProvider!.changePetKind(Constantes.DONATE);
+      petsProvider!.changePetKind(FirebaseEnvPath.donate);
       if (_refineSearchController.searchPetByTypeOnHome &&
           _refineSearchController.isHomeFilteringByDonate) {
         _refineSearchController.changeSearchHomePetTypeInitialValue(
@@ -133,7 +133,7 @@ class _PetsListState extends State<PetsList> {
       ),
       body: Container(
         child: DonateDisappearedList(
-          stream: widget.petKind == Constantes.DONATE
+          stream: widget.petKind == FirebaseEnvPath.donate
               ? petsProvider!.petsDonate
               : petsProvider!.petsDisappeared,
         ),

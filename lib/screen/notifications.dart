@@ -1,14 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:provider/provider.dart';
 import 'package:tiutiu/Widgets/badge.dart';
 import 'package:tiutiu/Widgets/empty_list.dart';
-import 'package:tiutiu/backend/Model/pet_model.dart';
+import 'package:tiutiu/core/models/notification_model.dart';
+import 'package:tiutiu/features/pets/model/pet_model.dart';
 import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
 import 'package:tiutiu/core/utils/image_handle.dart';
-import 'package:tiutiu/features/tiutiu_user/controller/user_controller.dart';
-import 'package:tiutiu/backend/Model/notification_model.dart';
 import 'package:tiutiu/screen/confirm_adoption.dart';
 import 'package:tiutiu/screen/interested_information_list.dart';
 
@@ -19,12 +17,11 @@ class NotificationScreen extends StatefulWidget {
 
 class _NotificationScreenState extends State<NotificationScreen> {
   // AdsProvider adsProvider;
-  late UserProvider userProvider;
 
   @override
   void didChangeDependencies() {
     // adsProvider = Provider.of(context);
-    userProvider = Provider.of(context);
+
     super.didChangeDependencies();
   }
 
@@ -56,7 +53,6 @@ class _NotificationScreenState extends State<NotificationScreen> {
         children: [
           Expanded(
             child: StreamBuilder<QuerySnapshot>(
-              stream: userProvider.loadNotifications(),
               builder: (context, snapshot) {
                 if (snapshot.data == null || snapshot.data!.docs.isEmpty) {
                   return Column(
@@ -91,8 +87,8 @@ class _NotificationScreenState extends State<NotificationScreen> {
                                   snapshot.data!.docs)[index]);
 
                           return _ListTile(
-                              notificationModel: notificationModel,
-                              userProvider: userProvider);
+                            notificationModel: notificationModel,
+                          );
                         },
                       ),
                     ),
@@ -110,14 +106,12 @@ class _NotificationScreenState extends State<NotificationScreen> {
 class _ListTile extends StatelessWidget {
   _ListTile({
     required this.notificationModel,
-    required this.userProvider,
   });
 
   final NotificationModel notificationModel;
-  final UserProvider userProvider;
 
   Future<String> loadUserAvatar(DocumentReference userRef) async {
-    User userData = User.fromSnapshot(await userRef.get());
+    TiutiuUser userData = TiutiuUser.fromSnapshot(await userRef.get());
     return Future.value(userData.photoURL);
   }
 

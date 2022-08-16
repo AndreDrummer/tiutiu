@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:tiutiu/backend/Model/interested_model.dart';
+import 'package:tiutiu/core/models/interested_model.dart';
 
 class UserInfoOrAdoptInterestsProvider with ChangeNotifier {
   final _adoptInterest = BehaviorSubject<List<String>>.seeded([]);
@@ -51,8 +51,8 @@ class UserInfoOrAdoptInterestsProvider with ChangeNotifier {
     return Future.value((refData.data() as Map<String, dynamic>)['uid']);
   }
 
-  void checkInterested(
-      DocumentReference petRef, DocumentReference userReference) async {
+  void checkInterested(DocumentReference petRef,
+      {DocumentReference? userReference}) async {
     final pet = await petRef.get();
 
     if (pet.data() != null) {
@@ -67,8 +67,8 @@ class UserInfoOrAdoptInterestsProvider with ChangeNotifier {
     }
   }
 
-  void checkInfo(
-      DocumentReference petRef, DocumentReference userReference) async {
+  void checkInfo(DocumentReference petRef,
+      {DocumentReference? userReference}) async {
     final pet = await petRef.get();
 
     if (pet.data() != null) {

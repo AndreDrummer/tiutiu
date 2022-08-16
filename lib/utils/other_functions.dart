@@ -1,10 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:provider/provider.dart';
-import 'package:tiutiu/backend/Model/pet_model.dart';
-import 'package:tiutiu/features/location/controller/current_location_controller.dart'
-    as provider;
+import 'package:tiutiu/features/pets/model/pet_model.dart';
 import 'package:tiutiu/screen/announcer_datails.dart';
 import 'package:tiutiu/utils/math_functions.dart';
 import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
@@ -119,7 +116,7 @@ class OtherFunctions {
     return documentSnapshot.reference;
   }
 
-  static void navigateToAnnouncerDetail(BuildContext context, User user,
+  static void navigateToAnnouncerDetail(BuildContext context, TiutiuUser user,
       {bool showOnlyChat = false}) {
     Navigator.push(
       context,

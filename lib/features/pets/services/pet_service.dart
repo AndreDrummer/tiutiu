@@ -62,8 +62,8 @@ class PetService {
         .snapshots();
   }
 
-  Future<void> deleteOldInterest(
-      DocumentReference petReference, DocumentReference userReference) async {
+  Future<void> deleteOldInterest(DocumentReference petReference,
+      {DocumentReference? userReference}) async {
     QuerySnapshot adoptInterestedsRef = await petReference
         .collection('adoptInteresteds')
         .where('userReference', isEqualTo: userReference)
@@ -76,8 +76,8 @@ class PetService {
   }
 
   Future<void> showInterestOrInfo({
-    required DocumentReference userReference,
-    required DocumentReference petReference,
+    DocumentReference? userReference,
+    DocumentReference? petReference,
     String? interestedNotificationToken,
     String? ownerNotificationToken,
     required LatLng userLocation,
@@ -92,10 +92,10 @@ class PetService {
     String? ownerID,
     String? petName,
   }) async {
-    var petRef = await petReference.get();
+    var petRef = await petReference?.get();
 
     if (isAdopt) {
-      await petRef.reference.collection('adoptInteresteds').doc().set(
+      await petRef?.reference.collection('adoptInteresteds').doc().set(
         {
           'notificationType': 'wannaAdopt',
           'interestedName': interestedName,
@@ -120,7 +120,7 @@ class PetService {
         SetOptions(merge: true),
       );
     } else {
-      await petRef.reference.collection('infoInteresteds').doc().set(
+      await petRef?.reference.collection('infoInteresteds').doc().set(
         {
           'notificationType': 'petInfo',
           'interestedName': interestedName,
