@@ -1,16 +1,15 @@
+import 'package:tiutiu/features/refine_search/controller/refine_search_controller.dart';
+import 'package:tiutiu/core/constants/firebase_env_path.dart';
+import 'package:tiutiu/core/utils/routes/routes_name.dart';
+import 'package:tiutiu/features/system/controllers.dart';
+import 'package:tiutiu/Widgets/load_dark_screen.dart';
+import 'package:tiutiu/screen/selection_page.dart';
+import 'package:tiutiu/core/data/dummy_data.dart';
+import 'package:tiutiu/core/Custom/icons.dart';
+import 'package:tiutiu/Widgets/button.dart';
+import 'package:tiutiu/Widgets/badge.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:provider/provider.dart';
-import 'package:tiutiu/core/Custom/icons.dart';
-import 'package:tiutiu/Widgets/badge.dart';
-import 'package:tiutiu/Widgets/button.dart';
-import 'package:tiutiu/Widgets/load_dark_screen.dart';
-import 'package:tiutiu/core/data/dummy_data.dart';
-import 'package:tiutiu/features/refine_search/controller/refine_search_controller.dart';
-import 'package:tiutiu/providers/pets_provider.dart';
-import 'package:tiutiu/core/constants/firebase_env_path.dart';
-import 'package:tiutiu/screen/selection_page.dart';
-import 'package:tiutiu/core/utils/routes/routes_name.dart';
 
 final RefineSearchController _refineSearchController = Get.find();
 
@@ -20,7 +19,6 @@ class RefineSearch extends StatefulWidget {
 }
 
 class _RefineSearchState extends State<RefineSearch> {
-  PetsProvider? petsProvider;
   bool? isRefiningSearch = false;
   bool? isPetDisappeared = false;
   int? selectedKind;
@@ -40,15 +38,13 @@ class _RefineSearchState extends State<RefineSearch> {
 
   void handleSelectedKind(int index) {
     _refineSearchController.clearRefineSelections();
-    if (index == 0) petsProvider!.changePetType('Todos');
-    petsProvider!.changePetType(petsType[index - 1]);
+    if (index == 0) petsController.petType = 'Todos';
+    petsController.petType = petsType[index - 1];
     _refineSearchController.changeKindSelected(index);
   }
 
   @override
   void didChangeDependencies() {
-    petsProvider = Provider.of<PetsProvider>(context);
-
     selectedKind = _refineSearchController.kindSelected;
     // adsProvider = Provider.of(context);
     super.didChangeDependencies();
@@ -171,9 +167,9 @@ class _RefineSearchState extends State<RefineSearch> {
                 ),
                 _PetSelector(
                   handleSelectedKind: handleSelectedKind,
-                  selectedKind: petsProvider!.getPetType == 'Todos'
+                  selectedKind: petsController.petType == 'Todos'
                       ? 0
-                      : petsType.indexOf(petsProvider!.getPetType) + 1,
+                      : petsType.indexOf(petsController.petType) + 1,
                 ),
                 Stack(
                   children: [
@@ -185,7 +181,7 @@ class _RefineSearchState extends State<RefineSearch> {
                             titleTile: optionTile['title'],
                             valueSelected: optionTile['valueSelected'],
                             clear: optionTile['clearFunction'],
-                            onTap: petsProvider!.getPetType == 'Todos'
+                            onTap: petsController.petType == 'Todos'
                                 ? null
                                 : () {
                                     Navigator.push(
@@ -212,7 +208,7 @@ class _RefineSearchState extends State<RefineSearch> {
                         );
                       }).toList(),
                     ),
-                    petsProvider!.getPetType == 'Todos'
+                    petsController.petType == 'Todos'
                         ? Container(color: Colors.black12, height: 328)
                         : Container(),
                   ],
@@ -256,27 +252,27 @@ class _RefineSearchState extends State<RefineSearch> {
                     action: isRefiningSearch!
                         ? null
                         : () async {
-                            petsProvider!.changePetKind(
+                            petsController.petKind =
                                 _refineSearchController.isDisappeared
                                     ? FirebaseEnvPath.disappeared
-                                    : FirebaseEnvPath.donate);
+                                    : FirebaseEnvPath.donate;
                             _refineSearchController
                                 .changeSearchHomePetTypeInitialValue(
-                                    petsProvider!.getPetType);
-                            petsProvider!.changeBreedSelected(
-                                _refineSearchController.breedSelected);
-                            petsProvider!.changeSizeSelected(
-                                _refineSearchController.sizeSelected);
-                            petsProvider!.changeAgeSelected(
-                                _refineSearchController.ageSelected);
-                            petsProvider!.changeSexSelected(
-                                _refineSearchController.sexSelected);
-                            petsProvider!.changeHealthSelected(
-                                _refineSearchController.healthSelected);
-                            petsProvider!.changeIsFiltering(
-                                petsProvider!.getPetType == 'Todos'
+                                    petsController.petType);
+                            petsController.breedSelected =
+                                _refineSearchController.breedSelected;
+                            petsController.sizeSelected =
+                                _refineSearchController.sizeSelected;
+                            petsController.ageSelected =
+                                _refineSearchController.ageSelected;
+                            petsController.sexSelected =
+                                _refineSearchController.sexSelected;
+                            petsController.healthSelected =
+                                _refineSearchController.healthSelected;
+                            petsController.isFiltering =
+                                petsController.petType == 'Todos'
                                     ? false
-                                    : true);
+                                    : true;
 
                             Navigator.pushNamed(context, Routes.home,
                                 arguments: _refineSearchController.isDisappeared

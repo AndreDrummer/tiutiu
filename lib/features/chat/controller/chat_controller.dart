@@ -1,36 +1,26 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:rxdart/rxdart.dart';
 import 'package:tiutiu/core/constants/firebase_env_path.dart';
-import 'package:tiutiu/core/models/chat_model.dart';
 import 'package:tiutiu/core/models/message_model.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:tiutiu/core/models/chat_model.dart';
+import 'package:get/get.dart';
 
-class ChatProvider extends ChangeNotifier {
+class ChatController extends GetxController {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
 
-  final _textGlobalChatSearch = BehaviorSubject<String>.seeded('');
-  final _textChatSearch = BehaviorSubject<String>.seeded('');
+  final RxString _textGlobalChatSearch = ''.obs;
+  final RxString _textChatSearch = ''.obs;
+  final RxBool _isSearching = false.obs;
+  final RxInt _currentlyTabChat = 0.obs;
 
-  int _currentlyTabChat = 0;
-  int get getCurrentlyTabChat => _currentlyTabChat;
-  void changeCurrentlyTabChat(int tab) {
-    _currentlyTabChat = tab;
-  }
+  String get textGlobalChatSearch => _textGlobalChatSearch.value;
+  int get currentlyTabChat => _currentlyTabChat.value;
+  String get textChatSearch => _textChatSearch.value;
+  bool get isSearching => _isSearching.value;
 
-  final _isSearching = BehaviorSubject<bool>.seeded(false);
-  Stream<bool> get isSearching => _isSearching.stream;
-  void Function(bool) get changeIsSearching => _isSearching.sink.add;
-  bool get getIsSearching => _isSearching.value;
-
-  Stream<String> get textGlobalChatSearch => _textGlobalChatSearch.stream;
-  Stream<String> get textChatSearch => _textChatSearch.stream;
-
-  void Function(String) get changeTextGlobalChatSearch =>
-      _textGlobalChatSearch.sink.add;
-  void Function(String) get changeTextChatSearch => _textChatSearch.sink.add;
-
-  String get getTextGlobalChatSearch => _textGlobalChatSearch.value;
-  String get getTextChatSearch => _textChatSearch.value;
+  void set textGlobalChatSearch(String value) => _textGlobalChatSearch(value);
+  void set textChatSearch(String value) => _textChatSearch(value);
+  void set currentlyTabChat(int tab) => _currentlyTabChat(tab);
+  void set isSearching(bool value) => _isSearching(value);
 
   Stream<QuerySnapshot> messagesList(String chatId) {
     return firestore

@@ -1,13 +1,12 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
-import 'package:tiutiu/core/Custom/icons.dart';
-import 'package:tiutiu/features/system/controllers.dart';
-import 'package:tiutiu/features/pets/model/pet_model.dart';
 import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
-import 'package:tiutiu/providers/pets_provider.dart';
 import 'package:tiutiu/core/constants/firebase_env_path.dart';
-import 'package:tiutiu/screen/pet_detail.dart';
+import 'package:tiutiu/features/pets/model/pet_model.dart';
+import 'package:tiutiu/features/system/controllers.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:tiutiu/utils/other_functions.dart';
+import 'package:tiutiu/screen/pet_detail.dart';
+import 'package:tiutiu/core/Custom/icons.dart';
+import 'package:flutter/material.dart';
 
 class CardList extends StatefulWidget {
   CardList({
@@ -45,11 +44,6 @@ class _CardListState extends State<CardList> {
   }
 
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-  }
-
-  @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
@@ -64,7 +58,7 @@ class _CardListState extends State<CardList> {
       onTap: () async {
         if (tiutiuUserController.tiutiuUser.uid != null &&
             tiutiuUserController.tiutiuUser.uid != widget.petInfo!.ownerId) {
-          PetsProvider().increaseViews(
+          petsController.increaseViews(
             actualViews: widget.petInfo!.views!,
             petReference: widget.petInfo!.petReference!,
           );
@@ -186,7 +180,7 @@ class _CardListState extends State<CardList> {
                                     size: 14,
                                     color: Colors.grey),
                                 StreamBuilder<QuerySnapshot<Object?>>(
-                                  stream: PetsProvider().loadInfoOrInterested(
+                                  stream: petsController.loadInfoOrInterested(
                                     kind: widget.petInfo!.kind!,
                                     petReference: widget.petInfo!.petReference!,
                                   ),

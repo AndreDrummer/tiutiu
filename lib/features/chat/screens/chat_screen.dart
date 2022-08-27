@@ -1,10 +1,8 @@
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:tiutiu/Widgets/background.dart';
-import 'package:tiutiu/features/chat/widgets/messages.dart';
 import 'package:tiutiu/features/chat/widgets/new_message.dart';
-import 'package:tiutiu/providers/chat_provider.dart';
+import 'package:tiutiu/features/chat/widgets/messages.dart';
 import 'package:tiutiu/utils/other_functions.dart';
+import 'package:tiutiu/Widgets/background.dart';
+import 'package:flutter/material.dart';
 
 class ChatScreen extends StatelessWidget {
   @override
@@ -39,10 +37,7 @@ class ChatScreen extends StatelessWidget {
                   child: Padding(
                     padding:
                         const EdgeInsets.only(left: 8.0, right: 16.0, top: 8.0),
-                    child: Messages(
-                      chatId: chatId,
-                      chatProvider: Provider.of<ChatProvider>(context),
-                    ),
+                    child: Messages(chatId: chatId),
                   ),
                 ),
                 NewMessage(
