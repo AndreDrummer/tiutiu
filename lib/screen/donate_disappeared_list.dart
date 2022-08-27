@@ -1,29 +1,23 @@
+import 'package:tiutiu/features/refine_search/controller/refine_search_controller.dart';
+import 'package:tiutiu/core/constants/firebase_env_path.dart';
+import 'package:tiutiu/core/utils/routes/routes_name.dart';
+import 'package:tiutiu/features/pets/model/pet_model.dart';
+import 'package:tiutiu/Widgets/custom_input_search.dart';
+import 'package:tiutiu/features/system/controllers.dart';
+import 'package:tiutiu/utils/string_extension.dart';
+import 'package:tiutiu/utils/other_functions.dart';
+import 'package:tiutiu/Widgets/input_search.dart';
+import 'package:tiutiu/core/data/dummy_data.dart';
+import 'package:tiutiu/Widgets/card_list.dart';
+import 'package:tiutiu/utils/constantes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:provider/provider.dart';
-
-import 'package:tiutiu/Widgets/card_list.dart';
-import 'package:tiutiu/Widgets/custom_input_search.dart';
-import 'package:tiutiu/Widgets/error_page.dart';
-import 'package:tiutiu/Widgets/input_search.dart';
-import 'package:tiutiu/Widgets/loading_page.dart';
-import 'package:tiutiu/core/data/dummy_data.dart';
-import 'package:tiutiu/features/pets/model/pet_model.dart';
-import 'package:tiutiu/features/refine_search/controller/refine_search_controller.dart';
-import 'package:tiutiu/providers/pets_provider.dart';
-import 'package:tiutiu/core/constants/firebase_env_path.dart';
-import 'package:tiutiu/utils/constantes.dart';
-import 'package:tiutiu/utils/other_functions.dart';
-import 'package:tiutiu/core/utils/routes/routes_name.dart';
-import 'package:tiutiu/utils/string_extension.dart';
 
 final RefineSearchController _refineSearchController = Get.find();
 
 class DonateDisappearedList extends StatefulWidget {
-  DonateDisappearedList({
-    this.stream,
-  });
-  final Stream<List<Pet>>? stream;
+  DonateDisappearedList({this.petList});
+  final List<Pet>? petList;
 
   @override
   _DonateDisappearedListState createState() => _DonateDisappearedListState();
@@ -35,7 +29,6 @@ class _DonateDisappearedListState extends State<DonateDisappearedList> {
   GlobalKey<ScaffoldState> scaffoldState = GlobalKey();
   late ScrollController _scrollController;
   GlobalKey dataKey = GlobalKey();
-  late PetsProvider petsProvider;
 
   // AdsProvider adsProvider;
   // late Location location;
@@ -53,7 +46,6 @@ class _DonateDisappearedListState extends State<DonateDisappearedList> {
   void didChangeDependencies() {
     // adsProvider = Provider.of(context);
 
-    petsProvider = Provider.of<PetsProvider>(context);
     // location = Provider.of<Location>(context);
 
     super.didChangeDependencies();
@@ -136,39 +128,22 @@ class _DonateDisappearedListState extends State<DonateDisappearedList> {
       body: ListView(
         children: [
           FilterCard(),
-          StreamBuilder<List<Pet>>(
-            stream: (petsProvider.getIsFilteringByBreed ||
-                    petsProvider.getIsFilteringByName)
-                ? petsProvider.typingSearchResult
-                : widget.stream,
-            builder: (BuildContext context, AsyncSnapshot snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return Padding(
-                  padding: EdgeInsets.only(top: height / 4.5),
-                  child: LoadingPage(
-                    messageLoading: 'Carregando PETS perto de você...',
-                    circle: true,
-                    textColor: Colors.black26,
-                  ),
-                );
-              }
-
-              if (snapshot.hasError) {
-                return ErrorPage();
-              }
-
+          Builder(
+            builder: (BuildContext context) {
               List<Pet> petsList = OtherFunctions.filterResultsByDistancie(
                 context,
-                snapshot.data,
+                widget.petList != null
+                    ? widget.petList!
+                    : petsController.typingSearchResult,
                 'null',
               );
 
-              if (petsProvider.getAgeSelected.isNotEmpty &&
-                  petsProvider.getAgeSelected == 'Mais de 10 anos') {
-                petsList = filterResultsByAgeOver10(snapshot.data);
+              if (petsController.ageSelected.isNotEmpty &&
+                  petsController.ageSelected == 'Mais de 10 anos') {
+                petsList = filterResultsByAgeOver10(widget.petList!);
               }
 
-              switch (petsProvider.getOrderType) {
+              switch (petsController.orderType) {
                 case 'Nome':
                   petsList.sort(orderByName);
                   break;
@@ -181,7 +156,7 @@ class _DonateDisappearedListState extends State<DonateDisappearedList> {
 
               petsList = showAdminCards(petsList);
 
-              if (snapshot.data == null || petsList.length == 0) {
+              if (widget.petList == null || petsList.length == 0) {
                 return InkWell(
                   onTap: () {
                     Navigator.pushNamed(context, Routes.search);
@@ -263,26 +238,21 @@ class _DonateDisappearedListState extends State<DonateDisappearedList> {
                                   ),
                                 ),
                               ),
-                              StreamBuilder<Object>(
-                                stream: petsProvider.orderType,
-                                builder: (context, snapshot) {
-                                  return CustomDropdownButtonSearch(
-                                    colorText: Colors.black54,
-                                    fontSize: 13,
-                                    initialValue: petsProvider.getOrderType,
-                                    isExpanded: false,
-                                    withPipe: false,
-                                    itemList: petsProvider.getOrderTypeList,
-                                    label: '',
-                                    onChange: (String text) {
-                                      petsProvider.changeOrderType(
-                                        text,
-                                        'null',
-                                      );
-                                    },
+                              CustomDropdownButtonSearch(
+                                colorText: Colors.black54,
+                                fontSize: 13,
+                                initialValue: petsController.orderType,
+                                isExpanded: false,
+                                withPipe: false,
+                                itemList: petsController.orderTypeList,
+                                label: '',
+                                onChange: (String text) {
+                                  petsController.changeOrderType(
+                                    text,
+                                    'null',
                                   );
                                 },
-                              ),
+                              )
                             ],
                           ),
                         ],
@@ -364,12 +334,6 @@ class _DonateDisappearedListState extends State<DonateDisappearedList> {
 }
 
 class _StateFilter extends StatefulWidget {
-  _StateFilter({
-    this.petsProvider,
-  });
-
-  final PetsProvider? petsProvider;
-
   @override
   _StateFilterState createState() => _StateFilterState();
 }
@@ -410,7 +374,7 @@ class _StateFilterState extends State<_StateFilter> {
                         value = null;
                       }
 
-                      widget.petsProvider!.reloadList(state: value);
+                      petsController.reloadList(state: value);
                     },
                     items: DummyData.statesName
                         .map<DropdownMenuItem<String>>((String e) {
@@ -441,22 +405,16 @@ class _StateFilterState extends State<_StateFilter> {
 }
 
 class _HomeSearch extends StatelessWidget {
-  _HomeSearch({
-    this.petsProvider,
-  });
-
-  final PetsProvider? petsProvider;
-
   void handleSearchType(String searchType) {
     switch (searchType) {
       case 'Nome do PET':
-        petsProvider!.changeIsFilteringByBreed(false);
+        petsController.isFilteringByBreed = false;
         _refineSearchController.changeSearchPetByTypeOnHome(false);
         _refineSearchController.changeSearchHomeTypeInitialValue(searchType);
         break;
       case 'Tipo':
-        petsProvider!.changeIsFilteringByBreed(false);
-        petsProvider!.changeIsFilteringByName(false);
+        petsController.isFilteringByBreed = false;
+        petsController.isFilteringByName = false;
         _refineSearchController.changeSearchPetByTypeOnHome(true);
         _refineSearchController.changeSearchHomeTypeInitialValue(searchType);
         handleSearchOptions(
@@ -464,25 +422,25 @@ class _HomeSearch extends StatelessWidget {
         );
         break;
       default:
-        petsProvider!.changeIsFilteringByName(false);
+        petsController.isFilteringByName = false;
         _refineSearchController.changeSearchPetByTypeOnHome(false);
         _refineSearchController.changeSearchHomeTypeInitialValue(searchType);
     }
   }
 
   void handleSearchOptions(String searchOption) {
-    petsProvider!.clearOthersFilters();
+    petsController.clearOthersFilters();
     _refineSearchController.changeSearchHomePetTypeInitialValue(searchOption);
-    petsProvider!.changePetType(searchOption);
+    petsController.petType = searchOption;
 
     if (searchOption == 'Todos') {
       _refineSearchController.clearRefineSelections();
-      switch (petsProvider!.getPetKind) {
+      switch (petsController.petKind) {
         case FirebaseEnvPath.donate:
           _refineSearchController.changeIsHomeFilteringByDonate(false);
           _refineSearchController.changeHomePetTypeFilterByDonate(searchOption);
-          petsProvider!.changeIsFiltering(false);
-          petsProvider!.loadDonatePETS(
+          petsController.isFiltering = false;
+          petsController.loadDonatePETS(
             state: _refineSearchController.stateOfResultSearch,
           );
           break;
@@ -490,26 +448,26 @@ class _HomeSearch extends StatelessWidget {
           _refineSearchController.changeIsHomeFilteringByDisappeared(false);
           _refineSearchController
               .changeHomePetTypeFilterByDisappeared(searchOption);
-          petsProvider!.changeIsFiltering(false);
-          petsProvider!.loadDisappearedPETS(
+          petsController.isFiltering = false;
+          petsController.loadDisappearedPETS(
               state: _refineSearchController.stateOfResultSearch);
           break;
       }
     } else {
-      switch (petsProvider!.getPetKind) {
+      switch (petsController.petKind) {
         case FirebaseEnvPath.donate:
           _refineSearchController.changeIsHomeFilteringByDonate(true);
           _refineSearchController.changeHomePetTypeFilterByDonate(searchOption);
-          petsProvider!.changeIsFiltering(true);
-          petsProvider!.loadDonatePETS(
+          petsController.isFiltering = true;
+          petsController.loadDonatePETS(
               state: _refineSearchController.stateOfResultSearch);
           break;
         case FirebaseEnvPath.disappeared:
           _refineSearchController.changeIsHomeFilteringByDisappeared(true);
           _refineSearchController
               .changeHomePetTypeFilterByDisappeared(searchOption);
-          petsProvider!.changeIsFiltering(true);
-          petsProvider!.loadDisappearedPETS(
+          petsController.isFiltering = true;
+          petsController.loadDisappearedPETS(
               state: _refineSearchController.stateOfResultSearch);
           break;
       }
@@ -518,40 +476,40 @@ class _HomeSearch extends StatelessWidget {
 
   void handleOnTextSearchChange(String textSearch) {
     if (_refineSearchController.searchHomeTypeInitialValue == 'Nome do PET') {
-      petsProvider!.changeIsFilteringByName(true);
-      petsProvider!.clearOthersFilters();
-      petsProvider!.changePetName(textSearch);
+      petsController.isFilteringByName = true;
+      petsController.clearOthersFilters();
+      petsController.petName = textSearch;
     } else {
-      petsProvider!.changeIsFilteringByBreed(true);
-      petsProvider!.clearOthersFilters();
-      petsProvider!.changeBreedSelected(textSearch);
+      petsController.isFilteringByBreed = true;
+      petsController.clearOthersFilters();
+      petsController.breedSelected = textSearch;
     }
-    petsProvider!.changeIsFiltering(true);
+    petsController.isFiltering = true;
     performTypingSearch(textSearch);
   }
 
   void performTypingSearch(String text) {
-    petsProvider!.changeTypingSearchResult([]);
+    petsController.typingSearchResult = [];
 
-    List<Pet> oldPetList = petsProvider!.getPetKind == FirebaseEnvPath.donate
-        ? petsProvider!.getPetsDonate
-        : petsProvider!.getPetsDisappeared;
+    List<Pet> oldPetList = petsController.petKind == FirebaseEnvPath.donate
+        ? petsController.petsDonate
+        : petsController.petsDisappeared;
     if (text.trim().removeAccent().isNotEmpty) {
       List<Pet> newPetList = [];
       for (Pet pet in oldPetList) {
-        if (petsProvider!.getIsFilteringByName &&
+        if (petsController.isFilteringByName &&
             pet.name!.toLowerCase().contains(text.removeAccent().toLowerCase()))
           newPetList.add(pet);
-        if (petsProvider!.getIsFilteringByBreed &&
+        if (petsController.isFilteringByBreed &&
             pet.breed!
                 .toLowerCase()
                 .contains(text.removeAccent().toLowerCase()))
           newPetList.add(pet);
       }
-      petsProvider!.changeTypingSearchResult(newPetList);
+      petsController.typingSearchResult = newPetList;
     }
     if (text.trim().removeAccent().isEmpty)
-      petsProvider!.changeTypingSearchResult(oldPetList);
+      petsController.typingSearchResult = oldPetList;
   }
 
   @override
@@ -586,12 +544,6 @@ class _HomeSearch extends StatelessWidget {
 }
 
 class FilterCard extends StatefulWidget {
-  FilterCard({
-    this.petsProvider,
-  });
-
-  final PetsProvider? petsProvider;
-
   @override
   _FilterCardState createState() => _FilterCardState();
 }
@@ -640,14 +592,10 @@ class _FilterCardState extends State<FilterCard> {
                   Divider(),
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 15.0),
-                    child: _StateFilter(
-                      petsProvider: widget.petsProvider,
-                    ),
+                    child: _StateFilter(),
                   ),
                   Divider(),
-                  _HomeSearch(
-                    petsProvider: widget.petsProvider,
-                  ),
+                  _HomeSearch(),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 8.0),
                     child: Divider(),
