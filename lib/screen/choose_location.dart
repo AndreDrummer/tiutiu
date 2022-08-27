@@ -23,11 +23,6 @@ class _ChooseLocationState extends State<ChooseLocation> {
   // AdsProvider adsProvider;
 
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-  }
-
-  @override
   Widget build(BuildContext context) {
     // Location locationProvider = Provider.of<Location>(context);
     var params =
