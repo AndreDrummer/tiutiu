@@ -1,11 +1,10 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:tiutiu/Widgets/circle_child.dart';
-import 'package:tiutiu/Widgets/popup_message.dart';
 import 'package:tiutiu/features/pets/model/pet_model.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:tiutiu/core/utils/image_handle.dart';
-import 'package:tiutiu/providers/pets_provider.dart';
+import 'package:tiutiu/Widgets/popup_message.dart';
+import 'package:tiutiu/Widgets/circle_child.dart';
+import 'package:flutter/material.dart';
+import 'package:tiutiu/features/system/controllers.dart';
 
 class ConfirmAdoptionScreen extends StatefulWidget {
   @override
@@ -18,7 +17,6 @@ class _ConfirmAdoptionScreenState extends State<ConfirmAdoptionScreen> {
   bool confirmingAdoption = false;
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   // AdsProvider adsProvider;
-  late PetsProvider petsProvider;
 
   void changeConfirmingOrDenyAdoptionStatus(bool value) {
     setState(() {
@@ -55,7 +53,7 @@ class _ConfirmAdoptionScreenState extends State<ConfirmAdoptionScreen> {
   @override
   void didChangeDependencies() {
     // //
-    petsProvider = Provider.of<PetsProvider>(context);
+
     // adsProvider = Provider.of(context);
     super.didChangeDependencies();
   }
@@ -94,7 +92,7 @@ class _ConfirmAdoptionScreenState extends State<ConfirmAdoptionScreen> {
           }
 
           List<Pet> pets =
-              petsProvider.getPetListFromSnapshots(snapshot.data!.docs);
+              petsController.getPetListFromSnapshots(snapshot.data!.docs);
 
           return Column(
             children: [

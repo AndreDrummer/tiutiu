@@ -1,20 +1,18 @@
+import 'package:tiutiu/features/pets/services/pet_service.dart';
+import 'package:tiutiu/core/constants/firebase_env_path.dart';
+import 'package:tiutiu/core/utils/routes/routes_name.dart';
+import 'package:tiutiu/features/pets/model/pet_model.dart';
+import 'package:tiutiu/features/system/controllers.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:tiutiu/Widgets/loading_screen.dart';
+import 'package:tiutiu/screen/choose_location.dart';
+import 'package:tiutiu/Widgets/popup_message.dart';
+import 'package:tiutiu/screen/auth_screen.dart';
 import 'package:tiutiu/Widgets/background.dart';
 import 'package:tiutiu/Widgets/empty_list.dart';
-import 'package:tiutiu/Widgets/loading_screen.dart';
-import 'package:tiutiu/Widgets/popup_message.dart';
-import 'package:tiutiu/features/pets/services/pet_service.dart';
-import 'package:tiutiu/features/system/controllers.dart';
-import 'package:tiutiu/features/pets/model/pet_model.dart';
-import 'package:tiutiu/providers/pets_provider.dart';
-import 'package:tiutiu/core/constants/firebase_env_path.dart';
-import 'package:tiutiu/screen/auth_screen.dart';
-import 'package:tiutiu/screen/choose_location.dart';
 import 'package:tiutiu/screen/pet_form.dart';
-import 'package:tiutiu/core/utils/routes/routes_name.dart';
 import 'interested_information_list.dart';
+import 'package:flutter/material.dart';
 
 class MyPetsScreen extends StatefulWidget {
   MyPetsScreen({this.streamBuilder, this.title, this.kind, this.userId});
@@ -31,7 +29,6 @@ class MyPetsScreen extends StatefulWidget {
 class _MyPetsScreenState extends State<MyPetsScreen> {
   late GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   late PetService petService = PetService();
-  late PetsProvider petsProvider;
 
   // late AdsProvider adsProvider;
   late bool isAuthenticated;
@@ -48,7 +45,6 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
 
   @override
   void didChangeDependencies() {
-    petsProvider = Provider.of<PetsProvider>(context);
     isAuthenticated = authController.firebaseUser != null;
     // adsProvider = Provider.of(context);
     super.didChangeDependencies();
@@ -151,7 +147,7 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
               }
 
               List<Pet> pets =
-                  petsProvider.getPetListFromSnapshots(snapshot.data!.docs);
+                  petsController.getPetListFromSnapshots(snapshot.data!.docs);
 
               if (pets.isEmpty) {
                 return EmptyListScreen(

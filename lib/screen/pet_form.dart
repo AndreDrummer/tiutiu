@@ -1,33 +1,32 @@
-import 'dart:math';
-import 'dart:io';
-import 'dart:typed_data';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutter/material.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:permission_handler/permission_handler.dart';
-import 'package:provider/provider.dart';
+import 'package:tiutiu/features/pets/services/pet_service.dart';
 import 'package:tiutiu/core/Exceptions/tiutiu_exceptions.dart';
-import 'package:tiutiu/Widgets/background.dart';
-import 'package:tiutiu/Widgets/badge.dart';
-import 'package:tiutiu/Widgets/custom_dropdown_button.dart';
-import 'package:tiutiu/Widgets/hint_error.dart';
-import 'package:tiutiu/Widgets/load_dark_screen.dart';
-import 'package:tiutiu/Widgets/popup_message.dart';
-import 'package:tiutiu/Widgets/button.dart';
-import 'package:tiutiu/Widgets/squared_add_image.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:tiutiu/core/constants/firebase_env_path.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:tiutiu/Widgets/custom_dropdown_button.dart';
 import 'package:tiutiu/features/pets/model/pet_model.dart';
+import 'package:tiutiu/core/utils/routes/routes_name.dart';
 import 'package:tiutiu/features/system/controllers.dart';
 import 'package:tiutiu/providers/pet_form_provider.dart';
-import 'package:tiutiu/providers/pets_provider.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:tiutiu/Widgets/squared_add_image.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:tiutiu/Widgets/load_dark_screen.dart';
 import 'package:tiutiu/screen/selection_page.dart';
 import 'package:tiutiu/utils/other_functions.dart';
-import 'package:tiutiu/core/utils/routes/routes_name.dart';
-import '../Widgets/input_text.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:tiutiu/features/pets/services/pet_service.dart';
+import 'package:tiutiu/Widgets/popup_message.dart';
 import 'package:tiutiu/core/data/dummy_data.dart';
+import 'package:tiutiu/Widgets/background.dart';
+import 'package:tiutiu/Widgets/hint_error.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:tiutiu/Widgets/button.dart';
+import 'package:tiutiu/Widgets/badge.dart';
+import 'package:provider/provider.dart';
+import 'package:flutter/material.dart';
+import '../Widgets/input_text.dart';
+import 'dart:typed_data';
+import 'dart:math';
+import 'dart:io';
 
 class PetForm extends StatefulWidget {
   PetForm({this.editMode = false, this.pet, this.localChanged = false});
@@ -42,7 +41,6 @@ class PetForm extends StatefulWidget {
 
 class _PetFormState extends State<PetForm> {
   PetFormProvider? petFormProvider;
-  PetsProvider? petsProvider;
 
   var params;
   var kind;
@@ -146,7 +144,6 @@ class _PetFormState extends State<PetForm> {
   void didChangeDependencies() {
     // adsProvider = Provider.of(context)
     petFormProvider = Provider.of<PetFormProvider>(context);
-    petsProvider = Provider.of(context, listen: false);
 
     if (widget.editMode!) {
       preloadTextFields();

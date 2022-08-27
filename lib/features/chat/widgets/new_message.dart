@@ -1,10 +1,8 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:tiutiu/core/models/chat_model.dart';
-import 'package:tiutiu/core/models/message_model.dart';
 import 'package:tiutiu/features/system/controllers.dart';
-import 'package:tiutiu/providers/chat_provider.dart';
+import 'package:tiutiu/core/models/message_model.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:tiutiu/core/models/chat_model.dart';
+import 'package:flutter/material.dart';
 
 FirebaseFirestore firestore = FirebaseFirestore.instance;
 
@@ -31,14 +29,12 @@ class _NewMessageState extends State<NewMessage> {
   final Color destakColor = Colors.purple;
   final Color whiteColor = Colors.white;
 
-  late ChatProvider chatProvider;
-
   void _sendMessage() async {
     FocusScope.of(context).unfocus();
 
-    chatProvider.createFirstMessage(widget.chatId, widget.chat);
+    chatController.createFirstMessage(widget.chatId, widget.chat);
 
-    chatProvider.sendNewMessage(
+    chatController.sendNewMessage(
       widget.chatId,
       Message(
         text: _enteredMessage,
@@ -51,7 +47,7 @@ class _NewMessageState extends State<NewMessage> {
       ),
     );
 
-    chatProvider.updateLastMessage(
+    chatController.updateLastMessage(
       widget.chatId,
       {
         'lastMessage': _enteredMessage,
@@ -62,12 +58,6 @@ class _NewMessageState extends State<NewMessage> {
     );
 
     _controller.clear();
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    chatProvider = Provider.of<ChatProvider>(context);
   }
 
   @override
