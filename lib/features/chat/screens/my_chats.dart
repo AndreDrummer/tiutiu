@@ -1,17 +1,15 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
-import 'package:provider/provider.dart';
-import 'package:tiutiu/Widgets/badge.dart';
-import 'package:tiutiu/Widgets/empty_list.dart';
-import 'package:tiutiu/core/models/chat_model.dart';
-import 'package:tiutiu/features/system/controllers.dart';
 import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
 import 'package:tiutiu/features/chat/common/functions.dart';
-import 'package:tiutiu/core/utils/image_handle.dart';
-import 'package:tiutiu/providers/chat_provider.dart';
-import 'package:tiutiu/utils/other_functions.dart';
 import 'package:tiutiu/core/utils/routes/routes_name.dart';
+import 'package:tiutiu/features/system/controllers.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:tiutiu/core/utils/image_handle.dart';
+import 'package:tiutiu/core/models/chat_model.dart';
+import 'package:tiutiu/utils/other_functions.dart';
+import 'package:tiutiu/Widgets/empty_list.dart';
+import 'package:tiutiu/Widgets/badge.dart';
+import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class MyChats extends StatefulWidget {
   @override
@@ -20,13 +18,11 @@ class MyChats extends StatefulWidget {
 
 class _MyChatsState extends State<MyChats> {
   // AdsProvider adsProvider;
-  late ChatProvider chatProvider;
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     // adsProvider = Provider.of(context);
-    chatProvider = Provider.of(context);
   }
 
   bool existsNewMessage(Chat chat) {
@@ -41,10 +37,10 @@ class _MyChatsState extends State<MyChats> {
     return Scaffold(
       body: Column(
         children: [
-          // Search(onChanged: chatProvider.changeTextChatSearch, placeholder: 'Pesquisar uma conversa'),
+          // Search(onChanged: chatController.textChatSearch, placeholder: 'Pesquisar uma conversa'),
           Expanded(
             child: StreamBuilder(
-              stream: chatProvider.firestore
+              stream: chatController.firestore
                   .collection('Chats')
                   .orderBy('lastMessageTime', descending: true)
                   .snapshots(),
@@ -72,30 +68,30 @@ class _MyChatsState extends State<MyChats> {
                   );
                 }
 
-                return StreamBuilder(
-                    stream: chatProvider.textChatSearch,
-                    builder: (context, AsyncSnapshot<String> snapshot) {
-                      if (snapshot.data != null && snapshot.data!.isNotEmpty) {
-                        chatList = CommonChatFunctions.searchChat(
-                            chatList,
-                            snapshot.data!,
-                            tiutiuUserController.tiutiuUser.uid!);
-                      }
+                return Builder(
+                  builder: (context) {
+                    if (snapshot.data != null &&
+                        chatController.textGlobalChatSearch.isNotEmpty) {
+                      chatList = CommonChatFunctions.searchChat(
+                          chatList,
+                          chatController.textGlobalChatSearch,
+                          tiutiuUserController.tiutiuUser.uid!);
+                    }
 
-                      return ListView.builder(
-                        key: UniqueKey(),
-                        itemCount: chatList.length,
-                        itemBuilder: (ctx, index) {
-                          return _ListTileMessage(
-                            chat: chatList[index],
-                            messageId: chatList[index].id!,
-                            myUserId: tiutiuUserController.tiutiuUser.uid!,
-                            chatProvider: chatProvider,
-                            newMessage: existsNewMessage(chatList[index]),
-                          );
-                        },
-                      );
-                    });
+                    return ListView.builder(
+                      key: UniqueKey(),
+                      itemCount: chatList.length,
+                      itemBuilder: (ctx, index) {
+                        return _ListTileMessage(
+                          newMessage: existsNewMessage(chatList[index]),
+                          myUserId: tiutiuUserController.tiutiuUser.uid!,
+                          messageId: chatList[index].id!,
+                          chat: chatList[index],
+                        );
+                      },
+                    );
+                  },
+                );
               },
             ),
           ),
@@ -111,14 +107,12 @@ class _MyChatsState extends State<MyChats> {
 
 class _ListTileMessage extends StatelessWidget {
   _ListTileMessage({
-    required this.chatProvider,
     required this.newMessage,
     required this.messageId,
     required this.myUserId,
     required this.chat,
   });
 
-  final ChatProvider chatProvider;
   final String messageId;
   final String myUserId;
   final bool newMessage;
@@ -153,7 +147,7 @@ class _ListTileMessage extends StatelessWidget {
                 : chat.firstUser.notificationToken,
           },
         );
-        chatProvider.markMessageAsRead(messageId);
+        chatController.markMessageAsRead(messageId);
       },
       child: Column(
         children: [

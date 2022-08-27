@@ -1,9 +1,8 @@
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:tiutiu/features/chat/screens/my_chats.dart';
 import 'package:tiutiu/features/chat/screens/global_chat.dart';
-import 'package:tiutiu/providers/chat_provider.dart';
+import 'package:tiutiu/features/system/controllers.dart';
 import 'package:tiutiu/utils/string_extension.dart';
+import 'package:flutter/material.dart';
 
 class ChatTab extends StatefulWidget {
   @override
@@ -13,7 +12,7 @@ class ChatTab extends StatefulWidget {
 class _ChatTabState extends State<ChatTab> with SingleTickerProviderStateMixin {
   Color inputColor = Colors.white;
   late TabController _controller;
-  late ChatProvider chatProvider;
+
   int initialIndex = 0;
 
   @override
@@ -29,35 +28,29 @@ class _ChatTabState extends State<ChatTab> with SingleTickerProviderStateMixin {
     super.initState();
   }
 
-  @override
-  void didChangeDependencies() {
-    chatProvider = Provider.of<ChatProvider>(context);
-    super.didChangeDependencies();
-  }
-
   void onTabChange() {
     initialIndex = _controller.index;
-    chatProvider.changeTextChatSearch('');
-    chatProvider.changeTextGlobalChatSearch('');
-    chatProvider.changeCurrentlyTabChat(_controller.index);
+    chatController.textChatSearch = '';
+    chatController.textGlobalChatSearch = '';
+    chatController.currentlyTabChat = _controller.index;
   }
 
   void onTextSearchChanged(String value) {
-    if (chatProvider.getCurrentlyTabChat == 0) {
-      chatProvider.changeTextChatSearch(value.removeAccent());
+    if (chatController.currentlyTabChat == 0) {
+      chatController.textChatSearch = value.removeAccent();
     } else {
-      chatProvider.changeTextGlobalChatSearch(value.removeAccent());
+      chatController.textGlobalChatSearch = value.removeAccent();
     }
   }
 
   Widget _textFieldSearch() {
     final _textSearchController = TextEditingController(
-        text: chatProvider.getCurrentlyTabChat == 0
-            ? chatProvider.getTextChatSearch
-            : chatProvider.getTextGlobalChatSearch);
+        text: chatController.currentlyTabChat == 0
+            ? chatController.textChatSearch
+            : chatController.textGlobalChatSearch);
     return TextField(
       controller: _textSearchController,
-      onSubmitted: (value) => chatProvider.changeIsSearching(false),
+      onSubmitted: (value) => chatController.isSearching = false,
       onChanged: onTextSearchChanged,
       cursorColor: inputColor,
       style: TextStyle(color: inputColor),
@@ -85,49 +78,45 @@ class _ChatTabState extends State<ChatTab> with SingleTickerProviderStateMixin {
           leading: IconButton(
             icon: Icon(Icons.arrow_back),
             onPressed: () {
-              chatProvider.changeIsSearching(false);
-              chatProvider.changeTextChatSearch('');
-              chatProvider.changeTextGlobalChatSearch('');
-              chatProvider.changeCurrentlyTabChat(0);
+              chatController.textGlobalChatSearch = '';
+              chatController.currentlyTabChat = 0;
+              chatController.isSearching = false;
+              chatController.textChatSearch = '';
               Navigator.pop(context);
             },
           ),
-          title: StreamBuilder<bool>(
-              stream: chatProvider.isSearching,
-              builder: (context, snapshot) {
-                return Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    if (snapshot.data == null || !snapshot.data!)
-                      Text(
-                        'chat',
-                        style: Theme.of(context).textTheme.headline1!.copyWith(
-                              fontSize: 20,
-                              fontWeight: FontWeight.w700,
-                            ),
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              if (!chatController.isSearching)
+                Text(
+                  'chat',
+                  style: Theme.of(context).textTheme.headline1!.copyWith(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w700,
                       ),
-                    if (snapshot.data != null && snapshot.data!)
-                      Container(
-                        width: MediaQuery.of(context).size.width / 1.8,
-                        child: Padding(
-                          padding: const EdgeInsets.only(bottom: 8.0),
-                          child: _textFieldSearch(),
-                        ),
-                      ),
-                    IconButton(
-                      onPressed: () {
-                        chatProvider
-                            .changeIsSearching(!chatProvider.getIsSearching);
-                      },
-                      icon: Icon(
-                          chatProvider.getIsSearching
-                              ? Icons.done
-                              : Icons.search_outlined,
-                          color: Colors.white),
-                    )
-                  ],
-                );
-              }),
+                ),
+              if (chatController.isSearching)
+                Container(
+                  width: MediaQuery.of(context).size.width / 1.8,
+                  child: Padding(
+                    padding: const EdgeInsets.only(bottom: 8.0),
+                    child: _textFieldSearch(),
+                  ),
+                ),
+              IconButton(
+                onPressed: () {
+                  chatController.isSearching = !chatController.isSearching;
+                },
+                icon: Icon(
+                  chatController.isSearching
+                      ? Icons.done
+                      : Icons.search_outlined,
+                  color: Colors.white,
+                ),
+              )
+            ],
+          ),
           bottom: TabBar(
             controller: _controller,
             indicatorColor: Colors.purple,

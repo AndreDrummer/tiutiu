@@ -1,14 +1,12 @@
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:provider/provider.dart';
-import 'package:tiutiu/Widgets/play_store_rating.dart';
 import 'package:tiutiu/features/refine_search/controller/refine_search_controller.dart';
-import 'package:tiutiu/providers/chat_provider.dart';
-import 'package:tiutiu/providers/pets_provider.dart';
-import 'package:tiutiu/screen/appBar.dart';
 import 'package:tiutiu/core/constants/firebase_env_path.dart';
 import 'package:tiutiu/screen/donate_disappeared_list.dart';
 import 'package:tiutiu/core/utils/routes/routes_name.dart';
+import 'package:tiutiu/features/system/controllers.dart';
+import 'package:tiutiu/Widgets/play_store_rating.dart';
+import 'package:tiutiu/screen/appBar.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 final RefineSearchController _refineSearchController = Get.find();
 
@@ -23,20 +21,10 @@ class PetsList extends StatefulWidget {
 }
 
 class _PetsListState extends State<PetsList> {
-  PetsProvider? petsProvider;
-  ChatProvider? chatProvider;
-
   @override
   void didChangeDependencies() {
-    petsProvider = Provider.of<PetsProvider>(context);
-    chatProvider = Provider.of<ChatProvider>(context);
-
-    petsProvider!.loadDisappearedPETS(
-      state: 'null',
-    );
-    petsProvider!.loadDonatePETS(
-      state: 'null',
-    );
+    petsController.loadDisappearedPETS(state: 'null');
+    petsController.loadDonatePETS(state: 'null');
     super.didChangeDependencies();
   }
 
@@ -51,46 +39,43 @@ class _PetsListState extends State<PetsList> {
   void onPetTypeChange() {
     print(widget.petKind);
     if (widget.petKind == FirebaseEnvPath.disappeared) {
-      petsProvider!.changePetKind(FirebaseEnvPath.disappeared);
+      petsController.petKind = FirebaseEnvPath.disappeared;
       if (_refineSearchController.searchPetByTypeOnHome &&
           _refineSearchController.isHomeFilteringByDisappeared) {
         _refineSearchController.changeSearchHomePetTypeInitialValue(
             _refineSearchController.homePetTypeFilterByDisappeared);
-        petsProvider!.changePetType(
-            _refineSearchController.homePetTypeFilterByDisappeared);
-        petsProvider!.changeIsFiltering(true);
+        petsController.petType =
+            _refineSearchController.homePetTypeFilterByDisappeared;
+        petsController.isFiltering = true;
       } else {
         _refineSearchController.changeSearchHomePetTypeInitialValue(
             _refineSearchController.searchHomePetType.first);
-        petsProvider!.changeIsFiltering(false);
+        petsController.isFiltering = false;
       }
 
-      petsProvider!.loadDisappearedPETS(
+      petsController.loadDisappearedPETS(
           state: _refineSearchController.stateOfResultSearch);
-      if (petsProvider!.getIsFilteringByBreed ||
-          petsProvider!.getIsFilteringByName)
-        petsProvider!
-            .changeTypingSearchResult(petsProvider!.getPetsDisappeared);
+      if (petsController.isFilteringByBreed || petsController.isFilteringByName)
+        petsController.typingSearchResult = petsController.petsDisappeared;
     } else {
-      petsProvider!.changePetKind(FirebaseEnvPath.donate);
+      petsController.petKind = FirebaseEnvPath.donate;
       if (_refineSearchController.searchPetByTypeOnHome &&
           _refineSearchController.isHomeFilteringByDonate) {
         _refineSearchController.changeSearchHomePetTypeInitialValue(
             _refineSearchController.homePetTypeFilterByDonate);
-        petsProvider!
-            .changePetType(_refineSearchController.homePetTypeFilterByDonate);
-        petsProvider!.changeIsFiltering(true);
+        petsController.petType =
+            _refineSearchController.homePetTypeFilterByDonate;
+        petsController.isFiltering = true;
       } else {
         _refineSearchController.changeSearchHomePetTypeInitialValue(
             _refineSearchController.searchHomePetType.first);
-        petsProvider!.changeIsFiltering(false);
+        petsController.isFiltering = false;
       }
 
-      petsProvider!
-          .loadDonatePETS(state: _refineSearchController.stateOfResultSearch);
-      if (petsProvider!.getIsFilteringByBreed ||
-          petsProvider!.getIsFilteringByName)
-        petsProvider!.changeTypingSearchResult(petsProvider!.getPetsDonate);
+      petsController.loadDonatePETS(
+          state: _refineSearchController.stateOfResultSearch);
+      if (petsController.isFilteringByBreed || petsController.isFilteringByName)
+        petsController.typingSearchResult = petsController.petsDonate;
     }
   }
 
@@ -126,16 +111,16 @@ class _PetsListState extends State<PetsList> {
       appBar: AppBar(
         leading: null,
         title: TitleAppBar(
+          newMessagesStream: chatController.newMessages(),
           navigateToAuth: navigateToAuth,
           openSocial: openSocial,
-          newMessagesStream: chatProvider!.newMessages(),
         ),
       ),
       body: Container(
         child: DonateDisappearedList(
-          stream: widget.petKind == FirebaseEnvPath.donate
-              ? petsProvider!.petsDonate
-              : petsProvider!.petsDisappeared,
+          petList: widget.petKind == FirebaseEnvPath.donate
+              ? petsController.petsDonate
+              : petsController.petsDisappeared,
         ),
       ),
     );
