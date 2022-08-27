@@ -1,25 +1,21 @@
-import 'dart:async';
-import 'dart:io';
-
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_speed_dial/flutter_speed_dial.dart';
-import 'package:provider/provider.dart';
-import 'package:tiutiu/core/Custom/icons.dart';
-import 'package:tiutiu/Widgets/popup_message.dart';
-import 'package:tiutiu/features/pets/model/pet_model.dart';
 import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
-import 'package:tiutiu/features/system/controllers.dart';
-import 'package:tiutiu/providers/pets_provider.dart';
 import 'package:tiutiu/core/constants/firebase_env_path.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+import 'package:tiutiu/features/pets/model/pet_model.dart';
+import 'package:tiutiu/features/system/controllers.dart';
+import 'package:tiutiu/Widgets/popup_message.dart';
+import '../Widgets/floating_button_option.dart';
 import 'package:tiutiu/screen/auth_screen.dart';
-import 'package:tiutiu/screen/favorites.dart';
+import 'package:tiutiu/core/Custom/icons.dart';
+import '../core/utils/routes/routes_name.dart';
 import 'package:tiutiu/screen/my_account.dart';
 import 'package:tiutiu/screen/pet_detail.dart';
 import 'package:tiutiu/screen/pets_list.dart';
+import 'package:tiutiu/screen/favorites.dart';
 import 'package:tiutiu/utils/constantes.dart';
-import '../Widgets/floating_button_option.dart';
-import '../core/utils/routes/routes_name.dart';
+import 'package:flutter/material.dart';
+import 'dart:async';
+import 'dart:io';
 
 class Home extends StatefulWidget {
   @override
@@ -29,7 +25,6 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   // TODO: Configurar PushNotification
   // final fbm = FirebaseMessaging();
-  late PetsProvider petsProvider;
 
   // AdsProvider adsProvider;
   int _selectedIndex = 0;
@@ -112,8 +107,6 @@ class _HomeState extends State<Home> {
   void didChangeDependencies() {
     // adsProvider.changeBannerWidth(MediaQuery.of(context).size.width ~/ 1);
 
-    petsProvider = Provider.of<PetsProvider>(context, listen: false);
-
     if (authController.firebaseUser != null) setUserMetaData();
     isAuthenticated = authController.firebaseUser != null;
     super.didChangeDependencies();
@@ -153,11 +146,6 @@ class _HomeState extends State<Home> {
   }
 
   void setUserMetaData() async {
-    final CollectionReference usersEntrepreneur =
-        FirebaseFirestore.instance.collection(FirebaseEnvPath.users);
-    DocumentSnapshot doc =
-        await usersEntrepreneur.doc(authController.firebaseUser!.uid).get();
-
     Future.delayed(Duration(seconds: 60), () {
       print('Não autenticado recentemente...');
     });
@@ -173,7 +161,7 @@ class _HomeState extends State<Home> {
     final String kind = qParams.toString().split('/').first;
     final String id = qParams.toString().split('/').last;
 
-    Pet pet = await petsProvider.openPetDetails(id, kind);
+    Pet pet = await petsController.openPetDetails(id, kind);
     TiutiuUser user = await tiutiuUserController.tiutiuUser;
     Navigator.push(
       context,
