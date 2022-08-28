@@ -6,10 +6,12 @@ import 'package:tiutiu/features/location/controller/current_location_controller.
 import 'package:tiutiu/features/pets/controller/pets_controller.dart';
 import 'package:tiutiu/features/system/controller/system_controller.dart';
 import 'package:tiutiu/features/tiutiu_user/controller/user_controller.dart';
+import 'package:tiutiu/features/pets/controller/pet_form_controller.dart';
 
 final CurrentLocationController currentLocationController = Get.find();
 final TiutiuUserController tiutiuUserController = Get.find();
 final FavoritesController favoritesController = Get.find();
+final PetFormController petFormController = Get.find();
 final PetsController petsController = Get.find();
 final ChatController chatController = Get.find();
 final AuthController authController = Get.find();
