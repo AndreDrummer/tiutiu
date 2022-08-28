@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:tiutiu/extensions/enum_tostring.dart';
+import 'package:tiutiu/core/extensions/enum_tostring.dart';
 
 enum TiutiuUserEnum {
   notificationToken,
