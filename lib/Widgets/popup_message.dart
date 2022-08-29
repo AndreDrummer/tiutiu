@@ -38,7 +38,7 @@ class PopUpMessage extends StatelessWidget {
           Text(title!, style: TextStyle(color: Colors.white, fontSize: 16)),
           Container(
             padding: const EdgeInsets.all(2.50),
-            child: Image.asset('assets/newLogo.png',
+            child: Image.asset('assets/newLogo.webp',
                 width: 20, height: 20, color: Colors.white),
           )
         ],

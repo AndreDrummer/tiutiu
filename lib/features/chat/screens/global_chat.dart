@@ -108,10 +108,6 @@ class _GlobalChatState extends State<GlobalChat> {
               },
             ),
           ),
-          // TODO: Tinha um anuncio aqui
-          // adsProvider.getCanShowAds
-          //     ? adsProvider.bannerAdMob(adId: adsProvider.bottomAdId)
-          //     : Container(),
         ],
       ),
     );
@@ -150,7 +146,7 @@ class _ListTileMessage extends StatelessWidget {
                 backgroundColor: Colors.transparent,
                 child: ClipOval(
                   child: FadeInImage(
-                    placeholder: AssetImage('assets/profileEmpty.png'),
+                    placeholder: AssetImage('assets/profileEmpty.webp'),
                     image: AssetHandle(user.photoURL).build(),
                     fit: BoxFit.cover,
                     width: 1000,

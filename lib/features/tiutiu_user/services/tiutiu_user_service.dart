@@ -109,8 +109,8 @@ class TiutiuUserService {
   Stream<QuerySnapshot> loadMyDonatedPets(DocumentReference userReference) {
     return _firestore
         .collection(FirebaseEnvPath.donate)
-        .where(PetEnum.donated.tostring(), isEqualTo: true)
-        .where(PetEnum.ownerReference.tostring(), isEqualTo: userReference)
+        .where('PetEnum.donated', isEqualTo: true)
+        .where('PetEnum.ownerReference', isEqualTo: userReference)
         .snapshots();
   }
 
@@ -122,12 +122,12 @@ class TiutiuUserService {
 
     QuerySnapshot petsDonated = await _firestore
         .collection(FirebaseEnvPath.donate)
-        .where(PetEnum.ownerReference.tostring(), isEqualTo: userReference)
+        .where('PetEnum.ownerReference', isEqualTo: userReference)
         .get();
 
     QuerySnapshot petsDisappeared = await _firestore
         .collection(FirebaseEnvPath.disappeared)
-        .where(PetEnum.ownerReference.tostring(), isEqualTo: userReference)
+        .where('PetEnum.ownerReference', isEqualTo: userReference)
         .get();
 
     for (int i = 0; i < petsDonated.docs.length; i++) {

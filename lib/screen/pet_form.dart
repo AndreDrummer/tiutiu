@@ -1,4 +1,3 @@
-import 'package:tiutiu/features/pets/services/pet_service.dart';
 import 'package:tiutiu/core/Exceptions/tiutiu_exceptions.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:tiutiu/core/constants/firebase_env_path.dart';
@@ -85,14 +84,14 @@ class _PetFormState extends State<PetForm> {
     petFormController.petDescription = widget.pet!.details!;
     _meses.text = petFormController.petMonths.toString();
     _descricao.text = petFormController.petDescription;
-    petFormController.petMonths = widget.pet!.meses!;
+    petFormController.petMonths = widget.pet!.ageMonth!;
     petFormController.petColor = widget.pet!.color!;
     _ano.text = petFormController.petAge.toString();
     petFormController.petName = widget.pet!.name!;
     petFormController.petSize = widget.pet!.size!;
     storageHashKey = widget.pet!.storageHashKey;
-    petFormController.petAge = widget.pet!.ano!;
-    petFormController.petSex = widget.pet!.sex!;
+    petFormController.petAge = widget.pet!.ageYear!;
+    petFormController.petSex = widget.pet!.gender!;
     petFormController.petSelectedCaracteristics =
         widget.pet!.otherCaracteristics!;
     petFormController.petInEdition = widget.pet!;
@@ -363,7 +362,6 @@ class _PetFormState extends State<PetForm> {
   Future<void> deletePhotosFromStorage() async {
     Reference storageReference;
     try {
-      await deleteField(widget.pet!.petReference!);
       for (String photo in photosToDelete) {
         String filename =
             OtherFunctions.getPhotoName(photo, widget.pet!.storageHashKey!);
@@ -381,7 +379,6 @@ class _PetFormState extends State<PetForm> {
   Future<void> save() async {
     final startIn = DateTime.now();
     changeSavingStatus(true);
-    var petService = PetService();
 
     await uploadPhotos(_nome.text.trim());
 
@@ -401,40 +398,6 @@ class _PetFormState extends State<PetForm> {
         );
       }
     }
-
-    var dataPetSave = Pet(
-      type: DummyData.type[petFormController.petTypeIndex],
-      color: petFormController.petColor,
-      name: firstCharacterUpper(petFormController.petName),
-      kind: kind,
-      createdAt: DateTime.now().toIso8601String(),
-      views: 0,
-      petReference: widget.pet!.petReference,
-      avatar: petPhotosToUpload.isNotEmpty
-          ? petPhotosToUpload.first
-          : petFormController.petPhotos.first,
-      breed: DummyData.breed[petFormController.petTypeIndex + 1]
-          [petFormController.petBreedIndex],
-      health: DummyData.health[petFormController.petHealthIndex],
-      otherCaracteristics: petFormController.petSelectedCaracteristics,
-      photos: petPhotosToUpload,
-      size: petFormController.petSize,
-      sex: petFormController.petSex,
-      ownerId: tiutiuUserController.tiutiuUser.uid!,
-      ownerName: tiutiuUserController.tiutiuUser.displayName!,
-      latitude: currentLocation?.latitude ?? 0,
-      longitude: currentLocation?.longitude ?? 0,
-      details: petFormController.petDescription,
-      donated: false,
-      found: false,
-      ano: petFormController.petAge,
-      meses: petFormController.petMonths,
-      storageHashKey: storageHashKey!,
-    );
-
-    !widget.editMode!
-        ? await petService.insertPet(dataPetSave, kind)
-        : await petService.updatePet(dataPetSave, widget.pet!.petReference!);
 
     final finishin = DateTime.now();
     print('DEMOROU ${finishin.difference(startIn).inSeconds}');

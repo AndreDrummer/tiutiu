@@ -17,7 +17,7 @@ class PetsController extends GetxController {
   final RxBool _isFiltering = false.obs;
   final RxString _sizeSelected = ''.obs;
   final RxString _petType = 'Todos'.obs;
-  final RxString _sexSelected = ''.obs;
+  final RxString _genderSelected = ''.obs;
   final RxString _ageSelected = ''.obs;
   final RxList<String> _orderTypeList = [
     'Data de postagem',
@@ -36,7 +36,7 @@ class PetsController extends GetxController {
   List<String> get orderTypeList => _orderTypeList;
   String get sizeSelected => _sizeSelected.value;
   String get ageSelected => _ageSelected.value;
-  String get sexSelected => _sexSelected.value;
+  String get genderSelected => _genderSelected.value;
   bool get isFiltering => _isFiltering.value;
   String get orderType => _orderType.value;
   List<Pet> get petsDonate => _petsDonate;
@@ -51,11 +51,11 @@ class PetsController extends GetxController {
   void set petsDisappeared(List<Pet> list) => _petsDisappeared(list);
   void set orderTypeList(List<String> list) => _orderTypeList(list);
   void set healthSelected(String value) => _healthSelected(value);
+  void set genderSelected(String value) => _genderSelected(value);
   void set breedSelected(String value) => _breedSelected(value);
   void set sizeSelected(String value) => _sizeSelected(value);
   void set isFiltering(bool status) => _isFiltering(status);
   void set ageSelected(String value) => _ageSelected(value);
-  void set sexSelected(String value) => _sexSelected(value);
   void set petsDonate(List<Pet> list) => _petsDonate(list);
   void set petName(String value) => _petName(value);
   void set petKind(String value) => _petKind(value);
@@ -79,7 +79,7 @@ class PetsController extends GetxController {
     breedSelected = '';
     sizeSelected = '';
     ageSelected = '';
-    sexSelected = '';
+    genderSelected = '';
     petType = '';
   }
 
@@ -164,7 +164,7 @@ class PetsController extends GetxController {
     String age = ageSelected;
     if (age == 'Mais de 10 anos') {
       age = '10';
-    } else if (age == 'Menos de 1 ano') {
+    } else if (age == 'Menos de 1 .ageYear') {
       age = '0';
     } else if (age.isNotEmpty) {
       age = age.split('').first;
@@ -175,13 +175,13 @@ class PetsController extends GetxController {
       breedSelected,
       sizeSelected,
       age,
-      sexSelected,
+      genderSelected,
       healthSelected
     ];
   }
 
   List<String> _filtersType() {
-    return ["type", "breed", "size", "ano", "sex", "health"];
+    return ["type", "breed", "size", ".ageYear", "gender", "health"];
   }
 
   void loadFilteredPETS({String? state}) async {

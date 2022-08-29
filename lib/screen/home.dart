@@ -23,7 +23,6 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  // TODO: Configurar PushNotification
   // final fbm = FirebaseMessaging();
 
   // AdsProvider adsProvider;
@@ -179,7 +178,6 @@ class _HomeState extends State<Home> {
   }
 
   void initDynamicLinks() async {
-    // TODO: Configurar Deeplink
     // FirebaseDynamicLinks.instance.onLink(
     //     onSuccess: (PendingDynamicLinkData dynamicLink) async {
     //   final Uri deepLink = dynamicLink?.link;
@@ -261,7 +259,7 @@ class _HomeState extends State<Home> {
                 shape: CircleBorder(),
                 children: [
                   SpeedDialChild(
-                    child: FloatingButtonOption(image: 'assets/dogCat2.png'),
+                    child: FloatingButtonOption(image: 'assets/dogCat2.webp'),
                     label: 'Adicionar Desaparecido',
                     backgroundColor: Theme.of(context).primaryColor,
                     labelStyle: TextStyle(fontSize: 14.0),
@@ -276,7 +274,7 @@ class _HomeState extends State<Home> {
                           },
                   ),
                   SpeedDialChild(
-                    child: FloatingButtonOption(image: 'assets/dogCat.png'),
+                    child: FloatingButtonOption(image: 'assets/dogCat.webp'),
                     label: 'Doar PET',
                     backgroundColor: Theme.of(context).primaryColor,
                     labelStyle: TextStyle(fontSize: 14.0),

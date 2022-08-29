@@ -163,7 +163,7 @@ class _ListTile extends StatelessWidget {
                   future: loadUserAvatar(notificationModel.userReference!),
                   builder: (context, snapshot) {
                     return FadeInImage(
-                      placeholder: AssetImage('assets/profileEmpty.png'),
+                      placeholder: AssetImage('assets/profileEmpty.webp'),
                       image: AssetHandle(
                         snapshot.data,
                       ).build(),

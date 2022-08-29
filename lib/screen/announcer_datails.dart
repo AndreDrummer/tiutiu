@@ -239,11 +239,6 @@ class _AnnouncerDetailsState extends State<AnnouncerDetails> {
                 Divider(color: Colors.black),
                 Padding(
                   padding: EdgeInsets.only(top: height / 10),
-                  // TODO: Tinha um anuncio aqui
-                  // child: adsProvider.getCanShowAds
-                  // ? adsProvider.bannerAdMob(
-                  // adId: adsProvider.bottomAdId, medium_banner: true)
-                  // : Container(),
                 ),
                 Spacer(),
                 CustomDivider(text: 'Contato'),
@@ -349,7 +344,7 @@ class _AnnouncerDetailsState extends State<AnnouncerDetails> {
                   child: Hero(
                     tag: 'profilePic',
                     child: FadeInImage(
-                      placeholder: AssetImage('assets/profileEmpty.png'),
+                      placeholder: AssetImage('assets/profileEmpty.webp'),
                       image: NetworkImage(
                         widget.user.photoURL!,
                       ),

@@ -78,7 +78,6 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
           denyAction: () => Navigator.pop(context),
           denyText: 'Não',
           confirmAction: () {
-            delete(pet.petReference!);
             Navigator.pop(context);
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
@@ -407,13 +406,9 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
                                                               builder: (context,
                                                                   snapshot) {
                                                                 return Switch(
-                                                                    value: pets[index].kind ==
-                                                                            FirebaseEnvPath
-                                                                                .disappeared
-                                                                        ? pets[index]
-                                                                            .found
-                                                                        : pets[index]
-                                                                            .donated,
+                                                                    value: pets[
+                                                                            index]
+                                                                        .donatedOrFound,
                                                                     onChanged:
                                                                         (value) {
                                                                       print(
@@ -423,9 +418,9 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
                                                                               context,
                                                                           builder:
                                                                               (context) {
-                                                                            final bool textToDisplay = pets[index].kind == FirebaseEnvPath.disappeared
-                                                                                ? pets[index].found
-                                                                                : pets[index].donated;
+                                                                            final bool
+                                                                                textToDisplay =
+                                                                                pets[index].donatedOrFound;
                                                                             return PopUpMessage(
                                                                               warning: true,
                                                                               title: '${!textToDisplay ? 'Marcar' : 'Desmarcar'} como ${pets[index].kind == FirebaseEnvPath.disappeared ? 'encontrado' : 'doado'}',
@@ -433,14 +428,7 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
                                                                               confirmAction: () {
                                                                                 Navigator.pop(context);
                                                                                 if (pets[index].kind == FirebaseEnvPath.disappeared) {
-                                                                                  pets[index].petReference!.set({
-                                                                                    'found': !pets[index].found
-                                                                                  }, SetOptions(merge: true));
-                                                                                } else {
-                                                                                  pets[index].petReference!.set({
-                                                                                    'donated': !pets[index].donated
-                                                                                  }, SetOptions(merge: true));
-                                                                                }
+                                                                                } else {}
                                                                               },
                                                                               confirmText: !textToDisplay ? 'Pode marcar' : 'Desmarcar',
                                                                               denyAction: () => Navigator.pop(context),
