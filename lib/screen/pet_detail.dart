@@ -57,24 +57,6 @@ class _PetDetailsState extends State<PetDetails> {
   late bool isAuthenticated = false;
   late bool interestOrInfoWasFired;
 
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    // userLocation = Provider.of<provider.Location>(context, listen: false);
-
-    userInfosAdopts =
-        Provider.of<UserInfoOrAdoptInterestsProvider>(context, listen: false);
-    isAuthenticated = authController.firebaseUser != null;
-    if (isAuthenticated) {
-      userInfosAdopts.checkInfo(
-        widget.pet!.petReference!,
-      );
-      userInfosAdopts.checkInterested(
-        widget.pet!.petReference!,
-      );
-    }
-  }
-
   String timeFormmated(int minutes) {
     int hour = minutes ~/ 60;
     int min = minutes % 60;
@@ -148,7 +130,6 @@ class _PetDetailsState extends State<PetDetails> {
       interestedID: tiutiuUserController.tiutiuUser.uid,
       ownerID: widget.petOwner!.uid,
       interestedName: tiutiuUserController.tiutiuUser.displayName,
-      petReference: widget.pet!.petReference!,
       interestedAt: DateTime.now().toIso8601String(),
       userLocation: LatLng(0, 0),
       userPosition: userPosition,
@@ -180,7 +161,6 @@ class _PetDetailsState extends State<PetDetails> {
   }
 
   void showInterestOrPassInfo(String ownerName) async {
-    final petRef = await widget.pet!.petReference!.get();
     int userPosition = 1;
     String messageTextSnackBar;
     int hoursSinceLastRequest = DateTime.now()
@@ -197,12 +177,6 @@ class _PetDetailsState extends State<PetDetails> {
               '$ownerName já sabe sobre seu interesse. Você pode tentar enviar outra solicitação dentro de ${timeFormmated(timeToSendRequestAgain - hoursSinceLastRequest)}.';
           showSnackBar(messageTextSnackBar);
         } else {
-          await PetService().deleteOldInterest(petRef.reference);
-          var adoptInterestedsRef =
-              await petRef.reference.collection('adoptInteresteds').get();
-          if (adoptInterestedsRef.docs.isNotEmpty) {
-            userPosition = adoptInterestedsRef.docs.length + 1;
-          }
           messageTextSnackBar =
               'Você é o $userPositionº interessado no ${widget.pet!.name}. Te avisaremos caso o dono aceite seu pedido de adoção!';
           sendData(userPosition);
@@ -210,15 +184,6 @@ class _PetDetailsState extends State<PetDetails> {
         }
         break;
       default:
-        var infoInterestedsRef =
-            await petRef.reference.collection('infoInteresteds').get();
-
-        if (infoInterestedsRef.docs.isNotEmpty) {
-          infoInterestedsRef.docs.length + 1;
-        } else {
-          userPosition = 1;
-        }
-
         messageTextSnackBar =
             'Obrigado pela informação! $ownerName será avisado.';
 
@@ -307,8 +272,8 @@ class _PetDetailsState extends State<PetDetails> {
       },
       {
         'title': 'SEXO',
-        'text': widget.pet!.sex,
-        'icon': widget.pet!.sex == 'Fêmea' ? Gender.female : Gender.male
+        'text': widget.pet!.gender,
+        'icon': widget.pet!.gender == 'Fêmea' ? Gender.female : Gender.male
       },
       {'title': 'RAÇA', 'text': widget.pet!.breed, 'icon': Icons.linear_scale},
       {'title': 'COR', 'text': widget.pet!.color, 'icon': Icons.color_lens},
@@ -320,7 +285,7 @@ class _PetDetailsState extends State<PetDetails> {
       {'title': 'SAÚDE', 'text': widget.pet!.health, 'icon': Tiutiu.healing},
       {
         'title': 'IDADE',
-        'text': '${widget.pet!.ano}a ${widget.pet!.meses}m',
+        'text': '${widget.pet!.ageYear}a ${widget.pet!.ageMonth}m',
         'icon': Tiutiu.birthday_cake
       },
     ];
@@ -547,7 +512,7 @@ class _PetDetailsState extends State<PetDetails> {
                                                       FirebaseEnvPath.donate
                                                           .toUpperCase()
                                                   ? 'QUERO ADOTAR'
-                                                  : 'VI ${widget.pet!.sex == 'Macho' ? 'ELE' : 'ELA'} AQUI PERTO',
+                                                  : 'VI ${widget.pet!.gender == 'Macho' ? 'ELE' : 'ELA'} AQUI PERTO',
                                               color: widget.kind ==
                                                       FirebaseEnvPath.donate
                                                           .toUpperCase()
@@ -755,7 +720,7 @@ class _PetDetailsState extends State<PetDetails> {
                     backgroundColor: Colors.transparent,
                     child: ClipOval(
                       child: FadeInImage(
-                        placeholder: AssetImage('assets/profileEmpty.png'),
+                        placeholder: AssetImage('assets/profileEmpty.webp'),
                         image: AssetHandle(
                           widget.petOwner!.photoURL,
                         ).build(),
@@ -779,7 +744,7 @@ class _PetDetailsState extends State<PetDetails> {
                         ),
                         Text(
                           OtherFunctions.firstCharacterUpper(
-                              widget.pet!.ownerName!),
+                              widget.pet!.owner!),
                           style: TextStyle(
                               color: Colors.white, fontWeight: FontWeight.bold),
                         ),

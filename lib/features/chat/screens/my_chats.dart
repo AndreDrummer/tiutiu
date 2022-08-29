@@ -95,10 +95,6 @@ class _MyChatsState extends State<MyChats> {
               },
             ),
           ),
-          // TODO: Tinha um anuncio aqui
-          // adsProvider.getCanShowAds
-          //     ? adsProvider.bannerAdMob(adId: adsProvider.bottomAdId)
-          //     : Container(),
         ],
       ),
     );
@@ -160,7 +156,7 @@ class _ListTileMessage extends StatelessWidget {
                 backgroundColor: Colors.transparent,
                 child: ClipOval(
                   child: FadeInImage(
-                    placeholder: AssetImage('assets/profileEmpty.png'),
+                    placeholder: AssetImage('assets/profileEmpty.webp'),
                     image: AssetHandle(profilePic).build(),
                     fit: BoxFit.cover,
                     width: 1000,

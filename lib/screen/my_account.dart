@@ -85,7 +85,7 @@ class _MyAccountState extends State<MyAccount> {
                                           null
                                       ? FadeInImage(
                                           placeholder: AssetImage(
-                                              'assets/profileEmpty.png'),
+                                              'assets/profileEmpty.webp'),
                                           image: NetworkImage(
                                             tiutiuUserController
                                                 .tiutiuUser.photoURL!,

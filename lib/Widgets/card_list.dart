@@ -1,10 +1,8 @@
-import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
 import 'package:tiutiu/core/constants/firebase_env_path.dart';
 import 'package:tiutiu/features/pets/model/pet_model.dart';
 import 'package:tiutiu/features/system/controllers.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:tiutiu/utils/other_functions.dart';
-import 'package:tiutiu/screen/pet_detail.dart';
 import 'package:tiutiu/core/Custom/icons.dart';
 import 'package:flutter/material.dart';
 
@@ -57,33 +55,11 @@ class _CardListState extends State<CardList> {
     return InkWell(
       onTap: () async {
         if (tiutiuUserController.tiutiuUser.uid != null &&
-            tiutiuUserController.tiutiuUser.uid != widget.petInfo!.ownerId) {
-          petsController.increaseViews(
-            actualViews: widget.petInfo!.views!,
-            petReference: widget.petInfo!.petReference!,
-          );
-        }
-        final user = await loadOwner(widget.petInfo!.ownerReference!);
-        if (widget.petInfo!.ownerName == null) {
-          print('Was null');
-          widget.petInfo!.petReference!.set({"ownerName": user['name']});
-          widget.petInfo!.ownerName = user['name'];
-        }
+            tiutiuUserController.tiutiuUser.uid != widget.petInfo!.ownerId) {}
 
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) {
-              return PetDetails(
-                petOwner: TiutiuUser.fromMap(user),
-                isMine: TiutiuUser.fromMap(user).uid ==
-                    authController.firebaseUser?.uid,
-                pet: widget.petInfo!,
-                kind: widget.petInfo!.kind!.toUpperCase(),
-              );
-            },
-          ),
-        );
+        if (widget.petInfo!.owner == null) {
+          print('Was null');
+        }
       },
       child: Card(
         elevation: 4.0,
@@ -179,21 +155,13 @@ class _CardListState extends State<CardList> {
                                         : Icons.info,
                                     size: 14,
                                     color: Colors.grey),
-                                StreamBuilder<QuerySnapshot<Object?>>(
-                                  stream: petsController.loadInfoOrInterested(
-                                    kind: widget.petInfo!.kind!,
-                                    petReference: widget.petInfo!.petReference!,
+                                Text(
+                                  ' ${widget.petInfo!.kind == FirebaseEnvPath.donate ? 'interessados' : 'informações'}',
+                                  style: TextStyle(
+                                    color: Colors.grey,
+                                    fontWeight: FontWeight.w700,
                                   ),
-                                  builder: (context, snapshot) {
-                                    return Text(
-                                      '  ${snapshot.data?.docs.length ?? 0} ${widget.petInfo!.kind == FirebaseEnvPath.donate ? 'interessados' : 'informações'}',
-                                      style: TextStyle(
-                                        color: Colors.grey,
-                                        fontWeight: FontWeight.w700,
-                                      ),
-                                    );
-                                  },
-                                ),
+                                )
                               ],
                             ),
                           )

@@ -107,7 +107,7 @@ class UserCardInfo extends StatelessWidget {
                   ? Icon(icon, color: Colors.white, size: 60)
                   : imageN != null
                       ? FadeInImage(
-                          placeholder: AssetImage('assets/profileEmpty.png'),
+                          placeholder: AssetImage('assets/profileEmpty.webp'),
                           image: AssetHandle(
                             imageN,
                           ).build(),

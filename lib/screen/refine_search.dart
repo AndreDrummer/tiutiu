@@ -84,8 +84,8 @@ class _RefineSearchState extends State<RefineSearch> {
         'selectionPageList': DummyData.ages,
         'onValueSelected': (String value) {
           print('value $value');
-          if (value == '-1 ano') {
-            _refineSearchController.changeAgeSelected('Menos de 1 ano');
+          if (value == '-1 .ageYear') {
+            _refineSearchController.changeAgeSelected('Menos de 1 .ageYear');
           } else if (value == '10+ anos') {
             _refineSearchController.changeAgeSelected('Mais de 10 anos');
           } else {
@@ -98,14 +98,14 @@ class _RefineSearchState extends State<RefineSearch> {
       },
       {
         'title': 'Sexo',
-        'valueSelected': _refineSearchController.sexSelected,
+        'valueSelected': _refineSearchController.genderSelected,
         'selectionPaitle': 'Sexo',
         'selectionPageList': ['Macho', 'Fêmea'],
         'onValueSelected': (String value) {
-          _refineSearchController.changeSexSelected(value);
+          _refineSearchController.changeGenderSelected(value);
         },
         'clearFunction': () {
-          _refineSearchController.changeSexSelected('');
+          _refineSearchController.changeGenderSelected('');
         }
       },
       {
@@ -265,8 +265,8 @@ class _RefineSearchState extends State<RefineSearch> {
                                 _refineSearchController.sizeSelected;
                             petsController.ageSelected =
                                 _refineSearchController.ageSelected;
-                            petsController.sexSelected =
-                                _refineSearchController.sexSelected;
+                            petsController.genderSelected =
+                                _refineSearchController.genderSelected;
                             petsController.healthSelected =
                                 _refineSearchController.healthSelected;
                             petsController.isFiltering =

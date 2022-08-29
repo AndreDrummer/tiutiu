@@ -22,7 +22,8 @@ class NoConnection extends StatelessWidget {
                 ),
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Image.asset('assets/no-wifi.png', color: Colors.red, width: 50, height: 50),
+                  child: Image.asset('assets/no-wifi.webp',
+                      color: Colors.red, width: 50, height: 50),
                 ),
               ),
               SizedBox(height: 20),
