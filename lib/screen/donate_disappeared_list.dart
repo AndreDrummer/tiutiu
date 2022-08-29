@@ -24,14 +24,11 @@ class DonateDisappearedList extends StatefulWidget {
 }
 
 class _DonateDisappearedListState extends State<DonateDisappearedList> {
-  bool filtering = false;
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   GlobalKey<ScaffoldState> scaffoldState = GlobalKey();
   late ScrollController _scrollController;
   GlobalKey dataKey = GlobalKey();
-
-  // AdsProvider adsProvider;
-  // late Location location;
+  bool filtering = false;
 
   void showSnackBar(String content) {
     ScaffoldMessenger.of(context).showSnackBar(
@@ -61,7 +58,7 @@ class _DonateDisappearedListState extends State<DonateDisappearedList> {
     List<Pet> newPetList = [];
 
     for (int i = 0; i < petsListResult.length; i++) {
-      if (petsListResult[i].ano! >= 10) {
+      if (petsListResult[i].ageYear! >= 10) {
         newPetList.add(petsListResult[i]);
       }
     }
@@ -95,8 +92,8 @@ class _DonateDisappearedListState extends State<DonateDisappearedList> {
   }
 
   int orderByAge(Pet a, Pet b) {
-    if (a.ano == b.ano) return a.meses! - b.meses!;
-    return a.ano! - b.ano!;
+    if (a.ageYear == b.ageYear) return a.ageMonth! - b.ageMonth!;
+    return a.ageYear! - b.ageYear!;
   }
 
   List<Pet> showAdminCards(List<Pet> petCards) {
@@ -139,7 +136,7 @@ class _DonateDisappearedListState extends State<DonateDisappearedList> {
               );
 
               if (petsController.ageSelected.isNotEmpty &&
-                  petsController.ageSelected == 'Mais de 10 anos') {
+                  petsController.ageSelected == 'Mais de 10 ageYears') {
                 petsList = filterResultsByAgeOver10(widget.petList!);
               }
 
@@ -368,7 +365,7 @@ class _StateFilterState extends State<_StateFilter> {
                   alignment: Alignment.center,
                   child: DropdownButton<String>(
                     underline: Container(),
-                    value: 'null',
+                    value: 'Brasil',
                     onChanged: (value) async {
                       if (value == 'Brasil') {
                         value = null;
