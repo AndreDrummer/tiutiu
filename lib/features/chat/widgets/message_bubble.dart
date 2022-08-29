@@ -122,7 +122,7 @@ class MessageBubble extends StatelessWidget {
                 backgroundColor: Colors.transparent,
                 child: ClipOval(
                   child: FadeInImage(
-                    placeholder: AssetImage('assets/profileEmpty.png'),
+                    placeholder: AssetImage('assets/profileEmpty.webp'),
                     image: AssetHandle(user.photoURL).build(),
                     fit: BoxFit.cover,
                     width: 1000,

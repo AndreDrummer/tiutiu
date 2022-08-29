@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:provider/provider.dart';
 import 'package:tiutiu/Widgets/interested_info_card.dart';
 import 'package:tiutiu/Widgets/load_dark_screen.dart';
 import 'package:tiutiu/Widgets/loading_page.dart';
@@ -59,24 +58,6 @@ class _InterestedListState extends State<InterestedList> {
     int? userPosition,
     Pet? pet,
   }) async {}
-
-  @override
-  void didChangeDependencies() {
-    userInfoOrAdoptInterestsProvider =
-        Provider.of<UserInfoOrAdoptInterestsProvider>(context);
-
-    if (widget.kind == FirebaseEnvPath.donate) {
-      userInfoOrAdoptInterestsProvider!.loadInterested(
-        widget.pet!.petReference!,
-      );
-    } else {
-      userInfoOrAdoptInterestsProvider!.loadInfo(
-        widget.pet!.petReference!,
-      );
-    }
-
-    super.didChangeDependencies();
-  }
 
   void doar(TiutiuUser interestedUser, InterestedModel interestedModel) {
     showDialog(

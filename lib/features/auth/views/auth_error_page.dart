@@ -29,7 +29,7 @@ class AuthErrorPage extends StatelessWidget {
               ),
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Image.asset('assets/newLogo.png'),
+                child: Image.asset('assets/newLogo.webp'),
               ),
             ),
             SizedBox(height: 10),

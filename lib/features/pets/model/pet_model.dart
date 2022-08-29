@@ -1,208 +1,170 @@
 import 'package:tiutiu/core/extensions/enum_tostring.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:tiutiu/utils/constantes.dart';
 
 enum PetEnum {
   otherCaracteristics,
-  whoAdoptedReference,
+  donatedOrFound,
   storageHashKey,
-  ownerReference,
-  petReference,
   longitude,
-  ownerName,
   createdAt,
   latitude,
-  ownerId,
+  ageMonth,
   details,
-  donated,
   photos,
-  avatar,
-  found,
+  ageYear,
   health,
+  gender,
   color,
   views,
-  meses,
   breed,
   type,
+  owner,
   size,
   name,
   kind,
-  ano,
-  sex,
   id,
 }
 
 class Pet {
   Pet({
+    this.donatedOrFound = false,
     this.otherCaracteristics,
-    this.whoAdoptedReference,
-    this.donated = false,
     this.storageHashKey,
-    this.ownerReference,
-    this.found = false,
-    this.petReference,
     this.longitude,
-    this.ownerName,
     this.createdAt,
     this.latitude,
-    this.ownerId,
+    this.ageMonth,
     this.details,
     this.photos,
+    this.ageYear,
     this.health,
+    this.gender,
     this.color,
     this.views,
-    this.avatar,
-    this.type,
-    this.meses,
     this.breed,
+    this.type,
+    this.owner,
     this.size,
     this.name,
-    this.sex,
     this.kind,
-    this.ano,
     this.id,
   });
 
   static Pet fromSnapshot(DocumentSnapshot snapshot) {
     return Pet(
-      createdAt: (snapshot.data()
-              as Map<String, dynamic>)[PetEnum.createdAt.tostring()] ??
-          Constantes.APP_BIRTHDAY,
-      whoAdoptedReference: (snapshot.data()
-          as Map<String, dynamic>)[PetEnum.whoAdoptedReference.tostring()],
       otherCaracteristics: (snapshot.data()
           as Map<String, dynamic>)[PetEnum.otherCaracteristics.tostring()],
-      ownerReference: (snapshot.data()
-          as Map<String, dynamic>)[PetEnum.ownerReference.tostring()],
+      donatedOrFound: (snapshot.data()
+              as Map<String, dynamic>)[PetEnum.donatedOrFound.tostring()] ??
+          false,
       storageHashKey: (snapshot.data()
           as Map<String, dynamic>)[PetEnum.storageHashKey.tostring()],
-      photos: (snapshot.data()
-          as Map<String, dynamic>)[PetEnum.photos.tostring()] as List,
       longitude: (snapshot.data()
           as Map<String, dynamic>)[PetEnum.longitude.tostring()],
-      ownerName: (snapshot.data()
-          as Map<String, dynamic>)[PetEnum.ownerName.tostring()],
+      createdAt: (snapshot.data()
+          as Map<String, dynamic>)[PetEnum.createdAt.tostring()],
       latitude: (snapshot.data()
           as Map<String, dynamic>)[PetEnum.latitude.tostring()],
-      donated:
-          (snapshot.data() as Map<String, dynamic>)[PetEnum.donated.tostring()],
+      ageMonth: (snapshot.data()
+          as Map<String, dynamic>)[PetEnum.ageMonth.tostring()],
       details:
           (snapshot.data() as Map<String, dynamic>)[PetEnum.details.tostring()],
-      ownerId:
-          (snapshot.data() as Map<String, dynamic>)[PetEnum.ownerId.tostring()],
-      avatar:
-          (snapshot.data() as Map<String, dynamic>)[PetEnum.avatar.tostring()],
+      photos:
+          (snapshot.data() as Map<String, dynamic>)[PetEnum.photos.tostring()],
+      ageYear:
+          (snapshot.data() as Map<String, dynamic>)[PetEnum.ageYear.tostring()],
       health:
           (snapshot.data() as Map<String, dynamic>)[PetEnum.health.tostring()],
-      views:
-          (snapshot.data() as Map<String, dynamic>)[PetEnum.views.tostring()],
-      found:
-          (snapshot.data() as Map<String, dynamic>)[PetEnum.found.tostring()],
-      meses:
-          (snapshot.data() as Map<String, dynamic>)[PetEnum.meses.tostring()],
-      breed:
-          (snapshot.data() as Map<String, dynamic>)[PetEnum.breed.tostring()],
+      gender:
+          (snapshot.data() as Map<String, dynamic>)[PetEnum.gender.tostring()],
       color:
           (snapshot.data() as Map<String, dynamic>)[PetEnum.color.tostring()],
-      kind: (snapshot.data() as Map<String, dynamic>)[PetEnum.kind.tostring()],
-      name: (snapshot.data() as Map<String, dynamic>)[PetEnum.name.tostring()],
+      views:
+          (snapshot.data() as Map<String, dynamic>)[PetEnum.views.tostring()],
+      breed:
+          (snapshot.data() as Map<String, dynamic>)[PetEnum.breed.tostring()],
       type: (snapshot.data() as Map<String, dynamic>)[PetEnum.type.tostring()],
+      owner:
+          (snapshot.data() as Map<String, dynamic>)[PetEnum.owner.tostring()],
       size: (snapshot.data() as Map<String, dynamic>)[PetEnum.size.tostring()],
-      sex: (snapshot.data() as Map<String, dynamic>)[PetEnum.sex.tostring()],
-      ano: (snapshot.data() as Map<String, dynamic>)[PetEnum.ano.tostring()],
-      petReference: snapshot.reference,
-      id: snapshot.id,
+      name: (snapshot.data() as Map<String, dynamic>)[PetEnum.name.tostring()],
+      kind: (snapshot.data() as Map<String, dynamic>)[PetEnum.kind.tostring()],
+      id: (snapshot.data() as Map<String, dynamic>)[PetEnum.id.tostring()],
     );
   }
 
   Pet fromMap(Map<String, dynamic> map) {
     return Pet(
-      whoAdoptedReference: map[PetEnum.whoAdoptedReference.tostring()],
       otherCaracteristics: map[PetEnum.otherCaracteristics.tostring()],
+      donatedOrFound: map[PetEnum.donatedOrFound.tostring()],
       storageHashKey: map[PetEnum.storageHashKey.tostring()],
-      ownerReference: map[PetEnum.ownerReference.tostring()],
-      petReference: map[PetEnum.petReference.tostring()],
-      photos: map[PetEnum.photos.tostring()] as List,
       longitude: map[PetEnum.longitude.tostring()],
       createdAt: map[PetEnum.createdAt.tostring()],
-      ownerName: map[PetEnum.ownerName.tostring()],
       latitude: map[PetEnum.latitude.tostring()],
-      donated: map[PetEnum.donated.tostring()],
+      ageMonth: map[PetEnum.ageMonth.tostring()],
       details: map[PetEnum.details.tostring()],
-      ownerId: map[PetEnum.ownerId.tostring()],
-      avatar: map[PetEnum.avatar.tostring()],
+      photos: map[PetEnum.photos.tostring()],
+      ageYear: map[PetEnum.ageYear.tostring()],
       health: map[PetEnum.health.tostring()],
-      views: map[PetEnum.views.tostring()],
-      found: map[PetEnum.found.tostring()],
-      breed: map[PetEnum.breed.tostring()],
-      meses: map[PetEnum.meses.tostring()],
+      gender: map[PetEnum.gender.tostring()],
       color: map[PetEnum.color.tostring()],
-      name: map[PetEnum.name.tostring()],
+      views: map[PetEnum.views.tostring()],
+      breed: map[PetEnum.breed.tostring()],
       type: map[PetEnum.type.tostring()],
-      kind: map[PetEnum.kind.tostring()],
+      owner: map[PetEnum.owner.tostring()],
       size: map[PetEnum.size.tostring()],
-      sex: map[PetEnum.sex.tostring()],
-      ano: map[PetEnum.ano.tostring()],
+      name: map[PetEnum.name.tostring()],
+      kind: map[PetEnum.kind.tostring()],
       id: map[PetEnum.id.tostring()],
     );
   }
 
-  DocumentReference? whoAdoptedReference;
-  DocumentReference? ownerReference;
-  DocumentReference? petReference;
   List? otherCaracteristics;
   String? storageHashKey;
+  bool donatedOrFound;
   String? createdAt;
-  String? ownerName;
   double? longitude;
   double? latitude;
   String? ownerId;
   String? details;
   String? avatar;
+  String? gender;
   String? health;
   String? color;
+  int? ageMonth;
   String? breed;
-  bool donated;
+  String? owner;
+  int? ageYear;
   String? size;
   String? type;
   String? kind;
   List? photos;
   String? name;
-  bool found;
-  String? sex;
   String? id;
   int? views;
-  int? meses;
-  int? ano;
 
   Map<String, dynamic> toMap() {
     return {
-      PetEnum.whoAdoptedReference.tostring(): whoAdoptedReference,
       PetEnum.otherCaracteristics.tostring(): otherCaracteristics,
-      PetEnum.ownerReference.tostring(): ownerReference,
+      PetEnum.donatedOrFound.tostring(): donatedOrFound,
       PetEnum.storageHashKey.tostring(): storageHashKey,
-      PetEnum.petReference.tostring(): petReference,
-      PetEnum.createdAt.tostring(): createdAt,
       PetEnum.longitude.tostring(): longitude,
-      PetEnum.ownerName.tostring(): ownerName,
+      PetEnum.createdAt.tostring(): createdAt,
       PetEnum.latitude.tostring(): latitude,
-      PetEnum.donated.tostring(): donated,
+      PetEnum.ageMonth.tostring(): ageMonth,
       PetEnum.details.tostring(): details,
-      PetEnum.ownerId.tostring(): ownerId,
-      PetEnum.avatar.tostring(): avatar,
-      PetEnum.health.tostring(): health,
       PetEnum.photos.tostring(): photos,
-      PetEnum.views.tostring(): views,
-      PetEnum.found.tostring(): found,
-      PetEnum.meses.tostring(): meses,
-      PetEnum.breed.tostring(): breed,
+      PetEnum.ageYear.tostring(): ageYear,
+      PetEnum.health.tostring(): health,
+      PetEnum.gender.tostring(): gender,
       PetEnum.color.tostring(): color,
-      PetEnum.kind.tostring(): kind,
-      PetEnum.name.tostring(): name,
+      PetEnum.views.tostring(): views,
+      PetEnum.breed.tostring(): breed,
       PetEnum.type.tostring(): type,
+      PetEnum.owner.tostring(): owner,
       PetEnum.size.tostring(): size,
-      PetEnum.sex.tostring(): sex,
-      PetEnum.ano.tostring(): ano,
+      PetEnum.name.tostring(): name,
+      PetEnum.kind.tostring(): kind,
       PetEnum.id.tostring(): id,
     };
   }

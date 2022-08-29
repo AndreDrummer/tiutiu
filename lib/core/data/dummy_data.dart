@@ -1,5 +1,14 @@
 class DummyData {
-  static const otherCaracteristicsList = ['Vermifugado', 'Castrado', 'Dócil', 'Prenhez', 'Tranquilo', 'Brincalhão', 'Tímido', 'Vacinado'];
+  static const otherCaracteristicsList = [
+    'Vermifugado',
+    'Castrado',
+    'Dócil',
+    'Prenhez',
+    'Tranquilo',
+    'Brincalhão',
+    'Tímido',
+    'Vacinado'
+  ];
 
   static const breed = [
     [''],
@@ -244,7 +253,14 @@ class DummyData {
       'Warsangli Linnet',
       'Yemen Linnet'
     ],
-    ['Raça Indefinida', 'Hamster russo', 'Hamster de Roborovski', 'Hamster sírio ou dourado', 'Hamster-chinês', 'Hamster anão de Campbell'],
+    [
+      'Raça Indefinida',
+      'Hamster russo',
+      'Hamster de Roborovski',
+      'Hamster sírio ou dourado',
+      'Hamster-chinês',
+      'Hamster anão de Campbell'
+    ],
     ['Todas']
   ];
 
@@ -269,8 +285,8 @@ class DummyData {
   ];
 
   static const ages = [
-    '-1 ano',
-    '1 ano',
+    '-1 .ageYear',
+    '1 .ageYear',
     '2 anos',
     '3 anos',
     '4 anos',

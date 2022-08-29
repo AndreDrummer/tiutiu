@@ -12,19 +12,19 @@ class RatingUs extends StatelessWidget {
         children: [
           buttons(
             context: context,
-            imagePath: 'assets/playstore.png',
+            imagePath: 'assets/playstore.webp',
             text: 'Avalie-nos na PlayStore.',
             urlToOpen: 'https://cutt.ly/4gIMH8V',
           ),
           buttons(
             context: context,
-            imagePath: 'assets/insta.png',
+            imagePath: 'assets/insta.webp',
             text: 'IG: @tiutiuapp.',
             urlToOpen: 'https://www.instagram.com/tiutiuapp/',
           ),
           buttons(
             context: context,
-            imagePath: 'assets/face.png',
+            imagePath: 'assets/face.webp',
             text: 'FB: Tiu, Tiu App - Gratuito.',
             urlToOpen: 'fb://page/113499407192787',
           ),
