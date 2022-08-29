@@ -45,9 +45,7 @@ class CurrentLocationController extends GetxController {
     permission = await Geolocator.checkPermission();
 
     if (permission == LocationPermission.always ||
-        permission == LocationPermission.whileInUse) {
-      // TODO: set user current location.
-    }
+        permission == LocationPermission.whileInUse) {}
   }
 
   Future<void> updatePermission() async {
@@ -69,7 +67,6 @@ class CurrentLocationController extends GetxController {
   Future<void> setUserLocation({LatLng? currentLocation}) async {
     var position;
 
-    // TODO: Ver depois como solicitar essa permissão de localização para o usuário!
     if (currentLocation == null) {
       // position =
       // await getCurrentPosition(desiredAccuracy: LocationAccuracy.high);

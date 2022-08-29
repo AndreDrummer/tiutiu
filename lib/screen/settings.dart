@@ -543,7 +543,7 @@ class _AppSettingsState extends State<AppSettings> {
                                                   null
                                               ? FadeInImage(
                                                   placeholder: AssetImage(
-                                                      'assets/profileEmpty.png'),
+                                                      'assets/profileEmpty.webp'),
                                                   image: NetworkImage(
                                                     tiutiuUserController
                                                         .tiutiuUser.photoURL!,
