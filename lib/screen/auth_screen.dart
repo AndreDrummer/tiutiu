@@ -140,7 +140,7 @@ class _AuthScreenState extends State<AuthScreen> {
                             children: [
                               Container(
                                 width: 100,
-                                child: Image.asset('assets/newLogo.png'),
+                                child: Image.asset('assets/newLogo.webp'),
                               ),
                               SizedBox(height: 10),
                               Text(
@@ -399,7 +399,7 @@ class _AuthScreenState extends State<AuthScreen> {
                                         });
                                       },
                                       child: ButtonSocialLogin(
-                                        imageUrl: 'assets/google.png',
+                                        imageUrl: 'assets/google.webp',
                                         text: 'Google',
                                       ),
                                     ),
@@ -431,7 +431,7 @@ class _AuthScreenState extends State<AuthScreen> {
                                         }
                                       },
                                       child: ButtonSocialLogin(
-                                        imageUrl: 'assets/face.png',
+                                        imageUrl: 'assets/face.webp',
                                         text: 'Facebook',
                                       ),
                                     ),

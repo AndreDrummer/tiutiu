@@ -20,7 +20,7 @@ class PopupTextField extends StatelessWidget {
         height: 300,
         child: Stack(
           children: [
-            Background(image: 'assets/patinhas.png'),
+            Background(image: 'assets/patinhas.webp'),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
