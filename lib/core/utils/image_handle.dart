@@ -16,12 +16,12 @@ class AssetHandle {
       return AssetImage(_imagePath);
     }
 
-    return AssetImage('assets/profileEmpty.png');
+    return AssetImage('assets/profileEmpty.webp');
   }
 
   static ImageProvider placeholder() {
     return AssetImage(
-      'assets/profileEmpty.png',
+      'assets/profileEmpty.webp',
     );
   }
 
@@ -32,7 +32,7 @@ class AssetHandle {
   }) {
     if (imagePath == null || imagePath.toString().isEmpty) {
       return Image.asset(
-        isUserImage ? 'assets/profileEmpty.png' : 'assets/profileEmpty.png',
+        isUserImage ? 'assets/profileEmpty.webp' : 'assets/profileEmpty.webp',
         fit: BoxFit.fill,
       );
     } else if (imagePath.toString().contains('http')) {

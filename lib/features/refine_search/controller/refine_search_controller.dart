@@ -26,11 +26,11 @@ class RefineSearchController extends GetxController {
   final RxBool _searchPetByTypeOnHome = true.obs;
   final RxString _stateOfResultSearch = ''.obs;
   final RxString _distancieSelected = ''.obs;
+  final RxString _genderSelected = ''.obs;
   final RxString _healthSelected = ''.obs;
   final RxBool _isDisappeared = false.obs;
   final RxString _breedSelected = ''.obs;
   final RxString _sizeSelected = ''.obs;
-  final RxString _sexSelected = ''.obs;
   final RxString _ageSelected = ''.obs;
   final RxInt _kindSelected = 0.obs;
 
@@ -44,22 +44,22 @@ class RefineSearchController extends GetxController {
   String get distancieSelected => _distancieSelected.value;
   String get healthSelected => _healthSelected.value;
   List<String> get searchHomeType => _searchHomeType;
+  String get genderSelected => _genderSelected.value;
   String get breedSelected => _breedSelected.value;
   String get sizeSelected => _sizeSelected.value;
   bool get isDisappeared => _isDisappeared.value;
   String get ageSelected => _ageSelected.value;
-  String get sexSelected => _sexSelected.value;
   int get kindSelected => _kindSelected.value;
   String get homePetTypeFilterByDisappeared =>
       _homePetTypeFilterByDisappeared.value;
   String get searchHomePetTypeInitialValue =>
       _searchHomePetTypeInitialValue.value;
 
+  void changeGenderSelected(String) => _genderSelected;
   void changeDistancieSelected(String) => _distancieSelected;
   void changeHealthSelected(String) => _healthSelected;
   void changeBreedSelected(String) => _breedSelected;
   void changeSizeSelected(String) => _sizeSelected;
-  void changeSexSelected(String) => _sexSelected;
   void changeAgeSelected(String) => _ageSelected;
   void changeKindSelected(int) => _kindSelected;
 
@@ -82,10 +82,10 @@ class RefineSearchController extends GetxController {
 
   void clearRefineSelections() {
     changeDistancieSelected('');
+    changeGenderSelected('');
     changeHealthSelected('');
     changeBreedSelected('');
     changeSizeSelected('');
     changeAgeSelected('');
-    changeSexSelected('');
   }
 }
