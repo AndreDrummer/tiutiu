@@ -5,11 +5,22 @@ import '../model/pet_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class PetService {
-  FirebaseFirestore firestore = FirebaseFirestore.instance;
+  PetService._();
+
+  static PetService instance = PetService._();
+
+  FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
+  Stream<QuerySnapshot<Map<String, dynamic>>> loadPets() {
+    return FirebaseFirestore.instance
+        .collection(FirebaseEnvPath.donate)
+        .where('donated', isEqualTo: false)
+        .snapshots();
+  }
 
   Future<DocumentReference> getReferenceFromPath(
       String path, DocumentSnapshot snapshot, String fieldName) async {
-    final ref = await firestore.doc(path).get();
+    final ref = await _firestore.doc(path).get();
     updateToTypeReference(snapshot, fieldName, ref.reference);
     return ref.reference;
   }
@@ -22,13 +33,13 @@ class PetService {
   Future getPetToCount(DocumentReference userReference, String kind,
       {bool avalaible = true}) async {
     if (kind == FirebaseEnvPath.adopted) {
-      return await firestore
+      return await _firestore
           .collection(FirebaseEnvPath.adopted)
           .where('interestedReference', isEqualTo: userReference)
           .get();
     }
 
-    return await firestore
+    return await _firestore
         .collection(kind)
         .where('ownerReference', isEqualTo: userReference)
         .where(kind == FirebaseEnvPath.donate ? 'donated' : 'found',
@@ -44,7 +55,7 @@ class PetService {
 
   Stream<QuerySnapshot> getPetsByUser(String petKind, String userId,
       {bool isAdopted = false}) {
-    Query query = firestore
+    Query query = _firestore
         .collection(petKind)
         .where(isAdopted ? 'interestedID' : 'ownerId', isEqualTo: userId);
     if (petKind == FirebaseEnvPath.donate)
@@ -55,7 +66,7 @@ class PetService {
   }
 
   Stream<QuerySnapshot> getAdoptionsToConfirm(String userId) {
-    return firestore
+    return _firestore
         .collection(FirebaseEnvPath.adopted)
         .where('interestedID', isEqualTo: userId)
         .where('confirmed', isEqualTo: false)

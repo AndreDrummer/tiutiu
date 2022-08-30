@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:tiutiu/utils/launcher_functions.dart';
+import 'package:tiutiu/core/utils/launcher_functions.dart';
 
 class RatingUs extends StatelessWidget {
   @override
