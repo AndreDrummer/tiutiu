@@ -7,6 +7,7 @@ import 'package:tiutiu/Widgets/fullscreen_images.dart';
 import 'package:tiutiu/Widgets/my_account_card.dart';
 import 'package:tiutiu/Widgets/popup_message.dart';
 import 'package:tiutiu/core/utils/image_handle.dart';
+import 'package:tiutiu/core/constants/images_assets.dart';
 import 'package:tiutiu/features/system/controllers.dart';
 import 'package:tiutiu/screen/my_pets.dart';
 import 'package:tiutiu/core/constants/firebase_env_path.dart';
@@ -55,7 +56,7 @@ class _MyAccountState extends State<MyAccount> {
                 children: [
                   Opacity(
                     child: FadeInImage(
-                      placeholder: AssetImage('assets/fundo.jpg'),
+                      placeholder: AssetImage(ImageAssets.fundo),
                       image: AssetHandle(
                         tiutiuUserController.tiutiuUser.photoBACK,
                       ).build(),
@@ -85,7 +86,7 @@ class _MyAccountState extends State<MyAccount> {
                                           null
                                       ? FadeInImage(
                                           placeholder: AssetImage(
-                                              'assets/profileEmpty.webp'),
+                                              ImageAssets.profileEmpty),
                                           image: NetworkImage(
                                             tiutiuUserController
                                                 .tiutiuUser.photoURL!,
@@ -109,7 +110,7 @@ class _MyAccountState extends State<MyAccount> {
                                   textAlign: TextAlign.start,
                                   style: Theme.of(context)
                                       .textTheme
-                                      .headline1!
+                                      .headline4!
                                       .copyWith(
                                         color: Colors.black,
                                         fontWeight: FontWeight.bold,
@@ -123,7 +124,7 @@ class _MyAccountState extends State<MyAccount> {
                                     textAlign: TextAlign.start,
                                     style: Theme.of(context)
                                         .textTheme
-                                        .headline1!
+                                        .headline4!
                                         .copyWith(
                                           color: Colors.black,
                                           fontWeight: FontWeight.w400,
@@ -172,7 +173,7 @@ class _MyAccountState extends State<MyAccount> {
                                 'P/ adoção',
                                 style: Theme.of(context)
                                     .textTheme
-                                    .headline1!
+                                    .headline4!
                                     .copyWith(
                                       color: Colors.black,
                                       fontSize: 14,
@@ -212,7 +213,7 @@ class _MyAccountState extends State<MyAccount> {
                                 'Doados',
                                 style: Theme.of(context)
                                     .textTheme
-                                    .headline1!
+                                    .headline4!
                                     .copyWith(
                                         fontSize: 14, color: Colors.black),
                               )
@@ -246,7 +247,7 @@ class _MyAccountState extends State<MyAccount> {
                                 'Adotados',
                                 style: Theme.of(context)
                                     .textTheme
-                                    .headline1!
+                                    .headline4!
                                     .copyWith(
                                       color: Colors.black,
                                       fontSize: 14,
@@ -284,7 +285,7 @@ class _MyAccountState extends State<MyAccount> {
                                 'Desaparecidos',
                                 style: Theme.of(context)
                                     .textTheme
-                                    .headline1!
+                                    .headline4!
                                     .copyWith(
                                       color: Colors.black,
                                       fontSize: 14,
@@ -446,7 +447,7 @@ class _MyAccountState extends State<MyAccount> {
                                     'Configurações',
                                     style: Theme.of(context)
                                         .textTheme
-                                        .headline1!
+                                        .headline4!
                                         .copyWith(
                                           fontSize: 18,
                                           color: Colors.blueGrey[400],
@@ -493,7 +494,7 @@ class _MyAccountState extends State<MyAccount> {
                                     'Sair',
                                     style: Theme.of(context)
                                         .textTheme
-                                        .headline1!
+                                        .headline4!
                                         .copyWith(
                                           fontSize: 18,
                                           color: Colors.blueGrey[400],

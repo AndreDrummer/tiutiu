@@ -12,6 +12,7 @@ import 'package:tiutiu/features/system/controllers.dart';
 import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
 import 'package:tiutiu/features/chat/common/functions.dart';
 import 'package:tiutiu/core/utils/image_handle.dart';
+import 'package:tiutiu/core/constants/images_assets.dart';
 import 'package:tiutiu/core/constants/firebase_env_path.dart';
 import 'package:tiutiu/core/utils/launcher_functions.dart';
 import 'package:tiutiu/core/utils/other_functions.dart';
@@ -126,7 +127,7 @@ class _AnnouncerDetailsState extends State<AnnouncerDetails> {
                 Container(
                   height: height / 3.5,
                   child: FadeInImage(
-                    placeholder: AssetImage('assets/fundo.jpg'),
+                    placeholder: AssetImage(ImageAssets.fundo),
                     image: AssetHandle(
                       widget.user.photoBACK,
                     ).build(),
@@ -161,7 +162,7 @@ class _AnnouncerDetailsState extends State<AnnouncerDetails> {
                           Text(
                             'P/ adoção',
                             style:
-                                Theme.of(context).textTheme.headline1!.copyWith(
+                                Theme.of(context).textTheme.headline4!.copyWith(
                                       color: Colors.black,
                                     ),
                           )
@@ -183,7 +184,7 @@ class _AnnouncerDetailsState extends State<AnnouncerDetails> {
                           Text(
                             'Doados',
                             style:
-                                Theme.of(context).textTheme.headline1!.copyWith(
+                                Theme.of(context).textTheme.headline4!.copyWith(
                                       color: Colors.black,
                                     ),
                           )
@@ -205,7 +206,7 @@ class _AnnouncerDetailsState extends State<AnnouncerDetails> {
                           Text(
                             'Adotados',
                             style:
-                                Theme.of(context).textTheme.headline1!.copyWith(
+                                Theme.of(context).textTheme.headline4!.copyWith(
                                       color: Colors.black,
                                     ),
                           )
@@ -227,7 +228,7 @@ class _AnnouncerDetailsState extends State<AnnouncerDetails> {
                           Text(
                             'Desaparecidos',
                             style:
-                                Theme.of(context).textTheme.headline1!.copyWith(
+                                Theme.of(context).textTheme.headline4!.copyWith(
                                       color: Colors.black,
                                     ),
                           )
@@ -344,7 +345,8 @@ class _AnnouncerDetailsState extends State<AnnouncerDetails> {
                   child: Hero(
                     tag: 'profilePic',
                     child: FadeInImage(
-                      placeholder: AssetImage('assets/profileEmpty.webp'),
+                      placeholder:
+                          AssetHandle(ImageAssets.profileEmpty).build(),
                       image: NetworkImage(
                         widget.user.photoURL!,
                       ),

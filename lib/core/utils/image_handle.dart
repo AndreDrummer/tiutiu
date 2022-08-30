@@ -1,6 +1,7 @@
-import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:tiutiu/core/constants/images_assets.dart';
 import 'package:flutter/material.dart';
+import 'dart:io';
 
 class AssetHandle {
   const AssetHandle(this._imagePath);
@@ -13,16 +14,16 @@ class AssetHandle {
     } else if (_imagePath is File) {
       return FileImage(_imagePath);
     } else if (_imagePath is String) {
-      return AssetImage(_imagePath);
+      return AssetHandle(_imagePath).build();
     }
 
-    return AssetImage('assets/profileEmpty.webp');
+    return AssetHandle(ImageAssets.profileEmpty).build();
   }
 
   static ImageProvider placeholder() {
-    return AssetImage(
-      'assets/profileEmpty.webp',
-    );
+    return AssetHandle(
+      ImageAssets.profileEmpty,
+    ).build();
   }
 
   static Widget getImage(
@@ -32,7 +33,7 @@ class AssetHandle {
   }) {
     if (imagePath == null || imagePath.toString().isEmpty) {
       return Image.asset(
-        isUserImage ? 'assets/profileEmpty.webp' : 'assets/profileEmpty.webp',
+        isUserImage ? ImageAssets.profileEmpty : ImageAssets.profileEmpty,
         fit: BoxFit.fill,
       );
     } else if (imagePath.toString().contains('http')) {

@@ -1,3 +1,4 @@
+import 'package:tiutiu/core/constants/images_assets.dart';
 import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
 import 'package:tiutiu/core/constants/firebase_env_path.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
@@ -259,7 +260,7 @@ class _HomeState extends State<Home> {
                 shape: CircleBorder(),
                 children: [
                   SpeedDialChild(
-                    child: FloatingButtonOption(image: 'assets/dogCat2.webp'),
+                    child: FloatingButtonOption(image: ImageAssets.dogCat2),
                     label: 'Adicionar Desaparecido',
                     backgroundColor: Theme.of(context).primaryColor,
                     labelStyle: TextStyle(fontSize: 14.0),
@@ -274,7 +275,7 @@ class _HomeState extends State<Home> {
                           },
                   ),
                   SpeedDialChild(
-                    child: FloatingButtonOption(image: 'assets/dogCat.webp'),
+                    child: FloatingButtonOption(image: ImageAssets.dogCat),
                     label: 'Doar PET',
                     backgroundColor: Theme.of(context).primaryColor,
                     labelStyle: TextStyle(fontSize: 14.0),

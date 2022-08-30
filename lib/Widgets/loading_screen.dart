@@ -22,7 +22,7 @@ class LoadingScreen extends StatelessWidget {
             text,
             style: Theme.of(context)
                 .textTheme
-                .headline1!
+                .headline4!
                 .copyWith(color: Colors.black),
           )
         ],
