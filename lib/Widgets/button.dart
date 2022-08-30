@@ -40,7 +40,7 @@ class ButtonWide extends StatelessWidget {
               icon != null ? SizedBox(width: 15) : Text(''),
               Text(
                 text!,
-                style: Theme.of(context).textTheme.headline1!.copyWith(
+                style: Theme.of(context).textTheme.headline4!.copyWith(
                       color: Colors.white,
                       fontSize: 16,
                       fontWeight: FontWeight.w700,

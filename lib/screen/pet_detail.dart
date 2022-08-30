@@ -20,6 +20,7 @@ import 'package:tiutiu/features/pets/model/pet_model.dart';
 import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
 import 'package:tiutiu/features/chat/common/functions.dart';
 import 'package:tiutiu/core/utils/image_handle.dart';
+import 'package:tiutiu/core/constants/images_assets.dart';
 import 'package:maps_launcher/maps_launcher.dart';
 import 'package:tiutiu/providers/user_infos_interests.dart';
 import 'package:tiutiu/core/constants/firebase_env_path.dart';
@@ -122,7 +123,7 @@ class _PetDetailsState extends State<PetDetails> {
 
     petService.showInterestOrInfo(
       petName: widget.pet!.name,
-      petAvatar: widget.pet!.avatar,
+      petAvatar: widget.pet!.photos!.first,
       petBreed: widget.pet!.breed,
       interestedNotificationToken:
           tiutiuUserController.tiutiuUser.notificationToken,
@@ -195,14 +196,14 @@ class _PetDetailsState extends State<PetDetails> {
 
   Future<String> _downloadFile() async {
     String filename = OtherFunctions.getPhotoName(
-        widget.pet!.avatar!, widget.pet!.storageHashKey!);
+        widget.pet!.photos!.first!, widget.pet!.storageHashKey!);
     Reference ref = FirebaseStorage.instance
         .ref()
         .child('${widget.pet!.ownerId}/')
         .child(
             'petsPhotos/${widget.pet!.kind}/${widget.pet!.storageHashKey}/$filename');
     final Directory systemTempDir = Directory.systemTemp;
-    final File tempFile = File('${systemTempDir.path}/pet.jpg');
+    final File tempFile = File('${systemTempDir.path}/pet.webp');
 
     if (tempFile.existsSync()) {
       await tempFile.delete();
@@ -390,7 +391,7 @@ class _PetDetailsState extends State<PetDetails> {
                                       'Descrição',
                                       style: Theme.of(context)
                                           .textTheme
-                                          .headline1!
+                                          .headline4!
                                           .copyWith(color: Colors.black54),
                                     ),
                                   ),
@@ -431,7 +432,7 @@ class _PetDetailsState extends State<PetDetails> {
                                               'Localização',
                                               style: Theme.of(context)
                                                   .textTheme
-                                                  .headline1!
+                                                  .headline4!
                                                   .copyWith(
                                                       color: Colors.black54),
                                             ),
@@ -720,7 +721,8 @@ class _PetDetailsState extends State<PetDetails> {
                     backgroundColor: Colors.transparent,
                     child: ClipOval(
                       child: FadeInImage(
-                        placeholder: AssetImage('assets/profileEmpty.webp'),
+                        placeholder:
+                            AssetHandle(ImageAssets.profileEmpty).build(),
                         image: AssetHandle(
                           widget.petOwner!.photoURL,
                         ).build(),

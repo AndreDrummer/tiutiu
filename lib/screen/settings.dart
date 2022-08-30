@@ -9,6 +9,8 @@ import 'package:tiutiu/Widgets/divider.dart';
 import 'package:tiutiu/Widgets/input_text.dart';
 import 'package:tiutiu/Widgets/load_dark_screen.dart';
 import 'package:tiutiu/Widgets/popup_message.dart';
+import 'package:tiutiu/core/constants/images_assets.dart';
+import 'package:tiutiu/core/utils/image_handle.dart';
 import 'package:tiutiu/features/system/controllers.dart';
 import 'package:tiutiu/core/utils/formatter.dart';
 
@@ -357,7 +359,7 @@ class _AppSettingsState extends State<AppSettings> {
             TextButton(
               child: Text(
                 'Tirar uma foto',
-                style: Theme.of(context).textTheme.headline1!.copyWith(
+                style: Theme.of(context).textTheme.headline4!.copyWith(
                       color: Colors.black,
                     ),
               ),
@@ -372,7 +374,7 @@ class _AppSettingsState extends State<AppSettings> {
             TextButton(
               child: Text(
                 'Abrir galeria',
-                style: Theme.of(context).textTheme.headline1!.copyWith(
+                style: Theme.of(context).textTheme.headline4!.copyWith(
                       color: Colors.black,
                     ),
               ),
@@ -388,7 +390,7 @@ class _AppSettingsState extends State<AppSettings> {
                 ? TextButton(
                     child: Text(
                       'Remover foto',
-                      style: Theme.of(context).textTheme.headline1!.copyWith(
+                      style: Theme.of(context).textTheme.headline4!.copyWith(
                             color: Colors.black,
                           ),
                     ),
@@ -474,7 +476,8 @@ class _AppSettingsState extends State<AppSettings> {
                                             BorderRadius.circular(8.0),
                                         child: FadeInImage(
                                           placeholder:
-                                              AssetImage('assets/fundo.jpg'),
+                                              AssetHandle(ImageAssets.fundo)
+                                                  .build(),
                                           image: NetworkImage(
                                             tiutiuUserController
                                                     .tiutiuUser.photoBACK ??
@@ -543,7 +546,7 @@ class _AppSettingsState extends State<AppSettings> {
                                                   null
                                               ? FadeInImage(
                                                   placeholder: AssetImage(
-                                                      'assets/profileEmpty.webp'),
+                                                      ImageAssets.profileEmpty),
                                                   image: NetworkImage(
                                                     tiutiuUserController
                                                         .tiutiuUser.photoURL!,
@@ -859,13 +862,13 @@ class _AppSettingsState extends State<AppSettings> {
         title: Text(fieldLabel!,
             style: Theme.of(context)
                 .textTheme
-                .headline1!
+                .headline4!
                 .copyWith(color: Colors.black)),
         subtitle: isFieldEditing
             ? TextFormField(
                 cursorColor: Colors.black,
                 textCapitalization: textCapitalization,
-                style: Theme.of(context).textTheme.headline1!.copyWith(
+                style: Theme.of(context).textTheme.headline4!.copyWith(
                     color: Colors.black54, fontWeight: FontWeight.w300),
                 onFieldSubmitted: onFieldSubmitted,
                 inputFormatters: inputFormatters,
@@ -883,7 +886,7 @@ class _AppSettingsState extends State<AppSettings> {
                 style: fieldHasError
                     ? Theme.of(context)
                         .textTheme
-                        .headline1!
+                        .headline4!
                         .copyWith(color: Colors.red)
                     : null),
         trailing: IconButton(

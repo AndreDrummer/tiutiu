@@ -19,7 +19,7 @@ class ChatScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text(
           OtherFunctions.firstCharacterUpper(chatTitle),
-          style: Theme.of(context).textTheme.headline1!.copyWith(
+          style: Theme.of(context).textTheme.headline4!.copyWith(
                 fontSize: 20,
                 fontWeight: FontWeight.w700,
               ),
