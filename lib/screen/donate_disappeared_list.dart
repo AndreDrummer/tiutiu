@@ -1,16 +1,13 @@
 import 'package:tiutiu/features/refine_search/controller/refine_search_controller.dart';
 import 'package:tiutiu/core/extensions/string_extension.dart';
 import 'package:tiutiu/core/constants/firebase_env_path.dart';
-import 'package:tiutiu/core/utils/routes/routes_name.dart';
 import 'package:tiutiu/features/pets/model/pet_model.dart';
+import 'package:tiutiu/core/widgets/stream_handler.dart';
 import 'package:tiutiu/Widgets/custom_input_search.dart';
 import 'package:tiutiu/features/system/controllers.dart';
-import 'package:tiutiu/core/utils/other_functions.dart';
 import 'package:tiutiu/core/constants/strings.dart';
-import 'package:tiutiu/core/utils/ordenators.dart';
 import 'package:tiutiu/Widgets/input_search.dart';
 import 'package:tiutiu/core/data/dummy_data.dart';
-import 'package:tiutiu/core/utils/filters.dart';
 import 'package:tiutiu/Widgets/card_list.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -18,9 +15,6 @@ import 'package:get/get.dart';
 final RefineSearchController _refineSearchController = Get.find();
 
 class DonateDisappearedList extends StatefulWidget {
-  DonateDisappearedList({this.petList});
-  final List<Pet>? petList;
-
   @override
   _DonateDisappearedListState createState() => _DonateDisappearedListState();
 }
@@ -46,224 +40,172 @@ class _DonateDisappearedListState extends State<DonateDisappearedList> {
     return Scaffold(
       key: _scaffoldKey,
       backgroundColor: Colors.blueGrey[50],
-      body: StreamBuilder(
+      body: StreamBuilder<List<Pet>>(
           stream: petsController.updatePetList(),
           builder: (context, snapshot) {
-            print('>> Snapshot ${(snapshot.data as List<Pet>).first.name}');
+            return StreamHandler<List<Pet>>(
+              loadingMessage: AppStrings.loadingDots,
+              snapshot: snapshot,
+              buildWidget: ((petsList) {
+                return ListView(
+                  children: [
+                    FilterCard(),
+                    Builder(
+                      builder: (BuildContext context) {
+                        petsController.updatePetList();
 
-            // Dá uma lida no padrão Triple.
-
-            return ListView(
-              children: [
-                FilterCard(),
-                Builder(
-                  builder: (BuildContext context) {
-                    petsController.updatePetList();
-                    List<Pet> petsList =
-                        OtherFunctions.filterResultsByDistancie(
-                      context,
-                      widget.petList != null
-                          ? widget.petList!
-                          : petsController.typingSearchResult,
-                      'null',
-                    );
-
-                    if (petsController.ageSelected.isNotEmpty &&
-                        petsController.ageSelected == 'Mais de 10 ageYears') {
-                      petsList =
-                          Filters.filterResultsByAgeOver10(widget.petList!);
-                    }
-
-                    switch (petsController.orderType) {
-                      case 'Nome':
-                        petsList.sort(Ordenators.orderByName);
-                        break;
-                      case 'Idade':
-                        petsList.sort(Ordenators.orderByAge);
-                        break;
-                      default:
-                        petsList.sort(Ordenators.orderByPostDate);
-                    }
-
-                    if (widget.petList == null || petsList.isEmpty) {
-                      return InkWell(
-                        onTap: () {
-                          Navigator.pushNamed(context, Routes.search);
-                        },
-                        child: Padding(
-                          padding: EdgeInsets.only(top: height / 3.5),
+                        return Container(
+                          height: marginTop,
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.stretch,
                             children: [
-                              Text(
-                                AppStrings.noPetFound,
-                                textAlign: TextAlign.center,
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .headline1!
-                                    .copyWith(
-                                      color: Colors.black,
+                              Container(
+                                height: 20,
+                                alignment: Alignment(-0.9, 1),
+                                padding:
+                                    const EdgeInsets.only(left: 10, right: 10),
+                                margin:
+                                    const EdgeInsets.only(bottom: 10, top: 5),
+                                child: Row(
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Text(
+                                          '${petsList.length} ',
+                                          style: TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w700,
+                                            color: Colors.black26,
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding:
+                                              const EdgeInsets.only(top: 2.0),
+                                          child: Text(
+                                            'encontrados',
+                                            style: TextStyle(
+                                              fontSize: 13,
+                                              fontWeight: FontWeight.w700,
+                                              color: Colors.black26,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
                                     ),
+                                    Spacer(),
+                                    Row(
+                                      children: [
+                                        Padding(
+                                          padding:
+                                              const EdgeInsets.only(top: 3.0),
+                                          child: Text(
+                                            'ordenar por:  ',
+                                            style: TextStyle(
+                                              fontSize: 13,
+                                              fontWeight: FontWeight.w700,
+                                              color: Colors.black26,
+                                            ),
+                                          ),
+                                        ),
+                                        CustomDropdownButtonSearch(
+                                          colorText: Colors.black54,
+                                          fontSize: 13,
+                                          initialValue:
+                                              petsController.orderType,
+                                          isExpanded: false,
+                                          withPipe: false,
+                                          itemList:
+                                              petsController.orderTypeList,
+                                          label: '',
+                                          onChange: (String text) {
+                                            petsController.changeOrderType(
+                                              text,
+                                              'null',
+                                            );
+                                          },
+                                        )
+                                      ],
+                                    ),
+                                  ],
+                                ),
                               ),
-                              SizedBox(height: 5),
-                              Text(
-                                AppStrings.verifyFilters,
-                                textAlign: TextAlign.center,
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .headline1!
-                                    .copyWith(
-                                      color: Colors.blueAccent,
-                                    ),
+                              Expanded(
+                                child: ListView.builder(
+                                  key: UniqueKey(),
+                                  controller: _scrollController,
+                                  itemCount: petsList.length + 1,
+                                  itemBuilder: (_, index) {
+                                    if (index == petsList.length) {
+                                      return petsList.length > 1
+                                          ? InkWell(
+                                              onTap: () {
+                                                _scrollController.animateTo(
+                                                    0 * height / 3,
+                                                    duration: new Duration(
+                                                        seconds: 2),
+                                                    curve: Curves.ease);
+                                              },
+                                              child: Container(
+                                                height: 280,
+                                                alignment: Alignment.center,
+                                                child: Padding(
+                                                  padding: const EdgeInsets.all(
+                                                      16.0),
+                                                  child: Column(
+                                                    children: [
+                                                      Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                    .only(
+                                                                top: 8.0,
+                                                                bottom: 24.0),
+                                                        child: Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .center,
+                                                          children: [
+                                                            Text(
+                                                                'Voltar ao topo'
+                                                                    .toUpperCase(),
+                                                                style: TextStyle(
+                                                                    color: Colors
+                                                                        .blue,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w700)),
+                                                            Icon(
+                                                                Icons
+                                                                    .arrow_drop_up_sharp,
+                                                                color:
+                                                                    Colors.blue)
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                            )
+                                          : Container();
+                                    }
+
+                                    return CardList(
+                                      donate: petsList[index].kind ==
+                                          FirebaseEnvPath.donate,
+                                      kind: petsList[index].kind,
+                                      petInfo: petsList[index],
+                                    );
+                                  },
+                                ),
                               ),
                             ],
                           ),
-                        ),
-                      );
-                    }
-
-                    return Container(
-                      height: marginTop,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: [
-                          Container(
-                            height: 20,
-                            alignment: Alignment(-0.9, 1),
-                            padding: const EdgeInsets.only(left: 10, right: 10),
-                            margin: const EdgeInsets.only(bottom: 10, top: 5),
-                            child: Row(
-                              children: [
-                                Row(
-                                  children: [
-                                    Text(
-                                      '${petsList.length} ',
-                                      style: TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w700,
-                                        color: Colors.black26,
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(top: 2.0),
-                                      child: Text(
-                                        'encontrados',
-                                        style: TextStyle(
-                                          fontSize: 13,
-                                          fontWeight: FontWeight.w700,
-                                          color: Colors.black26,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                Spacer(),
-                                Row(
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.only(top: 3.0),
-                                      child: Text(
-                                        'ordenar por:  ',
-                                        style: TextStyle(
-                                          fontSize: 13,
-                                          fontWeight: FontWeight.w700,
-                                          color: Colors.black26,
-                                        ),
-                                      ),
-                                    ),
-                                    CustomDropdownButtonSearch(
-                                      colorText: Colors.black54,
-                                      fontSize: 13,
-                                      initialValue: petsController.orderType,
-                                      isExpanded: false,
-                                      withPipe: false,
-                                      itemList: petsController.orderTypeList,
-                                      label: '',
-                                      onChange: (String text) {
-                                        petsController.changeOrderType(
-                                          text,
-                                          'null',
-                                        );
-                                      },
-                                    )
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ),
-                          Expanded(
-                            child: ListView.builder(
-                              key: UniqueKey(),
-                              controller: _scrollController,
-                              itemCount: petsList.length + 1,
-                              itemBuilder: (_, index) {
-                                if (index == petsList.length) {
-                                  return petsList.length > 1
-                                      ? InkWell(
-                                          onTap: () {
-                                            _scrollController.animateTo(
-                                                0 * height / 3,
-                                                duration:
-                                                    new Duration(seconds: 2),
-                                                curve: Curves.ease);
-                                          },
-                                          child: Container(
-                                            height: 280,
-                                            alignment: Alignment.center,
-                                            child: Padding(
-                                              padding:
-                                                  const EdgeInsets.all(16.0),
-                                              child: Column(
-                                                children: [
-                                                  Padding(
-                                                    padding:
-                                                        const EdgeInsets.only(
-                                                            top: 8.0,
-                                                            bottom: 24.0),
-                                                    child: Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        Text(
-                                                            'Voltar ao topo'
-                                                                .toUpperCase(),
-                                                            style: TextStyle(
-                                                                color:
-                                                                    Colors.blue,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w700)),
-                                                        Icon(
-                                                            Icons
-                                                                .arrow_drop_up_sharp,
-                                                            color: Colors.blue)
-                                                      ],
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                        )
-                                      : Container();
-                                }
-
-                                return CardList(
-                                  donate: petsList[index].kind ==
-                                      FirebaseEnvPath.donate,
-                                  kind: petsList[index].kind,
-                                  petInfo: petsList[index],
-                                );
-                              },
-                            ),
-                          ),
-                        ],
-                      ),
-                    );
-                  },
-                ),
-              ],
+                        );
+                      },
+                    ),
+                  ],
+                );
+              }),
             );
           }),
     );

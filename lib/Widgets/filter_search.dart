@@ -60,7 +60,7 @@ class _FilterSearchState extends State<FilterSearch> {
       filters.add(
         Row(
           children: <Widget>[
-            Text(name, style: Theme.of(context).textTheme.headline1),
+            Text(name, style: Theme.of(context).textTheme.headline4),
             SizedBox(width: 10),
             DropdownButton<String>(
                 value: initialValues[index],
@@ -77,7 +77,7 @@ class _FilterSearchState extends State<FilterSearch> {
                     return Padding(
                       padding: const EdgeInsets.only(top: 16.0),
                       child: Text(value,
-                          style: Theme.of(context).textTheme.headline1),
+                          style: Theme.of(context).textTheme.headline4),
                     );
                   }).toList();
                 },

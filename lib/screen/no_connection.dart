@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:tiutiu/core/constants/images_assets.dart';
 
 class NoConnection extends StatelessWidget {
   @override
@@ -22,7 +23,7 @@ class NoConnection extends StatelessWidget {
                 ),
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Image.asset('assets/no-wifi.webp',
+                  child: Image.asset(ImageAssets.noWifi,
                       color: Colors.red, width: 50, height: 50),
                 ),
               ),

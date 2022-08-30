@@ -1,8 +1,9 @@
 import 'package:tiutiu/core/constants/firebase_env_path.dart';
+import 'package:tiutiu/core/constants/images_assets.dart';
+import 'package:tiutiu/core/utils/image_handle.dart';
 import 'package:tiutiu/features/pets/model/pet_model.dart';
 import 'package:tiutiu/features/system/controllers.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:tiutiu/core/utils/other_functions.dart';
 import 'package:tiutiu/core/Custom/icons.dart';
 import 'package:flutter/material.dart';
 
@@ -46,11 +47,12 @@ class _CardListState extends State<CardList> {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
 
-    List<String> distanceText = OtherFunctions.distanceCalculate(
-      context,
-      widget.petInfo!.latitude!,
-      widget.petInfo!.longitude!,
-    );
+    List<String> distanceText = ['00'];
+    // OtherFunctions.distanceCalculate(
+    //   context,
+    //   widget.petInfo!.latitude!,
+    //   widget.petInfo!.longitude!,
+    // );
 
     return InkWell(
       onTap: () async {
@@ -84,8 +86,8 @@ class _CardListState extends State<CardList> {
                   topRight: Radius.circular(8),
                 ),
                 child: FadeInImage(
-                  placeholder: AssetImage('assets/fadeIn.jpg'),
-                  image: NetworkImage(widget.petInfo!.avatar!),
+                  image: AssetHandle(widget.petInfo!.photos!.first).build(),
+                  placeholder: AssetImage(ImageAssets.fadeIn),
                   height: 1000,
                   width: 1000,
                   fit: BoxFit.cover,
@@ -114,7 +116,7 @@ class _CardListState extends State<CardList> {
                             widget.petInfo!.name!,
                             style: Theme.of(context)
                                 .textTheme
-                                .headline1!
+                                .headline4!
                                 .copyWith(
                                     fontWeight: FontWeight.w700,
                                     color: Colors.black,
@@ -125,7 +127,7 @@ class _CardListState extends State<CardList> {
                             widget.petInfo!.breed!,
                             style: Theme.of(context)
                                 .textTheme
-                                .headline1!
+                                .headline4!
                                 .copyWith(
                                     fontWeight: FontWeight.w300,
                                     color: Colors.grey,
@@ -195,7 +197,7 @@ class _CardListState extends State<CardList> {
                                     '${distanceText[0]}',
                                     style: Theme.of(context)
                                         .textTheme
-                                        .headline1!
+                                        .headline4!
                                         .copyWith(
                                           fontWeight: FontWeight.w700,
                                           color: Colors.black,

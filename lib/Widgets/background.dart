@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tiutiu/core/constants/images_assets.dart';
 
 class Background extends StatelessWidget {
   Background({this.dark = false, this.image});
@@ -9,8 +10,8 @@ class Background extends StatelessWidget {
   Widget build(BuildContext context) {
     final urlImage = image == null
         ? dark
-            ? 'assets/bones2.jpg'
-            : 'assets/bones.jpg'
+            ? ImageAssets.bones2
+            : ImageAssets.bones
         : image;
     return Container(
       height: MediaQuery.of(context).size.height,
