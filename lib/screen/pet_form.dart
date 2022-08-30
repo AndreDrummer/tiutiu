@@ -11,7 +11,7 @@ import 'package:tiutiu/Widgets/squared_add_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:tiutiu/Widgets/load_dark_screen.dart';
 import 'package:tiutiu/screen/selection_page.dart';
-import 'package:tiutiu/utils/other_functions.dart';
+import 'package:tiutiu/core/utils/other_functions.dart';
 import 'package:tiutiu/Widgets/popup_message.dart';
 import 'package:tiutiu/core/data/dummy_data.dart';
 import 'package:tiutiu/Widgets/background.dart';

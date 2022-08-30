@@ -41,7 +41,7 @@ class NotificationModel {
     open = (snapshot.data() as Map<String, dynamic>)['open'];
   }
 
-  PetService petService = PetService();
+  PetService petService = PetService.instance;
 
   Map<String, dynamic> toJson() {
     return {
