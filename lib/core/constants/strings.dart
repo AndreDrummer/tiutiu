@@ -1,6 +1,7 @@
 class AppStrings {
   static String get verifyFilters => 'Verifique seus filtros de busca.';
   static String get noPetFound => 'Nenhum PET encontrado';
+  static String get loadingDots => 'Carregando...';
   static String get name => 'Tiu, tiu';
 }
 

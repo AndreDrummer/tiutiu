@@ -25,7 +25,7 @@ class _FavoritesState extends State<Favorites> {
         leading: null,
         title: Text(
           'Favoritos'.toUpperCase(),
-          style: Theme.of(context).textTheme.headline1!.copyWith(
+          style: Theme.of(context).textTheme.headline4!.copyWith(
                 fontSize: 20,
                 fontWeight: FontWeight.w700,
               ),
@@ -47,7 +47,7 @@ class _FavoritesState extends State<Favorites> {
                       child: Text(
                         'Nenhum PET Favoritado',
                         textAlign: TextAlign.center,
-                        style: Theme.of(context).textTheme.headline1!.copyWith(
+                        style: Theme.of(context).textTheme.headline4!.copyWith(
                               color: Colors.black,
                               fontWeight: FontWeight.w100,
                             ),

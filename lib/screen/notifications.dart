@@ -7,6 +7,7 @@ import 'package:tiutiu/core/models/notification_model.dart';
 import 'package:tiutiu/features/pets/model/pet_model.dart';
 import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
 import 'package:tiutiu/core/utils/image_handle.dart';
+import 'package:tiutiu/core/constants/images_assets.dart';
 import 'package:tiutiu/screen/confirm_adoption.dart';
 import 'package:tiutiu/screen/interested_information_list.dart';
 
@@ -42,7 +43,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
       appBar: AppBar(
         title: Text(
           'Notificações'.toUpperCase(),
-          style: Theme.of(context).textTheme.headline1!.copyWith(
+          style: Theme.of(context).textTheme.headline4!.copyWith(
                 fontSize: 20,
                 fontWeight: FontWeight.w700,
               ),
@@ -163,7 +164,8 @@ class _ListTile extends StatelessWidget {
                   future: loadUserAvatar(notificationModel.userReference!),
                   builder: (context, snapshot) {
                     return FadeInImage(
-                      placeholder: AssetImage('assets/profileEmpty.webp'),
+                      placeholder:
+                          AssetHandle(ImageAssets.profileEmpty).build(),
                       image: AssetHandle(
                         snapshot.data,
                       ).build(),

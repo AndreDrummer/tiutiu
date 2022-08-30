@@ -1,3 +1,5 @@
+import 'package:tiutiu/core/constants/images_assets.dart';
+import 'package:tiutiu/core/utils/image_handle.dart';
 import 'package:tiutiu/features/pets/services/pet_service.dart';
 import 'package:tiutiu/core/constants/firebase_env_path.dart';
 import 'package:tiutiu/core/utils/routes/routes_name.dart';
@@ -114,7 +116,7 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
               ],
         title: Text(
           widget.title!.toUpperCase(),
-          style: Theme.of(context).textTheme.headline1!.copyWith(
+          style: Theme.of(context).textTheme.headline4!.copyWith(
                 fontSize: 20,
                 fontWeight: FontWeight.w700,
               ),
@@ -188,9 +190,10 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
                                         ),
                                         child: FadeInImage(
                                           placeholder:
-                                              AssetImage('assets/fadeIn.jpg'),
-                                          image:
-                                              NetworkImage(pets[index].avatar!),
+                                              AssetHandle(ImageAssets.fadeIn)
+                                                  .build(),
+                                          image: NetworkImage(
+                                              pets[index].photos!.first!),
                                           height: 1000,
                                           width: 1000,
                                           fit: BoxFit.fitWidth,
@@ -225,7 +228,7 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
                                               pets[index].name!,
                                               style: Theme.of(context)
                                                   .textTheme
-                                                  .headline1!
+                                                  .headline4!
                                                   .copyWith(
                                                     fontSize: 22,
                                                     color: Colors.black,
@@ -237,7 +240,7 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
                                               pets[index].breed!,
                                               style: Theme.of(context)
                                                   .textTheme
-                                                  .headline1!
+                                                  .headline4!
                                                   .copyWith(
                                                     fontSize: 16,
                                                     color: Colors.grey,
