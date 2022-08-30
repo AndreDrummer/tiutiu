@@ -9,6 +9,7 @@ import 'package:tiutiu/Widgets/loading_page.dart';
 import 'package:tiutiu/core/models/interested_model.dart';
 import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
 import 'package:tiutiu/core/utils/image_handle.dart';
+import 'package:tiutiu/core/constants/images_assets.dart';
 import 'package:tiutiu/providers/user_infos_interests.dart';
 import 'package:tiutiu/screen/announcer_datails.dart';
 import 'package:tiutiu/core/utils/constantes.dart';
@@ -68,7 +69,7 @@ class _InformantesScreenState extends State<InformantesScreen> {
                   Text(
                     'Ninguém ainda informou sobre ${['petName']}',
                     textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.headline1!.copyWith(
+                    style: Theme.of(context).textTheme.headline4!.copyWith(
                           color: Colors.black,
                           fontWeight: FontWeight.w100,
                         ),
@@ -147,7 +148,8 @@ class _InformantesScreenState extends State<InformantesScreen> {
                       backgroundColor: Colors.transparent,
                       child: ClipOval(
                         child: FadeInImage(
-                          placeholder: AssetImage('assets/profileEmpty.webp'),
+                          placeholder:
+                              AssetHandle(ImageAssets.profileEmpty).build(),
                           image: AssetHandle(
                             informanteImage,
                           ).build(),
@@ -211,7 +213,7 @@ class _InformantesScreenState extends State<InformantesScreen> {
                       width: MediaQuery.of(context).size.width - 10,
                       height: details!.isEmpty ? 222 : 160,
                       child: FadeInImage(
-                        placeholder: AssetImage('assets/static_map.jpg'),
+                        placeholder: AssetImage(ImageAssets.staticMap),
                         image: NetworkImage(
                             'https://maps.googleapis.com/maps/api/staticmap?center=$informanteLat, $informanteLng&zoom=15&markers=color:red%7Clabel:%7c$informanteLat,%20$informanteLng&size=600x400&key=${Constantes.WEB_API_KEY}'),
                         fit: BoxFit.cover,

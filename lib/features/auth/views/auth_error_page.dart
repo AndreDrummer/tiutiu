@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tiutiu/core/constants/images_assets.dart';
 
 class AuthErrorPage extends StatelessWidget {
   const AuthErrorPage({
@@ -29,7 +30,7 @@ class AuthErrorPage extends StatelessWidget {
               ),
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Image.asset('assets/newLogo.webp'),
+                child: Image.asset(ImageAssets.newLogo),
               ),
             ),
             SizedBox(height: 10),

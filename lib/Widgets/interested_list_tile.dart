@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
 import 'package:tiutiu/core/utils/image_handle.dart';
+import 'package:tiutiu/core/constants/images_assets.dart';
 
 class InterestedListTile extends StatelessWidget {
   InterestedListTile({
@@ -28,7 +29,7 @@ class InterestedListTile extends StatelessWidget {
             child: Hero(
               tag: '${interestedUser!.photoURL}',
               child: FadeInImage(
-                placeholder: AssetImage('assets/fundo.jpg'),
+                placeholder: AssetImage(ImageAssets.fundo),
                 image: AssetHandle(interestedUser!.photoURL).build(),
                 fit: BoxFit.fill,
                 width: 1000,

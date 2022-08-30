@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:tiutiu/core/Custom/icons.dart';
 import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
 import 'package:tiutiu/core/utils/image_handle.dart';
+import 'package:tiutiu/core/constants/images_assets.dart';
 import 'package:tiutiu/core/utils/launcher_functions.dart';
 
 class InterestedInfoCard extends StatefulWidget {
@@ -60,7 +61,7 @@ class _InterestedInfoCardState extends State<InterestedInfoCard> {
                     backgroundColor: Colors.transparent,
                     child: ClipOval(
                       child: FadeInImage(
-                        placeholder: AssetImage('assets/fundo.jpg'),
+                        placeholder: AssetImage(ImageAssets.fundo),
                         image: AssetHandle(widget.interestedUser!.photoURL)
                             .build(),
                         fit: BoxFit.fill,
@@ -187,7 +188,7 @@ class _ActionButton extends StatelessWidget {
               SizedBox(width: 5),
               Text(
                 text!,
-                style: Theme.of(context).textTheme.headline1!.copyWith(
+                style: Theme.of(context).textTheme.headline4!.copyWith(
                       color: Colors.white,
                       fontSize: fontSize != null ? fontSize : null,
                       fontWeight: FontWeight.w700,

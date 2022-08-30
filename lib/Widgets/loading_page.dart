@@ -39,7 +39,7 @@ class _LoadingPageState extends State<LoadingPage> {
           Text(
             widget.messageLoading,
             textAlign: TextAlign.center,
-            style: Theme.of(context).textTheme.headline1!.copyWith(
+            style: Theme.of(context).textTheme.headline4!.copyWith(
                   color: widget.textColor,
                 ),
           )
