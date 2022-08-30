@@ -7,6 +7,7 @@ import 'package:tiutiu/Widgets/input_text.dart';
 import 'package:tiutiu/Widgets/load_dark_screen.dart';
 import 'package:tiutiu/Widgets/popup_message.dart';
 import 'package:tiutiu/Widgets/button.dart';
+import 'package:tiutiu/core/constants/images_assets.dart';
 import 'package:tiutiu/features/system/controllers.dart';
 
 class AuthScreen extends StatefulWidget {
@@ -140,7 +141,7 @@ class _AuthScreenState extends State<AuthScreen> {
                             children: [
                               Container(
                                 width: 100,
-                                child: Image.asset('assets/newLogo.webp'),
+                                child: Image.asset(ImageAssets.newLogo),
                               ),
                               SizedBox(height: 10),
                               Text(
@@ -399,7 +400,7 @@ class _AuthScreenState extends State<AuthScreen> {
                                         });
                                       },
                                       child: ButtonSocialLogin(
-                                        imageUrl: 'assets/google.webp',
+                                        imageUrl: ImageAssets.googleLogo,
                                         text: 'Google',
                                       ),
                                     ),
@@ -431,7 +432,7 @@ class _AuthScreenState extends State<AuthScreen> {
                                         }
                                       },
                                       child: ButtonSocialLogin(
-                                        imageUrl: 'assets/face.webp',
+                                        imageUrl: ImageAssets.face,
                                         text: 'Facebook',
                                       ),
                                     ),

@@ -117,11 +117,7 @@ class _PetsListState extends State<PetsList> {
         ),
       ),
       body: Container(
-        child: DonateDisappearedList(
-          petList: widget.petKind == FirebaseEnvPath.donate
-              ? petsController.petsDonate
-              : petsController.petsDisappeared,
-        ),
+        child: DonateDisappearedList(),
       ),
     );
   }

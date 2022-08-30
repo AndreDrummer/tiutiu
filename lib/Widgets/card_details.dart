@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tiutiu/core/utils/image_handle.dart';
+import 'package:tiutiu/core/constants/images_assets.dart';
 
 class CardDetails extends StatelessWidget {
   CardDetails({
@@ -107,7 +108,8 @@ class UserCardInfo extends StatelessWidget {
                   ? Icon(icon, color: Colors.white, size: 60)
                   : imageN != null
                       ? FadeInImage(
-                          placeholder: AssetImage('assets/profileEmpty.webp'),
+                          placeholder:
+                              AssetHandle(ImageAssets.profileEmpty).build(),
                           image: AssetHandle(
                             imageN,
                           ).build(),

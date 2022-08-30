@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
 import 'package:tiutiu/core/utils/image_handle.dart';
+import 'package:tiutiu/core/constants/images_assets.dart';
 import 'package:tiutiu/core/utils/other_functions.dart';
 
 class MessageBubble extends StatelessWidget {
@@ -68,7 +69,7 @@ class MessageBubble extends StatelessWidget {
                                   ? Colors.white
                                   : Theme.of(context)
                                       .textTheme
-                                      .headline1!
+                                      .headline4!
                                       .color,
                             ),
                           ),
@@ -84,7 +85,7 @@ class MessageBubble extends StatelessWidget {
                                   ? Colors.white
                                   : Theme.of(context)
                                       .textTheme
-                                      .headline1!
+                                      .headline4!
                                       .color,
                             ),
                           ),
@@ -100,7 +101,7 @@ class MessageBubble extends StatelessWidget {
                         fontWeight: FontWeight.w600,
                         color: belongToMe
                             ? Colors.white
-                            : Theme.of(context).textTheme.headline1!.color,
+                            : Theme.of(context).textTheme.headline4!.color,
                       ),
                     ),
                   ],
@@ -122,7 +123,7 @@ class MessageBubble extends StatelessWidget {
                 backgroundColor: Colors.transparent,
                 child: ClipOval(
                   child: FadeInImage(
-                    placeholder: AssetImage('assets/profileEmpty.webp'),
+                    placeholder: AssetImage(ImageAssets.profileEmpty),
                     image: AssetHandle(user.photoURL).build(),
                     fit: BoxFit.cover,
                     width: 1000,

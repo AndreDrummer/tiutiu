@@ -103,15 +103,15 @@ class Pet {
       latitude: map[PetEnum.latitude.tostring()],
       ageMonth: map[PetEnum.ageMonth.tostring()],
       details: map[PetEnum.details.tostring()],
-      photos: map[PetEnum.photos.tostring()],
       ageYear: map[PetEnum.ageYear.tostring()],
+      photos: map[PetEnum.photos.tostring()],
       health: map[PetEnum.health.tostring()],
       gender: map[PetEnum.gender.tostring()],
       color: map[PetEnum.color.tostring()],
       views: map[PetEnum.views.tostring()],
       breed: map[PetEnum.breed.tostring()],
-      type: map[PetEnum.type.tostring()],
       owner: map[PetEnum.owner.tostring()],
+      type: map[PetEnum.type.tostring()],
       size: map[PetEnum.size.tostring()],
       name: map[PetEnum.name.tostring()],
       kind: map[PetEnum.kind.tostring()],
@@ -127,7 +127,6 @@ class Pet {
   double? latitude;
   String? ownerId;
   String? details;
-  String? avatar;
   String? gender;
   String? health;
   String? color;
@@ -153,8 +152,8 @@ class Pet {
       PetEnum.latitude.tostring(): latitude,
       PetEnum.ageMonth.tostring(): ageMonth,
       PetEnum.details.tostring(): details,
-      PetEnum.photos.tostring(): photos,
       PetEnum.ageYear.tostring(): ageYear,
+      PetEnum.photos.tostring(): photos,
       PetEnum.health.tostring(): health,
       PetEnum.gender.tostring(): gender,
       PetEnum.color.tostring(): color,

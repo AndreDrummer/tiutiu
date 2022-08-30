@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:tiutiu/core/constants/images_assets.dart';
 import 'package:tiutiu/core/utils/launcher_functions.dart';
 
 class RatingUs extends StatelessWidget {
@@ -12,19 +13,19 @@ class RatingUs extends StatelessWidget {
         children: [
           buttons(
             context: context,
-            imagePath: 'assets/playstore.webp',
+            imagePath: ImageAssets.playstoreLogo,
             text: 'Avalie-nos na PlayStore.',
             urlToOpen: 'https://cutt.ly/4gIMH8V',
           ),
           buttons(
             context: context,
-            imagePath: 'assets/insta.webp',
+            imagePath: ImageAssets.instaLogo,
             text: 'IG: @tiutiuapp.',
             urlToOpen: 'https://www.instagram.com/tiutiuapp/',
           ),
           buttons(
             context: context,
-            imagePath: 'assets/face.webp',
+            imagePath: ImageAssets.face,
             text: 'FB: Tiu, Tiu App - Gratuito.',
             urlToOpen: 'fb://page/113499407192787',
           ),
