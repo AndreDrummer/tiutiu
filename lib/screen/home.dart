@@ -12,7 +12,7 @@ import 'package:tiutiu/screen/my_account.dart';
 import 'package:tiutiu/screen/pet_detail.dart';
 import 'package:tiutiu/screen/pets_list.dart';
 import 'package:tiutiu/screen/favorites.dart';
-import 'package:tiutiu/utils/constantes.dart';
+import 'package:tiutiu/core/utils/constantes.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'dart:io';

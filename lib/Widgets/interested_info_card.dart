@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:tiutiu/core/Custom/icons.dart';
 import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
 import 'package:tiutiu/core/utils/image_handle.dart';
-import 'package:tiutiu/utils/launcher_functions.dart';
+import 'package:tiutiu/core/utils/launcher_functions.dart';
 
 class InterestedInfoCard extends StatefulWidget {
   InterestedInfoCard({

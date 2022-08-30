@@ -93,10 +93,10 @@ class Pet {
     );
   }
 
-  Pet fromMap(Map<String, dynamic> map) {
+  static Pet fromMap(Map<String, dynamic> map) {
     return Pet(
       otherCaracteristics: map[PetEnum.otherCaracteristics.tostring()],
-      donatedOrFound: map[PetEnum.donatedOrFound.tostring()],
+      donatedOrFound: map[PetEnum.donatedOrFound.tostring()] ?? false,
       storageHashKey: map[PetEnum.storageHashKey.tostring()],
       longitude: map[PetEnum.longitude.tostring()],
       createdAt: map[PetEnum.createdAt.tostring()],

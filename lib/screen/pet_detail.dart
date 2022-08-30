@@ -23,9 +23,9 @@ import 'package:tiutiu/core/utils/image_handle.dart';
 import 'package:maps_launcher/maps_launcher.dart';
 import 'package:tiutiu/providers/user_infos_interests.dart';
 import 'package:tiutiu/core/constants/firebase_env_path.dart';
-import 'package:tiutiu/utils/constantes.dart';
-import 'package:tiutiu/utils/launcher_functions.dart';
-import 'package:tiutiu/utils/other_functions.dart';
+import 'package:tiutiu/core/utils/constantes.dart';
+import 'package:tiutiu/core/utils/launcher_functions.dart';
+import 'package:tiutiu/core/utils/other_functions.dart';
 import 'package:tiutiu/core/utils/routes/routes_name.dart';
 import 'package:tiutiu/Widgets/background.dart';
 import 'package:tiutiu/Widgets/play_store_rating.dart';
@@ -117,7 +117,7 @@ class _PetDetailsState extends State<PetDetails> {
   }
 
   void sendData(int userPosition, [String? details]) {
-    PetService petService = new PetService();
+    PetService petService = PetService.instance;
     // final userLocal = userLocation.getLocation;
 
     petService.showInterestOrInfo(
