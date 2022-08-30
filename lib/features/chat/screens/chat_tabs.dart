@@ -1,7 +1,7 @@
 import 'package:tiutiu/features/chat/screens/my_chats.dart';
 import 'package:tiutiu/features/chat/screens/global_chat.dart';
 import 'package:tiutiu/features/system/controllers.dart';
-import 'package:tiutiu/utils/string_extension.dart';
+import 'package:tiutiu/core/extensions/string_extension.dart';
 import 'package:flutter/material.dart';
 
 class ChatTab extends StatefulWidget {
