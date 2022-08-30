@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:tiutiu/core/models/chat_model.dart';
 import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
 import 'package:tiutiu/core/utils/routes/routes_name.dart';
-import 'package:tiutiu/utils/cesar_cripto.dart';
-import 'package:tiutiu/utils/string_extension.dart';
+import 'package:tiutiu/core/utils/cesar_cripto.dart';
+import 'package:tiutiu/core/extensions/string_extension.dart';
 
 class CommonChatFunctions {
   static List<QueryDocumentSnapshot> orderedListByTime({

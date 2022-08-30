@@ -1,15 +1,17 @@
 import 'package:tiutiu/features/refine_search/controller/refine_search_controller.dart';
+import 'package:tiutiu/core/extensions/string_extension.dart';
 import 'package:tiutiu/core/constants/firebase_env_path.dart';
 import 'package:tiutiu/core/utils/routes/routes_name.dart';
 import 'package:tiutiu/features/pets/model/pet_model.dart';
 import 'package:tiutiu/Widgets/custom_input_search.dart';
 import 'package:tiutiu/features/system/controllers.dart';
-import 'package:tiutiu/utils/string_extension.dart';
-import 'package:tiutiu/utils/other_functions.dart';
+import 'package:tiutiu/core/utils/other_functions.dart';
+import 'package:tiutiu/core/constants/strings.dart';
+import 'package:tiutiu/core/utils/ordenators.dart';
 import 'package:tiutiu/Widgets/input_search.dart';
 import 'package:tiutiu/core/data/dummy_data.dart';
+import 'package:tiutiu/core/utils/filters.dart';
 import 'package:tiutiu/Widgets/card_list.dart';
-import 'package:tiutiu/utils/constantes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -30,88 +32,10 @@ class _DonateDisappearedListState extends State<DonateDisappearedList> {
   GlobalKey dataKey = GlobalKey();
   bool filtering = false;
 
-  void showSnackBar(String content) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(content),
-        duration: Duration(milliseconds: 1500),
-      ),
-    );
-  }
-
-  @override
-  void didChangeDependencies() {
-    // adsProvider = Provider.of(context);
-
-    // location = Provider.of<Location>(context);
-
-    super.didChangeDependencies();
-  }
-
   @override
   void initState() {
     _scrollController = new ScrollController();
     super.initState();
-  }
-
-  List<Pet> filterResultsByAgeOver10(List<Pet> petsListResult) {
-    List<Pet> newPetList = [];
-
-    for (int i = 0; i < petsListResult.length; i++) {
-      if (petsListResult[i].ageYear! >= 10) {
-        newPetList.add(petsListResult[i]);
-      }
-    }
-
-    return newPetList;
-  }
-
-  int orderByPostDate(Pet a, Pet b) {
-    return DateTime.parse(b.createdAt!).millisecondsSinceEpoch -
-        DateTime.parse(a.createdAt!).millisecondsSinceEpoch;
-  }
-
-  int orderByName(Pet a, Pet b) {
-    List<int> aname = a.name!.codeUnits;
-    List<int> bname = b.name!.codeUnits;
-
-    int i = 0;
-    while (i < bname.length) {
-      if (bname[i] < aname[i]) {
-        return 1;
-      } else if (bname[i] == aname[i]) {
-        i++;
-        if (i >= aname.length) {
-          return 1;
-        }
-      } else {
-        return -1;
-      }
-    }
-    return 1;
-  }
-
-  int orderByAge(Pet a, Pet b) {
-    if (a.ageYear == b.ageYear) return a.ageMonth! - b.ageMonth!;
-    return a.ageYear! - b.ageYear!;
-  }
-
-  List<Pet> showAdminCards(List<Pet> petCards) {
-    for (int i = 0; i < petCards.length; i++) {
-      if (petCards[i].ownerId == Constantes.ADMIN_ID &&
-          DateTime.now()
-                  .difference(DateTime.parse(petCards[i].createdAt!))
-                  .inDays >
-              2) {
-        petCards.removeAt(i);
-      } else if (petCards[i].ownerId == Constantes.ADMIN_ID) {
-        Pet pet = petCards[i];
-        petCards.removeAt(i);
-        petCards.insert(0, pet);
-      }
-    }
-
-    return petCards;
   }
 
   @override
@@ -122,210 +46,226 @@ class _DonateDisappearedListState extends State<DonateDisappearedList> {
     return Scaffold(
       key: _scaffoldKey,
       backgroundColor: Colors.blueGrey[50],
-      body: ListView(
-        children: [
-          FilterCard(),
-          Builder(
-            builder: (BuildContext context) {
-              List<Pet> petsList = OtherFunctions.filterResultsByDistancie(
-                context,
-                widget.petList != null
-                    ? widget.petList!
-                    : petsController.typingSearchResult,
-                'null',
-              );
+      body: StreamBuilder(
+          stream: petsController.updatePetList(),
+          builder: (context, snapshot) {
+            print('>> Snapshot ${(snapshot.data as List<Pet>).first.name}');
 
-              if (petsController.ageSelected.isNotEmpty &&
-                  petsController.ageSelected == 'Mais de 10 ageYears') {
-                petsList = filterResultsByAgeOver10(widget.petList!);
-              }
+            // Dá uma lida no padrão Triple.
 
-              switch (petsController.orderType) {
-                case 'Nome':
-                  petsList.sort(orderByName);
-                  break;
-                case 'Idade':
-                  petsList.sort(orderByAge);
-                  break;
-                default:
-                  petsList.sort(orderByPostDate);
-              }
+            return ListView(
+              children: [
+                FilterCard(),
+                Builder(
+                  builder: (BuildContext context) {
+                    petsController.updatePetList();
+                    List<Pet> petsList =
+                        OtherFunctions.filterResultsByDistancie(
+                      context,
+                      widget.petList != null
+                          ? widget.petList!
+                          : petsController.typingSearchResult,
+                      'null',
+                    );
 
-              petsList = showAdminCards(petsList);
+                    if (petsController.ageSelected.isNotEmpty &&
+                        petsController.ageSelected == 'Mais de 10 ageYears') {
+                      petsList =
+                          Filters.filterResultsByAgeOver10(widget.petList!);
+                    }
 
-              if (widget.petList == null || petsList.length == 0) {
-                return InkWell(
-                  onTap: () {
-                    Navigator.pushNamed(context, Routes.search);
-                  },
-                  child: Padding(
-                    padding: EdgeInsets.only(top: height / 3.5),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        Text(
-                          'Nenhum PET encontrado',
-                          textAlign: TextAlign.center,
-                          style:
-                              Theme.of(context).textTheme.headline1!.copyWith(
-                                    color: Colors.black,
-                                  ),
-                        ),
-                        SizedBox(height: 5),
-                        Text(
-                          'Verifique seus filtros de busca.',
-                          textAlign: TextAlign.center,
-                          style:
-                              Theme.of(context).textTheme.headline1!.copyWith(
-                                    color: Colors.blueAccent,
-                                  ),
-                        ),
-                      ],
-                    ),
-                  ),
-                );
-              }
+                    switch (petsController.orderType) {
+                      case 'Nome':
+                        petsList.sort(Ordenators.orderByName);
+                        break;
+                      case 'Idade':
+                        petsList.sort(Ordenators.orderByAge);
+                        break;
+                      default:
+                        petsList.sort(Ordenators.orderByPostDate);
+                    }
 
-              return Container(
-                height: marginTop,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Container(
-                      height: 20,
-                      alignment: Alignment(-0.9, 1),
-                      padding: const EdgeInsets.only(left: 10, right: 10),
-                      margin: const EdgeInsets.only(bottom: 10, top: 5),
-                      child: Row(
-                        children: [
-                          Row(
+                    if (widget.petList == null || petsList.isEmpty) {
+                      return InkWell(
+                        onTap: () {
+                          Navigator.pushNamed(context, Routes.search);
+                        },
+                        child: Padding(
+                          padding: EdgeInsets.only(top: height / 3.5),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
                             children: [
                               Text(
-                                '${petsList.length} ',
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w700,
-                                  color: Colors.black26,
-                                ),
+                                AppStrings.noPetFound,
+                                textAlign: TextAlign.center,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .headline1!
+                                    .copyWith(
+                                      color: Colors.black,
+                                    ),
                               ),
-                              Padding(
-                                padding: const EdgeInsets.only(top: 2.0),
-                                child: Text(
-                                  'encontrados',
-                                  style: TextStyle(
-                                    fontSize: 13,
-                                    fontWeight: FontWeight.w700,
-                                    color: Colors.black26,
-                                  ),
-                                ),
+                              SizedBox(height: 5),
+                              Text(
+                                AppStrings.verifyFilters,
+                                textAlign: TextAlign.center,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .headline1!
+                                    .copyWith(
+                                      color: Colors.blueAccent,
+                                    ),
                               ),
                             ],
                           ),
-                          Spacer(),
-                          Row(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.only(top: 3.0),
-                                child: Text(
-                                  'ordenar por:  ',
-                                  style: TextStyle(
-                                    fontSize: 13,
-                                    fontWeight: FontWeight.w700,
-                                    color: Colors.black26,
-                                  ),
-                                ),
-                              ),
-                              CustomDropdownButtonSearch(
-                                colorText: Colors.black54,
-                                fontSize: 13,
-                                initialValue: petsController.orderType,
-                                isExpanded: false,
-                                withPipe: false,
-                                itemList: petsController.orderTypeList,
-                                label: '',
-                                onChange: (String text) {
-                                  petsController.changeOrderType(
-                                    text,
-                                    'null',
-                                  );
-                                },
-                              )
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                    Expanded(
-                      child: ListView.builder(
-                        key: UniqueKey(),
-                        controller: _scrollController,
-                        itemCount: petsList.length + 1,
-                        itemBuilder: (_, index) {
-                          if (index == petsList.length) {
-                            return petsList.length > 1
-                                ? InkWell(
-                                    onTap: () {
-                                      _scrollController.animateTo(
-                                          0 * height / 3,
-                                          duration: new Duration(seconds: 2),
-                                          curve: Curves.ease);
-                                    },
-                                    child: Container(
-                                      height: 280,
-                                      alignment: Alignment.center,
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(16.0),
-                                        child: Column(
-                                          children: [
-                                            // adsProvider.getCanShowAds
-                                            // ? adsProvider.bannerAdMob(
-                                            // adId: adsProvider.topAdId,
-                                            //     medium_banner: true)
-                                            // : Container(),
-                                            Padding(
-                                              padding: const EdgeInsets.only(
-                                                  top: 8.0, bottom: 24.0),
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                children: [
-                                                  Text(
-                                                      'Voltar ao topo'
-                                                          .toUpperCase(),
-                                                      style: TextStyle(
-                                                          color: Colors.blue,
-                                                          fontWeight:
-                                                              FontWeight.w700)),
-                                                  Icon(
-                                                      Icons.arrow_drop_up_sharp,
-                                                      color: Colors.blue)
-                                                ],
-                                              ),
-                                            ),
-                                          ],
+                        ),
+                      );
+                    }
+
+                    return Container(
+                      height: marginTop,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          Container(
+                            height: 20,
+                            alignment: Alignment(-0.9, 1),
+                            padding: const EdgeInsets.only(left: 10, right: 10),
+                            margin: const EdgeInsets.only(bottom: 10, top: 5),
+                            child: Row(
+                              children: [
+                                Row(
+                                  children: [
+                                    Text(
+                                      '${petsList.length} ',
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w700,
+                                        color: Colors.black26,
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(top: 2.0),
+                                      child: Text(
+                                        'encontrados',
+                                        style: TextStyle(
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.w700,
+                                          color: Colors.black26,
                                         ),
                                       ),
                                     ),
-                                  )
-                                : Container();
-                          }
+                                  ],
+                                ),
+                                Spacer(),
+                                Row(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(top: 3.0),
+                                      child: Text(
+                                        'ordenar por:  ',
+                                        style: TextStyle(
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.w700,
+                                          color: Colors.black26,
+                                        ),
+                                      ),
+                                    ),
+                                    CustomDropdownButtonSearch(
+                                      colorText: Colors.black54,
+                                      fontSize: 13,
+                                      initialValue: petsController.orderType,
+                                      isExpanded: false,
+                                      withPipe: false,
+                                      itemList: petsController.orderTypeList,
+                                      label: '',
+                                      onChange: (String text) {
+                                        petsController.changeOrderType(
+                                          text,
+                                          'null',
+                                        );
+                                      },
+                                    )
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                          Expanded(
+                            child: ListView.builder(
+                              key: UniqueKey(),
+                              controller: _scrollController,
+                              itemCount: petsList.length + 1,
+                              itemBuilder: (_, index) {
+                                if (index == petsList.length) {
+                                  return petsList.length > 1
+                                      ? InkWell(
+                                          onTap: () {
+                                            _scrollController.animateTo(
+                                                0 * height / 3,
+                                                duration:
+                                                    new Duration(seconds: 2),
+                                                curve: Curves.ease);
+                                          },
+                                          child: Container(
+                                            height: 280,
+                                            alignment: Alignment.center,
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.all(16.0),
+                                              child: Column(
+                                                children: [
+                                                  Padding(
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            top: 8.0,
+                                                            bottom: 24.0),
+                                                    child: Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .center,
+                                                      children: [
+                                                        Text(
+                                                            'Voltar ao topo'
+                                                                .toUpperCase(),
+                                                            style: TextStyle(
+                                                                color:
+                                                                    Colors.blue,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w700)),
+                                                        Icon(
+                                                            Icons
+                                                                .arrow_drop_up_sharp,
+                                                            color: Colors.blue)
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        )
+                                      : Container();
+                                }
 
-                          return CardList(
-                            donate:
-                                petsList[index].kind == FirebaseEnvPath.donate,
-                            kind: petsList[index].kind,
-                            petInfo: petsList[index],
-                          );
-                        },
+                                return CardList(
+                                  donate: petsList[index].kind ==
+                                      FirebaseEnvPath.donate,
+                                  kind: petsList[index].kind,
+                                  petInfo: petsList[index],
+                                );
+                              },
+                            ),
+                          ),
+                        ],
                       ),
-                    ),
-                  ],
+                    );
+                  },
                 ),
-              );
-            },
-          ),
-        ],
-      ),
+              ],
+            );
+          }),
     );
   }
 }
@@ -437,9 +377,9 @@ class _HomeSearch extends StatelessWidget {
           _refineSearchController.changeIsHomeFilteringByDonate(false);
           _refineSearchController.changeHomePetTypeFilterByDonate(searchOption);
           petsController.isFiltering = false;
-          petsController.loadDonatePETS(
-            state: _refineSearchController.stateOfResultSearch,
-          );
+          // petsController.loadDonatePETS(
+          //   state: _refineSearchController.stateOfResultSearch,
+          // );
           break;
         case FirebaseEnvPath.disappeared:
           _refineSearchController.changeIsHomeFilteringByDisappeared(false);
@@ -456,8 +396,8 @@ class _HomeSearch extends StatelessWidget {
           _refineSearchController.changeIsHomeFilteringByDonate(true);
           _refineSearchController.changeHomePetTypeFilterByDonate(searchOption);
           petsController.isFiltering = true;
-          petsController.loadDonatePETS(
-              state: _refineSearchController.stateOfResultSearch);
+          // petsController.loadDonatePETS(
+          //     state: _refineSearchController.stateOfResultSearch);
           break;
         case FirebaseEnvPath.disappeared:
           _refineSearchController.changeIsHomeFilteringByDisappeared(true);
