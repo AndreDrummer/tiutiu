@@ -11,7 +11,7 @@ import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
 import 'package:tiutiu/core/utils/image_handle.dart';
 import 'package:tiutiu/providers/user_infos_interests.dart';
 import 'package:tiutiu/screen/announcer_datails.dart';
-import 'package:tiutiu/utils/constantes.dart';
+import 'package:tiutiu/core/utils/constantes.dart';
 
 class InformantesScreen extends StatefulWidget {
   @override

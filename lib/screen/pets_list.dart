@@ -24,7 +24,7 @@ class _PetsListState extends State<PetsList> {
   @override
   void didChangeDependencies() {
     petsController.loadDisappearedPETS(state: 'null');
-    petsController.loadDonatePETS(state: 'null');
+    // petsController.loadDonatePETS(state: 'null');
     super.didChangeDependencies();
   }
 
@@ -72,8 +72,8 @@ class _PetsListState extends State<PetsList> {
         petsController.isFiltering = false;
       }
 
-      petsController.loadDonatePETS(
-          state: _refineSearchController.stateOfResultSearch);
+      // petsController.loadDonatePETS(
+      //     state: _refineSearchController.stateOfResultSearch);
       if (petsController.isFilteringByBreed || petsController.isFilteringByName)
         petsController.typingSearchResult = petsController.petsDonate;
     }

@@ -28,7 +28,7 @@ class MyPetsScreen extends StatefulWidget {
 
 class _MyPetsScreenState extends State<MyPetsScreen> {
   late GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  late PetService petService = PetService();
+  late PetService petService = PetService.instance;
 
   // late AdsProvider adsProvider;
   late bool isAuthenticated;

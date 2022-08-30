@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:tiutiu/utils/constantes.dart';
+import 'package:tiutiu/core/utils/constantes.dart';
 
 class InterestedModel {
   InterestedModel({
