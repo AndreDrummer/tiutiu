@@ -79,8 +79,8 @@ class _PetFormState extends State<PetForm> {
 
   void preloadTextFields() {
     petFormController.petTypeIndex = DummyData.type.indexOf(widget.pet!.type!);
-    petFormController.petPhotos = widget.pet?.photos ?? [widget.pet!.avatar];
-    petPhotosToUpload.addAll(widget.pet?.photos ?? [widget.pet!.avatar]);
+    petPhotosToUpload.addAll(widget.pet?.photos ?? [widget.pet!.photos!.first]);
+    petFormController.petPhotos = widget.pet!.photos!;
     petFormController.petDescription = widget.pet!.details!;
     _meses.text = petFormController.petMonths.toString();
     _descricao.text = petFormController.petDescription;
@@ -469,7 +469,7 @@ class _PetFormState extends State<PetForm> {
                   kind == FirebaseEnvPath.donate
                       ? 'PET PARA ADOÇÃO'
                       : 'PET DESAPARECIDO',
-                  style: Theme.of(context).textTheme.headline1!.copyWith(
+                  style: Theme.of(context).textTheme.headline4!.copyWith(
                         fontSize: 20,
                         color: Colors.white,
                         fontWeight: FontWeight.w700,
@@ -507,7 +507,7 @@ class _PetFormState extends State<PetForm> {
                                     : '${petFormController.petPhotos.isEmpty ? 'Insira pelo menos uma foto' : 'Insira fotos dele.'}',
                                 style: Theme.of(context)
                                     .textTheme
-                                    .headline1!
+                                    .headline4!
                                     .copyWith(
                                       color: Colors.white,
                                       fontWeight: FontWeight.w500,

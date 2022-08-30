@@ -1,6 +1,7 @@
 import 'package:tiutiu/features/pets/model/pet_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:tiutiu/core/utils/image_handle.dart';
+import 'package:tiutiu/core/constants/images_assets.dart';
 import 'package:tiutiu/Widgets/popup_message.dart';
 import 'package:tiutiu/Widgets/circle_child.dart';
 import 'package:flutter/material.dart';
@@ -79,7 +80,7 @@ class _ConfirmAdoptionScreenState extends State<ConfirmAdoptionScreen> {
                   Text(
                     'Nenhuma notificação para adoção.',
                     textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.headline1!.copyWith(
+                    style: Theme.of(context).textTheme.headline4!.copyWith(
                           color: Colors.black,
                           fontWeight: FontWeight.w100,
                         ),
@@ -112,9 +113,10 @@ class _ConfirmAdoptionScreenState extends State<ConfirmAdoptionScreen> {
                           backgroundColor: Colors.transparent,
                           child: ClipOval(
                             child: FadeInImage(
-                              placeholder: AssetImage('assets/fundo.jpg'),
+                              placeholder:
+                                  AssetHandle(ImageAssets.fundo).build(),
                               image: AssetHandle(
-                                pets[index].avatar,
+                                pets[index].photos!.first,
                               ).build(),
                               fit: BoxFit.cover,
                               width: 1000,

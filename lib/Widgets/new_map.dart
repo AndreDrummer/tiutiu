@@ -46,7 +46,7 @@ class CardTextLocation extends StatelessWidget {
           textAlign: TextAlign.center,
           style: Theme.of(context)
               .textTheme
-              .headline1!
+              .headline4!
               .copyWith(color: Colors.black),
         ),
       ),

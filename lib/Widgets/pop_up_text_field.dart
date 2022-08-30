@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:tiutiu/Widgets/background.dart';
 import 'package:tiutiu/Widgets/button.dart';
 import 'package:tiutiu/Widgets/input_text.dart';
+import 'package:tiutiu/core/constants/images_assets.dart';
 
 class PopupTextField extends StatelessWidget {
   PopupTextField({
@@ -20,7 +21,7 @@ class PopupTextField extends StatelessWidget {
         height: 300,
         child: Stack(
           children: [
-            Background(image: 'assets/patinhas.webp'),
+            Background(image: ImageAssets.patinhas),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [

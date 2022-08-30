@@ -160,7 +160,7 @@ class _RefineSearchState extends State<RefineSearch> {
                       'Tipo de PET',
                       style: Theme.of(context)
                           .textTheme
-                          .headline1!
+                          .headline4!
                           .copyWith(color: Colors.black),
                     ),
                   ),

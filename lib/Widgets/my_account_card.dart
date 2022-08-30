@@ -44,7 +44,7 @@ class MyAccountCard extends StatelessWidget {
                       width: 100,
                       child: Text(
                         textIcon!,
-                        style: Theme.of(context).textTheme.headline1!.copyWith(
+                        style: Theme.of(context).textTheme.headline4!.copyWith(
                               fontSize: 18,
                               color: Colors.blueGrey[400],
                             ),
@@ -55,7 +55,7 @@ class MyAccountCard extends StatelessWidget {
                 SizedBox(height: 10),
                 Text(
                   text!,
-                  style: Theme.of(context).textTheme.headline1!.copyWith(
+                  style: Theme.of(context).textTheme.headline4!.copyWith(
                         fontSize: 18,
                         color: Colors.blueGrey[400],
                       ),

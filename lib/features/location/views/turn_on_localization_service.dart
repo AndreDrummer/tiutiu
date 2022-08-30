@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:tiutiu/Widgets/background.dart';
 import 'package:tiutiu/Widgets/button.dart';
-import 'package:tiutiu/core/constants/png_assets.dart';
+import 'package:tiutiu/core/constants/images_assets.dart';
 import 'package:tiutiu/core/constants/strings.dart';
 import 'package:tiutiu/core/constants/text_styles.dart';
 import 'package:tiutiu/features/location/controller/current_location_controller.dart';
@@ -25,7 +25,7 @@ class TurnOnLocalizationService extends StatelessWidget {
         child: SingleChildScrollView(
           child: Stack(
             children: [
-              Background(image: PngAssets.googlePlaces),
+              Background(image: ImageAssets.googlePlaces),
               Positioned(
                 left: 0,
                 right: 0,
@@ -38,7 +38,7 @@ class TurnOnLocalizationService extends StatelessWidget {
                         radius: 70,
                         backgroundColor: Colors.transparent,
                         child: ClipOval(
-                          child: Image.asset(PngAssets.googleMapsPin),
+                          child: Image.asset(ImageAssets.googleMapsPin),
                         ),
                       ),
                       SizedBox(height: 20),
