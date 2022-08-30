@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:tiutiu/features/pets/model/pet_model.dart';
 import 'package:tiutiu/screen/announcer_datails.dart';
-import 'package:tiutiu/utils/math_functions.dart';
+import 'package:tiutiu/core/utils/math_functions.dart';
 import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
-import 'package:tiutiu/utils/string_extension.dart';
+import 'package:tiutiu/core/extensions/string_extension.dart';
 
 class OtherFunctions {
   static List<String> distanceCalculate(
@@ -42,7 +42,6 @@ class OtherFunctions {
   static List<Pet> filterResultsByDistancie(BuildContext context,
       List<Pet> petsListResult, String providerDistanceSelected) {
     List<Pet> newPetList = [];
-    // provider.Location location = Provider.of<provider.Location>(context);
 
     for (int i = 0; i < petsListResult.length; i++) {
       String? distance = MathFunctions.distanceMatrix(

@@ -13,9 +13,9 @@ import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
 import 'package:tiutiu/features/chat/common/functions.dart';
 import 'package:tiutiu/core/utils/image_handle.dart';
 import 'package:tiutiu/core/constants/firebase_env_path.dart';
-import 'package:tiutiu/utils/launcher_functions.dart';
-import 'package:tiutiu/utils/other_functions.dart';
-import 'package:tiutiu/utils/string_extension.dart';
+import 'package:tiutiu/core/utils/launcher_functions.dart';
+import 'package:tiutiu/core/utils/other_functions.dart';
+import 'package:tiutiu/core/extensions/string_extension.dart';
 
 class AnnouncerDetails extends StatefulWidget {
   AnnouncerDetails(
@@ -38,7 +38,7 @@ class _AnnouncerDetailsState extends State<AnnouncerDetails> {
   int userTotalDisap = 0;
 
   void calculateTotals(user) async {
-    PetService petService = PetService();
+    PetService petService = PetService.instance;
     DocumentReference userReference = await OtherFunctions.getReferenceById(
       tiutiuUserController.tiutiuUser.uid!,
       FirebaseEnvPath.users,
