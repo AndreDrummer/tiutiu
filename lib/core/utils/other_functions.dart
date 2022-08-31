@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:tiutiu/features/pets/model/pet_model.dart';
+import 'package:tiutiu/features/system/controllers.dart';
 import 'package:tiutiu/screen/announcer_datails.dart';
 import 'package:tiutiu/core/utils/math_functions.dart';
 import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
@@ -10,15 +11,15 @@ import 'package:tiutiu/core/extensions/string_extension.dart';
 class OtherFunctions {
   static List<String> distanceCalculate(
       BuildContext context, double petLatitude, double petLongitude) {
-    // provider.Location currentLoction = Provider.of(context, listen: false);
+    LatLng currentLoction = currentLocationController.location;
     String textDistance = '';
     String textTime = '';
 
     String? distance = MathFunctions.distanceMatrix(
-      // latX: currentLoction.getLocation.latitude,
-      // longX: currentLoction.getLocation.longitude,
-      latY: petLatitude,
+      longX: currentLoction.longitude,
+      latX: currentLoction.latitude,
       longY: petLongitude,
+      latY: petLatitude,
     );
 
     String time = MathFunctions.time(double.parse(distance!));
@@ -42,13 +43,14 @@ class OtherFunctions {
   static List<Pet> filterResultsByDistancie(BuildContext context,
       List<Pet> petsListResult, String providerDistanceSelected) {
     List<Pet> newPetList = [];
+    LatLng location = currentLocationController.location;
 
     for (int i = 0; i < petsListResult.length; i++) {
       String? distance = MathFunctions.distanceMatrix(
-        // latX: location.getLocation.latitude,
-        // longX: location.getLocation.longitude,
-        latY: petsListResult[i].latitude,
-        longY: petsListResult[i].longitude,
+        longY: petsListResult[i].longitude!,
+        latY: petsListResult[i].latitude!,
+        longX: location.longitude,
+        latX: location.latitude,
       );
 
       String? distancieSelected =
