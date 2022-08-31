@@ -4,7 +4,7 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:tiutiu/dependencies.dart';
+import 'package:tiutiu/initializers.dart';
 import 'package:tiutiu/core/utils/routes/router.dart';
 import 'package:tiutiu/core/utils/routes/routes_name.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -18,7 +18,8 @@ Future<void> main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  await initServices();
+  TiuTiuInitializer.start();
+
   runApp(TiuTiuApp());
 }
 
