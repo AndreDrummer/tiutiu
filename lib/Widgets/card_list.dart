@@ -1,9 +1,10 @@
 import 'package:tiutiu/core/constants/firebase_env_path.dart';
-import 'package:tiutiu/core/constants/images_assets.dart';
-import 'package:tiutiu/core/utils/image_handle.dart';
 import 'package:tiutiu/features/pets/model/pet_model.dart';
+import 'package:tiutiu/core/constants/images_assets.dart';
 import 'package:tiutiu/features/system/controllers.dart';
+import 'package:tiutiu/core/utils/other_functions.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:tiutiu/core/utils/image_handle.dart';
 import 'package:tiutiu/core/Custom/icons.dart';
 import 'package:flutter/material.dart';
 
@@ -47,12 +48,11 @@ class _CardListState extends State<CardList> {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
 
-    List<String> distanceText = ['00'];
-    // OtherFunctions.distanceCalculate(
-    //   context,
-    //   widget.petInfo!.latitude!,
-    //   widget.petInfo!.longitude!,
-    // );
+    List<String> distanceText = OtherFunctions.distanceCalculate(
+      context,
+      widget.petInfo!.latitude!,
+      widget.petInfo!.longitude!,
+    );
 
     return InkWell(
       onTap: () async {

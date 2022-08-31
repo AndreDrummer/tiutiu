@@ -7,8 +7,10 @@ class CurrentLocationController extends GetxController {
   final Rx<LocationPermission> _permission = LocationPermission.denied.obs;
   final Rx<GPSStatus> _gpsStatus = GPSStatus.deactivated.obs;
   final Rx<LatLng> _currentLocation = LatLng(0, 0).obs;
+  final RxBool _isPermissionGranted = false.obs;
   final RxBool _canContinue = false.obs;
 
+  bool get isPermissionGranted => _isPermissionGranted.value;
   LocationPermission get permission => _permission.value;
   LatLng get location => _currentLocation.value;
   GPSStatus get gpsStatus => _gpsStatus.value;
@@ -24,6 +26,10 @@ class CurrentLocationController extends GetxController {
 
   void set location(LatLng value) {
     _currentLocation(value);
+  }
+
+  void set isPermissionGranted(bool value) {
+    _isPermissionGranted(value);
   }
 
   void set canContinue(bool value) {
@@ -45,7 +51,9 @@ class CurrentLocationController extends GetxController {
     permission = await Geolocator.checkPermission();
 
     if (permission == LocationPermission.always ||
-        permission == LocationPermission.whileInUse) {}
+        permission == LocationPermission.whileInUse) {
+      isPermissionGranted = true;
+    }
   }
 
   Future<void> updatePermission() async {
@@ -65,16 +73,17 @@ class CurrentLocationController extends GetxController {
   }
 
   Future<void> setUserLocation({LatLng? currentLocation}) async {
-    var position;
+    checkPermission();
+    if (isPermissionGranted) {
+      if (currentLocation == null) {
+        final position = await Geolocator.getCurrentPosition(
+          desiredAccuracy: LocationAccuracy.high,
+        );
 
-    if (currentLocation == null) {
-      // position =
-      // await getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
-      location = LatLng(position.latitude, position.longitude);
-    } else {
-      location = currentLocation;
+        location = LatLng(position.latitude, position.longitude);
+      } else {
+        location = currentLocation;
+      }
     }
-
-    return Future.value();
   }
 }
