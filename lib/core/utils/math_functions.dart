@@ -1,12 +1,18 @@
+import 'package:geolocator/geolocator.dart';
+
 class MathFunctions {
   static String? distanceMatrix({
-    double? latX,
-    double? longX,
-    double? latY,
-    double? longY,
+    required double longX,
+    required double longY,
+    required double latX,
+    required double latY,
   }) {
-    // return distanceBetween(latX, longX, latY, longY).toStringAsFixed(2);
-    return '';
+    return Geolocator.distanceBetween(
+      latX,
+      longX,
+      latY,
+      longY,
+    ).toStringAsFixed(2);
   }
 
   static String time(double distance) {
