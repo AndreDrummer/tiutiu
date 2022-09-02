@@ -33,19 +33,10 @@ class _InterestedInfoCardState extends State<InterestedInfoCard> {
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
 
-    bool canMakeCallLandline = widget.interestedUser!.landline != null &&
-        widget.interestedUser!.landline!.isNotEmpty;
-
     bool canOpenWhatsApp = widget.interestedUser!.phoneNumber != null &&
         widget.interestedUser!.phoneNumber!.isNotEmpty;
 
     String? phoneToCall;
-
-    if (canMakeCallLandline || canOpenWhatsApp) {
-      phoneToCall = canMakeCallLandline
-          ? widget.interestedUser!.landline
-          : widget.interestedUser!.phoneNumber;
-    }
 
     return Card(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(7.0)),
@@ -62,8 +53,8 @@ class _InterestedInfoCardState extends State<InterestedInfoCard> {
                     child: ClipOval(
                       child: FadeInImage(
                         placeholder: AssetImage(ImageAssets.fundo),
-                        image: AssetHandle(widget.interestedUser!.photoURL)
-                            .build(),
+                        image:
+                            AssetHandle(widget.interestedUser!.avatar).build(),
                         fit: BoxFit.fill,
                         width: 1000,
                         height: 1000,
