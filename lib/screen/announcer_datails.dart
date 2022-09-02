@@ -86,18 +86,10 @@ class _AnnouncerDetailsState extends State<AnnouncerDetails> {
     final width = MediaQuery.of(context).size.width;
 
     final userWhatsapp = widget.user.phoneNumber ?? null;
-    final userLandline = widget.user.landline ?? null;
     final userEmail = widget.user.email ?? null;
 
     void callWhatsapp() {
       // FlutterOpenWhatsapp.sendSingleMessage('+55$userWhatsapp', 'Olá!');
-    }
-
-    void callLandline() {
-      String? tel = userLandline != null && userLandline != ''
-          ? userLandline
-          : userWhatsapp;
-      Launcher.makePhoneCall(number: tel!);
     }
 
     void callEmail() {
@@ -243,70 +235,55 @@ class _AnnouncerDetailsState extends State<AnnouncerDetails> {
                 ),
                 Spacer(),
                 CustomDivider(text: 'Contato'),
-                widget.user.betterContact == 3 || widget.showOnlyChat
-                    ? _OnlyChatButton(secondUser: widget.user)
-                    : Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            userWhatsapp != null
-                                ? InkWell(
-                                    onTap: () {
-                                      callWhatsapp();
-                                    },
-                                    child: CircleChild(
-                                      avatarRadius: 25,
-                                      child: Icon(
-                                        Tiutiu.whatsapp,
-                                      ),
-                                    ),
-                                  )
-                                : Container(),
-                            userLandline != null
-                                ? InkWell(
-                                    onTap: () {
-                                      callLandline();
-                                    },
-                                    child: CircleChild(
-                                      avatarRadius: 25,
-                                      child: Icon(
-                                        Icons.phone,
-                                      ),
-                                    ),
-                                  )
-                                : Container(),
-                            userEmail != null
-                                ? InkWell(
-                                    onTap: () {
-                                      callEmail();
-                                    },
-                                    child: CircleChild(
-                                      avatarRadius: 25,
-                                      child: Icon(
-                                        Icons.email,
-                                      ),
-                                    ),
-                                  )
-                                : Container(),
-                            InkWell(
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      userWhatsapp != null
+                          ? InkWell(
                               onTap: () {
-                                CommonChatFunctions.openChat(
-                                  firstUser: tiutiuUserController.tiutiuUser,
-                                  secondUser: widget.user,
-                                  context: context,
-                                );
+                                callWhatsapp();
                               },
                               child: CircleChild(
                                 avatarRadius: 25,
                                 child: Icon(
-                                  Icons.chat,
+                                  Tiutiu.whatsapp,
                                 ),
                               ),
                             )
-                          ],
+                          : Container(),
+                      userEmail != null
+                          ? InkWell(
+                              onTap: () {
+                                callEmail();
+                              },
+                              child: CircleChild(
+                                avatarRadius: 25,
+                                child: Icon(
+                                  Icons.email,
+                                ),
+                              ),
+                            )
+                          : Container(),
+                      InkWell(
+                        onTap: () {
+                          CommonChatFunctions.openChat(
+                            firstUser: tiutiuUserController.tiutiuUser,
+                            secondUser: widget.user,
+                            context: context,
+                          );
+                        },
+                        child: CircleChild(
+                          avatarRadius: 25,
+                          child: Icon(
+                            Icons.chat,
+                          ),
                         ),
-                      ),
+                      )
+                    ],
+                  ),
+                ),
               ],
             ),
             Positioned(
@@ -336,9 +313,9 @@ class _AnnouncerDetailsState extends State<AnnouncerDetails> {
               left: width * 0.3,
               top: height / 5,
               child: InkWell(
-                onTap: widget.user.photoURL != null
+                onTap: widget.user.avatar != null
                     ? () =>
-                        openFullScreenMode([widget.user.photoURL], 'profilePic')
+                        openFullScreenMode([widget.user.avatar], 'profilePic')
                     : () {},
                 child: CircleChild(
                   avatarRadius: 70,
@@ -348,7 +325,7 @@ class _AnnouncerDetailsState extends State<AnnouncerDetails> {
                       placeholder:
                           AssetHandle(ImageAssets.profileEmpty).build(),
                       image: NetworkImage(
-                        widget.user.photoURL!,
+                        widget.user.avatar!,
                       ),
                       fit: BoxFit.cover,
                       width: 1000,

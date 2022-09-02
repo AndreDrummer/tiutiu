@@ -39,12 +39,12 @@ class TiutiuUserService {
     final favorites = userReference.collection(FirebaseEnvPath.favorites);
 
     if (add) {
-      favorites.doc().set({PetEnum.id.tostring(): petReference});
+      favorites.doc().set({PetEnum.uid.tostring(): petReference});
     } else {
       var petInRemotionId;
 
       await favorites
-          .where(PetEnum.id.tostring(), isEqualTo: petReference)
+          .where(PetEnum.uid.tostring(), isEqualTo: petReference)
           .get()
           .then((value) {
         petInRemotionId = value.docs.first.id;
