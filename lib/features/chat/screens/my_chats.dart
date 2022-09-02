@@ -123,7 +123,7 @@ class _ListTileMessage extends StatelessWidget {
     DateTime date = stamp.toDate();
 
     String profilePic =
-        itsMe ? chat.secondUser.photoURL! : chat.firstUser.photoURL!;
+        itsMe ? chat.secondUser.avatar! : chat.firstUser.avatar!;
 
     return InkWell(
       onTap: () {

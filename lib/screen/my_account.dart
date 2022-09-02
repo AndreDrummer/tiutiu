@@ -34,7 +34,7 @@ class _MyAccountState extends State<MyAccount> {
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 0.0),
           child: InkWell(
-            onTap: tiutiuUserController.tiutiuUser.photoURL == null
+            onTap: tiutiuUserController.tiutiuUser.avatar == null
                 ? null
                 : () {
                     Navigator.push(
@@ -42,7 +42,7 @@ class _MyAccountState extends State<MyAccount> {
                       MaterialPageRoute(
                         builder: (context) => FullScreenImage(
                           tag: 'myProfile',
-                          images: [tiutiuUserController.tiutiuUser..photoURL],
+                          images: [tiutiuUserController.tiutiuUser.avatar],
                         ),
                       ),
                     );
@@ -81,22 +81,22 @@ class _MyAccountState extends State<MyAccount> {
                                 radius: 50,
                                 backgroundColor: Colors.black38,
                                 child: ClipOval(
-                                  child: tiutiuUserController
-                                              .tiutiuUser.photoURL !=
-                                          null
-                                      ? FadeInImage(
-                                          placeholder: AssetImage(
-                                              ImageAssets.profileEmpty),
-                                          image: NetworkImage(
-                                            tiutiuUserController
-                                                .tiutiuUser.photoURL!,
-                                          ),
-                                          fit: BoxFit.cover,
-                                          width: 1000,
-                                          height: 100,
-                                        )
-                                      : Icon(Icons.person,
-                                          color: Colors.white70, size: 50),
+                                  child:
+                                      tiutiuUserController.tiutiuUser.avatar !=
+                                              null
+                                          ? FadeInImage(
+                                              placeholder: AssetImage(
+                                                  ImageAssets.profileEmpty),
+                                              image: NetworkImage(
+                                                tiutiuUserController
+                                                    .tiutiuUser.avatar!,
+                                              ),
+                                              fit: BoxFit.cover,
+                                              width: 1000,
+                                              height: 100,
+                                            )
+                                          : Icon(Icons.person,
+                                              color: Colors.white70, size: 50),
                                 ),
                               ),
                             ),
