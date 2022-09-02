@@ -1,35 +1,33 @@
-import 'dart:io';
-
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
-import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutter/material.dart';
+import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
+import 'package:tiutiu/features/pets/services/pet_service.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:tiutiu/core/constants/firebase_env_path.dart';
 import 'package:loading_animations/loading_animations.dart';
-import 'package:provider/provider.dart';
-import 'package:share_plus/share_plus.dart';
-import 'package:tiutiu/core/Custom/icons.dart';
-import 'package:tiutiu/Widgets/button.dart';
-import 'package:tiutiu/Widgets/card_details.dart';
-import 'package:tiutiu/Widgets/dots_indicator.dart';
+import 'package:tiutiu/features/chat/common/functions.dart';
+import 'package:tiutiu/providers/user_infos_interests.dart';
+import 'package:tiutiu/core/utils/routes/routes_name.dart';
+import 'package:tiutiu/features/pets/model/pet_model.dart';
+import 'package:tiutiu/core/constants/images_assets.dart';
+import 'package:tiutiu/features/system/controllers.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:tiutiu/core/utils/other_functions.dart';
+import 'package:tiutiu/Widgets/play_store_rating.dart';
+import 'package:tiutiu/Widgets/pop_up_text_field.dart';
 import 'package:tiutiu/Widgets/fullscreen_images.dart';
 import 'package:tiutiu/Widgets/load_dark_screen.dart';
-import 'package:tiutiu/Widgets/pop_up_text_field.dart';
-import 'package:tiutiu/features/pets/services/pet_service.dart';
-import 'package:tiutiu/features/system/controllers.dart';
-import 'package:tiutiu/features/pets/model/pet_model.dart';
-import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
-import 'package:tiutiu/features/chat/common/functions.dart';
 import 'package:tiutiu/core/utils/image_handle.dart';
-import 'package:tiutiu/core/constants/images_assets.dart';
-import 'package:maps_launcher/maps_launcher.dart';
-import 'package:tiutiu/providers/user_infos_interests.dart';
-import 'package:tiutiu/core/constants/firebase_env_path.dart';
+import 'package:tiutiu/Widgets/dots_indicator.dart';
 import 'package:tiutiu/core/utils/constantes.dart';
-import 'package:tiutiu/core/utils/launcher_functions.dart';
-import 'package:tiutiu/core/utils/other_functions.dart';
-import 'package:tiutiu/core/utils/routes/routes_name.dart';
+import 'package:tiutiu/Widgets/card_details.dart';
+import 'package:maps_launcher/maps_launcher.dart';
 import 'package:tiutiu/Widgets/background.dart';
-import 'package:tiutiu/Widgets/play_store_rating.dart';
+import 'package:tiutiu/core/Custom/icons.dart';
+import 'package:tiutiu/Widgets/button.dart';
+import 'package:share_plus/share_plus.dart';
+import 'package:provider/provider.dart';
+import 'package:flutter/material.dart';
+import 'dart:io';
 
 class PetDetails extends StatefulWidget {
   PetDetails({
@@ -219,7 +217,7 @@ class _PetDetailsState extends State<PetDetails> {
     String uriPrefix = Constantes.DYNAMIC_LINK_PREFIX;
     final DynamicLinkParameters parameters = DynamicLinkParameters(
       uriPrefix: '$uriPrefix',
-      link: Uri.parse('$uriPrefix/${widget.pet!.kind}/${widget.pet!.id}'),
+      link: Uri.parse('$uriPrefix/${widget.pet!.kind}/${widget.pet!.uid}'),
       androidParameters: AndroidParameters(
         packageName: 'com.anjasolutions.tiutiu',
         minimumVersion: 1,
@@ -552,7 +550,7 @@ class _PetDetailsState extends State<PetDetails> {
                                                             .loadFavoritesReference();
                                                         favoritesController
                                                             .handleFavorite(
-                                                          widget.pet!.id!,
+                                                          widget.pet!.uid!,
                                                         );
                                                       },
                                                 tooltip: 'Favoritar',
@@ -724,7 +722,7 @@ class _PetDetailsState extends State<PetDetails> {
                         placeholder:
                             AssetHandle(ImageAssets.profileEmpty).build(),
                         image: AssetHandle(
-                          widget.petOwner!.photoURL,
+                          widget.petOwner!.avatar,
                         ).build(),
                         fit: BoxFit.cover,
                         width: 1000,
@@ -782,97 +780,23 @@ class _PetDetailsState extends State<PetDetails> {
     String? emailSubject,
     String? emailMessage,
   }) {
-    switch (user!.betterContact) {
-      case 0:
-        return Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Expanded(
-              child: ButtonWide(
-                action: () {
-                  Launcher.openWhatsApp(
-                    number: user.phoneNumber!,
-                    message: whatsappMessage!,
-                  );
-                },
-                color: Colors.green,
-                icon: Tiutiu.whatsapp,
-                isToExpand: false,
-                text: 'WhatsApp',
-              ),
-            ),
-            SizedBox(width: 15),
-            Expanded(
-              child: ButtonWide(
-                action: () {
-                  Launcher.makePhoneCall(
-                    number: user.phoneNumber ?? user.landline!,
-                  );
-                },
-                color: Colors.orange,
-                icon: Icons.phone,
-                isToExpand: false,
-                text: 'Ligar',
-              ),
-            ),
-          ],
-        );
-
-      case 1:
-        return Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            ButtonWide(
-              action: () {
-                Launcher.makePhoneCall(
-                  number: user.landline ?? user.phoneNumber!,
-                );
-              },
-              color: Colors.orange,
-              icon: Icons.phone,
-              isToExpand: false,
-              text: 'Ligar',
-            ),
-          ],
-        );
-      case 2:
-        return Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            ButtonWide(
-              action: () {
-                Launcher.sendEmail(
-                  emailAddress: user.email!,
-                  message: emailMessage!,
-                  subject: emailSubject!,
-                );
-              },
-              color: Colors.red,
-              icon: Icons.mail,
-              isToExpand: false,
-              text: 'Enviar e-mail',
-            ),
-          ],
-        );
-      default:
-        return Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            ButtonWide(
-              action: () {
-                CommonChatFunctions.openChat(
-                  firstUser: tiutiuUserController.tiutiuUser,
-                  secondUser: widget.petOwner!,
-                  context: context,
-                );
-              },
-              color: Colors.purple,
-              icon: Icons.phone,
-              isToExpand: false,
-              text: 'Chat',
-            ),
-          ],
-        );
-    }
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        ButtonWide(
+          action: () {
+            CommonChatFunctions.openChat(
+              firstUser: tiutiuUserController.tiutiuUser,
+              secondUser: widget.petOwner!,
+              context: context,
+            );
+          },
+          color: Colors.purple,
+          icon: Icons.phone,
+          isToExpand: false,
+          text: 'Chat',
+        ),
+      ],
+    );
   }
 }

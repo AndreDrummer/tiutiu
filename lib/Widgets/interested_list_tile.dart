@@ -27,10 +27,10 @@ class InterestedListTile extends StatelessWidget {
           backgroundColor: Colors.transparent,
           child: ClipOval(
             child: Hero(
-              tag: '${interestedUser!.photoURL}',
+              tag: '${interestedUser!.avatar}',
               child: FadeInImage(
                 placeholder: AssetImage(ImageAssets.fundo),
-                image: AssetHandle(interestedUser!.photoURL).build(),
+                image: AssetHandle(interestedUser!.avatar).build(),
                 fit: BoxFit.fill,
                 width: 1000,
                 height: 1000,
