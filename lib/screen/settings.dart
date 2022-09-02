@@ -1,18 +1,17 @@
-import 'dart:io';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
+import 'package:tiutiu/core/constants/images_assets.dart';
+import 'package:tiutiu/features/system/controllers.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:tiutiu/Widgets/load_dark_screen.dart';
+import 'package:tiutiu/core/utils/image_handle.dart';
+import 'package:tiutiu/Widgets/popup_message.dart';
+import 'package:tiutiu/Widgets/input_text.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:tiutiu/Widgets/divider.dart';
+import 'package:tiutiu/Widgets/button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
-import 'package:tiutiu/Widgets/button.dart';
-import 'package:tiutiu/Widgets/divider.dart';
-import 'package:tiutiu/Widgets/input_text.dart';
-import 'package:tiutiu/Widgets/load_dark_screen.dart';
-import 'package:tiutiu/Widgets/popup_message.dart';
-import 'package:tiutiu/core/constants/images_assets.dart';
-import 'package:tiutiu/core/utils/image_handle.dart';
-import 'package:tiutiu/features/system/controllers.dart';
-import 'package:tiutiu/core/utils/formatter.dart';
+import 'dart:io';
 
 class AppSettings extends StatefulWidget {
   @override
@@ -65,12 +64,6 @@ class _AppSettingsState extends State<AppSettings> {
 
     String patttern = r'(^[0-9]*$)';
     RegExp regExp = new RegExp(patttern);
-    if (tiutiuUserController.tiutiuUser.betterContact == 0 &&
-        value.isEmpty &&
-        tiutiuUserController.tiutiuUser.phoneNumber != null &&
-        tiutiuUserController.tiutiuUser.phoneNumber!.isEmpty) {
-      return 'Número é obrigatório';
-    }
     if (value.isNotEmpty && value.length < 11) {
       return 'Número deve ter 11 dígitos';
     } else if (!regExp.hasMatch(value)) {
@@ -84,12 +77,6 @@ class _AppSettingsState extends State<AppSettings> {
 
     String patttern = r'(^[0-9]*$)';
     RegExp regExp = new RegExp(patttern);
-    if (tiutiuUserController.tiutiuUser.betterContact == 1 &&
-        value.isEmpty &&
-        tiutiuUserController.tiutiuUser.phoneNumber != null &&
-        tiutiuUserController.tiutiuUser.phoneNumber!.isEmpty) {
-      return 'Número é obrigatório';
-    }
     if (value.isNotEmpty && value.length < 10) {
       return 'Número deve ter 10 dígitos';
     } else if (!regExp.hasMatch(value)) {
@@ -107,8 +94,8 @@ class _AppSettingsState extends State<AppSettings> {
       _whatsAppController.text = tiutiuUserController.tiutiuUser.phoneNumber!;
     if (tiutiuUserController.tiutiuUser.phoneNumber != null)
       _telefoneController.text = tiutiuUserController.tiutiuUser.phoneNumber!;
-    if (tiutiuUserController.tiutiuUser.photoURL != null)
-      photoURL = tiutiuUserController.tiutiuUser.photoURL;
+    if (tiutiuUserController.tiutiuUser.avatar != null)
+      photoURL = tiutiuUserController.tiutiuUser.avatar;
     if (tiutiuUserController.tiutiuUser.photoBACK != null)
       photoBACK = tiutiuUserController.tiutiuUser.photoBACK;
     super.initState();
@@ -223,38 +210,6 @@ class _AppSettingsState extends State<AppSettings> {
     bool validTelefone = _telefoneController.text.trim().isNotEmpty &&
         _telefoneController.text.trim().contains('-') &&
         regExp.hasMatch(_telefoneController.text.trim().split('-')[1]);
-
-    if (tiutiuUserController.tiutiuUser.betterContact == 0) {
-      var serializedWhatsappNumber =
-          Formatter.unmaskNumber(_telefoneController.text.trim());
-      if (serializedWhatsappNumber == null) {
-        _telefoneController.clear();
-      }
-      if (!validWhatsapp) {
-        setState(() {
-          whatsappHasError = true;
-          _whatsAppController.text =
-              'Quando este é o seu melhor contato, deve ser preenchido!';
-        });
-        return false;
-      }
-    }
-
-    if (tiutiuUserController.tiutiuUser.betterContact == 1) {
-      var serializedWhatsappNumber =
-          Formatter.unmaskNumber(_whatsAppController.text.trim());
-      if (serializedWhatsappNumber == null) {
-        _whatsAppController.clear();
-      }
-      if (!validTelefone) {
-        setState(() {
-          telefoneHasError = true;
-          _telefoneController.text =
-              'Quando este é o seu melhor contato, deve ser preenchido!';
-        });
-        return false;
-      }
-    }
 
     if (_telefoneController.text.trim().isNotEmpty) {
       if (!_telefoneController.text.trim().contains('-'))
@@ -542,14 +497,14 @@ class _AppSettingsState extends State<AppSettings> {
                                     child: ClipOval(
                                       child: userProfile['photoFile'] == null
                                           ? tiutiuUserController
-                                                      .tiutiuUser.photoURL !=
+                                                      .tiutiuUser.avatar !=
                                                   null
                                               ? FadeInImage(
                                                   placeholder: AssetImage(
                                                       ImageAssets.profileEmpty),
                                                   image: NetworkImage(
                                                     tiutiuUserController
-                                                        .tiutiuUser.photoURL!,
+                                                        .tiutiuUser.avatar!,
                                                   ),
                                                   fit: BoxFit.cover,
                                                   width: 1000,
@@ -700,7 +655,7 @@ class _AppSettingsState extends State<AppSettings> {
                                               ),
                                               radio(
                                                 groupValue: snapshot.data,
-                                                labelText: 'Só pelo chatt',
+                                                labelText: 'Só pelo chat',
                                                 value: 3,
                                                 color: Colors.purple,
                                               ),

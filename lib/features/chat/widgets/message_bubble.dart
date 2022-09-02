@@ -124,7 +124,7 @@ class MessageBubble extends StatelessWidget {
                 child: ClipOval(
                   child: FadeInImage(
                     placeholder: AssetImage(ImageAssets.profileEmpty),
-                    image: AssetHandle(user.photoURL).build(),
+                    image: AssetHandle(user.avatar).build(),
                     fit: BoxFit.cover,
                     width: 1000,
                     height: 100,

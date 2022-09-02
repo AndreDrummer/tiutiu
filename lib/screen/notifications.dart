@@ -113,7 +113,7 @@ class _ListTile extends StatelessWidget {
 
   Future<String> loadUserAvatar(DocumentReference userRef) async {
     TiutiuUser userData = TiutiuUser.fromSnapshot(await userRef.get());
-    return Future.value(userData.photoURL);
+    return Future.value(userData.avatar);
   }
 
   Future<Pet> loadPetInfo(DocumentReference petRef) async {

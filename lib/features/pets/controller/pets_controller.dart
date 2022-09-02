@@ -1,10 +1,9 @@
-import 'package:flutter/material.dart';
+import 'package:tiutiu/features/pets/services/pet_service.dart';
 import 'package:tiutiu/core/constants/firebase_env_path.dart';
 import 'package:tiutiu/features/pets/model/pet_model.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:tiutiu/core/utils/other_functions.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
-import 'package:tiutiu/features/pets/services/pet_service.dart';
 
 class PetsController extends GetxController {
   PetsController(PetService petService) : _petService = petService;
@@ -82,15 +81,11 @@ class PetsController extends GetxController {
 
   Stream<List<Pet>> updatePetList() {
     final stream = _petService.loadPets();
-    final s = stream.asyncMap<List<Pet>>((event) {
-      debugPrint('>> Event $event');
+    return stream.asyncMap<List<Pet>>((event) {
       return event.docs.map((el) {
-        debugPrint('>> el $el');
         return Pet.fromMap(el.data());
       }).toList();
     });
-    debugPrint('>> S $s');
-    return s;
   }
 
   void clearOthersFilters({String? withExceptioOf}) {

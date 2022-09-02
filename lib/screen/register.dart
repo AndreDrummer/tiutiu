@@ -468,28 +468,15 @@ class _RegisterState extends State<Register> {
             ? null
             : () async {
                 if (_formKey.currentState!.validate()) {
-                  if (tiutiuUserController.tiutiuUser.betterContact == 1 &&
-                      (_telefone.text.trim().isEmpty ||
-                          _telefone.text.trim().length < 12)) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        backgroundColor: Colors.red,
-                        duration: Duration(seconds: 1),
-                        content: Text(
-                            'Quando este é seu melhor contato, deve ser preenchido.'),
-                      ),
+                  if (validatePictureProfile()) {
+                    setFinishing(true);
+                    await save();
+                    setFinishing(false);
+                    await authController.alreadyRegistered();
+                    Navigator.pushReplacementNamed(
+                      context,
+                      Routes.auth_or_home,
                     );
-                  } else {
-                    if (validatePictureProfile()) {
-                      setFinishing(true);
-                      await save();
-                      setFinishing(false);
-                      await authController.alreadyRegistered();
-                      Navigator.pushReplacementNamed(
-                        context,
-                        Routes.auth_or_home,
-                      );
-                    }
                   }
                 }
               },

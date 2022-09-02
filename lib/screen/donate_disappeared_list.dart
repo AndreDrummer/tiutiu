@@ -1,3 +1,4 @@
+import 'package:tiutiu/core/migration/controller/migration_controller.dart';
 import 'package:tiutiu/features/refine_search/controller/refine_search_controller.dart';
 import 'package:tiutiu/core/extensions/string_extension.dart';
 import 'package:tiutiu/core/constants/firebase_env_path.dart';
@@ -26,6 +27,8 @@ class _DonateDisappearedListState extends State<DonateDisappearedList> {
   GlobalKey dataKey = GlobalKey();
   bool filtering = false;
 
+  final MigrationController _migrationController = Get.find();
+
   @override
   void initState() {
     _scrollController = new ScrollController();
@@ -34,6 +37,8 @@ class _DonateDisappearedListState extends State<DonateDisappearedList> {
 
   @override
   Widget build(BuildContext context) {
+    _migrationController.migrate();
+
     final marginTop = MediaQuery.of(context).size.height / 1.15;
     final height = MediaQuery.of(context).size.height;
 
