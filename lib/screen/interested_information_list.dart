@@ -208,7 +208,7 @@ class _InterestedListState extends State<InterestedList> {
                               subtitle: subtitle,
                               interestedUser: interestedUser,
                               navigateToInterestedDetail:
-                                  interestedUser.photoURL == null
+                                  interestedUser.avatar == null
                                       ? null
                                       : () => navigateToInterestedDetail(
                                             interestedUser,

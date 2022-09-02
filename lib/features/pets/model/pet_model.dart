@@ -22,7 +22,7 @@ enum PetEnum {
   size,
   name,
   kind,
-  id,
+  uid,
 }
 
 class Pet {
@@ -47,7 +47,7 @@ class Pet {
     this.size,
     this.name,
     this.kind,
-    this.id,
+    this.uid,
   });
 
   static Pet fromSnapshot(DocumentSnapshot snapshot) {
@@ -89,7 +89,7 @@ class Pet {
       size: (snapshot.data() as Map<String, dynamic>)[PetEnum.size.tostring()],
       name: (snapshot.data() as Map<String, dynamic>)[PetEnum.name.tostring()],
       kind: (snapshot.data() as Map<String, dynamic>)[PetEnum.kind.tostring()],
-      id: (snapshot.data() as Map<String, dynamic>)[PetEnum.id.tostring()],
+      uid: (snapshot.data() as Map<String, dynamic>)[PetEnum.uid.tostring()],
     );
   }
 
@@ -115,7 +115,33 @@ class Pet {
       size: map[PetEnum.size.tostring()],
       name: map[PetEnum.name.tostring()],
       kind: map[PetEnum.kind.tostring()],
-      id: map[PetEnum.id.tostring()],
+      uid: map[PetEnum.uid.tostring()],
+    );
+  }
+
+  static Pet fromMigrate(Map<String, dynamic> map) {
+    return Pet(
+      otherCaracteristics: map[PetEnum.otherCaracteristics.tostring()],
+      donatedOrFound: map['donated'] ?? map['found'] ?? false,
+      storageHashKey: map[PetEnum.storageHashKey.tostring()],
+      longitude: map[PetEnum.longitude.tostring()],
+      createdAt: map[PetEnum.createdAt.tostring()],
+      latitude: map[PetEnum.latitude.tostring()],
+      ageMonth: map['meses'],
+      details: map[PetEnum.details.tostring()],
+      ageYear: map['ano'],
+      photos: map[PetEnum.photos.tostring()],
+      health: map[PetEnum.health.tostring()],
+      gender: map['sex'],
+      color: map[PetEnum.color.tostring()],
+      views: map[PetEnum.views.tostring()],
+      breed: map[PetEnum.breed.tostring()],
+      owner: map[PetEnum.owner.tostring()],
+      type: map[PetEnum.type.tostring()],
+      size: map[PetEnum.size.tostring()],
+      name: map[PetEnum.name.tostring()],
+      kind: map[PetEnum.kind.tostring()],
+      uid: map[PetEnum.uid.tostring()],
     );
   }
 
@@ -139,7 +165,7 @@ class Pet {
   String? kind;
   List? photos;
   String? name;
-  String? id;
+  String? uid;
   int? views;
 
   Map<String, dynamic> toMap() {
@@ -164,7 +190,7 @@ class Pet {
       PetEnum.size.tostring(): size,
       PetEnum.name.tostring(): name,
       PetEnum.kind.tostring(): kind,
-      PetEnum.id.tostring(): id,
+      PetEnum.uid.tostring(): uid,
     };
   }
 }
