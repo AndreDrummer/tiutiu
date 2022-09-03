@@ -117,7 +117,8 @@ class _ListTile extends StatelessWidget {
   }
 
   Future<Pet> loadPetInfo(DocumentReference petRef) async {
-    Pet petInfo = Pet.fromSnapshot(await petRef.get());
+    Pet petInfo =
+        Pet.fromMap((await petRef.get()).data() as Map<String, dynamic>);
     return Future.value(petInfo);
   }
 

@@ -12,7 +12,9 @@ class MyPetsService {
         .collection(FirebaseEnvPath.donate)
         .get();
 
-    return donates.docs.map((snapshot) => Pet.fromSnapshot(snapshot)).toList();
+    return donates.docs
+        .map((snapshot) => Pet.fromMap(snapshot.data()))
+        .toList();
   }
 
   Future<List<Pet>> loadMyPetsDisappeareds(String userId) async {
@@ -25,7 +27,7 @@ class MyPetsService {
         .get();
 
     return disappeared.docs
-        .map((snapshot) => Pet.fromSnapshot(snapshot))
+        .map((snapshot) => Pet.fromMap(snapshot.data()))
         .toList();
   }
 }

@@ -2,7 +2,15 @@ class AppStrings {
   static String get verifyFilters => 'Verifique seus filtros de busca.';
   static String get noPetFound => 'Nenhum PET encontrado';
   static String get loadingDots => 'Carregando...';
+  static String get myFavorites => 'Meus Favoritos';
+  static String get myAccount => 'Minha Conta';
   static String get name => 'Tiu, tiu';
+  static String get pets => 'PETs';
+}
+
+class BottomBarStrings {
+  static String get myFavorites => 'Meus Favoritos';
+  static String get myAccount => 'Minha Conta';
 }
 
 class RefineSearchStrings {
