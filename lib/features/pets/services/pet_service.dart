@@ -12,10 +12,12 @@ class PetService {
   FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   Stream<QuerySnapshot<Map<String, dynamic>>> loadPets() {
-    return FirebaseFirestore.instance
-        .collection(FirebaseEnvPath.donate)
-        .where('donated', isEqualTo: false)
-        .snapshots();
+    // return FirebaseFirestore.instance
+    //     .collection(FirebaseEnvPath.donate)
+    //     .where('donated', isEqualTo: false)
+    //     .snapshots();
+
+    return FirebaseFirestore.instance.collection(newPathToAds).snapshots();
   }
 
   Future<DocumentReference> getReferenceFromPath(
@@ -50,7 +52,7 @@ class PetService {
   Future<Pet> getPetByReference(DocumentReference petRef) async {
     var pet = await petRef.get();
 
-    return Pet.fromSnapshot(pet);
+    return Pet.fromMap(pet.data() as Map<String, dynamic>);
   }
 
   Stream<QuerySnapshot> getPetsByUser(String petKind, String userId,
