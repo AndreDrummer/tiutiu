@@ -22,3 +22,9 @@ enum FileType {
   images,
   videos,
 }
+
+String get newPathToAds =>
+    '${FirebaseEnvPath.projectName}/env/${FirebaseEnvPath.env}/${FirebaseEnvPath.posts}/${FirebaseEnvPath.posts}';
+
+String get newPathToUser =>
+    '${FirebaseEnvPath.projectName}/env/${FirebaseEnvPath.env}/${FirebaseEnvPath.userss}/${FirebaseEnvPath.userss}';
