@@ -1,11 +1,20 @@
 class AppStrings {
   static String get verifyFilters => 'Verifique seus filtros de busca.';
+  static String get wannaLeave => 'Deseja realmente sair?';
   static String get noPetFound => 'Nenhum PET encontrado';
-  static String get loadingDots => 'Carregando...';
   static String get myFavorites => 'Meus Favoritos';
+  static String get endApp => 'Encerrar aplicação';
+  static String get loadingDots => 'Carregando...';
   static String get myAccount => 'Minha Conta';
   static String get name => 'Tiu, tiu';
   static String get pets => 'PETs';
+  static String get yes => 'Sim';
+  static String get no => 'Não';
+  static String get ok => 'OK';
+}
+
+class HomeStrings {
+  static String get searchForName => 'Pesquise um PET por nome..';
 }
 
 class BottomBarStrings {
