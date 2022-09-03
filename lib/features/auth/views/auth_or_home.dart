@@ -1,10 +1,10 @@
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:tiutiu/Widgets/loading_page.dart';
 import 'package:tiutiu/features/auth/views/auth_error_page.dart';
 import 'package:tiutiu/features/system/controllers.dart';
-import 'package:tiutiu/screen/home.dart';
+import 'package:tiutiu/features/home/views/home.dart';
 import 'package:tiutiu/screen/no_connection.dart';
+import 'package:tiutiu/Widgets/loading_page.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class AuthOrHome extends StatefulWidget {
   @override

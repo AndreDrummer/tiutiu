@@ -1,6 +1,7 @@
 import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
 import 'package:tiutiu/features/auth/services/auth_service.dart';
 import 'package:tiutiu/core/constants/firebase_env_path.dart';
+import 'package:tiutiu/core/extensions/enum_tostring.dart';
 import 'package:tiutiu/features/pets/model/pet_model.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -8,11 +9,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 class MigrationService {
   FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  // final String petAdPurpose = FirebaseEnvPath.disappeared;
   final String petAdPurpose = FirebaseEnvPath.donate;
 
   void migrate() async {
-    migrateAllUsers();
-    migrateAllPetAds();
+    // migrateAllUsers();
+    // migrateAllPetAds();
   }
 
   void migrateAllUsers() async {
@@ -26,7 +28,8 @@ class MigrationService {
         );
 
         if (includedAfterMay2022) {
-          await transferUserDataToNewPath(petAd.data()['ownerReference']);
+          final tiutiuUser = await getUserData(petAd.data()['ownerReference']);
+          insertUserDataInNewPath(tiutiuUser);
         }
       }
     });
@@ -46,7 +49,12 @@ class MigrationService {
         );
 
         if (includedAfterMay2022) {
-          insertAdDataInNewPath(Pet.fromMigrate(petAd.data()));
+          final map = petAd.data();
+          final tiutiuUser = await getUserData(petAd.data()['ownerReference']);
+          map[PetEnum.owner.tostring()] = tiutiuUser;
+          // debugPrint('>> ${map[PetEnum.owner.tostring()]}');
+
+          insertAdDataInNewPath(Pet.fromMigrate(map));
           // petAd.reference.set({'uid': petAd.id}, SetOptions(merge: true));
         } else {
           deletePost(petAd);
@@ -58,16 +66,13 @@ class MigrationService {
     });
   }
 
-  Future transferUserDataToNewPath(DocumentReference ownerReference) async {
-    await getOwnerOfThisAd(ownerReference);
-  }
-
-  Future getOwnerOfThisAd(DocumentReference ownerReference) async {
+  Future<TiutiuUser> getUserData(DocumentReference ownerReference) async {
     final userData = await ownerReference.get();
     final tiutiuUser =
         TiutiuUser.fromMapMigration((userData.data() as Map<String, dynamic>));
     // debugPrint('>> ${tiutiuUser.toMap()}');
-    insertUserDataInNewPath(tiutiuUser);
+
+    return tiutiuUser;
   }
 
   void insertUserDataInNewPath(TiutiuUser user) {

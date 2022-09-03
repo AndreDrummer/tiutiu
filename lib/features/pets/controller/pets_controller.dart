@@ -68,19 +68,11 @@ class PetsController extends GetxController {
 
   void changeOrderType(String text, String state) {
     _orderType(text);
-    reloadList(state: state);
   }
 
-  Future<void> reloadList({String? state}) async {
-    if (petKind == FirebaseEnvPath.donate) {
-      // loadDonatePETS(state: state!);
-    } else {
-      loadDisappearedPETS(state: state!);
-    }
-  }
-
-  Stream<List<Pet>> updatePetList() {
+  Stream<List<Pet>> petsList() {
     final stream = _petService.loadPets();
+
     return stream.asyncMap<List<Pet>>((event) {
       return event.docs.map((el) {
         return Pet.fromMap(el.data());
@@ -100,7 +92,7 @@ class PetsController extends GetxController {
   List<Pet> getPetListFromSnapshots(List<DocumentSnapshot> docs) {
     List<Pet> pets = [];
     for (int i = 0; i < docs.length; i++) {
-      pets.add(Pet.fromSnapshot(docs[i]));
+      pets.add(Pet.fromMap(docs[i].data() as Map<String, dynamic>));
     }
     return pets;
   }
@@ -109,7 +101,7 @@ class PetsController extends GetxController {
     DocumentReference petRef =
         await OtherFunctions.getReferenceById(petId, petKind);
     DocumentSnapshot petSnapshot = await petRef.get();
-    Pet petData = Pet.fromSnapshot(petSnapshot);
+    Pet petData = Pet.fromMap(petSnapshot.data() as Map<String, dynamic>);
     return Future.value(petData);
   }
 
@@ -124,7 +116,9 @@ class PetsController extends GetxController {
 
       List<Pet> pets = [];
       for (int i = 0; i < querySnapshot.docs.length; i++) {
-        pets.add(Pet.fromSnapshot(querySnapshot.docs[i]));
+        pets.add(
+          Pet.fromMap(querySnapshot.docs[i].data() as Map<String, dynamic>),
+        );
       }
 
       if (state != null) {

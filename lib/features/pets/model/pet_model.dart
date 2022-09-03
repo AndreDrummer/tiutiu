@@ -1,5 +1,5 @@
+import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
 import 'package:tiutiu/core/extensions/enum_tostring.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 enum PetEnum {
   otherCaracteristics,
@@ -10,8 +10,9 @@ enum PetEnum {
   latitude,
   ageMonth,
   details,
-  photos,
+  ownerId,
   ageYear,
+  photos,
   health,
   gender,
   color,
@@ -37,6 +38,7 @@ class Pet {
     this.details,
     this.photos,
     this.ageYear,
+    this.ownerId,
     this.health,
     this.gender,
     this.color,
@@ -50,59 +52,18 @@ class Pet {
     this.uid,
   });
 
-  static Pet fromSnapshot(DocumentSnapshot snapshot) {
-    return Pet(
-      otherCaracteristics: (snapshot.data()
-          as Map<String, dynamic>)[PetEnum.otherCaracteristics.tostring()],
-      donatedOrFound: (snapshot.data()
-              as Map<String, dynamic>)[PetEnum.donatedOrFound.tostring()] ??
-          false,
-      storageHashKey: (snapshot.data()
-          as Map<String, dynamic>)[PetEnum.storageHashKey.tostring()],
-      longitude: (snapshot.data()
-          as Map<String, dynamic>)[PetEnum.longitude.tostring()],
-      createdAt: (snapshot.data()
-          as Map<String, dynamic>)[PetEnum.createdAt.tostring()],
-      latitude: (snapshot.data()
-          as Map<String, dynamic>)[PetEnum.latitude.tostring()],
-      ageMonth: (snapshot.data()
-          as Map<String, dynamic>)[PetEnum.ageMonth.tostring()],
-      details:
-          (snapshot.data() as Map<String, dynamic>)[PetEnum.details.tostring()],
-      photos:
-          (snapshot.data() as Map<String, dynamic>)[PetEnum.photos.tostring()],
-      ageYear:
-          (snapshot.data() as Map<String, dynamic>)[PetEnum.ageYear.tostring()],
-      health:
-          (snapshot.data() as Map<String, dynamic>)[PetEnum.health.tostring()],
-      gender:
-          (snapshot.data() as Map<String, dynamic>)[PetEnum.gender.tostring()],
-      color:
-          (snapshot.data() as Map<String, dynamic>)[PetEnum.color.tostring()],
-      views:
-          (snapshot.data() as Map<String, dynamic>)[PetEnum.views.tostring()],
-      breed:
-          (snapshot.data() as Map<String, dynamic>)[PetEnum.breed.tostring()],
-      type: (snapshot.data() as Map<String, dynamic>)[PetEnum.type.tostring()],
-      owner:
-          (snapshot.data() as Map<String, dynamic>)[PetEnum.owner.tostring()],
-      size: (snapshot.data() as Map<String, dynamic>)[PetEnum.size.tostring()],
-      name: (snapshot.data() as Map<String, dynamic>)[PetEnum.name.tostring()],
-      kind: (snapshot.data() as Map<String, dynamic>)[PetEnum.kind.tostring()],
-      uid: (snapshot.data() as Map<String, dynamic>)[PetEnum.uid.tostring()],
-    );
-  }
-
   static Pet fromMap(Map<String, dynamic> map) {
     return Pet(
       otherCaracteristics: map[PetEnum.otherCaracteristics.tostring()],
       donatedOrFound: map[PetEnum.donatedOrFound.tostring()] ?? false,
+      owner: TiutiuUser.fromMap(map[PetEnum.owner.tostring()]),
       storageHashKey: map[PetEnum.storageHashKey.tostring()],
       longitude: map[PetEnum.longitude.tostring()],
       createdAt: map[PetEnum.createdAt.tostring()],
       latitude: map[PetEnum.latitude.tostring()],
       ageMonth: map[PetEnum.ageMonth.tostring()],
       details: map[PetEnum.details.tostring()],
+      ownerId: map[PetEnum.ownerId.tostring()],
       ageYear: map[PetEnum.ageYear.tostring()],
       photos: map[PetEnum.photos.tostring()],
       health: map[PetEnum.health.tostring()],
@@ -110,7 +71,6 @@ class Pet {
       color: map[PetEnum.color.tostring()],
       views: map[PetEnum.views.tostring()],
       breed: map[PetEnum.breed.tostring()],
-      owner: map[PetEnum.owner.tostring()],
       type: map[PetEnum.type.tostring()],
       size: map[PetEnum.size.tostring()],
       name: map[PetEnum.name.tostring()],
@@ -127,6 +87,7 @@ class Pet {
       longitude: map[PetEnum.longitude.tostring()],
       createdAt: map[PetEnum.createdAt.tostring()],
       latitude: map[PetEnum.latitude.tostring()],
+      ownerId: map['ownerId'],
       ageMonth: map['meses'],
       details: map[PetEnum.details.tostring()],
       ageYear: map['ano'],
@@ -149,6 +110,7 @@ class Pet {
   String? storageHashKey;
   bool donatedOrFound;
   String? createdAt;
+  TiutiuUser? owner;
   double? longitude;
   double? latitude;
   String? ownerId;
@@ -158,7 +120,6 @@ class Pet {
   String? color;
   int? ageMonth;
   String? breed;
-  String? owner;
   int? ageYear;
   String? size;
   String? type;
@@ -173,11 +134,13 @@ class Pet {
       PetEnum.otherCaracteristics.tostring(): otherCaracteristics,
       PetEnum.donatedOrFound.tostring(): donatedOrFound,
       PetEnum.storageHashKey.tostring(): storageHashKey,
+      PetEnum.owner.tostring(): owner?.toMap(),
       PetEnum.longitude.tostring(): longitude,
       PetEnum.createdAt.tostring(): createdAt,
       PetEnum.latitude.tostring(): latitude,
       PetEnum.ageMonth.tostring(): ageMonth,
       PetEnum.details.tostring(): details,
+      PetEnum.ownerId.tostring(): ownerId,
       PetEnum.ageYear.tostring(): ageYear,
       PetEnum.photos.tostring(): photos,
       PetEnum.health.tostring(): health,
@@ -186,7 +149,6 @@ class Pet {
       PetEnum.views.tostring(): views,
       PetEnum.breed.tostring(): breed,
       PetEnum.type.tostring(): type,
-      PetEnum.owner.tostring(): owner,
       PetEnum.size.tostring(): size,
       PetEnum.name.tostring(): name,
       PetEnum.kind.tostring(): kind,
