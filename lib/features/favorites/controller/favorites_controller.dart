@@ -50,7 +50,7 @@ class FavoritesController extends GetxController {
               as Map<String, dynamic>)['id'] as DocumentReference)
           .get();
       if (pet.data() != null) {
-        petFavoritesList.add(Pet.fromSnapshot(pet));
+        petFavoritesList.add(Pet.fromMap((pet.data() as Map<String, dynamic>)));
         petFavoritesID.add(pet.id);
       }
     }

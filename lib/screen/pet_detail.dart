@@ -744,7 +744,8 @@ class _PetDetailsState extends State<PetDetails> {
                         ),
                         Text(
                           OtherFunctions.firstCharacterUpper(
-                              widget.pet!.owner!),
+                            widget.pet!.owner!.displayName!,
+                          ),
                           style: TextStyle(
                               color: Colors.white, fontWeight: FontWeight.bold),
                         ),
