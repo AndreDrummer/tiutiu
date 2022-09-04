@@ -1,3 +1,4 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:tiutiu/core/constants/firebase_env_path.dart';
 import 'package:tiutiu/features/pets/model/pet_model.dart';
 import 'package:tiutiu/core/constants/images_assets.dart';
@@ -80,29 +81,44 @@ class _CardListState extends State<CardList> {
               ),
               height: Get.height / 1.88,
               width: double.infinity,
-              child: ClipRRect(
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(8),
-                  topRight: Radius.circular(8),
-                ),
-                child: FadeInImage(
-                  image: AssetHandle(widget.petInfo!.photos!.first).build(),
-                  placeholder: AssetImage(ImageAssets.fadeIn),
-                  height: 1000,
-                  width: 1000,
-                  fit: BoxFit.cover,
+              child: CarouselSlider.builder(
+                itemCount: widget.petInfo!.photos?.length ?? 0,
+                itemBuilder: (ctx, index, i) {
+                  return ClipRRect(
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(8),
+                      topRight: Radius.circular(8),
+                    ),
+                    child: FadeInImage(
+                      image: AssetHandle(widget.petInfo!.photos!.first).build(),
+                      placeholder: AssetImage(ImageAssets.fadeIn),
+                      height: 1000,
+                      width: 1000,
+                      fit: BoxFit.cover,
+                    ),
+                  );
+                },
+                options: CarouselOptions(
+                  enableInfiniteScroll: widget.petInfo!.photos!.length > 1,
+                  autoPlayCurve: Curves.easeIn,
+                  disableCenter: true,
+                  viewportFraction: 1,
+                  autoPlay: true,
                 ),
               ),
             ),
             Container(
               decoration: BoxDecoration(
-                  color: Colors.white54,
-                  borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(8),
-                    bottomRight: Radius.circular(8),
-                  ),
-                  border:
-                      Border.all(style: BorderStyle.solid, color: Colors.grey)),
+                color: Colors.white54,
+                borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(8),
+                  bottomRight: Radius.circular(8),
+                ),
+                border: Border.all(
+                  style: BorderStyle.solid,
+                  color: Colors.grey,
+                ),
+              ),
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Row(
