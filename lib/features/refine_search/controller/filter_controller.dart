@@ -3,10 +3,12 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiutiu/core/Custom/icons.dart';
 import 'package:tiutiu/core/constants/strings.dart';
 import 'package:get/get.dart';
+import 'package:tiutiu/core/models/filter_params.dart';
 
 class FilterController extends GetxController {
-  final RxString _filterKindTextSelected = RefineSearchStrings.all.obs;
-  final RxString _searchHomeTypeInitialValue = RefineSearchStrings.type.obs;
+  final RxString _searchHomeTypeInitialValue = FilterStrings.type.obs;
+  final RxString _filterTypeTextSelected = FilterStrings.all.obs;
+
   final RxString _homePetTypeFilterByDisappeared = ''.obs;
   final RxBool _isHomeFilteringByDisappeared = false.obs;
   final RxString _homePetTypeFilterByDonate = ''.obs;
@@ -20,12 +22,12 @@ class FilterController extends GetxController {
   final RxString _breedSelected = ''.obs;
   final RxString _sizeSelected = ''.obs;
   final RxString _ageSelected = ''.obs;
-  final RxInt _kindSelected = 0.obs;
+  final RxInt _typeSelected = 0.obs;
 
   bool get isHomeFilteringByDisappeared => _isHomeFilteringByDisappeared.value;
   String get searchHomeTypeInitialValue => _searchHomeTypeInitialValue.value;
-  String get filterKindTextSelected => _filterKindTextSelected.value;
   String get homePetTypeFilterByDonate => _homePetTypeFilterByDonate.value;
+  String get filterTypeTextSelected => _filterTypeTextSelected.value;
   bool get isHomeFilteringByDonate => _isHomeFilteringByDonate.value;
   bool get searchPetByTypeOnHome => _searchPetByTypeOnHome.value;
   String get stateOfResultSearch => _stateOfResultSearch.value;
@@ -36,7 +38,7 @@ class FilterController extends GetxController {
   String get sizeSelected => _sizeSelected.value;
   bool get isDisappeared => _isDisappeared.value;
   String get ageSelected => _ageSelected.value;
-  int get kindSelected => _kindSelected.value;
+  int get typeSelected => _typeSelected.value;
   String get homePetTypeFilterByDisappeared =>
       _homePetTypeFilterByDisappeared.value;
 
@@ -52,8 +54,8 @@ class FilterController extends GetxController {
     _searchHomeTypeInitialValue(value);
   }
 
-  void set filterKindTextSelected(String value) {
-    _filterKindTextSelected(value);
+  void set filterTypeTextSelected(String value) {
+    _filterTypeTextSelected(value);
   }
 
   void set homePetTypeFilterByDonate(String value) {
@@ -100,8 +102,8 @@ class FilterController extends GetxController {
     _ageSelected(value);
   }
 
-  void set kindSelected(int value) {
-    _kindSelected(value);
+  void set typeSelected(int value) {
+    _typeSelected(value);
   }
 
   void clearRefineSelections() {
@@ -113,21 +115,25 @@ class FilterController extends GetxController {
     ageSelected = '';
   }
 
-  final List<String> filterKindText = [
-    RefineSearchStrings.all,
-    RefineSearchStrings.dog,
-    RefineSearchStrings.cat,
-    RefineSearchStrings.bird,
-    RefineSearchStrings.hamster,
-    RefineSearchStrings.other,
+  FilterParams filterParams() {
+    return FilterParams(type: filterTypeTextSelected);
+  }
+
+  final List<String> filterTypeText = [
+    FilterStrings.all,
+    FilterStrings.dog,
+    FilterStrings.cat,
+    FilterStrings.disappeared,
+    FilterStrings.bird,
+    FilterStrings.exotic,
   ];
 
-  final List<IconData> filterKindIcon = [
+  final List<IconData> filterTypeIcon = [
     FontAwesomeIcons.bullseye,
     FontAwesomeIcons.dog,
     FontAwesomeIcons.cat,
+    FontAwesomeIcons.question,
     FontAwesomeIcons.kiwiBird,
     Tiutiu.hamster,
-    FontAwesomeIcons.question,
   ];
 }

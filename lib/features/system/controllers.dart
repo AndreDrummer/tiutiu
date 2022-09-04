@@ -1,4 +1,4 @@
-import 'package:tiutiu/features/refine_search/controller/refine_search_controller.dart';
+import 'package:tiutiu/features/refine_search/controller/filter_controller.dart';
 import 'package:tiutiu/features/location/controller/current_location_controller.dart';
 import 'package:tiutiu/features/favorites/controller/favorites_controller.dart';
 import 'package:tiutiu/features/tiutiu_user/controller/user_controller.dart';
