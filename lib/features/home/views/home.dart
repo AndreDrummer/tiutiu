@@ -1,7 +1,7 @@
 import 'package:tiutiu/features/home/widgets/bottom_bar.dart';
-import 'package:tiutiu/features/pets/views/pets_list.dart';
 import 'package:tiutiu/features/system/controllers.dart';
 import 'package:tiutiu/core/mixins/tiu_tiu_pop_up.dart';
+import 'package:tiutiu/features/home/views/pets.dart';
 import 'package:tiutiu/core/constants/strings.dart';
 import 'package:tiutiu/screen/auth_screen.dart';
 import 'package:tiutiu/screen/my_account.dart';
@@ -12,7 +12,7 @@ import 'dart:io';
 
 class Home extends StatelessWidget with TiuTiuPopUp {
   final _screens = <Widget>[
-    PetsList(),
+    Pets(),
     homeController.isAuthenticated ? MyAccount() : AuthScreen(),
     homeController.isAuthenticated ? Favorites() : AuthScreen(),
   ];
@@ -40,7 +40,6 @@ class Home extends StatelessWidget with TiuTiuPopUp {
           ).then((value) => false);
         },
         child: Scaffold(
-          backgroundColor: Colors.green,
           body: Stack(
             children: [
               _screens.elementAt(homeController.bottomBarIndex),
