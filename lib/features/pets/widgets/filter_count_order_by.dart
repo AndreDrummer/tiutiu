@@ -1,8 +1,9 @@
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/Widgets/custom_input_search.dart';
-import 'package:tiutiu/core/constants/text_styles.dart';
 import 'package:tiutiu/features/system/controllers.dart';
+import 'package:tiutiu/core/constants/text_styles.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:tiutiu/core/data/dummy_data.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -36,8 +37,8 @@ class FilterResultCount extends StatelessWidget {
             DropdownButton<String>(
               underline: SizedBox(),
               onChanged: (value) {},
-              value: 'Rio de Janeiro',
-              items: ['Rio de Janeiro', '']
+              value: DummyData.statesInitials.first,
+              items: DummyData.statesInitials
                   .map(
                     (e) => DropdownMenuItem<String>(
                       child: AutoSizeText(
