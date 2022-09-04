@@ -1,8 +1,10 @@
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:tiutiu/core/constants/firebase_env_path.dart';
-
-import '../model/pet_model.dart';
+import 'package:tiutiu/features/pets/model/pet_model.dart';
+import 'package:tiutiu/core/extensions/enum_tostring.dart';
+import 'package:tiutiu/core/models/filter_params.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:tiutiu/core/constants/strings.dart';
 
 class PetService {
   PetService._();
@@ -11,13 +13,21 @@ class PetService {
 
   FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  Stream<QuerySnapshot<Map<String, dynamic>>> loadPets() {
+  Stream<QuerySnapshot<Map<String, dynamic>>> loadPets(
+    FilterParams filterParams,
+  ) {
     // return FirebaseFirestore.instance
     //     .collection(FirebaseEnvPath.donate)
     //     .where('donated', isEqualTo: false)
     //     .snapshots();
 
-    return FirebaseFirestore.instance.collection(newPathToAds).snapshots();
+    final filterType =
+        filterParams.type == FilterStrings.all ? null : filterParams.type;
+
+    return FirebaseFirestore.instance
+        .collection(newPathToAds)
+        .where(FilterParamsEnum.type.tostring(), isEqualTo: filterType)
+        .snapshots();
   }
 
   Future<DocumentReference> getReferenceFromPath(
