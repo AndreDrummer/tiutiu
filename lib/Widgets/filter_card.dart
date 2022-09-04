@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:tiutiu/core/data/dummy_data.dart';
 
@@ -25,7 +26,7 @@ class FilterCard extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text("Filtrar resultado"),
+                  AutoSizeText("Filtrar resultado"),
                   Icon(
                       isExpanded ? Icons.keyboard_arrow_up : Icons.expand_more),
                 ],
@@ -72,7 +73,7 @@ class _StateFilterState extends State<_StateFilter> {
           children: [
             Padding(
               padding: const EdgeInsets.only(top: 7.0, left: 24),
-              child: Text(
+              child: AutoSizeText(
                 'Resultados de ',
                 style: TextStyle(
                   fontSize: 13,
@@ -103,7 +104,7 @@ class _StateFilterState extends State<_StateFilter> {
                       return DropdownMenuItem<String>(
                         child: Padding(
                           padding: const EdgeInsets.only(top: 5.0),
-                          child: Text(
+                          child: AutoSizeText(
                             e.trim(),
                             textAlign: TextAlign.center,
                             style: TextStyle(

@@ -1,10 +1,10 @@
-import 'package:flutter/material.dart';
-import 'package:tiutiu/Widgets/button.dart';
-import 'package:tiutiu/Widgets/new_map.dart';
-import 'package:tiutiu/features/pets/model/pet_model.dart';
-import 'package:tiutiu/screen/pet_form.dart';
 import 'package:tiutiu/core/constants/firebase_env_path.dart';
 import 'package:tiutiu/core/utils/routes/routes_name.dart';
+import 'package:tiutiu/features/pets/model/pet_model.dart';
+import 'package:tiutiu/Widgets/new_map.dart';
+import 'package:tiutiu/screen/pet_form.dart';
+import 'package:tiutiu/Widgets/button.dart';
+import 'package:flutter/material.dart';
 
 class ChooseLocation extends StatefulWidget {
   ChooseLocation({
@@ -32,7 +32,7 @@ class _ChooseLocationState extends State<ChooseLocation> {
     return Scaffold(
       backgroundColor: Colors.white,
       // appBar: AppBar(
-      //   title: Text(
+      //   title: AutoSizeText(
       //     kind == FirebaseEnvPath.donate ? 'localização do PET'.toUpperCase() : 'Visto pela última vez em'.toUpperCase(),
       //     style: Theme.of(context).textTheme.headline4!.copyWith(
       //           fontSize: 20,

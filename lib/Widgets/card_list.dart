@@ -7,7 +7,9 @@ import 'package:tiutiu/core/utils/other_functions.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:tiutiu/core/utils/image_handle.dart';
 import 'package:tiutiu/core/Custom/icons.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class CardList extends StatefulWidget {
   CardList({
@@ -44,7 +46,6 @@ class _CardListState extends State<CardList> {
 
   @override
   Widget build(BuildContext context) {
-    final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
 
     List<String> distanceText = OtherFunctions.distanceCalculate(
@@ -77,7 +78,7 @@ class _CardListState extends State<CardList> {
                   topRight: Radius.circular(8),
                 ),
               ),
-              height: height / 4,
+              height: Get.height / 1.88,
               width: double.infinity,
               child: ClipRRect(
                 borderRadius: BorderRadius.only(
@@ -111,7 +112,7 @@ class _CardListState extends State<CardList> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
+                          AutoSizeText(
                             widget.petInfo!.name!,
                             style: Theme.of(context)
                                 .textTheme
@@ -122,7 +123,7 @@ class _CardListState extends State<CardList> {
                                     fontSize: 20),
                           ),
                           SizedBox(height: 5),
-                          Text(
+                          AutoSizeText(
                             widget.petInfo!.breed!,
                             style: Theme.of(context)
                                 .textTheme
@@ -143,7 +144,7 @@ class _CardListState extends State<CardList> {
                             child: Row(
                               children: [
                                 Icon(Tiutiu.eye, size: 14, color: Colors.grey),
-                                Text(
+                                AutoSizeText(
                                     '  ${widget.petInfo!.views ?? 1} visualizações',
                                     style: TextStyle(
                                         color: Colors.grey,
@@ -156,7 +157,7 @@ class _CardListState extends State<CardList> {
                                         : Icons.info,
                                     size: 14,
                                     color: Colors.grey),
-                                Text(
+                                AutoSizeText(
                                   ' ${widget.petInfo!.kind == FirebaseEnvPath.donate ? 'interessados' : 'informações'}',
                                   style: TextStyle(
                                     color: Colors.grey,
@@ -192,7 +193,7 @@ class _CardListState extends State<CardList> {
                                   const EdgeInsets.symmetric(vertical: 7.0),
                               child: Row(
                                 children: [
-                                  Text(
+                                  AutoSizeText(
                                     '${distanceText[0]}',
                                     style: TextStyles.fontSize12(),
                                   ),

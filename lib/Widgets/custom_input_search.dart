@@ -1,3 +1,5 @@
+import 'package:tiutiu/core/constants/text_styles.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
@@ -40,11 +42,9 @@ class _CustomDropdownButtonSearchState
           },
           items: widget.itemList!.map<DropdownMenuItem<String>>((String e) {
             return DropdownMenuItem<String>(
-              child: Padding(
-                padding: const EdgeInsets.only(top: 4.0),
-                child: Text(e,
-                    style: TextStyle(
-                        color: widget.colorText, fontSize: widget.fontSize)),
+              child: AutoSizeText(
+                e,
+                style: TextStyles.fontSize12(),
               ),
               value: e,
             );

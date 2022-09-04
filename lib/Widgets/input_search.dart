@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:tiutiu/Widgets/custom_input_search.dart';
+import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
 class CustomInput extends StatefulWidget {

@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 
 class HintError extends StatelessWidget {
@@ -11,7 +12,7 @@ class HintError extends StatelessWidget {
       alignment: Alignment(-0.93, 1),
       child: Padding(
         padding: const EdgeInsets.only(top: 2.0),
-        child: Text(
+        child: AutoSizeText(
           message,
           style: TextStyle(
             color: Colors.red,

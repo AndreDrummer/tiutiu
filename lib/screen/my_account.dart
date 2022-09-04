@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:tiutiu/core/Custom/icons.dart';
@@ -105,7 +106,7 @@ class _MyAccountState extends State<MyAccount> {
                             child: Column(
                               children: [
                                 SizedBox(height: 40),
-                                Text(
+                                AutoSizeText(
                                   tiutiuUserController.tiutiuUser.displayName!,
                                   textAlign: TextAlign.start,
                                   style: Theme.of(context)
@@ -119,7 +120,7 @@ class _MyAccountState extends State<MyAccount> {
                                 ),
                                 SizedBox(height: 10),
                                 Align(
-                                  child: Text(
+                                  child: AutoSizeText(
                                     'Usuário desde ${DateFormat('dd/MM/y HH:mm').format(DateTime.parse(tiutiuUserController.tiutiuUser.createdAt!)).split(' ').first}',
                                     textAlign: TextAlign.start,
                                     style: Theme.of(context)
@@ -161,7 +162,7 @@ class _MyAccountState extends State<MyAccount> {
                                 },
                                 child: CircleChild(
                                   avatarRadius: 25,
-                                  child: Text(
+                                  child: AutoSizeText(
                                     '',
                                     style: TextStyle(
                                       color: Theme.of(context).primaryColor,
@@ -169,7 +170,7 @@ class _MyAccountState extends State<MyAccount> {
                                   ),
                                 ),
                               ),
-                              Text(
+                              AutoSizeText(
                                 'P/ adoção',
                                 style: Theme.of(context)
                                     .textTheme
@@ -201,7 +202,7 @@ class _MyAccountState extends State<MyAccount> {
                                 },
                                 child: CircleChild(
                                   avatarRadius: 25,
-                                  child: Text(
+                                  child: AutoSizeText(
                                     toString(),
                                     style: TextStyle(
                                       color: Theme.of(context).primaryColor,
@@ -209,7 +210,7 @@ class _MyAccountState extends State<MyAccount> {
                                   ),
                                 ),
                               ),
-                              Text(
+                              AutoSizeText(
                                 'Doados',
                                 style: Theme.of(context)
                                     .textTheme
@@ -237,13 +238,13 @@ class _MyAccountState extends State<MyAccount> {
                                 },
                                 child: CircleChild(
                                   avatarRadius: 25,
-                                  child: Text(toString(),
+                                  child: AutoSizeText(toString(),
                                       style: TextStyle(
                                           color:
                                               Theme.of(context).primaryColor)),
                                 ),
                               ),
-                              Text(
+                              AutoSizeText(
                                 'Adotados',
                                 style: Theme.of(context)
                                     .textTheme
@@ -273,7 +274,7 @@ class _MyAccountState extends State<MyAccount> {
                                 },
                                 child: CircleChild(
                                   avatarRadius: 25,
-                                  child: Text(
+                                  child: AutoSizeText(
                                     toString(),
                                     style: TextStyle(
                                       color: Theme.of(context).primaryColor,
@@ -281,7 +282,7 @@ class _MyAccountState extends State<MyAccount> {
                                   ),
                                 ),
                               ),
-                              Text(
+                              AutoSizeText(
                                 'Desaparecidos',
                                 style: Theme.of(context)
                                     .textTheme
@@ -443,7 +444,7 @@ class _MyAccountState extends State<MyAccount> {
                                   Icon(Icons.settings,
                                       color: Colors.grey, size: 22),
                                   SizedBox(width: 20),
-                                  Text(
+                                  AutoSizeText(
                                     'Configurações',
                                     style: Theme.of(context)
                                         .textTheme
@@ -490,7 +491,7 @@ class _MyAccountState extends State<MyAccount> {
                                   Icon(Icons.exit_to_app,
                                       color: Colors.grey, size: 22),
                                   SizedBox(width: 20),
-                                  Text(
+                                  AutoSizeText(
                                     'Sair',
                                     style: Theme.of(context)
                                         .textTheme

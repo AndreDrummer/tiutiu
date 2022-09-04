@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
@@ -37,7 +38,7 @@ class _CustomDropdownButtonState extends State<CustomDropdownButton> {
           children: <Widget>[
             SizedBox(height: 8.0),
             Align(
-              child: Text(widget.label!,
+              child: AutoSizeText(widget.label!,
                   style: TextStyle(
                     color: Colors.black26,
                     fontSize: 16,
@@ -60,7 +61,7 @@ class _CustomDropdownButtonState extends State<CustomDropdownButton> {
                 items:
                     widget.itemList!.map<DropdownMenuItem<String>>((String e) {
                   return DropdownMenuItem<String>(
-                    child: Text(e),
+                    child: AutoSizeText(e),
                     value: e,
                   );
                 }).toList(),

@@ -26,6 +26,7 @@ import 'package:tiutiu/core/Custom/icons.dart';
 import 'package:tiutiu/Widgets/button.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:provider/provider.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'dart:io';
 
@@ -150,7 +151,7 @@ class _PetDetailsState extends State<PetDetails> {
         content: Row(
           children: [
             Expanded(
-              child: Text(message),
+              child: AutoSizeText(message),
             ),
           ],
         ),
@@ -302,7 +303,7 @@ class _PetDetailsState extends State<PetDetails> {
                 Navigator.pop(context);
               }),
         ),
-        title: Text(
+        title: AutoSizeText(
           'Detalhes de ${widget.pet!.name}',
           style: TextStyle(
             color: Colors.white,
@@ -385,7 +386,7 @@ class _PetDetailsState extends State<PetDetails> {
                                 children: [
                                   Padding(
                                     padding: const EdgeInsets.only(top: 4.0),
-                                    child: Text(
+                                    child: AutoSizeText(
                                       'Descrição',
                                       style: Theme.of(context)
                                           .textTheme
@@ -394,7 +395,7 @@ class _PetDetailsState extends State<PetDetails> {
                                     ),
                                   ),
                                   Divider(),
-                                  Text(widget.pet!.details!),
+                                  AutoSizeText(widget.pet!.details!),
                                 ],
                               ),
                             ),
@@ -426,7 +427,7 @@ class _PetDetailsState extends State<PetDetails> {
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
                                           children: [
-                                            Text(
+                                            AutoSizeText(
                                               'Localização',
                                               style: Theme.of(context)
                                                   .textTheme
@@ -454,7 +455,7 @@ class _PetDetailsState extends State<PetDetails> {
                                         builder: (context, snapshot) {
                                           if (snapshot.data == null) {
                                             return Center(
-                                              child: Text(
+                                              child: AutoSizeText(
                                                 'Carregando endereço...',
                                                 style: TextStyle(
                                                     fontSize: 11,
@@ -462,7 +463,7 @@ class _PetDetailsState extends State<PetDetails> {
                                               ),
                                             );
                                           }
-                                          return Text(
+                                          return AutoSizeText(
                                             snapshot.data!.toString(),
                                             style: TextStyle(
                                                 fontSize: 12,
@@ -541,7 +542,7 @@ class _PetDetailsState extends State<PetDetails> {
                                                           SnackBar(
                                                             duration: Duration(
                                                                 seconds: 1),
-                                                            content: Text(
+                                                            content: AutoSizeText(
                                                                 'Adicionado como favorito'),
                                                           ),
                                                         );
@@ -657,7 +658,7 @@ class _PetDetailsState extends State<PetDetails> {
             child: Column(
               children: [
                 Icon(Icons.fullscreen, color: Colors.white, size: 40),
-                Text(
+                AutoSizeText(
                   'Abrir tela cheia',
                   style: TextStyle(color: Colors.white, fontSize: 10),
                 )
@@ -735,14 +736,14 @@ class _PetDetailsState extends State<PetDetails> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
+                        AutoSizeText(
                           'Anunciante',
                           style: TextStyle(
                               color: Colors.white,
                               fontStyle: FontStyle.italic,
                               fontSize: 10),
                         ),
-                        Text(
+                        AutoSizeText(
                           OtherFunctions.firstCharacterUpper(
                             widget.pet!.owner!.displayName!,
                           ),
@@ -768,7 +769,7 @@ class _PetDetailsState extends State<PetDetails> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text('Carregando imagem..'),
+          AutoSizeText('Carregando imagem..'),
           LoadingJumpingLine.circle(),
         ],
       ),
