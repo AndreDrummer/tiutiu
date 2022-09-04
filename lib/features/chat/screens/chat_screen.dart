@@ -2,6 +2,7 @@ import 'package:tiutiu/features/chat/widgets/new_message.dart';
 import 'package:tiutiu/features/chat/widgets/messages.dart';
 import 'package:tiutiu/core/utils/other_functions.dart';
 import 'package:tiutiu/Widgets/background.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 
 class ChatScreen extends StatelessWidget {
@@ -17,7 +18,7 @@ class ChatScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(
+        title: AutoSizeText(
           OtherFunctions.firstCharacterUpper(chatTitle),
           style: Theme.of(context).textTheme.headline4!.copyWith(
                 fontSize: 20,

@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:tiutiu/Widgets/badge.dart';
@@ -41,7 +42,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
+        title: AutoSizeText(
           'Notificações'.toUpperCase(),
           style: Theme.of(context).textTheme.headline4!.copyWith(
                 fontSize: 20,
@@ -178,11 +179,11 @@ class _ListTile extends StatelessWidget {
                 ),
               ),
             ),
-            title: Text(
+            title: AutoSizeText(
               notificationModel.title!,
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
-            subtitle: Text(notificationModel.message!),
+            subtitle: AutoSizeText(notificationModel.message!),
             trailing: Column(
               children: [
                 !notificationModel.open!
@@ -190,12 +191,12 @@ class _ListTile extends StatelessWidget {
                         color: Colors.green,
                         text: 'Nova',
                       )
-                    : Text(''),
-                Text(DateFormat('dd/MM/y HH:mm')
+                    : AutoSizeText(''),
+                AutoSizeText(DateFormat('dd/MM/y HH:mm')
                     .format(DateTime.parse(notificationModel.time!))
                     .split(' ')
                     .last),
-                Text(DateFormat('dd/MM/y HH:mm')
+                AutoSizeText(DateFormat('dd/MM/y HH:mm')
                     .format(DateTime.parse(notificationModel.time!))
                     .split(' ')
                     .first)

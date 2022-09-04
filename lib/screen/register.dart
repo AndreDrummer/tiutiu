@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
@@ -65,15 +66,15 @@ class _RegisterState extends State<Register> {
         return SimpleDialog(
           children: <Widget>[
             TextButton(
-              child:
-                  Text('Tirar uma foto', style: TextStyle(color: Colors.black)),
+              child: AutoSizeText('Tirar uma foto',
+                  style: TextStyle(color: Colors.black)),
               onPressed: () {
                 Navigator.pop(context);
                 selectImage(ImageSource.camera);
               },
             ),
             TextButton(
-              child: Text('Abrir galeria'),
+              child: AutoSizeText('Abrir galeria'),
               onPressed: () {
                 Navigator.pop(context);
                 selectImage(ImageSource.gallery);
@@ -241,7 +242,7 @@ class _RegisterState extends State<Register> {
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
-        title: Text(
+        title: AutoSizeText(
           'Seja bem vindo!',
           style: Theme.of(context).textTheme.headline4!.copyWith(
                 fontSize: 20,
@@ -285,7 +286,7 @@ class _RegisterState extends State<Register> {
                               ),
                             ),
                             SizedBox(height: 5),
-                            Text(
+                            AutoSizeText(
                               'Adicione sua foto',
                               style: TextStyle(
                                 fontSize: 10,
@@ -354,7 +355,8 @@ class _RegisterState extends State<Register> {
                       SizedBox(height: 20),
                       Align(
                         alignment: Alignment(-0.8, 1),
-                        child: Text('Escolha sua melhor forma de contato.'),
+                        child: AutoSizeText(
+                            'Escolha sua melhor forma de contato.'),
                       ),
                       StreamBuilder<Object>(
                         builder: (context, snapshot) {
@@ -381,7 +383,7 @@ class _RegisterState extends State<Register> {
                                           }
                                         },
                                       ),
-                                      Text('WhatsApp'),
+                                      AutoSizeText('WhatsApp'),
                                     ],
                                   ),
                                 ),
@@ -404,7 +406,7 @@ class _RegisterState extends State<Register> {
                                           }
                                         },
                                       ),
-                                      Text('Telefone Fixo'),
+                                      AutoSizeText('Telefone Fixo'),
                                     ],
                                   ),
                                 ),
@@ -423,7 +425,7 @@ class _RegisterState extends State<Register> {
                                           });
                                         },
                                       ),
-                                      Text('E-mail'),
+                                      AutoSizeText('E-mail'),
                                     ],
                                   ),
                                 ),
@@ -442,7 +444,8 @@ class _RegisterState extends State<Register> {
                                           });
                                         },
                                       ),
-                                      Text('Somente pelo chat do aplicativo'),
+                                      AutoSizeText(
+                                          'Somente pelo chat do aplicativo'),
                                     ],
                                   ),
                                 ),

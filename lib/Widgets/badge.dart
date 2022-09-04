@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 
 class Badge extends StatelessWidget {
@@ -20,7 +21,7 @@ class Badge extends StatelessWidget {
       ),
       child: Padding(
         padding: const EdgeInsets.all(4.0),
-        child: Text(
+        child: AutoSizeText(
           text.toString(),
           style: TextStyle(
             color: Colors.white,

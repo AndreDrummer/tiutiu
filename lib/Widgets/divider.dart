@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 
 class CustomDivider extends StatelessWidget {
@@ -16,7 +17,8 @@ class CustomDivider extends StatelessWidget {
       child: Row(
         children: <Widget>[
           Expanded(child: Divider(color: Colors.black87)),
-          Text(" $text ", style: TextStyle(color: Colors.black87, fontSize: fontSize)),
+          AutoSizeText(" $text ",
+              style: TextStyle(color: Colors.black87, fontSize: fontSize)),
           Expanded(child: Divider(color: Colors.black87)),
         ],
       ),

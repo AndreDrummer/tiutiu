@@ -1,14 +1,14 @@
+import 'package:tiutiu/features/location/controller/current_location_controller.dart';
+import 'package:tiutiu/core/constants/images_assets.dart';
+import 'package:tiutiu/core/constants/text_styles.dart';
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
-import 'package:get/get.dart';
+import 'package:tiutiu/core/constants/strings.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:tiutiu/Widgets/background.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:tiutiu/Widgets/button.dart';
-import 'package:tiutiu/core/constants/images_assets.dart';
-import 'package:tiutiu/core/constants/strings.dart';
-import 'package:tiutiu/core/constants/text_styles.dart';
-import 'package:tiutiu/features/location/controller/current_location_controller.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 final CurrentLocationController _currentLocationController = Get.find();
 
@@ -43,7 +43,7 @@ class RequestCurrentLocalAccessPermissionView extends StatelessWidget {
                         ),
                       ),
                       SizedBox(height: 20),
-                      Text(
+                      AutoSizeText(
                         AppStrings.name,
                         style: GoogleFonts.miltonianTattoo(
                           textStyle: TextStyle(
@@ -54,7 +54,7 @@ class RequestCurrentLocalAccessPermissionView extends StatelessWidget {
                         ),
                       ),
                       SizedBox(height: 2),
-                      Text(
+                      AutoSizeText(
                         LocalPermissionStrings.needsAccess,
                         textAlign: TextAlign.center,
                         style: TextStyle(

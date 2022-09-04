@@ -1,5 +1,6 @@
-import 'package:flutter/material.dart';
 import 'package:tiutiu/core/constants/images_assets.dart';
+import 'package:auto_size_text/auto_size_text.dart';
+import 'package:flutter/material.dart';
 
 class AuthErrorPage extends StatelessWidget {
   const AuthErrorPage({
@@ -15,7 +16,7 @@ class AuthErrorPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Ocorreu um erro!'),
+        title: AutoSizeText('Ocorreu um erro!'),
       ),
       body: Center(
         child: Column(
@@ -34,7 +35,7 @@ class AuthErrorPage extends StatelessWidget {
               ),
             ),
             SizedBox(height: 10),
-            Text(
+            AutoSizeText(
               '$error',
               softWrap: true,
               textAlign: TextAlign.center,
@@ -43,7 +44,7 @@ class AuthErrorPage extends StatelessWidget {
             TextButton.icon(
               icon: Icon(Icons.exit_to_app),
               onPressed: onErrorCallback,
-              label: Text('Deslogar'),
+              label: AutoSizeText('Deslogar'),
             )
           ],
         ),

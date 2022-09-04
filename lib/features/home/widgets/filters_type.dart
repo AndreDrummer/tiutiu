@@ -16,6 +16,7 @@ class FiltersType extends StatelessWidget {
       () {
         final filterText = filterController.filterTypeTextSelected;
         return Container(
+          margin: EdgeInsets.symmetric(horizontal: 2.0.w),
           height: 64.0.h,
           child: ListView(scrollDirection: Axis.horizontal, children: [
             for (int i = 0; i < filtersTypeText.length; i++)
