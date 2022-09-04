@@ -11,7 +11,7 @@ import 'package:tiutiu/Widgets/badge.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-final RefineSearchController _refineSearchController = Get.find();
+final FilterController _refineSearchController = Get.find();
 
 class RefineSearch extends StatefulWidget {
   @override
@@ -33,14 +33,14 @@ class _RefineSearchState extends State<RefineSearch> {
   }
 
   void changePetKind(bool value) {
-    _refineSearchController.changeIsDisappeared(value);
+    _refineSearchController.isDisappeared = value;
   }
 
   void handleSelectedKind(int index) {
     _refineSearchController.clearRefineSelections();
     if (index == 0) petsController.petType = 'Todos';
     petsController.petType = petsType[index - 1];
-    _refineSearchController.changeKindSelected(index);
+    _refineSearchController.filterKindTextSelected = petsType[index];
   }
 
   @override
@@ -59,10 +59,10 @@ class _RefineSearchState extends State<RefineSearch> {
         'selectionPaitle': 'Selecione as Raças',
         'selectionPageList': DummyData.breed[selectedKind!],
         'onValueSelected': (String value) {
-          _refineSearchController.changeBreedSelected(value);
+          _refineSearchController.breedSelected = value;
         },
         'clearFunction': () {
-          _refineSearchController.changeBreedSelected('');
+          _refineSearchController.breedSelected = '';
         }
       },
       {
@@ -71,10 +71,10 @@ class _RefineSearchState extends State<RefineSearch> {
         'selectionPaitle': 'Tamanhos',
         'selectionPageList': DummyData.size,
         'onValueSelected': (String value) {
-          _refineSearchController.changeSizeSelected(value);
+          _refineSearchController.sizeSelected = value;
         },
         'clearFunction': () {
-          _refineSearchController.changeSizeSelected('');
+          _refineSearchController.sizeSelected = '';
         }
       },
       {
@@ -85,15 +85,15 @@ class _RefineSearchState extends State<RefineSearch> {
         'onValueSelected': (String value) {
           print('value $value');
           if (value == '-1 .ageYear') {
-            _refineSearchController.changeAgeSelected('Menos de 1 .ageYear');
+            _refineSearchController.ageSelected = 'Menos de 1 .ageYear';
           } else if (value == '10+ anos') {
-            _refineSearchController.changeAgeSelected('Mais de 10 anos');
+            _refineSearchController.ageSelected = 'Mais de 10 anos';
           } else {
-            _refineSearchController.changeAgeSelected(value);
+            _refineSearchController.ageSelected = value;
           }
         },
         'clearFunction': () {
-          _refineSearchController.changeAgeSelected('');
+          _refineSearchController.ageSelected = '';
         }
       },
       {
@@ -102,10 +102,10 @@ class _RefineSearchState extends State<RefineSearch> {
         'selectionPaitle': 'Sexo',
         'selectionPageList': ['Macho', 'Fêmea'],
         'onValueSelected': (String value) {
-          _refineSearchController.changeGenderSelected(value);
+          _refineSearchController.genderSelected = value;
         },
         'clearFunction': () {
-          _refineSearchController.changeGenderSelected('');
+          _refineSearchController.genderSelected = '';
         }
       },
       {
@@ -114,10 +114,10 @@ class _RefineSearchState extends State<RefineSearch> {
         'selectionPaitle': 'Estado de saúde',
         'selectionPageList': DummyData.health,
         'onValueSelected': (String value) {
-          _refineSearchController.changeHealthSelected(value);
+          _refineSearchController.healthSelected = value;
         },
         'clearFunction': () {
-          _refineSearchController.changeHealthSelected('');
+          _refineSearchController.healthSelected = '';
         }
       },
       {
@@ -126,10 +126,10 @@ class _RefineSearchState extends State<RefineSearch> {
         'selectionPaitle': 'Numa distância de até',
         'selectionPageList': DummyData.distancies,
         'onValueSelected': (String value) {
-          _refineSearchController.changeDistancieSelected(value);
+          _refineSearchController.distancieSelected = value;
         },
         'clearFunction': () {
-          _refineSearchController.changeDistancieSelected('');
+          _refineSearchController.distancieSelected = '';
         }
       },
     ];
@@ -256,9 +256,8 @@ class _RefineSearchState extends State<RefineSearch> {
                                 _refineSearchController.isDisappeared
                                     ? FirebaseEnvPath.disappeared
                                     : FirebaseEnvPath.donate;
-                            _refineSearchController
-                                .changeSearchHomePetTypeInitialValue(
-                                    petsController.petType);
+                            _refineSearchController.searchHomeTypeInitialValue =
+                                petsController.petType;
                             petsController.breedSelected =
                                 _refineSearchController.breedSelected;
                             petsController.sizeSelected =
