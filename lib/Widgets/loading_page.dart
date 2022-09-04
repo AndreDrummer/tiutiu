@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:loading_animations/loading_animations.dart';
 
@@ -36,7 +37,7 @@ class _LoadingPageState extends State<LoadingPage> {
                   backgroundColor: Theme.of(context).primaryColor,
                 ),
           SizedBox(height: 30.0),
-          Text(
+          AutoSizeText(
             widget.messageLoading,
             textAlign: TextAlign.center,
             style: Theme.of(context).textTheme.headline4!.copyWith(

@@ -1,5 +1,5 @@
-import 'dart:math';
 import 'package:flutter/material.dart';
+import 'dart:math';
 
 class DotsIndicator extends AnimatedWidget {
   DotsIndicator({

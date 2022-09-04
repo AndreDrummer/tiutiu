@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 
 class FavoriteButton extends StatelessWidget {
@@ -15,7 +16,7 @@ class FavoriteButton extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Icon(Icons.favorite_border, color: Colors.white, size: 50),
-            Text(
+            AutoSizeText(
               'FAVORITAR',
               style:
                   Theme.of(context).textTheme.headline4!.copyWith(fontSize: 30),

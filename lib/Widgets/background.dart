@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:tiutiu/core/constants/images_assets.dart';
+import 'package:flutter/material.dart';
 
 class Background extends StatelessWidget {
   Background({this.dark = false, this.image});

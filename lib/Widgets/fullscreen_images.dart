@@ -1,5 +1,6 @@
 import 'package:loading_animations/loading_animations.dart';
 import 'package:tiutiu/core/utils/image_handle.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 
 class FullScreenImage extends StatefulWidget {
@@ -45,7 +46,7 @@ class _FullScreenImageState extends State<FullScreenImage> {
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Text('Carregando imagem..'),
+                            AutoSizeText('Carregando imagem..'),
                             LoadingJumpingLine.circle(),
                           ],
                         ),

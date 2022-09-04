@@ -9,6 +9,7 @@ import 'package:tiutiu/core/models/chat_model.dart';
 import 'package:tiutiu/core/utils/other_functions.dart';
 import 'package:tiutiu/Widgets/empty_list.dart';
 import 'package:tiutiu/Widgets/badge.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -166,12 +167,12 @@ class _ListTileMessage extends StatelessWidget {
                 ),
               ),
             ),
-            title: Text(itsMe
+            title: AutoSizeText(itsMe
                 ? OtherFunctions.firstCharacterUpper(
                     chat.secondUser.displayName!)
                 : OtherFunctions.firstCharacterUpper(
                     chat.firstUser.displayName!)),
-            subtitle: Text(chat.lastMessage!),
+            subtitle: AutoSizeText(chat.lastMessage!),
             trailing: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -182,11 +183,11 @@ class _ListTileMessage extends StatelessWidget {
                             color: Colors.green,
                             text: 'Nova',
                           )
-                        : Text(''),
-                    Text(
+                        : AutoSizeText(''),
+                    AutoSizeText(
                         '${DateFormat('dd/MM/y HH:mm').format(DateTime.parse(date.toIso8601String())).split(' ').last}'),
                     SizedBox(height: 2),
-                    Text(
+                    AutoSizeText(
                         '${DateFormat('dd/MM/y HH:mm').format(DateTime.parse(date.toIso8601String())).split(' ').first}'),
                   ],
                 )

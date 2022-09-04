@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:tiutiu/core/Custom/icons.dart';
 import 'package:tiutiu/Widgets/background.dart';
@@ -141,7 +142,7 @@ class _AnnouncerDetailsState extends State<AnnouncerDetails> {
                         children: [
                           CircleChild(
                             avatarRadius: 25,
-                            child: Text(
+                            child: AutoSizeText(
                               '$userTotalToDonate',
                               style: TextStyle(
                                 color: Colors.white,
@@ -151,7 +152,7 @@ class _AnnouncerDetailsState extends State<AnnouncerDetails> {
                             ),
                           ),
                           SizedBox(height: 10),
-                          Text(
+                          AutoSizeText(
                             'P/ adoção',
                             style:
                                 Theme.of(context).textTheme.headline4!.copyWith(
@@ -164,7 +165,7 @@ class _AnnouncerDetailsState extends State<AnnouncerDetails> {
                         children: [
                           CircleChild(
                             avatarRadius: 25,
-                            child: Text(
+                            child: AutoSizeText(
                               '$userTotalDonated',
                               style: TextStyle(
                                   color: Colors.white,
@@ -173,7 +174,7 @@ class _AnnouncerDetailsState extends State<AnnouncerDetails> {
                             ),
                           ),
                           SizedBox(height: 10),
-                          Text(
+                          AutoSizeText(
                             'Doados',
                             style:
                                 Theme.of(context).textTheme.headline4!.copyWith(
@@ -186,7 +187,7 @@ class _AnnouncerDetailsState extends State<AnnouncerDetails> {
                         children: [
                           CircleChild(
                             avatarRadius: 25,
-                            child: Text(
+                            child: AutoSizeText(
                               "$userTotalAdopted",
                               style: TextStyle(
                                   color: Colors.white,
@@ -195,7 +196,7 @@ class _AnnouncerDetailsState extends State<AnnouncerDetails> {
                             ),
                           ),
                           SizedBox(height: 10),
-                          Text(
+                          AutoSizeText(
                             'Adotados',
                             style:
                                 Theme.of(context).textTheme.headline4!.copyWith(
@@ -208,7 +209,7 @@ class _AnnouncerDetailsState extends State<AnnouncerDetails> {
                         children: [
                           CircleChild(
                             avatarRadius: 25,
-                            child: Text(
+                            child: AutoSizeText(
                               "$userTotalDisap",
                               style: TextStyle(
                                   color: Colors.white,
@@ -217,7 +218,7 @@ class _AnnouncerDetailsState extends State<AnnouncerDetails> {
                             ),
                           ),
                           SizedBox(height: 10),
-                          Text(
+                          AutoSizeText(
                             'Desaparecidos',
                             style:
                                 Theme.of(context).textTheme.headline4!.copyWith(
@@ -365,7 +366,7 @@ class _OnlyChatButton extends StatelessWidget {
         ),
         primary: Colors.purple,
       ),
-      child: Text(
+      child: AutoSizeText(
         'chat',
         style: TextStyle(
           color: Colors.white,

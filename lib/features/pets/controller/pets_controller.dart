@@ -1,11 +1,10 @@
-import 'package:tiutiu/core/models/filter_params.dart';
 import 'package:tiutiu/features/pets/services/pet_service.dart';
 import 'package:tiutiu/core/constants/firebase_env_path.dart';
 import 'package:tiutiu/features/pets/model/pet_model.dart';
+import 'package:tiutiu/features/system/controllers.dart';
 import 'package:tiutiu/core/utils/other_functions.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
-import 'package:tiutiu/features/system/controllers.dart';
 
 class PetsController extends GetxController {
   PetsController(PetService petService) : _petService = petService;
@@ -15,12 +14,12 @@ class PetsController extends GetxController {
   final RxList<Pet> _petsDonate = <Pet>[].obs;
   final RxString _petKind = FirebaseEnvPath.donate.obs;
   final RxList<Pet> _typingSearchResult = <Pet>[].obs;
-  final RxString _orderType = 'Data de postagem'.obs;
   final RxList<Pet> _petsDisappeared = <Pet>[].obs;
   final RxBool _isFilteringByBreed = false.obs;
   final RxBool _isFilteringByName = false.obs;
   final RxString _genderSelected = ''.obs;
   final RxString _healthSelected = ''.obs;
+  final RxString _orderType = 'Data'.obs;
   final RxString _breedSelected = ''.obs;
   final RxBool _isFiltering = false.obs;
   final RxString _sizeSelected = ''.obs;
@@ -28,7 +27,7 @@ class PetsController extends GetxController {
   final Rx<Pet> petPosting = Pet().obs;
   final RxString _ageSelected = ''.obs;
   final RxList<String> _orderTypeList = [
-    'Data de postagem',
+    'Data',
     'Nome',
     'Idade',
   ].obs;

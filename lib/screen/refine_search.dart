@@ -8,6 +8,7 @@ import 'package:tiutiu/core/data/dummy_data.dart';
 import 'package:tiutiu/core/Custom/icons.dart';
 import 'package:tiutiu/Widgets/button.dart';
 import 'package:tiutiu/Widgets/badge.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -135,7 +136,7 @@ class _RefineSearchState extends State<RefineSearch> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(
+        title: AutoSizeText(
           'Refine sua busca',
           style: TextStyle(color: Colors.white, fontSize: 20),
         ),
@@ -155,7 +156,7 @@ class _RefineSearchState extends State<RefineSearch> {
                   alignment: Alignment(-1, 1),
                   child: Padding(
                     padding: const EdgeInsets.only(top: 20.0, left: 15.0),
-                    child: Text(
+                    child: AutoSizeText(
                       'Tipo de PET',
                       style: Theme.of(context)
                           .textTheme
@@ -216,7 +217,7 @@ class _RefineSearchState extends State<RefineSearch> {
                   padding: const EdgeInsets.all(8.0),
                   child: Row(
                     children: [
-                      Text(
+                      AutoSizeText(
                         'Desaparecido ?',
                         style: TextStyle(fontSize: 18),
                       ),
@@ -226,7 +227,7 @@ class _RefineSearchState extends State<RefineSearch> {
                           changePetKind(value!);
                         },
                       ),
-                      Text(
+                      AutoSizeText(
                         'Sim',
                         style: TextStyle(fontSize: 18),
                       ),
@@ -236,7 +237,7 @@ class _RefineSearchState extends State<RefineSearch> {
                           changePetKind(!value!);
                         },
                       ),
-                      Text(
+                      AutoSizeText(
                         'Não',
                         style: TextStyle(fontSize: 18),
                       ),
@@ -348,7 +349,7 @@ class _PetSelector extends StatelessWidget {
                             index == selectedKind ? Colors.white : Colors.black,
                       ),
                       SizedBox(height: 10),
-                      Text(
+                      AutoSizeText(
                         selector[index].keys.first,
                         style: TextStyle(
                           fontWeight:
@@ -399,7 +400,7 @@ class __SelecterTileState extends State<_SelecterTile> {
               padding: const EdgeInsets.symmetric(vertical: 8.0),
               child: Row(
                 children: [
-                  Text(
+                  AutoSizeText(
                     widget.titleTile!,
                     style: TextStyle(fontSize: 18),
                   ),
@@ -415,7 +416,7 @@ class __SelecterTileState extends State<_SelecterTile> {
                   widget.valueSelected != null &&
                           widget.valueSelected!.isNotEmpty
                       ? TextButton(
-                          child: Text('Limpar'),
+                          child: AutoSizeText('Limpar'),
                           onPressed: () => widget.clear?.call(),
                         )
                       : Icon(Tiutiu.plus_squared_alt),

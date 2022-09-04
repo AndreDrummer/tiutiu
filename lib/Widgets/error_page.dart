@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:tiutiu/core/constants/images_assets.dart';
 
@@ -25,7 +26,7 @@ class ErrorPage extends StatelessWidget {
               ),
             ),
             SizedBox(height: 30.0),
-            Text(
+            AutoSizeText(
               errorText,
               textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.headline4!.copyWith(

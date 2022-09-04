@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 
 class ButtonWide extends StatelessWidget {
@@ -36,9 +37,9 @@ class ButtonWide extends StatelessWidget {
             children: [
               icon != null
                   ? Icon(icon, size: 20, color: Colors.white)
-                  : Text(''),
-              icon != null ? SizedBox(width: 15) : Text(''),
-              Text(
+                  : AutoSizeText(''),
+              icon != null ? SizedBox(width: 15) : AutoSizeText(''),
+              AutoSizeText(
                 text!,
                 style: Theme.of(context).textTheme.headline4!.copyWith(
                       color: Colors.white,

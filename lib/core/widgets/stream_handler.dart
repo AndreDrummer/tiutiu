@@ -1,6 +1,6 @@
-import 'package:flutter/material.dart';
-import 'package:tiutiu/Widgets/empty_list.dart';
 import 'package:tiutiu/Widgets/loading_screen.dart';
+import 'package:tiutiu/Widgets/empty_list.dart';
+import 'package:flutter/material.dart';
 
 class StreamHandler<T> extends StatelessWidget {
   const StreamHandler({
