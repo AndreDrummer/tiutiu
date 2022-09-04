@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
@@ -57,7 +58,7 @@ class MessageBubble extends StatelessWidget {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text(
+                          AutoSizeText(
                             DateFormat('dd/MM/y HH:mm')
                                 .format(DateTime.parse(time))
                                 .split(' ')
@@ -74,7 +75,7 @@ class MessageBubble extends StatelessWidget {
                             ),
                           ),
                           Spacer(),
-                          Text(
+                          AutoSizeText(
                             belongToMe
                                 ? 'Eu'
                                 : user.displayName!.split(' ').first,
@@ -93,7 +94,7 @@ class MessageBubble extends StatelessWidget {
                       ),
                     ),
                     Divider(height: 0.2, color: Colors.white),
-                    Text(
+                    AutoSizeText(
                       message,
                       textAlign: belongToMe ? TextAlign.end : TextAlign.start,
                       style: TextStyle(

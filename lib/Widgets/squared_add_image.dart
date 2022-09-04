@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 
 class SquaredAddImage extends StatefulWidget {
@@ -79,7 +80,7 @@ class _SquaredAddImageState extends State<SquaredAddImage> {
                         color: Colors.blue,
                         size: 40,
                       ),
-                      Text(
+                      AutoSizeText(
                         'Adicionar fotos',
                         textAlign: TextAlign.center,
                         style: TextStyle(

@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 
 class ButtonSocialLogin extends StatelessWidget {
@@ -33,7 +34,7 @@ class ButtonSocialLogin extends StatelessWidget {
                       vertical: 8.0,
                       horizontal: 8,
                     ),
-                    child: Text(text!),
+                    child: AutoSizeText(text!),
                   ),
                 ),
               ],

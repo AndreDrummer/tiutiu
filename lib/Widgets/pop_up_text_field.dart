@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:tiutiu/Widgets/background.dart';
 import 'package:tiutiu/Widgets/button.dart';
@@ -25,12 +26,12 @@ class PopupTextField extends StatelessWidget {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
+                AutoSizeText(
                   'Informe detalhes',
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
                 SizedBox(height: 5),
-                Text(
+                AutoSizeText(
                   'Você pode passar detalhes sobre como ou onde viu o PET. (Opcional)',
                   style: TextStyle(fontWeight: FontWeight.w300, fontSize: 13),
                 ),

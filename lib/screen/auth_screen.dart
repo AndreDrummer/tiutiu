@@ -1,5 +1,6 @@
 import 'package:google_fonts/google_fonts.dart';
 import 'package:tiutiu/core/Exceptions/titiu_exceptions.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:tiutiu/Widgets/button_social_login.dart';
 import 'package:tiutiu/Widgets/hint_error.dart';
@@ -144,7 +145,7 @@ class _AuthScreenState extends State<AuthScreen> {
                                 child: Image.asset(ImageAssets.newLogo),
                               ),
                               SizedBox(height: 10),
-                              Text(
+                              AutoSizeText(
                                 'Tiu,tiu',
                                 style: GoogleFonts.miltonianTattoo(
                                   textStyle: TextStyle(
@@ -163,7 +164,7 @@ class _AuthScreenState extends State<AuthScreen> {
                                     top: 16.0, bottom: 8.0),
                                 child: Align(
                                   alignment: Alignment(-0.9, 1),
-                                  child: Text(
+                                  child: AutoSizeText(
                                     'Crie sua conta gratuitamente.',
                                     style: TextStyle(
                                       fontSize: 14,
@@ -234,7 +235,7 @@ class _AuthScreenState extends State<AuthScreen> {
                             }
                           },
                           child: isNewAccount
-                              ? Text(
+                              ? AutoSizeText(
                                   'Fazer login',
                                   style: TextStyle(
                                     fontSize: 14,
@@ -242,7 +243,7 @@ class _AuthScreenState extends State<AuthScreen> {
                                     fontWeight: FontWeight.w700,
                                   ),
                                 )
-                              : Text(
+                              : AutoSizeText(
                                   !isToResetPassword
                                       ? 'Esqueci minha senha'
                                       : 'Fazer login',
@@ -348,7 +349,7 @@ class _AuthScreenState extends State<AuthScreen> {
                                           mainAxisAlignment:
                                               MainAxisAlignment.center,
                                           children: <Widget>[
-                                            Text(
+                                            AutoSizeText(
                                               'Novo usuário?',
                                               style: TextStyle(
                                                 fontSize: 20,
@@ -359,7 +360,7 @@ class _AuthScreenState extends State<AuthScreen> {
                                             Container(
                                               color: Colors.white,
                                               margin: const EdgeInsets.all(4.0),
-                                              child: Text(
+                                              child: AutoSizeText(
                                                 ' crie sua conta grátis.',
                                                 style: TextStyle(
                                                   fontSize: 18,
@@ -373,7 +374,7 @@ class _AuthScreenState extends State<AuthScreen> {
                                       : Container(),
                                 ),
                                 SizedBox(height: 14),
-                                Text(
+                                AutoSizeText(
                                   ' acesse com',
                                   style: TextStyle(
                                     fontSize: 14,

@@ -19,6 +19,7 @@ import 'package:tiutiu/Widgets/hint_error.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:tiutiu/Widgets/button.dart';
 import 'package:tiutiu/Widgets/badge.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import '../Widgets/input_text.dart';
 import 'dart:typed_data';
@@ -181,7 +182,7 @@ class _PetFormState extends State<PetForm> {
                   petFormController.petPhotos[index] != null
               ? [
                   TextButton(
-                    child: Text('Remover'),
+                    child: AutoSizeText('Remover'),
                     onPressed: () {
                       Navigator.pop(context);
                       if (widget.editMode!) {
@@ -208,7 +209,7 @@ class _PetFormState extends State<PetForm> {
                 ]
               : [
                   TextButton(
-                    child: Text(
+                    child: AutoSizeText(
                       'Tirar uma foto',
                       style: TextStyle(
                         color: Colors.black,
@@ -220,7 +221,7 @@ class _PetFormState extends State<PetForm> {
                     },
                   ),
                   TextButton(
-                    child: Text('Abrir galeria'),
+                    child: AutoSizeText('Abrir galeria'),
                     onPressed: () async {
                       if (await checkAndRequestCameraPermissions()) {
                         multiImages();
@@ -464,8 +465,8 @@ class _PetFormState extends State<PetForm> {
         key: _scaffoldKey,
         appBar: AppBar(
           title: widget.editMode!
-              ? Text('Editar dados do ${widget.pet!.name}')
-              : Text(
+              ? AutoSizeText('Editar dados do ${widget.pet!.name}')
+              : AutoSizeText(
                   kind == FirebaseEnvPath.donate
                       ? 'PET PARA ADOÇÃO'
                       : 'PET DESAPARECIDO',
@@ -501,7 +502,7 @@ class _PetFormState extends State<PetForm> {
                         child: FittedBox(
                           child: Row(
                             children: <Widget>[
-                              Text(
+                              AutoSizeText(
                                 kind == FirebaseEnvPath.donate
                                     ? '${petFormController.petPhotos.isEmpty ? 'Insira pelo menos uma foto' : 'Insira algumas fotos do seu bichinho.'}'
                                     : '${petFormController.petPhotos.isEmpty ? 'Insira pelo menos uma foto' : 'Insira fotos dele.'}',
@@ -619,7 +620,7 @@ class _PetFormState extends State<PetForm> {
                           alignment: Alignment(-0.95, 1),
                           child: Padding(
                             padding: const EdgeInsets.only(bottom: 8.0),
-                            child: Text(
+                            child: AutoSizeText(
                               'Idade',
                               style: TextStyle(color: Colors.black),
                             ),
@@ -708,7 +709,7 @@ class _PetFormState extends State<PetForm> {
                           ),
                           child: Row(
                             children: [
-                              Text(
+                              AutoSizeText(
                                 'Sexo',
                                 style: TextStyle(fontSize: 18),
                               ),
@@ -718,7 +719,7 @@ class _PetFormState extends State<PetForm> {
                                   petFormController.petSex = 'Macho';
                                 },
                               ),
-                              Text(
+                              AutoSizeText(
                                 'Macho',
                                 style: TextStyle(fontSize: 18),
                               ),
@@ -728,7 +729,7 @@ class _PetFormState extends State<PetForm> {
                                   petFormController.petSex = 'Fêmea';
                                 },
                               ),
-                              Text(
+                              AutoSizeText(
                                 'Fêmea',
                                 style: TextStyle(fontSize: 18),
                               ),
@@ -785,7 +786,7 @@ class _PetFormState extends State<PetForm> {
                                       const EdgeInsets.symmetric(vertical: 8.0),
                                   child: Row(
                                     children: [
-                                      Text(
+                                      AutoSizeText(
                                         'Características',
                                         style: TextStyle(fontSize: 16),
                                       ),
@@ -914,7 +915,8 @@ class _PetFormState extends State<PetForm> {
                   } else {
                     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                       duration: Duration(seconds: 1),
-                      content: Text('Verifique se há erros no formulário!',
+                      content: AutoSizeText(
+                          'Verifique se há erros no formulário!',
                           style: TextStyle(color: Colors.white)),
                       backgroundColor: Colors.red,
                     ));
