@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:loading_animations/loading_animations.dart';
 
@@ -18,7 +19,7 @@ class LoadingScreen extends StatelessWidget {
             backgroundColor: Colors.black,
           ),
           SizedBox(height: 15),
-          Text(
+          AutoSizeText(
             text,
             style: Theme.of(context)
                 .textTheme

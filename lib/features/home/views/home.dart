@@ -19,40 +19,42 @@ class Home extends StatelessWidget with TiuTiuPopUp {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(
-      () => WillPopScope(
-        onWillPop: () async {
-          return showPopUp(
-            context,
-            AppStrings.wannaLeave,
-            barrierDismissible: false,
-            confirmText: AppStrings.yes,
-            denyText: AppStrings.no,
-            danger: false,
-            warning: true,
-            mainAction: () {
-              Get.back();
-            },
-            secondaryAction: () {
-              exit(0);
-            },
-            title: AppStrings.endApp,
-          ).then((value) => false);
-        },
-        child: Scaffold(
-          resizeToAvoidBottomInset: false,
-          body: Stack(
-            children: [
-              _screens.elementAt(homeController.bottomBarIndex),
-            ],
+    return SafeArea(
+      child: Obx(
+        () => WillPopScope(
+          onWillPop: () async {
+            return showPopUp(
+              context,
+              AppStrings.wannaLeave,
+              barrierDismissible: false,
+              confirmText: AppStrings.yes,
+              denyText: AppStrings.no,
+              danger: false,
+              warning: true,
+              mainAction: () {
+                Get.back();
+              },
+              secondaryAction: () {
+                exit(0);
+              },
+              title: AppStrings.endApp,
+            ).then((value) => false);
+          },
+          child: Scaffold(
+            resizeToAvoidBottomInset: false,
+            body: Stack(
+              children: [
+                _screens.elementAt(homeController.bottomBarIndex),
+              ],
+            ),
+            bottomNavigationBar: BottomBar(),
+            floatingActionButton: homeController.bottomBarIndex > 0
+                ? null
+                : FloatingActionButton(
+                    child: Icon(Icons.add),
+                    onPressed: () {},
+                  ),
           ),
-          bottomNavigationBar: BottomBar(),
-          floatingActionButton: homeController.bottomBarIndex > 0
-              ? null
-              : FloatingActionButton(
-                  child: Icon(Icons.add),
-                  onPressed: () {},
-                ),
         ),
       ),
     );

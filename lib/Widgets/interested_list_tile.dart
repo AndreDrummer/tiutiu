@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
 import 'package:tiutiu/core/utils/image_handle.dart';
@@ -39,8 +40,8 @@ class InterestedListTile extends StatelessWidget {
           ),
         ),
       ),
-      title: Text(interestedUser!.displayName!),
-      subtitle: Text(subtitle!),
+      title: AutoSizeText(interestedUser!.displayName!),
+      subtitle: AutoSizeText(subtitle!),
       trailing: InkWell(
         onTap: trailingFunction,
         child: trailingChild,

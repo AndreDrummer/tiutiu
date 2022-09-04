@@ -2,6 +2,7 @@ import 'package:tiutiu/features/chat/screens/my_chats.dart';
 import 'package:tiutiu/features/chat/screens/global_chat.dart';
 import 'package:tiutiu/features/system/controllers.dart';
 import 'package:tiutiu/core/extensions/string_extension.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 
 class ChatTab extends StatefulWidget {
@@ -89,7 +90,7 @@ class _ChatTabState extends State<ChatTab> with SingleTickerProviderStateMixin {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               if (!chatController.isSearching)
-                Text(
+                AutoSizeText(
                   'chat',
                   style: Theme.of(context).textTheme.headline4!.copyWith(
                         fontSize: 20,

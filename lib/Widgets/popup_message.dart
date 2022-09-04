@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:tiutiu/core/constants/images_assets.dart';
 
@@ -36,7 +37,8 @@ class PopUpMessage extends StatelessWidget {
       title: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-          Text(title!, style: TextStyle(color: Colors.white, fontSize: 16)),
+          AutoSizeText(title!,
+              style: TextStyle(color: Colors.white, fontSize: 16)),
           Container(
             padding: const EdgeInsets.all(2.50),
             child: Image.asset(ImageAssets.newLogo,
@@ -44,7 +46,7 @@ class PopUpMessage extends StatelessWidget {
           )
         ],
       ),
-      content: Text(
+      content: AutoSizeText(
         message!,
         style: TextStyle(
           color: Colors.white,
@@ -58,7 +60,7 @@ class PopUpMessage extends StatelessWidget {
                 onPressed: () {
                   confirmAction!();
                 },
-                child: Text(
+                child: AutoSizeText(
                   confirmText!,
                   style: TextStyle(color: Colors.white),
                 ),
@@ -69,7 +71,7 @@ class PopUpMessage extends StatelessWidget {
                 onPressed: () {
                   denyAction!();
                 },
-                child: Text(
+                child: AutoSizeText(
                   denyText!,
                   style: TextStyle(color: Colors.white),
                 ),

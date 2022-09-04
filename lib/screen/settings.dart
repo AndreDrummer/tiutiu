@@ -9,6 +9,7 @@ import 'package:tiutiu/Widgets/input_text.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:tiutiu/Widgets/divider.dart';
 import 'package:tiutiu/Widgets/button.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'dart:io';
@@ -312,7 +313,7 @@ class _AppSettingsState extends State<AppSettings> {
         return SimpleDialog(
           children: <Widget>[
             TextButton(
-              child: Text(
+              child: AutoSizeText(
                 'Tirar uma foto',
                 style: Theme.of(context).textTheme.headline4!.copyWith(
                       color: Colors.black,
@@ -327,7 +328,7 @@ class _AppSettingsState extends State<AppSettings> {
               },
             ),
             TextButton(
-              child: Text(
+              child: AutoSizeText(
                 'Abrir galeria',
                 style: Theme.of(context).textTheme.headline4!.copyWith(
                       color: Colors.black,
@@ -343,7 +344,7 @@ class _AppSettingsState extends State<AppSettings> {
             ),
             conditionsToRemoveBackPhoto
                 ? TextButton(
-                    child: Text(
+                    child: AutoSizeText(
                       'Remover foto',
                       style: Theme.of(context).textTheme.headline4!.copyWith(
                             color: Colors.black,
@@ -391,7 +392,7 @@ class _AppSettingsState extends State<AppSettings> {
       },
       child: Scaffold(
         appBar: AppBar(
-            title: Text(
+            title: AutoSizeText(
           'Configurações',
           style: TextStyle(fontSize: 20),
         )),
@@ -466,7 +467,7 @@ class _AppSettingsState extends State<AppSettings> {
                             child: TextButton(
                               onPressed: () =>
                                   openModalSelectMedia(context, false),
-                              child: Text(
+                              child: AutoSizeText(
                                 'Toque p/ alterar plano de fundo',
                                 style: TextStyle(
                                     color: Colors.white,
@@ -764,7 +765,7 @@ class _AppSettingsState extends State<AppSettings> {
                             ),
                           );
                         },
-                        child: Text(
+                        child: AutoSizeText(
                           'DELETAR MINHA CONTA',
                           style: TextStyle(color: Colors.white),
                         ),
@@ -814,7 +815,7 @@ class _AppSettingsState extends State<AppSettings> {
       ),
       elevation: 6.0,
       child: ListTile(
-        title: Text(fieldLabel!,
+        title: AutoSizeText(fieldLabel!,
             style: Theme.of(context)
                 .textTheme
                 .headline4!
@@ -837,7 +838,7 @@ class _AppSettingsState extends State<AppSettings> {
                       UnderlineInputBorder(borderSide: BorderSide.none),
                 ),
               )
-            : Text(controller!.text.trim(),
+            : AutoSizeText(controller!.text.trim(),
                 style: fieldHasError
                     ? Theme.of(context)
                         .textTheme
@@ -874,7 +875,7 @@ class _AppSettingsState extends State<AppSettings> {
             ),
             Padding(
               padding: const EdgeInsets.only(right: 8.0),
-              child: Text(labelText!),
+              child: AutoSizeText(labelText!),
             ),
           ],
         ),
