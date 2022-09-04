@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 class HomeFilterItem extends StatelessWidget {
   const HomeFilterItem({
     this.isActive = false,
-    required this.kind,
+    required this.type,
     required this.icon,
     this.onItemTap,
     super.key,
@@ -15,7 +15,7 @@ class HomeFilterItem extends StatelessWidget {
   final Function()? onItemTap;
   final bool isActive;
   final IconData icon;
-  final String kind;
+  final String type;
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +29,7 @@ class HomeFilterItem extends StatelessWidget {
         ),
         margin: EdgeInsets.symmetric(horizontal: 2.0.w, vertical: 4.0.h),
         height: 56.0.h,
-        width: 56.0.w,
+        width: (72.0 + type.length).w,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -39,11 +39,11 @@ class HomeFilterItem extends StatelessWidget {
             ),
             SizedBox(height: 16),
             AutoSizeText(
-              style: TextStyles.fontSize12(
+              style: TextStyles.fontSize(
                 color: isActive ? Colors.white : Colors.green,
                 fontWeight: FontWeight.w600,
               ),
-              kind,
+              type,
             )
           ],
         ),

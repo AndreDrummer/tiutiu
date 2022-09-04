@@ -4,27 +4,27 @@ import 'package:tiutiu/Widgets/home_filter_item.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class FiltersKind extends StatelessWidget {
-  const FiltersKind({super.key});
+class FiltersType extends StatelessWidget {
+  const FiltersType({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final filtersKindText = filterController.filterKindText;
-    final filtersIcon = filterController.filterKindIcon;
+    final filtersTypeText = filterController.filterTypeText;
+    final filtersIcon = filterController.filterTypeIcon;
 
     return Obx(
       () {
-        final filterText = filterController.filterKindTextSelected;
+        final filterText = filterController.filterTypeTextSelected;
         return Container(
           height: 64.0.h,
           child: ListView(scrollDirection: Axis.horizontal, children: [
-            for (int i = 0; i < filtersKindText.length; i++)
+            for (int i = 0; i < filtersTypeText.length; i++)
               HomeFilterItem(
                 onItemTap: () {
-                  filterController.filterKindTextSelected = filtersKindText[i];
+                  filterController.filterTypeTextSelected = filtersTypeText[i];
                 },
-                isActive: filterText == filtersKindText[i],
-                kind: filtersKindText[i],
+                isActive: filterText == filtersTypeText[i],
+                type: filtersTypeText[i],
                 icon: filtersIcon[i],
               )
           ]),
