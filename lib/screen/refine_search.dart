@@ -1,4 +1,4 @@
-import 'package:tiutiu/features/refine_search/controller/refine_search_controller.dart';
+import 'package:tiutiu/features/refine_search/controller/filter_controller.dart';
 import 'package:tiutiu/core/constants/firebase_env_path.dart';
 import 'package:tiutiu/core/utils/routes/routes_name.dart';
 import 'package:tiutiu/features/system/controllers.dart';
@@ -22,7 +22,6 @@ class _RefineSearchState extends State<RefineSearch> {
   bool? isRefiningSearch = false;
   bool? isPetDisappeared = false;
   int? selectedKind;
-  // AdsProvider? adsProvider;
 
   List petsType = ['Cachorro', 'Gato', 'Pássaro', 'Hamster', 'Outro'];
 
@@ -40,12 +39,12 @@ class _RefineSearchState extends State<RefineSearch> {
     _refineSearchController.clearRefineSelections();
     if (index == 0) petsController.petType = 'Todos';
     petsController.petType = petsType[index - 1];
-    _refineSearchController.filterKindTextSelected = petsType[index];
+    _refineSearchController.filterTypeTextSelected = petsType[index];
   }
 
   @override
   void didChangeDependencies() {
-    selectedKind = _refineSearchController.kindSelected;
+    selectedKind = _refineSearchController.typeSelected;
     // adsProvider = Provider.of(context);
     super.didChangeDependencies();
   }

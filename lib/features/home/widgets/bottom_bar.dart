@@ -35,7 +35,7 @@ class BottomBar extends StatelessWidget {
 
   final List<String> bottomBarLabels = [
     AppStrings.pets,
-    BottomBarStrings.myAccount,
+    AppStrings.myAccount,
     BottomBarStrings.myFavorites,
   ];
 

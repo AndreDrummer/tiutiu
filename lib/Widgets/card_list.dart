@@ -12,7 +12,6 @@ import 'package:flutter/material.dart';
 class CardList extends StatefulWidget {
   CardList({
     this.favorite = false,
-    this.donate = true,
     this.petInfo,
     this.kind,
   });
@@ -20,7 +19,6 @@ class CardList extends StatefulWidget {
   final bool favorite;
   final String? kind;
   final Pet? petInfo;
-  final bool? donate;
 
   @override
   _CardListState createState() => _CardListState();
