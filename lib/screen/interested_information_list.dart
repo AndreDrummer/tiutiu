@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:tiutiu/Widgets/interested_info_card.dart';
@@ -152,7 +153,7 @@ class _InterestedListState extends State<InterestedList> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.kind == FirebaseEnvPath.donate
+        title: AutoSizeText(widget.kind == FirebaseEnvPath.donate
             ? 'Interessados em ${widget.pet!.name}'.toUpperCase()
             : 'Quem informou sobre ${widget.pet!.name}'.toUpperCase()),
       ),
@@ -271,7 +272,7 @@ class _InterestedListState extends State<InterestedList> {
       ),
       child: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: Text(
+        child: AutoSizeText(
           text,
           style: TextStyle(
             color: Colors.white,

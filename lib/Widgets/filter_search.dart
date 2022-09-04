@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 
 class FilterSearch extends StatefulWidget {
@@ -60,7 +61,7 @@ class _FilterSearchState extends State<FilterSearch> {
       filters.add(
         Row(
           children: <Widget>[
-            Text(name, style: Theme.of(context).textTheme.headline4),
+            AutoSizeText(name, style: Theme.of(context).textTheme.headline4),
             SizedBox(width: 10),
             DropdownButton<String>(
                 value: initialValues[index],
@@ -76,7 +77,7 @@ class _FilterSearchState extends State<FilterSearch> {
                   return filterValues[index].map((String value) {
                     return Padding(
                       padding: const EdgeInsets.only(top: 16.0),
-                      child: Text(value,
+                      child: AutoSizeText(value,
                           style: Theme.of(context).textTheme.headline4),
                     );
                   }).toList();
@@ -85,7 +86,7 @@ class _FilterSearchState extends State<FilterSearch> {
                     .map<DropdownMenuItem<String>>((String value) {
                   return DropdownMenuItem<String>(
                     value: value,
-                    child: Text(value),
+                    child: AutoSizeText(value),
                   );
                 }).toList()),
           ],
@@ -104,7 +105,7 @@ class _FilterSearchState extends State<FilterSearch> {
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
             primary: Theme.of(context).primaryColor,
           ),
-          child: Text(
+          child: AutoSizeText(
             'OK',
             style: Theme.of(context).textTheme.button,
           ),

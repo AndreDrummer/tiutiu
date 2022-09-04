@@ -4,6 +4,7 @@ import 'package:tiutiu/core/utils/image_handle.dart';
 import 'package:tiutiu/core/constants/images_assets.dart';
 import 'package:tiutiu/Widgets/popup_message.dart';
 import 'package:tiutiu/Widgets/circle_child.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:tiutiu/features/system/controllers.dart';
 
@@ -63,7 +64,7 @@ class _ConfirmAdoptionScreenState extends State<ConfirmAdoptionScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffoldKey,
-      appBar: AppBar(title: Text('Adoções pendentes de confirmação')),
+      appBar: AppBar(title: AutoSizeText('Adoções pendentes de confirmação')),
       body: StreamBuilder<QuerySnapshot>(
         // stream: tiutiuUserController.tiutiuUseradoptionToConfirm(),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -77,7 +78,7 @@ class _ConfirmAdoptionScreenState extends State<ConfirmAdoptionScreen> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(
+                  AutoSizeText(
                     'Nenhuma notificação para adoção.',
                     textAlign: TextAlign.center,
                     style: Theme.of(context).textTheme.headline4!.copyWith(
@@ -131,7 +132,7 @@ class _ConfirmAdoptionScreenState extends State<ConfirmAdoptionScreen> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(
+                              AutoSizeText(
                                 pets[index].name!,
                                 style: TextStyle(
                                   color: Colors.black87,
@@ -139,7 +140,7 @@ class _ConfirmAdoptionScreenState extends State<ConfirmAdoptionScreen> {
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
-                              Text(
+                              AutoSizeText(
                                 pets[index].breed!,
                                 style: TextStyle(
                                   color: Colors.grey,
@@ -161,7 +162,7 @@ class _ConfirmAdoptionScreenState extends State<ConfirmAdoptionScreen> {
                                         child: Icon(Icons.done),
                                         avatarRadius: 20,
                                         color: Colors.green),
-                                    Text(
+                                    AutoSizeText(
                                       'Confirmar',
                                       style: TextStyle(fontSize: 10),
                                     )
@@ -179,7 +180,7 @@ class _ConfirmAdoptionScreenState extends State<ConfirmAdoptionScreen> {
                                         child: Icon(Icons.close),
                                         avatarRadius: 20,
                                         color: Colors.red),
-                                    Text('Negar',
+                                    AutoSizeText('Negar',
                                         style: TextStyle(fontSize: 10))
                                   ],
                                 ),

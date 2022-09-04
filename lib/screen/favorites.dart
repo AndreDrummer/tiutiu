@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:tiutiu/Widgets/background.dart';
 import 'package:tiutiu/Widgets/card_list.dart';
@@ -23,7 +24,7 @@ class _FavoritesState extends State<Favorites> {
     return Scaffold(
       appBar: AppBar(
         leading: null,
-        title: Text(
+        title: AutoSizeText(
           'Favoritos'.toUpperCase(),
           style: Theme.of(context).textTheme.headline4!.copyWith(
                 fontSize: 20,
@@ -44,7 +45,7 @@ class _FavoritesState extends State<Favorites> {
                   }
                   if (snapshot.data!.isEmpty) {
                     return Center(
-                      child: Text(
+                      child: AutoSizeText(
                         'Nenhum PET Favoritado',
                         textAlign: TextAlign.center,
                         style: Theme.of(context).textTheme.headline4!.copyWith(
