@@ -5,6 +5,6 @@ import 'package:get/get.dart';
 class RefineSearchControllerDependency extends DependencyInjection {
   @override
   void init() {
-    Get.lazyPut(() => RefineSearchController());
+    Get.lazyPut(() => FilterController());
   }
 }

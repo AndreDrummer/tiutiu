@@ -51,15 +51,6 @@ class _PetsListState extends State<PetsList> with TiuTiuPopUp {
             buildWidget: ((petsList) {
               return ListView(
                 children: [
-                  TopBar(),
-                  Container(
-                    height: 72,
-                    child: ListView(
-                      scrollDirection: Axis.horizontal,
-                      children: List.generate(
-                          5, (index) => HomeFilterItem(isActive: index.isOdd)),
-                    ),
-                  ),
                   Container(
                     height: marginTop,
                     child: Column(
