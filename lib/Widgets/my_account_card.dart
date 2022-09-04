@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 
 class MyAccountCard extends StatelessWidget {
@@ -42,7 +43,7 @@ class MyAccountCard extends StatelessWidget {
                     Icon(icone, color: Colors.grey, size: 22),
                     Container(
                       width: 100,
-                      child: Text(
+                      child: AutoSizeText(
                         textIcon!,
                         style: Theme.of(context).textTheme.headline4!.copyWith(
                               fontSize: 18,
@@ -53,7 +54,7 @@ class MyAccountCard extends StatelessWidget {
                   ],
                 ),
                 SizedBox(height: 10),
-                Text(
+                AutoSizeText(
                   text!,
                   style: Theme.of(context).textTheme.headline4!.copyWith(
                         fontSize: 18,

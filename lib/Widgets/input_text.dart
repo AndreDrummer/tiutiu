@@ -1,6 +1,6 @@
+import 'package:tiutiu/core/Custom/icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:tiutiu/core/Custom/icons.dart';
 
 // ignore: must_be_immutable
 class InputText extends StatefulWidget {

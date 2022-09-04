@@ -14,7 +14,7 @@
 // import 'package:tiutiu/screen/pet_detail.dart';
 // import 'package:tiutiu/screen/pets_list.dart';
 // import 'package:tiutiu/screen/favorites.dart';
-// import 'package:flutter/material.dart';
+// import 'package:auto_size_text/auto_size_text.dart';
 // import 'dart:async';
 // import 'dart:io';
 
@@ -33,16 +33,16 @@
 
 //   // Widget _buildDialog(BuildContext context) {
 //   //   return AlertDialog(
-//   //     content: Text("Item has been updated"),
+//   //     content: AutoSizeText("Item has been updated"),
 //   //     actions: <Widget>[
 //   //       TextButton(
-//   //         child: const Text('CLOSE'),
+//   //         child: const AutoSizeText('CLOSE'),
 //   //         onPressed: () {
 //   //           Navigator.pop(context, false);
 //   //         },
 //   //       ),
 //   //       TextButton(
-//   //         child: const Text('SHOW'),
+//   //         child: const AutoSizeText('SHOW'),
 //   //         onPressed: () {
 //   //           Navigator.pop(context, true);
 //   //         },

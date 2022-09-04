@@ -14,6 +14,7 @@ import 'package:tiutiu/Widgets/background.dart';
 import 'package:tiutiu/Widgets/empty_list.dart';
 import 'package:tiutiu/screen/pet_form.dart';
 import 'interested_information_list.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 
 class MyPetsScreen extends StatefulWidget {
@@ -83,7 +84,7 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
             Navigator.pop(context);
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
-                content: Text('${pet.name} foi excluído com sucesso!'),
+                content: AutoSizeText('${pet.name} foi excluído com sucesso!'),
               ),
             );
           },
@@ -114,7 +115,7 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
                   icon: Icon(Icons.add),
                 )
               ],
-        title: Text(
+        title: AutoSizeText(
           widget.title!.toUpperCase(),
           style: Theme.of(context).textTheme.headline4!.copyWith(
                 fontSize: 20,
@@ -224,7 +225,7 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
                                           children: [
-                                            Text(
+                                            AutoSizeText(
                                               pets[index].name!,
                                               style: Theme.of(context)
                                                   .textTheme
@@ -236,7 +237,7 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
                                                   ),
                                             ),
                                             SizedBox(height: 10),
-                                            Text(
+                                            AutoSizeText(
                                               pets[index].breed!,
                                               style: Theme.of(context)
                                                   .textTheme
@@ -262,7 +263,7 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
                                                   mainAxisAlignment:
                                                       MainAxisAlignment.end,
                                                   children: [
-                                                    Text(
+                                                    AutoSizeText(
                                                       ' |',
                                                       style: TextStyle(
                                                           fontSize: 20),
@@ -383,7 +384,7 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
                                                         MainAxisAlignment
                                                             .spaceBetween,
                                                     children: [
-                                                      Text(
+                                                      AutoSizeText(
                                                         pets[index].kind ==
                                                                 FirebaseEnvPath
                                                                     .donate
@@ -398,7 +399,8 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
                                                       Row(
                                                         children: [
                                                           SizedBox(width: 50),
-                                                          Text(pets[index]
+                                                          AutoSizeText(pets[
+                                                                          index]
                                                                       .kind ==
                                                                   FirebaseEnvPath
                                                                       .disappeared
@@ -484,7 +486,7 @@ Widget _lablePetKind(String kind) {
     ),
     child: Padding(
       padding: const EdgeInsets.all(8.0),
-      child: Text(
+      child: AutoSizeText(
         '$textLabel',
         style: TextStyle(
           color: Colors.white,

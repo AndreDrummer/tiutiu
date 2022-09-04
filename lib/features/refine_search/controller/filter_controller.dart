@@ -1,9 +1,9 @@
-import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:tiutiu/core/Custom/icons.dart';
-import 'package:tiutiu/core/constants/strings.dart';
-import 'package:get/get.dart';
 import 'package:tiutiu/core/models/filter_params.dart';
+import 'package:tiutiu/core/constants/strings.dart';
+import 'package:tiutiu/core/Custom/icons.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class FilterController extends GetxController {
   final RxString _searchHomeTypeInitialValue = FilterStrings.type.obs;

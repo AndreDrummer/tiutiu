@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 
 class ListTileDrawer extends StatelessWidget {
@@ -25,7 +26,7 @@ class ListTileDrawer extends StatelessWidget {
                     ),
                   )
                 : Icon(icon, color: Colors.black, size: 30),
-            title: Text(
+            title: AutoSizeText(
               tileName!,
               style: TextStyle(fontSize: 18),
             ),

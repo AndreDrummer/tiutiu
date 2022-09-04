@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:tiutiu/core/Custom/icons.dart';
 import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
@@ -68,7 +69,7 @@ class _InterestedInfoCardState extends State<InterestedInfoCard> {
                   children: [
                     Container(
                       width: width - 100,
-                      child: Text(
+                      child: AutoSizeText(
                         widget.interestedUser!.displayName!,
                         style: TextStyle(
                           fontWeight: FontWeight.w700,
@@ -77,7 +78,7 @@ class _InterestedInfoCardState extends State<InterestedInfoCard> {
                       ),
                     ),
                     SizedBox(height: 5),
-                    Text(
+                    AutoSizeText(
                       widget.subtitle!,
                       style: TextStyle(
                         fontWeight: FontWeight.w700,
@@ -110,7 +111,7 @@ class _InterestedInfoCardState extends State<InterestedInfoCard> {
                         text: 'WhatsApp',
                         color: Theme.of(context).primaryColor,
                       )
-                    : Text(''),
+                    : AutoSizeText(''),
                 SizedBox(width: width * 0.14),
                 phoneToCall != null
                     ? _ActionButton(
@@ -121,7 +122,7 @@ class _InterestedInfoCardState extends State<InterestedInfoCard> {
                         text: 'Ligar',
                         color: Colors.orange,
                       )
-                    : Text(''),
+                    : AutoSizeText(''),
               ],
             ),
             SizedBox(height: 5),
@@ -177,7 +178,7 @@ class _ActionButton extends StatelessWidget {
                   ? Icon(icon, size: 18, color: Colors.white)
                   : Container(),
               SizedBox(width: 5),
-              Text(
+              AutoSizeText(
                 text!,
                 style: Theme.of(context).textTheme.headline4!.copyWith(
                       color: Colors.white,

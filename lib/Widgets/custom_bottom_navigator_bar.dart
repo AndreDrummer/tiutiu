@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 
 class CustomBottomNavigatorBar extends StatelessWidget {
@@ -36,7 +37,7 @@ class CustomBottomNavigatorBar extends StatelessWidget {
                 children: <Widget>[
                   Icon(Icons.pin_drop),
                   SizedBox(width: 10),
-                  Text(
+                  AutoSizeText(
                     'Perto de você',
                     style: Theme.of(context).textTheme.headline4!.copyWith(
                         fontWeight: FontWeight.w700, color: Colors.black),

@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:tiutiu/core/utils/image_handle.dart';
 import 'package:tiutiu/core/constants/images_assets.dart';
@@ -40,7 +41,7 @@ class CardDetails extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       FittedBox(
-                        child: Text(
+                        child: AutoSizeText(
                           title!.toUpperCase(),
                           style: TextStyle(
                             letterSpacing: 1.2,
@@ -50,7 +51,7 @@ class CardDetails extends StatelessWidget {
                       ),
                       SizedBox(height: 10),
                       FittedBox(
-                        child: Text(
+                        child: AutoSizeText(
                           text!,
                           style: TextStyle(
                             fontWeight: FontWeight.w700,

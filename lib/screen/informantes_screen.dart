@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:loading_animations/loading_animations.dart';
@@ -50,7 +51,7 @@ class _InformantesScreenState extends State<InformantesScreen> {
 
     return Scaffold(
       // appBar: AppBar(
-      //     title: Text('${arguments['petName']} foi visto aqui'.toUpperCase())),
+      //     title: AutoSizeText('${arguments['petName']} foi visto aqui'.toUpperCase())),
       body: StreamBuilder<List<InterestedModel>>(
         stream: userInfoOrAdoptInterestsProvider!.info,
         builder: (context, snapshot) {
@@ -66,7 +67,7 @@ class _InformantesScreenState extends State<InformantesScreen> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(
+                  AutoSizeText(
                     'Ninguém ainda informou sobre ${['petName']}',
                     textAlign: TextAlign.center,
                     style: Theme.of(context).textTheme.headline4!.copyWith(
@@ -163,7 +164,7 @@ class _InformantesScreenState extends State<InformantesScreen> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
+                        AutoSizeText(
                           'Visto dia ${DateFormat('dd/MM/yyyy HH:mm').format(DateTime.parse(dateTime!)).split(' ').first} às ${DateFormat('dd/MM/yyyy HH:mm').format(DateTime.parse(dateTime)).split(' ').last}, próximo à',
                           style: TextStyle(
                             fontSize: 14,
@@ -183,7 +184,7 @@ class _InformantesScreenState extends State<InformantesScreen> {
                                   child: LoadingBumpingLine.circle(size: 15),
                                 );
                               }
-                              return Text(
+                              return AutoSizeText(
                                 '${snapshot.data}',
                                 style: TextStyle(
                                     fontSize: 12, color: Colors.blueGrey),
@@ -238,7 +239,7 @@ class _InformantesScreenState extends State<InformantesScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     SizedBox(height: 10),
-                    Text(
+                    AutoSizeText(
                       'Detalhes: $details',
                       textAlign: TextAlign.center,
                       style: TextStyle(

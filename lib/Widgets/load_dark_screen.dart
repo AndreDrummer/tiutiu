@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:loading_animations/loading_animations.dart';
 
@@ -24,7 +25,7 @@ class LoadDarkScreen extends StatelessWidget {
                     backgroundColor: Colors.white,
                   ),
                   SizedBox(height: 15),
-                  Text(
+                  AutoSizeText(
                     message,
                     style: Theme.of(context).textTheme.headline4!.copyWith(),
                   )

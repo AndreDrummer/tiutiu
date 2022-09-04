@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 
 class SelectionPage extends StatefulWidget {
@@ -34,7 +35,7 @@ class _SelectionPageState extends State<SelectionPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
+        title: AutoSizeText(
           widget.title,
           style: TextStyle(
             color: Colors.white,
@@ -50,7 +51,7 @@ class _SelectionPageState extends State<SelectionPage> {
         actions: widget.onTap != null
             ? [
                 TextButton(
-                  child: Text(
+                  child: AutoSizeText(
                     'Prosseguir',
                     style: TextStyle(
                       color: Colors.white,
@@ -80,7 +81,7 @@ class _SelectionPageState extends State<SelectionPage> {
                       Navigator.pop(context, list[index]);
                     },
               child: ListTile(
-                title: Text(list[index]),
+                title: AutoSizeText(list[index]),
                 trailing: widget.onTap != null &&
                         widget.valueSelected.contains(list[index])
                     ? Icon(Icons.done, color: Colors.purple)

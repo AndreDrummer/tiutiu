@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:tiutiu/core/constants/images_assets.dart';
@@ -8,7 +9,7 @@ class NoConnection extends StatelessWidget {
     return WillPopScope(
       onWillPop: () async => false,
       child: Scaffold(
-        appBar: AppBar(title: Text('Sem conexão com a internet')),
+        appBar: AppBar(title: AutoSizeText('Sem conexão com a internet')),
         body: Center(
           child: Column(
             children: [
@@ -28,7 +29,7 @@ class NoConnection extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 20),
-              Text(
+              AutoSizeText(
                 'Você não está conectado à internet.',
                 style: TextStyle(
                   color: Colors.red,
@@ -37,13 +38,13 @@ class NoConnection extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(
+                  AutoSizeText(
                     'Conecte-se a uma rede para utilizar',
                     style: TextStyle(
                       color: Colors.green,
                     ),
                   ),
-                  Text(
+                  AutoSizeText(
                     ' Tiu, tiu.',
                     style: GoogleFonts.miltonianTattoo(
                       textStyle: TextStyle(

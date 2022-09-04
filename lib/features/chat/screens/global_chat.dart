@@ -6,6 +6,7 @@ import 'package:tiutiu/core/utils/other_functions.dart';
 import 'package:tiutiu/core/constants/images_assets.dart';
 import 'package:tiutiu/core/utils/image_handle.dart';
 import 'package:tiutiu/Widgets/empty_list.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -68,7 +69,7 @@ class _GlobalChatState extends State<GlobalChat> {
                           padding: const EdgeInsets.all(8.0),
                           child: Row(
                             children: [
-                              Text(
+                              AutoSizeText(
                                 '${messagesList.length} ',
                                 style: TextStyle(
                                   fontSize: 16,
@@ -78,7 +79,7 @@ class _GlobalChatState extends State<GlobalChat> {
                               ),
                               Padding(
                                 padding: const EdgeInsets.only(top: 2.0),
-                                child: Text(
+                                child: AutoSizeText(
                                   'usuários encontrados',
                                   style: TextStyle(
                                     fontSize: 13,
@@ -156,8 +157,8 @@ class _ListTileMessage extends StatelessWidget {
                 ),
               ),
             ),
-            title: Text(name.isEmpty ? 'Usuário sem nome' : name),
-            subtitle: Text(
+            title: AutoSizeText(name.isEmpty ? 'Usuário sem nome' : name),
+            subtitle: AutoSizeText(
               'Usuário desde ${DateFormat('dd/MM/y HH:mm').format(DateTime.parse(user.createdAt!)).split(' ').first}',
               style: TextStyle(fontSize: 10),
             ),
