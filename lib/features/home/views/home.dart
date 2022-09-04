@@ -40,6 +40,7 @@ class Home extends StatelessWidget with TiuTiuPopUp {
           ).then((value) => false);
         },
         child: Scaffold(
+          resizeToAvoidBottomInset: false,
           body: Stack(
             children: [
               _screens.elementAt(homeController.bottomBarIndex),
