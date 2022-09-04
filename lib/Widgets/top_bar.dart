@@ -9,30 +9,35 @@ class TopBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.all(8.0.h),
+      padding: EdgeInsets.fromLTRB(8.0.w, 16.0.h, 8.0.w, 8.0.h),
       child: Row(
         children: [
           Expanded(
-            child: Padding(
-              padding: EdgeInsets.only(bottom: 8.0.h),
-              child: TextFormField(
-                decoration: InputDecoration(
-                  hintText: HomeStrings.searchForName,
-                ),
+            child: TextFormField(
+              decoration: InputDecoration(
+                hintText: HomeStrings.searchForName,
               ),
             ),
           ),
           Padding(
-            padding: EdgeInsets.only(top: 16.0.h, left: 32.0.w),
+            padding: EdgeInsets.only(top: 24.0.h, left: 16.0.w),
             child: Row(
               children: [
                 IconButton(
+                  padding: EdgeInsets.zero,
                   onPressed: () {},
-                  icon: Icon(FontAwesomeIcons.comments),
+                  icon: Icon(
+                    FontAwesomeIcons.comments,
+                    size: 16.0.h,
+                  ),
                 ),
                 IconButton(
+                  padding: EdgeInsets.zero,
                   onPressed: () {},
-                  icon: Icon(FontAwesomeIcons.gear),
+                  icon: Icon(
+                    FontAwesomeIcons.gear,
+                    size: 16.0.h,
+                  ),
                 )
               ],
             ),
