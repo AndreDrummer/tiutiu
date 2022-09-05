@@ -5,6 +5,7 @@ enum PetEnum {
   otherCaracteristics,
   donatedOrFound,
   storageHashKey,
+  disappeared,
   longitude,
   createdAt,
   latitude,
@@ -13,6 +14,7 @@ enum PetEnum {
   ownerId,
   ageYear,
   photos,
+  state,
   health,
   gender,
   color,
@@ -31,6 +33,7 @@ class Pet {
     this.donatedOrFound = false,
     this.otherCaracteristics,
     this.storageHashKey,
+    this.disappeared,
     this.longitude,
     this.createdAt,
     this.latitude,
@@ -45,6 +48,7 @@ class Pet {
     this.views,
     this.breed,
     this.type,
+    this.state,
     this.owner,
     this.size,
     this.name,
@@ -58,6 +62,7 @@ class Pet {
       donatedOrFound: map[PetEnum.donatedOrFound.tostring()] ?? false,
       owner: TiutiuUser.fromMap(map[PetEnum.owner.tostring()]),
       storageHashKey: map[PetEnum.storageHashKey.tostring()],
+      disappeared: map[PetEnum.disappeared.tostring()],
       longitude: map[PetEnum.longitude.tostring()],
       createdAt: map[PetEnum.createdAt.tostring()],
       latitude: map[PetEnum.latitude.tostring()],
@@ -69,6 +74,7 @@ class Pet {
       health: map[PetEnum.health.tostring()],
       gender: map[PetEnum.gender.tostring()],
       color: map[PetEnum.color.tostring()],
+      state: map[PetEnum.state.tostring()],
       views: map[PetEnum.views.tostring()],
       breed: map[PetEnum.breed.tostring()],
       type: map[PetEnum.type.tostring()],
@@ -111,12 +117,14 @@ class Pet {
   bool donatedOrFound;
   String? createdAt;
   TiutiuUser? owner;
+  bool? disappeared;
   double? longitude;
   double? latitude;
   String? ownerId;
   String? details;
   String? gender;
   String? health;
+  String? state;
   String? color;
   int? ageMonth;
   String? breed;
@@ -134,6 +142,7 @@ class Pet {
       PetEnum.otherCaracteristics.tostring(): otherCaracteristics,
       PetEnum.donatedOrFound.tostring(): donatedOrFound,
       PetEnum.storageHashKey.tostring(): storageHashKey,
+      PetEnum.disappeared.tostring(): disappeared,
       PetEnum.owner.tostring(): owner?.toMap(),
       PetEnum.longitude.tostring(): longitude,
       PetEnum.createdAt.tostring(): createdAt,
@@ -145,6 +154,7 @@ class Pet {
       PetEnum.photos.tostring(): photos,
       PetEnum.health.tostring(): health,
       PetEnum.gender.tostring(): gender,
+      PetEnum.state.tostring(): state,
       PetEnum.color.tostring(): color,
       PetEnum.views.tostring(): views,
       PetEnum.breed.tostring(): breed,
