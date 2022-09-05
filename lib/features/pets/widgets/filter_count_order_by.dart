@@ -1,5 +1,6 @@
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/Widgets/custom_input_search.dart';
+import 'package:tiutiu/core/constants/strings.dart';
 import 'package:tiutiu/features/system/controllers.dart';
 import 'package:tiutiu/core/constants/text_styles.dart';
 import 'package:auto_size_text/auto_size_text.dart';
@@ -28,16 +29,18 @@ class FilterResultCount extends StatelessWidget {
                   style: TextStyles.fontSize12(),
                 ),
                 AutoSizeText(
-                  'encontrados em ',
+                  FilterStrings.foundAt,
                   style: TextStyles.fontSize12(),
                 ),
               ],
             ),
             Spacer(),
             DropdownButton<String>(
+              value: filterController.filterStateSelected,
               underline: SizedBox(),
-              onChanged: (value) {},
-              value: DummyData.statesInitials.first,
+              onChanged: (value) {
+                filterController.filterStateSelected = value;
+              },
               items: DummyData.statesInitials
                   .map(
                     (e) => DropdownMenuItem<String>(
@@ -54,23 +57,20 @@ class FilterResultCount extends StatelessWidget {
             Row(
               children: [
                 AutoSizeText(
-                  'ordenados por:  ',
+                  FilterStrings.orderedBy,
                   style: TextStyles.fontSize12(),
                 ),
                 CustomDropdownButtonSearch(
+                  itemList: filterController.orderTypeList,
+                  initialValue: filterController.orderBy,
+                  onChange: (String value) {
+                    filterController.orderBy = value;
+                  },
                   colorText: Colors.black54,
-                  fontSize: 13,
-                  initialValue: petsController.orderType,
                   isExpanded: false,
                   withPipe: false,
-                  itemList: petsController.orderTypeList,
+                  fontSize: 12.sp,
                   label: '',
-                  onChange: (String text) {
-                    petsController.changeOrderType(
-                      text,
-                      'null',
-                    );
-                  },
                 )
               ],
             ),
