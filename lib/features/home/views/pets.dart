@@ -1,13 +1,20 @@
-import 'package:tiutiu/features/pets/widgets/filter_count_order_by.dart';
-import 'package:tiutiu/features/home/widgets/filters_type.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:tiutiu/features/pets/views/pets_list.dart';
-import 'package:tiutiu/Widgets/top_bar.dart';
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
+import 'package:tiutiu/Widgets/top_bar.dart';
+import 'package:tiutiu/features/home/widgets/filters_type.dart';
+import 'package:tiutiu/features/pets/views/pets_list.dart';
+import 'package:tiutiu/features/pets/widgets/filter_count_order_by.dart';
+
 class Pets extends StatelessWidget {
-  Pets({super.key});
+  Pets({
+    Key? key,
+    this.disappeared = false,
+  }) : super(key: key);
+
+  final bool disappeared;
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +26,7 @@ class Pets extends StatelessWidget {
         FilterResultCount(),
         Container(
           height: Get.height - (Get.height / 3),
-          child: PetsList(),
+          child: PetsList(disappeared: disappeared),
         ),
       ],
     );

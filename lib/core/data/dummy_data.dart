@@ -442,7 +442,7 @@ class DummyData {
     'MT',
     'MG',
     'PA',
-    'PA',
+    'PB',
     'PR',
     'PE',
     'PI',
