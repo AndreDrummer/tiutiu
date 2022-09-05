@@ -4,11 +4,12 @@ class AppStrings {
   static String get noPetFound => 'Nenhum PET encontrado';
   static String get backToStart => 'Voltar ao início';
   static String get myFavorites => 'Meus Favoritos';
+  static String get disappeareds => 'Desaparecidos';
   static String get endApp => 'Encerrar aplicação';
   static String get loadingDots => 'Carregando...';
   static String get myAccount => 'Minha Conta';
+  static String get adopte => 'Adotar';
   static String get name => 'Tiu, tiu';
-  static String get pets => 'PETs';
   static String get yes => 'Sim';
   static String get no => 'Não';
   static String get ok => 'OK';
@@ -23,13 +24,19 @@ class BottomBarStrings {
 }
 
 class FilterStrings {
+  static String get orderedBy => 'ordenados por:  ';
   static String get disappeared => 'Desaparecido';
+  static String get foundAt => 'encontrados em ';
   static String get petBreed => 'Raça do Pet';
   static String get petName => 'Nome do Pet';
+  static String get distance => 'Distância';
   static String get exotic => 'Exótico';
   static String get dog => 'Cachorro';
   static String get bird => 'Pássaro';
+  static String get date => 'Data';
+  static String get age => 'Idade';
   static String get type => 'Tipo';
+  static String get name => 'Nome';
   static String get all => 'Todos';
   static String get cat => 'Gato';
 }

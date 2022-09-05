@@ -13,6 +13,7 @@ import 'dart:io';
 class Home extends StatelessWidget with TiuTiuPopUp {
   final _screens = <Widget>[
     Pets(),
+    Pets(disappeared: true),
     homeController.isAuthenticated ? MyAccount() : AuthScreen(),
     homeController.isAuthenticated ? Favorites() : AuthScreen(),
   ];
