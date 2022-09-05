@@ -1,11 +1,13 @@
 import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
 import 'package:tiutiu/features/auth/services/auth_service.dart';
 import 'package:tiutiu/core/constants/firebase_env_path.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:tiutiu/core/extensions/enum_tostring.dart';
 import 'package:tiutiu/features/pets/model/pet_model.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:geocoding/geocoding.dart';
 
 class MigrationService {
   FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -15,6 +17,7 @@ class MigrationService {
   void migrate() async {
     // migrateAllUsers();
     // migrateAllPetAds();
+    updateSomePetData();
   }
 
   void migrateAllUsers() async {
@@ -55,7 +58,6 @@ class MigrationService {
           // debugPrint('>> ${map[PetEnum.owner.tostring()]}');
 
           insertAdDataInNewPath(Pet.fromMigrate(map));
-          // petAd.reference.set({'uid': petAd.id}, SetOptions(merge: true));
         } else {
           deletePost(petAd);
         }
@@ -63,6 +65,23 @@ class MigrationService {
         // Apagar anuncios de Maio/2022
         deletePost(petAd);
       }
+    });
+  }
+
+  void updateSomePetData() async {
+    final list = await _firestore.collection(newPathToAds).get();
+
+    list.docs.forEach((petAd) async {
+      // final pet = Pet.fromMap(petAd.data());
+
+      // final petAdState = await getPetAdState(
+      //   LatLng(
+      //     pet.latitude!,
+      //     pet.longitude!,
+      //   ),
+      // );
+
+      petAd.reference.set({'disappeared': false}, SetOptions(merge: true));
     });
   }
 
@@ -153,5 +172,14 @@ class MigrationService {
         .signInWithEmailAndPassword(email: email, password: password);
     _firebaseUser = result.user;
     return _firebaseUser != null;
+  }
+
+  Future getPetAdState(LatLng position) async {
+    final placemarkList = await placemarkFromCoordinates(
+      position.latitude,
+      position.longitude,
+    );
+
+    return placemarkList.first.administrativeArea;
   }
 }
