@@ -11,8 +11,15 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class PetsList extends StatefulWidget {
+  const PetsList({
+    super.key,
+    this.disappeared = false,
+  });
+
   @override
   _PetsListState createState() => _PetsListState();
+
+  final bool disappeared;
 }
 
 class _PetsListState extends State<PetsList> with TiuTiuPopUp {
@@ -31,7 +38,9 @@ class _PetsListState extends State<PetsList> with TiuTiuPopUp {
 
     return Obx(
       () => StreamBuilder<List<Pet>>(
-        stream: petsController.petsList(),
+        stream: petsController.petsList(
+          disappeared: widget.disappeared,
+        ),
         builder: (context, snapshot) {
           return StreamHandler<List<Pet>>(
             loadingMessage: AppStrings.loadingDots,

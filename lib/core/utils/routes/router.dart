@@ -7,7 +7,6 @@ import 'package:tiutiu/screen/informantes_screen.dart';
 import 'package:tiutiu/features/home/views/home.dart';
 import 'package:tiutiu/screen/confirm_adoption.dart';
 import 'package:tiutiu/screen/choose_location.dart';
-import 'package:tiutiu/screen/refine_search.dart';
 import 'package:tiutiu/screen/notifications.dart';
 import 'package:tiutiu/screen/auth_screen.dart';
 import 'package:tiutiu/screen/pet_detail.dart';
@@ -78,10 +77,6 @@ class RouterGenerator {
       case Routes.pet_details:
         return MaterialPageRoute(
           builder: (_) => PetDetails(),
-        );
-      case Routes.search:
-        return MaterialPageRoute(
-          builder: (_) => RefineSearch(),
         );
       case Routes.interested_list:
         return MaterialPageRoute(
