@@ -19,18 +19,13 @@ class PetsController extends GetxController {
   final RxBool _isFilteringByName = false.obs;
   final RxString _genderSelected = ''.obs;
   final RxString _healthSelected = ''.obs;
-  final RxString _orderType = 'Data'.obs;
   final RxString _breedSelected = ''.obs;
   final RxBool _isFiltering = false.obs;
   final RxString _sizeSelected = ''.obs;
   final RxString _petType = 'Todos'.obs;
   final Rx<Pet> petPosting = Pet().obs;
   final RxString _ageSelected = ''.obs;
-  final RxList<String> _orderTypeList = [
-    'Data',
-    'Nome',
-    'Idade',
-  ].obs;
+
   final RxString _petName = ''.obs;
   final RxInt _petsCount = 0.obs;
 
@@ -41,11 +36,9 @@ class PetsController extends GetxController {
   String get healthSelected => _healthSelected.value;
   List<Pet> get petsDisappeared => _petsDisappeared;
   String get breedSelected => _breedSelected.value;
-  List<String> get orderTypeList => _orderTypeList;
   String get sizeSelected => _sizeSelected.value;
   String get ageSelected => _ageSelected.value;
   bool get isFiltering => _isFiltering.value;
-  String get orderType => _orderType.value;
   List<Pet> get petsDonate => _petsDonate;
   int get petsCount => _petsCount.value;
   String get petName => _petName.value;
@@ -56,7 +49,6 @@ class PetsController extends GetxController {
   void set isFilteringByBreed(bool value) => _isFilteringByBreed(value);
   void set isFilteringByName(bool value) => _isFilteringByName(value);
   void set petsDisappeared(List<Pet> list) => _petsDisappeared(list);
-  void set orderTypeList(List<String> list) => _orderTypeList(list);
   void set healthSelected(String value) => _healthSelected(value);
   void set genderSelected(String value) => _genderSelected(value);
   void set breedSelected(String value) => _breedSelected(value);
@@ -68,17 +60,17 @@ class PetsController extends GetxController {
   void set petKind(String value) => _petKind(value);
   void set petType(String value) => _petType(value);
 
-  void changeOrderType(String text, String state) {
-    _orderType(text);
-  }
+  Stream<List<Pet>> petsList({bool disappeared = false}) {
+    final petsListStream = _petService.loadPets(
+      filterController.filterParams(
+        disappeared: disappeared,
+      ),
+    );
 
-  Stream<List<Pet>> petsList() {
-    final stream = _petService.loadPets(filterController.filterParams());
-
-    return stream.asyncMap<List<Pet>>((event) {
-      _petsCount(event.docs.length);
-      return event.docs.map((el) {
-        return Pet.fromMap(el.data());
+    return petsListStream.asyncMap<List<Pet>>((querySnapshot) {
+      _petsCount(querySnapshot.docs.length);
+      return querySnapshot.docs.map((petSnapshot) {
+        return Pet.fromMap(petSnapshot.data());
       }).toList();
     });
   }

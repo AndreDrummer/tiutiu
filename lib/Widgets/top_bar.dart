@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/constants/text_styles.dart';
 import 'package:tiutiu/core/constants/strings.dart';
 import 'package:flutter/material.dart';
+import 'package:tiutiu/features/system/controllers.dart';
 
 class TopBar extends StatelessWidget {
   const TopBar({super.key});
@@ -16,13 +17,16 @@ class TopBar extends StatelessWidget {
           Expanded(
             child: TextFormField(
               textInputAction: TextInputAction.search,
+              onChanged: (value) {
+                filterController.filterByName = value;
+              },
               decoration: InputDecoration(
                 constraints: BoxConstraints(maxHeight: 32.0.h),
                 contentPadding: EdgeInsets.only(left: 8.0.w),
-                fillColor: Colors.purple.withAlpha(30),
+                fillColor: Colors.purple.withAlpha(20),
                 hintStyle: TextStyles.fontSize12(
                   fontWeight: FontWeight.w600,
-                  color: Colors.grey,
+                  color: Colors.black54,
                 ),
                 hintText: HomeStrings.searchForName,
                 enabledBorder: _inputBorder(),
