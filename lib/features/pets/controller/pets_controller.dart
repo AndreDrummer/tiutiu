@@ -90,6 +90,16 @@ class PetsController extends GetxController {
     required DocumentReference petReference,
     required int actualViews,
   }) {
-    petReference.set({'views': ++actualViews}, SetOptions(merge: true));
+    petReference.set(
+        {PetEnum.views.tostring(): ++actualViews}, SetOptions(merge: true));
+  }
+
+  void showInterest({
+    required DocumentReference petReference,
+    required int actualInteresteds,
+  }) {
+    petReference.set({
+      PetEnum.interesteds.tostring(): ++actualInteresteds,
+    }, SetOptions(merge: true));
   }
 }

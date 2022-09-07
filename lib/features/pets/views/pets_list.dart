@@ -1,4 +1,6 @@
+import 'package:tiutiu/Widgets/card_ad_list.dart';
 import 'package:tiutiu/core/migration/controller/migration_controller.dart';
+import 'package:tiutiu/features/home/controller/home_controller.dart';
 import 'package:tiutiu/features/pets/widgets/back_to_start.dart';
 import 'package:tiutiu/features/pets/model/pet_model.dart';
 import 'package:tiutiu/core/widgets/stream_handler.dart';
@@ -6,7 +8,7 @@ import 'package:tiutiu/features/system/controllers.dart';
 import 'package:tiutiu/core/mixins/tiu_tiu_pop_up.dart';
 import 'package:tiutiu/core/constants/strings.dart';
 import 'package:tiutiu/Widgets/empty_list.dart';
-import 'package:tiutiu/Widgets/card_list.dart';
+import 'package:tiutiu/Widgets/card_ad.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -97,8 +99,10 @@ class _RenderListItem extends StatelessWidget {
       return BackToStart(
         onPressed: onNavigateToTop,
       );
-    return CardList(
-      pet: pet,
+    return Obx(
+      () => homeController.cardVisibilityKind == CardVisibilityKind.banner
+          ? CardAdList(pet: pet)
+          : CardAd(pet: pet),
     );
   }
 }
