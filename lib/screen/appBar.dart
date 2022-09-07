@@ -3,6 +3,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:tiutiu/Widgets/badge.dart';
+import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/features/system/controllers.dart';
 import 'package:tiutiu/features/chat/common/functions.dart';
 import 'package:tiutiu/core/utils/routes/routes_name.dart';
@@ -73,7 +74,7 @@ class TitleAppBar extends StatelessWidget {
                             return Positioned(
                               right: 10,
                               child: Badge(
-                                color: Colors.red,
+                                color: AppColors.danger,
                                 text: newMessagesQty,
                               ),
                             );
@@ -107,7 +108,7 @@ class TitleAppBar extends StatelessWidget {
                             return Positioned(
                               right: 10,
                               child: Badge(
-                                color: Colors.red,
+                                color: AppColors.danger,
                                 text: snapshot.data?.docs.length ?? 0,
                               ),
                             );

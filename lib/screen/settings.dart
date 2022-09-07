@@ -1,4 +1,5 @@
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
+import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/core/constants/images_assets.dart';
 import 'package:tiutiu/features/system/controllers.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -633,7 +634,7 @@ class _AppSettingsState extends State<AppSettings> {
                                                 groupValue: snapshot.data,
                                                 labelText: 'WhatsApp',
                                                 value: 0,
-                                                color: Colors.green,
+                                                color: AppColors.primary,
                                               ),
                                               radio(
                                                 groupValue: snapshot.data,
@@ -652,13 +653,13 @@ class _AppSettingsState extends State<AppSettings> {
                                                 groupValue: snapshot.data,
                                                 labelText: 'E-mail',
                                                 value: 2,
-                                                color: Colors.red,
+                                                color: AppColors.danger,
                                               ),
                                               radio(
                                                 groupValue: snapshot.data,
                                                 labelText: 'Só pelo chat',
                                                 value: 3,
-                                                color: Colors.purple,
+                                                color: AppColors.secondary,
                                               ),
                                             ],
                                           ),
@@ -733,7 +734,7 @@ class _AppSettingsState extends State<AppSettings> {
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(16),
                           ),
-                          primary: Colors.red,
+                          primary: AppColors.danger,
                         ),
                         onPressed: () async {
                           await showDialog(
@@ -843,7 +844,7 @@ class _AppSettingsState extends State<AppSettings> {
                     ? Theme.of(context)
                         .textTheme
                         .headline4!
-                        .copyWith(color: Colors.red)
+                        .copyWith(color: AppColors.danger)
                     : null),
         trailing: IconButton(
           icon: isFieldEditing ? Icon(Icons.save) : Icon(Icons.mode_edit),

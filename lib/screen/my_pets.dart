@@ -1,3 +1,4 @@
+import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/core/constants/images_assets.dart';
 import 'package:tiutiu/core/utils/image_handle.dart';
 import 'package:tiutiu/features/pets/services/pet_service.dart';
@@ -254,88 +255,87 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
                                     ),
                                     Expanded(
                                       flex: 2,
-                                      child:
-                                          widget.kind == null ||
-                                                  widget.kind ==
-                                                      FirebaseEnvPath.adopted
-                                              ? Container()
-                                              : Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.end,
-                                                  children: [
-                                                    AutoSizeText(
-                                                      ' |',
-                                                      style: TextStyle(
-                                                          fontSize: 20),
-                                                    ),
-                                                    IconButton(
-                                                      icon: Icon(Icons.edit,
-                                                          size: 30,
-                                                          color: Colors.black),
-                                                      onPressed: () {
-                                                        showDialog(
-                                                            context: context,
-                                                            builder:
-                                                                (context) =>
-                                                                    PopUpMessage(
-                                                                      title:
-                                                                          'Localização',
-                                                                      message:
-                                                                          'Deseja alterar a localização do PET ?',
-                                                                      confirmText:
-                                                                          'Sim',
-                                                                      confirmAction:
-                                                                          () {
-                                                                        Navigator.pop(
-                                                                            context);
-                                                                        Navigator
-                                                                            .push(
-                                                                          context,
-                                                                          MaterialPageRoute(
-                                                                            builder:
-                                                                                (context) {
-                                                                              return ChooseLocation(
-                                                                                editMode: true,
-                                                                                pet: pets[index],
-                                                                              );
-                                                                            },
-                                                                          ),
-                                                                        );
-                                                                      },
-                                                                      denyText:
-                                                                          'Não',
-                                                                      denyAction:
-                                                                          () {
-                                                                        Navigator.pop(
-                                                                            context);
-                                                                        Navigator.push(
-                                                                            context,
-                                                                            MaterialPageRoute(
-                                                                          builder:
-                                                                              (context) {
-                                                                            return PetForm(
-                                                                              editMode: true,
-                                                                              pet: pets[index],
-                                                                              localChanged: false,
-                                                                            );
-                                                                          },
-                                                                        ));
-                                                                      },
-                                                                    ));
-                                                      },
-                                                      color: Colors.white,
-                                                    ),
-                                                    IconButton(
-                                                      icon: Icon(Icons.delete,
-                                                          size: 30,
-                                                          color: Colors.red),
-                                                      onPressed: () =>
-                                                          openDialog(
-                                                        pets[index],
-                                                      ),
-                                                    )
-                                                  ],
+                                      child: widget.kind == null ||
+                                              widget.kind ==
+                                                  FirebaseEnvPath.adopted
+                                          ? Container()
+                                          : Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.end,
+                                              children: [
+                                                AutoSizeText(
+                                                  ' |',
+                                                  style:
+                                                      TextStyle(fontSize: 20),
                                                 ),
+                                                IconButton(
+                                                  icon: Icon(Icons.edit,
+                                                      size: 30,
+                                                      color: Colors.black),
+                                                  onPressed: () {
+                                                    showDialog(
+                                                        context: context,
+                                                        builder: (context) =>
+                                                            PopUpMessage(
+                                                              title:
+                                                                  'Localização',
+                                                              message:
+                                                                  'Deseja alterar a localização do PET ?',
+                                                              confirmText:
+                                                                  'Sim',
+                                                              confirmAction:
+                                                                  () {
+                                                                Navigator.pop(
+                                                                    context);
+                                                                Navigator.push(
+                                                                  context,
+                                                                  MaterialPageRoute(
+                                                                    builder:
+                                                                        (context) {
+                                                                      return ChooseLocation(
+                                                                        editMode:
+                                                                            true,
+                                                                        pet: pets[
+                                                                            index],
+                                                                      );
+                                                                    },
+                                                                  ),
+                                                                );
+                                                              },
+                                                              denyText: 'Não',
+                                                              denyAction: () {
+                                                                Navigator.pop(
+                                                                    context);
+                                                                Navigator.push(
+                                                                    context,
+                                                                    MaterialPageRoute(
+                                                                  builder:
+                                                                      (context) {
+                                                                    return PetForm(
+                                                                      editMode:
+                                                                          true,
+                                                                      pet: pets[
+                                                                          index],
+                                                                      localChanged:
+                                                                          false,
+                                                                    );
+                                                                  },
+                                                                ));
+                                                              },
+                                                            ));
+                                                  },
+                                                  color: Colors.white,
+                                                ),
+                                                IconButton(
+                                                  icon: Icon(Icons.delete,
+                                                      size: 30,
+                                                      color: AppColors.danger),
+                                                  onPressed: () => openDialog(
+                                                    pets[index],
+                                                  ),
+                                                )
+                                              ],
+                                            ),
                                     )
                                   ],
                                 ),
@@ -482,7 +482,8 @@ Widget _lablePetKind(String kind) {
   return Container(
     decoration: BoxDecoration(
       borderRadius: BorderRadius.circular(12),
-      color: kind == FirebaseEnvPath.donate ? Colors.purple : Colors.black,
+      color:
+          kind == FirebaseEnvPath.donate ? AppColors.secondary : Colors.black,
     ),
     child: Padding(
       padding: const EdgeInsets.all(8.0),

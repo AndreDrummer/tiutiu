@@ -1,6 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/core/constants/images_assets.dart';
 
 class NoConnection extends StatelessWidget {
@@ -18,21 +19,21 @@ class NoConnection extends StatelessWidget {
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   border: Border.all(
-                    color: Colors.red,
+                    color: AppColors.danger,
                     style: BorderStyle.solid,
                   ),
                 ),
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Image.asset(ImageAssets.noWifi,
-                      color: Colors.red, width: 50, height: 50),
+                      color: AppColors.danger, width: 50, height: 50),
                 ),
               ),
               SizedBox(height: 20),
               AutoSizeText(
                 'Você não está conectado à internet.',
                 style: TextStyle(
-                  color: Colors.red,
+                  color: AppColors.danger,
                 ),
               ),
               Row(
@@ -41,7 +42,7 @@ class NoConnection extends StatelessWidget {
                   AutoSizeText(
                     'Conecte-se a uma rede para utilizar',
                     style: TextStyle(
-                      color: Colors.green,
+                      color: AppColors.primary,
                     ),
                   ),
                   AutoSizeText(
@@ -50,7 +51,7 @@ class NoConnection extends StatelessWidget {
                       textStyle: TextStyle(
                         letterSpacing: 2,
                         fontWeight: FontWeight.bold,
-                        color: Colors.green,
+                        color: AppColors.primary,
                       ),
                     ),
                   )
