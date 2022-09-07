@@ -33,12 +33,15 @@ class FilterController extends GetxController {
     _filterByName(name);
   }
 
+  void clearName() {
+    filterByName = '';
+  }
+
   FilterParams filterParams({bool disappeared = false}) {
     return FilterParams(
       type: filterTypeTextSelected,
       state: filterStateSelected,
       disappeared: disappeared,
-      name: filterByName,
     );
   }
 

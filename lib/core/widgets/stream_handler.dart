@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 class StreamHandler<T> extends StatelessWidget {
   const StreamHandler({
+    this.showLoadingScreen = true,
     required this.loadingMessage,
     required this.buildWidget,
     required this.snapshot,
@@ -12,6 +13,7 @@ class StreamHandler<T> extends StatelessWidget {
 
   final Widget Function(T data) buildWidget;
   final AsyncSnapshot<T> snapshot;
+  final bool showLoadingScreen;
   final String loadingMessage;
 
   Widget _handleSnapshotState() {
@@ -19,7 +21,7 @@ class StreamHandler<T> extends StatelessWidget {
 
     if (snapshot.hasError) return ErrorWidget(Exception(snapshot.error));
 
-    if (connectionState == ConnectionState.waiting)
+    if (connectionState == ConnectionState.waiting && showLoadingScreen)
       return LoadingScreen(text: loadingMessage);
 
     if (!snapshot.hasData || snapshot.data == null) return EmptyListScreen();
