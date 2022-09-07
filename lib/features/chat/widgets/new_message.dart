@@ -1,3 +1,4 @@
+import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/features/system/controllers.dart';
 import 'package:tiutiu/core/models/message_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -26,7 +27,7 @@ class NewMessage extends StatefulWidget {
 class _NewMessageState extends State<NewMessage> {
   final _controller = TextEditingController();
   String _enteredMessage = '';
-  final Color destakColor = Colors.purple;
+  final Color destakColor = AppColors.secondary;
   final Color whiteColor = Colors.white;
 
   void _sendMessage() async {

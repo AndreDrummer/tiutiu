@@ -1,3 +1,4 @@
+import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/core/constants/firebase_env_path.dart';
 import 'package:tiutiu/core/utils/routes/routes_name.dart';
 import 'package:tiutiu/features/pets/model/pet_model.dart';
@@ -50,7 +51,7 @@ class _ChooseLocationState extends State<ChooseLocation> {
               builder: (context, snapshot) {
                 return ButtonWide(
                   color: snapshot.data != null && snapshot.data!
-                      ? Colors.purple
+                      ? AppColors.secondary
                       : Colors.grey,
                   rounded: false,
                   isToExpand: true,

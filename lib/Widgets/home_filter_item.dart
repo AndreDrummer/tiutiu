@@ -1,4 +1,5 @@
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/core/constants/text_styles.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
@@ -23,8 +24,8 @@ class HomeFilterItem extends StatelessWidget {
       onTap: onItemTap,
       child: Container(
         decoration: BoxDecoration(
-          border: Border.all(width: 1.0.w, color: Colors.green),
-          color: isActive ? Colors.green : Colors.white,
+          border: Border.all(width: 1.0.w, color: AppColors.primary),
+          color: isActive ? AppColors.primary : Colors.white,
           borderRadius: BorderRadius.circular(12),
         ),
         margin: EdgeInsets.symmetric(horizontal: 2.0.w, vertical: 4.0.h),
@@ -34,13 +35,13 @@ class HomeFilterItem extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Icon(
-              color: isActive ? Colors.white : Colors.green,
+              color: isActive ? Colors.white : AppColors.primary,
               icon,
             ),
             SizedBox(height: 16),
             AutoSizeText(
               style: TextStyles.fontSize(
-                color: isActive ? Colors.white : Colors.green,
+                color: isActive ? Colors.white : AppColors.primary,
                 fontWeight: FontWeight.w600,
               ),
               type,
