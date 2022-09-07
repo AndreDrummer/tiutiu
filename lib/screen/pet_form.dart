@@ -1,5 +1,6 @@
 import 'package:tiutiu/core/Exceptions/tiutiu_exceptions.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/core/constants/firebase_env_path.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:tiutiu/Widgets/custom_dropdown_button.dart';
@@ -918,7 +919,7 @@ class _PetFormState extends State<PetForm> {
                       content: AutoSizeText(
                           'Verifique se há erros no formulário!',
                           style: TextStyle(color: Colors.white)),
-                      backgroundColor: Colors.red,
+                      backgroundColor: AppColors.danger,
                     ));
                   }
                 },

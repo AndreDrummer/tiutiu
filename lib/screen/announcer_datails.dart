@@ -6,6 +6,7 @@ import 'package:tiutiu/Widgets/background.dart';
 import 'package:tiutiu/Widgets/circle_child.dart';
 import 'package:tiutiu/Widgets/divider.dart';
 import 'package:tiutiu/Widgets/fullscreen_images.dart';
+import 'package:tiutiu/core/constants/app_colors.dart';
 
 import 'package:tiutiu/features/pets/services/pet_service.dart';
 import 'package:tiutiu/features/system/controllers.dart';
@@ -364,7 +365,7 @@ class _OnlyChatButton extends StatelessWidget {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12),
         ),
-        primary: Colors.purple,
+        primary: AppColors.secondary,
       ),
       child: AutoSizeText(
         'chat',
