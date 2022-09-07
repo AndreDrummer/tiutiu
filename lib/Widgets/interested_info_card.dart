@@ -1,6 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:tiutiu/core/Custom/icons.dart';
+import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
 import 'package:tiutiu/core/utils/image_handle.dart';
 import 'package:tiutiu/core/constants/images_assets.dart';
@@ -97,7 +98,7 @@ class _InterestedInfoCardState extends State<InterestedInfoCard> {
                   icon: Icons.chat,
                   onPressed: widget.openChat!,
                   text: 'Chat',
-                  color: Colors.purple,
+                  color: AppColors.secondary,
                 ),
                 SizedBox(width: width * 0.14),
                 canOpenWhatsApp

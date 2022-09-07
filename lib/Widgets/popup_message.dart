@@ -1,5 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/core/constants/images_assets.dart';
 
 class PopUpMessage extends StatelessWidget {
@@ -33,7 +34,7 @@ class PopUpMessage extends StatelessWidget {
           ? Color(0XFFDC3545)
           : warning!
               ? Color(0XFFFFC107)
-              : Colors.green,
+              : AppColors.primary,
       title: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
