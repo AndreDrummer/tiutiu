@@ -1,14 +1,15 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:tiutiu/core/constants/app_colors.dart';
 
 class ButtonWide extends StatelessWidget {
   ButtonWide({
-    this.color = Colors.purple,
     this.isToExpand = false,
     this.rounded = true,
     this.action,
-    this.text,
+    this.color,
     this.icon,
+    this.text,
   });
 
   final bool? isToExpand;
@@ -28,7 +29,7 @@ class ButtonWide extends StatelessWidget {
         width: isToExpand! ? MediaQuery.of(context).size.width : 260,
         decoration: BoxDecoration(
           borderRadius: rounded == true ? BorderRadius.circular(12) : null,
-          color: color,
+          color: color ?? AppColors.secondary,
         ),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8.0),

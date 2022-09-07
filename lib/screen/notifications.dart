@@ -1,3 +1,4 @@
+import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
 import 'package:tiutiu/screen/interested_information_list.dart';
 import 'package:tiutiu/core/models/notification_model.dart';
@@ -178,7 +179,7 @@ class _ListTile extends StatelessWidget {
               children: [
                 !notificationModel.open!
                     ? Badge(
-                        color: Colors.green,
+                        color: AppColors.primary,
                         text: 'Nova',
                       )
                     : AutoSizeText(''),

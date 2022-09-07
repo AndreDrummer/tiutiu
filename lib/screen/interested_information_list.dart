@@ -6,6 +6,7 @@ import 'package:tiutiu/Widgets/interested_info_card.dart';
 import 'package:tiutiu/Widgets/load_dark_screen.dart';
 import 'package:tiutiu/Widgets/loading_page.dart';
 import 'package:tiutiu/Widgets/popup_message.dart';
+import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/features/system/controllers.dart';
 import 'package:tiutiu/core/models/interested_model.dart';
 import 'package:tiutiu/features/pets/model/pet_model.dart';
@@ -99,10 +100,10 @@ class _InterestedListState extends State<InterestedList> {
         .inMinutes;
     switch (widget.kind) {
       case FirebaseEnvPath.donate:
-        if (interestedModel.donated) return Colors.green;
-        if (interestedModel.gaveup) return Colors.red;
+        if (interestedModel.donated) return AppColors.primary;
+        if (interestedModel.gaveup) return AppColors.danger;
         if (hoursSinceLastNotification >= timeToSendNotificationAgain)
-          return Colors.purple;
+          return AppColors.secondary;
         if (hoursSinceLastNotification < timeToSendNotificationAgain)
           return Colors.amber;
         break;
@@ -137,9 +138,9 @@ class _InterestedListState extends State<InterestedList> {
     switch (widget.kind) {
       case FirebaseEnvPath.donate:
         if (interestedModel.donated)
-          return _bagde('Adotado', color: Colors.green);
+          return _bagde('Adotado', color: AppColors.primary);
         if (interestedModel.gaveup)
-          return _bagde('Desistiu', color: Colors.red);
+          return _bagde('Desistiu', color: AppColors.danger);
         if (hoursSinceLastNotification >= timeToSendNotificationAgain)
           return _bagde('Doar');
         if (hoursSinceLastNotification < timeToSendNotificationAgain)
@@ -264,11 +265,11 @@ class _InterestedListState extends State<InterestedList> {
     );
   }
 
-  Widget _bagde(String text, {Color color = Colors.purple}) {
+  Widget _bagde(String text, {Color? color}) {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12),
-        color: color,
+        color: color ?? AppColors.secondary,
       ),
       child: Padding(
         padding: const EdgeInsets.all(8.0),

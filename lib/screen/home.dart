@@ -207,7 +207,7 @@
 //     return WillPopScope(
 //       onWillPop: leaveApplication,
 //       child: Scaffold(
-//         backgroundColor: Colors.green,
+//         backgroundColor: AppColors.primary,
 //         body: Stack(
 //           children: [
 //             _screens.elementAt(_selectedIndex),
