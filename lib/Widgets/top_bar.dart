@@ -1,5 +1,6 @@
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/features/system/controllers.dart';
 import 'package:tiutiu/Widgets/input_close_button.dart';
 import 'package:tiutiu/core/constants/text_styles.dart';
@@ -32,7 +33,7 @@ class TopBar extends StatelessWidget {
                   decoration: InputDecoration(
                     constraints: BoxConstraints(maxHeight: 32.0.h),
                     contentPadding: EdgeInsets.only(left: 8.0.w),
-                    fillColor: Colors.purple.withAlpha(20),
+                    fillColor: AppColors.secondary.withAlpha(20),
                     suffixIcon: Visibility(
                       visible: filterController.filterByName.isNotEmpty,
                       child: InputCloseButton(
@@ -65,7 +66,7 @@ class TopBar extends StatelessWidget {
                   onPressed: () {},
                   icon: Icon(
                     FontAwesomeIcons.comments,
-                    color: Colors.purple,
+                    color: AppColors.secondary,
                     size: 16.0.h,
                   ),
                 ),
@@ -73,7 +74,7 @@ class TopBar extends StatelessWidget {
                   padding: EdgeInsets.zero,
                   onPressed: () {},
                   icon: Icon(
-                    color: Colors.purple,
+                    color: AppColors.secondary,
                     FontAwesomeIcons.gear,
                     size: 16.0.h,
                   ),
@@ -90,7 +91,7 @@ class TopBar extends StatelessWidget {
     return OutlineInputBorder(
       borderSide: BorderSide(
         style: BorderStyle.solid,
-        color: Colors.purple,
+        color: AppColors.secondary,
         width: 1.0.w,
       ),
       borderRadius: BorderRadius.circular(12),

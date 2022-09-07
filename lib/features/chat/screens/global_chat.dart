@@ -1,3 +1,4 @@
+import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
 import 'package:tiutiu/features/chat/common/functions.dart';
 import 'package:tiutiu/features/system/controllers.dart';
@@ -163,8 +164,10 @@ class _ListTileMessage extends StatelessWidget {
               style: TextStyle(fontSize: 10),
             ),
             trailing: Container(
-              decoration:
-                  BoxDecoration(shape: BoxShape.circle, color: Colors.green),
+              decoration: BoxDecoration(
+                color: AppColors.primary,
+                shape: BoxShape.circle,
+              ),
               width: 10,
               height: 10,
             ),

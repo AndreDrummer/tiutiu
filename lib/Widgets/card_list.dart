@@ -1,4 +1,5 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/core/constants/firebase_env_path.dart';
 import 'package:tiutiu/features/pets/model/pet_model.dart';
 import 'package:tiutiu/core/constants/images_assets.dart';
@@ -191,7 +192,7 @@ class _CardListState extends State<CardList> {
                                 ? Icon(
                                     Icons.favorite_border,
                                     size: 40,
-                                    color: Colors.red,
+                                    color: AppColors.danger,
                                   )
                                 : Icon(Tiutiu.location_arrow,
                                     size: 25,

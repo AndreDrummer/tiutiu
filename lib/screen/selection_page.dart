@@ -1,5 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:tiutiu/core/constants/app_colors.dart';
 
 class SelectionPage extends StatefulWidget {
   SelectionPage({
@@ -84,7 +85,7 @@ class _SelectionPageState extends State<SelectionPage> {
                 title: AutoSizeText(list[index]),
                 trailing: widget.onTap != null &&
                         widget.valueSelected.contains(list[index])
-                    ? Icon(Icons.done, color: Colors.purple)
+                    ? Icon(Icons.done, color: AppColors.secondary)
                     : null,
               ),
             );
