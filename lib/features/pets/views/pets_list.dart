@@ -16,10 +16,10 @@ class PetsList extends StatefulWidget {
     this.disappeared = false,
   });
 
+  final bool disappeared;
+
   @override
   _PetsListState createState() => _PetsListState();
-
-  final bool disappeared;
 }
 
 class _PetsListState extends State<PetsList> with TiuTiuPopUp {
@@ -39,14 +39,15 @@ class _PetsListState extends State<PetsList> with TiuTiuPopUp {
     return Obx(
       () => StreamBuilder<List<Pet>>(
         stream: petsController.petsList(
+          isFiltering: filterController.filterByName.isNotEmpty,
           disappeared: widget.disappeared,
         ),
         builder: (context, snapshot) {
           return StreamHandler<List<Pet>>(
+            showLoadingScreen: filterController.filterByName.isEmpty,
             loadingMessage: AppStrings.loadingDots,
             snapshot: snapshot,
             buildWidget: ((petsList) {
-              // petsList = petsList.sublist(0, 10);
               return ListView.builder(
                 itemCount: petsList.length + 1,
                 controller: _scrollController,
@@ -55,26 +56,49 @@ class _PetsListState extends State<PetsList> with TiuTiuPopUp {
                 itemBuilder: (_, index) {
                   if (petsList.isEmpty) return EmptyListScreen();
 
-                  return index == petsList.length
-                      ? BackToStart(
-                          onPressed: () {
-                            _scrollController.animateTo(
-                              0,
-                              duration: new Duration(seconds: 3),
-                              curve: Curves.ease,
-                            );
-                          },
-                        )
-                      : CardList(
-                          kind: petsList[index].kind,
-                          petInfo: petsList[index],
-                        );
+                  print(petsList.length);
+
+                  return _RenderListItem(
+                    showBackToStartButton: index == petsList.length,
+                    onNavigateToTop: () {
+                      _scrollController.animateTo(
+                        duration: new Duration(seconds: 3),
+                        curve: Curves.ease,
+                        0,
+                      );
+                    },
+                    pet: petsList[
+                        index < petsList.length ? index : petsList.length - 1],
+                  );
                 },
               );
             }),
           );
         },
       ),
+    );
+  }
+}
+
+class _RenderListItem extends StatelessWidget {
+  const _RenderListItem({
+    this.showBackToStartButton = false,
+    required this.onNavigateToTop,
+    required this.pet,
+  });
+
+  final Function()? onNavigateToTop;
+  final bool showBackToStartButton;
+  final Pet pet;
+
+  @override
+  Widget build(BuildContext context) {
+    if (showBackToStartButton)
+      return BackToStart(
+        onPressed: onNavigateToTop,
+      );
+    return CardList(
+      pet: pet,
     );
   }
 }
