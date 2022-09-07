@@ -1,39 +1,59 @@
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:tiutiu/features/system/controllers.dart';
+import 'package:tiutiu/Widgets/input_close_button.dart';
 import 'package:tiutiu/core/constants/text_styles.dart';
 import 'package:tiutiu/core/constants/strings.dart';
 import 'package:flutter/material.dart';
-import 'package:tiutiu/features/system/controllers.dart';
+import 'package:get/get.dart';
 
 class TopBar extends StatelessWidget {
   const TopBar({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final _fieldController = TextEditingController(
+      text: filterController.filterByName,
+    );
+
     return Padding(
       padding: EdgeInsets.fromLTRB(2.0.w, 8.0.h, 8.0.w, 0.0.h),
       child: Row(
         children: [
           Expanded(
-            child: TextFormField(
-              textInputAction: TextInputAction.search,
-              onChanged: (value) {
-                filterController.filterByName = value;
+            child: Obx(
+              () {
+                return TextFormField(
+                  textInputAction: TextInputAction.search,
+                  onChanged: (value) {
+                    filterController.filterByName = value;
+                  },
+                  controller: _fieldController,
+                  decoration: InputDecoration(
+                    constraints: BoxConstraints(maxHeight: 32.0.h),
+                    contentPadding: EdgeInsets.only(left: 8.0.w),
+                    fillColor: Colors.purple.withAlpha(20),
+                    suffixIcon: Visibility(
+                      visible: filterController.filterByName.isNotEmpty,
+                      child: InputCloseButton(
+                        onClose: () {
+                          filterController.clearName();
+                          FocusScope.of(context).unfocus();
+                        },
+                      ),
+                    ),
+                    hintStyle: TextStyles.fontSize12(
+                      fontWeight: FontWeight.w600,
+                      color: Colors.black54,
+                    ),
+                    hintText: HomeStrings.searchForName,
+                    enabledBorder: _inputBorder(),
+                    errorBorder: _inputBorder(),
+                    border: _inputBorder(),
+                    filled: true,
+                  ),
+                );
               },
-              decoration: InputDecoration(
-                constraints: BoxConstraints(maxHeight: 32.0.h),
-                contentPadding: EdgeInsets.only(left: 8.0.w),
-                fillColor: Colors.purple.withAlpha(20),
-                hintStyle: TextStyles.fontSize12(
-                  fontWeight: FontWeight.w600,
-                  color: Colors.black54,
-                ),
-                hintText: HomeStrings.searchForName,
-                enabledBorder: _inputBorder(),
-                errorBorder: _inputBorder(),
-                border: _inputBorder(),
-                filled: true,
-              ),
             ),
           ),
           Padding(
@@ -53,8 +73,8 @@ class TopBar extends StatelessWidget {
                   padding: EdgeInsets.zero,
                   onPressed: () {},
                   icon: Icon(
-                    FontAwesomeIcons.gear,
                     color: Colors.purple,
+                    FontAwesomeIcons.gear,
                     size: 16.0.h,
                   ),
                 )

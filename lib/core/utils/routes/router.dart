@@ -5,7 +5,6 @@ import 'package:tiutiu/core/utils/routes/routes_name.dart';
 import 'package:tiutiu/features/system/app_bootstrap.dart';
 import 'package:tiutiu/screen/informantes_screen.dart';
 import 'package:tiutiu/features/home/views/home.dart';
-import 'package:tiutiu/screen/confirm_adoption.dart';
 import 'package:tiutiu/screen/choose_location.dart';
 import 'package:tiutiu/screen/notifications.dart';
 import 'package:tiutiu/screen/auth_screen.dart';
@@ -85,10 +84,6 @@ class RouterGenerator {
       case Routes.info:
         return MaterialPageRoute(
           builder: (_) => InformantesScreen(),
-        );
-      case Routes.confirma_adoption:
-        return MaterialPageRoute(
-          builder: (_) => ConfirmAdoptionScreen(),
         );
       case Routes.notifications:
         return MaterialPageRoute(

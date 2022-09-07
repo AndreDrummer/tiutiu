@@ -4,7 +4,6 @@ import 'dart:convert';
 enum FilterParamsEnum {
   disappeared,
   state,
-  name,
   type,
 }
 
@@ -17,31 +16,27 @@ class FilterParams {
       disappeared: map[FilterParamsEnum.disappeared.tostring()],
       state: map[FilterParamsEnum.state.tostring()],
       type: map[FilterParamsEnum.type.tostring()],
-      name: map[FilterParamsEnum.name.tostring()],
     );
   }
   FilterParams({
     required this.disappeared,
     required this.state,
     required this.type,
-    required this.name,
   });
 
   final bool disappeared;
   final String state;
   final String type;
-  final String name;
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       FilterParamsEnum.disappeared.tostring(): disappeared,
       FilterParamsEnum.state.tostring(): state,
       FilterParamsEnum.type.tostring(): type,
-      FilterParamsEnum.name.tostring(): name,
     };
   }
 
   @override
   String toString() =>
-      'FilterParams(type: $type, state: $state, name: $name, disappeared: $disappeared)';
+      'FilterParams(type: $type, state: $state, disappeared: $disappeared)';
 }

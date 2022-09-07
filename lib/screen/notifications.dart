@@ -1,16 +1,15 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:auto_size_text/auto_size_text.dart';
-import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
-import 'package:tiutiu/Widgets/badge.dart';
-import 'package:tiutiu/Widgets/empty_list.dart';
+import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
+import 'package:tiutiu/screen/interested_information_list.dart';
 import 'package:tiutiu/core/models/notification_model.dart';
 import 'package:tiutiu/features/pets/model/pet_model.dart';
-import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
-import 'package:tiutiu/core/utils/image_handle.dart';
 import 'package:tiutiu/core/constants/images_assets.dart';
-import 'package:tiutiu/screen/confirm_adoption.dart';
-import 'package:tiutiu/screen/interested_information_list.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:tiutiu/core/utils/image_handle.dart';
+import 'package:auto_size_text/auto_size_text.dart';
+import 'package:tiutiu/Widgets/empty_list.dart';
+import 'package:tiutiu/Widgets/badge.dart';
+import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class NotificationScreen extends StatefulWidget {
   @override
@@ -129,25 +128,16 @@ class _ListTile extends StatelessWidget {
           .set({'open': true}, SetOptions(merge: true));
     }
 
-    if (notificationType == 'confirmAdoption') {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) {
-          return ConfirmAdoptionScreen();
-        }),
-      );
-    } else {
-      Pet petInfo = await loadPetInfo(notificationModel.petReference!);
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) {
-          return InterestedList(
-            kind: petInfo.kind,
-            pet: petInfo,
-          );
-        }),
-      );
-    }
+    Pet petInfo = await loadPetInfo(notificationModel.petReference!);
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) {
+        return InterestedList(
+          kind: petInfo.kind,
+          pet: petInfo,
+        );
+      }),
+    );
   }
 
   @override
