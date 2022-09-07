@@ -67,8 +67,7 @@ class _FavoritesState extends State<Favorites> {
                           itemCount: snapshot.data!.length,
                           itemBuilder: (_, index) {
                             return CardList(
-                              petInfo: snapshot.data[index],
-                              kind: snapshot.data[index].kind,
+                              pet: snapshot.data[index],
                               favorite: true,
                             );
                           },
