@@ -5,6 +5,7 @@ enum PetEnum {
   otherCaracteristics,
   donatedOrFound,
   storageHashKey,
+  interesteds,
   disappeared,
   longitude,
   createdAt,
@@ -14,10 +15,10 @@ enum PetEnum {
   ownerId,
   ageYear,
   photos,
-  state,
   health,
   gender,
   color,
+  state,
   views,
   breed,
   type,
@@ -25,6 +26,7 @@ enum PetEnum {
   size,
   name,
   kind,
+  city,
   uid,
 }
 
@@ -32,6 +34,7 @@ class Pet {
   Pet({
     this.donatedOrFound = false,
     this.otherCaracteristics,
+    this.interesteds = 0,
     this.storageHashKey,
     this.disappeared,
     this.longitude,
@@ -53,6 +56,7 @@ class Pet {
     this.size,
     this.name,
     this.kind,
+    this.city,
     this.uid,
   });
 
@@ -63,6 +67,7 @@ class Pet {
       owner: TiutiuUser.fromMap(map[PetEnum.owner.tostring()]),
       storageHashKey: map[PetEnum.storageHashKey.tostring()],
       disappeared: map[PetEnum.disappeared.tostring()],
+      interesteds: map[PetEnum.interesteds.tostring()],
       longitude: map[PetEnum.longitude.tostring()],
       createdAt: map[PetEnum.createdAt.tostring()],
       latitude: map[PetEnum.latitude.tostring()],
@@ -81,6 +86,7 @@ class Pet {
       size: map[PetEnum.size.tostring()],
       name: map[PetEnum.name.tostring()],
       kind: map[PetEnum.kind.tostring()],
+      city: map[PetEnum.city.tostring()],
       uid: map[PetEnum.uid.tostring()],
     );
   }
@@ -108,6 +114,7 @@ class Pet {
       size: map[PetEnum.size.tostring()],
       name: map[PetEnum.name.tostring()],
       kind: map[PetEnum.kind.tostring()],
+      city: map[PetEnum.city.tostring()],
       uid: map[PetEnum.uid.tostring()],
     );
   }
@@ -121,6 +128,7 @@ class Pet {
   double? longitude;
   double? latitude;
   String? ownerId;
+  int interesteds;
   String? details;
   String? gender;
   String? health;
@@ -132,6 +140,7 @@ class Pet {
   String? size;
   String? type;
   String? kind;
+  String? city;
   List? photos;
   String? name;
   String? uid;
@@ -143,6 +152,7 @@ class Pet {
       PetEnum.donatedOrFound.tostring(): donatedOrFound,
       PetEnum.storageHashKey.tostring(): storageHashKey,
       PetEnum.disappeared.tostring(): disappeared,
+      PetEnum.interesteds.tostring(): interesteds,
       PetEnum.owner.tostring(): owner?.toMap(),
       PetEnum.longitude.tostring(): longitude,
       PetEnum.createdAt.tostring(): createdAt,
@@ -161,6 +171,7 @@ class Pet {
       PetEnum.type.tostring(): type,
       PetEnum.size.tostring(): size,
       PetEnum.name.tostring(): name,
+      PetEnum.city.tostring(): city,
       PetEnum.kind.tostring(): kind,
       PetEnum.uid.tostring(): uid,
     };

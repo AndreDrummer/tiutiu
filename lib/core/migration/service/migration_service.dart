@@ -1,3 +1,4 @@
+import 'package:tiutiu/core/utils/formatter.dart';
 import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
 import 'package:tiutiu/features/auth/services/auth_service.dart';
 import 'package:tiutiu/core/constants/firebase_env_path.dart';
@@ -17,7 +18,7 @@ class MigrationService {
   void migrate() async {
     // migrateAllUsers();
     // migrateAllPetAds();
-    // updateSomePetData();
+    updateSomePetData();
   }
 
   void migrateAllUsers() async {
@@ -72,16 +73,17 @@ class MigrationService {
     final list = await _firestore.collection(newPathToAds).get();
 
     list.docs.forEach((petAd) async {
-      // final pet = Pet.fromMap(petAd.data());
+      final pet = Pet.fromMap(petAd.data());
 
-      // final petAdState = await getPetAdState(
-      //   LatLng(
-      //     pet.latitude!,
-      //     pet.longitude!,
-      //   ),
-      // );
+      final petAdCity = await getPetAdCity(
+        LatLng(
+          pet.latitude!,
+          pet.longitude!,
+        ),
+      );
 
-      petAd.reference.set({'disappeared': false}, SetOptions(merge: true));
+      petAd.reference
+          .set({PetEnum.city.tostring(): petAdCity}, SetOptions(merge: true));
     });
   }
 
@@ -120,17 +122,7 @@ class MigrationService {
     required String createdAt,
     required DateTime cutdate,
   }) {
-    final date = createdAt.split('T').first;
-
-    // debugPrint('>> $date before');
-
-    final day = int.parse(date.split('-').last);
-    final month = int.parse(date.split('-')[1]);
-    final year = int.parse(date.split('-').first);
-
-    // debugPrint('>> $day/$month/$year after');
-
-    final dateTime = DateTime(year, month, day);
+    final dateTime = Formatter.getDateTime(createdAt);
     final included = dateTime.isAfter(cutdate);
 
     // debugPrint('>> Included $included');
@@ -180,6 +172,17 @@ class MigrationService {
       position.longitude,
     );
 
+    print(placemarkList);
+
     return placemarkList.first.administrativeArea;
+  }
+
+  Future getPetAdCity(LatLng position) async {
+    final placemarkList = await placemarkFromCoordinates(
+      position.latitude,
+      position.longitude,
+    );
+
+    return placemarkList.first.subAdministrativeArea;
   }
 }

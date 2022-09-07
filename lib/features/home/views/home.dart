@@ -49,12 +49,6 @@ class Home extends StatelessWidget with TiuTiuPopUp {
               ],
             ),
             bottomNavigationBar: BottomBar(),
-            floatingActionButton: homeController.bottomBarIndex > 0
-                ? null
-                : FloatingActionButton(
-                    child: Icon(Icons.add),
-                    onPressed: () {},
-                  ),
           ),
         ),
       ),
