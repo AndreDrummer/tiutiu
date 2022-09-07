@@ -14,12 +14,6 @@ class AppColors {
     900: const Color.fromARGB(255, 76, 175, 80),
   };
 
-  // static const Color warning = Colors.amberAccent;
-  // static const Color info = Colors.indigoAccent;
-  // static const Color secondary = Colors.purple;
-  // static const Color primary = Colors.green;
-  // static const Color danger = Colors.red;
-
   static MaterialColor primary = MaterialColor(0XFF4CAF50, _primaryColorCodes);
   static MaterialColor warning = MaterialColor(0XFFFFD740, _primaryColorCodes);
   static MaterialColor danger = MaterialColor(0XFFF44336, _primaryColorCodes);
