@@ -15,13 +15,11 @@ import 'package:get/get.dart';
 class CardList extends StatefulWidget {
   CardList({
     this.favorite = false,
-    this.petInfo,
-    this.kind,
+    this.pet,
   });
 
   final bool favorite;
-  final String? kind;
-  final Pet? petInfo;
+  final Pet? pet;
 
   @override
   _CardListState createState() => _CardListState();
@@ -51,16 +49,16 @@ class _CardListState extends State<CardList> {
 
     List<String> distanceText = OtherFunctions.distanceCalculate(
       context,
-      widget.petInfo!.latitude!,
-      widget.petInfo!.longitude!,
+      widget.pet!.latitude!,
+      widget.pet!.longitude!,
     );
 
     return InkWell(
       onTap: () async {
         if (tiutiuUserController.tiutiuUser.uid != null &&
-            tiutiuUserController.tiutiuUser.uid != widget.petInfo!.ownerId) {}
+            tiutiuUserController.tiutiuUser.uid != widget.pet!.ownerId) {}
 
-        if (widget.petInfo!.owner == null) {
+        if (widget.pet!.owner == null) {
           print('Was null');
         }
       },
@@ -82,7 +80,7 @@ class _CardListState extends State<CardList> {
               height: Get.height / 1.88,
               width: double.infinity,
               child: CarouselSlider.builder(
-                itemCount: widget.petInfo!.photos?.length ?? 0,
+                itemCount: widget.pet!.photos?.length ?? 0,
                 itemBuilder: (ctx, index, i) {
                   return ClipRRect(
                     borderRadius: BorderRadius.only(
@@ -90,7 +88,7 @@ class _CardListState extends State<CardList> {
                       topRight: Radius.circular(8),
                     ),
                     child: FadeInImage(
-                      image: AssetHandle(widget.petInfo!.photos!.first).build(),
+                      image: AssetHandle(widget.pet!.photos!.first).build(),
                       placeholder: AssetImage(ImageAssets.fadeIn),
                       height: 1000,
                       width: 1000,
@@ -99,7 +97,7 @@ class _CardListState extends State<CardList> {
                   );
                 },
                 options: CarouselOptions(
-                  enableInfiniteScroll: widget.petInfo!.photos!.length > 1,
+                  enableInfiniteScroll: widget.pet!.photos!.length > 1,
                   autoPlayCurve: Curves.easeIn,
                   disableCenter: true,
                   viewportFraction: 1,
@@ -129,7 +127,7 @@ class _CardListState extends State<CardList> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           AutoSizeText(
-                            widget.petInfo!.name!,
+                            widget.pet!.name!,
                             style: Theme.of(context)
                                 .textTheme
                                 .headline4!
@@ -140,7 +138,7 @@ class _CardListState extends State<CardList> {
                           ),
                           SizedBox(height: 5),
                           AutoSizeText(
-                            widget.petInfo!.breed!,
+                            widget.pet!.breed!,
                             style: Theme.of(context)
                                 .textTheme
                                 .headline4!
@@ -161,20 +159,19 @@ class _CardListState extends State<CardList> {
                               children: [
                                 Icon(Tiutiu.eye, size: 14, color: Colors.grey),
                                 AutoSizeText(
-                                    '  ${widget.petInfo!.views ?? 1} visualizações',
+                                    '  ${widget.pet!.views ?? 1} visualizações',
                                     style: TextStyle(
                                         color: Colors.grey,
                                         fontWeight: FontWeight.w700)),
                                 SizedBox(width: 20),
                                 Icon(
-                                    widget.petInfo!.kind ==
-                                            FirebaseEnvPath.donate
+                                    widget.pet!.kind == FirebaseEnvPath.donate
                                         ? Icons.favorite
                                         : Icons.info,
                                     size: 14,
                                     color: Colors.grey),
                                 AutoSizeText(
-                                  ' ${widget.petInfo!.kind == FirebaseEnvPath.donate ? 'interessados' : 'informações'}',
+                                  ' ${widget.pet!.kind == FirebaseEnvPath.donate ? 'interessados' : 'informações'}',
                                   style: TextStyle(
                                     color: Colors.grey,
                                     fontWeight: FontWeight.w700,
