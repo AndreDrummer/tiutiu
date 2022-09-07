@@ -3,24 +3,28 @@ class AppStrings {
   static String get wannaLeave => 'Deseja realmente sair?';
   static String get noPetFound => 'Nenhum PET encontrado';
   static String get backToStart => 'Voltar ao início';
-  static String get myFavorites => 'Meus Favoritos';
   static String get disappeareds => 'Desaparecidos';
   static String get endApp => 'Encerrar aplicação';
   static String get loadingDots => 'Carregando...';
-  static String get myAccount => 'Minha Conta';
+  static String get interesteds => 'interessados';
+  static String get views => 'visualizações';
+  static String get favorites => 'Favoritos';
+  static String get infos => 'informações';
+  static String get profile => 'Perfil';
   static String get adopte => 'Adotar';
   static String get name => 'Tiu, tiu';
+  static String get post => 'Postar';
   static String get yes => 'Sim';
   static String get no => 'Não';
   static String get ok => 'OK';
 }
 
 class HomeStrings {
-  static String get searchForName => 'Pesquise um PET por nome..';
+  static String get searchForName => 'Pesquise por um PET...';
 }
 
 class BottomBarStrings {
-  static String get myFavorites => 'Meus Favoritos';
+  static String get favorites => 'Favoritos';
 }
 
 class FilterStrings {
