@@ -34,7 +34,7 @@ class OtherFunctions {
       textDistance = "${distance.split('.').first}m";
     } else {
       textDistance = (double.parse(distance) / 1000).toStringAsFixed(0);
-      textDistance = textDistance.split('.').first + ' Km';
+      textDistance = textDistance.split('.').first + ' km';
     }
 
     return [textDistance, textTime];
