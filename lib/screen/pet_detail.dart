@@ -1,4 +1,5 @@
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
+import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
 import 'package:tiutiu/features/pets/services/pet_service.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -516,7 +517,7 @@ class _PetDetailsState extends State<PetDetails> {
                                               color: widget.kind ==
                                                       FirebaseEnvPath.donate
                                                           .toUpperCase()
-                                                  ? Colors.red
+                                                  ? AppColors.danger
                                                   : Theme.of(context)
                                                       .primaryColor,
                                               action: !isAuthenticated
@@ -555,7 +556,8 @@ class _PetDetailsState extends State<PetDetails> {
                                                         );
                                                       },
                                                 tooltip: 'Favoritar',
-                                                backgroundColor: Colors.red,
+                                                backgroundColor:
+                                                    AppColors.danger,
                                                 child: Icon(
                                                   Icons.favorite_border,
                                                   color: Colors.white,
@@ -611,13 +613,13 @@ class _PetDetailsState extends State<PetDetails> {
       {bool getColor = false}) {
     switch (betterContect) {
       case 0:
-        return getColor ? Colors.green : Tiutiu.whatsapp;
+        return getColor ? AppColors.primary : Tiutiu.whatsapp;
       case 1:
         return getColor ? Colors.orange : Icons.phone;
       case 2:
-        return getColor ? Colors.red : Icons.email;
+        return getColor ? AppColors.danger : Icons.email;
       default:
-        getColor ? Colors.redAccent : Icons.chat;
+        getColor ? AppColors.danger : Icons.chat;
     }
   }
 
@@ -793,7 +795,7 @@ class _PetDetailsState extends State<PetDetails> {
               context: context,
             );
           },
-          color: Colors.purple,
+          color: AppColors.secondary,
           icon: Icons.phone,
           isToExpand: false,
           text: 'Chat',

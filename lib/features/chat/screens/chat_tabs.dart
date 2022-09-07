@@ -1,7 +1,8 @@
-import 'package:tiutiu/features/chat/screens/my_chats.dart';
-import 'package:tiutiu/features/chat/screens/global_chat.dart';
-import 'package:tiutiu/features/system/controllers.dart';
 import 'package:tiutiu/core/extensions/string_extension.dart';
+import 'package:tiutiu/features/chat/screens/global_chat.dart';
+import 'package:tiutiu/features/chat/screens/my_chats.dart';
+import 'package:tiutiu/features/system/controllers.dart';
+import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 
@@ -120,7 +121,7 @@ class _ChatTabState extends State<ChatTab> with SingleTickerProviderStateMixin {
           ),
           bottom: TabBar(
             controller: _controller,
-            indicatorColor: Colors.purple,
+            indicatorColor: AppColors.secondary,
             tabs: [
               Tab(icon: Icon(Icons.chat_bubble), text: 'MINHAS CONVERSAS'),
               Tab(icon: Icon(Icons.chat_sharp), text: 'TIU, TIU chat'),

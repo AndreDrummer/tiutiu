@@ -1,3 +1,4 @@
+import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
 import 'package:tiutiu/features/chat/common/functions.dart';
 import 'package:tiutiu/core/utils/routes/routes_name.dart';
@@ -180,7 +181,7 @@ class _ListTileMessage extends StatelessWidget {
                   children: [
                     newMessage
                         ? Badge(
-                            color: Colors.green,
+                            color: AppColors.primary,
                             text: 'Nova',
                           )
                         : AutoSizeText(''),

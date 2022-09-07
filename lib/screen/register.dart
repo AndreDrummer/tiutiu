@@ -8,6 +8,7 @@ import 'package:tiutiu/Widgets/button.dart';
 import 'package:tiutiu/Widgets/hint_error.dart';
 import 'package:tiutiu/Widgets/input_text.dart';
 import 'package:tiutiu/Widgets/load_dark_screen.dart';
+import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/features/system/controllers.dart';
 import 'package:tiutiu/core/utils/formatter.dart';
 import 'package:tiutiu/core/utils/routes/routes_name.dart';
@@ -415,7 +416,7 @@ class _RegisterState extends State<Register> {
                                   child: Row(
                                     children: [
                                       Radio(
-                                        activeColor: Colors.red,
+                                        activeColor: AppColors.danger,
                                         groupValue: snapshot.data,
                                         value: 2,
                                         onChanged: (value) {
@@ -434,7 +435,7 @@ class _RegisterState extends State<Register> {
                                   child: Row(
                                     children: [
                                       Radio(
-                                        activeColor: Colors.purple,
+                                        activeColor: AppColors.secondary,
                                         groupValue: snapshot.data,
                                         value: 3,
                                         onChanged: (value) {
