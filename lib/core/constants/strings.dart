@@ -7,6 +7,7 @@ class AppStrings {
   static String get endApp => 'Encerrar aplicação';
   static String get loadingDots => 'Carregando...';
   static String get interesteds => 'interessados';
+  static String get postedAt => 'Publicado em';
   static String get views => 'visualizações';
   static String get favorites => 'Favoritos';
   static String get infos => 'informações';
