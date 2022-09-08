@@ -1,9 +1,9 @@
-import 'package:auto_size_text/auto_size_text.dart';
-import 'package:flutter/material.dart';
-import 'package:tiutiu/Widgets/background.dart';
-import 'package:tiutiu/Widgets/card_ad.dart';
-import 'package:tiutiu/Widgets/loading_screen.dart';
 import 'package:tiutiu/features/system/controllers.dart';
+import 'package:tiutiu/Widgets/cards/card_ad.dart';
+import 'package:auto_size_text/auto_size_text.dart';
+import 'package:tiutiu/Widgets/loading_screen.dart';
+import 'package:tiutiu/Widgets/background.dart';
+import 'package:flutter/material.dart';
 
 class Favorites extends StatefulWidget {
   @override
