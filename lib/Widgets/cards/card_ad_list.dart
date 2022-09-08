@@ -1,9 +1,11 @@
+import 'package:tiutiu/Widgets/cards/widgets/card_builder.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:tiutiu/core/constants/strings.dart';
 import 'package:tiutiu/features/pets/model/pet_model.dart';
+import 'package:tiutiu/core/utils/other_functions.dart';
 import 'package:tiutiu/core/constants/text_styles.dart';
 import 'package:tiutiu/core/utils/image_handle.dart';
+import 'package:tiutiu/core/constants/strings.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:tiutiu/core/utils/formatter.dart';
 import 'package:flutter/material.dart';
@@ -18,6 +20,17 @@ class CardAdList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    List<String> distanceText = OtherFunctions.distanceCalculate(
+      context,
+      pet.latitude!,
+      pet.longitude!,
+    );
+
+    CardBuilder cardBuilder = CardBuilder(
+      distanceText: distanceText[0],
+      pet: pet,
+    );
+
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12.0.h),
@@ -80,7 +93,7 @@ class CardAdList extends StatelessWidget {
                       Container(
                         margin: EdgeInsets.only(
                           top: 2.0.h,
-                          left: 8.0.w,
+                          left: 4.0.w,
                         ),
                         child: AutoSizeText(
                           '${pet.views} ${AppStrings.views}',
@@ -98,7 +111,7 @@ class CardAdList extends StatelessWidget {
                       height: 16.0.h,
                       width: 200.0.w,
                       child: AutoSizeText(
-                        'Publicado em ${Formatter.getFormattedDate(pet.createdAt!)}',
+                        '${AppStrings.postedAt} ${Formatter.getFormattedDate(pet.createdAt!)}',
                         textAlign: TextAlign.left,
                         style: TextStyles.fontSize10(
                           color: Colors.black,
