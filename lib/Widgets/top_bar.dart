@@ -85,12 +85,15 @@ class TopBar extends StatelessWidget {
                   onPressed: () {
                     homeController.changeCardVisibilityKind();
                   },
-                  icon: Icon(
-                    color: AppColors.secondary,
-                    homeController.cardVisibilityKind == CardVisibilityKind.card
-                        ? Icons.menu
-                        : Icons.grid_view,
-                    size: 16.0.h,
+                  icon: Obx(
+                    () => Icon(
+                      color: AppColors.secondary,
+                      homeController.cardVisibilityKind ==
+                              CardVisibilityKind.card
+                          ? Icons.list
+                          : Icons.grid_view,
+                      size: 16.0.h,
+                    ),
                   ),
                 )
               ],
