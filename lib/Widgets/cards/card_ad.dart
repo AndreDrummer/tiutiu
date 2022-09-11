@@ -67,7 +67,6 @@ class CardAd extends StatelessWidget {
                             ],
                           ),
                           Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               cardBuilder.adPostedAt(),
                               Spacer(),

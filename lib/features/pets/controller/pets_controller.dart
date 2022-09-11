@@ -1,3 +1,4 @@
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:tiutiu/core/extensions/enum_tostring.dart';
 import 'package:tiutiu/features/pets/services/pet_service.dart';
 import 'package:tiutiu/core/constants/firebase_env_path.dart';
@@ -47,16 +48,30 @@ class PetsController extends GetxController {
       String petName = petSnapshot.data()[PetEnum.name.tostring()];
       petName = petName.toLowerCase();
 
+      final pet = Pet.fromMap(petSnapshot.data());
+
       if (isFilteringByName) {
         if (petName.contains(filterController.filterByName.toLowerCase())) {
-          petsFilteredByName.add(Pet.fromMap(petSnapshot.data()));
+          petsFilteredByName.add(pet);
         }
       } else {
-        petsFilteredByName.add(Pet.fromMap(petSnapshot.data()));
+        petsFilteredByName.add(pet);
       }
     });
 
     _petsCount(petsFilteredByName.length);
+
+    petsFilteredByName.sort(((a, b) {
+      final adADistance =
+          OtherFunctions.orderByDistance(LatLng(a.latitude!, a.longitude!));
+
+      final adBDistance =
+          OtherFunctions.orderByDistance(LatLng(b.latitude!, b.longitude!));
+
+      if (adADistance < adBDistance) return -1;
+      if (adADistance > adBDistance) return 1;
+      return 0;
+    }));
 
     return petsFilteredByName;
   }
