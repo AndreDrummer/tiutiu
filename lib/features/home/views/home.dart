@@ -16,6 +16,7 @@ class Home extends StatelessWidget with TiuTiuPopUp {
     Pets(disappeared: true),
     homeController.isAuthenticated ? MyAccount() : AuthScreen(),
     homeController.isAuthenticated ? Favorites() : AuthScreen(),
+    homeController.isAuthenticated ? Favorites() : AuthScreen(),
   ];
 
   @override
