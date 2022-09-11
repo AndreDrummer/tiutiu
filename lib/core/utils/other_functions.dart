@@ -40,30 +40,17 @@ class OtherFunctions {
     return [textDistance, textTime];
   }
 
-  static List<Pet> filterResultsByDistancie(BuildContext context,
-      List<Pet> petsListResult, String providerDistanceSelected) {
-    List<Pet> newPetList = [];
+  static double orderByDistance(LatLng adCoords) {
     LatLng location = currentLocationController.location;
 
-    for (int i = 0; i < petsListResult.length; i++) {
-      String? distance = MathFunctions.distanceMatrix(
-        longY: petsListResult[i].longitude!,
-        latY: petsListResult[i].latitude!,
-        longX: location.longitude,
-        latX: location.latitude,
-      );
+    String? distance = MathFunctions.distanceMatrix(
+      longX: location.longitude,
+      latX: location.latitude,
+      longY: adCoords.longitude,
+      latY: adCoords.latitude,
+    );
 
-      String? distancieSelected =
-          providerDistanceSelected.split('Km').first.split('Até').last;
-      double distanceRefineSelected =
-          double.tryParse(distancieSelected) ?? 1000000;
-
-      if (double.parse(distance!) < distanceRefineSelected * 1000) {
-        newPetList.add(petsListResult[i]);
-      }
-    }
-
-    return newPetList;
+    return double.tryParse(distance ?? '9999999.99') ?? 9999999.99;
   }
 
   static String firstCharacterUpper(String text) {
