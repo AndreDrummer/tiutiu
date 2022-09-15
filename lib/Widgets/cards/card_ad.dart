@@ -70,7 +70,10 @@ class CardAd extends StatelessWidget {
                             children: [
                               cardBuilder.adPostedAt(),
                               Spacer(),
-                              cardBuilder.adCityState()
+                              Padding(
+                                padding: EdgeInsets.only(top: 2.0.h),
+                                child: cardBuilder.adCityState(),
+                              )
                             ],
                           ),
                         ],
