@@ -1,4 +1,6 @@
+import 'package:tiutiu/features/home/controller/home_controller.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:tiutiu/features/system/controllers.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:tiutiu/core/utils/image_handle.dart';
 import 'package:flutter/material.dart';
@@ -14,6 +16,12 @@ class AdImages extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return homeController.cardVisibilityKind == CardVisibilityKind.card
+        ? _cardAdImage()
+        : _cardAdListImage();
+  }
+
+  Widget _cardAdImage() {
     return Container(
       decoration: BoxDecoration(
         color: Colors.white54,
@@ -47,6 +55,19 @@ class AdImages extends StatelessWidget {
         ),
       ),
     );
-    ;
+  }
+
+  Widget _cardAdListImage() {
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.only(
+          bottomLeft: Radius.circular(12.0.h),
+          topLeft: Radius.circular(12.0.h),
+        ),
+      ),
+      child: AssetHandle.getImage(photos.first),
+      height: Get.width * .4,
+      width: Get.width * .4,
+    );
   }
 }
