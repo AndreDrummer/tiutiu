@@ -1,11 +1,13 @@
-import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:tiutiu/core/extensions/enum_tostring.dart';
 import 'package:tiutiu/features/pets/services/pet_service.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:tiutiu/core/constants/firebase_env_path.dart';
+import 'package:tiutiu/core/extensions/enum_tostring.dart';
 import 'package:tiutiu/features/pets/model/pet_model.dart';
 import 'package:tiutiu/features/system/controllers.dart';
 import 'package:tiutiu/core/utils/other_functions.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:tiutiu/core/constants/strings.dart';
+import 'package:tiutiu/core/utils/ordenators.dart';
 import 'package:get/get.dart';
 
 class PetsController extends GetxController {
@@ -61,19 +63,25 @@ class PetsController extends GetxController {
 
     _petsCount(petsFilteredByName.length);
 
-    petsFilteredByName.sort(((a, b) {
-      final adADistance =
-          OtherFunctions.orderByDistance(LatLng(a.latitude!, a.longitude!));
+    return ordernateList(petsFilteredByName);
+  }
 
-      final adBDistance =
-          OtherFunctions.orderByDistance(LatLng(b.latitude!, b.longitude!));
+  List<Pet> ordernateList(List<Pet> list) {
+    if (filterController.orderBy == FilterStrings.distance) {
+      list.sort(((a, b) {
+        final adADistance =
+            Ordenators.orderByDistance(LatLng(a.latitude!, a.longitude!));
 
-      if (adADistance < adBDistance) return -1;
-      if (adADistance > adBDistance) return 1;
-      return 0;
-    }));
+        final adBDistance =
+            Ordenators.orderByDistance(LatLng(b.latitude!, b.longitude!));
 
-    return petsFilteredByName;
+        if (adADistance < adBDistance) return -1;
+        if (adADistance > adBDistance) return 1;
+        return 0;
+      }));
+    }
+
+    return list;
   }
 
   List<Pet> getPetListFromSnapshots(List<DocumentSnapshot> docs) {

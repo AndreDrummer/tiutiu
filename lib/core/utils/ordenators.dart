@@ -1,4 +1,7 @@
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:tiutiu/features/pets/model/pet_model.dart';
+import 'package:tiutiu/features/system/controllers.dart';
+import 'package:tiutiu/core/utils/math_functions.dart';
 
 class Ordenators {
   static int orderByPostDate(Pet a, Pet b) {
@@ -24,6 +27,19 @@ class Ordenators {
       }
     }
     return 1;
+  }
+
+  static double orderByDistance(LatLng adCoords) {
+    LatLng location = currentLocationController.location;
+
+    double distance = MathFunctions.distanceMatrix(
+      longX: location.longitude,
+      latX: location.latitude,
+      longY: adCoords.longitude,
+      latY: adCoords.latitude,
+    );
+
+    return distance;
   }
 
   static int orderByAge(Pet a, Pet b) {
