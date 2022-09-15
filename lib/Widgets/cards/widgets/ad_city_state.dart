@@ -1,8 +1,8 @@
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/constants/text_styles.dart';
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:flutter/material.dart';
 import 'package:tiutiu/core/data/dummy_data.dart';
+import 'package:flutter/material.dart';
 
 class AdCityState extends StatelessWidget {
   const AdCityState({
@@ -19,7 +19,7 @@ class AdCityState extends StatelessWidget {
     final statesInitials = DummyData.statesInitials;
     final statesName = DummyData.statesName;
 
-    String UF = statesInitials.elementAt(statesName.indexOf(state));    
+    String UF = statesInitials.elementAt(statesName.indexOf(state));
 
     return Container(
       width: 200.0.w,

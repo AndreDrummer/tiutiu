@@ -32,7 +32,16 @@ class CardAd extends StatelessWidget {
         ),
         child: Column(
           children: [
-            cardBuilder.adImages(),
+            Stack(
+              children: [
+                cardBuilder.adImages(),
+                Positioned(
+                  child: cardBuilder.favoriteButton(),
+                  bottom: 16.0.h,
+                  right: 16.0.w,
+                ),
+              ],
+            ),
             Container(
               decoration: BoxDecoration(
                 color: Colors.white54,

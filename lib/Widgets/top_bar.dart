@@ -19,7 +19,7 @@ class TopBar extends StatelessWidget {
     );
 
     return Padding(
-      padding: EdgeInsets.fromLTRB(2.0.w, 8.0.h, 8.0.w, 0.0.h),
+      padding: EdgeInsets.fromLTRB(6.0.w, 8.0.h, 8.0.w, 0.0.h),
       child: Row(
         children: [
           Expanded(
@@ -90,7 +90,7 @@ class TopBar extends StatelessWidget {
                       color: AppColors.secondary,
                       homeController.cardVisibilityKind ==
                               CardVisibilityKind.card
-                          ? Icons.list
+                          ? Icons.menu
                           : Icons.grid_view,
                       size: 16.0.h,
                     ),
