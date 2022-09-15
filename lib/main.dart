@@ -18,7 +18,7 @@ Future<void> main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  TiuTiuInitializer.start();
+  await TiuTiuInitializer.start();
 
   runApp(TiuTiuApp());
 }

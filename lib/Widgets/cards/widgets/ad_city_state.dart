@@ -19,12 +19,14 @@ class AdCityState extends StatelessWidget {
     final statesInitials = DummyData.statesInitials;
     final statesName = DummyData.statesName;
 
-    String UF = statesInitials.elementAt(statesName.indexOf(state));
+    String UF = statesInitials.elementAt(statesName.indexOf(state));    
 
-    return Padding(
-      padding: EdgeInsets.only(bottom: 8.0.h),
+    return Container(
+      width: 200.0.w,
+      margin: EdgeInsets.only(bottom: 8.0.h),
       child: Row(
         children: [
+          Spacer(),
           Icon(Icons.pin_drop, size: 12.0.h, color: Colors.grey[400]),
           AutoSizeText(
             '$city - $UF',
