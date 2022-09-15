@@ -18,7 +18,7 @@ class MigrationService {
   void migrate() async {
     // migrateAllUsers();
     // migrateAllPetAds();
-    updateSomePetData();
+    // updateSomePetData();
   }
 
   void migrateAllUsers() async {
