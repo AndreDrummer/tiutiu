@@ -1,7 +1,7 @@
-import 'package:get/get.dart';
+import 'package:tiutiu/features/location/extensions/service_location_status.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:tiutiu/features/location/extensions/service_location_status.dart';
+import 'package:get/get.dart';
 
 class CurrentLocationController extends GetxController {
   final Rx<LocationPermission> _permission = LocationPermission.denied.obs;
@@ -73,7 +73,8 @@ class CurrentLocationController extends GetxController {
   }
 
   Future<void> setUserLocation({LatLng? currentLocation}) async {
-    checkPermission();
+    await checkPermission();
+    print('>> Permision $isPermissionGranted');
     if (isPermissionGranted) {
       if (currentLocation == null) {
         final position = await Geolocator.getCurrentPosition(
