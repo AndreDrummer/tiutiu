@@ -15,14 +15,14 @@ class OtherFunctions {
     String textDistance = '';
     String textTime = '';
 
-    String? distance = MathFunctions.distanceMatrix(
+    double distance = MathFunctions.distanceMatrix(
       longX: currentLoction.longitude,
       latX: currentLoction.latitude,
       longY: petLongitude,
       latY: petLatitude,
     );
 
-    String time = MathFunctions.time(double.parse(distance!));
+    String time = MathFunctions.time(distance);
 
     if (double.parse(time) > 60) {
       textTime = "$time\ h";
@@ -30,27 +30,14 @@ class OtherFunctions {
       textTime = "${time.split('.').first}\ min";
     }
 
-    if (double.parse(distance) < 1000) {
-      textDistance = "${distance.split('.').first}m";
+    if (distance < 1000) {
+      textDistance = "$distance m";
     } else {
-      textDistance = (double.parse(distance) / 1000).toStringAsFixed(0);
+      textDistance = (distance / 1000).toStringAsFixed(0);
       textDistance = textDistance.split('.').first + ' km';
     }
 
     return [textDistance, textTime];
-  }
-
-  static double orderByDistance(LatLng adCoords) {
-    LatLng location = currentLocationController.location;
-
-    String? distance = MathFunctions.distanceMatrix(
-      longX: location.longitude,
-      latX: location.latitude,
-      longY: adCoords.longitude,
-      latY: adCoords.latitude,
-    );
-
-    return double.tryParse(distance ?? '9999999.99') ?? 9999999.99;
   }
 
   static String firstCharacterUpper(String text) {
