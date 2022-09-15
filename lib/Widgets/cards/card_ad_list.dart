@@ -88,7 +88,7 @@ class CardAdList extends StatelessWidget {
                     children: [
                       Icon(
                         FontAwesomeIcons.eye,
-                        size: 12.0.h,
+                        size: 10.0.h,
                       ),
                       Container(
                         margin: EdgeInsets.only(
