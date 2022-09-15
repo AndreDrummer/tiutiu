@@ -10,9 +10,9 @@ import 'package:tiutiu/core/models/dependency_injection.dart';
 import 'package:get/get.dart';
 
 class TiuTiuInitializer {
-  static void start() {
+  static Future<void> start() async {
     _initializeDependencies();
-    _initializeLocationServices();
+    await _initializeLocationServices();
   }
 
   static void _initializeDependencies() {
@@ -21,11 +21,11 @@ class TiuTiuInitializer {
     }
   }
 
-  static void _initializeLocationServices() {
+  static Future<void> _initializeLocationServices() async {
     final CurrentLocationController _locationController = Get.find();
 
-    _locationController.updateGPSStatus();
-    _locationController.setUserLocation();
+    await _locationController.updateGPSStatus();
+    await _locationController.setUserLocation();
   }
 
   static List<DependencyInjection> _dependencies = [
