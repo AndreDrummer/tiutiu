@@ -29,17 +29,26 @@ class Ordenators {
     return 1;
   }
 
-  static double orderByDistance(LatLng adCoords) {
+  static int orderByDistance(Pet ad1, Pet ad2) {
     LatLng location = currentLocationController.location;
 
-    double distance = MathFunctions.distanceMatrix(
+    double distance1 = MathFunctions.distanceMatrix(
       longX: location.longitude,
       latX: location.latitude,
-      longY: adCoords.longitude,
-      latY: adCoords.latitude,
+      longY: ad1.longitude!,
+      latY: ad1.latitude!,
     );
 
-    return distance;
+    double distance2 = MathFunctions.distanceMatrix(
+      longX: location.longitude,
+      latX: location.latitude,
+      longY: ad2.longitude!,
+      latY: ad2.latitude!,
+    );
+
+    if (distance1 < distance2) return -1;
+    if (distance1 > distance2) return 1;
+    return 0;
   }
 
   static int orderByAge(Pet a, Pet b) {
