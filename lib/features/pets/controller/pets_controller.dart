@@ -1,5 +1,4 @@
 import 'package:tiutiu/features/pets/services/pet_service.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:tiutiu/core/constants/firebase_env_path.dart';
 import 'package:tiutiu/core/extensions/enum_tostring.dart';
 import 'package:tiutiu/features/pets/model/pet_model.dart';
@@ -15,19 +14,21 @@ class PetsController extends GetxController {
 
   PetService _petService;
 
+  final RxString _orderParam = FilterStrings.distance.obs;
   final RxBool _isFilteringByName = false.obs;
   final RxInt _petsCount = 0.obs;
 
   bool get isFilteringByName => _isFilteringByName.value;
+  String get orderParam => _orderParam.value;
   int get petsCount => _petsCount.value;
 
-  void set isFilteringByName(bool value) => _isFilteringByName(value);
-
   Stream<List<Pet>> petsList({
-    bool isFiltering = false,
+    bool isFilteringByName = false,
     bool disappeared = false,
+    String? orderParam,
   }) {
-    isFilteringByName = isFiltering;
+    _isFilteringByName(isFilteringByName);
+    _orderParam(orderParam);
 
     final petsListStream = _petService.loadPets(
       filterController.filterParams(
@@ -36,11 +37,11 @@ class PetsController extends GetxController {
     );
 
     return petsListStream.asyncMap<List<Pet>>((querySnapshot) {
-      return _filterByName(querySnapshot.docs);
+      return _filterdResult(querySnapshot.docs);
     });
   }
 
-  List<Pet> _filterByName(
+  List<Pet> _filterdResult(
     List<QueryDocumentSnapshot<Map<String, dynamic>>> docs,
   ) {
     List<Pet> petsFilteredByName = [];
@@ -67,18 +68,14 @@ class PetsController extends GetxController {
   }
 
   List<Pet> ordernateList(List<Pet> list) {
-    if (filterController.orderBy == FilterStrings.distance) {
-      list.sort(((a, b) {
-        final adADistance =
-            Ordenators.orderByDistance(LatLng(a.latitude!, a.longitude!));
-
-        final adBDistance =
-            Ordenators.orderByDistance(LatLng(b.latitude!, b.longitude!));
-
-        if (adADistance < adBDistance) return -1;
-        if (adADistance > adBDistance) return 1;
-        return 0;
-      }));
+    if (orderParam == FilterStrings.distance) {
+      list.sort(Ordenators.orderByDistance);
+    } else if (orderParam == FilterStrings.date) {
+      list.sort(Ordenators.orderByPostDate);
+    } else if (orderParam == FilterStrings.age) {
+      list.sort(Ordenators.orderByAge);
+    } else if (orderParam == FilterStrings.name) {
+      list.sort(Ordenators.orderByName);
     }
 
     return list;
