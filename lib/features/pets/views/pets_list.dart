@@ -41,7 +41,8 @@ class _PetsListState extends State<PetsList> with TiuTiuPopUp {
     return Obx(
       () => StreamBuilder<List<Pet>>(
         stream: petsController.petsList(
-          isFiltering: filterController.filterByName.isNotEmpty,
+          isFilteringByName: filterController.filterByName.isNotEmpty,
+          orderParam: filterController.orderBy,
           disappeared: widget.disappeared,
         ),
         builder: (context, snapshot) {

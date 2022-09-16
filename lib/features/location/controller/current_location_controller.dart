@@ -82,6 +82,7 @@ class CurrentLocationController extends GetxController {
         );
 
         location = LatLng(position.latitude, position.longitude);
+        print('>> Permision $location');
       } else {
         location = currentLocation;
       }
