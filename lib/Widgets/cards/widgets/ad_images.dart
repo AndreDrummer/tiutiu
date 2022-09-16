@@ -66,7 +66,6 @@ class AdImages extends StatelessWidget {
         ),
       ),
       child: AssetHandle.getImage(photos.first),
-      height: Get.width * .4,
       width: Get.width * .4,
     );
   }
