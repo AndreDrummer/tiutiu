@@ -51,15 +51,22 @@ class CardAdList extends StatelessWidget {
                     margin: EdgeInsets.only(top: 7.0.h),
                     child: Row(
                       children: [
-                        cardBuilder.adTitle(),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            cardBuilder.adTitle(),
+                            cardBuilder.adDescription(),
+                          ],
+                        ),
                         Spacer(),
                         cardBuilder.favoriteButton()
                       ],
                     ),
                   ),
-                  cardBuilder.adDescription(),
+                  Spacer(),
                   cardBuilder.adViews(),
                   cardBuilder.adPostedAt(),
+                  Spacer(),
                   Divider(height: 8.0.h),
                   Padding(
                     padding: EdgeInsets.only(top: 5.0.h),
