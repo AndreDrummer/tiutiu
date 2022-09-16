@@ -14,7 +14,7 @@ class AdTitle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(bottom: 8.0.h),
+      margin: EdgeInsets.only(bottom: 4.0.h),
       child: AutoSizeText(
         maxLines: 2,
         style: TextStyles.fontSize20(
