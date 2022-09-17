@@ -23,77 +23,74 @@ class CardAd extends StatelessWidget {
       pet: pet,
     );
 
-    return InkWell(
-      onTap: () async {},
-      child: Card(
-        elevation: 4.0,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8),
-        ),
-        child: Column(
-          children: [
-            Stack(
-              children: [
-                cardBuilder.adImages(),
-                Positioned(
-                  child: cardBuilder.favoriteButton(),
-                  bottom: 16.0.h,
-                  right: 16.0.w,
-                ),
-              ],
+    return Card(
+      elevation: 4.0,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: Column(
+        children: [
+          Stack(
+            children: [
+              cardBuilder.adImages(),
+              Positioned(
+                child: cardBuilder.favoriteButton(),
+                bottom: 16.0.h,
+                right: 16.0.w,
+              ),
+            ],
+          ),
+          Container(
+            decoration: BoxDecoration(
+              color: Colors.white54,
+              borderRadius: BorderRadius.only(
+                bottomRight: Radius.circular(8.0.h),
+                bottomLeft: Radius.circular(8.0.h),
+              ),
             ),
-            Container(
-              decoration: BoxDecoration(
-                color: Colors.white54,
-                borderRadius: BorderRadius.only(
-                  bottomRight: Radius.circular(8.0.h),
-                  bottomLeft: Radius.circular(8.0.h),
-                ),
-              ),
-              child: Container(
-                margin: EdgeInsets.all(8.0.h),
-                child: Row(
-                  children: [
-                    Container(
-                      width: Get.width * .93,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              cardBuilder.adTitle(),
-                              cardBuilder.adDistanceFromUser()
-                            ],
-                          ),
-                          Row(
-                            children: [
-                              cardBuilder.adDescription(),
-                              Spacer(),
-                              cardBuilder.adInteresteds(),
-                              Spacer(),
-                              cardBuilder.adViews(),
-                            ],
-                          ),
-                          Row(
-                            children: [
-                              cardBuilder.adPostedAt(),
-                              Spacer(),
-                              Padding(
-                                padding: EdgeInsets.only(top: 2.0.h),
-                                child: cardBuilder.adCityState(),
-                              )
-                            ],
-                          ),
-                        ],
-                      ),
+            child: Container(
+              margin: EdgeInsets.all(8.0.h),
+              child: Row(
+                children: [
+                  Container(
+                    width: Get.width * .93,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            cardBuilder.adTitle(),
+                            cardBuilder.adDistanceFromUser()
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            cardBuilder.adDescription(),
+                            Spacer(),
+                            cardBuilder.adInteresteds(),
+                            Spacer(),
+                            cardBuilder.adViews(),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            cardBuilder.adPostedAt(),
+                            Spacer(),
+                            Padding(
+                              padding: EdgeInsets.only(top: 2.0.h),
+                              child: cardBuilder.adCityState(),
+                            )
+                          ],
+                        ),
+                      ],
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
-            )
-          ],
-        ),
+            ),
+          )
+        ],
       ),
     );
   }
