@@ -29,7 +29,7 @@ class CardAdList extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12.0.h),
       ),
-      height: 168.0.h + pet.name!.length,
+      height: 184.0.h + pet.name!.length,
       padding: EdgeInsets.zero,
       child: Card(
         shape: RoundedRectangleBorder(
@@ -41,8 +41,8 @@ class CardAdList extends StatelessWidget {
           children: [
             cardBuilder.adImages(),
             Container(
-              width: Get.width * .55,
               margin: EdgeInsets.only(left: 4.0.w),
+              width: Get.width * .565,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -58,16 +58,17 @@ class CardAdList extends StatelessWidget {
                             cardBuilder.adDescription(),
                           ],
                         ),
-                        Spacer(),
-                        cardBuilder.favoriteButton()
+                        cardBuilder.favoriteButton(),
                       ],
                     ),
                   ),
                   Spacer(),
+                  cardBuilder.adDistanceFromUser(),
                   cardBuilder.adViews(),
+                  cardBuilder.adInteresteds(),
                   cardBuilder.adPostedAt(),
                   Spacer(),
-                  Divider(height: 8.0.h),
+                  cardBuilder.divider(),
                   Padding(
                     padding: EdgeInsets.only(top: 5.0.h),
                     child: cardBuilder.adCityState(),

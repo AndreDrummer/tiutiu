@@ -19,14 +19,14 @@ class InputCloseButton extends StatelessWidget {
         child: Card(
           margin: EdgeInsets.symmetric(horizontal: 4),
           elevation: 2.0.h,
-          color: Colors.grey[300],
+          color: Colors.purple[300],
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(
               1000,
             ),
           ),
           child: Icon(
-            color: Colors.black54,
+            color: Colors.white,
             size: 16.0.h,
             Icons.close,
           ),
