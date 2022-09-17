@@ -1,4 +1,6 @@
+import 'package:tiutiu/features/home/controller/home_controller.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:tiutiu/features/system/controllers.dart';
 import 'package:tiutiu/core/constants/text_styles.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:tiutiu/core/data/dummy_data.dart';
@@ -16,6 +18,8 @@ class AdCityState extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final rightSide =
+        homeController.cardVisibilityKind == CardVisibilityKind.card;
     final statesInitials = DummyData.statesInitials;
     final statesName = DummyData.statesName;
 
@@ -26,7 +30,7 @@ class AdCityState extends StatelessWidget {
       margin: EdgeInsets.only(bottom: 8.0.h),
       child: Row(
         children: [
-          Spacer(),
+          if (rightSide) Spacer(),
           Icon(Icons.pin_drop, size: 12.0.h, color: Colors.grey[400]),
           AutoSizeText(
             '$city - $UF',
