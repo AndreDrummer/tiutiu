@@ -17,7 +17,7 @@ class AdDescription extends StatelessWidget {
       padding: EdgeInsets.only(bottom: 8.0.h),
       child: AutoSizeText(
         description,
-        style: TextStyles.fontSize14(
+        style: TextStyles.fontSize12(
           fontWeight: FontWeight.w400,
           color: Colors.grey,
         ),

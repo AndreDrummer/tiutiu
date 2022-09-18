@@ -15,7 +15,6 @@ class CardAdList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List<String> distanceText = OtherFunctions.distanceCalculate(
-      context,
       pet.latitude!,
       pet.longitude!,
     );
@@ -29,7 +28,7 @@ class CardAdList extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12.0.h),
       ),
-      height: 184.0.h + pet.name!.length,
+      height: 172.0.h + pet.name!.length,
       padding: EdgeInsets.zero,
       child: Card(
         shape: RoundedRectangleBorder(
@@ -42,25 +41,24 @@ class CardAdList extends StatelessWidget {
             cardBuilder.adImages(),
             Container(
               margin: EdgeInsets.only(left: 4.0.w),
-              width: Get.width * .565,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Container(
-                    margin: EdgeInsets.only(top: 7.0.h),
-                    child: Row(
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            cardBuilder.adTitle(),
-                            cardBuilder.adDescription(),
-                          ],
-                        ),
-                        cardBuilder.favoriteButton(),
-                      ],
-                    ),
+                  Row(
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.only(top: 7.0.h),
+                            child: cardBuilder.adTitle(),
+                          ),
+                          cardBuilder.adDescription(),
+                        ],
+                      ),
+                      cardBuilder.favoriteButton(),
+                    ],
                   ),
                   Spacer(),
                   cardBuilder.adDistanceFromUser(),
