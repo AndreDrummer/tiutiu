@@ -112,7 +112,7 @@ class PetDetails extends StatelessWidget {
       children: [
         InkWell(
           onTap: () {
-            petsController.openFullScreenMode(photos);
+            fullscreenController.openFullScreenMode(photos);
           },
           child: _images(
             boxHeight: boxHeight,
@@ -271,9 +271,12 @@ class PetDetails extends StatelessWidget {
 
   CardContent _address(Pet pet) {
     return CardContent(
-      title: PetDetailsString.whereIsPet,
-      content: '${pet.city} - ${pet.state}',
-      icon: Icons.launch,
+      icon: pet.disappeared ? null : Icons.launch,
+      content:
+          pet.disappeared ? pet.lastSeenDetails : '${pet.city} - ${pet.state}',
+      title: pet.disappeared
+          ? PetDetailsString.lastSeen
+          : PetDetailsString.whereIsPet,
       onAction: () {
         MapsLauncher.launchCoordinates(
           pet.latitude!,
@@ -290,6 +293,7 @@ class PetDetails extends StatelessWidget {
     String? emailSubject,
     TiutiuUser? user,
   }) {
+    final Pet pet = petsController.pet;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -317,9 +321,11 @@ class PetDetails extends StatelessWidget {
           ],
         ),
         ButtonWide(
-          text: AppStrings.iamInterested,
-          icon: Icons.favorite_border,
-          color: AppColors.danger,
+          text: pet.disappeared
+              ? AppStrings.provideInfo
+              : AppStrings.iamInterested,
+          icon: pet.disappeared ? Icons.info : Icons.favorite_border,
+          color: pet.disappeared ? AppColors.info : AppColors.danger,
           isToExpand: false,
           action: () {},
         ),

@@ -1,19 +1,18 @@
+import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
+import 'package:tiutiu/providers/user_infos_interests.dart';
+import 'package:loading_animations/loading_animations.dart';
+import 'package:tiutiu/core/models/interested_model.dart';
+import 'package:tiutiu/core/constants/images_assets.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:tiutiu/screen/announcer_datails.dart';
+import 'package:tiutiu/core/utils/image_handle.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:maps_launcher/maps_launcher.dart';
+import 'package:tiutiu/Widgets/loading_page.dart';
+import 'package:tiutiu/Widgets/badge.dart';
+import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:loading_animations/loading_animations.dart';
-import 'package:maps_launcher/maps_launcher.dart';
-import 'package:provider/provider.dart';
-import 'package:tiutiu/Widgets/badge.dart';
-import 'package:tiutiu/Widgets/loading_page.dart';
-import 'package:tiutiu/core/models/interested_model.dart';
-import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
-import 'package:tiutiu/core/utils/image_handle.dart';
-import 'package:tiutiu/core/constants/images_assets.dart';
-import 'package:tiutiu/providers/user_infos_interests.dart';
-import 'package:tiutiu/screen/announcer_datails.dart';
-import 'package:tiutiu/core/utils/constantes.dart';
 
 class InformantesScreen extends StatefulWidget {
   @override
@@ -148,16 +147,7 @@ class _InformantesScreenState extends State<InformantesScreen> {
                     CircleAvatar(
                       backgroundColor: Colors.transparent,
                       child: ClipOval(
-                        child: FadeInImage(
-                          placeholder:
-                              AssetHandle(ImageAssets.profileEmpty).build(),
-                          image: AssetHandle(
-                            informanteImage,
-                          ).build(),
-                          fit: BoxFit.cover,
-                          width: 100,
-                          height: 100,
-                        ),
+                        child: AssetHandle.getImage(informanteImage),
                       ),
                     ),
                     SizedBox(width: 15),
@@ -210,16 +200,10 @@ class _InformantesScreenState extends State<InformantesScreen> {
                 child: Stack(
                   children: [
                     Container(
+                      child: AssetHandle.getImage(ImageAssets.dogPlaceholder),
                       padding: const EdgeInsets.symmetric(horizontal: 2.0),
                       width: MediaQuery.of(context).size.width - 10,
                       height: details!.isEmpty ? 222 : 160,
-                      child: FadeInImage(
-                        placeholder: AssetImage(ImageAssets.staticMap),
-                        image: NetworkImage(Constantes.DOG_PLACEHOLDER),
-                        fit: BoxFit.cover,
-                        width: 1000,
-                        height: 100,
-                      ),
                     ),
                     Positioned(
                       top: 10,

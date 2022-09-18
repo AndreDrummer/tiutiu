@@ -1,18 +1,17 @@
-import 'package:auto_size_text/auto_size_text.dart';
-import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
-import 'package:tiutiu/core/Custom/icons.dart';
-import 'package:tiutiu/Widgets/background.dart';
-import 'package:tiutiu/Widgets/circle_child.dart';
 import 'package:tiutiu/features/full_screen/views/fullscreen_images.dart';
-import 'package:tiutiu/Widgets/my_account_card.dart';
-import 'package:tiutiu/Widgets/popup_message.dart';
-import 'package:tiutiu/core/utils/image_handle.dart';
-import 'package:tiutiu/core/constants/images_assets.dart';
-import 'package:tiutiu/features/system/controllers.dart';
-import 'package:tiutiu/screen/my_pets.dart';
 import 'package:tiutiu/core/constants/firebase_env_path.dart';
 import 'package:tiutiu/core/utils/routes/routes_name.dart';
+import 'package:tiutiu/features/system/controllers.dart';
+import 'package:tiutiu/Widgets/my_account_card.dart';
+import 'package:tiutiu/core/utils/image_handle.dart';
+import 'package:auto_size_text/auto_size_text.dart';
+import 'package:tiutiu/Widgets/popup_message.dart';
+import 'package:tiutiu/Widgets/circle_child.dart';
+import 'package:tiutiu/Widgets/background.dart';
+import 'package:tiutiu/core/Custom/icons.dart';
+import 'package:tiutiu/screen/my_pets.dart';
+import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class MyAccount extends StatefulWidget {
   @override
@@ -55,14 +54,8 @@ class _MyAccountState extends State<MyAccount> {
               child: Stack(
                 children: [
                   Opacity(
-                    child: FadeInImage(
-                      placeholder: AssetImage(ImageAssets.fundo),
-                      image: AssetHandle(
-                        tiutiuUserController.tiutiuUser.photoBACK,
-                      ).build(),
-                      fit: BoxFit.fill,
-                      width: 1000,
-                      height: 1000,
+                    child: AssetHandle.getImage(
+                      tiutiuUserController.tiutiuUser.photoBACK,
                     ),
                     opacity: 0.15,
                   ),
@@ -84,16 +77,9 @@ class _MyAccountState extends State<MyAccount> {
                                   child:
                                       tiutiuUserController.tiutiuUser.avatar !=
                                               null
-                                          ? FadeInImage(
-                                              placeholder: AssetImage(
-                                                  ImageAssets.profileEmpty),
-                                              image: NetworkImage(
-                                                tiutiuUserController
-                                                    .tiutiuUser.avatar!,
-                                              ),
-                                              fit: BoxFit.cover,
-                                              width: 1000,
-                                              height: 100,
+                                          ? AssetHandle.getImage(
+                                              tiutiuUserController
+                                                  .tiutiuUser.avatar!,
                                             )
                                           : Icon(Icons.person,
                                               color: Colors.white70, size: 50),
