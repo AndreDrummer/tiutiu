@@ -1,5 +1,6 @@
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
+import 'package:tiutiu/core/constants/app_colors.dart';
 
 class FavoriteButton extends StatelessWidget {
   const FavoriteButton({
@@ -14,21 +15,16 @@ class FavoriteButton extends StatelessWidget {
     return GestureDetector(
       onTap: () {},
       child: Card(
-        elevation: 8.0,
+        margin: EdgeInsets.zero,
+        elevation: 2.0,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(25.0.h),
+          borderRadius: BorderRadius.circular(24.0.h),
         ),
         child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: CircleAvatar(
-            child: Padding(
-              padding: EdgeInsets.only(top: 2.0.h),
-              child: Icon(
-                !pressed ? Icons.favorite : Icons.favorite_border,
-                size: 23.0.h,
-              ),
-            ),
-            backgroundColor: Colors.white,
+          padding: EdgeInsets.all(8.0.h),
+          child: Icon(
+            pressed ? Icons.favorite : Icons.favorite_border,
+            color: AppColors.primary,
           ),
         ),
       ),
