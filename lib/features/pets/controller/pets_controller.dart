@@ -1,3 +1,4 @@
+import 'package:tiutiu/features/chat/common/functions.dart';
 import 'package:tiutiu/features/pets/services/pet_service.dart';
 import 'package:tiutiu/core/constants/firebase_env_path.dart';
 import 'package:tiutiu/core/extensions/enum_tostring.dart';
@@ -16,11 +17,23 @@ class PetsController extends GetxController {
 
   final RxString _orderParam = FilterStrings.distance.obs;
   final RxBool _isFilteringByName = false.obs;
+  final Rx<Pet> _pet = Pet().obs;
   final RxInt _petsCount = 0.obs;
 
   bool get isFilteringByName => _isFilteringByName.value;
   String get orderParam => _orderParam.value;
   int get petsCount => _petsCount.value;
+  Pet get pet => _pet.value;
+
+  void set pet(Pet pet) => _pet(pet);
+
+  void updatePet(PetEnum property, dynamic data) {
+    final petMap = pet.toMap();
+    petMap[property.tostring()] = data;
+
+    final updatedPet = Pet.fromMap(petMap);
+    pet = updatedPet;
+  }
 
   Stream<List<Pet>> petsList({
     bool isFilteringByName = false,
@@ -112,6 +125,15 @@ class PetsController extends GetxController {
   }) {
     petReference.set(
         {PetEnum.views.tostring(): ++actualViews}, SetOptions(merge: true));
+  }
+
+  void navigateToAuth() {}
+
+  void handleChatButtonPressed() {
+    CommonChatFunctions.openChat(
+      firstUser: tiutiuUserController.tiutiuUser,
+      secondUser: pet.owner!,
+    );
   }
 
   void showInterest({

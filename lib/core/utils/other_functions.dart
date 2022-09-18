@@ -6,6 +6,9 @@ import 'package:tiutiu/features/system/controllers.dart';
 import 'package:tiutiu/core/utils/math_functions.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:tiutiu/screen/announcer_datails.dart';
+import 'package:tiutiu/core/constants/strings.dart';
+import 'package:tiutiu/core/Custom/icons.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:flutter/material.dart';
 
 class OtherFunctions {
@@ -45,9 +48,13 @@ class OtherFunctions {
   }
 
   // static Future<String>? getAddress(provider.Location location) async {
-  static Future<String>? getAddress() async {
-    // final geocoding = new GoogleMapsGeocoding(apiKey: Constantes.WEB_API_KEY);
-    // final result = await geocoding.searchByLocation(location);
+  static Future<String>? getAddress(LatLng position) async {
+    final result = await placemarkFromCoordinates(
+      position.latitude,
+      position.longitude,
+    );
+
+    print(result);
     // GeocodingModel local = GeocodingModel.fromSnapshot(result.results.first);
     // return local.formattedAddress;
     return '';
@@ -101,5 +108,16 @@ class OtherFunctions {
         },
       ),
     );
+  }
+
+  static IconData getIconFromPetType(String type) {
+    final Map<String, dynamic> petIconType = {
+      FilterStrings.bird: Tiutiu.twitter_bird,
+      FilterStrings.exotic: Tiutiu.hamster,
+      FilterStrings.dog: Tiutiu.dog,
+      FilterStrings.cat: Tiutiu.cat,
+    };
+
+    return petIconType[type];
   }
 }
