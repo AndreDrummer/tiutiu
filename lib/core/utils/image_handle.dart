@@ -37,7 +37,11 @@ class AssetHandle {
         fit: BoxFit.fill,
       );
     } else if (imagePath.toString().contains('http')) {
-      return _networkImage(imagePath, fit: fit, isUserImage: isUserImage);
+      return _networkImage(
+        isUserImage: isUserImage,
+        imagePath,
+        fit: fit,
+      );
     } else {
       return _localImage(imagePath);
     }
@@ -48,21 +52,24 @@ class AssetHandle {
     bool isUserImage = false,
     BoxFit? fit,
   }) {
-    return CachedNetworkImage(
-      errorWidget: (context, url, error) => Icon(Icons.error),
-      placeholder: (_, __) => Center(
-        child: Opacity(
-          opacity: .5,
-          child: Image.asset(
-            isUserImage ? ImageAssets.profileEmpty : ImageAssets.newLogo,
-            fit: BoxFit.cover,
+    return Hero(
+      tag: imagePath,
+      child: CachedNetworkImage(
+        errorWidget: (context, url, error) => Icon(Icons.error),
+        placeholder: (_, __) => Center(
+          child: Opacity(
+            opacity: .5,
+            child: Image.asset(
+              isUserImage ? ImageAssets.profileEmpty : ImageAssets.newLogo,
+              fit: BoxFit.cover,
+            ),
           ),
         ),
+        fit: fit ?? BoxFit.cover,
+        height: double.infinity,
+        width: double.infinity,
+        imageUrl: imagePath,
       ),
-      fit: fit ?? BoxFit.cover,
-      height: double.infinity,
-      width: double.infinity,
-      imageUrl: imagePath,
     );
   }
 }

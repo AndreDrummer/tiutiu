@@ -3,6 +3,7 @@ import 'package:tiutiu/core/extensions/enum_tostring.dart';
 
 enum PetEnum {
   otherCaracteristics,
+  lastSeenDetails,
   donatedOrFound,
   storageHashKey,
   interesteds,
@@ -33,10 +34,11 @@ enum PetEnum {
 class Pet {
   Pet({
     this.donatedOrFound = false,
+    this.lastSeenDetails = '',
+    this.disappeared = false,
     this.otherCaracteristics,
     this.interesteds = 0,
     this.storageHashKey,
-    this.disappeared,
     this.longitude,
     this.createdAt,
     this.latitude,
@@ -64,6 +66,7 @@ class Pet {
     return Pet(
       otherCaracteristics: map[PetEnum.otherCaracteristics.tostring()],
       donatedOrFound: map[PetEnum.donatedOrFound.tostring()] ?? false,
+      lastSeenDetails: map[PetEnum.lastSeenDetails.tostring()] ?? '',
       owner: TiutiuUser.fromMap(map[PetEnum.owner.tostring()]),
       storageHashKey: map[PetEnum.storageHashKey.tostring()],
       disappeared: map[PetEnum.disappeared.tostring()],
@@ -120,12 +123,13 @@ class Pet {
   }
 
   List? otherCaracteristics;
+  String lastSeenDetails;
   String? storageHashKey;
   bool donatedOrFound;
   String? createdAt;
   TiutiuUser? owner;
-  bool? disappeared;
   double? longitude;
+  bool disappeared;
   double? latitude;
   String? ownerId;
   int interesteds;
@@ -149,6 +153,7 @@ class Pet {
   Map<String, dynamic> toMap() {
     return {
       PetEnum.otherCaracteristics.tostring(): otherCaracteristics,
+      PetEnum.lastSeenDetails.tostring(): lastSeenDetails,
       PetEnum.donatedOrFound.tostring(): donatedOrFound,
       PetEnum.storageHashKey.tostring(): storageHashKey,
       PetEnum.disappeared.tostring(): disappeared,

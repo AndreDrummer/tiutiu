@@ -1,8 +1,7 @@
-import 'package:auto_size_text/auto_size_text.dart';
-import 'package:flutter/material.dart';
 import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
 import 'package:tiutiu/core/utils/image_handle.dart';
-import 'package:tiutiu/core/constants/images_assets.dart';
+import 'package:auto_size_text/auto_size_text.dart';
+import 'package:flutter/material.dart';
 
 class InterestedListTile extends StatelessWidget {
   InterestedListTile({
@@ -27,16 +26,7 @@ class InterestedListTile extends StatelessWidget {
         child: CircleAvatar(
           backgroundColor: Colors.transparent,
           child: ClipOval(
-            child: Hero(
-              tag: '${interestedUser!.avatar}',
-              child: FadeInImage(
-                placeholder: AssetImage(ImageAssets.fundo),
-                image: AssetHandle(interestedUser!.avatar).build(),
-                fit: BoxFit.fill,
-                width: 1000,
-                height: 1000,
-              ),
-            ),
+            child: AssetHandle.getImage(interestedUser!.avatar),
           ),
         ),
       ),
