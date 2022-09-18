@@ -10,12 +10,19 @@ class HomeController extends GetxController {
   final ScrollController _scrollController = ScrollController();
   final Rx<CardVisibilityKind> _cardVisibilityKind =
       CardVisibilityKind.card.obs;
+  final RxBool _isAppBarCollapsed = false.obs;
   final RxInt _bottomBarIndex = 0.obs;
 
   CardVisibilityKind get cardVisibilityKind => _cardVisibilityKind.value;
+
   ScrollController get scrollController => _scrollController;
+  bool get isAppBarCollapsed => _isAppBarCollapsed.value;
   int get bottomBarIndex => _bottomBarIndex.value;
   bool get isAuthenticated => false;
+
+  void set isAppBarCollapsed(bool value) {
+    _isAppBarCollapsed(value);
+  }
 
   void set bottomBarIndex(int? index) {
     _bottomBarIndex(index ?? bottomBarIndex);
