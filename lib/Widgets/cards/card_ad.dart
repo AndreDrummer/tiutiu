@@ -13,7 +13,6 @@ class CardAd extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List<String> distanceText = OtherFunctions.distanceCalculate(
-      context,
       pet.latitude!,
       pet.longitude!,
     );
