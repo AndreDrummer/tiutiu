@@ -4,7 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:tiutiu/core/Custom/icons.dart';
 import 'package:tiutiu/Widgets/background.dart';
 import 'package:tiutiu/Widgets/circle_child.dart';
-import 'package:tiutiu/Widgets/fullscreen_images.dart';
+import 'package:tiutiu/features/full_screen/views/fullscreen_images.dart';
 import 'package:tiutiu/Widgets/my_account_card.dart';
 import 'package:tiutiu/Widgets/popup_message.dart';
 import 'package:tiutiu/core/utils/image_handle.dart';
@@ -42,8 +42,7 @@ class _MyAccountState extends State<MyAccount> {
                       context,
                       MaterialPageRoute(
                         builder: (context) => FullScreenImage(
-                          tag: 'myProfile',
-                          images: [tiutiuUserController.tiutiuUser.avatar],
+                          photos: [tiutiuUserController.tiutiuUser.avatar],
                         ),
                       ),
                     );
