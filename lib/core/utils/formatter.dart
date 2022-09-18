@@ -33,4 +33,26 @@ class Formatter {
     final date = getDateTime(createdAt);
     return DateFormat('dd/MM/yyy').format(date);
   }
+
+  static String timeFormmated(int minutes) {
+    int hour = minutes ~/ 60;
+    int min = minutes % 60;
+    if (hour == 0 && min == 1) {
+      return '$min minuto';
+    } else if (hour > 1 && min == 0) {
+      return '$hour horas';
+    } else if (hour == 1 && min == 0) {
+      return '$hour hora';
+    } else if (hour == 0 && min > 1) {
+      return '$min minutos';
+    } else if (hour == 1 && min == 1) {
+      return '$hour hora e $min minuto';
+    } else if (hour == 1 && min > 1) {
+      return '$hour hora e $min minutos';
+    } else if (hour > 1 && min == 1) {
+      return '$hour horas e $min minuto';
+    } else {
+      return '$hour horas e $min minutos';
+    }
+  }
 }

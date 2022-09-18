@@ -3,7 +3,6 @@ import 'package:tiutiu/core/constants/firebase_env_path.dart';
 import 'package:tiutiu/core/utils/routes/routes_name.dart';
 import 'package:tiutiu/features/pets/model/pet_model.dart';
 import 'package:tiutiu/Widgets/new_map.dart';
-import 'package:tiutiu/screen/pet_form.dart';
 import 'package:tiutiu/Widgets/button.dart';
 import 'package:flutter/material.dart';
 
@@ -61,24 +60,11 @@ class _ChooseLocationState extends State<ChooseLocation> {
                   action: snapshot.data == null || !snapshot.data!
                       ? null
                       : () {
-                          widget.editMode!
-                              ? Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) {
-                                      return PetForm(
-                                        editMode: true,
-                                        pet: widget.pet!,
-                                        localChanged: true,
-                                      );
-                                    },
-                                  ),
-                                )
-                              : Navigator.pushNamed(
-                                  context,
-                                  Routes.pet_form,
-                                  arguments: {'kind': kind},
-                                );
+                          Navigator.pushNamed(
+                            context,
+                            Routes.pet_form,
+                            arguments: {'kind': kind},
+                          );
                         },
                 );
               },
