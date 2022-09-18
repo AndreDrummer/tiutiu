@@ -1,11 +1,10 @@
-import 'package:auto_size_text/auto_size_text.dart';
-import 'package:flutter/material.dart';
-import 'package:tiutiu/core/Custom/icons.dart';
-import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
-import 'package:tiutiu/core/utils/image_handle.dart';
-import 'package:tiutiu/core/constants/images_assets.dart';
 import 'package:tiutiu/core/utils/launcher_functions.dart';
+import 'package:tiutiu/core/constants/app_colors.dart';
+import 'package:tiutiu/core/utils/image_handle.dart';
+import 'package:auto_size_text/auto_size_text.dart';
+import 'package:tiutiu/core/Custom/icons.dart';
+import 'package:flutter/material.dart';
 
 class InterestedInfoCard extends StatefulWidget {
   InterestedInfoCard({
@@ -53,14 +52,8 @@ class _InterestedInfoCardState extends State<InterestedInfoCard> {
                   child: CircleAvatar(
                     backgroundColor: Colors.transparent,
                     child: ClipOval(
-                      child: FadeInImage(
-                        placeholder: AssetImage(ImageAssets.fundo),
-                        image:
-                            AssetHandle(widget.interestedUser!.avatar).build(),
-                        fit: BoxFit.fill,
-                        width: 1000,
-                        height: 1000,
-                      ),
+                      child:
+                          AssetHandle.getImage(widget.interestedUser!.avatar),
                     ),
                   ),
                 ),

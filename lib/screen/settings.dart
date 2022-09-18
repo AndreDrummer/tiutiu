@@ -1,16 +1,15 @@
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
-import 'package:tiutiu/core/constants/app_colors.dart';
-import 'package:tiutiu/core/constants/images_assets.dart';
 import 'package:tiutiu/features/system/controllers.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/Widgets/load_dark_screen.dart';
 import 'package:tiutiu/core/utils/image_handle.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:tiutiu/Widgets/popup_message.dart';
 import 'package:tiutiu/Widgets/input_text.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:tiutiu/Widgets/divider.dart';
 import 'package:tiutiu/Widgets/button.dart';
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'dart:io';
@@ -431,19 +430,10 @@ class _AppSettingsState extends State<AppSettings> {
                                     ? ClipRRect(
                                         borderRadius:
                                             BorderRadius.circular(8.0),
-                                        child: FadeInImage(
-                                          placeholder:
-                                              AssetHandle(ImageAssets.fundo)
-                                                  .build(),
-                                          image: NetworkImage(
+                                        child: AssetHandle.getImage(
                                             tiutiuUserController
                                                     .tiutiuUser.photoBACK ??
-                                                '',
-                                          ),
-                                          fit: BoxFit.fill,
-                                          width: 1000,
-                                          height: 1000,
-                                        ),
+                                                ''),
                                       )
                                     : Image.file(
                                         userProfile['photoFileBack']!,
@@ -501,17 +491,9 @@ class _AppSettingsState extends State<AppSettings> {
                                           ? tiutiuUserController
                                                       .tiutiuUser.avatar !=
                                                   null
-                                              ? FadeInImage(
-                                                  placeholder: AssetImage(
-                                                      ImageAssets.profileEmpty),
-                                                  image: NetworkImage(
-                                                    tiutiuUserController
-                                                        .tiutiuUser.avatar!,
-                                                  ),
-                                                  fit: BoxFit.cover,
-                                                  width: 1000,
-                                                  height: 100,
-                                                )
+                                              ? AssetHandle.getImage(
+                                                  tiutiuUserController
+                                                      .tiutiuUser.avatar!)
                                               : Icon(Icons.person,
                                                   color: Colors.white70,
                                                   size: 50)

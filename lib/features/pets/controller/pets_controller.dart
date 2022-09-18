@@ -147,10 +147,6 @@ class PetsController extends GetxController {
     );
   }
 
-  void openFullScreenMode(List photos) {
-    Get.to(FullScreenImage(photos: photos));
-  }
-
   void showInterest({
     required DocumentReference petReference,
     required int actualInteresteds,
