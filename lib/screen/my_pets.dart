@@ -1,21 +1,20 @@
-import 'package:tiutiu/core/constants/app_colors.dart';
-import 'package:tiutiu/core/constants/images_assets.dart';
-import 'package:tiutiu/core/utils/image_handle.dart';
 import 'package:tiutiu/features/pets/services/pet_service.dart';
 import 'package:tiutiu/core/constants/firebase_env_path.dart';
 import 'package:tiutiu/core/utils/routes/routes_name.dart';
 import 'package:tiutiu/features/pets/model/pet_model.dart';
+import 'package:tiutiu/core/constants/images_assets.dart';
 import 'package:tiutiu/features/system/controllers.dart';
+import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:tiutiu/core/utils/image_handle.dart';
 import 'package:tiutiu/Widgets/loading_screen.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:tiutiu/screen/choose_location.dart';
 import 'package:tiutiu/Widgets/popup_message.dart';
 import 'package:tiutiu/screen/auth_screen.dart';
 import 'package:tiutiu/Widgets/background.dart';
 import 'package:tiutiu/Widgets/empty_list.dart';
-import 'package:tiutiu/screen/pet_form.dart';
 import 'interested_information_list.dart';
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 
 class MyPetsScreen extends StatefulWidget {
@@ -306,21 +305,6 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
                                                               denyAction: () {
                                                                 Navigator.pop(
                                                                     context);
-                                                                Navigator.push(
-                                                                    context,
-                                                                    MaterialPageRoute(
-                                                                  builder:
-                                                                      (context) {
-                                                                    return PetForm(
-                                                                      editMode:
-                                                                          true,
-                                                                      pet: pets[
-                                                                          index],
-                                                                      localChanged:
-                                                                          false,
-                                                                    );
-                                                                  },
-                                                                ));
                                                               },
                                                             ));
                                                   },

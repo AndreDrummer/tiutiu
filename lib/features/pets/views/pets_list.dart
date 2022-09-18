@@ -49,6 +49,9 @@ class PetsList extends StatelessWidget with TiuTiuPopUp {
                   return GestureDetector(
                     onTap: () {
                       Get.toNamed(Routes.pet_details);
+                      petsController.pet = petsList[index < petsList.length
+                          ? index
+                          : petsList.length - 1];
                     },
                     child: _RenderListItem(
                       showBackToStartButton: index == petsList.length,
