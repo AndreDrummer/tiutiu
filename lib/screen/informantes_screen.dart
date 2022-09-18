@@ -215,8 +215,7 @@ class _InformantesScreenState extends State<InformantesScreen> {
                       height: details!.isEmpty ? 222 : 160,
                       child: FadeInImage(
                         placeholder: AssetImage(ImageAssets.staticMap),
-                        image: NetworkImage(
-                            'https://maps.googleapis.com/maps/api/staticmap?center=$informanteLat, $informanteLng&zoom=15&markers=color:red%7Clabel:%7c$informanteLat,%20$informanteLng&size=600x400&key=${Constantes.WEB_API_KEY}'),
+                        image: NetworkImage(Constantes.DOG_PLACEHOLDER),
                         fit: BoxFit.cover,
                         width: 1000,
                         height: 100,

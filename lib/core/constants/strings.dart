@@ -54,3 +54,17 @@ class LocalPermissionStrings {
   static String get openSettings => 'IR P/ CONFIGURAÇÕES';
   static String get grantAcess => 'CONCEDER ACESSO';
 }
+
+class PetDetailsString {
+  static String get otherCaracteristics => 'Características';
+  static String get whereIsPet => 'Onde está o PET?';
+  static String get detailsOf => 'Detalhes de';
+  static String get description => 'Descrição';
+  static String get health => 'Saúde';
+  static String get size => 'Tamanho';
+  static String get breed => 'Raça';
+  static String get age => 'Idade';
+  static String get color => 'Cor';
+  static String get type => 'Tipo';
+  static String get sex => 'Sexo';
+}

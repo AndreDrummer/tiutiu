@@ -132,7 +132,6 @@ class _ListTileMessage extends StatelessWidget {
     return InkWell(
       onTap: () {
         CommonChatFunctions.openChat(
-          context: context,
           firstUser: myUser,
           secondUser: user,
         );
