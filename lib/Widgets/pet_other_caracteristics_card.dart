@@ -1,4 +1,3 @@
-import 'package:tiutiu/core/constants/images_assets.dart';
 import 'package:tiutiu/core/constants/text_styles.dart';
 import 'package:tiutiu/core/utils/image_handle.dart';
 import 'package:auto_size_text/auto_size_text.dart';
@@ -109,16 +108,7 @@ class UserCardInfo extends StatelessWidget {
               child: icon != null
                   ? Icon(icon, color: Colors.white, size: 60)
                   : imageN != null
-                      ? FadeInImage(
-                          placeholder:
-                              AssetHandle(ImageAssets.profileEmpty).build(),
-                          image: AssetHandle(
-                            imageN,
-                          ).build(),
-                          fit: BoxFit.cover,
-                          width: 1000,
-                          height: 100,
-                        )
+                      ? AssetHandle.getImage(imageN)
                       : Image.asset(
                           image!,
                           fit: BoxFit.fill,
