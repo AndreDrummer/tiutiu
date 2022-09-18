@@ -81,7 +81,7 @@ class AdImages extends StatelessWidget {
           ),
         ),
         height: Get.height,
-        width: Get.width * .4,
+        width: Get.width * .48,
       ),
     );
   }
