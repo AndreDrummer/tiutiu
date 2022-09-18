@@ -13,7 +13,9 @@ import 'package:flutter/material.dart';
 
 class OtherFunctions {
   static List<String> distanceCalculate(
-      BuildContext context, double petLatitude, double petLongitude) {
+    double petLatitude,
+    double petLongitude,
+  ) {
     LatLng currentLoction = currentLocationController.location;
     String textDistance = '';
     String textTime = '';
@@ -34,7 +36,7 @@ class OtherFunctions {
     }
 
     if (distance < 1000) {
-      textDistance = "$distance m";
+      textDistance = "${distance.toStringAsFixed(2)} m";
     } else {
       textDistance = (distance / 1000).toStringAsFixed(0);
       textDistance = textDistance.split('.').first + ' km';
