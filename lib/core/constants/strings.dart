@@ -2,6 +2,7 @@ class AppStrings {
   static String get verifyFilters => 'Verifique seus filtros de busca.';
   static String get wannaLeave => 'Deseja realmente sair?';
   static String get noPetFound => 'Nenhum PET encontrado';
+  static String get iamInterested => 'Estou interessado';
   static String get backToStart => 'Voltar ao início';
   static String get disappeareds => 'Desaparecidos';
   static String get endApp => 'Encerrar aplicação';
@@ -9,12 +10,14 @@ class AppStrings {
   static String get interesteds => 'interessados';
   static String get views => 'visualizações';
   static String get favorites => 'Favoritos';
+  static String get whatsapp => 'WhatsApp';
   static String get infos => 'informações';
   static String get postedAt => 'Postado';
   static String get profile => 'Perfil';
   static String get adopte => 'Adotar';
   static String get name => 'Tiu, tiu';
   static String get post => 'Postar';
+  static String get chat => 'Chat';
   static String get yes => 'Sim';
   static String get no => 'Não';
   static String get ok => 'OK';
@@ -57,11 +60,14 @@ class LocalPermissionStrings {
 
 class PetDetailsString {
   static String get otherCaracteristics => 'Características';
+  static String get announcer => 'Anunciante';
   static String get whereIsPet => 'Onde está o PET?';
   static String get detailsOf => 'Detalhes de';
   static String get description => 'Descrição';
   static String get health => 'Saúde';
   static String get size => 'Tamanho';
+  static String get female => 'Fêmea';
+  static String get male => 'Macho';
   static String get breed => 'Raça';
   static String get age => 'Idade';
   static String get color => 'Cor';

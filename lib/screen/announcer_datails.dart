@@ -5,7 +5,7 @@ import 'package:tiutiu/core/Custom/icons.dart';
 import 'package:tiutiu/Widgets/background.dart';
 import 'package:tiutiu/Widgets/circle_child.dart';
 import 'package:tiutiu/Widgets/divider.dart';
-import 'package:tiutiu/Widgets/fullscreen_images.dart';
+import 'package:tiutiu/features/full_screen/views/fullscreen_images.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
 
 import 'package:tiutiu/features/pets/services/pet_service.dart';
@@ -103,8 +103,7 @@ class _AnnouncerDetailsState extends State<AnnouncerDetails> {
         context,
         MaterialPageRoute(
           builder: (context) => FullScreenImage(
-            images: photos_list,
-            tag: tag,
+            photos: photos_list,
           ),
         ),
       );

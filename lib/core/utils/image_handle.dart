@@ -37,17 +37,27 @@ class AssetHandle {
         fit: BoxFit.fill,
       );
     } else if (imagePath.toString().contains('http')) {
-      return _networkImage(imagePath, fit: fit);
+      return _networkImage(imagePath, fit: fit, isUserImage: isUserImage);
     } else {
       return _localImage(imagePath);
     }
   }
 
-  static Widget _networkImage(dynamic imagePath, {BoxFit? fit}) {
+  static Widget _networkImage(
+    dynamic imagePath, {
+    bool isUserImage = false,
+    BoxFit? fit,
+  }) {
     return CachedNetworkImage(
       errorWidget: (context, url, error) => Icon(Icons.error),
-      placeholder: (context, url) => Center(
-        child: CircularProgressIndicator(),
+      placeholder: (_, __) => Center(
+        child: Opacity(
+          opacity: .5,
+          child: Image.asset(
+            isUserImage ? ImageAssets.profileEmpty : ImageAssets.newLogo,
+            fit: BoxFit.cover,
+          ),
+        ),
       ),
       fit: fit ?? BoxFit.cover,
       height: double.infinity,

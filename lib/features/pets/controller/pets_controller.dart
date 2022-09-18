@@ -1,10 +1,11 @@
-import 'package:tiutiu/features/chat/common/functions.dart';
 import 'package:tiutiu/features/pets/services/pet_service.dart';
 import 'package:tiutiu/core/constants/firebase_env_path.dart';
 import 'package:tiutiu/core/extensions/enum_tostring.dart';
+import 'package:tiutiu/features/chat/common/functions.dart';
 import 'package:tiutiu/features/pets/model/pet_model.dart';
 import 'package:tiutiu/features/system/controllers.dart';
 import 'package:tiutiu/core/utils/other_functions.dart';
+import 'package:tiutiu/features/full_screen/views/fullscreen_images.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:tiutiu/core/constants/strings.dart';
 import 'package:tiutiu/core/utils/ordenators.dart';
@@ -17,14 +18,20 @@ class PetsController extends GetxController {
 
   final RxString _orderParam = FilterStrings.distance.obs;
   final RxBool _isFilteringByName = false.obs;
+  final RxString _loadingText = ''.obs;
+  final RxBool _isLoading = false.obs;
   final Rx<Pet> _pet = Pet().obs;
   final RxInt _petsCount = 0.obs;
 
   bool get isFilteringByName => _isFilteringByName.value;
+  String get loadingText => _loadingText.value;
   String get orderParam => _orderParam.value;
+  bool get isLoading => _isLoading.value;
   int get petsCount => _petsCount.value;
   Pet get pet => _pet.value;
 
+  void set loadingText(String text) => _loadingText(text);
+  void set isLoading(bool value) => _isLoading(value);
   void set pet(Pet pet) => _pet(pet);
 
   void updatePet(PetEnum property, dynamic data) {
@@ -52,6 +59,10 @@ class PetsController extends GetxController {
     return petsListStream.asyncMap<List<Pet>>((querySnapshot) {
       return _filterdResult(querySnapshot.docs);
     });
+  }
+
+  Stream<List<Pet>> teste() {
+    return Stream.value(<Pet>[]);
   }
 
   List<Pet> _filterdResult(
@@ -134,6 +145,10 @@ class PetsController extends GetxController {
       firstUser: tiutiuUserController.tiutiuUser,
       secondUser: pet.owner!,
     );
+  }
+
+  void openFullScreenMode(List photos) {
+    Get.to(FullScreenImage(photos: photos));
   }
 
   void showInterest({

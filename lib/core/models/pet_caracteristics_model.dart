@@ -2,6 +2,7 @@ import 'package:tiutiu/core/extensions/enum_tostring.dart';
 import 'package:tiutiu/features/pets/model/pet_model.dart';
 import 'package:tiutiu/core/utils/other_functions.dart';
 import 'package:tiutiu/core/constants/strings.dart';
+import 'package:tiutiu/core/Custom/icons.dart';
 import 'package:flutter/material.dart';
 
 enum PetCaracteristicsEnum {
@@ -29,34 +30,36 @@ class PetCaracteristics {
             content: pet.type!,
           ),
           PetCaracteristics(
-            icon: OtherFunctions.getIconFromPetType(pet.type!),
+            icon: pet.gender == PetDetailsString.female
+                ? Icons.female
+                : Icons.male,
             title: PetDetailsString.sex,
             content: pet.gender!,
           ),
           PetCaracteristics(
-            icon: OtherFunctions.getIconFromPetType(pet.type!),
+            icon: Icons.linear_scale,
             title: PetDetailsString.breed,
             content: pet.breed!,
           ),
           PetCaracteristics(
-            icon: OtherFunctions.getIconFromPetType(pet.type!),
+            icon: Icons.color_lens,
             title: PetDetailsString.color,
             content: pet.color!,
           ),
           PetCaracteristics(
-            icon: OtherFunctions.getIconFromPetType(pet.type!),
+            icon: Icons.close_fullscreen,
             title: PetDetailsString.size,
             content: pet.size!,
           ),
           PetCaracteristics(
-            icon: OtherFunctions.getIconFromPetType(pet.type!),
             title: PetDetailsString.health,
+            icon: Tiutiu.healing,
             content: pet.health!,
           ),
           PetCaracteristics(
-            icon: OtherFunctions.getIconFromPetType(pet.type!),
             content: '${pet.ageYear}a ${pet.ageMonth}m',
             title: PetDetailsString.age,
+            icon: Tiutiu.birthday_cake,
           ),
         ] +
         List.generate(
