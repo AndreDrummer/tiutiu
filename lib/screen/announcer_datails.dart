@@ -273,7 +273,6 @@ class _AnnouncerDetailsState extends State<AnnouncerDetails> {
                           CommonChatFunctions.openChat(
                             firstUser: tiutiuUserController.tiutiuUser,
                             secondUser: widget.user,
-                            context: context,
                           );
                         },
                         child: CircleChild(
@@ -358,7 +357,6 @@ class _OnlyChatButton extends StatelessWidget {
         CommonChatFunctions.openChat(
           firstUser: tiutiuUserController.tiutiuUser,
           secondUser: secondUser!,
-          context: context,
         );
       },
       style: ElevatedButton.styleFrom(
