@@ -8,6 +8,7 @@ class AppStrings {
   static String get endApp => 'Encerrar aplicação';
   static String get loadingDots => 'Carregando...';
   static String get interesteds => 'interessados';
+  static String get provideInfo => 'Informar';
   static String get views => 'visualizações';
   static String get favorites => 'Favoritos';
   static String get whatsapp => 'WhatsApp';
@@ -60,8 +61,9 @@ class LocalPermissionStrings {
 
 class PetDetailsString {
   static String get otherCaracteristics => 'Características';
-  static String get announcer => 'Anunciante';
+  static String get lastSeen => 'Visto pela última vez em';
   static String get whereIsPet => 'Onde está o PET?';
+  static String get announcer => 'Anunciante';
   static String get detailsOf => 'Detalhes de';
   static String get description => 'Descrição';
   static String get health => 'Saúde';

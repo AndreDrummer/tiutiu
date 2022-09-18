@@ -2,7 +2,6 @@ import 'package:tiutiu/features/pets/services/pet_service.dart';
 import 'package:tiutiu/core/constants/firebase_env_path.dart';
 import 'package:tiutiu/core/utils/routes/routes_name.dart';
 import 'package:tiutiu/features/pets/model/pet_model.dart';
-import 'package:tiutiu/core/constants/images_assets.dart';
 import 'package:tiutiu/features/system/controllers.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -189,16 +188,8 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
                                           topLeft: Radius.circular(12),
                                           topRight: Radius.circular(12),
                                         ),
-                                        child: FadeInImage(
-                                          placeholder:
-                                              AssetHandle(ImageAssets.fadeIn)
-                                                  .build(),
-                                          image: NetworkImage(
-                                              pets[index].photos!.first!),
-                                          height: 1000,
-                                          width: 1000,
-                                          fit: BoxFit.fitWidth,
-                                        ),
+                                        child: AssetHandle.getImage(
+                                            pets[index].photos!.first!),
                                       ),
                                     ),
                                     widget.kind == null ||

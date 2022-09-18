@@ -1,26 +1,28 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:auto_size_text/auto_size_text.dart';
-import 'package:flutter/material.dart';
-import 'package:tiutiu/core/Custom/icons.dart';
-import 'package:tiutiu/Widgets/background.dart';
-import 'package:tiutiu/Widgets/circle_child.dart';
-import 'package:tiutiu/Widgets/divider.dart';
-import 'package:tiutiu/features/full_screen/views/fullscreen_images.dart';
-import 'package:tiutiu/core/constants/app_colors.dart';
-
-import 'package:tiutiu/features/pets/services/pet_service.dart';
-import 'package:tiutiu/features/system/controllers.dart';
-
-import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
-import 'package:tiutiu/features/chat/common/functions.dart';
-import 'package:tiutiu/core/utils/image_handle.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:tiutiu/Widgets/button.dart';
 import 'package:tiutiu/core/constants/images_assets.dart';
+import 'package:tiutiu/core/constants/strings.dart';
+import 'package:tiutiu/features/full_screen/views/fullscreen_images.dart';
+import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
+import 'package:tiutiu/features/pets/services/pet_service.dart';
 import 'package:tiutiu/core/constants/firebase_env_path.dart';
-import 'package:tiutiu/core/utils/launcher_functions.dart';
-import 'package:tiutiu/core/utils/other_functions.dart';
 import 'package:tiutiu/core/extensions/string_extension.dart';
+import 'package:tiutiu/features/chat/common/functions.dart';
+import 'package:tiutiu/core/utils/launcher_functions.dart';
+import 'package:tiutiu/features/system/controllers.dart';
+import 'package:tiutiu/core/utils/other_functions.dart';
+import 'package:tiutiu/core/constants/app_colors.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:tiutiu/core/utils/image_handle.dart';
+import 'package:auto_size_text/auto_size_text.dart';
+import 'package:tiutiu/Widgets/circle_child.dart';
+import 'package:tiutiu/Widgets/background.dart';
+import 'package:tiutiu/core/Custom/icons.dart';
+import 'package:tiutiu/Widgets/divider.dart';
+import 'package:flutter/material.dart';
 
-class AnnouncerDetails extends StatefulWidget {
+class AnnouncerDetails extends StatelessWidget {
   AnnouncerDetails(
     this.user, {
     this.showOnlyChat = false,
@@ -30,344 +32,115 @@ class AnnouncerDetails extends StatefulWidget {
   final bool showOnlyChat;
 
   @override
-  _AnnouncerDetailsState createState() => _AnnouncerDetailsState();
-}
-
-class _AnnouncerDetailsState extends State<AnnouncerDetails> {
-  // AdsProvider adsProvider;
-  int userTotalToDonate = 0;
-  int userTotalDonated = 0;
-  int userTotalAdopted = 0;
-  int userTotalDisap = 0;
-
-  void calculateTotals(user) async {
-    PetService petService = PetService.instance;
-    DocumentReference userReference = await OtherFunctions.getReferenceById(
-      tiutiuUserController.tiutiuUser.uid!,
-      FirebaseEnvPath.users,
-    );
-
-    QuerySnapshot adopteds =
-        await petService.getPetToCount(userReference, FirebaseEnvPath.adopted);
-    QuerySnapshot donates =
-        await petService.getPetToCount(userReference, FirebaseEnvPath.donate);
-    QuerySnapshot disap = await petService.getPetToCount(
-        userReference, FirebaseEnvPath.disappeared);
-    QuerySnapshot donated = await petService
-        .getPetToCount(userReference, FirebaseEnvPath.donate, avalaible: false);
-
-    setState(() {
-      userTotalAdopted = adopteds.docs.length;
-      userTotalDisap = disap.docs.length;
-      userTotalToDonate = donates.docs.length;
-      userTotalDonated = donated.docs.length;
-    });
-  }
-
-  @override
-  void initState() {
-    calculateTotals(widget.user);
-    super.initState();
-  }
-
-  @override
-  void setState(fn) {
-    if (!mounted) return;
-    super.setState(fn);
-  }
-
-  @override
-  void didChangeDependencies() {
-    // adsProvider = Provider.of(context);
-    super.didChangeDependencies();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    final height = MediaQuery.of(context).size.height;
-    final width = MediaQuery.of(context).size.width;
-
-    final userWhatsapp = widget.user.phoneNumber ?? null;
-    final userEmail = widget.user.email ?? null;
-
-    void callWhatsapp() {
-      // FlutterOpenWhatsapp.sendSingleMessage('+55$userWhatsapp', 'Olá!');
-    }
-
-    void callEmail() {
-      Launcher.sendEmail(emailAddress: userEmail!, message: '', subject: '');
-    }
-
-    void openFullScreenMode(List photos_list, String tag) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => FullScreenImage(
-            photos: photos_list,
-          ),
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBar(
+          title: AutoSizeText(user.displayName!),
+          automaticallyImplyLeading: true,
         ),
-      );
-    }
-
-    return Scaffold(
-      body: Container(
-        child: Stack(
-          children: [
-            Background(),
-            Column(
-              children: [
-                SizedBox(height: 25),
-                Container(
-                  height: height / 3.5,
-                  child: FadeInImage(
-                    placeholder: AssetImage(ImageAssets.fundo),
-                    image: AssetHandle(
-                      widget.user.photoBACK,
-                    ).build(),
-                    fit: BoxFit.fill,
-                    width: 1000,
-                    height: 100,
-                  ),
-                ),
-                SizedBox(height: 50),
-                CustomDivider(
-                    text: "${widget.user.displayName!.capitalize()}",
-                    fontSize: 18),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+        body: Center(
+          child: Container(
+            margin: const EdgeInsets.all(8.0),
+            width: double.infinity,
+            height: Get.height / 1.55,
+            child: Card(
+              elevation: 8.0,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(24.0.h),
+              ),
+              child: Column(
+                children: [
+                  Stack(
                     children: [
-                      Column(
-                        children: [
-                          CircleChild(
-                            avatarRadius: 25,
-                            child: AutoSizeText(
-                              '$userTotalToDonate',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
+                      Opacity(
+                        opacity: .3,
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.only(
+                            topRight: Radius.circular(12.0.h),
+                            topLeft: Radius.circular(12.0.h),
+                          ),
+                          child: Container(
+                            height: Get.height / 3,
+                            width: double.infinity,
+                            child: ClipRRect(
+                              child: Image.asset(
+                                ImageAssets.bones2,
+                                fit: BoxFit.fitWidth,
                               ),
                             ),
-                          ),
-                          SizedBox(height: 10),
-                          AutoSizeText(
-                            'P/ adoção',
-                            style:
-                                Theme.of(context).textTheme.headline4!.copyWith(
-                                      color: Colors.black,
-                                    ),
-                          )
-                        ],
-                      ),
-                      Column(
-                        children: [
-                          CircleChild(
-                            avatarRadius: 25,
-                            child: AutoSizeText(
-                              '$userTotalDonated',
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                          SizedBox(height: 10),
-                          AutoSizeText(
-                            'Doados',
-                            style:
-                                Theme.of(context).textTheme.headline4!.copyWith(
-                                      color: Colors.black,
-                                    ),
-                          )
-                        ],
-                      ),
-                      Column(
-                        children: [
-                          CircleChild(
-                            avatarRadius: 25,
-                            child: AutoSizeText(
-                              "$userTotalAdopted",
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                          SizedBox(height: 10),
-                          AutoSizeText(
-                            'Adotados',
-                            style:
-                                Theme.of(context).textTheme.headline4!.copyWith(
-                                      color: Colors.black,
-                                    ),
-                          )
-                        ],
-                      ),
-                      Column(
-                        children: [
-                          CircleChild(
-                            avatarRadius: 25,
-                            child: AutoSizeText(
-                              "$userTotalDisap",
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                          SizedBox(height: 10),
-                          AutoSizeText(
-                            'Desaparecidos',
-                            style:
-                                Theme.of(context).textTheme.headline4!.copyWith(
-                                      color: Colors.black,
-                                    ),
-                          )
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-                Divider(color: Colors.black),
-                Padding(
-                  padding: EdgeInsets.only(top: height / 10),
-                ),
-                Spacer(),
-                CustomDivider(text: 'Contato'),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      userWhatsapp != null
-                          ? InkWell(
-                              onTap: () {
-                                callWhatsapp();
-                              },
-                              child: CircleChild(
-                                avatarRadius: 25,
-                                child: Icon(
-                                  Tiutiu.whatsapp,
-                                ),
-                              ),
-                            )
-                          : Container(),
-                      userEmail != null
-                          ? InkWell(
-                              onTap: () {
-                                callEmail();
-                              },
-                              child: CircleChild(
-                                avatarRadius: 25,
-                                child: Icon(
-                                  Icons.email,
-                                ),
-                              ),
-                            )
-                          : Container(),
-                      InkWell(
-                        onTap: () {
-                          CommonChatFunctions.openChat(
-                            firstUser: tiutiuUserController.tiutiuUser,
-                            secondUser: widget.user,
-                          );
-                        },
-                        child: CircleChild(
-                          avatarRadius: 25,
-                          child: Icon(
-                            Icons.chat,
                           ),
                         ),
-                      )
-                    ],
-                  ),
-                ),
-              ],
-            ),
-            Positioned(
-              top: 30,
-              child: Container(
-                margin: const EdgeInsets.only(left: 8.0, top: 8.0),
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment(0.0, 0.8),
-                    end: Alignment(0.0, 0.0),
-                    colors: [
-                      Color.fromRGBO(0, 0, 0, 0),
-                      Color.fromRGBO(0, 0, 0, 0.4),
-                    ],
-                  ),
-                  borderRadius: BorderRadius.circular(50),
-                ),
-                child: IconButton(
-                  icon: Icon(Icons.arrow_back, size: 30, color: Colors.white),
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                ),
-              ),
-            ),
-            Positioned(
-              left: width * 0.3,
-              top: height / 5,
-              child: InkWell(
-                onTap: widget.user.avatar != null
-                    ? () =>
-                        openFullScreenMode([widget.user.avatar], 'profilePic')
-                    : () {},
-                child: CircleChild(
-                  avatarRadius: 70,
-                  child: Hero(
-                    tag: 'profilePic',
-                    child: FadeInImage(
-                      placeholder:
-                          AssetHandle(ImageAssets.profileEmpty).build(),
-                      image: NetworkImage(
-                        widget.user.avatar!,
                       ),
-                      fit: BoxFit.cover,
-                      width: 1000,
-                      height: 1000,
-                    ),
+                      Positioned(
+                        right: 64.0,
+                        left: 64.0,
+                        child: Card(
+                          elevation: 8.0,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(1000.0.h),
+                          ),
+                          child: ClipOval(
+                            child: CircleAvatar(
+                              backgroundColor: Colors.transparent,
+                              child: AssetHandle.getImage(
+                                user.avatar,
+                                fit: BoxFit.fill,
+                              ),
+                              radius: 96.0.h,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                ),
+                  Container(
+                    height: Get.height / 4,
+                    margin: EdgeInsets.only(left: 8.0.w, top: 16.0.h),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        AutoSizeText(
+                          'Visto por último 09 de Janeiro de 2022',
+                        ),
+                        Spacer(),
+                        AutoSizeText('Usuário desde 09 de Janeiro de 2022'),
+                        Spacer(),
+                        AutoSizeText('2 Posts'),
+                        Spacer(),
+                        Divider(),
+                        AutoSizeText('Contato'),
+                        Divider(),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Expanded(
+                              child: ButtonWide(
+                                color: AppColors.secondary,
+                                text: AppStrings.chat,
+                                isToExpand: false,
+                                icon: Icons.phone,
+                                action: () {},
+                              ),
+                            ),
+                            Expanded(
+                              child: ButtonWide(
+                                text: AppStrings.whatsapp,
+                                color: AppColors.primary,
+                                icon: Tiutiu.whatsapp,
+                                isToExpand: false,
+                                action: () {},
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  )
+                ],
               ),
             ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class _OnlyChatButton extends StatelessWidget {
-  _OnlyChatButton({
-    this.secondUser,
-  });
-
-  final TiutiuUser? secondUser;
-
-  @override
-  Widget build(BuildContext context) {
-    return ElevatedButton(
-      onPressed: () {
-        CommonChatFunctions.openChat(
-          firstUser: tiutiuUserController.tiutiuUser,
-          secondUser: secondUser!,
-        );
-      },
-      style: ElevatedButton.styleFrom(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
-        ),
-        primary: AppColors.secondary,
-      ),
-      child: AutoSizeText(
-        'chat',
-        style: TextStyle(
-          color: Colors.white,
+          ),
         ),
       ),
     );
