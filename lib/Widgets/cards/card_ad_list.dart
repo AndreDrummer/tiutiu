@@ -3,7 +3,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/features/pets/model/pet_model.dart';
 import 'package:tiutiu/core/utils/other_functions.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 class CardAdList extends StatelessWidget {
   const CardAdList({
