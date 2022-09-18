@@ -1,10 +1,9 @@
+import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
+import 'package:tiutiu/core/utils/other_functions.dart';
+import 'package:tiutiu/core/utils/image_handle.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
-import 'package:tiutiu/core/utils/image_handle.dart';
-import 'package:tiutiu/core/constants/images_assets.dart';
-import 'package:tiutiu/core/utils/other_functions.dart';
 
 class MessageBubble extends StatelessWidget {
   MessageBubble({
@@ -123,13 +122,7 @@ class MessageBubble extends StatelessWidget {
               child: CircleAvatar(
                 backgroundColor: Colors.transparent,
                 child: ClipOval(
-                  child: FadeInImage(
-                    placeholder: AssetImage(ImageAssets.profileEmpty),
-                    image: AssetHandle(user.avatar).build(),
-                    fit: BoxFit.cover,
-                    width: 1000,
-                    height: 100,
-                  ),
+                  child: AssetHandle.getImage(user.avatar),
                 ),
               ),
             ),
