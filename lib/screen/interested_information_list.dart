@@ -236,7 +236,6 @@ class _InterestedListState extends State<InterestedList> {
                                 }
                               },
                               openChat: () => CommonChatFunctions.openChat(
-                                context: context,
                                 firstUser: tiutiuUserController.tiutiuUser,
                                 secondUser: interestedUser,
                               ),

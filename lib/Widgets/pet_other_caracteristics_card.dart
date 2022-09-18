@@ -1,18 +1,19 @@
+import 'package:tiutiu/core/constants/images_assets.dart';
+import 'package:tiutiu/core/constants/text_styles.dart';
+import 'package:tiutiu/core/utils/image_handle.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:tiutiu/core/utils/image_handle.dart';
-import 'package:tiutiu/core/constants/images_assets.dart';
 
-class CardDetails extends StatelessWidget {
-  CardDetails({
+class PetOtherCaracteristicsCard extends StatelessWidget {
+  PetOtherCaracteristicsCard({
+    this.content,
     this.title,
     this.icon,
-    this.text,
   });
 
+  final String? content;
   final IconData? icon;
   final String? title;
-  final String? text;
 
   @override
   Widget build(BuildContext context) {
@@ -52,8 +53,8 @@ class CardDetails extends StatelessWidget {
                       SizedBox(height: 10),
                       FittedBox(
                         child: AutoSizeText(
-                          text!,
-                          style: TextStyle(
+                          content!,
+                          style: TextStyles.fontSize(
                             fontWeight: FontWeight.w700,
                           ),
                         ),

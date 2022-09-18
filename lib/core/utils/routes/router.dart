@@ -1,6 +1,7 @@
 import 'package:tiutiu/screen/interested_information_list.dart';
 import 'package:tiutiu/features/chat/screens/chat_screen.dart';
 import 'package:tiutiu/features/chat/screens/chat_tabs.dart';
+import 'package:tiutiu/features/pets/views/pet_detail.dart';
 import 'package:tiutiu/core/utils/routes/routes_name.dart';
 import 'package:tiutiu/features/system/app_bootstrap.dart';
 import 'package:tiutiu/screen/informantes_screen.dart';
@@ -8,9 +9,7 @@ import 'package:tiutiu/features/home/views/home.dart';
 import 'package:tiutiu/screen/choose_location.dart';
 import 'package:tiutiu/screen/notifications.dart';
 import 'package:tiutiu/screen/auth_screen.dart';
-import 'package:tiutiu/screen/pet_detail.dart';
 import 'package:tiutiu/screen/favorites.dart';
-import 'package:tiutiu/screen/pet_form.dart';
 import 'package:tiutiu/screen/register.dart';
 import 'package:tiutiu/screen/settings.dart';
 import 'package:tiutiu/Widgets/new_map.dart';
@@ -29,10 +28,7 @@ class RouterGenerator {
         return MaterialPageRoute(
           builder: (_) => AuthScreen(),
         );
-      case Routes.pet_form:
-        return MaterialPageRoute(
-          builder: (_) => PetForm(),
-        );
+
       case Routes.chat:
         return MaterialPageRoute(
           builder: (_) => ChatScreen(),
