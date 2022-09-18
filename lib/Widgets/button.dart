@@ -1,5 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
 
 class ButtonWide extends StatelessWidget {
@@ -24,9 +26,10 @@ class ButtonWide extends StatelessWidget {
     return GestureDetector(
       onTap: () => action?.call(),
       child: Container(
+        margin: EdgeInsets.symmetric(vertical: 4.0.h, horizontal: 8.0.w),
         alignment: Alignment.center,
-        height: 50,
-        width: isToExpand! ? MediaQuery.of(context).size.width : 260,
+        height: 48.0.h,
+        width: isToExpand! ? Get.width : 260.0.w,
         decoration: BoxDecoration(
           borderRadius: rounded == true ? BorderRadius.circular(12) : null,
           color: color ?? AppColors.secondary,
