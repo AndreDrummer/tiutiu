@@ -29,10 +29,11 @@ class Home extends StatelessWidget with TiuTiuPopUp {
           onWillPop: () async {
             return showPopUp(
               context,
-              AppStrings.wannaLeave,
-              barrierDismissible: false,
               confirmText: AppStrings.yes,
+              barrierDismissible: false,
+              title: AppStrings.endApp,
               denyText: AppStrings.no,
+              AppStrings.wannaLeave,
               danger: false,
               warning: true,
               mainAction: () {
@@ -41,30 +42,33 @@ class Home extends StatelessWidget with TiuTiuPopUp {
               secondaryAction: () {
                 exit(0);
               },
-              title: AppStrings.endApp,
             ).then((value) => false);
           },
           child: Scaffold(
-            resizeToAvoidBottomInset: false,
             body: NestedScrollView(
-              controller: homeController.scrollController,
               headerSliverBuilder: (context, innerBoxIsScrolled) {
                 return [
                   SliverAppBar(
                     backgroundColor: Colors.transparent,
                     automaticallyImplyLeading: false,
-                    expandedHeight: Get.height / 4,
+                    expandedHeight: homeController.bottomBarIndex < 2
+                        ? Get.height / 4
+                        : 0.0,
+                    shadowColor: Colors.white,
                     flexibleSpace: Header(),
-                    toolbarHeight: 56.0.h,
+                    toolbarHeight:
+                        homeController.bottomBarIndex < 2 ? 56.0.h : 0.0,
                     floating: true,
                     pinned: true,
                   ),
                 ];
               },
               body: _screens.elementAt(homeController.bottomBarIndex),
+              controller: homeController.scrollController,
               floatHeaderSlivers: true,
             ),
             bottomNavigationBar: BottomBar(),
+            resizeToAvoidBottomInset: false,
           ),
         ),
       ),

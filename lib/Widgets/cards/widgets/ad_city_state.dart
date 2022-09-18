@@ -26,7 +26,7 @@ class AdCityState extends StatelessWidget {
     String UF = statesInitials.elementAt(statesName.indexOf(state));
 
     return Container(
-      width: 200.0.w,
+      width: rightSide ? 200.0.w : null,
       margin: EdgeInsets.only(bottom: 8.0.h),
       child: Row(
         children: [
