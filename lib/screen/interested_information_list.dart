@@ -13,7 +13,7 @@ import 'package:tiutiu/features/pets/model/pet_model.dart';
 import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
 import 'package:tiutiu/features/chat/common/functions.dart';
 import 'package:tiutiu/providers/user_infos_interests.dart';
-import 'package:tiutiu/screen/announcer_datails.dart';
+import 'package:tiutiu/features/profile/views/profile.dart';
 import 'package:tiutiu/core/constants/firebase_env_path.dart';
 import 'package:tiutiu/core/utils/routes/routes_name.dart';
 
@@ -89,7 +89,7 @@ class _InterestedListState extends State<InterestedList> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => AnnouncerDetails(interestedUser),
+        builder: (context) => Profile(interestedUser),
       ),
     );
   }
@@ -200,8 +200,9 @@ class _InterestedListState extends State<InterestedList> {
                               return Container();
                             }
 
-                            TiutiuUser interestedUser = TiutiuUser.fromSnapshot(
-                              interestedReferenceSnapshot.data!,
+                            TiutiuUser interestedUser = TiutiuUser.fromMap(
+                              interestedReferenceSnapshot.data!.data()
+                                  as Map<String, dynamic>,
                             );
                             String subtitle =
                                 '${widget.kind == FirebaseEnvPath.donate ? 'Interessou dia' : 'Informou dia'} ${DateFormat('dd/MM/y HH:mm').format(DateTime.parse(interesteds[index].interestedAt))}';

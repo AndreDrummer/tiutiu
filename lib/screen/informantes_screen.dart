@@ -4,7 +4,7 @@ import 'package:loading_animations/loading_animations.dart';
 import 'package:tiutiu/core/models/interested_model.dart';
 import 'package:tiutiu/core/constants/images_assets.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:tiutiu/screen/announcer_datails.dart';
+import 'package:tiutiu/features/profile/views/profile.dart';
 import 'package:tiutiu/core/utils/image_handle.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:maps_launcher/maps_launcher.dart';
@@ -94,8 +94,9 @@ class _InformantesScreenState extends State<InformantesScreen> {
                       context,
                       MaterialPageRoute(
                         builder: (context) {
-                          return AnnouncerDetails(
-                            TiutiuUser.fromSnapshot(snapshot.data!),
+                          return Profile(
+                            TiutiuUser.fromMap(
+                                snapshot.data!.data() as Map<String, dynamic>),
                           );
                         },
                       ),
