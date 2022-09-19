@@ -152,8 +152,8 @@ class _ListTileMessage extends StatelessWidget {
           ListTile(
             leading: InkWell(
               onTap: () => OtherFunctions.navigateToAnnouncerDetail(
-                  context, itsMe ? chat.secondUser : chat.firstUser,
-                  showOnlyChat: true),
+                itsMe ? chat.secondUser : chat.firstUser,
+              ),
               child: CircleAvatar(
                 backgroundColor: Colors.transparent,
                 child: ClipOval(

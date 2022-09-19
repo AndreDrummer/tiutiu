@@ -1,35 +1,20 @@
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get.dart';
-import 'package:tiutiu/Widgets/button.dart';
-import 'package:tiutiu/core/constants/images_assets.dart';
-import 'package:tiutiu/core/constants/strings.dart';
-import 'package:tiutiu/features/full_screen/views/fullscreen_images.dart';
+import 'package:tiutiu/core/utils/formatter.dart';
 import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
-import 'package:tiutiu/features/pets/services/pet_service.dart';
-import 'package:tiutiu/core/constants/firebase_env_path.dart';
-import 'package:tiutiu/core/extensions/string_extension.dart';
-import 'package:tiutiu/features/chat/common/functions.dart';
-import 'package:tiutiu/core/utils/launcher_functions.dart';
-import 'package:tiutiu/features/system/controllers.dart';
-import 'package:tiutiu/core/utils/other_functions.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:tiutiu/core/constants/images_assets.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:tiutiu/core/utils/image_handle.dart';
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:tiutiu/Widgets/circle_child.dart';
-import 'package:tiutiu/Widgets/background.dart';
+import 'package:tiutiu/core/constants/strings.dart';
 import 'package:tiutiu/core/Custom/icons.dart';
-import 'package:tiutiu/Widgets/divider.dart';
+import 'package:tiutiu/Widgets/button.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
-class AnnouncerDetails extends StatelessWidget {
-  AnnouncerDetails(
-    this.user, {
-    this.showOnlyChat = false,
-  });
+class Profile extends StatelessWidget {
+  Profile(this.user);
 
   final TiutiuUser user;
-  final bool showOnlyChat;
 
   @override
   Widget build(BuildContext context) {
@@ -101,10 +86,11 @@ class AnnouncerDetails extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         AutoSizeText(
-                          'Visto por último 09 de Janeiro de 2022',
+                          'Visto por último ${Formatter.getFormattedDate(user.lastLogin!)}',
                         ),
                         Spacer(),
-                        AutoSizeText('Usuário desde 09 de Janeiro de 2022'),
+                        AutoSizeText(
+                            'Usuário desde ${Formatter.getFormattedDate(user.createdAt!)}'),
                         Spacer(),
                         AutoSizeText('2 Posts'),
                         Spacer(),

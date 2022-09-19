@@ -1,15 +1,15 @@
 import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
-import 'package:tiutiu/core/extensions/string_extension.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:tiutiu/features/profile/views/profile.dart';
 import 'package:tiutiu/features/pets/model/pet_model.dart';
 import 'package:tiutiu/features/system/controllers.dart';
 import 'package:tiutiu/core/utils/math_functions.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:tiutiu/screen/announcer_datails.dart';
 import 'package:tiutiu/core/constants/strings.dart';
 import 'package:tiutiu/core/Custom/icons.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class OtherFunctions {
   static List<String> distanceCalculate(
@@ -46,7 +46,7 @@ class OtherFunctions {
   }
 
   static String firstCharacterUpper(String text) {
-    return text.trim().capitalize();
+    return text.trim().capitalize!;
   }
 
   // static Future<String>? getAddress(provider.Location location) async {
@@ -100,16 +100,8 @@ class OtherFunctions {
     return documentSnapshot.reference;
   }
 
-  static void navigateToAnnouncerDetail(BuildContext context, TiutiuUser user,
-      {bool showOnlyChat = false}) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) {
-          return AnnouncerDetails(user, showOnlyChat: showOnlyChat);
-        },
-      ),
-    );
+  static void navigateToAnnouncerDetail(TiutiuUser user) {
+    Get.to(Profile(user));
   }
 
   static IconData getIconFromPetType(String type) {
