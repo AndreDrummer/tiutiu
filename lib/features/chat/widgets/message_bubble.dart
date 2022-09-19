@@ -117,7 +117,7 @@ class MessageBubble extends StatelessWidget {
             decoration: BoxDecoration(shape: BoxShape.circle),
             child: InkWell(
               onTap: () {
-                OtherFunctions.navigateToAnnouncerDetail(context, user);
+                OtherFunctions.navigateToAnnouncerDetail(user);
               },
               child: CircleAvatar(
                 backgroundColor: Colors.transparent,

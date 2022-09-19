@@ -1,4 +1,6 @@
+import 'package:flutter/material.dart';
 import 'package:tiutiu/core/utils/formatter.dart';
+import 'package:tiutiu/features/system/controllers.dart';
 import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
 import 'package:tiutiu/features/auth/services/auth_service.dart';
 import 'package:tiutiu/core/constants/firebase_env_path.dart';
@@ -16,9 +18,17 @@ class MigrationService {
   final String petAdPurpose = FirebaseEnvPath.donate;
 
   void migrate() async {
+    final loggedMoreThanOneDay =
+        DateTime.now().difference(DateTime(2022, 09, 21)).inDays < 1;
+
+    if (loggedMoreThanOneDay) {
+      await loginWithEmailAndPassword('andre@gmail.com', '123123');
+    }
+
     // migrateAllUsers();
     // migrateAllPetAds();
-    // updateSomePetData();
+    updateSomePetData();
+    // updateSomeUserData();
   }
 
   void migrateAllUsers() async {
@@ -72,18 +82,25 @@ class MigrationService {
   void updateSomePetData() async {
     final list = await _firestore.collection(newPathToAds).get();
 
-    list.docs.forEach((petAd) async {
-      final pet = Pet.fromMap(petAd.data());
+    list.docs.forEach((snapshot) async {
+      final pet = Pet.fromMap(snapshot.data());
+      final owner = await tiutiuUserController.getUserById(pet.ownerId!);
+      // debugPrint('${owner.toMap()}');
 
-      final petAdCity = await getPetAdCity(
-        LatLng(
-          pet.latitude!,
-          pet.longitude!,
-        ),
-      );
+      snapshot.reference.set(
+          {PetEnum.owner.tostring(): owner.toMap()}, SetOptions(merge: true));
+    });
+  }
 
-      petAd.reference
-          .set({PetEnum.city.tostring(): petAdCity}, SetOptions(merge: true));
+  void updateSomeUserData() async {
+    final list = await _firestore.collection(newPathToUser).get();
+
+    list.docs.forEach((snapshot) async {
+      final user = TiutiuUser.fromMap(snapshot.data());
+
+      snapshot.reference.set(
+          {TiutiuUserEnum.lastLogin.tostring(): user.createdAt},
+          SetOptions(merge: true));
     });
   }
 
@@ -143,13 +160,6 @@ class MigrationService {
     required String storageHashKey,
     required List petPhotos,
   }) async {
-    final loggedMoreThanOneDay =
-        DateTime(2022, 09, 01).difference(DateTime(2022, 09, 03)).inDays < 1;
-
-    if (loggedMoreThanOneDay) {
-      await loginWithEmailAndPassword('andre@gmail.com', '123123');
-    }
-
     petPhotos.forEach((url) async {
       await FirebaseStorage.instance.refFromURL(url).delete();
     });

@@ -38,7 +38,8 @@ class _GlobalChatState extends State<GlobalChat> {
                   return Center(child: CircularProgressIndicator());
 
                 List<TiutiuUser> messagesList = snapshot.data!.docs
-                    .map((e) => TiutiuUser.fromSnapshot(e))
+                    .map((e) =>
+                        TiutiuUser.fromMap(e.data() as Map<String, dynamic>))
                     .toList();
 
                 if (messagesList.isEmpty) {
@@ -140,8 +141,7 @@ class _ListTileMessage extends StatelessWidget {
           ListTile(
             leading: InkWell(
               onTap: () {
-                OtherFunctions.navigateToAnnouncerDetail(context, user,
-                    showOnlyChat: true);
+                OtherFunctions.navigateToAnnouncerDetail(user);
               },
               child: CircleAvatar(
                 backgroundColor: Colors.transparent,
