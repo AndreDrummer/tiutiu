@@ -133,6 +133,10 @@ class TiutiuUserController extends GetxController {
     return _tiutiuUserService.loadNotifications(tiutiuUser.uid!);
   }
 
+  Future<TiutiuUser> getUserById(String id) async {
+    return await _tiutiuUserService.getUserByID(id);
+  }
+
   void resetUserData() {
     _tiutiuUser(TiutiuUser());
   }
