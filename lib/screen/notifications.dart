@@ -112,7 +112,8 @@ class _ListTile extends StatelessWidget {
   final NotificationModel notificationModel;
 
   Future<String> loadUserAvatar(DocumentReference userRef) async {
-    TiutiuUser userData = TiutiuUser.fromSnapshot(await userRef.get());
+    TiutiuUser userData = TiutiuUser.fromMap(
+        (await userRef.get()).data() as Map<String, dynamic>);
     return Future.value(userData.avatar);
   }
 
