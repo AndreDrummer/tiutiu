@@ -135,7 +135,6 @@ class PetDetails extends StatelessWidget {
           child: InkWell(
             onTap: () {
               OtherFunctions.navigateToAnnouncerDetail(
-                context,
                 petsController.pet.owner!,
               );
             },
