@@ -18,6 +18,7 @@ class AppStrings {
   static String get adopte => 'Adotar';
   static String get name => 'Tiu, tiu';
   static String get post => 'Postar';
+  static String get save => 'Salvar';
   static String get chat => 'Chat';
   static String get yes => 'Sim';
   static String get no => 'Não';
@@ -57,6 +58,14 @@ class LocalPermissionStrings {
   static String get turnOnLocalization => 'ATIVAR LOCALIZAÇÃO';
   static String get openSettings => 'IR P/ CONFIGURAÇÕES';
   static String get grantAcess => 'CONCEDER ACESSO';
+}
+
+class UserStrings {
+  static String get allowContactViaWhatsApp => 'Permitir contato via WhatsApp';
+  static String postsQty(int qty) => qty == 1 ? 'post' : 'posts';
+  static String get userLastSeen => 'Visto por útlimo';
+  static String get userSince => 'Usuário desde';
+  static String get contact => 'Contato';
 }
 
 class PetDetailsString {
