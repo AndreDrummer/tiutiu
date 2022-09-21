@@ -1,3 +1,4 @@
+import 'package:tiutiu/core/utils/formatter.dart';
 import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
 import 'package:tiutiu/core/utils/launcher_functions.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
@@ -98,7 +99,9 @@ class _InterestedInfoCardState extends State<InterestedInfoCard> {
                     ? _ActionButton(
                         onPressed: () {
                           Launcher.openWhatsApp(
-                            number: widget.interestedUser!.phoneNumber,
+                            number: Formatter.unmaskNumber(
+                              widget.interestedUser!.phoneNumber!,
+                            ),
                           );
                         },
                         icon: Tiutiu.whatsapp,
@@ -110,7 +113,7 @@ class _InterestedInfoCardState extends State<InterestedInfoCard> {
                 phoneToCall != null
                     ? _ActionButton(
                         onPressed: () {
-                          Launcher.makePhoneCall(number: phoneToCall);
+                          Launcher.makePhoneCall(phoneToCall);
                         },
                         icon: Icons.phone,
                         text: 'Ligar',
