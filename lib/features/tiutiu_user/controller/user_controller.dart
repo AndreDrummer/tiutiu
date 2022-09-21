@@ -12,6 +12,7 @@ class TiutiuUserController extends GetxController {
 
   final Rx<TiutiuUser> _tiutiuUser = TiutiuUser().obs;
 
+  TiutiuUserService get service => _tiutiuUserService;
   TiutiuUser get tiutiuUser => _tiutiuUser.value;
 
   void updateTiutiuUser(TiutiuUserEnum property, dynamic data) {

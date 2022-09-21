@@ -211,7 +211,7 @@ class _RegisterState extends State<Register> {
 
     if (_whatsapp.text.trim().isNotEmpty) {
       String? unMaskNumber = Formatter.unmaskNumber(_whatsapp.text.trim());
-      if (!regExp.hasMatch(unMaskNumber!) || unMaskNumber.length < 11) {
+      if (!regExp.hasMatch(unMaskNumber) || unMaskNumber.length < 11) {
         setState(() {
           whatsappHasError = true;
           whatsappHasErrorMessage = 'Insira um número válido';
