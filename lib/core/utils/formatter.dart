@@ -1,7 +1,7 @@
 import 'package:intl/intl.dart';
 
 class Formatter {
-  static String? unmaskNumber(String number) {
+  static String unmaskNumber(String number) {
     try {
       String serializedNumber = number
           .split('(')[1]
@@ -10,7 +10,7 @@ class Formatter {
           .replaceAll(' ', '');
       return serializedNumber;
     } catch (error) {
-      return null;
+      return number;
     }
   }
 
@@ -31,7 +31,16 @@ class Formatter {
 
   static String getFormattedDate(String createdAt) {
     final date = getDateTime(createdAt);
+
     return DateFormat('dd/MM/yyy').format(date);
+  }
+
+  static String getFormattedDateAndTime(String createdAt) {
+    final date = getDateTime(createdAt);
+    final timeMinute = DateTime.parse(createdAt).minute;
+    final timeHour = DateTime.parse(createdAt).hour;
+
+    return DateFormat('dd/MM/yyy').format(date) + ' $timeHour:$timeMinute';
   }
 
   static String timeFormmated(int minutes) {

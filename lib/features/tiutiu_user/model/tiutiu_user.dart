@@ -1,8 +1,8 @@
 import 'package:tiutiu/core/extensions/enum_tostring.dart';
 
 enum TiutiuUserEnum {
+  allowContactViaWhatsApp,
   notificationToken,
-  showNumberInAd,
   displayName,
   phoneNumber,
   createdAt,
@@ -16,7 +16,7 @@ enum TiutiuUserEnum {
 
 class TiutiuUser {
   TiutiuUser({
-    this.showNumberInAd = false,
+    this.allowContactViaWhatsApp = false,
     this.notificationToken,
     this.displayName,
     this.phoneNumber,
@@ -31,7 +31,8 @@ class TiutiuUser {
 
   static TiutiuUser fromMap(Map<String, dynamic> map) {
     return TiutiuUser(
-      showNumberInAd: map[TiutiuUserEnum.showNumberInAd.tostring()] ?? false,
+      allowContactViaWhatsApp:
+          map[TiutiuUserEnum.allowContactViaWhatsApp.tostring()] ?? false,
       notificationToken: map[TiutiuUserEnum.notificationToken.tostring()],
       avatar: map[TiutiuUserEnum.avatar.tostring()] ?? map['photoURL'],
       phoneNumber: map[TiutiuUserEnum.phoneNumber.tostring()],
@@ -57,12 +58,12 @@ class TiutiuUser {
       lastLogin: map[TiutiuUserEnum.lastLogin.tostring()],
       email: map[TiutiuUserEnum.email.tostring()],
       uid: map[TiutiuUserEnum.uid.tostring()],
-      showNumberInAd: false,
+      allowContactViaWhatsApp: false,
     );
   }
 
   String? notificationToken;
-  bool showNumberInAd;
+  bool allowContactViaWhatsApp;
   String? phoneNumber;
   String? displayName;
   String? createdAt;
@@ -76,7 +77,8 @@ class TiutiuUser {
   Map<String, dynamic> toMap() {
     return {
       TiutiuUserEnum.notificationToken.tostring(): notificationToken,
-      TiutiuUserEnum.showNumberInAd.tostring(): showNumberInAd,
+      TiutiuUserEnum.allowContactViaWhatsApp.tostring():
+          allowContactViaWhatsApp,
       TiutiuUserEnum.phoneNumber.tostring(): phoneNumber,
       TiutiuUserEnum.displayName.tostring(): displayName,
       TiutiuUserEnum.lastLogin.tostring(): lastLogin,

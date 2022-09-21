@@ -4,11 +4,13 @@ import 'package:flutter/material.dart';
 class TextStyles {
   static TextStyle fontSize({
     FontWeight? fontWeight,
+    FontStyle? fontStyle,
     Color? color,
     double? fontSize,
   }) {
     return TextStyle(
       fontWeight: fontWeight,
+      fontStyle: fontStyle,
       fontSize: fontSize,
       color: color,
     );
