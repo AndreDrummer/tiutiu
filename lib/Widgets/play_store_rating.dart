@@ -43,7 +43,7 @@ class RatingUs extends StatelessWidget {
   }) {
     return InkWell(
       onTap: () {
-        Launcher.openBrowser(url: urlToOpen);
+        Launcher.openBrowser(urlToOpen!);
       },
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 3.0),
