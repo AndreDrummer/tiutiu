@@ -3,6 +3,7 @@ import 'package:tiutiu/core/constants/images_assets.dart';
 import 'package:flutter/material.dart';
 import 'dart:io';
 
+final String _ASSETS = 'assets';
 final String _HTTP = 'http';
 
 class AssetHandle {
@@ -45,9 +46,22 @@ class AssetHandle {
         imagePath,
         fit: fit,
       );
+    } else if (imagePath.toString().contains(_ASSETS)) {
+      return _imageAsset(imagePath, fit: fit);
     } else {
       return _localImage(imagePath, fit);
     }
+  }
+
+  static Widget _imageAsset(
+    String path, {
+    BoxFit? fit,
+  }) {
+    return Image.asset(
+      path,
+      fit: fit ?? BoxFit.fill,
+      width: 1000,
+    );
   }
 
   static Widget _networkImage(
