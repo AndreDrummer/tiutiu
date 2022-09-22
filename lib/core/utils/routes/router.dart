@@ -1,6 +1,7 @@
 import 'package:tiutiu/screen/interested_information_list.dart';
 import 'package:tiutiu/features/chat/screens/chat_screen.dart';
 import 'package:tiutiu/features/chat/screens/chat_tabs.dart';
+import 'package:tiutiu/features/auth/views/auth_screen.dart';
 import 'package:tiutiu/features/pets/views/pet_detail.dart';
 import 'package:tiutiu/core/utils/routes/routes_name.dart';
 import 'package:tiutiu/features/system/app_bootstrap.dart';
@@ -8,7 +9,6 @@ import 'package:tiutiu/screen/informantes_screen.dart';
 import 'package:tiutiu/features/home/views/home.dart';
 import 'package:tiutiu/screen/choose_location.dart';
 import 'package:tiutiu/screen/notifications.dart';
-import 'package:tiutiu/screen/auth_screen.dart';
 import 'package:tiutiu/screen/favorites.dart';
 import 'package:tiutiu/screen/register.dart';
 import 'package:tiutiu/screen/settings.dart';
