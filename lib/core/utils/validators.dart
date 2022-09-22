@@ -1,11 +1,10 @@
 import 'dart:async';
 
-class FormValidator {
-
+class Validators {
   final validateEmpty = StreamTransformer<String, String>.fromHandlers(
-    handleData: (text, sink) {           
+    handleData: (text, sink) {
       if (text.isEmpty) {
-        sink.addError("* Campo obrigatório.");      
+        sink.addError("* Campo obrigatório.");
       } else {
         sink.add(text);
       }
@@ -13,7 +12,7 @@ class FormValidator {
   );
 
   final validatePhotos = StreamTransformer<List, List>.fromHandlers(
-    handleData: (photos, sink) {           
+    handleData: (photos, sink) {
       if (photos.isEmpty) {
         sink.addError("* Insira pelo menos uma foto");
       } else {
@@ -23,12 +22,18 @@ class FormValidator {
   );
 
   final validateAge = StreamTransformer<int, int>.fromHandlers(
-    handleData: (age, sink) {           
+    handleData: (age, sink) {
       if (age == 0) {
-        sink.addError("* Campo obrigatório e diferente de zero");      
+        sink.addError("* Campo obrigatório e diferente de zero");
       } else {
         sink.add(age);
       }
     },
   );
+
+  bool validateEmail(String email) {
+    final regex =
+        r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?)*$";
+    return RegExp(regex).hasMatch(email.trim());
+  }
 }
