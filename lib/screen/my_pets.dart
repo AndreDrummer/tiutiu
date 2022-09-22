@@ -1,5 +1,6 @@
 import 'package:tiutiu/features/pets/services/pet_service.dart';
 import 'package:tiutiu/core/constants/firebase_env_path.dart';
+import 'package:tiutiu/features/auth/views/auth_screen.dart';
 import 'package:tiutiu/core/utils/routes/routes_name.dart';
 import 'package:tiutiu/features/pets/model/pet_model.dart';
 import 'package:tiutiu/features/system/controllers.dart';
@@ -10,7 +11,6 @@ import 'package:tiutiu/Widgets/loading_screen.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:tiutiu/screen/choose_location.dart';
 import 'package:tiutiu/Widgets/popup_message.dart';
-import 'package:tiutiu/screen/auth_screen.dart';
 import 'package:tiutiu/Widgets/background.dart';
 import 'package:tiutiu/Widgets/empty_list.dart';
 import 'interested_information_list.dart';

@@ -11,7 +11,7 @@ class HomeController extends GetxController {
   final Rx<CardVisibilityKind> _cardVisibilityKind =
       CardVisibilityKind.card.obs;
   final RxBool _isAppBarCollapsed = false.obs;
-  final RxInt _bottomBarIndex = 0.obs;
+  final RxInt _bottomBarIndex = 2.obs;
 
   CardVisibilityKind get cardVisibilityKind => _cardVisibilityKind.value;
 
