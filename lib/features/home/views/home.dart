@@ -1,5 +1,5 @@
 import 'package:tiutiu/features/home/widgets/bottom_bar.dart';
-import 'package:tiutiu/features/auth/views/auth_screen.dart';
+import 'package:tiutiu/features/auth/views/start_screen.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/features/pets/views/pets_list.dart';
 import 'package:tiutiu/features/home/widgets/header.dart';
@@ -18,9 +18,9 @@ class Home extends StatelessWidget with TiuTiuPopUp {
     final _screens = <Widget>[
       PetsList(),
       PetsList(),
-      homeController.isAuthenticated ? MyAccount() : AuthScreen(),
-      homeController.isAuthenticated ? Favorites() : AuthScreen(),
-      homeController.isAuthenticated ? Favorites() : AuthScreen(),
+      homeController.isAuthenticated ? MyAccount() : StartScreen(),
+      homeController.isAuthenticated ? Favorites() : StartScreen(),
+      homeController.isAuthenticated ? Favorites() : StartScreen(),
     ];
 
     return SafeArea(

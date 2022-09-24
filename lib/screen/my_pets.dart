@@ -1,6 +1,6 @@
 import 'package:tiutiu/features/pets/services/pet_service.dart';
 import 'package:tiutiu/core/constants/firebase_env_path.dart';
-import 'package:tiutiu/features/auth/views/auth_screen.dart';
+import 'package:tiutiu/features/auth/views/start_screen.dart';
 import 'package:tiutiu/core/utils/routes/routes_name.dart';
 import 'package:tiutiu/features/pets/model/pet_model.dart';
 import 'package:tiutiu/features/system/controllers.dart';
@@ -64,7 +64,7 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
     } else {
       Navigator.pushAndRemoveUntil(
           context,
-          MaterialPageRoute(builder: (BuildContext context) => AuthScreen()),
+          MaterialPageRoute(builder: (BuildContext context) => StartScreen()),
           ModalRoute.withName(Routes.auth));
     }
   }
