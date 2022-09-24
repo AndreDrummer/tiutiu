@@ -479,7 +479,7 @@ class _RegisterState extends State<Register> {
                     await authController.alreadyRegistered();
                     Navigator.pushReplacementNamed(
                       context,
-                      Routes.auth_or_home,
+                      Routes.authOrHome,
                     );
                   }
                 }

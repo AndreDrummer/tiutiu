@@ -1,5 +1,6 @@
 class AppStrings {
   static String get verifyFilters => 'Verifique seus filtros de busca.';
+  static String get imagesWarning => 'Imagens meramente ilustrativas';
   static String get wannaLeave => 'Deseja realmente sair?';
   static String get noPetFound => 'Nenhum PET encontrado';
   static String get iamInterested => 'Estou interessado';
@@ -30,6 +31,14 @@ class AppStrings {
   static String get yes => 'Sim';
   static String get no => 'Não';
   static String get ok => 'OK';
+}
+
+class AuthStrings {
+  static String get authentique => 'Autentique-se para continuar.';
+  static String get continueAnon => 'Continuar anônimamente';
+  static String get facebook => 'Facebook';
+  static String get google => 'Google';
+  static String get apple => 'Apple';
 }
 
 class HomeStrings {
