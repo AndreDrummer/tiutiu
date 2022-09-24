@@ -1,3 +1,4 @@
+import 'package:tiutiu/features/auth/views/auth_error_page.dart';
 import 'package:tiutiu/features/home/widgets/bottom_bar.dart';
 import 'package:tiutiu/features/auth/views/start_screen.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -5,6 +6,7 @@ import 'package:tiutiu/features/pets/views/pets_list.dart';
 import 'package:tiutiu/features/home/widgets/header.dart';
 import 'package:tiutiu/features/system/controllers.dart';
 import 'package:tiutiu/core/mixins/tiu_tiu_pop_up.dart';
+import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/core/constants/strings.dart';
 import 'package:tiutiu/screen/my_account.dart';
 import 'package:tiutiu/screen/favorites.dart';
@@ -18,8 +20,8 @@ class Home extends StatelessWidget with TiuTiuPopUp {
     final _screens = <Widget>[
       PetsList(),
       PetsList(),
-      homeController.isAuthenticated ? MyAccount() : StartScreen(),
       homeController.isAuthenticated ? Favorites() : StartScreen(),
+      homeController.isAuthenticated ? MyAccount() : AuthErrorPage(),
       homeController.isAuthenticated ? Favorites() : StartScreen(),
     ];
 
@@ -54,7 +56,7 @@ class Home extends StatelessWidget with TiuTiuPopUp {
                     expandedHeight: homeController.bottomBarIndex < 2
                         ? Get.height / 4
                         : 0.0,
-                    shadowColor: Colors.white,
+                    shadowColor: AppColors.white,
                     flexibleSpace: Header(),
                     toolbarHeight:
                         homeController.bottomBarIndex < 2 ? 56.0.h : 0.0,

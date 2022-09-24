@@ -1,5 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:tiutiu/core/constants/app_colors.dart';
 
 // ignore: must_be_immutable
 class CustomDropdownButton extends StatefulWidget {
@@ -28,7 +29,7 @@ class _CustomDropdownButtonState extends State<CustomDropdownButton> {
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(12.0),
-          color: Colors.white,
+          color: AppColors.white,
           border: Border.all(
             style: BorderStyle.solid,
             color: Colors.lightGreenAccent[200]!,

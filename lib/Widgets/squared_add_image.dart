@@ -1,5 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:tiutiu/core/constants/app_colors.dart';
 
 class SquaredAddImage extends StatefulWidget {
   SquaredAddImage({
@@ -27,7 +28,7 @@ class _SquaredAddImageState extends State<SquaredAddImage> {
           color: Colors.lightGreenAccent[200]!,
           style: BorderStyle.solid,
         ),
-        color: Colors.white,
+        color: AppColors.white,
       ),
       height: 200,
       width: widget.width != null
@@ -35,7 +36,7 @@ class _SquaredAddImageState extends State<SquaredAddImage> {
           : MediaQuery.of(context).size.width - 49,
       child: Center(
         child: widget.addButton!
-            ? Icon(Icons.add, size: 50, color: Colors.white)
+            ? Icon(Icons.add, size: 50, color: AppColors.white)
             : widget.imageUrl != null
                 ? widget.imageUrl.runtimeType != String &&
                         widget.imageUrl.runtimeType != String //Asset

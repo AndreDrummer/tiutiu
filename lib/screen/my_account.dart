@@ -1,3 +1,4 @@
+import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/features/full_screen/views/fullscreen_images.dart';
 import 'package:tiutiu/core/constants/firebase_env_path.dart';
 import 'package:tiutiu/core/utils/routes/routes_name.dart';
@@ -82,7 +83,7 @@ class _MyAccountState extends State<MyAccount> {
                                                   .tiutiuUser.avatar!,
                                             )
                                           : Icon(Icons.person,
-                                              color: Colors.white70, size: 50),
+                                              color: AppColors.white, size: 50),
                                 ),
                               ),
                             ),

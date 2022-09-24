@@ -276,7 +276,7 @@ class _RegisterState extends State<Register> {
                                 child: ClipOval(
                                   child: userProfile.isEmpty
                                       ? Icon(Icons.person,
-                                          color: Colors.white38, size: 50)
+                                          color: AppColors.white, size: 50)
                                       : Image.file(
                                           userProfile['photoFile']!,
                                           width: 1000,

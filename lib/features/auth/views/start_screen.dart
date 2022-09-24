@@ -5,22 +5,22 @@ import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:tiutiu/core/utils/image_handle.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:tiutiu/core/constants/strings.dart';
+import 'package:tiutiu/Widgets/tiutiu_logo.dart';
 import 'package:tiutiu/Widgets/button.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'dart:math';
 
 class StartScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final photos = [
-      StartScreenAssets.hasmterPink,
       StartScreenAssets.whiteCat,
+      StartScreenAssets.hamster,
       StartScreenAssets.pinscher,
-      StartScreenAssets.hasmster,
-      StartScreenAssets.munkun2,
-      StartScreenAssets.munkun,
       StartScreenAssets.oldMel,
+      StartScreenAssets.munkun,
+      StartScreenAssets.liu,
       StartScreenAssets.husky,
       StartScreenAssets.hairy,
     ];
@@ -32,11 +32,10 @@ class StartScreen extends StatelessWidget {
           child: CarouselSlider.builder(
             itemCount: photos.length,
             itemBuilder: (ctx, index, i) {
-              final randomNum = Random().nextInt(photos.length);
               return Container(
                 width: double.infinity,
                 child: AssetHandle.getImage(
-                  photos.elementAt(randomNum),
+                  photos.elementAt(index),
                   fit: BoxFit.fitHeight,
                 ),
               );
@@ -51,7 +50,7 @@ class StartScreen extends StatelessWidget {
           ),
         ),
         Container(
-          color: Colors.black38,
+          color: Colors.black45,
           height: Get.height,
         ),
         Positioned(
@@ -65,29 +64,29 @@ class StartScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 AutoSizeText(
-                  'Faça Um Novo Amigo',
+                  AppStrings.headline1,
                   textAlign: TextAlign.center,
                   style: TextStyles.fontSize(
-                    fontWeight: FontWeight.w700,
-                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    color: AppColors.white,
                     fontSize: 32.0.sp,
                   ),
                 ),
                 SizedBox(height: 24.0.h),
                 AutoSizeText(
-                  'Muitos Lindos Pets estão aguardando por você',
+                  AppStrings.headline2,
                   textAlign: TextAlign.center,
                   style: TextStyles.fontSize(
-                    fontWeight: FontWeight.w300,
-                    color: Colors.white,
-                    fontSize: 24.0.sp,
+                    fontWeight: FontWeight.w200,
+                    color: AppColors.white,
+                    fontSize: 20.0.sp,
                   ),
                 ),
                 Spacer(),
                 ButtonWide(
-                  action: () {},
+                  text: AppStrings.getStarted,
                   color: AppColors.primary,
-                  text: 'Começar',
+                  action: () {},
                 ),
               ],
             ),
@@ -95,12 +94,13 @@ class StartScreen extends StatelessWidget {
         ),
         Positioned(
           top: 16.0.h,
-          right: 16.0.w,
+          right: 8.0.w,
+          left: 8.0.w,
           child: SizedBox(
-            height: 56.0.h,
-            child: Image.asset(
-              ImageAssets.newLogo,
-              fit: BoxFit.fitHeight,
+            width: Get.width,
+            child: TiutiuLogo(
+              imageHeight: 28.0.h,
+              textHeight: 16.0.h,
             ),
           ),
         ),

@@ -15,6 +15,8 @@ class AppColors {
   };
 
   static MaterialColor primary = MaterialColor(0XFF4CAF50, _primaryColorCodes);
+  static MaterialColor white = MaterialColor(0XFFFFFFFF, _primaryColorCodes);
+  static MaterialColor black = MaterialColor(0XFF000000, _primaryColorCodes);
   static MaterialColor warning = MaterialColor(0XFFFFD740, _primaryColorCodes);
   static MaterialColor danger = MaterialColor(0XFFF44336, _primaryColorCodes);
   static MaterialColor info = MaterialColor(0XFF536DFE, _primaryColorCodes);

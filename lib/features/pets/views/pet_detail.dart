@@ -73,12 +73,12 @@ class PetDetails extends StatelessWidget {
       height: 56.0.h,
       child: Row(
         children: [
-          BackButton(color: Colors.white),
+          BackButton(color: AppColors.white),
           Spacer(),
           AutoSizeText(
             '${PetDetailsString.detailsOf} $petName',
             style: TextStyles.fontSize20(
-                fontWeight: FontWeight.w600, color: Colors.white),
+                fontWeight: FontWeight.w600, color: AppColors.white),
           ),
           Spacer(),
           authController.firebaseUser == null
@@ -86,11 +86,11 @@ class PetDetails extends StatelessWidget {
               : IconButton(
                   onPressed: petsController.handleChatButtonPressed,
                   icon: Icon(FontAwesomeIcons.comments),
-                  color: Colors.white,
+                  color: AppColors.white,
                 ),
           IconButton(
             icon: Icon(
-              color: Colors.white,
+              color: AppColors.white,
               Icons.share,
             ),
             onPressed: () {},
@@ -171,7 +171,7 @@ class PetDetails extends StatelessWidget {
               ).trim(),
               style: TextStyles.fontSize(
                 fontWeight: FontWeight.bold,
-                color: Colors.white,
+                color: AppColors.white,
               ),
             ),
           ),

@@ -40,13 +40,13 @@ class ButtonWide extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               icon != null
-                  ? Icon(icon, size: 20, color: Colors.white)
+                  ? Icon(icon, size: 20, color: AppColors.white)
                   : AutoSizeText(''),
               icon != null ? SizedBox(width: 15) : AutoSizeText(''),
               AutoSizeText(
                 text!,
                 style: Theme.of(context).textTheme.headline4!.copyWith(
-                      color: Colors.white,
+                      color: AppColors.white,
                       fontSize: 16,
                       fontWeight: FontWeight.w700,
                     ),
