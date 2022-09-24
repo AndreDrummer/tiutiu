@@ -20,3 +20,15 @@ class ImageAssets {
   static String get fundo => 'assets/webp/fundo.webp';
   static String get face => 'assets/webp/face.webp';
 }
+
+class StartScreenAssets {
+  static String get hasmterPink => 'assets/auth_images/hamster-rosa.webp';
+  static String get husky => 'assets/auth_images/husky-filhote.webp';
+  static String get whiteCat => 'assets/auth_images/branquinha.webp';
+  static String get pinscher => 'assets/auth_images/pinscher.webp';
+  static String get hasmster => 'assets/auth_images/hamster.webp';
+  static String get munkun => 'assets/auth_images/munkun2.webp';
+  static String get munkun2 => 'assets/auth_images/munkun.webp';
+  static String get hairy => 'assets/auth_images/hairy.webp';
+  static String get oldMel => 'assets/auth_images/mel.webp';
+}
