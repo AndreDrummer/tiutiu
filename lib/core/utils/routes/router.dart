@@ -1,7 +1,7 @@
 import 'package:tiutiu/screen/interested_information_list.dart';
 import 'package:tiutiu/features/chat/screens/chat_screen.dart';
 import 'package:tiutiu/features/chat/screens/chat_tabs.dart';
-import 'package:tiutiu/features/auth/views/auth_screen.dart';
+import 'package:tiutiu/features/auth/views/start_screen.dart';
 import 'package:tiutiu/features/pets/views/pet_detail.dart';
 import 'package:tiutiu/core/utils/routes/routes_name.dart';
 import 'package:tiutiu/features/system/app_bootstrap.dart';
@@ -26,7 +26,7 @@ class RouterGenerator {
         );
       case Routes.auth:
         return MaterialPageRoute(
-          builder: (_) => AuthScreen(),
+          builder: (_) => StartScreen(),
         );
 
       case Routes.chat:
