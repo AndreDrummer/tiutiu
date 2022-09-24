@@ -1,6 +1,7 @@
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
+import 'package:tiutiu/core/constants/app_colors.dart';
 
 class OutlinedInputText extends StatelessWidget {
   const OutlinedInputText({
@@ -36,7 +37,7 @@ class OutlinedInputText extends StatelessWidget {
       margin: EdgeInsets.symmetric(vertical: 8.0.h),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8.0.h),
-        color: Colors.white.withAlpha(50),
+        color: AppColors.white.withAlpha(50),
       ),
       child: TextFormField(
         textCapitalization: textCapitalization,
@@ -48,18 +49,19 @@ class OutlinedInputText extends StatelessWidget {
         onChanged: onChanged,
         validator: validator,
         style: TextStyle(
-          color: textColor ?? Colors.white,
+          color: textColor ?? AppColors.white,
           fontWeight: FontWeight.w600,
           fontSize: 18.0.sp,
         ),
-        cursorColor: textColor ?? Colors.white,
+        cursorColor: textColor ?? AppColors.white,
         decoration: InputDecoration(
           hintText: hintText,
           counterText: '',
           labelText: labelText,
           hintStyle: TextStyle(
-            color:
-                textColor != null ? textColor!.withOpacity(.7) : Colors.white,
+            color: textColor != null
+                ? textColor!.withOpacity(.7)
+                : AppColors.white,
             fontWeight: FontWeight.w600,
             fontSize: 18.0.sp,
           ),
@@ -69,7 +71,7 @@ class OutlinedInputText extends StatelessWidget {
             fontSize: 10.0.sp,
           ),
           labelStyle: TextStyle(
-            color: textColor ?? Colors.white,
+            color: textColor ?? AppColors.white,
             fontSize: 21.0.sp,
           ),
           errorBorder: _outlineInputBorder(isError: true),
@@ -88,7 +90,7 @@ class OutlinedInputText extends StatelessWidget {
         Radius.circular(8.0.h),
       ),
       borderSide: BorderSide(
-        color: isError ? Colors.amber : textColor ?? Colors.white,
+        color: isError ? Colors.amber : textColor ?? AppColors.white,
       ),
     );
   }

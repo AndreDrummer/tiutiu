@@ -1,5 +1,6 @@
 import 'package:tiutiu/Widgets/custom_input_search.dart';
 import 'package:flutter/material.dart';
+import 'package:tiutiu/core/constants/app_colors.dart';
 
 // ignore: must_be_immutable
 class CustomInput extends StatefulWidget {
@@ -35,11 +36,11 @@ class _CustomInputState extends State<CustomInput> {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 15),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColors.white,
         borderRadius: BorderRadius.circular(12),
         border: Border.all(
           style: BorderStyle.solid,
-          color: Colors.white,
+          color: AppColors.white,
           width: 1,
         ),
       ),

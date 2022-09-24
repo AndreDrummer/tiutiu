@@ -28,7 +28,7 @@ class _NewMessageState extends State<NewMessage> {
   final _controller = TextEditingController();
   String _enteredMessage = '';
   final Color destakColor = AppColors.secondary;
-  final Color whiteColor = Colors.white;
+  final Color whiteColor = AppColors.white;
 
   void _sendMessage() async {
     FocusScope.of(context).unfocus();
