@@ -1,6 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:loading_animations/loading_animations.dart';
+import 'package:tiutiu/core/constants/app_colors.dart';
 
 class LoadDarkScreen extends StatelessWidget {
   LoadDarkScreen({
@@ -22,7 +23,7 @@ class LoadDarkScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   LoadingBumpingLine.circle(
-                    backgroundColor: Colors.white,
+                    backgroundColor: AppColors.white,
                   ),
                   SizedBox(height: 15),
                   AutoSizeText(

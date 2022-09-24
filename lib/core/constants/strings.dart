@@ -4,6 +4,11 @@ class AppStrings {
   static String get noPetFound => 'Nenhum PET encontrado';
   static String get iamInterested => 'Estou interessado';
   static String get backToStart => 'Voltar ao início';
+  static String get headline2 =>
+      'Muitos Pets Lindos\nEstão Aguardando Por Você';
+  static String get genericError =>
+      'Ocorreu um erro ao inicializar\no aplicativo.';
+  static String get headline1 => 'Faça Um Novo Amigo';
   static String get disappeareds => 'Desaparecidos';
   static String get endApp => 'Encerrar aplicação';
   static String get loadingDots => 'Carregando...';
@@ -11,6 +16,7 @@ class AppStrings {
   static String get provideInfo => 'Informar';
   static String get views => 'visualizações';
   static String get favorites => 'Favoritos';
+  static String get getStarted => 'Começar';
   static String get whatsapp => 'WhatsApp';
   static String get infos => 'informações';
   static String get postedAt => 'Postado';
@@ -19,6 +25,7 @@ class AppStrings {
   static String get name => 'Tiu, tiu';
   static String get post => 'Postar';
   static String get save => 'Salvar';
+  static String get leave => 'Sair';
   static String get chat => 'Chat';
   static String get yes => 'Sim';
   static String get no => 'Não';

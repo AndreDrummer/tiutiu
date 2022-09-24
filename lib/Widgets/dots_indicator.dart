@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'dart:math';
 
+import 'package:tiutiu/core/constants/app_colors.dart';
+
 class DotsIndicator extends AnimatedWidget {
   DotsIndicator({
-    this.color: Colors.white,
+    this.color,
     this.onPageSelected,
     this.controller,
     this.itemCount,
@@ -30,7 +32,7 @@ class DotsIndicator extends AnimatedWidget {
       width: _dotSpacing,
       child: Center(
         child: Material(
-          color: color,
+          color: color ?? AppColors.white,
           type: MaterialType.circle,
           child: Container(
             width: _dotSize * zoom,

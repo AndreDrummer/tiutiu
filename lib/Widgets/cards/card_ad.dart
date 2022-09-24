@@ -1,5 +1,6 @@
 import 'package:tiutiu/Widgets/cards/widgets/card_builder.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/features/pets/model/pet_model.dart';
 import 'package:tiutiu/core/utils/other_functions.dart';
 import 'package:flutter/material.dart';
@@ -41,7 +42,7 @@ class CardAd extends StatelessWidget {
           ),
           Container(
             decoration: BoxDecoration(
-              color: Colors.white54,
+              color: AppColors.white,
               borderRadius: BorderRadius.only(
                 bottomRight: Radius.circular(8.0.h),
                 bottomLeft: Radius.circular(8.0.h),

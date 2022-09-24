@@ -1,5 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/core/constants/images_assets.dart';
 
 class ErrorPage extends StatelessWidget {
@@ -30,7 +31,7 @@ class ErrorPage extends StatelessWidget {
               errorText,
               textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.headline4!.copyWith(
-                    color: Colors.white,
+                    color: AppColors.white,
                   ),
             )
           ],
