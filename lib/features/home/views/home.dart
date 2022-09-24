@@ -69,7 +69,10 @@ class Home extends StatelessWidget with TiuTiuPopUp {
               controller: homeController.scrollController,
               floatHeaderSlivers: true,
             ),
-            bottomNavigationBar: BottomBar(),
+            bottomNavigationBar: Visibility(
+              visible: homeController.isAuthenticated,
+              child: BottomBar(),
+            ),
             resizeToAvoidBottomInset: false,
           ),
         ),
