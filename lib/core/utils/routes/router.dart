@@ -1,3 +1,4 @@
+import 'package:tiutiu/features/auth/views/auth_hosters.dart';
 import 'package:tiutiu/screen/interested_information_list.dart';
 import 'package:tiutiu/features/chat/screens/chat_screen.dart';
 import 'package:tiutiu/features/chat/screens/chat_tabs.dart';
@@ -28,12 +29,15 @@ class RouterGenerator {
         return MaterialPageRoute(
           builder: (_) => StartScreen(),
         );
-
+      case Routes.authHosters:
+        return MaterialPageRoute(
+          builder: (_) => AuthHosters(),
+        );
       case Routes.chat:
         return MaterialPageRoute(
           builder: (_) => ChatScreen(),
         );
-      case Routes.chat_list:
+      case Routes.chatList:
         return MaterialPageRoute(
           builder: (_) => ChatTab(),
         );
@@ -45,7 +49,7 @@ class RouterGenerator {
         return MaterialPageRoute(
           builder: (_) => About(),
         );
-      case Routes.my_pets:
+      case Routes.myPets:
         return MaterialPageRoute(
           builder: (_) => MyPetsScreen(),
         );
@@ -61,19 +65,19 @@ class RouterGenerator {
         return MaterialPageRoute(
           builder: (_) => Home(),
         );
-      case Routes.new_map:
+      case Routes.newMap:
         return MaterialPageRoute(
           builder: (_) => NewMap(),
         );
-      case Routes.pet_location_picker:
+      case Routes.petLocationPicker:
         return MaterialPageRoute(
           builder: (_) => ChooseLocation(),
         );
-      case Routes.pet_details:
+      case Routes.petDetails:
         return MaterialPageRoute(
           builder: (_) => PetDetails(),
         );
-      case Routes.interested_list:
+      case Routes.interestedList:
         return MaterialPageRoute(
           builder: (_) => InterestedList(),
         );

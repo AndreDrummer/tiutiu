@@ -48,7 +48,7 @@ class PetsList extends StatelessWidget with TiuTiuPopUp {
 
                   return GestureDetector(
                     onTap: () {
-                      Get.toNamed(Routes.pet_details);
+                      Get.toNamed(Routes.petDetails);
                       petsController.pet = petsList[index < petsList.length
                           ? index
                           : petsList.length - 1];
