@@ -1,4 +1,5 @@
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:tiutiu/core/utils/routes/routes_name.dart';
 import 'package:tiutiu/core/constants/images_assets.dart';
 import 'package:tiutiu/core/constants/text_styles.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
@@ -83,10 +84,15 @@ class StartScreen extends StatelessWidget {
                   ),
                 ),
                 Spacer(),
-                ButtonWide(
-                  text: AppStrings.getStarted,
-                  color: AppColors.primary,
-                  action: () {},
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                  child: ButtonWide(
+                    text: AppStrings.getStarted,
+                    color: AppColors.primary,
+                    action: () {
+                      Get.toNamed(Routes.authHosters);
+                    },
+                  ),
                 ),
               ],
             ),

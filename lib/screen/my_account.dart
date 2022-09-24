@@ -397,7 +397,7 @@ class _MyAccountState extends State<MyAccount> {
                         icone: Icons.chat_bubble_outline,
                         text: 'Chat',
                         onTap: () {
-                          Navigator.pushNamed(context, Routes.chat_list);
+                          Navigator.pushNamed(context, Routes.chatList);
                         },
                       ),
                       MyAccountCard(
