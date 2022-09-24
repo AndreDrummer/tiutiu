@@ -56,8 +56,7 @@ class TitleAppBar extends StatelessWidget {
                           onPressed: authController.firebaseUser == null
                               ? navigateToAuth
                               : () {
-                                  Navigator.pushNamed(
-                                      context, Routes.chat_list);
+                                  Navigator.pushNamed(context, Routes.chatList);
                                 },
                           icon: Icon(
                             Icons.chat,

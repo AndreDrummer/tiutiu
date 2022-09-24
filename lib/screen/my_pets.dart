@@ -59,7 +59,7 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
   void _addNewPet() {
     if ((widget.kind != FirebaseEnvPath.adopted || widget.kind == null) &&
         isAuthenticated) {
-      Navigator.pushReplacementNamed(context, Routes.pet_location_picker,
+      Navigator.pushReplacementNamed(context, Routes.petLocationPicker,
           arguments: {'kind': widget.kind});
     } else {
       Navigator.pushAndRemoveUntil(
