@@ -62,7 +62,7 @@ class _ChooseLocationState extends State<ChooseLocation> {
                       : () {
                           Navigator.pushNamed(
                             context,
-                            Routes.pet_form,
+                            Routes.petForm,
                             arguments: {'kind': kind},
                           );
                         },
