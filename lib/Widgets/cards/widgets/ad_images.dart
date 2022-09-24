@@ -1,3 +1,4 @@
+import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/features/home/controller/home_controller.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/features/system/controllers.dart';
@@ -24,7 +25,7 @@ class AdImages extends StatelessWidget {
   Widget _cardAdImage() {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white54,
+        color: AppColors.white,
         borderRadius: BorderRadius.only(
           topRight: Radius.circular(8.0.h),
           topLeft: Radius.circular(8.0.h),
