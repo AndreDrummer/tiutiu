@@ -15,6 +15,7 @@ class ImageAssets {
   static String get noWifi => 'assets/webp/no-wifi.webp';
   static String get bones2 => 'assets/webp/bones2.webp';
   static String get dogCat => 'assets/webp/dogCat.webp';
+  static String get tiutiu => 'assets/webp/tiutiu.webp';
   static String get fadeIn => 'assets/webp/fadeIn.webp';
   static String get bones => 'assets/webp/bones.webp';
   static String get fundo => 'assets/webp/fundo.webp';
@@ -22,13 +23,12 @@ class ImageAssets {
 }
 
 class StartScreenAssets {
-  static String get hasmterPink => 'assets/auth_images/hamster-rosa.webp';
-  static String get husky => 'assets/auth_images/husky-filhote.webp';
-  static String get whiteCat => 'assets/auth_images/branquinha.webp';
-  static String get pinscher => 'assets/auth_images/pinscher.webp';
-  static String get hasmster => 'assets/auth_images/hamster.webp';
-  static String get munkun => 'assets/auth_images/munkun2.webp';
-  static String get munkun2 => 'assets/auth_images/munkun.webp';
-  static String get hairy => 'assets/auth_images/hairy.webp';
-  static String get oldMel => 'assets/auth_images/mel.webp';
+  static String get hamster => 'assets/startscreen/hamster.webp';
+  static String get husky => 'assets/startscreen/husky-filhote.webp';
+  static String get whiteCat => 'assets/startscreen/branquinha.webp';
+  static String get pinscher => 'assets/startscreen/pinscher.webp';
+  static String get munkun => 'assets/startscreen/munkun.webp';
+  static String get hairy => 'assets/startscreen/hairy.webp';
+  static String get oldMel => 'assets/startscreen/mel.webp';
+  static String get liu => 'assets/startscreen/liu.webp';
 }

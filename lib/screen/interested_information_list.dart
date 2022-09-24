@@ -276,7 +276,7 @@ class _InterestedListState extends State<InterestedList> {
         child: AutoSizeText(
           text,
           style: TextStyle(
-            color: Colors.white,
+            color: AppColors.white,
             fontWeight: FontWeight.w700,
           ),
         ),

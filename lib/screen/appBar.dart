@@ -29,7 +29,7 @@ class TitleAppBar extends StatelessWidget {
             'Tiu, tiu',
             style: GoogleFonts.miltonianTattoo(
               textStyle: TextStyle(
-                color: Colors.white,
+                color: AppColors.white,
                 fontSize: 25,
               ),
             ),
@@ -44,7 +44,7 @@ class TitleAppBar extends StatelessWidget {
               },
               icon: Icon(
                 Icons.settings_input_component_sharp,
-                color: Colors.white,
+                color: AppColors.white,
               ),
             ),
             Container(
@@ -61,7 +61,7 @@ class TitleAppBar extends StatelessWidget {
                                 },
                           icon: Icon(
                             Icons.chat,
-                            color: Colors.white,
+                            color: AppColors.white,
                           ),
                         ),
                         StreamBuilder<QuerySnapshot>(
@@ -99,7 +99,7 @@ class TitleAppBar extends StatelessWidget {
                                 },
                           icon: Icon(
                             Icons.notifications,
-                            color: Colors.white,
+                            color: AppColors.white,
                           ),
                         ),
                         StreamBuilder<QuerySnapshot>(

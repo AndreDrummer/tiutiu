@@ -1,5 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:tiutiu/core/constants/app_colors.dart';
 
 class FilterSearch extends StatefulWidget {
   FilterSearch({
@@ -70,8 +71,8 @@ class _FilterSearchState extends State<FilterSearch> {
                     initialValues[index] = newValue!;
                   });
                 },
-                iconDisabledColor: Colors.white,
-                iconEnabledColor: Colors.white,
+                iconDisabledColor: AppColors.white,
+                iconEnabledColor: AppColors.white,
                 style: TextStyle(color: Colors.black, fontSize: 16),
                 selectedItemBuilder: (BuildContext context) {
                   return filterValues[index].map((String value) {

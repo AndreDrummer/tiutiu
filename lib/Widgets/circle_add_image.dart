@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'dart:io';
 
+import 'package:tiutiu/core/constants/app_colors.dart';
+
 // ignore: must_be_immutable
 class CircleAddImage extends StatefulWidget {
   CircleAddImage({
@@ -37,7 +39,7 @@ class _CircleAddImageState extends State<CircleAddImage> {
     return Padding(
       padding: const EdgeInsets.only(right: 6.0),
       child: CircleAvatar(
-        backgroundColor: widget.addButton ? Colors.black26 : Colors.white,
+        backgroundColor: widget.addButton ? Colors.black26 : AppColors.white,
         radius: 40,
         child: Container(
           decoration: BoxDecoration(
@@ -50,7 +52,7 @@ class _CircleAddImageState extends State<CircleAddImage> {
           child: Center(
             child: ClipOval(
               child: widget.addButton
-                  ? Icon(Icons.add, size: 50, color: Colors.white)
+                  ? Icon(Icons.add, size: 50, color: AppColors.white)
                   : widget.imageUrl != null
                       ? widget.imageUrl.runtimeType != String
                           ? Image.file(
