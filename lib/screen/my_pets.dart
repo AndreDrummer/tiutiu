@@ -101,7 +101,7 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
       key: _scaffoldKey,
       appBar: AppBar(
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.white),
+          icon: Icon(Icons.arrow_back, color: AppColors.white),
           onPressed: () {
             Navigator.pop(context);
           },
@@ -299,7 +299,7 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
                                                               },
                                                             ));
                                                   },
-                                                  color: Colors.white,
+                                                  color: AppColors.white,
                                                 ),
                                                 IconButton(
                                                   icon: Icon(Icons.delete,
@@ -465,7 +465,7 @@ Widget _lablePetKind(String kind) {
       child: AutoSizeText(
         '$textLabel',
         style: TextStyle(
-          color: Colors.white,
+          color: AppColors.white,
           fontWeight: FontWeight.w700,
         ),
       ),

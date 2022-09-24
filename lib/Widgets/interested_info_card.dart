@@ -172,13 +172,13 @@ class _ActionButton extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               icon != null
-                  ? Icon(icon, size: 18, color: Colors.white)
+                  ? Icon(icon, size: 18, color: AppColors.white)
                   : Container(),
               SizedBox(width: 5),
               AutoSizeText(
                 text!,
                 style: Theme.of(context).textTheme.headline4!.copyWith(
-                      color: Colors.white,
+                      color: AppColors.white,
                       fontSize: fontSize != null ? fontSize : null,
                       fontWeight: FontWeight.w700,
                     ),

@@ -1,5 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:tiutiu/core/constants/app_colors.dart';
 
 class CustomBottomNavigatorBar extends StatelessWidget {
   CustomBottomNavigatorBar({this.children});
@@ -19,7 +20,7 @@ class CustomBottomNavigatorBar extends StatelessWidget {
       elevation: 8,
       child: Container(
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: AppColors.white,
           border: Border.all(color: Theme.of(context).primaryColor, width: 2),
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(25),

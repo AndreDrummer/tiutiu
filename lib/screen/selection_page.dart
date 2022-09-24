@@ -39,11 +39,11 @@ class _SelectionPageState extends State<SelectionPage> {
         title: AutoSizeText(
           widget.title,
           style: TextStyle(
-            color: Colors.white,
+            color: AppColors.white,
           ),
         ),
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.white),
+          icon: Icon(Icons.arrow_back, color: AppColors.white),
           onPressed: () {
             valueSelected = '';
             Navigator.pop(context);
@@ -55,7 +55,7 @@ class _SelectionPageState extends State<SelectionPage> {
                   child: AutoSizeText(
                     'Prosseguir',
                     style: TextStyle(
-                      color: Colors.white,
+                      color: AppColors.white,
                     ),
                   ),
                   onPressed: () {

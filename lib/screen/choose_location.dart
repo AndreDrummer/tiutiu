@@ -30,7 +30,7 @@ class _ChooseLocationState extends State<ChooseLocation> {
     var kind = widget.editMode! ? widget.pet!.kind : params['kind'];
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: AppColors.white,
       // appBar: AppBar(
       //   title: AutoSizeText(
       //     kind == FirebaseEnvPath.donate ? 'localização do PET'.toUpperCase() : 'Visto pela última vez em'.toUpperCase(),

@@ -1,5 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:tiutiu/core/constants/app_colors.dart';
 
 class ButtonSocialLogin extends StatelessWidget {
   ButtonSocialLogin({
@@ -23,7 +24,7 @@ class ButtonSocialLogin extends StatelessWidget {
                 Container(
                   margin: const EdgeInsets.only(top: 28),
                   decoration: BoxDecoration(
-                    color: Colors.white,
+                    color: AppColors.white,
                     borderRadius: BorderRadius.only(
                       topRight: Radius.circular(12),
                       bottomRight: Radius.circular(12),
@@ -42,7 +43,7 @@ class ButtonSocialLogin extends StatelessWidget {
             Container(
               margin: const EdgeInsets.only(top: 12),
               decoration:
-                  BoxDecoration(shape: BoxShape.circle, color: Colors.white),
+                  BoxDecoration(shape: BoxShape.circle, color: AppColors.white),
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Image.asset(
