@@ -1,6 +1,7 @@
 import 'package:tiutiu/core/Custom/icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:tiutiu/core/constants/app_colors.dart';
 
 // ignore: must_be_immutable
 class InputText extends StatefulWidget {
@@ -67,7 +68,7 @@ class _InputTextState extends State<InputText> {
       height: widget.hintText != null ? 70 : widget.size,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12.0),
-        color: widget.isLogin! ? Colors.white70 : Colors.white,
+        color: widget.isLogin! ? AppColors.white : AppColors.white,
         border: Border.all(
           style: BorderStyle.solid,
           color: Colors.lightGreenAccent[200]!,

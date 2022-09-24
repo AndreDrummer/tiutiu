@@ -1,3 +1,4 @@
+import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
 import 'package:tiutiu/core/utils/other_functions.dart';
 import 'package:tiutiu/core/utils/image_handle.dart';
@@ -66,7 +67,7 @@ class MessageBubble extends StatelessWidget {
                               fontSize: 11,
                               fontWeight: FontWeight.bold,
                               color: belongToMe
-                                  ? Colors.white
+                                  ? AppColors.white
                                   : Theme.of(context)
                                       .textTheme
                                       .headline4!
@@ -82,7 +83,7 @@ class MessageBubble extends StatelessWidget {
                               fontSize: 14,
                               fontWeight: FontWeight.bold,
                               color: belongToMe
-                                  ? Colors.white
+                                  ? AppColors.white
                                   : Theme.of(context)
                                       .textTheme
                                       .headline4!
@@ -92,7 +93,7 @@ class MessageBubble extends StatelessWidget {
                         ],
                       ),
                     ),
-                    Divider(height: 0.2, color: Colors.white),
+                    Divider(height: 0.2, color: AppColors.white),
                     AutoSizeText(
                       message,
                       textAlign: belongToMe ? TextAlign.end : TextAlign.start,
@@ -100,7 +101,7 @@ class MessageBubble extends StatelessWidget {
                         height: 2,
                         fontWeight: FontWeight.w600,
                         color: belongToMe
-                            ? Colors.white
+                            ? AppColors.white
                             : Theme.of(context).textTheme.headline4!.color,
                       ),
                     ),

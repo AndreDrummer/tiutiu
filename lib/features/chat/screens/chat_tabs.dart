@@ -12,7 +12,7 @@ class ChatTab extends StatefulWidget {
 }
 
 class _ChatTabState extends State<ChatTab> with SingleTickerProviderStateMixin {
-  Color inputColor = Colors.white;
+  Color inputColor = AppColors.white;
   late TabController _controller;
 
   int initialIndex = 0;
@@ -114,7 +114,7 @@ class _ChatTabState extends State<ChatTab> with SingleTickerProviderStateMixin {
                   chatController.isSearching
                       ? Icons.done
                       : Icons.search_outlined,
-                  color: Colors.white,
+                  color: AppColors.white,
                 ),
               )
             ],

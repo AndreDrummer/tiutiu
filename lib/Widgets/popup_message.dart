@@ -39,18 +39,18 @@ class PopUpMessage extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           AutoSizeText(title!,
-              style: TextStyle(color: Colors.white, fontSize: 16)),
+              style: TextStyle(color: AppColors.white, fontSize: 16)),
           Container(
             padding: const EdgeInsets.all(2.50),
             child: Image.asset(ImageAssets.newLogo,
-                width: 20, height: 20, color: Colors.white),
+                width: 20, height: 20, color: AppColors.white),
           )
         ],
       ),
       content: AutoSizeText(
         message!,
         style: TextStyle(
-          color: Colors.white,
+          color: AppColors.white,
           fontSize: 15,
           fontWeight: FontWeight.w500,
         ),
@@ -63,7 +63,7 @@ class PopUpMessage extends StatelessWidget {
                 },
                 child: AutoSizeText(
                   confirmText!,
-                  style: TextStyle(color: Colors.white),
+                  style: TextStyle(color: AppColors.white),
                 ),
               )
             : Container(),
@@ -74,7 +74,7 @@ class PopUpMessage extends StatelessWidget {
                 },
                 child: AutoSizeText(
                   denyText!,
-                  style: TextStyle(color: Colors.white),
+                  style: TextStyle(color: AppColors.white),
                 ),
               )
             : Container()

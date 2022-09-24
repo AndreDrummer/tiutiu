@@ -1,5 +1,6 @@
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
+import 'package:tiutiu/core/constants/app_colors.dart';
 
 class InputCloseButton extends StatelessWidget {
   const InputCloseButton({super.key, this.onClose});
@@ -26,7 +27,7 @@ class InputCloseButton extends StatelessWidget {
             ),
           ),
           child: Icon(
-            color: Colors.white,
+            color: AppColors.white,
             size: 16.0.h,
             Icons.close,
           ),

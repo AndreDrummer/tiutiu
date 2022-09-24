@@ -461,7 +461,7 @@ class _AppSettingsState extends State<AppSettings> {
                               child: AutoSizeText(
                                 'Toque p/ alterar plano de fundo',
                                 style: TextStyle(
-                                    color: Colors.white,
+                                    color: AppColors.white,
                                     fontSize: 12,
                                     fontWeight: FontWeight.w700),
                               ),
@@ -495,7 +495,7 @@ class _AppSettingsState extends State<AppSettings> {
                                                   tiutiuUserController
                                                       .tiutiuUser.avatar!)
                                               : Icon(Icons.person,
-                                                  color: Colors.white70,
+                                                  color: AppColors.white,
                                                   size: 50)
                                           : Image.file(
                                               userProfile['photoFile']!,
@@ -750,7 +750,7 @@ class _AppSettingsState extends State<AppSettings> {
                         },
                         child: AutoSizeText(
                           'DELETAR MINHA CONTA',
-                          style: TextStyle(color: Colors.white),
+                          style: TextStyle(color: AppColors.white),
                         ),
                       ),
                     ),

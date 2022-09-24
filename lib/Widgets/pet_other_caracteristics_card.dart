@@ -1,3 +1,4 @@
+import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/core/constants/text_styles.dart';
 import 'package:tiutiu/core/utils/image_handle.dart';
 import 'package:auto_size_text/auto_size_text.dart';
@@ -106,7 +107,7 @@ class UserCardInfo extends StatelessWidget {
             child: Container(
               color: color,
               child: icon != null
-                  ? Icon(icon, color: Colors.white, size: 60)
+                  ? Icon(icon, color: AppColors.white, size: 60)
                   : imageN != null
                       ? AssetHandle.getImage(imageN)
                       : Image.asset(

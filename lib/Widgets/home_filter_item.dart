@@ -25,7 +25,7 @@ class HomeFilterItem extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
           border: Border.all(width: 1.0.w, color: AppColors.primary),
-          color: isActive ? AppColors.primary : Colors.white,
+          color: isActive ? AppColors.primary : AppColors.white,
           borderRadius: BorderRadius.circular(12),
         ),
         margin: EdgeInsets.symmetric(horizontal: 2.0.w, vertical: 4.0.h),
@@ -35,13 +35,13 @@ class HomeFilterItem extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Icon(
-              color: isActive ? Colors.white : AppColors.primary,
+              color: isActive ? AppColors.white : AppColors.primary,
               icon,
             ),
             SizedBox(height: 16),
             AutoSizeText(
               style: TextStyles.fontSize(
-                color: isActive ? Colors.white : AppColors.primary,
+                color: isActive ? AppColors.white : AppColors.primary,
                 fontWeight: FontWeight.w600,
               ),
               type,
