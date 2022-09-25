@@ -24,8 +24,8 @@ class AuthHosters extends StatelessWidget {
           _appLogo(),
           Positioned(
             top: homeController.showAuthHostersInFullScreen
-                ? Get.width * 1.1
-                : Get.width * .8,
+                ? Get.width * .9
+                : Get.width * .65,
             left: 8.0,
             right: 8.0,
             child: Column(
@@ -103,7 +103,7 @@ class AuthHosters extends StatelessWidget {
 
   Widget _authButtons() {
     return Container(
-      height: Get.height / 3.6,
+      height: Get.height / 2.9,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -112,6 +112,14 @@ class AuthHosters extends StatelessWidget {
             icon: FontAwesomeIcons.apple,
             text: AuthStrings.apple,
             color: AppColors.white,
+            isToExpand: true,
+            action: () {},
+          ),
+          SizedBox(height: 4.0.h),
+          ButtonWide(
+            icon: FontAwesomeIcons.envelope,
+            text: AuthStrings.email,
+            color: Colors.grey,
             isToExpand: true,
             action: () {},
           ),
@@ -141,6 +149,7 @@ class AuthHosters extends StatelessWidget {
       style: TextButton.styleFrom(
         splashFactory: InkRipple.splashFactory,
         foregroundColor: Colors.transparent,
+        padding: EdgeInsets.zero,
       ),
       child: AutoSizeText(
         style: TextStyles.fontSize(
