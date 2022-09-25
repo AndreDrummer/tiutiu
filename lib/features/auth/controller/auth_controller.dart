@@ -1,27 +1,32 @@
-import 'package:flutter/foundation.dart';
+import 'package:tiutiu/core/local_storage/local_storage_keys.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
+import 'package:tiutiu/features/auth/services/auth_service.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:tiutiu/core/Exceptions/titiu_exceptions.dart';
+import 'package:tiutiu/core/constants/firebase_env_path.dart';
+import 'package:tiutiu/core/extensions/enum_tostring.dart';
+import 'package:tiutiu/core/constants/images_assets.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:tiutiu/core/constants/firebase_env_path.dart';
-import 'package:tiutiu/core/constants/images_assets.dart';
 import 'package:tiutiu/core/data/store_login.dart';
-import 'dart:io';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 
-import 'package:tiutiu/features/auth/services/auth_service.dart';
+enum AuthEnum {
+  password,
+  token,
+  email,
+}
 
 class AuthController extends GetxController {
   AuthController({
     required this.authService,
   });
 
+  User? get firebaseUser => _firebaseUser;
   late GoogleSignInAccount? _googleUser;
   final AuthService authService;
   User? _firebaseUser;
-
-  User? get firebaseUser => _firebaseUser;
 
   Future<bool> loginWithGoogle({bool autologin = false}) async {
     try {
@@ -59,54 +64,44 @@ class AuthController extends GetxController {
     return firebaseUser != null;
   }
 
-  Future<void> createUserWithEmailAndPassword(
-      String email, String password) async {
-    try {
-      UserCredential result = await authService.firebaseAuth
-          .createUserWithEmailAndPassword(email: email, password: password);
-      _firebaseUser = result.user;
+  Future<void> createUserWithEmailAndPassword({
+    required String password,
+    required String email,
+  }) async {
+    _firebaseUser = await authService.createUserWithEmailAndPassword(
+      password: password,
+      email: email,
+    );
 
-      if (firebaseUser != null) {
-        Store.saveMap('userLoggedWithEmailPassword', {
-          'email': email,
-          'password': password,
-        });
-      }
-    } catch (error) {
-      if (Platform.isAndroid) {
-        throw TiuTiuAuthException('$error');
-      }
+    if (firebaseUser != null) {
+      Store.saveMap(
+        LocalStorageKey.authData,
+        {
+          AuthEnum.password.tostring(): password,
+          AuthEnum.email.tostring(): email,
+        },
+      );
     }
-
-    await alreadyRegistered();
-    return Future.value();
   }
 
-  Future<void> passwordReset(String email) async {
-    await authService.firebaseAuth.sendPasswordResetEmail(email: email);
-    return Future.value();
-  }
+  Future<void> signInWithEmailAndPassword({
+    required String password,
+    required String email,
+  }) async {
+    _firebaseUser = await authService.signInWithEmailAndPassword(
+      password: password,
+      email: email,
+    );
 
-  Future<void> signInWithEmailAndPassword(String email, String password) async {
-    try {
-      UserCredential result = await authService.firebaseAuth
-          .signInWithEmailAndPassword(email: email, password: password);
-      _firebaseUser = result.user;
-      if (firebaseUser != null) {
-        Store.saveMap('userLoggedWithEmailPassword', {
-          'email': email,
-          'password': password,
-        });
-      }
-    } catch (error) {
-      if (Platform.isAndroid) {
-        print(error);
-        throw TiuTiuAuthException('$error');
-      }
+    if (firebaseUser != null) {
+      Store.saveMap(
+        LocalStorageKey.authData,
+        {
+          AuthEnum.password.tostring(): password,
+          AuthEnum.email.tostring(): email,
+        },
+      );
     }
-
-    await alreadyRegistered();
-    return Future.value();
   }
 
   Future<void> signInWithFacebook({String? token}) async {
@@ -137,8 +132,6 @@ class AuthController extends GetxController {
     } catch (error) {
       throw TiuTiuAuthException('Error validating access token');
     }
-    await alreadyRegistered();
-    return Future.value();
   }
 
   void signOut() async {
@@ -167,6 +160,11 @@ class AuthController extends GetxController {
     return Future.value();
   }
 
+  Future<void> passwordReset(String email) async {
+    await authService.firebaseAuth.sendPasswordResetEmail(email: email);
+    return Future.value();
+  }
+
   Future<void> tryAutoLoginIn() async {
     if (authService.firebaseAuth.currentUser != null) {}
 
@@ -181,12 +179,16 @@ class AuthController extends GetxController {
 
     if (userLoggedWithEmailPassword != null) {
       print('Login com email e senha');
-      final email = userLoggedWithEmailPassword['email'];
-      final password = userLoggedWithEmailPassword['password'];
-      await signInWithEmailAndPassword(email, password);
+      final email = userLoggedWithEmailPassword[AuthEnum.email.tostring()];
+      final password =
+          userLoggedWithEmailPassword[AuthEnum.password.tostring()];
+      await signInWithEmailAndPassword(
+        password: password,
+        email: email,
+      );
     } else if (userLoggedWithFacebook != null) {
       print('Login com facebook');
-      final facebookToken = userLoggedWithFacebook['token'];
+      final facebookToken = userLoggedWithFacebook[AuthEnum.token.tostring()];
       await signInWithFacebook(token: facebookToken);
     } else {
       print('Login com google');

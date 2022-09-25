@@ -38,6 +38,7 @@ class AuthStrings {
   static String get continueAnon => 'Continuar anônimamente';
   static String get facebook => 'Facebook';
   static String get google => 'Google';
+  static String get email => 'E-mail';
   static String get apple => 'Apple';
 }
 
