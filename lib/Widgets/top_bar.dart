@@ -59,7 +59,7 @@ class TopBar extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: EdgeInsets.only(top: 8.0.h, left: 16.0.w),
+            padding: EdgeInsets.only(top: 8.0.h),
             child: Row(
               children: [
                 IconButton(
