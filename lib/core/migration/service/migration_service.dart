@@ -26,7 +26,7 @@ class MigrationService {
 
     // migrateAllUsers();
     // migrateAllPetAds();
-    updateSomePetData();
+    // updateSomePetData();
     // updateSomeUserData();
   }
 
