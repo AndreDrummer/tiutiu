@@ -31,7 +31,7 @@ class AdImages extends StatelessWidget {
           topLeft: Radius.circular(8.0.h),
         ),
       ),
-      height: Get.height / 1.8,
+      height: Get.height / 2.2,
       width: double.infinity,
       child: CarouselSlider.builder(
         itemCount: photos.length,
@@ -43,6 +43,7 @@ class AdImages extends StatelessWidget {
             ),
             child: Container(
               width: double.infinity,
+              color: AppColors.white,
               child: AssetHandle.getImage(photos.elementAt(index)),
             ),
           );
@@ -50,6 +51,7 @@ class AdImages extends StatelessWidget {
         options: CarouselOptions(
           enableInfiniteScroll: photos.length > 1,
           autoPlayCurve: Curves.easeIn,
+          enlargeCenterPage: true,
           disableCenter: true,
           viewportFraction: 1,
           autoPlay: true,
