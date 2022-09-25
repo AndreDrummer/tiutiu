@@ -1,6 +1,6 @@
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/utils/routes/routes_name.dart';
-import 'package:tiutiu/core/constants/images_assets.dart';
+import 'package:tiutiu/features/system/controllers.dart';
 import 'package:tiutiu/core/constants/text_styles.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -15,16 +15,7 @@ import 'package:get/get.dart';
 class StartScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final photos = [
-      StartScreenAssets.whiteCat,
-      StartScreenAssets.hamster,
-      StartScreenAssets.pinscher,
-      StartScreenAssets.oldMel,
-      StartScreenAssets.munkun,
-      StartScreenAssets.liu,
-      StartScreenAssets.husky,
-      StartScreenAssets.hairy,
-    ];
+    final photos = authController.startScreenImages;
 
     return Stack(
       children: [
@@ -90,6 +81,7 @@ class StartScreen extends StatelessWidget {
                     text: AppStrings.getStarted,
                     color: AppColors.primary,
                     action: () {
+                      homeController.showAuthHostersInFullScreen = true;
                       Get.toNamed(Routes.authHosters);
                     },
                   ),
