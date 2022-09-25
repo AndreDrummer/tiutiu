@@ -59,6 +59,7 @@ class ButtonWide extends StatelessWidget {
               hasIcon ? SizedBox(width: 15) : SizedBox(),
               AutoSizeText(
                 text!,
+                textAlign: TextAlign.center,
                 style: TextStyles.fontSize16(
                   color: textIconColor ?? AppColors.white,
                   fontWeight: FontWeight.w700,

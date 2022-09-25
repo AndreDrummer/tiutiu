@@ -9,6 +9,7 @@ enum TiutiuUserEnum {
   lastLogin,
   photoBACK,
   password,
+  isAnONG,
   avatar,
   email,
   uid,
@@ -18,6 +19,7 @@ class TiutiuUser {
   TiutiuUser({
     this.allowContactViaWhatsApp = false,
     this.notificationToken,
+    this.isAnONG = false,
     this.displayName,
     this.phoneNumber,
     this.createdAt,
@@ -35,6 +37,7 @@ class TiutiuUser {
           map[TiutiuUserEnum.allowContactViaWhatsApp.tostring()] ?? false,
       notificationToken: map[TiutiuUserEnum.notificationToken.tostring()],
       avatar: map[TiutiuUserEnum.avatar.tostring()] ?? map['photoURL'],
+      isAnONG: map[TiutiuUserEnum.isAnONG.tostring()] ?? false,
       phoneNumber: map[TiutiuUserEnum.phoneNumber.tostring()],
       displayName: map[TiutiuUserEnum.displayName.tostring()],
       lastLogin: map[TiutiuUserEnum.lastLogin.tostring()] ??
@@ -62,8 +65,8 @@ class TiutiuUser {
     );
   }
 
-  String? notificationToken;
   bool allowContactViaWhatsApp;
+  String? notificationToken;
   String? phoneNumber;
   String? displayName;
   String? createdAt;
@@ -72,6 +75,7 @@ class TiutiuUser {
   String? password;
   String? avatar;
   String? email;
+  bool isAnONG;
   String? uid;
 
   Map<String, dynamic> toMap() {
@@ -82,8 +86,9 @@ class TiutiuUser {
       TiutiuUserEnum.phoneNumber.tostring(): phoneNumber,
       TiutiuUserEnum.displayName.tostring(): displayName,
       TiutiuUserEnum.lastLogin.tostring(): lastLogin,
-      TiutiuUserEnum.createdAt.tostring(): createdAt,
       TiutiuUserEnum.photoBACK.tostring(): photoBACK,
+      TiutiuUserEnum.createdAt.tostring(): createdAt,
+      TiutiuUserEnum.isAnONG.tostring(): isAnONG,
       TiutiuUserEnum.avatar.tostring(): avatar,
       TiutiuUserEnum.email.tostring(): email,
       TiutiuUserEnum.uid.tostring(): uid,
