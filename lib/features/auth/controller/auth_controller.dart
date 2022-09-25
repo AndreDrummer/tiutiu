@@ -6,6 +6,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:tiutiu/core/constants/firebase_env_path.dart';
+import 'package:tiutiu/core/constants/images_assets.dart';
 import 'package:tiutiu/core/data/store_login.dart';
 import 'dart:io';
 
@@ -196,4 +197,17 @@ class AuthController extends GetxController {
 
     return Future.value();
   }
+
+  final _startScreenImages = [
+    StartScreenAssets.whiteCat,
+    StartScreenAssets.hamster,
+    StartScreenAssets.pinscher,
+    StartScreenAssets.oldMel,
+    StartScreenAssets.munkun,
+    StartScreenAssets.liu,
+    StartScreenAssets.husky,
+    StartScreenAssets.hairy,
+  ];
+
+  List<String> get startScreenImages => _startScreenImages;
 }
