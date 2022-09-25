@@ -43,7 +43,7 @@ class AuthStrings {
 }
 
 class HomeStrings {
-  static String get searchForName => 'Pesquise por um PET...';
+  static String get searchForName => 'Digite o nome de um PET...';
 }
 
 class BottomBarStrings {
