@@ -1,4 +1,5 @@
 import 'package:tiutiu/features/auth/views/auth_error_page.dart';
+import 'package:tiutiu/features/auth/views/auth_hosters.dart';
 import 'package:tiutiu/features/home/widgets/bottom_bar.dart';
 import 'package:tiutiu/features/auth/views/start_screen.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -22,7 +23,7 @@ class Home extends StatelessWidget with TiuTiuPopUp {
       PetsList(),
       homeController.isAuthenticated ? Favorites() : StartScreen(),
       homeController.isAuthenticated ? MyAccount() : AuthErrorPage(),
-      homeController.isAuthenticated ? Favorites() : StartScreen(),
+      homeController.isAuthenticated ? Favorites() : AuthHosters(),
     ];
 
     return SafeArea(
@@ -70,7 +71,7 @@ class Home extends StatelessWidget with TiuTiuPopUp {
               floatHeaderSlivers: true,
             ),
             bottomNavigationBar: Visibility(
-              visible: homeController.isAuthenticated,
+              // visible: homeController.showAuthHostersInFullScreen,
               child: BottomBar(),
             ),
             resizeToAvoidBottomInset: false,

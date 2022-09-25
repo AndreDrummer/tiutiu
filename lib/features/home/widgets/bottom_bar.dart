@@ -1,6 +1,6 @@
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/features/system/controllers.dart';
+import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/core/constants/strings.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -47,6 +47,6 @@ class BottomBar extends StatelessWidget {
     FontAwesomeIcons.question,
     FontAwesomeIcons.squarePlus,
     FontAwesomeIcons.user,
-    FontAwesomeIcons.heart,
+    Icons.favorite,
   ];
 }
