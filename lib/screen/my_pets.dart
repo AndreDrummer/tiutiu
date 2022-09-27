@@ -7,10 +7,10 @@ import 'package:tiutiu/features/system/controllers.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:tiutiu/core/utils/image_handle.dart';
-import 'package:tiutiu/Widgets/loading_screen.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:tiutiu/screen/choose_location.dart';
 import 'package:tiutiu/Widgets/popup_message.dart';
+import 'package:tiutiu/Widgets/loading_page.dart';
 import 'package:tiutiu/Widgets/background.dart';
 import 'package:tiutiu/Widgets/empty_list.dart';
 import 'interested_information_list.dart';
@@ -47,7 +47,7 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
 
   @override
   void didChangeDependencies() {
-    isAuthenticated = authController.firebaseUser != null;
+    isAuthenticated = authController.userExists;
     // adsProvider = Provider.of(context);
     super.didChangeDependencies();
   }
@@ -140,7 +140,7 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
           StreamBuilder<QuerySnapshot>(
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return LoadingScreen(text: 'Carregando meus pets');
+                return LoadingPage(messageLoading: 'Carregando meus pets');
               }
 
               if (snapshot.data == null) {
