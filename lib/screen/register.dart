@@ -178,7 +178,7 @@ class _RegisterState extends State<Register> {
 
     storageReference = FirebaseStorage.instance
         .ref()
-        .child('${authController.firebaseUser!.uid}')
+        .child('${tiutiuUserController.tiutiuUser.uid}')
         .child('avatar/foto_perfil');
 
     uploadTask = storageReference.putFile(userProfile['photoFile']!);

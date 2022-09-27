@@ -81,7 +81,7 @@ class PetDetails extends StatelessWidget {
                 fontWeight: FontWeight.w600, color: AppColors.white),
           ),
           Spacer(),
-          authController.firebaseUser == null
+          authController.userExists
               ? Container()
               : IconButton(
                   onPressed: petsController.handleChatButtonPressed,
