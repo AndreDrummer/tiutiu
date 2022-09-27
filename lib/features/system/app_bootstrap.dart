@@ -3,7 +3,7 @@ import 'package:tiutiu/features/location/extensions/service_location_status.dart
 import 'package:tiutiu/features/location/views/turn_on_localization_service.dart';
 import 'package:tiutiu/features/auth/views/auth_or_home.dart';
 import 'package:tiutiu/features/system/controllers.dart';
-import 'package:tiutiu/Widgets/load_dark_screen.dart';
+import 'package:tiutiu/Widgets/loading_page.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -42,9 +42,7 @@ class _RequestPermissionsOrHome extends StatelessWidget {
       future: currentLocationController.checkPermission(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(
-            child: LoadDarkScreen(),
-          );
+          return LoadingPage();
         }
         return Obx(
           () {

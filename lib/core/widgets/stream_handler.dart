@@ -1,4 +1,4 @@
-import 'package:tiutiu/Widgets/loading_screen.dart';
+import 'package:tiutiu/Widgets/loading_page.dart';
 import 'package:tiutiu/Widgets/empty_list.dart';
 import 'package:flutter/material.dart';
 
@@ -22,7 +22,7 @@ class StreamHandler<T> extends StatelessWidget {
     if (snapshot.hasError) return ErrorWidget(Exception(snapshot.error));
 
     if (connectionState == ConnectionState.waiting && showLoadingScreen)
-      return LoadingScreen(text: loadingMessage);
+      return LoadingPage();
 
     if (!snapshot.hasData || snapshot.data == null) return EmptyListScreen();
 

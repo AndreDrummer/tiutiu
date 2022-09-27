@@ -159,7 +159,7 @@ class _AppSettingsState extends State<AppSettings> {
     if (userProfile['photoFile'] != null) {
       storageReferenceProfile = FirebaseStorage.instance
           .ref()
-          .child('${authController.firebaseUser!.uid}')
+          .child('${tiutiuUserController.tiutiuUser.uid}')
           .child('avatar/foto_perfil');
 
       storageReferenceProfile.delete();
@@ -178,7 +178,7 @@ class _AppSettingsState extends State<AppSettings> {
     if (userProfile['photoFileBack'] != null) {
       storageReferenceback = FirebaseStorage.instance
           .ref()
-          .child('${authController.firebaseUser!.uid}')
+          .child('${tiutiuUserController.tiutiuUser.uid}')
           .child('avatar/foto_fundo');
 
       storageReferenceback.delete();
@@ -241,10 +241,7 @@ class _AppSettingsState extends State<AppSettings> {
     if (_passwordFormKey.currentState!.validate() && validatePersonalData()) {
       if (passwordWasTouched()) {
         changeSaveFormStatus(true);
-        try {
-          await authController.firebaseUser!
-              .updatePassword(_newPassword.text.trim());
-        } catch (error) {
+        try {} catch (error) {
           changeSaveFormStatus(false);
           isToShowDialog
               ? showMessageWarningUpdatePasswordOrDeleteAccount()
