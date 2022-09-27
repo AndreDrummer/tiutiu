@@ -48,12 +48,12 @@ class TitleAppBar extends StatelessWidget {
               ),
             ),
             Container(
-              child: authController.firebaseUser == null
+              child: authController.userExists
                   ? Container()
                   : Stack(
                       children: [
                         IconButton(
-                          onPressed: authController.firebaseUser == null
+                          onPressed: authController.userExists
                               ? navigateToAuth
                               : () {
                                   Navigator.pushNamed(context, Routes.chatList);
@@ -83,12 +83,12 @@ class TitleAppBar extends StatelessWidget {
                     ),
             ),
             Container(
-              child: authController.firebaseUser == null
+              child: authController.userExists
                   ? Container()
                   : Stack(
                       children: [
                         IconButton(
-                          onPressed: authController.firebaseUser == null
+                          onPressed: authController.userExists
                               ? navigateToAuth
                               : () {
                                   Navigator.pushNamed(

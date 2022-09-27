@@ -179,8 +179,8 @@ class _MyAccountState extends State<MyAccount> {
                                         return MyPetsScreen(
                                           title: 'PETs doados',
                                           kind: null,
-                                          userId:
-                                              authController.firebaseUser!.uid,
+                                          userId: tiutiuUserController
+                                              .tiutiuUser.uid,
                                         );
                                       },
                                     ),
@@ -362,9 +362,9 @@ class _MyAccountState extends State<MyAccount> {
                             MaterialPageRoute(
                               builder: (context) {
                                 return MyPetsScreen(
+                                  userId: tiutiuUserController.tiutiuUser.uid,
                                   title: 'PETs doados',
                                   kind: null,
-                                  userId: authController.firebaseUser!.uid,
                                 );
                               },
                             ),
