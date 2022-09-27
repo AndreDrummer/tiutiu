@@ -1,6 +1,4 @@
-import 'package:tiutiu/core/constants/firebase_env_path.dart';
 import 'package:tiutiu/features/pets/model/pet_model.dart';
-import 'package:tiutiu/features/system/controllers.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
 
@@ -27,19 +25,7 @@ class FavoritesController extends GetxController {
     _favoritesPETSList(list);
   }
 
-  Future<void> loadFavoritesReference() async {
-    CollectionReference dataBaseCollection =
-        FirebaseFirestore.instance.collection(FirebaseEnvPath.users);
-    // if(auth.firebaseUser != null) {
-    final list = await dataBaseCollection
-        .doc(authController.firebaseUser?.uid)
-        .collection('Favorites')
-        .get();
-
-    favoritesListReference = list.docs;
-    loadPETsFavorites();
-    // }
-  }
+  Future<void> loadFavoritesReference() async {}
 
   Future<void> loadPETsFavorites() async {
     List<Pet> petFavoritesList = [];

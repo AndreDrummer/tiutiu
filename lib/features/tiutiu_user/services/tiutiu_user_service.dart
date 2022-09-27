@@ -3,7 +3,6 @@ import 'package:tiutiu/features/pets/services/pet_service.dart';
 import 'package:tiutiu/core/constants/firebase_env_path.dart';
 import 'package:tiutiu/core/extensions/enum_tostring.dart';
 import 'package:tiutiu/features/pets/model/pet_model.dart';
-import 'package:tiutiu/features/system/controllers.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:tiutiu/core/models/chat_model.dart';
 
@@ -174,9 +173,5 @@ class TiutiuUserService {
 
   Future<void> deleteUserAccount({
     required DocumentReference userReference,
-  }) async {
-    await deleteUserData(userReference);
-    await authController.firebaseUser?.delete();
-    authController.signOut();
-  }
+  }) async {}
 }
