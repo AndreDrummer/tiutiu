@@ -1,5 +1,5 @@
 import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
-import 'package:tiutiu/features/auth/services/auth_service.dart';
+import 'package:tiutiu/features/auth/service/auth_service.dart';
 import 'package:tiutiu/core/constants/firebase_env_path.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:tiutiu/core/extensions/enum_tostring.dart';
@@ -8,7 +8,6 @@ import 'package:tiutiu/features/system/controllers.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:tiutiu/core/utils/formatter.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:geocoding/geocoding.dart';
 
 class MigrationService {
@@ -167,12 +166,8 @@ class MigrationService {
   }
 
   Future<bool> loginWithEmailAndPassword(String email, String password) async {
-    User? _firebaseUser;
-    UserCredential result = await AuthService()
-        .firebaseAuth
+    return await AuthService()
         .signInWithEmailAndPassword(email: email, password: password);
-    _firebaseUser = result.user;
-    return _firebaseUser != null;
   }
 
   Future getPetAdState(LatLng position) async {
