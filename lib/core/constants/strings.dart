@@ -23,6 +23,7 @@ class AppStrings {
   static String get infos => 'informações';
   static String get postedAt => 'Postado';
   static String get profile => 'Perfil';
+  static String get cancel => 'Cancelar';
   static String get password => 'Senha';
   static String get adopte => 'Adotar';
   static String get name => 'Tiu, tiu';

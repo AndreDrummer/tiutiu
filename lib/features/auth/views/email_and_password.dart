@@ -8,6 +8,7 @@ import 'package:tiutiu/Widgets/outline_input_text.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/core/constants/strings.dart';
 import 'package:tiutiu/core/utils/validators.dart';
+import 'package:tiutiu/Widgets/cancel_button.dart';
 import 'package:tiutiu/Widgets/one_line_text.dart';
 import 'package:tiutiu/Widgets/tiutiu_logo.dart';
 import 'package:tiutiu/Widgets/button.dart';
@@ -36,7 +37,10 @@ class EmailAndPassword extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     SizedBox(height: 32.0.h),
-                    TiutiuLogo(),
+                    TiutiuLogo(
+                      imageHeight: 40.0.h,
+                      textHeight: 24.0.sp,
+                    ),
                     Spacer(),
                     _createAccountHeadline(),
                     _doLoginHeadline(),
@@ -47,7 +51,8 @@ class EmailAndPassword extends StatelessWidget {
                     _createAccountTip(),
                     Spacer(),
                     _submitButton(),
-                    SizedBox(height: 32.0.h),
+                    _cancelButton(),
+                    SizedBox(height: 16.0.h),
                   ],
                 ),
               ),
@@ -204,6 +209,17 @@ class EmailAndPassword extends StatelessWidget {
           print('Tudo listo!');
         }
       },
+    );
+  }
+
+  Widget _cancelButton() {
+    return Center(
+      child: CancelButton(
+        onCancel: () {
+          authController.clearEmailAndPassword();
+          Get.back();
+        },
+      ),
     );
   }
 }
