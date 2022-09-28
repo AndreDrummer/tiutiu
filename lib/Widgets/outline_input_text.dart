@@ -1,12 +1,15 @@
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
-import 'package:tiutiu/core/constants/app_colors.dart';
 
-class OutlinedOutlinedInputText extends StatelessWidget {
-  const OutlinedOutlinedInputText({
+class OutlinedInputText extends StatelessWidget {
+  const OutlinedInputText({
     this.textCapitalization = TextCapitalization.none,
+    this.onPasswordVisibilityChange,
     this.labelText = 'E-mail',
+    this.showPassword = false,
     this.isPassword = false,
     this.inputFormatters,
     this.keyboardType,
@@ -17,14 +20,17 @@ class OutlinedOutlinedInputText extends StatelessWidget {
     this.validator,
     this.maxLength,
     super.key,
-  });
+  }) : assert((showPassword == true && isPassword == true) ||
+            showPassword == false);
 
   final List<TextInputFormatter>? inputFormatters;
+  final Function()? onPasswordVisibilityChange;
   final TextCapitalization textCapitalization;
   final String? Function(String?)? validator;
   final void Function(String)? onChanged;
   final TextInputType? keyboardType;
   final String? initialValue;
+  final bool showPassword;
   final Color? textColor;
   final String? hintText;
   final String labelText;
@@ -37,15 +43,16 @@ class OutlinedOutlinedInputText extends StatelessWidget {
       margin: EdgeInsets.symmetric(vertical: 8.0.h),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8.0.h),
-        color: AppColors.white.withAlpha(50),
+        color: AppColors.white.withAlpha(30),
       ),
       child: TextFormField(
+        obscureText: isPassword && !showPassword,
         textCapitalization: textCapitalization,
+        textInputAction: TextInputAction.done,
         maxLength: isPassword ? 6 : maxLength,
         inputFormatters: inputFormatters,
         initialValue: initialValue,
         keyboardType: keyboardType,
-        obscureText: isPassword,
         onChanged: onChanged,
         validator: validator,
         style: TextStyle(
@@ -55,6 +62,19 @@ class OutlinedOutlinedInputText extends StatelessWidget {
         ),
         cursorColor: textColor ?? AppColors.white,
         decoration: InputDecoration(
+          suffixIcon: isPassword
+              ? IconButton(
+                  onPressed: () {
+                    onPasswordVisibilityChange?.call();
+                  },
+                  icon: Icon(
+                    showPassword
+                        ? FontAwesomeIcons.eye
+                        : FontAwesomeIcons.eyeSlash,
+                    color: AppColors.white.withAlpha(180),
+                  ),
+                )
+              : null,
           hintText: hintText,
           counterText: '',
           labelText: labelText,
@@ -66,7 +86,7 @@ class OutlinedOutlinedInputText extends StatelessWidget {
             fontSize: 18.0.sp,
           ),
           errorStyle: TextStyle(
-            color: Colors.amber,
+            color: AppColors.danger,
             fontWeight: FontWeight.w600,
             fontSize: 10.0.sp,
           ),
@@ -90,7 +110,7 @@ class OutlinedOutlinedInputText extends StatelessWidget {
         Radius.circular(8.0.h),
       ),
       borderSide: BorderSide(
-        color: isError ? Colors.amber : textColor ?? AppColors.white,
+        color: isError ? AppColors.danger : textColor ?? AppColors.white,
       ),
     );
   }

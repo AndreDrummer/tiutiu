@@ -4,17 +4,17 @@ import 'package:flutter/material.dart';
 
 class TiutiuLogo extends StatelessWidget {
   const TiutiuLogo({
-    super.key,
-    required this.imageHeight,
-    required this.textHeight,
     this.horizontal = false,
+    this.imageHeight,
     this.imageWidth,
+    this.textHeight,
     this.textWidth,
+    super.key,
   });
 
-  final double imageHeight;
+  final double? imageHeight;
+  final double? textHeight;
   final double? imageWidth;
-  final double textHeight;
   final double? textWidth;
   final bool horizontal;
 
@@ -22,7 +22,7 @@ class TiutiuLogo extends StatelessWidget {
   Widget build(BuildContext context) {
     final components = [
       SizedBox(
-        height: imageHeight,
+        height: imageHeight ?? 28.0.h,
         width: imageWidth,
         child: Image.asset(
           ImageAssets.newLogo,
@@ -34,7 +34,7 @@ class TiutiuLogo extends StatelessWidget {
         width: horizontal ? 8.0.w : 0.0,
       ),
       SizedBox(
-        height: textHeight,
+        height: textHeight ?? 16.0.h,
         width: textWidth,
         child: Image.asset(
           ImageAssets.tiutiu,
