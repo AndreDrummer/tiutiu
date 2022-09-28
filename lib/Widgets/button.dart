@@ -18,8 +18,8 @@ class ButtonWide extends StatelessWidget {
   });
 
   final Color? textIconColor;
-  final bool? isToExpand;
   final Function? action;
+  final bool isToExpand;
   final IconData? icon;
   final bool? rounded;
   final String? text;
@@ -35,7 +35,7 @@ class ButtonWide extends StatelessWidget {
         margin: EdgeInsets.symmetric(vertical: 4.0.h),
         alignment: Alignment.center,
         height: 48.0.h,
-        width: isToExpand! ? Get.width : 260.0.w,
+        width: isToExpand ? Get.width : 260.0.w,
         decoration: BoxDecoration(
           borderRadius: rounded == true ? BorderRadius.circular(24.0.h) : null,
           color: color ?? AppColors.secondary,
@@ -46,18 +46,15 @@ class ButtonWide extends StatelessWidget {
             mainAxisAlignment:
                 hasIcon ? MainAxisAlignment.start : MainAxisAlignment.center,
             children: [
-              hasIcon
-                  ? Container(
-                      child: Icon(
-                        color: textIconColor ?? AppColors.white,
-                        size: 20.0.h,
-                        icon,
-                      ),
-                      alignment: Alignment.centerLeft,
-                      width: Get.width / 3.3,
-                    )
-                  : SizedBox(),
-              hasIcon ? SizedBox(width: 15) : SizedBox(),
+              Visibility(
+                visible: hasIcon,
+                child: Icon(
+                  color: textIconColor ?? AppColors.white,
+                  size: 20.0.h,
+                  icon,
+                ),
+              ),
+              Spacer(),
               AutoSizeText(
                 text ?? AppStrings.getStarted,
                 textAlign: TextAlign.center,
@@ -66,6 +63,7 @@ class ButtonWide extends StatelessWidget {
                   fontWeight: FontWeight.w700,
                 ),
               ),
+              Spacer(),
             ],
           ),
         ),
