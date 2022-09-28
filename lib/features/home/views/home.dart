@@ -1,4 +1,4 @@
-import 'package:tiutiu/features/auth/views/auth_error_page.dart';
+import 'package:tiutiu/features/auth/views/auth_error.dart';
 import 'package:tiutiu/features/auth/views/auth_hosters.dart';
 import 'package:tiutiu/features/home/widgets/bottom_bar.dart';
 import 'package:tiutiu/features/auth/views/start_screen.dart';
