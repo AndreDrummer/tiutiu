@@ -279,52 +279,56 @@ class Profile extends StatelessWidget {
     );
   }
 
-  Row _contactButtonRow() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Visibility(
-          visible: !_itsMe,
-          child: Expanded(
-            child: ButtonWide(
-              color: AppColors.secondary,
-              text: AppStrings.chat,
-              isToExpand: false,
-              icon: Icons.phone,
-              action: () {},
+  Widget _contactButtonRow() {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 8.0.w),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Visibility(
+            visible: !_itsMe,
+            child: Expanded(
+              child: ButtonWide(
+                color: AppColors.secondary,
+                text: AppStrings.chat,
+                isToExpand: false,
+                icon: Icons.phone,
+                action: () {},
+              ),
             ),
           ),
-        ),
-        Visibility(
-          visible: !_itsMe,
-          child: Expanded(
-            child: ButtonWide(
-              text: AppStrings.whatsapp,
-              color: AppColors.primary,
-              icon: Tiutiu.whatsapp,
-              isToExpand: false,
-              action: () {
-                print(user.phoneNumber);
-                print(Formatter.unmaskNumber(user.phoneNumber!));
-                Launcher.openWhatsApp(
-                  number: Formatter.unmaskNumber(user.phoneNumber!),
-                );
-              },
+          SizedBox(width: 16.0.w),
+          Visibility(
+            visible: !_itsMe,
+            child: Expanded(
+              child: ButtonWide(
+                text: AppStrings.whatsapp,
+                color: AppColors.primary,
+                icon: Tiutiu.whatsapp,
+                isToExpand: false,
+                action: () {
+                  print(user.phoneNumber);
+                  print(Formatter.unmaskNumber(user.phoneNumber!));
+                  Launcher.openWhatsApp(
+                    number: Formatter.unmaskNumber(user.phoneNumber!),
+                  );
+                },
+              ),
             ),
           ),
-        ),
-        Visibility(
-          visible: _itsMe,
-          child: Expanded(
-            child: ButtonWide(
-              color: AppColors.primary,
-              text: AppStrings.save,
-              isToExpand: false,
-              action: () {},
+          Visibility(
+            visible: _itsMe,
+            child: Expanded(
+              child: ButtonWide(
+                color: AppColors.primary,
+                text: AppStrings.save,
+                isToExpand: false,
+                action: () {},
+              ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 
