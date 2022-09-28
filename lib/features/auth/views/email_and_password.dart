@@ -23,6 +23,7 @@ class EmailAndPassword extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: AppColors.primary.withAlpha(100),
       body: Stack(
         children: [
@@ -37,10 +38,7 @@ class EmailAndPassword extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     SizedBox(height: 32.0.h),
-                    TiutiuLogo(
-                      imageHeight: 40.0.h,
-                      textHeight: 24.0.sp,
-                    ),
+                    TiutiuLogo(),
                     Spacer(),
                     _createAccountHeadline(),
                     _doLoginHeadline(),
@@ -52,7 +50,7 @@ class EmailAndPassword extends StatelessWidget {
                     Spacer(),
                     _submitButton(),
                     _cancelButton(),
-                    SizedBox(height: 16.0.h),
+                    SizedBox(height: 8.0.h),
                   ],
                 ),
               ),

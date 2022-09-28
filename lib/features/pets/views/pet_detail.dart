@@ -2,7 +2,6 @@ import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
 import 'package:tiutiu/Widgets/pet_other_caracteristics_card.dart';
 import 'package:tiutiu/core/models/pet_caracteristics_model.dart';
 import 'package:tiutiu/features/pets/widgets/card_content.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/features/pets/model/pet_model.dart';
 import 'package:tiutiu/features/system/controllers.dart';
@@ -78,16 +77,11 @@ class PetDetails extends StatelessWidget {
           AutoSizeText(
             '${PetDetailsString.detailsOf} $petName',
             style: TextStyles.fontSize20(
-                fontWeight: FontWeight.w600, color: AppColors.white),
+              fontWeight: FontWeight.w600,
+              color: AppColors.white,
+            ),
           ),
           Spacer(),
-          authController.userExists
-              ? Container()
-              : IconButton(
-                  onPressed: petsController.handleChatButtonPressed,
-                  icon: Icon(FontAwesomeIcons.comments),
-                  color: AppColors.white,
-                ),
           IconButton(
             icon: Icon(
               color: AppColors.white,
@@ -95,7 +89,6 @@ class PetDetails extends StatelessWidget {
             ),
             onPressed: () {},
           ),
-          Spacer(),
         ],
       ),
     );
@@ -244,7 +237,7 @@ class PetDetails extends StatelessWidget {
     return Container(
       height: 80.0.h,
       child: Padding(
-        padding: const EdgeInsets.all(4.0),
+        padding: const EdgeInsets.all(2.0),
         child: ListView.builder(
           key: UniqueKey(),
           scrollDirection: Axis.horizontal,
@@ -293,42 +286,45 @@ class PetDetails extends StatelessWidget {
     TiutiuUser? user,
   }) {
     final Pet pet = petsController.pet;
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Expanded(
-              child: ButtonWide(
-                color: AppColors.secondary,
-                text: AppStrings.chat,
-                isToExpand: false,
-                icon: Icons.phone,
-                action: () {},
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 8.0.w),
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Expanded(
+                child: ButtonWide(
+                  color: AppColors.secondary,
+                  text: AppStrings.chat,
+                  isToExpand: false,
+                  icon: Icons.phone,
+                  action: () {},
+                ),
               ),
-            ),
-            Expanded(
-              child: ButtonWide(
-                text: AppStrings.whatsapp,
-                color: AppColors.primary,
-                icon: Tiutiu.whatsapp,
-                isToExpand: false,
-                action: () {},
+              SizedBox(width: 16.0.w),
+              Expanded(
+                child: ButtonWide(
+                  text: AppStrings.whatsapp,
+                  color: AppColors.primary,
+                  icon: Tiutiu.whatsapp,
+                  isToExpand: false,
+                  action: () {},
+                ),
               ),
-            ),
-          ],
-        ),
-        ButtonWide(
-          text: pet.disappeared
-              ? AppStrings.provideInfo
-              : AppStrings.iamInterested,
-          icon: pet.disappeared ? Icons.info : Icons.favorite_border,
-          color: pet.disappeared ? AppColors.info : AppColors.danger,
-          isToExpand: false,
-          action: () {},
-        ),
-      ],
+            ],
+          ),
+          ButtonWide(
+            text: pet.disappeared
+                ? AppStrings.provideInfo
+                : AppStrings.iamInterested,
+            icon: pet.disappeared ? Icons.info : Icons.favorite_border,
+            color: pet.disappeared ? AppColors.info : AppColors.danger,
+            isToExpand: true,
+            action: () {},
+          ),
+        ],
+      ),
     );
   }
 }

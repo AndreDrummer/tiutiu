@@ -20,7 +20,7 @@ class CardContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.all(4.0.h),
+      padding: EdgeInsets.all(2.0.h),
       child: Card(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12),
