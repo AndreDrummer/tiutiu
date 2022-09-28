@@ -18,6 +18,7 @@ class AuthHosters extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print(Get.height);
     return Scaffold(
       body: Stack(
         children: [
@@ -25,9 +26,7 @@ class AuthHosters extends StatelessWidget {
           _gradient(),
           _appLogo(),
           Positioned(
-            top: homeController.showAuthHostersInFullScreen
-                ? Get.width * .9
-                : Get.width * .65,
+            bottom: 8.0.h,
             left: 8.0,
             right: 8.0,
             child: Column(
