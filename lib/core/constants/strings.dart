@@ -9,6 +9,7 @@ class AppStrings {
       'Muitos Pets Lindos\nEstão Aguardando Por Você';
   static String get genericError =>
       'Ocorreu um erro ao inicializar\no aplicativo.';
+  static String get repeatPassword => 'Repita a senha';
   static String get headline1 => 'Faça Um Novo Amigo';
   static String get disappeareds => 'Desaparecidos';
   static String get endApp => 'Encerrar aplicação';
@@ -22,8 +23,10 @@ class AppStrings {
   static String get infos => 'informações';
   static String get postedAt => 'Postado';
   static String get profile => 'Perfil';
+  static String get password => 'Senha';
   static String get adopte => 'Adotar';
   static String get name => 'Tiu, tiu';
+  static String get email => 'E-mail';
   static String get post => 'Postar';
   static String get save => 'Salvar';
   static String get leave => 'Sair';
@@ -34,12 +37,30 @@ class AppStrings {
 }
 
 class AuthStrings {
+  static const String typePasswordAgain = 'Digite a senha novamente';
   static String get authentique => 'Autentique-se para continuar.';
+  static String get createNewAccount => 'Crie uma nova conta.';
+  static const String passwordNotMatch = 'Senhas não conferem';
+  static const String forgetMyPassword = 'Esqueci minha senha';
+  static String get doNotHaveAnAccount => 'Não tem uma conta?';
   static String get continueAnon => 'Continuar anônimamente';
+  static String get enterAccount => 'Entrar na sua conta.';
+  static String get haveAnAccount => 'Já tem uma conta?';
+  static const String authenticanting = 'Autênticando...';
+  static const String invalidEmail = 'E-mail inválido';
+  static String get createAccount => 'Criar conta';
+  static String get createYours => 'Crie a sua.';
   static String get facebook => 'Facebook';
+  static const String passwordShouldBeAtLeast6 =
+      'Senha deve ter no mínimo 6 dígitos';
   static String get google => 'Google';
+  static String get enter => 'Entrar';
   static String get email => 'E-mail';
   static String get apple => 'Apple';
+}
+
+class ValidatorsStrings {
+  static const String requiredField = 'Campo obrigatório';
 }
 
 class HomeStrings {

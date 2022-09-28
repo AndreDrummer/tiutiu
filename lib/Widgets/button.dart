@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
+import 'package:tiutiu/core/constants/strings.dart';
 import 'package:tiutiu/core/constants/text_styles.dart';
 
 class ButtonWide extends StatelessWidget {
@@ -58,7 +59,7 @@ class ButtonWide extends StatelessWidget {
                   : SizedBox(),
               hasIcon ? SizedBox(width: 15) : SizedBox(),
               AutoSizeText(
-                text!,
+                text ?? AppStrings.getStarted,
                 textAlign: TextAlign.center,
                 style: TextStyles.fontSize16(
                   color: textIconColor ?? AppColors.white,

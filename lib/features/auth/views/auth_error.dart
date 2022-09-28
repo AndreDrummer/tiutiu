@@ -25,10 +25,7 @@ class AuthErrorPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Spacer(),
-            TiutiuLogo(
-              imageHeight: 28.0.h,
-              textHeight: 16.0.h,
-            ),
+            TiutiuLogo(),
             Spacer(),
             Icon(
               color: AppColors.white,
