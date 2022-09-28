@@ -1,11 +1,12 @@
+import 'package:tiutiu/features/auth/models/email_password_auth.dart';
 import 'package:tiutiu/core/local_storage/local_storage_keys.dart';
 import 'package:tiutiu/features/auth/service/auth_service.dart';
-import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:tiutiu/core/constants/firebase_env_path.dart';
 import 'package:tiutiu/core/extensions/enum_tostring.dart';
 import 'package:tiutiu/core/constants/images_assets.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:tiutiu/core/data/store_login.dart';
+import 'package:get/get.dart';
 
 enum AuthEnum {
   password,
@@ -19,43 +20,56 @@ class AuthController extends GetxController {
 
   final AuthService _authService;
 
+  final Rx<EmailAndPasswordAuth> _emailAndPasswordAuth =
+      EmailAndPasswordAuth().obs;
+  final RxBool _isCreatingNewAccount = false.obs;
+  final RxBool _isShowingPassword = false.obs;
+
+  EmailAndPasswordAuth get emailAndPasswordAuth => _emailAndPasswordAuth.value;
+  bool get isCreatingNewAccount => _isCreatingNewAccount.value;
+  bool get isShowingPassword => _isShowingPassword.value;
   bool get userExists => _authService.userExists;
 
-  Future<void> createUserWithEmailAndPassword({
-    required String password,
-    required String email,
-  }) async {
+  void updateEmailAndPasswordAuth(
+      EmailAndPasswordAuthEnum property, dynamic data) {
+    final map = emailAndPasswordAuth.toMap();
+    map[property.tostring()] = data;
+
+    _emailAndPasswordAuth(EmailAndPasswordAuth.fromMap(map));
+  }
+
+  void set isCreatingNewAccount(bool value) => _isCreatingNewAccount(value);
+  void set isShowingPassword(bool value) => _isShowingPassword(value);
+
+  Future<void> createUserWithEmailAndPassword() async {
     final success = await _authService.createUserWithEmailAndPassword(
-      password: password,
-      email: email,
+      password: emailAndPasswordAuth.password!,
+      email: emailAndPasswordAuth.email!,
     );
 
     if (success) {
       Store.saveMap(
         LocalStorageKey.authData,
         {
-          AuthEnum.password.tostring(): password,
-          AuthEnum.email.tostring(): email,
+          AuthEnum.password.tostring(): emailAndPasswordAuth.password!,
+          AuthEnum.email.tostring(): emailAndPasswordAuth.email!,
         },
       );
     }
   }
 
-  Future<void> signInWithEmailAndPassword({
-    required String password,
-    required String email,
-  }) async {
+  Future<void> signInWithEmailAndPassword() async {
     final success = await _authService.signInWithEmailAndPassword(
-      password: password,
-      email: email,
+      password: emailAndPasswordAuth.password!,
+      email: emailAndPasswordAuth.email!,
     );
 
     if (success) {
       Store.saveMap(
         LocalStorageKey.authData,
         {
-          AuthEnum.password.tostring(): password,
-          AuthEnum.email.tostring(): email,
+          AuthEnum.password.tostring(): emailAndPasswordAuth.password!,
+          AuthEnum.email.tostring(): emailAndPasswordAuth.email!,
         },
       );
     }
@@ -101,10 +115,9 @@ class AuthController extends GetxController {
       final email = userLoggedWithEmailPassword[AuthEnum.email.tostring()];
       final password =
           userLoggedWithEmailPassword[AuthEnum.password.tostring()];
-      await signInWithEmailAndPassword(
-        password: password,
-        email: email,
-      );
+      updateEmailAndPasswordAuth(EmailAndPasswordAuthEnum.password, password);
+      updateEmailAndPasswordAuth(EmailAndPasswordAuthEnum.email, email);
+      await signInWithEmailAndPassword();
     } else if (userLoggedWithFacebook != null) {
       print('Login com facebook');
       final facebookToken = userLoggedWithFacebook[AuthEnum.token.tostring()];

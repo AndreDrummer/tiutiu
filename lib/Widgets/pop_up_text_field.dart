@@ -2,7 +2,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:tiutiu/Widgets/background.dart';
 import 'package:tiutiu/Widgets/button.dart';
-import 'package:tiutiu/Widgets/input_text.dart';
+import 'package:tiutiu/Widgets/outline_input_text.dart';
 import 'package:tiutiu/core/constants/images_assets.dart';
 
 class PopupTextField extends StatelessWidget {
@@ -36,12 +36,8 @@ class PopupTextField extends StatelessWidget {
                   style: TextStyle(fontWeight: FontWeight.w300, fontSize: 13),
                 ),
                 SizedBox(height: 20),
-                InputText(
-                  placeholder: 'Escreva aqui...',
-                  size: 150,
-                  controller: controller,
-                  multiline: true,
-                  maxlines: 5,
+                OutlinedInputText(
+                  labelText: 'Escreva aqui...',
                 ),
                 SizedBox(height: 25),
                 ButtonWide(
