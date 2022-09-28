@@ -30,6 +30,10 @@ class AuthController extends GetxController {
   bool get isShowingPassword => _isShowingPassword.value;
   bool get userExists => _authService.userExists;
 
+  void clearEmailAndPassword() {
+    _emailAndPasswordAuth(EmailAndPasswordAuth());
+  }
+
   void updateEmailAndPasswordAuth(
       EmailAndPasswordAuthEnum property, dynamic data) {
     final map = emailAndPasswordAuth.toMap();
