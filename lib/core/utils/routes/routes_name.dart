@@ -2,6 +2,7 @@ class Routes {
   static const petLocationPicker = '/pet-location-picker';
   static const announcerDetails = '/announcer-details';
   static const confirmaAdoption = '/confirm-adoption';
+  static const emailAndPassword = '/email-password';
   static const interestedList = '/interested-list';
   static const notifications = '/notications';
   static const authHosters = '/auth-hosters';

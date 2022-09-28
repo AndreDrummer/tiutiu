@@ -6,7 +6,7 @@ import 'package:tiutiu/Widgets/load_dark_screen.dart';
 import 'package:tiutiu/core/utils/image_handle.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:tiutiu/Widgets/popup_message.dart';
-import 'package:tiutiu/Widgets/input_text.dart';
+import 'package:tiutiu/Widgets/outline_input_text.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:tiutiu/Widgets/divider.dart';
 import 'package:tiutiu/Widgets/button.dart';
@@ -668,36 +668,14 @@ class _AppSettingsState extends State<AppSettings> {
                             child: Column(
                               children: [
                                 SizedBox(height: 15),
-                                InputText(
+                                OutlinedInputText(
                                   isPassword: true,
                                   hintText: 'Nova Senha',
-                                  controller: _newPassword,
-                                  validator: (String value) {
-                                    if (value.isEmpty &&
-                                        _repeatNewPassword.text
-                                            .trim()
-                                            .isEmpty) {
-                                      return null;
-                                    }
-                                    if (value.length < 6) {
-                                      return 'A nova senha deve ter no mínimo 6 dígitos';
-                                    }
-                                  },
                                 ),
                                 SizedBox(height: 15),
-                                InputText(
+                                OutlinedInputText(
                                   isPassword: true,
                                   hintText: 'Repita a nova senha',
-                                  controller: _repeatNewPassword,
-                                  validator: (String value) {
-                                    if (value.isEmpty &&
-                                        _newPassword.text.trim().isEmpty) {
-                                      return null;
-                                    }
-                                    if (value != _newPassword.text.trim()) {
-                                      return 'Senhas não conferem';
-                                    }
-                                  },
                                 ),
                               ],
                             ),

@@ -6,7 +6,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:tiutiu/Widgets/button.dart';
 import 'package:tiutiu/Widgets/hint_error.dart';
-import 'package:tiutiu/Widgets/input_text.dart';
+import 'package:tiutiu/Widgets/outline_input_text.dart';
 import 'package:tiutiu/Widgets/load_dark_screen.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/features/system/controllers.dart';
@@ -307,47 +307,27 @@ class _RegisterState extends State<Register> {
                         ),
                       ),
                       SizedBox(height: 15),
-                      InputText(
-                        placeholder: 'Como quer ser chamado (Obrigatório)',
-                        controller: _name,
-                        validator: (String text) {
-                          if (text.isEmpty || text.length < 3) {
-                            setState(() {
-                              nameHasErrorMessage = "Seu nome é obrigatório";
-                              nameHasError = true;
-                            });
-                          } else {
-                            setState(() {
-                              nameHasErrorMessage = "";
-                              nameHasError = false;
-                            });
-                          }
-                        },
+                      OutlinedInputText(
+                        hintText: 'Como quer ser chamado (Obrigatório)',
                       ),
                       nameHasError
                           ? HintError(message: nameHasErrorMessage)
                           : Container(),
                       SizedBox(height: 15),
-                      InputText(
+                      OutlinedInputText(
                         inputFormatters: [celularMask],
-                        placeholder: 'Informe seu Whatsapp',
+                        labelText: 'Informe seu Whatsapp',
                         hintText: '(XX) X XXXX-XXXX',
-                        keyBoardTypeNumber: true,
-                        controller: _whatsapp,
-                        validator: validarCelular,
                         onChanged: (text) {},
                       ),
                       whatsappHasError!
                           ? HintError(message: whatsappHasErrorMessage)
                           : Container(),
                       SizedBox(height: 15),
-                      InputText(
+                      OutlinedInputText(
                         inputFormatters: [telefoneMask],
-                        validator: validarTelefone,
-                        placeholder: 'Informe um telefone fixo',
+                        labelText: 'Informe um telefone fixo',
                         hintText: '(XX) XXXX-XXXX',
-                        keyBoardTypeNumber: true,
-                        controller: _telefone,
                         onChanged: (text) {},
                       ),
                       telefoneHasError

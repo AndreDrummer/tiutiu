@@ -1,5 +1,7 @@
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:tiutiu/core/utils/routes/routes_name.dart';
+import 'package:tiutiu/features/auth/widgets/headline.dart';
 import 'package:tiutiu/features/system/controllers.dart';
 import 'package:tiutiu/core/constants/text_styles.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
@@ -81,25 +83,12 @@ class AuthHosters extends StatelessWidget {
       top: 40.0.h,
       child: SizedBox(
         width: Get.width,
-        child: TiutiuLogo(
-          imageHeight: 28.0.h,
-          textHeight: 16.0.h,
-        ),
+        child: TiutiuLogo(),
       ),
     );
   }
 
-  Widget _headline() {
-    return AutoSizeText(
-      style: TextStyles.fontSize(
-        fontWeight: FontWeight.bold,
-        color: AppColors.primary,
-        fontSize: 32.0.sp,
-      ),
-      textAlign: TextAlign.left,
-      AuthStrings.authentique,
-    );
-  }
+  Widget _headline() => Headline(text: AuthStrings.authentique);
 
   Widget _authButtons() {
     return Container(
@@ -121,7 +110,9 @@ class AuthHosters extends StatelessWidget {
             text: AuthStrings.email,
             color: Colors.grey,
             isToExpand: true,
-            action: () {},
+            action: () {
+              Get.toNamed(Routes.emailAndPassword);
+            },
           ),
           SizedBox(height: 4.0.h),
           ButtonWide(
