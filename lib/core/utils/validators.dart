@@ -2,8 +2,8 @@ import 'package:tiutiu/core/constants/strings.dart';
 import 'package:get/get.dart';
 
 class Validators {
-  static String? verifyEquity(String? firstValue, String? secondValue) {
-    if (firstValue != secondValue) return AuthStrings.passwordNotMatch;
+  static String? verifyEquity({String? repeatPassword, String? password}) {
+    if (password != repeatPassword) return AuthStrings.passwordNotMatch;
     return null;
   }
 
