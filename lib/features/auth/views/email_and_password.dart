@@ -142,9 +142,9 @@ class EmailAndPassword extends StatelessWidget {
               password,
             );
           },
-          validator: (value) => Validators.verifyEquity(
-            authController.emailAndPasswordAuth.repeatPassword,
-            value,
+          validator: (repeatedPassword) => Validators.verifyEquity(
+            password: authController.emailAndPasswordAuth.password,
+            repeatPassword: repeatedPassword,
           ),
           onPasswordVisibilityChange: () {
             authController.isShowingPassword =
@@ -204,7 +204,8 @@ class EmailAndPassword extends StatelessWidget {
       isToExpand: true,
       action: () {
         if (_formKey.currentState!.validate()) {
-          print('Tudo listo!');
+          debugPrint('>> tudo ok');
+          authController.createUserWithEmailAndPassword();
         }
       },
     );
