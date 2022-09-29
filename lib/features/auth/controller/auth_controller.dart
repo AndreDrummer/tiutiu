@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:tiutiu/features/auth/models/email_password_auth.dart';
 import 'package:tiutiu/core/local_storage/local_storage_keys.dart';
 import 'package:tiutiu/features/auth/service/auth_service.dart';
@@ -45,21 +46,32 @@ class AuthController extends GetxController {
   void set isCreatingNewAccount(bool value) => _isCreatingNewAccount(value);
   void set isShowingPassword(bool value) => _isShowingPassword(value);
 
-  Future<void> createUserWithEmailAndPassword() async {
-    final success = await _authService.createUserWithEmailAndPassword(
-      password: emailAndPasswordAuth.password!,
-      email: emailAndPasswordAuth.email!,
-    );
+  Future<bool> createUserWithEmailAndPassword() async {
+    bool success = false;
 
-    if (success) {
-      Store.saveMap(
-        LocalStorageKey.authData,
-        {
-          AuthEnum.password.tostring(): emailAndPasswordAuth.password!,
-          AuthEnum.email.tostring(): emailAndPasswordAuth.email!,
-        },
+    if (emailAndPasswordAuth.password == emailAndPasswordAuth.repeatPassword) {
+      success = await _authService.createUserWithEmailAndPassword(
+        password: emailAndPasswordAuth.password!,
+        email: emailAndPasswordAuth.email!,
       );
+
+      if (success)
+        debugPrint('>> Conta criada com sucesso!');
+      else
+        debugPrint('>> Falha ao criar nova conta.');
+
+      if (success) {
+        Store.saveMap(
+          LocalStorageKey.authData,
+          {
+            AuthEnum.password.tostring(): emailAndPasswordAuth.password!,
+            AuthEnum.email.tostring(): emailAndPasswordAuth.email!,
+          },
+        );
+      }
     }
+
+    return success;
   }
 
   Future<void> signInWithEmailAndPassword() async {
