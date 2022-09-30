@@ -1,4 +1,3 @@
-import 'package:tiutiu/core/extensions/enum_tostring.dart';
 import 'package:tiutiu/features/pets/model/pet_model.dart';
 import 'package:tiutiu/core/utils/other_functions.dart';
 import 'package:tiutiu/core/constants/strings.dart';
@@ -74,9 +73,9 @@ class PetCaracteristics {
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
-      PetCaracteristicsEnum.icon.tostring(): icon.codePoint,
-      PetCaracteristicsEnum.content.tostring(): content,
-      PetCaracteristicsEnum.title.tostring(): title,
+      PetCaracteristicsEnum.icon.name: icon.codePoint,
+      PetCaracteristicsEnum.content.name: content,
+      PetCaracteristicsEnum.title.name: title,
     };
   }
 }

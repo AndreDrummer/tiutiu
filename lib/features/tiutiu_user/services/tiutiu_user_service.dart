@@ -1,7 +1,7 @@
 import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
 import 'package:tiutiu/features/pets/services/pet_service.dart';
 import 'package:tiutiu/core/constants/firebase_env_path.dart';
-import 'package:tiutiu/core/extensions/enum_tostring.dart';
+
 import 'package:tiutiu/features/pets/model/pet_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:tiutiu/core/models/chat_model.dart';
@@ -40,12 +40,12 @@ class TiutiuUserService {
     final favorites = userReference.collection(FirebaseEnvPath.favorites);
 
     if (add) {
-      favorites.doc().set({PetEnum.uid.tostring(): petReference});
+      favorites.doc().set({PetEnum.uid.name: petReference});
     } else {
       var petInRemotionId;
 
       await favorites
-          .where(PetEnum.uid.tostring(), isEqualTo: petReference)
+          .where(PetEnum.uid.name, isEqualTo: petReference)
           .get()
           .then((value) {
         petInRemotionId = value.docs.first.id;
@@ -95,7 +95,7 @@ class TiutiuUserService {
         .collection(FirebaseEnvPath.users)
         .doc(userId)
         .collection(FirebaseEnvPath.notifications)
-        .where(ChatEnum.open.tostring(), isEqualTo: false)
+        .where(ChatEnum.open.name, isEqualTo: false)
         .snapshots();
   }
 
@@ -118,7 +118,7 @@ class TiutiuUserService {
   Stream<QuerySnapshot<Map<String, dynamic>>> getUserPostsById(String uid) {
     return _firestore
         .collection(newPathToAds)
-        .where(PetEnum.ownerId.tostring(), isEqualTo: uid)
+        .where(PetEnum.ownerId.name, isEqualTo: uid)
         .snapshots();
   }
 
