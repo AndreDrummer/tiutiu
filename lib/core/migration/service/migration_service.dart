@@ -2,7 +2,7 @@ import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
 import 'package:tiutiu/features/auth/service/auth_service.dart';
 import 'package:tiutiu/core/constants/firebase_env_path.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:tiutiu/core/extensions/enum_tostring.dart';
+
 import 'package:tiutiu/features/pets/model/pet_model.dart';
 import 'package:tiutiu/features/system/controllers.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -63,8 +63,8 @@ class MigrationService {
         if (includedAfterMay2022) {
           final map = petAd.data();
           final tiutiuUser = await getUserData(petAd.data()['ownerReference']);
-          map[PetEnum.owner.tostring()] = tiutiuUser;
-          // debugPrint('>> ${map[PetEnum.owner.tostring()]}');
+          map[PetEnum.owner.name] = tiutiuUser;
+          // debugPrint('>> ${map[PetEnum.owner.name]}');
 
           insertAdDataInNewPath(Pet.fromMigrate(map));
         } else {
@@ -85,8 +85,8 @@ class MigrationService {
       final owner = await tiutiuUserController.getUserById(pet.ownerId!);
       // debugPrint('${owner.toMap()}');
 
-      snapshot.reference.set(
-          {PetEnum.owner.tostring(): owner.toMap()}, SetOptions(merge: true));
+      snapshot.reference
+          .set({PetEnum.owner.name: owner.toMap()}, SetOptions(merge: true));
     });
   }
 
@@ -96,8 +96,7 @@ class MigrationService {
     list.docs.forEach((snapshot) async {
       final user = TiutiuUser.fromMap(snapshot.data());
 
-      snapshot.reference.set(
-          {TiutiuUserEnum.lastLogin.tostring(): user.createdAt},
+      snapshot.reference.set({TiutiuUserEnum.lastLogin.name: user.createdAt},
           SetOptions(merge: true));
     });
   }

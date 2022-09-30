@@ -1,5 +1,3 @@
-import 'package:tiutiu/core/extensions/enum_tostring.dart';
-
 enum TiutiuUserEnum {
   allowContactViaWhatsApp,
   notificationToken,
@@ -34,33 +32,33 @@ class TiutiuUser {
   static TiutiuUser fromMap(Map<String, dynamic> map) {
     return TiutiuUser(
       allowContactViaWhatsApp:
-          map[TiutiuUserEnum.allowContactViaWhatsApp.tostring()] ?? false,
-      notificationToken: map[TiutiuUserEnum.notificationToken.tostring()],
-      avatar: map[TiutiuUserEnum.avatar.tostring()] ?? map['photoURL'],
-      isAnONG: map[TiutiuUserEnum.isAnONG.tostring()] ?? false,
-      phoneNumber: map[TiutiuUserEnum.phoneNumber.tostring()],
-      displayName: map[TiutiuUserEnum.displayName.tostring()],
-      lastLogin: map[TiutiuUserEnum.lastLogin.tostring()] ??
-          map[TiutiuUserEnum.createdAt.tostring()],
-      createdAt: map[TiutiuUserEnum.createdAt.tostring()],
-      photoBACK: map[TiutiuUserEnum.photoBACK.tostring()],
-      password: map[TiutiuUserEnum.password.tostring()],
-      email: map[TiutiuUserEnum.email.tostring()],
-      uid: map[TiutiuUserEnum.uid.tostring()],
+          map[TiutiuUserEnum.allowContactViaWhatsApp.name] ?? false,
+      notificationToken: map[TiutiuUserEnum.notificationToken.name],
+      avatar: map[TiutiuUserEnum.avatar.name] ?? map['photoURL'],
+      isAnONG: map[TiutiuUserEnum.isAnONG.name] ?? false,
+      phoneNumber: map[TiutiuUserEnum.phoneNumber.name],
+      displayName: map[TiutiuUserEnum.displayName.name],
+      lastLogin: map[TiutiuUserEnum.lastLogin.name] ??
+          map[TiutiuUserEnum.createdAt.name],
+      createdAt: map[TiutiuUserEnum.createdAt.name],
+      photoBACK: map[TiutiuUserEnum.photoBACK.name],
+      password: map[TiutiuUserEnum.password.name],
+      email: map[TiutiuUserEnum.email.name],
+      uid: map[TiutiuUserEnum.uid.name],
     );
   }
 
   static TiutiuUser fromMapMigration(Map<String, dynamic> map) {
     return TiutiuUser(
-      notificationToken: map[TiutiuUserEnum.notificationToken.tostring()],
-      avatar: map[TiutiuUserEnum.avatar.tostring()] ?? map['photoURL'],
-      phoneNumber: map[TiutiuUserEnum.phoneNumber.tostring()],
-      displayName: map[TiutiuUserEnum.displayName.tostring()],
-      createdAt: map[TiutiuUserEnum.createdAt.tostring()],
-      photoBACK: map[TiutiuUserEnum.photoBACK.tostring()],
-      lastLogin: map[TiutiuUserEnum.lastLogin.tostring()],
-      email: map[TiutiuUserEnum.email.tostring()],
-      uid: map[TiutiuUserEnum.uid.tostring()],
+      notificationToken: map[TiutiuUserEnum.notificationToken.name],
+      avatar: map[TiutiuUserEnum.avatar.name] ?? map['photoURL'],
+      phoneNumber: map[TiutiuUserEnum.phoneNumber.name],
+      displayName: map[TiutiuUserEnum.displayName.name],
+      createdAt: map[TiutiuUserEnum.createdAt.name],
+      photoBACK: map[TiutiuUserEnum.photoBACK.name],
+      lastLogin: map[TiutiuUserEnum.lastLogin.name],
+      email: map[TiutiuUserEnum.email.name],
+      uid: map[TiutiuUserEnum.uid.name],
       allowContactViaWhatsApp: false,
     );
   }
@@ -80,18 +78,17 @@ class TiutiuUser {
 
   Map<String, dynamic> toMap() {
     return {
-      TiutiuUserEnum.notificationToken.tostring(): notificationToken,
-      TiutiuUserEnum.allowContactViaWhatsApp.tostring():
-          allowContactViaWhatsApp,
-      TiutiuUserEnum.phoneNumber.tostring(): phoneNumber,
-      TiutiuUserEnum.displayName.tostring(): displayName,
-      TiutiuUserEnum.lastLogin.tostring(): lastLogin,
-      TiutiuUserEnum.photoBACK.tostring(): photoBACK,
-      TiutiuUserEnum.createdAt.tostring(): createdAt,
-      TiutiuUserEnum.isAnONG.tostring(): isAnONG,
-      TiutiuUserEnum.avatar.tostring(): avatar,
-      TiutiuUserEnum.email.tostring(): email,
-      TiutiuUserEnum.uid.tostring(): uid,
+      TiutiuUserEnum.notificationToken.name: notificationToken,
+      TiutiuUserEnum.allowContactViaWhatsApp.name: allowContactViaWhatsApp,
+      TiutiuUserEnum.phoneNumber.name: phoneNumber,
+      TiutiuUserEnum.displayName.name: displayName,
+      TiutiuUserEnum.lastLogin.name: lastLogin,
+      TiutiuUserEnum.photoBACK.name: photoBACK,
+      TiutiuUserEnum.createdAt.name: createdAt,
+      TiutiuUserEnum.isAnONG.name: isAnONG,
+      TiutiuUserEnum.avatar.name: avatar,
+      TiutiuUserEnum.email.name: email,
+      TiutiuUserEnum.uid.name: uid,
     };
   }
 }

@@ -1,4 +1,3 @@
-import 'package:tiutiu/core/extensions/enum_tostring.dart';
 import 'dart:convert';
 
 enum FilterParamsEnum {
@@ -13,9 +12,9 @@ class FilterParams {
 
   factory FilterParams.fromMap(Map<String, dynamic> map) {
     return FilterParams(
-      disappeared: map[FilterParamsEnum.disappeared.tostring()],
-      state: map[FilterParamsEnum.state.tostring()],
-      type: map[FilterParamsEnum.type.tostring()],
+      disappeared: map[FilterParamsEnum.disappeared.name],
+      state: map[FilterParamsEnum.state.name],
+      type: map[FilterParamsEnum.type.name],
     );
   }
   FilterParams({
@@ -30,9 +29,9 @@ class FilterParams {
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
-      FilterParamsEnum.disappeared.tostring(): disappeared,
-      FilterParamsEnum.state.tostring(): state,
-      FilterParamsEnum.type.tostring(): type,
+      FilterParamsEnum.disappeared.name: disappeared,
+      FilterParamsEnum.state.name: state,
+      FilterParamsEnum.type.name: type,
     };
   }
 
