@@ -37,7 +37,7 @@ dependencies:
   loading_animations: ^2.2.0
   firebase_analytics: ^9.3.0
   flutter_speed_dial: ^6.0.0  
-  connectivity_plus: ^2.3.6
+  connectivity_plus: ^2.3.7
   firebase_database: ^9.1.0
   firebase_storage: ^10.3.4
   carousel_slider: ^4.0.0
