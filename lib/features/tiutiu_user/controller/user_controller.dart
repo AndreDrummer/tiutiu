@@ -1,7 +1,7 @@
 import 'package:tiutiu/features/tiutiu_user/services/tiutiu_user_service.dart';
 import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:tiutiu/core/extensions/enum_tostring.dart';
+
 import 'package:get/get.dart';
 
 class TiutiuUserController extends GetxController {
@@ -17,7 +17,7 @@ class TiutiuUserController extends GetxController {
 
   void updateTiutiuUser(TiutiuUserEnum property, dynamic data) {
     Map<String, dynamic> map = _tiutiuUser.value.toMap();
-    map[property.tostring()] = data;
+    map[property.name] = data;
 
     TiutiuUser newTiutiuUser = TiutiuUser.fromMap(map);
 

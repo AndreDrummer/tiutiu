@@ -1,5 +1,3 @@
-import 'package:tiutiu/core/extensions/enum_tostring.dart';
-
 enum EmailAndPasswordAuthEnum {
   repeatPassword,
   password,
@@ -9,10 +7,9 @@ enum EmailAndPasswordAuthEnum {
 class EmailAndPasswordAuth {
   factory EmailAndPasswordAuth.fromMap(Map<String, dynamic> map) {
     return EmailAndPasswordAuth(
-        password: map[EmailAndPasswordAuthEnum.password.tostring()],
-        email: map[EmailAndPasswordAuthEnum.email.tostring()],
-        repeatPassword:
-            map[EmailAndPasswordAuthEnum.repeatPassword.tostring()]);
+        password: map[EmailAndPasswordAuthEnum.password.name],
+        email: map[EmailAndPasswordAuthEnum.email.name],
+        repeatPassword: map[EmailAndPasswordAuthEnum.repeatPassword.name]);
   }
   EmailAndPasswordAuth({
     this.repeatPassword,
@@ -38,9 +35,9 @@ class EmailAndPasswordAuth {
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
-      EmailAndPasswordAuthEnum.repeatPassword.tostring(): repeatPassword,
-      EmailAndPasswordAuthEnum.password.tostring(): password,
-      EmailAndPasswordAuthEnum.email.tostring(): email,
+      EmailAndPasswordAuthEnum.repeatPassword.name: repeatPassword,
+      EmailAndPasswordAuthEnum.password.name: password,
+      EmailAndPasswordAuthEnum.email.name: email,
     };
   }
 }

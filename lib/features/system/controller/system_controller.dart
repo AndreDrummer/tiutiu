@@ -8,7 +8,8 @@ class SystemController extends GetxController {
   bool get internetConnected => _internetConnected.value;
 
   void handleInternetConnectivityStatus(
-      ConnectivityResult? connectivityResult) {
+    ConnectivityResult? connectivityResult,
+  ) {
     debugPrint('Result $connectivityResult');
     if (connectivityResult == null) {
       _internetConnected(false);

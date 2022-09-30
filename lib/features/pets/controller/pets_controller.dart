@@ -1,6 +1,6 @@
 import 'package:tiutiu/features/pets/services/pet_service.dart';
 import 'package:tiutiu/core/constants/firebase_env_path.dart';
-import 'package:tiutiu/core/extensions/enum_tostring.dart';
+
 import 'package:tiutiu/features/chat/common/functions.dart';
 import 'package:tiutiu/features/pets/model/pet_model.dart';
 import 'package:tiutiu/features/system/controllers.dart';
@@ -35,7 +35,7 @@ class PetsController extends GetxController {
 
   void updatePet(PetEnum property, dynamic data) {
     final petMap = pet.toMap();
-    petMap[property.tostring()] = data;
+    petMap[property.name] = data;
 
     final updatedPet = Pet.fromMap(petMap);
     pet = updatedPet;
@@ -71,7 +71,7 @@ class PetsController extends GetxController {
 
     docs.forEach((petSnapshot) {
       final isFilteringByName = filterController.filterByName.isNotEmpty;
-      String petName = petSnapshot.data()[PetEnum.name.tostring()];
+      String petName = petSnapshot.data()[PetEnum.name.name];
       petName = petName.toLowerCase();
 
       final pet = Pet.fromMap(petSnapshot.data());
@@ -133,8 +133,8 @@ class PetsController extends GetxController {
     required DocumentReference petReference,
     required int actualViews,
   }) {
-    petReference.set(
-        {PetEnum.views.tostring(): ++actualViews}, SetOptions(merge: true));
+    petReference
+        .set({PetEnum.views.name: ++actualViews}, SetOptions(merge: true));
   }
 
   void navigateToAuth() {}
@@ -151,7 +151,7 @@ class PetsController extends GetxController {
     required int actualInteresteds,
   }) {
     petReference.set({
-      PetEnum.interesteds.tostring(): ++actualInteresteds,
+      PetEnum.interesteds.name: ++actualInteresteds,
     }, SetOptions(merge: true));
   }
 }
