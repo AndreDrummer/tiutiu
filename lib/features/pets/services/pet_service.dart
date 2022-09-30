@@ -2,7 +2,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:tiutiu/core/constants/firebase_env_path.dart';
 import 'package:tiutiu/core/data/dummy_data.dart';
 import 'package:tiutiu/features/pets/model/pet_model.dart';
-import 'package:tiutiu/core/extensions/enum_tostring.dart';
+
 import 'package:tiutiu/core/models/filter_params.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:tiutiu/core/constants/strings.dart';
@@ -39,9 +39,9 @@ class PetService {
 
     return FirebaseFirestore.instance
         .collection(newPathToAds)
-        .where(FilterParamsEnum.disappeared.tostring(), isEqualTo: disappeared)
-        .where(FilterParamsEnum.state.tostring(), isEqualTo: filterState)
-        .where(FilterParamsEnum.type.tostring(), isEqualTo: filterType)
+        .where(FilterParamsEnum.disappeared.name, isEqualTo: disappeared)
+        .where(FilterParamsEnum.state.name, isEqualTo: filterState)
+        .where(FilterParamsEnum.type.name, isEqualTo: filterType)
         .snapshots();
   }
 

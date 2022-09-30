@@ -24,10 +24,6 @@ class FirebaseAuthProvider implements AuthProviders {
 
       await _sendEmailVerification(firebaseAuth.currentUser);
     } on FirebaseAuthException catch (error) {
-      print(error.code);
-      print(error.message);
-      print(error.plugin);
-      print(error);
       throw TiuTiuAuthException(error.code);
     }
   }
@@ -50,7 +46,7 @@ class FirebaseAuthProvider implements AuthProviders {
   Future<void> _sendEmailVerification(User? user) async {
     if (user != null && !user.emailVerified) {
       var actionCodeSettings = ActionCodeSettings(
-        url: 'https://tiutiu.page.link/verify?email=${user.email}',
+        url: 'https://tiutiu.page.link/verify-email?email=${user.email}',
         androidPackageName: 'com.anjasolutions.tiutiu',
         iOSBundleId: 'com.anjasolutions.tiutiu',
         androidMinimumVersion: '12',
