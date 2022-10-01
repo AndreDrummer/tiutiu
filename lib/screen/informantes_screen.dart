@@ -94,7 +94,7 @@ class _InformantesScreenState extends State<InformantesScreen> {
                       MaterialPageRoute(
                         builder: (context) {
                           return Profile(
-                            TiutiuUser.fromMap(
+                            user: TiutiuUser.fromMap(
                                 snapshot.data!.data() as Map<String, dynamic>),
                           );
                         },
