@@ -6,7 +6,6 @@ enum TiutiuUserEnum {
   createdAt,
   lastLogin,
   photoBACK,
-  password,
   isAnONG,
   avatar,
   email,
@@ -23,7 +22,6 @@ class TiutiuUser {
     this.createdAt,
     this.photoBACK,
     this.lastLogin,
-    this.password,
     this.avatar,
     this.email,
     this.uid,
@@ -42,7 +40,6 @@ class TiutiuUser {
           map[TiutiuUserEnum.createdAt.name],
       createdAt: map[TiutiuUserEnum.createdAt.name],
       photoBACK: map[TiutiuUserEnum.photoBACK.name],
-      password: map[TiutiuUserEnum.password.name],
       email: map[TiutiuUserEnum.email.name],
       uid: map[TiutiuUserEnum.uid.name],
     );
@@ -70,7 +67,6 @@ class TiutiuUser {
   String? createdAt;
   String? lastLogin;
   String? photoBACK;
-  String? password;
   String? avatar;
   String? email;
   bool isAnONG;

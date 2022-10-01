@@ -16,15 +16,15 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class Profile extends StatelessWidget {
-  Profile(this.user);
+  Profile({TiutiuUser? user}) : _user = user ?? tiutiuUserController.tiutiuUser;
 
-  final TiutiuUser user;
+  final TiutiuUser _user;
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: DefaultBasicAppBar(text: user.displayName!),
+        appBar: DefaultBasicAppBar(text: _user.displayName ?? ''),
         body: Center(
           child: Container(
             margin: const EdgeInsets.all(8.0),
@@ -85,7 +85,7 @@ class Profile extends StatelessWidget {
   Widget _roundedPicture() {
     return GestureDetector(
       onTap: () {
-        if (!_itsMe) fullscreenController.openFullScreenMode([user.avatar]);
+        if (!_itsMe) fullscreenController.openFullScreenMode([_user.avatar]);
       },
       child: Card(
         elevation: 8.0,
@@ -96,7 +96,7 @@ class Profile extends StatelessWidget {
           child: CircleAvatar(
             backgroundColor: Colors.transparent,
             child: AssetHandle.getImage(
-              user.avatar,
+              _user.avatar,
               fit: BoxFit.cover,
             ),
             radius: 104.0.h,
@@ -133,7 +133,7 @@ class Profile extends StatelessWidget {
       () => TextFormField(
         initialValue: _itsMe
             ? tiutiuUserController.tiutiuUser.displayName
-            : user.displayName,
+            : _user.displayName,
         style: TextStyles.fontSize22(fontWeight: FontWeight.bold),
         textAlign: TextAlign.center,
         decoration: InputDecoration(
@@ -231,7 +231,7 @@ class Profile extends StatelessWidget {
         child: Column(
           children: [
             AutoSizeText(
-              '${UserStrings.userLastSeen} ${Formatter.getFormattedDateAndTime(user.lastLogin!)}',
+              '${UserStrings.userLastSeen} ${Formatter.getFormattedDateAndTime(_user.lastLogin!)}',
               style: TextStyles.fontSize(fontStyle: FontStyle.italic),
             ),
             Spacer(),
@@ -245,7 +245,7 @@ class Profile extends StatelessWidget {
     return Visibility(
       visible: !_itsMe,
       child: AutoSizeText(
-          '${UserStrings.userSince} ${Formatter.getFormattedDate(user.createdAt!)}'),
+          '${UserStrings.userSince} ${Formatter.getFormattedDate(_user.createdAt!)}'),
     );
   }
 
@@ -254,7 +254,7 @@ class Profile extends StatelessWidget {
       visible: !_itsMe,
       child: StreamBuilder<int>(
         initialData: 1,
-        stream: profileController.getUserPostsCount(user.uid!),
+        stream: profileController.getUserPostsCount(_user.uid!),
         builder: (context, snapshot) {
           final qty = snapshot.data ?? 1;
           return AutoSizeText('$qty ${UserStrings.postsQty(qty)}');
@@ -307,10 +307,10 @@ class Profile extends StatelessWidget {
                 icon: Tiutiu.whatsapp,
                 isToExpand: false,
                 action: () {
-                  print(user.phoneNumber);
-                  print(Formatter.unmaskNumber(user.phoneNumber!));
+                  print(_user.phoneNumber);
+                  print(Formatter.unmaskNumber(_user.phoneNumber!));
                   Launcher.openWhatsApp(
-                    number: Formatter.unmaskNumber(user.phoneNumber!),
+                    number: Formatter.unmaskNumber(_user.phoneNumber!),
                   );
                 },
               ),
@@ -332,5 +332,5 @@ class Profile extends StatelessWidget {
     );
   }
 
-  bool get _itsMe => user.uid == tiutiuUserController.tiutiuUser.uid;
+  bool get _itsMe => _user.uid == tiutiuUserController.tiutiuUser.uid;
 }
