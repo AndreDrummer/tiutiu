@@ -1,7 +1,5 @@
-import 'package:tiutiu/features/auth/views/auth_error.dart';
-import 'package:tiutiu/features/auth/views/auth_hosters.dart';
+import 'package:tiutiu/features/auth/views/authenticated_area.dart';
 import 'package:tiutiu/features/home/widgets/bottom_bar.dart';
-import 'package:tiutiu/features/auth/views/start_screen.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/features/pets/views/pets_list.dart';
 import 'package:tiutiu/features/home/widgets/header.dart';
@@ -19,11 +17,11 @@ class Home extends StatelessWidget with TiuTiuPopUp {
   @override
   Widget build(BuildContext context) {
     final _screens = <Widget>[
-      PetsList(),
-      PetsList(),
-      homeController.isAuthenticated ? Favorites() : StartScreen(),
-      homeController.isAuthenticated ? MyAccount() : AuthErrorPage(),
-      homeController.isAuthenticated ? Favorites() : AuthHosters(),
+      DonateList(),
+      DisappearedList(),
+      AuthenticatedArea(child: Favorites()),
+      AuthenticatedArea(child: MyAccount()),
+      AuthenticatedArea(child: Favorites()),
     ];
 
     return SafeArea(
