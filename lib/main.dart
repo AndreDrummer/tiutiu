@@ -48,9 +48,9 @@ class _TiuTiuAppState extends State<TiuTiuApp> {
       builder: (_, __) => GetMaterialApp(
         title: 'Tiu, tiu - App',
         theme: ThemeData(
-          primaryColor: AppColors.primary,
-          primarySwatch: AppColors.secondary,
           scaffoldBackgroundColor: Color(0XFFF9F9F9),
+          primarySwatch: AppColors.secondary,
+          primaryColor: AppColors.primary,
         ),
         onGenerateRoute: RouterGenerator.onGenerateRoute,
         debugShowCheckedModeBanner: false,

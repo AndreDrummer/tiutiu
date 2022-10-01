@@ -8,13 +8,11 @@ import 'package:flutter/material.dart';
 class LoadingPage extends StatelessWidget {
   LoadingPage({
     this.messageLoading = 'Carregando',
-    this.circle = false,
     this.textColor,
   });
 
   final String messageLoading;
   final Color? textColor;
-  final bool circle;
 
   @override
   Widget build(BuildContext context) {

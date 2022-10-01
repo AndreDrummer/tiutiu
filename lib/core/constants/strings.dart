@@ -1,15 +1,16 @@
 class AppStrings {
   static String get verifyFilters => 'Verifique seus filtros de busca.';
   static String get imagesWarning => 'Imagens meramente ilustrativas';
+  static String get authError =>
+      'Ocorreu um erro com sua autenticação.\nTente sair e entrar novamente.';
   static String get wannaLeave => 'Deseja realmente sair?';
   static String get noPetFound => 'Nenhum PET encontrado';
   static String get iamInterested => 'Estou interessado';
   static String get backToStart => 'Voltar ao início';
   static String get headline2 =>
       'Muitos Pets Lindos\nEstão Aguardando Por Você';
-  static String get genericError =>
-      'Ocorreu um erro ao inicializar\no aplicativo.';
   static String get repeatPassword => 'Repita a senha';
+  static String get genericError => 'Ocorreu um erro';
   static String get headline1 => 'Faça Um Novo Amigo';
   static String get endApp => 'Encerrar aplicação';
   static String get loadingDots => 'Carregando...';
@@ -47,6 +48,8 @@ class AuthStrings {
   static String get continueAnon => 'Continuar anônimamente';
   static String get enterAccount => 'Entrar na sua conta.';
   static String get haveAnAccount => 'Já tem uma conta?';
+  static const String loginInProgress = 'Realizando Login';
+  static const String registeringUser = 'Criando conta';
   static const String authenticanting = 'Autênticando...';
   static const String invalidEmail = 'E-mail inválido';
   static String get createAccount => 'Criar conta';
