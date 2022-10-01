@@ -11,6 +11,7 @@ class AsyncHandler<T> extends StatelessWidget {
     this.onErrorCallback,
     this.loadingMessage,
     this.noResultScreen,
+    this.errorMessage,
     this.errorWidget,
     super.key,
   });
@@ -18,16 +19,21 @@ class AsyncHandler<T> extends StatelessWidget {
   final Widget Function(T data) buildWidget;
   final void Function()? onErrorCallback;
   final AsyncSnapshot<T> snapshot;
-  final bool showLoadingScreen;
   final Widget? noResultScreen;
   final String? loadingMessage;
+  final bool showLoadingScreen;
+  final String? errorMessage;
   final Widget? errorWidget;
 
   Widget _handleSnapshotState() {
     final ConnectionState connectionState = snapshot.connectionState;
 
     if (snapshot.hasError)
-      return errorWidget ?? ErrorPage(onErrorCallback: onErrorCallback);
+      return errorWidget ??
+          ErrorPage(
+            onErrorCallback: onErrorCallback,
+            errorMessage: errorMessage,
+          );
 
     if (connectionState == ConnectionState.waiting && showLoadingScreen)
       return LoadingPage();
