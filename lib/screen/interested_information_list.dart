@@ -89,7 +89,7 @@ class _InterestedListState extends State<InterestedList> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => Profile(interestedUser),
+        builder: (context) => Profile(user: interestedUser),
       ),
     );
   }
