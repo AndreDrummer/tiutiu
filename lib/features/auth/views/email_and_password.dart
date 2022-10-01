@@ -1,3 +1,4 @@
+import 'package:tiutiu/Widgets/load_dark_screen.dart';
 import 'package:tiutiu/features/auth/widgets/image_carousel_background.dart';
 import 'package:tiutiu/features/auth/models/email_password_auth.dart';
 import 'package:tiutiu/features/auth/widgets/dark_over.dart';
@@ -56,6 +57,10 @@ class EmailAndPassword extends StatelessWidget {
               ),
             ),
           ),
+          LoadDarkScreen(
+            visible: authController.isLoading,
+            message: 'Realizando login',
+          )
         ],
       ),
     );
@@ -64,7 +69,7 @@ class EmailAndPassword extends StatelessWidget {
   AnimatedOpacity _createAccountHeadline() {
     return AnimatedOpacity(
       opacity: authController.isCreatingNewAccount ? 1 : 0,
-      duration: Duration(seconds: 2),
+      duration: Duration(milliseconds: 1500),
       child: Visibility(
         visible: authController.isCreatingNewAccount,
         child: Align(
@@ -81,7 +86,7 @@ class EmailAndPassword extends StatelessWidget {
   AnimatedOpacity _doLoginHeadline() {
     return AnimatedOpacity(
       opacity: !authController.isCreatingNewAccount ? 1 : 0,
-      duration: Duration(seconds: 2),
+      duration: Duration(milliseconds: 1500),
       child: Visibility(
         visible: !authController.isCreatingNewAccount,
         child: Align(
@@ -131,7 +136,7 @@ class EmailAndPassword extends StatelessWidget {
   AnimatedOpacity _repeatPasswordInput() {
     return AnimatedOpacity(
       opacity: authController.isCreatingNewAccount ? 1 : 0,
-      duration: Duration(seconds: 2),
+      duration: Duration(milliseconds: 1500),
       child: Visibility(
         visible: authController.isCreatingNewAccount,
         child: OutlinedInputText(

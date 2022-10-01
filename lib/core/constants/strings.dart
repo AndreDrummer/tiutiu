@@ -11,7 +11,6 @@ class AppStrings {
       'Ocorreu um erro ao inicializar\no aplicativo.';
   static String get repeatPassword => 'Repita a senha';
   static String get headline1 => 'Faça Um Novo Amigo';
-  static String get disappeareds => 'Desaparecidos';
   static String get endApp => 'Encerrar aplicação';
   static String get loadingDots => 'Carregando...';
   static String get interesteds => 'interessados';
@@ -26,6 +25,7 @@ class AppStrings {
   static String get cancel => 'Cancelar';
   static String get password => 'Senha';
   static String get adopte => 'Adotar';
+  static String get find => 'Encontrar';
   static String get name => 'Tiu, tiu';
   static String get email => 'E-mail';
   static String get post => 'Postar';

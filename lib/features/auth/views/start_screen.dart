@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:tiutiu/features/auth/widgets/image_carousel_background.dart';
 import 'package:tiutiu/features/auth/widgets/dark_over.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -15,65 +17,67 @@ import 'package:get/get.dart';
 class StartScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        ImageCarouselBackground(),
-        DarkOver(),
-        Positioned(
-          bottom: 8.0.h,
-          right: 0.0.h,
-          left: 0.0.h,
-          child: Container(
-            alignment: Alignment.center,
-            height: 300,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                AutoSizeText(
-                  AppStrings.headline1,
-                  textAlign: TextAlign.center,
-                  style: TextStyles.fontSize(
-                    fontWeight: FontWeight.bold,
-                    color: AppColors.white,
-                    fontSize: 32.0.sp,
+    return Scaffold(
+      body: Stack(
+        children: [
+          ImageCarouselBackground(),
+          DarkOver(),
+          Positioned(
+            bottom: 8.0.h,
+            right: 0.0.h,
+            left: 0.0.h,
+            child: Container(
+              alignment: Alignment.center,
+              height: 300,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  AutoSizeText(
+                    AppStrings.headline1,
+                    textAlign: TextAlign.center,
+                    style: TextStyles.fontSize(
+                      fontWeight: FontWeight.bold,
+                      color: AppColors.white,
+                      fontSize: 32.0.sp,
+                    ),
                   ),
-                ),
-                SizedBox(height: 24.0.h),
-                AutoSizeText(
-                  AppStrings.headline2,
-                  textAlign: TextAlign.center,
-                  style: TextStyles.fontSize(
-                    fontWeight: FontWeight.w200,
-                    color: AppColors.white,
-                    fontSize: 20.0.sp,
+                  SizedBox(height: 24.0.h),
+                  AutoSizeText(
+                    AppStrings.headline2,
+                    textAlign: TextAlign.center,
+                    style: TextStyles.fontSize(
+                      fontWeight: FontWeight.w200,
+                      color: AppColors.white,
+                      fontSize: 20.0.sp,
+                    ),
                   ),
-                ),
-                Spacer(),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                  child: ButtonWide(
-                    text: AppStrings.getStarted,
-                    color: AppColors.primary,
-                    action: () {
-                      homeController.showAuthHostersInFullScreen = true;
-                      Get.toNamed(Routes.authHosters);
-                    },
+                  Spacer(),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                    child: ButtonWide(
+                      text: AppStrings.getStarted,
+                      color: AppColors.primary,
+                      action: () {
+                        homeController.showAuthHostersInFullScreen = true;
+                        Get.toNamed(Routes.authHosters);
+                      },
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
-        ),
-        Positioned(
-          top: 16.0.h,
-          right: 8.0.w,
-          left: 8.0.w,
-          child: SizedBox(
-            width: Get.width,
-            child: TiutiuLogo(),
+          Positioned(
+            top: Platform.isIOS ? 32.0.h : 16.0.h,
+            right: 8.0.w,
+            left: 8.0.w,
+            child: SizedBox(
+              width: Get.width,
+              child: TiutiuLogo(),
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
