@@ -57,7 +57,6 @@ class _InformantesScreenState extends State<InformantesScreen> {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return LoadingPage(
               messageLoading: 'Carregando lista de informantes',
-              circle: true,
             );
           }
 
