@@ -56,23 +56,21 @@ class AuthController extends GetxController {
     bool success = false;
 
     if (emailAndPasswordAuth.password == emailAndPasswordAuth.repeatPassword) {
+      isLoading = true;
       success = await _authService.createUserWithEmailAndPassword(
         password: emailAndPasswordAuth.password!,
         email: emailAndPasswordAuth.email!,
       );
 
-      if (success)
-        debugPrint('>> Conta criada com sucesso!');
-      else
-        debugPrint('>> Falha ao criar nova conta.');
-
       if (success) saveEmailAndPasswordAuthData();
+      isLoading = false;
     }
 
     return success;
   }
 
   Future<bool> signInWithEmailAndPassword() async {
+    isLoading = true;
     final success = await _authService.signInWithEmailAndPassword(
       password: emailAndPasswordAuth.password!,
       email: emailAndPasswordAuth.email!,
@@ -80,6 +78,7 @@ class AuthController extends GetxController {
 
     if (success) saveEmailAndPasswordAuthData();
     debugPrint('${success ? 'Successfully' : 'Not'} authenticated');
+    isLoading = false;
     return success;
   }
 
@@ -121,6 +120,7 @@ class AuthController extends GetxController {
 
   Future<void> signOut() async {
     await _authService.signOut();
+    clearEmailAndPassword();
     clearAllAuthData();
     print('Deslogado!');
   }
