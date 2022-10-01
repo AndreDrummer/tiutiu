@@ -1,5 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
+import 'package:tiutiu/features/system/controllers.dart';
 
 enum CardVisibilityKind {
   banner,
@@ -20,7 +21,6 @@ class HomeController extends GetxController {
   ScrollController get scrollController => _scrollController;
   bool get isAppBarCollapsed => _isAppBarCollapsed.value;
   int get bottomBarIndex => _bottomBarIndex.value;
-  bool get isAuthenticated => false;
 
   void set showAuthHostersInFullScreen(bool value) {
     _showAuthHostersInFullScreen(value);
@@ -31,7 +31,7 @@ class HomeController extends GetxController {
   }
 
   void set bottomBarIndex(int? index) {
-    if (!isAuthenticated) {
+    if (authController.userExists) {
       showAuthHostersInFullScreen = false;
     }
 

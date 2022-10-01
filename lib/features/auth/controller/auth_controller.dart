@@ -1,15 +1,12 @@
-import 'package:flutter/foundation.dart';
 import 'package:tiutiu/features/auth/models/email_password_auth.dart';
 import 'package:tiutiu/core/local_storage/local_storage_keys.dart';
 import 'package:tiutiu/features/auth/service/auth_service.dart';
-import 'package:tiutiu/core/constants/firebase_env_path.dart';
-
+import 'package:tiutiu/core/local_storage/local_storage.dart';
 import 'package:tiutiu/core/constants/images_assets.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:tiutiu/core/data/store_login.dart';
+import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 
-enum AuthEnum {
+enum AuthKeys {
   password,
   token,
   email,
@@ -25,26 +22,35 @@ class AuthController extends GetxController {
       EmailAndPasswordAuth().obs;
   final RxBool _isCreatingNewAccount = false.obs;
   final RxBool _isShowingPassword = false.obs;
+  final RxBool _isLoading = false.obs;
 
   EmailAndPasswordAuth get emailAndPasswordAuth => _emailAndPasswordAuth.value;
   bool get isCreatingNewAccount => _isCreatingNewAccount.value;
   bool get isShowingPassword => _isShowingPassword.value;
   bool get userExists => _authService.userExists;
+  bool get isLoading => _isLoading.value;
+
+  void set _setEmailAndPasswordAuth(EmailAndPasswordAuth newValue) {
+    _emailAndPasswordAuth(newValue);
+  }
+
+  void set isCreatingNewAccount(bool value) => _isCreatingNewAccount(value);
+  void set isShowingPassword(bool value) => _isShowingPassword(value);
+  void set isLoading(bool value) => _isLoading(value);
 
   void clearEmailAndPassword() {
     _emailAndPasswordAuth(EmailAndPasswordAuth());
   }
 
   void updateEmailAndPasswordAuth(
-      EmailAndPasswordAuthEnum property, dynamic data) {
+    EmailAndPasswordAuthEnum property,
+    dynamic data,
+  ) {
     final map = emailAndPasswordAuth.toMap();
     map[property.name] = data;
 
-    _emailAndPasswordAuth(EmailAndPasswordAuth.fromMap(map));
+    _setEmailAndPasswordAuth = EmailAndPasswordAuth().fromMap(map);
   }
-
-  void set isCreatingNewAccount(bool value) => _isCreatingNewAccount(value);
-  void set isShowingPassword(bool value) => _isShowingPassword(value);
 
   Future<bool> createUserWithEmailAndPassword() async {
     bool success = false;
@@ -60,91 +66,69 @@ class AuthController extends GetxController {
       else
         debugPrint('>> Falha ao criar nova conta.');
 
-      if (success) {
-        Store.saveMap(
-          LocalStorageKey.authData,
-          {
-            AuthEnum.password.name: emailAndPasswordAuth.password!,
-            AuthEnum.email.name: emailAndPasswordAuth.email!,
-          },
-        );
-      }
+      if (success) saveEmailAndPasswordAuthData();
     }
 
     return success;
   }
 
-  Future<void> signInWithEmailAndPassword() async {
+  Future<bool> signInWithEmailAndPassword() async {
     final success = await _authService.signInWithEmailAndPassword(
       password: emailAndPasswordAuth.password!,
       email: emailAndPasswordAuth.email!,
     );
 
-    if (success) {
-      Store.saveMap(
-        LocalStorageKey.authData,
-        {
-          AuthEnum.password.name: emailAndPasswordAuth.password!,
-          AuthEnum.email.name: emailAndPasswordAuth.email!,
-        },
-      );
-    }
-  }
-
-  void signOut() async {
-    _authService.signOut();
-    await Store.remove('userLoggedWithEmailPassword');
-    await Store.remove('userLoggedWithFacebook');
-    print('Deslogado!');
-  }
-
-  Future<void> alreadyRegistered() async {
-    final CollectionReference usersEntrepreneur =
-        FirebaseFirestore.instance.collection(FirebaseEnvPath.users);
-    String id = 'firebaseUser!.uid';
-    DocumentSnapshot doc = await usersEntrepreneur.doc(id).get();
-
-    if (doc.data() != null) {
-      if ((doc.data() as Map<String, dynamic>)['uid'].toString() == id) {
-        // changeRegistered(true);
-      }
-      return Future.value();
-    }
-
-    // changeRegistered(false);
-    return Future.value();
+    if (success) saveEmailAndPasswordAuthData();
+    debugPrint('${success ? 'Successfully' : 'Not'} authenticated');
+    return success;
   }
 
   Future<void> passwordReset(String email) async {
     await _authService.passwordReset(email);
   }
 
-  Future<void> tryAutoLoginIn() async {
-    if (_authService.userExists) {}
+  Future<bool> tryAutoLoginIn() async {
+    return await trySignInWithEmailAndPassword();
+  }
 
-    var userLoggedWithEmailPassword =
-        await Store.getMap('userLoggedWithEmailPassword');
-    var userLoggedWithFacebook = await Store.getMap('userLoggedWithFacebook');
+  Future<bool> trySignInWithEmailAndPassword() async {
+    final emailPasswordAuthData = await LocalStorage.getDataUnderKey(
+      key: LocalStorageKey.emailPasswordAuthData,
+      mapper: EmailAndPasswordAuth(),
+    ) as EmailAndPasswordAuth?;
 
-    if (userLoggedWithEmailPassword != null) {
-      print('Login com email e senha');
-      final email = userLoggedWithEmailPassword[AuthEnum.email.name];
-      final password = userLoggedWithEmailPassword[AuthEnum.password.name];
-      updateEmailAndPasswordAuth(EmailAndPasswordAuthEnum.password, password);
-      updateEmailAndPasswordAuth(EmailAndPasswordAuthEnum.email, email);
-      await signInWithEmailAndPassword();
-    } else if (userLoggedWithFacebook != null) {
-      print('Login com facebook');
-      final facebookToken = userLoggedWithFacebook[AuthEnum.token.name];
-      await _authService.signInWithFacebook(token: facebookToken);
-    } else {
-      print('Login com google');
-      await _authService.loginWithGoogle(autologin: true);
+    if (emailPasswordAuthData != null) {
+      _setEmailAndPasswordAuth = EmailAndPasswordAuth(
+        password: (emailPasswordAuthData).password,
+        email: emailPasswordAuthData.email,
+      );
 
-      return Future.value();
+      return signInWithEmailAndPassword();
     }
 
-    return Future.value();
+    return false;
+  }
+
+  void saveEmailAndPasswordAuthData() {
+    LocalStorage.setDataUnderKey(
+      key: LocalStorageKey.emailPasswordAuthData,
+      data: {
+        AuthKeys.password.name: emailAndPasswordAuth.password!,
+        AuthKeys.email.name: emailAndPasswordAuth.email!,
+      },
+    );
+  }
+
+  Future<void> signOut() async {
+    await _authService.signOut();
+    clearAllAuthData();
+    print('Deslogado!');
+  }
+
+  void clearAllAuthData() {
+    LocalStorageKey.values.forEach((key) {
+      LocalStorage.deleteDataUnderKey(key);
+    });
   }
 
   final _startScreenImages = [

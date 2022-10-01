@@ -14,9 +14,9 @@ class BottomBar extends StatelessWidget {
       () => BottomNavigationBar(
           onTap: (index) => homeController.bottomBarIndex = index,
           currentIndex: homeController.bottomBarIndex,
+          selectedItemColor: AppColors.primary,
           unselectedItemColor: AppColors.white,
           type: BottomNavigationBarType.fixed,
-          selectedItemColor: AppColors.white,
           backgroundColor: Colors.black,
           showSelectedLabels: true,
           items: bottomBarLabels
@@ -36,7 +36,7 @@ class BottomBar extends StatelessWidget {
 
   final List<String> bottomBarLabels = [
     AppStrings.adopte,
-    AppStrings.disappeareds,
+    AppStrings.find,
     AppStrings.post,
     AppStrings.profile,
     BottomBarStrings.favorites,
@@ -44,7 +44,7 @@ class BottomBar extends StatelessWidget {
 
   final List<IconData> bottomBarIcons = [
     FontAwesomeIcons.paw,
-    FontAwesomeIcons.question,
+    FontAwesomeIcons.searchengin,
     FontAwesomeIcons.squarePlus,
     FontAwesomeIcons.user,
     Icons.favorite,
