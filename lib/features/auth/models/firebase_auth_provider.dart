@@ -5,9 +5,12 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 
+final String _iosClientId =
+    '791022711249-jva0r9f0eddfo4skv18c0i1e26clq7pd.apps.googleusercontent.com';
+
 class FirebaseAuthProvider implements AuthProviders {
+  final GoogleSignIn _googleSignIn = GoogleSignIn(clientId: _iosClientId);
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
-  final GoogleSignIn _googleSignIn = GoogleSignIn();
   FirebaseAuth get firebaseAuth => _firebaseAuth;
 
   @override
@@ -60,7 +63,7 @@ class FirebaseAuthProvider implements AuthProviders {
   @override
   Future<void> signOut() async {
     await firebaseAuth.signOut();
-    await _googleSignIn.signOut();
+    if (await _googleSignIn.isSignedIn()) await _googleSignIn.signOut();
   }
 
   @override
