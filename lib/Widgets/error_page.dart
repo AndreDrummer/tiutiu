@@ -9,11 +9,13 @@ import 'package:flutter/material.dart';
 class ErrorPage extends StatelessWidget {
   const ErrorPage({
     this.onErrorCallback,
+    this.errorMessage,
     this.error,
     super.key,
   });
 
   final void Function()? onErrorCallback;
+  final String? errorMessage;
   final dynamic error;
 
   @override
@@ -35,9 +37,9 @@ class ErrorPage extends StatelessWidget {
             Padding(
               padding: EdgeInsets.symmetric(vertical: 32.0.h),
               child: AutoSizeText(
-                AppStrings.genericError,
-                textAlign: TextAlign.center,
                 style: TextStyles.fontSize16(color: AppColors.white),
+                errorMessage ?? AppStrings.genericError,
+                textAlign: TextAlign.center,
               ),
             ),
             Spacer(),

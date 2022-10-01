@@ -170,7 +170,6 @@ class _InterestedListState extends State<InterestedList> {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return LoadingPage(
                     messageLoading: 'Carregando lista de interessados',
-                    circle: true,
                   );
                 }
 
