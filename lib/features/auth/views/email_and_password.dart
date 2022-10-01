@@ -1,12 +1,14 @@
-import 'package:tiutiu/Widgets/load_dark_screen.dart';
 import 'package:tiutiu/features/auth/widgets/image_carousel_background.dart';
 import 'package:tiutiu/features/auth/models/email_password_auth.dart';
 import 'package:tiutiu/features/auth/widgets/dark_over.dart';
 import 'package:tiutiu/features/auth/widgets/headline.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:tiutiu/core/utils/routes/routes_name.dart';
 import 'package:tiutiu/features/system/controllers.dart';
+import 'package:tiutiu/core/mixins/tiu_tiu_pop_up.dart';
 import 'package:tiutiu/Widgets/outline_input_text.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
+import 'package:tiutiu/Widgets/load_dark_screen.dart';
 import 'package:tiutiu/core/constants/strings.dart';
 import 'package:tiutiu/core/utils/validators.dart';
 import 'package:tiutiu/Widgets/cancel_button.dart';
@@ -16,7 +18,7 @@ import 'package:tiutiu/Widgets/button.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class EmailAndPassword extends StatelessWidget {
+class EmailAndPassword extends StatelessWidget with TiuTiuPopUp {
   EmailAndPassword({super.key});
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -26,42 +28,46 @@ class EmailAndPassword extends StatelessWidget {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: AppColors.primary.withAlpha(100),
-      body: Stack(
-        children: [
-          ImageCarouselBackground(),
-          DarkOver(),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Obx(
-              () => Form(
-                key: _formKey,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    SizedBox(height: 32.0.h),
-                    TiutiuLogo(),
-                    Spacer(),
-                    _createAccountHeadline(),
-                    _doLoginHeadline(),
-                    SizedBox(height: 16.0.h),
-                    _emailInput(),
-                    _passwordInput(),
-                    _repeatPasswordInput(),
-                    _createAccountTip(),
-                    Spacer(),
-                    _submitButton(),
-                    _cancelButton(),
-                    SizedBox(height: 8.0.h),
-                  ],
+      body: Obx(
+        () => Stack(
+          children: [
+            ImageCarouselBackground(),
+            DarkOver(),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Obx(
+                () => Form(
+                  key: _formKey,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SizedBox(height: 32.0.h),
+                      TiutiuLogo(),
+                      Spacer(),
+                      _createAccountHeadline(),
+                      _doLoginHeadline(),
+                      SizedBox(height: 16.0.h),
+                      _emailInput(),
+                      _passwordInput(),
+                      _repeatPasswordInput(),
+                      _createAccountTip(),
+                      Spacer(),
+                      _submitButton(context),
+                      _cancelButton(),
+                      SizedBox(height: 8.0.h),
+                    ],
+                  ),
                 ),
               ),
             ),
-          ),
-          LoadDarkScreen(
-            visible: authController.isLoading,
-            message: 'Realizando login',
-          )
-        ],
+            LoadDarkScreen(
+              message: authController.isCreatingNewAccount
+                  ? AuthStrings.registeringUser
+                  : AuthStrings.loginInProgress,
+              visible: authController.isLoading,
+            )
+          ],
+        ),
       ),
     );
   }
@@ -201,16 +207,20 @@ class EmailAndPassword extends StatelessWidget {
     );
   }
 
-  ButtonWide _submitButton() {
+  ButtonWide _submitButton(BuildContext context) {
     return ButtonWide(
       text: authController.isCreatingNewAccount
           ? AuthStrings.createAccount
           : AuthStrings.enter,
       isToExpand: true,
-      action: () {
+      action: () async {
+        print('Ok');
         if (_formKey.currentState!.validate()) {
-          debugPrint('>> tudo ok');
-          authController.createUserWithEmailAndPassword();
+          if (authController.isCreatingNewAccount) {
+            _createUserWithEmailAndPassword();
+          } else {
+            _signInWithEmailAndPassword();
+          }
         }
       },
     );
@@ -225,5 +235,25 @@ class EmailAndPassword extends StatelessWidget {
         },
       ),
     );
+  }
+
+  Future<void> _createUserWithEmailAndPassword() async {
+    try {
+      await authController.createUserWithEmailAndPassword().then((result) {
+        if (result) Get.toNamed(Routes.home);
+      });
+    } catch (exception) {
+      showPopUp(Get.context!, exception.toString(), danger: true);
+    }
+  }
+
+  Future<void> _signInWithEmailAndPassword() async {
+    try {
+      await authController.signInWithEmailAndPassword().then((result) {
+        if (result) Get.toNamed(Routes.home);
+      });
+    } catch (exception) {
+      showPopUp(Get.context!, exception.toString(), danger: true);
+    }
   }
 }
