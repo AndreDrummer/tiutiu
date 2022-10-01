@@ -741,7 +741,7 @@ class _AppSettingsState extends State<AppSettings> {
               message: !deleting
                   ? 'Salvando informações'
                   : 'Deletando conta Tiu, tiu...',
-              show: isSavingForm,
+              visible: isSavingForm,
             ),
           ],
         ),

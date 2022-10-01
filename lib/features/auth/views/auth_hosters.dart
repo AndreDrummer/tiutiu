@@ -151,7 +151,7 @@ class AuthHosters extends StatelessWidget {
         AuthStrings.continueAnon,
       ),
       onPressed: () {
-        Get.back();
+        Get.toNamed(Routes.home);
         homeController.bottomBarIndex = 0;
       },
     );

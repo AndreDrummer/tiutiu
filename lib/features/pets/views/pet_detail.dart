@@ -58,7 +58,7 @@ class PetDetails extends StatelessWidget {
             Positioned(child: _appBar(pet.name!)),
             LoadDarkScreen(
               message: petsController.loadingText,
-              show: petsController.isLoading,
+              visible: petsController.isLoading,
             )
           ],
         ),

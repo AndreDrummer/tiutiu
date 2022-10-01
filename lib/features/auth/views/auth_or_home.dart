@@ -1,8 +1,11 @@
-import 'package:tiutiu/features/auth/views/auth_error.dart';
+import 'package:tiutiu/core/local_storage/local_storage_keys.dart';
+import 'package:tiutiu/core/local_storage/local_storage.dart';
+import 'package:tiutiu/features/auth/views/start_screen.dart';
+import 'package:tiutiu/core/utils/routes/routes_name.dart';
 import 'package:tiutiu/features/system/controllers.dart';
+import 'package:tiutiu/core/widgets/async_handler.dart';
 import 'package:tiutiu/features/home/views/home.dart';
 import 'package:tiutiu/screen/no_connection.dart';
-import 'package:tiutiu/Widgets/loading_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -15,20 +18,43 @@ class _AuthOrHomeState extends State<AuthOrHome> {
   @override
   Widget build(BuildContext context) {
     return Obx(
-      () => !system.internetConnected
-          ? NoConnection()
-          : FutureBuilder(
-              future: authController.tryAutoLoginIn(),
-              builder: (_, AsyncSnapshot snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return LoadingPage();
-                } else if (snapshot.hasError) {
-                  return AuthErrorPage();
-                } else {
-                  return Home();
-                }
+      () => Visibility(
+        replacement: NoConnection(),
+        visible: system.internetConnected,
+        child: FutureBuilder(
+          future: authController.tryAutoLoginIn(),
+          builder: (_, AsyncSnapshot snapshot) {
+            return AsyncHandler(
+              onErrorCallback: () async {
+                await authController.signOut().then((value) {
+                  Get.offAllNamed(Routes.home);
+                });
               },
-            ),
+              snapshot: snapshot,
+              buildWidget: (_) {
+                return FutureBuilder(
+                  future: LocalStorage.getBooleanKey(
+                    key: LocalStorageKey.firstOpen,
+                  ),
+                  builder: (_, AsyncSnapshot<bool> snapshot) {
+                    return AsyncHandler<bool>(
+                      snapshot: snapshot,
+                      buildWidget: (firstOpen) {
+                        LocalStorage.setBooleanUnderKey(
+                          key: LocalStorageKey.firstOpen,
+                          value: false,
+                        );
+
+                        return firstOpen ? StartScreen() : Home();
+                      },
+                    );
+                  },
+                );
+              },
+            );
+          },
+        ),
+      ),
     );
   }
 }
