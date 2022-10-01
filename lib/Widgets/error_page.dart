@@ -1,39 +1,59 @@
-import 'package:auto_size_text/auto_size_text.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:tiutiu/core/constants/text_styles.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
-import 'package:tiutiu/core/constants/images_assets.dart';
+import 'package:tiutiu/core/constants/strings.dart';
+import 'package:auto_size_text/auto_size_text.dart';
+import 'package:tiutiu/Widgets/tiutiu_logo.dart';
+import 'package:flutter/material.dart';
 
 class ErrorPage extends StatelessWidget {
-  ErrorPage({
-    this.errorText =
-        'Ocorreu um erro Inesperado! Tente sair e entrar novamente. Se não resolver, aguarde nova atualização do app.',
+  const ErrorPage({
+    this.onErrorCallback,
+    this.error,
+    super.key,
   });
 
-  final String errorText;
+  final void Function()? onErrorCallback;
+  final dynamic error;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black87,
+      backgroundColor: AppColors.primary,
       body: Center(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            CircleAvatar(
-              radius: 80,
-              child: ClipOval(
-                child: Image.asset(ImageAssets.sadPanda),
+            Spacer(),
+            TiutiuLogo(),
+            Spacer(),
+            Icon(
+              color: AppColors.white,
+              Icons.info,
+              size: 24.0.h,
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 32.0.h),
+              child: AutoSizeText(
+                AppStrings.genericError,
+                textAlign: TextAlign.center,
+                style: TextStyles.fontSize16(color: AppColors.white),
               ),
             ),
-            SizedBox(height: 30.0),
-            AutoSizeText(
-              errorText,
-              textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.headline4!.copyWith(
-                    color: AppColors.white,
-                  ),
-            )
+            Spacer(),
+            TextButton.icon(
+              icon: Icon(
+                color: AppColors.white,
+                Icons.exit_to_app,
+                size: 14.0.h,
+              ),
+              label: AutoSizeText(
+                AppStrings.leave,
+                style: TextStyles.fontSize16(color: AppColors.white),
+              ),
+              onPressed: onErrorCallback,
+            ),
+            Spacer(),
           ],
         ),
       ),
