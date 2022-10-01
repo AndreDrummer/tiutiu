@@ -2,7 +2,6 @@ import 'package:tiutiu/features/auth/interface/auth_providers.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:tiutiu/core/Exceptions/titiu_exceptions.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:tiutiu/core/data/store_login.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 
@@ -118,11 +117,7 @@ class FirebaseAuthProvider implements AuthProviders {
         facebookAuthCredential =
             FacebookAuthProvider.credential(result.accessToken!.token);
 
-        if (facebookAuthCredential != null) {
-          Store.saveMap('userLoggedWithFacebook', {
-            'token': result.accessToken!.token,
-          });
-        }
+        if (facebookAuthCredential != null) {}
       } else {
         facebookAuthCredential = FacebookAuthProvider.credential(token);
       }

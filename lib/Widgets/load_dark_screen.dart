@@ -7,34 +7,35 @@ import 'package:flutter/material.dart';
 class LoadDarkScreen extends StatelessWidget {
   LoadDarkScreen({
     this.message = 'Aguarde',
-    this.show = true,
+    this.visible = true,
   });
   final String message;
-  final bool show;
+  final bool visible;
 
   @override
   Widget build(BuildContext context) {
-    return show
-        ? Container(
-            height: MediaQuery.of(context).size.height,
-            width: MediaQuery.of(context).size.width,
-            color: Colors.black54,
-            child: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  LoadingBumpingLine.circle(
-                    backgroundColor: AppColors.white,
-                  ),
-                  SizedBox(height: 15),
-                  AutoSizeText(
-                    message,
-                    style: TextStyles.fontSize12(color: AppColors.white),
-                  )
-                ],
+    return Visibility(
+      visible: visible,
+      child: Container(
+        height: MediaQuery.of(context).size.height,
+        width: MediaQuery.of(context).size.width,
+        color: Colors.black87,
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              LoadingFadingLine.circle(
+                backgroundColor: AppColors.secondary,
               ),
-            ),
-          )
-        : Container();
+              SizedBox(height: 15),
+              AutoSizeText(
+                message,
+                style: TextStyles.fontSize12(color: AppColors.white),
+              )
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }
