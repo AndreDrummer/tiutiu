@@ -101,7 +101,7 @@ class OtherFunctions {
   }
 
   static void navigateToAnnouncerDetail(TiutiuUser user) {
-    Get.to(Profile(user));
+    Get.to(() => Profile(user: user));
   }
 
   static IconData getIconFromPetType(String type) {
