@@ -1,30 +1,39 @@
 import 'package:tiutiu/Widgets/loading_page.dart';
+import 'package:tiutiu/Widgets/error_page.dart';
 import 'package:tiutiu/Widgets/empty_list.dart';
 import 'package:flutter/material.dart';
 
-class StreamHandler<T> extends StatelessWidget {
-  const StreamHandler({
+class AsyncHandler<T> extends StatelessWidget {
+  const AsyncHandler({
     this.showLoadingScreen = true,
-    required this.loadingMessage,
     required this.buildWidget,
     required this.snapshot,
+    this.onErrorCallback,
+    this.loadingMessage,
+    this.noResultScreen,
+    this.errorWidget,
     super.key,
   });
 
   final Widget Function(T data) buildWidget;
+  final void Function()? onErrorCallback;
   final AsyncSnapshot<T> snapshot;
   final bool showLoadingScreen;
-  final String loadingMessage;
+  final Widget? noResultScreen;
+  final String? loadingMessage;
+  final Widget? errorWidget;
 
   Widget _handleSnapshotState() {
     final ConnectionState connectionState = snapshot.connectionState;
 
-    if (snapshot.hasError) return ErrorWidget(Exception(snapshot.error));
+    if (snapshot.hasError)
+      return errorWidget ?? ErrorPage(onErrorCallback: onErrorCallback);
 
     if (connectionState == ConnectionState.waiting && showLoadingScreen)
       return LoadingPage();
 
-    if (!snapshot.hasData || snapshot.data == null) return EmptyListScreen();
+    if ((!snapshot.hasData || snapshot.data == null))
+      return noResultScreen ?? EmptyListScreen();
 
     return buildWidget(snapshot.data!);
   }

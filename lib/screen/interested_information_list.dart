@@ -250,7 +250,7 @@ class _InterestedListState extends State<InterestedList> {
                       },
                     ),
                     LoadDarkScreen(
-                        show: isSinalizing, message: 'Sinalizando adoção..'),
+                        visible: isSinalizing, message: 'Sinalizando adoção..'),
                   ],
                 );
               },
@@ -258,7 +258,7 @@ class _InterestedListState extends State<InterestedList> {
           ),
           LoadDarkScreen(
             message: 'Abrindo chat...',
-            show: isOpeningChat,
+            visible: isOpeningChat,
           )
         ],
       ),

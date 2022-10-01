@@ -441,7 +441,7 @@ class _RegisterState extends State<Register> {
               ),
             ),
           ),
-          LoadDarkScreen(show: finishing, message: 'Finalizando cadastro'),
+          LoadDarkScreen(visible: finishing, message: 'Finalizando cadastro'),
         ],
       ),
       bottomNavigationBar: ButtonWide(
@@ -456,7 +456,7 @@ class _RegisterState extends State<Register> {
                     setFinishing(true);
                     await save();
                     setFinishing(false);
-                    await authController.alreadyRegistered();
+
                     Navigator.pushReplacementNamed(
                       context,
                       Routes.authOrHome,
