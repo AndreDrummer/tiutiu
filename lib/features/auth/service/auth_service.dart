@@ -1,7 +1,9 @@
 import 'package:tiutiu/features/auth/models/firebase_auth_provider.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class AuthService {
-  FirebaseAuthProvider _firebaseAuthProvider = FirebaseAuthProvider();
+  FirebaseAuthProvider _firebaseAuthProvider = FirebaseAuthProvider.instance;
+  User? get authUser => FirebaseAuthProvider.instance.firebaseAuthUser;
 
   Future<bool> loginWithGoogle({bool autologin = false}) async {
     return await _firebaseAuthProvider.loginWithGoogle(autologin: autologin);
@@ -20,7 +22,7 @@ class AuthService {
       email: email,
     );
 
-    return _firebaseAuthProvider.firebaseAuth.currentUser != null;
+    return authUser != null;
   }
 
   Future<bool> signInWithEmailAndPassword({
@@ -32,7 +34,7 @@ class AuthService {
       email: email,
     );
 
-    return _firebaseAuthProvider.firebaseAuth.currentUser != null;
+    return authUser != null;
   }
 
   Future<void> passwordReset(String email) async {
@@ -47,5 +49,5 @@ class AuthService {
     await _firebaseAuthProvider.signOut();
   }
 
-  bool get userExists => _firebaseAuthProvider.firebaseAuth.currentUser != null;
+  bool get userExists => authUser != null;
 }

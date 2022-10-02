@@ -49,32 +49,41 @@ class _AvatarProfileState extends State<AvatarProfile> with Pickers {
                 );
               }
             },
-      child: Stack(
-        children: [
-          CircleAvatar(
-            backgroundColor: AppColors.secondary,
-            radius: widget.radius ?? 40.0.h,
-            child: ClipOval(
-              child: AssetHandle.getImage(widget.avatarPath, isUserImage: true),
-            ),
+      child: Card(
+        elevation: 8.0,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(
+            Radius.circular(1000),
           ),
-          Visibility(
-            visible: isEditingImage,
-            child: _avatarProfileBlur(
-              onRemove: () {
-                setState(() {
-                  isEditingImage = false;
-                  widget.onAssetRemoved?.call();
-                });
-              },
-              onClose: () {
-                setState(() {
-                  isEditingImage = false;
-                });
-              },
+        ),
+        child: Stack(
+          children: [
+            CircleAvatar(
+              backgroundColor: AppColors.secondary,
+              radius: widget.radius ?? 40.0.h,
+              child: ClipOval(
+                child:
+                    AssetHandle.getImage(widget.avatarPath, isUserImage: true),
+              ),
             ),
-          ),
-        ],
+            Visibility(
+              visible: isEditingImage,
+              child: _avatarProfileBlur(
+                onRemove: () {
+                  setState(() {
+                    isEditingImage = false;
+                    widget.onAssetRemoved?.call();
+                  });
+                },
+                onClose: () {
+                  setState(() {
+                    isEditingImage = false;
+                  });
+                },
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
