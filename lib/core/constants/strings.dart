@@ -12,7 +12,10 @@ class AppStrings {
   static String get repeatPassword => 'Repita a senha';
   static String get genericError => 'Ocorreu um erro';
   static String get headline1 => 'Faça Um Novo Amigo';
+  static String get takeApicture => 'Tirar uma foto';
+  static String get recordVideo => 'Gravar um vídeo';
   static String get endApp => 'Encerrar aplicação';
+  static String get openGallery => 'Abrir galeria';
   static String get loadingDots => 'Carregando...';
   static String get interesteds => 'interessados';
   static String get provideInfo => 'Informar';
@@ -126,4 +129,19 @@ class PetDetailsString {
   static String get color => 'Cor';
   static String get type => 'Tipo';
   static String get sex => 'Sexo';
+}
+
+class MyProfileStrings {
+  static const String allowContactViaWhatsApp = 'Permitir contato via WhatsApp';
+  static const String howCallYou = 'Como gostaria de ser chamado?';
+  static const String completeProfile = 'Completar perfil';
+  static const String deleteAccount = 'Apagar minha conta';
+  static const String editProfile = 'Editar perfil';
+  static const String myPosts = 'Minhas Postagens';
+  static const String myAuctions = 'Meus Leilões';
+  static const String settings = 'Configurações';
+  static const String whatsapp = 'Seu WhatsApp';
+  static const String favorites = 'Favoritos';
+  static const String myAds = 'Meus anúncios';
+  static const String ads = 'Anúncios';
 }

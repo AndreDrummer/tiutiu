@@ -1,5 +1,5 @@
 import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
-import 'package:tiutiu/core/utils/image_handle.dart';
+import 'package:tiutiu/core/utils/asset_handle.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 
