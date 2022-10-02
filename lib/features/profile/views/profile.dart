@@ -6,10 +6,12 @@ import 'package:tiutiu/core/constants/images_assets.dart';
 import 'package:tiutiu/features/system/controllers.dart';
 import 'package:tiutiu/core/constants/text_styles.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
+import 'package:tiutiu/Widgets/load_dark_screen.dart';
 import 'package:tiutiu/Widgets/underline_text.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:tiutiu/Widgets/avatar_profile.dart';
 import 'package:tiutiu/core/constants/strings.dart';
+import 'package:tiutiu/core/utils/validators.dart';
 import 'package:tiutiu/core/utils/formatter.dart';
 import 'package:brasil_fields/brasil_fields.dart';
 import 'package:tiutiu/core/Custom/icons.dart';
@@ -22,9 +24,10 @@ class Profile extends StatelessWidget {
   Profile({
     this.isCompletingProfile = false,
     this.isEditiingProfile = false,
-    TiutiuUser? user,
-  }) : _user = user ?? tiutiuUserController.tiutiuUser;
+    required TiutiuUser user,
+  }) : _user = user;
 
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final bool isCompletingProfile;
   final bool isEditiingProfile;
   final TiutiuUser _user;
@@ -34,6 +37,7 @@ class Profile extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         appBar: DefaultBasicAppBar(
+          automaticallyImplyLeading: false,
           text: isEditiingProfile
               ? MyProfileStrings.editProfile
               : isCompletingProfile
@@ -46,12 +50,22 @@ class Profile extends StatelessWidget {
             height: (isCompletingProfile || isEditiingProfile)
                 ? Get.height / 1.65
                 : Get.height / 1.4,
-            child: Card(
-              elevation: 8.0,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(24.0.h),
-              ),
-              child: _cardContent(),
+            child: Stack(
+              children: [
+                Card(
+                  elevation: 8.0,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(24.0.h),
+                  ),
+                  child: _cardContent(),
+                ),
+                LoadDarkScreen(
+                  message: authController.isCreatingNewAccount
+                      ? AuthStrings.registeringUser
+                      : AuthStrings.loginInProgress,
+                  visible: authController.isLoading,
+                )
+              ],
             ),
           ),
         ),
@@ -68,8 +82,14 @@ class Profile extends StatelessWidget {
             Positioned(
               right: 52.0,
               left: 52.0,
-              top: 8.0.h,
+              top: 0.0.h,
               child: _roundedPicture(),
+            ),
+            Positioned(
+              child: _errorImageNull(),
+              right: 96.0.h,
+              left: 96.0.h,
+              top: 132.0.h,
             ),
           ],
         ),
@@ -86,12 +106,12 @@ class Profile extends StatelessWidget {
               Spacer(),
               _userPhoneNumber(),
               Spacer(),
-              _allowContactViaWhatsApp(),
-              Spacer(),
               _userPostsQty(),
               Spacer(),
               _contactTitle(),
               _contactButtonRow(),
+              _submitButton(),
+              Spacer(),
             ],
           ),
         )
@@ -130,6 +150,21 @@ class Profile extends StatelessWidget {
     );
   }
 
+  Widget _errorImageNull() {
+    return Obx(
+      () => Visibility(
+        visible: profileController.showErrorEmptyPic,
+        child: AutoSizeText(
+          MyProfileStrings.insertAPicture,
+          style: TextStyles.fontSize16(
+            fontWeight: FontWeight.w600,
+            color: AppColors.danger,
+          ),
+        ),
+      ),
+    );
+  }
+
   Opacity _backgroundImage() {
     return Opacity(
       opacity: .3,
@@ -153,13 +188,18 @@ class Profile extends StatelessWidget {
   }
 
   Widget _userName() {
-    return UnderlineInputText(
-      onChanged: (name) {
-        tiutiuUserController.updateTiutiuUser(TiutiuUserEnum.displayName, name);
-      },
-      labelText: _itsMe ? MyProfileStrings.howCallYou : '',
-      initialValue: _user.displayName,
-      fontSizeLabelText: 16.0.h,
+    return Form(
+      key: _formKey,
+      child: UnderlineInputText(
+        onChanged: (name) {
+          tiutiuUserController.updateTiutiuUser(
+              TiutiuUserEnum.displayName, name);
+        },
+        labelText: _itsMe ? MyProfileStrings.howCallYou : '',
+        validator: Validators.verifyEmpty,
+        initialValue: _user.displayName,
+        fontSizeLabelText: 16.0.h,
+      ),
     );
   }
 
@@ -186,42 +226,6 @@ class Profile extends StatelessWidget {
             fontSizeLabelText: 16.0.h,
           ),
         ],
-      ),
-    );
-  }
-
-  Widget _allowContactViaWhatsApp() {
-    return Visibility(
-      visible: _itsMe,
-      child: Padding(
-        padding: EdgeInsets.symmetric(
-          vertical: 8.0.h,
-          horizontal: 16.0.w,
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            AutoSizeText(
-              UserStrings.allowContactViaWhatsApp,
-              style: TextStyles.fontSize14(),
-            ),
-            Transform.scale(
-              scale: 1.0.h,
-              child: Obx(
-                () => Checkbox(
-                  onChanged: (value) {
-                    tiutiuUserController.updateTiutiuUser(
-                      TiutiuUserEnum.allowContactViaWhatsApp,
-                      value,
-                    );
-                  },
-                  value:
-                      tiutiuUserController.tiutiuUser.allowContactViaWhatsApp,
-                ),
-              ),
-            )
-          ],
-        ),
       ),
     );
   }
@@ -269,7 +273,7 @@ class Profile extends StatelessWidget {
 
   Widget _contactTitle() {
     return Visibility(
-      visible: !_itsMe,
+      visible: !_itsMe && !isEditiingProfile,
       child: Column(
         children: [
           Divider(),
@@ -284,14 +288,15 @@ class Profile extends StatelessWidget {
   }
 
   Widget _contactButtonRow() {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 8.0.w),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Visibility(
-            visible: !_itsMe,
-            child: Expanded(
+    return Visibility(
+      replacement: SizedBox.shrink(),
+      visible: !_itsMe,
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 8.0.w),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Expanded(
               child: ButtonWide(
                 color: AppColors.secondary,
                 text: AppStrings.chat,
@@ -300,11 +305,8 @@ class Profile extends StatelessWidget {
                 action: () {},
               ),
             ),
-          ),
-          SizedBox(width: 16.0.w),
-          Visibility(
-            visible: !_itsMe,
-            child: Expanded(
+            SizedBox(width: 16.0.w),
+            Expanded(
               child: ButtonWide(
                 text: AppStrings.whatsapp,
                 color: AppColors.primary,
@@ -317,21 +319,31 @@ class Profile extends StatelessWidget {
                 },
               ),
             ),
-          ),
-          Visibility(
-            visible: _itsMe,
-            child: Expanded(
-              child: ButtonWide(
-                color: AppColors.primary,
-                text: AppStrings.save,
-                isToExpand: false,
-                action: () async {
-                  await tiutiuUserController.updateUserDataOnServer();
-                },
-              ),
-            ),
-          ),
-        ],
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _submitButton() {
+    return Visibility(
+      visible: _itsMe,
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 8.0.w),
+        child: ButtonWide(
+          color: AppColors.primary,
+          text: AppStrings.save,
+          isToExpand: false,
+          action: () async {
+            if (_formKey.currentState!.validate() &&
+                tiutiuUserController.tiutiuUser.avatar != null) {
+              profileController.showErrorEmptyPic = false;
+              await tiutiuUserController.updateUserDataOnServer();
+            } else {
+              profileController.showErrorEmptyPic = true;
+            }
+          },
+        ),
       ),
     );
   }

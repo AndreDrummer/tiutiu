@@ -22,7 +22,7 @@ class Validators {
   }
 
   static String? verifyEmpty(String? value) {
-    if (value != null && value.isEmpty) {
+    if (value == null || value.isEmpty) {
       return ValidatorsStrings.requiredField;
     }
     return null;

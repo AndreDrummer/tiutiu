@@ -20,7 +20,7 @@ class Home extends StatelessWidget with TiuTiuPopUp {
       DonateList(),
       DisappearedList(),
       AuthenticatedArea(child: Favorites()),
-      AuthenticatedArea(child: Profile()),
+      AuthenticatedArea(child: Profile(user: tiutiuUserController.tiutiuUser)),
       AuthenticatedArea(child: Favorites()),
     ];
 

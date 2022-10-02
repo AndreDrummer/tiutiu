@@ -16,7 +16,7 @@ class TiuTiuAuthException {
     ErrorCodes.invalidToken:
         'A sessão foi invalidada porque o usuário mudou sua senha ou o Facebook mudou a sessão por razões de segurança!',
     ErrorCodes.domainUnauthorized: 'Domínio não autorizado!',
-    ErrorCodes.userNotFound: 'E-mail não encontrado!',
+    ErrorCodes.userNotFound: 'Usuário não encontrado!',
     ErrorCodes.wrongPassword: 'Senha Incorreta!',
     ErrorCodes.invalidEmail: 'E-mail Inválido!',
   };
