@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:tiutiu/features/system/controllers.dart';
 import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
 import 'package:tiutiu/features/pets/services/pet_service.dart';
 import 'package:tiutiu/core/constants/firebase_env_path.dart';
@@ -12,7 +13,6 @@ class TiutiuUserService {
   TiutiuUserService(PetService petService) : _petService = petService;
 
   FirebaseFirestore _firestore = FirebaseFirestore.instance;
-  final FirebaseStorage _storage = FirebaseStorage.instance;
 
   final PetService _petService;
 
@@ -58,13 +58,10 @@ class TiutiuUserService {
     }
   }
 
-  Future<void> createUser(TiutiuUser user) async {
-    await _firestore.collection(FirebaseEnvPath.users).doc().set(user.toMap());
-  }
-
   Future<void> updateUser({
     required TiutiuUser userData,
   }) async {
+    print(userData.uid);
     await _firestore
         .collection(newPathToUser)
         .doc(userData.uid)
@@ -72,16 +69,19 @@ class TiutiuUserService {
   }
 
   Future<String?> uploadAvatar(String userId, File file) async {
+    Reference ref = FirebaseStorage.instance.ref();
+    print('To logado? ${authController.user?.uid}');
     String? avatarURL;
-    Reference ref = _storage.ref(userProfileStoragePath(userId));
+
+    final avatarRef = ref.child(userProfileStoragePath(userId));
 
     try {
-      var uploadTask = ref.putFile(file);
+      var uploadTask = avatarRef.putFile(file);
       await uploadTask.whenComplete(() {
         debugPrint('Success Upload Avatar');
       });
 
-      avatarURL = await ref.getDownloadURL();
+      avatarURL = await avatarRef.getDownloadURL();
     } on FirebaseException catch (error) {
       debugPrint('Ocorreu um erro ao fazer upload do avatar: $error.');
     }
