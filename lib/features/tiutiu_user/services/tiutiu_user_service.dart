@@ -1,15 +1,18 @@
+import 'package:flutter/foundation.dart';
 import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
 import 'package:tiutiu/features/pets/services/pet_service.dart';
 import 'package:tiutiu/core/constants/firebase_env_path.dart';
-
 import 'package:tiutiu/features/pets/model/pet_model.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:tiutiu/core/models/chat_model.dart';
+import 'dart:io';
 
 class TiutiuUserService {
   TiutiuUserService(PetService petService) : _petService = petService;
 
   FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final FirebaseStorage _storage = FirebaseStorage.instance;
 
   final PetService _petService;
 
@@ -60,13 +63,30 @@ class TiutiuUserService {
   }
 
   Future<void> updateUser({
-    required Map<String, dynamic> data,
-    required String userId,
+    required TiutiuUser userData,
   }) async {
     await _firestore
-        .collection(FirebaseEnvPath.users)
-        .doc(userId)
-        .set(data, SetOptions(merge: true));
+        .collection(newPathToUser)
+        .doc(userData.uid)
+        .set(userData.toMap(), SetOptions(merge: true));
+  }
+
+  Future<String?> uploadAvatar(String userId, File file) async {
+    String? avatarURL;
+    Reference ref = _storage.ref(userProfileStoragePath(userId));
+
+    try {
+      var uploadTask = ref.putFile(file);
+      await uploadTask.whenComplete(() {
+        debugPrint('Success Upload Avatar');
+      });
+
+      avatarURL = await ref.getDownloadURL();
+    } on FirebaseException catch (error) {
+      debugPrint('Ocorreu um erro ao fazer upload do avatar: $error.');
+    }
+
+    return avatarURL;
   }
 
   Future<void> createNotification({
@@ -100,11 +120,17 @@ class TiutiuUserService {
   }
 
   Stream<QuerySnapshot> loadMyPostedPetsToDonate({required String userId}) {
-    return _petService.getPetsByUser(FirebaseEnvPath.donate, userId);
+    return _petService.getPetsByUser(
+      petKind: FirebaseEnvPath.donate,
+      userId: userId,
+    );
   }
 
   Stream<QuerySnapshot> loadMyPostedPetsDisappeared({required String userId}) {
-    return _petService.getPetsByUser(FirebaseEnvPath.disappeared, userId);
+    return _petService.getPetsByUser(
+      petKind: FirebaseEnvPath.disappeared,
+      userId: userId,
+    );
   }
 
   Stream<QuerySnapshot> loadMyDonatedPets(DocumentReference userReference) {
