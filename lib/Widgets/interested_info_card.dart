@@ -2,7 +2,7 @@ import 'package:tiutiu/core/utils/formatter.dart';
 import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
 import 'package:tiutiu/core/utils/launcher_functions.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
-import 'package:tiutiu/core/utils/image_handle.dart';
+import 'package:tiutiu/core/utils/asset_handle.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:tiutiu/core/Custom/icons.dart';
 import 'package:flutter/material.dart';
