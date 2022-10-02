@@ -67,7 +67,7 @@ class TiutiuUser {
   String? createdAt;
   String? lastLogin;
   String? photoBACK;
-  String? avatar;
+  dynamic avatar;
   String? email;
   bool isAnONG;
   String? uid;
