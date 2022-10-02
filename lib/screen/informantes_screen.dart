@@ -5,7 +5,7 @@ import 'package:tiutiu/core/models/interested_model.dart';
 import 'package:tiutiu/core/constants/images_assets.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:tiutiu/features/profile/views/profile.dart';
-import 'package:tiutiu/core/utils/image_handle.dart';
+import 'package:tiutiu/core/utils/asset_handle.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:maps_launcher/maps_launcher.dart';
 import 'package:tiutiu/Widgets/loading_page.dart';
