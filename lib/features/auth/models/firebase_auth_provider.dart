@@ -9,9 +9,12 @@ final String _iosClientId =
     '791022711249-jva0r9f0eddfo4skv18c0i1e26clq7pd.apps.googleusercontent.com';
 
 class FirebaseAuthProvider implements AuthProviders {
+  FirebaseAuthProvider._();
+
   final GoogleSignIn _googleSignIn = GoogleSignIn(clientId: _iosClientId);
+  static FirebaseAuthProvider instance = FirebaseAuthProvider._();
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
-  FirebaseAuth get firebaseAuth => _firebaseAuth;
+  User? get firebaseAuthUser => _firebaseAuth.currentUser;
 
   @override
   Future<void> createUserWithEmailAndPassword({
@@ -19,12 +22,12 @@ class FirebaseAuthProvider implements AuthProviders {
     required String email,
   }) async {
     try {
-      await firebaseAuth.createUserWithEmailAndPassword(
+      await _firebaseAuth.createUserWithEmailAndPassword(
         password: password,
         email: email,
       );
 
-      await _sendEmailVerification(firebaseAuth.currentUser);
+      await _sendEmailVerification(_firebaseAuth.currentUser);
     } on FirebaseAuthException catch (error) {
       throw TiuTiuAuthException(error.code);
     }
@@ -36,11 +39,12 @@ class FirebaseAuthProvider implements AuthProviders {
     required String email,
   }) async {
     try {
-      await firebaseAuth.signInWithEmailAndPassword(
+      await _firebaseAuth.signInWithEmailAndPassword(
         password: password,
         email: email,
       );
     } on FirebaseAuthException catch (error) {
+      print(error);
       throw TiuTiuAuthException(error.code);
     }
   }
@@ -62,7 +66,7 @@ class FirebaseAuthProvider implements AuthProviders {
 
   @override
   Future<void> signOut() async {
-    await firebaseAuth.signOut();
+    await _firebaseAuth.signOut();
     if (await _googleSignIn.isSignedIn()) await _googleSignIn.signOut();
   }
 
@@ -93,7 +97,7 @@ class FirebaseAuthProvider implements AuthProviders {
 
         print('Google $credential');
 
-        await firebaseAuth.signInWithCredential(credential);
+        await _firebaseAuth.signInWithCredential(credential);
       }
     } on Exception catch (error) {
       debugPrint('Erro $error ao realizar login com Google.');
@@ -104,7 +108,7 @@ class FirebaseAuthProvider implements AuthProviders {
 
   @override
   Future<void> passwordReset(String email) async {
-    await firebaseAuth.sendPasswordResetEmail(email: email);
+    await _firebaseAuth.sendPasswordResetEmail(email: email);
   }
 
   @override
@@ -125,7 +129,7 @@ class FirebaseAuthProvider implements AuthProviders {
         facebookAuthCredential = FacebookAuthProvider.credential(token);
       }
 
-      await firebaseAuth.signInWithCredential(facebookAuthCredential);
+      await _firebaseAuth.signInWithCredential(facebookAuthCredential);
     } catch (error) {
       throw TiuTiuAuthException('Error validating access token');
     }

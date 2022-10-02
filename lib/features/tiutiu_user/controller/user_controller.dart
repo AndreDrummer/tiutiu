@@ -1,3 +1,4 @@
+import 'package:tiutiu/features/system/controllers.dart';
 import 'package:tiutiu/features/tiutiu_user/services/tiutiu_user_service.dart';
 import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -40,16 +41,28 @@ class TiutiuUserController extends GetxController {
   Future<void> updateUserDataOnServer() async {
     var avatarPath = tiutiuUser.avatar;
 
+    isLoading = true;
     if (avatarPath != null && !avatarPath.toString().contains('http')) {
       var urlAvatar = await _tiutiuUserService.uploadAvatar(
-        tiutiuUser.uid!,
+        tiutiuUser.uid ?? authController.user!.uid,
         avatarPath,
       );
 
       updateTiutiuUser(TiutiuUserEnum.avatar, urlAvatar);
     }
 
+    updateTiutiuUser(
+      TiutiuUserEnum.uid,
+      tiutiuUser.uid ?? authController.user!.uid,
+    );
+
+    updateTiutiuUser(
+      TiutiuUserEnum.createdAt,
+      DateTime.now().toIso8601String(),
+    );
+
     await _tiutiuUserService.updateUser(userData: tiutiuUser);
+    isLoading = false;
   }
 
   void resetUserData() {

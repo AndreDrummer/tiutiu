@@ -1,10 +1,10 @@
-import 'package:auto_size_text/auto_size_text.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get.dart';
+import 'package:tiutiu/core/constants/text_styles.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/core/constants/strings.dart';
-import 'package:tiutiu/core/constants/text_styles.dart';
+import 'package:auto_size_text/auto_size_text.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class ButtonWide extends StatelessWidget {
   ButtonWide({
@@ -21,27 +21,30 @@ class ButtonWide extends StatelessWidget {
   final Function? action;
   final bool isToExpand;
   final IconData? icon;
-  final bool? rounded;
   final String? text;
   final Color? color;
+  final bool rounded;
 
   @override
   Widget build(BuildContext context) {
     final hasIcon = icon != null;
 
-    return GestureDetector(
-      onTap: () => action?.call(),
-      child: Container(
-        margin: EdgeInsets.symmetric(vertical: 4.0.h),
-        alignment: Alignment.center,
-        height: 48.0.h,
-        width: isToExpand ? Get.width : 260.0.w,
-        decoration: BoxDecoration(
-          borderRadius: rounded == true ? BorderRadius.circular(24.0.h) : null,
-          color: color ?? AppColors.secondary,
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(
+              rounded ? 24.0.h : 8.0.h,
+            ),
+          ),
+          backgroundColor: color ?? AppColors.secondary,
         ),
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16.0.w),
+        onPressed: () => action?.call(),
+        child: Container(
+          alignment: Alignment.center,
+          height: 48.0.h,
+          width: isToExpand ? Get.width : 260.0.w,
           child: Row(
             mainAxisAlignment:
                 hasIcon ? MainAxisAlignment.start : MainAxisAlignment.center,

@@ -243,6 +243,7 @@ class EmailAndPassword extends StatelessWidget with TiuTiuPopUp {
         if (result) Get.toNamed(Routes.home);
       });
     } catch (exception) {
+      authController.isLoading = false;
       showPopUp(Get.context!, exception.toString(), danger: true);
     }
   }
@@ -253,6 +254,7 @@ class EmailAndPassword extends StatelessWidget with TiuTiuPopUp {
         if (result) Get.toNamed(Routes.home);
       });
     } catch (exception) {
+      authController.isLoading = false;
       showPopUp(Get.context!, exception.toString(), danger: true);
     }
   }
