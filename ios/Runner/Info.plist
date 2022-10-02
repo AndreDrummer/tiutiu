@@ -47,6 +47,12 @@
 		<true />
 		<key>NSLocationWhenInUseUsageDescription</key>
 		<string>This app needs access to location when open.</string>
+		<key>NSPhotoLibraryUsageDescription</key>
+		<string>É necessário para que você consiga pegar uma foto da galeria.</string>
+		<key>NSCameraUsageDescription</key>
+		<string>É necessário para que você consiga tirar uma foto.</string>
+		<key>NSMicrophoneUsageDescription</key>
+		<string>É necessário para que você consiga gravar um video.</string>
 
 		<!-- Google Sign-in Section -->
 		<key>CFBundleURLTypes</key>
