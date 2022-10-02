@@ -3,8 +3,8 @@ import 'package:tiutiu/core/constants/text_styles.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 
-class UnderlineOutlinedInputText extends StatelessWidget {
-  const UnderlineOutlinedInputText({
+class UnderlineInputText extends StatelessWidget {
+  const UnderlineInputText({
     this.keyboardType = TextInputType.multiline,
     this.fontSizeLabelText,
     this.inputFormatters,

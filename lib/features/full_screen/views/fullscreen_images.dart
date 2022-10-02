@@ -1,6 +1,6 @@
 import 'package:tiutiu/features/system/controllers.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:tiutiu/core/utils/image_handle.dart';
+import 'package:tiutiu/core/utils/asset_handle.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

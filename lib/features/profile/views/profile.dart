@@ -6,29 +6,46 @@ import 'package:tiutiu/core/constants/images_assets.dart';
 import 'package:tiutiu/features/system/controllers.dart';
 import 'package:tiutiu/core/constants/text_styles.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
-import 'package:tiutiu/core/utils/image_handle.dart';
+import 'package:tiutiu/Widgets/underline_text.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:tiutiu/Widgets/avatar_profile.dart';
 import 'package:tiutiu/core/constants/strings.dart';
 import 'package:tiutiu/core/utils/formatter.dart';
+import 'package:brasil_fields/brasil_fields.dart';
 import 'package:tiutiu/core/Custom/icons.dart';
 import 'package:tiutiu/Widgets/button.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class Profile extends StatelessWidget {
-  Profile({TiutiuUser? user}) : _user = user ?? tiutiuUserController.tiutiuUser;
+  Profile({
+    this.isCompletingProfile = false,
+    this.isEditiingProfile = false,
+    TiutiuUser? user,
+  }) : _user = user ?? tiutiuUserController.tiutiuUser;
 
+  final bool isCompletingProfile;
+  final bool isEditiingProfile;
   final TiutiuUser _user;
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: DefaultBasicAppBar(text: _user.displayName ?? ''),
+        appBar: DefaultBasicAppBar(
+          text: isEditiingProfile
+              ? MyProfileStrings.editProfile
+              : isCompletingProfile
+                  ? MyProfileStrings.completeProfile
+                  : _user.displayName ?? '',
+        ),
         body: Center(
           child: Container(
             margin: const EdgeInsets.all(8.0),
-            height: Get.height / 1.4,
+            height: (isCompletingProfile || isEditiingProfile)
+                ? Get.height / 1.65
+                : Get.height / 1.4,
             child: Card(
               elevation: 8.0,
               shape: RoundedRectangleBorder(
@@ -87,19 +104,26 @@ class Profile extends StatelessWidget {
       onTap: () {
         if (!_itsMe) fullscreenController.openFullScreenMode([_user.avatar]);
       },
-      child: Card(
-        elevation: 8.0,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(1000.0.h),
-        ),
-        child: ClipOval(
-          child: CircleAvatar(
-            backgroundColor: Colors.transparent,
-            child: AssetHandle.getImage(
-              _user.avatar,
-              fit: BoxFit.cover,
-            ),
-            radius: 104.0.h,
+      child: Container(
+        margin: EdgeInsets.symmetric(vertical: 16.0.h),
+        alignment: Alignment.center,
+        child: Obx(
+          () => AvatarProfile(
+            onAssetPicked: (file) {
+              tiutiuUserController.updateTiutiuUser(
+                TiutiuUserEnum.avatar,
+                file,
+              );
+            },
+            userName: '${tiutiuUserController.tiutiuUser.displayName}',
+            avatarPath: tiutiuUserController.tiutiuUser.avatar,
+            radius: _itsMe ? Get.width / 6 : Get.width / 4,
+            onAssetRemoved: () {
+              tiutiuUserController.updateTiutiuUser(
+                TiutiuUserEnum.avatar,
+                null,
+              );
+            },
           ),
         ),
       ),
@@ -115,7 +139,7 @@ class Profile extends StatelessWidget {
           topLeft: Radius.circular(12.0.h),
         ),
         child: Container(
-          height: Get.height / 3,
+          height: _itsMe ? Get.width / 2 : Get.height / 3,
           width: double.infinity,
           child: ClipRRect(
             child: Image.asset(
@@ -129,54 +153,39 @@ class Profile extends StatelessWidget {
   }
 
   Widget _userName() {
-    return Obx(
-      () => TextFormField(
-        initialValue: _itsMe
-            ? tiutiuUserController.tiutiuUser.displayName
-            : _user.displayName,
-        style: TextStyles.fontSize22(fontWeight: FontWeight.bold),
-        textAlign: TextAlign.center,
-        decoration: InputDecoration(
-          contentPadding: EdgeInsets.zero,
-          focusedBorder: _itsMe ? null : _noneBorder(),
-          enabledBorder: _itsMe ? null : _noneBorder(),
-          errorBorder: _itsMe ? null : _noneBorder(),
-          border: _itsMe ? null : _noneBorder(),
-        ),
-        onChanged: (value) {
-          tiutiuUserController.updateTiutiuUser(
-            TiutiuUserEnum.displayName,
-            value,
-          );
-        },
-        readOnly: !_itsMe,
-      ),
+    return UnderlineInputText(
+      onChanged: (name) {
+        tiutiuUserController.updateTiutiuUser(TiutiuUserEnum.displayName, name);
+      },
+      labelText: _itsMe ? MyProfileStrings.howCallYou : '',
+      initialValue: _user.displayName,
+      fontSizeLabelText: 16.0.h,
     );
   }
 
   Widget _userPhoneNumber() {
     return Visibility(
       visible: _itsMe,
-      child: Obx(
-        () => TextFormField(
-          initialValue: tiutiuUserController.tiutiuUser.phoneNumber,
-          style: TextStyles.fontSize22(),
-          textAlign: TextAlign.center,
-          decoration: InputDecoration(
-            contentPadding: EdgeInsets.zero,
-            focusedBorder: _itsMe ? null : _noneBorder(),
-            enabledBorder: _itsMe ? null : _noneBorder(),
-            errorBorder: _itsMe ? null : _noneBorder(),
-            border: _itsMe ? null : _noneBorder(),
+      child: Column(
+        children: [
+          SizedBox(height: 16.0.h),
+          UnderlineInputText(
+            onChanged: (number) {
+              tiutiuUserController.updateTiutiuUser(
+                TiutiuUserEnum.phoneNumber,
+                number,
+              );
+            },
+            labelText: _itsMe ? MyProfileStrings.whatsapp : '',
+            inputFormatters: [
+              FilteringTextInputFormatter.digitsOnly,
+              TelefoneInputFormatter(),
+            ],
+            keyboardType: TextInputType.number,
+            initialValue: _user.phoneNumber,
+            fontSizeLabelText: 16.0.h,
           ),
-          onChanged: (value) {
-            tiutiuUserController.updateTiutiuUser(
-              TiutiuUserEnum.phoneNumber,
-              value,
-            );
-          },
-          readOnly: !_itsMe,
-        ),
+        ],
       ),
     );
   }
@@ -217,21 +226,15 @@ class Profile extends StatelessWidget {
     );
   }
 
-  OutlineInputBorder _noneBorder() {
-    return OutlineInputBorder(
-      borderSide: BorderSide(style: BorderStyle.none),
-    );
-  }
-
   Widget _userLastSeen() {
     return Visibility(
-      visible: !_itsMe,
+      visible: !_itsMe && !isEditiingProfile,
       child: SizedBox(
         height: 32.0.h,
         child: Column(
           children: [
             AutoSizeText(
-              '${UserStrings.userLastSeen} ${Formatter.getFormattedDateAndTime(_user.lastLogin!)}',
+              '${UserStrings.userLastSeen} ${Formatter.getFormattedDateAndTime(_user.lastLogin ?? DateTime.now().toIso8601String())}',
               style: TextStyles.fontSize(fontStyle: FontStyle.italic),
             ),
             Spacer(),
@@ -243,18 +246,19 @@ class Profile extends StatelessWidget {
 
   Widget _userSinceDate() {
     return Visibility(
-      visible: !_itsMe,
+      visible: !_itsMe && !isEditiingProfile,
       child: AutoSizeText(
-          '${UserStrings.userSince} ${Formatter.getFormattedDate(_user.createdAt!)}'),
+        '${UserStrings.userSince} ${Formatter.getFormattedDate(_user.createdAt ?? DateTime.now().toIso8601String())}',
+      ),
     );
   }
 
   Widget _userPostsQty() {
     return Visibility(
-      visible: !_itsMe,
+      visible: !_itsMe && !isEditiingProfile,
       child: StreamBuilder<int>(
         initialData: 1,
-        stream: profileController.getUserPostsCount(_user.uid!),
+        stream: profileController.getUserPostsCount(_user.uid),
         builder: (context, snapshot) {
           final qty = snapshot.data ?? 1;
           return AutoSizeText('$qty ${UserStrings.postsQty(qty)}');
@@ -307,8 +311,6 @@ class Profile extends StatelessWidget {
                 icon: Tiutiu.whatsapp,
                 isToExpand: false,
                 action: () {
-                  print(_user.phoneNumber);
-                  print(Formatter.unmaskNumber(_user.phoneNumber!));
                   Launcher.openWhatsApp(
                     number: Formatter.unmaskNumber(_user.phoneNumber!),
                   );
@@ -323,7 +325,9 @@ class Profile extends StatelessWidget {
                 color: AppColors.primary,
                 text: AppStrings.save,
                 isToExpand: false,
-                action: () {},
+                action: () async {
+                  await tiutiuUserController.updateUserDataOnServer();
+                },
               ),
             ),
           ),

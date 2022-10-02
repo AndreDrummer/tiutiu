@@ -59,6 +59,7 @@ dependencies:
   intl: ^0.17.0  
   dio: ^4.0.6
   get: ^4.6.5
+  brasil_fields: ^1.6.0
 
 flutter_icons:
   android: "launcher_icon"

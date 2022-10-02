@@ -3,7 +3,7 @@ import 'package:tiutiu/features/system/controllers.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/Widgets/load_dark_screen.dart';
-import 'package:tiutiu/core/utils/image_handle.dart';
+import 'package:tiutiu/core/utils/asset_handle.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:tiutiu/Widgets/popup_message.dart';
 import 'package:tiutiu/Widgets/outline_input_text.dart';

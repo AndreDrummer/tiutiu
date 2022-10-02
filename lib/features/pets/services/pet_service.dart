@@ -80,8 +80,11 @@ class PetService {
     return Pet.fromMap(pet.data() as Map<String, dynamic>);
   }
 
-  Stream<QuerySnapshot> getPetsByUser(String petKind, String userId,
-      {bool isAdopted = false}) {
+  Stream<QuerySnapshot> getPetsByUser({
+    required String petKind,
+    required String userId,
+    bool isAdopted = false,
+  }) {
     Query query = _firestore
         .collection(petKind)
         .where(isAdopted ? 'interestedID' : 'ownerId', isEqualTo: userId);
