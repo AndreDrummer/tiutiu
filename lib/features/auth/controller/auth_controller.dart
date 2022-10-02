@@ -3,6 +3,7 @@ import 'package:tiutiu/core/local_storage/local_storage_keys.dart';
 import 'package:tiutiu/features/auth/service/auth_service.dart';
 import 'package:tiutiu/core/local_storage/local_storage.dart';
 import 'package:tiutiu/core/constants/images_assets.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 
@@ -29,6 +30,8 @@ class AuthController extends GetxController {
   bool get isShowingPassword => _isShowingPassword.value;
   bool get userExists => _authService.userExists;
   bool get isLoading => _isLoading.value;
+
+  User? get user => _authService.authUser;
 
   void set _setEmailAndPasswordAuth(EmailAndPasswordAuth newValue) {
     _emailAndPasswordAuth(newValue);
@@ -63,6 +66,7 @@ class AuthController extends GetxController {
       );
 
       if (success) saveEmailAndPasswordAuthData();
+
       isLoading = false;
     }
 
@@ -71,14 +75,17 @@ class AuthController extends GetxController {
 
   Future<bool> signInWithEmailAndPassword() async {
     isLoading = true;
+
     final success = await _authService.signInWithEmailAndPassword(
       password: emailAndPasswordAuth.password!,
       email: emailAndPasswordAuth.email!,
     );
 
+    isLoading = false;
+
     if (success) saveEmailAndPasswordAuthData();
     debugPrint('${success ? 'Successfully' : 'Not'} authenticated');
-    isLoading = false;
+
     return success;
   }
 

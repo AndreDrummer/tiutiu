@@ -30,4 +30,4 @@ String get newPathToUser =>
     '${FirebaseEnvPath.projectName}/env/${FirebaseEnvPath.env}/${FirebaseEnvPath.userss}/${FirebaseEnvPath.userss}';
 
 String userProfileStoragePath(String userId) =>
-    '${FirebaseEnvPath.env}/users/$userId/avatar/profile.png';
+    '${FirebaseEnvPath.projectName}/${FirebaseEnvPath.env}/users/$userId/avatar/profile.png';
