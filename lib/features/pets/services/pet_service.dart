@@ -17,11 +17,6 @@ class PetService {
   Stream<QuerySnapshot<Map<String, dynamic>>> loadPets(
     FilterParams filterParams,
   ) {
-    // return FirebaseFirestore.instance
-    //     .collection(FirebaseEnvPath.donate)
-    //     .where('donated', isEqualTo: false)
-    //     .snapshots();
-
     final filterType =
         filterParams.type == FilterStrings.all ? null : filterParams.type;
 
