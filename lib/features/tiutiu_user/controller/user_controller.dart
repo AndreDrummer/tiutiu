@@ -61,6 +61,11 @@ class TiutiuUserController extends GetxController {
       DateTime.now().toIso8601String(),
     );
 
+    updateTiutiuUser(
+      TiutiuUserEnum.email,
+      authController.user!.email,
+    );
+
     await _tiutiuUserService.updateUser(userData: tiutiuUser);
     isLoading = false;
   }
