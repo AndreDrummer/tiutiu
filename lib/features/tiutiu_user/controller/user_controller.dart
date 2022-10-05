@@ -1,8 +1,8 @@
-import 'package:tiutiu/core/utils/constantes.dart';
-import 'package:tiutiu/features/system/controllers.dart';
 import 'package:tiutiu/features/tiutiu_user/services/tiutiu_user_service.dart';
 import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
+import 'package:tiutiu/features/system/controllers.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:tiutiu/core/utils/constantes.dart';
 import 'package:get/get.dart';
 
 class TiutiuUserController extends GetxController {
@@ -62,15 +62,17 @@ class TiutiuUserController extends GetxController {
       updateTiutiuUser(TiutiuUserEnum.avatar, urlAvatar);
     }
 
-    updateTiutiuUser(
-      TiutiuUserEnum.uid,
-      tiutiuUser.uid ?? authController.user!.uid,
-    );
+    if (tiutiuUser.uid == null)
+      updateTiutiuUser(
+        TiutiuUserEnum.uid,
+        tiutiuUser.uid ?? authController.user!.uid,
+      );
 
-    updateTiutiuUser(
-      TiutiuUserEnum.createdAt,
-      DateTime.now().toIso8601String(),
-    );
+    if (tiutiuUser.createdAt == null)
+      updateTiutiuUser(
+        TiutiuUserEnum.createdAt,
+        DateTime.now().toIso8601String(),
+      );
 
     updateTiutiuUser(
       TiutiuUserEnum.email,
