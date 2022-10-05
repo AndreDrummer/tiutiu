@@ -1,6 +1,6 @@
+import 'package:tiutiu/features/pets/views/announcer_profile.dart';
 import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:tiutiu/features/profile/views/profile.dart';
 import 'package:tiutiu/features/pets/model/pet_model.dart';
 import 'package:tiutiu/features/system/controllers.dart';
 import 'package:tiutiu/core/utils/math_functions.dart';
@@ -101,8 +101,7 @@ class OtherFunctions {
   }
 
   static void navigateToAnnouncerDetail(TiutiuUser user) {
-    profileController.profileUser = user;
-    Get.to(() => Profile());
+    Get.to(() => AnnouncerProfile(user: user));
   }
 
   static IconData getIconFromPetType(String type) {
