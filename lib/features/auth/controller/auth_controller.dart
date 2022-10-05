@@ -145,7 +145,8 @@ class AuthController extends GetxController {
 
   void clearAllAuthData() {
     LocalStorageKey.values.forEach((key) {
-      LocalStorage.deleteDataUnderKey(key);
+      if (key != LocalStorageKey.firstOpen)
+        LocalStorage.deleteDataUnderKey(key);
     });
   }
 

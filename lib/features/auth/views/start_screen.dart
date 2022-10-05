@@ -59,6 +59,8 @@ class StartScreen extends StatelessWidget {
                       color: AppColors.primary,
                       action: () {
                         homeController.showAuthHostersInFullScreen = true;
+                        if (authController.userExists)
+                          Get.toNamed(Routes.authOrHome);
                         Get.toNamed(Routes.authHosters);
                       },
                     ),
