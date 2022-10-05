@@ -8,7 +8,6 @@ import 'dart:io';
 
 class AvatarProfile extends StatefulWidget {
   const AvatarProfile({
-    required this.userName,
     this.viewOnly = false,
     this.onAssetRemoved,
     this.onAssetPicked,
@@ -20,7 +19,6 @@ class AvatarProfile extends StatefulWidget {
   final void Function(File?)? onAssetPicked;
   final void Function()? onAssetRemoved;
   final dynamic avatarPath;
-  final String userName;
   final double? radius;
   final bool viewOnly;
 
