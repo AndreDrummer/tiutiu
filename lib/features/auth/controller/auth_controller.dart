@@ -6,7 +6,6 @@ import 'package:tiutiu/core/constants/images_assets.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
-import 'package:tiutiu/features/system/controllers.dart';
 
 enum AuthKeys {
   password,
@@ -68,6 +67,8 @@ class AuthController extends GetxController {
 
       if (success) saveEmailAndPasswordAuthData();
 
+      isCreatingNewAccount = false;
+      isShowingPassword = false;
       isLoading = false;
     }
 
@@ -82,6 +83,7 @@ class AuthController extends GetxController {
       email: emailAndPasswordAuth.email!,
     );
 
+    isShowingPassword = false;
     isLoading = false;
 
     if (success) saveEmailAndPasswordAuthData();
@@ -95,7 +97,6 @@ class AuthController extends GetxController {
   }
 
   Future<bool> tryAutoLoginIn() async {
-    debugPrint('Firebase Auth Current User $user');
     final success = await trySignInWithEmailAndPassword();
 
     if (success) {
@@ -123,9 +124,7 @@ class AuthController extends GetxController {
     return false;
   }
 
-  Future<void> getUserData() async {
-    tiutiuUserController.getUserById(user!.uid);
-  }
+  Future<void> getUserData() async {}
 
   void saveEmailAndPasswordAuthData() {
     LocalStorage.setDataUnderKey(
