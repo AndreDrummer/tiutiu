@@ -1,6 +1,7 @@
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
+import 'package:tiutiu/core/constants/images_assets.dart';
 
 class PopUpMessage extends StatelessWidget {
   PopUpMessage({
@@ -34,9 +35,20 @@ class PopUpMessage extends StatelessWidget {
           : warning
               ? Color(0XFFFFC107)
               : AppColors.primary,
-      title: Text(
-        '$title',
-        style: TextStyle(color: AppColors.white, fontSize: 16.sp),
+      title: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            '$title',
+            style: TextStyle(color: AppColors.white, fontSize: 16.sp),
+          ),
+          SizedBox(
+            height: 14.0.h,
+            child: Image.asset(
+              ImageAssets.newLogo,
+            ),
+          )
+        ],
       ),
       content: Text(
         '$message',

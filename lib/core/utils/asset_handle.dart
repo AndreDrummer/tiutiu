@@ -34,8 +34,11 @@ class AssetHandle {
     BoxFit? fit,
   }) {
     if (imagePath == null || imagePath.toString().isEmpty) {
-      return Image.asset(
-        isUserImage ? ImageAssets.profileEmpty : ImageAssets.profileEmpty,
+      return FadeInImage(
+        image: AssetImage(ImageAssets.profileEmpty),
+        placeholder: AssetImage(
+          isUserImage ? ImageAssets.profileEmpty : ImageAssets.profileEmpty,
+        ),
         fit: fit ?? BoxFit.fill,
         width: 1000,
       );
