@@ -3,8 +3,7 @@ import 'package:tiutiu/core/constants/images_assets.dart';
 import 'package:flutter/material.dart';
 import 'dart:io';
 
-final String _ASSETS = 'assets';
-final String _HTTP = 'http';
+import 'package:tiutiu/core/utils/constantes.dart';
 
 class AssetHandle {
   const AssetHandle(this._imagePath);
@@ -12,7 +11,7 @@ class AssetHandle {
   final _imagePath;
 
   ImageProvider build() {
-    if (_imagePath.toString().contains(_HTTP)) {
+    if (_imagePath.toString().contains(Constantes.HTTP)) {
       return NetworkImage(_imagePath);
     } else if (_imagePath is File) {
       return FileImage(_imagePath);
@@ -40,13 +39,13 @@ class AssetHandle {
         fit: fit ?? BoxFit.fill,
         width: 1000,
       );
-    } else if (imagePath.toString().contains(_HTTP)) {
+    } else if (imagePath.toString().contains(Constantes.HTTP)) {
       return _networkImage(
         isUserImage: isUserImage,
         imagePath,
         fit: fit,
       );
-    } else if (imagePath.toString().contains(_ASSETS)) {
+    } else if (imagePath.toString().contains(Constantes.ASSETS)) {
       return _imageAsset(imagePath, fit: fit);
     } else {
       return _localImage(imagePath, fit);

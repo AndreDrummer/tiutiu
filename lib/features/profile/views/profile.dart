@@ -23,33 +23,59 @@ import 'package:get/get.dart';
 class Profile extends StatelessWidget {
   Profile({
     this.isCompletingProfile = false,
-    this.isEditiingProfile = false,
-    required TiutiuUser user,
-  }) : _user = user;
+    this.isEditingProfile = false,
+    this.itsMe = false,
+  }) : assert(
+          _assertValues(
+            isCompletingProfile: isCompletingProfile,
+            isEditingProfile: isEditingProfile,
+            itsMe: itsMe,
+          ),
+        );
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final TiutiuUser _user = profileController.profileUser;
   final bool isCompletingProfile;
-  final bool isEditiingProfile;
-  final TiutiuUser _user;
+  final bool isEditingProfile;
+  final bool itsMe;
+
+  static bool _assertValues({
+    required bool isCompletingProfile,
+    required bool isEditingProfile,
+    required bool itsMe,
+  }) {
+    if (isCompletingProfile || isEditingProfile) {
+      return itsMe;
+    }
+
+    return true;
+  }
 
   @override
   Widget build(BuildContext context) {
+    final title = isEditingProfile
+        ? MyProfileStrings.editProfile
+        : isCompletingProfile
+            ? MyProfileStrings.completeProfile
+            : _user.displayName ?? '';
+
+    final cardSize = itsMe ? Get.height / 1.65 : Get.height / 1.4;
+
     return SafeArea(
-      child: Scaffold(
-        appBar: DefaultBasicAppBar(
-          automaticallyImplyLeading: false,
-          text: isEditiingProfile
-              ? MyProfileStrings.editProfile
-              : isCompletingProfile
-                  ? MyProfileStrings.completeProfile
-                  : _user.displayName ?? '',
-        ),
-        body: Center(
-          child: Container(
+      child: WillPopScope(
+        onWillPop: () async {
+          profileController.profileUser = tiutiuUserController.tiutiuUser;
+          return true;
+        },
+        child: Scaffold(
+          appBar: DefaultBasicAppBar(
+            automaticallyImplyLeading: !_itsMe,
+            text: title,
+          ),
+          body: Container(
+            alignment: Alignment.center,
             margin: const EdgeInsets.all(8.0),
-            height: (isCompletingProfile || isEditiingProfile)
-                ? Get.height / 1.65
-                : Get.height / 1.4,
+            height: cardSize,
             child: Stack(
               children: [
                 Card(
@@ -57,14 +83,9 @@ class Profile extends StatelessWidget {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(24.0.h),
                   ),
-                  child: _cardContent(),
+                  child: _cardContent(context),
                 ),
-                LoadDarkScreen(
-                  message: authController.isCreatingNewAccount
-                      ? AuthStrings.registeringUser
-                      : AuthStrings.loginInProgress,
-                  visible: authController.isLoading,
-                )
+                _loadingWidget()
               ],
             ),
           ),
@@ -73,7 +94,7 @@ class Profile extends StatelessWidget {
     );
   }
 
-  Widget _cardContent() {
+  Widget _cardContent(BuildContext context) {
     return ListView(
       children: [
         Stack(
@@ -110,7 +131,7 @@ class Profile extends StatelessWidget {
               Spacer(),
               _contactTitle(),
               _contactButtonRow(),
-              _submitButton(),
+              _submitButton(context),
               Spacer(),
             ],
           ),
@@ -130,20 +151,20 @@ class Profile extends StatelessWidget {
         child: Obx(
           () => AvatarProfile(
             onAssetPicked: (file) {
-              tiutiuUserController.updateTiutiuUser(
+              profileController.updateUserProfileData(
                 TiutiuUserEnum.avatar,
                 file,
               );
             },
-            userName: '${tiutiuUserController.tiutiuUser.displayName}',
-            avatarPath: tiutiuUserController.tiutiuUser.avatar,
+            avatarPath: profileController.profileUser.avatar,
             radius: _itsMe ? Get.width / 6 : Get.width / 4,
             onAssetRemoved: () {
-              tiutiuUserController.updateTiutiuUser(
+              profileController.updateUserProfileData(
                 TiutiuUserEnum.avatar,
                 null,
               );
             },
+            viewOnly: !_itsMe,
           ),
         ),
       ),
@@ -188,19 +209,29 @@ class Profile extends StatelessWidget {
   }
 
   Widget _userName() {
-    return Form(
-      key: _formKey,
-      child: UnderlineInputText(
-        onChanged: (name) {
-          tiutiuUserController.updateTiutiuUser(
-              TiutiuUserEnum.displayName, name);
-        },
-        labelText: _itsMe ? MyProfileStrings.howCallYou : '',
-        validator: Validators.verifyEmpty,
-        initialValue: _user.displayName,
-        fontSizeLabelText: 16.0.h,
-      ),
-    );
+    return _itsMe
+        ? Form(
+            key: _formKey,
+            child: UnderlineInputText(
+              onChanged: (name) {
+                profileController.updateUserProfileData(
+                  TiutiuUserEnum.displayName,
+                  name,
+                );
+              },
+              labelText: _itsMe ? MyProfileStrings.howCallYou : '',
+              validator: Validators.verifyEmpty,
+              initialValue: _user.displayName,
+              fontSizeLabelText: 16.0.h,
+              readOnly: !_itsMe,
+            ),
+          )
+        : AutoSizeText(
+            '${_user.displayName}',
+            style: TextStyles.fontSize16(
+              fontWeight: FontWeight.w700,
+            ),
+          );
   }
 
   Widget _userPhoneNumber() {
@@ -211,7 +242,7 @@ class Profile extends StatelessWidget {
           SizedBox(height: 16.0.h),
           UnderlineInputText(
             onChanged: (number) {
-              tiutiuUserController.updateTiutiuUser(
+              profileController.updateUserProfileData(
                 TiutiuUserEnum.phoneNumber,
                 number,
               );
@@ -232,7 +263,7 @@ class Profile extends StatelessWidget {
 
   Widget _userLastSeen() {
     return Visibility(
-      visible: !_itsMe && !isEditiingProfile,
+      visible: !_itsMe && !isEditingProfile,
       child: SizedBox(
         height: 32.0.h,
         child: Column(
@@ -250,7 +281,7 @@ class Profile extends StatelessWidget {
 
   Widget _userSinceDate() {
     return Visibility(
-      visible: !_itsMe && !isEditiingProfile,
+      visible: !_itsMe && !isEditingProfile,
       child: AutoSizeText(
         '${UserStrings.userSince} ${Formatter.getFormattedDate(_user.createdAt ?? DateTime.now().toIso8601String())}',
       ),
@@ -259,7 +290,7 @@ class Profile extends StatelessWidget {
 
   Widget _userPostsQty() {
     return Visibility(
-      visible: !_itsMe && !isEditiingProfile,
+      visible: !_itsMe && !isEditingProfile,
       child: StreamBuilder<int>(
         initialData: 1,
         stream: profileController.getUserPostsCount(_user.uid),
@@ -273,7 +304,7 @@ class Profile extends StatelessWidget {
 
   Widget _contactTitle() {
     return Visibility(
-      visible: !_itsMe && !isEditiingProfile,
+      visible: !_itsMe && !isEditingProfile,
       child: Column(
         children: [
           Divider(),
@@ -325,7 +356,7 @@ class Profile extends StatelessWidget {
     );
   }
 
-  Widget _submitButton() {
+  Widget _submitButton(BuildContext context) {
     return Visibility(
       visible: _itsMe,
       child: Padding(
@@ -336,9 +367,10 @@ class Profile extends StatelessWidget {
           isToExpand: false,
           action: () async {
             if (_formKey.currentState!.validate() &&
-                tiutiuUserController.tiutiuUser.avatar != null) {
+                profileController.profileUser.avatar != null) {
               profileController.showErrorEmptyPic = false;
-              await tiutiuUserController.updateUserDataOnServer();
+              FocusScope.of(context).unfocus();
+              profileController.save();
             } else {
               profileController.showErrorEmptyPic = true;
             }
@@ -348,5 +380,16 @@ class Profile extends StatelessWidget {
     );
   }
 
-  bool get _itsMe => _user.uid == tiutiuUserController.tiutiuUser.uid;
+  Widget _loadingWidget() {
+    return Obx(
+      () => LoadDarkScreen(
+        visible: profileController.isLoading && _itsMe,
+        message: MyProfileStrings.updatingProfile,
+        roundeCorners: true,
+      ),
+    );
+  }
+
+  bool get _itsMe =>
+      itsMe || (_user.uid == tiutiuUserController.tiutiuUser.uid);
 }
