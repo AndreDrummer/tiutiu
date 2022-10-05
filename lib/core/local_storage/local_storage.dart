@@ -50,7 +50,6 @@ class LocalStorage {
   }) async {
     try {
       final value = await _getString(key.name);
-      print('O tal do value $value');
       return value == null ? standardValue : value == 'true';
     } on Exception catch (error) {
       throw Exception(

@@ -74,7 +74,6 @@ class CurrentLocationController extends GetxController {
 
   Future<void> setUserLocation({LatLng? currentLocation}) async {
     await checkPermission();
-    print('>> Permision $isPermissionGranted');
     if (isPermissionGranted) {
       if (currentLocation == null) {
         final position = await Geolocator.getCurrentPosition(
@@ -82,7 +81,6 @@ class CurrentLocationController extends GetxController {
         );
 
         location = LatLng(position.latitude, position.longitude);
-        print('>> Permision $location');
       } else {
         location = currentLocation;
       }
