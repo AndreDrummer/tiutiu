@@ -54,6 +54,8 @@ class _AuthOrHomeState extends State<AuthOrHome> {
                           value: false,
                         );
 
+                        print('FirstOpen? $firstOpen');
+
                         return firstOpen ? StartScreen() : Home();
                       },
                     );
