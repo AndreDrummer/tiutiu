@@ -17,21 +17,27 @@ import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class Profile extends StatelessWidget {
+class Profile extends StatefulWidget {
   Profile({
     this.isCompletingProfile = false,
     this.isEditingProfile = false,
   });
 
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final bool isCompletingProfile;
   final bool isEditingProfile;
 
   @override
+  State<Profile> createState() => _ProfileState();
+}
+
+class _ProfileState extends State<Profile> {
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  @override
   Widget build(BuildContext context) {
-    final title = isEditingProfile
+    final title = widget.isEditingProfile
         ? MyProfileStrings.editProfile
-        : isCompletingProfile
+        : widget.isCompletingProfile
             ? MyProfileStrings.completeProfile
             : tiutiuUserController.tiutiuUser.displayName ?? '';
 
