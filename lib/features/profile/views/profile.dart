@@ -72,21 +72,22 @@ class Profile extends StatelessWidget {
             automaticallyImplyLeading: !_itsMe,
             text: title,
           ),
-          body: Container(
-            alignment: Alignment.center,
-            margin: const EdgeInsets.all(8.0),
-            height: cardSize,
-            child: Stack(
-              children: [
-                Card(
-                  elevation: 8.0,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(24.0.h),
+          body: Center(
+            child: Container(
+              margin: const EdgeInsets.all(8.0),
+              height: cardSize,
+              child: Stack(
+                children: [
+                  Card(
+                    elevation: 8.0,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(24.0.h),
+                    ),
+                    child: _cardContent(context),
                   ),
-                  child: _cardContent(context),
-                ),
-                _loadingWidget()
-              ],
+                  _loadingWidget()
+                ],
+              ),
             ),
           ),
         ),

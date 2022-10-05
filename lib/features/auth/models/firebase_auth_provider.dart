@@ -39,12 +39,10 @@ class FirebaseAuthProvider implements AuthProviders {
     required String email,
   }) async {
     try {
-      final credential = await _firebaseAuth.signInWithEmailAndPassword(
+      await _firebaseAuth.signInWithEmailAndPassword(
         password: password,
         email: email,
       );
-
-      print('>> ${credential.credential?.providerId}');
     } on FirebaseAuthException catch (error) {
       print(error);
       throw TiuTiuAuthException(error.code);
