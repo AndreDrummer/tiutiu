@@ -18,10 +18,7 @@ class AuthenticatedArea extends StatelessWidget {
 
     if (isAuthenticated && isRegistered) return child;
     if (isAuthenticated && !isRegistered)
-      return Profile(
-        user: tiutiuUserController.tiutiuUser,
-        isCompletingProfile: true,
-      );
+      return Profile(isCompletingProfile: true, itsMe: true);
     return AuthHosters();
   }
 }

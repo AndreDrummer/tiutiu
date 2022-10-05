@@ -1,3 +1,4 @@
+import 'package:tiutiu/core/utils/constantes.dart';
 import 'package:tiutiu/features/system/controllers.dart';
 import 'package:tiutiu/features/tiutiu_user/services/tiutiu_user_service.dart';
 import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
@@ -17,13 +18,21 @@ class TiutiuUserController extends GetxController {
   TiutiuUser get tiutiuUser => _tiutiuUser.value;
   bool get isLoading => _isLoading.value;
 
-  void updateTiutiuUser(TiutiuUserEnum property, dynamic data) {
-    Map<String, dynamic> map = _tiutiuUser.value.toMap();
-    map[property.name] = data;
+  void updateTiutiuUser(
+    TiutiuUserEnum property,
+    dynamic data, [
+    bool replace = false,
+  ]) {
+    if (replace && data is TiutiuUser) {
+      _tiutiuUser(data);
+    } else {
+      Map<String, dynamic> map = _tiutiuUser.value.toMap();
+      map[property.name] = data;
 
-    TiutiuUser newTiutiuUser = TiutiuUser.fromMap(map);
+      TiutiuUser newTiutiuUser = TiutiuUser.fromMap(map);
 
-    _tiutiuUser(newTiutiuUser);
+      _tiutiuUser(newTiutiuUser);
+    }
   }
 
   void set isLoading(bool value) => _isLoading(value);
@@ -35,14 +44,16 @@ class TiutiuUserController extends GetxController {
   }
 
   Future<TiutiuUser> getUserById(String id) async {
-    return await _tiutiuUserService.getUserByID(id);
+    final TiutiuUser user = await _tiutiuUserService.getUserByID(id);
+    return user;
   }
 
   Future<void> updateUserDataOnServer() async {
     var avatarPath = tiutiuUser.avatar;
 
     isLoading = true;
-    if (avatarPath != null && !avatarPath.toString().contains('http')) {
+    if (avatarPath != null &&
+        !avatarPath.toString().contains(Constantes.HTTP)) {
       var urlAvatar = await _tiutiuUserService.uploadAvatar(
         tiutiuUser.uid ?? authController.user!.uid,
         avatarPath,
@@ -68,6 +79,10 @@ class TiutiuUserController extends GetxController {
 
     await _tiutiuUserService.updateUser(userData: tiutiuUser);
     isLoading = false;
+  }
+
+  Future<void> updateLoggedUserData(String userId) async {
+    _tiutiuUser(await getUserById(userId));
   }
 
   void resetUserData() {

@@ -40,7 +40,8 @@ class Formatter {
     final timeMinute = DateTime.parse(createdAt).minute;
     final timeHour = DateTime.parse(createdAt).hour;
 
-    return DateFormat('dd/MM/yyy').format(date) + ' $timeHour:$timeMinute';
+    return DateFormat('dd/MM/yyy').format(date) +
+        ' $timeHour:${timeMinute < 10 ? '0$timeMinute' : timeMinute}';
   }
 
   static String timeFormmated(int minutes) {
