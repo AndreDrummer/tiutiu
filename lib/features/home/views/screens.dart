@@ -8,6 +8,6 @@ final screens = <Widget>[
   DonateList(),
   DisappearedList(),
   AuthenticatedArea(child: Favorites()),
-  AuthenticatedArea(child: Profile(itsMe: true)),
+  AuthenticatedArea(child: Profile()),
   AuthenticatedArea(child: Favorites()),
 ];
