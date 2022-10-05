@@ -57,7 +57,7 @@ class _AvatarProfileState extends State<AvatarProfile> with Pickers {
         child: Stack(
           children: [
             CircleAvatar(
-              backgroundColor: AppColors.secondary,
+              backgroundColor: Colors.transparent,
               radius: widget.radius ?? 40.0.h,
               child: ClipOval(
                 child:
