@@ -240,7 +240,10 @@ class EmailAndPassword extends StatelessWidget with TiuTiuPopUp {
   Future<void> _createUserWithEmailAndPassword() async {
     try {
       await authController.createUserWithEmailAndPassword().then((result) {
-        if (result) Get.toNamed(Routes.home);
+        if (result) {
+          Get.toNamed(Routes.home);
+          authController.clearEmailAndPassword();
+        }
       });
     } catch (exception) {
       authController.isLoading = false;
@@ -251,7 +254,9 @@ class EmailAndPassword extends StatelessWidget with TiuTiuPopUp {
   Future<void> _signInWithEmailAndPassword() async {
     try {
       await authController.signInWithEmailAndPassword().then((result) {
-        if (result) Get.toNamed(Routes.home);
+        if (result) {
+          Get.toNamed(Routes.home);
+        }
       });
     } catch (exception) {
       authController.isLoading = false;

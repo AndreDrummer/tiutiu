@@ -7,6 +7,7 @@ class UnderlineInputText extends StatelessWidget {
   const UnderlineInputText({
     this.keyboardType = TextInputType.multiline,
     this.fontSizeLabelText,
+    this.readOnly = false,
     this.inputFormatters,
     this.initialValue,
     this.capitalize,
@@ -32,6 +33,7 @@ class UnderlineInputText extends StatelessWidget {
   final Widget? prefix;
   final Widget? suffix;
   final int? maxLines;
+  final bool readOnly;
 
   @override
   Widget build(BuildContext context) {
@@ -54,6 +56,7 @@ class UnderlineInputText extends StatelessWidget {
           ),
           SizedBox(height: 16.0.h),
           TextFormField(
+            readOnly: readOnly,
             initialValue: initialValue == 'null' || initialValue == null
                 ? ''
                 : initialValue,
