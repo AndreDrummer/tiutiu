@@ -1,5 +1,9 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:tiutiu/core/constants/app_colors.dart';
+import 'package:tiutiu/core/constants/text_styles.dart';
 
 class MyAccountCard extends StatelessWidget {
   MyAccountCard({
@@ -20,46 +24,44 @@ class MyAccountCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () => onTap?.call(),
-      child: Container(
-        width: isToExpand!
-            ? MediaQuery.of(context).size.width - 10
-            : MediaQuery.of(context).size.width * 0.485,
-        child: Card(
-          elevation: 6.0,
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+    return Container(
+      padding: EdgeInsets.zero,
+      margin: EdgeInsets.zero,
+      width: Get.width,
+      child: Padding(
+        padding: EdgeInsets.symmetric(vertical: 4.0.h),
+        child: ElevatedButton(
+          onPressed: () {
+            print(text);
+          },
+          style: ElevatedButton.styleFrom(
+            foregroundColor: Colors.transparent,
+            backgroundColor: Colors.white,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12.0.h),
+            ),
+            padding: EdgeInsets.zero,
+            elevation: 8.0,
+          ),
           child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              crossAxisAlignment: isToCenterText!
-                  ? CrossAxisAlignment.center
-                  : CrossAxisAlignment.start,
+            padding: EdgeInsets.all(20.0.h),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Icon(icone, color: Colors.grey, size: 22),
-                    Container(
-                      width: 100,
-                      child: AutoSizeText(
-                        textIcon!,
-                        style: Theme.of(context).textTheme.headline4!.copyWith(
-                              fontSize: 18,
-                              color: Colors.blueGrey[400],
-                            ),
-                      ),
+                Container(
+                  width: Get.width / 3,
+                  child: AutoSizeText(
+                    '$text',
+                    style: TextStyles.fontSize16(
+                      fontWeight: FontWeight.w600,
+                      color: AppColors.primary,
                     ),
-                  ],
+                  ),
                 ),
-                SizedBox(height: 10),
-                AutoSizeText(
-                  text!,
-                  style: Theme.of(context).textTheme.headline4!.copyWith(
-                        fontSize: 18,
-                        color: Colors.blueGrey[400],
-                      ),
+                Icon(
+                  icone,
+                  color: AppColors.secondary.withAlpha(104),
+                  size: 24.0.h,
                 ),
               ],
             ),
