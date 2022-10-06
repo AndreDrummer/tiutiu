@@ -1,3 +1,4 @@
+import 'package:tiutiu/Widgets/badge.dart';
 import 'package:tiutiu/features/home/controller/home_controller.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -71,14 +72,25 @@ class TopBar extends StatelessWidget {
                     size: 16.0.h,
                   ),
                 ),
-                IconButton(
-                  padding: EdgeInsets.zero,
-                  onPressed: () {},
-                  icon: Icon(
-                    color: AppColors.secondary,
-                    FontAwesomeIcons.gear,
-                    size: 16.0.h,
-                  ),
+                Stack(
+                  children: [
+                    IconButton(
+                      padding: EdgeInsets.zero,
+                      onPressed: () {},
+                      icon: Icon(
+                        color: AppColors.secondary,
+                        FontAwesomeIcons.bell,
+                        size: 16.0.h,
+                      ),
+                    ),
+                    Positioned(
+                      right: 8.0.w,
+                      child: Badge(
+                        color: AppColors.info,
+                        text: 0,
+                      ),
+                    )
+                  ],
                 ),
                 IconButton(
                   padding: EdgeInsets.zero,
@@ -90,8 +102,8 @@ class TopBar extends StatelessWidget {
                       color: AppColors.secondary,
                       homeController.cardVisibilityKind ==
                               CardVisibilityKind.card
-                          ? Icons.menu
-                          : Icons.grid_view,
+                          ? FontAwesomeIcons.list
+                          : FontAwesomeIcons.tableCells,
                       size: 16.0.h,
                     ),
                   ),
