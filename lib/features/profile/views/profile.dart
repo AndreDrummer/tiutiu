@@ -1,70 +1,47 @@
 import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiutiu/core/widgets/default_basic_app_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/constants/images_assets.dart';
 import 'package:tiutiu/features/system/controllers.dart';
 import 'package:tiutiu/core/constants/text_styles.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
-import 'package:tiutiu/Widgets/load_dark_screen.dart';
-import 'package:tiutiu/Widgets/underline_text.dart';
+import 'package:tiutiu/Widgets/my_account_card.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:tiutiu/Widgets/avatar_profile.dart';
 import 'package:tiutiu/core/constants/strings.dart';
-import 'package:tiutiu/core/utils/validators.dart';
-import 'package:brasil_fields/brasil_fields.dart';
-import 'package:tiutiu/Widgets/button.dart';
-import 'package:flutter/services.dart';
+import 'package:tiutiu/core/utils/formatter.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class Profile extends StatefulWidget {
+class Profile extends StatelessWidget {
   Profile({
-    this.isCompletingProfile = false,
-    this.isEditingProfile = false,
-  });
+    required final TiutiuUser user,
+  }) : _user = user;
 
-  final bool isCompletingProfile;
-  final bool isEditingProfile;
-
-  @override
-  State<Profile> createState() => _ProfileState();
-}
-
-class _ProfileState extends State<Profile> {
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final TiutiuUser _user;
 
   @override
   Widget build(BuildContext context) {
-    final title = widget.isEditingProfile
-        ? MyProfileStrings.editProfile
-        : widget.isCompletingProfile
-            ? MyProfileStrings.completeProfile
-            : tiutiuUserController.tiutiuUser.displayName ?? '';
-
     return SafeArea(
       child: Scaffold(
         appBar: DefaultBasicAppBar(
-          automaticallyImplyLeading: false,
-          text: title,
+          automaticallyImplyLeading: true,
+          text: _user.displayName ?? '',
         ),
-        body: Form(
-          key: _formKey,
-          child: Center(
-            child: Container(
-              margin: const EdgeInsets.all(8.0),
-              height: Get.height / 1.65,
-              child: Stack(
-                children: [
-                  Card(
-                    elevation: 8.0,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(24.0.h),
-                    ),
-                    child: _cardContent(context),
+        body: Center(
+          child: Container(
+            margin: const EdgeInsets.all(8.0),
+            child: Stack(
+              children: [
+                Card(
+                  elevation: 8.0,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(24.0.h),
                   ),
-                  _loadingWidget()
-                ],
-              ),
+                  child: _cardContent(context),
+                ),
+              ],
             ),
           ),
         ),
@@ -79,10 +56,24 @@ class _ProfileState extends State<Profile> {
           children: [
             _backgroundImage(),
             Positioned(
-              right: 52.0,
-              left: 52.0,
-              top: 0.0.h,
-              child: _roundedPicture(),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _roundedPicture(),
+                  Padding(
+                    padding: EdgeInsets.only(top: 36.0.h, left: 8.0.w),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        _userName(),
+                        SizedBox(height: 4.0.h),
+                        _userSinceDate(),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+              left: 16.0,
             ),
             Positioned(
               child: _errorImageNull(),
@@ -92,19 +83,52 @@ class _ProfileState extends State<Profile> {
             ),
           ],
         ),
-        Container(
-          height: Get.height / 3,
-          margin: EdgeInsets.only(left: 8.0.w, top: 16.0.h),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
+        SizedBox(height: 8.0.h),
+        SizedBox(
+          height: Get.height,
+          child: ListView(
+            padding: EdgeInsets.symmetric(horizontal: 8.0.w),
             children: [
-              Spacer(),
-              _userName(),
-              Spacer(),
-              _userPhoneNumber(),
-              Spacer(),
-              _submitButton(context),
-              Spacer(),
+              MyAccountCard(
+                icone: Icons.grid_view,
+                isToCenterText: false,
+                isToExpand: true,
+                text: 'Meus Posts',
+                textIcon: 'sadfasdfa',
+                onTap: () {},
+              ),
+              MyAccountCard(
+                icone: Icons.favorite,
+                isToCenterText: false,
+                isToExpand: true,
+                text: 'Favoritos',
+                textIcon: 'sadfasdfa',
+                onTap: () {},
+              ),
+              MyAccountCard(
+                icone: FontAwesomeIcons.comments,
+                isToCenterText: false,
+                isToExpand: true,
+                text: 'Chat Online',
+                textIcon: 'sadfasdfa',
+                onTap: () {},
+              ),
+              MyAccountCard(
+                icone: FontAwesomeIcons.gear,
+                isToCenterText: false,
+                isToExpand: true,
+                text: 'Configurações',
+                textIcon: 'sadfasdfa',
+                onTap: () {},
+              ),
+              MyAccountCard(
+                icone: FontAwesomeIcons.arrowRightFromBracket,
+                isToCenterText: false,
+                isToExpand: true,
+                textIcon: 'sadfasdfa',
+                text: 'Sair',
+                onTap: () {},
+              ),
             ],
           ),
         )
@@ -113,26 +137,19 @@ class _ProfileState extends State<Profile> {
   }
 
   Widget _roundedPicture() {
-    return Container(
-      margin: EdgeInsets.symmetric(vertical: 16.0.h),
-      alignment: Alignment.center,
-      child: Obx(
-        () => AvatarProfile(
-          onAssetPicked: (file) {
-            tiutiuUserController.updateTiutiuUser(
-              TiutiuUserEnum.avatar,
-              file,
-            );
-          },
-          avatarPath: tiutiuUserController.tiutiuUser.avatar,
-          radius: Get.width / 6,
-          onAssetRemoved: () {
-            tiutiuUserController.updateTiutiuUser(
-              TiutiuUserEnum.avatar,
-              null,
-            );
-          },
-          viewOnly: false,
+    return GestureDetector(
+      onTap: () {
+        fullscreenController.openFullScreenMode([_user.avatar]);
+      },
+      child: Container(
+        margin: EdgeInsets.symmetric(vertical: 16.0.h),
+        alignment: Alignment.center,
+        child: AvatarProfile(
+          onAssetPicked: (file) {},
+          avatarPath: _user.avatar,
+          onAssetRemoved: () {},
+          viewOnly: true,
+          radius: 48.0.h,
         ),
       ),
     );
@@ -162,7 +179,7 @@ class _ProfileState extends State<Profile> {
           topLeft: Radius.circular(12.0.h),
         ),
         child: Container(
-          height: Get.width / 2,
+          height: 128.0.h,
           width: double.infinity,
           child: ClipRRect(
             child: Image.asset(
@@ -176,73 +193,17 @@ class _ProfileState extends State<Profile> {
   }
 
   Widget _userName() {
-    return UnderlineInputText(
-      onChanged: (name) {
-        tiutiuUserController.updateTiutiuUser(
-          TiutiuUserEnum.displayName,
-          name,
-        );
-      },
-      initialValue: tiutiuUserController.tiutiuUser.displayName,
-      labelText: MyProfileStrings.howCallYou,
-      validator: Validators.verifyEmpty,
-      fontSizeLabelText: 16.0.h,
-      readOnly: false,
-    );
-  }
-
-  Widget _userPhoneNumber() {
-    return Column(
-      children: [
-        SizedBox(height: 16.0.h),
-        UnderlineInputText(
-          onChanged: (number) {
-            tiutiuUserController.updateTiutiuUser(
-              TiutiuUserEnum.phoneNumber,
-              number,
-            );
-          },
-          labelText: MyProfileStrings.whatsapp,
-          inputFormatters: [
-            FilteringTextInputFormatter.digitsOnly,
-            TelefoneInputFormatter(),
-          ],
-          initialValue: tiutiuUserController.tiutiuUser.phoneNumber,
-          keyboardType: TextInputType.number,
-          fontSizeLabelText: 16.0.h,
-        ),
-      ],
-    );
-  }
-
-  Widget _submitButton(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 8.0.w),
-      child: ButtonWide(
-        color: AppColors.primary,
-        text: AppStrings.save,
-        isToExpand: false,
-        action: () async {
-          if (_formKey.currentState!.validate() &&
-              tiutiuUserController.tiutiuUser.avatar != null) {
-            profileController.showErrorEmptyPic = false;
-            FocusScope.of(context).unfocus();
-            profileController.save();
-          } else {
-            profileController.showErrorEmptyPic = true;
-          }
-        },
+    return AutoSizeText(
+      '${_user.displayName}',
+      style: TextStyles.fontSize24(
+        fontWeight: FontWeight.w700,
       ),
     );
   }
 
-  Widget _loadingWidget() {
-    return Obx(
-      () => LoadDarkScreen(
-        message: MyProfileStrings.updatingProfile,
-        visible: tiutiuUserController.isLoading,
-        roundeCorners: true,
-      ),
+  Widget _userSinceDate() {
+    return AutoSizeText(
+      '${UserStrings.userSince} ${Formatter.getFormattedDate(_user.createdAt ?? DateTime.now().toIso8601String())}',
     );
   }
 }

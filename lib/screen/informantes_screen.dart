@@ -1,6 +1,6 @@
 import 'package:tiutiu/providers/user_infos_interests.dart';
 import 'package:loading_animations/loading_animations.dart';
-import 'package:tiutiu/features/profile/views/profile.dart';
+import 'package:tiutiu/features/profile/views/edit_profile.dart';
 import 'package:tiutiu/core/models/interested_model.dart';
 import 'package:tiutiu/core/constants/images_assets.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -92,7 +92,7 @@ class _InformantesScreenState extends State<InformantesScreen> {
                       context,
                       MaterialPageRoute(
                         builder: (context) {
-                          return Profile();
+                          return EditProfile();
                         },
                       ),
                     );
