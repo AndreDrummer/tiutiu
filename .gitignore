@@ -13,10 +13,8 @@ local.properties
 .flutter-plugins-*
 node_modules/
 /lib/utils/constantes.dart
-update-flutter.sh
+*.sh
 /lib/functins
-
-
 
 # IntelliJ related
 *.iml
