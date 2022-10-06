@@ -13,7 +13,7 @@ import 'package:tiutiu/features/pets/model/pet_model.dart';
 import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
 import 'package:tiutiu/features/chat/common/functions.dart';
 import 'package:tiutiu/providers/user_infos_interests.dart';
-import 'package:tiutiu/features/profile/views/profile.dart';
+import 'package:tiutiu/features/profile/views/edit_profile.dart';
 import 'package:tiutiu/core/constants/firebase_env_path.dart';
 import 'package:tiutiu/core/utils/routes/routes_name.dart';
 
@@ -89,7 +89,7 @@ class _InterestedListState extends State<InterestedList> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => Profile(),
+        builder: (context) => EditProfile(),
       ),
     );
   }
