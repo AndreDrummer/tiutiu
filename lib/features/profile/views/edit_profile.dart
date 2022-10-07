@@ -1,4 +1,3 @@
-import 'package:tiutiu/Widgets/button_wide_outlined.dart';
 import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
 import 'package:tiutiu/core/widgets/default_basic_app_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -12,6 +11,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:tiutiu/Widgets/avatar_profile.dart';
 import 'package:tiutiu/core/constants/strings.dart';
 import 'package:tiutiu/core/utils/validators.dart';
+import 'package:tiutiu/Widgets/cancel_button.dart';
 import 'package:brasil_fields/brasil_fields.dart';
 import 'package:tiutiu/Widgets/button_wide.dart';
 import 'package:flutter/services.dart';
@@ -50,7 +50,7 @@ class _EditProfileState extends State<EditProfile> {
       child: SafeArea(
         child: Scaffold(
           appBar: DefaultBasicAppBar(
-            automaticallyImplyLeading: true,
+            automaticallyImplyLeading: false,
             text: title,
           ),
           body: Form(
@@ -248,10 +248,9 @@ class _EditProfileState extends State<EditProfile> {
   Widget _cancelButton(BuildContext context) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 8.0.w),
-      child: ButtonWideOutlined(
-        text: AppStrings.cancel,
-        isToExpand: false,
-        action: () async {
+      child: CancelButton(
+        textColor: AppColors.secondary,
+        onCancel: () async {
           profileController.isSetting = false;
         },
       ),
