@@ -4,9 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 mixin TiuTiuPopUp {
-  Future showPopUp(
-    BuildContext context,
-    String message, {
+  Future showPopUp({
+    required String message,
     bool barrierDismissible = true,
     void Function()? secondaryAction,
     void Function()? mainAction,
@@ -17,7 +16,7 @@ mixin TiuTiuPopUp {
     String? denyText,
   }) async {
     return await showDialog(
-      context: context,
+      context: Get.context!,
       barrierDismissible: barrierDismissible,
       builder: (context) {
         return PopUpMessage(

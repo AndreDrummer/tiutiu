@@ -1,3 +1,4 @@
+import 'package:tiutiu/core/mixins/tiu_tiu_pop_up.dart';
 import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
 import 'package:tiutiu/core/widgets/default_basic_app_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -12,7 +13,7 @@ import 'package:tiutiu/core/utils/formatter.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class Profile extends StatelessWidget {
+class Profile extends StatelessWidget with TiuTiuPopUp {
   Profile({
     required final TiutiuUser user,
   }) : _user = user;
@@ -56,7 +57,7 @@ class Profile extends StatelessWidget {
         ),
       ),
       child: SizedBox(
-        height: 128.0.h,
+        height: Get.width / 2.5,
         child: ListView(
           children: [
             Stack(
@@ -118,7 +119,7 @@ class Profile extends StatelessWidget {
           topLeft: Radius.circular(12.0.h),
         ),
         child: Container(
-          height: 128.0.h,
+          height: Get.width / 2.5,
           width: double.infinity,
           child: ClipRRect(
             child: Image.asset(
@@ -157,8 +158,7 @@ class Profile extends StatelessWidget {
         ),
       ),
       child: Container(
-        margin: EdgeInsets.only(bottom: 8.0.h),
-        height: Get.height * .57,
+        height: Get.height * .55,
         child: ListView(
           padding: EdgeInsets.symmetric(horizontal: 8.0.w),
           children: profileController.myProfileOptionsTile.map((title) {
@@ -169,13 +169,36 @@ class Profile extends StatelessWidget {
               isToCenterText: false,
               isToExpand: true,
               onPressed: () {
-                profileController.handleOptionHitted(title);
+                if (title == MyProfileOptionsTile.leave) {
+                  _exitApp(title);
+                } else {
+                  profileController.handleOptionHitted(title);
+                }
               },
               text: title,
             );
           }).toList(),
         ),
       ),
+    );
+  }
+
+  Future<void> _exitApp(String title) async {
+    await showPopUp(
+      message: AppStrings.wannaLeave,
+      confirmText: AppStrings.yes,
+      mainAction: () {
+        Get.back();
+      },
+      secondaryAction: () {
+        Get.back();
+        profileController.handleOptionHitted(title);
+      },
+      barrierDismissible: false,
+      title: AppStrings.leave,
+      denyText: AppStrings.no,
+      warning: true,
+      danger: false,
     );
   }
 }
