@@ -82,12 +82,13 @@ class AuthHosters extends StatelessWidget {
       top: 40.0.h,
       child: SizedBox(
         width: Get.width,
-        child: TiutiuLogo(),
+        child: TiutiuLogo(color: AppColors.primary),
       ),
     );
   }
 
-  Widget _headline() => Headline(text: AuthStrings.authentique);
+  Widget _headline() =>
+      Headline(text: AuthStrings.authentique, textColor: AppColors.white);
 
   Widget _authButtons() {
     return Container(
