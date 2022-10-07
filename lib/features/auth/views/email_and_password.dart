@@ -247,7 +247,11 @@ class EmailAndPassword extends StatelessWidget with TiuTiuPopUp {
       });
     } catch (exception) {
       authController.isLoading = false;
-      showPopUp(Get.context!, exception.toString(), danger: true);
+      showPopUp(
+        title: AuthStrings.authFailure,
+        message: exception.toString(),
+        danger: true,
+      );
     }
   }
 
@@ -260,7 +264,11 @@ class EmailAndPassword extends StatelessWidget with TiuTiuPopUp {
       });
     } catch (exception) {
       authController.isLoading = false;
-      showPopUp(Get.context!, exception.toString(), danger: true);
+      showPopUp(
+        title: AuthStrings.authFailure,
+        message: exception.toString(),
+        danger: true,
+      );
     }
   }
 }
