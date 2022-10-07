@@ -7,10 +7,12 @@ import 'package:flutter/material.dart';
 class CancelButton extends StatelessWidget {
   const CancelButton({
     required this.onCancel,
+    this.textColor,
     super.key,
   });
 
   final Function() onCancel;
+  final Color? textColor;
 
   @override
   Widget build(BuildContext context) {
@@ -20,10 +22,10 @@ class CancelButton extends StatelessWidget {
         padding: EdgeInsets.zero,
       ),
       child: OneLineText(
+        color: textColor ?? AppColors.white,
         alignment: Alignment.center,
         fontWeight: FontWeight.bold,
         text: AppStrings.cancel,
-        color: AppColors.white,
         fontSize: 16.0.sp,
       ),
       onPressed: () {
