@@ -9,17 +9,15 @@ class MyAccountCard extends StatelessWidget {
   MyAccountCard({
     this.isToCenterText = false,
     this.isToExpand = false,
-    this.textIcon = '',
-    this.icone,
-    this.onTap,
+    this.onPressed,
+    this.icon,
     this.text,
   });
 
+  final Function()? onPressed;
   final bool? isToCenterText;
   final bool? isToExpand;
-  final String? textIcon;
-  final IconData? icone;
-  final Function? onTap;
+  final IconData? icon;
   final String? text;
 
   @override
@@ -31,9 +29,7 @@ class MyAccountCard extends StatelessWidget {
       child: Padding(
         padding: EdgeInsets.symmetric(vertical: 4.0.h),
         child: ElevatedButton(
-          onPressed: () {
-            print(text);
-          },
+          onPressed: onPressed,
           style: ElevatedButton.styleFrom(
             foregroundColor: Colors.transparent,
             backgroundColor: Colors.white,
@@ -59,7 +55,7 @@ class MyAccountCard extends StatelessWidget {
                   ),
                 ),
                 Icon(
-                  icone,
+                  icon,
                   color: AppColors.secondary.withAlpha(104),
                   size: 24.0.h,
                 ),

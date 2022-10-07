@@ -9,7 +9,7 @@ import 'package:tiutiu/Widgets/popup_message.dart';
 import 'package:tiutiu/Widgets/outline_input_text.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:tiutiu/Widgets/divider.dart';
-import 'package:tiutiu/Widgets/button.dart';
+import 'package:tiutiu/Widgets/button_wide.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'dart:io';

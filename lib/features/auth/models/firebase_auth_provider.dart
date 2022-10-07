@@ -16,6 +16,10 @@ class FirebaseAuthProvider implements AuthProviders {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   User? get firebaseAuthUser => _firebaseAuth.currentUser;
 
+  Stream<User?> userStream() {
+    return _firebaseAuth.authStateChanges();
+  }
+
   @override
   Future<void> createUserWithEmailAndPassword({
     required String password,
@@ -68,6 +72,7 @@ class FirebaseAuthProvider implements AuthProviders {
   Future<void> signOut() async {
     await _firebaseAuth.signOut();
     if (await _googleSignIn.isSignedIn()) await _googleSignIn.signOut();
+    print(firebaseAuthUser);
   }
 
   @override

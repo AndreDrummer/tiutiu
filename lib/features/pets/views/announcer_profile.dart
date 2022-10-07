@@ -11,7 +11,7 @@ import 'package:tiutiu/Widgets/avatar_profile.dart';
 import 'package:tiutiu/core/constants/strings.dart';
 import 'package:tiutiu/core/utils/formatter.dart';
 import 'package:tiutiu/core/Custom/icons.dart';
-import 'package:tiutiu/Widgets/button.dart';
+import 'package:tiutiu/Widgets/button_wide.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

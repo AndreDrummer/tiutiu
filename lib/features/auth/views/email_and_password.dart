@@ -14,7 +14,7 @@ import 'package:tiutiu/core/utils/validators.dart';
 import 'package:tiutiu/Widgets/cancel_button.dart';
 import 'package:tiutiu/Widgets/one_line_text.dart';
 import 'package:tiutiu/Widgets/tiutiu_logo.dart';
-import 'package:tiutiu/Widgets/button.dart';
+import 'package:tiutiu/Widgets/button_wide.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -27,7 +27,7 @@ class EmailAndPassword extends StatelessWidget with TiuTiuPopUp {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      backgroundColor: AppColors.primary.withAlpha(100),
+      backgroundColor: AppColors.black.withAlpha(100),
       body: Obx(
         () => Stack(
           children: [
@@ -239,8 +239,8 @@ class EmailAndPassword extends StatelessWidget with TiuTiuPopUp {
 
   Future<void> _createUserWithEmailAndPassword() async {
     try {
-      await authController.createUserWithEmailAndPassword().then((result) {
-        if (result) {
+      await authController.createUserWithEmailAndPassword().then((success) {
+        if (success) {
           Get.toNamed(Routes.home);
           authController.clearEmailAndPassword();
         }
@@ -253,8 +253,8 @@ class EmailAndPassword extends StatelessWidget with TiuTiuPopUp {
 
   Future<void> _signInWithEmailAndPassword() async {
     try {
-      await authController.signInWithEmailAndPassword().then((result) {
-        if (result) {
+      await authController.signInWithEmailAndPassword().then((success) {
+        if (success) {
           Get.toNamed(Routes.home);
         }
       });
