@@ -6,7 +6,7 @@ import 'package:tiutiu/core/constants/strings.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:tiutiu/Widgets/background.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:tiutiu/Widgets/button.dart';
+import 'package:tiutiu/Widgets/button_wide.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
