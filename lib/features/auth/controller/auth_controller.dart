@@ -66,7 +66,10 @@ class AuthController extends GetxController {
         email: emailAndPasswordAuth.email!,
       );
 
-      if (success) saveEmailAndPasswordAuthData();
+      if (success) {
+        await loadUserData();
+        saveEmailAndPasswordAuthData();
+      }
 
       isCreatingNewAccount = false;
       isShowingPassword = false;
@@ -79,15 +82,19 @@ class AuthController extends GetxController {
   Future<bool> signInWithEmailAndPassword() async {
     isLoading = true;
 
-    final success = await _authService.signInWithEmailAndPassword(
+    final bool success = await _authService.signInWithEmailAndPassword(
       password: emailAndPasswordAuth.password!,
       email: emailAndPasswordAuth.email!,
     );
 
+    if (success) {
+      await loadUserData();
+      saveEmailAndPasswordAuthData();
+    }
+
     isShowingPassword = false;
     isLoading = false;
 
-    if (success) saveEmailAndPasswordAuthData();
     debugPrint('${success ? 'Successfully' : 'Not'} authenticated');
 
     return success;
@@ -99,10 +106,6 @@ class AuthController extends GetxController {
 
   Future<bool> tryAutoLoginIn() async {
     final success = await trySignInWithEmailAndPassword();
-
-    if (success) {
-      await getUserData();
-    }
 
     return success;
   }
@@ -125,8 +128,6 @@ class AuthController extends GetxController {
     return false;
   }
 
-  Future<void> getUserData() async {}
-
   void saveEmailAndPasswordAuthData() {
     LocalStorage.setDataUnderKey(
       key: LocalStorageKey.emailPasswordAuthData,
@@ -134,6 +135,12 @@ class AuthController extends GetxController {
         AuthKeys.password.name: emailAndPasswordAuth.password!,
         AuthKeys.email.name: emailAndPasswordAuth.email!,
       },
+    );
+  }
+
+  Future<void> loadUserData() async {
+    await tiutiuUserController.updateLoggedUserData(
+      authController.user!.uid,
     );
   }
 
