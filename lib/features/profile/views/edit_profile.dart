@@ -125,6 +125,7 @@ class _EditProfileState extends State<EditProfile> {
       alignment: Alignment.center,
       child: Obx(
         () => AvatarProfile(
+          hero: 'null',
           onAssetPicked: (file) {
             tiutiuUserController.updateTiutiuUser(
               TiutiuUserEnum.avatar,

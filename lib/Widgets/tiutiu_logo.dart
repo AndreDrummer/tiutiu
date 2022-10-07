@@ -1,4 +1,5 @@
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/core/constants/images_assets.dart';
 import 'package:flutter/material.dart';
 
@@ -9,6 +10,7 @@ class TiutiuLogo extends StatelessWidget {
     this.imageWidth,
     this.textHeight,
     this.textWidth,
+    this.color,
     super.key,
   });
 
@@ -17,6 +19,7 @@ class TiutiuLogo extends StatelessWidget {
   final double? imageWidth;
   final double? textWidth;
   final bool horizontal;
+  final Color? color;
 
   @override
   Widget build(BuildContext context) {
@@ -25,8 +28,9 @@ class TiutiuLogo extends StatelessWidget {
         height: imageHeight ?? 28.0.h,
         width: imageWidth,
         child: Image.asset(
-          ImageAssets.newLogo,
+          color: color ?? AppColors.white,
           fit: BoxFit.fitHeight,
+          ImageAssets.newLogo,
         ),
       ),
       SizedBox(
@@ -37,8 +41,9 @@ class TiutiuLogo extends StatelessWidget {
         height: textHeight ?? 16.0.h,
         width: textWidth,
         child: Image.asset(
-          ImageAssets.tiutiu,
+          color: color ?? AppColors.white,
           fit: BoxFit.fitHeight,
+          ImageAssets.tiutiu,
         ),
       ),
     ];

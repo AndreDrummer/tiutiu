@@ -13,6 +13,7 @@ class AvatarProfile extends StatefulWidget {
     this.onAssetPicked,
     this.avatarPath,
     this.radius,
+    this.hero,
     super.key,
   });
 
@@ -21,6 +22,7 @@ class AvatarProfile extends StatefulWidget {
   final dynamic avatarPath;
   final double? radius;
   final bool viewOnly;
+  final Object? hero;
 
   @override
   State<AvatarProfile> createState() => _AvatarProfileState();
@@ -60,8 +62,11 @@ class _AvatarProfileState extends State<AvatarProfile> with Pickers {
               backgroundColor: Colors.transparent,
               radius: widget.radius ?? 40.0.h,
               child: ClipOval(
-                child:
-                    AssetHandle.getImage(widget.avatarPath, isUserImage: true),
+                child: AssetHandle.getImage(
+                  widget.avatarPath,
+                  isUserImage: true,
+                  hero: widget.hero,
+                ),
               ),
             ),
             Visibility(

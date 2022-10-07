@@ -18,12 +18,11 @@ class Home extends StatelessWidget with TiuTiuPopUp {
         () => WillPopScope(
           onWillPop: () async {
             return showPopUp(
-              context,
+              message: AppStrings.wannaLeave,
               confirmText: AppStrings.yes,
               barrierDismissible: false,
               title: AppStrings.endApp,
               denyText: AppStrings.no,
-              AppStrings.wannaLeave,
               danger: false,
               warning: true,
               mainAction: () {
