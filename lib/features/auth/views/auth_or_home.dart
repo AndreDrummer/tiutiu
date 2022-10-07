@@ -23,14 +23,7 @@ class _AuthOrHomeState extends State<AuthOrHome> {
         replacement: NoConnection(),
         visible: system.internetConnected,
         child: FutureBuilder(
-          future: authController.tryAutoLoginIn().then((success) async {
-            if (success) {
-              await tiutiuUserController.updateLoggedUserData(
-                authController.user!.uid,
-              );
-            }
-            return success;
-          }),
+          future: authController.tryAutoLoginIn(),
           builder: (_, AsyncSnapshot snapshot) {
             return AsyncHandler(
               errorMessage: AppStrings.authError,
