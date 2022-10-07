@@ -1,7 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:tiutiu/Widgets/background.dart';
-import 'package:tiutiu/Widgets/button.dart';
+import 'package:tiutiu/Widgets/button_wide.dart';
 import 'package:tiutiu/Widgets/outline_input_text.dart';
 import 'package:tiutiu/core/constants/images_assets.dart';
 
