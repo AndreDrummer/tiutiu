@@ -49,11 +49,12 @@ class AuthStrings {
   static const String forgetMyPassword = 'Esqueci minha senha';
   static String get doNotHaveAnAccount => 'Não tem uma conta?';
   static String get continueAnon => 'Continuar anônimamente';
-  static String get enterAccount => 'Entrar na sua conta.';
-  static String get haveAnAccount => 'Já tem uma conta?';
   static const String loginInProgress = 'Realizando Login';
-  static const String registeringUser = 'Criando conta';
+  static String get enterAccount => 'Entrar na sua conta.';
+  static String get authFailure => 'Falha na autenticação';
+  static String get haveAnAccount => 'Já tem uma conta?';
   static const String authenticanting = 'Autênticando...';
+  static const String registeringUser = 'Criando conta';
   static const String invalidEmail = 'E-mail inválido';
   static String get createAccount => 'Criar conta';
   static String get createYours => 'Crie a sua.';
