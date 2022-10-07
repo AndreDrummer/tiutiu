@@ -38,7 +38,7 @@ class ButtonWide extends StatelessWidget {
               rounded ? 24.0.h : 8.0.h,
             ),
           ),
-          backgroundColor: color ?? AppColors.secondary,
+          backgroundColor: color ?? AppColors.primary,
         ),
         onPressed: () => action?.call(),
         child: Container(
