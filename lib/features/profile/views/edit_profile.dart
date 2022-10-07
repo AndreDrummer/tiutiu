@@ -1,3 +1,4 @@
+import 'package:tiutiu/Widgets/button_wide_outlined.dart';
 import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
 import 'package:tiutiu/core/widgets/default_basic_app_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -12,7 +13,7 @@ import 'package:tiutiu/Widgets/avatar_profile.dart';
 import 'package:tiutiu/core/constants/strings.dart';
 import 'package:tiutiu/core/utils/validators.dart';
 import 'package:brasil_fields/brasil_fields.dart';
-import 'package:tiutiu/Widgets/button.dart';
+import 'package:tiutiu/Widgets/button_wide.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -41,29 +42,35 @@ class _EditProfileState extends State<EditProfile> {
             ? MyProfileStrings.completeProfile
             : tiutiuUserController.tiutiuUser.displayName ?? '';
 
-    return SafeArea(
-      child: Scaffold(
-        appBar: DefaultBasicAppBar(
-          automaticallyImplyLeading: false,
-          text: title,
-        ),
-        body: Form(
-          key: _formKey,
-          child: Center(
-            child: Container(
-              margin: const EdgeInsets.all(8.0),
-              height: Get.height / 1.65,
-              child: Stack(
-                children: [
-                  Card(
-                    elevation: 8.0,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(24.0.h),
+    return WillPopScope(
+      onWillPop: () async {
+        profileController.isSetting = false;
+        return true;
+      },
+      child: SafeArea(
+        child: Scaffold(
+          appBar: DefaultBasicAppBar(
+            automaticallyImplyLeading: true,
+            text: title,
+          ),
+          body: Form(
+            key: _formKey,
+            child: Center(
+              child: Container(
+                margin: const EdgeInsets.all(8.0),
+                height: Get.height,
+                child: Stack(
+                  children: [
+                    Card(
+                      elevation: 8.0,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(24.0.h),
+                      ),
+                      child: _cardContent(context),
                     ),
-                    child: _cardContent(context),
-                  ),
-                  _loadingWidget()
-                ],
+                    _loadingWidget()
+                  ],
+                ),
               ),
             ),
           ),
@@ -93,7 +100,7 @@ class _EditProfileState extends State<EditProfile> {
           ],
         ),
         Container(
-          height: Get.height / 3,
+          height: Get.height / 2,
           margin: EdgeInsets.only(left: 8.0.w, top: 16.0.h),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -104,7 +111,7 @@ class _EditProfileState extends State<EditProfile> {
               _userPhoneNumber(),
               Spacer(),
               _submitButton(context),
-              Spacer(),
+              _cancelButton(context),
             ],
           ),
         )
@@ -227,10 +234,25 @@ class _EditProfileState extends State<EditProfile> {
               tiutiuUserController.tiutiuUser.avatar != null) {
             profileController.showErrorEmptyPic = false;
             FocusScope.of(context).unfocus();
-            profileController.save();
+            profileController
+                .save()
+                .then((_) => profileController.isSetting = false);
           } else {
             profileController.showErrorEmptyPic = true;
           }
+        },
+      ),
+    );
+  }
+
+  Widget _cancelButton(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 8.0.w),
+      child: ButtonWideOutlined(
+        text: AppStrings.cancel,
+        isToExpand: false,
+        action: () async {
+          profileController.isSetting = false;
         },
       ),
     );
