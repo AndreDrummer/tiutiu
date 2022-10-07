@@ -16,7 +16,7 @@ import 'package:tiutiu/Widgets/dots_indicator.dart';
 import 'package:maps_launcher/maps_launcher.dart';
 import 'package:tiutiu/Widgets/background.dart';
 import 'package:tiutiu/core/Custom/icons.dart';
-import 'package:tiutiu/Widgets/button.dart';
+import 'package:tiutiu/Widgets/button_wide.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

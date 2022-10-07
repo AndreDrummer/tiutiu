@@ -6,6 +6,7 @@ import 'package:tiutiu/core/constants/images_assets.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
+import 'package:tiutiu/features/system/controllers.dart';
 
 enum AuthKeys {
   password,
@@ -138,12 +139,14 @@ class AuthController extends GetxController {
 
   Future<void> signOut() async {
     await _authService.signOut();
-    clearEmailAndPassword();
     clearAllAuthData();
+    clearEmailAndPassword();
+    homeController.bottomBarIndex = 0;
     print('Deslogado!');
   }
 
   void clearAllAuthData() {
+    tiutiuUserController.resetUserData();
     LocalStorageKey.values.forEach((key) {
       if (key != LocalStorageKey.firstOpen)
         LocalStorage.deleteDataUnderKey(key);
@@ -152,7 +155,7 @@ class AuthController extends GetxController {
 
   final _startScreenImages = [
     StartScreenAssets.whiteCat,
-    StartScreenAssets.hamster,
+    StartScreenAssets.greyCat,
     StartScreenAssets.pinscher,
     StartScreenAssets.oldMel,
     StartScreenAssets.munkun,
