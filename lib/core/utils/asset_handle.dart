@@ -31,6 +31,7 @@ class AssetHandle {
   static Widget getImage(
     dynamic imagePath, {
     bool isUserImage = false,
+    Object? hero,
     BoxFit? fit,
   }) {
     if (imagePath == null || imagePath.toString().isEmpty) {
@@ -45,6 +46,7 @@ class AssetHandle {
     } else if (imagePath.toString().contains(Constantes.HTTP)) {
       return _networkImage(
         isUserImage: isUserImage,
+        hero: hero,
         imagePath,
         fit: fit,
       );
@@ -70,9 +72,10 @@ class AssetHandle {
     dynamic imagePath, {
     bool isUserImage = false,
     BoxFit? fit,
+    Object? hero,
   }) {
     return Hero(
-      tag: imagePath,
+      tag: hero ?? imagePath,
       child: CachedNetworkImage(
         errorWidget: (context, url, error) => Icon(Icons.error),
         placeholder: (_, __) => Center(

@@ -19,12 +19,13 @@ class AuthenticatedArea extends StatelessWidget {
       stream: FirebaseAuthProvider.instance.userStream(),
       builder: (context, snapshot) {
         final isRegistered = tiutiuUserController.tiutiuUser.uid != null;
-
+        // FirebaseAuthProvider.instance.signOut();
         if (isRegistered) {
           return child;
         } else if (snapshot.hasData) {
           final user = snapshot.requireData;
           final isAuthenticated = user != null;
+          print(user);
           if (isAuthenticated && !isRegistered)
             return EditProfile(isCompletingProfile: true);
         }
