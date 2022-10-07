@@ -37,9 +37,9 @@ class _MyAccountState extends State<MyAccount> {
                   Row(
                     children: [
                       MyAccountCard(
-                        icone: Icons.pets,
+                        icon: Icons.pets,
                         text: 'PETs p/ adoção',
-                        onTap: () {
+                        onPressed: () {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -54,9 +54,9 @@ class _MyAccountState extends State<MyAccount> {
                         },
                       ),
                       MyAccountCard(
-                        icone: Tiutiu.twitter_bird,
+                        icon: Tiutiu.twitter_bird,
                         text: 'Adotados',
-                        onTap: () {
+                        onPressed: () {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -76,9 +76,9 @@ class _MyAccountState extends State<MyAccount> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       MyAccountCard(
-                        icone: Tiutiu.cat,
+                        icon: Tiutiu.cat,
                         text: 'Doados',
-                        onTap: () {
+                        onPressed: () {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -94,9 +94,9 @@ class _MyAccountState extends State<MyAccount> {
                         },
                       ),
                       MyAccountCard(
-                        icone: Tiutiu.dog,
+                        icon: Tiutiu.dog,
                         text: 'Desaparecidos',
-                        onTap: () {
+                        onPressed: () {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -116,17 +116,17 @@ class _MyAccountState extends State<MyAccount> {
                     children: [
                       MyAccountCard(
                         isToExpand: false,
-                        icone: Icons.chat_bubble_outline,
+                        icon: Icons.chat_bubble_outline,
                         text: 'Chat',
-                        onTap: () {
+                        onPressed: () {
                           Navigator.pushNamed(context, Routes.chatList);
                         },
                       ),
                       MyAccountCard(
                         isToExpand: false,
-                        icone: Icons.info,
+                        icon: Icons.info,
                         text: 'Sobre',
-                        onTap: () {
+                        onPressed: () {
                           Navigator.pushNamed(context, Routes.about);
                         },
                       ),
