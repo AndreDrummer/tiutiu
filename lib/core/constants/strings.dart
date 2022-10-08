@@ -152,3 +152,7 @@ class MyProfileOptionsTile {
   static const String chat = 'Chat Online';
   static const String leave = 'Sair';
 }
+
+class PostFlowStrings {
+  static const String petIsHere = 'O PET ESTÁ AQUI';
+}
