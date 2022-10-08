@@ -746,7 +746,7 @@ class _AppSettingsState extends State<AppSettings> {
           ],
         ),
         bottomNavigationBar: ButtonWide(
-          action: save,
+          onPressed: save,
           isToExpand: true,
           rounded: false,
           text: 'SALVAR',

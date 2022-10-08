@@ -102,7 +102,7 @@ class AuthHosters extends StatelessWidget {
             text: AuthStrings.apple,
             color: AppColors.white,
             isToExpand: true,
-            action: () {},
+            onPressed: () {},
           ),
           SizedBox(height: 4.0.h),
           ButtonWide(
@@ -110,7 +110,7 @@ class AuthHosters extends StatelessWidget {
             text: AuthStrings.email,
             color: Colors.grey,
             isToExpand: true,
-            action: () {
+            onPressed: () {
               Get.toNamed(Routes.emailAndPassword);
             },
           ),
@@ -120,7 +120,7 @@ class AuthHosters extends StatelessWidget {
             text: AuthStrings.google,
             color: AppColors.danger,
             isToExpand: true,
-            action: () {},
+            onPressed: () {},
           ),
           SizedBox(height: 4.0.h),
           ButtonWide(
@@ -128,7 +128,7 @@ class AuthHosters extends StatelessWidget {
             text: AuthStrings.facebook,
             color: AppColors.info,
             isToExpand: true,
-            action: () {},
+            onPressed: () {},
           ),
         ],
       ),

@@ -11,14 +11,14 @@ class ButtonWide extends StatelessWidget {
     this.isToExpand = false,
     this.rounded = true,
     this.textIconColor,
-    this.action,
+    this.onPressed,
     this.color,
     this.icon,
     this.text,
   });
 
   final Color? textIconColor;
-  final Function? action;
+  final Function? onPressed;
   final bool isToExpand;
   final IconData? icon;
   final String? text;
@@ -40,7 +40,7 @@ class ButtonWide extends StatelessWidget {
           ),
           backgroundColor: color ?? AppColors.primary,
         ),
-        onPressed: () => action?.call(),
+        onPressed: () => onPressed?.call(),
         child: Container(
           alignment: Alignment.center,
           height: 48.0.h,

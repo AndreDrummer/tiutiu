@@ -66,7 +66,7 @@ class RequestCurrentLocalAccessPermissionView extends StatelessWidget {
                         height: MediaQuery.of(context).size.height / 3.2,
                       ),
                       ButtonWide(
-                        action: () {
+                        onPressed: () {
                           _currentLocationController.handleLocationPermission();
                         },
                         text: _getButtonText(),
