@@ -41,7 +41,7 @@ class PopupTextField extends StatelessWidget {
                 ),
                 SizedBox(height: 25),
                 ButtonWide(
-                  action: callback,
+                  onPressed: callback,
                   text: 'Enviar',
                 )
               ],

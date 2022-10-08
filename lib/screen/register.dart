@@ -448,7 +448,7 @@ class _RegisterState extends State<Register> {
         color: finishing ? Colors.grey : Theme.of(context).primaryColor,
         text: 'FINALIZAR',
         rounded: false,
-        action: finishing
+        onPressed: finishing
             ? null
             : () async {
                 if (_formKey.currentState!.validate()) {

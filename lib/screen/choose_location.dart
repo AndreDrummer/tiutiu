@@ -57,7 +57,7 @@ class _ChooseLocationState extends State<ChooseLocation> {
                   text: kind == FirebaseEnvPath.donate
                       ? 'O PET ESTÁ NESTA REGIÃO'
                       : 'VISTO POR ÚLTIMO AQUI',
-                  action: snapshot.data == null || !snapshot.data!
+                  onPressed: snapshot.data == null || !snapshot.data!
                       ? null
                       : () {
                           Navigator.pushNamed(
