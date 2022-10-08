@@ -9,9 +9,9 @@ class TextStyles {
     double? fontSize,
   }) {
     return TextStyle(
+      fontSize: fontSize ?? 8.0.sp,
       fontWeight: fontWeight,
       fontStyle: fontStyle,
-      fontSize: fontSize,
       color: color,
     );
   }

@@ -8,11 +8,13 @@ class CancelButton extends StatelessWidget {
   const CancelButton({
     required this.onCancel,
     this.textColor,
+    this.text,
     super.key,
   });
 
   final Function() onCancel;
   final Color? textColor;
+  final String? text;
 
   @override
   Widget build(BuildContext context) {
@@ -23,9 +25,9 @@ class CancelButton extends StatelessWidget {
       ),
       child: OneLineText(
         color: textColor ?? AppColors.white,
+        text: text ?? AppStrings.cancel,
         alignment: Alignment.center,
         fontWeight: FontWeight.bold,
-        text: AppStrings.cancel,
         fontSize: 16.0.sp,
       ),
       onPressed: () {

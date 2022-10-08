@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/constants/images_assets.dart';
 import 'package:tiutiu/features/system/controllers.dart';
 import 'package:tiutiu/core/constants/text_styles.dart';
+import 'package:tiutiu/Widgets/column_button_bar.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/Widgets/load_dark_screen.dart';
 import 'package:tiutiu/Widgets/underline_text.dart';
@@ -11,9 +12,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:tiutiu/Widgets/avatar_profile.dart';
 import 'package:tiutiu/core/constants/strings.dart';
 import 'package:tiutiu/core/utils/validators.dart';
-import 'package:tiutiu/Widgets/cancel_button.dart';
 import 'package:brasil_fields/brasil_fields.dart';
-import 'package:tiutiu/Widgets/button_wide.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -110,8 +109,7 @@ class _EditProfileState extends State<EditProfile> {
               Spacer(),
               _userPhoneNumber(),
               Spacer(),
-              _submitButton(context),
-              _cancelButton(context),
+              _buttons(context),
             ],
           ),
         )
@@ -223,14 +221,11 @@ class _EditProfileState extends State<EditProfile> {
     );
   }
 
-  Widget _submitButton(BuildContext context) {
+  Widget _buttons(BuildContext context) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 8.0.w),
-      child: ButtonWide(
-        color: AppColors.primary,
-        text: AppStrings.save,
-        isToExpand: false,
-        action: () async {
+      child: ColumnButtonBar(
+        onPrimaryPressed: () {
           if (_formKey.currentState!.validate() &&
               tiutiuUserController.tiutiuUser.avatar != null) {
             profileController.showErrorEmptyPic = false;
@@ -242,16 +237,7 @@ class _EditProfileState extends State<EditProfile> {
             profileController.showErrorEmptyPic = true;
           }
         },
-      ),
-    );
-  }
-
-  Widget _cancelButton(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 8.0.w),
-      child: CancelButton(
-        textColor: AppColors.secondary,
-        onCancel: () async {
+        onCancelPressed: () {
           profileController.isSetting = false;
         },
       ),
