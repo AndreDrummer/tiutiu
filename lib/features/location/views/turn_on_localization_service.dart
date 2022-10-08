@@ -65,7 +65,8 @@ class TurnOnLocalizationService extends StatelessWidget {
                         height: MediaQuery.of(context).size.height / 3.2,
                       ),
                       ButtonWide(
-                        action: _currentLocationController.openDeviceSettings,
+                        onPressed:
+                            _currentLocationController.openDeviceSettings,
                         text: LocalPermissionStrings.turnOnLocalization,
                       ),
                     ],
