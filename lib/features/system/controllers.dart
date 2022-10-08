@@ -1,4 +1,5 @@
 import 'package:tiutiu/features/location/controller/current_location_controller.dart';
+import 'package:tiutiu/features/posts/controller/posts_controller.dart';
 import 'package:tiutiu/features/refine_search/controller/filter_controller.dart';
 import 'package:tiutiu/features/favorites/controller/favorites_controller.dart';
 import 'package:tiutiu/features/tiutiu_user/controller/user_controller.dart';
@@ -19,6 +20,7 @@ final FavoritesController favoritesController = Get.find();
 final ProfileController profileController = Get.find();
 final FilterController filterController = Get.find();
 final MyPetsController myPetsController = Get.find();
+final PostsController postsController = Get.find();
 final PetsController petsController = Get.find();
 final HomeController homeController = Get.find();
 final ChatController chatController = Get.find();
