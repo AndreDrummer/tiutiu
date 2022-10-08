@@ -218,7 +218,7 @@ class AnnouncerProfile extends StatelessWidget {
               text: AppStrings.chat,
               isToExpand: false,
               icon: Icons.phone,
-              action: () {},
+              onPressed: () {},
             ),
           ),
           SizedBox(width: 16.0.w),
@@ -228,7 +228,7 @@ class AnnouncerProfile extends StatelessWidget {
               color: AppColors.primary,
               icon: Tiutiu.whatsapp,
               isToExpand: false,
-              action: () {
+              onPressed: () {
                 Launcher.openWhatsApp(
                   number: Formatter.unmaskNumber(_user.phoneNumber!),
                 );
