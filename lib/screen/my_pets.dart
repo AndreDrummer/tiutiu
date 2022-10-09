@@ -200,7 +200,7 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
                                             top: 20,
                                             right: 5,
                                             child: _lablePetKind(
-                                                pets[index].kind!),
+                                                pets[index].type!),
                                           )
                                   ],
                                 ),
@@ -331,7 +331,7 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
                                                       return InterestedList(
                                                           pet: pets[index],
                                                           kind:
-                                                              pets[index].kind);
+                                                              pets[index].type);
                                                     },
                                                   ),
                                                 );
@@ -360,7 +360,7 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
                                                             .spaceBetween,
                                                     children: [
                                                       AutoSizeText(
-                                                        pets[index].kind ==
+                                                        pets[index].type ==
                                                                 FirebaseEnvPath
                                                                     .donate
                                                             ? 'Ver lista de interessados'
@@ -376,7 +376,7 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
                                                           SizedBox(width: 50),
                                                           AutoSizeText(pets[
                                                                           index]
-                                                                      .kind ==
+                                                                      .type ==
                                                                   FirebaseEnvPath
                                                                       .disappeared
                                                               ? 'Econtrado'
@@ -403,11 +403,11 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
                                                                                 pets[index].donatedOrFound;
                                                                             return PopUpMessage(
                                                                               warning: true,
-                                                                              title: '${!textToDisplay ? 'Marcar' : 'Desmarcar'} como ${pets[index].kind == FirebaseEnvPath.disappeared ? 'encontrado' : 'doado'}',
+                                                                              title: '${!textToDisplay ? 'Marcar' : 'Desmarcar'} como ${pets[index].type == FirebaseEnvPath.disappeared ? 'encontrado' : 'doado'}',
                                                                               message: 'Ao ${!textToDisplay ? 'marcar' : 'desmarcar'} o PET ${!textToDisplay ? 'deixará de' : 'voltará a'} aparecer para o público.',
                                                                               confirmAction: () {
                                                                                 Navigator.pop(context);
-                                                                                if (pets[index].kind == FirebaseEnvPath.disappeared) {
+                                                                                if (pets[index].type == FirebaseEnvPath.disappeared) {
                                                                                 } else {}
                                                                               },
                                                                               confirmText: !textToDisplay ? 'Pode marcar' : 'Desmarcar',

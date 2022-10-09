@@ -25,7 +25,6 @@ enum PetEnum {
   owner,
   size,
   name,
-  kind,
   city,
   uid,
 }
@@ -38,6 +37,8 @@ class Pet {
     this.otherCaracteristics,
     this.interesteds = 0,
     this.storageHashKey,
+    this.state = 'Todos',
+    this.city = 'Todas',
     this.longitude,
     this.createdAt,
     this.latitude,
@@ -52,12 +53,9 @@ class Pet {
     this.views,
     this.breed,
     this.type,
-    this.state,
     this.owner,
     this.size,
     this.name,
-    this.kind,
-    this.city,
     this.uid,
   });
 
@@ -70,6 +68,8 @@ class Pet {
       storageHashKey: map[PetEnum.storageHashKey.name],
       disappeared: map[PetEnum.disappeared.name],
       interesteds: map[PetEnum.interesteds.name],
+      state: map[PetEnum.state.name] ?? 'Todos',
+      city: map[PetEnum.city.name] ?? 'Todas',
       longitude: map[PetEnum.longitude.name],
       createdAt: map[PetEnum.createdAt.name],
       latitude: map[PetEnum.latitude.name],
@@ -81,14 +81,11 @@ class Pet {
       health: map[PetEnum.health.name],
       gender: map[PetEnum.gender.name],
       color: map[PetEnum.color.name],
-      state: map[PetEnum.state.name],
       views: map[PetEnum.views.name],
       breed: map[PetEnum.breed.name],
       type: map[PetEnum.type.name],
       size: map[PetEnum.size.name],
       name: map[PetEnum.name.name],
-      kind: map[PetEnum.kind.name],
-      city: map[PetEnum.city.name],
       uid: map[PetEnum.uid.name],
     );
   }
@@ -115,7 +112,6 @@ class Pet {
       type: map[PetEnum.type.name],
       size: map[PetEnum.size.name],
       name: map[PetEnum.name.name],
-      kind: map[PetEnum.kind.name],
       city: map[PetEnum.city.name],
       uid: map[PetEnum.uid.name],
     );
@@ -135,15 +131,14 @@ class Pet {
   String? details;
   String? gender;
   String? health;
-  String? state;
+  String state;
   String? color;
   int? ageMonth;
   String? breed;
   int? ageYear;
   String? size;
   String? type;
-  String? kind;
-  String? city;
+  String city;
   List? photos;
   String? name;
   String? uid;
@@ -176,7 +171,6 @@ class Pet {
       PetEnum.size.name: size,
       PetEnum.name.name: name,
       PetEnum.city.name: city,
-      PetEnum.kind.name: kind,
       PetEnum.uid.name: uid,
     };
   }

@@ -24,7 +24,7 @@ class CardBuilder {
 
   Widget adDescription() => AdDescription(description: _pet.breed!);
 
-  Widget adInteresteds() => AdInteresteds(petKind: _pet.kind!);
+  Widget adInteresteds() => AdInteresteds(petKind: _pet.type!);
 
   Widget adPostedAt() => AdPostedAt(createdAt: _pet.createdAt!);
 
@@ -39,7 +39,7 @@ class CardBuilder {
   Widget favoriteButton() => FavoriteButton();
 
   Widget adCityState() => AdCityState(
-        state: _pet.state!,
-        city: _pet.city!,
+        state: _pet.state,
+        city: _pet.city,
       );
 }
