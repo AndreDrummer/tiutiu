@@ -13,10 +13,9 @@ import 'package:tiutiu/core/utils/asset_handle.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:tiutiu/core/constants/strings.dart';
 import 'package:tiutiu/Widgets/dots_indicator.dart';
-import 'package:maps_launcher/maps_launcher.dart';
+import 'package:tiutiu/Widgets/button_wide.dart';
 import 'package:tiutiu/Widgets/background.dart';
 import 'package:tiutiu/core/Custom/icons.dart';
-import 'package:tiutiu/Widgets/button_wide.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -269,13 +268,7 @@ class PetDetails extends StatelessWidget {
       title: pet.disappeared
           ? PetDetailsString.lastSeen
           : PetDetailsString.whereIsPet,
-      onAction: () {
-        MapsLauncher.launchCoordinates(
-          pet.latitude!,
-          pet.longitude!,
-          pet.name,
-        );
-      },
+      onAction: () {},
     );
   }
 
