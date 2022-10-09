@@ -10,14 +10,14 @@ class ColumnButtonBar extends StatelessWidget {
     this.buttonSecondaryColor,
     this.buttonPrimaryColor,
     this.onPrimaryPressed,
-    this.onCancelPressed,
+    this.onSecondaryPressed,
     this.textPrimary,
     this.textSecond,
     super.key,
   });
 
   final Function()? onPrimaryPressed;
-  final Function()? onCancelPressed;
+  final Function()? onSecondaryPressed;
   final Color? buttonSecondaryColor;
   final Color? buttonPrimaryColor;
   final String? textPrimary;
@@ -42,7 +42,7 @@ class ColumnButtonBar extends StatelessWidget {
             padding: EdgeInsets.symmetric(horizontal: 8.0.w),
             child: CancelButton(
               textColor: buttonSecondaryColor ?? AppColors.secondary,
-              onCancel: () => onCancelPressed?.call(),
+              onCancel: () => onSecondaryPressed?.call(),
             ),
           ),
         ],

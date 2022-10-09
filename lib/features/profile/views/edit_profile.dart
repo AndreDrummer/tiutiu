@@ -237,7 +237,7 @@ class _EditProfileState extends State<EditProfile> {
             profileController.showErrorEmptyPic = true;
           }
         },
-        onCancelPressed: () {
+        onSecondaryPressed: () {
           profileController.isSetting = false;
         },
       ),

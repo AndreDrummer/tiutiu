@@ -38,7 +38,7 @@ class ErrorPage extends StatelessWidget {
               padding: EdgeInsets.symmetric(vertical: 32.0.h),
               child: AutoSizeText(
                 style: TextStyles.fontSize16(color: AppColors.white),
-                errorMessage ?? AppStrings.genericError,
+                errorMessage ?? error.toString(),
                 textAlign: TextAlign.center,
               ),
             ),

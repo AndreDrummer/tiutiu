@@ -1,3 +1,4 @@
+import 'package:tiutiu/core/data/location_data_strings.dart';
 import 'package:tiutiu/features/posts/widgets/location_selecter.dart';
 import 'package:tiutiu/features/pets/model/pet_model.dart';
 import 'package:tiutiu/features/system/controllers.dart';
@@ -14,10 +15,18 @@ class PostLocation extends StatelessWidget {
           onFullAddressSelected: (value) {
             postsController.toggleFullAddress();
           },
-          initialCity: postsController.pet.city,
           initialState: postsController.pet.state,
+          initialCity: postsController.pet.city,
           onStateChanged: (state) {
             postsController.updatePet(PetEnum.state, state);
+            postsController.updatePet(
+              PetEnum.city,
+              DataLocalStrings()
+                  .citiesOf(
+                    stateName: postsController.pet.state,
+                  )
+                  .first,
+            );
           },
           onCityChanged: (city) {
             postsController.updatePet(PetEnum.city, city);

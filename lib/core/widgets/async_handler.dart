@@ -33,6 +33,7 @@ class AsyncHandler<T> extends StatelessWidget {
           ErrorPage(
             onErrorCallback: onErrorCallback,
             errorMessage: errorMessage,
+            error: snapshot.error,
           );
 
     if (connectionState == ConnectionState.waiting && showLoadingScreen)
