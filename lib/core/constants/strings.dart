@@ -154,5 +154,9 @@ class MyProfileOptionsTile {
 }
 
 class PostFlowStrings {
-  static const String petIsHere = 'O PET ESTÁ AQUI';
+  static const String fillFullAddress = 'Preencher endereço completo?';
+  static const String fillAdData = 'Preencher dados do anúncio';
+  static const String typeAddress = 'Digite o endereço';
+  static const String state = 'Estado';
+  static const String city = 'Cidade';
 }
