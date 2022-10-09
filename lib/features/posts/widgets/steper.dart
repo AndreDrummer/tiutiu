@@ -8,13 +8,13 @@ import 'package:get/get.dart';
 
 class Steper extends StatelessWidget {
   const Steper({
-    Key? key,
-    this.isCompleted = false,
+    required this.currentStep,
     required this.stepsName,
-  }) : super(key: key);
+    super.key,
+  });
 
   final List<String> stepsName;
-  final bool isCompleted;
+  final int currentStep;
 
   @override
   Widget build(BuildContext context) {
@@ -35,8 +35,8 @@ class Steper extends StatelessWidget {
           children: List.generate(
             stepsName.length,
             (index) => _SteperItem(
+              isCompleted: currentStep > index,
               stepName: stepsName[index],
-              isCompleted: isCompleted,
               stepNumber: index + 1,
               onStepTapped: () {},
             ),

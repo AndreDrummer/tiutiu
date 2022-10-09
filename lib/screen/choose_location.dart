@@ -27,7 +27,7 @@ class _ChooseLocationState extends State<ChooseLocation> {
     // Location locationProvider = Provider.of<Location>(context);
     var params =
         ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
-    var kind = widget.editMode! ? widget.pet!.kind : params['kind'];
+    var kind = widget.editMode! ? widget.pet!.type : params['kind'];
 
     return Scaffold(
       backgroundColor: AppColors.white,
