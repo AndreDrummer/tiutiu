@@ -134,7 +134,7 @@ class _ListTile extends StatelessWidget {
       context,
       MaterialPageRoute(builder: (context) {
         return InterestedList(
-          kind: petInfo.kind,
+          kind: petInfo.type,
           pet: petInfo,
         );
       }),

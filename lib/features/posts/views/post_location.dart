@@ -1,10 +1,10 @@
 import 'package:tiutiu/features/posts/widgets/location_selecter.dart';
+import 'package:tiutiu/features/pets/model/pet_model.dart';
 import 'package:tiutiu/features/system/controllers.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../models/post.dart';
 
-class PetLocation extends StatelessWidget {
+class PostLocation extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -14,13 +14,13 @@ class PetLocation extends StatelessWidget {
           onFullAddressSelected: (value) {
             postsController.toggleFullAddress();
           },
-          initialCity: postsController.post.city,
-          initialState: postsController.post.uf,
-          onStateChanged: (uf) {
-            postsController.updatePost(PostEnum.uf, uf);
+          initialCity: postsController.pet.city,
+          initialState: postsController.pet.state,
+          onStateChanged: (state) {
+            postsController.updatePet(PetEnum.state, state);
           },
           onCityChanged: (city) {
-            postsController.updatePost(PostEnum.city, city);
+            postsController.updatePet(PetEnum.city, city);
           },
         ),
       ),
