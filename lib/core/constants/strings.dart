@@ -23,6 +23,7 @@ class AppStrings {
   static String get favorites => 'Favoritos';
   static String get getStarted => 'Começar';
   static String get whatsapp => 'WhatsApp';
+  static String get contines => 'Continuar';
   static String get infos => 'informações';
   static String get postedAt => 'Postado';
   static String get profile => 'Perfil';
@@ -33,6 +34,7 @@ class AppStrings {
   static String get name => 'Tiu, tiu';
   static String get email => 'E-mail';
   static String get post => 'Postar';
+  static String get back => 'Voltar';
   static String get save => 'Salvar';
   static String get leave => 'Sair';
   static String get chat => 'Chat';
@@ -156,7 +158,16 @@ class MyProfileOptionsTile {
 class PostFlowStrings {
   static const String fillFullAddress = 'Preencher endereço completo?';
   static const String fillAdData = 'Preencher dados do anúncio';
+  static const String insertPictures = 'Insira as fotos';
   static const String typeAddress = 'Digite o endereço';
+  static const String whereIsPet = 'Onde está o PET?';
+  static const String petsData = 'Dados do PET';
+  static const String pictures = 'Fotos';
   static const String state = 'Estado';
+  static const String months = 'Meses';
+  static const String local = 'Local';
   static const String city = 'Cidade';
+  static const String years = 'Anos';
+  static const String data = 'Dados';
+  static const String name = 'Nome';
 }
