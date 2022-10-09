@@ -30,20 +30,45 @@ class Steper extends StatelessWidget {
           color: AppColors.black,
           borderRadius: BorderRadius.circular(24.0.h),
         ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: List.generate(
-            stepsName.length,
-            (index) => _SteperItem(
-              isCompleted: currentStep > index,
-              stepName: stepsName[index],
-              stepNumber: index + 1,
-              onStepTapped: () {},
+        child: Stack(
+          children: [
+            Row(
+              children: List.generate(
+                stepsName.length,
+                (index) => _SteperItem(
+                  isCompleted: currentStep > index,
+                  stepName: stepsName[index],
+                  stepsQty: stepsName.length,
+                  stepNumber: index + 1,
+                  onStepTapped: () {},
+                ),
+              ),
             ),
-          ),
+            Positioned(
+              left: 56.0.w,
+              top: 27.0.h,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: List.generate(
+                  stepsName.length - 1,
+                  (index) {
+                    return Container(
+                      color: currentStep > index
+                          ? AppColors.primary
+                          : AppColors.white,
+                      margin: EdgeInsets.only(right: 32.0.w),
+                      padding: EdgeInsets.zero,
+                      width: 32.0.w,
+                      height: 1,
+                    );
+                  },
+                ),
+              ),
+            ),
+          ],
         ),
         width: Get.width,
-        height: 56.0.h,
+        height: 72.0.h,
       ),
     );
   }
@@ -53,79 +78,53 @@ class _SteperItem extends StatelessWidget {
   const _SteperItem({
     required this.isCompleted,
     required this.stepNumber,
+    required this.stepsQty,
     required this.stepName,
     this.onStepTapped,
   });
 
   final Function()? onStepTapped;
-  final String stepName;
   final bool isCompleted;
+  final String stepName;
   final int stepNumber;
+  final int stepsQty;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onStepTapped,
-      child: Row(
-        children: [
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Stack(
-                children: [
-                  Container(
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(shape: BoxShape.circle),
-                    margin: isCompleted
-                        ? EdgeInsets.zero
-                        : EdgeInsets.only(right: 24.0.w),
-                    child: Image.asset(
-                      color: isCompleted ? AppColors.primary : AppColors.white,
-                      ImageAssets.newLogo,
-                    ),
-                    height: 32.0.h,
-                    width: 32.0.h,
-                  ),
-                  Positioned(
-                    left: 15.0.w,
-                    top: 15.0.h,
-                    child: AutoSizeText(
-                      '$stepNumber',
-                      textAlign: TextAlign.center,
-                      style: TextStyles.fontSize(
-                        color: isCompleted ? AppColors.white : AppColors.black,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  )
-                ],
+      child: Container(
+        width: 64.0.w,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              margin: EdgeInsets.only(left: 16.0.w, top: 9.0.h),
+              alignment: Alignment.center,
+              decoration: BoxDecoration(shape: BoxShape.circle),
+              child: Image.asset(
+                color: isCompleted ? AppColors.primary : AppColors.white,
+                ImageAssets.newLogo,
               ),
-              Padding(
-                padding: EdgeInsets.only(
-                  right: isCompleted ? 0.0.w : 24.0.w,
-                  top: 2.0.h,
-                ),
-                child: AutoSizeText(
-                  stepName,
-                  textAlign: TextAlign.center,
-                  style: TextStyles.fontSize(
-                    color: isCompleted ? AppColors.primary : AppColors.white,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-            ],
-          ),
-          Visibility(
-            visible: isCompleted && stepNumber < 5,
-            child: Container(
-              margin: EdgeInsets.only(bottom: 12.0.h),
-              color: AppColors.primary,
-              width: 32,
-              height: 1,
+              height: 28.0.h,
+              width: 28.0.h,
             ),
-          )
-        ],
+            Container(
+              height: 24.0.h,
+              margin: EdgeInsets.only(top: 4.0.h, left: 16.0.w),
+              alignment: Alignment.center,
+              child: AutoSizeText(
+                stepName,
+                textAlign: TextAlign.center,
+                style: TextStyles.fontSize(
+                  color: isCompleted ? AppColors.primary : AppColors.white,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

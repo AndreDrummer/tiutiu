@@ -5,6 +5,8 @@ import 'package:tiutiu/core/constants/text_styles.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:tiutiu/core/constants/strings.dart';
 import 'package:flutter/material.dart';
+import 'package:tiutiu/core/utils/validators.dart';
+import 'package:tiutiu/features/system/controllers.dart';
 
 class LocationSelecter extends StatelessWidget {
   const LocationSelecter({
@@ -24,14 +26,6 @@ class LocationSelecter extends StatelessWidget {
   final String initialState;
   final String initialCity;
 
-  Future<void> loadStatesAndCities() async {
-    await DataLocalStrings().getUFAndCities();
-  }
-
-  void updateState(String? stateName) {
-    onStateChanged(stateName);
-  }
-
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -42,14 +36,12 @@ class LocationSelecter extends StatelessWidget {
             items: DataLocalStrings().stateNames,
             labelText: PostFlowStrings.state,
             initialValue: initialState,
-            onChanged: updateState,
+            onChanged: onStateChanged,
             fontSize: 12.0.sp,
           ),
           SizedBox(height: 24.0.h),
           UnderlineInputDropdown(
-            items: DataLocalStrings().citiesOf(
-              stateName: initialState,
-            ),
+            items: DataLocalStrings().citiesOf(stateName: initialState),
             labelText: PostFlowStrings.city,
             initialValue: initialCity,
             onChanged: onCityChanged,
@@ -57,9 +49,9 @@ class LocationSelecter extends StatelessWidget {
           ),
           SizedBox(height: 32.0.h),
           AnimatedContainer(
-            duration: Duration(milliseconds: 500),
             margin: EdgeInsets.symmetric(horizontal: 16.0.w),
             height: fillFullAddress ? 164.0.h : 32.0.h,
+            duration: Duration(milliseconds: 500),
             child: ListView(
               children: [
                 Row(
@@ -80,12 +72,18 @@ class LocationSelecter extends StatelessWidget {
                 ),
                 Padding(
                   padding: EdgeInsets.only(top: 8.0.h),
-                  child: TextField(
-                    maxLines: 3,
-                    decoration: InputDecoration(
-                      labelText: PostFlowStrings.typeAddress,
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12.0.h),
+                  child: Form(
+                    key: postsController.fullAddressKeyForm,
+                    child: TextFormField(
+                      validator: postsController.isFullAddress
+                          ? Validators.verifyEmpty
+                          : null,
+                      maxLines: 3,
+                      decoration: InputDecoration(
+                        labelText: PostFlowStrings.typeAddress,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12.0.h),
+                        ),
                       ),
                     ),
                   ),
