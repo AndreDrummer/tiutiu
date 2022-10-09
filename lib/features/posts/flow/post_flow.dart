@@ -1,6 +1,7 @@
 import 'package:tiutiu/core/widgets/default_basic_app_bar.dart';
-import 'package:tiutiu/features/posts/views/name_and_age.dart';
+import 'package:tiutiu/features/posts/views/pictures.dart';
 import 'package:tiutiu/features/posts/views/post_location.dart';
+import 'package:tiutiu/features/posts/views/name_and_age.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/features/posts/widgets/steper.dart';
 import 'package:tiutiu/features/system/controllers.dart';
@@ -24,7 +25,7 @@ class PostFlow extends StatelessWidget {
               Obx(
                 () => Steper(
                   currentStep: postsController.flowIndex,
-                  stepsName: _steps,
+                  stepsName: _stepsNames,
                 ),
               ),
               Divider(height: 16.0.h),
@@ -35,13 +36,27 @@ class PostFlow extends StatelessWidget {
                   fontSize: 24.0.sp,
                 ),
               ),
-              Expanded(
-                child: _screens.elementAt(postsController.flowIndex),
+              Divider(height: 16.0.h),
+              Obx(
+                () => Expanded(
+                  child: _stepsScreens.elementAt(postsController.flowIndex),
+                ),
               ),
             ],
           ),
           Positioned(
-            child: ColumnButtonBar(),
+            child: ColumnButtonBar(
+              onPrimaryPressed: () {
+                postsController.onContinue();
+              },
+              onSecondaryPressed: () {
+                postsController.previousStep();
+              },
+              textPrimary: AppStrings.contines,
+              textSecond: postsController.flowIndex < 1
+                  ? AppStrings.cancel
+                  : AppStrings.back,
+            ),
             bottom: 0.0,
             right: 0.0,
             left: 0.0,
@@ -52,17 +67,20 @@ class PostFlow extends StatelessWidget {
   }
 }
 
-final _steps = [
-  'Nome e idade',
-  'Local',
+final _stepsNames = [
+  PostFlowStrings.data,
+  PostFlowStrings.local,
+  PostFlowStrings.pictures,
 ];
 
 final _stepsTitle = [
-  '',
-  'Onde está o PET?',
+  PostFlowStrings.petsData,
+  PostFlowStrings.whereIsPet,
+  PostFlowStrings.insertPictures,
 ];
 
-final _screens = [
+final _stepsScreens = [
   NameAndAge(),
   PostLocation(),
+  Pictures(),
 ];
