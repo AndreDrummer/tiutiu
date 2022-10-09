@@ -7,13 +7,20 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class Steper extends StatelessWidget {
-  const Steper({Key? key}) : super(key: key);
+  const Steper({
+    Key? key,
+    this.isCompleted = false,
+    required this.stepsName,
+  }) : super(key: key);
+
+  final List<String> stepsName;
+  final bool isCompleted;
 
   @override
   Widget build(BuildContext context) {
     return Card(
       margin: EdgeInsets.all(8.0.h),
-      elevation: 5,
+      elevation: 8.0.h,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(24.0.h),
       ),
@@ -26,9 +33,10 @@ class Steper extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: List.generate(
-            5,
+            stepsName.length,
             (index) => _SteperItem(
-              isCompleted: index < 90,
+              stepName: stepsName[index],
+              isCompleted: isCompleted,
               stepNumber: index + 1,
               onStepTapped: () {},
             ),
@@ -45,10 +53,12 @@ class _SteperItem extends StatelessWidget {
   const _SteperItem({
     required this.isCompleted,
     required this.stepNumber,
+    required this.stepName,
     this.onStepTapped,
   });
 
   final Function()? onStepTapped;
+  final String stepName;
   final bool isCompleted;
   final int stepNumber;
 
@@ -83,8 +93,7 @@ class _SteperItem extends StatelessWidget {
                       '$stepNumber',
                       textAlign: TextAlign.center,
                       style: TextStyles.fontSize(
-                        color:
-                            isCompleted ? AppColors.white : AppColors.primary,
+                        color: isCompleted ? AppColors.white : AppColors.black,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -97,7 +106,7 @@ class _SteperItem extends StatelessWidget {
                   top: 2.0.h,
                 ),
                 child: AutoSizeText(
-                  'Nome',
+                  stepName,
                   textAlign: TextAlign.center,
                   style: TextStyles.fontSize(
                     color: isCompleted ? AppColors.primary : AppColors.white,
