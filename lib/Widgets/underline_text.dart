@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/constants/text_styles.dart';
 import 'package:flutter/services.dart';
@@ -46,12 +47,13 @@ class UnderlineInputText extends StatelessWidget {
         children: [
           Visibility(
             visible: labelText != null,
-            child: Text(
-              '$labelText',
+            child: AutoSizeText(
               style: TextStyles.fontSize(
                 fontSize: fontSizeLabelText ?? 24.0.sp,
                 color: Colors.black,
               ),
+              maxFontSize: 26.0,
+              '$labelText',
             ),
           ),
           SizedBox(height: 16.0.h),
@@ -80,7 +82,7 @@ class UnderlineInputText extends StatelessWidget {
               enabledBorder: _underlineInputBorder(),
               focusedBorder: _underlineInputBorder(),
               border: _underlineInputBorder(),
-              hintStyle: TextStyles.fontSize(
+              hintStyle: TextStyle(
                 fontSize: fontSizeLabelText != null
                     ? fontSizeLabelText! * .85
                     : 18.0.sp,
