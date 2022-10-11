@@ -35,8 +35,10 @@ class Pet {
     this.lastSeenDetails = '',
     this.disappeared = false,
     this.otherCaracteristics,
+    this.health = 'Saudável',
     this.city = 'Acrelândia',
     this.type = 'Cachorro',
+    this.color = 'Abóbora',
     this.state = 'Acre',
     this.interesteds = 0,
     this.storageHashKey,
@@ -48,9 +50,7 @@ class Pet {
     this.details,
     this.photos,
     this.ownerId,
-    this.health,
     this.gender,
-    this.color,
     this.views,
     this.breed,
     this.owner,
@@ -130,8 +130,8 @@ class Pet {
   int interesteds;
   String? details;
   String? gender;
-  String? health;
-  String? color;
+  String health;
+  String color;
   int? ageMonth;
   String? breed;
   int? ageYear;

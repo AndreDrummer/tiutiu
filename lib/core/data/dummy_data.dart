@@ -11,7 +11,6 @@ class DummyData {
   ];
 
   static const breed = [
-    [''],
     [
       'Akita',
       'Basset',
@@ -253,14 +252,6 @@ class DummyData {
       'Warsangli Linnet',
       'Yemen Linnet'
     ],
-    [
-      'Raça Indefinida',
-      'Hamster russo',
-      'Hamster de Roborovski',
-      'Hamster sírio ou dourado',
-      'Hamster-chinês',
-      'Hamster anão de Campbell'
-    ],
     ['Todas']
   ];
 
@@ -300,8 +291,7 @@ class DummyData {
     'Cachorro',
     'Gato',
     'Pássaro',
-    'Hamster',
-    'Outro',
+    'Exótico',
   ];
 
   static const color = [
