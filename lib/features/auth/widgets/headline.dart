@@ -22,6 +22,7 @@ class Headline extends StatelessWidget {
         fontWeight: FontWeight.bold,
         fontSize: 32.0.sp,
       ),
+      maxFontSize: 34.0,
       textAlign: TextAlign.left,
       text,
     );
