@@ -164,7 +164,7 @@ class PostFlowStrings {
   static const String petsData = 'Dados do PET';
   static const String petName = 'Nome do PET';
   static const String state = 'Estado';
-  static const String months = 'Tipo';
+  static const String months = 'Meses';
   static const String local = 'Local';
   static const String city = 'Cidade';
   static const String years = 'Anos';
