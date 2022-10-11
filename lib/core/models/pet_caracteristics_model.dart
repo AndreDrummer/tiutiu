@@ -24,9 +24,9 @@ class PetCaracteristics {
   static List<PetCaracteristics> petCaracteristics(Pet pet) {
     return <PetCaracteristics>[
           PetCaracteristics(
-            icon: OtherFunctions.getIconFromPetType(pet.type!),
-            title: PetDetailsString.type,
-            content: pet.type!,
+            icon: OtherFunctions.getIconFromPetType(pet.type),
+            title: AppStrings.type,
+            content: pet.type,
           ),
           PetCaracteristics(
             icon: pet.gender == PetDetailsString.female

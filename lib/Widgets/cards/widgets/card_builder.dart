@@ -24,9 +24,9 @@ class CardBuilder {
 
   Widget adDescription() => AdDescription(description: _pet.breed!);
 
-  Widget adInteresteds() => AdInteresteds(petKind: _pet.type!);
-
   Widget adPostedAt() => AdPostedAt(createdAt: _pet.createdAt!);
+
+  Widget adInteresteds() => AdInteresteds(petKind: _pet.type);
 
   Widget adImages() => AdImages(photos: _pet.photos!);
 
