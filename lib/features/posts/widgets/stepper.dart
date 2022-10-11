@@ -18,7 +18,7 @@ class Steper extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    int n = 7;
+    int n = 4;
     return Card(
       margin: EdgeInsets.all(8.0.h),
       elevation: 8.0.h,
@@ -47,9 +47,9 @@ class Steper extends StatelessWidget {
               ),
             ),
             Positioned(
-              right: 0.0.w,
-              top: 16.0.h,
-              left: 0.w,
+              left: 16.0.w,
+              top: 20.0.h,
+              right: 0,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: List.generate(
@@ -67,9 +67,10 @@ class Steper extends StatelessWidget {
                       ),
                       builder: (context, color, _) {
                         return Container(
+                          margin: EdgeInsets.only(right: 16.0.w),
                           padding: EdgeInsets.zero,
                           color: color as Color,
-                          width: 16.0.w,
+                          width: 24.0.w,
                           height: 1,
                         );
                       },
@@ -111,7 +112,7 @@ class _SteperItem extends StatelessWidget {
         child: Column(
           children: [
             Container(
-              margin: EdgeInsets.only(top: 8.0.h),
+              margin: EdgeInsets.only(top: 12.0.h),
               decoration: BoxDecoration(shape: BoxShape.circle),
               child: TweenAnimationBuilder(
                 duration: Duration(milliseconds: 250),

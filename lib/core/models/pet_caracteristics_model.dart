@@ -43,7 +43,7 @@ class PetCaracteristics {
           PetCaracteristics(
             icon: Icons.color_lens,
             title: PetDetailsString.color,
-            content: pet.color!,
+            content: pet.color,
           ),
           PetCaracteristics(
             icon: Icons.close_fullscreen,
@@ -53,7 +53,7 @@ class PetCaracteristics {
           PetCaracteristics(
             title: PetDetailsString.health,
             icon: Tiutiu.healing,
-            content: pet.health!,
+            content: pet.health,
           ),
           PetCaracteristics(
             content: '${pet.ageYear}a ${pet.ageMonth}m',
