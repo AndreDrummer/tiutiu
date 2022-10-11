@@ -37,6 +37,7 @@ class AppStrings {
   static String get back => 'Voltar';
   static String get save => 'Salvar';
   static String get leave => 'Sair';
+  static String get type => 'Tipo';
   static String get chat => 'Chat';
   static String get yes => 'Sim';
   static String get no => 'Não';
@@ -93,7 +94,6 @@ class FilterStrings {
   static String get bird => 'Pássaro';
   static String get date => 'Data';
   static String get age => 'Idade';
-  static String get type => 'Tipo';
   static String get name => 'Nome';
   static String get all => 'Todos';
   static String get cat => 'Gato';
@@ -130,7 +130,6 @@ class PetDetailsString {
   static String get breed => 'Raça';
   static String get age => 'Idade';
   static String get color => 'Cor';
-  static String get type => 'Tipo';
   static String get sex => 'Sexo';
 }
 
@@ -158,16 +157,16 @@ class MyProfileOptionsTile {
 class PostFlowStrings {
   static const String fillFullAddress = 'Preencher endereço completo?';
   static const String fillAdData = 'Preencher dados do anúncio';
+  static const String pcituresAndVideos = 'Fotos e Videos';
   static const String insertPictures = 'Insira as fotos';
   static const String typeAddress = 'Digite o endereço';
   static const String whereIsPet = 'Onde está o PET?';
   static const String petsData = 'Dados do PET';
-  static const String pictures = 'Fotos';
+  static const String petName = 'Nome do PET';
   static const String state = 'Estado';
-  static const String months = 'Meses';
+  static const String months = 'Tipo';
   static const String local = 'Local';
   static const String city = 'Cidade';
   static const String years = 'Anos';
   static const String data = 'Dados';
-  static const String name = 'Nome';
 }

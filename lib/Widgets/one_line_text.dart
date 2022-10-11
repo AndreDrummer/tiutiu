@@ -6,16 +6,16 @@ import 'package:tiutiu/core/constants/text_styles.dart';
 class OneLineText extends StatelessWidget {
   const OneLineText({
     required this.text,
+    this.fontSize = 14,
     this.fontWeight,
     this.alignment,
-    this.fontSize,
     this.color,
     super.key,
   });
 
   final FontWeight? fontWeight;
   final Alignment? alignment;
-  final double? fontSize;
+  final double fontSize;
   final Color? color;
   final String text;
 
@@ -29,10 +29,11 @@ class OneLineText extends StatelessWidget {
           text,
           style: TextStyles.fontSize(
             fontWeight: fontWeight ?? FontWeight.w600,
-            fontSize: fontSize ?? 14.sp,
+            fontSize: fontSize,
             color: color,
           ),
           overflow: TextOverflow.fade,
+          maxFontSize: 32,
         ),
       ),
     );
