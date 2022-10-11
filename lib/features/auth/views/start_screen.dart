@@ -40,6 +40,7 @@ class StartScreen extends StatelessWidget {
                       color: AppColors.white,
                       fontSize: 32.0.sp,
                     ),
+                    maxFontSize: 34.0,
                   ),
                   SizedBox(height: 24.0.h),
                   AutoSizeText(
@@ -50,6 +51,7 @@ class StartScreen extends StatelessWidget {
                       color: AppColors.white,
                       fontSize: 20.0.sp,
                     ),
+                    maxFontSize: 22.0,
                   ),
                   Spacer(),
                   Padding(

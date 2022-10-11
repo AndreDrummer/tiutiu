@@ -150,6 +150,7 @@ class AuthHosters extends StatelessWidget {
         ),
         textAlign: TextAlign.center,
         AuthStrings.continueAnon,
+        maxFontSize: 18.0,
       ),
       onPressed: () {
         Get.toNamed(Routes.home);
