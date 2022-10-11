@@ -1,5 +1,6 @@
 import 'package:tiutiu/Widgets/underline_input_dropdown.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:tiutiu/core/data/dummy_data.dart';
 import 'package:tiutiu/features/pets/model/pet_model.dart';
 import 'package:tiutiu/features/system/controllers.dart';
 import 'package:tiutiu/core/constants/strings.dart';
@@ -67,7 +68,6 @@ class PostInfo extends StatelessWidget {
                     items: yearsList,
                   ),
                 ),
-                SizedBox(width: 32.0.h),
                 Expanded(
                   child: UnderlineInputDropdown(
                     initialValue: postsController.pet.ageMonth.toString(),
@@ -80,6 +80,58 @@ class PostInfo extends StatelessWidget {
                     labelText: PostFlowStrings.months,
                     fontSize: 14.0.sp,
                     items: monthsList,
+                  ),
+                ),
+                Expanded(
+                  child: UnderlineInputDropdown(
+                    initialValue: postsController.pet.color.toString(),
+                    onChanged: (color) {
+                      postsController.updatePet(PetEnum.color, color);
+                    },
+                    labelText: PetDetailsString.color,
+                    items: DummyData.color,
+                    fontSize: 14.0.sp,
+                  ),
+                ),
+              ],
+            ),
+            _spacer(),
+            Row(
+              children: [
+                Expanded(
+                  child: UnderlineInputDropdown(
+                    initialValue: postsController.pet.health.toString(),
+                    onChanged: (health) {
+                      postsController.updatePet(PetEnum.health, health);
+                    },
+                    labelText: PetDetailsString.health,
+                    items: DummyData.health,
+                    fontSize: 14.0.sp,
+                  ),
+                ),
+                Expanded(
+                  child: UnderlineInputDropdown(
+                    initialValue: postsController.pet.ageMonth.toString(),
+                    onChanged: (meses) {
+                      postsController.updatePet(
+                        PetEnum.ageMonth,
+                        int.parse(meses ?? '0'),
+                      );
+                    },
+                    labelText: PostFlowStrings.months,
+                    fontSize: 14.0.sp,
+                    items: monthsList,
+                  ),
+                ),
+                Expanded(
+                  child: UnderlineInputDropdown(
+                    initialValue: postsController.pet.color.toString(),
+                    onChanged: (color) {
+                      postsController.updatePet(PetEnum.color, color);
+                    },
+                    labelText: PetDetailsString.color,
+                    items: DummyData.color,
+                    fontSize: 14.0.sp,
                   ),
                 ),
               ],
