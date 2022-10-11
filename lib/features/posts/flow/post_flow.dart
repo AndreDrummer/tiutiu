@@ -1,9 +1,9 @@
 import 'package:tiutiu/core/widgets/default_basic_app_bar.dart';
 import 'package:tiutiu/features/posts/views/pictures.dart';
 import 'package:tiutiu/features/posts/views/post_location.dart';
-import 'package:tiutiu/features/posts/views/name_and_age.dart';
+import 'package:tiutiu/features/posts/views/post_info.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:tiutiu/features/posts/widgets/steper.dart';
+import 'package:tiutiu/features/posts/widgets/stepper.dart';
 import 'package:tiutiu/features/system/controllers.dart';
 import 'package:tiutiu/Widgets/column_button_bar.dart';
 import 'package:tiutiu/core/constants/strings.dart';
@@ -70,7 +70,16 @@ class PostFlow extends StatelessWidget {
 final _stepsNames = [
   PostFlowStrings.data,
   PostFlowStrings.local,
-  PostFlowStrings.pictures,
+  PostFlowStrings.pcituresAndVideos,
+  PostFlowStrings.data,
+  PostFlowStrings.local,
+  PostFlowStrings.pcituresAndVideos,
+  PostFlowStrings.data,
+  PostFlowStrings.local,
+  PostFlowStrings.pcituresAndVideos,
+  PostFlowStrings.data,
+  PostFlowStrings.local,
+  PostFlowStrings.pcituresAndVideos,
 ];
 
 final _stepsTitle = [
@@ -80,7 +89,16 @@ final _stepsTitle = [
 ];
 
 final _stepsScreens = [
-  NameAndAge(),
+  PostInfo(),
   PostLocation(),
   Pictures(),
+  PostLocation(),
+  Pictures(),
+  PostInfo(),
+  PostInfo(),
+  PostLocation(),
+  Pictures(),
+  PostLocation(),
+  Pictures(),
+  PostInfo(),
 ];

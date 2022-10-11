@@ -199,8 +199,8 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
                                         : Positioned(
                                             top: 20,
                                             right: 5,
-                                            child: _lablePetKind(
-                                                pets[index].type!),
+                                            child:
+                                                _lablePetKind(pets[index].type),
                                           )
                                   ],
                                 ),

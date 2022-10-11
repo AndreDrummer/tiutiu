@@ -36,6 +36,7 @@ class Pet {
     this.disappeared = false,
     this.otherCaracteristics,
     this.city = 'Acrelândia',
+    this.type = 'Cachorro',
     this.state = 'Acre',
     this.interesteds = 0,
     this.storageHashKey,
@@ -52,7 +53,6 @@ class Pet {
     this.color,
     this.views,
     this.breed,
-    this.type,
     this.owner,
     this.size,
     this.name,
@@ -131,16 +131,16 @@ class Pet {
   String? details;
   String? gender;
   String? health;
-  String state;
   String? color;
   int? ageMonth;
   String? breed;
   int? ageYear;
   String? size;
-  String? type;
-  String city;
+  String state;
   List? photos;
   String? name;
+  String type;
+  String city;
   String? uid;
   int? views;
 
