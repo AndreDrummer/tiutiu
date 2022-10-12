@@ -62,10 +62,10 @@ class PetCaracteristics {
           ),
         ] +
         List.generate(
-          pet.otherCaracteristics?.length ?? 0,
+          pet.otherCaracteristics.length,
           (index) => PetCaracteristics(
             title: PetDetailsStrings.otherCaracteristics,
-            content: pet.otherCaracteristics![index],
+            content: pet.otherCaracteristics[index],
             icon: Icons.auto_awesome,
           ),
         );
