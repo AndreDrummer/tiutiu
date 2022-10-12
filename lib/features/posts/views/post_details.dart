@@ -15,6 +15,7 @@ class PostDetails extends StatelessWidget {
       body: Obx(
         () => ListView(
           children: [
+            SizedBox(height: 8.0.h),
             UnderlineInputDropdown(
               isInErrorState:
                   !postsController.pet.breed.isNotEmptyNeighterNull() &&

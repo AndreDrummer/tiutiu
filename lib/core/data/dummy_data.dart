@@ -3,13 +3,16 @@ import 'package:tiutiu/core/constants/strings.dart';
 class DummyData {
   static const otherCaracteristicsList = [
     'Vermifugado',
-    'Castrado',
-    'Dócil',
-    'Prenhez',
-    'Tranquilo',
     'Brincalhão',
+    'Lida bem com outros PETs',
+    'Tranquilo',
+    'Lida bem com crianças',
+    'Castrado',
+    'Lida bem com visitas',
+    'Vacinado',
+    'Prenhez',
     'Tímido',
-    'Vacinado'
+    'Dócil',
   ];
 
   static Map<String, List<String>> breeds = {
