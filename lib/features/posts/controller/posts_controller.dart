@@ -32,22 +32,22 @@ class PostsController extends GetxController {
   }
 
   void onContinue() {
-    switch (flowIndex) {
-      case 0:
-        if (checkIfFormIsValid()) {
-          nextStep();
-        }
-        break;
-      case 1:
-        print(isFullAddress);
-        if (!isFullAddress) {
-          nextStep();
-        } else if (isFullAddress &&
-            fullAddressKeyForm.currentState!.validate()) {
-          nextStep();
-        }
-        break;
-    }
+    nextStep();
+    // switch (flowIndex) {
+    //   case 0:
+    //     if (checkIfFormIsValid()) {
+    //     }
+    //     break;
+    //   case 1:
+    //     print(isFullAddress);
+    //     if (!isFullAddress) {
+    //       nextStep();
+    //     } else if (isFullAddress &&
+    //         fullAddressKeyForm.currentState!.validate()) {
+    //       nextStep();
+    //     }
+    //     break;
+    // }
   }
 
   bool checkIfFormIsValid() {

@@ -17,7 +17,7 @@ class PetService {
     FilterParams filterParams,
   ) {
     final filterType =
-        filterParams.type == FilterStrings.all ? null : filterParams.type;
+        filterParams.type == PetTypeStrings.all ? null : filterParams.type;
 
     final disappeared = filterParams.disappeared;
 
