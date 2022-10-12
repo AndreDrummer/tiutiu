@@ -1,3 +1,4 @@
+import 'package:tiutiu/features/pets/model/pet_model.dart';
 import 'package:tiutiu/features/posts/widgets/text_area.dart';
 import 'package:tiutiu/Widgets/underline_input_dropdown.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -76,6 +77,12 @@ class LocationSelecter extends StatelessWidget {
                   child: Form(
                     key: postsController.fullAddressKeyForm,
                     child: TextArea(
+                      onChanged: (address) {
+                        postsController.updatePet(
+                          PetEnum.describedAdress,
+                          address,
+                        );
+                      },
                       initialValue: postsController.pet.describedAdress,
                       validator: postsController.isFullAddress
                           ? Validators.verifyEmpty
