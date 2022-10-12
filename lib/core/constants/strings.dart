@@ -5,6 +5,7 @@ class AppStrings {
       'Ocorreu um erro com sua autenticação.\nTente sair e entrar novamente.';
   static String get wannaLeave => 'Deseja realmente sair?';
   static String get noPetFound => 'Nenhum PET encontrado';
+  static String get jotSomethingDown => 'Escreva aqui...';
   static String get iamInterested => 'Estou interessado';
   static String get backToStart => 'Voltar ao início';
   static String get headline2 =>
@@ -158,12 +159,16 @@ class MyProfileOptionsTile {
 }
 
 class PostFlowStrings {
+  static const String description = 'Descrição e outras caracteristicas';
   static const String postCancelMessage =
       'Saindo agora todos os dados serão perdidos.\nContinuar?';
   static const String fillFullAddress = 'Preencher endereço completo?';
+  static const String otherCaracteristics = 'Outras características';
+  static const String addDescription = 'Adicione uma descrição';
   static const String fillAdData = 'Preencher dados do anúncio';
   static const String postCancelTitle = 'Cancelar postagem?';
   static const String pcituresAndVideos = 'Fotos e Videos';
+  static const String reviewYourPost = 'Revise o seu post';
   static const String insertPictures = 'Insira as fotos';
   static const String typeAddress = 'Digite o endereço';
   static const String whereIsPet = 'Onde está o PET?';
