@@ -33,18 +33,19 @@ class Pet {
   Pet({
     this.donatedOrFound = false,
     this.lastSeenDetails = '',
+    this.describedAdress = '',
     this.disappeared = false,
     this.otherCaracteristics,
+    this.city = 'Acrelândia',
     this.interesteds = 0,
     this.storageHashKey,
+    this.state = 'Acre',
     this.ageMonth = 0,
     this.ageYear = 0,
     this.longitude,
     this.health = '-',
-    this.city = '-',
     this.type = '-',
     this.color = '-',
-    this.state = '',
     this.size = '-',
     this.breed = '-',
     this.gender = '-',
@@ -118,8 +119,9 @@ class Pet {
   }
 
   List? otherCaracteristics;
-  String lastSeenDetails;
   String? storageHashKey;
+  String lastSeenDetails;
+  String describedAdress;
   bool donatedOrFound;
   String? createdAt;
   TiutiuUser? owner;
