@@ -41,7 +41,7 @@ class PetDetails extends StatelessWidget {
                   child: ListView(
                     children: [
                       _petCaracteristics(petCaracteristics),
-                      _description(pet.details!),
+                      _description(pet.description!),
                       _address(pet),
                       _ownerAdcontact(
                         whatsappMessage: 'whatsappMessage',

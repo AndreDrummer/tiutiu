@@ -4,8 +4,9 @@ enum PetEnum {
   otherCaracteristics,
   lastSeenDetails,
   describedAdress,
-  donatedOrFound,
   storageHashKey,
+  donatedOrFound,
+  description,
   interesteds,
   disappeared,
   createdAt,
@@ -13,7 +14,6 @@ enum PetEnum {
   latitude,
   ageMonth,
   ownerId,
-  details,
   ageYear,
   gender,
   health,
@@ -32,29 +32,29 @@ enum PetEnum {
 
 class Pet {
   Pet({
+    this.otherCaracteristics = const [],
     this.donatedOrFound = false,
     this.lastSeenDetails = '',
     this.describedAdress = '',
     this.disappeared = false,
-    this.otherCaracteristics,
     this.city = 'Acrelândia',
     this.interesteds = 0,
     this.storageHashKey,
     this.state = 'Acre',
     this.ageMonth = 0,
-    this.ageYear = 0,
-    this.longitude,
-    this.health = '-',
-    this.type = '-',
-    this.color = '-',
-    this.size = '-',
-    this.breed = '-',
     this.gender = '-',
+    this.health = '-',
+    this.ageYear = 0,
+    this.description,
+    this.color = '-',
+    this.breed = '-',
+    this.type = '-',
+    this.size = '-',
+    this.longitude,
     this.createdAt,
     this.latitude,
-    this.details,
-    this.photos,
     this.ownerId,
+    this.photos,
     this.views,
     this.owner,
     this.name,
@@ -66,27 +66,28 @@ class Pet {
       otherCaracteristics: map[PetEnum.otherCaracteristics.name],
       donatedOrFound: map[PetEnum.donatedOrFound.name] ?? false,
       lastSeenDetails: map[PetEnum.lastSeenDetails.name] ?? '',
+      describedAdress: map[PetEnum.describedAdress.name] ?? '',
       owner: TiutiuUser.fromMap(map[PetEnum.owner.name]),
       storageHashKey: map[PetEnum.storageHashKey.name],
       city: map[PetEnum.city.name] ?? 'Acrelândia',
       disappeared: map[PetEnum.disappeared.name],
       interesteds: map[PetEnum.interesteds.name],
+      description: map[PetEnum.description.name],
       state: map[PetEnum.state.name] ?? 'Acre',
+      health: map[PetEnum.health.name] ?? '-',
+      gender: map[PetEnum.gender.name] ?? '-',
       longitude: map[PetEnum.longitude.name],
       createdAt: map[PetEnum.createdAt.name],
+      color: map[PetEnum.color.name] ?? '-',
+      breed: map[PetEnum.breed.name] ?? '-',
       latitude: map[PetEnum.latitude.name],
       ageMonth: map[PetEnum.ageMonth.name],
-      details: map[PetEnum.details.name],
+      size: map[PetEnum.size.name] ?? '-',
+      type: map[PetEnum.type.name] ?? '-',
       ownerId: map[PetEnum.ownerId.name],
       ageYear: map[PetEnum.ageYear.name],
       photos: map[PetEnum.photos.name],
-      health: map[PetEnum.health.name],
-      gender: map[PetEnum.gender.name],
-      color: map[PetEnum.color.name],
       views: map[PetEnum.views.name],
-      breed: map[PetEnum.breed.name],
-      type: map[PetEnum.type.name],
-      size: map[PetEnum.size.name],
       name: map[PetEnum.name.name],
       uid: map[PetEnum.uid.name],
     );
@@ -98,16 +99,12 @@ class Pet {
       donatedOrFound: map['donated'] ?? map['found'] ?? false,
       owner: TiutiuUser.fromMap(map[PetEnum.owner.name]),
       storageHashKey: map[PetEnum.storageHashKey.name],
+      description: map[PetEnum.description.name],
       longitude: map[PetEnum.longitude.name],
       createdAt: map[PetEnum.createdAt.name],
       latitude: map[PetEnum.latitude.name],
-      ownerId: map['ownerId'],
-      ageMonth: map['meses'],
-      details: map[PetEnum.details.name],
-      ageYear: map['ano'],
       photos: map[PetEnum.photos.name],
       health: map[PetEnum.health.name],
-      gender: map['sex'],
       color: map[PetEnum.color.name],
       views: map[PetEnum.views.name],
       breed: map[PetEnum.breed.name],
@@ -116,14 +113,19 @@ class Pet {
       name: map[PetEnum.name.name],
       city: map[PetEnum.city.name],
       uid: map[PetEnum.uid.name],
+      ownerId: map['ownerId'],
+      ageMonth: map['meses'],
+      ageYear: map['ano'],
+      gender: map['sex'],
     );
   }
 
-  List? otherCaracteristics;
+  List otherCaracteristics;
   String? storageHashKey;
   String lastSeenDetails;
   String describedAdress;
   bool donatedOrFound;
+  String? description;
   String? createdAt;
   TiutiuUser? owner;
   double? longitude;
@@ -131,7 +133,6 @@ class Pet {
   double? latitude;
   String? ownerId;
   int interesteds;
-  String? details;
   String gender;
   String health;
   String color;
@@ -154,13 +155,13 @@ class Pet {
       PetEnum.donatedOrFound.name: donatedOrFound,
       PetEnum.storageHashKey.name: storageHashKey,
       PetEnum.disappeared.name: disappeared,
+      PetEnum.description.name: description,
       PetEnum.interesteds.name: interesteds,
       PetEnum.owner.name: owner?.toMap(),
       PetEnum.longitude.name: longitude,
       PetEnum.createdAt.name: createdAt,
       PetEnum.latitude.name: latitude,
       PetEnum.ageMonth.name: ageMonth,
-      PetEnum.details.name: details,
       PetEnum.ownerId.name: ownerId,
       PetEnum.ageYear.name: ageYear,
       PetEnum.photos.name: photos,
@@ -180,7 +181,7 @@ class Pet {
 
   @override
   String toString() {
-    return 'Pet(otherCaracteristics: $otherCaracteristics, lastSeenDetails: $lastSeenDetails, storageHashKey: $storageHashKey, donatedOrFound: $donatedOrFound, createdAt: $createdAt, owner: $owner, longitude: $longitude, disappeared: $disappeared, latitude: $latitude, ownerId: $ownerId, interesteds: $interesteds, details: $details, gender: $gender, health: $health, color: $color, ageMonth: $ageMonth, breed: $breed, ageYear: $ageYear, size: $size, state: $state, photos: $photos, name: $name, type: $type, city: $city, uid: $uid, views: $views)';
+    return 'Pet(otherCaracteristics: $otherCaracteristics, lastSeenDetails: $lastSeenDetails, storageHashKey: $storageHashKey, donatedOrFound: $donatedOrFound, createdAt: $createdAt, owner: $owner, longitude: $longitude, disappeared: $disappeared, latitude: $latitude, ownerId: $ownerId, interesteds: $interesteds, description: $description, gender: $gender, health: $health, color: $color, ageMonth: $ageMonth, breed: $breed, ageYear: $ageYear, size: $size, state: $state, photos: $photos, name: $name, type: $type, city: $city, uid: $uid, views: $views)';
   }
 
   @override
@@ -198,7 +199,7 @@ class Pet {
         other.latitude == latitude &&
         other.ownerId == ownerId &&
         other.interesteds == interesteds &&
-        other.details == details &&
+        other.description == description &&
         other.gender == gender &&
         other.health == health &&
         other.color == color &&
@@ -228,7 +229,7 @@ class Pet {
         latitude.hashCode ^
         ownerId.hashCode ^
         interesteds.hashCode ^
-        details.hashCode ^
+        description.hashCode ^
         gender.hashCode ^
         health.hashCode ^
         color.hashCode ^

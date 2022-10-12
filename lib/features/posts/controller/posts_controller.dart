@@ -23,14 +23,31 @@ class PostsController extends GetxController {
 
   void updatePet(PetEnum property, dynamic data) {
     final petMap = pet.toMap();
-    petMap[property.name] = data;
 
-    if (pet.owner == null)
+    if (property == PetEnum.otherCaracteristics) {
+      petMap[property.name] = _handlePetOtherCaracteristics(data);
+    } else if (pet.owner == null) {
       petMap[PetEnum.owner.name] = tiutiuUserController.tiutiuUser.toMap();
+    } else {
+      petMap[property.name] = data;
+    }
 
     print('>> $petMap');
 
     _pet(Pet.fromMap(petMap));
+  }
+
+  List _handlePetOtherCaracteristics(String incomingCaracteristic) {
+    List caracteristics = [];
+    caracteristics.addAll(pet.otherCaracteristics);
+
+    if (caracteristics.contains(incomingCaracteristic)) {
+      caracteristics.remove(incomingCaracteristic);
+    } else {
+      caracteristics.add(incomingCaracteristic);
+    }
+
+    return caracteristics;
   }
 
   void onContinue() {
