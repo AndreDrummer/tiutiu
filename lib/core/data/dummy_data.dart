@@ -1,3 +1,5 @@
+import 'package:tiutiu/core/constants/strings.dart';
+
 class DummyData {
   static const otherCaracteristicsList = [
     'Vermifugado',
@@ -10,9 +12,9 @@ class DummyData {
     'Vacinado'
   ];
 
-  static const breed = [
-    [
-      '',
+  static Map<String, List<String>> breeds = {
+    PetTypeStrings.dog: [
+      '-',
       'Akita',
       'Basset',
       'Beagle',
@@ -64,8 +66,8 @@ class DummyData {
       'Weimaraner',
       'Yorkshire'
     ],
-    [
-      '',
+    PetTypeStrings.cat: [
+      '-',
       'Abissínio',
       'Angorá',
       'Ashera',
@@ -118,8 +120,8 @@ class DummyData {
       'Usuri',
       'Sem raça definida',
     ],
-    [
-      '',
+    PetTypeStrings.bird: [
+      '-',
       'Abelharuco',
       'Agapornis',
       'Agapornis canus',
@@ -255,8 +257,7 @@ class DummyData {
       'Warsangli Linnet',
       'Yemen Linnet'
     ],
-    ['-'],
-  ];
+  };
 
   static const size = [
     '-',
@@ -287,7 +288,22 @@ class DummyData {
     '10+ anos',
   ];
 
-  static const health = ['-', 'Saudável', 'Doente', 'Machucado', 'Paliativo'];
+  static const health = [
+    '-',
+    'Saudável',
+    'Doença Crônica',
+    'Doente',
+    'Machucado',
+    'Paliativo',
+  ];
+
+  static const gender = [
+    '-',
+    'Macho',
+    'Fêmea',
+    'Hermafrodita',
+    'Não tem',
+  ];
 
   static const color = [
     '-',
