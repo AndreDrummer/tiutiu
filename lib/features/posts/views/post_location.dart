@@ -1,4 +1,4 @@
-import 'package:tiutiu/core/data/location_data_strings.dart';
+import 'package:tiutiu/core/data/states_and_cities.dart';
 import 'package:tiutiu/features/posts/widgets/location_selecter.dart';
 import 'package:tiutiu/features/pets/model/pet_model.dart';
 import 'package:tiutiu/features/system/controllers.dart';
@@ -21,7 +21,7 @@ class PostLocation extends StatelessWidget {
             postsController.updatePet(PetEnum.state, state);
             postsController.updatePet(
               PetEnum.city,
-              DataLocalStrings()
+              StatesAndCities()
                   .citiesOf(
                     stateName: postsController.pet.state,
                   )
