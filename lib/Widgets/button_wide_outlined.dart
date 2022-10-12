@@ -5,19 +5,19 @@ import 'package:tiutiu/core/constants/strings.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 
-class ButtonWideOutlined extends StatelessWidget {
-  ButtonWideOutlined({
+class OutlinedButtonWide extends StatelessWidget {
+  OutlinedButtonWide({
     this.isToExpand = false,
     this.rounded = true,
     this.textIconColor,
-    this.action,
+    this.onPressed,
     this.color,
     this.icon,
     this.text,
   });
 
   final Color? textIconColor;
-  final Function? action;
+  final Function? onPressed;
   final bool isToExpand;
   final IconData? icon;
   final String? text;
@@ -43,7 +43,7 @@ class ButtonWideOutlined extends StatelessWidget {
             ),
           ),
         ),
-        onPressed: () => action?.call(),
+        onPressed: () => onPressed?.call(),
         child: Container(
           alignment: Alignment.center,
           height: 48.0.h,

@@ -1,5 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/core/constants/text_styles.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
@@ -56,7 +57,7 @@ class UnderlineInputText extends StatelessWidget {
               '$labelText',
             ),
           ),
-          SizedBox(height: 16.0.h),
+          SizedBox(height: 14.0.h),
           TextFormField(
             readOnly: readOnly,
             initialValue: initialValue == 'null' || initialValue == null
@@ -78,6 +79,7 @@ class UnderlineInputText extends StatelessWidget {
             keyboardType: keyboardType,
             decoration: InputDecoration(
               hintText: hintText,
+              errorStyle: TextStyle(color: AppColors.danger),
               disabledBorder: _underlineInputBorder(),
               enabledBorder: _underlineInputBorder(),
               focusedBorder: _underlineInputBorder(),
