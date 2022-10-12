@@ -89,12 +89,15 @@ class FilterStrings {
   static String get petBreed => 'Raça do Pet';
   static String get petName => 'Nome do Pet';
   static String get distance => 'Distância';
-  static String get exotic => 'Exótico';
-  static String get dog => 'Cachorro';
-  static String get bird => 'Pássaro';
   static String get date => 'Data';
   static String get age => 'Idade';
   static String get name => 'Nome';
+}
+
+class PetTypeStrings {
+  static String get exotic => 'Exótico';
+  static String get dog => 'Cachorro';
+  static String get bird => 'Pássaro';
   static String get all => 'Todos';
   static String get cat => 'Gato';
 }
@@ -116,14 +119,14 @@ class UserStrings {
   static String get contact => 'Contato';
 }
 
-class PetDetailsString {
+class PetDetailsStrings {
   static String get otherCaracteristics => 'Características';
   static String get lastSeen => 'Visto pela última vez em';
   static String get whereIsPet => 'Onde está o PET?';
-  static String get announcer => 'Anunciante';
-  static String get detailsOf => 'Detalhes de';
+  static String get health => 'Estado de Saúde';
   static String get description => 'Descrição';
-  static String get health => 'Saúde';
+  static String get detailsOf => 'Detalhes de';
+  static String get announcer => 'Anunciante';
   static String get size => 'Tamanho';
   static String get female => 'Fêmea';
   static String get male => 'Macho';
@@ -164,10 +167,13 @@ class PostFlowStrings {
   static const String insertPictures = 'Insira as fotos';
   static const String typeAddress = 'Digite o endereço';
   static const String whereIsPet = 'Onde está o PET?';
+  static const String moreDetails = 'Mais detalhes';
   static const String petsData = 'Dados do PET';
   static const String petName = 'Nome do PET';
   static const String size = 'Tamanho do PET';
   static const String petType = 'Tipo de PET';
+  static const String details = 'Detalhes';
+  static const String review = 'Revisar';
   static const String state = 'Estado';
   static const String months = 'Meses';
   static const String local = 'Local';

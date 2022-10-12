@@ -29,42 +29,42 @@ class PetCaracteristics {
             content: pet.type,
           ),
           PetCaracteristics(
-            icon: pet.gender == PetDetailsString.female
+            icon: pet.gender == PetDetailsStrings.female
                 ? Icons.female
                 : Icons.male,
-            title: PetDetailsString.sex,
-            content: pet.gender!,
+            title: PetDetailsStrings.sex,
+            content: pet.gender,
           ),
           PetCaracteristics(
             icon: Icons.linear_scale,
-            title: PetDetailsString.breed,
-            content: pet.breed!,
+            title: PetDetailsStrings.breed,
+            content: pet.breed,
           ),
           PetCaracteristics(
             icon: Icons.color_lens,
-            title: PetDetailsString.color,
+            title: PetDetailsStrings.color,
             content: pet.color,
           ),
           PetCaracteristics(
             icon: Icons.close_fullscreen,
-            title: PetDetailsString.size,
+            title: PetDetailsStrings.size,
             content: pet.size,
           ),
           PetCaracteristics(
-            title: PetDetailsString.health,
+            title: PetDetailsStrings.health,
             icon: Tiutiu.healing,
             content: pet.health,
           ),
           PetCaracteristics(
             content: '${pet.ageYear}a ${pet.ageMonth}m',
-            title: PetDetailsString.age,
+            title: PetDetailsStrings.age,
             icon: Tiutiu.birthday_cake,
           ),
         ] +
         List.generate(
           pet.otherCaracteristics?.length ?? 0,
           (index) => PetCaracteristics(
-            title: PetDetailsString.otherCaracteristics,
+            title: PetDetailsStrings.otherCaracteristics,
             content: pet.otherCaracteristics![index],
             icon: Icons.auto_awesome,
           ),
