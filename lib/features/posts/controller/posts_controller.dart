@@ -4,6 +4,8 @@ import 'package:tiutiu/features/system/controllers.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 
+const int FLOW_STEPS_QTY = 5;
+
 class PostsController extends GetxController {
   final GlobalKey<FormState> fullAddressKeyForm = GlobalKey<FormState>();
   final GlobalKey<FormState> nameKeyForm = GlobalKey<FormState>();
@@ -73,7 +75,7 @@ class PostsController extends GetxController {
   }
 
   void nextStep() {
-    _flowIndex(flowIndex + 1);
+    if (flowIndex < FLOW_STEPS_QTY) _flowIndex(flowIndex + 1);
   }
 
   void previousStep() {
