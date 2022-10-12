@@ -9,7 +9,7 @@ import 'package:tiutiu/features/auth/dependency_injection.dart';
 import 'package:tiutiu/features/chat/dependency_injection.dart';
 import 'package:tiutiu/features/pets/dependency_injection.dart';
 import 'package:tiutiu/core/models/dependency_injection.dart';
-import 'package:tiutiu/core/data/location_data_strings.dart';
+import 'package:tiutiu/core/data/states_and_cities.dart';
 import 'package:get/get.dart';
 
 class TiuTiuInitializer {
@@ -29,7 +29,7 @@ class TiuTiuInitializer {
 
     await _locationController.updateGPSStatus();
     await _locationController.setUserLocation();
-    await DataLocalStrings().getUFAndCities();
+    await StatesAndCities().getUFAndCities();
   }
 
   static List<DependencyInjection> _dependencies = [

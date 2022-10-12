@@ -1,5 +1,5 @@
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:tiutiu/core/data/dummy_data.dart';
+import 'package:tiutiu/core/data/states_and_cities.dart';
 import 'package:tiutiu/core/models/filter_params.dart';
 import 'package:tiutiu/core/constants/strings.dart';
 import 'package:tiutiu/core/Custom/icons.dart';
@@ -7,7 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class FilterController extends GetxController {
-  final RxString _filterStateSelected = DummyData.statesInitials.first.obs;
+  final RxString _filterStateSelected =
+      StatesAndCities().stateInitials.first.obs;
   final RxString _filterTypeTextSelected = FilterStrings.all.obs;
   final RxString _orderBy = FilterStrings.distance.obs;
   final RxString _filterByName = ''.obs;
