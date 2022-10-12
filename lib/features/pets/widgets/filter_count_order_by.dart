@@ -1,11 +1,11 @@
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/Widgets/custom_input_search.dart';
+import 'package:tiutiu/core/data/states_and_cities.dart';
 import 'package:tiutiu/features/system/controllers.dart';
 import 'package:tiutiu/core/constants/text_styles.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/core/constants/strings.dart';
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:tiutiu/core/data/dummy_data.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -45,7 +45,8 @@ class FilterResultCount extends StatelessWidget {
                   onChanged: (value) {
                     filterController.filterStateSelected = value;
                   },
-                  items: DummyData.statesInitials
+                  items: StatesAndCities()
+                      .stateInitials
                       .map(
                         (e) => DropdownMenuItem<String>(
                           child: AutoSizeText(

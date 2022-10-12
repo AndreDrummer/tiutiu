@@ -12,6 +12,7 @@ class DummyData {
 
   static const breed = [
     [
+      '',
       'Akita',
       'Basset',
       'Beagle',
@@ -64,6 +65,7 @@ class DummyData {
       'Yorkshire'
     ],
     [
+      '',
       'Abissínio',
       'Angorá',
       'Ashera',
@@ -117,6 +119,7 @@ class DummyData {
       'Sem raça definida',
     ],
     [
+      '',
       'Abelharuco',
       'Agapornis',
       'Agapornis canus',
@@ -252,16 +255,15 @@ class DummyData {
       'Warsangli Linnet',
       'Yemen Linnet'
     ],
-    ['Todas']
+    ['-'],
   ];
 
   static const size = [
-    'Porte-Mini',
-    'Pequeno-porte',
-    'Pequeno-médio-porte',
-    'Médio-porte',
-    'Porte-médio-grande',
-    'Grande-porte',
+    '-',
+    'Mini',
+    'Pequeno',
+    'Médio',
+    'Grande',
   ];
 
   static const distancies = [
@@ -285,16 +287,10 @@ class DummyData {
     '10+ anos',
   ];
 
-  static const health = ['Saudável', 'Doente', 'Machucado', 'Paliativo'];
-
-  static const type = [
-    'Cachorro',
-    'Gato',
-    'Pássaro',
-    'Exótico',
-  ];
+  static const health = ['-', 'Saudável', 'Doente', 'Machucado', 'Paliativo'];
 
   static const color = [
+    '-',
     'Abóbora',
     'Açafrão',
     'Amarelo',
@@ -383,67 +379,5 @@ class DummyData {
     'Vinho',
     'Violeta',
     'Dálmata'
-  ];
-
-  static const statesName = [
-    'Brasil',
-    'Acre',
-    'Alagoas',
-    'Amapá',
-    'Amazonas',
-    'Bahia',
-    'Ceará',
-    'Distrito Federal',
-    'Espírito Santo',
-    'Goiás',
-    'Maranhão',
-    'Mato Grosso',
-    'Mato Grosso do Sul',
-    'Minas Gerais',
-    'Pará',
-    'Paraíba',
-    'Paraná',
-    'Pernambuco',
-    'Piauí',
-    'Rio de Janeiro',
-    'Rio Grande do Norte',
-    'Rio Grande do Sul',
-    'Rondônia',
-    'Roraima',
-    'Santa Catarina',
-    'São Paulo',
-    'Sergipe',
-    'Tocantins',
-  ];
-
-  static const statesInitials = [
-    'BR',
-    'AC',
-    'AL',
-    'AP',
-    'AM',
-    'BH',
-    'CE',
-    'DF',
-    'ES',
-    'GO',
-    'MA',
-    'MT',
-    'MT',
-    'MG',
-    'PA',
-    'PB',
-    'PR',
-    'PE',
-    'PI',
-    'RJ',
-    'RN',
-    'RS',
-    'RO',
-    'RR',
-    'SC',
-    'SP',
-    'SE',
-    'TO',
   ];
 }
