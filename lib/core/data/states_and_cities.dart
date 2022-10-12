@@ -23,7 +23,7 @@ class StatesAndCities {
   String get fisrtStateName => location.states.first.name;
   List<String> get stateNames => location.states.map((e) => e.name).toList();
 
-  List<String> citiesOf({String stateName = 'Todos'}) {
+  List<String> citiesOf({String stateName = 'Acre'}) {
     return location.states
         .where((state) => state.name == stateName)
         .first

@@ -1,12 +1,13 @@
+import 'package:tiutiu/features/posts/widgets/text_area.dart';
 import 'package:tiutiu/Widgets/underline_input_dropdown.dart';
-import 'package:tiutiu/core/data/states_and_cities.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:tiutiu/features/system/controllers.dart';
+import 'package:tiutiu/core/data/states_and_cities.dart';
 import 'package:tiutiu/core/constants/text_styles.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:tiutiu/core/constants/strings.dart';
-import 'package:flutter/material.dart';
 import 'package:tiutiu/core/utils/validators.dart';
-import 'package:tiutiu/features/system/controllers.dart';
+import 'package:flutter/material.dart';
 
 class LocationSelecter extends StatelessWidget {
   const LocationSelecter({
@@ -74,17 +75,12 @@ class LocationSelecter extends StatelessWidget {
                   padding: EdgeInsets.only(top: 8.0.h),
                   child: Form(
                     key: postsController.fullAddressKeyForm,
-                    child: TextFormField(
+                    child: TextArea(
+                      initialValue: postsController.pet.describedAdress,
                       validator: postsController.isFullAddress
                           ? Validators.verifyEmpty
                           : null,
-                      maxLines: 3,
-                      decoration: InputDecoration(
-                        labelText: PostFlowStrings.typeAddress,
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12.0.h),
-                        ),
-                      ),
+                      labelText: PostFlowStrings.typeAddress,
                     ),
                   ),
                 )
