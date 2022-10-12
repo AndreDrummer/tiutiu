@@ -6,6 +6,8 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+final Color unselectedStepColor = Colors.grey;
+
 class Steper extends StatelessWidget {
   const Steper({
     required this.currentStep,
@@ -38,6 +40,7 @@ class Steper extends StatelessWidget {
               children: List.generate(
                 stepsName.length - n,
                 (index) => _SteperItem(
+                  isCurrentStep: currentStep == index,
                   isCompleted: currentStep > index,
                   stepsQty: stepsName.length,
                   stepName: stepsName[index],
@@ -47,9 +50,9 @@ class Steper extends StatelessWidget {
               ),
             ),
             Positioned(
-              left: 16.0.w,
+              left: 24.0.w,
               top: 20.0.h,
-              right: 0,
+              right: 0.0.w,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: List.generate(
@@ -58,19 +61,21 @@ class Steper extends StatelessWidget {
                     return TweenAnimationBuilder(
                       duration: Duration(milliseconds: 1000),
                       tween: ColorTween(
-                        begin: currentStep > index
-                            ? AppColors.white
-                            : AppColors.primary,
                         end: currentStep > index
                             ? AppColors.primary
-                            : AppColors.white,
+                            : currentStep > index
+                                ? AppColors.white
+                                : unselectedStepColor,
+                        begin: currentStep > index
+                            ? AppColors.white
+                            : unselectedStepColor,
                       ),
                       builder: (context, color, _) {
                         return Container(
-                          margin: EdgeInsets.only(right: 16.0.w),
+                          margin: EdgeInsets.only(right: 24.0.w),
                           padding: EdgeInsets.zero,
                           color: color as Color,
-                          width: 24.0.w,
+                          width: 32.0.w,
                           height: 1,
                         );
                       },
@@ -90,14 +95,16 @@ class Steper extends StatelessWidget {
 
 class _SteperItem extends StatelessWidget {
   const _SteperItem({
+    this.isCurrentStep = false,
     required this.isCompleted,
     required this.stepNumber,
-    required this.stepsQty,
     required this.stepName,
+    required this.stepsQty,
     this.onStepTapped,
   });
 
   final Function()? onStepTapped;
+  final bool isCurrentStep;
   final bool isCompleted;
   final String stepName;
   final int stepNumber;
@@ -112,13 +119,17 @@ class _SteperItem extends StatelessWidget {
         child: Column(
           children: [
             Container(
-              margin: EdgeInsets.only(top: 12.0.h),
+              margin: EdgeInsets.only(top: 8.0.h),
               decoration: BoxDecoration(shape: BoxShape.circle),
               child: TweenAnimationBuilder(
                 duration: Duration(milliseconds: 250),
                 tween: ColorTween(
-                  begin: isCompleted ? AppColors.white : AppColors.primary,
-                  end: isCompleted ? AppColors.primary : AppColors.white,
+                  end: isCompleted
+                      ? AppColors.primary
+                      : isCurrentStep
+                          ? AppColors.white
+                          : unselectedStepColor,
+                  begin: isCurrentStep ? AppColors.white : unselectedStepColor,
                 ),
                 builder: (context, color, _) {
                   return Image.asset(
@@ -127,14 +138,18 @@ class _SteperItem extends StatelessWidget {
                   );
                 },
               ),
-              height: 16.0.h,
-              width: 16.0.h,
+              height: 24.0.h,
+              width: 24.0.h,
             ),
             Container(
               alignment: Alignment.center,
               child: AutoSizeText(
                 style: TextStyles.fontSize(
-                  color: isCompleted ? AppColors.primary : AppColors.white,
+                  color: isCompleted
+                      ? AppColors.primary
+                      : isCurrentStep
+                          ? AppColors.white
+                          : unselectedStepColor,
                   fontWeight: FontWeight.bold,
                 ),
                 textAlign: TextAlign.center,
@@ -142,7 +157,7 @@ class _SteperItem extends StatelessWidget {
                 maxFontSize: 10.0,
                 stepName,
               ),
-              width: 40.0.w,
+              width: 56.0.w,
               height: 24.0.h,
             )
           ],
