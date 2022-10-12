@@ -1,7 +1,9 @@
+import 'package:tiutiu/features/posts/views/post_description.dart';
 import 'package:tiutiu/features/posts/views/post_location.dart';
 import 'package:tiutiu/features/posts/views/post_details.dart';
 import 'package:tiutiu/features/posts/views/post_info.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:tiutiu/features/posts/views/review_post.dart';
 import 'package:tiutiu/features/posts/widgets/stepper.dart';
 import 'package:tiutiu/features/posts/views/pictures.dart';
 import 'package:tiutiu/features/system/controllers.dart';
@@ -35,8 +37,8 @@ class PostFlow extends StatelessWidget with TiuTiuPopUp {
                 Padding(
                   padding: EdgeInsets.only(left: 8.0.w),
                   child: OneLineText(
-                    text: _stepsTitle.elementAt(postsController.flowIndex),
-                    fontSize: 20.0.sp,
+                    text: _screensTitle.elementAt(postsController.flowIndex),
+                    fontSize: 16.0.sp,
                   ),
                 ),
                 Padding(
@@ -45,14 +47,15 @@ class PostFlow extends StatelessWidget with TiuTiuPopUp {
                     children: [
                       OneLineText(
                         text: '${postsController.flowIndex + 1}',
+                        fontWeight: FontWeight.bold,
                         color: AppColors.secondary,
                         fontSize: 32.0.sp,
                       ),
                       OneLineText(
                         color: AppColors.black.withAlpha(100),
                         alignment: Alignment.centerRight,
-                        text: ' / ${_stepsTitle.length}',
-                        fontSize: 20.0.sp,
+                        text: ' / ${_screensTitle.length}',
+                        fontSize: 16.0.sp,
                       ),
                     ],
                   ),
@@ -61,7 +64,6 @@ class PostFlow extends StatelessWidget with TiuTiuPopUp {
             ),
           ),
           _divider(),
-          SizedBox(height: 16.0.h),
           Obx(
             () => Expanded(
               child: _stepsScreens.elementAt(postsController.flowIndex),
@@ -112,31 +114,26 @@ class PostFlow extends StatelessWidget with TiuTiuPopUp {
 final _stepsNames = [
   PostFlowStrings.data,
   PostFlowStrings.details,
-  PetDetailsStrings.otherCaracteristics,
+  PetDetailsStrings.description,
   PostFlowStrings.local,
   PostFlowStrings.pcituresAndVideos,
   PostFlowStrings.review,
 ];
 
-final _stepsTitle = [
+final _screensTitle = [
   PostFlowStrings.petsData,
   PostFlowStrings.moreDetails,
+  PostFlowStrings.description,
   PostFlowStrings.whereIsPet,
   PostFlowStrings.insertPictures,
+  PostFlowStrings.reviewYourPost,
 ];
 
 final _stepsScreens = [
   PostInfo(),
   PostDetails(),
+  PostDescription(),
   PostLocation(),
   Pictures(),
-  PostLocation(),
-  Pictures(),
-  PostInfo(),
-  PostInfo(),
-  PostLocation(),
-  Pictures(),
-  PostLocation(),
-  Pictures(),
-  PostInfo(),
+  ReviewPost()
 ];

@@ -30,6 +30,7 @@ class PostInfo extends StatelessWidget {
       body: Obx(
         () => ListView(
           children: [
+            SizedBox(height: 8.0.h),
             _petName(),
             _petAge(yearsList, monthsList),
             _petType(petTypeList),
