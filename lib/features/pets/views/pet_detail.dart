@@ -74,7 +74,7 @@ class PetDetails extends StatelessWidget {
           BackButton(color: AppColors.white),
           Spacer(),
           AutoSizeText(
-            '${PetDetailsString.detailsOf} $petName',
+            '${PetDetailsStrings.detailsOf} $petName',
             style: TextStyles.fontSize20(
               fontWeight: FontWeight.w600,
               color: AppColors.white,
@@ -255,7 +255,7 @@ class PetDetails extends StatelessWidget {
 
   CardContent _description(String description) {
     return CardContent(
-      title: PetDetailsString.description,
+      title: PetDetailsStrings.description,
       content: description,
     );
   }
@@ -266,8 +266,8 @@ class PetDetails extends StatelessWidget {
       content:
           pet.disappeared ? pet.lastSeenDetails : '${pet.city} - ${pet.state}',
       title: pet.disappeared
-          ? PetDetailsString.lastSeen
-          : PetDetailsString.whereIsPet,
+          ? PetDetailsStrings.lastSeen
+          : PetDetailsStrings.whereIsPet,
       onAction: () {},
     );
   }

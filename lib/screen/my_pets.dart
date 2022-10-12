@@ -229,7 +229,7 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
                                             ),
                                             SizedBox(height: 10),
                                             AutoSizeText(
-                                              pets[index].breed!,
+                                              pets[index].breed,
                                               style: Theme.of(context)
                                                   .textTheme
                                                   .headline4!

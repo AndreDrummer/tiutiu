@@ -18,7 +18,7 @@ class Steper extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    int n = 4;
+    int n = 0;
     return Card(
       margin: EdgeInsets.all(8.0.h),
       elevation: 8.0.h,
