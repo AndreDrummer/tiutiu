@@ -1,3 +1,4 @@
+import 'package:tiutiu/features/posts/validators/form_validators.dart';
 import 'package:tiutiu/core/extensions/string_extension.dart';
 import 'package:tiutiu/Widgets/underline_input_dropdown.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -45,11 +46,12 @@ class PostInfo extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.fromLTRB(3.0.w, 0.0.h, 3.0.w, 16.0.h),
       child: Form(
-        key: postsController.nameKeyForm,
+        key: nameKeyForm,
         child: UnderlineInputText(
           initialValue: postsController.pet.name,
           validator: Validators.verifyEmpty,
           onChanged: (name) {
+            nameKeyForm.currentState!.validate();
             postsController.updatePet(PetEnum.name, name);
           },
           labelText: PostFlowStrings.petName,
