@@ -9,7 +9,7 @@ import 'package:get/get.dart';
 class FilterController extends GetxController {
   final RxString _filterStateSelected =
       StatesAndCities().stateInitials.first.obs;
-  final RxString _filterTypeTextSelected = FilterStrings.all.obs;
+  final RxString _filterTypeTextSelected = PetTypeStrings.all.obs;
   final RxString _orderBy = FilterStrings.distance.obs;
   final RxString _filterByName = ''.obs;
 
@@ -47,11 +47,11 @@ class FilterController extends GetxController {
   }
 
   final List<String> filterTypeText = [
-    FilterStrings.all,
-    FilterStrings.dog,
-    FilterStrings.cat,
-    FilterStrings.bird,
-    FilterStrings.exotic,
+    PetTypeStrings.all,
+    PetTypeStrings.dog,
+    PetTypeStrings.cat,
+    PetTypeStrings.bird,
+    PetTypeStrings.exotic,
   ];
 
   final List<IconData> filterTypeIcon = [

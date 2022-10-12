@@ -1,5 +1,5 @@
 import 'package:tiutiu/features/posts/views/post_location.dart';
-import 'package:tiutiu/features/posts/views/post_info_2.dart';
+import 'package:tiutiu/features/posts/views/post_details.dart';
 import 'package:tiutiu/features/posts/views/post_info.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/features/posts/widgets/stepper.dart';
@@ -19,8 +19,6 @@ class PostFlow extends StatelessWidget with TiuTiuPopUp {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: DefaultBasicAppBar(text: PostFlowStrings.fillAdData),
-
       body: Column(
         children: [
           Obx(
@@ -32,6 +30,7 @@ class PostFlow extends StatelessWidget with TiuTiuPopUp {
           _divider(),
           Obx(
             () => Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Padding(
                   padding: EdgeInsets.only(left: 8.0.w),
@@ -40,8 +39,8 @@ class PostFlow extends StatelessWidget with TiuTiuPopUp {
                     fontSize: 20.0.sp,
                   ),
                 ),
-                Spacer(),
-                Expanded(
+                Padding(
+                  padding: EdgeInsets.only(right: 8.0.w),
                   child: Row(
                     children: [
                       OneLineText(
@@ -51,6 +50,7 @@ class PostFlow extends StatelessWidget with TiuTiuPopUp {
                       ),
                       OneLineText(
                         color: AppColors.black.withAlpha(100),
+                        alignment: Alignment.centerRight,
                         text: ' / ${_stepsTitle.length}',
                         fontSize: 20.0.sp,
                       ),
@@ -111,28 +111,23 @@ class PostFlow extends StatelessWidget with TiuTiuPopUp {
 
 final _stepsNames = [
   PostFlowStrings.data,
+  PostFlowStrings.details,
+  PetDetailsStrings.otherCaracteristics,
   PostFlowStrings.local,
   PostFlowStrings.pcituresAndVideos,
-  PostFlowStrings.data,
-  PostFlowStrings.local,
-  PostFlowStrings.pcituresAndVideos,
-  PostFlowStrings.data,
-  PostFlowStrings.local,
-  PostFlowStrings.pcituresAndVideos,
-  PostFlowStrings.data,
-  PostFlowStrings.local,
-  PostFlowStrings.pcituresAndVideos,
+  PostFlowStrings.review,
 ];
 
 final _stepsTitle = [
   PostFlowStrings.petsData,
+  PostFlowStrings.moreDetails,
   PostFlowStrings.whereIsPet,
   PostFlowStrings.insertPictures,
 ];
 
 final _stepsScreens = [
   PostInfo(),
-  PostInfo2(),
+  PostDetails(),
   PostLocation(),
   Pictures(),
   PostLocation(),
