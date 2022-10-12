@@ -163,7 +163,7 @@ class PostFlowStrings {
   static const String postCancelMessage =
       'Saindo agora todos os dados serão perdidos.\nContinuar?';
   static const String fillFullAddress = 'Preencher endereço completo?';
-  static const String otherCaracteristics = 'Outras características';
+  static const String otherCaracteristics = 'Outras características (Opcional)';
   static const String addDescription = 'Adicione uma descrição';
   static const String fillAdData = 'Preencher dados do anúncio';
   static const String postCancelTitle = 'Cancelar postagem?';
