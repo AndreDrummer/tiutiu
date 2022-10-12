@@ -32,3 +32,7 @@ class StartScreenAssets {
   static String get oldMel => 'assets/startscreen/mel.webp';
   static String get liu => 'assets/startscreen/liu.webp';
 }
+
+class JsonAssets {
+  static const ufAndCities = 'assets/json/estados-cidades.json';
+}

@@ -155,18 +155,24 @@ class MyProfileOptionsTile {
 }
 
 class PostFlowStrings {
+  static const String postCancelMessage =
+      'Saindo agora todos os dados serão perdidos.\nContinuar?';
   static const String fillFullAddress = 'Preencher endereço completo?';
   static const String fillAdData = 'Preencher dados do anúncio';
+  static const String postCancelTitle = 'Cancelar postagem?';
   static const String pcituresAndVideos = 'Fotos e Videos';
   static const String insertPictures = 'Insira as fotos';
   static const String typeAddress = 'Digite o endereço';
   static const String whereIsPet = 'Onde está o PET?';
   static const String petsData = 'Dados do PET';
   static const String petName = 'Nome do PET';
+  static const String size = 'Tamanho do PET';
+  static const String petType = 'Tipo de PET';
   static const String state = 'Estado';
   static const String months = 'Meses';
   static const String local = 'Local';
   static const String city = 'Cidade';
   static const String years = 'Anos';
   static const String data = 'Dados';
+  static const String age = 'Idade';
 }
