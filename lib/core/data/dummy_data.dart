@@ -10,7 +10,6 @@ class DummyData {
     'Castrado',
     'Lida bem com visitas',
     'Vacinado',
-    'Prenhez',
     'Tímido',
     'Dócil',
   ];
@@ -295,6 +294,7 @@ class DummyData {
     '-',
     'Saudável',
     'Doença Crônica',
+    'Prenhez',
     'Doente',
     'Machucado',
     'Paliativo',

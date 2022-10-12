@@ -45,8 +45,9 @@ class PostDescription extends StatelessWidget {
               color: AppColors.secondary,
             ),
             SizedBox(
-              height: Get.height,
+              height: 168.0.h,
               child: GridView.count(
+                  physics: NeverScrollableScrollPhysics(),
                   childAspectRatio: 18 / 3,
                   crossAxisSpacing: 2.0.h,
                   mainAxisSpacing: 8.0.h,
