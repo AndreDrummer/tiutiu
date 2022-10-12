@@ -17,10 +17,10 @@ class PostInfo extends StatelessWidget {
   Widget build(BuildContext context) {
     final petTypeList = [
       '-',
-      FilterStrings.dog,
-      FilterStrings.cat,
-      FilterStrings.bird,
-      FilterStrings.exotic,
+      PetTypeStrings.dog,
+      PetTypeStrings.cat,
+      PetTypeStrings.bird,
+      PetTypeStrings.exotic,
     ];
 
     final monthsList = List<String>.generate(13, (index) => '$index');

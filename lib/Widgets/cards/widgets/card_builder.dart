@@ -22,7 +22,7 @@ class CardBuilder {
 
   Widget adDistanceFromUser() => AdDistanceFromUser(distanceText: distanceText);
 
-  Widget adDescription() => AdDescription(description: _pet.breed!);
+  Widget adDescription() => AdDescription(description: _pet.breed);
 
   Widget adPostedAt() => AdPostedAt(createdAt: _pet.createdAt!);
 
