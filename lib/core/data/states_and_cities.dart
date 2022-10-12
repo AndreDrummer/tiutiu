@@ -1,3 +1,4 @@
+import 'package:tiutiu/core/constants/images_assets.dart';
 import 'package:tiutiu/core/models/location_model.dart';
 import 'package:flutter/services.dart';
 import 'dart:convert';
@@ -7,16 +8,15 @@ enum DataStringsKeys {
   initial,
 }
 
-class DataLocalStrings {
-  factory DataLocalStrings() => _dataLocalStrings;
-  DataLocalStrings.internal();
-  static DataLocalStrings _dataLocalStrings = DataLocalStrings.internal();
+class StatesAndCities {
+  factory StatesAndCities() => _stateAndCities;
+  StatesAndCities.internal();
+  static StatesAndCities _stateAndCities = StatesAndCities.internal();
 
   late UFLocation location;
 
   Future<void> getUFAndCities() async {
-    const String locationJson = 'assets/json/estados-cidades.json';
-    var jsonFile = await rootBundle.loadString(locationJson);
+    var jsonFile = await rootBundle.loadString(JsonAssets.ufAndCities);
     location = UFLocation.fromMap(jsonDecode(jsonFile));
   }
 

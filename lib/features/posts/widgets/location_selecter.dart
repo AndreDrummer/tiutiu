@@ -1,5 +1,5 @@
 import 'package:tiutiu/Widgets/underline_input_dropdown.dart';
-import 'package:tiutiu/core/data/location_data_strings.dart';
+import 'package:tiutiu/core/data/states_and_cities.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/constants/text_styles.dart';
 import 'package:auto_size_text/auto_size_text.dart';
@@ -33,7 +33,7 @@ class LocationSelecter extends StatelessWidget {
         children: [
           SizedBox(height: 16.0.h),
           UnderlineInputDropdown(
-            items: DataLocalStrings().stateNames,
+            items: StatesAndCities().stateNames,
             labelText: PostFlowStrings.state,
             initialValue: initialState,
             onChanged: onStateChanged,
@@ -41,7 +41,7 @@ class LocationSelecter extends StatelessWidget {
           ),
           SizedBox(height: 24.0.h),
           UnderlineInputDropdown(
-            items: DataLocalStrings().citiesOf(stateName: initialState),
+            items: StatesAndCities().citiesOf(stateName: initialState),
             labelText: PostFlowStrings.city,
             initialValue: initialCity,
             onChanged: onCityChanged,

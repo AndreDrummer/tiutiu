@@ -48,7 +48,7 @@ class PetCaracteristics {
           PetCaracteristics(
             icon: Icons.close_fullscreen,
             title: PetDetailsString.size,
-            content: pet.size!,
+            content: pet.size,
           ),
           PetCaracteristics(
             title: PetDetailsString.health,

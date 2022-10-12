@@ -1,6 +1,6 @@
+import 'package:tiutiu/core/data/states_and_cities.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:tiutiu/core/data/dummy_data.dart';
 
 class FilterCard extends StatelessWidget {
   const FilterCard({super.key, required this.isExpanded});
@@ -28,7 +28,8 @@ class FilterCard extends StatelessWidget {
                 children: [
                   AutoSizeText("Filtrar resultado"),
                   Icon(
-                      isExpanded ? Icons.keyboard_arrow_up : Icons.expand_more),
+                    isExpanded ? Icons.keyboard_arrow_up : Icons.expand_more,
+                  ),
                 ],
               ),
             ),
@@ -43,7 +44,6 @@ class FilterCard extends StatelessWidget {
                     child: _StateFilter(),
                   ),
                   Divider(),
-                  // _HomeSearch(),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 8.0),
                     child: Divider(),
@@ -99,7 +99,8 @@ class _StateFilterState extends State<_StateFilter> {
                         value = null;
                       }
                     },
-                    items: DummyData.statesName
+                    items: StatesAndCities()
+                        .stateNames
                         .map<DropdownMenuItem<String>>((String e) {
                       return DropdownMenuItem<String>(
                         child: Padding(
