@@ -106,10 +106,10 @@ class OtherFunctions {
 
   static IconData getIconFromPetType(String type) {
     final Map<String, dynamic> petIconType = {
-      FilterStrings.bird: Tiutiu.twitter_bird,
-      FilterStrings.exotic: Tiutiu.hamster,
-      FilterStrings.dog: Tiutiu.dog,
-      FilterStrings.cat: Tiutiu.cat,
+      PetTypeStrings.bird: Tiutiu.twitter_bird,
+      PetTypeStrings.exotic: Tiutiu.hamster,
+      PetTypeStrings.dog: Tiutiu.dog,
+      PetTypeStrings.cat: Tiutiu.cat,
     };
 
     return petIconType[type];

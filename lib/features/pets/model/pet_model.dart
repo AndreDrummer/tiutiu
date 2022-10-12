@@ -46,14 +46,14 @@ class Pet {
     this.color = '-',
     this.state = '',
     this.size = '-',
+    this.breed = '-',
+    this.gender = '-',
     this.createdAt,
     this.latitude,
     this.details,
     this.photos,
     this.ownerId,
-    this.gender,
     this.views,
-    this.breed,
     this.owner,
     this.name,
     this.uid,
@@ -129,11 +129,11 @@ class Pet {
   String? ownerId;
   int interesteds;
   String? details;
-  String? gender;
+  String gender;
   String health;
   String color;
   int? ageMonth;
-  String? breed;
+  String breed;
   int? ageYear;
   String size;
   String state;
