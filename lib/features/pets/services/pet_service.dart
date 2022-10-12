@@ -1,8 +1,7 @@
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:tiutiu/core/constants/firebase_env_path.dart';
-import 'package:tiutiu/core/data/dummy_data.dart';
 import 'package:tiutiu/features/pets/model/pet_model.dart';
-
+import 'package:tiutiu/core/data/states_and_cities.dart';
 import 'package:tiutiu/core/models/filter_params.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:tiutiu/core/constants/strings.dart';
@@ -22,14 +21,15 @@ class PetService {
 
     final disappeared = filterParams.disappeared;
 
-    var filterState = filterParams.state == DummyData.statesInitials.first
-        ? null
-        : filterParams.state;
+    var filterState =
+        filterParams.state == StatesAndCities().stateInitials.first
+            ? null
+            : filterParams.state;
 
     if (filterState != null) {
-      filterState = DummyData.statesName.elementAt(
-        DummyData.statesInitials.indexOf(filterState),
-      );
+      filterState = StatesAndCities().stateNames.elementAt(
+            StatesAndCities().stateInitials.indexOf(filterState),
+          );
     }
 
     return FirebaseFirestore.instance

@@ -50,3 +50,9 @@ extension StringExtension on String {
         .toLowerCase();
   }
 }
+
+extension NullableStringExtension on String? {
+  bool isNotEmptyNeighterNull() {
+    return this != null && this!.isNotEmpty && this != '-';
+  }
+}
