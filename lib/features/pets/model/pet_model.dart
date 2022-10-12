@@ -2,6 +2,7 @@ import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
 
 enum PetEnum {
   otherCaracteristics,
+  chronicDiseaseInfo,
   lastSeenDetails,
   describedAdress,
   storageHashKey,
@@ -33,6 +34,7 @@ enum PetEnum {
 class Pet {
   Pet({
     this.otherCaracteristics = const [],
+    this.chronicDiseaseInfo = '',
     this.donatedOrFound = false,
     this.lastSeenDetails = '',
     this.describedAdress = '',
@@ -63,6 +65,7 @@ class Pet {
 
   static Pet fromMap(Map<String, dynamic> map) {
     return Pet(
+      chronicDiseaseInfo: map[PetEnum.chronicDiseaseInfo.name] ?? '',
       otherCaracteristics: map[PetEnum.otherCaracteristics.name],
       donatedOrFound: map[PetEnum.donatedOrFound.name] ?? false,
       lastSeenDetails: map[PetEnum.lastSeenDetails.name] ?? '',
@@ -120,6 +123,7 @@ class Pet {
     );
   }
 
+  String chronicDiseaseInfo;
   List otherCaracteristics;
   String? storageHashKey;
   String lastSeenDetails;
@@ -151,6 +155,7 @@ class Pet {
   Map<String, dynamic> toMap() {
     return {
       PetEnum.otherCaracteristics.name: otherCaracteristics,
+      PetEnum.chronicDiseaseInfo.name: chronicDiseaseInfo,
       PetEnum.lastSeenDetails.name: lastSeenDetails,
       PetEnum.donatedOrFound.name: donatedOrFound,
       PetEnum.storageHashKey.name: storageHashKey,
@@ -181,7 +186,7 @@ class Pet {
 
   @override
   String toString() {
-    return 'Pet(otherCaracteristics: $otherCaracteristics, lastSeenDetails: $lastSeenDetails, storageHashKey: $storageHashKey, donatedOrFound: $donatedOrFound, createdAt: $createdAt, owner: $owner, longitude: $longitude, disappeared: $disappeared, latitude: $latitude, ownerId: $ownerId, interesteds: $interesteds, description: $description, gender: $gender, health: $health, color: $color, ageMonth: $ageMonth, breed: $breed, ageYear: $ageYear, size: $size, state: $state, photos: $photos, name: $name, type: $type, city: $city, uid: $uid, views: $views)';
+    return 'Pet(otherCaracteristics: $otherCaracteristics, chronicDiseaseInfo: $chronicDiseaseInfo, lastSeenDetails: $lastSeenDetails, storageHashKey: $storageHashKey, donatedOrFound: $donatedOrFound, createdAt: $createdAt, owner: $owner, longitude: $longitude, disappeared: $disappeared, latitude: $latitude, ownerId: $ownerId, interesteds: $interesteds, description: $description, gender: $gender, health: $health, color: $color, ageMonth: $ageMonth, breed: $breed, ageYear: $ageYear, size: $size, state: $state, photos: $photos, name: $name, type: $type, city: $city, uid: $uid, views: $views)';
   }
 
   @override
@@ -189,6 +194,8 @@ class Pet {
     if (identical(this, other)) return true;
 
     return other.otherCaracteristics == otherCaracteristics &&
+        other.chronicDiseaseInfo == chronicDiseaseInfo &&
+        other.describedAdress == describedAdress &&
         other.lastSeenDetails == lastSeenDetails &&
         other.storageHashKey == storageHashKey &&
         other.donatedOrFound == donatedOrFound &&
@@ -221,6 +228,8 @@ class Pet {
     return otherCaracteristics.hashCode ^
         lastSeenDetails.hashCode ^
         storageHashKey.hashCode ^
+        chronicDiseaseInfo.hashCode ^
+        describedAdress.hashCode ^
         donatedOrFound.hashCode ^
         createdAt.hashCode ^
         owner.hashCode ^

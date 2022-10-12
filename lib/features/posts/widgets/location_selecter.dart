@@ -1,3 +1,4 @@
+import 'package:tiutiu/features/posts/validators/form_validators.dart';
 import 'package:tiutiu/features/posts/widgets/text_area.dart';
 import 'package:tiutiu/Widgets/underline_input_dropdown.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -91,7 +92,7 @@ class LocationSelecter extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.only(top: 8.0.h),
       child: Form(
-        key: postsController.fullAddressKeyForm,
+        key: fullAddressKeyForm,
         child: TextArea(
           onChanged: (address) {
             postsController.updatePet(
