@@ -1,35 +1,33 @@
-import 'package:tiutiu/core/extensions/string_extension.dart';
+import 'package:tiutiu/core/constants/strings.dart';
+import 'package:tiutiu/features/posts/validators/form_validators.dart';
 import 'package:tiutiu/features/pets/model/pet_model.dart';
 import 'package:tiutiu/features/system/controllers.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 
 const int FLOW_STEPS_QTY = 5;
 
 class PostsController extends GetxController {
-  final GlobalKey<FormState> fullAddressKeyForm = GlobalKey<FormState>();
-  final GlobalKey<FormState> nameKeyForm = GlobalKey<FormState>();
   final RxBool _isFullAddress = false.obs;
   final RxBool _formIsValid = true.obs;
-  final Rx<Pet> _pet = Pet().obs;
   final RxInt _flowIndex = 0.obs;
+  final Rx<Pet> _pet = Pet().obs;
 
+  bool get existChronicDiseaseInfo =>
+      _pet.value.health == PetHealthString.chronicDisease;
   bool get isFullAddress => _isFullAddress.value;
+  bool get formIsInInitialState => pet == Pet();
   bool get formIsValid => _formIsValid.value;
   int get flowIndex => _flowIndex.value;
   Pet get pet => _pet.value;
 
-  bool get formIsInInitialState => pet == Pet();
-
   void updatePet(PetEnum property, dynamic data) {
     final petMap = pet.toMap();
+    petMap[property.name] = data;
 
     if (property == PetEnum.otherCaracteristics) {
       petMap[property.name] = _handlePetOtherCaracteristics(data);
     } else if (pet.owner == null) {
       petMap[PetEnum.owner.name] = tiutiuUserController.tiutiuUser.toMap();
-    } else {
-      petMap[property.name] = data;
     }
 
     print('>> $petMap');
@@ -51,38 +49,36 @@ class PostsController extends GetxController {
   }
 
   void onContinue() {
-    nextStep();
-    // switch (flowIndex) {
-    //   case 0:
-    //     if (checkIfFormIsValid()) {
-    //     }
-    //     break;
-    //   case 1:
-    //     print(isFullAddress);
-    //     if (!isFullAddress) {
-    //       nextStep();
-    //     } else if (isFullAddress &&
-    //         fullAddressKeyForm.currentState!.validate()) {
-    //       nextStep();
-    //     }
-    //     break;
-    // }
-  }
+    PostFormValidator validator = PostFormValidator(pet);
+    // nextStep();
 
-  bool checkIfFormIsValid() {
-    bool isValid = false;
+    switch (flowIndex) {
+      case 0:
+        _formIsValid(validator.isStep1Valid());
+        break;
+      case 1:
+        _formIsValid(validator.isStep2Valid(existChronicDiseaseInfo));
+        break;
+      case 2:
+        _formIsValid(validator.isStep3Valid());
+        break;
+      case 3:
+        _formIsValid(validator.isStep4Valid(isFullAddress));
+        break;
+      case 4:
+        _formIsValid(validator.isStep5Valid());
+        break;
+      case 5:
+        _formIsValid(
+          validator.isFormIsValid(
+            existChronicDiseaseInfo: existChronicDiseaseInfo,
+            isFullAddress: isFullAddress,
+          ),
+        );
+        break;
+    }
 
-    isValid = nameKeyForm.currentState!.validate() &&
-        // pet.type.isNotEmptyNeighterNull() &&
-        // pet.color.isNotEmptyNeighterNull() &&
-        // pet.breed.isNotEmptyNeighterNull() &&
-        // pet.gender.isNotEmptyNeighterNull() &&
-        // pet.details.isNotEmptyNeighterNull() &&
-        pet.size.isNotEmptyNeighterNull();
-
-    _formIsValid(isValid);
-
-    return isValid;
+    if (formIsValid) nextStep();
   }
 
   void clearForm() {

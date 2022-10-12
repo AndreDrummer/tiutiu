@@ -103,6 +103,15 @@ class PetTypeStrings {
   static String get cat => 'Gato';
 }
 
+class PetHealthString {
+  static String get chronicDisease => 'Doença Crônica';
+  static String get palliative => 'Paliativo';
+  static String get preganant => 'Prenhez';
+  static String get healthy => 'Saudável';
+  static String get hurted => 'Machucado';
+  static String get ill => 'Doente';
+}
+
 class LocalPermissionStrings {
   static String get needsAccess =>
       'precisa ter acesso total a sua localização para funcionar corretamente!';
@@ -160,6 +169,7 @@ class MyProfileOptionsTile {
 
 class PostFlowStrings {
   static const String otherCaracteristics = 'Outras características (Opcional)';
+  static const String describeDiseaseType = 'Descreva qual o tipo de doença';
   static const String description = 'Descrição e outras caracteristicas';
   static const String postCancelMessage =
       'Saindo agora todos os dados serão perdidos.\nContinuar?';

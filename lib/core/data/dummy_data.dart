@@ -290,14 +290,14 @@ class DummyData {
     '10+ anos',
   ];
 
-  static const health = [
+  static List<String> health = [
     '-',
-    'Saudável',
-    'Doença Crônica',
-    'Prenhez',
-    'Doente',
-    'Machucado',
-    'Paliativo',
+    PetHealthString.chronicDisease,
+    PetHealthString.palliative,
+    PetHealthString.preganant,
+    PetHealthString.healthy,
+    PetHealthString.hurted,
+    PetHealthString.ill,
   ];
 
   static const gender = [
