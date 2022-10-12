@@ -16,55 +16,69 @@ class PostDetails extends StatelessWidget {
         () => ListView(
           children: [
             SizedBox(height: 8.0.h),
-            UnderlineInputDropdown(
-              isInErrorState:
-                  !postsController.pet.breed.isNotEmptyNeighterNull() &&
-                      !postsController.formIsValid,
-              initialValue: postsController.pet.breed,
-              onChanged: (breed) {
-                postsController.updatePet(PetEnum.breed, breed);
-              },
-              items: DummyData.breeds[postsController.pet.type]!,
-              labelText: PetDetailsStrings.breed,
-              fontSize: 14.0.sp,
-            ),
+            _breed(),
             _spacer(),
-            UnderlineInputDropdown(
-              isInErrorState:
-                  !postsController.pet.color.isNotEmptyNeighterNull() &&
-                      !postsController.formIsValid,
-              initialValue: postsController.pet.color,
-              onChanged: (color) {
-                postsController.updatePet(PetEnum.color, color);
-              },
-              labelText: PetDetailsStrings.color,
-              items: DummyData.color,
-              fontSize: 14.0.sp,
-            ),
+            _color(),
             _spacer(),
-            UnderlineInputDropdown(
-              initialValue: postsController.pet.health.toString(),
-              onChanged: (health) {
-                postsController.updatePet(PetEnum.health, health);
-              },
-              labelText: PetDetailsStrings.health,
-              items: DummyData.health,
-              fontSize: 14.0.sp,
-            ),
+            _health(),
             _spacer(),
-            UnderlineInputDropdown(
-              initialValue: postsController.pet.gender.toString(),
-              onChanged: (gender) {
-                postsController.updatePet(PetEnum.gender, gender);
-              },
-              labelText: PetDetailsStrings.sex,
-              items: DummyData.gender,
-              fontSize: 14.0.sp,
-            ),
+            _gender(),
             _spacer(),
           ],
         ),
       ),
+    );
+  }
+
+  UnderlineInputDropdown _breed() {
+    return UnderlineInputDropdown(
+      isInErrorState: !postsController.pet.breed.isNotEmptyNeighterNull() &&
+          !postsController.formIsValid,
+      initialValue: postsController.pet.breed,
+      onChanged: (breed) {
+        postsController.updatePet(PetEnum.breed, breed);
+      },
+      items: DummyData.breeds[postsController.pet.type]!,
+      labelText: PetDetailsStrings.breed,
+      fontSize: 14.0.sp,
+    );
+  }
+
+  UnderlineInputDropdown _color() {
+    return UnderlineInputDropdown(
+      isInErrorState: !postsController.pet.color.isNotEmptyNeighterNull() &&
+          !postsController.formIsValid,
+      initialValue: postsController.pet.color,
+      onChanged: (color) {
+        postsController.updatePet(PetEnum.color, color);
+      },
+      labelText: PetDetailsStrings.color,
+      items: DummyData.color,
+      fontSize: 14.0.sp,
+    );
+  }
+
+  UnderlineInputDropdown _health() {
+    return UnderlineInputDropdown(
+      initialValue: postsController.pet.health.toString(),
+      onChanged: (health) {
+        postsController.updatePet(PetEnum.health, health);
+      },
+      labelText: PetDetailsStrings.health,
+      items: DummyData.health,
+      fontSize: 14.0.sp,
+    );
+  }
+
+  UnderlineInputDropdown _gender() {
+    return UnderlineInputDropdown(
+      initialValue: postsController.pet.gender.toString(),
+      onChanged: (gender) {
+        postsController.updatePet(PetEnum.gender, gender);
+      },
+      labelText: PetDetailsStrings.sex,
+      items: DummyData.gender,
+      fontSize: 14.0.sp,
     );
   }
 
