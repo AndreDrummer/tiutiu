@@ -176,6 +176,7 @@ class PostFlowStrings {
   static const String fillFullAddress = 'Preencher endereço completo?';
   static const String addDescription = 'Adicione uma descrição';
   static const String fillAdData = 'Preencher dados do anúncio';
+  static const String addVideo = 'Adicione um vídeo (Opcional)';
   static const String postCancelTitle = 'Cancelar postagem?';
   static const String pcituresAndVideos = 'Fotos e Videos';
   static const String reviewYourPost = 'Revise o seu post';
