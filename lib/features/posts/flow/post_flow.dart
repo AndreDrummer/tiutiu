@@ -130,10 +130,10 @@ final _screensTitle = [
 ];
 
 final _stepsScreens = [
+  Pictures(),
   PostInfo(),
   PostDetails(),
   PostDescription(),
   PostLocation(),
-  Pictures(),
   ReviewPost()
 ];
