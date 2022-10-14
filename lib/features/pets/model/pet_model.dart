@@ -40,6 +40,7 @@ class Pet {
     this.describedAdress = '',
     this.disappeared = false,
     this.city = 'Acrelândia',
+    this.photos = const [],
     this.interesteds = 0,
     this.storageHashKey,
     this.state = 'Acre',
@@ -56,7 +57,6 @@ class Pet {
     this.createdAt,
     this.latitude,
     this.ownerId,
-    this.photos,
     this.views,
     this.owner,
     this.name,
@@ -145,7 +145,7 @@ class Pet {
   int? ageYear;
   String size;
   String state;
-  List? photos;
+  List photos;
   String? name;
   String type;
   String city;

@@ -36,7 +36,7 @@ Padding _descriptionInputText() {
   return Padding(
     padding: EdgeInsets.symmetric(horizontal: 8.0.w),
     child: TextArea(
-      initialValue: postsController.pet.describedAdress,
+      initialValue: postsController.post.describedAdress,
       labelText: AppStrings.jotSomethingDown,
       maxLines: 4,
       onChanged: (description) {
@@ -86,7 +86,7 @@ SizedBox _otherCaracteristicsGrid(List<String> caracs) {
               onChanged: (_) {
                 postsController.updatePet(PetEnum.otherCaracteristics, carac);
               },
-              value: postsController.pet.otherCaracteristics.contains(carac),
+              value: postsController.post.otherCaracteristics.contains(carac),
             ),
           );
         }).toList()),

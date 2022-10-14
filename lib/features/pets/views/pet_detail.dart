@@ -34,7 +34,7 @@ class PetDetails extends StatelessWidget {
               children: [
                 _showImages(
                   boxHeight: Get.height / 2.5,
-                  photos: pet.photos!,
+                  photos: pet.photos,
                   context: context,
                 ),
                 Expanded(
