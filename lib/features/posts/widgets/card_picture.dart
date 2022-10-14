@@ -2,7 +2,6 @@ import 'package:tiutiu/features/posts/widgets/remove_asset_blur.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 class AdPicture extends StatefulWidget {
   const AdPicture({
@@ -45,8 +44,8 @@ class _AdPictureState extends State<AdPicture> {
               borderRadius: BorderRadius.circular(8.0.h),
             ),
             child: Container(
-              height: 120.0.h,
-              width: 200.0.w,
+              height: 140.0.h,
+              width: 240.0.w,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(8.0.h),
                 color: AppColors.white,
@@ -95,7 +94,11 @@ class _AdPictureState extends State<AdPicture> {
     }
     return Padding(
       padding: EdgeInsets.all(32.0.h),
-      child: Icon(Icons.arrow_back),
+      child: Icon(
+        Icons.add_a_photo_outlined,
+        color: Colors.grey,
+        size: 40.0.h,
+      ),
     );
   }
 }

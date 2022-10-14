@@ -28,7 +28,7 @@ class CardBuilder {
 
   Widget adInteresteds() => AdInteresteds(petKind: _pet.type);
 
-  Widget adImages() => AdImages(photos: _pet.photos!);
+  Widget adImages() => AdImages(photos: _pet.photos);
 
   Widget adViews() => AdViews(views: _pet.views!);
 
