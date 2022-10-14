@@ -15,15 +15,15 @@ class PostLocation extends StatelessWidget {
           onFullAddressSelected: (value) {
             postsController.toggleFullAddress();
           },
-          initialState: postsController.pet.state,
-          initialCity: postsController.pet.city,
+          initialState: postsController.post.state,
+          initialCity: postsController.post.city,
           onStateChanged: (state) {
             postsController.updatePet(PetEnum.state, state);
             postsController.updatePet(
               PetEnum.city,
               StatesAndCities()
                   .citiesOf(
-                    stateName: postsController.pet.state,
+                    stateName: postsController.post.state,
                   )
                   .first,
             );
