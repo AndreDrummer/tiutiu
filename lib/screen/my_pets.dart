@@ -189,7 +189,7 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
                                           topRight: Radius.circular(12),
                                         ),
                                         child: AssetHandle.getImage(
-                                            pets[index].photos!.first!),
+                                            pets[index].photos.first!),
                                       ),
                                     ),
                                     widget.kind == null ||

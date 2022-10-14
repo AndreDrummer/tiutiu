@@ -100,7 +100,7 @@ class LocationSelecter extends StatelessWidget {
               address,
             );
           },
-          initialValue: postsController.pet.describedAdress,
+          initialValue: postsController.post.describedAdress,
           validator:
               postsController.isFullAddress ? Validators.verifyEmpty : null,
           labelText: PostFlowStrings.typeAddress,

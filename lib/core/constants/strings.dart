@@ -170,17 +170,19 @@ class MyProfileOptionsTile {
 class PostFlowStrings {
   static const String otherCaracteristics = 'Outras características (Opcional)';
   static const String describeDiseaseType = 'Descreva qual o tipo de doença';
+  static const String insertAtLeastOnePicture = 'Insira pelo menos uma foto';
   static const String description = 'Descrição e outras caracteristicas';
   static const String postCancelMessage =
       'Saindo agora todos os dados serão perdidos.\nContinuar?';
   static const String fillFullAddress = 'Preencher endereço completo?';
+  static const String insertPicsAndVideos = 'Adicione fotos e video';
   static const String addDescription = 'Adicione uma descrição';
   static const String fillAdData = 'Preencher dados do anúncio';
-  static const String addVideo = 'Adicione um vídeo (Opcional)';
+  static const String insertVideo = 'Insira um vídeo (Opcional)';
+  static const String addMorePictures = 'Adicionar mais fotos';
   static const String postCancelTitle = 'Cancelar postagem?';
   static const String pcituresAndVideos = 'Fotos e Videos';
   static const String reviewYourPost = 'Revise o seu post';
-  static const String insertPictures = 'Insira as fotos';
   static const String typeAddress = 'Digite o endereço';
   static const String whereIsPet = 'Onde está o PET?';
   static const String moreDetails = 'Mais detalhes';

@@ -48,7 +48,7 @@ class PostInfo extends StatelessWidget {
       child: Form(
         key: nameKeyForm,
         child: UnderlineInputText(
-          initialValue: postsController.pet.name,
+          initialValue: postsController.post.name,
           validator: Validators.verifyEmpty,
           onChanged: (name) {
             nameKeyForm.currentState!.validate();
@@ -74,7 +74,7 @@ class PostInfo extends StatelessWidget {
           children: [
             Expanded(
               child: UnderlineInputDropdown(
-                initialValue: postsController.pet.ageYear.toString(),
+                initialValue: postsController.post.ageYear.toString(),
                 onChanged: (anos) {
                   postsController.updatePet(
                     PetEnum.ageYear,
@@ -88,7 +88,7 @@ class PostInfo extends StatelessWidget {
             ),
             Expanded(
               child: UnderlineInputDropdown(
-                initialValue: postsController.pet.ageMonth.toString(),
+                initialValue: postsController.post.ageMonth.toString(),
                 onChanged: (meses) {
                   postsController.updatePet(
                     PetEnum.ageMonth,
@@ -110,9 +110,9 @@ class PostInfo extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.only(top: 24.0.h),
       child: UnderlineInputDropdown(
-        isInErrorState: !postsController.pet.type.isNotEmptyNeighterNull() &&
+        isInErrorState: !postsController.post.type.isNotEmptyNeighterNull() &&
             !postsController.formIsValid,
-        initialValue: postsController.pet.type,
+        initialValue: postsController.post.type,
         onChanged: (type) {
           postsController.updatePet(PetEnum.type, type);
         },
@@ -127,9 +127,9 @@ class PostInfo extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.only(top: 32.0.h),
       child: UnderlineInputDropdown(
-        isInErrorState: !postsController.pet.size.isNotEmptyNeighterNull() &&
+        isInErrorState: !postsController.post.size.isNotEmptyNeighterNull() &&
             !postsController.formIsValid,
-        initialValue: postsController.pet.size.toString(),
+        initialValue: postsController.post.size.toString(),
         onChanged: (size) {
           postsController.updatePet(PetEnum.size, size);
         },
