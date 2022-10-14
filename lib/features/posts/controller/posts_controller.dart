@@ -26,6 +26,10 @@ class PostsController extends GetxController {
     if (postPhotosQty < 6) _postPhotosQty(postPhotosQty + 1);
   }
 
+  void decreasePhotosQty() {
+    if (postPhotosQty > 1) _postPhotosQty(postPhotosQty - 1);
+  }
+
   void updatePet(PetEnum property, dynamic data) {
     final postMap = _insertOwnerData(post.toMap());
     postMap[property.name] = data;
