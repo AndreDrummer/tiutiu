@@ -9,6 +9,8 @@ import 'package:tiutiu/core/utils/pickers.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+ScrollController controller = ScrollController();
+
 class Pictures extends StatelessWidget with Pickers {
   const Pictures({super.key});
 
@@ -45,58 +47,71 @@ class Pictures extends StatelessWidget with Pickers {
   Expanded _picturesList(BuildContext context) {
     return Expanded(
       child: Obx(
-        () => ListView.builder(
-          itemCount: postsController.postPhotosQty,
-          scrollDirection: Axis.horizontal,
-          padding: EdgeInsets.zero,
-          shrinkWrap: true,
-          itemBuilder: (ctx, index) {
-            return Obx(
-              () {
-                final photos = postsController.post.photos;
-                final isEmpty = photos.isEmpty;
+        () {
+          return ListView.builder(
+            controller: controller,
+            itemCount: postsController.postPhotosQty,
+            scrollDirection: Axis.horizontal,
+            padding: EdgeInsets.zero,
+            shrinkWrap: true,
+            itemBuilder: (ctx, index) {
+              return Obx(
+                () {
+                  final photosQty = postsController.post.photos.length;
+                  final framesQty = postsController.postPhotosQty;
+                  final photos = postsController.post.photos;
 
-                return AdPicture(
-                  imagePath:
-                      isEmpty ? null : photos[index > 0 ? index - 1 : index],
-                  color: AppColors.primary,
-                  onPicturedRemoved: () {
-                    postsController.removePictureOnIndex(index);
-                  },
-                  onAddPicture: () {
-                    pickAnAsset(
-                      context: context,
-                      onAssetPicked: (image) {
-                        postsController.addPictureOnIndex(
-                          image,
-                          index,
-                        );
-                      },
-                      pickerAssetType: PickerAssetType.photo,
-                    );
-                  },
-                );
-              },
-            );
-          },
-        ),
+                  print('Frames $framesQty Index $index Fotos $photosQty');
+
+                  return AdPicture(
+                    imagePath: photosQty < framesQty && (index == framesQty - 1)
+                        ? null
+                        : photos[index],
+                    color: AppColors.primary,
+                    onPicturedRemoved: () {
+                      postsController.removePictureOnIndex(index);
+                      postsController.decreasePhotosQty();
+                    },
+                    onAddPicture: () {
+                      pickAnAsset(
+                        context: context,
+                        onAssetPicked: (image) {
+                          postsController.addPictureOnIndex(
+                            image,
+                            index,
+                          );
+                        },
+                        pickerAssetType: PickerAssetType.photo,
+                      );
+                    },
+                  );
+                },
+              );
+            },
+          );
+        },
       ),
     );
   }
 
   Obx _addPicturesButton() {
     return Obx(() {
-      final photosIsNotEmpty = postsController.post.photos.isNotEmpty;
-      final postPhotosQtyLessThan6 = postsController.postPhotosQty;
+      final photosQty = postsController.post.photos.length;
+      final framesQty = postsController.postPhotosQty;
 
       return AnimatedOpacity(
         duration: Duration(milliseconds: 1000),
-        opacity: postPhotosQtyLessThan6 < 6 && photosIsNotEmpty ? 1 : 0,
+        opacity: (photosQty == framesQty) && framesQty < 6 ? 1 : 0,
         child: Visibility(
-          visible: postPhotosQtyLessThan6 < 6 && photosIsNotEmpty,
+          visible: (photosQty == framesQty) && framesQty < 6,
           child: TextButton.icon(
             onPressed: () {
               postsController.increasePhotosQty();
+              controller.animateTo(
+                (Get.width * postsController.postPhotosQty) * .6,
+                duration: Duration(milliseconds: 500),
+                curve: Curves.ease,
+              );
             },
             label: AutoSizeText(
               PostFlowStrings.addMorePictures,
@@ -112,7 +127,7 @@ class Pictures extends StatelessWidget with Pickers {
   OneLineText _insertVideoLabel() {
     return OneLineText(
       text: PostFlowStrings.insertVideo,
-      alignment: Alignment(-0.93, 1),
+      alignment: Alignment.center,
       fontWeight: FontWeight.w500,
     );
   }
@@ -122,6 +137,7 @@ class Pictures extends StatelessWidget with Pickers {
       margin: const EdgeInsets.symmetric(horizontal: 8.0),
       color: Colors.black,
       height: 140.0.h,
+      width: 240.0.w,
     );
   }
 
