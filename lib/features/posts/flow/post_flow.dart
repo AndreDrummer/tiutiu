@@ -125,7 +125,7 @@ final _screensTitle = [
   PostFlowStrings.moreDetails,
   PostFlowStrings.description,
   PostFlowStrings.whereIsPet,
-  PostFlowStrings.insertPictures,
+  PostFlowStrings.insertPicsAndVideos,
   PostFlowStrings.reviewYourPost,
 ];
 
