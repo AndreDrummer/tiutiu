@@ -33,13 +33,13 @@ class PostDetails extends StatelessWidget {
 
   UnderlineInputDropdown _breed() {
     return UnderlineInputDropdown(
-      isInErrorState: !postsController.pet.breed.isNotEmptyNeighterNull() &&
+      isInErrorState: !postsController.post.breed.isNotEmptyNeighterNull() &&
           !postsController.formIsValid,
-      initialValue: postsController.pet.breed,
+      initialValue: postsController.post.breed,
       onChanged: (breed) {
         postsController.updatePet(PetEnum.breed, breed);
       },
-      items: DummyData.breeds[postsController.pet.type]!,
+      items: DummyData.breeds[postsController.post.type]!,
       labelText: PetDetailsStrings.breed,
       fontSize: 14.0.sp,
     );
@@ -47,9 +47,9 @@ class PostDetails extends StatelessWidget {
 
   UnderlineInputDropdown _color() {
     return UnderlineInputDropdown(
-      isInErrorState: !postsController.pet.color.isNotEmptyNeighterNull() &&
+      isInErrorState: !postsController.post.color.isNotEmptyNeighterNull() &&
           !postsController.formIsValid,
-      initialValue: postsController.pet.color,
+      initialValue: postsController.post.color,
       onChanged: (color) {
         postsController.updatePet(PetEnum.color, color);
       },
@@ -68,9 +68,9 @@ class PostDetails extends StatelessWidget {
         children: [
           UnderlineInputDropdown(
             isInErrorState:
-                !postsController.pet.health.isNotEmptyNeighterNull() &&
+                !postsController.post.health.isNotEmptyNeighterNull() &&
                     !postsController.formIsValid,
-            initialValue: postsController.pet.health.toString(),
+            initialValue: postsController.post.health.toString(),
             onChanged: (health) {
               postsController.updatePet(PetEnum.health, health);
             },
@@ -103,7 +103,7 @@ class PostDetails extends StatelessWidget {
                       chronicDiseaseInfo,
                     );
                   },
-                  initialValue: postsController.pet.chronicDiseaseInfo,
+                  initialValue: postsController.post.chronicDiseaseInfo,
                   validator: postsController.existChronicDiseaseInfo
                       ? Validators.verifyEmpty
                       : null,
@@ -119,9 +119,9 @@ class PostDetails extends StatelessWidget {
 
   UnderlineInputDropdown _gender() {
     return UnderlineInputDropdown(
-      isInErrorState: !postsController.pet.gender.isNotEmptyNeighterNull() &&
+      isInErrorState: !postsController.post.gender.isNotEmptyNeighterNull() &&
           !postsController.formIsValid,
-      initialValue: postsController.pet.gender.toString(),
+      initialValue: postsController.post.gender.toString(),
       onChanged: (gender) {
         postsController.updatePet(PetEnum.gender, gender);
       },
