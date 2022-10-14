@@ -9,35 +9,68 @@ const int FLOW_STEPS_QTY = 5;
 class PostsController extends GetxController {
   final RxBool _isFullAddress = false.obs;
   final RxBool _formIsValid = true.obs;
+  final RxInt _postPhotosQty = 1.obs;
   final RxInt _flowIndex = 0.obs;
-  final Rx<Pet> _pet = Pet().obs;
+  final Rx<Pet> _post = Pet().obs;
 
   bool get existChronicDiseaseInfo =>
-      _pet.value.health == PetHealthString.chronicDisease;
+      _post.value.health == PetHealthString.chronicDisease;
   bool get isFullAddress => _isFullAddress.value;
-  bool get formIsInInitialState => pet == Pet();
+  bool get formIsInInitialState => post == Pet();
+  int get postPhotosQty => _postPhotosQty.value;
   bool get formIsValid => _formIsValid.value;
   int get flowIndex => _flowIndex.value;
-  Pet get pet => _pet.value;
+  Pet get post => _post.value;
+
+  void increasePhotosQty() {
+    if (postPhotosQty < 6) _postPhotosQty(postPhotosQty + 1);
+  }
 
   void updatePet(PetEnum property, dynamic data) {
-    final petMap = pet.toMap();
-    petMap[property.name] = data;
+    final postMap = _insertOwnerData(post.toMap());
+    postMap[property.name] = data;
 
     if (property == PetEnum.otherCaracteristics) {
-      petMap[property.name] = _handlePetOtherCaracteristics(data);
-    } else if (pet.owner == null) {
-      petMap[PetEnum.owner.name] = tiutiuUserController.tiutiuUser.toMap();
+      postMap[property.name] = _handlePetOtherCaracteristics(data);
     }
 
-    print('>> $petMap');
+    print('>> $postMap');
 
-    _pet(Pet.fromMap(petMap));
+    _post(Pet.fromMap(postMap));
+  }
+
+  Map<String, dynamic> _insertOwnerData(Map<String, dynamic> postMap) {
+    if (post.owner == null) {
+      postMap[PetEnum.owner.name] = tiutiuUserController.tiutiuUser.toMap();
+    }
+
+    return postMap;
+  }
+
+  void addPictureOnIndex(dynamic picture, int index) {
+    if (index <= 5) {
+      final postMap = _insertOwnerData(post.toMap());
+      var newImageList = [];
+
+      newImageList.addAll(postMap[PetEnum.photos.name]);
+      newImageList.add(picture);
+
+      postMap[PetEnum.photos.name] = newImageList;
+      _post(Pet.fromMap(postMap));
+    }
+  }
+
+  void removePictureOnIndex(int index) {
+    var postMap = post.toMap();
+    var newImageList = postMap[PetEnum.photos.name];
+    newImageList.removeAt(index);
+    postMap[PetEnum.photos.name] = newImageList;
+    _post(Pet.fromMap(postMap));
   }
 
   List _handlePetOtherCaracteristics(String incomingCaracteristic) {
     List caracteristics = [];
-    caracteristics.addAll(pet.otherCaracteristics);
+    caracteristics.addAll(post.otherCaracteristics);
 
     if (caracteristics.contains(incomingCaracteristic)) {
       caracteristics.remove(incomingCaracteristic);
@@ -49,7 +82,7 @@ class PostsController extends GetxController {
   }
 
   void onContinue() {
-    PostFormValidator validator = PostFormValidator(pet);
+    PostFormValidator validator = PostFormValidator(post);
     // nextStep();
 
     switch (flowIndex) {
@@ -84,7 +117,7 @@ class PostsController extends GetxController {
   void clearForm() {
     _isFullAddress(false);
     _formIsValid(true);
-    _pet(Pet());
+    _post(Pet());
   }
 
   void nextStep() {

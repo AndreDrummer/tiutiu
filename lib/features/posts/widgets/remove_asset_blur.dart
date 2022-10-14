@@ -2,7 +2,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/Widgets/remove_question.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 class RemoveAssetBlur extends StatelessWidget {
   const RemoveAssetBlur({
@@ -23,8 +22,8 @@ class RemoveAssetBlur extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: boxHeight ?? 99.0.h,
-      width: boxWidth ?? 168.0.w,
+      height: boxHeight ?? 144.0.h,
+      width: boxWidth ?? 244.0.w,
       decoration: BoxDecoration(
         color: AppColors.black.withAlpha(190),
         borderRadius: borderRadius ?? BorderRadius.circular(8.0),
