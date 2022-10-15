@@ -1,8 +1,8 @@
 import 'package:tiutiu/features/tiutiu_user/services/tiutiu_user_service.dart';
 import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
+import 'package:tiutiu/core/extensions/string_extension.dart';
 import 'package:tiutiu/features/system/controllers.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:tiutiu/core/utils/constantes.dart';
 import 'package:get/get.dart';
 
 class TiutiuUserController extends GetxController {
@@ -52,8 +52,7 @@ class TiutiuUserController extends GetxController {
     var avatarPath = tiutiuUser.avatar;
 
     isLoading = true;
-    if (avatarPath != null &&
-        !avatarPath.toString().contains(Constantes.HTTP)) {
+    if (avatarPath != null && !avatarPath.toString().isAsset()) {
       var urlAvatar = await _tiutiuUserService.uploadAvatar(
         tiutiuUser.uid ?? authController.user!.uid,
         avatarPath,
