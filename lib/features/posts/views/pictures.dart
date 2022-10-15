@@ -1,5 +1,9 @@
-import 'package:tiutiu/features/posts/widgets/card_picture.dart';
+import 'dart:io';
+
+import 'package:tiutiu/features/pets/model/pet_model.dart';
+import 'package:tiutiu/features/posts/widgets/ad_picture.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:tiutiu/features/posts/widgets/ad_video.dart';
 import 'package:tiutiu/features/system/controllers.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:auto_size_text/auto_size_text.dart';
@@ -8,8 +12,10 @@ import 'package:tiutiu/Widgets/one_line_text.dart';
 import 'package:tiutiu/core/utils/pickers.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:video_player/video_player.dart';
 
-ScrollController controller = ScrollController();
+ScrollController _picturesListController = ScrollController();
+final int VIDEO_SECS_LIMIT = 90;
 
 class Pictures extends StatelessWidget with Pickers {
   const Pictures({super.key});
@@ -49,8 +55,8 @@ class Pictures extends StatelessWidget with Pickers {
       child: Obx(
         () {
           return ListView.builder(
-            controller: controller,
             itemCount: postsController.postPhotosQty,
+            controller: _picturesListController,
             scrollDirection: Axis.horizontal,
             padding: EdgeInsets.zero,
             shrinkWrap: true,
@@ -107,7 +113,7 @@ class Pictures extends StatelessWidget with Pickers {
           child: TextButton.icon(
             onPressed: () {
               postsController.increasePhotosQty();
-              controller.animateTo(
+              _picturesListController.animateTo(
                 (Get.width * postsController.postPhotosQty) * .6,
                 duration: Duration(milliseconds: 500),
                 curve: Curves.ease,
@@ -134,10 +140,28 @@ class Pictures extends StatelessWidget with Pickers {
 
   Container _video() {
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 8.0),
-      color: Colors.black,
-      height: 140.0.h,
-      width: 240.0.w,
+      child: AddVideoItem(
+        hasError: false,
+        onVideoPicked: (file) {
+          if (file != null) {
+            File videoFile = File(file.path);
+            final videoModel = VideoPlayerController.file(videoFile);
+
+            videoModel.initialize().then((value) {
+              videoModel.play();
+              videoModel.pause();
+              final videoDuration = videoModel.value.duration;
+              if (videoDuration.inSeconds <= VIDEO_SECS_LIMIT) {
+                postsController.updatePet(PetEnum.video, videoFile);
+                postsController.clearError();
+              } else {
+                debugPrint('Video Size Exceed ${videoDuration.inSeconds}');
+                postsController.setError(PostFlowStrings.videoSizeExceed);
+              }
+            });
+          }
+        },
+      ),
     );
   }
 

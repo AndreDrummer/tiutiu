@@ -19,6 +19,7 @@ enum PetEnum {
   gender,
   health,
   photos,
+  video,
   owner,
   color,
   breed,
@@ -59,6 +60,7 @@ class Pet {
     this.ownerId,
     this.views,
     this.owner,
+    this.video,
     this.name,
     this.uid,
   });
@@ -90,6 +92,7 @@ class Pet {
       ownerId: map[PetEnum.ownerId.name],
       ageYear: map[PetEnum.ageYear.name],
       photos: map[PetEnum.photos.name],
+      video: map[PetEnum.video.name],
       views: map[PetEnum.views.name],
       name: map[PetEnum.name.name],
       uid: map[PetEnum.uid.name],
@@ -137,16 +140,17 @@ class Pet {
   double? latitude;
   String? ownerId;
   int interesteds;
+  dynamic video;
   String gender;
   String health;
-  String color;
   int? ageMonth;
+  String state;
   String breed;
   int? ageYear;
-  String size;
-  String state;
-  List photos;
   String? name;
+  String color;
+  String size;
+  List photos;
   String type;
   String city;
   String? uid;
@@ -176,6 +180,7 @@ class Pet {
       PetEnum.color.name: color,
       PetEnum.views.name: views,
       PetEnum.breed.name: breed,
+      PetEnum.video.name: video,
       PetEnum.type.name: type,
       PetEnum.size.name: size,
       PetEnum.name.name: name,
@@ -186,7 +191,7 @@ class Pet {
 
   @override
   String toString() {
-    return 'Pet(otherCaracteristics: $otherCaracteristics, chronicDiseaseInfo: $chronicDiseaseInfo, lastSeenDetails: $lastSeenDetails, storageHashKey: $storageHashKey, donatedOrFound: $donatedOrFound, createdAt: $createdAt, owner: $owner, longitude: $longitude, disappeared: $disappeared, latitude: $latitude, ownerId: $ownerId, interesteds: $interesteds, description: $description, gender: $gender, health: $health, color: $color, ageMonth: $ageMonth, breed: $breed, ageYear: $ageYear, size: $size, state: $state, photos: $photos, name: $name, type: $type, city: $city, uid: $uid, views: $views)';
+    return 'Pet(otherCaracteristics: $otherCaracteristics, chronicDiseaseInfo: $chronicDiseaseInfo, lastSeenDetails: $lastSeenDetails, storageHashKey: $storageHashKey, donatedOrFound: $donatedOrFound, createdAt: $createdAt, owner: $owner, longitude: $longitude, disappeared: $disappeared, latitude: $latitude, ownerId: $ownerId, interesteds: $interesteds, description: $description, gender: $gender, health: $health, color: $color, ageMonth: $ageMonth, breed: $breed, ageYear: $ageYear, size: $size, state: $state, photos: $photos, name: $name, type: $type, city: $city, uid: $uid, views: $views, video: $video)';
   }
 
   @override
@@ -203,6 +208,7 @@ class Pet {
         other.owner == owner &&
         other.longitude == longitude &&
         other.disappeared == disappeared &&
+        other.video == video &&
         other.latitude == latitude &&
         other.ownerId == ownerId &&
         other.interesteds == interesteds &&
@@ -239,6 +245,7 @@ class Pet {
         ownerId.hashCode ^
         interesteds.hashCode ^
         description.hashCode ^
+        video.hashCode ^
         gender.hashCode ^
         health.hashCode ^
         color.hashCode ^

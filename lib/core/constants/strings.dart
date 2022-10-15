@@ -171,6 +171,7 @@ class PostFlowStrings {
   static const String otherCaracteristics = 'Outras características (Opcional)';
   static const String describeDiseaseType = 'Descreva qual o tipo de doença';
   static const String insertAtLeastOnePicture = 'Insira pelo menos uma foto';
+  static const String videoSizeExceed = 'Tamanho máximo do vídeo excedido!';
   static const String description = 'Descrição e outras caracteristicas';
   static const String postCancelMessage =
       'Saindo agora todos os dados serão perdidos.\nContinuar?';
