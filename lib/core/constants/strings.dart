@@ -187,6 +187,7 @@ class PostFlowStrings {
   static const String typeAddress = 'Digite o endereço';
   static const String whereIsPet = 'Onde está o PET?';
   static const String moreDetails = 'Mais detalhes';
+  static const String removeVideo = 'Remover vídeo';
   static const String petsData = 'Dados do PET';
   static const String petName = 'Nome do PET';
   static const String size = 'Tamanho do PET';

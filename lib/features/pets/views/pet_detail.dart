@@ -38,18 +38,22 @@ class PetDetails extends StatelessWidget {
                   context: context,
                 ),
                 Expanded(
-                  child: ListView(
-                    children: [
-                      _petCaracteristics(petCaracteristics),
-                      _description(pet.description!),
-                      _address(pet),
-                      _ownerAdcontact(
-                        whatsappMessage: 'whatsappMessage',
-                        emailMessage: 'emailMessage',
-                        emailSubject: 'emailSubject',
-                        user: pet.owner!,
-                      )
-                    ],
+                  child: Container(
+                    height: Get.height / 4.5,
+                    child: Column(
+                      children: [
+                        _petCaracteristics(petCaracteristics),
+                        _description(pet.description),
+                        _address(pet),
+                        Spacer(),
+                        _ownerAdcontact(
+                          whatsappMessage: 'whatsappMessage',
+                          emailMessage: 'emailMessage',
+                          emailSubject: 'emailSubject',
+                          user: pet.owner!,
+                        )
+                      ],
+                    ),
                   ),
                 )
               ],
@@ -253,10 +257,13 @@ class PetDetails extends StatelessWidget {
     );
   }
 
-  CardContent _description(String description) {
-    return CardContent(
-      title: PetDetailsStrings.description,
-      content: description,
+  Widget _description(String? description) {
+    return Visibility(
+      visible: description != null,
+      child: CardContent(
+        title: PetDetailsStrings.description,
+        content: description ?? '',
+      ),
     );
   }
 
@@ -279,8 +286,9 @@ class PetDetails extends StatelessWidget {
     TiutiuUser? user,
   }) {
     final Pet pet = petsController.pet;
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 8.0.w),
+    return Container(
+      height: Get.height / 5.5,
+      margin: EdgeInsets.symmetric(horizontal: 8.0.w),
       child: Column(
         children: [
           Row(

@@ -22,11 +22,12 @@ class RemoveAssetBlur extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: boxHeight ?? 144.0.h,
-      width: boxWidth ?? 244.0.w,
+      margin: EdgeInsets.only(left: 4.0.w, top: 4.0.h),
+      height: boxHeight ?? 199.0.h,
+      width: boxWidth ?? 319.0.w,
       decoration: BoxDecoration(
-        color: AppColors.black.withAlpha(190),
-        borderRadius: borderRadius ?? BorderRadius.circular(8.0),
+        color: AppColors.black.withAlpha(200),
+        borderRadius: borderRadius ?? BorderRadius.circular(8.0.h),
       ),
       child: RemoveQuestion(
         onRemove: () {

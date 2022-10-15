@@ -2,6 +2,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/core/utils/pickers.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'dart:io';
 
 class AddVideoItem extends StatelessWidget with Pickers {
@@ -29,21 +30,16 @@ class AddVideoItem extends StatelessWidget with Pickers {
         ),
         child: Container(
           alignment: Alignment.center,
-          height: 140.0.h,
-          width: 240.0.w,
+          height: Get.height / 3,
           child: Icon(
             color: hasError ? AppColors.danger : AppColors.white,
             Icons.video_call_outlined,
-            size: 56.0.h,
+            size: 72.0.h,
           ),
           decoration: BoxDecoration(
-            border: Border.all(
-              color: AppColors.black.withAlpha(100),
-            ),
-            borderRadius: BorderRadius.all(
-              Radius.circular(16.0.h),
-            ),
-            color: AppColors.black.withAlpha(120),
+            border: Border.all(color: AppColors.black.withAlpha(25)),
+            borderRadius: BorderRadius.all(Radius.circular(16.0.h)),
+            color: AppColors.black,
           ),
         ),
       ),
