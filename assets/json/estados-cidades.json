@@ -1,8 +1,8 @@
 {
   "states": [
     {
-      "initial": "TD",
-      "name": "Todos",
+      "initial": "BR",
+      "name": "Brasil",
       "cities": [
         "Todas"
       ]
