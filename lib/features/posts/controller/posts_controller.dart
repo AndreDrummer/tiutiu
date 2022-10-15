@@ -1,26 +1,40 @@
-import 'package:tiutiu/core/constants/strings.dart';
 import 'package:tiutiu/features/posts/validators/form_validators.dart';
 import 'package:tiutiu/features/pets/model/pet_model.dart';
 import 'package:tiutiu/features/system/controllers.dart';
+import 'package:tiutiu/core/constants/strings.dart';
 import 'package:get/get.dart';
 
 const int FLOW_STEPS_QTY = 5;
 
 class PostsController extends GetxController {
+  final RxString _uploadingAdText = ''.obs;
   final RxBool _isFullAddress = false.obs;
   final RxBool _formIsValid = true.obs;
+  final RxBool _hasError = false.obs;
   final RxInt _postPhotosQty = 1.obs;
-  final RxInt _flowIndex = 0.obs;
   final Rx<Pet> _post = Pet().obs;
+  final RxInt _flowIndex = 0.obs;
 
   bool get existChronicDiseaseInfo =>
       _post.value.health == PetHealthString.chronicDisease;
+  String get uploadingAdText => _uploadingAdText.value;
   bool get isFullAddress => _isFullAddress.value;
   bool get formIsInInitialState => post == Pet();
   int get postPhotosQty => _postPhotosQty.value;
   bool get formIsValid => _formIsValid.value;
   int get flowIndex => _flowIndex.value;
+  bool get hasError => _hasError.value;
   Pet get post => _post.value;
+
+  void setError(String errorMessage) {
+    _uploadingAdText(errorMessage);
+    _hasError(true);
+  }
+
+  void clearError() {
+    _uploadingAdText('');
+    _hasError(false);
+  }
 
   void increasePhotosQty() {
     if (postPhotosQty < 6) _postPhotosQty(postPhotosQty + 1);

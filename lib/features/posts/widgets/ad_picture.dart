@@ -47,6 +47,9 @@ class _AdPictureState extends State<AdPicture> {
               height: 140.0.h,
               width: 240.0.w,
               decoration: BoxDecoration(
+                border: Border.all(
+                  color: AppColors.white.withAlpha(100),
+                ),
                 borderRadius: BorderRadius.circular(8.0.h),
                 color: AppColors.white,
               ),
