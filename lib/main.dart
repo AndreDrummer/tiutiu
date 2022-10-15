@@ -1,3 +1,4 @@
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/utils/routes/routes_name.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
@@ -33,6 +34,9 @@ class _TiuTiuAppState extends State<TiuTiuApp> {
 
   @override
   void initState() {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+    ]);
     connecitivitySubscription = Connectivity()
         .onConnectivityChanged
         .listen((ConnectivityResult result) {

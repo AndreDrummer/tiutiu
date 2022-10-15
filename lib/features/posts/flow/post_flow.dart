@@ -4,8 +4,9 @@ import 'package:tiutiu/features/posts/views/post_details.dart';
 import 'package:tiutiu/features/posts/views/post_info.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/features/posts/views/review_post.dart';
+import 'package:tiutiu/features/posts/views/video.dart';
 import 'package:tiutiu/features/posts/widgets/stepper.dart';
-import 'package:tiutiu/features/posts/views/pictures.dart';
+import 'package:tiutiu/features/posts/views/images.dart';
 import 'package:tiutiu/features/system/controllers.dart';
 import 'package:tiutiu/core/mixins/tiu_tiu_pop_up.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
@@ -130,7 +131,8 @@ final _screensTitle = [
 ];
 
 final _stepsScreens = [
-  Pictures(),
+  Video(),
+  Images(),
   PostInfo(),
   PostDetails(),
   PostDescription(),

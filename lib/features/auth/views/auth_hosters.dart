@@ -92,7 +92,7 @@ class AuthHosters extends StatelessWidget {
 
   Widget _authButtons() {
     return Container(
-      height: Get.height / 2.7,
+      height: Get.height / 2.6,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

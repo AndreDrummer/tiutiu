@@ -1,3 +1,5 @@
+import 'package:tiutiu/core/utils/constantes.dart';
+
 extension StringExtension on String {
   String capitalize() {
     String output = '';
@@ -49,6 +51,9 @@ extension StringExtension on String {
         .replaceAll('Ù', 'u')
         .toLowerCase();
   }
+
+  bool isAsset() => this.contains(Constantes.ASSETS);
+  bool isUrl() => this.contains(Constantes.HTTP);
 }
 
 extension NullableStringExtension on String? {

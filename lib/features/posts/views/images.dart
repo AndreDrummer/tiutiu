@@ -1,38 +1,30 @@
-import 'dart:io';
-
-import 'package:tiutiu/features/pets/model/pet_model.dart';
+import 'package:tiutiu/Widgets/animated_text_icon_button.dart';
 import 'package:tiutiu/features/posts/widgets/ad_picture.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:tiutiu/features/posts/widgets/ad_video.dart';
 import 'package:tiutiu/features/system/controllers.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:tiutiu/core/constants/strings.dart';
 import 'package:tiutiu/Widgets/one_line_text.dart';
 import 'package:tiutiu/core/utils/pickers.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:video_player/video_player.dart';
 
 ScrollController _picturesListController = ScrollController();
 final int VIDEO_SECS_LIMIT = 90;
 
-class Pictures extends StatelessWidget with Pickers {
-  const Pictures({super.key});
+class Images extends StatelessWidget with Pickers {
+  const Images({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Column(
-        children: [
-          _insertPicturesLabel(),
-          _picturesList(context),
-          _addPicturesButton(),
-          _divider(),
-          _insertVideoLabel(),
-          _video(),
-        ],
-      ),
+    return Column(
+      children: [
+        Spacer(),
+        _insertPicturesLabel(),
+        _picturesList(context),
+        _addPicturesButton(),
+        Spacer(),
+      ],
     );
   }
 
@@ -50,8 +42,9 @@ class Pictures extends StatelessWidget with Pickers {
     );
   }
 
-  Expanded _picturesList(BuildContext context) {
-    return Expanded(
+  Widget _picturesList(BuildContext context) {
+    return Container(
+      height: 256.0.h,
       child: Obx(
         () {
           return ListView.builder(
@@ -105,72 +98,18 @@ class Pictures extends StatelessWidget with Pickers {
       final photosQty = postsController.post.photos.length;
       final framesQty = postsController.postPhotosQty;
 
-      return AnimatedOpacity(
-        duration: Duration(milliseconds: 1000),
-        opacity: (photosQty == framesQty) && framesQty < 6 ? 1 : 0,
-        child: Visibility(
-          visible: (photosQty == framesQty) && framesQty < 6,
-          child: TextButton.icon(
-            onPressed: () {
-              postsController.increasePhotosQty();
-              _picturesListController.animateTo(
-                (Get.width * postsController.postPhotosQty) * .6,
-                duration: Duration(milliseconds: 500),
-                curve: Curves.ease,
-              );
-            },
-            label: AutoSizeText(
-              PostFlowStrings.addMorePictures,
-              maxFontSize: 13,
-            ),
-            icon: Icon(Icons.add),
-          ),
-        ),
+      return AnimatedTextIconButton(
+        showCondition: (photosQty == framesQty) && framesQty < 6,
+        textLabel: PostFlowStrings.addMorePictures,
+        onPressed: () {
+          postsController.increasePhotosQty();
+          _picturesListController.animateTo(
+            (Get.width * postsController.postPhotosQty) * .6,
+            duration: Duration(milliseconds: 500),
+            curve: Curves.ease,
+          );
+        },
       );
     });
-  }
-
-  OneLineText _insertVideoLabel() {
-    return OneLineText(
-      text: PostFlowStrings.insertVideo,
-      alignment: Alignment.center,
-      fontWeight: FontWeight.w500,
-    );
-  }
-
-  Container _video() {
-    return Container(
-      child: AddVideoItem(
-        hasError: false,
-        onVideoPicked: (file) {
-          if (file != null) {
-            File videoFile = File(file.path);
-            final videoModel = VideoPlayerController.file(videoFile);
-
-            videoModel.initialize().then((value) {
-              videoModel.play();
-              videoModel.pause();
-              final videoDuration = videoModel.value.duration;
-              if (videoDuration.inSeconds <= VIDEO_SECS_LIMIT) {
-                postsController.updatePet(PetEnum.video, videoFile);
-                postsController.clearError();
-              } else {
-                debugPrint('Video Size Exceed ${videoDuration.inSeconds}');
-                postsController.setError(PostFlowStrings.videoSizeExceed);
-              }
-            });
-          }
-        },
-      ),
-    );
-  }
-
-  Container _divider() {
-    return Container(
-      margin: EdgeInsets.only(bottom: 8.0.h),
-      color: AppColors.secondary,
-      width: double.infinity,
-      height: .3.h,
-    );
   }
 }
