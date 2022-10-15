@@ -47,7 +47,7 @@ class StartScreen extends StatelessWidget {
                     AppStrings.headline2,
                     textAlign: TextAlign.center,
                     style: TextStyles.fontSize(
-                      fontWeight: FontWeight.w200,
+                      fontWeight: FontWeight.w300,
                       color: AppColors.white,
                       fontSize: 20.0.sp,
                     ),
