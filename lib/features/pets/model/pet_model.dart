@@ -105,7 +105,7 @@ class Pet {
       donatedOrFound: map['donated'] ?? map['found'] ?? false,
       owner: TiutiuUser.fromMap(map[PetEnum.owner.name]),
       storageHashKey: map[PetEnum.storageHashKey.name],
-      description: map[PetEnum.description.name],
+      description: map['details'],
       longitude: map[PetEnum.longitude.name],
       createdAt: map[PetEnum.createdAt.name],
       latitude: map[PetEnum.latitude.name],
@@ -122,7 +122,6 @@ class Pet {
       ownerId: map['ownerId'],
       ageMonth: map['meses'],
       ageYear: map['ano'],
-      gender: map['sex'],
     );
   }
 

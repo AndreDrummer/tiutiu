@@ -4,7 +4,6 @@ import 'package:tiutiu/core/constants/firebase_env_path.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import 'package:tiutiu/features/pets/model/pet_model.dart';
-import 'package:tiutiu/features/system/controllers.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:tiutiu/core/utils/formatter.dart';
@@ -81,12 +80,11 @@ class MigrationService {
     final list = await _firestore.collection(newPathToAds).get();
 
     list.docs.forEach((snapshot) async {
-      final pet = Pet.fromMap(snapshot.data());
-      final owner = await tiutiuUserController.getUserById(pet.ownerId!);
-      // debugPrint('${owner.toMap()}');
+      final pet = Pet.fromMigrate(snapshot.data());
+      // final owner = await tiutiuUserController.getUserById(pet.ownerId!);
 
-      snapshot.reference
-          .set({PetEnum.owner.name: owner.toMap()}, SetOptions(merge: true));
+      snapshot.reference.set(
+          {PetEnum.description.name: pet.description}, SetOptions(merge: true));
     });
   }
 
