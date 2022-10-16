@@ -26,12 +26,11 @@ class RowButtonBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 96.0.h,
       child: Row(
         children: [
           Expanded(
             child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 8.0.w),
+              padding: EdgeInsets.all(8.0.h),
               child: OutlinedButtonWide(
                 color: buttonSecondaryColor ?? AppColors.secondary,
                 onPressed: () => onSecondaryPressed?.call(),
