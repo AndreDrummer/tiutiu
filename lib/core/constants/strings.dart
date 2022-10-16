@@ -210,6 +210,7 @@ class PostFlowStrings {
   static const String months = 'Meses';
   static const String local = 'Local';
   static const String city = 'Cidade';
+  static const String post = 'Postar';
   static const String years = 'Anos';
   static const String data = 'Dados';
   static const String age = 'Idade';

@@ -53,7 +53,9 @@ class PetCaracteristics {
           PetCaracteristics(
             title: PetDetailsStrings.health,
             icon: Tiutiu.healing,
-            content: pet.health,
+            content: pet.health == PetHealthString.chronicDisease
+                ? '${pet.health}:\n${pet.chronicDiseaseInfo}'
+                : pet.health,
           ),
           PetCaracteristics(
             content: '${pet.ageYear}a ${pet.ageMonth}m',

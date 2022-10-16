@@ -10,14 +10,17 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/Widgets/cards/widgets/ad_views.dart';
 import 'package:tiutiu/features/pets/model/pet_model.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class CardBuilder {
   const CardBuilder({
     required this.distanceText,
+    this.inReviewMode = false,
     required Pet pet,
   }) : _pet = pet;
 
   final String distanceText;
+  final bool inReviewMode;
   final Pet _pet;
 
   Widget adDistanceFromUser() => AdDistanceFromUser(distanceText: distanceText);
@@ -28,7 +31,10 @@ class CardBuilder {
 
   Widget adInteresteds() => AdInteresteds(petKind: _pet.type);
 
-  Widget adImages() => AdImages(photos: _pet.photos);
+  Widget adImages() => AdImages(
+        cardHeight: Get.height / (inReviewMode ? 3 : 2.2),
+        photos: _pet.photos,
+      );
 
   Widget adViews() => AdViews(views: _pet.views);
 
