@@ -2,6 +2,7 @@ import 'package:tiutiu/features/posts/validators/form_validators.dart';
 import 'package:tiutiu/features/pets/model/pet_model.dart';
 import 'package:tiutiu/features/system/controllers.dart';
 import 'package:tiutiu/core/constants/strings.dart';
+import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 
 const int FLOW_STEPS_QTY = 7;
@@ -52,14 +53,26 @@ class PostsController extends GetxController {
       postMap[property.name] = _handlePetOtherCaracteristics(data);
     }
 
+    if ((post.latitude == null || post.longitude == null)) {
+      _insertLatLng(postMap);
+    }
+
     print('>> $postMap');
 
     _post(Pet.fromMap(postMap));
   }
 
+  void _insertLatLng(Map<String, dynamic> postMap) {
+    postMap[PetEnum.longitude.name] =
+        currentLocationController.location.longitude;
+    postMap[PetEnum.latitude.name] =
+        currentLocationController.location.latitude;
+  }
+
   Map<String, dynamic> _insertOwnerData(Map<String, dynamic> postMap) {
     if (post.owner == null) {
       postMap[PetEnum.owner.name] = tiutiuUserController.tiutiuUser.toMap();
+      postMap[PetEnum.ownerId.name] = tiutiuUserController.tiutiuUser.uid;
     }
 
     return postMap;
@@ -120,6 +133,10 @@ class PostsController extends GetxController {
         _formIsValid(validator.isStep5Valid());
         break;
       case 5:
+        petsController.pet = Pet.fromMap(post.toMap());
+        debugPrint(post.toString());
+        debugPrint(petsController.pet.toString());
+        break;
       case 6:
         break;
     }

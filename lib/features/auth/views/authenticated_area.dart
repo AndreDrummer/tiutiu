@@ -25,7 +25,7 @@ class AuthenticatedArea extends StatelessWidget {
         } else if (snapshot.hasData) {
           final user = snapshot.requireData;
           final isAuthenticated = user != null;
-          print(user);
+
           if (isAuthenticated && !isRegistered)
             return EditProfile(isCompletingProfile: true);
         }

@@ -48,7 +48,6 @@ class FirebaseAuthProvider implements AuthProviders {
         email: email,
       );
     } on FirebaseAuthException catch (error) {
-      print(error);
       throw TiuTiuAuthException(error.code);
     }
   }
@@ -72,7 +71,6 @@ class FirebaseAuthProvider implements AuthProviders {
   Future<void> signOut() async {
     await _firebaseAuth.signOut();
     if (await _googleSignIn.isSignedIn()) await _googleSignIn.signOut();
-    print(firebaseAuthUser);
   }
 
   @override
@@ -99,8 +97,6 @@ class FirebaseAuthProvider implements AuthProviders {
           accessToken: googleAuth?.accessToken,
           idToken: googleAuth?.idToken,
         );
-
-        print('Google $credential');
 
         await _firebaseAuth.signInWithCredential(credential);
       }

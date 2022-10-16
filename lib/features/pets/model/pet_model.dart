@@ -54,11 +54,11 @@ class Pet {
     this.breed = '-',
     this.type = '-',
     this.size = '-',
+    this.views = 0,
     this.longitude,
     this.createdAt,
     this.latitude,
     this.ownerId,
-    this.views,
     this.owner,
     this.video,
     this.name,
@@ -67,6 +67,8 @@ class Pet {
 
   static Pet fromMap(Map<String, dynamic> map) {
     return Pet(
+      createdAt:
+          map[PetEnum.createdAt.name] ?? DateTime.now().toIso8601String(),
       chronicDiseaseInfo: map[PetEnum.chronicDiseaseInfo.name] ?? '',
       otherCaracteristics: map[PetEnum.otherCaracteristics.name],
       donatedOrFound: map[PetEnum.donatedOrFound.name] ?? false,
@@ -82,7 +84,6 @@ class Pet {
       health: map[PetEnum.health.name] ?? '-',
       gender: map[PetEnum.gender.name] ?? '-',
       longitude: map[PetEnum.longitude.name],
-      createdAt: map[PetEnum.createdAt.name],
       color: map[PetEnum.color.name] ?? '-',
       breed: map[PetEnum.breed.name] ?? '-',
       latitude: map[PetEnum.latitude.name],
@@ -90,10 +91,10 @@ class Pet {
       size: map[PetEnum.size.name] ?? '-',
       type: map[PetEnum.type.name] ?? '-',
       ownerId: map[PetEnum.ownerId.name],
+      views: map[PetEnum.views.name] ?? 0,
       ageYear: map[PetEnum.ageYear.name],
       photos: map[PetEnum.photos.name],
       video: map[PetEnum.video.name],
-      views: map[PetEnum.views.name],
       name: map[PetEnum.name.name],
       uid: map[PetEnum.uid.name],
     );
@@ -153,7 +154,7 @@ class Pet {
   String type;
   String city;
   String? uid;
-  int? views;
+  int views;
 
   Map<String, dynamic> toMap() {
     return {
