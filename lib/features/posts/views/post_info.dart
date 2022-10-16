@@ -65,7 +65,7 @@ class PostInfo extends StatelessWidget {
     return Column(
       children: [
         OneLineText(
-          alignment: Alignment(-0.92, 1),
+          widgetAlignment: Alignment(-0.92, 1),
           fontWeight: FontWeight.w500,
           color: AppColors.secondary,
           text: PostFlowStrings.age,

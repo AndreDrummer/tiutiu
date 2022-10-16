@@ -2,7 +2,6 @@ import 'package:flutter/widgets.dart';
 import 'package:tiutiu/core/extensions/string_extension.dart';
 import 'package:tiutiu/features/pets/model/pet_model.dart';
 
-final GlobalKey<FormState> fullAddressKeyForm = GlobalKey<FormState>();
 final GlobalKey<FormState> diaseaseForm = GlobalKey<FormState>();
 final GlobalKey<FormState> nameKeyForm = GlobalKey<FormState>();
 
@@ -42,7 +41,7 @@ class PostFormValidator {
         _pet.city.isNotEmptyNeighterNull();
 
     if (isFullAddress) {
-      isValid = isValid && fullAddressKeyForm.currentState!.validate();
+      isValid = isValid && _pet.describedAdress.isNotEmptyNeighterNull();
     }
 
     return isValid;
