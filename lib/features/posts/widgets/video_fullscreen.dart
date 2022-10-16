@@ -1,16 +1,15 @@
 import 'package:tiutiu/features/posts/widgets/enter_exit_fullscreen_button.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
-import 'package:tiutiu/core/utils/video_utils.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:chewie/chewie.dart';
 import 'dart:io';
 
 class VideoFullScreen extends StatefulWidget {
-  const VideoFullScreen({super.key, required this.videoPath});
+  const VideoFullScreen({super.key, required this.chewieController});
 
-  final dynamic videoPath;
+  final ChewieController chewieController;
 
   @override
   State<VideoFullScreen> createState() => VideoFullScreenState();
@@ -32,24 +31,17 @@ class VideoFullScreenState extends State<VideoFullScreen> {
       backgroundColor: AppColors.black,
       body: Stack(
         children: [
-          Transform.scale(
-            child: Chewie(
-              controller: VideoUtils.instance.getChewieController(
-                widget.videoPath,
-              ),
-            ),
-            scaleX: 1.15,
-            scaleY: 1.05,
-          ),
+          Chewie(controller: widget.chewieController),
           Positioned(
             left: 24.0.w,
             top: Platform.isAndroid ? 64.0.h : 16.0.h,
             child: EnterExitFullScreenButton(
-              icon: Icons.fullscreen_exit,
+              isFullscreen: true,
               onTap: () {
                 SystemChrome.setPreferredOrientations([
                   DeviceOrientation.portraitUp,
                 ]);
+                widget.chewieController.videoPlayerController.pause();
                 Navigator.of(context).pop();
               },
             ),
@@ -57,11 +49,5 @@ class VideoFullScreenState extends State<VideoFullScreen> {
         ],
       ),
     );
-  }
-
-  @override
-  void dispose() {
-    VideoUtils.instance.dispose();
-    super.dispose();
   }
 }
