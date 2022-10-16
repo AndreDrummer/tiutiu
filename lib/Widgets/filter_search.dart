@@ -104,7 +104,7 @@ class _FilterSearchState extends State<FilterSearch> {
           style: ElevatedButton.styleFrom(
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-            primary: Theme.of(context).primaryColor,
+            foregroundColor: Theme.of(context).primaryColor,
           ),
           child: AutoSizeText(
             'OK',
