@@ -201,17 +201,6 @@ class _AppSettingsState extends State<AppSettings> {
   }
 
   bool validatePersonalData() {
-    String patttern = r'(^[0-9]*$)';
-    RegExp regExp = new RegExp(patttern);
-
-    bool validWhatsapp = _whatsAppController.text.trim().isNotEmpty &&
-        _whatsAppController.text.trim().contains('-') &&
-        regExp.hasMatch(_whatsAppController.text.trim().split('-')[1]);
-
-    bool validTelefone = _telefoneController.text.trim().isNotEmpty &&
-        _telefoneController.text.trim().contains('-') &&
-        regExp.hasMatch(_telefoneController.text.trim().split('-')[1]);
-
     if (_telefoneController.text.trim().isNotEmpty) {
       if (!_telefoneController.text.trim().contains('-'))
         setState(() {
@@ -691,7 +680,7 @@ class _AppSettingsState extends State<AppSettings> {
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(16),
                           ),
-                          primary: AppColors.danger,
+                          foregroundColor: AppColors.danger,
                         ),
                         onPressed: () async {
                           await showDialog(

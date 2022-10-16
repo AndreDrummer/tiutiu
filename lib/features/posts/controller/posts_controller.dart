@@ -4,7 +4,7 @@ import 'package:tiutiu/features/system/controllers.dart';
 import 'package:tiutiu/core/constants/strings.dart';
 import 'package:get/get.dart';
 
-const int FLOW_STEPS_QTY = 6;
+const int FLOW_STEPS_QTY = 7;
 
 class PostsController extends GetxController {
   final RxString _uploadingAdText = ''.obs;
@@ -120,6 +120,7 @@ class PostsController extends GetxController {
         _formIsValid(validator.isStep5Valid());
         break;
       case 5:
+      case 6:
         break;
     }
 
