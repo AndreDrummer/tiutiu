@@ -35,6 +35,9 @@ class TextArea extends StatelessWidget {
             maxLines: maxLines,
             decoration: InputDecoration(
               labelText: labelText,
+              labelStyle: TextStyle(
+                color: isInErrorState ? AppColors.danger : null,
+              ),
               errorBorder: _outlineInputBorder(),
               disabledBorder: _outlineInputBorder(),
               enabledBorder: _outlineInputBorder(),
