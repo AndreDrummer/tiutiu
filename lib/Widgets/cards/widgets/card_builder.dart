@@ -30,7 +30,7 @@ class CardBuilder {
 
   Widget adImages() => AdImages(photos: _pet.photos);
 
-  Widget adViews() => AdViews(views: _pet.views!);
+  Widget adViews() => AdViews(views: _pet.views);
 
   Widget adTitle() => AdTitle(title: _pet.name!);
 

@@ -214,7 +214,6 @@ class EmailAndPassword extends StatelessWidget with TiuTiuPopUp {
           : AuthStrings.enter,
       isToExpand: true,
       onPressed: () async {
-        print('Ok');
         if (_formKey.currentState!.validate()) {
           if (authController.isCreatingNewAccount) {
             _createUserWithEmailAndPassword();

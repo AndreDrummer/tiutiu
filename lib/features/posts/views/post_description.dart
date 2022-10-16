@@ -17,17 +17,15 @@ class PostDescription extends StatelessWidget {
   Widget build(BuildContext context) {
     final caracs = DummyData.otherCaracteristicsList;
 
-    return Scaffold(
-      body: Obx(
-        () => ListView(
-          children: [
-            _descriptionLabel(),
-            _descriptionInputText(),
-            _divider(),
-            _otherCaracteristicsLabel(),
-            _otherCaracteristicsGrid(caracs)
-          ],
-        ),
+    return Obx(
+      () => ListView(
+        children: [
+          _descriptionLabel(),
+          _descriptionInputText(),
+          _divider(),
+          _otherCaracteristicsLabel(),
+          _otherCaracteristicsGrid(caracs)
+        ],
       ),
     );
   }

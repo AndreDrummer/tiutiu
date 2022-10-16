@@ -137,7 +137,6 @@ class PetDetailsStrings {
     required String petName,
     required String petGender,
   }) {
-    print(petGender);
     if (petGender == male)
       return 'Onde está o $petName?';
     else if (petGender == female) return 'Onde ela está a $petName?';
@@ -188,13 +187,13 @@ class PostFlowStrings {
   static const String postCancelMessage =
       'Saindo agora todos os dados serão perdidos.\nContinuar?';
   static const String insertVideo = 'Insira um vídeo - máx 1:30 min (Opcional)';
+  static const String reviewYourPost = 'Clique no card para revisar seu post';
   static const String fillFullAddress = 'Preencher endereço completo?';
   static const String addVideo = 'Se quiser, pode adicionar um vídeo';
   static const String addDescription = 'Adicione uma descrição';
   static const String fillAdData = 'Preencher dados do anúncio';
   static const String addMorePictures = 'Adicionar mais fotos';
   static const String postCancelTitle = 'Cancelar postagem?';
-  static const String reviewYourPost = 'Revise o seu post';
   static const String typeAddress = 'Digite o endereço';
   static const String moreDetails = 'Mais detalhes';
   static const String removeVideo = 'Remover vídeo';

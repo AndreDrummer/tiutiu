@@ -17,7 +17,6 @@ class ProfileController extends GetxController {
   void set isSetting(bool value) => _isSetting(value);
 
   void handleOptionHitted(String option) {
-    print('Hitted $option');
     isSetting = false;
 
     switch (option) {
