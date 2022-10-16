@@ -33,10 +33,12 @@ class Images extends StatelessWidget with Pickers {
       () {
         final centralize = postsController.postPhotoFrameQty == 1;
         final photosQty = postsController.post.photos.length;
+        final hasError = photosQty < 1 && !postsController.formIsValid;
 
         return OneLineText(
           alignment: centralize ? Alignment.center : Alignment(-0.9, 1),
           text: '${PostFlowStrings.insertAtLeastOnePicture} ($photosQty / 6)',
+          color: hasError ? AppColors.danger : null,
           fontWeight: FontWeight.w500,
         );
       },
@@ -49,6 +51,9 @@ class Images extends StatelessWidget with Pickers {
       height: 256.0.h,
       child: Obx(
         () {
+          final hasError = postsController.post.photos.isEmpty &&
+              !postsController.formIsValid;
+
           return ListView.builder(
             itemCount: postsController.postPhotoFrameQty,
             controller: _picturesListController,
@@ -85,6 +90,7 @@ class Images extends StatelessWidget with Pickers {
                         pickerAssetType: PickerAssetType.photo,
                       );
                     },
+                    hasError: hasError,
                   );
                 },
               );
