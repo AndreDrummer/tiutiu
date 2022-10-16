@@ -8,30 +8,28 @@ import 'package:get/get.dart';
 class PostLocation extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Obx(
-        () => LocationSelecter(
-          fillFullAddress: postsController.isFullAddress,
-          onFullAddressSelected: (value) {
-            postsController.toggleFullAddress();
-          },
-          initialState: postsController.post.state,
-          initialCity: postsController.post.city,
-          onStateChanged: (state) {
-            postsController.updatePet(PetEnum.state, state);
-            postsController.updatePet(
-              PetEnum.city,
-              StatesAndCities()
-                  .citiesOf(
-                    stateName: postsController.post.state,
-                  )
-                  .first,
-            );
-          },
-          onCityChanged: (city) {
-            postsController.updatePet(PetEnum.city, city);
-          },
-        ),
+    return Obx(
+      () => LocationSelecter(
+        fillFullAddress: postsController.isFullAddress,
+        onFullAddressSelected: (value) {
+          postsController.toggleFullAddress();
+        },
+        initialState: postsController.post.state,
+        initialCity: postsController.post.city,
+        onStateChanged: (state) {
+          postsController.updatePet(PetEnum.state, state);
+          postsController.updatePet(
+            PetEnum.city,
+            StatesAndCities()
+                .citiesOf(
+                  stateName: postsController.post.state,
+                )
+                .first,
+          );
+        },
+        onCityChanged: (city) {
+          postsController.updatePet(PetEnum.city, city);
+        },
       ),
     );
   }

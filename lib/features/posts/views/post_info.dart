@@ -27,17 +27,15 @@ class PostInfo extends StatelessWidget {
     final monthsList = List<String>.generate(13, (index) => '$index');
     final yearsList = List.generate(22, (index) => '$index');
 
-    return Scaffold(
-      body: Obx(
-        () => ListView(
-          children: [
-            SizedBox(height: 8.0.h),
-            _petName(),
-            _petAge(yearsList, monthsList),
-            _petType(petTypeList),
-            _petSize(),
-          ],
-        ),
+    return Obx(
+      () => ListView(
+        children: [
+          SizedBox(height: 8.0.h),
+          _petName(),
+          _petAge(yearsList, monthsList),
+          _petType(petTypeList),
+          _petSize(),
+        ],
       ),
     );
   }
