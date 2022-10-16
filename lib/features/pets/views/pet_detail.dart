@@ -274,7 +274,10 @@ class PetDetails extends StatelessWidget {
           pet.disappeared ? pet.lastSeenDetails : '${pet.city} - ${pet.state}',
       title: pet.disappeared
           ? PetDetailsStrings.lastSeen
-          : PetDetailsStrings.whereIsPet,
+          : PetDetailsStrings.whereIsIt(
+              petGender: pet.gender,
+              petName: '${pet.name}',
+            ),
       onAction: () {},
     );
   }
