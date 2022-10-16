@@ -1,4 +1,3 @@
-import 'package:tiutiu/features/pets/model/pet_model.dart';
 import 'package:tiutiu/features/posts/views/post_description.dart';
 import 'package:tiutiu/features/posts/views/post_location.dart';
 import 'package:tiutiu/features/posts/views/post_details.dart';
@@ -6,6 +5,7 @@ import 'package:tiutiu/features/posts/views/review_post.dart';
 import 'package:tiutiu/features/posts/views/post_info.dart';
 import 'package:tiutiu/features/posts/widgets/stepper.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:tiutiu/features/pets/model/pet_model.dart';
 import 'package:tiutiu/features/posts/views/images.dart';
 import 'package:tiutiu/features/system/controllers.dart';
 import 'package:tiutiu/features/posts/views/video.dart';
@@ -23,7 +23,7 @@ class PostFlow extends StatelessWidget with TiuTiuPopUp {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomInset: postsController.flowIndex != 2,
       body: Column(
         children: [
           Obx(
@@ -71,7 +71,9 @@ class PostFlow extends StatelessWidget with TiuTiuPopUp {
           _divider(),
           Obx(
             () => Expanded(
-              child: _stepsScreens.elementAt(postsController.flowIndex),
+              child: _stepsScreens(postsController.post).elementAt(
+                postsController.flowIndex,
+              ),
             ),
           ),
         ],
@@ -140,13 +142,13 @@ List<String> _screensTitle(Pet pet) => [
       'Postando...',
     ];
 
-final _stepsScreens = [
-  PostInfo(),
-  PostDetails(),
-  PostDescription(),
-  PostLocation(),
-  Images(),
-  Video(),
-  ReviewPost(),
-  ReviewPost(),
-];
+List<Widget> _stepsScreens(Pet pet) => [
+      PostInfo(),
+      PostDetails(),
+      PostDescription(),
+      PostLocation(),
+      Images(),
+      Video(),
+      ReviewPost(pet: pet),
+      ReviewPost(pet: pet),
+    ];
