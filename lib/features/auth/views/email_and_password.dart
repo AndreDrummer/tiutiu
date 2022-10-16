@@ -188,13 +188,13 @@ class EmailAndPassword extends StatelessWidget with TiuTiuPopUp {
               text: authController.isCreatingNewAccount
                   ? AuthStrings.haveAnAccount
                   : AuthStrings.doNotHaveAnAccount,
-              alignment: Alignment.centerRight,
+              widgetAlignment: Alignment.centerRight,
               fontWeight: FontWeight.w500,
               color: AppColors.white,
             ),
             SizedBox(width: 4.0.w),
             OneLineText(
-              alignment: Alignment.centerRight,
+              widgetAlignment: Alignment.centerRight,
               text: authController.isCreatingNewAccount
                   ? AuthStrings.enterAccount
                   : AuthStrings.createYours,
