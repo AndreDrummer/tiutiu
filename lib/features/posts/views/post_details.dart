@@ -14,19 +14,17 @@ import 'package:get/get.dart';
 class PostDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Obx(
-        () => ListView(
-          children: [
-            SizedBox(height: 4.0.h),
-            _breed(),
-            _spacer(),
-            _color(),
-            _spacer(),
-            _health(),
-            _gender(),
-          ],
-        ),
+    return Obx(
+      () => ListView(
+        children: [
+          SizedBox(height: 4.0.h),
+          _breed(),
+          _spacer(),
+          _color(),
+          _spacer(),
+          _health(),
+          _gender(),
+        ],
       ),
     );
   }
@@ -61,7 +59,7 @@ class PostDetails extends StatelessWidget {
 
   Widget _health() {
     return AnimatedContainer(
-      height: postsController.existChronicDiseaseInfo ? 128.0.h : 64.0.h,
+      height: postsController.existChronicDiseaseInfo ? 136.0.h : 64.0.h,
       margin: EdgeInsets.only(bottom: 8.0.h),
       duration: Duration(milliseconds: 500),
       child: ListView(
@@ -96,6 +94,9 @@ class PostDetails extends StatelessWidget {
               child: Form(
                 key: diaseaseForm,
                 child: TextArea(
+                  isInErrorState: !postsController.post.chronicDiseaseInfo
+                          .isNotEmptyNeighterNull() &&
+                      !postsController.formIsValid,
                   maxLines: 1,
                   onChanged: (chronicDiseaseInfo) {
                     postsController.updatePet(

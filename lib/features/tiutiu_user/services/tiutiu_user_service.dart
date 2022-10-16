@@ -61,7 +61,6 @@ class TiutiuUserService {
   Future<void> updateUser({
     required TiutiuUser userData,
   }) async {
-    print(userData.uid);
     await _firestore
         .collection(newPathToUser)
         .doc(userData.uid)
@@ -70,7 +69,6 @@ class TiutiuUserService {
 
   Future<String?> uploadAvatar(String userId, File file) async {
     Reference ref = FirebaseStorage.instance.ref();
-    print('To logado? ${authController.user?.uid}');
     String? avatarURL;
 
     final avatarRef = ref.child(userProfileStoragePath(userId));

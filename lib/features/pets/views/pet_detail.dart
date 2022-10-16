@@ -163,7 +163,7 @@ class PetDetails extends StatelessWidget {
             ),
             child: AutoSizeText(
               OtherFunctions.firstCharacterUpper(
-                petsController.pet.owner!.displayName!,
+                petsController.pet.owner!.displayName ?? '',
               ).trim(),
               style: TextStyles.fontSize(
                 fontWeight: FontWeight.bold,

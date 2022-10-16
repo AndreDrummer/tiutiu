@@ -67,8 +67,6 @@ class Images extends StatelessWidget with Pickers {
                   final framesQty = postsController.postPhotoFrameQty;
                   final photos = postsController.post.photos;
 
-                  print('Frames $framesQty Index $index Fotos $photosQty');
-
                   return AdPicture(
                     imagePath: photosQty < framesQty && (index == framesQty - 1)
                         ? null
