@@ -50,9 +50,9 @@ class Steper extends StatelessWidget {
               ),
             ),
             Positioned(
-              left: 24.0.w,
-              top: 20.0.h,
+              left: 16.0.w,
               right: 0.0.w,
+              top: 20.0.h,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: List.generate(
@@ -72,7 +72,7 @@ class Steper extends StatelessWidget {
                       ),
                       builder: (context, color, _) {
                         return Container(
-                          margin: EdgeInsets.only(right: 24.0.w),
+                          margin: EdgeInsets.only(right: 16.0.w),
                           padding: EdgeInsets.zero,
                           color: color as Color,
                           width: 32.0.w,
@@ -119,7 +119,7 @@ class _SteperItem extends StatelessWidget {
         child: Column(
           children: [
             Container(
-              margin: EdgeInsets.only(top: 8.0.h),
+              margin: EdgeInsets.only(top: 12.0.h),
               decoration: BoxDecoration(shape: BoxShape.circle),
               child: TweenAnimationBuilder(
                 duration: Duration(milliseconds: 250),
@@ -138,8 +138,8 @@ class _SteperItem extends StatelessWidget {
                   );
                 },
               ),
-              height: 24.0.h,
-              width: 24.0.h,
+              height: 16.0.h,
+              width: 16.0.h,
             ),
             Container(
               alignment: Alignment.center,
@@ -157,7 +157,7 @@ class _SteperItem extends StatelessWidget {
                 maxFontSize: 10.0,
                 stepName,
               ),
-              width: 56.0.w,
+              width: 48.0.w,
               height: 24.0.h,
             )
           ],

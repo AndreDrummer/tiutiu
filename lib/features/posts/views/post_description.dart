@@ -1,3 +1,4 @@
+import 'package:tiutiu/core/extensions/string_extension.dart';
 import 'package:tiutiu/features/posts/widgets/text_area.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/features/pets/model/pet_model.dart';
@@ -36,6 +37,9 @@ Padding _descriptionInputText() {
   return Padding(
     padding: EdgeInsets.symmetric(horizontal: 8.0.w),
     child: TextArea(
+      isInErrorState:
+          !postsController.post.description.isNotEmptyNeighterNull() &&
+              !postsController.formIsValid,
       initialValue: postsController.post.describedAdress,
       labelText: AppStrings.jotSomethingDown,
       maxLines: 4,

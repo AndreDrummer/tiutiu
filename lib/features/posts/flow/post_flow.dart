@@ -1,13 +1,14 @@
+import 'package:tiutiu/features/pets/model/pet_model.dart';
 import 'package:tiutiu/features/posts/views/post_description.dart';
 import 'package:tiutiu/features/posts/views/post_location.dart';
 import 'package:tiutiu/features/posts/views/post_details.dart';
-import 'package:tiutiu/features/posts/views/post_info.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/features/posts/views/review_post.dart';
-import 'package:tiutiu/features/posts/views/video.dart';
+import 'package:tiutiu/features/posts/views/post_info.dart';
 import 'package:tiutiu/features/posts/widgets/stepper.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/features/posts/views/images.dart';
 import 'package:tiutiu/features/system/controllers.dart';
+import 'package:tiutiu/features/posts/views/video.dart';
 import 'package:tiutiu/core/mixins/tiu_tiu_pop_up.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/Widgets/row_button_bar.dart';
@@ -38,7 +39,8 @@ class PostFlow extends StatelessWidget with TiuTiuPopUp {
                 Padding(
                   padding: EdgeInsets.only(left: 8.0.w),
                   child: OneLineText(
-                    text: _screensTitle.elementAt(postsController.flowIndex),
+                    text: _screensTitle(postsController.post)
+                        .elementAt(postsController.flowIndex),
                     fontSize: 16.0.sp,
                   ),
                 ),
@@ -55,7 +57,8 @@ class PostFlow extends StatelessWidget with TiuTiuPopUp {
                       OneLineText(
                         color: AppColors.black.withAlpha(100),
                         alignment: Alignment.centerRight,
-                        text: ' / ${_screensTitle.length}',
+                        text:
+                            ' / ${_screensTitle(postsController.post).length}',
                         fontSize: 16.0.sp,
                       ),
                     ],
@@ -117,25 +120,30 @@ final _stepsNames = [
   PostFlowStrings.details,
   PetDetailsStrings.description,
   PostFlowStrings.local,
-  PostFlowStrings.pcituresAndVideos,
+  PostFlowStrings.pictures,
+  PostFlowStrings.videos,
   PostFlowStrings.review,
 ];
 
-final _screensTitle = [
-  PostFlowStrings.petsData,
-  PostFlowStrings.moreDetails,
-  PostFlowStrings.description,
-  PostFlowStrings.whereIsPet,
-  PostFlowStrings.insertPicsAndVideos,
-  PostFlowStrings.reviewYourPost,
-];
+List<String> _screensTitle(Pet pet) => [
+      PostFlowStrings.petsData,
+      PostFlowStrings.moreDetails,
+      PostFlowStrings.description,
+      PetDetailsStrings.whereIsIt(
+        petGender: pet.gender,
+        petName: '${pet.name}',
+      ),
+      PostFlowStrings.picTime,
+      PostFlowStrings.addVideo,
+      PostFlowStrings.reviewYourPost,
+    ];
 
 final _stepsScreens = [
-  Video(),
-  Images(),
   PostInfo(),
   PostDetails(),
   PostDescription(),
   PostLocation(),
-  ReviewPost()
+  Images(),
+  Video(),
+  ReviewPost(),
 ];

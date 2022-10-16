@@ -11,7 +11,10 @@ class VideoUtils {
 
   static VideoUtils get instance => VideoUtils._();
 
-  ChewieController getChewieController(dynamic videoPath) {
+  ChewieController getChewieController(
+    dynamic videoPath, {
+    bool isFullscreen = false,
+  }) {
     if (videoPath != null) {
       if (videoPath.toString().isUrl()) {
         videoPlayerController = VideoPlayerController.network(videoPath);
@@ -26,17 +29,9 @@ class VideoUtils {
       showControlsOnInitialize: false,
       allowedScreenSleep: false,
       allowFullScreen: false,
-      autoInitialize: false,
-      zoomAndPan: false,
-      autoPlay: true,
-      looping: false,
+      autoInitialize: true,
     );
 
     return chewieController;
-  }
-
-  void dispose() {
-    videoPlayerController.dispose();
-    chewieController.dispose();
   }
 }

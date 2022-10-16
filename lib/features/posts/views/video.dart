@@ -1,18 +1,15 @@
-import 'package:tiutiu/core/constants/app_colors.dart';
-import 'package:tiutiu/core/utils/video_utils.dart';
 import 'package:tiutiu/features/posts/widgets/ad_video_item.dart';
 import 'package:tiutiu/features/posts/widgets/video_player.dart';
 import 'package:tiutiu/Widgets/animated_text_icon_button.dart';
-import 'package:tiutiu/core/extensions/string_extension.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/features/pets/model/pet_model.dart';
 import 'package:tiutiu/features/system/controllers.dart';
+import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/core/constants/strings.dart';
 import 'package:tiutiu/Widgets/one_line_text.dart';
 import 'package:video_player/video_player.dart';
 import 'package:tiutiu/core/utils/pickers.dart';
 import 'package:flutter/material.dart';
-import 'package:chewie/chewie.dart';
 import 'package:get/get.dart';
 import 'dart:io';
 
@@ -26,8 +23,6 @@ class Video extends StatefulWidget with Pickers {
 }
 
 class _VideoState extends State<Video> {
-  late VideoPlayerController videoPlayerController;
-
   @override
   void initState() {
     super.initState();
@@ -111,11 +106,5 @@ class _VideoState extends State<Video> {
         );
       },
     );
-  }
-
-  @override
-  void dispose() {
-    videoPlayerController.dispose();
-    super.dispose();
   }
 }

@@ -44,12 +44,12 @@ class Pet {
     this.photos = const [],
     this.interesteds = 0,
     this.storageHashKey,
+    this.description = '',
     this.state = 'Acre',
     this.ageMonth = 0,
     this.gender = '-',
     this.health = '-',
     this.ageYear = 0,
-    this.description,
     this.color = '-',
     this.breed = '-',
     this.type = '-',
@@ -74,10 +74,10 @@ class Pet {
       describedAdress: map[PetEnum.describedAdress.name] ?? '',
       owner: TiutiuUser.fromMap(map[PetEnum.owner.name]),
       storageHashKey: map[PetEnum.storageHashKey.name],
+      description: map[PetEnum.description.name] ?? '',
       city: map[PetEnum.city.name] ?? 'Acrelândia',
       disappeared: map[PetEnum.disappeared.name],
       interesteds: map[PetEnum.interesteds.name],
-      description: map[PetEnum.description.name],
       state: map[PetEnum.state.name] ?? 'Acre',
       health: map[PetEnum.health.name] ?? '-',
       gender: map[PetEnum.gender.name] ?? '-',
@@ -131,7 +131,7 @@ class Pet {
   String lastSeenDetails;
   String describedAdress;
   bool donatedOrFound;
-  String? description;
+  String description;
   String? createdAt;
   TiutiuUser? owner;
   double? longitude;
