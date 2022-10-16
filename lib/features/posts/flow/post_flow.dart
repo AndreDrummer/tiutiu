@@ -22,97 +22,104 @@ class PostFlow extends StatelessWidget with TiuTiuPopUp {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomInset: postsController.flowIndex != 2,
-      body: Column(
-        children: [
-          Obx(
-            () => Steper(
-              currentStep: postsController.flowIndex,
-              stepsName: _stepsNames,
-            ),
-          ),
-          _divider(),
-          Obx(
-            () => Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Padding(
-                  padding: EdgeInsets.only(left: 8.0.w),
-                  child: OneLineText(
-                    text: _screensTitle(postsController.post)
-                        .elementAt(postsController.flowIndex),
-                    fontSize: 16.0.sp,
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(right: 8.0.w),
-                  child: Row(
-                    children: [
-                      OneLineText(
-                        text: '${postsController.flowIndex + 1}',
-                        fontWeight: FontWeight.bold,
-                        color: AppColors.secondary,
-                        fontSize: 32.0.sp,
-                      ),
-                      OneLineText(
-                        color: AppColors.black.withAlpha(100),
-                        widgetAlignment: Alignment.centerRight,
-                        text:
-                            ' / ${_screensTitle(postsController.post).length}',
+    return Obx(() {
+      return Scaffold(
+        resizeToAvoidBottomInset: postsController.flowIndex == 3,
+        body: SizedBox(
+          height: postsController.flowIndex >= 6 ? Get.height / 1.4 : null,
+          child: Column(
+            children: [
+              Obx(() {
+                return Steper(
+                  currentStep: postsController.flowIndex,
+                  stepsName: _stepsNames,
+                );
+              }),
+              _divider(),
+              Obx(
+                () => Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.only(left: 8.0.w),
+                      child: OneLineText(
+                        text: _screensTitle(postsController.post)
+                            .elementAt(postsController.flowIndex),
                         fontSize: 16.0.sp,
                       ),
-                    ],
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(right: 8.0.w),
+                      child: Row(
+                        children: [
+                          OneLineText(
+                            text: '${postsController.flowIndex + 1}',
+                            fontWeight: FontWeight.bold,
+                            color: AppColors.secondary,
+                            fontSize: 32.0.sp,
+                          ),
+                          OneLineText(
+                            color: AppColors.black.withAlpha(100),
+                            widgetAlignment: Alignment.centerRight,
+                            text:
+                                ' / ${_screensTitle(postsController.post).length}',
+                            fontSize: 16.0.sp,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              _divider(),
+              Obx(
+                () => Expanded(
+                  child: _stepsScreens.elementAt(
+                    postsController.flowIndex,
                   ),
                 ),
-              ],
-            ),
-          ),
-          _divider(),
-          Obx(
-            () => Expanded(
-              child: _stepsScreens(postsController.post).elementAt(
-                postsController.flowIndex,
               ),
-            ),
+            ],
           ),
-        ],
-      ),
-      bottomNavigationBar: Obx(
-        () => RowButtonBar(
-          buttonSecondaryColor:
-              postsController.flowIndex < 1 ? AppColors.danger : Colors.grey,
-          onPrimaryPressed: () {
-            postsController.onContinue();
-          },
-          onSecondaryPressed: () {
-            final showQuestion = !postsController.formIsInInitialState &&
-                postsController.flowIndex < 1;
-
-            if (showQuestion) {
-              showPopUp(
-                message: PostFlowStrings.postCancelMessage,
-                title: PostFlowStrings.postCancelTitle,
-                mainAction: () => Get.back(),
-                confirmText: AppStrings.yes,
-                denyText: AppStrings.no,
-                secondaryAction: () {
-                  Get.back();
-                  postsController.previousStep();
-                },
-                danger: true,
-              );
-            } else {
-              postsController.previousStep();
-            }
-          },
-          textPrimary: AppStrings.contines,
-          textSecond: postsController.flowIndex < 1
-              ? AppStrings.cancel
-              : AppStrings.back,
         ),
-      ),
-    );
+        bottomNavigationBar: Obx(
+          () => RowButtonBar(
+            buttonSecondaryColor:
+                postsController.flowIndex < 1 ? AppColors.danger : Colors.grey,
+            onPrimaryPressed: () {
+              postsController.onContinue();
+            },
+            onSecondaryPressed: () {
+              final showQuestion = !postsController.formIsInInitialState &&
+                  postsController.flowIndex < 1;
+
+              if (showQuestion) {
+                showPopUp(
+                  message: PostFlowStrings.postCancelMessage,
+                  title: PostFlowStrings.postCancelTitle,
+                  mainAction: () => Get.back(),
+                  confirmText: AppStrings.yes,
+                  denyText: AppStrings.no,
+                  secondaryAction: () {
+                    Get.back();
+                    postsController.previousStep();
+                  },
+                  danger: true,
+                );
+              } else {
+                postsController.previousStep();
+              }
+            },
+            textPrimary: postsController.lastStep()
+                ? PostFlowStrings.post
+                : AppStrings.contines,
+            textSecond: postsController.flowIndex < 1
+                ? AppStrings.cancel
+                : AppStrings.back,
+          ),
+        ),
+      );
+    });
   }
 
   Divider _divider() => Divider(height: 16.0.h, color: AppColors.secondary);
@@ -142,13 +149,13 @@ List<String> _screensTitle(Pet pet) => [
       'Postando...',
     ];
 
-List<Widget> _stepsScreens(Pet pet) => [
-      PostInfo(),
-      PostDetails(),
-      PostDescription(),
-      PostLocation(),
-      Images(),
-      Video(),
-      ReviewPost(pet: pet),
-      ReviewPost(pet: pet),
-    ];
+List<Widget> _stepsScreens = [
+  PostInfo(),
+  PostDetails(),
+  PostDescription(),
+  PostLocation(),
+  Images(),
+  Video(),
+  ReviewPost(),
+  ReviewPost(),
+];
