@@ -182,15 +182,16 @@ class PostFlowStrings {
   static const String otherCaracteristics = 'Outras características (Opcional)';
   static const String describeDiseaseType = 'Descreva qual o tipo de doença';
   static const String insertAtLeastOnePicture = 'Insira pelo menos uma foto';
-  static const String videoSizeExceed = 'Tamanho máximo do vídeo excedido!';
   static const String description = 'Descrição e outras caracteristicas';
+  static const String videoSizeExceed =
+      'Tamanho máximo do vídeo excedido!\nO vídeo deve ter até 1:30 min';
   static const String postCancelMessage =
       'Saindo agora todos os dados serão perdidos.\nContinuar?';
+  static const String insertVideo = 'Insira um vídeo - máx 1:30 min (Opcional)';
   static const String fillFullAddress = 'Preencher endereço completo?';
   static const String addVideo = 'Se quiser, pode adicionar um vídeo';
   static const String addDescription = 'Adicione uma descrição';
   static const String fillAdData = 'Preencher dados do anúncio';
-  static const String insertVideo = 'Insira um vídeo (Opcional)';
   static const String addMorePictures = 'Adicionar mais fotos';
   static const String postCancelTitle = 'Cancelar postagem?';
   static const String reviewYourPost = 'Revise o seu post';

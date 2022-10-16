@@ -26,7 +26,7 @@ class CancelButton extends StatelessWidget {
       child: OneLineText(
         color: textColor ?? AppColors.white,
         text: text ?? AppStrings.cancel,
-        alignment: Alignment.center,
+        widgetAlignment: Alignment.center,
         fontWeight: FontWeight.bold,
         fontSize: 16.0.sp,
       ),

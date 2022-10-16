@@ -36,6 +36,7 @@ class _VideoState extends State<Video> {
         _insertVideoLabel(),
         _video(),
         Spacer(),
+        _videoErrorLabel(),
         _removeVideoButton(),
         Spacer(),
       ],
@@ -47,7 +48,7 @@ class _VideoState extends State<Video> {
       padding: EdgeInsets.only(bottom: 8.0.h),
       child: OneLineText(
         text: PostFlowStrings.insertVideo,
-        alignment: Alignment.center,
+        widgetAlignment: Alignment.center,
         fontWeight: FontWeight.w500,
       ),
     );
@@ -71,6 +72,7 @@ class _VideoState extends State<Video> {
             final videoModel = VideoPlayerController.file(videoFile);
 
             videoModel.initialize().then((value) {
+              videoModel.setVolume(0);
               videoModel.play();
               videoModel.pause();
               final videoDuration = videoModel.value.duration;
@@ -90,6 +92,21 @@ class _VideoState extends State<Video> {
 
   Widget _playVideo() {
     return TiuTiuVideoPlayer(videoPath: postsController.post.video);
+  }
+
+  Widget _videoErrorLabel() {
+    return Obx(
+      () => Padding(
+        padding: EdgeInsets.only(bottom: 8.0.h),
+        child: OneLineText(
+          text: postsController.uploadingAdText,
+          widgetAlignment: Alignment.center,
+          fontWeight: FontWeight.w500,
+          textAlign: TextAlign.center,
+          color: AppColors.danger,
+        ),
+      ),
+    );
   }
 
   Obx _removeVideoButton() {
