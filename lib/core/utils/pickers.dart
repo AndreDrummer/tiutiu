@@ -22,8 +22,6 @@ mixin Pickers {
     showDialog(
       context: context,
       builder: (context) {
-        print(pickerAssetType);
-        print(pickerAssetType == PickerAssetType.photo);
         return SimpleDialog(
           children: [
             TextButton(

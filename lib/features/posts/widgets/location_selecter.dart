@@ -1,7 +1,4 @@
-import 'package:get/get.dart';
-import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/core/extensions/string_extension.dart';
-import 'package:tiutiu/features/posts/validators/form_validators.dart';
 import 'package:tiutiu/features/posts/widgets/text_area.dart';
 import 'package:tiutiu/Widgets/underline_input_dropdown.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -9,10 +6,11 @@ import 'package:tiutiu/features/pets/model/pet_model.dart';
 import 'package:tiutiu/features/system/controllers.dart';
 import 'package:tiutiu/core/data/states_and_cities.dart';
 import 'package:tiutiu/core/constants/text_styles.dart';
+import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:tiutiu/core/constants/strings.dart';
-import 'package:tiutiu/core/utils/validators.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class LocationSelecter extends StatelessWidget {
   const LocationSelecter({
@@ -47,6 +45,7 @@ class LocationSelecter extends StatelessWidget {
             height: fillFullAddress ? 164.0.h : 32.0.h,
             duration: Duration(milliseconds: 500),
             child: ListView(
+              padding: EdgeInsets.zero,
               children: [
                 _fillFullAddressCheckbox(),
                 _fillFullAddressTextArea()
@@ -115,5 +114,5 @@ class LocationSelecter extends StatelessWidget {
     );
   }
 
-  SizedBox _spacer() => SizedBox(height: 16.0.h);
+  SizedBox _spacer() => SizedBox(height: 32.0.h);
 }

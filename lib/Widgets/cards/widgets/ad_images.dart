@@ -44,7 +44,10 @@ class AdImages extends StatelessWidget {
             child: Container(
               width: double.infinity,
               color: AppColors.white,
-              child: AssetHandle.getImage(photos.elementAt(index)),
+              child: AssetHandle.getImage(
+                photos.elementAt(index),
+                fit: BoxFit.cover,
+              ),
             ),
           );
         },

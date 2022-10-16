@@ -18,7 +18,6 @@ class AuthHosters extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(Get.height);
     return Scaffold(
       body: Stack(
         children: [
