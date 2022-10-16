@@ -1,4 +1,6 @@
+import 'package:get/get.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
+import 'package:tiutiu/core/extensions/string_extension.dart';
 import 'package:tiutiu/features/posts/validators/form_validators.dart';
 import 'package:tiutiu/features/posts/widgets/text_area.dart';
 import 'package:tiutiu/Widgets/underline_input_dropdown.dart';
@@ -33,7 +35,7 @@ class LocationSelecter extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      child: Column(
+      child: ListView(
         children: [
           SizedBox(height: 16.0.h),
           _stateSelector(),
@@ -92,11 +94,10 @@ class LocationSelecter extends StatelessWidget {
     );
   }
 
-  Padding _fillFullAddressTextArea() {
-    return Padding(
-      padding: EdgeInsets.only(top: 8.0.h),
-      child: Form(
-        key: fullAddressKeyForm,
+  Widget _fillFullAddressTextArea() {
+    return Obx(
+      () => Padding(
+        padding: EdgeInsets.only(top: 8.0.h),
         child: TextArea(
           onChanged: (address) {
             postsController.updatePet(
@@ -105,13 +106,14 @@ class LocationSelecter extends StatelessWidget {
             );
           },
           initialValue: postsController.post.describedAdress,
-          validator:
-              postsController.isFullAddress ? Validators.verifyEmpty : null,
+          isInErrorState:
+              !postsController.post.describedAdress.isNotEmptyNeighterNull() &&
+                  !postsController.formIsValid,
           labelText: PostFlowStrings.typeAddress,
         ),
       ),
     );
   }
 
-  SizedBox _spacer() => SizedBox(height: 32.0.h);
+  SizedBox _spacer() => SizedBox(height: 16.0.h);
 }

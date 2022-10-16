@@ -53,7 +53,7 @@ Padding _descriptionInputText() {
 OneLineText _descriptionLabel() {
   return OneLineText(
     text: PostFlowStrings.addDescription,
-    alignment: Alignment(-0.92, 1),
+    widgetAlignment: Alignment(-0.92, 1),
     fontWeight: FontWeight.w500,
     color: AppColors.secondary,
   );
@@ -62,7 +62,7 @@ OneLineText _descriptionLabel() {
 OneLineText _otherCaracteristicsLabel() {
   return OneLineText(
     text: PostFlowStrings.otherCaracteristics,
-    alignment: Alignment(-0.92, 1),
+    widgetAlignment: Alignment(-0.92, 1),
     fontWeight: FontWeight.w500,
     color: AppColors.secondary,
   );
