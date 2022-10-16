@@ -7,6 +7,7 @@ class AdPicture extends StatefulWidget {
   const AdPicture({
     required this.onPicturedRemoved,
     required this.onAddPicture,
+    this.hasError = false,
     required this.color,
     this.imagePath,
     super.key,
@@ -15,6 +16,7 @@ class AdPicture extends StatefulWidget {
   final Function() onPicturedRemoved;
   final Function() onAddPicture;
   final dynamic imagePath;
+  final bool hasError;
   final Color color;
 
   @override
@@ -98,8 +100,8 @@ class _AdPictureState extends State<AdPicture> {
     return Padding(
       padding: EdgeInsets.all(32.0.h),
       child: Icon(
+        color: widget.hasError ? AppColors.danger : Colors.grey,
         Icons.add_a_photo_outlined,
-        color: Colors.grey,
         size: 40.0.h,
       ),
     );

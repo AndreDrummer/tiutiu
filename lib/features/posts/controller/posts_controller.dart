@@ -120,12 +120,6 @@ class PostsController extends GetxController {
         _formIsValid(validator.isStep5Valid());
         break;
       case 5:
-        _formIsValid(
-          validator.isFormIsValid(
-            existChronicDiseaseInfo: existChronicDiseaseInfo,
-            isFullAddress: isFullAddress,
-          ),
-        );
         break;
     }
 

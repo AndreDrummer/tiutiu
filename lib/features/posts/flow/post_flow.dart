@@ -136,6 +136,7 @@ List<String> _screensTitle(Pet pet) => [
       PostFlowStrings.picTime,
       PostFlowStrings.addVideo,
       PostFlowStrings.reviewYourPost,
+      'Postando...',
     ];
 
 final _stepsScreens = [
@@ -145,5 +146,6 @@ final _stepsScreens = [
   PostLocation(),
   Images(),
   Video(),
+  ReviewPost(),
   ReviewPost(),
 ];
