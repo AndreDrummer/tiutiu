@@ -2,15 +2,15 @@ import 'package:tiutiu/features/posts/validators/form_validators.dart';
 import 'package:tiutiu/features/pets/model/pet_model.dart';
 import 'package:tiutiu/features/system/controllers.dart';
 import 'package:tiutiu/core/constants/strings.dart';
-import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 
-const int FLOW_STEPS_QTY = 7;
+const int _FLOW_STEPS_QTY = 7;
 
 class PostsController extends GetxController {
   final RxString _uploadingAdText = ''.obs;
   final RxBool _isFullAddress = false.obs;
   final RxInt _postPhotoFrameQty = 1.obs;
+  final RxBool _postReviewed = true.obs;
   final RxBool _formIsValid = true.obs;
   final RxBool _hasError = false.obs;
   final Rx<Pet> _post = Pet().obs;
@@ -22,10 +22,13 @@ class PostsController extends GetxController {
   String get uploadingAdText => _uploadingAdText.value;
   bool get isFullAddress => _isFullAddress.value;
   bool get formIsInInitialState => post == Pet();
+  bool get postReviewed => _postReviewed.value;
   bool get formIsValid => _formIsValid.value;
   int get flowIndex => _flowIndex.value;
   bool get hasError => _hasError.value;
   Pet get post => _post.value;
+
+  void set postReviewed(bool value) => _postReviewed(value);
 
   void setError(String errorMessage) {
     _uploadingAdText(errorMessage);
@@ -112,8 +115,12 @@ class PostsController extends GetxController {
     return caracteristics;
   }
 
+  bool lastStep() => _flowIndex.value >= _FLOW_STEPS_QTY - 1;
+  bool firstStep() => _flowIndex.value == 0;
+
   void onContinue() {
     PostFormValidator validator = PostFormValidator(post);
+    _postReviewed(false);
     // nextStep();
 
     switch (flowIndex) {
@@ -134,8 +141,6 @@ class PostsController extends GetxController {
         break;
       case 5:
         petsController.pet = Pet.fromMap(post.toMap());
-        debugPrint(post.toString());
-        debugPrint(petsController.pet.toString());
         break;
       case 6:
         break;
@@ -151,7 +156,7 @@ class PostsController extends GetxController {
   }
 
   void nextStep() {
-    if (flowIndex < FLOW_STEPS_QTY) _flowIndex(flowIndex + 1);
+    if (flowIndex < _FLOW_STEPS_QTY) _flowIndex(flowIndex + 1);
   }
 
   void previousStep() {

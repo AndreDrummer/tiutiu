@@ -79,8 +79,12 @@ class RouterGenerator {
           builder: (_) => ChooseLocation(),
         );
       case Routes.petDetails:
+        final inReviewMode = settings.arguments as bool;
+
         return MaterialPageRoute(
-          builder: (_) => PetDetails(),
+          builder: (_) => PetDetails(
+            inReviewMode: inReviewMode,
+          ),
         );
       case Routes.interestedList:
         return MaterialPageRoute(

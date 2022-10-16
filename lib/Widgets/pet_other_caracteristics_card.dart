@@ -53,7 +53,8 @@ class PetOtherCaracteristicsCard extends StatelessWidget {
                       SizedBox(height: 10),
                       FittedBox(
                         child: AutoSizeText(
-                          content!,
+                          '$content',
+                          overflow: TextOverflow.ellipsis,
                           style: TextStyles.fontSize(
                             fontWeight: FontWeight.w700,
                           ),
