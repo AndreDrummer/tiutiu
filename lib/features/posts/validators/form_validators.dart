@@ -49,22 +49,7 @@ class PostFormValidator {
   }
 
   bool isStep5Valid() {
-    bool isValid = true;
-    return isValid;
-  }
-
-  bool isFormIsValid({
-    required bool existChronicDiseaseInfo,
-    required bool isFullAddress,
-  }) {
-    bool isValid = false;
-
-    isValid = isStep1Valid() &&
-        isStep2Valid(existChronicDiseaseInfo) &&
-        isStep3Valid() &&
-        isStep4Valid(isFullAddress) &&
-        isStep5Valid();
-
+    bool isValid = _pet.photos.isNotEmpty;
     return isValid;
   }
 }

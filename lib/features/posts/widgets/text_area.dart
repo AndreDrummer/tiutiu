@@ -28,13 +28,14 @@ class TextArea extends StatelessWidget {
       child: Column(
         children: [
           TextFormField(
+            textInputAction: TextInputAction.done,
             initialValue: initialValue,
             onChanged: onChanged,
             validator: validator,
             maxLines: maxLines,
             decoration: InputDecoration(
               labelText: labelText,
-              errorBorder: _outlineInputBorder(isError: true),
+              errorBorder: _outlineInputBorder(),
               disabledBorder: _outlineInputBorder(),
               enabledBorder: _outlineInputBorder(),
               focusedBorder: _outlineInputBorder(),
@@ -50,15 +51,15 @@ class TextArea extends StatelessWidget {
     );
   }
 
-  OutlineInputBorder _outlineInputBorder(
-      {bool isError = false, bool showBorder = false}) {
+  OutlineInputBorder _outlineInputBorder() {
     return OutlineInputBorder(
       borderRadius: BorderRadius.all(
         Radius.circular(8.0.h),
       ),
       borderSide: BorderSide(
         style: BorderStyle.solid,
-        color: isError ? AppColors.danger : AppColors.black.withAlpha(80),
+        color:
+            isInErrorState ? AppColors.danger : AppColors.black.withAlpha(80),
       ),
     );
   }
