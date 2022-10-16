@@ -40,7 +40,7 @@ Padding _descriptionInputText() {
       isInErrorState:
           !postsController.post.description.isNotEmptyNeighterNull() &&
               !postsController.formIsValid,
-      initialValue: postsController.post.describedAdress,
+      initialValue: postsController.post.description,
       labelText: AppStrings.jotSomethingDown,
       maxLines: 4,
       onChanged: (description) {
