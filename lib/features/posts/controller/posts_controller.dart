@@ -4,23 +4,23 @@ import 'package:tiutiu/features/system/controllers.dart';
 import 'package:tiutiu/core/constants/strings.dart';
 import 'package:get/get.dart';
 
-const int FLOW_STEPS_QTY = 5;
+const int FLOW_STEPS_QTY = 6;
 
 class PostsController extends GetxController {
   final RxString _uploadingAdText = ''.obs;
   final RxBool _isFullAddress = false.obs;
+  final RxInt _postPhotoFrameQty = 1.obs;
   final RxBool _formIsValid = true.obs;
   final RxBool _hasError = false.obs;
-  final RxInt _postPhotosQty = 1.obs;
   final Rx<Pet> _post = Pet().obs;
   final RxInt _flowIndex = 0.obs;
 
   bool get existChronicDiseaseInfo =>
       _post.value.health == PetHealthString.chronicDisease;
+  int get postPhotoFrameQty => _postPhotoFrameQty.value;
   String get uploadingAdText => _uploadingAdText.value;
   bool get isFullAddress => _isFullAddress.value;
   bool get formIsInInitialState => post == Pet();
-  int get postPhotosQty => _postPhotosQty.value;
   bool get formIsValid => _formIsValid.value;
   int get flowIndex => _flowIndex.value;
   bool get hasError => _hasError.value;
@@ -37,11 +37,11 @@ class PostsController extends GetxController {
   }
 
   void increasePhotosQty() {
-    if (postPhotosQty < 6) _postPhotosQty(postPhotosQty + 1);
+    if (postPhotoFrameQty < 6) _postPhotoFrameQty(postPhotoFrameQty + 1);
   }
 
   void decreasePhotosQty() {
-    if (postPhotosQty > 1) _postPhotosQty(postPhotosQty - 1);
+    if (postPhotoFrameQty > 1) _postPhotoFrameQty(postPhotoFrameQty - 1);
   }
 
   void updatePet(PetEnum property, dynamic data) {
