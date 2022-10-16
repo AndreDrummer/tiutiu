@@ -7,8 +7,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class CardAd extends StatelessWidget {
-  CardAd({required this.pet});
+  CardAd({required this.pet, this.inReviewMode = false});
 
+  final bool inReviewMode;
   final Pet pet;
 
   @override
@@ -22,6 +23,7 @@ class CardAd extends StatelessWidget {
 
     CardBuilder cardBuilder = CardBuilder(
       distanceText: distanceText[0],
+      inReviewMode: inReviewMode,
       pet: pet,
     );
 
@@ -35,10 +37,13 @@ class CardAd extends StatelessWidget {
           Stack(
             children: [
               cardBuilder.adImages(),
-              Positioned(
-                child: cardBuilder.favoriteButton(),
-                bottom: 16.0.h,
-                right: 16.0.w,
+              Visibility(
+                visible: !inReviewMode,
+                child: Positioned(
+                  child: cardBuilder.favoriteButton(),
+                  bottom: 16.0.h,
+                  right: 16.0.w,
+                ),
               ),
             ],
           ),
