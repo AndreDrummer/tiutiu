@@ -1,3 +1,4 @@
+import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/features/posts/validators/form_validators.dart';
 import 'package:tiutiu/features/posts/widgets/text_area.dart';
 import 'package:tiutiu/Widgets/underline_input_dropdown.dart';
@@ -79,8 +80,11 @@ class LocationSelecter extends StatelessWidget {
     return CheckboxListTile(
       contentPadding: EdgeInsets.zero,
       title: AutoSizeText(
+        style: TextStyles.fontSize14(
+          fontWeight: FontWeight.w500,
+          color: AppColors.secondary,
+        ),
         PostFlowStrings.fillFullAddress,
-        style: TextStyles.fontSize14(),
         maxFontSize: 16,
       ),
       onChanged: onFullAddressSelected,

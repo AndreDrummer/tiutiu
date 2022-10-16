@@ -132,7 +132,18 @@ class UserStrings {
 class PetDetailsStrings {
   static String get otherCaracteristics => 'Características';
   static String get lastSeen => 'Visto pela última vez em';
-  static String get whereIsPet => 'Onde está o PET?';
+
+  static String whereIsIt({
+    required String petName,
+    required String petGender,
+  }) {
+    print(petGender);
+    if (petGender == male)
+      return 'Onde está o $petName?';
+    else if (petGender == female) return 'Onde ela está a $petName?';
+    return 'Onde está o PET?';
+  }
+
   static String get health => 'Estado de Saúde';
   static String get description => 'Descrição';
   static String get detailsOf => 'Detalhes de';
@@ -176,23 +187,24 @@ class PostFlowStrings {
   static const String postCancelMessage =
       'Saindo agora todos os dados serão perdidos.\nContinuar?';
   static const String fillFullAddress = 'Preencher endereço completo?';
-  static const String insertPicsAndVideos = 'Adicione fotos e video';
+  static const String addVideo = 'Se quiser, pode adicionar um vídeo';
   static const String addDescription = 'Adicione uma descrição';
   static const String fillAdData = 'Preencher dados do anúncio';
   static const String insertVideo = 'Insira um vídeo (Opcional)';
   static const String addMorePictures = 'Adicionar mais fotos';
   static const String postCancelTitle = 'Cancelar postagem?';
-  static const String pcituresAndVideos = 'Fotos e Videos';
   static const String reviewYourPost = 'Revise o seu post';
   static const String typeAddress = 'Digite o endereço';
-  static const String whereIsPet = 'Onde está o PET?';
   static const String moreDetails = 'Mais detalhes';
   static const String removeVideo = 'Remover vídeo';
+  static const String picTime = 'Hora das fotos!';
   static const String petsData = 'Dados do PET';
   static const String petName = 'Nome do PET';
   static const String size = 'Tamanho do PET';
   static const String petType = 'Tipo de PET';
   static const String details = 'Detalhes';
+  static const String pictures = 'Fotos';
+  static const String videos = 'Videos';
   static const String review = 'Revisar';
   static const String state = 'Estado';
   static const String months = 'Meses';

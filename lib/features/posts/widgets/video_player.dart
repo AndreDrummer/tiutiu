@@ -8,9 +8,7 @@ import 'package:chewie/chewie.dart';
 import 'package:get/get.dart';
 
 class TiuTiuVideoPlayer extends StatefulWidget {
-  const TiuTiuVideoPlayer({
-    required this.videoPath,
-  });
+  const TiuTiuVideoPlayer({required this.videoPath});
 
   final dynamic videoPath;
 
@@ -19,6 +17,15 @@ class TiuTiuVideoPlayer extends StatefulWidget {
 }
 
 class _TiuTiuVideoPlayerState extends State<TiuTiuVideoPlayer> {
+  late ChewieController chewieController;
+
+  @override
+  void initState() {
+    chewieController =
+        VideoUtils.instance.getChewieController(widget.videoPath);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -30,32 +37,31 @@ class _TiuTiuVideoPlayerState extends State<TiuTiuVideoPlayer> {
             color: AppColors.black,
           ),
           margin: EdgeInsets.only(right: 8.0.w, left: 8.0.w),
-          child: Chewie(
-            controller: VideoUtils.instance.getChewieController(
-              widget.videoPath,
-            ),
-          ),
+          child: Chewie(controller: chewieController),
           height: Get.height / 2.5,
         ),
         Positioned(
-          right: 16.0.w,
-          top: 16.0.h,
-          child: EnterExitFullScreenButton(
-            onTap: () => openFullScreen(),
-            icon: Icons.fullscreen,
-          ),
+          child: EnterExitFullScreenButton(onTap: () => openFullScreen()),
+          bottom: 40.0.h,
+          right: 32.0.w,
         )
       ],
     );
   }
 
   void openFullScreen() {
-    Get.to(VideoFullScreen(videoPath: widget.videoPath));
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (_) => VideoFullScreen(
+          chewieController: chewieController,
+        ),
+      ),
+    );
   }
 
-  @override
-  void dispose() {
-    VideoUtils.instance.dispose();
-    super.dispose();
-  }
+  // @override
+  // void dispose() {
+  //   chewieController.dispose();
+  //   super.dispose();
+  // }
 }

@@ -31,11 +31,12 @@ class Images extends StatelessWidget with Pickers {
   Obx _insertPicturesLabel() {
     return Obx(
       () {
-        final centralize = postsController.postPhotosQty == 1;
+        final centralize = postsController.postPhotoFrameQty == 1;
+        final photosQty = postsController.post.photos.length;
 
         return OneLineText(
-          alignment: centralize ? Alignment.center : Alignment(-0.95, 1),
-          text: PostFlowStrings.insertAtLeastOnePicture,
+          alignment: centralize ? Alignment.center : Alignment(-0.9, 1),
+          text: '${PostFlowStrings.insertAtLeastOnePicture} ($photosQty / 6)',
           fontWeight: FontWeight.w500,
         );
       },
@@ -44,11 +45,12 @@ class Images extends StatelessWidget with Pickers {
 
   Widget _picturesList(BuildContext context) {
     return Container(
+      margin: EdgeInsets.only(right: 8.0.w),
       height: 256.0.h,
       child: Obx(
         () {
           return ListView.builder(
-            itemCount: postsController.postPhotosQty,
+            itemCount: postsController.postPhotoFrameQty,
             controller: _picturesListController,
             scrollDirection: Axis.horizontal,
             padding: EdgeInsets.zero,
@@ -57,7 +59,7 @@ class Images extends StatelessWidget with Pickers {
               return Obx(
                 () {
                   final photosQty = postsController.post.photos.length;
-                  final framesQty = postsController.postPhotosQty;
+                  final framesQty = postsController.postPhotoFrameQty;
                   final photos = postsController.post.photos;
 
                   print('Frames $framesQty Index $index Fotos $photosQty');
@@ -96,7 +98,7 @@ class Images extends StatelessWidget with Pickers {
   Obx _addPicturesButton() {
     return Obx(() {
       final photosQty = postsController.post.photos.length;
-      final framesQty = postsController.postPhotosQty;
+      final framesQty = postsController.postPhotoFrameQty;
 
       return AnimatedTextIconButton(
         showCondition: (photosQty == framesQty) && framesQty < 6,
@@ -104,7 +106,7 @@ class Images extends StatelessWidget with Pickers {
         onPressed: () {
           postsController.increasePhotosQty();
           _picturesListController.animateTo(
-            (Get.width * postsController.postPhotosQty) * .6,
+            (Get.width * postsController.postPhotoFrameQty) * .8,
             duration: Duration(milliseconds: 500),
             curve: Curves.ease,
           );
