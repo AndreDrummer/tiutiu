@@ -36,7 +36,7 @@ class Images extends StatelessWidget with Pickers {
         final hasError = photosQty < 1 && !postsController.formIsValid;
 
         return OneLineText(
-          alignment: centralize ? Alignment.center : Alignment(-0.9, 1),
+          widgetAlignment: centralize ? Alignment.center : Alignment(-0.9, 1),
           text: '${PostFlowStrings.insertAtLeastOnePicture} ($photosQty / 6)',
           color: hasError ? AppColors.danger : null,
           fontWeight: FontWeight.w500,
