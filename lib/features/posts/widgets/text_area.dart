@@ -28,6 +28,7 @@ class TextArea extends StatelessWidget {
       child: Column(
         children: [
           TextFormField(
+            textCapitalization: TextCapitalization.sentences,
             textInputAction: TextInputAction.done,
             initialValue: initialValue,
             onChanged: onChanged,

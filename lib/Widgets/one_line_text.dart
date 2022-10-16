@@ -5,16 +5,18 @@ import 'package:tiutiu/core/constants/text_styles.dart';
 
 class OneLineText extends StatelessWidget {
   const OneLineText({
+    this.widgetAlignment,
     required this.text,
     this.fontSize = 14,
     this.fontWeight,
-    this.alignment,
+    this.textAlign,
     this.color,
     super.key,
   });
 
+  final Alignment? widgetAlignment;
   final FontWeight? fontWeight;
-  final Alignment? alignment;
+  final TextAlign? textAlign;
   final double fontSize;
   final Color? color;
   final String text;
@@ -24,7 +26,7 @@ class OneLineText extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 4.0.h),
       child: Align(
-        alignment: alignment ?? Alignment(-0.95, 1),
+        alignment: widgetAlignment ?? Alignment(-0.95, 1),
         child: AutoSizeText(
           text,
           style: TextStyles.fontSize(
@@ -33,6 +35,7 @@ class OneLineText extends StatelessWidget {
             color: color,
           ),
           overflow: TextOverflow.fade,
+          textAlign: textAlign,
           maxFontSize: 32,
         ),
       ),

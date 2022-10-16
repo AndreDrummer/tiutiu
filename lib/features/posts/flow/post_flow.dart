@@ -23,6 +23,7 @@ class PostFlow extends StatelessWidget with TiuTiuPopUp {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Column(
         children: [
           Obx(
@@ -56,7 +57,7 @@ class PostFlow extends StatelessWidget with TiuTiuPopUp {
                       ),
                       OneLineText(
                         color: AppColors.black.withAlpha(100),
-                        alignment: Alignment.centerRight,
+                        widgetAlignment: Alignment.centerRight,
                         text:
                             ' / ${_screensTitle(postsController.post).length}',
                         fontSize: 16.0.sp,
