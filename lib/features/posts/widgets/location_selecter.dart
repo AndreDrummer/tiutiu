@@ -100,13 +100,13 @@ class LocationSelecter extends StatelessWidget {
         child: TextArea(
           onChanged: (address) {
             postsController.updatePet(
-              PetEnum.describedAdress,
+              PetEnum.describedAddress,
               address,
             );
           },
-          initialValue: postsController.post.describedAdress,
+          initialValue: postsController.post.describedAddress,
           isInErrorState:
-              !postsController.post.describedAdress.isNotEmptyNeighterNull() &&
+              !postsController.post.describedAddress.isNotEmptyNeighterNull() &&
                   !postsController.formIsValid,
           labelText: PostFlowStrings.typeAddress,
         ),
