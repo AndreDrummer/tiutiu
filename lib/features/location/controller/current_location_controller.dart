@@ -1,3 +1,4 @@
+import 'package:geocoding/geocoding.dart';
 import 'package:tiutiu/features/location/extensions/service_location_status.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geolocator/geolocator.dart';
@@ -6,15 +7,21 @@ import 'package:get/get.dart';
 class CurrentLocationController extends GetxController {
   final Rx<LocationPermission> _permission = LocationPermission.denied.obs;
   final Rx<GPSStatus> _gpsStatus = GPSStatus.deactivated.obs;
+  final Rx<Placemark> _currentPlacemark = Placemark().obs;
   final Rx<LatLng> _currentLocation = LatLng(0, 0).obs;
   final RxBool _isPermissionGranted = false.obs;
   final RxBool _canContinue = false.obs;
 
   bool get isPermissionGranted => _isPermissionGranted.value;
+  Placemark get currentPlacemark => _currentPlacemark.value;
   LocationPermission get permission => _permission.value;
   LatLng get location => _currentLocation.value;
   GPSStatus get gpsStatus => _gpsStatus.value;
   bool get canContinue => _canContinue.value;
+
+  void set currentPlacemark(Placemark placemark) {
+    _currentPlacemark(placemark);
+  }
 
   void set permission(LocationPermission value) {
     _permission(value);
@@ -84,6 +91,15 @@ class CurrentLocationController extends GetxController {
       } else {
         location = currentLocation;
       }
+
+      final placemarkList = await placemarkFromCoordinates(
+        location.latitude,
+        location.longitude,
+      );
+
+      currentPlacemark = placemarkList.first;
+
+      print(currentLocation);
     }
   }
 }

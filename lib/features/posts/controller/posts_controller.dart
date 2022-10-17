@@ -1,4 +1,5 @@
 import 'package:tiutiu/features/posts/validators/form_validators.dart';
+import 'package:tiutiu/core/utils/routes/routes_name.dart';
 import 'package:tiutiu/features/pets/model/pet_model.dart';
 import 'package:tiutiu/features/system/controllers.dart';
 import 'package:tiutiu/core/constants/strings.dart';
@@ -57,6 +58,7 @@ class PostsController extends GetxController {
     }
 
     if ((post.latitude == null || post.longitude == null)) {
+      _setPostStateAndCity(postMap);
       _insertLatLng(postMap);
     }
 
@@ -70,6 +72,13 @@ class PostsController extends GetxController {
         currentLocationController.location.longitude;
     postMap[PetEnum.latitude.name] =
         currentLocationController.location.latitude;
+  }
+
+  void _setPostStateAndCity(Map<String, dynamic> postMap) async {
+    final placemark = currentLocationController.currentPlacemark;
+
+    postMap[PetEnum.city.name] = placemark.subAdministrativeArea;
+    postMap[PetEnum.state.name] = placemark.administrativeArea;
   }
 
   Map<String, dynamic> _insertOwnerData(Map<String, dynamic> postMap) {
@@ -115,7 +124,17 @@ class PostsController extends GetxController {
     return caracteristics;
   }
 
-  bool lastStep() => _flowIndex.value >= _FLOW_STEPS_QTY - 1;
+  void reviewPost() {
+    Get.toNamed(
+      Routes.petDetails,
+      arguments: true,
+    )?.then((_) {
+      postsController.nextStep();
+    });
+  }
+
+  bool reviewStep() => _flowIndex.value == _FLOW_STEPS_QTY - 1;
+  bool lastStep() => _flowIndex.value == _FLOW_STEPS_QTY;
   bool firstStep() => _flowIndex.value == 0;
 
   void onContinue() {
@@ -142,7 +161,8 @@ class PostsController extends GetxController {
       case 5:
         petsController.pet = Pet.fromMap(post.toMap());
         break;
-      case 6:
+      case 7:
+        print('Postando...');
         break;
     }
 

@@ -4,7 +4,7 @@ enum PetEnum {
   otherCaracteristics,
   chronicDiseaseInfo,
   lastSeenDetails,
-  describedAdress,
+  describedAddress,
   storageHashKey,
   donatedOrFound,
   description,
@@ -38,7 +38,7 @@ class Pet {
     this.chronicDiseaseInfo = '',
     this.donatedOrFound = false,
     this.lastSeenDetails = '',
-    this.describedAdress = '',
+    this.describedAddress = '',
     this.disappeared = false,
     this.city = 'Acrelândia',
     this.photos = const [],
@@ -70,10 +70,10 @@ class Pet {
       createdAt:
           map[PetEnum.createdAt.name] ?? DateTime.now().toIso8601String(),
       chronicDiseaseInfo: map[PetEnum.chronicDiseaseInfo.name] ?? '',
+      describedAddress: map[PetEnum.describedAddress.name] ?? '',
       otherCaracteristics: map[PetEnum.otherCaracteristics.name],
       donatedOrFound: map[PetEnum.donatedOrFound.name] ?? false,
       lastSeenDetails: map[PetEnum.lastSeenDetails.name] ?? '',
-      describedAdress: map[PetEnum.describedAdress.name] ?? '',
       owner: TiutiuUser.fromMap(map[PetEnum.owner.name]),
       storageHashKey: map[PetEnum.storageHashKey.name],
       description: map[PetEnum.description.name] ?? '',
@@ -128,9 +128,9 @@ class Pet {
 
   String chronicDiseaseInfo;
   List otherCaracteristics;
+  String describedAddress;
   String? storageHashKey;
   String lastSeenDetails;
-  String describedAdress;
   bool donatedOrFound;
   String description;
   String? createdAt;
@@ -200,7 +200,7 @@ class Pet {
 
     return other.otherCaracteristics == otherCaracteristics &&
         other.chronicDiseaseInfo == chronicDiseaseInfo &&
-        other.describedAdress == describedAdress &&
+        other.describedAddress == describedAddress &&
         other.lastSeenDetails == lastSeenDetails &&
         other.storageHashKey == storageHashKey &&
         other.donatedOrFound == donatedOrFound &&
@@ -235,7 +235,7 @@ class Pet {
         lastSeenDetails.hashCode ^
         storageHashKey.hashCode ^
         chronicDiseaseInfo.hashCode ^
-        describedAdress.hashCode ^
+        describedAddress.hashCode ^
         donatedOrFound.hashCode ^
         createdAt.hashCode ^
         owner.hashCode ^
