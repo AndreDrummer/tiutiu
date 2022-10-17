@@ -1,3 +1,4 @@
+import 'package:tiutiu/core/extensions/string_extension.dart';
 import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
 import 'package:tiutiu/Widgets/pet_other_caracteristics_card.dart';
 import 'package:tiutiu/core/models/pet_caracteristics_model.dart';
@@ -276,10 +277,15 @@ class PetDetails extends StatelessWidget {
   }
 
   CardContent _address(Pet pet) {
+    final describedAddress = pet.describedAddress.isNotEmptyNeighterNull()
+        ? '\n\n${pet.describedAddress}'
+        : '';
+
     return CardContent(
       icon: pet.disappeared ? null : Icons.launch,
-      content:
-          pet.disappeared ? pet.lastSeenDetails : '${pet.city} - ${pet.state}',
+      content: pet.disappeared
+          ? pet.lastSeenDetails
+          : '${pet.city} - ${pet.state} $describedAddress',
       title: pet.disappeared
           ? PetDetailsStrings.lastSeen
           : PetDetailsStrings.whereIsIt(

@@ -173,8 +173,6 @@ class MigrationService {
       position.longitude,
     );
 
-    print(placemarkList);
-
     return placemarkList.first.administrativeArea;
   }
 

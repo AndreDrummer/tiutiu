@@ -41,7 +41,7 @@ class PostFormValidator {
         _pet.city.isNotEmptyNeighterNull();
 
     if (isFullAddress) {
-      isValid = isValid && _pet.describedAdress.isNotEmptyNeighterNull();
+      isValid = isValid && _pet.describedAddress.isNotEmptyNeighterNull();
     }
 
     return isValid;
