@@ -87,7 +87,11 @@ class PostFlow extends StatelessWidget with TiuTiuPopUp {
             buttonSecondaryColor:
                 postsController.flowIndex < 1 ? AppColors.danger : Colors.grey,
             onPrimaryPressed: () {
-              postsController.onContinue();
+              if (postsController.reviewStep()) {
+                postsController.reviewPost();
+              } else {
+                postsController.onContinue();
+              }
             },
             onSecondaryPressed: () {
               final showQuestion = !postsController.formIsInInitialState &&
@@ -110,9 +114,11 @@ class PostFlow extends StatelessWidget with TiuTiuPopUp {
                 postsController.previousStep();
               }
             },
-            textPrimary: postsController.lastStep()
-                ? PostFlowStrings.post
-                : AppStrings.contines,
+            textPrimary: postsController.reviewStep()
+                ? PostFlowStrings.reviewButton
+                : postsController.lastStep()
+                    ? PostFlowStrings.post
+                    : AppStrings.contines,
             textSecond: postsController.flowIndex < 1
                 ? AppStrings.cancel
                 : AppStrings.back,
@@ -139,7 +145,7 @@ List<String> _screensTitle(Pet pet) => [
       PostFlowStrings.petsData,
       PostFlowStrings.moreDetails,
       PostFlowStrings.description,
-      PetDetailsStrings.whereIsIt(
+      PostFlowStrings.whereIsIt(
         petGender: pet.gender,
         petName: '${pet.name}',
       ),

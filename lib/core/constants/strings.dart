@@ -138,9 +138,9 @@ class PetDetailsStrings {
     required String petGender,
   }) {
     if (petGender == male)
-      return 'Onde está o $petName?';
-    else if (petGender == female) return 'Onde ela está a $petName?';
-    return 'Onde está o PET?';
+      return 'Onde ele está';
+    else if (petGender == female) return 'Onde ela está';
+    return 'Onde está o PET';
   }
 
   static String get health => 'Estado de Saúde';
@@ -178,6 +178,17 @@ class MyProfileOptionsTile {
 }
 
 class PostFlowStrings {
+  static String whereIsIt({
+    required String petName,
+    required String petGender,
+  }) {
+    if (petGender == PetDetailsStrings.male)
+      return 'Onde está o $petName';
+    else if (petGender == PetDetailsStrings.female)
+      return 'Onde está a $petName';
+    return 'Onde está o PET';
+  }
+
   static const String otherCaracteristics = 'Outras características (Opcional)';
   static const String describeDiseaseType = 'Descreva qual o tipo de doença';
   static const String insertAtLeastOnePicture = 'Insira pelo menos uma foto';
@@ -200,6 +211,7 @@ class PostFlowStrings {
   static const String picTime = 'Hora das fotos!';
   static const String petsData = 'Dados do PET';
   static const String petName = 'Nome do PET';
+  static const String reviewButton = 'Revisar';
   static const String size = 'Tamanho do PET';
   static const String petType = 'Tipo de PET';
   static const String details = 'Detalhes';
