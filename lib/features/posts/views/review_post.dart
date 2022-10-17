@@ -1,10 +1,8 @@
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get.dart';
-import 'package:tiutiu/core/utils/routes/routes_name.dart';
 import 'package:tiutiu/features/pets/model/pet_model.dart';
+import 'package:tiutiu/features/system/controllers.dart';
 import 'package:tiutiu/Widgets/cards/card_ad.dart';
 import 'package:flutter/material.dart';
-import 'package:tiutiu/features/system/controllers.dart';
 
 class ReviewPost extends StatelessWidget {
   @override
@@ -14,12 +12,7 @@ class ReviewPost extends StatelessWidget {
 
     return InkWell(
       onTap: () {
-        Get.toNamed(
-          Routes.petDetails,
-          arguments: inReviewMode,
-        )?.then((_) {
-          postsController.nextStep();
-        });
+        postsController.reviewPost();
       },
       child: Container(
         margin: EdgeInsets.only(top: 32.0.h),
