@@ -10,11 +10,11 @@ import 'package:get/get.dart';
 const int _FLOW_STEPS_QTY = 7;
 
 class PostsController extends GetxController {
+  final RxBool _isInReviewMode = false.obs;
   final RxString _uploadingAdText = ''.obs;
   final RxBool _isFullAddress = false.obs;
-  final RxBool _isInReviewMode = true.obs;
+  final RxBool _postReviewed = false.obs;
   final RxInt _postPhotoFrameQty = 1.obs;
-  final RxBool _postReviewed = true.obs;
   final RxBool _formIsValid = true.obs;
   final RxList _cachedVideos = [].obs;
   final RxBool _hasError = false.obs;
@@ -180,14 +180,14 @@ class PostsController extends GetxController {
   Future<void> _cacheVideo() async {
     final videoPath = post.video;
     var fileName = '${post.uid}-$videoPath';
-
+    print('>>Cache _cacheVideo');
     await VideoCacheManager.save(videoPath, fileName);
   }
 
   Future<String> _getCachedVideo() async {
     final videoPath = post.video;
     var fileName = '${post.uid}-$videoPath';
-
+    print('>>Cache _getCachedVideo');
     return await VideoCacheManager.getCachedVideoIfExists(fileName);
   }
 
@@ -196,19 +196,20 @@ class PostsController extends GetxController {
     var fileName = '${post.uid}-$videoPath';
 
     final value = await LocalStorage.getValueUnderString(fileName);
-
+    print('>>Cache _saveVideosOnCache');
     if (value == null) _cacheVideo();
   }
 
   Future<void> _getVideosOnCache() async {
     final currentVideosCachedList = [];
     currentVideosCachedList.addAll(_cachedVideos);
-
+    print('>>Cache _getVideosOnCache');
     final cachedVideo = await _getCachedVideo();
     currentVideosCachedList.add(cachedVideo);
   }
 
   Future<void> cacheAndGetVideos() async {
+    print('>>Cache cacheAndGetVideos');
     if (!isInReviewMode) {
       await _saveVideosOnCache();
       await _getVideosOnCache();

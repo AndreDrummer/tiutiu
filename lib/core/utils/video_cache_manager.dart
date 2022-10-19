@@ -24,11 +24,12 @@ class VideoCacheManager {
       value: videoFile.path,
       key: fileName,
     );
-
+    print('>>Cache save');
     debugPrint('Video Cached $fileName: $videoUrl');
   }
 
   static Future<String> getCachedVideoIfExists(String videoFileName) async {
+    print('>>Cache getCachedVideoIfExists');
     return await LocalStorage.getValueUnderString(videoFileName);
   }
 }

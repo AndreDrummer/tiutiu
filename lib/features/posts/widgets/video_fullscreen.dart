@@ -7,9 +7,14 @@ import 'package:chewie/chewie.dart';
 import 'dart:io';
 
 class VideoFullScreen extends StatefulWidget {
-  const VideoFullScreen({super.key, required this.chewieController});
+  const VideoFullScreen({
+    required this.chewieController,
+    this.isInReviewMode = false,
+    super.key,
+  });
 
   final ChewieController chewieController;
+  final bool isInReviewMode;
 
   @override
   State<VideoFullScreen> createState() => VideoFullScreenState();
@@ -33,7 +38,8 @@ class VideoFullScreenState extends State<VideoFullScreen> {
         children: [
           Chewie(controller: widget.chewieController),
           Positioned(
-            left: 24.0.w,
+            right: widget.isInReviewMode ? null : 40.0.w,
+            left: widget.isInReviewMode ? 24.0.w : null,
             top: Platform.isAndroid ? 64.0.h : 16.0.h,
             child: EnterExitFullScreenButton(
               isFullscreen: true,
