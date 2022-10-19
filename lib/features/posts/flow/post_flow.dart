@@ -156,12 +156,12 @@ List<String> _screensTitle(Pet pet) => [
     ];
 
 List<Widget> _stepsScreens = [
+  Video(),
   PostInfo(),
   PostDetails(),
   PostDescription(),
   PostLocation(),
   Images(),
-  Video(),
   ReviewPost(),
   ReviewPost(),
 ];

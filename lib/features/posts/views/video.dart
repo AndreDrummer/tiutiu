@@ -1,4 +1,3 @@
-import 'package:tiutiu/core/utils/video_utils.dart';
 import 'package:tiutiu/features/posts/widgets/ad_video_item.dart';
 import 'package:tiutiu/features/posts/widgets/video_player.dart';
 import 'package:tiutiu/Widgets/animated_text_icon_button.dart';
@@ -7,10 +6,12 @@ import 'package:tiutiu/features/pets/model/pet_model.dart';
 import 'package:tiutiu/features/system/controllers.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/core/constants/strings.dart';
+import 'package:tiutiu/core/utils/video_utils.dart';
 import 'package:tiutiu/Widgets/one_line_text.dart';
 import 'package:video_player/video_player.dart';
 import 'package:tiutiu/core/utils/pickers.dart';
 import 'package:flutter/material.dart';
+import 'package:chewie/chewie.dart';
 import 'package:get/get.dart';
 import 'dart:io';
 
@@ -24,9 +25,27 @@ class Video extends StatefulWidget with Pickers {
 }
 
 class _VideoState extends State<Video> {
+  VideoPlayerController? videoPlayerController;
+  ChewieController? chewieController;
+
   @override
   void initState() {
+    initializeChewiwController();
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    videoPlayerController?.dispose();
+    chewieController?.dispose();
+    super.dispose();
+  }
+
+  void initializeChewiwController() {
+    if (postsController.post.video != null)
+      chewieController = VideoUtils.instance.getChewieController(
+        postsController.post.video,
+      );
   }
 
   @override
@@ -70,13 +89,13 @@ class _VideoState extends State<Video> {
         onVideoPicked: (file) {
           if (file != null) {
             File videoFile = File(file.path);
-            final videoModel = VideoPlayerController.file(videoFile);
+            videoPlayerController = VideoPlayerController.file(videoFile);
 
-            videoModel.initialize().then((value) {
-              videoModel.setVolume(0);
-              videoModel.play();
-              videoModel.pause();
-              final videoDuration = videoModel.value.duration;
+            videoPlayerController!.initialize().then((value) {
+              videoPlayerController!.setVolume(0);
+              videoPlayerController!.play();
+              videoPlayerController!.pause();
+              final videoDuration = videoPlayerController!.value.duration;
               if (videoDuration.inSeconds <= VIDEO_SECS_LIMIT) {
                 postsController.updatePet(PetEnum.video, videoFile);
                 postsController.clearError();
@@ -92,10 +111,13 @@ class _VideoState extends State<Video> {
   }
 
   Widget _playVideo() {
+    if (chewieController == null) {
+      initializeChewiwController();
+    }
+
     return TiuTiuVideoPlayer(
-      chewieController: VideoUtils.instance.getChewieController(
-        postsController.post.video,
-      ),
+      aspectRatio: Get.width / (Get.height / 3),
+      chewieController: chewieController!,
     );
   }
 
@@ -123,6 +145,7 @@ class _VideoState extends State<Video> {
           elementsColor: AppColors.danger,
           icon: Icons.remove,
           onPressed: () {
+            chewieController!.videoPlayerController.pause();
             postsController.updatePet(PetEnum.video, null);
           },
         );
