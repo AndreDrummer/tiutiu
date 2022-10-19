@@ -7,8 +7,8 @@ import 'package:flutter/material.dart';
 class ReviewPost extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final inReviewMode = postsController.isInReviewMode;
     Pet pet = postsController.post;
-    final inReviewMode = true;
 
     return InkWell(
       onTap: () {

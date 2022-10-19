@@ -56,8 +56,8 @@ extension StringExtension on String {
   bool isUrl() => this.contains(Constantes.HTTP);
 }
 
-extension NullableStringExtension on String? {
+extension NullableStringExtension on dynamic {
   bool isNotEmptyNeighterNull() {
-    return this != null && this!.isNotEmpty && this != '-';
+    return this != null && this!.toString().isNotEmpty && this != '-';
   }
 }
