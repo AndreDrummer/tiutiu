@@ -1,3 +1,4 @@
+import 'package:tiutiu/core/utils/video_utils.dart';
 import 'package:tiutiu/features/posts/widgets/ad_video_item.dart';
 import 'package:tiutiu/features/posts/widgets/video_player.dart';
 import 'package:tiutiu/Widgets/animated_text_icon_button.dart';
@@ -91,7 +92,11 @@ class _VideoState extends State<Video> {
   }
 
   Widget _playVideo() {
-    return TiuTiuVideoPlayer(videoPath: postsController.post.video);
+    return TiuTiuVideoPlayer(
+      chewieController: VideoUtils.instance.getChewieController(
+        postsController.post.video,
+      ),
+    );
   }
 
   Widget _videoErrorLabel() {

@@ -1,8 +1,9 @@
-import 'package:tiutiu/core/extensions/string_extension.dart';
 import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
 import 'package:tiutiu/Widgets/pet_other_caracteristics_card.dart';
 import 'package:tiutiu/core/models/pet_caracteristics_model.dart';
+import 'package:tiutiu/features/posts/widgets/video_player.dart';
 import 'package:tiutiu/features/pets/widgets/card_content.dart';
+import 'package:tiutiu/core/extensions/string_extension.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/features/pets/model/pet_model.dart';
 import 'package:tiutiu/features/system/controllers.dart';
@@ -11,6 +12,7 @@ import 'package:tiutiu/core/utils/other_functions.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/Widgets/load_dark_screen.dart';
 import 'package:tiutiu/core/utils/asset_handle.dart';
+import 'package:tiutiu/core/utils/video_utils.dart';
 import 'package:tiutiu/core/constants/strings.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:tiutiu/Widgets/dots_indicator.dart';
@@ -18,12 +20,35 @@ import 'package:tiutiu/Widgets/button_wide.dart';
 import 'package:tiutiu/Widgets/background.dart';
 import 'package:tiutiu/core/Custom/icons.dart';
 import 'package:flutter/material.dart';
+import 'package:chewie/chewie.dart';
 import 'package:get/get.dart';
 
-class PetDetails extends StatelessWidget {
+class PetDetails extends StatefulWidget {
   const PetDetails({super.key, this.inReviewMode = false});
 
   final bool inReviewMode;
+
+  @override
+  State<PetDetails> createState() => _PetDetailsState();
+}
+
+class _PetDetailsState extends State<PetDetails> {
+  late ChewieController chewieController;
+
+  @override
+  void initState() {
+    chewieController = VideoUtils.instance.getChewieController(
+      'https://firebasestorage.googleapis.com/v0/b/boi-certo.appspot.com/o/prod%2Fusers%2FqAc8knYpxxga33bMxcpKHUDIk982%2Fads%2F63cde7b4-9308-4ad2-8827-2990b3186015%2Fvideos%2Fvideos0?alt=media&token=d14d77d0-0818-4873-ad04-fff5fe1cd165',
+    );
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    chewieController.videoPlayerController.pause();
+    chewieController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,44 +57,48 @@ class PetDetails extends StatelessWidget {
 
     return SafeArea(
       child: Scaffold(
-        body: Stack(
-          children: [
-            Background(dark: true),
-            Column(
-              children: [
-                _showImages(
-                  boxHeight: Get.height / 2.5,
-                  photos: pet.photos,
-                  context: context,
-                ),
-                Expanded(
-                  child: Container(
-                    height: Get.height / 4.5,
-                    child: Column(
-                      children: [
-                        _petCaracteristics(petCaracteristics),
-                        _description(pet.description),
-                        _address(pet),
-                        Spacer(),
-                        _ownerAdcontact(
-                          whatsappMessage: 'whatsappMessage',
-                          emailMessage: 'emailMessage',
-                          emailSubject: 'emailSubject',
-                          user: pet.owner!,
-                        )
-                      ],
-                    ),
+        body: FutureBuilder<void>(
+            future: postsController.cacheAndGetVideos(),
+            builder: (_, __) {
+              return Stack(
+                children: [
+                  Background(dark: true),
+                  Column(
+                    children: [
+                      _showImagesAndVideos(
+                        boxHeight: Get.height / 2.5,
+                        context: context,
+                        pet: pet,
+                      ),
+                      Expanded(
+                        child: Container(
+                          height: Get.height / 4.5,
+                          child: Column(
+                            children: [
+                              _petCaracteristics(petCaracteristics),
+                              _description(pet.description),
+                              _address(pet),
+                              Spacer(),
+                              _ownerAdcontact(
+                                whatsappMessage: 'whatsappMessage',
+                                emailMessage: 'emailMessage',
+                                emailSubject: 'emailSubject',
+                                user: pet.owner!,
+                              )
+                            ],
+                          ),
+                        ),
+                      )
+                    ],
                   ),
-                )
-              ],
-            ),
-            Positioned(child: _appBar(pet.name!)),
-            LoadDarkScreen(
-              message: petsController.loadingText,
-              visible: petsController.isLoading,
-            )
-          ],
-        ),
+                  Positioned(child: _appBar(pet.name!)),
+                  LoadDarkScreen(
+                    message: petsController.loadingText,
+                    visible: petsController.isLoading,
+                  )
+                ],
+              );
+            }),
       ),
     );
   }
@@ -91,7 +120,7 @@ class PetDetails extends StatelessWidget {
           ),
           Spacer(),
           Visibility(
-            visible: !inReviewMode,
+            visible: !widget.inReviewMode,
             child: IconButton(
               icon: Icon(
                 color: AppColors.white,
@@ -106,12 +135,14 @@ class PetDetails extends StatelessWidget {
     );
   }
 
-  Widget _showImages({
+  Widget _showImagesAndVideos({
     required BuildContext context,
     required double boxHeight,
-    required List photos,
+    required Pet pet,
   }) {
+    final hasVideo = pet.video?.isNotEmptyNeighterNull() ?? true;
     final PageController _pageController = PageController();
+    final photos = pet.photos;
 
     return Stack(
       children: [
@@ -120,9 +151,9 @@ class PetDetails extends StatelessWidget {
             fullscreenController.openFullScreenMode(photos);
           },
           child: _images(
-            boxHeight: boxHeight,
             pageController: _pageController,
-            photos: photos,
+            boxHeight: boxHeight,
+            pet: pet,
           ),
         ),
         Positioned(
@@ -130,8 +161,8 @@ class PetDetails extends StatelessWidget {
           right: 0.0,
           left: 0.0,
           child: _dotsIndicator(
+            length: hasVideo ? photos.length + 1 : photos.length,
             pageController: _pageController,
-            length: photos.length,
           ),
         ),
         Positioned(
@@ -196,24 +227,42 @@ class PetDetails extends StatelessWidget {
 
   Container _images({
     required PageController pageController,
-    required List<dynamic> photos,
     required double boxHeight,
+    required Pet pet,
   }) {
+    final hasVideo = pet.video?.isNotEmptyNeighterNull() ?? true;
+    final photos = pet.photos;
+
+    print('Tem video? $hasVideo ${pet.video}');
+
     return Container(
       width: double.infinity,
       color: Colors.black,
       height: boxHeight,
       child: PageView.builder(
         physics: AlwaysScrollableScrollPhysics(),
-        controller: pageController,
-        itemCount: photos.length,
+        itemCount: hasVideo ? photos.length + 1 : photos.length,
         itemBuilder: (BuildContext context, int index) {
-          return Container(
-            child: AssetHandle.getImage(photos.elementAt(index)),
-            width: double.infinity,
-          );
+          if (hasVideo && index == 0) {
+            return _video(pet.video);
+          } else if (!hasVideo) {
+            return _image(photos.elementAt(index));
+          }
+          return _image(photos.elementAt(index - 1));
         },
+        controller: pageController,
       ),
+    );
+  }
+
+  TiuTiuVideoPlayer _video(dynamic videoPath) {
+    return TiuTiuVideoPlayer(chewieController: chewieController);
+  }
+
+  Container _image(dynamic image) {
+    return Container(
+      child: AssetHandle.getImage(image),
+      width: double.infinity,
     );
   }
 
@@ -304,7 +353,7 @@ class PetDetails extends StatelessWidget {
   }) {
     final Pet pet = petsController.pet;
     return Visibility(
-      visible: !inReviewMode,
+      visible: !widget.inReviewMode,
       child: Container(
         height: Get.height / 5.5,
         margin: EdgeInsets.symmetric(horizontal: 8.0.w),
