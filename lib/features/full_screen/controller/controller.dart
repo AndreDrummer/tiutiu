@@ -11,6 +11,6 @@ class FullscreenController extends GetxController {
   double get zoom => _zoom.value;
 
   void openFullScreenMode(List photos) {
-    Get.to(FullScreenImage(photos: photos));
+    Get.to(() => FullScreenImage(photos: photos));
   }
 }
