@@ -7,9 +7,13 @@ import 'package:chewie/chewie.dart';
 import 'package:get/get.dart';
 
 class TiuTiuVideoPlayer extends StatelessWidget {
-  const TiuTiuVideoPlayer({required this.chewieController});
+  const TiuTiuVideoPlayer({
+    required this.chewieController,
+    this.isInReviewMode = false,
+  });
 
   final ChewieController chewieController;
+  final bool isInReviewMode;
 
   @override
   Widget build(BuildContext context) {
@@ -29,8 +33,9 @@ class TiuTiuVideoPlayer extends StatelessWidget {
           child: EnterExitFullScreenButton(
             onTap: () => openFullScreen(context),
           ),
-          bottom: 40.0.h,
-          right: 32.0.w,
+          right: isInReviewMode ? 32.0.w : 16.0.w,
+          bottom: isInReviewMode ? 40.0.h : null,
+          top: isInReviewMode ? null : 56.0.h,
         )
       ],
     );
