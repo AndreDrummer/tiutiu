@@ -20,7 +20,7 @@ class FirebaseEnvPath {
 
 enum FileType {
   images,
-  videos,
+  video,
 }
 
 String get newPathToAds =>
