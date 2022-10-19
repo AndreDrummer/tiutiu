@@ -142,26 +142,21 @@ class _PetDetailsState extends State<PetDetails> {
   }) {
     final hasVideo = pet.video?.isNotEmptyNeighterNull() ?? true;
     final PageController _pageController = PageController();
-    final photos = pet.photos;
+    final photosQty = pet.photos.length;
 
     return Stack(
       children: [
-        InkWell(
-          onTap: () {
-            fullscreenController.openFullScreenMode(photos);
-          },
-          child: _images(
-            pageController: _pageController,
-            boxHeight: boxHeight,
-            pet: pet,
-          ),
+        _images(
+          pageController: _pageController,
+          boxHeight: boxHeight,
+          pet: pet,
         ),
         Positioned(
           bottom: 0.0,
           right: 0.0,
           left: 0.0,
           child: _dotsIndicator(
-            length: hasVideo ? photos.length + 1 : photos.length,
+            length: hasVideo ? photosQty + 1 : photosQty,
             pageController: _pageController,
           ),
         ),
@@ -233,8 +228,6 @@ class _PetDetailsState extends State<PetDetails> {
     final hasVideo = pet.video?.isNotEmptyNeighterNull() ?? true;
     final photos = pet.photos;
 
-    print('Tem video? $hasVideo ${pet.video}');
-
     return Container(
       width: double.infinity,
       color: Colors.black,
@@ -246,9 +239,9 @@ class _PetDetailsState extends State<PetDetails> {
           if (hasVideo && index == 0) {
             return _video(pet.video);
           } else if (!hasVideo) {
-            return _image(photos.elementAt(index));
+            return _image(pet.photos, index);
           }
-          return _image(photos.elementAt(index - 1));
+          return _image(pet.photos, index - 1);
         },
         controller: pageController,
       ),
@@ -259,10 +252,16 @@ class _PetDetailsState extends State<PetDetails> {
     return TiuTiuVideoPlayer(chewieController: chewieController);
   }
 
-  Container _image(dynamic image) {
-    return Container(
-      child: AssetHandle.getImage(image),
-      width: double.infinity,
+  Widget _image(List photos, int index) {
+    return InkWell(
+      onTap: () {
+        chewieController.videoPlayerController.pause();
+        fullscreenController.openFullScreenMode(photos);
+      },
+      child: Container(
+        child: AssetHandle.getImage(photos.elementAt(index)),
+        width: double.infinity,
+      ),
     );
   }
 
