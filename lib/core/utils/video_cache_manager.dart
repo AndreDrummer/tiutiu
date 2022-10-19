@@ -1,8 +1,7 @@
+import 'package:tiutiu/core/local_storage/local_storage.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:flutter/foundation.dart';
 import 'dart:io';
-
-import 'package:tiutiu/core/local_storage/local_storage.dart';
 
 class VideoCacheManager {
   static Future<File> _downloadFile(String videoUrl, String fileName) async {

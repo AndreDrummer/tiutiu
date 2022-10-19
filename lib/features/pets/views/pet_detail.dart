@@ -56,49 +56,55 @@ class _PetDetailsState extends State<PetDetails> {
     final petCaracteristics = PetCaracteristics.petCaracteristics(pet);
 
     return SafeArea(
-      child: Scaffold(
-        body: FutureBuilder<void>(
-            future: postsController.cacheAndGetVideos(),
-            builder: (_, __) {
-              return Stack(
-                children: [
-                  Background(dark: true),
-                  Column(
-                    children: [
-                      _showImagesAndVideos(
-                        boxHeight: Get.height / 2.5,
-                        context: context,
-                        pet: pet,
-                      ),
-                      Expanded(
-                        child: Container(
-                          height: Get.height / 4.5,
-                          child: Column(
-                            children: [
-                              _petCaracteristics(petCaracteristics),
-                              _description(pet.description),
-                              _address(pet),
-                              Spacer(),
-                              _ownerAdcontact(
-                                whatsappMessage: 'whatsappMessage',
-                                emailMessage: 'emailMessage',
-                                emailSubject: 'emailSubject',
-                                user: pet.owner!,
-                              )
-                            ],
-                          ),
+      child: WillPopScope(
+        onWillPop: () async {
+          chewieController.pause();
+          return true;
+        },
+        child: Scaffold(
+          body: FutureBuilder<void>(
+              future: postsController.cacheAndGetVideos(),
+              builder: (_, __) {
+                return Stack(
+                  children: [
+                    Background(dark: true),
+                    Column(
+                      children: [
+                        _showImagesAndVideos(
+                          boxHeight: Get.height / 2.5,
+                          context: context,
+                          pet: pet,
                         ),
-                      )
-                    ],
-                  ),
-                  Positioned(child: _appBar(pet.name!)),
-                  LoadDarkScreen(
-                    message: petsController.loadingText,
-                    visible: petsController.isLoading,
-                  )
-                ],
-              );
-            }),
+                        Expanded(
+                          child: Container(
+                            height: Get.height / 4.5,
+                            child: Column(
+                              children: [
+                                _petCaracteristics(petCaracteristics),
+                                _description(pet.description),
+                                _address(pet),
+                                Spacer(),
+                                _ownerAdcontact(
+                                  whatsappMessage: 'whatsappMessage',
+                                  emailMessage: 'emailMessage',
+                                  emailSubject: 'emailSubject',
+                                  user: pet.owner!,
+                                )
+                              ],
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                    Positioned(child: _appBar(pet.name!)),
+                    LoadDarkScreen(
+                      message: petsController.loadingText,
+                      visible: petsController.isLoading,
+                    )
+                  ],
+                );
+              }),
+        ),
       ),
     );
   }
@@ -140,7 +146,7 @@ class _PetDetailsState extends State<PetDetails> {
     required double boxHeight,
     required Pet pet,
   }) {
-    final hasVideo = pet.video?.isNotEmptyNeighterNull() ?? true;
+    final hasVideo = pet.video == null;
     final PageController _pageController = PageController();
     final photosQty = pet.photos.length;
 
@@ -225,7 +231,7 @@ class _PetDetailsState extends State<PetDetails> {
     required double boxHeight,
     required Pet pet,
   }) {
-    final hasVideo = pet.video?.isNotEmptyNeighterNull() ?? true;
+    final hasVideo = pet.video == null;
     final photos = pet.photos;
 
     return Container(
@@ -249,7 +255,10 @@ class _PetDetailsState extends State<PetDetails> {
   }
 
   TiuTiuVideoPlayer _video(dynamic videoPath) {
-    return TiuTiuVideoPlayer(chewieController: chewieController);
+    return TiuTiuVideoPlayer(
+      aspectRatio: chewieController.videoPlayerController.value.aspectRatio,
+      chewieController: chewieController,
+    );
   }
 
   Widget _image(List photos, int index) {
