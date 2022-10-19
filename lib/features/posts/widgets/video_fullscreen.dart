@@ -17,42 +17,56 @@ class VideoFullScreen extends StatefulWidget {
   final bool isInReviewMode;
 
   @override
-  State<VideoFullScreen> createState() => VideoFullScreenState();
+  State<VideoFullScreen> createState() => _VideoFullScreenState();
 }
 
-class VideoFullScreenState extends State<VideoFullScreen> {
-  @override
-  void initState() {
+class _VideoFullScreenState extends State<VideoFullScreen> {
+  void setLandscapeLeft() {
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.landscapeLeft,
     ]);
+  }
 
+  void setPortraitUp() {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+    ]);
+
+    if (widget.isInReviewMode) widget.chewieController.pause();
+  }
+
+  @override
+  void initState() {
+    setLandscapeLeft();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColors.black,
-      body: Stack(
-        children: [
-          Chewie(controller: widget.chewieController),
-          Positioned(
-            right: widget.isInReviewMode ? null : 40.0.w,
-            left: widget.isInReviewMode ? 24.0.w : null,
-            top: Platform.isAndroid ? 64.0.h : 16.0.h,
-            child: EnterExitFullScreenButton(
-              isFullscreen: true,
-              onTap: () {
-                SystemChrome.setPreferredOrientations([
-                  DeviceOrientation.portraitUp,
-                ]);
-                widget.chewieController.videoPlayerController.pause();
-                Navigator.of(context).pop();
-              },
+    return WillPopScope(
+      onWillPop: () async {
+        setPortraitUp();
+        return true;
+      },
+      child: Scaffold(
+        backgroundColor: AppColors.black,
+        body: Stack(
+          children: [
+            Chewie(controller: widget.chewieController),
+            Positioned(
+              right: widget.isInReviewMode ? null : 40.0.w,
+              left: widget.isInReviewMode ? 24.0.w : null,
+              top: Platform.isAndroid ? 64.0.h : 16.0.h,
+              child: EnterExitFullScreenButton(
+                isFullscreen: true,
+                onOpenFullscreen: () {
+                  setPortraitUp();
+                  Navigator.of(context).pop();
+                },
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

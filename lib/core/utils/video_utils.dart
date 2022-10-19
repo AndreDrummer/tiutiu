@@ -30,6 +30,7 @@ class VideoUtils {
       allowedScreenSleep: false,
       allowFullScreen: false,
       autoInitialize: true,
+      zoomAndPan: true,
     );
 
     return chewieController;

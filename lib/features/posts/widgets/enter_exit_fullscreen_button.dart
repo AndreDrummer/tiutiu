@@ -5,16 +5,17 @@ import 'package:flutter/material.dart';
 class EnterExitFullScreenButton extends StatelessWidget {
   const EnterExitFullScreenButton({
     this.isFullscreen = false,
-    this.onTap,
+    this.onOpenFullscreen,
     super.key,
   });
 
-  final Function()? onTap;
+  final Function()? onOpenFullscreen;
   final bool isFullscreen;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
+      onTap: onOpenFullscreen,
       child: Container(
         child: Icon(
           isFullscreen ? Icons.fullscreen_exit : Icons.fullscreen,
@@ -27,7 +28,6 @@ class EnterExitFullScreenButton extends StatelessWidget {
           shape: BoxShape.circle,
         ),
       ),
-      onTap: onTap,
     );
   }
 }
