@@ -1,3 +1,5 @@
+import 'package:tiutiu/core/local_storage/local_storage.dart';
+import 'package:tiutiu/core/utils/video_cache_manager.dart';
 import 'package:tiutiu/features/posts/validators/form_validators.dart';
 import 'package:tiutiu/core/utils/routes/routes_name.dart';
 import 'package:tiutiu/features/pets/model/pet_model.dart';
@@ -10,9 +12,11 @@ const int _FLOW_STEPS_QTY = 7;
 class PostsController extends GetxController {
   final RxString _uploadingAdText = ''.obs;
   final RxBool _isFullAddress = false.obs;
+  final RxBool _isInReviewMode = true.obs;
   final RxInt _postPhotoFrameQty = 1.obs;
   final RxBool _postReviewed = true.obs;
   final RxBool _formIsValid = true.obs;
+  final RxList _cachedVideos = [].obs;
   final RxBool _hasError = false.obs;
   final Rx<Pet> _post = Pet().obs;
   final RxInt _flowIndex = 0.obs;
@@ -21,14 +25,17 @@ class PostsController extends GetxController {
       _post.value.health == PetHealthString.chronicDisease;
   int get postPhotoFrameQty => _postPhotoFrameQty.value;
   String get uploadingAdText => _uploadingAdText.value;
+  bool get isInReviewMode => _isInReviewMode.value;
   bool get isFullAddress => _isFullAddress.value;
   bool get formIsInInitialState => post == Pet();
   bool get postReviewed => _postReviewed.value;
   bool get formIsValid => _formIsValid.value;
+  List get cachedVideos => _cachedVideos;
   int get flowIndex => _flowIndex.value;
   bool get hasError => _hasError.value;
   Pet get post => _post.value;
 
+  void set isInReviewMode(bool value) => _isInReviewMode(value);
   void set postReviewed(bool value) => _postReviewed(value);
 
   void setError(String errorMessage) {
@@ -159,6 +166,7 @@ class PostsController extends GetxController {
         _formIsValid(validator.isStep5Valid());
         break;
       case 5:
+        _isInReviewMode(true);
         petsController.pet = Pet.fromMap(post.toMap());
         break;
       case 7:
@@ -167,6 +175,44 @@ class PostsController extends GetxController {
     }
 
     if (formIsValid) nextStep();
+  }
+
+  Future<void> _cacheVideo() async {
+    final videoPath = post.video;
+    var fileName = '${post.uid}-$videoPath';
+
+    await VideoCacheManager.save(videoPath, fileName);
+  }
+
+  Future<String> _getCachedVideo() async {
+    final videoPath = post.video;
+    var fileName = '${post.uid}-$videoPath';
+
+    return await VideoCacheManager.getCachedVideoIfExists(fileName);
+  }
+
+  Future<void> _saveVideosOnCache() async {
+    final videoPath = post.video;
+    var fileName = '${post.uid}-$videoPath';
+
+    final value = await LocalStorage.getValueUnderString(fileName);
+
+    if (value == null) _cacheVideo();
+  }
+
+  Future<void> _getVideosOnCache() async {
+    final currentVideosCachedList = [];
+    currentVideosCachedList.addAll(_cachedVideos);
+
+    final cachedVideo = await _getCachedVideo();
+    currentVideosCachedList.add(cachedVideo);
+  }
+
+  Future<void> cacheAndGetVideos() async {
+    if (!isInReviewMode) {
+      await _saveVideosOnCache();
+      await _getVideosOnCache();
+    }
   }
 
   void clearForm() {

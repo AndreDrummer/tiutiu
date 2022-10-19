@@ -2,29 +2,14 @@ import 'package:tiutiu/features/posts/widgets/enter_exit_fullscreen_button.dart'
 import 'package:tiutiu/features/posts/widgets/video_fullscreen.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
-import 'package:tiutiu/core/utils/video_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:chewie/chewie.dart';
 import 'package:get/get.dart';
 
-class TiuTiuVideoPlayer extends StatefulWidget {
-  const TiuTiuVideoPlayer({required this.videoPath});
+class TiuTiuVideoPlayer extends StatelessWidget {
+  const TiuTiuVideoPlayer({required this.chewieController});
 
-  final dynamic videoPath;
-
-  @override
-  State<TiuTiuVideoPlayer> createState() => _TiuTiuVideoPlayerState();
-}
-
-class _TiuTiuVideoPlayerState extends State<TiuTiuVideoPlayer> {
-  late ChewieController chewieController;
-
-  @override
-  void initState() {
-    chewieController =
-        VideoUtils.instance.getChewieController(widget.videoPath);
-    super.initState();
-  }
+  final ChewieController chewieController;
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +26,9 @@ class _TiuTiuVideoPlayerState extends State<TiuTiuVideoPlayer> {
           height: Get.height / 2.5,
         ),
         Positioned(
-          child: EnterExitFullScreenButton(onTap: () => openFullScreen()),
+          child: EnterExitFullScreenButton(
+            onTap: () => openFullScreen(context),
+          ),
           bottom: 40.0.h,
           right: 32.0.w,
         )
@@ -49,7 +36,7 @@ class _TiuTiuVideoPlayerState extends State<TiuTiuVideoPlayer> {
     );
   }
 
-  void openFullScreen() {
+  void openFullScreen(BuildContext context) {
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (_) => VideoFullScreen(
@@ -58,10 +45,4 @@ class _TiuTiuVideoPlayerState extends State<TiuTiuVideoPlayer> {
       ),
     );
   }
-
-  // @override
-  // void dispose() {
-  //   chewieController.dispose();
-  //   super.dispose();
-  // }
 }
