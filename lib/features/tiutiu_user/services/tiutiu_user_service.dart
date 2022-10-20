@@ -140,7 +140,7 @@ class TiutiuUserService {
 
   Stream<QuerySnapshot<Map<String, dynamic>>> getUserPostsById(String uid) {
     return _firestore
-        .collection(newPathToAds)
+        .collection(pathToPosts)
         .where(PetEnum.ownerId.name, isEqualTo: uid)
         .snapshots();
   }

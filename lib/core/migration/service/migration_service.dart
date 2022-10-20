@@ -77,7 +77,7 @@ class MigrationService {
   }
 
   void updateSomePetData() async {
-    final list = await _firestore.collection(newPathToAds).get();
+    final list = await _firestore.collection(pathToPosts).get();
 
     list.docs.forEach((snapshot) async {
       final pet = Pet.fromMigrate(snapshot.data());
