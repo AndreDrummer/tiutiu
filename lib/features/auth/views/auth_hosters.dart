@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/features/auth/widgets/headline.dart';
 import 'package:tiutiu/core/utils/routes/routes_name.dart';
 import 'package:tiutiu/features/system/controllers.dart';
+import 'package:tiutiu/core/mixins/tiu_tiu_pop_up.dart';
 import 'package:tiutiu/core/constants/text_styles.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:auto_size_text/auto_size_text.dart';
@@ -13,7 +14,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'dart:math';
 
-class AuthHosters extends StatelessWidget {
+class AuthHosters extends StatelessWidget with TiuTiuPopUp {
   const AuthHosters({super.key});
 
   @override
@@ -98,10 +99,10 @@ class AuthHosters extends StatelessWidget {
           ButtonWide(
             textIconColor: AppColors.black,
             icon: FontAwesomeIcons.apple,
+            onPressed: _loginWithApple,
             text: AuthStrings.apple,
             color: AppColors.white,
             isToExpand: true,
-            onPressed: () {},
           ),
           SizedBox(height: 4.0.h),
           ButtonWide(
@@ -116,18 +117,18 @@ class AuthHosters extends StatelessWidget {
           SizedBox(height: 4.0.h),
           ButtonWide(
             icon: FontAwesomeIcons.google,
+            onPressed: _loginWithGoogle,
             text: AuthStrings.google,
             color: AppColors.danger,
             isToExpand: true,
-            onPressed: () {},
           ),
           SizedBox(height: 4.0.h),
           ButtonWide(
             icon: FontAwesomeIcons.facebook,
+            onPressed: _loginWithFacebook,
             text: AuthStrings.facebook,
             color: AppColors.info,
             isToExpand: true,
-            onPressed: () {},
           ),
         ],
       ),
@@ -156,5 +157,38 @@ class AuthHosters extends StatelessWidget {
         homeController.bottomBarIndex = 0;
       },
     );
+  }
+
+  void _loginWithGoogle() async {
+    try {} catch (exception) {
+      authController.isLoading = false;
+      showPopUp(
+        title: AuthStrings.authFailure,
+        message: exception.toString(),
+        danger: true,
+      );
+    }
+  }
+
+  void _loginWithApple() async {
+    try {} catch (exception) {
+      authController.isLoading = false;
+      showPopUp(
+        title: AuthStrings.authFailure,
+        message: exception.toString(),
+        danger: true,
+      );
+    }
+  }
+
+  void _loginWithFacebook() async {
+    try {} catch (exception) {
+      authController.isLoading = false;
+      showPopUp(
+        title: AuthStrings.authFailure,
+        message: exception.toString(),
+        danger: true,
+      );
+    }
   }
 }
