@@ -1,11 +1,13 @@
 import 'package:tiutiu/features/location/controller/current_location_controller.dart';
+import 'package:tiutiu/core/widgets/default_basic_app_bar.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/constants/images_assets.dart';
 import 'package:tiutiu/core/constants/text_styles.dart';
+import 'package:tiutiu/Widgets/app_name_widget.dart';
 import 'package:tiutiu/core/constants/strings.dart';
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:tiutiu/Widgets/background.dart';
 import 'package:tiutiu/Widgets/button_wide.dart';
+import 'package:tiutiu/Widgets/background.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -15,68 +17,50 @@ class TurnOnLocalizationService extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: AutoSizeText(
-          LocalPermissionStrings.appBarTitle,
-          style: TextStyles.fontSize18(),
-        ),
+      appBar: DefaultBasicAppBar(text: LocalPermissionStrings.appBarTitle),
+      body: Column(
+        children: [
+          SizedBox(height: 16.0.h),
+          _googleMapsPin(),
+          Spacer(),
+          _googleRoutesImage(),
+          Spacer(),
+          AppNameWidget(),
+          SizedBox(height: 8.0.h),
+          _explainAccessPermissionText(),
+          Spacer(),
+          _primaryButton(),
+          Spacer(),
+        ],
       ),
-      body: Center(
-        child: SingleChildScrollView(
-          child: Stack(
-            children: [
-              Background(image: ImageAssets.googlePlaces),
-              Positioned(
-                left: 0,
-                right: 0,
-                child: Padding(
-                  padding: const EdgeInsets.only(top: 16.0),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      CircleAvatar(
-                        radius: 70,
-                        backgroundColor: Colors.transparent,
-                        child: ClipOval(
-                          child: Image.asset(ImageAssets.googleMapsPin),
-                        ),
-                      ),
-                      SizedBox(height: 20),
-                      AutoSizeText(
-                        AppStrings.name,
-                        style: GoogleFonts.miltonianTattoo(
-                          textStyle: TextStyle(
-                            letterSpacing: 12,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 30,
-                          ),
-                        ),
-                      ),
-                      SizedBox(height: 2),
-                      AutoSizeText(
-                        LocalPermissionStrings.needsAccess,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          letterSpacing: 2,
-                          fontSize: 16,
-                        ),
-                      ),
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height / 3.2,
-                      ),
-                      ButtonWide(
-                        onPressed:
-                            _currentLocationController.openDeviceSettings,
-                        text: LocalPermissionStrings.turnOnLocalization,
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
+    );
+  }
+
+  CircleAvatar _googleMapsPin() {
+    return CircleAvatar(
+      radius: 70,
+      backgroundColor: Colors.transparent,
+      child: ClipOval(
+        child: Image.asset(ImageAssets.googleMapsPin),
       ),
+    );
+  }
+
+  Background _googleRoutesImage() =>
+      Background(image: ImageAssets.googlePlaces);
+
+  AutoSizeText _explainAccessPermissionText() {
+    return AutoSizeText(
+      LocalPermissionStrings.needsAccess,
+      style: TextStyles.fontSize16(),
+      textAlign: TextAlign.center,
+    );
+  }
+
+  ButtonWide _primaryButton() {
+    return ButtonWide(
+      onPressed: _currentLocationController.openDeviceSettings,
+      text: LocalPermissionStrings.turnOnLocalization,
     );
   }
 }
