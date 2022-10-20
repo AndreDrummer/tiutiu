@@ -15,6 +15,7 @@ class FirebaseAuthProvider implements AuthProviders {
   static FirebaseAuthProvider instance = FirebaseAuthProvider._();
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   User? get firebaseAuthUser => _firebaseAuth.currentUser;
+  final FacebookAuth _facebookSignIn = FacebookAuth.i;
 
   Stream<User?> userStream() {
     return _firebaseAuth.authStateChanges();
@@ -38,7 +39,7 @@ class FirebaseAuthProvider implements AuthProviders {
   }
 
   @override
-  Future<void> signInWithEmailAndPassword({
+  Future<void> loginWithEmailAndPassword({
     required String password,
     required String email,
   }) async {
@@ -68,8 +69,19 @@ class FirebaseAuthProvider implements AuthProviders {
   }
 
   @override
-  Future<void> signOut() async {
+  Future<void> logOut() async {
     await _firebaseAuth.signOut();
+    await _signOutHosters();
+    ;
+  }
+
+  Future<void> _signOutHosters() async {
+    final facebookToken = await _facebookSignIn.accessToken;
+
+    if (facebookToken != null) {
+      _facebookSignIn.logOut();
+    }
+
     if (await _googleSignIn.isSignedIn()) await _googleSignIn.signOut();
   }
 
@@ -113,25 +125,29 @@ class FirebaseAuthProvider implements AuthProviders {
   }
 
   @override
-  Future<void> signInWithFacebook({String? token}) async {
+  Future<bool> loginWithFacebook() async {
     try {
-      final facebookAuthCredential;
+      AccessToken? accessToken = await _facebookSignIn.accessToken;
+      OAuthCredential credential;
 
-      if (token == null) {
-        // Trigger the sign-in flow
-        final LoginResult result = await FacebookAuth.instance.login();
+      if (accessToken == null) {
+        final LoginResult result = await _facebookSignIn.login();
 
-        // Create a credential from the access token
-        facebookAuthCredential =
-            FacebookAuthProvider.credential(result.accessToken!.token);
+        if (result == LoginStatus.success) {
+          accessToken = result.accessToken!;
+          credential = FacebookAuthProvider.credential(accessToken.token);
 
-        if (facebookAuthCredential != null) {}
+          await _firebaseAuth.signInWithCredential(credential);
+        }
       } else {
-        facebookAuthCredential = FacebookAuthProvider.credential(token);
+        credential = FacebookAuthProvider.credential(accessToken.token);
+        await _firebaseAuth.signInWithCredential(credential);
       }
 
-      await _firebaseAuth.signInWithCredential(facebookAuthCredential);
-    } catch (error) {
+      return accessToken != null;
+    } catch (exception) {
+      debugPrint(
+          'An error ocurred when tryna to login with Facebook: $exception');
       throw TiuTiuAuthException('Error validating access token');
     }
   }

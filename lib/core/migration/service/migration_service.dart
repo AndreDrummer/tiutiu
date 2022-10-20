@@ -164,7 +164,7 @@ class MigrationService {
 
   Future<bool> loginWithEmailAndPassword(String email, String password) async {
     return await AuthService()
-        .signInWithEmailAndPassword(email: email, password: password);
+        .loginWithEmailAndPassword(email: email, password: password);
   }
 
   Future getPetAdState(LatLng position) async {

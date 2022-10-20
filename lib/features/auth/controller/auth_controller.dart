@@ -79,10 +79,10 @@ class AuthController extends GetxController {
     return success;
   }
 
-  Future<bool> signInWithEmailAndPassword() async {
+  Future<bool> loginWithEmailAndPassword() async {
     isLoading = true;
 
-    final bool success = await _authService.signInWithEmailAndPassword(
+    final bool success = await _authService.loginWithEmailAndPassword(
       password: emailAndPasswordAuth.password!,
       email: emailAndPasswordAuth.email!,
     );
@@ -100,12 +100,35 @@ class AuthController extends GetxController {
     return success;
   }
 
+  Future<bool> loginWithFacebook() async {
+    isLoading = true;
+    final bool success = await _authService.loginWithFacebook();
+
+    if (success) {
+      await loadUserData();
+    }
+
+    isLoading = false;
+
+    return success;
+  }
+
   Future<void> passwordReset(String email) async {
     await _authService.passwordReset(email);
   }
 
   Future<bool> tryAutoLoginIn() async {
-    final success = await trySignInWithEmailAndPassword();
+    bool success = false;
+
+    final hosters = [
+      await trySignInWithEmailAndPassword(),
+      await loginWithEmailAndPassword(),
+    ];
+
+    int count = 1;
+    while (!success && count <= hosters.length) {
+      success = hosters[count];
+    }
 
     return success;
   }
@@ -122,7 +145,7 @@ class AuthController extends GetxController {
         email: emailPasswordAuthData.email,
       );
 
-      return signInWithEmailAndPassword();
+      return loginWithEmailAndPassword();
     }
 
     return false;
@@ -145,7 +168,7 @@ class AuthController extends GetxController {
   }
 
   Future<void> signOut() async {
-    await _authService.signOut();
+    await _authService.logOut();
     clearAllAuthData();
     clearEmailAndPassword();
     homeController.bottomBarIndex = 0;
