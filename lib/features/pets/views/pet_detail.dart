@@ -37,9 +37,8 @@ class _PetDetailsState extends State<PetDetails> {
 
   @override
   void initState() {
-    chewieController = VideoUtils.instance.getChewieController(
-      'https://firebasestorage.googleapis.com/v0/b/boi-certo.appspot.com/o/prod%2Fusers%2FqAc8knYpxxga33bMxcpKHUDIk982%2Fads%2F63cde7b4-9308-4ad2-8827-2990b3186015%2Fvideos%2Fvideos0?alt=media&token=d14d77d0-0818-4873-ad04-fff5fe1cd165',
-    );
+    chewieController =
+        VideoUtils.instance.getChewieController(postsController.post.video);
     super.initState();
   }
 
@@ -146,7 +145,7 @@ class _PetDetailsState extends State<PetDetails> {
     required double boxHeight,
     required Pet pet,
   }) {
-    final hasVideo = pet.video == null;
+    final hasVideo = pet.video != null;
     final PageController _pageController = PageController();
     final photosQty = pet.photos.length;
 
@@ -231,7 +230,7 @@ class _PetDetailsState extends State<PetDetails> {
     required double boxHeight,
     required Pet pet,
   }) {
-    final hasVideo = pet.video == null;
+    final hasVideo = pet.video != null;
     final photos = pet.photos;
 
     return Container(
