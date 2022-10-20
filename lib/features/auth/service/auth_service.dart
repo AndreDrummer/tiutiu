@@ -9,8 +9,24 @@ class AuthService {
     return await _firebaseAuthProvider.loginWithGoogle(autologin: autologin);
   }
 
-  Future<void> signInWithFacebook({String? token}) async {
-    await _firebaseAuthProvider.signInWithFacebook(token: token);
+  Future<bool> loginWithFacebook() async {
+    return await _firebaseAuthProvider.loginWithFacebook();
+  }
+
+  Future<void> loginWithApple() async {
+    await _firebaseAuthProvider.loginWithApple();
+  }
+
+  Future<bool> loginWithEmailAndPassword({
+    required String password,
+    required String email,
+  }) async {
+    await _firebaseAuthProvider.loginWithEmailAndPassword(
+      password: password,
+      email: email,
+    );
+
+    return authUser != null;
   }
 
   Future<bool> createUserWithEmailAndPassword({
@@ -25,28 +41,12 @@ class AuthService {
     return authUser != null;
   }
 
-  Future<bool> signInWithEmailAndPassword({
-    required String password,
-    required String email,
-  }) async {
-    await _firebaseAuthProvider.signInWithEmailAndPassword(
-      password: password,
-      email: email,
-    );
-
-    return authUser != null;
-  }
-
   Future<void> passwordReset(String email) async {
     await _firebaseAuthProvider.passwordReset(email);
   }
 
-  Future<void> loginWithApple() async {
-    await _firebaseAuthProvider.loginWithApple();
-  }
-
-  Future<void> signOut() async {
-    await _firebaseAuthProvider.signOut();
+  Future<void> logOut() async {
+    await _firebaseAuthProvider.logOut();
   }
 
   bool get userExists => authUser != null;
