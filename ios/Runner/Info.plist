@@ -62,12 +62,26 @@
 				<string>Editor</string>
 				<key>CFBundleURLSchemes</key>
 				<array>
-					<!-- TODO Replace this value: -->
-					<!-- Copied from GoogleService-Info.plist key REVERSED_CLIENT_ID -->
 					<string>com.googleusercontent.apps.791022711249-9hhuha6rp2eklqq63c151v9ngope111i</string>
+					<!-- End of the Google Sign-in Section -->
+					<!-- Facebook Sign-in Section -->
+					<string>fb3331657650254911</string>
 				</array>
+				<key>FacebookAppID</key>
+				<string>3331657650254911</string>
+				<key>FacebookClientToken</key>
+				<string>d43dc00a6cfc3473f0cdeb05c9feb47f</string>
+				<key>FacebookDisplayName</key>
+				<string>Tiu, tiu</string>
+				<key>LSApplicationQueriesSchemes</key>
+				<array>
+					<string>fbapi</string>
+					<string>fb-messenger-share-api</string>
+					<string>fbauth2</string>
+					<string>fbshareextension</string>
+				</array>
+				<!-- End of the Facebook Sign-in Section -->
 			</dict>
 		</array>
-		<!-- End of the Google Sign-in Section -->
 	</dict>
 </plist>
