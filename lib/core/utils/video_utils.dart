@@ -14,6 +14,7 @@ class VideoUtils {
   ChewieController getChewieController(
     dynamic videoPath, {
     bool isFullscreen = false,
+    bool autoPlay = false,
   }) {
     if (videoPath != null) {
       if (videoPath.toString().isUrl()) {
@@ -30,6 +31,7 @@ class VideoUtils {
       allowedScreenSleep: false,
       allowFullScreen: false,
       autoInitialize: true,
+      autoPlay: autoPlay,
       zoomAndPan: true,
     );
 

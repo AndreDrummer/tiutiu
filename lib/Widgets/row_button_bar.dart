@@ -9,8 +9,9 @@ class RowButtonBar extends StatelessWidget {
   const RowButtonBar({
     this.buttonSecondaryColor,
     this.buttonPrimaryColor,
-    this.onPrimaryPressed,
     this.onSecondaryPressed,
+    this.isLoading = false,
+    this.onPrimaryPressed,
     this.textPrimary,
     this.textSecond,
     super.key,
@@ -22,6 +23,7 @@ class RowButtonBar extends StatelessWidget {
   final Color? buttonPrimaryColor;
   final String? textPrimary;
   final String? textSecond;
+  final bool isLoading;
 
   @override
   Widget build(BuildContext context) {
@@ -45,6 +47,7 @@ class RowButtonBar extends StatelessWidget {
                 color: buttonPrimaryColor ?? AppColors.primary,
                 onPressed: () => onPrimaryPressed?.call(),
                 text: textPrimary ?? AppStrings.save,
+                isLoading: isLoading,
                 isToExpand: false,
               ),
             ),

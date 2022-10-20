@@ -126,7 +126,7 @@ class _VideoState extends State<Video> {
       () => Padding(
         padding: EdgeInsets.only(bottom: 8.0.h),
         child: OneLineText(
-          text: postsController.uploadingAdText,
+          text: postsController.flowErrorText,
           widgetAlignment: Alignment.center,
           fontWeight: FontWeight.w500,
           textAlign: TextAlign.center,
