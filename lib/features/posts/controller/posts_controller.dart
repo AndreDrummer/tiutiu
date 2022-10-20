@@ -1,4 +1,7 @@
+import 'package:flutter/foundation.dart';
+import 'package:tiutiu/core/utils/other_functions.dart';
 import 'package:tiutiu/features/posts/validators/form_validators.dart';
+import 'package:tiutiu/core/constants/firebase_env_path.dart';
 import 'package:tiutiu/core/local_storage/local_storage.dart';
 import 'package:tiutiu/core/utils/video_cache_manager.dart';
 import 'package:tiutiu/core/utils/routes/routes_name.dart';
@@ -7,29 +10,33 @@ import 'package:tiutiu/features/system/controllers.dart';
 import 'package:tiutiu/core/constants/strings.dart';
 import 'package:get/get.dart';
 
-const int _FLOW_STEPS_QTY = 7;
+const int _FLOW_STEPS_QTY = 8;
 
 class PostsController extends GetxController {
+  final RxString _uploadingPostText = ''.obs;
   final RxBool _isInReviewMode = false.obs;
-  final RxString _uploadingAdText = ''.obs;
+  final RxString _flowErrorText = ''.obs;
   final RxBool _isFullAddress = false.obs;
   final RxBool _postReviewed = false.obs;
   final RxInt _postPhotoFrameQty = 1.obs;
   final RxBool _formIsValid = true.obs;
   final RxList _cachedVideos = [].obs;
+  final RxBool _isLoading = false.obs;
   final RxBool _hasError = false.obs;
   final Rx<Pet> _post = Pet().obs;
   final RxInt _flowIndex = 0.obs;
 
   bool get existChronicDiseaseInfo =>
       _post.value.health == PetHealthString.chronicDisease;
+  String get uploadingPostText => _uploadingPostText.value;
   int get postPhotoFrameQty => _postPhotoFrameQty.value;
-  String get uploadingAdText => _uploadingAdText.value;
+  String get flowErrorText => _flowErrorText.value;
   bool get isInReviewMode => _isInReviewMode.value;
   bool get isFullAddress => _isFullAddress.value;
   bool get formIsInInitialState => post == Pet();
   bool get postReviewed => _postReviewed.value;
   bool get formIsValid => _formIsValid.value;
+  bool get isLoading => _isLoading.value;
   List get cachedVideos => _cachedVideos;
   int get flowIndex => _flowIndex.value;
   bool get hasError => _hasError.value;
@@ -37,24 +44,7 @@ class PostsController extends GetxController {
 
   void set isInReviewMode(bool value) => _isInReviewMode(value);
   void set postReviewed(bool value) => _postReviewed(value);
-
-  void setError(String errorMessage) {
-    _uploadingAdText(errorMessage);
-    _hasError(true);
-  }
-
-  void clearError() {
-    _uploadingAdText('');
-    _hasError(false);
-  }
-
-  void increasePhotosQty() {
-    if (postPhotoFrameQty < 6) _postPhotoFrameQty(postPhotoFrameQty + 1);
-  }
-
-  void decreasePhotosQty() {
-    if (postPhotoFrameQty > 1) _postPhotoFrameQty(postPhotoFrameQty - 1);
-  }
+  void set isLoading(bool value) => _isLoading(value);
 
   void updatePet(PetEnum property, dynamic data) {
     final postMap = _insertOwnerData(post.toMap());
@@ -131,51 +121,9 @@ class PostsController extends GetxController {
     return caracteristics;
   }
 
-  void reviewPost() {
-    Get.toNamed(
-      Routes.petDetails,
-      arguments: true,
-    )?.then((_) {
-      postsController.nextStep();
-    });
-  }
-
-  bool reviewStep() => _flowIndex.value == _FLOW_STEPS_QTY - 1;
-  bool lastStep() => _flowIndex.value == _FLOW_STEPS_QTY;
+  bool isInStepReview() => _flowIndex.value == _FLOW_STEPS_QTY - 2;
+  bool lastStep() => _flowIndex.value == _FLOW_STEPS_QTY - 1;
   bool firstStep() => _flowIndex.value == 0;
-
-  void onContinue() {
-    PostFormValidator validator = PostFormValidator(post);
-    _postReviewed(false);
-    // nextStep();
-
-    switch (flowIndex) {
-      case 0:
-        _formIsValid(validator.isStep1Valid());
-        break;
-      case 1:
-        _formIsValid(validator.isStep2Valid(existChronicDiseaseInfo));
-        break;
-      case 2:
-        _formIsValid(validator.isStep3Valid());
-        break;
-      case 3:
-        _formIsValid(validator.isStep4Valid(isFullAddress));
-        break;
-      case 4:
-        _formIsValid(validator.isStep5Valid());
-        break;
-      case 5:
-        _isInReviewMode(true);
-        petsController.pet = Pet.fromMap(post.toMap());
-        break;
-      case 7:
-        print('Postando...');
-        break;
-    }
-
-    if (formIsValid) nextStep();
-  }
 
   Future<void> _cacheVideo() async {
     final videoPath = post.video;
@@ -216,17 +164,71 @@ class PostsController extends GetxController {
     }
   }
 
+  void nextStepFlow() {
+    PostFormValidator validator = PostFormValidator(post);
+    _postReviewed(false);
+
+    switch (flowIndex) {
+      case 0:
+        _formIsValid(validator.isStep1Valid());
+        break;
+      case 1:
+        _formIsValid(validator.isStep2Valid(existChronicDiseaseInfo));
+        break;
+      case 2:
+        _formIsValid(validator.isStep3Valid());
+        break;
+      case 3:
+        _formIsValid(validator.isStep4Valid(isFullAddress));
+        break;
+      case 4:
+        _formIsValid(validator.isStep5Valid());
+        break;
+      case 5:
+        _isInReviewMode(true);
+        isLoading = false;
+        petsController.pet = Pet.fromMap(post.toMap());
+        break;
+      case 7:
+        isLoading = true;
+        Future.delayed(Duration(seconds: 10), () {
+          isLoading = false;
+        });
+        break;
+    }
+
+    if (formIsValid) _nextStep();
+  }
+
+  void setError(String errorMessage) {
+    _flowErrorText(errorMessage);
+    _hasError(true);
+  }
+
+  void clearError() {
+    _flowErrorText('');
+    _hasError(false);
+  }
+
   void clearForm() {
     _isFullAddress(false);
     _formIsValid(true);
     _post(Pet());
   }
 
-  void nextStep() {
+  void increasePhotosQty() {
+    if (postPhotoFrameQty < 6) _postPhotoFrameQty(postPhotoFrameQty + 1);
+  }
+
+  void decreasePhotosQty() {
+    if (postPhotoFrameQty > 1) _postPhotoFrameQty(postPhotoFrameQty - 1);
+  }
+
+  void _nextStep() {
     if (flowIndex < _FLOW_STEPS_QTY) _flowIndex(flowIndex + 1);
   }
 
-  void previousStep() {
+  void previousStepFlow() {
     if (flowIndex == 0) {
       clearForm();
       homeController.bottomBarIndex = 0;
@@ -234,7 +236,51 @@ class PostsController extends GetxController {
       _flowIndex(flowIndex - 1);
   }
 
+  void reviewPost() {
+    Get.toNamed(
+      Routes.petDetails,
+      arguments: true,
+    )?.then((_) {
+      _nextStep();
+    });
+  }
+
   void toggleFullAddress() {
     _isFullAddress(!isFullAddress);
   }
+
+  Future<void> uploadPost() async {
+    updatePet(PetEnum.createdAt, DateTime.now().toIso8601String());
+
+    isLoading = true;
+    await _uploadVideo();
+    await _uploadImages();
+    await _uploadPostData();
+    isLoading = false;
+  }
+
+  Future<void> _uploadVideo() async {
+    try {
+      if (post.video != null) _uploadingPostText('Enviando seu vídeo...');
+
+      final videosStoragePath = userPostsStoragePath(
+        fileType: FileType.video.name,
+        userId: post.ownerId!,
+        postId: post.uid!,
+      );
+
+      final videoUrlDownload = OtherFunctions.getVideoUrlDownload(
+        storagePath: videosStoragePath,
+        videoPath: post.video,
+      );
+
+      updatePet(PetEnum.video, videoUrlDownload);
+    } on Exception catch (exception) {
+      debugPrint('Erro when tryna to get video url download: $exception');
+    }
+  }
+
+  Future<void> _uploadImages() async {}
+
+  Future<void> _uploadPostData() async {}
 }

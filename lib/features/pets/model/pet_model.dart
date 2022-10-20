@@ -1,4 +1,5 @@
 import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
+import 'package:uuid/uuid.dart';
 
 enum PetEnum {
   otherCaracteristics,
@@ -67,6 +68,7 @@ class Pet {
 
   static Pet fromMap(Map<String, dynamic> map) {
     return Pet(
+      uid: map[PetEnum.uid.name] != null ? map[PetEnum.uid.name] : Uuid().v4(),
       createdAt:
           map[PetEnum.createdAt.name] ?? DateTime.now().toIso8601String(),
       chronicDiseaseInfo: map[PetEnum.chronicDiseaseInfo.name] ?? '',
@@ -96,7 +98,6 @@ class Pet {
       photos: map[PetEnum.photos.name],
       video: map[PetEnum.video.name],
       name: map[PetEnum.name.name],
-      uid: map[PetEnum.uid.name],
     );
   }
 
