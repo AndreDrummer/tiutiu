@@ -218,7 +218,7 @@ class EmailAndPassword extends StatelessWidget with TiuTiuPopUp {
           if (authController.isCreatingNewAccount) {
             _createUserWithEmailAndPassword();
           } else {
-            _signInWithEmailAndPassword();
+            _loginWithEmailAndPassword();
           }
         }
       },
@@ -238,12 +238,14 @@ class EmailAndPassword extends StatelessWidget with TiuTiuPopUp {
 
   Future<void> _createUserWithEmailAndPassword() async {
     try {
-      await authController.createUserWithEmailAndPassword().then((success) {
-        if (success) {
-          Get.toNamed(Routes.home);
-          authController.clearEmailAndPassword();
-        }
-      });
+      await authController.createUserWithEmailAndPassword().then(
+        (success) {
+          if (success) {
+            Get.toNamed(Routes.home);
+            authController.clearEmailAndPassword();
+          }
+        },
+      );
     } catch (exception) {
       authController.isLoading = false;
       showPopUp(
@@ -254,9 +256,9 @@ class EmailAndPassword extends StatelessWidget with TiuTiuPopUp {
     }
   }
 
-  Future<void> _signInWithEmailAndPassword() async {
+  Future<void> _loginWithEmailAndPassword() async {
     try {
-      await authController.signInWithEmailAndPassword().then((success) {
+      await authController.loginWithEmailAndPassword().then((success) {
         if (success) {
           Get.toNamed(Routes.home);
         }
