@@ -1,11 +1,9 @@
-import 'package:flutter/foundation.dart';
-import 'package:tiutiu/core/utils/other_functions.dart';
 import 'package:tiutiu/features/posts/validators/form_validators.dart';
-import 'package:tiutiu/core/constants/firebase_env_path.dart';
+import 'package:tiutiu/features/posts/services/post_service.dart';
 import 'package:tiutiu/core/local_storage/local_storage.dart';
 import 'package:tiutiu/core/utils/video_cache_manager.dart';
-import 'package:tiutiu/core/utils/routes/routes_name.dart';
 import 'package:tiutiu/features/pets/model/pet_model.dart';
+import 'package:tiutiu/core/utils/routes/routes_name.dart';
 import 'package:tiutiu/features/system/controllers.dart';
 import 'package:tiutiu/core/constants/strings.dart';
 import 'package:get/get.dart';
@@ -13,6 +11,11 @@ import 'package:get/get.dart';
 const int _FLOW_STEPS_QTY = 8;
 
 class PostsController extends GetxController {
+  PostsController({required PostService postService})
+      : _postService = postService;
+
+  PostService _postService;
+
   final RxString _uploadingPostText = ''.obs;
   final RxBool _isInReviewMode = false.obs;
   final RxString _flowErrorText = ''.obs;
@@ -164,6 +167,50 @@ class PostsController extends GetxController {
     }
   }
 
+  Future<void> uploadPost() async {
+    updatePet(PetEnum.createdAt, DateTime.now().toIso8601String());
+
+    isLoading = true;
+    await _uploadVideo();
+    await _uploadImages();
+    await _uploadPostData();
+    isLoading = false;
+  }
+
+  Future<void> _uploadVideo() async {
+    if (post.video != null) _uploadingPostText(PostFlowStrings.sendingVideo);
+
+    await _postService.uploadVideo(
+      onVideoUploaded: (videoUrlDownload) {
+        updatePet(PetEnum.video, videoUrlDownload);
+      },
+      post: post,
+    );
+  }
+
+  Future<void> _uploadImages() async {
+    if (post.video != null) {
+      _uploadingPostText(PostFlowStrings.imageQty(post.photos.length));
+    }
+
+    await _postService.uploadImages(
+      onImagesUploaded: (urlList) {
+        updatePet(PetEnum.photos, urlList);
+      },
+      post: post,
+    );
+  }
+
+  Future<void> _uploadPostData() async {
+    _uploadingPostText(PostFlowStrings.sendingData);
+    await _postService.uploadPostData(post);
+
+    _uploadingPostText(PostFlowStrings.finalizing);
+    await Future.delayed(Duration(seconds: 1));
+
+    _uploadingPostText('');
+  }
+
   void nextStepFlow() {
     PostFormValidator validator = PostFormValidator(post);
     _postReviewed(false);
@@ -248,39 +295,4 @@ class PostsController extends GetxController {
   void toggleFullAddress() {
     _isFullAddress(!isFullAddress);
   }
-
-  Future<void> uploadPost() async {
-    updatePet(PetEnum.createdAt, DateTime.now().toIso8601String());
-
-    isLoading = true;
-    await _uploadVideo();
-    await _uploadImages();
-    await _uploadPostData();
-    isLoading = false;
-  }
-
-  Future<void> _uploadVideo() async {
-    try {
-      if (post.video != null) _uploadingPostText('Enviando seu vídeo...');
-
-      final videosStoragePath = userPostsStoragePath(
-        fileType: FileType.video.name,
-        userId: post.ownerId!,
-        postId: post.uid!,
-      );
-
-      final videoUrlDownload = OtherFunctions.getVideoUrlDownload(
-        storagePath: videosStoragePath,
-        videoPath: post.video,
-      );
-
-      updatePet(PetEnum.video, videoUrlDownload);
-    } on Exception catch (exception) {
-      debugPrint('Erro when tryna to get video url download: $exception');
-    }
-  }
-
-  Future<void> _uploadImages() async {}
-
-  Future<void> _uploadPostData() async {}
 }

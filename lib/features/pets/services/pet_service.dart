@@ -1,10 +1,7 @@
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:tiutiu/core/constants/firebase_env_path.dart';
 import 'package:tiutiu/features/pets/model/pet_model.dart';
-import 'package:tiutiu/core/data/states_and_cities.dart';
-import 'package:tiutiu/core/models/filter_params.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:tiutiu/core/constants/strings.dart';
 
 class PetService {
   PetService._();
@@ -12,33 +9,6 @@ class PetService {
   static PetService instance = PetService._();
 
   FirebaseFirestore _firestore = FirebaseFirestore.instance;
-
-  Stream<QuerySnapshot<Map<String, dynamic>>> loadPets(
-    FilterParams filterParams,
-  ) {
-    final filterType =
-        filterParams.type == PetTypeStrings.all ? null : filterParams.type;
-
-    final disappeared = filterParams.disappeared;
-
-    var filterState =
-        filterParams.state == StatesAndCities().stateInitials.first
-            ? null
-            : filterParams.state;
-
-    if (filterState != null) {
-      filterState = StatesAndCities().stateNames.elementAt(
-            StatesAndCities().stateInitials.indexOf(filterState),
-          );
-    }
-
-    return FirebaseFirestore.instance
-        .collection(newPathToAds)
-        .where(FilterParamsEnum.disappeared.name, isEqualTo: disappeared)
-        .where(FilterParamsEnum.state.name, isEqualTo: filterState)
-        .where(FilterParamsEnum.type.name, isEqualTo: filterType)
-        .snapshots();
-  }
 
   Future<DocumentReference> getReferenceFromPath(
       String path, DocumentSnapshot snapshot, String fieldName) async {

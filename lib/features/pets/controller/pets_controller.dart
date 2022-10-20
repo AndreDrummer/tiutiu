@@ -1,6 +1,5 @@
-import 'package:tiutiu/features/pets/services/pet_service.dart';
+import 'package:tiutiu/features/posts/services/post_service.dart';
 import 'package:tiutiu/core/constants/firebase_env_path.dart';
-
 import 'package:tiutiu/features/chat/common/functions.dart';
 import 'package:tiutiu/features/pets/model/pet_model.dart';
 import 'package:tiutiu/features/system/controllers.dart';
@@ -11,9 +10,9 @@ import 'package:tiutiu/core/utils/ordenators.dart';
 import 'package:get/get.dart';
 
 class PetsController extends GetxController {
-  PetsController(PetService petService) : _petService = petService;
+  PetsController(PostService postService) : _postService = postService;
 
-  PetService _petService;
+  PostService _postService;
 
   final RxString _orderParam = FilterStrings.distance.obs;
   final RxBool _isFilteringByName = false.obs;
@@ -49,7 +48,7 @@ class PetsController extends GetxController {
     _isFilteringByName(isFilteringByName);
     _orderParam(orderParam);
 
-    final petsListStream = _petService.loadPets(
+    final petsListStream = _postService.loadPets(
       filterController.filterParams(
         disappeared: disappeared,
       ),

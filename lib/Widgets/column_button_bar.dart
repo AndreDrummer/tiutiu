@@ -26,7 +26,7 @@ class ColumnButtonBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 96.0.h,
+      height: 104.0.h,
       child: Column(
         children: [
           Padding(
