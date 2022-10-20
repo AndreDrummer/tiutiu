@@ -1,4 +1,5 @@
 import 'package:tiutiu/core/constants/images_assets.dart';
+import 'package:tiutiu/core/utils/asset_handle.dart';
 import 'package:flutter/material.dart';
 
 class Background extends StatelessWidget {
@@ -14,14 +15,9 @@ class Background extends StatelessWidget {
             : ImageAssets.bones
         : image;
     return Container(
-      height: MediaQuery.of(context).size.height,
-      width: MediaQuery.of(context).size.width,
       child: Opacity(
         opacity: dark || image != null ? 0.3 : 0.03,
-        child: Image.asset(
-          urlImage,
-          fit: BoxFit.cover,
-        ),
+        child: AssetHandle.getImage(urlImage, fit: BoxFit.contain),
       ),
     );
   }
