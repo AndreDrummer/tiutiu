@@ -214,6 +214,8 @@ class PostFlowStrings {
   static const String reviewButton = 'Revisar';
   static const String size = 'Tamanho do PET';
   static const String petType = 'Tipo de PET';
+  static const String allDone = 'Tudo pronto!';
+  static const String posting = 'Postando...';
   static const String details = 'Detalhes';
   static const String pictures = 'Fotos';
   static const String videos = 'Videos';

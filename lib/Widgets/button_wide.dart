@@ -9,6 +9,7 @@ import 'package:get/get.dart';
 class ButtonWide extends StatelessWidget {
   ButtonWide({
     this.isToExpand = false,
+    this.isLoading = false,
     this.rounded = true,
     this.textIconColor,
     this.onPressed,
@@ -20,6 +21,7 @@ class ButtonWide extends StatelessWidget {
   final Color? textIconColor;
   final Function? onPressed;
   final bool isToExpand;
+  final bool isLoading;
   final IconData? icon;
   final String? text;
   final Color? color;
@@ -27,8 +29,6 @@ class ButtonWide extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final hasIcon = icon != null;
-
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: ElevatedButton(
@@ -45,31 +45,46 @@ class ButtonWide extends StatelessWidget {
           alignment: Alignment.center,
           height: 48.0.h,
           width: isToExpand ? Get.width : 260.0.w,
-          child: Row(
-            mainAxisAlignment:
-                hasIcon ? MainAxisAlignment.start : MainAxisAlignment.center,
-            children: [
-              Visibility(
-                visible: hasIcon,
-                child: Icon(
-                  color: textIconColor ?? AppColors.white,
-                  size: 20.0.h,
-                  icon,
-                ),
-              ),
-              Spacer(),
-              AutoSizeText(
-                text ?? AppStrings.getStarted,
-                textAlign: TextAlign.center,
-                style: TextStyles.fontSize16(
-                  color: textIconColor ?? AppColors.white,
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
-              Spacer(),
-            ],
+          child: isLoading ? _loadingWidget() : _content(),
+        ),
+      ),
+    );
+  }
+
+  Widget _content() {
+    final hasIcon = icon != null;
+
+    return Row(
+      mainAxisAlignment:
+          hasIcon ? MainAxisAlignment.start : MainAxisAlignment.center,
+      children: [
+        Visibility(
+          visible: hasIcon,
+          child: Icon(
+            color: textIconColor ?? AppColors.white,
+            size: 20.0.h,
+            icon,
           ),
         ),
+        Spacer(),
+        AutoSizeText(
+          text ?? AppStrings.getStarted,
+          textAlign: TextAlign.center,
+          style: TextStyles.fontSize16(
+            color: textIconColor ?? AppColors.white,
+            fontWeight: FontWeight.w700,
+          ),
+        ),
+        Spacer(),
+      ],
+    );
+  }
+
+  Widget _loadingWidget() {
+    return SizedBox(
+      height: 32.0.h,
+      child: CircularProgressIndicator(
+        backgroundColor: AppColors.white,
       ),
     );
   }
