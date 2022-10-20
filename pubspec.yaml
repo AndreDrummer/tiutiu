@@ -24,7 +24,7 @@ dependencies:
   flutter:
     sdk: flutter  
   mask_text_input_formatter: ^2.3.0
-  flutter_facebook_auth: ^4.4.0+1
+  flutter_facebook_auth: ^4.4.1+1
   firebase_dynamic_links: ^4.3.8  
   font_awesome_flutter: ^10.1.0
   flutter_screenutil: ^5.5.3+2
