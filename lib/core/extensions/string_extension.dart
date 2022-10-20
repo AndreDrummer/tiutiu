@@ -1,6 +1,6 @@
 import 'package:tiutiu/core/utils/constantes.dart';
 
-extension StringExtension on String {
+extension TiutiuStringExtension on String {
   String capitalize() {
     String output = '';
     return this

@@ -1,15 +1,18 @@
-import 'package:tiutiu/features/pets/views/announcer_profile.dart';
 import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
+import 'package:tiutiu/features/pets/views/announcer_profile.dart';
+import 'package:tiutiu/core/extensions/string_extension.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:tiutiu/features/pets/model/pet_model.dart';
 import 'package:tiutiu/features/system/controllers.dart';
 import 'package:tiutiu/core/utils/math_functions.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:tiutiu/core/constants/strings.dart';
 import 'package:tiutiu/core/Custom/icons.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'dart:io';
 
 class OtherFunctions {
   static List<String> distanceCalculate(
@@ -46,7 +49,7 @@ class OtherFunctions {
   }
 
   static String firstCharacterUpper(String text) {
-    return text.trim().capitalize!;
+    return TiutiuStringExtension(text.trim()).capitalize();
   }
 
   // static Future<String>? getAddress(provider.Location location) async {
@@ -113,5 +116,75 @@ class OtherFunctions {
     };
 
     return petIconType[type];
+  }
+
+  static Future<String?> getVideoUrlDownload({
+    required String storagePath,
+    required dynamic videoPath,
+  }) async {
+    String? fileDonwloadUrl;
+
+    if (!videoPath.toString().isUrl()) {
+      var urldonwload = await uploadPostFile('$storagePath', videoPath);
+
+      fileDonwloadUrl = urldonwload;
+    } else {
+      fileDonwloadUrl = videoPath;
+    }
+
+    return fileDonwloadUrl;
+  }
+
+  static Future<List<String?>> getImageListUrlDownload({
+    required String storagePathBase,
+    required List imagesPathList,
+  }) async {
+    List<String?> listDonwloadUrl = [];
+
+    for (var imagePath in imagesPathList) {
+      if (!imagePath.toString().isUrl()) {
+        var imageUrlDonwload = await uploadPostFile(
+          '$storagePathBase/image${imagesPathList.indexOf(imagePath)}',
+          imagePath,
+        );
+
+        listDonwloadUrl.add(imageUrlDonwload);
+      } else {
+        listDonwloadUrl.add(imagePath);
+      }
+    }
+
+    return listDonwloadUrl;
+  }
+
+  static Future<String?> uploadPostFile(String storagePath, File file) async {
+    return await _uploadPostFile(
+      storagePath: storagePath,
+      file: file,
+    );
+  }
+
+  static Future<String?> _uploadPostFile({
+    required String storagePath,
+    required File file,
+  }) async {
+    final FirebaseStorage _storage = FirebaseStorage.instance;
+    String? fileName = storagePath.split('/').last;
+    Reference ref = _storage.ref(storagePath);
+    String? fileURL;
+
+    try {
+      var uploadTask = ref.putFile(file);
+      await uploadTask.whenComplete(() {
+        debugPrint('File $fileName Successfully Uploaded');
+      });
+
+      fileURL = await ref.getDownloadURL();
+    } on FirebaseException catch (error) {
+      debugPrint(
+          'Ocorreu um erro ao fazer upload do arquivo $fileName: $error.');
+    }
+
+    return fileURL;
   }
 }
