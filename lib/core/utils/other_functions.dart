@@ -136,7 +136,7 @@ class OtherFunctions {
   }
 
   static Future<List<String?>> getImageListUrlDownload({
-    required String storagePathBase,
+    required String storagePath,
     required List imagesPathList,
   }) async {
     List<String?> listDonwloadUrl = [];
@@ -144,7 +144,7 @@ class OtherFunctions {
     for (var imagePath in imagesPathList) {
       if (!imagePath.toString().isUrl()) {
         var imageUrlDonwload = await uploadPostFile(
-          '$storagePathBase/image${imagesPathList.indexOf(imagePath)}',
+          '$storagePath/image${imagesPathList.indexOf(imagePath)}',
           imagePath,
         );
 

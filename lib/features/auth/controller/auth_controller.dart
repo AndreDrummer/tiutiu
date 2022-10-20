@@ -3,10 +3,10 @@ import 'package:tiutiu/core/local_storage/local_storage_keys.dart';
 import 'package:tiutiu/features/auth/service/auth_service.dart';
 import 'package:tiutiu/core/local_storage/local_storage.dart';
 import 'package:tiutiu/core/constants/images_assets.dart';
+import 'package:tiutiu/features/system/controllers.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
-import 'package:tiutiu/features/system/controllers.dart';
 
 enum AuthKeys {
   password,
