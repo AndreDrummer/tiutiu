@@ -205,8 +205,15 @@ class PostFlowStrings {
   static const String fillAdData = 'Preencher dados do anúncio';
   static const String addMorePictures = 'Adicionar mais fotos';
   static const String postCancelTitle = 'Cancelar postagem?';
+  static const String sendingVideo = 'Enviando o vídeo...';
+  static const String sendingData = 'Enviando dados...';
+  static const String finalizing = 'Finalizando...';
   static const String typeAddress = 'Digite o endereço';
   static const String moreDetails = 'Mais detalhes';
+  static String imageQty(int imagesQty) {
+    return imagesQty > 1 ? 'as fotos...' : 'a foto...';
+  }
+
   static const String removeVideo = 'Remover vídeo';
   static const String picTime = 'Hora das fotos!';
   static const String petsData = 'Dados do PET';

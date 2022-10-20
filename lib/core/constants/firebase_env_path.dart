@@ -9,6 +9,7 @@ class FirebaseEnvPath {
   static const String disappeared = 'Disappeared';
   static const String favorites = 'Favorites';
   static const String adopted = 'Adopted';
+  static const String envString = 'env';
   static const String donate = 'Donate';
   static const String users = 'Users';
 
@@ -23,11 +24,11 @@ enum FileType {
   video,
 }
 
-String get newPathToAds =>
-    '${FirebaseEnvPath.projectName}/env/${FirebaseEnvPath.env}/${FirebaseEnvPath.posts}/${FirebaseEnvPath.posts}';
+String get pathToPosts =>
+    '${FirebaseEnvPath.projectName}/${FirebaseEnvPath.envString}/${FirebaseEnvPath.env}/${FirebaseEnvPath.posts}/${FirebaseEnvPath.posts}';
 
 String get newPathToUser =>
-    '${FirebaseEnvPath.projectName}/env/${FirebaseEnvPath.env}/${FirebaseEnvPath.userss}/${FirebaseEnvPath.userss}';
+    '${FirebaseEnvPath.projectName}/${FirebaseEnvPath.envString}/${FirebaseEnvPath.env}/${FirebaseEnvPath.userss}/${FirebaseEnvPath.userss}';
 
 String userProfileStoragePath(String userId) =>
     '${FirebaseEnvPath.projectName}/${FirebaseEnvPath.env}/${FirebaseEnvPath.userss}/$userId/avatar/profile.png';
