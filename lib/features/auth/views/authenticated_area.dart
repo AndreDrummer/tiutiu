@@ -15,11 +15,12 @@ class AuthenticatedArea extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final authProvider = FirebaseAuthProvider.instance;
     return StreamBuilder<User?>(
-      stream: FirebaseAuthProvider.instance.userStream(),
+      stream: authProvider.userStream(),
       builder: (context, snapshot) {
         final isRegistered = tiutiuUserController.tiutiuUser.uid != null;
-        // FirebaseAuthProvider.instance.signOut();
+        // authProvider.signOut();
         if (isRegistered) {
           return child;
         } else if (snapshot.hasData) {
@@ -29,7 +30,9 @@ class AuthenticatedArea extends StatelessWidget {
           if (isAuthenticated && !isRegistered)
             return EditProfile(isCompletingProfile: true);
         }
-        return AuthHosters();
+        return authProvider.firebaseAuthUser == null
+            ? AuthHosters()
+            : EditProfile();
       },
     );
   }
