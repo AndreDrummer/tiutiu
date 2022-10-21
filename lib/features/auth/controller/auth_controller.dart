@@ -100,12 +100,13 @@ class AuthController extends GetxController {
     return success;
   }
 
-  Future<bool> loginWithFacebook() async {
+  Future<bool> loginWithFacebook({String? token}) async {
     isLoading = true;
-    final bool success = await _authService.loginWithFacebook();
+    final bool success = await _authService.loginWithFacebook(token: token);
 
     if (success) {
       await loadUserData();
+      saveFacebookToken(_authService.facebookToken);
     }
 
     isLoading = false;
@@ -122,12 +123,13 @@ class AuthController extends GetxController {
 
     final hosters = [
       await trySignInWithEmailAndPassword(),
-      await loginWithEmailAndPassword(),
+      await tryLoginWithFacebook(),
     ];
 
-    int count = 1;
-    while (!success && count <= hosters.length) {
+    int count = 0;
+    while (!success && count < hosters.length) {
       success = hosters[count];
+      count++;
     }
 
     return success;
@@ -151,6 +153,18 @@ class AuthController extends GetxController {
     return false;
   }
 
+  Future<bool> tryLoginWithFacebook() async {
+    final facebookToken = await LocalStorage.getValueUnderString(
+      LocalStorageKey.facebookAuthData.name,
+    );
+
+    if (facebookToken != null) {
+      return loginWithFacebook(token: facebookToken);
+    }
+
+    return false;
+  }
+
   void saveEmailAndPasswordAuthData() {
     LocalStorage.setDataUnderKey(
       key: LocalStorageKey.emailPasswordAuthData,
@@ -161,7 +175,16 @@ class AuthController extends GetxController {
     );
   }
 
+  void saveFacebookToken(String? facebookToken) {
+    LocalStorage.setValueUnderString(
+      key: LocalStorageKey.facebookAuthData.name,
+      value: facebookToken,
+    );
+  }
+
   Future<void> loadUserData() async {
+    // TODO: Update creationData and lastSignInTime
+    // _firebaseAuth.currentUser?.metadata.creationTime
     await tiutiuUserController.updateLoggedUserData(
       authController.user!.uid,
     );
