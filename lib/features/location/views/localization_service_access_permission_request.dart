@@ -8,12 +8,22 @@ import 'package:tiutiu/core/constants/strings.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:tiutiu/Widgets/button_wide.dart';
 import 'package:tiutiu/Widgets/background.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 final CurrentLocationController _currentLocationController = Get.find();
 
-class TurnOnLocalizationService extends StatelessWidget {
+class LocalizationServiceAccessPermissionAccess extends StatelessWidget {
+  const LocalizationServiceAccessPermissionAccess({
+    this.localAccessDenied = false,
+    this.gpsIsActive = false,
+    super.key,
+  });
+
+  final bool localAccessDenied;
+  final bool gpsIsActive;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -59,8 +69,33 @@ class TurnOnLocalizationService extends StatelessWidget {
 
   ButtonWide _primaryButton() {
     return ButtonWide(
-      onPressed: _currentLocationController.openDeviceSettings,
-      text: LocalPermissionStrings.turnOnLocalization,
+      onPressed: onPrimaryPressed,
+      text: _getButtonText(),
     );
+  }
+
+  void onPrimaryPressed() {
+    if (localAccessDenied) {
+      _currentLocationController.handleLocationPermission();
+    } else {
+      _currentLocationController.openDeviceSettings();
+    }
+  }
+
+  String _getButtonText() {
+    final currentPermission = _currentLocationController.permission;
+
+    if (!gpsIsActive) {
+      return LocalPermissionStrings.turnOnLocalization;
+    } else {
+      if (localAccessDenied) {
+        if (currentPermission == LocationPermission.deniedForever) {
+          return LocalPermissionStrings.openSettings;
+        } else if (currentPermission == LocationPermission.denied) {
+          return LocalPermissionStrings.grantAcess;
+        }
+      }
+      return LocalPermissionStrings.grantAcess;
+    }
   }
 }

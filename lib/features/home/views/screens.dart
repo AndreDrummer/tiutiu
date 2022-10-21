@@ -11,7 +11,6 @@ import 'package:get/get.dart';
 final screens = <Widget>[
   DonateList(),
   DisappearedList(),
-  // PostFlow(),
   AuthenticatedArea(child: PostFlow()),
   AuthenticatedArea(
     child: Obx(
