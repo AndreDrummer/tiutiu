@@ -1,6 +1,5 @@
-import 'package:tiutiu/features/location/views/request_current_local_acess_permission_view.dart';
 import 'package:tiutiu/features/location/extensions/service_location_status.dart';
-import 'package:tiutiu/features/location/views/turn_on_localization_service.dart';
+import 'package:tiutiu/features/location/views/localization_service_access_permission_request.dart';
 import 'package:tiutiu/features/auth/views/auth_or_home.dart';
 import 'package:tiutiu/features/system/controllers.dart';
 import 'package:tiutiu/Widgets/loading_page.dart';
@@ -26,7 +25,7 @@ class _BootstrapState extends State<AppBootstrap> {
         return Obx(
           () => currentLocationController.gpsStatus.isActive
               ? _RequestPermissionsOrHome()
-              : TurnOnLocalizationService(),
+              : LocalizationServiceAccessPermissionAccess(),
         );
       },
     );
@@ -51,7 +50,9 @@ class _RequestPermissionsOrHome extends StatelessWidget {
             );
 
             if (accessDenied) {
-              return RequestCurrentLocalAccessPermissionView();
+              return LocalizationServiceAccessPermissionAccess(
+                localAccessDenied: accessDenied,
+              );
             } else {
               return AuthOrHome();
             }
