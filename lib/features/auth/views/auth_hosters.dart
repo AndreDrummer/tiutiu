@@ -185,7 +185,10 @@ class AuthHosters extends StatelessWidget with TiuTiuPopUp {
     try {
       await authController.loginWithFacebook().then(
         (success) {
-          if (success) Get.toNamed(Routes.home);
+          if (success) {
+            Get.toNamed(Routes.home);
+            homeController.bottomBarIndex = 0;
+          }
         },
       );
     } catch (exception) {

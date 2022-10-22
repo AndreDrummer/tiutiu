@@ -18,6 +18,7 @@ class AuthOrHome extends StatefulWidget {
 class _AuthOrHomeState extends State<AuthOrHome> {
   @override
   Widget build(BuildContext context) {
+    print('>> Load AuthOrHome');
     return Obx(
       () => Visibility(
         replacement: NoConnection(),
