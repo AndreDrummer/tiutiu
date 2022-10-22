@@ -118,7 +118,7 @@ class PostInfo extends StatelessWidget {
 
   Widget _health() {
     return AnimatedContainer(
-      height: postsController.existChronicDiseaseInfo ? 136.0.h : 64.0.h,
+      height: postsController.existChronicDiseaseInfo ? 136.0.h : 72.0.h,
       margin: EdgeInsets.only(bottom: 8.0.h),
       duration: Duration(milliseconds: 500),
       child: ListView(

@@ -277,11 +277,13 @@ class PostsController extends GetxController {
   }
 
   void previousStepFlow() {
+    _formIsValid(true);
+
     if (flowIndex == 0) {
-      clearForm();
-      homeController.bottomBarIndex = 0;
-    } else
+      Get.back();
+    } else {
       _flowIndex(flowIndex - 1);
+    }
   }
 
   void reviewPost() {

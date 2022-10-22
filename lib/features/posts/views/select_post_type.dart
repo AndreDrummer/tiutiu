@@ -99,8 +99,9 @@ class SelectPostType extends StatelessWidget with TiuTiuPopUp {
               confirmText: AppStrings.yes,
               denyText: AppStrings.no,
               secondaryAction: () {
-                postsController.previousStepFlow();
+                postsController.clearForm();
                 Get.back();
+                homeController.bottomBarIndex = 0;
               },
               danger: true,
             );
