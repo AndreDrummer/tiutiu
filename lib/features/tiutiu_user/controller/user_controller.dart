@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:tiutiu/features/tiutiu_user/services/tiutiu_user_service.dart';
 import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
 import 'package:tiutiu/core/extensions/string_extension.dart';
@@ -52,7 +53,8 @@ class TiutiuUserController extends GetxController {
     var avatarPath = tiutiuUser.avatar;
 
     isLoading = true;
-    if (avatarPath != null && !avatarPath.toString().isAsset()) {
+    if (avatarPath != null && !avatarPath.toString().isUrl()) {
+      debugPrint('>> Atualizando Avatar...');
       var urlAvatar = await _tiutiuUserService.uploadAvatar(
         tiutiuUser.uid ?? authController.user!.uid,
         avatarPath,
@@ -61,24 +63,7 @@ class TiutiuUserController extends GetxController {
       updateTiutiuUser(TiutiuUserEnum.avatar, urlAvatar);
     }
 
-    if (tiutiuUser.uid == null)
-      updateTiutiuUser(
-        TiutiuUserEnum.uid,
-        tiutiuUser.uid ?? authController.user!.uid,
-      );
-
-    if (tiutiuUser.createdAt == null)
-      updateTiutiuUser(
-        TiutiuUserEnum.createdAt,
-        DateTime.now().toIso8601String(),
-      );
-
-    updateTiutiuUser(
-      TiutiuUserEnum.email,
-      authController.user!.email,
-    );
-
-    await _tiutiuUserService.updateUser(userData: tiutiuUser);
+    _tiutiuUserService.updateUser(userData: tiutiuUser);
     isLoading = false;
   }
 

@@ -3,15 +3,16 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 class AuthService {
   FirebaseAuthProvider _firebaseAuthProvider = FirebaseAuthProvider.instance;
-  String? get facebookToken => FirebaseAuthProvider.instance.facebookToken;
   User? get authUser => FirebaseAuthProvider.instance.firebaseAuthUser;
 
   Future<bool> loginWithGoogle({bool autologin = false}) async {
     return await _firebaseAuthProvider.loginWithGoogle(autologin: autologin);
   }
 
-  Future<bool> loginWithFacebook({String? token}) async {
-    return await _firebaseAuthProvider.loginWithFacebook(token: token);
+  Future<bool> loginWithFacebook({bool firstLogin = true}) async {
+    return await _firebaseAuthProvider.loginWithFacebook(
+      firstLogin: firstLogin,
+    );
   }
 
   Future<void> loginWithApple() async {

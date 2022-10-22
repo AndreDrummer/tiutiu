@@ -1,4 +1,5 @@
 import 'package:tiutiu/features/auth/models/email_password_auth.dart';
+import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
 import 'package:tiutiu/core/local_storage/local_storage_keys.dart';
 import 'package:tiutiu/features/auth/service/auth_service.dart';
 import 'package:tiutiu/core/local_storage/local_storage.dart';
@@ -100,13 +101,14 @@ class AuthController extends GetxController {
     return success;
   }
 
-  Future<bool> loginWithFacebook({String? token}) async {
+  Future<bool> loginWithFacebook({bool firstLogin = true}) async {
     isLoading = true;
-    final bool success = await _authService.loginWithFacebook(token: token);
+    final bool success =
+        await _authService.loginWithFacebook(firstLogin: firstLogin);
 
     if (success) {
       await loadUserData();
-      saveFacebookToken(_authService.facebookToken);
+      registerFirstLogin();
     }
 
     isLoading = false;
@@ -119,23 +121,30 @@ class AuthController extends GetxController {
   }
 
   Future<bool> tryAutoLoginIn() async {
-    bool success = false;
+    bool success = user != null;
+    debugPrint('>> trying automatically login...');
 
-    final hosters = [
-      await trySignInWithEmailAndPassword(),
-      await tryLoginWithFacebook(),
-    ];
+    if (user == null) {
+      final hosters = [
+        await trySignInWithEmailAndPassword(),
+        await tryLoginWithFacebook(),
+      ];
 
-    int count = 0;
-    while (!success && count < hosters.length) {
-      success = hosters[count];
-      count++;
+      int count = 0;
+      while (!success && count < hosters.length) {
+        success = hosters[count];
+        count++;
+      }
+    } else {
+      updateUserInfo();
     }
 
+    debugPrint('>> Successfull login? $success');
     return success;
   }
 
   Future<bool> trySignInWithEmailAndPassword() async {
+    debugPrint('>> trying log in using email and password');
     final emailPasswordAuthData = await LocalStorage.getDataUnderKey(
       key: LocalStorageKey.emailPasswordAuthData,
       mapper: EmailAndPasswordAuth(),
@@ -150,18 +159,25 @@ class AuthController extends GetxController {
       return loginWithEmailAndPassword();
     }
 
+    debugPrint('>> trying log in using email and password failed');
     return false;
   }
 
   Future<bool> tryLoginWithFacebook() async {
-    final facebookToken = await LocalStorage.getValueUnderString(
-      LocalStorageKey.facebookAuthData.name,
+    debugPrint('>> trying log in with facebook');
+
+    final firstLogin = await LocalStorage.getBooleanKey(
+      key: LocalStorageKey.facebookAuthData,
+      standardValue: true,
     );
 
-    if (facebookToken != null) {
-      return loginWithFacebook(token: facebookToken);
+    debugPrint('>> First Login? $firstLogin');
+
+    if (!firstLogin) {
+      return loginWithFacebook(firstLogin: firstLogin);
     }
 
+    debugPrint('>> trying log in with facebook failed');
     return false;
   }
 
@@ -175,19 +191,83 @@ class AuthController extends GetxController {
     );
   }
 
-  void saveFacebookToken(String? facebookToken) {
-    LocalStorage.setValueUnderString(
-      key: LocalStorageKey.facebookAuthData.name,
-      value: facebookToken,
+  void registerFirstLogin() {
+    LocalStorage.setBooleanUnderKey(
+      key: LocalStorageKey.facebookAuthData,
+      value: false,
     );
   }
 
   Future<void> loadUserData() async {
-    // TODO: Update creationData and lastSignInTime
-    // _firebaseAuth.currentUser?.metadata.creationTime
     await tiutiuUserController.updateLoggedUserData(
       authController.user!.uid,
     );
+
+    updateUserInfo();
+  }
+
+  Future<void> updateUserInfo() async {
+    final lastSignInTime = _authService.authUser?.metadata.lastSignInTime;
+    final creationTime = _authService.authUser?.metadata.creationTime;
+    final loggedUser = tiutiuUserController.tiutiuUser;
+
+    if (creationTime != null) {
+      debugPrint('>> Atualizando createAt...');
+      tiutiuUserController.updateTiutiuUser(
+        TiutiuUserEnum.createdAt,
+        creationTime.toIso8601String(),
+      );
+    }
+
+    if (lastSignInTime != null) {
+      debugPrint('>> Atualizando lastSeen...');
+      tiutiuUserController.updateTiutiuUser(
+        TiutiuUserEnum.lastLogin,
+        lastSignInTime.toIso8601String(),
+      );
+    }
+
+    if (loggedUser.displayName == null) {
+      debugPrint('>> Atualizando displayName...');
+      tiutiuUserController.updateTiutiuUser(
+        TiutiuUserEnum.displayName,
+        user?.displayName,
+      );
+    }
+
+    if (loggedUser.avatar == null) {
+      debugPrint('>> Atualizando avatar...');
+      tiutiuUserController.updateTiutiuUser(
+        TiutiuUserEnum.avatar,
+        user?.photoURL,
+      );
+    }
+
+    if (loggedUser.phoneNumber == null) {
+      debugPrint('>> Atualizando phoneNumber...');
+      tiutiuUserController.updateTiutiuUser(
+        TiutiuUserEnum.phoneNumber,
+        user?.phoneNumber,
+      );
+    }
+
+    if (loggedUser.uid == null) {
+      debugPrint('>> Atualizando uid...');
+      tiutiuUserController.updateTiutiuUser(
+        TiutiuUserEnum.uid,
+        loggedUser.uid ?? user!.uid,
+      );
+    }
+
+    if (loggedUser.email == null) {
+      debugPrint('>> Atualizando email...');
+      tiutiuUserController.updateTiutiuUser(
+        TiutiuUserEnum.email,
+        authController.user!.email,
+      );
+    }
+
+    await tiutiuUserController.updateUserDataOnServer();
   }
 
   Future<void> signOut() async {
