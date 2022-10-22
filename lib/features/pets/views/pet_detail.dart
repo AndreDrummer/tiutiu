@@ -38,7 +38,7 @@ class _PetDetailsState extends State<PetDetails> {
   @override
   void initState() {
     chewieController =
-        VideoUtils.instance.getChewieController(postsController.post.video);
+        VideoUtils.instance.getChewieController(petsController.pet.video);
     super.initState();
   }
 
@@ -62,7 +62,7 @@ class _PetDetailsState extends State<PetDetails> {
         },
         child: Scaffold(
           body: FutureBuilder<void>(
-              future: postsController.cacheAndGetVideos(),
+              future: postsController.cacheAndGetVideos(pet),
               builder: (_, __) {
                 return Stack(
                   children: [
