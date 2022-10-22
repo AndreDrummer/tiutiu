@@ -184,16 +184,17 @@ class PostFlowStrings {
     required String petGender,
   }) {
     if (petGender == PetDetailsStrings.male)
-      return 'Onde está o $petName';
+      return 'Onde está o $petName?';
     else if (petGender == PetDetailsStrings.female)
-      return 'Onde está a $petName';
-    return 'Onde está o PET';
+      return 'Onde está a $petName?';
+    return 'Onde está o PET?';
   }
 
   static const String otherCaracteristics = 'Outras características (Opcional)';
   static const String describeDiseaseType = 'Descreva qual o tipo de doença';
   static const String insertAtLeastOnePicture = 'Insira pelo menos uma foto';
-  static const String description = 'Descrição e outras caracteristicas';
+  static const String description = 'Outras caracteristicas';
+  static const String selectPetType = 'Selecione o tipo de PET';
   static const String videoSizeExceed =
       'Tamanho máximo do vídeo excedido!\nO vídeo deve ter até 1:30 min';
   static const String postCancelMessage =
@@ -210,7 +211,7 @@ class PostFlowStrings {
   static const String sendingData = 'Enviando dados...';
   static const String finalizing = 'Finalizando...';
   static const String typeAddress = 'Digite o endereço';
-  static const String moreDetails = 'Mais detalhes';
+  static const String moreDetails = 'Mais detalhes e descrição';
   static String imageQty(int imagesQty) {
     return imagesQty > 1 ? 'as fotos...' : 'a foto...';
   }
@@ -218,8 +219,8 @@ class PostFlowStrings {
   static const String removeVideo = 'Remover vídeo';
   static const String picTime = 'Hora das fotos!';
   static const String petsData = 'Dados do PET';
-  static const String petName = 'Nome do PET';
   static const String reviewButton = 'Revisar';
+  static const String petName = 'Nome do PET';
   static const String size = 'Tamanho do PET';
   static const String petType = 'Tipo de PET';
   static const String allDone = 'Tudo pronto!';

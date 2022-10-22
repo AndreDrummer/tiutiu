@@ -39,13 +39,13 @@ class LocationSelecter extends StatelessWidget {
           _stateSelector(),
           _spacer(),
           _citySelector(),
-          _spacer(),
+          SizedBox(height: 16.0.h),
           AnimatedContainer(
             margin: EdgeInsets.symmetric(horizontal: 16.0.w),
             height: fillFullAddress ? 164.0.h : 32.0.h,
             duration: Duration(milliseconds: 500),
             child: ListView(
-              padding: EdgeInsets.zero,
+              physics: NeverScrollableScrollPhysics(),
               children: [
                 _fillFullAddressCheckbox(),
                 _fillFullAddressTextArea()
