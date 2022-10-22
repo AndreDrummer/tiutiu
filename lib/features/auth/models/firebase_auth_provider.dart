@@ -129,6 +129,7 @@ class FirebaseAuthProvider implements AuthProviders {
       OAuthCredential credential;
 
       debugPrint('>> Fisrt Login? $firstLogin');
+
       if (firstLogin) {
         final LoginResult result = await _facebookSignIn.login();
 
@@ -145,6 +146,7 @@ class FirebaseAuthProvider implements AuthProviders {
         }
       } else {
         final accessToken = await _facebookSignIn.accessToken;
+
         if (accessToken?.token != null) {
           credential = FacebookAuthProvider.credential(accessToken!.token);
           debugPrint('>> Facebook Credential $credential');

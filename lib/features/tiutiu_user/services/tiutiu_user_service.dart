@@ -19,7 +19,9 @@ class TiutiuUserService {
     DocumentSnapshot userSnaphsot =
         await _firestore.collection(newPathToUser).doc(id).get();
 
-    return TiutiuUser.fromMap(userSnaphsot.data() as Map<String, dynamic>);
+    if (userSnaphsot.data() != null)
+      return TiutiuUser.fromMap(userSnaphsot.data() as Map<String, dynamic>);
+    return TiutiuUser();
   }
 
   Future<TiutiuUser> getUserByReference(DocumentReference userReference) async {
