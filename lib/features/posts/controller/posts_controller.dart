@@ -85,20 +85,20 @@ class PostsController extends GetxController {
     return await VideoCacheManager.getCachedVideoIfExists(fileName);
   }
 
-  Future<void> _cacheVideo() async {
-    final videoPath = post.video;
-    var fileName = '${post.uid}-$videoPath';
+  Future<void> _cacheVideo(Pet pet) async {
+    final videoPath = pet.video;
+    var fileName = '${pet.uid}-$videoPath';
     debugPrint('>>Cache _cacheVideo');
     await VideoCacheManager.save(videoPath, fileName);
   }
 
-  Future<void> _saveVideosOnCache() async {
-    final videoPath = post.video;
-    var fileName = '${post.uid}-$videoPath';
+  Future<void> _saveVideosOnCache(Pet pet) async {
+    final videoPath = pet.video;
+    var fileName = '${pet.uid}-$videoPath';
 
     final value = await LocalStorage.getValueUnderString(fileName);
     debugPrint('>>Cache _saveVideosOnCache');
-    if (value == null) _cacheVideo();
+    if (value == null) _cacheVideo(pet);
   }
 
   Future<void> _getVideosOnCache() async {
@@ -109,10 +109,10 @@ class PostsController extends GetxController {
     currentVideosCachedList.add(cachedVideo);
   }
 
-  Future<void> cacheAndGetVideos() async {
+  Future<void> cacheAndGetVideos(Pet pet) async {
     debugPrint('>>Cache cacheAndGetVideos');
     if (!isInReviewMode) {
-      await _saveVideosOnCache();
+      await _saveVideosOnCache(pet);
       await _getVideosOnCache();
     }
   }
