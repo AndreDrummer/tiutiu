@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:tiutiu/features/auth/widgets/image_carousel_background.dart';
 import 'package:tiutiu/features/auth/widgets/dark_over.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -60,7 +58,6 @@ class StartScreen extends StatelessWidget {
                       text: AppStrings.getStarted,
                       color: AppColors.primary,
                       onPressed: () {
-                        homeController.showAuthHostersInFullScreen = true;
                         if (authController.userExists)
                           Get.toNamed(Routes.authOrHome);
                         Get.toNamed(Routes.authHosters);
@@ -72,8 +69,8 @@ class StartScreen extends StatelessWidget {
             ),
           ),
           Positioned(
-            top: Platform.isIOS ? 32.0.h : 16.0.h,
             right: 8.0.w,
+            top: 32.0.h,
             left: 8.0.w,
             child: SizedBox(
               width: Get.width,
