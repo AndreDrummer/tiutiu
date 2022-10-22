@@ -33,6 +33,14 @@ class EditProfile extends StatefulWidget {
 class _EditProfileState extends State<EditProfile> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
+  late TiutiuUser previousUser;
+
+  @override
+  void initState() {
+    previousUser = tiutiuUserController.tiutiuUser;
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     final title = widget.isEditingProfile
@@ -238,6 +246,7 @@ class _EditProfileState extends State<EditProfile> {
           }
         },
         onSecondaryPressed: () {
+          tiutiuUserController.resetUserWithThisUser(user: previousUser);
           profileController.isSetting = false;
         },
       ),

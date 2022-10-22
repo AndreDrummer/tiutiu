@@ -1,5 +1,6 @@
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:tiutiu/Widgets/load_dark_screen.dart';
 import 'package:tiutiu/features/auth/widgets/headline.dart';
 import 'package:tiutiu/core/utils/routes/routes_name.dart';
 import 'package:tiutiu/features/system/controllers.dart';
@@ -37,7 +38,8 @@ class AuthHosters extends StatelessWidget with TiuTiuPopUp {
                 _continueAnonButton()
               ],
             ),
-          )
+          ),
+          _loadingWidget(),
         ],
       ),
     );
@@ -78,11 +80,11 @@ class AuthHosters extends StatelessWidget with TiuTiuPopUp {
   Positioned _appLogo() {
     return Positioned(
       left: Get.width * .7,
-      right: 8.0.w,
+      right: 10.0.w,
       top: 40.0.h,
       child: SizedBox(
+        child: TiutiuLogo(),
         width: Get.width,
-        child: TiutiuLogo(color: AppColors.primary),
       ),
     );
   }
@@ -153,9 +155,17 @@ class AuthHosters extends StatelessWidget with TiuTiuPopUp {
         maxFontSize: 18.0,
       ),
       onPressed: () {
-        Get.toNamed(Routes.home);
-        homeController.bottomBarIndex = 0;
+        goToHome();
       },
+    );
+  }
+
+  Widget _loadingWidget() {
+    return Obx(
+      () => LoadDarkScreen(
+        message: AuthStrings.loginInProgress,
+        visible: authController.isLoading,
+      ),
     );
   }
 
@@ -185,10 +195,7 @@ class AuthHosters extends StatelessWidget with TiuTiuPopUp {
     try {
       await authController.loginWithFacebook().then(
         (success) {
-          if (success) {
-            Get.toNamed(Routes.home);
-            homeController.bottomBarIndex = 0;
-          }
+          if (success) goToHome();
         },
       );
     } catch (exception) {
@@ -199,5 +206,13 @@ class AuthHosters extends StatelessWidget with TiuTiuPopUp {
         danger: true,
       );
     }
+  }
+
+  void goToHome() {
+    final bottomIndex = homeController.bottomBarIndex;
+    debugPrint('>> Bottom Index == 0? ${bottomIndex == 0}');
+
+    if (bottomIndex == 0) Get.offAndToNamed(Routes.home);
+    homeController.bottomBarIndex = 0;
   }
 }

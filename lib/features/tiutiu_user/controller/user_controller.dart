@@ -54,7 +54,7 @@ class TiutiuUserController extends GetxController {
 
     isLoading = true;
     if (avatarPath != null && !avatarPath.toString().isUrl()) {
-      debugPrint('>> Atualizando Avatar...');
+      debugPrint('>> Updating Avatar...');
       var urlAvatar = await _tiutiuUserService.uploadAvatar(
         tiutiuUser.uid ?? authController.user!.uid,
         avatarPath,
@@ -71,7 +71,7 @@ class TiutiuUserController extends GetxController {
     _tiutiuUser(await getUserById(userId));
   }
 
-  void resetUserData() {
-    _tiutiuUser(TiutiuUser());
+  void resetUserWithThisUser({TiutiuUser? user}) {
+    _tiutiuUser(user ?? TiutiuUser());
   }
 }
