@@ -170,7 +170,7 @@ class _AppSettingsState extends State<AppSettings> {
             .getDownloadURL()
             .then((urlDownload) async {
           photoURL = await urlDownload;
-          print('URL DOWNLOAD $urlDownload');
+          debugPrint('URL DOWNLOAD $urlDownload');
         });
       });
     }
@@ -187,7 +187,7 @@ class _AppSettingsState extends State<AppSettings> {
       await uploadTask.then((_) async {
         await storageReferenceback.getDownloadURL().then((urlDownload) async {
           photoBACK = await urlDownload;
-          print('URL DOWNLOAD $urlDownload');
+          debugPrint('URL DOWNLOAD $urlDownload');
         });
       });
     }

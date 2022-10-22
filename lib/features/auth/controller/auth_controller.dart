@@ -103,8 +103,10 @@ class AuthController extends GetxController {
 
   Future<bool> loginWithFacebook({bool firstLogin = true}) async {
     isLoading = true;
-    final bool success =
-        await _authService.loginWithFacebook(firstLogin: firstLogin);
+
+    final bool success = await _authService.loginWithFacebook(
+      firstLogin: firstLogin,
+    );
 
     if (success) {
       await loadUserData();
@@ -136,7 +138,7 @@ class AuthController extends GetxController {
         count++;
       }
     } else {
-      updateUserInfo();
+      loadUserData();
     }
 
     debugPrint('>> Successfull login? $success');
@@ -212,7 +214,7 @@ class AuthController extends GetxController {
     final loggedUser = tiutiuUserController.tiutiuUser;
 
     if (creationTime != null) {
-      debugPrint('>> Atualizando createAt...');
+      debugPrint('>> Updating createAt...');
       tiutiuUserController.updateTiutiuUser(
         TiutiuUserEnum.createdAt,
         creationTime.toIso8601String(),
@@ -220,7 +222,7 @@ class AuthController extends GetxController {
     }
 
     if (lastSignInTime != null) {
-      debugPrint('>> Atualizando lastSeen...');
+      debugPrint('>> Updating lastSeen...');
       tiutiuUserController.updateTiutiuUser(
         TiutiuUserEnum.lastLogin,
         lastSignInTime.toIso8601String(),
@@ -228,7 +230,7 @@ class AuthController extends GetxController {
     }
 
     if (loggedUser.displayName == null) {
-      debugPrint('>> Atualizando displayName...');
+      debugPrint('>> Updating displayName...');
       tiutiuUserController.updateTiutiuUser(
         TiutiuUserEnum.displayName,
         user?.displayName,
@@ -236,7 +238,7 @@ class AuthController extends GetxController {
     }
 
     if (loggedUser.avatar == null) {
-      debugPrint('>> Atualizando avatar...');
+      debugPrint('>> Updating avatar...');
       tiutiuUserController.updateTiutiuUser(
         TiutiuUserEnum.avatar,
         user?.photoURL,
@@ -244,7 +246,7 @@ class AuthController extends GetxController {
     }
 
     if (loggedUser.phoneNumber == null) {
-      debugPrint('>> Atualizando phoneNumber...');
+      debugPrint('>> Updating phoneNumber...');
       tiutiuUserController.updateTiutiuUser(
         TiutiuUserEnum.phoneNumber,
         user?.phoneNumber,
@@ -252,7 +254,7 @@ class AuthController extends GetxController {
     }
 
     if (loggedUser.uid == null) {
-      debugPrint('>> Atualizando uid...');
+      debugPrint('>> Updating uid...');
       tiutiuUserController.updateTiutiuUser(
         TiutiuUserEnum.uid,
         loggedUser.uid ?? user!.uid,
@@ -260,7 +262,7 @@ class AuthController extends GetxController {
     }
 
     if (loggedUser.email == null) {
-      debugPrint('>> Atualizando email...');
+      debugPrint('>> Updating email...');
       tiutiuUserController.updateTiutiuUser(
         TiutiuUserEnum.email,
         authController.user!.email,
@@ -271,15 +273,18 @@ class AuthController extends GetxController {
   }
 
   Future<void> signOut() async {
+    debugPrint('>> Login out...');
     await _authService.logOut();
+    debugPrint('>> User ${_authService.authUser}');
     clearAllAuthData();
     clearEmailAndPassword();
+    debugPrint('>> Cleaning cache...');
     homeController.bottomBarIndex = 0;
-    print('Deslogado!');
+    debugPrint('>> Logout done!');
   }
 
   void clearAllAuthData() {
-    tiutiuUserController.resetUserData();
+    tiutiuUserController.resetUserWithThisUser();
     LocalStorageKey.values.forEach((key) {
       if (key != LocalStorageKey.firstOpen)
         LocalStorage.deleteDataUnderKey(key);

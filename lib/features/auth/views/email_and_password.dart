@@ -60,12 +60,7 @@ class EmailAndPassword extends StatelessWidget with TiuTiuPopUp {
                 ),
               ),
             ),
-            LoadDarkScreen(
-              message: authController.isCreatingNewAccount
-                  ? AuthStrings.registeringUser
-                  : AuthStrings.loginInProgress,
-              visible: authController.isLoading,
-            )
+            _loadingWidget()
           ],
         ),
       ),
@@ -232,6 +227,17 @@ class EmailAndPassword extends StatelessWidget with TiuTiuPopUp {
           authController.clearEmailAndPassword();
           Get.back();
         },
+      ),
+    );
+  }
+
+  Widget _loadingWidget() {
+    return Obx(
+      () => LoadDarkScreen(
+        message: authController.isCreatingNewAccount
+            ? AuthStrings.registeringUser
+            : AuthStrings.loginInProgress,
+        visible: authController.isLoading,
       ),
     );
   }
