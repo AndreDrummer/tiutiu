@@ -60,7 +60,7 @@ class CardAd extends StatelessWidget {
               child: Row(
                 children: [
                   Container(
-                    width: Get.width * .92,
+                    width: Get.width * .90,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
