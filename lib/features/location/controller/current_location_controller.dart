@@ -98,8 +98,6 @@ class CurrentLocationController extends GetxController {
       );
 
       currentPlacemark = placemarkList.first;
-
-      print(currentLocation);
     }
   }
 }

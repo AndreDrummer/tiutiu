@@ -1,9 +1,9 @@
-import 'package:tiutiu/core/mixins/tiu_tiu_pop_up.dart';
 import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
 import 'package:tiutiu/core/widgets/default_basic_app_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/constants/images_assets.dart';
 import 'package:tiutiu/features/system/controllers.dart';
+import 'package:tiutiu/core/mixins/tiu_tiu_pop_up.dart';
 import 'package:tiutiu/core/constants/text_styles.dart';
 import 'package:tiutiu/Widgets/my_account_card.dart';
 import 'package:auto_size_text/auto_size_text.dart';
@@ -22,11 +22,13 @@ class Profile extends StatelessWidget with TiuTiuPopUp {
 
   @override
   Widget build(BuildContext context) {
+    bool _itsMe = _user.uid == tiutiuUserController.tiutiuUser.uid;
+
     return SafeArea(
       child: Scaffold(
         appBar: DefaultBasicAppBar(
           automaticallyImplyLeading: true,
-          text: _user.displayName ?? '',
+          text: _itsMe ? MyProfileStrings.myProfile : _user.displayName ?? '',
         ),
         body: Container(
           margin: EdgeInsets.only(
@@ -133,10 +135,13 @@ class Profile extends StatelessWidget with TiuTiuPopUp {
   }
 
   Widget _userName() {
-    return AutoSizeText(
-      '${_user.displayName}',
-      style: TextStyles.fontSize24(
-        fontWeight: FontWeight.w700,
+    return Container(
+      width: 200.0.w,
+      child: AutoSizeText(
+        '${_user.displayName}',
+        style: TextStyles.fontSize24(
+          fontWeight: FontWeight.w700,
+        ),
       ),
     );
   }

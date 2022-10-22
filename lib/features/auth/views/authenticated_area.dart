@@ -20,19 +20,22 @@ class AuthenticatedArea extends StatelessWidget {
       stream: authProvider.userStream(),
       builder: (context, snapshot) {
         final isRegistered = tiutiuUserController.tiutiuUser.uid != null;
-        // authProvider.signOut();
+
+        debugPrint('>> Is registered? $isRegistered');
+
         if (isRegistered) {
           return child;
         } else if (snapshot.hasData) {
           final user = snapshot.requireData;
           final isAuthenticated = user != null;
 
+          debugPrint('>> Is authenticated? $isAuthenticated');
+
           if (isAuthenticated && !isRegistered)
             return EditProfile(isCompletingProfile: true);
         }
-        return authProvider.firebaseAuthUser == null
-            ? AuthHosters()
-            : EditProfile();
+
+        return authProvider.firebaseAuthUser == null ? AuthHosters() : child;
       },
     );
   }
