@@ -1,4 +1,3 @@
-import 'package:tiutiu/Widgets/badge.dart';
 import 'package:tiutiu/features/home/controller/home_controller.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -7,6 +6,7 @@ import 'package:tiutiu/Widgets/input_close_button.dart';
 import 'package:tiutiu/core/constants/text_styles.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/core/constants/strings.dart';
+import 'package:tiutiu/Widgets/badge.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
