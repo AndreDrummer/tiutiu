@@ -118,7 +118,7 @@ class PostInfo extends StatelessWidget {
 
   Widget _health() {
     return AnimatedContainer(
-      height: postsController.existChronicDiseaseInfo ? 136.0.h : 72.0.h,
+      height: postsController.existChronicDisease ? 136.0.h : 72.0.h,
       margin: EdgeInsets.only(bottom: 8.0.h),
       duration: Duration(milliseconds: 500),
       child: ListView(
@@ -143,7 +143,7 @@ class PostInfo extends StatelessWidget {
 
   Visibility _chronicDiseaseInfo() {
     return Visibility(
-      visible: postsController.existChronicDiseaseInfo,
+      visible: postsController.existChronicDisease,
       child: Container(
         margin: EdgeInsets.symmetric(vertical: 16.0.h),
         child: Column(
@@ -164,7 +164,7 @@ class PostInfo extends StatelessWidget {
                     );
                   },
                   initialValue: postsController.post.chronicDiseaseInfo,
-                  validator: postsController.existChronicDiseaseInfo
+                  validator: postsController.existChronicDisease
                       ? Validators.verifyEmpty
                       : null,
                   labelText: PostFlowStrings.describeDiseaseType,

@@ -10,23 +10,23 @@ class PostFormValidator {
 
   final Pet _pet;
 
-  bool isStep1Valid() {
+  bool isStep1Valid(existChronicDiseaseInfo) {
     bool isValid = nameKeyForm.currentState!.validate() &&
         _pet.type.isNotEmptyNeighterNull() &&
         _pet.size.isNotEmptyNeighterNull();
 
+    if (existChronicDiseaseInfo) {
+      isValid = isValid && diaseaseForm.currentState!.validate();
+    }
+
     return isValid;
   }
 
-  bool isStep2Valid(existChronicDiseaseInfo) {
+  bool isStep2Valid() {
     bool isValid = _pet.breed.isNotEmptyNeighterNull() &&
         _pet.color.isNotEmptyNeighterNull() &&
         _pet.health.isNotEmptyNeighterNull() &&
         _pet.gender.isNotEmptyNeighterNull();
-
-    if (existChronicDiseaseInfo) {
-      isValid = isValid && diaseaseForm.currentState!.validate();
-    }
 
     return isValid;
   }

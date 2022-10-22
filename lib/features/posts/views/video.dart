@@ -11,7 +11,6 @@ import 'package:tiutiu/Widgets/one_line_text.dart';
 import 'package:video_player/video_player.dart';
 import 'package:tiutiu/core/utils/pickers.dart';
 import 'package:flutter/material.dart';
-import 'package:chewie/chewie.dart';
 import 'package:get/get.dart';
 import 'dart:io';
 
@@ -26,7 +25,6 @@ class Video extends StatefulWidget with Pickers {
 
 class _VideoState extends State<Video> {
   VideoPlayerController? videoPlayerController;
-  ChewieController? chewieController;
 
   @override
   void initState() {
@@ -37,19 +35,21 @@ class _VideoState extends State<Video> {
   @override
   void dispose() {
     videoPlayerController?.dispose();
-    chewieController?.dispose();
     super.dispose();
   }
 
   void initializeChewiwController() {
-    if (postsController.post.video != null)
-      chewieController = VideoUtils.instance.getChewieController(
+    if (postsController.post.video != null) {
+      postsController.chewieController =
+          VideoUtils.instance.getChewieController(
         postsController.post.video,
       );
+    }
   }
 
   @override
   Widget build(BuildContext context) {
+    print(postsController.flowIndex);
     return Column(
       children: [
         Spacer(),
@@ -111,13 +111,12 @@ class _VideoState extends State<Video> {
   }
 
   Widget _playVideo() {
-    if (chewieController == null) {
-      initializeChewiwController();
-    }
+    initializeChewiwController();
 
     return TiuTiuVideoPlayer(
+      chewieController: postsController.chewieController!,
       aspectRatio: Get.width / (Get.height / 3),
-      chewieController: chewieController!,
+      isInReviewMode: true,
     );
   }
 
@@ -145,7 +144,7 @@ class _VideoState extends State<Video> {
           elementsColor: AppColors.danger,
           icon: Icons.remove,
           onPressed: () {
-            chewieController!.videoPlayerController.pause();
+            postsController.disposeVideoController();
             postsController.updatePet(PetEnum.video, null);
           },
         );
