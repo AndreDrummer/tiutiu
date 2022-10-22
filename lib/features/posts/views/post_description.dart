@@ -11,7 +11,7 @@ import 'package:tiutiu/core/data/dummy_data.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class PostDetails extends StatelessWidget {
+class PostDescription extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Obx(

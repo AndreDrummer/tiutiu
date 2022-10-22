@@ -111,7 +111,7 @@ class Images extends StatelessWidget with Pickers {
           postsController.increasePhotosQty();
           _picturesListController.animateTo(
             (Get.width * postsController.postPhotoFrameQty) * .8,
-            duration: Duration(milliseconds: 500),
+            duration: Duration(milliseconds: 250),
             curve: Curves.ease,
           );
         },
