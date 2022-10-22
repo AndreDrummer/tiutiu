@@ -186,7 +186,7 @@ class _RegisterState extends State<Register> {
     await uploadTask.then((_) async {
       await storageReference.getDownloadURL().then((urlDownload) async {
         photoURL = await urlDownload;
-        print('URL DOWNLOAD $urlDownload');
+        debugPrint('URL DOWNLOAD $urlDownload');
       });
     });
 

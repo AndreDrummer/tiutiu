@@ -6,6 +6,7 @@ import 'package:tiutiu/features/pets/model/pet_model.dart';
 import 'package:tiutiu/core/utils/routes/routes_name.dart';
 import 'package:tiutiu/features/system/controllers.dart';
 import 'package:tiutiu/core/constants/strings.dart';
+import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 
 const int _FLOW_STEPS_QTY = 8;
@@ -62,7 +63,7 @@ class PostsController extends GetxController {
       _insertLatLng(postMap);
     }
 
-    print('>> $postMap');
+    debugPrint('>> $postMap');
 
     _post(Pet.fromMap(postMap));
   }
@@ -131,14 +132,14 @@ class PostsController extends GetxController {
   Future<void> _cacheVideo() async {
     final videoPath = post.video;
     var fileName = '${post.uid}-$videoPath';
-    print('>>Cache _cacheVideo');
+    debugPrint('>>Cache _cacheVideo');
     await VideoCacheManager.save(videoPath, fileName);
   }
 
   Future<String> _getCachedVideo() async {
     final videoPath = post.video;
     var fileName = '${post.uid}-$videoPath';
-    print('>>Cache _getCachedVideo');
+    debugPrint('>>Cache _getCachedVideo');
     return await VideoCacheManager.getCachedVideoIfExists(fileName);
   }
 
@@ -147,20 +148,20 @@ class PostsController extends GetxController {
     var fileName = '${post.uid}-$videoPath';
 
     final value = await LocalStorage.getValueUnderString(fileName);
-    print('>>Cache _saveVideosOnCache');
+    debugPrint('>>Cache _saveVideosOnCache');
     if (value == null) _cacheVideo();
   }
 
   Future<void> _getVideosOnCache() async {
     final currentVideosCachedList = [];
     currentVideosCachedList.addAll(_cachedVideos);
-    print('>>Cache _getVideosOnCache');
+    debugPrint('>>Cache _getVideosOnCache');
     final cachedVideo = await _getCachedVideo();
     currentVideosCachedList.add(cachedVideo);
   }
 
   Future<void> cacheAndGetVideos() async {
-    print('>>Cache cacheAndGetVideos');
+    debugPrint('>>Cache cacheAndGetVideos');
     if (!isInReviewMode) {
       await _saveVideosOnCache();
       await _getVideosOnCache();
