@@ -27,8 +27,8 @@ class _VideoFullScreenState extends State<VideoFullScreen> {
     ]);
   }
 
-  void setPortraitUp() {
-    SystemChrome.setPreferredOrientations([
+  Future<void> setPortraitUp() async {
+    await SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
     ]);
 
@@ -45,7 +45,7 @@ class _VideoFullScreenState extends State<VideoFullScreen> {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-        setPortraitUp();
+        await setPortraitUp();
         return true;
       },
       child: Scaffold(
@@ -60,8 +60,7 @@ class _VideoFullScreenState extends State<VideoFullScreen> {
               child: EnterExitFullScreenButton(
                 isFullscreen: true,
                 onOpenFullscreen: () {
-                  setPortraitUp();
-                  Navigator.of(context).pop();
+                  setPortraitUp().then((value) => Navigator.of(context).pop());
                 },
               ),
             ),
