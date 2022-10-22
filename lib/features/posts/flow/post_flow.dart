@@ -112,7 +112,6 @@ class PostFlow extends StatelessWidget with TiuTiuPopUp {
                       postsController.reviewPost();
                     } else if (postsController.lastStep()) {
                       postsController.isLoading = true;
-                      print('Ultima');
                     } else {
                       postsController.nextStepFlow();
                     }
