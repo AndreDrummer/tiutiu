@@ -1,5 +1,4 @@
-import 'package:tiutiu/Widgets/load_dark_screen.dart';
-import 'package:tiutiu/features/posts/views/post_description.dart';
+import 'package:tiutiu/features/posts/views/post_caracteristics.dart';
 import 'package:tiutiu/features/posts/views/post_location.dart';
 import 'package:tiutiu/features/posts/views/post_details.dart';
 import 'package:tiutiu/features/posts/views/review_post.dart';
@@ -8,11 +7,12 @@ import 'package:tiutiu/features/posts/widgets/stepper.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/features/posts/views/images.dart';
 import 'package:tiutiu/features/system/controllers.dart';
-import 'package:tiutiu/features/posts/views/video.dart';
 import 'package:tiutiu/core/mixins/tiu_tiu_pop_up.dart';
+import 'package:tiutiu/features/posts/views/video.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
-import 'package:tiutiu/Widgets/row_button_bar.dart';
+import 'package:tiutiu/Widgets/load_dark_screen.dart';
 import 'package:tiutiu/core/constants/strings.dart';
+import 'package:tiutiu/Widgets/row_button_bar.dart';
 import 'package:tiutiu/Widgets/one_line_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -43,12 +43,13 @@ class PostFlow extends StatelessWidget with TiuTiuPopUp {
         return Stack(
           children: [
             Scaffold(
-              resizeToAvoidBottomInset: postsController.flowIndex == 3,
+              resizeToAvoidBottomInset: true,
               body: SizedBox(
                 height:
                     postsController.flowIndex >= 6 ? Get.height / 1.4 : null,
                 child: Column(
                   children: [
+                    SizedBox(height: 24.0.h),
                     Obx(() {
                       return Steper(
                         currentStep: postsController.flowIndex,
@@ -93,8 +94,11 @@ class PostFlow extends StatelessWidget with TiuTiuPopUp {
                     _divider(),
                     Obx(
                       () => Expanded(
-                        child: _stepsScreens.elementAt(
-                          postsController.flowIndex,
+                        child: Padding(
+                          padding: EdgeInsets.only(right: 4.0.w),
+                          child: _stepsScreens.elementAt(
+                            postsController.flowIndex,
+                          ),
                         ),
                       ),
                     ),
@@ -102,51 +106,36 @@ class PostFlow extends StatelessWidget with TiuTiuPopUp {
                 ),
               ),
               bottomNavigationBar: Obx(
-                () => RowButtonBar(
-                  isLoading: postsController.isLoading,
-                  buttonSecondaryColor: postsController.flowIndex < 1
-                      ? AppColors.danger
-                      : Colors.grey,
-                  onPrimaryPressed: () {
-                    if (postsController.isInStepReview()) {
-                      postsController.reviewPost();
-                    } else if (postsController.lastStep()) {
-                      postsController.isLoading = true;
-                    } else {
-                      postsController.nextStepFlow();
-                    }
-                  },
-                  onSecondaryPressed: () {
-                    final showQuestion =
-                        !postsController.formIsInInitialState &&
-                            postsController.flowIndex < 1;
+                () {
+                  return RowButtonBar(
+                    isLoading: postsController.isLoading,
+                    buttonSecondaryColor: Colors.grey,
+                    onPrimaryPressed: () {
+                      if (postsController.isInStepReview()) {
+                        postsController.reviewPost();
+                      } else if (postsController.lastStep()) {
+                        postsController.isLoading = true;
+                      } else {
+                        postsController.nextStepFlow();
+                      }
+                    },
+                    onSecondaryPressed: () {
+                      final firstStep = postsController.firstStep();
 
-                    if (showQuestion) {
-                      showPopUp(
-                        message: PostFlowStrings.postCancelMessage,
-                        title: PostFlowStrings.postCancelTitle,
-                        mainAction: () => Get.back(),
-                        confirmText: AppStrings.yes,
-                        denyText: AppStrings.no,
-                        secondaryAction: () {
-                          Get.back();
-                          postsController.previousStepFlow();
-                        },
-                        danger: true,
-                      );
-                    } else {
-                      postsController.previousStepFlow();
-                    }
-                  },
-                  textPrimary: postsController.isInStepReview()
-                      ? PostFlowStrings.reviewButton
-                      : postsController.lastStep()
-                          ? PostFlowStrings.post
-                          : AppStrings.contines,
-                  textSecond: postsController.flowIndex < 1
-                      ? AppStrings.cancel
-                      : AppStrings.back,
-                ),
+                      if (firstStep) {
+                        Get.back();
+                      } else {
+                        postsController.previousStepFlow();
+                      }
+                    },
+                    textPrimary: postsController.isInStepReview()
+                        ? PostFlowStrings.reviewButton
+                        : postsController.lastStep()
+                            ? PostFlowStrings.post
+                            : AppStrings.contines,
+                    textSecond: AppStrings.back,
+                  );
+                },
               ),
             ),
             LoadDarkScreen(
@@ -175,7 +164,7 @@ final _stepsNames = [
 List<Widget> _stepsScreens = [
   PostInfo(),
   PostDetails(),
-  PostDescription(),
+  PostCaracteristics(),
   PostLocation(),
   Images(),
   Video(),

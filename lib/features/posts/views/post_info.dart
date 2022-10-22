@@ -1,4 +1,5 @@
 import 'package:tiutiu/features/posts/validators/form_validators.dart';
+import 'package:tiutiu/features/posts/widgets/text_area.dart';
 import 'package:tiutiu/core/extensions/string_extension.dart';
 import 'package:tiutiu/Widgets/underline_input_dropdown.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -16,25 +17,19 @@ import 'package:get/get.dart';
 class PostInfo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final petTypeList = [
-      '-',
-      PetTypeStrings.dog,
-      PetTypeStrings.cat,
-      PetTypeStrings.bird,
-      PetTypeStrings.exotic,
-    ];
-
     final monthsList = List<String>.generate(13, (index) => '$index');
     final yearsList = List.generate(22, (index) => '$index');
 
     return Obx(
       () => ListView(
         children: [
-          SizedBox(height: 8.0.h),
           _petName(),
+          SizedBox(height: 8.0.h),
           _petAge(yearsList, monthsList),
-          _petType(petTypeList),
+          SizedBox(height: 8.0.h),
           _petSize(),
+          SizedBox(height: 40.0.h),
+          _health(),
         ],
       ),
     );
@@ -104,23 +99,6 @@ class PostInfo extends StatelessWidget {
     );
   }
 
-  Padding _petType(List<String> petType) {
-    return Padding(
-      padding: EdgeInsets.only(top: 24.0.h),
-      child: UnderlineInputDropdown(
-        isInErrorState: !postsController.post.type.isNotEmptyNeighterNull() &&
-            !postsController.formIsValid,
-        initialValue: postsController.post.type,
-        onChanged: (type) {
-          postsController.updatePet(PetEnum.type, type);
-        },
-        labelText: PostFlowStrings.petType,
-        fontSize: 14.0.sp,
-        items: petType,
-      ),
-    );
-  }
-
   Padding _petSize() {
     return Padding(
       padding: EdgeInsets.only(top: 32.0.h),
@@ -134,6 +112,67 @@ class PostInfo extends StatelessWidget {
         labelText: PostFlowStrings.size,
         items: DummyData.size,
         fontSize: 14.0.sp,
+      ),
+    );
+  }
+
+  Widget _health() {
+    return AnimatedContainer(
+      height: postsController.existChronicDiseaseInfo ? 136.0.h : 64.0.h,
+      margin: EdgeInsets.only(bottom: 8.0.h),
+      duration: Duration(milliseconds: 500),
+      child: ListView(
+        children: [
+          UnderlineInputDropdown(
+            isInErrorState:
+                !postsController.post.health.isNotEmptyNeighterNull() &&
+                    !postsController.formIsValid,
+            initialValue: postsController.post.health.toString(),
+            onChanged: (health) {
+              postsController.updatePet(PetEnum.health, health);
+            },
+            labelText: PetDetailsStrings.health,
+            items: DummyData.health,
+            fontSize: 14.0.sp,
+          ),
+          _chronicDiseaseInfo(),
+        ],
+      ),
+    );
+  }
+
+  Visibility _chronicDiseaseInfo() {
+    return Visibility(
+      visible: postsController.existChronicDiseaseInfo,
+      child: Container(
+        margin: EdgeInsets.symmetric(vertical: 16.0.h),
+        child: Column(
+          children: [
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 8.0.w),
+              child: Form(
+                key: diaseaseForm,
+                child: TextArea(
+                  isInErrorState: !postsController.post.chronicDiseaseInfo
+                          .isNotEmptyNeighterNull() &&
+                      !postsController.formIsValid,
+                  maxLines: 1,
+                  onChanged: (chronicDiseaseInfo) {
+                    postsController.updatePet(
+                      PetEnum.chronicDiseaseInfo,
+                      chronicDiseaseInfo,
+                    );
+                  },
+                  initialValue: postsController.post.chronicDiseaseInfo,
+                  validator: postsController.existChronicDiseaseInfo
+                      ? Validators.verifyEmpty
+                      : null,
+                  labelText: PostFlowStrings.describeDiseaseType,
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
