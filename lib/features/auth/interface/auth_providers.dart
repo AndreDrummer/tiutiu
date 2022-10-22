@@ -1,7 +1,7 @@
 abstract class AuthProviders {
   Future<bool> loginWithGoogle({bool autologin = false});
 
-  Future<void> loginWithFacebook({String? token});
+  Future<void> loginWithFacebook({bool firstLogin = true});
 
   Future<void> passwordReset(String email);
 
