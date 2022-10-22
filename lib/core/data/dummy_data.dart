@@ -11,6 +11,10 @@ class DummyData {
     'Lida bem com visitas',
     'Vacinado',
     'Tímido',
+    'Manhoso',
+    'Carente',
+    'Amigão',
+    'Guarda',
     'Dócil',
   ];
 
