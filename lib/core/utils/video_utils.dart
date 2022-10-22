@@ -6,35 +6,38 @@ import 'package:chewie/chewie.dart';
 class VideoUtils {
   VideoUtils._();
 
-  late VideoPlayerController videoPlayerController;
-  late ChewieController chewieController;
+  VideoPlayerController? videoPlayerController;
+  ChewieController? chewieController;
 
   static VideoUtils get instance => VideoUtils._();
 
-  ChewieController getChewieController(
+  ChewieController? getChewieController(
     dynamic videoPath, {
     bool isFullscreen = false,
     bool autoPlay = false,
   }) {
+    debugPrint('>> VideoPath $videoPath');
+
     if (videoPath != null) {
       if (videoPath.toString().isUrl()) {
         videoPlayerController = VideoPlayerController.network(videoPath);
       } else {
         videoPlayerController = VideoPlayerController.file(videoPath);
       }
+      chewieController = ChewieController(
+        placeholder: Center(child: CircularProgressIndicator()),
+        videoPlayerController: videoPlayerController!,
+        showControlsOnInitialize: false,
+        allowedScreenSleep: false,
+        allowFullScreen: false,
+        autoInitialize: true,
+        autoPlay: autoPlay,
+        zoomAndPan: true,
+      );
+
+      return chewieController;
     }
 
-    chewieController = ChewieController(
-      placeholder: Center(child: CircularProgressIndicator()),
-      videoPlayerController: videoPlayerController,
-      showControlsOnInitialize: false,
-      allowedScreenSleep: false,
-      allowFullScreen: false,
-      autoInitialize: true,
-      autoPlay: autoPlay,
-      zoomAndPan: true,
-    );
-
-    return chewieController;
+    return null;
   }
 }

@@ -29,7 +29,10 @@ class CardBuilder {
 
   Widget adPostedAt() => AdPostedAt(createdAt: _pet.createdAt!);
 
-  Widget adInteresteds() => AdInteresteds(petKind: _pet.type);
+  Widget adInteresteds() => AdInteresteds(
+        visible: _pet.disappeared,
+        petKind: _pet.type,
+      );
 
   Widget adImages() => AdImages(
         cardHeight: Get.height / (inReviewMode ? 3 : 2.2),
