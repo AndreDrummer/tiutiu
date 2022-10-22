@@ -33,7 +33,7 @@ class PetDetails extends StatefulWidget {
 }
 
 class _PetDetailsState extends State<PetDetails> {
-  late ChewieController chewieController;
+  ChewieController? chewieController;
 
   @override
   void initState() {
@@ -44,8 +44,8 @@ class _PetDetailsState extends State<PetDetails> {
 
   @override
   void dispose() {
-    chewieController.videoPlayerController.pause();
-    chewieController.dispose();
+    chewieController?.pause();
+    chewieController?.dispose();
     super.dispose();
   }
 
@@ -57,7 +57,7 @@ class _PetDetailsState extends State<PetDetails> {
     return SafeArea(
       child: WillPopScope(
         onWillPop: () async {
-          chewieController.pause();
+          chewieController?.pause();
           return true;
         },
         child: Scaffold(
@@ -244,8 +244,10 @@ class _PetDetailsState extends State<PetDetails> {
           if (hasVideo && index == 0) {
             return _video(pet.video);
           } else if (!hasVideo) {
+            chewieController?.pause();
             return _image(pet.photos, index);
           }
+          chewieController?.pause();
           return _image(pet.photos, index - 1);
         },
         controller: pageController,
@@ -253,17 +255,22 @@ class _PetDetailsState extends State<PetDetails> {
     );
   }
 
-  TiuTiuVideoPlayer _video(dynamic videoPath) {
-    return TiuTiuVideoPlayer(
-      aspectRatio: chewieController.videoPlayerController.value.aspectRatio,
-      chewieController: chewieController,
-    );
+  Widget _video(dynamic videoPath) {
+    final thereIsVideo = chewieController != null;
+    if (thereIsVideo) {
+      return TiuTiuVideoPlayer(
+        aspectRatio: chewieController!.videoPlayerController.value.aspectRatio,
+        chewieController: chewieController!,
+      );
+    }
+
+    return SizedBox.shrink();
   }
 
   Widget _image(List photos, int index) {
     return InkWell(
       onTap: () {
-        chewieController.videoPlayerController.pause();
+        chewieController?.pause();
         fullscreenController.openFullScreenMode(photos);
       },
       child: Container(

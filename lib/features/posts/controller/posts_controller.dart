@@ -7,6 +7,7 @@ import 'package:tiutiu/core/utils/routes/routes_name.dart';
 import 'package:tiutiu/features/system/controllers.dart';
 import 'package:tiutiu/core/constants/strings.dart';
 import 'package:flutter/foundation.dart';
+import 'package:chewie/chewie.dart';
 import 'package:get/get.dart';
 
 const int _FLOW_STEPS_QTY = 8;
@@ -30,8 +31,7 @@ class PostsController extends GetxController {
   final Rx<Pet> _post = Pet().obs;
   final RxInt _flowIndex = 0.obs;
 
-  bool get existChronicDiseaseInfo =>
-      _post.value.health == PetHealthString.chronicDisease;
+  bool get existChronicDisease => post.health == PetHealthString.chronicDisease;
   String get uploadingPostText => _uploadingPostText.value;
   int get postPhotoFrameQty => _postPhotoFrameQty.value;
   String get flowErrorText => _flowErrorText.value;
@@ -44,43 +44,17 @@ class PostsController extends GetxController {
   List get cachedVideos => _cachedVideos;
   int get flowIndex => _flowIndex.value;
   bool get hasError => _hasError.value;
+  ChewieController? chewieController;
   Pet get post => _post.value;
 
   void set isInReviewMode(bool value) => _isInReviewMode(value);
   void set postReviewed(bool value) => _postReviewed(value);
   void set isLoading(bool value) => _isLoading(value);
 
-  void updatePet(PetEnum property, dynamic data) {
-    final postMap = _insertOwnerData(post.toMap());
-    postMap[property.name] = data;
-
-    if (property == PetEnum.otherCaracteristics) {
-      postMap[property.name] = _handlePetOtherCaracteristics(data);
-    }
-
-    if ((post.latitude == null || post.longitude == null)) {
-      _setPostStateAndCity(postMap);
-      _insertLatLng(postMap);
-    }
-
-    debugPrint('>> $postMap');
-
-    _post(Pet.fromMap(postMap));
-  }
-
-  void _insertLatLng(Map<String, dynamic> postMap) {
-    postMap[PetEnum.longitude.name] =
-        currentLocationController.location.longitude;
-    postMap[PetEnum.latitude.name] =
-        currentLocationController.location.latitude;
-  }
-
-  void _setPostStateAndCity(Map<String, dynamic> postMap) async {
-    final placemark = currentLocationController.currentPlacemark;
-
-    postMap[PetEnum.city.name] = placemark.subAdministrativeArea;
-    postMap[PetEnum.state.name] = placemark.administrativeArea;
-  }
+  bool isInStepReview() => _flowIndex.value == _FLOW_STEPS_QTY - 2;
+  bool isInStepPost() => _flowIndex.value == _FLOW_STEPS_QTY - 1;
+  bool lastStep() => _flowIndex.value == _FLOW_STEPS_QTY - 1;
+  bool firstStep() => _flowIndex.value == 0;
 
   Map<String, dynamic> _insertOwnerData(Map<String, dynamic> postMap) {
     if (post.owner == null) {
@@ -89,27 +63,6 @@ class PostsController extends GetxController {
     }
 
     return postMap;
-  }
-
-  void addPictureOnIndex(dynamic picture, int index) {
-    if (index <= 5) {
-      final postMap = _insertOwnerData(post.toMap());
-      var newImageList = [];
-
-      newImageList.addAll(postMap[PetEnum.photos.name]);
-      newImageList.add(picture);
-
-      postMap[PetEnum.photos.name] = newImageList;
-      _post(Pet.fromMap(postMap));
-    }
-  }
-
-  void removePictureOnIndex(int index) {
-    var postMap = post.toMap();
-    var newImageList = postMap[PetEnum.photos.name];
-    newImageList.removeAt(index);
-    postMap[PetEnum.photos.name] = newImageList;
-    _post(Pet.fromMap(postMap));
   }
 
   List _handlePetOtherCaracteristics(String incomingCaracteristic) {
@@ -125,22 +78,18 @@ class PostsController extends GetxController {
     return caracteristics;
   }
 
-  bool isInStepReview() => _flowIndex.value == _FLOW_STEPS_QTY - 2;
-  bool lastStep() => _flowIndex.value == _FLOW_STEPS_QTY - 1;
-  bool firstStep() => _flowIndex.value == 0;
+  Future<String> _getCachedVideo() async {
+    final videoPath = post.video;
+    var fileName = '${post.uid}-$videoPath';
+    debugPrint('>>Cache _getCachedVideo');
+    return await VideoCacheManager.getCachedVideoIfExists(fileName);
+  }
 
   Future<void> _cacheVideo() async {
     final videoPath = post.video;
     var fileName = '${post.uid}-$videoPath';
     debugPrint('>>Cache _cacheVideo');
     await VideoCacheManager.save(videoPath, fileName);
-  }
-
-  Future<String> _getCachedVideo() async {
-    final videoPath = post.video;
-    var fileName = '${post.uid}-$videoPath';
-    debugPrint('>>Cache _getCachedVideo');
-    return await VideoCacheManager.getCachedVideoIfExists(fileName);
   }
 
   Future<void> _saveVideosOnCache() async {
@@ -176,6 +125,8 @@ class PostsController extends GetxController {
     await _uploadImages();
     await _uploadPostData();
     isLoading = false;
+    clearForm();
+    goToHome();
   }
 
   Future<void> _uploadVideo() async {
@@ -212,16 +163,48 @@ class PostsController extends GetxController {
     _uploadingPostText('');
   }
 
+  void updatePet(PetEnum property, dynamic data) {
+    final postMap = _insertOwnerData(post.toMap());
+    postMap[property.name] = data;
+
+    debugPrint('>>update $postMap');
+
+    if (property == PetEnum.otherCaracteristics) {
+      postMap[property.name] = _handlePetOtherCaracteristics(data);
+    }
+
+    if ((post.latitude == null || post.longitude == null)) {
+      _setPostStateAndCity(postMap);
+      _insertLatLng(postMap);
+    }
+
+    _post(Pet.fromMap(postMap));
+  }
+
+  void _insertLatLng(Map<String, dynamic> postMap) {
+    postMap[PetEnum.longitude.name] =
+        currentLocationController.location.longitude;
+    postMap[PetEnum.latitude.name] =
+        currentLocationController.location.latitude;
+  }
+
+  void _setPostStateAndCity(Map<String, dynamic> postMap) async {
+    final placemark = currentLocationController.currentPlacemark;
+
+    postMap[PetEnum.city.name] = placemark.subAdministrativeArea;
+    postMap[PetEnum.state.name] = placemark.administrativeArea;
+  }
+
   void nextStepFlow() {
     PostFormValidator validator = PostFormValidator(post);
     _postReviewed(false);
 
     switch (flowIndex) {
       case 0:
-        _formIsValid(validator.isStep1Valid());
+        _formIsValid(validator.isStep1Valid(existChronicDisease));
         break;
       case 1:
-        _formIsValid(validator.isStep2Valid(existChronicDiseaseInfo));
+        _formIsValid(validator.isStep2Valid());
         break;
       case 2:
         _formIsValid(validator.isStep3Valid());
@@ -262,6 +245,34 @@ class PostsController extends GetxController {
     _isFullAddress(false);
     _formIsValid(true);
     _post(Pet());
+    disposeVideoController();
+  }
+
+  void disposeVideoController() {
+    chewieController?.pause();
+    chewieController?.dispose();
+    chewieController == null;
+  }
+
+  void addPictureOnIndex(dynamic picture, int index) {
+    if (index <= 5) {
+      final postMap = _insertOwnerData(post.toMap());
+      var newImageList = [];
+
+      newImageList.addAll(postMap[PetEnum.photos.name]);
+      newImageList.add(picture);
+
+      postMap[PetEnum.photos.name] = newImageList;
+      _post(Pet.fromMap(postMap));
+    }
+  }
+
+  void removePictureOnIndex(int index) {
+    var postMap = post.toMap();
+    var newImageList = postMap[PetEnum.photos.name];
+    newImageList.removeAt(index);
+    postMap[PetEnum.photos.name] = newImageList;
+    _post(Pet.fromMap(postMap));
   }
 
   void increasePhotosQty() {
@@ -273,16 +284,26 @@ class PostsController extends GetxController {
   }
 
   void _nextStep() {
+    _pauseVideoController();
     if (flowIndex < _FLOW_STEPS_QTY) _flowIndex(flowIndex + 1);
   }
 
   void previousStepFlow() {
     _formIsValid(true);
+    _pauseVideoController();
 
-    if (flowIndex == 0) {
+    if (firstStep()) {
       Get.back();
+    } else if (isInStepPost()) {
+      _flowIndex(flowIndex - 2);
     } else {
       _flowIndex(flowIndex - 1);
+    }
+  }
+
+  void _pauseVideoController() {
+    if (chewieController != null) {
+      chewieController!.pause();
     }
   }
 
@@ -293,6 +314,14 @@ class PostsController extends GetxController {
     )?.then((_) {
       _nextStep();
     });
+  }
+
+  void goToHome() {
+    Get.offNamedUntil(Routes.home, (route) {
+      return route.settings.name == Routes.home;
+    });
+
+    homeController.bottomBarIndex = 0;
   }
 
   void toggleFullAddress() {
