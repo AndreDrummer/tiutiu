@@ -88,6 +88,7 @@ class PostService {
           .collection(pathToPosts)
           .doc(post.uid!)
           .set(post.toMap());
+      debugPrint('>> Posted Successfully ${post.uid}');
       success = true;
     } on Exception catch (exception) {
       debugPrint('Erro when tryna to send data to Firestore: $exception');

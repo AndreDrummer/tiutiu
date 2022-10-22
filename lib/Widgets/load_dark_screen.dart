@@ -19,30 +19,33 @@ class LoadDarkScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Visibility(
       visible: visible,
-      child: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(
-            Radius.circular(
-              roundeCorners ? 12.0.h : 0.0,
-            ),
-          ),
-          color: Colors.black87,
-        ),
-        height: MediaQuery.of(context).size.height,
-        width: MediaQuery.of(context).size.width,
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              LoadingFadingLine.circle(
-                backgroundColor: AppColors.secondary,
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        body: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.all(
+              Radius.circular(
+                roundeCorners ? 12.0.h : 0.0,
               ),
-              SizedBox(height: 15),
-              AutoSizeText(
-                message,
-                style: TextStyles.fontSize12(color: AppColors.white),
-              )
-            ],
+            ),
+            color: Colors.black87,
+          ),
+          height: MediaQuery.of(context).size.height,
+          width: MediaQuery.of(context).size.width,
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                LoadingFadingLine.circle(
+                  backgroundColor: AppColors.secondary,
+                ),
+                SizedBox(height: 15),
+                AutoSizeText(
+                  message,
+                  style: TextStyles.fontSize12(color: AppColors.white),
+                )
+              ],
+            ),
           ),
         ),
       ),
