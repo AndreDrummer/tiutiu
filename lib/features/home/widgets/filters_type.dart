@@ -15,6 +15,7 @@ class FiltersType extends StatelessWidget {
     return Obx(
       () {
         final filterText = filterController.filterTypeTextSelected;
+
         return Container(
           margin: EdgeInsets.symmetric(horizontal: 2.0.w),
           height: Get.width / 5,
