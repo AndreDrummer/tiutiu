@@ -17,13 +17,9 @@ class Formatter {
   static DateTime getDateTime(String createdAt) {
     final date = createdAt.split('T').first;
 
-    // debugPrint('>> $date before');
-
     final day = int.parse(date.split('-').last);
     final month = int.parse(date.split('-')[1]);
     final year = int.parse(date.split('-').first);
-
-    // debugPrint('>> $day/$month/$year after');
 
     final dateTime = DateTime(year, month, day);
     return dateTime;

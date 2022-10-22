@@ -38,7 +38,7 @@ class ProfileController extends GetxController {
   Future<void> save() async {
     _isLoading(true);
 
-    await tiutiuUserController.updateUserDataOnServer();
+    await authController.updateUserInfo();
 
     _isLoading(false);
   }
