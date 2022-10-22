@@ -16,7 +16,6 @@ class FirebaseAuthProvider implements AuthProviders {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   User? get firebaseAuthUser => _firebaseAuth.currentUser;
   final FacebookAuth _facebookSignIn = FacebookAuth.i;
-  String? facebookToken;
 
   Stream<User?> userStream() {
     return _firebaseAuth.authStateChanges();
@@ -125,17 +124,19 @@ class FirebaseAuthProvider implements AuthProviders {
   }
 
   @override
-  Future<bool> loginWithFacebook({String? token}) async {
+  Future<bool> loginWithFacebook({bool firstLogin = true}) async {
     try {
       OAuthCredential credential;
-      facebookToken ??= token;
 
-      if (facebookToken == null) {
+      debugPrint('>> Fisrt Login? $firstLogin');
+      if (firstLogin) {
         final LoginResult result = await _facebookSignIn.login();
+
+        debugPrint('>> Facebook LoginResul ${result.status}');
 
         if (result.status == LoginStatus.success) {
           AccessToken? accessToken = result.accessToken!;
-          facebookToken = accessToken.token;
+
           credential = FacebookAuthProvider.credential(accessToken.token);
 
           await _firebaseAuth.signInWithCredential(credential);
@@ -143,8 +144,14 @@ class FirebaseAuthProvider implements AuthProviders {
           return false;
         }
       } else {
-        credential = FacebookAuthProvider.credential(facebookToken!);
-        await _firebaseAuth.signInWithCredential(credential);
+        final accessToken = await _facebookSignIn.accessToken;
+        if (accessToken?.token != null) {
+          credential = FacebookAuthProvider.credential(accessToken!.token);
+          debugPrint('>> Facebook Credential $credential');
+          await _firebaseAuth.signInWithCredential(credential);
+        } else {
+          return false;
+        }
       }
 
       return _firebaseAuth.currentUser != null;

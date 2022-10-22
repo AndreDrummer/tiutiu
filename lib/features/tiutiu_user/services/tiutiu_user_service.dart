@@ -57,10 +57,8 @@ class TiutiuUserService {
     }
   }
 
-  Future<void> updateUser({
-    required TiutiuUser userData,
-  }) async {
-    await _firestore
+  void updateUser({required TiutiuUser userData}) {
+    _firestore
         .collection(newPathToUser)
         .doc(userData.uid)
         .set(userData.toMap(), SetOptions(merge: true));
