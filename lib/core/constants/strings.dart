@@ -220,7 +220,6 @@ class PostFlowStrings {
   static const String picTime = 'Hora das fotos!';
   static const String petsData = 'Dados do PET';
   static const String reviewButton = 'Revisar';
-  static const String petName = 'Nome do PET';
   static const String size = 'Tamanho do PET';
   static const String petType = 'Tipo de PET';
   static const String allDone = 'Tudo pronto!';
@@ -229,6 +228,7 @@ class PostFlowStrings {
   static const String pictures = 'Fotos';
   static const String videos = 'Videos';
   static const String review = 'Revisar';
+  static const String petName = 'Nome';
   static const String state = 'Estado';
   static const String months = 'Meses';
   static const String local = 'Local';

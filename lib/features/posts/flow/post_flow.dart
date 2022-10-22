@@ -120,13 +120,7 @@ class PostFlow extends StatelessWidget with TiuTiuPopUp {
                       }
                     },
                     onSecondaryPressed: () {
-                      final firstStep = postsController.firstStep();
-
-                      if (firstStep) {
-                        Get.back();
-                      } else {
-                        postsController.previousStepFlow();
-                      }
+                      postsController.previousStepFlow();
                     },
                     textPrimary: postsController.isInStepReview()
                         ? PostFlowStrings.reviewButton
