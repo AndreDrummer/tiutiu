@@ -36,7 +36,7 @@ class PetsController extends GetxController {
     final petMap = pet.toMap();
     petMap[property.name] = data;
 
-    final updatedPet = Pet.fromMap(petMap);
+    final updatedPet = Pet().fromMap(petMap);
     pet = updatedPet;
   }
 
@@ -73,7 +73,7 @@ class PetsController extends GetxController {
       String petName = petSnapshot.data()[PetEnum.name.name];
       petName = petName.toLowerCase();
 
-      final pet = Pet.fromMap(petSnapshot.data());
+      final pet = Pet().fromMap(petSnapshot.data());
 
       if (isFilteringByName) {
         if (petName.contains(filterController.filterByName.toLowerCase())) {
@@ -106,7 +106,7 @@ class PetsController extends GetxController {
   List<Pet> getPetListFromSnapshots(List<DocumentSnapshot> docs) {
     List<Pet> pets = [];
     for (int i = 0; i < docs.length; i++) {
-      pets.add(Pet.fromMap(docs[i].data() as Map<String, dynamic>));
+      pets.add(Pet().fromMap(docs[i].data() as Map<String, dynamic>));
     }
     return pets;
   }
@@ -115,7 +115,7 @@ class PetsController extends GetxController {
     DocumentReference petRef =
         await OtherFunctions.getReferenceById(petId, petKind);
     DocumentSnapshot petSnapshot = await petRef.get();
-    Pet petData = Pet.fromMap(petSnapshot.data() as Map<String, dynamic>);
+    Pet petData = Pet().fromMap(petSnapshot.data() as Map<String, dynamic>);
     return Future.value(petData);
   }
 
