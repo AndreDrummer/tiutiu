@@ -1,5 +1,5 @@
-import 'package:tiutiu/features/location/extensions/service_location_status.dart';
 import 'package:tiutiu/features/location/views/localization_service_access_permission_request.dart';
+import 'package:tiutiu/features/location/extensions/service_location_status.dart';
 import 'package:tiutiu/features/auth/views/auth_or_home.dart';
 import 'package:tiutiu/features/system/controllers.dart';
 import 'package:tiutiu/Widgets/loading_page.dart';
@@ -18,14 +18,21 @@ class _BootstrapState extends State<AppBootstrap> {
     return StreamBuilder<ServiceStatus>(
       stream: Geolocator.getServiceStatusStream(),
       builder: (context, snapshot) {
+        debugPrint('>> service status ${snapshot.data}');
         if (snapshot.data != null) {
           currentLocationController.updateGPSStatus();
         }
 
         return Obx(
-          () => currentLocationController.gpsStatus.isActive
-              ? _RequestPermissionsOrHome()
-              : LocalizationServiceAccessPermissionAccess(),
+          () {
+            debugPrint(
+                '>> GPS is active? ${currentLocationController.gpsStatus.isActive}');
+            return currentLocationController.gpsStatus.isActive
+                ? _RequestPermissionsOrHome()
+                : LocalizationServiceAccessPermissionAccess(
+                    gpsIsActive: currentLocationController.gpsStatus.isActive,
+                  );
+          },
         );
       },
     );
@@ -43,6 +50,7 @@ class _RequestPermissionsOrHome extends StatelessWidget {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return LoadingPage();
         }
+
         return Obx(
           () {
             final accessDenied = isLocalAccessPermissionDenied(
@@ -51,6 +59,7 @@ class _RequestPermissionsOrHome extends StatelessWidget {
 
             if (accessDenied) {
               return LocalizationServiceAccessPermissionAccess(
+                gpsIsActive: currentLocationController.gpsStatus.isActive,
                 localAccessDenied: accessDenied,
               );
             } else {

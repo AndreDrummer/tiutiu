@@ -1,6 +1,6 @@
 import 'package:tiutiu/features/posts/views/post_caracteristics.dart';
-import 'package:tiutiu/features/posts/views/post_location.dart';
 import 'package:tiutiu/features/posts/views/post_description.dart';
+import 'package:tiutiu/features/posts/views/post_location.dart';
 import 'package:tiutiu/features/posts/views/review_post.dart';
 import 'package:tiutiu/features/posts/views/post_info.dart';
 import 'package:tiutiu/features/posts/widgets/stepper.dart';
@@ -26,6 +26,7 @@ class PostFlow extends StatelessWidget with TiuTiuPopUp {
       onWillPop: () async => false,
       child: Obx(
         () {
+          _setMockData();
           List<String> _screensTitle = [
             PostFlowStrings.petsData,
             PostFlowStrings.moreDetails,
@@ -146,6 +147,18 @@ class PostFlow extends StatelessWidget with TiuTiuPopUp {
   }
 
   Divider _divider() => Divider(height: 16.0.h, color: AppColors.secondary);
+}
+
+void _setMockData() {
+  // if (postsController.post.name == null) {
+  //   LocalStorage.getDataUnderKey(key: LocalStorageKey.mockedPost, mapper: Pet())
+  //       .then((value) {
+  //     if (value != null) {
+  //       postsController.post = value as Pet;
+  //       print(postsController.post.toMap());
+  //     }
+  //   });
+  // }
 }
 
 final _stepsNames = [
