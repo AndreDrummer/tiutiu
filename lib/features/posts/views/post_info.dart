@@ -40,15 +40,17 @@ class PostInfo extends StatelessWidget {
       padding: EdgeInsets.fromLTRB(3.0.w, 0.0.h, 3.0.w, 16.0.h),
       child: Form(
         key: nameKeyForm,
-        child: UnderlineInputText(
-          initialValue: postsController.post.name,
-          validator: Validators.verifyEmpty,
-          onChanged: (name) {
-            nameKeyForm.currentState!.validate();
-            postsController.updatePet(PetEnum.name, name);
-          },
-          labelText: PostFlowStrings.petName,
-          fontSizeLabelText: 14.0.sp,
+        child: Obx(
+          () => UnderlineInputText(
+            initialValue: postsController.post.name,
+            validator: Validators.verifyEmpty,
+            onChanged: (name) {
+              nameKeyForm.currentState!.validate();
+              postsController.updatePet(PetEnum.name, name);
+            },
+            labelText: PostFlowStrings.petName,
+            fontSizeLabelText: 14.0.sp,
+          ),
         ),
       ),
     );

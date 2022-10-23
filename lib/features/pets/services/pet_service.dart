@@ -42,7 +42,7 @@ class PetService {
   Future<Pet> getPetByReference(DocumentReference petRef) async {
     var pet = await petRef.get();
 
-    return Pet.fromMap(pet.data() as Map<String, dynamic>);
+    return Pet().fromMap(pet.data() as Map<String, dynamic>);
   }
 
   Stream<QuerySnapshot> getPetsByUser({
