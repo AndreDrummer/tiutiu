@@ -96,9 +96,11 @@ class AssetHandle {
   }
 }
 
-Widget _localImage(image, BoxFit? fit) => Image.file(
-      image,
-      fit: fit ?? BoxFit.fill,
-      height: double.infinity,
-      width: double.infinity,
-    );
+Widget _localImage(image, BoxFit? fit) {
+  return Image.file(
+    image is String ? File(image) : image,
+    fit: fit ?? BoxFit.fill,
+    height: double.infinity,
+    width: double.infinity,
+  );
+}

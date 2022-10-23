@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:tiutiu/core/extensions/string_extension.dart';
 import 'package:video_player/video_player.dart';
 import 'package:flutter/material.dart';
@@ -22,6 +24,7 @@ class VideoUtils {
       if (videoPath.toString().isUrl()) {
         videoPlayerController = VideoPlayerController.network(videoPath);
       } else {
+        videoPath is String ? videoPath = File(videoPath) : videoPath;
         videoPlayerController = VideoPlayerController.file(videoPath);
       }
       chewieController = ChewieController(
