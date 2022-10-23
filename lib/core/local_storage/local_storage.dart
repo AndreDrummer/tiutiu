@@ -59,13 +59,13 @@ class LocalStorage {
     }
   }
 
-  static Future<bool> setValueUnderString({
-    required String key,
+  static Future<bool> setValueUnderKey({
+    required LocalStorageKey key,
     dynamic value,
   }) async {
     final _prefs = await SharedPreferences.getInstance();
     try {
-      return _prefs.setString(key, value);
+      return _prefs.setString(key.name, jsonEncode(value));
     } on Exception catch (error) {
       throw Exception(
         'An error has occurred when setting data under key String: $key. $error',
@@ -73,9 +73,10 @@ class LocalStorage {
     }
   }
 
-  static Future<dynamic> getValueUnderString(String key) async {
+  static Future<dynamic> getValueUnderKey(LocalStorageKey key) async {
     try {
-      return await _getString(key);
+      final value = await _getString(key.name);
+      if (value != null) return jsonDecode(value);
     } on Exception catch (error) {
       throw Exception(
         'An error has occurred when try to get data under key String: $key: $error',

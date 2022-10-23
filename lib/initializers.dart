@@ -1,4 +1,3 @@
-import 'package:tiutiu/features/location/controller/current_location_controller.dart';
 import 'package:tiutiu/features/refine_search/dependency_injection.dart';
 import 'package:tiutiu/features/tiutiu_user/dependency_injection.dart';
 import 'package:tiutiu/features/location/dependency_injection.dart';
@@ -9,8 +8,8 @@ import 'package:tiutiu/features/auth/dependency_injection.dart';
 import 'package:tiutiu/features/chat/dependency_injection.dart';
 import 'package:tiutiu/features/pets/dependency_injection.dart';
 import 'package:tiutiu/core/models/dependency_injection.dart';
+import 'package:tiutiu/features/system/controllers.dart';
 import 'package:tiutiu/core/data/states_and_cities.dart';
-import 'package:get/get.dart';
 
 class TiuTiuInitializer {
   static Future<void> start() async {
@@ -25,11 +24,10 @@ class TiuTiuInitializer {
   }
 
   static Future<void> _initializeLocationServices() async {
-    final CurrentLocationController _locationController = Get.find();
-
-    await _locationController.updateGPSStatus();
-    await _locationController.setUserLocation();
+    await currentLocationController.updateGPSStatus();
+    await currentLocationController.setUserLocation();
     await StatesAndCities().getUFAndCities();
+    await postsController.getVideosFromCache();
   }
 
   static List<DependencyInjection> _dependencies = [
