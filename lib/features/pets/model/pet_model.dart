@@ -1,3 +1,4 @@
+import 'package:tiutiu/core/models/mapper.dart';
 import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
 import 'package:uuid/uuid.dart';
 
@@ -33,7 +34,7 @@ enum PetEnum {
   uid,
 }
 
-class Pet {
+class Pet implements Mapper {
   Pet({
     this.otherCaracteristics = const [],
     this.chronicDiseaseInfo = '',
@@ -66,7 +67,8 @@ class Pet {
     this.uid,
   });
 
-  static Pet fromMap(Map<String, dynamic> map) {
+  @override
+  Pet fromMap(Map<String, dynamic> map) {
     return Pet(
       uid: map[PetEnum.uid.name] != null ? map[PetEnum.uid.name] : Uuid().v4(),
       createdAt:
@@ -157,8 +159,12 @@ class Pet {
   String? uid;
   int views;
 
-  Map<String, dynamic> toMap() {
+  @override
+  Map<String, dynamic> toMap({bool convertFileToVideoPath = false}) {
     return {
+      PetEnum.photos.name:
+          convertFileToVideoPath ? photos.map((e) => e.path).toList() : photos,
+      PetEnum.video.name: convertFileToVideoPath ? video.path : video,
       PetEnum.otherCaracteristics.name: otherCaracteristics,
       PetEnum.chronicDiseaseInfo.name: chronicDiseaseInfo,
       PetEnum.describedAddress.name: describedAddress,
@@ -175,14 +181,12 @@ class Pet {
       PetEnum.ageMonth.name: ageMonth,
       PetEnum.ownerId.name: ownerId,
       PetEnum.ageYear.name: ageYear,
-      PetEnum.photos.name: photos,
       PetEnum.health.name: health,
       PetEnum.gender.name: gender,
       PetEnum.state.name: state,
       PetEnum.color.name: color,
       PetEnum.views.name: views,
       PetEnum.breed.name: breed,
-      PetEnum.video.name: video,
       PetEnum.type.name: type,
       PetEnum.size.name: size,
       PetEnum.name.name: name,

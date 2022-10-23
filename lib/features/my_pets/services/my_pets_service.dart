@@ -13,7 +13,7 @@ class MyPetsService {
         .get();
 
     return donates.docs
-        .map((snapshot) => Pet.fromMap(snapshot.data()))
+        .map((snapshot) => Pet().fromMap(snapshot.data()))
         .toList();
   }
 
@@ -27,7 +27,7 @@ class MyPetsService {
         .get();
 
     return disappeared.docs
-        .map((snapshot) => Pet.fromMap(snapshot.data()))
+        .map((snapshot) => Pet().fromMap(snapshot.data()))
         .toList();
   }
 }
