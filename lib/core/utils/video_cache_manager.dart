@@ -1,4 +1,3 @@
-import 'package:tiutiu/core/local_storage/local_storage.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:flutter/foundation.dart';
 import 'dart:io';
@@ -11,24 +10,16 @@ class VideoCacheManager {
 
     var bytes = await consolidateHttpClientResponseBytes(response);
     String dir = (await getApplicationDocumentsDirectory()).path;
-    File file = new File('$dir/$fileName');
+    File file = new File('$dir/$fileName.mp4');
     await file.writeAsBytes(bytes);
     return file;
   }
 
-  static Future<void> save(String videoUrl, String fileName) async {
-    final videoFile = await _downloadFile(videoUrl, fileName);
+  static Future<String> save(String videoUrl, String fileName) async {
+    debugPrint('>>Cache saving...');
+    final videoPathSaved = await _downloadFile(videoUrl, fileName);
+    debugPrint('>>Cache saved!');
 
-    await LocalStorage.setValueUnderString(
-      value: videoFile.path,
-      key: fileName,
-    );
-    debugPrint('>>Cache save');
-    debugPrint('Video Cached $fileName: $videoUrl');
-  }
-
-  static Future<String> getCachedVideoIfExists(String videoFileName) async {
-    debugPrint('>>Cache getCachedVideoIfExists');
-    return await LocalStorage.getValueUnderString(videoFileName);
+    return videoPathSaved.path;
   }
 }

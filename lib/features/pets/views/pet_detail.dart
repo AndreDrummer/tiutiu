@@ -37,11 +37,25 @@ class _PetDetailsState extends State<PetDetails> {
 
   @override
   void initState() {
+    initializeVideo();
+    super.initState();
+  }
+
+  void initializeVideo() {
+    final pet = petsController.pet;
+
+    final cachedVideos = postsController.cachedVideos;
+    final cacheExists = cachedVideos[pet.uid!] != null;
+    var videoPath = pet.video;
+
+    if (cacheExists) {
+      videoPath = cachedVideos[pet.uid!];
+    }
+
     chewieController = VideoUtils.instance.getChewieController(
-      petsController.pet.video,
+      videoPath,
       autoPlay: true,
     );
-    super.initState();
   }
 
   @override
@@ -64,7 +78,7 @@ class _PetDetailsState extends State<PetDetails> {
         },
         child: Scaffold(
           body: FutureBuilder<void>(
-              future: postsController.cacheAndGetVideos(pet),
+              future: postsController.saveVideosOnCache(pet),
               builder: (_, __) {
                 return Stack(
                   children: [
@@ -244,7 +258,7 @@ class _PetDetailsState extends State<PetDetails> {
         itemCount: hasVideo ? photos.length + 1 : photos.length,
         itemBuilder: (BuildContext context, int index) {
           if (hasVideo && index == 0) {
-            return _video(pet.video);
+            return _video(pet);
           } else if (!hasVideo) {
             chewieController?.pause();
             return _image(pet.photos, index);
@@ -257,8 +271,9 @@ class _PetDetailsState extends State<PetDetails> {
     );
   }
 
-  Widget _video(dynamic videoPath) {
+  Widget _video(Pet pet) {
     final thereIsVideo = chewieController != null;
+
     if (thereIsVideo) {
       return TiuTiuVideoPlayer(
         aspectRatio: chewieController!.videoPlayerController.value.aspectRatio,
