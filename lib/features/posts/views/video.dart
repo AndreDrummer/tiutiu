@@ -49,7 +49,6 @@ class _VideoState extends State<Video> {
 
   @override
   Widget build(BuildContext context) {
-    print(postsController.flowIndex);
     return Column(
       children: [
         Spacer(),
