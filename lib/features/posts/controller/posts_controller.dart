@@ -1,4 +1,5 @@
 import 'package:tiutiu/features/posts/validators/form_validators.dart';
+import 'package:tiutiu/core/local_storage/local_storage_keys.dart';
 import 'package:tiutiu/features/posts/services/post_service.dart';
 import 'package:tiutiu/core/local_storage/local_storage.dart';
 import 'package:tiutiu/core/utils/video_cache_manager.dart';
@@ -18,6 +19,7 @@ class PostsController extends GetxController {
 
   PostService _postService;
 
+  final RxMap<String, dynamic> _cachedVideos = <String, dynamic>{}.obs;
   final RxString _uploadingPostText = ''.obs;
   final RxBool _isInReviewMode = false.obs;
   final RxString _flowErrorText = ''.obs;
@@ -25,7 +27,6 @@ class PostsController extends GetxController {
   final RxBool _postReviewed = false.obs;
   final RxInt _postPhotoFrameQty = 1.obs;
   final RxBool _formIsValid = true.obs;
-  final RxList _cachedVideos = [].obs;
   final RxBool _isLoading = false.obs;
   final RxBool _hasError = false.obs;
   final Rx<Pet> _post = Pet().obs;
@@ -34,6 +35,7 @@ class PostsController extends GetxController {
   bool get existChronicDisease => post.health == PetHealthString.chronicDisease;
   String get uploadingPostText => _uploadingPostText.value;
   int get postPhotoFrameQty => _postPhotoFrameQty.value;
+  Map<String, dynamic> get cachedVideos => _cachedVideos;
   String get flowErrorText => _flowErrorText.value;
   bool get isInReviewMode => _isInReviewMode.value;
   bool get isFullAddress => _isFullAddress.value;
@@ -41,7 +43,6 @@ class PostsController extends GetxController {
   bool get postReviewed => _postReviewed.value;
   bool get formIsValid => _formIsValid.value;
   bool get isLoading => _isLoading.value;
-  List get cachedVideos => _cachedVideos;
   int get flowIndex => _flowIndex.value;
   bool get hasError => _hasError.value;
   ChewieController? chewieController;
@@ -79,43 +80,66 @@ class PostsController extends GetxController {
     return caracteristics;
   }
 
-  Future<String> _getCachedVideo() async {
-    final videoPath = post.video;
-    var fileName = '${post.uid}-$videoPath';
-    debugPrint('>>Cache _getCachedVideo');
-    return await VideoCacheManager.getCachedVideoIfExists(fileName);
-  }
-
-  Future<void> _cacheVideo(Pet pet) async {
-    final videoPath = pet.video;
-    var fileName = '${pet.uid}-$videoPath';
+  Future<void> _cacheVideo({
+    required Map<String, dynamic> cachedVideosMap,
+    required Pet pet,
+  }) async {
     debugPrint('>>Cache _cacheVideo');
-    await VideoCacheManager.save(videoPath, fileName);
+    final videoPathSaved = await VideoCacheManager.save(pet.video, pet.uid!);
+
+    cachedVideosMap.putIfAbsent(pet.uid!, () => videoPathSaved);
+
+    debugPrint('>>Cache current map $cachedVideosMap');
+    await LocalStorage.setValueUnderKey(
+      value: cachedVideosMap,
+      key: LocalStorageKey.videosCache,
+    );
+
+    final afterSavedMap = await LocalStorage.getValueUnderKey(
+      LocalStorageKey.videosCache,
+    );
+
+    debugPrint('>>Cache After Saved Map $afterSavedMap');
   }
 
-  Future<void> _saveVideosOnCache(Pet pet) async {
-    final videoPath = pet.video;
-    var fileName = '${pet.uid}-$videoPath';
+  Future<void> saveVideosOnCache(Pet pet) async {
+    debugPrint('>>Cache _saveVideosOnCache ');
+    final cachedVideosMap = await _cachedVideosMap();
 
-    final value = await LocalStorage.getValueUnderString(fileName);
-    debugPrint('>>Cache _saveVideosOnCache');
-    if (value == null) _cacheVideo(pet);
-  }
-
-  Future<void> _getVideosOnCache() async {
-    final currentVideosCachedList = [];
-    currentVideosCachedList.addAll(_cachedVideos);
-    debugPrint('>>Cache _getVideosOnCache');
-    final cachedVideo = await _getCachedVideo();
-    currentVideosCachedList.add(cachedVideo);
-  }
-
-  Future<void> cacheAndGetVideos(Pet pet) async {
-    debugPrint('>>Cache cacheAndGetVideos');
-    if (!isInReviewMode) {
-      await _saveVideosOnCache(pet);
-      await _getVideosOnCache();
+    if (!isInReviewMode && pet.video != null) {
+      if (!cachedVideosMap.keys.contains(pet.uid)) {
+        debugPrint('>>Cache _saveVideosOnCache Not Saved');
+        await _cacheVideo(cachedVideosMap: cachedVideosMap, pet: pet);
+      } else {
+        debugPrint('>>Cache _saveVideosOnCache Already Saved');
+      }
     }
+
+    await getVideosFromCache();
+  }
+
+  Future<void> getVideosFromCache() async {
+    debugPrint('>>Cache getVideosFromCache');
+    final cachedVideosMap = await _cachedVideosMap();
+    _cachedVideos(cachedVideosMap);
+
+    debugPrint('>>Cached Videos Map $cachedVideosMap');
+  }
+
+  Future<Map<String, dynamic>> _cachedVideosMap() async {
+    final storagedVideos = await LocalStorage.getValueUnderKey(
+      LocalStorageKey.videosCache,
+    );
+
+    debugPrint('>>Storaged Videos $storagedVideos');
+
+    final Map<String, dynamic> cachedVideosMap = {};
+
+    if (storagedVideos != null) {
+      cachedVideosMap.addAll(storagedVideos);
+    }
+
+    return cachedVideosMap;
   }
 
   Future<void> uploadPost() async {
