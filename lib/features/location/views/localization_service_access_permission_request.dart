@@ -26,6 +26,8 @@ class LocalizationServiceAccessPermissionAccess extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    debugPrint('>> local access denied? ${localAccessDenied ? 'Sim' : 'Não'}');
+
     return Scaffold(
       appBar: DefaultBasicAppBar(text: LocalPermissionStrings.appBarTitle),
       body: Column(
@@ -59,11 +61,16 @@ class LocalizationServiceAccessPermissionAccess extends StatelessWidget {
   Background _googleRoutesImage() =>
       Background(image: ImageAssets.googlePlaces);
 
-  AutoSizeText _explainAccessPermissionText() {
-    return AutoSizeText(
-      LocalPermissionStrings.needsAccess,
-      style: TextStyles.fontSize16(),
-      textAlign: TextAlign.center,
+  Widget _explainAccessPermissionText() {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 8.0.w),
+      child: AutoSizeText(
+        gpsIsActive
+            ? LocalPermissionStrings.needsAccess
+            : LocalPermissionStrings.needsGPS,
+        style: TextStyles.fontSize16(),
+        textAlign: TextAlign.center,
+      ),
     );
   }
 
@@ -75,10 +82,10 @@ class LocalizationServiceAccessPermissionAccess extends StatelessWidget {
   }
 
   void onPrimaryPressed() {
-    if (localAccessDenied) {
-      _currentLocationController.handleLocationPermission();
-    } else {
+    if (!gpsIsActive) {
       _currentLocationController.openDeviceSettings();
+    } else {
+      _currentLocationController.handleLocationPermission();
     }
   }
 

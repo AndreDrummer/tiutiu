@@ -37,8 +37,10 @@ class _PetDetailsState extends State<PetDetails> {
 
   @override
   void initState() {
-    chewieController =
-        VideoUtils.instance.getChewieController(petsController.pet.video);
+    chewieController = VideoUtils.instance.getChewieController(
+      petsController.pet.video,
+      autoPlay: true,
+    );
     super.initState();
   }
 
@@ -344,8 +346,11 @@ class _PetDetailsState extends State<PetDetails> {
         ? '\n\n${pet.describedAddress}'
         : '';
 
+    final showIcon =
+        !pet.describedAddress.isNotEmptyNeighterNull() && !pet.disappeared;
+
     return CardContent(
-      icon: pet.disappeared ? null : Icons.launch,
+      icon: showIcon ? null : Icons.launch,
       content: pet.disappeared
           ? pet.lastSeenDetails
           : '${pet.city} - ${pet.state} $describedAddress',

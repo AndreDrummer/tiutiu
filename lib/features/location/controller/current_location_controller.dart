@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:tiutiu/features/location/extensions/service_location_status.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -49,8 +50,10 @@ class CurrentLocationController extends GetxController {
 
     if (isLocationServiceEnabled) {
       _gpsStatus(GPSStatus.active);
+      debugPrint('>> GPS was activated');
     } else {
       _gpsStatus(GPSStatus.deactivated);
+      debugPrint('>> GPS was NOT activated');
     }
   }
 
@@ -65,10 +68,16 @@ class CurrentLocationController extends GetxController {
 
   Future<void> updatePermission() async {
     permission = await Geolocator.requestPermission();
+    setUserLocation();
+    debugPrint('>> local access permission $permission');
   }
 
   Future<void> handleLocationPermission() async {
-    if (permission == LocationPermission.deniedForever) {
+    final permissionDeniedForever =
+        permission == LocationPermission.deniedForever;
+
+    if (permissionDeniedForever) {
+      debugPrint('>> local access denied forever? $permissionDeniedForever');
       await Geolocator.openAppSettings();
     } else {
       updatePermission();
@@ -77,6 +86,7 @@ class CurrentLocationController extends GetxController {
 
   Future<void> openDeviceSettings() async {
     await Geolocator.openLocationSettings();
+    await updateGPSStatus();
   }
 
   Future<void> setUserLocation({LatLng? currentLocation}) async {

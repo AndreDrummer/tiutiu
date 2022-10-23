@@ -50,6 +50,7 @@ class PostsController extends GetxController {
   void set isInReviewMode(bool value) => _isInReviewMode(value);
   void set postReviewed(bool value) => _postReviewed(value);
   void set isLoading(bool value) => _isLoading(value);
+  void set post(Pet pet) => _post(pet);
 
   bool isInStepReview() => _flowIndex.value == _FLOW_STEPS_QTY - 2;
   bool isInStepPost() => _flowIndex.value == _FLOW_STEPS_QTY - 1;
@@ -120,6 +121,8 @@ class PostsController extends GetxController {
   Future<void> uploadPost() async {
     updatePet(PetEnum.createdAt, DateTime.now().toIso8601String());
 
+    await _mockPostData();
+
     isLoading = true;
     await _uploadVideo();
     await _uploadImages();
@@ -163,6 +166,19 @@ class PostsController extends GetxController {
     _uploadingPostText('');
   }
 
+  Future<void> _mockPostData() async {
+    // await LocalStorage.setDataUnderKey(
+    //   key: LocalStorageKey.mockedPost,
+    //   data: post.toMap(convertFileToVideoPath: true),
+    // );
+
+    // final mocked = await LocalStorage.getDataUnderKey(
+    //         key: LocalStorageKey.mockedPost, mapper: Pet()) !=
+    //     null;
+
+    // print('>>Mocked? $mocked');
+  }
+
   void updatePet(PetEnum property, dynamic data) {
     final postMap = _insertOwnerData(post.toMap());
     postMap[property.name] = data;
@@ -178,7 +194,7 @@ class PostsController extends GetxController {
       _insertLatLng(postMap);
     }
 
-    _post(Pet.fromMap(postMap));
+    _post(Pet().fromMap(postMap));
   }
 
   void _insertLatLng(Map<String, dynamic> postMap) {
@@ -218,7 +234,7 @@ class PostsController extends GetxController {
       case 5:
         _isInReviewMode(true);
         isLoading = false;
-        petsController.pet = Pet.fromMap(post.toMap());
+        petsController.pet = Pet().fromMap(post.toMap());
         break;
       case 7:
         isLoading = true;
@@ -263,7 +279,7 @@ class PostsController extends GetxController {
       newImageList.add(picture);
 
       postMap[PetEnum.photos.name] = newImageList;
-      _post(Pet.fromMap(postMap));
+      _post(Pet().fromMap(postMap));
     }
   }
 
@@ -272,7 +288,7 @@ class PostsController extends GetxController {
     var newImageList = postMap[PetEnum.photos.name];
     newImageList.removeAt(index);
     postMap[PetEnum.photos.name] = newImageList;
-    _post(Pet.fromMap(postMap));
+    _post(Pet().fromMap(postMap));
   }
 
   void increasePhotosQty() {
@@ -308,12 +324,14 @@ class PostsController extends GetxController {
   }
 
   void reviewPost() {
-    Get.toNamed(
-      Routes.petDetails,
-      arguments: true,
-    )?.then((_) {
-      _nextStep();
-    });
+    if (!lastStep()) {
+      Get.toNamed(
+        Routes.petDetails,
+        arguments: true,
+      )?.then((_) {
+        _nextStep();
+      });
+    }
   }
 
   void goToHome() {
