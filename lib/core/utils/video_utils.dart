@@ -18,12 +18,12 @@ class VideoUtils {
     bool isFullscreen = false,
     bool autoPlay = false,
   }) {
-    debugPrint('>> VideoPath $videoPath');
-
     if (videoPath != null) {
       if (videoPath.toString().isUrl()) {
+        debugPrint('>> VideoPath from internet');
         videoPlayerController = VideoPlayerController.network(videoPath);
       } else {
+        debugPrint('>> VideoPath from cache');
         videoPath is String ? videoPath = File(videoPath) : videoPath;
         videoPlayerController = VideoPlayerController.file(videoPath);
       }
