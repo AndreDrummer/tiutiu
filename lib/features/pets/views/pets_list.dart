@@ -42,50 +42,57 @@ class _PetsList extends StatelessWidget with TiuTiuPopUp {
 
     _migrationController.migrate();
 
-    return Obx(
-      () => FutureBuilder<void>(
-        future: postsController.loadPosts(
-          isFilteringByName: filterController.filterByName.isNotEmpty,
-          orderParam: filterController.orderBy,
-          disappeared: disappeared,
-        ),
-        builder: (context, snapshot) {
-          return AsyncHandler<void>(
-            showLoadingScreen: filterController.filterByName.isEmpty,
-            loadingMessage: AppStrings.loadingDots,
-            snapshot: snapshot,
-            buildWidget: ((_) {
-              final petsList = postsController.posts;
+    return FutureBuilder(
+        // TODO: cache image and videos from a opened post
+        future: null,
+        builder: (_, __) {
+          return Obx(
+            () => FutureBuilder<void>(
+              future: postsController.loadPosts(
+                isFilteringByName: filterController.filterByName.isNotEmpty,
+                orderParam: filterController.orderBy,
+                disappeared: disappeared,
+              ),
+              builder: (context, snapshot) {
+                return AsyncHandler<void>(
+                  showLoadingScreen: filterController.filterByName.isEmpty,
+                  loadingMessage: AppStrings.loadingDots,
+                  forcedDataReturned: List,
+                  forceReturnBuildWidget: true,
+                  snapshot: snapshot,
+                  buildWidget: ((_) {
+                    final posts = postsController.posts;
 
-              return ListView.builder(
-                itemCount: petsList.length + 1,
-                padding: EdgeInsets.zero,
-                key: UniqueKey(),
-                itemBuilder: (_, index) {
-                  if (petsList.isEmpty) return EmptyListScreen();
+                    return ListView.builder(
+                      itemCount: posts.length + 1,
+                      padding: EdgeInsets.zero,
+                      key: UniqueKey(),
+                      itemBuilder: (_, index) {
+                        if (posts.isEmpty) return EmptyListScreen();
 
-                  return GestureDetector(
-                    onTap: () {
-                      Get.toNamed(Routes.petDetails);
-                      postsController.post = petsList[index < petsList.length
-                          ? index
-                          : petsList.length - 1];
-                    },
-                    child: _RenderListItem(
-                      showBackToStartButton: index == petsList.length,
-                      onNavigateToTop: homeController.onScrollUp,
-                      pet: petsList[index < petsList.length
-                          ? index
-                          : petsList.length - 1],
-                    ),
-                  );
-                },
-              );
-            }),
+                        return GestureDetector(
+                          onTap: () {
+                            Get.toNamed(Routes.petDetails);
+                            postsController.post = posts[index < posts.length
+                                ? index
+                                : posts.length - 1];
+                          },
+                          child: _RenderListItem(
+                            showBackToStartButton: index == posts.length,
+                            onNavigateToTop: homeController.onScrollUp,
+                            pet: posts[index < posts.length
+                                ? index
+                                : posts.length - 1],
+                          ),
+                        );
+                      },
+                    );
+                  }),
+                );
+              },
+            ),
           );
-        },
-      ),
-    );
+        });
   }
 }
 
