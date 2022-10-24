@@ -27,7 +27,7 @@ class TiuTiuInitializer {
     await currentLocationController.updateGPSStatus();
     await currentLocationController.setUserLocation();
     await StatesAndCities().getUFAndCities();
-    await postsController.getVideosFromCache();
+    await postsController.loadPosts();
   }
 
   static List<DependencyInjection> _dependencies = [
