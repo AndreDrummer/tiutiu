@@ -5,8 +5,10 @@ import 'package:flutter/material.dart';
 
 class AsyncHandler<T> extends StatelessWidget {
   const AsyncHandler({
+    this.forceReturnBuildWidget = false,
     this.showLoadingScreen = true,
     required this.buildWidget,
+    this.forcedDataReturned,
     required this.snapshot,
     this.onErrorCallback,
     this.loadingMessage,
@@ -14,14 +16,18 @@ class AsyncHandler<T> extends StatelessWidget {
     this.errorMessage,
     this.errorWidget,
     super.key,
-  });
+  }) : assert(forceReturnBuildWidget
+            ? forcedDataReturned != null
+            : forcedDataReturned == null);
 
   final Widget Function(T data) buildWidget;
   final void Function()? onErrorCallback;
+  final bool forceReturnBuildWidget;
   final AsyncSnapshot<T> snapshot;
   final Widget? noResultScreen;
   final String? loadingMessage;
   final bool showLoadingScreen;
+  final T? forcedDataReturned;
   final String? errorMessage;
   final Widget? errorWidget;
 
@@ -39,10 +45,12 @@ class AsyncHandler<T> extends StatelessWidget {
     if (connectionState == ConnectionState.waiting && showLoadingScreen)
       return LoadingPage();
 
-    if ((!snapshot.hasData || snapshot.data == null))
+    if ((!snapshot.hasData || snapshot.data == null) && !forceReturnBuildWidget)
       return noResultScreen ?? EmptyListScreen();
 
-    return buildWidget(snapshot.data!);
+    return forceReturnBuildWidget
+        ? buildWidget(forcedDataReturned!)
+        : buildWidget(snapshot.data!);
   }
 
   @override
