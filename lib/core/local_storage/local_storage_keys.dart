@@ -3,7 +3,7 @@ enum LocalStorageKey {
   facebookAuthData,
   googleAuthData,
   appleAuthData,
-  videosCached,
+  assetsCached,
   mockedPost,
   firstOpen,
   adsData,
