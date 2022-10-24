@@ -1,12 +1,10 @@
+import 'package:tiutiu/features/posts/repository/posts_repository.dart';
 import 'package:tiutiu/features/posts/validators/form_validators.dart';
-import 'package:tiutiu/core/local_storage/local_storage_keys.dart';
-import 'package:tiutiu/features/posts/services/post_service.dart';
-import 'package:tiutiu/core/local_storage/local_storage.dart';
-import 'package:tiutiu/core/utils/video_cache_manager.dart';
 import 'package:tiutiu/features/pets/model/pet_model.dart';
 import 'package:tiutiu/core/utils/routes/routes_name.dart';
 import 'package:tiutiu/features/system/controllers.dart';
 import 'package:tiutiu/core/constants/strings.dart';
+import 'package:tiutiu/core/utils/ordenators.dart';
 import 'package:flutter/foundation.dart';
 import 'package:chewie/chewie.dart';
 import 'package:get/get.dart';
@@ -14,38 +12,47 @@ import 'package:get/get.dart';
 const int _FLOW_STEPS_QTY = 8;
 
 class PostsController extends GetxController {
-  PostsController({required PostService postService})
-      : _postService = postService;
+  PostsController({
+    required PostsRepository postsRepository,
+  }) : _postsRepository = postsRepository;
 
-  PostService _postService;
+  final PostsRepository _postsRepository;
 
   final RxMap<String, dynamic> _cachedVideos = <String, dynamic>{}.obs;
+  final RxString _orderParam = FilterStrings.distance.obs;
+  final RxBool _isFilteringByName = false.obs;
   final RxString _uploadingPostText = ''.obs;
   final RxBool _isInReviewMode = false.obs;
   final RxString _flowErrorText = ''.obs;
   final RxBool _isFullAddress = false.obs;
+  final RxList<Pet> _posts = <Pet>[].obs;
   final RxBool _postReviewed = false.obs;
   final RxInt _postPhotoFrameQty = 1.obs;
   final RxBool _formIsValid = true.obs;
   final RxBool _isLoading = false.obs;
   final RxBool _hasError = false.obs;
   final Rx<Pet> _post = Pet().obs;
+  final RxInt _petsCount = 0.obs;
   final RxInt _flowIndex = 0.obs;
 
   bool get existChronicDisease => post.health == PetHealthString.chronicDisease;
   String get uploadingPostText => _uploadingPostText.value;
-  int get postPhotoFrameQty => _postPhotoFrameQty.value;
   Map<String, dynamic> get cachedVideos => _cachedVideos;
+  bool get isFilteringByName => _isFilteringByName.value;
+  int get postPhotoFrameQty => _postPhotoFrameQty.value;
   String get flowErrorText => _flowErrorText.value;
   bool get isInReviewMode => _isInReviewMode.value;
   bool get isFullAddress => _isFullAddress.value;
   bool get formIsInInitialState => post == Pet();
   bool get postReviewed => _postReviewed.value;
+  String get orderParam => _orderParam.value;
   bool get formIsValid => _formIsValid.value;
   bool get isLoading => _isLoading.value;
   int get flowIndex => _flowIndex.value;
+  int get petsCount => _petsCount.value;
   bool get hasError => _hasError.value;
   ChewieController? chewieController;
+  List<Pet> get posts => _posts;
   Pet get post => _post.value;
 
   void set isInReviewMode(bool value) => _isInReviewMode(value);
@@ -80,68 +87,6 @@ class PostsController extends GetxController {
     return caracteristics;
   }
 
-  Future<void> _cacheVideo({
-    required Map<String, dynamic> cachedVideosMap,
-    required Pet pet,
-  }) async {
-    debugPrint('>>Cache _cacheVideo');
-    final videoPathSaved = await VideoCacheManager.save(pet.video, pet.uid!);
-
-    cachedVideosMap.putIfAbsent(pet.uid!, () => videoPathSaved);
-
-    debugPrint('>>Cache current map $cachedVideosMap');
-    await LocalStorage.setValueUnderKey(
-      value: cachedVideosMap,
-      key: LocalStorageKey.videosCache,
-    );
-
-    final afterSavedMap = await LocalStorage.getValueUnderKey(
-      LocalStorageKey.videosCache,
-    );
-
-    debugPrint('>>Cache After Saved Map $afterSavedMap');
-  }
-
-  Future<void> saveVideosOnCache(Pet pet) async {
-    debugPrint('>>Cache _saveVideosOnCache ');
-    final cachedVideosMap = await _cachedVideosMap();
-
-    if (!isInReviewMode && pet.video != null) {
-      if (!cachedVideosMap.keys.contains(pet.uid)) {
-        debugPrint('>>Cache _saveVideosOnCache Not Saved');
-        await _cacheVideo(cachedVideosMap: cachedVideosMap, pet: pet);
-      } else {
-        debugPrint('>>Cache _saveVideosOnCache Already Saved');
-      }
-    }
-
-    await getVideosFromCache();
-  }
-
-  Future<void> getVideosFromCache() async {
-    debugPrint('>>Cache getVideosFromCache');
-    final cachedVideosMap = await _cachedVideosMap();
-    _cachedVideos(cachedVideosMap);
-
-    debugPrint('>>Cached Videos Map $cachedVideosMap');
-  }
-
-  Future<Map<String, dynamic>> _cachedVideosMap() async {
-    final storagedVideos = await LocalStorage.getValueUnderKey(
-      LocalStorageKey.videosCache,
-    );
-
-    debugPrint('>>Storaged Videos $storagedVideos');
-
-    final Map<String, dynamic> cachedVideosMap = {};
-
-    if (storagedVideos != null) {
-      cachedVideosMap.addAll(storagedVideos);
-    }
-
-    return cachedVideosMap;
-  }
-
   Future<void> uploadPost() async {
     updatePet(PetEnum.createdAt, DateTime.now().toIso8601String());
 
@@ -156,11 +101,42 @@ class PostsController extends GetxController {
     goToHome();
   }
 
+  Future<void> loadPosts({
+    bool isFilteringByName = false,
+    bool disappeared = false,
+    String? orderParam,
+  }) async {
+    _isFilteringByName(isFilteringByName);
+    _orderParam(orderParam);
+
+    final list = await _postsRepository.getPostList(
+      filterController.filterParams(
+        disappeared: disappeared,
+      ),
+    );
+    _petsCount(list.length);
+    _posts(list);
+  }
+
+  List<Pet> ordernateList(List<Pet> list) {
+    if (orderParam == FilterStrings.distance) {
+      list.sort(Ordenators.orderByDistance);
+    } else if (orderParam == FilterStrings.date) {
+      list.sort(Ordenators.orderByPostDate);
+    } else if (orderParam == FilterStrings.age) {
+      list.sort(Ordenators.orderByAge);
+    } else if (orderParam == FilterStrings.name) {
+      list.sort(Ordenators.orderByName);
+    }
+
+    return list;
+  }
+
   Future<void> _uploadVideo() async {
     if (post.video != null) _uploadingPostText(PostFlowStrings.sendingVideo);
 
-    await _postService.uploadVideo(
-      onVideoUploaded: (videoUrlDownload) {
+    await _postsRepository.uploadVideo(
+      onUploaded: (videoUrlDownload) {
         updatePet(PetEnum.video, videoUrlDownload);
       },
       post: post,
@@ -172,8 +148,8 @@ class PostsController extends GetxController {
       _uploadingPostText(PostFlowStrings.imageQty(post.photos.length));
     }
 
-    await _postService.uploadImages(
-      onImagesUploaded: (urlList) {
+    await _postsRepository.uploadImages(
+      onUploaded: (urlList) {
         updatePet(PetEnum.photos, urlList);
       },
       post: post,
@@ -182,7 +158,7 @@ class PostsController extends GetxController {
 
   Future<void> _uploadPostData() async {
     _uploadingPostText(PostFlowStrings.sendingData);
-    await _postService.uploadPostData(post);
+    await _postsRepository.uploadPostData(post: post);
 
     _uploadingPostText(PostFlowStrings.finalizing);
     await Future.delayed(Duration(seconds: 1));
@@ -258,7 +234,6 @@ class PostsController extends GetxController {
       case 5:
         _isInReviewMode(true);
         isLoading = false;
-        petsController.pet = Pet().fromMap(post.toMap());
         break;
       case 7:
         isLoading = true;

@@ -42,7 +42,7 @@ class _PetDetailsState extends State<PetDetails> {
   }
 
   void initializeVideo() {
-    final pet = petsController.pet;
+    final pet = postsController.post;
 
     final cachedVideos = postsController.cachedVideos;
     final cacheExists = cachedVideos[pet.uid!] != null;
@@ -67,7 +67,7 @@ class _PetDetailsState extends State<PetDetails> {
 
   @override
   Widget build(BuildContext context) {
-    final Pet pet = petsController.pet;
+    final Pet pet = postsController.post;
     final petCaracteristics = PetCaracteristics.petCaracteristics(pet);
 
     return SafeArea(
@@ -77,48 +77,44 @@ class _PetDetailsState extends State<PetDetails> {
           return true;
         },
         child: Scaffold(
-          body: FutureBuilder<void>(
-              future: postsController.saveVideosOnCache(pet),
-              builder: (_, __) {
-                return Stack(
-                  children: [
-                    Background(dark: true),
-                    Column(
-                      children: [
-                        _showImagesAndVideos(
-                          boxHeight: Get.height / 2.5,
-                          context: context,
-                          pet: pet,
-                        ),
-                        Expanded(
-                          child: Container(
-                            height: Get.height / 4.5,
-                            child: Column(
-                              children: [
-                                _petCaracteristics(petCaracteristics),
-                                _description(pet.description),
-                                _address(pet),
-                                Spacer(),
-                                _ownerAdcontact(
-                                  whatsappMessage: 'whatsappMessage',
-                                  emailMessage: 'emailMessage',
-                                  emailSubject: 'emailSubject',
-                                  user: pet.owner!,
-                                )
-                              ],
-                            ),
-                          ),
-                        )
-                      ],
+          body: Stack(
+            children: [
+              Background(dark: true),
+              Column(
+                children: [
+                  _showImagesAndVideos(
+                    boxHeight: Get.height / 2.5,
+                    context: context,
+                    pet: pet,
+                  ),
+                  Expanded(
+                    child: Container(
+                      height: Get.height / 4.5,
+                      child: Column(
+                        children: [
+                          _petCaracteristics(petCaracteristics),
+                          _description(pet.description),
+                          _address(pet),
+                          Spacer(),
+                          _ownerAdcontact(
+                            whatsappMessage: 'whatsappMessage',
+                            emailMessage: 'emailMessage',
+                            emailSubject: 'emailSubject',
+                            user: pet.owner!,
+                          )
+                        ],
+                      ),
                     ),
-                    Positioned(child: _appBar(pet.name!)),
-                    LoadDarkScreen(
-                      message: petsController.loadingText,
-                      visible: petsController.isLoading,
-                    )
-                  ],
-                );
-              }),
+                  )
+                ],
+              ),
+              Positioned(child: _appBar(pet.name!)),
+              LoadDarkScreen(
+                message: petsController.loadingText,
+                visible: petsController.isLoading,
+              )
+            ],
+          ),
         ),
       ),
     );
@@ -187,7 +183,7 @@ class _PetDetailsState extends State<PetDetails> {
           child: InkWell(
             onTap: () {
               OtherFunctions.navigateToAnnouncerDetail(
-                petsController.pet.owner!,
+                postsController.post.owner!,
               );
             },
             child: _announcerBadge(),
@@ -219,7 +215,7 @@ class _PetDetailsState extends State<PetDetails> {
             ),
             child: AutoSizeText(
               OtherFunctions.firstCharacterUpper(
-                petsController.pet.owner!.displayName ?? 'Usuário do Tiutiu',
+                postsController.post.owner!.displayName ?? 'Usuário do Tiutiu',
               ).trim(),
               style: TextStyles.fontSize(
                 fontWeight: FontWeight.bold,
@@ -231,7 +227,7 @@ class _PetDetailsState extends State<PetDetails> {
             backgroundColor: Colors.transparent,
             child: ClipOval(
               child: AssetHandle.getImage(
-                petsController.pet.owner!.avatar,
+                postsController.post.owner!.avatar,
                 isUserImage: true,
               ),
             ),
@@ -385,7 +381,7 @@ class _PetDetailsState extends State<PetDetails> {
     String? emailSubject,
     TiutiuUser? user,
   }) {
-    final Pet pet = petsController.pet;
+    final Pet pet = postsController.post;
     return Visibility(
       visible: !widget.inReviewMode,
       child: Container(
