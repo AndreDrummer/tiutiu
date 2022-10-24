@@ -29,6 +29,7 @@ class VideoUtils {
       }
       chewieController = ChewieController(
         placeholder: Center(child: CircularProgressIndicator()),
+        aspectRatio: videoPlayerController?.value.aspectRatio,
         videoPlayerController: videoPlayerController!,
         showControlsOnInitialize: false,
         allowedScreenSleep: false,
