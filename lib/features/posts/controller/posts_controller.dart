@@ -116,6 +116,7 @@ class PostsController extends GetxController {
     );
     _petsCount(list.length);
     _posts(list);
+    print('>> PostsL $posts');
   }
 
   List<Pet> ordernateList(List<Pet> list) {
