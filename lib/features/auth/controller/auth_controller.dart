@@ -285,10 +285,7 @@ class AuthController extends GetxController {
 
   void clearAllAuthData() {
     tiutiuUserController.resetUserWithThisUser();
-    LocalStorageKey.values.forEach((key) {
-      if (key != LocalStorageKey.firstOpen)
-        LocalStorage.deleteDataUnderKey(key);
-    });
+    LocalStorage.clearStorage();
   }
 
   final _startScreenImages = [
