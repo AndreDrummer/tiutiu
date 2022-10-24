@@ -43,19 +43,19 @@ class _PetsList extends StatelessWidget with TiuTiuPopUp {
     _migrationController.migrate();
 
     return Obx(
-      () => StreamBuilder<List<Pet>>(
-        stream: petsController.petsList(
+      () => FutureBuilder<void>(
+        future: postsController.loadPosts(
           isFilteringByName: filterController.filterByName.isNotEmpty,
           orderParam: filterController.orderBy,
           disappeared: disappeared,
         ),
         builder: (context, snapshot) {
-          return AsyncHandler<List<Pet>>(
+          return AsyncHandler<void>(
             showLoadingScreen: filterController.filterByName.isEmpty,
             loadingMessage: AppStrings.loadingDots,
             snapshot: snapshot,
-            buildWidget: ((list) {
-              final petsList = list;
+            buildWidget: ((_) {
+              final petsList = postsController.posts;
 
               return ListView.builder(
                 itemCount: petsList.length + 1,
@@ -67,7 +67,7 @@ class _PetsList extends StatelessWidget with TiuTiuPopUp {
                   return GestureDetector(
                     onTap: () {
                       Get.toNamed(Routes.petDetails);
-                      petsController.pet = petsList[index < petsList.length
+                      postsController.post = petsList[index < petsList.length
                           ? index
                           : petsList.length - 1];
                     },

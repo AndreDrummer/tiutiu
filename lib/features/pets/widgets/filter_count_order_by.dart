@@ -29,7 +29,7 @@ class FilterResultCount extends StatelessWidget {
                 Row(
                   children: [
                     AutoSizeText(
-                      '${petsController.petsCount} ',
+                      '${postsController.petsCount} ',
                       style: TextStyles.fontSize12(),
                     ),
                     AutoSizeText(
