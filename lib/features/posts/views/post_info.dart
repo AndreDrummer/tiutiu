@@ -46,7 +46,7 @@ class PostInfo extends StatelessWidget {
             validator: Validators.verifyEmpty,
             onChanged: (name) {
               nameKeyForm.currentState!.validate();
-              postsController.updatePet(PetEnum.name, name);
+              postsController.updatePost(PetEnum.name, name);
             },
             labelText: PostFlowStrings.petName,
             fontSizeLabelText: 14.0.sp,
@@ -71,7 +71,7 @@ class PostInfo extends StatelessWidget {
               child: UnderlineInputDropdown(
                 initialValue: postsController.post.ageYear.toString(),
                 onChanged: (anos) {
-                  postsController.updatePet(
+                  postsController.updatePost(
                     PetEnum.ageYear,
                     int.parse(anos ?? '0'),
                   );
@@ -85,7 +85,7 @@ class PostInfo extends StatelessWidget {
               child: UnderlineInputDropdown(
                 initialValue: postsController.post.ageMonth.toString(),
                 onChanged: (meses) {
-                  postsController.updatePet(
+                  postsController.updatePost(
                     PetEnum.ageMonth,
                     int.parse(meses ?? '0'),
                   );
@@ -109,7 +109,7 @@ class PostInfo extends StatelessWidget {
             !postsController.formIsValid,
         initialValue: postsController.post.size.toString(),
         onChanged: (size) {
-          postsController.updatePet(PetEnum.size, size);
+          postsController.updatePost(PetEnum.size, size);
         },
         labelText: PostFlowStrings.size,
         items: DummyData.size,
@@ -131,7 +131,7 @@ class PostInfo extends StatelessWidget {
                     !postsController.formIsValid,
             initialValue: postsController.post.health.toString(),
             onChanged: (health) {
-              postsController.updatePet(PetEnum.health, health);
+              postsController.updatePost(PetEnum.health, health);
             },
             labelText: PetDetailsStrings.health,
             items: DummyData.health,
@@ -160,7 +160,7 @@ class PostInfo extends StatelessWidget {
                       !postsController.formIsValid,
                   maxLines: 1,
                   onChanged: (chronicDiseaseInfo) {
-                    postsController.updatePet(
+                    postsController.updatePost(
                       PetEnum.chronicDiseaseInfo,
                       chronicDiseaseInfo,
                     );

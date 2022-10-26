@@ -1,3 +1,4 @@
+import 'package:tiutiu/core/models/filter_params.dart';
 import 'package:tiutiu/features/home/controller/home_controller.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -16,7 +17,7 @@ class TopBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _fieldController = TextEditingController(
-      text: filterController.filterByName,
+      text: filterController.getParams.name,
     );
 
     return Padding(
@@ -29,7 +30,10 @@ class TopBar extends StatelessWidget {
                 return TextFormField(
                   textInputAction: TextInputAction.search,
                   onChanged: (value) {
-                    filterController.filterByName = value;
+                    filterController.updateParams(
+                      FilterParamsEnum.name,
+                      value,
+                    );
                   },
                   controller: _fieldController,
                   decoration: InputDecoration(
@@ -37,7 +41,7 @@ class TopBar extends StatelessWidget {
                     contentPadding: EdgeInsets.only(left: 8.0.w),
                     fillColor: AppColors.secondary.withAlpha(20),
                     suffixIcon: Visibility(
-                      visible: filterController.filterByName.isNotEmpty,
+                      visible: filterController.getParams.name.isNotEmpty,
                       child: InputCloseButton(
                         onClose: () {
                           filterController.clearName();
