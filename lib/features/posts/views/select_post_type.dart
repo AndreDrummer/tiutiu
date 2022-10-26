@@ -70,7 +70,7 @@ class SelectPostType extends StatelessWidget with TiuTiuPopUp {
 
               return PostTypeCardSelector(
                 onTypeSelected: () {
-                  postsController.updatePet(PetEnum.type, type);
+                  postsController.updatePost(PetEnum.type, type);
                 },
                 isSelected: postsController.post.type == type,
                 image: petsTypeImage.elementAt(index),
