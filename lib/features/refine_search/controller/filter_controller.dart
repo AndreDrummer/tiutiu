@@ -7,43 +7,25 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class FilterController extends GetxController {
-  final RxString _filterStateSelected =
-      StatesAndCities().stateInitials.first.obs;
-  final RxString _filterTypeTextSelected = PetTypeStrings.all.obs;
-  final RxString _orderBy = FilterStrings.distance.obs;
-  final RxString _filterByName = ''.obs;
+  final Rx<FilterParams> filterParams = FilterParams(
+    state: StatesAndCities().stateInitials.first,
+    orderBy: FilterStrings.distance,
+    type: PetTypeStrings.all,
+    disappeared: false,
+    name: '',
+  ).obs;
 
-  String get filterTypeTextSelected => _filterTypeTextSelected.value;
-  String get filterStateSelected => _filterStateSelected.value;
-  String get filterByName => _filterByName.value;
-  String get orderBy => _orderBy.value;
+  void updateParams(FilterParamsEnum property, dynamic data) {
+    final paramMap = filterParams.value.toMap();
+    paramMap[property.name] = data;
 
-  void set filterStateSelected(String? stateName) {
-    _filterStateSelected(stateName ?? filterStateSelected);
+    filterParams(FilterParams.fromMap(paramMap));
   }
 
-  void set filterTypeTextSelected(String type) {
-    _filterTypeTextSelected(type);
-  }
-
-  void set orderBy(String orderParam) {
-    _orderBy(orderParam);
-  }
-
-  void set filterByName(String name) {
-    _filterByName(name);
-  }
+  FilterParams get getParams => filterParams.value;
 
   void clearName() {
-    filterByName = '';
-  }
-
-  FilterParams filterParams({bool disappeared = false}) {
-    return FilterParams(
-      type: filterTypeTextSelected,
-      state: filterStateSelected,
-      disappeared: disappeared,
-    );
+    updateParams(FilterParamsEnum.name, '');
   }
 
   final List<String> filterTypeText = [

@@ -56,7 +56,7 @@ SizedBox _otherCaracteristicsGrid(List<String> caracs) {
               carac,
             ),
             onChanged: (_) {
-              postsController.updatePet(PetEnum.otherCaracteristics, carac);
+              postsController.updatePost(PetEnum.otherCaracteristics, carac);
             },
             value: postsController.post.otherCaracteristics.contains(carac),
           ),

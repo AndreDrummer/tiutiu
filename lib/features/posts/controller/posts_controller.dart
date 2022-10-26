@@ -21,6 +21,7 @@ class PostsController extends GetxController {
   final PostsRepository _postsRepository;
 
   final RxMap<String, dynamic> _cachedVideos = <String, dynamic>{}.obs;
+  final RxList<Pet> _filteredPosts = <Pet>[].obs;
   final RxString _uploadingPostText = ''.obs;
   final RxBool _isInReviewMode = false.obs;
   final RxBool _isFullAddress = false.obs;
@@ -43,6 +44,7 @@ class PostsController extends GetxController {
   bool get isInReviewMode => _isInReviewMode.value;
   bool get isFullAddress => _isFullAddress.value;
   bool get formIsInInitialState => post == Pet();
+  List<Pet> get filteredPosts => _filteredPosts;
   bool get postReviewed => _postReviewed.value;
   bool get formIsValid => _formIsValid.value;
   int get postsCount => _postsCount.value;
@@ -62,6 +64,15 @@ class PostsController extends GetxController {
   bool isInStepPost() => _flowIndex.value == _FLOW_STEPS_QTY - 1;
   bool lastStep() => _flowIndex.value == _FLOW_STEPS_QTY - 1;
   bool firstStep() => _flowIndex.value == 0;
+
+  @override
+  void onInit() {
+    ever(filterController.filterParams, (_) {
+      _filterPosts();
+    });
+
+    super.onInit();
+  }
 
   Map<String, dynamic> _insertOwnerData(Map<String, dynamic> postMap) {
     if (post.owner == null) {
@@ -86,7 +97,7 @@ class PostsController extends GetxController {
   }
 
   Future<void> uploadPost() async {
-    updatePet(PetEnum.createdAt, DateTime.now().toIso8601String());
+    updatePost(PetEnum.createdAt, DateTime.now().toIso8601String());
 
     await _mockPostData();
 
@@ -105,13 +116,11 @@ class PostsController extends GetxController {
     );
 
     _posts(list);
-    _postsCount(_posts.length);
+    _filterPosts();
   }
 
-  List<Pet> filterPosts() {
-    final filterParams = filterController.filterParams();
-    final filterName = filterController.filterByName;
-    final orderBy = filterController.orderBy;
+  List<Pet> _filterPosts() {
+    final filterParams = filterController.getParams;
 
     debugPrint('>> filteredPosts');
     debugPrint('>> filters $filterParams');
@@ -124,13 +133,16 @@ class PostsController extends GetxController {
       filterParams.disappeared,
     );
 
-    final isFilteringByName = filterName.isNotEmptyNeighterNull();
+    final isFilteringByName = filterParams.name.isNotEmptyNeighterNull();
     final filteredList = filteredByDisappeared;
 
     final returnedList = _ordernatedList(
-      isFilteringByName ? _filterByName(filterName) : filteredList,
-      orderBy,
+      isFilteringByName ? _filterByName(filterParams.name) : filteredList,
+      filterParams.orderBy,
     );
+
+    _filteredPosts(returnedList);
+    _postsCount(filteredPosts.length);
 
     return returnedList;
   }
@@ -173,8 +185,12 @@ class PostsController extends GetxController {
     final isBr = state == StatesAndCities().stateInitials.first;
 
     if (!isBr) {
+      final filterState = StatesAndCities().stateNames.elementAt(
+            StatesAndCities().stateInitials.indexOf(state),
+          );
+
       return list.where((post) {
-        return post.state == state;
+        return post.state == filterState;
       }).toList();
     }
 
@@ -207,7 +223,7 @@ class PostsController extends GetxController {
 
     await _postsRepository.uploadVideo(
       onUploaded: (videoUrlDownload) {
-        updatePet(PetEnum.video, videoUrlDownload);
+        updatePost(PetEnum.video, videoUrlDownload);
       },
       post: post,
     );
@@ -220,7 +236,7 @@ class PostsController extends GetxController {
 
     await _postsRepository.uploadImages(
       onUploaded: (urlList) {
-        updatePet(PetEnum.photos, urlList);
+        updatePost(PetEnum.photos, urlList);
       },
       post: post,
     );
@@ -249,7 +265,7 @@ class PostsController extends GetxController {
     // print('>>Mocked? $mocked');
   }
 
-  void updatePet(PetEnum property, dynamic data) {
+  void updatePost(PetEnum property, dynamic data) {
     final postMap = _insertOwnerData(post.toMap());
     postMap[property.name] = data;
 

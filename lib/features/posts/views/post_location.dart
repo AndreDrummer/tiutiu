@@ -17,8 +17,8 @@ class PostLocation extends StatelessWidget {
         initialState: postsController.post.state,
         initialCity: postsController.post.city,
         onStateChanged: (state) {
-          postsController.updatePet(PetEnum.state, state);
-          postsController.updatePet(
+          postsController.updatePost(PetEnum.state, state);
+          postsController.updatePost(
             PetEnum.city,
             StatesAndCities()
                 .citiesOf(
@@ -28,7 +28,7 @@ class PostLocation extends StatelessWidget {
           );
         },
         onCityChanged: (city) {
-          postsController.updatePet(PetEnum.city, city);
+          postsController.updatePost(PetEnum.city, city);
         },
       ),
     );
