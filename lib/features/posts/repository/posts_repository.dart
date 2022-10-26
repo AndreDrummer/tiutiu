@@ -1,7 +1,6 @@
 import 'package:tiutiu/features/posts/services/post_service.dart';
 import 'package:tiutiu/core/local_storage/local_storage.dart';
 import 'package:tiutiu/features/pets/model/pet_model.dart';
-import 'package:tiutiu/core/models/filter_params.dart';
 import 'package:flutter/foundation.dart';
 
 final DISAPPEARED_TAB = 1;
@@ -12,7 +11,7 @@ class PostsRepository {
 
   final PostService _postService;
 
-  Future<List<Pet>> getPostList(FilterParams filterParams) async {
+  Future<List<Pet>> getPostList({bool getFromInternet = false}) async {
     debugPrint('>>Cache getPostList');
     List<Pet> petsList = [];
 
@@ -20,14 +19,13 @@ class PostsRepository {
     today = today.split('T').first;
     final todaysCache = await LocalStorage.getValueUnderStringKey(today);
 
-    if (todaysCache != null) {
+    if (todaysCache != null && !getFromInternet) {
       debugPrint('>>Cache exists');
       petsList = await _getPostsFromCache();
-      // petsList = await _getPostFromInternet(filterParams);
     } else {
       debugPrint('>>Cache is null');
       debugPrint('>>downloading from Internet...');
-      petsList = await _getPostFromInternet(filterParams);
+      petsList = await _getPostFromInternet();
     }
 
     return petsList;
@@ -49,9 +47,9 @@ class PostsRepository {
     );
   }
 
-  Future<List<Pet>> _getPostFromInternet(FilterParams filterParams) async {
+  Future<List<Pet>> _getPostFromInternet() async {
     debugPrint('>>Cache _getPostFromInternet');
-    final postData = await _postService.loadPets(filterParams);
+    final postData = await _postService.loadPets();
 
     var postsList = List<Pet>.from(postData.map((post) => Pet().fromMap(post)));
     _cachePosts(posts: postsList);
