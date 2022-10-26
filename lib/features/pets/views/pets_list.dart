@@ -1,13 +1,10 @@
-import 'package:tiutiu/core/migration/controller/migration_controller.dart';
 import 'package:tiutiu/features/home/controller/home_controller.dart';
 import 'package:tiutiu/features/pets/widgets/back_to_start.dart';
 import 'package:tiutiu/features/pets/model/pet_model.dart';
 import 'package:tiutiu/core/utils/routes/routes_name.dart';
-import 'package:tiutiu/core/widgets/async_handler.dart';
 import 'package:tiutiu/features/system/controllers.dart';
 import 'package:tiutiu/core/mixins/tiu_tiu_pop_up.dart';
 import 'package:tiutiu/Widgets/cards/card_ad_list.dart';
-import 'package:tiutiu/core/constants/strings.dart';
 import 'package:tiutiu/Widgets/cards/card_ad.dart';
 import 'package:tiutiu/Widgets/empty_list.dart';
 import 'package:flutter/material.dart';
@@ -38,61 +35,36 @@ class _PetsList extends StatelessWidget with TiuTiuPopUp {
 
   @override
   Widget build(BuildContext context) {
-    final MigrationController _migrationController = Get.find();
+    return Obx(() {
+      final posts = postsController.filterPosts();
 
-    _migrationController.migrate();
+      return RefreshIndicator(
+        onRefresh: () async => postsController.loadPosts(
+          getFromInternet: true,
+        ),
+        child: ListView.builder(
+          itemCount: posts.length + 1,
+          padding: EdgeInsets.zero,
+          key: UniqueKey(),
+          itemBuilder: (_, index) {
+            if (posts.isEmpty) return EmptyListScreen();
 
-    return FutureBuilder(
-        // TODO: cache image and videos from a opened post
-        future: null,
-        builder: (_, __) {
-          return Obx(
-            () => FutureBuilder<void>(
-              future: postsController.loadPosts(
-                isFilteringByName: filterController.filterByName.isNotEmpty,
-                orderParam: filterController.orderBy,
-                disappeared: disappeared,
-              ),
-              builder: (context, snapshot) {
-                return AsyncHandler<void>(
-                  showLoadingScreen: filterController.filterByName.isEmpty,
-                  loadingMessage: AppStrings.loadingDots,
-                  forcedDataReturned: List,
-                  forceReturnBuildWidget: true,
-                  snapshot: snapshot,
-                  buildWidget: ((_) {
-                    final posts = postsController.posts;
-
-                    return ListView.builder(
-                      itemCount: posts.length + 1,
-                      padding: EdgeInsets.zero,
-                      key: UniqueKey(),
-                      itemBuilder: (_, index) {
-                        if (posts.isEmpty) return EmptyListScreen();
-
-                        return GestureDetector(
-                          onTap: () {
-                            Get.toNamed(Routes.petDetails);
-                            postsController.post = posts[index < posts.length
-                                ? index
-                                : posts.length - 1];
-                          },
-                          child: _RenderListItem(
-                            showBackToStartButton: index == posts.length,
-                            onNavigateToTop: homeController.onScrollUp,
-                            pet: posts[index < posts.length
-                                ? index
-                                : posts.length - 1],
-                          ),
-                        );
-                      },
-                    );
-                  }),
-                );
+            return GestureDetector(
+              onTap: () {
+                Get.toNamed(Routes.petDetails);
+                postsController.post =
+                    posts[index < posts.length ? index : posts.length - 1];
               },
-            ),
-          );
-        });
+              child: _RenderListItem(
+                onNavigateToTop: () => homeController.onScrollUp(),
+                showBackToStartButton: index == posts.length,
+                pet: posts[index < posts.length ? index : posts.length - 1],
+              ),
+            );
+          },
+        ),
+      );
+    });
   }
 }
 
