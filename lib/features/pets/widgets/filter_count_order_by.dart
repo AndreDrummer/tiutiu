@@ -29,7 +29,7 @@ class FilterResultCount extends StatelessWidget {
                 Row(
                   children: [
                     AutoSizeText(
-                      '${postsController.petsCount} ',
+                      '${postsController.filterPosts().length} ',
                       style: TextStyles.fontSize12(),
                     ),
                     AutoSizeText(
@@ -62,8 +62,8 @@ class FilterResultCount extends StatelessWidget {
                 Row(
                   children: [
                     AutoSizeText(
-                      FilterStrings.orderedBy,
                       style: TextStyles.fontSize12(),
+                      FilterStrings.orderedBy,
                     ),
                     CustomDropdownButtonSearch(
                       itemList: filterController.orderTypeList,
