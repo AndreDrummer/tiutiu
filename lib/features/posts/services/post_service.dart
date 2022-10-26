@@ -1,39 +1,14 @@
 import 'package:tiutiu/core/constants/firebase_env_path.dart';
 import 'package:tiutiu/features/pets/model/pet_model.dart';
-import 'package:tiutiu/core/data/states_and_cities.dart';
 import 'package:tiutiu/core/utils/other_functions.dart';
-import 'package:tiutiu/core/models/filter_params.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:tiutiu/core/constants/strings.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 
 class PostService extends GetxService {
-  Future<List<Map<String, dynamic>>> loadPets(
-    FilterParams filterParams,
-  ) async {
-    final filterType =
-        filterParams.type == PetTypeStrings.all ? null : filterParams.type;
-
-    final disappeared = filterParams.disappeared;
-
-    var filterState =
-        filterParams.state == StatesAndCities().stateInitials.first
-            ? null
-            : filterParams.state;
-
-    if (filterState != null) {
-      filterState = StatesAndCities().stateNames.elementAt(
-            StatesAndCities().stateInitials.indexOf(filterState),
-          );
-    }
-
-    final posts = await FirebaseFirestore.instance
-        .collection(pathToPosts)
-        .where(FilterParamsEnum.disappeared.name, isEqualTo: disappeared)
-        .where(FilterParamsEnum.state.name, isEqualTo: filterState)
-        .where(FilterParamsEnum.type.name, isEqualTo: filterType)
-        .get();
+  Future<List<Map<String, dynamic>>> loadPets() async {
+    final posts =
+        await FirebaseFirestore.instance.collection(pathToPosts).get();
 
     return posts.docs.map((post) => post.data()).toList();
   }
