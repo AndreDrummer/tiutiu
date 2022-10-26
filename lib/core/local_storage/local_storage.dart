@@ -10,7 +10,6 @@ class LocalStorage {
   }) async {
     final _prefs = await SharedPreferences.getInstance();
     try {
-      print(data['video']);
       return _prefs.setString(key.name, jsonEncode(data));
     } on Exception catch (error) {
       throw Exception('An error has occurred during saving auth data: $error');

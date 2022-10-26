@@ -36,7 +36,7 @@ class _PetsList extends StatelessWidget with TiuTiuPopUp {
   @override
   Widget build(BuildContext context) {
     return Obx(() {
-      final posts = postsController.filterPosts();
+      final posts = postsController.filteredPosts;
 
       return RefreshIndicator(
         onRefresh: () async => postsController.loadPosts(

@@ -1,4 +1,5 @@
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:tiutiu/core/models/filter_params.dart';
 import 'package:tiutiu/features/system/controllers.dart';
 import 'package:tiutiu/Widgets/home_filter_item.dart';
 import 'package:flutter/material.dart';
@@ -14,7 +15,7 @@ class FiltersType extends StatelessWidget {
 
     return Obx(
       () {
-        final filterText = filterController.filterTypeTextSelected;
+        final filterText = filterController.getParams.type;
 
         return Container(
           margin: EdgeInsets.symmetric(horizontal: 2.0.w),
@@ -23,7 +24,10 @@ class FiltersType extends StatelessWidget {
             for (int i = 0; i < filtersTypeText.length; i++)
               HomeFilterItem(
                 onItemTap: () {
-                  filterController.filterTypeTextSelected = filtersTypeText[i];
+                  filterController.updateParams(
+                    FilterParamsEnum.type,
+                    filtersTypeText[i],
+                  );
                 },
                 isActive: filterText == filtersTypeText[i],
                 type: filtersTypeText[i],
