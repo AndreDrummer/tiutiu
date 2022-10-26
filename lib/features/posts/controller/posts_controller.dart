@@ -1,8 +1,10 @@
 import 'package:tiutiu/features/posts/repository/posts_repository.dart';
 import 'package:tiutiu/features/posts/validators/form_validators.dart';
+import 'package:tiutiu/core/extensions/string_extension.dart';
 import 'package:tiutiu/features/pets/model/pet_model.dart';
 import 'package:tiutiu/core/utils/routes/routes_name.dart';
 import 'package:tiutiu/features/system/controllers.dart';
+import 'package:tiutiu/core/data/states_and_cities.dart';
 import 'package:tiutiu/core/constants/strings.dart';
 import 'package:tiutiu/core/utils/ordenators.dart';
 import 'package:flutter/foundation.dart';
@@ -19,37 +21,33 @@ class PostsController extends GetxController {
   final PostsRepository _postsRepository;
 
   final RxMap<String, dynamic> _cachedVideos = <String, dynamic>{}.obs;
-  final RxString _orderParam = FilterStrings.distance.obs;
-  final RxBool _isFilteringByName = false.obs;
   final RxString _uploadingPostText = ''.obs;
   final RxBool _isInReviewMode = false.obs;
-  final RxString _flowErrorText = ''.obs;
   final RxBool _isFullAddress = false.obs;
   final RxList<Pet> _posts = <Pet>[].obs;
+  final RxString _flowErrorText = ''.obs;
   final RxBool _postReviewed = false.obs;
   final RxInt _postPhotoFrameQty = 1.obs;
   final RxBool _formIsValid = true.obs;
   final RxBool _isLoading = false.obs;
   final RxBool _hasError = false.obs;
   final Rx<Pet> _post = Pet().obs;
-  final RxInt _petsCount = 0.obs;
+  final RxInt _postsCount = 0.obs;
   final RxInt _flowIndex = 0.obs;
 
   bool get existChronicDisease => post.health == PetHealthString.chronicDisease;
   String get uploadingPostText => _uploadingPostText.value;
   Map<String, dynamic> get cachedVideos => _cachedVideos;
-  bool get isFilteringByName => _isFilteringByName.value;
   int get postPhotoFrameQty => _postPhotoFrameQty.value;
   String get flowErrorText => _flowErrorText.value;
   bool get isInReviewMode => _isInReviewMode.value;
   bool get isFullAddress => _isFullAddress.value;
   bool get formIsInInitialState => post == Pet();
   bool get postReviewed => _postReviewed.value;
-  String get orderParam => _orderParam.value;
   bool get formIsValid => _formIsValid.value;
+  int get postsCount => _postsCount.value;
   bool get isLoading => _isLoading.value;
   int get flowIndex => _flowIndex.value;
-  int get petsCount => _petsCount.value;
   bool get hasError => _hasError.value;
   ChewieController? chewieController;
   List<Pet> get posts => _posts;
@@ -101,25 +99,96 @@ class PostsController extends GetxController {
     goToHome();
   }
 
-  Future<void> loadPosts({
-    bool isFilteringByName = false,
-    bool disappeared = false,
-    String? orderParam,
-  }) async {
-    _isFilteringByName(isFilteringByName);
-    _orderParam(orderParam);
-
+  Future<void> loadPosts({bool getFromInternet = false}) async {
     final list = await _postsRepository.getPostList(
-      filterController.filterParams(
-        disappeared: disappeared,
-      ),
+      getFromInternet: getFromInternet,
     );
-    _petsCount(list.length);
+
     _posts(list);
-    print('>> PostsL $posts');
+    _postsCount(_posts.length);
   }
 
-  List<Pet> ordernateList(List<Pet> list) {
+  List<Pet> filterPosts() {
+    final filterParams = filterController.filterParams();
+    final filterName = filterController.filterByName;
+    final orderBy = filterController.orderBy;
+
+    debugPrint('>> filteredPosts');
+    debugPrint('>> filters $filterParams');
+
+    final filteredByType = _filterByType(_posts, filterParams.type);
+    final filteredByState = _filterByState(filteredByType, filterParams.state);
+
+    final filteredByDisappeared = _filterByDisappeared(
+      filteredByState,
+      filterParams.disappeared,
+    );
+
+    final isFilteringByName = filterName.isNotEmptyNeighterNull();
+    final filteredList = filteredByDisappeared;
+
+    final returnedList = _ordernatedList(
+      isFilteringByName ? _filterByName(filterName) : filteredList,
+      orderBy,
+    );
+
+    return returnedList;
+  }
+
+  List<Pet> _filterByName(String filterName) {
+    List<Pet> postsFilteredByName = [];
+
+    _posts.forEach((post) {
+      final isFilteringByName = filterName.isNotEmptyNeighterNull();
+
+      String petName = post.name!.toLowerCase();
+
+      if (isFilteringByName) {
+        if (petName.contains(filterName.toLowerCase())) {
+          postsFilteredByName.add(post);
+        }
+      } else {
+        postsFilteredByName.add(post);
+      }
+    });
+
+    return postsFilteredByName;
+  }
+
+  List<Pet> _filterByType(List<Pet> list, String type) {
+    debugPrint('>> _filterByType');
+
+    if (type != PetTypeStrings.all) {
+      return list.where((post) {
+        return post.type == type;
+      }).toList();
+    }
+
+    return list;
+  }
+
+  List<Pet> _filterByState(List<Pet> list, String state) {
+    debugPrint('>> _filterByState');
+
+    final isBr = state == StatesAndCities().stateInitials.first;
+
+    if (!isBr) {
+      return list.where((post) {
+        return post.state == state;
+      }).toList();
+    }
+
+    return list;
+  }
+
+  List<Pet> _filterByDisappeared(List<Pet> list, bool disappeared) {
+    debugPrint('>> _filterByDisappeared');
+    return list.where((post) {
+      return post.disappeared == disappeared;
+    }).toList();
+  }
+
+  List<Pet> _ordernatedList(List<Pet> list, String orderParam) {
     if (orderParam == FilterStrings.distance) {
       list.sort(Ordenators.orderByDistance);
     } else if (orderParam == FilterStrings.date) {
