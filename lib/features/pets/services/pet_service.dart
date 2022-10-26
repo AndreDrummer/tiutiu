@@ -157,7 +157,7 @@ class PetService {
     await FirebaseFirestore.instance.collection(petKind).doc().set(pet.toMap());
   }
 
-  Future<void> updatePet(Pet pet, DocumentReference petReference) async {
+  Future<void> updatePost(Pet pet, DocumentReference petReference) async {
     await petReference.update(pet.toMap());
   }
 

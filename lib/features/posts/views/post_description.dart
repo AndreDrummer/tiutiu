@@ -36,7 +36,7 @@ class PostDescription extends StatelessWidget {
           !postsController.formIsValid,
       initialValue: postsController.post.breed,
       onChanged: (breed) {
-        postsController.updatePet(PetEnum.breed, breed);
+        postsController.updatePost(PetEnum.breed, breed);
       },
       items: DummyData.breeds[postsController.post.type]!,
       labelText: PetDetailsStrings.breed,
@@ -50,7 +50,7 @@ class PostDescription extends StatelessWidget {
           !postsController.formIsValid,
       initialValue: postsController.post.color,
       onChanged: (color) {
-        postsController.updatePet(PetEnum.color, color);
+        postsController.updatePost(PetEnum.color, color);
       },
       labelText: PetDetailsStrings.color,
       items: DummyData.color,
@@ -64,7 +64,7 @@ class PostDescription extends StatelessWidget {
           !postsController.formIsValid,
       initialValue: postsController.post.gender.toString(),
       onChanged: (gender) {
-        postsController.updatePet(PetEnum.gender, gender);
+        postsController.updatePost(PetEnum.gender, gender);
       },
       labelText: PetDetailsStrings.sex,
       items: DummyData.gender,
@@ -92,7 +92,7 @@ class PostDescription extends StatelessWidget {
         labelText: AppStrings.jotSomethingDown,
         maxLines: 4,
         onChanged: (description) {
-          postsController.updatePet(PetEnum.description, description);
+          postsController.updatePost(PetEnum.description, description);
         },
       ),
     );

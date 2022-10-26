@@ -1,6 +1,7 @@
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/Widgets/custom_input_search.dart';
 import 'package:tiutiu/core/data/states_and_cities.dart';
+import 'package:tiutiu/core/models/filter_params.dart';
 import 'package:tiutiu/features/system/controllers.dart';
 import 'package:tiutiu/core/constants/text_styles.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
@@ -29,7 +30,7 @@ class FilterResultCount extends StatelessWidget {
                 Row(
                   children: [
                     AutoSizeText(
-                      '${postsController.filterPosts().length} ',
+                      '${postsController.postsCount} ',
                       style: TextStyles.fontSize12(),
                     ),
                     AutoSizeText(
@@ -40,10 +41,13 @@ class FilterResultCount extends StatelessWidget {
                 ),
                 Spacer(),
                 DropdownButton<String>(
-                  value: filterController.filterStateSelected,
+                  value: filterController.filterParams.value.state,
                   underline: SizedBox(),
                   onChanged: (value) {
-                    filterController.filterStateSelected = value;
+                    filterController.updateParams(
+                      FilterParamsEnum.state,
+                      value,
+                    );
                   },
                   items: StatesAndCities()
                       .stateInitials
@@ -66,10 +70,13 @@ class FilterResultCount extends StatelessWidget {
                       FilterStrings.orderedBy,
                     ),
                     CustomDropdownButtonSearch(
+                      initialValue: filterController.getParams.orderBy,
                       itemList: filterController.orderTypeList,
-                      initialValue: filterController.orderBy,
                       onChange: (String value) {
-                        filterController.orderBy = value;
+                        filterController.updateParams(
+                          FilterParamsEnum.orderBy,
+                          value,
+                        );
                       },
                       colorText: Colors.black54,
                       isExpanded: false,

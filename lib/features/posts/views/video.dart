@@ -96,7 +96,7 @@ class _VideoState extends State<Video> {
               videoPlayerController!.pause();
               final videoDuration = videoPlayerController!.value.duration;
               if (videoDuration.inSeconds <= VIDEO_SECS_LIMIT) {
-                postsController.updatePet(PetEnum.video, videoFile);
+                postsController.updatePost(PetEnum.video, videoFile);
                 postsController.clearError();
               } else {
                 debugPrint('Video Size Exceed ${videoDuration.inSeconds}');
@@ -144,7 +144,7 @@ class _VideoState extends State<Video> {
           icon: Icons.remove,
           onPressed: () {
             postsController.disposeVideoController();
-            postsController.updatePet(PetEnum.video, null);
+            postsController.updatePost(PetEnum.video, null);
           },
         );
       },

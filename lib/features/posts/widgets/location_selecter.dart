@@ -99,7 +99,7 @@ class LocationSelecter extends StatelessWidget {
         padding: EdgeInsets.only(top: 8.0.h),
         child: TextArea(
           onChanged: (address) {
-            postsController.updatePet(
+            postsController.updatePost(
               PetEnum.describedAddress,
               address,
             );

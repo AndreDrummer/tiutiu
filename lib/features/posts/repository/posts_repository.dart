@@ -38,12 +38,7 @@ class PostsRepository {
     debugPrint('>>Cached Posts Map $postsCached');
 
     return List<Pet>.from(
-      postsCached.values.map(
-        (post) {
-          print('Post $post');
-          return Pet().fromMap(post);
-        },
-      ).toList(),
+      postsCached.values.map((post) => Pet().fromMap(post)).toList(),
     );
   }
 
