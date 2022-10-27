@@ -18,7 +18,7 @@ class FileCacheManager {
 
     final name = type == FileType.images ? '$filename.jpeg' : '$filename.mp4';
 
-    File file = new File('$dir/$name.');
+    File file = new File('$dir/$name');
     await file.writeAsBytes(bytes);
     return file;
   }

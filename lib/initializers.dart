@@ -28,6 +28,7 @@ class TiuTiuInitializer {
     await currentLocationController.setUserLocation();
     await StatesAndCities().getUFAndCities();
     await postsController.loadPosts();
+    await postsController.getCachedAssets();
   }
 
   static List<DependencyInjection> _dependencies = [
