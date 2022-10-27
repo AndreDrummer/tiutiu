@@ -1,5 +1,9 @@
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
+import 'package:tiutiu/core/models/filter_params.dart';
+import 'package:tiutiu/features/system/controllers.dart';
+
+final DISAPPEARED_INDEX = 1;
 
 enum CardVisibilityKind {
   banner,
@@ -24,6 +28,12 @@ class HomeController extends GetxController {
   }
 
   void set bottomBarIndex(int? index) {
+    if (index == DISAPPEARED_INDEX) {
+      filterController.updateParams(FilterParamsEnum.disappeared, true);
+    } else {
+      filterController.updateParams(FilterParamsEnum.disappeared, false);
+    }
+
     _bottomBarIndex(index ?? bottomBarIndex);
   }
 
