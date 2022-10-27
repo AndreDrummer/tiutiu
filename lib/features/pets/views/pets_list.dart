@@ -56,9 +56,9 @@ class _PetsList extends StatelessWidget with TiuTiuPopUp {
                     posts[index < posts.length ? index : posts.length - 1];
               },
               child: _RenderListItem(
+                pet: posts[index < posts.length ? index : posts.length - 1],
                 onNavigateToTop: () => homeController.onScrollUp(),
                 showBackToStartButton: index == posts.length,
-                pet: posts[index < posts.length ? index : posts.length - 1],
               ),
             );
           },
