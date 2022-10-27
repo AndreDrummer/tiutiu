@@ -16,7 +16,7 @@ class FileCacheManager {
     var bytes = await consolidateHttpClientResponseBytes(response);
     String dir = (await getApplicationDocumentsDirectory()).path;
 
-    final name = type == FileType.images ? '$filename.jpeg' : '$filename.mp4';
+    final name = type == FileType.images ? '$filename.png' : '$filename.mp4';
 
     File file = new File('$dir/$name');
     await file.writeAsBytes(bytes);
