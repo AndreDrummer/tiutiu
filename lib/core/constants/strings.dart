@@ -4,6 +4,7 @@ class AppStrings {
   static String get authError =>
       'Ocorreu um erro com sua autenticação.\nTente sair e entrar novamente.';
   static String get wannaLeave => 'Deseja realmente sair?';
+  static String get loadingImage => 'Carregando imagem...';
   static String get noPetFound => 'Nenhum PET encontrado';
   static String get jotSomethingDown => 'Escreva aqui...';
   static String get iamInterested => 'Estou interessado';
