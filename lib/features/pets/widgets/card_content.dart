@@ -13,8 +13,8 @@ class CardContent extends StatelessWidget {
   });
 
   final Function()? onAction;
-  final String content;
   final IconData? icon;
+  final String content;
   final String title;
 
   @override
@@ -22,9 +22,8 @@ class CardContent extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.all(2.0.h),
       child: Card(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
-        ),
+        margin: EdgeInsets.symmetric(horizontal: 4.0.w, vertical: 2.0.h),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         elevation: 8.0,
         child: Padding(
           padding: EdgeInsets.all(8.0.h),
@@ -38,10 +37,10 @@ class CardContent extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       AutoSizeText(
-                        title,
                         style: TextStyles.fontSize16(
                           fontWeight: FontWeight.w600,
                         ),
+                        title,
                       ),
                       Visibility(
                         visible: icon != null,
@@ -59,8 +58,9 @@ class CardContent extends StatelessWidget {
                 ),
                 Divider(),
                 AutoSizeText(
-                  content,
                   style: TextStyles.fontSize12(color: Colors.blueGrey),
+                  maxLines: 3,
+                  content,
                 ),
               ],
             ),
