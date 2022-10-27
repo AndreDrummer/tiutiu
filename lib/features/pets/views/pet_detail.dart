@@ -34,22 +34,36 @@ class PetDetails extends StatefulWidget {
 
 class _PetDetailsState extends State<PetDetails> {
   ChewieController? chewieController;
+  late List postsPhotos = [];
 
   @override
   void initState() {
     initializeVideo();
+    loadCachedImages();
     super.initState();
   }
 
-  void initializeVideo() {
-    final pet = postsController.post;
+  void loadCachedImages() {
+    final post = postsController.post;
+    postsPhotos = post.photos;
 
-    final cachedVideos = postsController.cachedVideos;
-    final cacheExists = cachedVideos[pet.uid!] != null;
-    var videoPath = pet.video;
+    final cachedImages = postsController.cachedImages;
+    final cacheExists = cachedImages[post.uid!] != null;
 
     if (cacheExists) {
-      videoPath = cachedVideos[pet.uid!];
+      postsPhotos = cachedImages[post.uid!];
+    }
+  }
+
+  void initializeVideo() {
+    final post = postsController.post;
+
+    final cachedVideos = postsController.cachedVideos;
+    final cacheExists = cachedVideos[post.uid!] != null;
+    var videoPath = post.video;
+
+    if (cacheExists) {
+      videoPath = cachedVideos[post.uid!];
     }
 
     chewieController = VideoUtils.instance.getChewieController(
@@ -77,44 +91,47 @@ class _PetDetailsState extends State<PetDetails> {
           return true;
         },
         child: Scaffold(
-          body: Stack(
-            children: [
-              Background(dark: true),
-              Column(
-                children: [
-                  _showImagesAndVideos(
-                    boxHeight: Get.height / 2.5,
-                    context: context,
-                    pet: pet,
-                  ),
-                  Expanded(
-                    child: Container(
-                      height: Get.height / 4.5,
-                      child: Column(
-                        children: [
-                          _petCaracteristics(petCaracteristics),
-                          _description(pet.description),
-                          _address(pet),
-                          Spacer(),
-                          _ownerAdcontact(
-                            whatsappMessage: 'whatsappMessage',
-                            emailMessage: 'emailMessage',
-                            emailSubject: 'emailSubject',
-                            user: pet.owner!,
-                          )
-                        ],
-                      ),
+          body: FutureBuilder<void>(
+              future: postsController.cacheImagesAndVideos(),
+              builder: (context, snapshot) {
+                return Stack(
+                  children: [
+                    Background(dark: true),
+                    Column(
+                      children: [
+                        _showImagesAndVideos(
+                          boxHeight: Get.height / 2.5,
+                          context: context,
+                        ),
+                        Expanded(
+                          child: Container(
+                            height: Get.height / 4.5,
+                            child: Column(
+                              children: [
+                                _petCaracteristics(petCaracteristics),
+                                _description(pet.description),
+                                _address(pet),
+                                Spacer(),
+                                _ownerAdcontact(
+                                  whatsappMessage: 'whatsappMessage',
+                                  emailMessage: 'emailMessage',
+                                  emailSubject: 'emailSubject',
+                                  user: pet.owner!,
+                                )
+                              ],
+                            ),
+                          ),
+                        )
+                      ],
                     ),
-                  )
-                ],
-              ),
-              Positioned(child: _appBar(pet.name!)),
-              LoadDarkScreen(
-                message: petsController.loadingText,
-                visible: petsController.isLoading,
-              )
-            ],
-          ),
+                    Positioned(child: _appBar(pet.name!)),
+                    LoadDarkScreen(
+                      message: petsController.loadingText,
+                      visible: petsController.isLoading,
+                    )
+                  ],
+                );
+              }),
         ),
       ),
     );
@@ -155,18 +172,17 @@ class _PetDetailsState extends State<PetDetails> {
   Widget _showImagesAndVideos({
     required BuildContext context,
     required double boxHeight,
-    required Pet pet,
   }) {
-    final hasVideo = pet.video != null;
+    final post = postsController.post;
+    final hasVideo = post.video != null;
     final PageController _pageController = PageController();
-    final photosQty = pet.photos.length;
+    final photosQty = post.photos.length;
 
     return Stack(
       children: [
         _images(
           pageController: _pageController,
           boxHeight: boxHeight,
-          pet: pet,
         ),
         Positioned(
           bottom: 0.0,
@@ -240,10 +256,9 @@ class _PetDetailsState extends State<PetDetails> {
   Container _images({
     required PageController pageController,
     required double boxHeight,
-    required Pet pet,
   }) {
-    final hasVideo = pet.video != null;
-    final photos = pet.photos;
+    final hasVideo = postsController.post.video != null;
+    final photos = postsController.post.photos;
 
     return Container(
       width: double.infinity,
@@ -254,20 +269,20 @@ class _PetDetailsState extends State<PetDetails> {
         itemCount: hasVideo ? photos.length + 1 : photos.length,
         itemBuilder: (BuildContext context, int index) {
           if (hasVideo && index == 0) {
-            return _video(pet);
+            return _video();
           } else if (!hasVideo) {
             chewieController?.pause();
-            return _image(pet.photos, index);
+            return _image(postsPhotos, index);
           }
           chewieController?.pause();
-          return _image(pet.photos, index - 1);
+          return _image(postsPhotos, index - 1);
         },
         controller: pageController,
       ),
     );
   }
 
-  Widget _video(Pet pet) {
+  Widget _video() {
     final thereIsVideo = chewieController != null;
 
     if (thereIsVideo) {
