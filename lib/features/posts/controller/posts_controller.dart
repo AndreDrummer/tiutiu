@@ -1,7 +1,11 @@
 import 'package:tiutiu/features/posts/repository/posts_repository.dart';
 import 'package:tiutiu/features/posts/validators/form_validators.dart';
+import 'package:tiutiu/core/local_storage/local_storage_keys.dart';
+import 'package:tiutiu/core/constants/firebase_env_path.dart';
+import 'package:tiutiu/core/local_storage/local_storage.dart';
 import 'package:tiutiu/core/extensions/string_extension.dart';
 import 'package:tiutiu/features/pets/model/pet_model.dart';
+import 'package:tiutiu/core/utils/file_cache_manager.dart';
 import 'package:tiutiu/core/utils/routes/routes_name.dart';
 import 'package:tiutiu/features/system/controllers.dart';
 import 'package:tiutiu/core/data/states_and_cities.dart';
@@ -21,6 +25,7 @@ class PostsController extends GetxController {
   final PostsRepository _postsRepository;
 
   final RxMap<String, dynamic> _cachedVideos = <String, dynamic>{}.obs;
+  final RxMap<String, dynamic> _cachedImages = <String, dynamic>{}.obs;
   final RxList<Pet> _filteredPosts = <Pet>[].obs;
   final RxString _uploadingPostText = ''.obs;
   final RxBool _isInReviewMode = false.obs;
@@ -39,6 +44,7 @@ class PostsController extends GetxController {
   bool get existChronicDisease => post.health == PetHealthString.chronicDisease;
   String get uploadingPostText => _uploadingPostText.value;
   Map<String, dynamic> get cachedVideos => _cachedVideos;
+  Map<String, dynamic> get cachedImages => _cachedImages;
   int get postPhotoFrameQty => _postPhotoFrameQty.value;
   String get flowErrorText => _flowErrorText.value;
   bool get isInReviewMode => _isInReviewMode.value;
@@ -263,6 +269,113 @@ class PostsController extends GetxController {
     //     null;
 
     // print('>>Mocked? $mocked');
+  }
+
+  Future<void> _cacheVideo(Map<String, dynamic> cachedVideosMap) async {
+    debugPrint('>>Cache _cacheVideo');
+    final videoPathSaved = await FileCacheManager.save(
+      fileUrl: post.video,
+      filename: post.uid!,
+      type: FileType.video,
+    );
+
+    cachedVideosMap.putIfAbsent(post.uid!, () => videoPathSaved);
+
+    debugPrint('>>Cache current video map $cachedVideosMap');
+
+    await LocalStorage.setValueUnderLocalStorageKey(
+      key: LocalStorageKey.videosCached,
+      value: cachedVideosMap,
+    );
+  }
+
+  Future<void> _cacheImage(Map<String, dynamic> cachedImageMap) async {
+    debugPrint('>>Cache _cacheImage');
+    final postsPhotos = post.photos;
+    final postsPhotosCached = [];
+
+    for (int i = 0; i < postsPhotos.length; i++) {
+      final cachedFile = await FileCacheManager.save(
+        type: FileType.images,
+        fileUrl: post.video,
+        filename: post.uid!,
+      );
+
+      postsPhotosCached.add(cachedFile);
+    }
+
+    cachedImageMap.putIfAbsent(post.uid!, () => postsPhotosCached);
+
+    debugPrint('>>Cache current image map $cachedImageMap');
+
+    await LocalStorage.setValueUnderLocalStorageKey(
+      key: LocalStorageKey.imagesCached,
+      value: cachedImageMap,
+    );
+  }
+
+  Future<void> getCachedAssets() async {
+    _cachedVideos(await _cachedVideosMap());
+    _cachedImages(await _cachedImagesMap());
+
+    debugPrint('>>getCachedAssets Videos $cachedVideos');
+    debugPrint('>>getCachedAssets Images $cachedImages');
+  }
+
+  Future<void> cacheImagesAndVideos() async {
+    final videosCachedData = await _cachedVideosMap();
+
+    if (!isInReviewMode && post.video != null) {
+      if (!videosCachedData.keys.contains(post.uid)) {
+        debugPrint('>>Cache cacheImagesAndVideos Video Not Saved');
+        await _cacheVideo(videosCachedData);
+      } else {
+        debugPrint('>>Cache cacheImagesAndVideos Video Already Saved');
+      }
+    }
+
+    final imagesCachedData = await _cachedImagesMap();
+
+    if (!isInReviewMode) {
+      if (!imagesCachedData.keys.contains(post.uid)) {
+        debugPrint('>>Cache cacheImagesAndVideos Images Not Saved');
+        await _cacheImage(imagesCachedData);
+      } else {
+        debugPrint('>>Cache cacheImagesAndVideos Images Already Saved');
+      }
+    }
+  }
+
+  Future<Map<String, dynamic>> _cachedVideosMap() async {
+    final storagedVideos = await LocalStorage.getValueUnderLocalStorageKey(
+      LocalStorageKey.videosCached,
+    );
+
+    debugPrint('>>Storaged Videos $storagedVideos');
+
+    final Map<String, dynamic> cachedVideosMap = {};
+
+    if (storagedVideos != null) {
+      cachedVideosMap.addAll(storagedVideos);
+    }
+
+    return cachedVideosMap;
+  }
+
+  Future<Map<String, dynamic>> _cachedImagesMap() async {
+    final storagedImages = await LocalStorage.getValueUnderLocalStorageKey(
+      LocalStorageKey.imagesCached,
+    );
+
+    debugPrint('>>Storaged Images $storagedImages');
+
+    final Map<String, dynamic> cachedImagesMap = {};
+
+    if (storagedImages != null) {
+      cachedImagesMap.addAll(storagedImages);
+    }
+
+    return cachedImagesMap;
   }
 
   void updatePost(PetEnum property, dynamic data) {
