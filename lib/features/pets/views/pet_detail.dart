@@ -79,7 +79,7 @@ class _PetDetailsState extends State<PetDetails> {
         },
         child: Scaffold(
           body: FutureBuilder<void>(
-              future: postsController.cacheImagesAndVideos(),
+              future: postsController.cacheVideos(),
               builder: (context, snapshot) {
                 return Stack(
                   children: [
