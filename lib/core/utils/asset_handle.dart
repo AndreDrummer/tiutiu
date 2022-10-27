@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'dart:io';
 
 import 'package:tiutiu/core/extensions/string_extension.dart';
+import 'package:tiutiu/core/widgets/loading_image_animation.dart';
 
 class AssetHandle {
   const AssetHandle(this._imagePath);
@@ -78,13 +79,18 @@ class AssetHandle {
       tag: hero ?? imagePath,
       child: CachedNetworkImage(
         errorWidget: (context, url, error) => Icon(Icons.error),
-        placeholder: (_, __) => Center(
-          child: Opacity(
-            opacity: .5,
-            child: Image.asset(
-              isUserImage ? ImageAssets.profileEmpty : ImageAssets.newLogo,
+        imageBuilder: (context, imageProvider) => Container(
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: imageProvider,
               fit: BoxFit.cover,
             ),
+          ),
+        ),
+        placeholder: (_, __) => Center(
+          child: LoadingImageAnimation(
+            imagePath:
+                isUserImage ? ImageAssets.profileEmpty : ImageAssets.newLogo,
           ),
         ),
         fit: fit ?? BoxFit.cover,
@@ -99,8 +105,8 @@ class AssetHandle {
 Widget _localImage(image, BoxFit? fit) {
   return Image.file(
     image is String ? File(image) : image,
-    fit: fit ?? BoxFit.fill,
     height: double.infinity,
+    fit: fit ?? BoxFit.fill,
     width: double.infinity,
   );
 }

@@ -11,11 +11,12 @@ import 'package:tiutiu/core/constants/text_styles.dart';
 import 'package:tiutiu/core/utils/other_functions.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/Widgets/load_dark_screen.dart';
+import 'package:tiutiu/Widgets/dots_indicator.dart';
 import 'package:tiutiu/core/utils/asset_handle.dart';
 import 'package:tiutiu/core/utils/video_utils.dart';
 import 'package:tiutiu/core/constants/strings.dart';
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:tiutiu/Widgets/dots_indicator.dart';
+import 'package:maps_launcher/maps_launcher.dart';
 import 'package:tiutiu/Widgets/button_wide.dart';
 import 'package:tiutiu/Widgets/background.dart';
 import 'package:tiutiu/core/Custom/icons.dart';
@@ -34,25 +35,11 @@ class PetDetails extends StatefulWidget {
 
 class _PetDetailsState extends State<PetDetails> {
   ChewieController? chewieController;
-  late List postsPhotos = [];
 
   @override
   void initState() {
     initializeVideo();
-    loadCachedImages();
     super.initState();
-  }
-
-  void loadCachedImages() {
-    final post = postsController.post;
-    postsPhotos = post.photos;
-
-    final cachedImages = postsController.cachedImages;
-    final cacheExists = cachedImages[post.uid!] != null;
-
-    if (cacheExists) {
-      postsPhotos = cachedImages[post.uid!];
-    }
   }
 
   void initializeVideo() {
@@ -105,13 +92,14 @@ class _PetDetailsState extends State<PetDetails> {
                         ),
                         Expanded(
                           child: Container(
-                            height: Get.height / 4.5,
-                            child: Column(
+                            height: Get.height / 1.5,
+                            child: ListView(
+                              shrinkWrap: true,
                               children: [
                                 _petCaracteristics(petCaracteristics),
-                                _description(pet.description),
-                                _address(pet),
-                                Spacer(),
+                                _description(
+                                    'ndustry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum'),
+                                _address(),
                                 _ownerAdcontact(
                                   whatsappMessage: 'whatsappMessage',
                                   emailMessage: 'emailMessage',
@@ -121,7 +109,7 @@ class _PetDetailsState extends State<PetDetails> {
                               ],
                             ),
                           ),
-                        )
+                        ),
                       ],
                     ),
                     Positioned(child: _appBar(pet.name!)),
@@ -272,10 +260,10 @@ class _PetDetailsState extends State<PetDetails> {
             return _video();
           } else if (!hasVideo) {
             chewieController?.pause();
-            return _image(postsPhotos, index);
+            return _image(photos, index);
           }
           chewieController?.pause();
-          return _image(postsPhotos, index - 1);
+          return _image(photos, index - 1);
         },
         controller: pageController,
       ),
@@ -319,16 +307,14 @@ class _PetDetailsState extends State<PetDetails> {
           child: Container(
             child: DotsIndicator(
               controller: pageController,
-              itemCount: length,
               onPageSelected: (int page) {
                 pageController.animateToPage(
-                  page,
-                  duration: Duration(
-                    milliseconds: 500,
-                  ),
+                  duration: Duration(milliseconds: 500),
                   curve: Curves.ease,
+                  page,
                 );
               },
+              itemCount: length,
             ),
           ),
         ),
@@ -338,9 +324,9 @@ class _PetDetailsState extends State<PetDetails> {
 
   Container _petCaracteristics(List<PetCaracteristics> petCaracteristics) {
     return Container(
-      height: 80.0.h,
+      height: 64.0.h,
       child: Padding(
-        padding: EdgeInsets.fromLTRB(2.0.w, 8.0.h, 2.0.w, 2.0.h),
+        padding: EdgeInsets.all(2.0.h),
         child: ListView.builder(
           key: UniqueKey(),
           scrollDirection: Axis.horizontal,
@@ -367,26 +353,34 @@ class _PetDetailsState extends State<PetDetails> {
     );
   }
 
-  CardContent _address(Pet pet) {
-    final describedAddress = pet.describedAddress.isNotEmptyNeighterNull()
-        ? '\n\n${pet.describedAddress}'
+  CardContent _address() {
+    final post = postsController.post;
+
+    final describedAddress = post.describedAddress.isNotEmptyNeighterNull()
+        ? '\n\n${post.describedAddress}'
         : '';
 
     final showIcon =
-        !pet.describedAddress.isNotEmptyNeighterNull() && !pet.disappeared;
+        !post.describedAddress.isNotEmptyNeighterNull() && !post.disappeared;
 
     return CardContent(
       icon: showIcon ? null : Icons.launch,
-      content: pet.disappeared
-          ? pet.lastSeenDetails
-          : '${pet.city} - ${pet.state} $describedAddress',
-      title: pet.disappeared
+      content: post.disappeared
+          ? post.lastSeenDetails
+          : '${post.city} - ${post.state} $describedAddress',
+      title: post.disappeared
           ? PetDetailsStrings.lastSeen
           : PetDetailsStrings.whereIsIt(
-              petGender: pet.gender,
-              petName: '${pet.name}',
+              petGender: post.gender,
+              petName: '${post.name}',
             ),
-      onAction: () {},
+      onAction: () {
+        MapsLauncher.launchCoordinates(
+          post.latitude ?? 0.0,
+          post.longitude ?? 0.0,
+          post.name,
+        );
+      },
     );
   }
 
@@ -400,8 +394,11 @@ class _PetDetailsState extends State<PetDetails> {
     return Visibility(
       visible: !widget.inReviewMode,
       child: Container(
-        height: Get.height / 5.5,
-        margin: EdgeInsets.symmetric(horizontal: 8.0.w),
+        margin: EdgeInsets.only(
+          right: 4.0.w,
+          top: 16.0.h,
+          left: 4.0.w,
+        ),
         child: Column(
           children: [
             Row(
