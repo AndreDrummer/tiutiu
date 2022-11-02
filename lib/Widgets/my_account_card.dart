@@ -1,9 +1,8 @@
-import 'package:auto_size_text/auto_size_text.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get.dart';
-import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/core/constants/text_styles.dart';
+import 'package:tiutiu/core/constants/app_colors.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class MyAccountCard extends StatelessWidget {
   MyAccountCard({
@@ -46,18 +45,16 @@ class MyAccountCard extends StatelessWidget {
               children: [
                 Container(
                   width: Get.width / 3,
-                  child: AutoSizeText(
+                  child: AutoSizeTexts.autoSizeText16(
+                    fontWeight: FontWeight.w600,
+                    color: AppColors.primary,
                     '$text',
-                    style: TextStyles.fontSize16(
-                      fontWeight: FontWeight.w600,
-                      color: AppColors.primary,
-                    ),
                   ),
                 ),
                 Icon(
-                  icon,
                   color: AppColors.secondary.withAlpha(104),
                   size: 24.0.h,
+                  icon,
                 ),
               ],
             ),

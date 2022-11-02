@@ -1,7 +1,6 @@
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/core/constants/text_styles.dart';
-import 'package:auto_size_text/auto_size_text.dart';
+import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:flutter/material.dart';
 
 class HomeFilterItem extends StatelessWidget {
@@ -39,11 +38,9 @@ class HomeFilterItem extends StatelessWidget {
               icon,
             ),
             SizedBox(height: 16),
-            AutoSizeText(
-              style: TextStyles.fontSize(
-                color: isActive ? AppColors.white : AppColors.primary,
-                fontWeight: FontWeight.w600,
-              ),
+            AutoSizeTexts.autoSizeText12(
+              color: isActive ? AppColors.white : AppColors.primary,
+              fontWeight: FontWeight.w600,
               type,
             )
           ],

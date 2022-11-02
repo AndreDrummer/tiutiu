@@ -2,7 +2,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:loading_animations/loading_animations.dart';
 import 'package:tiutiu/core/constants/text_styles.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 
 class LoadDarkScreen extends StatelessWidget {
@@ -40,9 +39,9 @@ class LoadDarkScreen extends StatelessWidget {
                   backgroundColor: AppColors.secondary,
                 ),
                 SizedBox(height: 15),
-                AutoSizeText(
+                AutoSizeTexts.autoSizeText12(
+                  color: AppColors.white,
                   message,
-                  style: TextStyles.fontSize12(color: AppColors.white),
                 )
               ],
             ),

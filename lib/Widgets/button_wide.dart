@@ -2,7 +2,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/constants/text_styles.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/core/constants/strings.dart';
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -55,8 +54,7 @@ class ButtonWide extends StatelessWidget {
     final hasIcon = icon != null;
 
     return Row(
-      mainAxisAlignment:
-          hasIcon ? MainAxisAlignment.start : MainAxisAlignment.center,
+      mainAxisAlignment: hasIcon ? MainAxisAlignment.start : MainAxisAlignment.center,
       children: [
         Visibility(
           visible: hasIcon,
@@ -67,13 +65,11 @@ class ButtonWide extends StatelessWidget {
           ),
         ),
         Spacer(),
-        AutoSizeText(
+        AutoSizeTexts.autoSizeText16(
+          color: textIconColor ?? AppColors.white,
           text ?? AppStrings.getStarted,
+          fontWeight: FontWeight.w700,
           textAlign: TextAlign.center,
-          style: TextStyles.fontSize16(
-            color: textIconColor ?? AppColors.white,
-            fontWeight: FontWeight.w700,
-          ),
         ),
         Spacer(),
       ],

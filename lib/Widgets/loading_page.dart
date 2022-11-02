@@ -2,7 +2,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:loading_animations/loading_animations.dart';
 import 'package:tiutiu/core/constants/text_styles.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 
 class LoadingPage extends StatelessWidget {
@@ -28,12 +27,10 @@ class LoadingPage extends StatelessWidget {
               size: 32.0.h,
             ),
             SizedBox(height: 8.0.h),
-            AutoSizeText(
-              messageLoading,
+            AutoSizeTexts.autoSizeText12(
+              color: textColor ?? AppColors.white,
               textAlign: TextAlign.center,
-              style: TextStyles.fontSize12(
-                color: textColor ?? AppColors.white,
-              ),
+              messageLoading,
             )
           ],
         ),
