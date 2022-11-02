@@ -17,11 +17,10 @@ class AdPostedAt extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       height: 16.0.h,
-      // width: 132.0.w,
       child: AutoSizeText(
         '${AppStrings.postedAt} ${Formatter.getFormattedDate(createdAt)}',
         textAlign: TextAlign.left,
-        style: TextStyles.fontSize12(
+        style: TextStyles.fontSize10(
           fontWeight: FontWeight.w700,
           color: Colors.grey,
         ),

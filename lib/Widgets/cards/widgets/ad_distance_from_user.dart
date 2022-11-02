@@ -24,6 +24,7 @@ class AdDistanceFromUser extends StatelessWidget {
               fontWeight: FontWeight.w700,
               color: Colors.grey,
             ),
+            overflow: TextOverflow.fade,
           ),
           SizedBox(width: 8.0.w),
           Icon(

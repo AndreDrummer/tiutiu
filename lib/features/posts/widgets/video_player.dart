@@ -34,9 +34,8 @@ class TiuTiuVideoPlayer extends StatelessWidget {
             height: Get.height / 2.5,
           ),
           Positioned(
-            right: isInReviewMode ? 32.0.w : 16.0.w,
-            bottom: isInReviewMode ? 40.0.h : null,
-            top: isInReviewMode ? null : 56.0.h,
+            bottom: 40.0.h,
+            right: 16.0.w,
             child: EnterExitFullScreenButton(
               onOpenFullscreen: () => openFullScreen(context),
             ),

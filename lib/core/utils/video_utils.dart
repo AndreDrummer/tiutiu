@@ -35,6 +35,7 @@ class VideoUtils {
         allowedScreenSleep: false,
         allowFullScreen: false,
         autoInitialize: true,
+        allowMuting: false,
         autoPlay: autoPlay,
         zoomAndPan: true,
       );

@@ -4,7 +4,7 @@ import 'package:tiutiu/features/auth/views/auth_hosters.dart';
 import 'package:tiutiu/features/chat/screens/chat_screen.dart';
 import 'package:tiutiu/features/chat/screens/chat_tabs.dart';
 import 'package:tiutiu/features/auth/views/start_screen.dart';
-import 'package:tiutiu/features/pets/views/pet_detail.dart';
+import 'package:tiutiu/features/posts/views/post_detail.dart';
 import 'package:tiutiu/core/utils/routes/routes_name.dart';
 import 'package:tiutiu/features/system/app_bootstrap.dart';
 import 'package:tiutiu/screen/informantes_screen.dart';
