@@ -14,6 +14,7 @@ import 'package:tiutiu/core/utils/ordenators.dart';
 import 'package:flutter/foundation.dart';
 import 'package:chewie/chewie.dart';
 import 'package:get/get.dart';
+import 'dart:io';
 
 const int _FLOW_STEPS_QTY = 8;
 
@@ -189,9 +190,7 @@ class PostsController extends GetxController {
     final isBr = state == StatesAndCities().stateInitials.first;
 
     if (!isBr) {
-      final filterState = StatesAndCities().stateNames.elementAt(
-            StatesAndCities().stateInitials.indexOf(state),
-          );
+      final filterState = StatesAndCities().getStateNameFromInitial(state);
 
       return list.where((post) {
         return post.state == filterState;
@@ -332,10 +331,10 @@ class PostsController extends GetxController {
       postMap[property.name] = _handlePetOtherCaracteristics(data);
     }
 
-    // if ((post.latitude == null || post.longitude == null)) {
-    _setPostStateAndCity(postMap);
-    _insertLatLng(postMap);
-    // }
+    if ((post.latitude == null || post.longitude == null)) {
+      _setPostStateAndCity(postMap);
+      _insertLatLng(postMap);
+    }
 
     _post(Pet().fromMap(postMap));
   }
@@ -347,47 +346,54 @@ class PostsController extends GetxController {
 
   void _setPostStateAndCity(Map<String, dynamic> postMap) async {
     final placemark = currentLocationController.currentPlacemark;
-    print(placemark.subAdministrativeArea);
-    print(placemark);
+    late String state;
+    late String city;
 
-    postMap[PetEnum.city.name] = placemark.subAdministrativeArea;
-    postMap[PetEnum.state.name] = placemark.administrativeArea;
+    if (Platform.isAndroid) {
+      city = placemark.subAdministrativeArea!;
+      state = placemark.administrativeArea!;
+    } else if (Platform.isIOS) {
+      state = StatesAndCities().getStateNameFromInitial(placemark.administrativeArea!);
+      city = placemark.locality!;
+    }
+
+    postMap[PetEnum.state.name] = state;
+    postMap[PetEnum.city.name] = city;
   }
 
   void nextStepFlow() {
     PostFormValidator validator = PostFormValidator(post);
     _postReviewed(false);
 
-    // switch (flowIndex) {
-    //   case 0:
-    //     _formIsValid(validator.isStep1Valid(existChronicDisease));
-    //     break;
-    //   case 1:
-    //     _formIsValid(validator.isStep2Valid());
-    //     break;
-    //   case 2:
-    //     _formIsValid(validator.isStep3Valid());
-    //     break;
-    //   case 3:
-    //     _formIsValid(validator.isStep4Valid(isFullAddress));
-    //     break;
-    //   case 4:
-    //     _formIsValid(validator.isStep5Valid());
-    //     break;
-    //   case 5:
-    //     _isInReviewMode(true);
-    //     isLoading = false;
-    //     break;
-    //   case 7:
-    //     isLoading = true;
-    //     Future.delayed(Duration(seconds: 10), () {
-    //       isLoading = false;
-    //     });
-    //     break;
-    // }
+    switch (flowIndex) {
+      case 0:
+        _formIsValid(validator.isStep1Valid(existChronicDisease));
+        break;
+      case 1:
+        _formIsValid(validator.isStep2Valid());
+        break;
+      case 2:
+        _formIsValid(validator.isStep3Valid());
+        break;
+      case 3:
+        _formIsValid(validator.isStep4Valid(isFullAddress));
+        break;
+      case 4:
+        _formIsValid(validator.isStep5Valid());
+        break;
+      case 5:
+        _isInReviewMode(true);
+        isLoading = false;
+        break;
+      case 7:
+        isLoading = true;
+        Future.delayed(Duration(seconds: 10), () {
+          isLoading = false;
+        });
+        break;
+    }
 
-    // if (formIsValid) _nextStep();
-    _nextStep();
+    if (formIsValid) _nextStep();
   }
 
   void setError(String errorMessage) {
