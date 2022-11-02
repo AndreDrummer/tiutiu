@@ -183,9 +183,7 @@ class AnnouncerProfile extends StatelessWidget {
   Widget _userPostsQty() {
     return StreamBuilder<int>(
       initialData: 1,
-      stream: tiutiuUserController.service
-          .getUserPostsById(_user.uid!)
-          .asyncMap<int>((event) => event.docs.length),
+      stream: tiutiuUserController.service.getUserPostsById(_user.uid!).asyncMap<int>((event) => event.docs.length),
       builder: (context, snapshot) {
         final qty = snapshot.data ?? 1;
         return AutoSizeText('$qty ${UserStrings.postsQty(qty)}');
@@ -221,7 +219,6 @@ class AnnouncerProfile extends StatelessWidget {
               onPressed: () {},
             ),
           ),
-          SizedBox(width: 16.0.w),
           Expanded(
             child: ButtonWide(
               text: AppStrings.whatsapp,

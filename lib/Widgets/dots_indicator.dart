@@ -16,8 +16,8 @@ class DotsIndicator extends AnimatedWidget {
   final int? itemCount;
   final Color? color;
 
-  static const double _dotSpacing = 40.0;
-  static const double _dotSize = 8.0;
+  static const double _dotSpacing = 16.0;
+  static const double _dotSize = 5.0;
   static const double _maxZoom = 2.0;
 
   Widget _buildDot(int index) {

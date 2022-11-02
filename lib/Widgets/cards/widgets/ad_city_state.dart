@@ -18,8 +18,7 @@ class AdCityState extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final rightSide =
-        homeController.cardVisibilityKind == CardVisibilityKind.card;
+    final rightSide = homeController.cardVisibilityKind == CardVisibilityKind.card;
     final statesInitials = StatesAndCities().stateInitials;
     final statesName = StatesAndCities().stateNames;
 
@@ -34,7 +33,8 @@ class AdCityState extends StatelessWidget {
           Icon(Icons.pin_drop, size: 12.0.h, color: Colors.grey[400]),
           AutoSizeText(
             '$city - $UF',
-            style: TextStyles.fontSize12(
+            overflow: TextOverflow.fade,
+            style: TextStyles.fontSize10(
               fontWeight: FontWeight.w700,
               color: Colors.grey,
             ),

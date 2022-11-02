@@ -24,6 +24,7 @@ class FavoriteButton extends StatelessWidget {
           padding: EdgeInsets.all(8.0.h),
           child: Icon(
             pressed ? Icons.favorite : Icons.favorite_border,
+            size: 16.0.h,
             color: AppColors.primary,
           ),
         ),
