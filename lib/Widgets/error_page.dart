@@ -2,7 +2,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/constants/text_styles.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/core/constants/strings.dart';
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:tiutiu/Widgets/tiutiu_logo.dart';
 import 'package:flutter/material.dart';
 
@@ -36,10 +35,10 @@ class ErrorPage extends StatelessWidget {
             ),
             Padding(
               padding: EdgeInsets.symmetric(vertical: 32.0.h),
-              child: AutoSizeText(
-                style: TextStyles.fontSize16(color: AppColors.white),
+              child: AutoSizeTexts.autoSizeText16(
                 errorMessage ?? error.toString(),
                 textAlign: TextAlign.center,
+                color: AppColors.white,
               ),
             ),
             Spacer(),
@@ -49,9 +48,9 @@ class ErrorPage extends StatelessWidget {
                 Icons.exit_to_app,
                 size: 14.0.h,
               ),
-              label: AutoSizeText(
+              label: AutoSizeTexts.autoSizeText16(
+                color: AppColors.white,
                 AppStrings.leave,
-                style: TextStyles.fontSize16(color: AppColors.white),
               ),
               onPressed: onErrorCallback,
             ),

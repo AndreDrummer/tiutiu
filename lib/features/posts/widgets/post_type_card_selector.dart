@@ -76,13 +76,11 @@ class PostTypeCardSelector extends StatelessWidget {
   }
 
   AutoSizeText _selectorTitle() {
-    return AutoSizeText(
-      typeText,
+    return AutoSizeTexts.autoSizeText20(
+      color: isSelected ? AppColors.white : AppColors.secondary,
+      fontWeight: FontWeight.w700,
       textAlign: TextAlign.center,
-      style: TextStyles.fontSize20(
-        color: isSelected ? AppColors.white : AppColors.secondary,
-        fontWeight: FontWeight.w700,
-      ),
+      typeText,
     );
   }
 }

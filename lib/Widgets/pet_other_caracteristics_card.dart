@@ -33,8 +33,7 @@ class PetOtherCaracteristicsCard extends StatelessWidget {
               SizedBox(width: 8.0),
               Opacity(
                 opacity: 0.4,
-                child:
-                    Icon(icon, color: Theme.of(context).primaryColor, size: 35),
+                child: Icon(icon, color: Theme.of(context).primaryColor, size: 35),
               ),
               Expanded(
                 child: Container(
@@ -52,12 +51,10 @@ class PetOtherCaracteristicsCard extends StatelessWidget {
                       ),
                       SizedBox(height: 10),
                       FittedBox(
-                        child: AutoSizeText(
+                        child: AutoSizeTexts.autoSizeText12(
+                          textOverflow: TextOverflow.ellipsis,
+                          fontWeight: FontWeight.w700,
                           '$content',
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyles.fontSize(
-                            fontWeight: FontWeight.w700,
-                          ),
                         ),
                       ),
                     ],

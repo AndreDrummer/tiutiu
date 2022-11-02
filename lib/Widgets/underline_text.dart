@@ -1,7 +1,6 @@
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/core/constants/text_styles.dart';
+import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 
@@ -48,28 +47,22 @@ class UnderlineInputText extends StatelessWidget {
         children: [
           Visibility(
             visible: labelText != null,
-            child: AutoSizeText(
-              style: TextStyles.fontSize(
-                fontSize: fontSizeLabelText ?? 24.0.sp,
-                color: Colors.black,
-              ),
-              maxFontSize: 26.0,
+            child: AutoSizeTexts.autoSizeText26(
+              fontSize: fontSizeLabelText ?? 24.0.sp,
+              color: Colors.black,
               '$labelText',
             ),
           ),
           SizedBox(height: 14.0.h),
           TextFormField(
             readOnly: readOnly,
-            initialValue: initialValue == 'null' || initialValue == null
-                ? ''
-                : initialValue,
+            initialValue: initialValue == 'null' || initialValue == null ? '' : initialValue,
             textCapitalization: capitalize ?? TextCapitalization.sentences,
             onChanged: onChanged,
             validator: validator,
             style: TextStyle(
               color: Colors.black,
-              fontSize:
-                  fontSizeLabelText != null ? fontSizeLabelText! * .9 : 18.0.sp,
+              fontSize: fontSizeLabelText != null ? fontSizeLabelText! * .9 : 18.0.sp,
             ),
             minLines: 1,
             maxLines: maxLines ?? 2,
@@ -85,9 +78,7 @@ class UnderlineInputText extends StatelessWidget {
               focusedBorder: _underlineInputBorder(),
               border: _underlineInputBorder(),
               hintStyle: TextStyle(
-                fontSize: fontSizeLabelText != null
-                    ? fontSizeLabelText! * .85
-                    : 18.0.sp,
+                fontSize: fontSizeLabelText != null ? fontSizeLabelText! * .85 : 18.0.sp,
                 color: Colors.grey,
               ),
               isCollapsed: true,

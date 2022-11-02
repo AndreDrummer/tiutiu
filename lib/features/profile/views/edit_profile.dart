@@ -8,7 +8,6 @@ import 'package:tiutiu/Widgets/column_button_bar.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/Widgets/load_dark_screen.dart';
 import 'package:tiutiu/Widgets/underline_text.dart';
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:tiutiu/Widgets/avatar_profile.dart';
 import 'package:tiutiu/core/constants/strings.dart';
 import 'package:tiutiu/core/utils/validators.dart';
@@ -156,12 +155,10 @@ class _EditProfileState extends State<EditProfile> {
     return Obx(
       () => Visibility(
         visible: profileController.showErrorEmptyPic,
-        child: AutoSizeText(
+        child: AutoSizeTexts.autoSizeText16(
           MyProfileStrings.insertAPicture,
-          style: TextStyles.fontSize16(
-            fontWeight: FontWeight.w600,
-            color: AppColors.danger,
-          ),
+          fontWeight: FontWeight.w600,
+          color: AppColors.danger,
         ),
       ),
     );
@@ -234,13 +231,10 @@ class _EditProfileState extends State<EditProfile> {
       padding: EdgeInsets.symmetric(horizontal: 8.0.w),
       child: ColumnButtonBar(
         onPrimaryPressed: () {
-          if (_formKey.currentState!.validate() &&
-              tiutiuUserController.tiutiuUser.avatar != null) {
+          if (_formKey.currentState!.validate() && tiutiuUserController.tiutiuUser.avatar != null) {
             profileController.showErrorEmptyPic = false;
             FocusScope.of(context).unfocus();
-            profileController
-                .save()
-                .then((_) => profileController.isSetting = false);
+            profileController.save().then((_) => profileController.isSetting = false);
           } else {
             profileController.showErrorEmptyPic = true;
           }

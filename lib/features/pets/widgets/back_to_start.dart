@@ -1,7 +1,6 @@
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/constants/text_styles.dart';
 import 'package:tiutiu/core/constants/strings.dart';
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 
 class BackToStart extends StatelessWidget {
@@ -17,12 +16,10 @@ class BackToStart extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            AutoSizeText(
+            AutoSizeTexts.autoSizeText12(
               AppStrings.backToStart.toUpperCase(),
-              style: TextStyles.fontSize12(
-                fontWeight: FontWeight.w700,
-                color: Colors.blue,
-              ),
+              fontWeight: FontWeight.w700,
+              color: Colors.blue,
             ),
             Icon(
               Icons.arrow_drop_up_sharp,

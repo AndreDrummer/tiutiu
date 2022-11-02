@@ -1,8 +1,7 @@
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:tiutiu/Widgets/hint_error.dart';
 import 'package:tiutiu/core/constants/text_styles.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
+import 'package:tiutiu/Widgets/hint_error.dart';
 import 'package:flutter/material.dart';
 
 class UnderlineInputDropdown extends StatelessWidget {
@@ -32,12 +31,9 @@ class UnderlineInputDropdown extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          AutoSizeText(
-            style: TextStyles.fontSize(
-              fontSize: fontSize ?? 24.0.sp,
-              color: AppColors.black,
-            ),
-            maxFontSize: 26,
+          AutoSizeTexts.autoSizeText26(
+            fontSize: fontSize ?? 24.0.sp,
+            color: AppColors.black,
             labelText,
           ),
           SizedBox(height: 14.0),
@@ -54,15 +50,13 @@ class UnderlineInputDropdown extends StatelessWidget {
             ),
             isExpanded: true,
             value: initialValue,
-            style: TextStyles.fontSize14(color: AppColors.black),
             iconEnabledColor: AppColors.black,
             selectedItemBuilder: (_) => items
                 .map<DropdownMenuItem<String>>(
                   (e) => DropdownMenuItem<String>(
-                    child: AutoSizeText(
+                    child: AutoSizeTexts.autoSizeText14(
                       e,
-                      maxFontSize: 14,
-                      style: TextStyles.fontSize14(color: AppColors.black),
+                      color: AppColors.black,
                     ),
                     value: e,
                   ),
@@ -71,11 +65,7 @@ class UnderlineInputDropdown extends StatelessWidget {
             items: items
                 .map<DropdownMenuItem<String>>(
                   (e) => DropdownMenuItem<String>(
-                    child: AutoSizeText(
-                      e,
-                      maxFontSize: 14,
-                      style: TextStyles.fontSize14(color: AppColors.black),
-                    ),
+                    child: AutoSizeTexts.autoSizeText14(e, color: AppColors.black),
                     value: e,
                   ),
                 )

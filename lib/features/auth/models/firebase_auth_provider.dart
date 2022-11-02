@@ -5,8 +5,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 
-final String _iosClientId =
-    '791022711249-jva0r9f0eddfo4skv18c0i1e26clq7pd.apps.googleusercontent.com';
+final String _iosClientId = '791022711249-jva0r9f0eddfo4skv18c0i1e26clq7pd.apps.googleusercontent.com';
 
 class FirebaseAuthProvider implements AuthProviders {
   FirebaseAuthProvider._();
@@ -32,7 +31,7 @@ class FirebaseAuthProvider implements AuthProviders {
         email: email,
       );
 
-      // await _sendEmailVerification(_firebaseAuth.currentUser);
+      await _sendEmailVerification(_firebaseAuth.currentUser);
     } on FirebaseAuthException catch (error) {
       throw TiuTiuAuthException(error.code);
     }
@@ -98,11 +97,9 @@ class FirebaseAuthProvider implements AuthProviders {
       }
 
       if (_firebaseAuth.currentUser == null) {
-        GoogleSignInAuthentication? googleAuth =
-            await _googleUser?.authentication;
+        GoogleSignInAuthentication? googleAuth = await _googleUser?.authentication;
 
-        if (googleAuth?.accessToken == null && googleAuth?.idToken == null)
-          return false;
+        if (googleAuth?.accessToken == null && googleAuth?.idToken == null) return false;
 
         AuthCredential credential = GoogleAuthProvider.credential(
           accessToken: googleAuth?.accessToken,
@@ -158,8 +155,7 @@ class FirebaseAuthProvider implements AuthProviders {
 
       return _firebaseAuth.currentUser != null;
     } catch (exception) {
-      debugPrint(
-          'An error ocurred when tryna to login with Facebook: $exception');
+      debugPrint('An error ocurred when tryna to login with Facebook: $exception');
       throw TiuTiuAuthException('Error validating access token');
     }
   }

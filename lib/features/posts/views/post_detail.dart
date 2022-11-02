@@ -15,10 +15,8 @@ import 'package:tiutiu/Widgets/dots_indicator.dart';
 import 'package:tiutiu/core/utils/asset_handle.dart';
 import 'package:tiutiu/core/utils/video_utils.dart';
 import 'package:tiutiu/core/constants/strings.dart';
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:maps_launcher/maps_launcher.dart';
 import 'package:tiutiu/Widgets/button_wide.dart';
-import 'package:tiutiu/Widgets/background.dart';
 import 'package:tiutiu/core/Custom/icons.dart';
 import 'package:flutter/material.dart';
 import 'package:chewie/chewie.dart';
@@ -112,12 +110,10 @@ class _PetDetailsState extends State<PetDetails> {
   AppBar _appBar(String petName) {
     return AppBar(
       leading: BackButton(color: AppColors.white),
-      title: AutoSizeText(
+      title: AutoSizeTexts.autoSizeText20(
         '${PetDetailsStrings.detailsOf} $petName',
-        style: TextStyles.fontSize20(
-          fontWeight: FontWeight.w600,
-          color: AppColors.white,
-        ),
+        fontWeight: FontWeight.w600,
+        color: AppColors.white,
       ),
       actions: [
         Visibility(
@@ -203,14 +199,12 @@ class _PetDetailsState extends State<PetDetails> {
               right: 18.0.h,
               left: 8.0.h,
             ),
-            child: AutoSizeText(
+            child: AutoSizeTexts.autoSizeText12(
               OtherFunctions.firstCharacterUpper(
                 postsController.post.owner!.displayName ?? 'Usuário do Tiutiu',
               ).trim(),
-              style: TextStyles.fontSize(
-                fontWeight: FontWeight.bold,
-                color: AppColors.white,
-              ),
+              fontWeight: FontWeight.bold,
+              color: AppColors.white,
             ),
           ),
         ],
