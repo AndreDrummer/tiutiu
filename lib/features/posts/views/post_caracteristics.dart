@@ -4,7 +4,6 @@ import 'package:tiutiu/features/system/controllers.dart';
 import 'package:tiutiu/core/constants/text_styles.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/core/constants/strings.dart';
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:tiutiu/Widgets/one_line_text.dart';
 import 'package:tiutiu/core/data/dummy_data.dart';
 import 'package:flutter/material.dart';
@@ -18,10 +17,7 @@ class PostCaracteristics extends StatelessWidget {
     return Obx(
       () => ListView(
         padding: EdgeInsets.zero,
-        children: [
-          _otherCaracteristicsLabel(),
-          _otherCaracteristicsGrid(caracs)
-        ],
+        children: [_otherCaracteristicsLabel(), _otherCaracteristicsGrid(caracs)],
       ),
     );
   }
@@ -50,11 +46,7 @@ SizedBox _otherCaracteristicsGrid(List<String> caracs) {
           height: 12.0.h,
           child: CheckboxListTile(
             controlAffinity: ListTileControlAffinity.leading,
-            title: AutoSizeText(
-              style: TextStyles.fontSize(),
-              maxFontSize: 14,
-              carac,
-            ),
+            title: AutoSizeTexts.autoSizeText12(carac),
             onChanged: (_) {
               postsController.updatePost(PetEnum.otherCaracteristics, carac);
             },

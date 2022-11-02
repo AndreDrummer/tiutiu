@@ -1,6 +1,5 @@
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/constants/text_styles.dart';
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:tiutiu/core/constants/strings.dart';
 import 'package:tiutiu/core/Custom/icons.dart';
 import 'package:flutter/material.dart';
@@ -22,12 +21,10 @@ class AdViews extends StatelessWidget {
           Icon(Tiutiu.eye, size: 10.0.h, color: Colors.grey[400]),
           Padding(
             padding: EdgeInsets.only(left: 4.0.w),
-            child: AutoSizeText(
+            child: AutoSizeTexts.autoSizeText12(
+              fontWeight: FontWeight.w400,
               '$views ${AppStrings.views}',
-              style: TextStyles.fontSize12(
-                fontWeight: FontWeight.w400,
-                color: Colors.grey,
-              ),
+              color: Colors.grey,
             ),
           ),
         ],

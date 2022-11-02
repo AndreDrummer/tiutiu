@@ -7,7 +7,6 @@ import 'package:tiutiu/features/system/controllers.dart';
 import 'package:tiutiu/core/data/states_and_cities.dart';
 import 'package:tiutiu/core/constants/text_styles.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:tiutiu/core/constants/strings.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -46,10 +45,7 @@ class LocationSelecter extends StatelessWidget {
             duration: Duration(milliseconds: 500),
             child: ListView(
               physics: NeverScrollableScrollPhysics(),
-              children: [
-                _fillFullAddressCheckbox(),
-                _fillFullAddressTextArea()
-              ],
+              children: [_fillFullAddressCheckbox(), _fillFullAddressTextArea()],
             ),
           ),
         ],
@@ -80,13 +76,10 @@ class LocationSelecter extends StatelessWidget {
   CheckboxListTile _fillFullAddressCheckbox() {
     return CheckboxListTile(
       contentPadding: EdgeInsets.zero,
-      title: AutoSizeText(
-        style: TextStyles.fontSize14(
-          fontWeight: FontWeight.w500,
-          color: AppColors.secondary,
-        ),
+      title: AutoSizeTexts.autoSizeText16(
         PostFlowStrings.fillFullAddress,
-        maxFontSize: 16,
+        fontWeight: FontWeight.w500,
+        color: AppColors.secondary,
       ),
       onChanged: onFullAddressSelected,
       value: fillFullAddress,
@@ -106,8 +99,7 @@ class LocationSelecter extends StatelessWidget {
           },
           initialValue: postsController.post.describedAddress,
           isInErrorState:
-              !postsController.post.describedAddress.isNotEmptyNeighterNull() &&
-                  !postsController.formIsValid,
+              !postsController.post.describedAddress.isNotEmptyNeighterNull() && !postsController.formIsValid,
           labelText: PostFlowStrings.typeAddress,
         ),
       ),

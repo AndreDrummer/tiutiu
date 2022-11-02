@@ -137,11 +137,9 @@ class Profile extends StatelessWidget with TiuTiuPopUp {
   Widget _userName() {
     return Container(
       width: 200.0.w,
-      child: AutoSizeText(
+      child: AutoSizeTexts.autoSizeText24(
+        fontWeight: FontWeight.w700,
         '${_user.displayName}',
-        style: TextStyles.fontSize24(
-          fontWeight: FontWeight.w700,
-        ),
       ),
     );
   }
