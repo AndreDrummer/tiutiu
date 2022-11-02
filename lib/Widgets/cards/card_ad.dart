@@ -60,7 +60,7 @@ class CardAd extends StatelessWidget {
               child: Row(
                 children: [
                   Container(
-                    width: Get.width * .90,
+                    width: Get.width * .92,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -68,7 +68,7 @@ class CardAd extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             cardBuilder.adTitle(),
-                            cardBuilder.adDistanceFromUser()
+                            cardBuilder.adDistanceFromUser(),
                           ],
                         ),
                         Row(
