@@ -2,7 +2,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/constants/text_styles.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/core/constants/strings.dart';
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 
 class OutlinedButtonWide extends StatelessWidget {
@@ -48,8 +47,7 @@ class OutlinedButtonWide extends StatelessWidget {
           alignment: Alignment.center,
           height: 48.0.h,
           child: Row(
-            mainAxisAlignment:
-                hasIcon ? MainAxisAlignment.start : MainAxisAlignment.center,
+            mainAxisAlignment: hasIcon ? MainAxisAlignment.start : MainAxisAlignment.center,
             children: [
               Visibility(
                 visible: hasIcon,
@@ -60,13 +58,11 @@ class OutlinedButtonWide extends StatelessWidget {
                 ),
               ),
               Spacer(),
-              AutoSizeText(
+              AutoSizeTexts.autoSizeText16(
+                color: color ?? AppColors.secondary,
                 text ?? AppStrings.getStarted,
                 textAlign: TextAlign.center,
-                style: TextStyles.fontSize16(
-                  color: color ?? AppColors.secondary,
-                  fontWeight: FontWeight.w700,
-                ),
+                fontWeight: FontWeight.w700,
               ),
               Spacer(),
             ],

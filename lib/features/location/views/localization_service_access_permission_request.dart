@@ -5,7 +5,6 @@ import 'package:tiutiu/core/constants/images_assets.dart';
 import 'package:tiutiu/core/constants/text_styles.dart';
 import 'package:tiutiu/Widgets/app_name_widget.dart';
 import 'package:tiutiu/core/constants/strings.dart';
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:tiutiu/Widgets/button_wide.dart';
 import 'package:tiutiu/Widgets/background.dart';
 import 'package:geolocator/geolocator.dart';
@@ -58,17 +57,13 @@ class LocalizationServiceAccessPermissionAccess extends StatelessWidget {
     );
   }
 
-  Background _googleRoutesImage() =>
-      Background(image: ImageAssets.googlePlaces);
+  Background _googleRoutesImage() => Background(image: ImageAssets.googlePlaces);
 
   Widget _explainAccessPermissionText() {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 8.0.w),
-      child: AutoSizeText(
-        gpsIsActive
-            ? LocalPermissionStrings.needsAccess
-            : LocalPermissionStrings.needsGPS,
-        style: TextStyles.fontSize16(),
+      child: AutoSizeTexts.autoSizeText16(
+        gpsIsActive ? LocalPermissionStrings.needsAccess : LocalPermissionStrings.needsGPS,
         textAlign: TextAlign.center,
       ),
     );

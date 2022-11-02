@@ -3,7 +3,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/features/system/controllers.dart';
 import 'package:tiutiu/core/data/states_and_cities.dart';
 import 'package:tiutiu/core/constants/text_styles.dart';
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 
 class AdCityState extends StatelessWidget {
@@ -31,13 +30,11 @@ class AdCityState extends StatelessWidget {
         children: [
           if (rightSide) Spacer(),
           Icon(Icons.pin_drop, size: 12.0.h, color: Colors.grey[400]),
-          AutoSizeText(
+          AutoSizeTexts.autoSizeText10(
+            textOverflow: TextOverflow.fade,
+            fontWeight: FontWeight.w700,
+            color: Colors.grey,
             '$city - $UF',
-            overflow: TextOverflow.fade,
-            style: TextStyles.fontSize10(
-              fontWeight: FontWeight.w700,
-              color: Colors.grey,
-            ),
           ),
         ],
       ),

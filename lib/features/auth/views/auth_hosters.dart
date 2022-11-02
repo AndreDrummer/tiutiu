@@ -1,13 +1,12 @@
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:tiutiu/Widgets/load_dark_screen.dart';
 import 'package:tiutiu/features/auth/widgets/headline.dart';
 import 'package:tiutiu/core/utils/routes/routes_name.dart';
 import 'package:tiutiu/features/system/controllers.dart';
 import 'package:tiutiu/core/mixins/tiu_tiu_pop_up.dart';
 import 'package:tiutiu/core/constants/text_styles.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
-import 'package:auto_size_text/auto_size_text.dart';
+import 'package:tiutiu/Widgets/load_dark_screen.dart';
 import 'package:tiutiu/core/constants/strings.dart';
 import 'package:tiutiu/Widgets/tiutiu_logo.dart';
 import 'package:tiutiu/Widgets/button_wide.dart';
@@ -31,12 +30,7 @@ class AuthHosters extends StatelessWidget with TiuTiuPopUp {
             left: 8.0,
             right: 8.0,
             child: Column(
-              children: [
-                _headline(),
-                SizedBox(height: 16.0.h),
-                _authButtons(),
-                _continueAnonButton()
-              ],
+              children: [_headline(), SizedBox(height: 16.0.h), _authButtons(), _continueAnonButton()],
             ),
           ),
           _loadingWidget(),
@@ -68,10 +62,7 @@ class AuthHosters extends StatelessWidget with TiuTiuPopUp {
         gradient: LinearGradient(
           begin: Alignment.bottomRight,
           end: Alignment.topLeft,
-          colors: [
-            AppColors.black.withOpacity(.9),
-            AppColors.black.withOpacity(.4)
-          ],
+          colors: [AppColors.black.withOpacity(.9), AppColors.black.withOpacity(.4)],
         ),
       ),
     );
@@ -89,8 +80,7 @@ class AuthHosters extends StatelessWidget with TiuTiuPopUp {
     );
   }
 
-  Widget _headline() =>
-      Headline(text: AuthStrings.authentique, textColor: AppColors.white);
+  Widget _headline() => Headline(text: AuthStrings.authentique, textColor: AppColors.white);
 
   Widget _authButtons() {
     return Container(
@@ -144,15 +134,11 @@ class AuthHosters extends StatelessWidget with TiuTiuPopUp {
         foregroundColor: Colors.transparent,
         padding: EdgeInsets.zero,
       ),
-      child: AutoSizeText(
-        style: TextStyles.fontSize(
-          fontWeight: FontWeight.bold,
-          color: AppColors.white,
-          fontSize: 16.0.sp,
-        ),
+      child: AutoSizeTexts.autoSizeText18(
+        fontWeight: FontWeight.bold,
         textAlign: TextAlign.center,
         AuthStrings.continueAnon,
-        maxFontSize: 18.0,
+        color: AppColors.white,
       ),
       onPressed: () {
         goToHome();

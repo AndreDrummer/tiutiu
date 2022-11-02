@@ -1,6 +1,5 @@
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/constants/text_styles.dart';
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:tiutiu/core/Custom/icons.dart';
 import 'package:flutter/material.dart';
 
@@ -18,13 +17,11 @@ class AdDistanceFromUser extends StatelessWidget {
       padding: EdgeInsets.only(bottom: 8.0.h),
       child: Row(
         children: [
-          AutoSizeText(
+          AutoSizeTexts.autoSizeText12(
+            textOverflow: TextOverflow.fade,
             'Está a $distanceText de você',
-            style: TextStyles.fontSize12(
-              fontWeight: FontWeight.w700,
-              color: Colors.grey,
-            ),
-            overflow: TextOverflow.fade,
+            fontWeight: FontWeight.w700,
+            color: Colors.grey,
           ),
           SizedBox(width: 8.0.w),
           Icon(
