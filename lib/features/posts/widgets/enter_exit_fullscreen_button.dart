@@ -19,12 +19,11 @@ class EnterExitFullScreenButton extends StatelessWidget {
       child: Container(
         child: Icon(
           isFullscreen ? Icons.fullscreen_exit : Icons.fullscreen,
-          size: isFullscreen ? 56.0.h : 16.0.h,
           color: AppColors.white,
         ),
         padding: EdgeInsets.all(4.0.h),
         decoration: BoxDecoration(
-          color: AppColors.secondary,
+          color: AppColors.black,
           shape: BoxShape.circle,
         ),
       ),
