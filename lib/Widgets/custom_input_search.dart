@@ -1,8 +1,6 @@
 import 'package:tiutiu/core/constants/text_styles.dart';
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 
-// ignore: must_be_immutable
 class CustomDropdownButtonSearch extends StatefulWidget {
   CustomDropdownButtonSearch({
     this.colorText = Colors.black,
@@ -16,20 +14,18 @@ class CustomDropdownButtonSearch extends StatefulWidget {
   });
   final Function(String)? onChange;
   final List<String>? itemList;
+  final String? initialValue;
   final bool? isExpanded;
   final double? fontSize;
   final Color? colorText;
   final bool? withPipe;
-  String? initialValue;
   final String? label;
 
   @override
-  _CustomDropdownButtonSearchState createState() =>
-      _CustomDropdownButtonSearchState();
+  _CustomDropdownButtonSearchState createState() => _CustomDropdownButtonSearchState();
 }
 
-class _CustomDropdownButtonSearchState
-    extends State<CustomDropdownButtonSearch> {
+class _CustomDropdownButtonSearchState extends State<CustomDropdownButtonSearch> {
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -42,17 +38,12 @@ class _CustomDropdownButtonSearchState
           },
           items: widget.itemList!.map<DropdownMenuItem<String>>((String e) {
             return DropdownMenuItem<String>(
-              child: AutoSizeText(
-                e,
-                style: TextStyles.fontSize12(),
-              ),
+              child: AutoSizeTexts.autoSizeText12(e),
               value: e,
             );
           }).toList(),
         ),
-        widget.withPipe!
-            ? Container(height: 30, width: 1, color: Colors.black38)
-            : Container()
+        widget.withPipe! ? Container(height: 30, width: 1, color: Colors.black38) : Container()
       ],
     );
   }

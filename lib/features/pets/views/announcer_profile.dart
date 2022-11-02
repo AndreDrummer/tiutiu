@@ -117,12 +117,10 @@ class AnnouncerProfile extends StatelessWidget {
     return Obx(
       () => Visibility(
         visible: profileController.showErrorEmptyPic,
-        child: AutoSizeText(
+        child: AutoSizeTexts.autoSizeText16(
           MyProfileStrings.insertAPicture,
-          style: TextStyles.fontSize16(
-            fontWeight: FontWeight.w600,
-            color: AppColors.danger,
-          ),
+          fontWeight: FontWeight.w600,
+          color: AppColors.danger,
         ),
       ),
     );
@@ -151,11 +149,9 @@ class AnnouncerProfile extends StatelessWidget {
   }
 
   Widget _userName() {
-    return AutoSizeText(
+    return AutoSizeTexts.autoSizeText16(
       '${_user.displayName}',
-      style: TextStyles.fontSize16(
-        fontWeight: FontWeight.w700,
-      ),
+      fontWeight: FontWeight.w700,
     );
   }
 
@@ -164,9 +160,9 @@ class AnnouncerProfile extends StatelessWidget {
       height: 32.0.h,
       child: Column(
         children: [
-          AutoSizeText(
+          AutoSizeTexts.autoSizeText12(
             '${UserStrings.userLastSeen} ${Formatter.getFormattedDateAndTime(_user.lastLogin ?? DateTime.now().toIso8601String())}',
-            style: TextStyles.fontSize(fontStyle: FontStyle.italic),
+            fontStyle: FontStyle.italic,
           ),
           Spacer(),
         ],
@@ -195,10 +191,7 @@ class AnnouncerProfile extends StatelessWidget {
     return Column(
       children: [
         Divider(),
-        AutoSizeText(
-          style: TextStyles.fontSize(),
-          UserStrings.contact,
-        ),
+        AutoSizeTexts.autoSizeText12(UserStrings.contact),
         Divider(),
       ],
     );

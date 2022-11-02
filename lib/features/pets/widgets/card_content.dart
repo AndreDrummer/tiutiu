@@ -1,6 +1,5 @@
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/constants/text_styles.dart';
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 
 class CardContent extends StatelessWidget {
@@ -36,10 +35,8 @@ class CardContent extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      AutoSizeText(
-                        style: TextStyles.fontSize16(
-                          fontWeight: FontWeight.w600,
-                        ),
+                      AutoSizeTexts.autoSizeText16(
+                        fontWeight: FontWeight.w600,
                         title,
                       ),
                       Visibility(
@@ -57,9 +54,8 @@ class CardContent extends StatelessWidget {
                   ),
                 ),
                 Divider(),
-                AutoSizeText(
-                  style: TextStyles.fontSize12(color: Colors.blueGrey),
-                  maxLines: 3,
+                AutoSizeTexts.autoSizeText12(
+                  color: Colors.blueGrey,
                   content,
                 ),
               ],

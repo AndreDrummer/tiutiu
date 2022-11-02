@@ -1,12 +1,11 @@
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/Widgets/custom_input_search.dart';
-import 'package:tiutiu/core/data/states_and_cities.dart';
-import 'package:tiutiu/core/models/filter_params.dart';
 import 'package:tiutiu/features/system/controllers.dart';
+import 'package:tiutiu/core/data/states_and_cities.dart';
 import 'package:tiutiu/core/constants/text_styles.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
+import 'package:tiutiu/core/models/filter_params.dart';
 import 'package:tiutiu/core/constants/strings.dart';
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -29,14 +28,8 @@ class FilterResultCount extends StatelessWidget {
               children: [
                 Row(
                   children: [
-                    AutoSizeText(
-                      '${postsController.postsCount} ',
-                      style: TextStyles.fontSize12(),
-                    ),
-                    AutoSizeText(
-                      FilterStrings.foundAt,
-                      style: TextStyles.fontSize12(),
-                    ),
+                    AutoSizeTexts.autoSizeText12('${postsController.postsCount} '),
+                    AutoSizeTexts.autoSizeText12(FilterStrings.foundAt),
                   ],
                 ),
                 Spacer(),
@@ -53,10 +46,7 @@ class FilterResultCount extends StatelessWidget {
                       .stateInitials
                       .map(
                         (e) => DropdownMenuItem<String>(
-                          child: AutoSizeText(
-                            e,
-                            style: TextStyles.fontSize12(),
-                          ),
+                          child: AutoSizeTexts.autoSizeText12(e),
                           value: e,
                         ),
                       )
@@ -65,10 +55,7 @@ class FilterResultCount extends StatelessWidget {
                 Spacer(),
                 Row(
                   children: [
-                    AutoSizeText(
-                      style: TextStyles.fontSize12(),
-                      FilterStrings.orderedBy,
-                    ),
+                    AutoSizeTexts.autoSizeText12(FilterStrings.orderedBy),
                     CustomDropdownButtonSearch(
                       initialValue: filterController.getParams.orderBy,
                       itemList: filterController.orderTypeList,

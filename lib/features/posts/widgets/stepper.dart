@@ -2,7 +2,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/constants/images_assets.dart';
 import 'package:tiutiu/core/constants/text_styles.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -66,9 +65,7 @@ class Steper extends StatelessWidget {
                             : currentStep > index
                                 ? AppColors.white
                                 : unselectedStepColor,
-                        begin: currentStep > index
-                            ? AppColors.white
-                            : unselectedStepColor,
+                        begin: currentStep > index ? AppColors.white : unselectedStepColor,
                       ),
                       builder: (context, color, _) {
                         return Container(
@@ -143,18 +140,14 @@ class _SteperItem extends StatelessWidget {
             ),
             Container(
               alignment: Alignment.center,
-              child: AutoSizeText(
-                style: TextStyles.fontSize(
-                  color: isCompleted
-                      ? AppColors.primary
-                      : isCurrentStep
-                          ? AppColors.white
-                          : unselectedStepColor,
-                  fontWeight: FontWeight.bold,
-                ),
+              child: AutoSizeTexts.autoSizeText10(
+                color: isCompleted
+                    ? AppColors.primary
+                    : isCurrentStep
+                        ? AppColors.white
+                        : unselectedStepColor,
+                fontWeight: FontWeight.bold,
                 textAlign: TextAlign.center,
-                minFontSize: 8.0,
-                maxFontSize: 10.0,
                 stepName,
               ),
               width: 48.0.w,
