@@ -4,7 +4,6 @@ import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:chewie/chewie.dart';
-import 'dart:io';
 
 class VideoFullScreen extends StatefulWidget {
   const VideoFullScreen({

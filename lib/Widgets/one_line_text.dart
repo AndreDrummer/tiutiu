@@ -1,7 +1,6 @@
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter/material.dart';
 import 'package:tiutiu/core/constants/text_styles.dart';
+import 'package:flutter/material.dart';
 
 class OneLineText extends StatelessWidget {
   const OneLineText({
@@ -27,16 +26,13 @@ class OneLineText extends StatelessWidget {
       padding: EdgeInsets.symmetric(vertical: 4.0.h),
       child: Align(
         alignment: widgetAlignment ?? Alignment(-0.95, 1),
-        child: AutoSizeText(
-          text,
-          style: TextStyles.fontSize(
-            fontWeight: fontWeight ?? FontWeight.w600,
-            fontSize: fontSize,
-            color: color,
-          ),
-          overflow: TextOverflow.fade,
+        child: AutoSizeTexts.autoSizeText32(
+          fontWeight: fontWeight ?? FontWeight.w600,
+          textOverflow: TextOverflow.fade,
           textAlign: textAlign,
-          maxFontSize: 32,
+          fontSize: fontSize,
+          color: color,
+          text,
         ),
       ),
     );
