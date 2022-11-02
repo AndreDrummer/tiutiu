@@ -12,7 +12,7 @@ class PostFormValidator {
 
   bool isStep1Valid(existChronicDiseaseInfo) {
     bool isValid = nameKeyForm.currentState!.validate() &&
-        _pet.type.isNotEmptyNeighterNull() &&
+        _pet.health.isNotEmptyNeighterNull() &&
         _pet.size.isNotEmptyNeighterNull();
 
     if (existChronicDiseaseInfo) {
@@ -25,20 +25,20 @@ class PostFormValidator {
   bool isStep2Valid() {
     bool isValid = _pet.breed.isNotEmptyNeighterNull() &&
         _pet.color.isNotEmptyNeighterNull() &&
-        _pet.health.isNotEmptyNeighterNull() &&
-        _pet.gender.isNotEmptyNeighterNull();
+        _pet.gender.isNotEmptyNeighterNull() &&
+        _pet.description.isNotEmptyNeighterNull();
 
     return isValid;
   }
 
   bool isStep3Valid() {
-    bool isValid = _pet.description.isNotEmptyNeighterNull();
-    return isValid;
+    // Always valid: caracteristics are optional.
+
+    return true;
   }
 
   bool isStep4Valid(bool isFullAddress) {
-    bool isValid = _pet.state.isNotEmptyNeighterNull() &&
-        _pet.city.isNotEmptyNeighterNull();
+    bool isValid = _pet.state.isNotEmptyNeighterNull() && _pet.city.isNotEmptyNeighterNull();
 
     if (isFullAddress) {
       isValid = isValid && _pet.describedAddress.isNotEmptyNeighterNull();

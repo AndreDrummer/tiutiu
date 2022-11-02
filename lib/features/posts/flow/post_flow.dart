@@ -38,9 +38,7 @@ class PostFlow extends StatelessWidget with TiuTiuPopUp {
             PostFlowStrings.picTime,
             PostFlowStrings.addVideo,
             PostFlowStrings.reviewYourPost,
-            postsController.isLoading
-                ? PostFlowStrings.posting
-                : PostFlowStrings.allDone,
+            postsController.isLoading ? PostFlowStrings.posting : PostFlowStrings.allDone,
           ];
 
           return Stack(
@@ -48,8 +46,7 @@ class PostFlow extends StatelessWidget with TiuTiuPopUp {
               Scaffold(
                 resizeToAvoidBottomInset: true,
                 body: SizedBox(
-                  height:
-                      postsController.flowIndex >= 6 ? Get.height / 1.33 : null,
+                  height: postsController.flowIndex >= 6 ? Get.height / 1.33 : null,
                   child: Column(
                     children: [
                       SizedBox(height: 24.0.h),
@@ -67,8 +64,7 @@ class PostFlow extends StatelessWidget with TiuTiuPopUp {
                             Padding(
                               padding: EdgeInsets.only(left: 8.0.w),
                               child: OneLineText(
-                                text: _screensTitle
-                                    .elementAt(postsController.flowIndex),
+                                text: _screensTitle.elementAt(postsController.flowIndex),
                                 fontSize: 16.0.sp,
                               ),
                             ),
@@ -172,10 +168,10 @@ final _stepsNames = [
 ];
 
 List<Widget> _stepsScreens = [
+  PostLocation(),
   PostInfo(),
   PostDescription(),
   PostCaracteristics(),
-  PostLocation(),
   Images(),
   Video(),
   ReviewPost(),

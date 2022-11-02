@@ -332,23 +332,23 @@ class PostsController extends GetxController {
       postMap[property.name] = _handlePetOtherCaracteristics(data);
     }
 
-    if ((post.latitude == null || post.longitude == null)) {
-      _setPostStateAndCity(postMap);
-      _insertLatLng(postMap);
-    }
+    // if ((post.latitude == null || post.longitude == null)) {
+    _setPostStateAndCity(postMap);
+    _insertLatLng(postMap);
+    // }
 
     _post(Pet().fromMap(postMap));
   }
 
   void _insertLatLng(Map<String, dynamic> postMap) {
-    postMap[PetEnum.longitude.name] =
-        currentLocationController.location.longitude;
-    postMap[PetEnum.latitude.name] =
-        currentLocationController.location.latitude;
+    postMap[PetEnum.longitude.name] = currentLocationController.location.longitude;
+    postMap[PetEnum.latitude.name] = currentLocationController.location.latitude;
   }
 
   void _setPostStateAndCity(Map<String, dynamic> postMap) async {
     final placemark = currentLocationController.currentPlacemark;
+    print(placemark.subAdministrativeArea);
+    print(placemark);
 
     postMap[PetEnum.city.name] = placemark.subAdministrativeArea;
     postMap[PetEnum.state.name] = placemark.administrativeArea;
@@ -358,35 +358,36 @@ class PostsController extends GetxController {
     PostFormValidator validator = PostFormValidator(post);
     _postReviewed(false);
 
-    switch (flowIndex) {
-      case 0:
-        _formIsValid(validator.isStep1Valid(existChronicDisease));
-        break;
-      case 1:
-        _formIsValid(validator.isStep2Valid());
-        break;
-      case 2:
-        _formIsValid(validator.isStep3Valid());
-        break;
-      case 3:
-        _formIsValid(validator.isStep4Valid(isFullAddress));
-        break;
-      case 4:
-        _formIsValid(validator.isStep5Valid());
-        break;
-      case 5:
-        _isInReviewMode(true);
-        isLoading = false;
-        break;
-      case 7:
-        isLoading = true;
-        Future.delayed(Duration(seconds: 10), () {
-          isLoading = false;
-        });
-        break;
-    }
+    // switch (flowIndex) {
+    //   case 0:
+    //     _formIsValid(validator.isStep1Valid(existChronicDisease));
+    //     break;
+    //   case 1:
+    //     _formIsValid(validator.isStep2Valid());
+    //     break;
+    //   case 2:
+    //     _formIsValid(validator.isStep3Valid());
+    //     break;
+    //   case 3:
+    //     _formIsValid(validator.isStep4Valid(isFullAddress));
+    //     break;
+    //   case 4:
+    //     _formIsValid(validator.isStep5Valid());
+    //     break;
+    //   case 5:
+    //     _isInReviewMode(true);
+    //     isLoading = false;
+    //     break;
+    //   case 7:
+    //     isLoading = true;
+    //     Future.delayed(Duration(seconds: 10), () {
+    //       isLoading = false;
+    //     });
+    //     break;
+    // }
 
-    if (formIsValid) _nextStep();
+    // if (formIsValid) _nextStep();
+    _nextStep();
   }
 
   void setError(String errorMessage) {
