@@ -1,12 +1,11 @@
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:tiutiu/features/pets/model/pet_model.dart';
 import 'package:tiutiu/features/system/controllers.dart';
 import 'package:tiutiu/core/utils/math_functions.dart';
+import 'package:tiutiu/core/models/latlng.dart';
 
 class Ordenators {
   static int orderByPostDate(Pet a, Pet b) {
-    return DateTime.parse(b.createdAt!).millisecondsSinceEpoch -
-        DateTime.parse(a.createdAt!).millisecondsSinceEpoch;
+    return DateTime.parse(b.createdAt!).millisecondsSinceEpoch - DateTime.parse(a.createdAt!).millisecondsSinceEpoch;
   }
 
   static int orderByName(Pet a, Pet b) {

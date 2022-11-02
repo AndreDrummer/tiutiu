@@ -20,6 +20,12 @@ class StatesAndCities {
     location = UFLocation.fromMap(jsonDecode(jsonFile));
   }
 
+  String getStateNameFromInitial(String ufInitial) {
+    return stateNames.elementAt(
+      StatesAndCities().stateInitials.indexOf(ufInitial),
+    );
+  }
+
   String get fisrtStateName => location.states.first.name;
   List<String> get stateNames => location.states.map((e) => e.name).toList();
 
