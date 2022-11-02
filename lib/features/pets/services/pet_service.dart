@@ -1,7 +1,7 @@
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:tiutiu/core/constants/firebase_env_path.dart';
 import 'package:tiutiu/features/pets/model/pet_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:tiutiu/core/models/latlng.dart';
 
 class PetService {
   PetService._();
@@ -10,20 +10,17 @@ class PetService {
 
   FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  Future<DocumentReference> getReferenceFromPath(
-      String path, DocumentSnapshot snapshot, String fieldName) async {
+  Future<DocumentReference> getReferenceFromPath(String path, DocumentSnapshot snapshot, String fieldName) async {
     final ref = await _firestore.doc(path).get();
     updateToTypeReference(snapshot, fieldName, ref.reference);
     return ref.reference;
   }
 
-  Future<void> updateToTypeReference(DocumentSnapshot snapshot,
-      String fieldName, DocumentReference ref) async {
+  Future<void> updateToTypeReference(DocumentSnapshot snapshot, String fieldName, DocumentReference ref) async {
     await snapshot.reference.set({fieldName: ref}, SetOptions(merge: true));
   }
 
-  Future getPetToCount(DocumentReference userReference, String kind,
-      {bool avalaible = true}) async {
+  Future getPetToCount(DocumentReference userReference, String kind, {bool avalaible = true}) async {
     if (kind == FirebaseEnvPath.adopted) {
       return await _firestore
           .collection(FirebaseEnvPath.adopted)
@@ -34,8 +31,7 @@ class PetService {
     return await _firestore
         .collection(kind)
         .where('ownerReference', isEqualTo: userReference)
-        .where(kind == FirebaseEnvPath.donate ? 'donated' : 'found',
-            isEqualTo: !avalaible)
+        .where(kind == FirebaseEnvPath.donate ? 'donated' : 'found', isEqualTo: !avalaible)
         .get();
   }
 
@@ -50,11 +46,8 @@ class PetService {
     required String userId,
     bool isAdopted = false,
   }) {
-    Query query = _firestore
-        .collection(petKind)
-        .where(isAdopted ? 'interestedID' : 'ownerId', isEqualTo: userId);
-    if (petKind == FirebaseEnvPath.donate)
-      query = query..where('donated', isEqualTo: false);
+    Query query = _firestore.collection(petKind).where(isAdopted ? 'interestedID' : 'ownerId', isEqualTo: userId);
+    if (petKind == FirebaseEnvPath.donate) query = query..where('donated', isEqualTo: false);
     if (isAdopted) query = query.where('confirmed', isEqualTo: true);
 
     return query.snapshots();
@@ -68,12 +61,9 @@ class PetService {
         .snapshots();
   }
 
-  Future<void> deleteOldInterest(DocumentReference petReference,
-      {DocumentReference? userReference}) async {
-    QuerySnapshot adoptInterestedsRef = await petReference
-        .collection('adoptInteresteds')
-        .where('userReference', isEqualTo: userReference)
-        .get();
+  Future<void> deleteOldInterest(DocumentReference petReference, {DocumentReference? userReference}) async {
+    QuerySnapshot adoptInterestedsRef =
+        await petReference.collection('adoptInteresteds').where('userReference', isEqualTo: userReference).get();
 
     List<QueryDocumentSnapshot> docs = adoptInterestedsRef.docs;
     for (int i = 0; i < docs.length; i++) {

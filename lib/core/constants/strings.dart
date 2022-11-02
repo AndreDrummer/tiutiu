@@ -1,16 +1,14 @@
 class AppStrings {
   static String get verifyFilters => 'Verifique seus filtros de busca.';
   static String get imagesWarning => 'Imagens meramente ilustrativas';
-  static String get authError =>
-      'Ocorreu um erro com sua autenticação.\nTente sair e entrar novamente.';
+  static String get authError => 'Ocorreu um erro com sua autenticação.\nTente sair e entrar novamente.';
   static String get wannaLeave => 'Deseja realmente sair?';
   static String get loadingImage => 'Carregando imagem...';
   static String get noPetFound => 'Nenhum PET encontrado';
   static String get jotSomethingDown => 'Escreva aqui...';
   static String get iamInterested => 'Estou interessado';
   static String get backToStart => 'Voltar ao início';
-  static String get headline2 =>
-      'Muitos Pets Lindos\nEstão Aguardando Por Você';
+  static String get headline2 => 'Muitos Pets Lindos\nEstão Aguardando Por Você';
   static String get repeatPassword => 'Repita a senha';
   static String get genericError => 'Ocorreu um erro';
   static String get headline1 => 'Faça Um Novo Amigo';
@@ -64,8 +62,7 @@ class AuthStrings {
   static String get createAccount => 'Criar conta';
   static String get createYours => 'Crie a sua.';
   static String get facebook => 'Facebook';
-  static const String passwordShouldBeAtLeast6 =
-      'Senha deve ter no mínimo 6 dígitos';
+  static const String passwordShouldBeAtLeast6 = 'Senha deve ter no mínimo 6 dígitos';
   static String get google => 'Google';
   static String get enter => 'Entrar';
   static String get email => 'E-mail';
@@ -114,11 +111,9 @@ class PetHealthString {
 }
 
 class LocalPermissionStrings {
-  static String get needsAccess =>
-      'precisa ter acesso total a sua localização para funcionar corretamente!';
+  static String get needsAccess => 'precisa ter acesso total a sua localização para funcionar corretamente!';
   static String get appBarTitle => 'Permissão para acessar sua localização';
-  static String get needsGPS =>
-      'precisa que o serviço de GPS / Localização esteja ativado!';
+  static String get needsGPS => 'precisa que o serviço de GPS / Localização esteja ativado!';
   static String get turnOnLocalization => 'ATIVAR LOCALIZAÇÃO';
   static String get openSettings => 'IR P/ CONFIGURAÇÕES';
   static String get grantAcess => 'CONCEDER ACESSO';
@@ -188,8 +183,7 @@ class PostFlowStrings {
   }) {
     if (petGender == PetDetailsStrings.male)
       return 'Onde está o $petName?';
-    else if (petGender == PetDetailsStrings.female)
-      return 'Onde está a $petName?';
+    else if (petGender == PetDetailsStrings.female) return 'Onde está a $petName?';
     return 'Onde está o PET?';
   }
 
@@ -198,14 +192,12 @@ class PostFlowStrings {
   static const String insertAtLeastOnePicture = 'Insira pelo menos uma foto';
   static const String description = 'Outras caracteristicas';
   static const String selectPetType = 'Selecione o tipo de PET';
-  static const String videoSizeExceed =
-      'Tamanho máximo do vídeo excedido!\nO vídeo deve ter até 1:30 min';
-  static const String postCancelMessage =
-      'Saindo agora todos os dados serão perdidos.\nContinuar?';
+  static const String videoSizeExceed = 'Tamanho máximo do vídeo excedido!\nO vídeo deve ter até 1:30 min';
+  static const String postCancelMessage = 'Saindo agora todos os dados serão perdidos.\nContinuar?';
   static const String insertVideo = 'Insira um vídeo - máx 1:30 min (Opcional)';
   static const String reviewYourPost = 'Clique no card para revisar seu post';
   static const String fillFullAddress = 'Preencher endereço completo?';
-  static const String addVideo = 'Se quiser, pode adicionar um vídeo';
+  static const String addVideo = 'Se quiser, adicione um vídeo.';
   static const String addDescription = 'Adicione uma descrição';
   static const String fillAdData = 'Preencher dados do anúncio';
   static const String addMorePictures = 'Adicionar mais fotos';

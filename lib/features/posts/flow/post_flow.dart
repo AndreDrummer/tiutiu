@@ -46,7 +46,7 @@ class PostFlow extends StatelessWidget with TiuTiuPopUp {
               Scaffold(
                 resizeToAvoidBottomInset: true,
                 body: SizedBox(
-                  height: postsController.flowIndex >= 6 ? Get.height / 1.33 : null,
+                  height: postsController.flowIndex >= 6 ? Get.height / 1.33 : Get.height,
                   child: Column(
                     children: [
                       SizedBox(height: 24.0.h),
@@ -106,27 +106,30 @@ class PostFlow extends StatelessWidget with TiuTiuPopUp {
                 ),
                 bottomNavigationBar: Obx(
                   () {
-                    return RowButtonBar(
-                      isLoading: postsController.isLoading,
-                      buttonSecondaryColor: Colors.grey,
-                      onPrimaryPressed: () {
-                        if (postsController.isInStepReview()) {
-                          postsController.reviewPost();
-                        } else if (postsController.lastStep()) {
-                          postsController.uploadPost();
-                        } else {
-                          postsController.nextStepFlow();
-                        }
-                      },
-                      onSecondaryPressed: () {
-                        postsController.previousStepFlow();
-                      },
-                      textPrimary: postsController.isInStepReview()
-                          ? PostFlowStrings.reviewButton
-                          : postsController.lastStep()
-                              ? PostFlowStrings.post
-                              : AppStrings.contines,
-                      textSecond: AppStrings.back,
+                    return Container(
+                      color: AppColors.white,
+                      child: RowButtonBar(
+                        isLoading: postsController.isLoading,
+                        buttonSecondaryColor: Colors.grey,
+                        onPrimaryPressed: () {
+                          if (postsController.isInStepReview()) {
+                            postsController.reviewPost();
+                          } else if (postsController.lastStep()) {
+                            postsController.uploadPost();
+                          } else {
+                            postsController.nextStepFlow();
+                          }
+                        },
+                        onSecondaryPressed: () {
+                          postsController.previousStepFlow();
+                        },
+                        textPrimary: postsController.isInStepReview()
+                            ? PostFlowStrings.reviewButton
+                            : postsController.lastStep()
+                                ? PostFlowStrings.post
+                                : AppStrings.contines,
+                        textSecond: AppStrings.back,
+                      ),
                     );
                   },
                 ),
@@ -168,10 +171,10 @@ final _stepsNames = [
 ];
 
 List<Widget> _stepsScreens = [
-  PostLocation(),
   PostInfo(),
   PostDescription(),
   PostCaracteristics(),
+  PostLocation(),
   Images(),
   Video(),
   ReviewPost(),
