@@ -25,13 +25,9 @@ mixin Pickers {
         return SimpleDialog(
           children: [
             TextButton(
-              child: Text(
-                pickerAssetType == PickerAssetType.photo
-                    ? AppStrings.takeApicture
-                    : AppStrings.recordVideo,
-                style: TextStyles.fontSize12(
-                  color: Colors.black,
-                ),
+              child: AutoSizeTexts.autoSizeText12(
+                pickerAssetType == PickerAssetType.photo ? AppStrings.takeApicture : AppStrings.recordVideo,
+                color: Colors.black,
               ),
               onPressed: () async {
                 Get.back();
@@ -49,10 +45,7 @@ mixin Pickers {
             ),
             Divider(),
             TextButton(
-              child: Text(
-                AppStrings.openGallery,
-                style: TextStyles.fontSize12(),
-              ),
+              child: AutoSizeTexts.autoSizeText12(AppStrings.openGallery),
               onPressed: () async {
                 Get.back();
                 var pic;

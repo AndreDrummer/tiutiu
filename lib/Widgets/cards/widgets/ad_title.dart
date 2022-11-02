@@ -1,6 +1,5 @@
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/constants/text_styles.dart';
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 
 class AdTitle extends StatelessWidget {
@@ -15,12 +14,10 @@ class AdTitle extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.only(bottom: 2.0.h),
-      child: AutoSizeText(
+      child: AutoSizeTexts.autoSizeText16(
+        textOverflow: TextOverflow.fade,
+        fontWeight: FontWeight.w700,
         maxLines: 2,
-        style: TextStyles.fontSize16(
-          fontWeight: FontWeight.w700,
-        ),
-        overflow: TextOverflow.fade,
         title,
       ),
       width: 120.0.w,
