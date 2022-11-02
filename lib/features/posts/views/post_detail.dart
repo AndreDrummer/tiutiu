@@ -68,8 +68,8 @@ class _PetDetailsState extends State<PetDetails> {
 
   @override
   Widget build(BuildContext context) {
-    final Pet pet = postsController.post;
-    final petCaracteristics = PetCaracteristics.petCaracteristics(pet);
+    final Pet post = postsController.post;
+    final petCaracteristics = PetCaracteristics.petCaracteristics(post);
 
     return SafeArea(
       child: WillPopScope(
@@ -78,41 +78,25 @@ class _PetDetailsState extends State<PetDetails> {
           return true;
         },
         child: Scaffold(
+          appBar: _appBar(post.name!),
           body: FutureBuilder<void>(
               future: postsController.cacheVideos(),
               builder: (context, snapshot) {
-                return Stack(
+                return ListView(
                   children: [
-                    Background(dark: true),
-                    Column(
-                      children: [
-                        _showImagesAndVideos(
-                          boxHeight: Get.height / 2.5,
-                          context: context,
-                        ),
-                        Expanded(
-                          child: Container(
-                            height: Get.height / 1.5,
-                            child: ListView(
-                              shrinkWrap: true,
-                              children: [
-                                _petCaracteristics(petCaracteristics),
-                                _description(
-                                    'ndustry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum'),
-                                _address(),
-                                _ownerAdcontact(
-                                  whatsappMessage: 'whatsappMessage',
-                                  emailMessage: 'emailMessage',
-                                  emailSubject: 'emailSubject',
-                                  user: pet.owner!,
-                                )
-                              ],
-                            ),
-                          ),
-                        ),
-                      ],
+                    _showImagesAndVideos(
+                      boxHeight: Get.height / 2.5,
+                      context: context,
                     ),
-                    Positioned(child: _appBar(pet.name!)),
+                    _petCaracteristics(petCaracteristics),
+                    _description(post.description),
+                    _address(),
+                    _ownerAdcontact(
+                      whatsappMessage: 'whatsappMessage',
+                      emailMessage: 'emailMessage',
+                      emailSubject: 'emailSubject',
+                      user: post.owner!,
+                    ),
                     LoadDarkScreen(
                       message: petsController.loadingText,
                       visible: petsController.isLoading,
@@ -125,35 +109,28 @@ class _PetDetailsState extends State<PetDetails> {
     );
   }
 
-  Container _appBar(String petName) {
-    return Container(
-      color: Colors.black26.withOpacity(.3),
-      height: 56.0.h,
-      child: Row(
-        children: [
-          BackButton(color: AppColors.white),
-          Spacer(),
-          AutoSizeText(
-            '${PetDetailsStrings.detailsOf} $petName',
-            style: TextStyles.fontSize20(
-              fontWeight: FontWeight.w600,
-              color: AppColors.white,
-            ),
-          ),
-          Spacer(),
-          Visibility(
-            visible: !widget.inReviewMode,
-            child: IconButton(
-              icon: Icon(
-                color: AppColors.white,
-                Icons.share,
-              ),
-              onPressed: () {},
-            ),
-          ),
-          Spacer(),
-        ],
+  AppBar _appBar(String petName) {
+    return AppBar(
+      leading: BackButton(color: AppColors.white),
+      title: AutoSizeText(
+        '${PetDetailsStrings.detailsOf} $petName',
+        style: TextStyles.fontSize20(
+          fontWeight: FontWeight.w600,
+          color: AppColors.white,
+        ),
       ),
+      actions: [
+        Visibility(
+          visible: !widget.inReviewMode,
+          child: IconButton(
+            icon: Icon(
+              color: AppColors.white,
+              Icons.share,
+            ),
+            onPressed: () {},
+          ),
+        ),
+      ],
     );
   }
 
@@ -182,8 +159,8 @@ class _PetDetailsState extends State<PetDetails> {
           ),
         ),
         Positioned(
-          bottom: 24.0.h,
-          right: 8.0.w,
+          bottom: 40.0.h,
+          left: 24.0.w,
           child: InkWell(
             onTap: () {
               OtherFunctions.navigateToAnnouncerDetail(
@@ -212,6 +189,15 @@ class _PetDetailsState extends State<PetDetails> {
       ),
       child: Row(
         children: [
+          CircleAvatar(
+            backgroundColor: Colors.transparent,
+            child: ClipOval(
+              child: AssetHandle.getImage(
+                postsController.post.owner!.avatar,
+                isUserImage: true,
+              ),
+            ),
+          ),
           Padding(
             padding: EdgeInsets.only(
               right: 18.0.h,
@@ -224,15 +210,6 @@ class _PetDetailsState extends State<PetDetails> {
               style: TextStyles.fontSize(
                 fontWeight: FontWeight.bold,
                 color: AppColors.white,
-              ),
-            ),
-          ),
-          CircleAvatar(
-            backgroundColor: Colors.transparent,
-            child: ClipOval(
-              child: AssetHandle.getImage(
-                postsController.post.owner!.avatar,
-                isUserImage: true,
               ),
             ),
           ),
@@ -301,7 +278,7 @@ class _PetDetailsState extends State<PetDetails> {
     required int length,
   }) {
     return Container(
-      padding: const EdgeInsets.all(10.0),
+      padding: const EdgeInsets.all(8.0),
       child: Center(
         child: FittedBox(
           child: Container(
@@ -356,18 +333,13 @@ class _PetDetailsState extends State<PetDetails> {
   CardContent _address() {
     final post = postsController.post;
 
-    final describedAddress = post.describedAddress.isNotEmptyNeighterNull()
-        ? '\n\n${post.describedAddress}'
-        : '';
+    final describedAddress = post.describedAddress.isNotEmptyNeighterNull() ? '\n\n${post.describedAddress}' : '';
 
-    final showIcon =
-        !post.describedAddress.isNotEmptyNeighterNull() && !post.disappeared;
+    final showIcon = !post.describedAddress.isNotEmptyNeighterNull() && !post.disappeared;
 
     return CardContent(
       icon: showIcon ? null : Icons.launch,
-      content: post.disappeared
-          ? post.lastSeenDetails
-          : '${post.city} - ${post.state} $describedAddress',
+      content: post.disappeared ? post.lastSeenDetails : '${post.city} - ${post.state} $describedAddress',
       title: post.disappeared
           ? PetDetailsStrings.lastSeen
           : PetDetailsStrings.whereIsIt(
@@ -426,9 +398,7 @@ class _PetDetailsState extends State<PetDetails> {
               ],
             ),
             ButtonWide(
-              text: pet.disappeared
-                  ? AppStrings.provideInfo
-                  : AppStrings.iamInterested,
+              text: pet.disappeared ? AppStrings.provideInfo : AppStrings.iamInterested,
               icon: pet.disappeared ? Icons.info : Icons.favorite_border,
               color: pet.disappeared ? AppColors.info : AppColors.danger,
               isToExpand: true,

@@ -12,7 +12,7 @@ class InputCloseButton extends StatelessWidget {
     return GestureDetector(
       onTap: onClose,
       child: Container(
-        margin: EdgeInsets.all(6.0.h),
+        margin: EdgeInsets.all(8.0.h),
         decoration: BoxDecoration(
           shape: BoxShape.circle,
           color: Colors.grey[300],
@@ -28,7 +28,7 @@ class InputCloseButton extends StatelessWidget {
           ),
           child: Icon(
             color: AppColors.white,
-            size: 16.0.h,
+            size: 12.0.h,
             Icons.close,
           ),
         ),
