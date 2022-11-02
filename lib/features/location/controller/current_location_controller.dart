@@ -1,8 +1,8 @@
-import 'package:flutter/foundation.dart';
-import 'package:geocoding/geocoding.dart';
 import 'package:tiutiu/features/location/extensions/service_location_status.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:tiutiu/core/models/latlng.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:geocoding/geocoding.dart';
+import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 
 class CurrentLocationController extends GetxController {
@@ -45,8 +45,7 @@ class CurrentLocationController extends GetxController {
   }
 
   Future<void> updateGPSStatus() async {
-    final isLocationServiceEnabled =
-        await Geolocator.isLocationServiceEnabled();
+    final isLocationServiceEnabled = await Geolocator.isLocationServiceEnabled();
 
     if (isLocationServiceEnabled) {
       _gpsStatus(GPSStatus.active);
@@ -60,8 +59,7 @@ class CurrentLocationController extends GetxController {
   Future<void> checkPermission() async {
     permission = await Geolocator.checkPermission();
 
-    if (permission == LocationPermission.always ||
-        permission == LocationPermission.whileInUse) {
+    if (permission == LocationPermission.always || permission == LocationPermission.whileInUse) {
       isPermissionGranted = true;
     }
   }
@@ -73,8 +71,7 @@ class CurrentLocationController extends GetxController {
   }
 
   Future<void> handleLocationPermission() async {
-    final permissionDeniedForever =
-        permission == LocationPermission.deniedForever;
+    final permissionDeniedForever = permission == LocationPermission.deniedForever;
 
     if (permissionDeniedForever) {
       debugPrint('>> local access denied forever? $permissionDeniedForever');
