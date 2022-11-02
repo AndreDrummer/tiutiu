@@ -64,6 +64,7 @@ class PostInfo extends StatelessWidget {
           fontWeight: FontWeight.w500,
           color: AppColors.secondary,
           text: PostFlowStrings.age,
+          fontSize: 14,
         ),
         Row(
           children: [
@@ -105,8 +106,7 @@ class PostInfo extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.only(top: 32.0.h),
       child: UnderlineInputDropdown(
-        isInErrorState: !postsController.post.size.isNotEmptyNeighterNull() &&
-            !postsController.formIsValid,
+        isInErrorState: !postsController.post.size.isNotEmptyNeighterNull() && !postsController.formIsValid,
         initialValue: postsController.post.size.toString(),
         onChanged: (size) {
           postsController.updatePost(PetEnum.size, size);
@@ -126,9 +126,7 @@ class PostInfo extends StatelessWidget {
       child: ListView(
         children: [
           UnderlineInputDropdown(
-            isInErrorState:
-                !postsController.post.health.isNotEmptyNeighterNull() &&
-                    !postsController.formIsValid,
+            isInErrorState: !postsController.post.health.isNotEmptyNeighterNull() && !postsController.formIsValid,
             initialValue: postsController.post.health.toString(),
             onChanged: (health) {
               postsController.updatePost(PetEnum.health, health);
@@ -155,9 +153,8 @@ class PostInfo extends StatelessWidget {
               child: Form(
                 key: diaseaseForm,
                 child: TextArea(
-                  isInErrorState: !postsController.post.chronicDiseaseInfo
-                          .isNotEmptyNeighterNull() &&
-                      !postsController.formIsValid,
+                  isInErrorState:
+                      !postsController.post.chronicDiseaseInfo.isNotEmptyNeighterNull() && !postsController.formIsValid,
                   maxLines: 1,
                   onChanged: (chronicDiseaseInfo) {
                     postsController.updatePost(
@@ -166,9 +163,7 @@ class PostInfo extends StatelessWidget {
                     );
                   },
                   initialValue: postsController.post.chronicDiseaseInfo,
-                  validator: postsController.existChronicDisease
-                      ? Validators.verifyEmpty
-                      : null,
+                  validator: postsController.existChronicDisease ? Validators.verifyEmpty : null,
                   labelText: PostFlowStrings.describeDiseaseType,
                 ),
               ),

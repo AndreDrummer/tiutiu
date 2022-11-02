@@ -16,8 +16,8 @@ class AutoSizeTexts {
       overflow: textOverflow,
       textAlign: textAlign,
       maxLines: maxLines,
-      minFontSize: 6,
       maxFontSize: 8,
+      minFontSize: 8,
       text ?? '',
       style: TextStyle(
         fontWeight: fontWeight,
@@ -42,8 +42,8 @@ class AutoSizeTexts {
       overflow: textOverflow,
       textAlign: textAlign,
       maxLines: maxLines,
-      minFontSize: 8,
       maxFontSize: 10,
+      minFontSize: 8,
       text ?? '',
       style: TextStyle(
         fontWeight: fontWeight,
@@ -68,8 +68,8 @@ class AutoSizeTexts {
       overflow: textOverflow,
       textAlign: textAlign,
       maxLines: maxLines,
-      minFontSize: 10,
       maxFontSize: 12,
+      minFontSize: 8,
       text ?? '',
       style: TextStyle(
         fontWeight: fontWeight,
@@ -94,8 +94,8 @@ class AutoSizeTexts {
       overflow: textOverflow,
       textAlign: textAlign,
       maxLines: maxLines,
-      minFontSize: 12,
       maxFontSize: 14,
+      minFontSize: 8,
       text ?? '',
       style: TextStyle(
         fontWeight: fontWeight,
@@ -120,8 +120,8 @@ class AutoSizeTexts {
       overflow: textOverflow,
       textAlign: textAlign,
       maxLines: maxLines,
-      minFontSize: 14,
       maxFontSize: 16,
+      minFontSize: 8,
       text ?? '',
       style: TextStyle(
         fontWeight: fontWeight,
@@ -146,8 +146,8 @@ class AutoSizeTexts {
       overflow: textOverflow,
       textAlign: textAlign,
       maxLines: maxLines,
-      minFontSize: 16,
       maxFontSize: 18,
+      minFontSize: 8,
       text ?? '',
       style: TextStyle(
         fontWeight: fontWeight,
@@ -172,8 +172,8 @@ class AutoSizeTexts {
       overflow: textOverflow,
       textAlign: textAlign,
       maxLines: maxLines,
-      minFontSize: 18,
       maxFontSize: 20,
+      minFontSize: 8,
       text ?? '',
       style: TextStyle(
         fontWeight: fontWeight,
@@ -198,8 +198,8 @@ class AutoSizeTexts {
       overflow: textOverflow,
       textAlign: textAlign,
       maxLines: maxLines,
-      minFontSize: 20,
       maxFontSize: 22,
+      minFontSize: 8,
       text ?? '',
       style: TextStyle(
         fontWeight: fontWeight,
@@ -224,8 +224,8 @@ class AutoSizeTexts {
       overflow: textOverflow,
       textAlign: textAlign,
       maxLines: maxLines,
-      minFontSize: 22,
       maxFontSize: 24,
+      minFontSize: 8,
       text ?? '',
       style: TextStyle(
         fontWeight: fontWeight,
@@ -250,8 +250,8 @@ class AutoSizeTexts {
       overflow: textOverflow,
       textAlign: textAlign,
       maxLines: maxLines,
-      minFontSize: 24,
       maxFontSize: 26,
+      minFontSize: 8,
       text ?? '',
       style: TextStyle(
         fontWeight: fontWeight,
@@ -276,8 +276,8 @@ class AutoSizeTexts {
       overflow: textOverflow,
       textAlign: textAlign,
       maxLines: maxLines,
-      minFontSize: 26,
       maxFontSize: 28,
+      minFontSize: 8,
       text ?? '',
       style: TextStyle(
         fontWeight: fontWeight,
@@ -302,8 +302,8 @@ class AutoSizeTexts {
       overflow: textOverflow,
       textAlign: textAlign,
       maxLines: maxLines,
-      minFontSize: 30,
       maxFontSize: 32,
+      minFontSize: 8,
       text ?? '',
       style: TextStyle(
         fontWeight: fontWeight,

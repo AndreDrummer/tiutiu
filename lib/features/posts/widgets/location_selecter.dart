@@ -45,7 +45,10 @@ class LocationSelecter extends StatelessWidget {
             duration: Duration(milliseconds: 500),
             child: ListView(
               physics: NeverScrollableScrollPhysics(),
-              children: [_fillFullAddressCheckbox(), _fillFullAddressTextArea()],
+              children: [
+                _fillFullAddressCheckbox(),
+                _fillFullAddressTextArea(),
+              ],
             ),
           ),
         ],
