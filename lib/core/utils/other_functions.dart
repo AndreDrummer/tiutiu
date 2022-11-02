@@ -1,13 +1,13 @@
 import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
 import 'package:tiutiu/features/pets/views/announcer_profile.dart';
 import 'package:tiutiu/core/extensions/string_extension.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:tiutiu/features/pets/model/pet_model.dart';
 import 'package:tiutiu/features/system/controllers.dart';
 import 'package:tiutiu/core/utils/math_functions.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:tiutiu/core/constants/strings.dart';
+import 'package:tiutiu/core/models/latlng.dart';
 import 'package:tiutiu/core/Custom/icons.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:flutter/material.dart';
@@ -65,8 +65,7 @@ class OtherFunctions {
     return '';
   }
 
-  static Future<List<Pet>> filterResultsByState(
-      List<Pet> petsListResult, String stateName) async {
+  static Future<List<Pet>> filterResultsByState(List<Pet> petsListResult, String stateName) async {
     List<Pet> newPetList = [];
 
     for (int i = 0; i < petsListResult.length; i++) {
@@ -90,16 +89,13 @@ class OtherFunctions {
   }
 
   static String getPhotoName(String photoUrl, String hasKey) {
-    String photoName =
-        photoUrl.split(hasKey).last.split('?').first.split('%2F').last;
+    String photoName = photoUrl.split(hasKey).last.split('?').first.split('%2F').last;
     return photoName;
   }
 
-  static Future<DocumentReference> getReferenceById(
-      String id, String collectionName) async {
+  static Future<DocumentReference> getReferenceById(String id, String collectionName) async {
     FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
-    DocumentSnapshot documentSnapshot =
-        await firebaseFirestore.collection(collectionName).doc('$id').get();
+    DocumentSnapshot documentSnapshot = await firebaseFirestore.collection(collectionName).doc('$id').get();
     return documentSnapshot.reference;
   }
 
@@ -181,8 +177,7 @@ class OtherFunctions {
 
       fileURL = await ref.getDownloadURL();
     } on FirebaseException catch (error) {
-      debugPrint(
-          'Ocorreu um erro ao fazer upload do arquivo $fileName: $error.');
+      debugPrint('Ocorreu um erro ao fazer upload do arquivo $fileName: $error.');
     }
 
     return fileURL;

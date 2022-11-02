@@ -71,7 +71,7 @@ class PostTypeCardSelector extends StatelessWidget {
           image,
         ),
       ),
-      height: isSelected ? 120.0.h : 110.0.h,
+      height: isSelected ? 128.0.h : 118.0.h,
     );
   }
 

@@ -1,12 +1,11 @@
 import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
 import 'package:tiutiu/features/auth/service/auth_service.dart';
 import 'package:tiutiu/core/constants/firebase_env_path.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
-
 import 'package:tiutiu/features/pets/model/pet_model.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:tiutiu/core/utils/formatter.dart';
+import 'package:tiutiu/core/models/latlng.dart';
 import 'package:geocoding/geocoding.dart';
 
 class MigrationService {
@@ -15,8 +14,7 @@ class MigrationService {
   final String petAdPurpose = FirebaseEnvPath.donate;
 
   void migrate() async {
-    final loggedMoreThanOneDay =
-        DateTime.now().difference(DateTime(2022, 09, 21)).inDays < 1;
+    final loggedMoreThanOneDay = DateTime.now().difference(DateTime(2022, 09, 21)).inDays < 1;
 
     if (loggedMoreThanOneDay) {
       await loginWithEmailAndPassword('andre@gmail.com', '123123');
@@ -83,8 +81,7 @@ class MigrationService {
       final pet = Pet.fromMigrate(snapshot.data());
       // final owner = await tiutiuUserController.getUserById(pet.ownerId!);
 
-      snapshot.reference.set(
-          {PetEnum.description.name: pet.description}, SetOptions(merge: true));
+      snapshot.reference.set({PetEnum.description.name: pet.description}, SetOptions(merge: true));
     });
   }
 
@@ -94,15 +91,13 @@ class MigrationService {
     list.docs.forEach((snapshot) async {
       final user = TiutiuUser.fromMap(snapshot.data());
 
-      snapshot.reference.set({TiutiuUserEnum.lastLogin.name: user.createdAt},
-          SetOptions(merge: true));
+      snapshot.reference.set({TiutiuUserEnum.lastLogin.name: user.createdAt}, SetOptions(merge: true));
     });
   }
 
   Future<TiutiuUser> getUserData(DocumentReference ownerReference) async {
     final userData = await ownerReference.get();
-    final tiutiuUser =
-        TiutiuUser.fromMapMigration((userData.data() as Map<String, dynamic>));
+    final tiutiuUser = TiutiuUser.fromMapMigration((userData.data() as Map<String, dynamic>));
     // debugPrint('>> ${tiutiuUser.toMap()}');
 
     return tiutiuUser;
@@ -163,8 +158,7 @@ class MigrationService {
   }
 
   Future<bool> loginWithEmailAndPassword(String email, String password) async {
-    return await AuthService()
-        .loginWithEmailAndPassword(email: email, password: password);
+    return await AuthService().loginWithEmailAndPassword(email: email, password: password);
   }
 
   Future getPetAdState(LatLng position) async {
