@@ -50,21 +50,23 @@ class _VideoFullScreenState extends State<VideoFullScreen> {
       },
       child: Scaffold(
         backgroundColor: AppColors.black,
-        body: Stack(
-          children: [
-            Chewie(controller: widget.chewieController),
-            Positioned(
-              right: widget.isInReviewMode ? null : 40.0.w,
-              left: widget.isInReviewMode ? 24.0.w : null,
-              top: Platform.isAndroid ? 64.0.h : 16.0.h,
-              child: EnterExitFullScreenButton(
-                isFullscreen: true,
-                onOpenFullscreen: () {
-                  setPortraitUp().then((value) => Navigator.of(context).pop());
-                },
+        body: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          child: Stack(
+            children: [
+              Chewie(controller: widget.chewieController),
+              Positioned(
+                bottom: 112.0.h,
+                right: 24.0.w,
+                child: EnterExitFullScreenButton(
+                  isFullscreen: true,
+                  onOpenFullscreen: () {
+                    setPortraitUp().then((value) => Navigator.of(context).pop());
+                  },
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
