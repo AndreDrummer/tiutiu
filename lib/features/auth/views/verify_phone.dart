@@ -11,14 +11,19 @@ class VerifyPhone extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        SizedBox(height: 32.0.h),
-        _topBar(),
-        SizedBox(height: 32.0.h),
-        _content(context),
-        Spacer(),
-      ],
+    return FutureBuilder(
+      future: authController.verifyPhoneNumber(),
+      builder: (context, snapshot) {
+        return Column(
+          children: [
+            SizedBox(height: 32.0.h),
+            _topBar(),
+            SizedBox(height: 32.0.h),
+            _content(context),
+            Spacer(),
+          ],
+        );
+      },
     );
   }
 

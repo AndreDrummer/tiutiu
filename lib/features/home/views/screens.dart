@@ -1,8 +1,8 @@
 import 'package:tiutiu/features/auth/views/authenticated_area.dart';
-import 'package:tiutiu/features/auth/views/verify_phone.dart';
 import 'package:tiutiu/features/posts/views/select_post_type.dart';
 import 'package:tiutiu/features/profile/views/edit_profile.dart';
 import 'package:tiutiu/features/auth/views/validated_area.dart';
+import 'package:tiutiu/features/auth/views/verify_phone.dart';
 import 'package:tiutiu/features/auth/views/verify_email.dart';
 import 'package:tiutiu/features/profile/views/profile.dart';
 import 'package:tiutiu/features/pets/views/pets_list.dart';
@@ -14,10 +14,15 @@ import 'package:get/get.dart';
 final screens = <Widget>[
   DonateList(),
   DisappearedList(),
-  ValidatedArea(
-    isValid: tiutiuUserController.tiutiuUser.emailVerified && tiutiuUserController.tiutiuUser.phoneVerified,
-    fallbackChild: !tiutiuUserController.tiutiuUser.emailVerified ? VerifyEmail() : VerifyPhone(),
-    validChild: AuthenticatedArea(child: SelectPostType()),
+  Obx(
+    () {
+      print(tiutiuUserController.tiutiuUser.emailVerified);
+      return ValidatedArea(
+        isValid: tiutiuUserController.tiutiuUser.emailVerified && tiutiuUserController.tiutiuUser.phoneVerified,
+        fallbackChild: !tiutiuUserController.tiutiuUser.emailVerified ? VerifyEmail() : VerifyPhone(),
+        validChild: AuthenticatedArea(child: SelectPostType()),
+      );
+    },
   ),
   AuthenticatedArea(
     child: Obx(
