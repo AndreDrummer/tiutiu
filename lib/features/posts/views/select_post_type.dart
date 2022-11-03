@@ -1,3 +1,4 @@
+import 'package:tiutiu/Widgets/load_dark_screen.dart';
 import 'package:tiutiu/features/posts/widgets/post_type_card_selector.dart';
 import 'package:tiutiu/core/widgets/default_basic_app_bar.dart';
 import 'package:tiutiu/core/extensions/string_extension.dart';
@@ -19,8 +20,7 @@ class SelectPostType extends StatelessWidget with TiuTiuPopUp {
   Widget build(BuildContext context) {
     debugPrint('>> Post Type Screen Opened...');
 
-    final filtersTypeText =
-        filterController.filterTypeText.sublist(1).reversed.toList();
+    final filtersTypeText = filterController.filterTypeText.sublist(1).reversed.toList();
 
     final petsTypeImage = [
       StartScreenAssets.hamster,
@@ -31,15 +31,22 @@ class SelectPostType extends StatelessWidget with TiuTiuPopUp {
 
     return Scaffold(
       appBar: DefaultBasicAppBar(text: PostFlowStrings.post),
-      body: Container(
-        margin: EdgeInsets.symmetric(horizontal: 8.0.w),
-        child: Column(
+      body: Obx(
+        () => Stack(
           children: [
-            Spacer(),
-            _screenTitle(),
-            _gridView(filtersTypeText, petsTypeImage),
-            Spacer(),
-            _buttons(),
+            Container(
+              margin: EdgeInsets.symmetric(horizontal: 8.0.w),
+              child: Column(
+                children: [
+                  Spacer(),
+                  _screenTitle(),
+                  _gridView(filtersTypeText, petsTypeImage),
+                  Spacer(),
+                  _buttons(),
+                ],
+              ),
+            ),
+            LoadDarkScreen(visible: postsController.isLoading)
           ],
         ),
       ),
@@ -88,7 +95,8 @@ class SelectPostType extends StatelessWidget with TiuTiuPopUp {
       () => Visibility(
         visible: postsController.post.type.isNotEmptyNeighterNull(),
         child: RowButtonBar(
-          onPrimaryPressed: () {
+          onPrimaryPressed: () async {
+            await _setLocation();
             Get.to(() => PostFlow());
           },
           onSecondaryPressed: () {
@@ -112,5 +120,17 @@ class SelectPostType extends StatelessWidget with TiuTiuPopUp {
         ),
       ),
     );
+  }
+
+  Future<void> _setLocation() async {
+    final hasAValidPlacemark = currentLocationController.hasAValidPlacemark();
+
+    debugPrint('>> Placemark is valid $hasAValidPlacemark');
+
+    if (!hasAValidPlacemark) {
+      postsController.isLoading = true;
+      await currentLocationController.setUserLocation();
+      postsController.isLoading = false;
+    }
   }
 }

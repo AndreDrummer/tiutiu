@@ -18,6 +18,7 @@ class Headline extends StatelessWidget {
       color: textColor ?? AppColors.primary,
       fontWeight: FontWeight.bold,
       textAlign: TextAlign.left,
+      fontSize: 32,
       text,
     );
   }

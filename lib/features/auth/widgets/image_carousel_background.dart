@@ -3,7 +3,6 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:tiutiu/core/utils/asset_handle.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'dart:math';
 
 class ImageCarouselBackground extends StatelessWidget {
   const ImageCarouselBackground({super.key});
@@ -16,11 +15,11 @@ class ImageCarouselBackground extends StatelessWidget {
       alignment: Alignment.center,
       child: CarouselSlider.builder(
         itemCount: photos.length,
-        itemBuilder: (ctx, index, i) {
+        itemBuilder: (ctx, index, _) {
           return Container(
             width: double.infinity,
             child: AssetHandle.getImage(
-              photos.elementAt(Random().nextInt(photos.length)),
+              photos.elementAt(index),
               fit: BoxFit.fitHeight,
             ),
           );

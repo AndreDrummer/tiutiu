@@ -6,7 +6,7 @@ class DefaultBasicAppBar extends AppBar {
   DefaultBasicAppBar({required String text, bool automaticallyImplyLeading = true})
       : super(
           automaticallyImplyLeading: automaticallyImplyLeading,
-          title: AutoSizeTexts.autoSizeText12(text),
+          title: AutoSizeTexts.autoSizeText20(text),
           backgroundColor: AppColors.primary,
         );
 }
