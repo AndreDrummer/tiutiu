@@ -29,7 +29,7 @@
 				<string>Editor</string>
 				<key>CFBundleURLSchemes</key>
 				<array>
-					<string>fb3331657650254911</string>
+					<string>fb788645868876489</string>
 					<string>com.googleusercontent.apps.791022711249-9hhuha6rp2eklqq63c151v9ngope111i</string>
 				</array>
 			</dict>
@@ -37,9 +37,9 @@
 		<key>CFBundleVersion</key>
 		<string>$(FLUTTER_BUILD_NUMBER)</string>
 		<key>FacebookAppID</key>
-		<string>3331657650254911</string>
+		<string>788645868876489</string>
 		<key>FacebookClientToken</key>
-		<string>d43dc00a6cfc3473f0cdeb05c9feb47f</string>
+		<string>e26d496a106f3fdd42f8d0c8cfe10d45</string>
 		<key>FacebookDisplayName</key>
 		<string>Tiu, tiu</string>
 		<key>LSApplicationQueriesSchemes</key>
