@@ -21,6 +21,20 @@ class FirebaseAuthProvider implements AuthProviders {
     return _firebaseAuth.authStateChanges();
   }
 
+  Future<void> verifyPhoneNumber(String phone) async {
+    await _firebaseAuth.verifyPhoneNumber(
+      verificationCompleted: (PhoneAuthCredential credential) {},
+      codeSent: (String verificationId, int? resendToken) {
+        print('>> $verificationId');
+      },
+      codeAutoRetrievalTimeout: (String verificationId) {},
+      verificationFailed: (FirebaseAuthException e) {
+        print('>> Deu ruim! $e');
+      },
+      phoneNumber: '+55$phone',
+    );
+  }
+
   @override
   Future<void> createUserWithEmailAndPassword({
     required String password,
