@@ -39,6 +39,7 @@ dependencies:
   connectivity_plus: ^2.3.7
   firebase_database: ^9.1.0
   firebase_storage: ^10.3.4
+  pin_code_fields: ^7.4.0
   carousel_slider: ^4.0.0
   cloud_firestore: ^3.4.3
   cupertino_icons: ^1.0.5

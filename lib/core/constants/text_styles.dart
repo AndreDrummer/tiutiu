@@ -4,11 +4,12 @@ import 'package:flutter/material.dart';
 class AutoSizeTexts {
   static AutoSizeText autoSizeText8(
     String? text, {
+    TextDecoration? textDecoration,
     TextOverflow? textOverflow,
     FontWeight? fontWeight,
     FontStyle? fontStyle,
     TextAlign? textAlign,
-    double? fontSize,
+    double fontSize = 8,
     int? maxLines,
     Color? color,
   }) {
@@ -20,6 +21,7 @@ class AutoSizeTexts {
       minFontSize: 8,
       text ?? '',
       style: TextStyle(
+        decoration: textDecoration,
         fontWeight: fontWeight,
         fontStyle: fontStyle,
         fontSize: fontSize,
@@ -30,11 +32,12 @@ class AutoSizeTexts {
 
   static AutoSizeText autoSizeText10(
     String? text, {
+    TextDecoration? textDecoration,
     TextOverflow? textOverflow,
     FontWeight? fontWeight,
     FontStyle? fontStyle,
+    double fontSize = 10,
     TextAlign? textAlign,
-    double? fontSize,
     int? maxLines,
     Color? color,
   }) {
@@ -46,6 +49,7 @@ class AutoSizeTexts {
       minFontSize: 8,
       text ?? '',
       style: TextStyle(
+        decoration: textDecoration,
         fontWeight: fontWeight,
         fontStyle: fontStyle,
         fontSize: fontSize,
@@ -56,11 +60,12 @@ class AutoSizeTexts {
 
   static AutoSizeText autoSizeText12(
     String? text, {
+    TextDecoration? textDecoration,
     TextOverflow? textOverflow,
     FontWeight? fontWeight,
     FontStyle? fontStyle,
     TextAlign? textAlign,
-    double? fontSize,
+    double fontSize = 12,
     int? maxLines,
     Color? color,
   }) {
@@ -72,6 +77,7 @@ class AutoSizeTexts {
       minFontSize: 8,
       text ?? '',
       style: TextStyle(
+        decoration: textDecoration,
         fontWeight: fontWeight,
         fontStyle: fontStyle,
         fontSize: fontSize,
@@ -82,11 +88,12 @@ class AutoSizeTexts {
 
   static AutoSizeText autoSizeText14(
     String? text, {
+    TextDecoration? textDecoration,
     TextOverflow? textOverflow,
     FontWeight? fontWeight,
     FontStyle? fontStyle,
     TextAlign? textAlign,
-    double? fontSize,
+    double fontSize = 14,
     int? maxLines,
     Color? color,
   }) {
@@ -98,6 +105,7 @@ class AutoSizeTexts {
       minFontSize: 8,
       text ?? '',
       style: TextStyle(
+        decoration: textDecoration,
         fontWeight: fontWeight,
         fontStyle: fontStyle,
         fontSize: fontSize,
@@ -108,11 +116,12 @@ class AutoSizeTexts {
 
   static AutoSizeText autoSizeText16(
     String? text, {
+    TextDecoration? textDecoration,
     TextOverflow? textOverflow,
     FontWeight? fontWeight,
     FontStyle? fontStyle,
     TextAlign? textAlign,
-    double? fontSize,
+    double fontSize = 16,
     int? maxLines,
     Color? color,
   }) {
@@ -124,6 +133,7 @@ class AutoSizeTexts {
       minFontSize: 8,
       text ?? '',
       style: TextStyle(
+        decoration: textDecoration,
         fontWeight: fontWeight,
         fontStyle: fontStyle,
         fontSize: fontSize,
@@ -134,11 +144,12 @@ class AutoSizeTexts {
 
   static AutoSizeText autoSizeText18(
     String? text, {
+    TextDecoration? textDecoration,
     TextOverflow? textOverflow,
     FontWeight? fontWeight,
     FontStyle? fontStyle,
     TextAlign? textAlign,
-    double? fontSize,
+    double fontSize = 18,
     int? maxLines,
     Color? color,
   }) {
@@ -150,6 +161,7 @@ class AutoSizeTexts {
       minFontSize: 8,
       text ?? '',
       style: TextStyle(
+        decoration: textDecoration,
         fontWeight: fontWeight,
         fontStyle: fontStyle,
         fontSize: fontSize,
@@ -160,11 +172,12 @@ class AutoSizeTexts {
 
   static AutoSizeText autoSizeText20(
     String? text, {
+    TextDecoration? textDecoration,
     TextOverflow? textOverflow,
     FontWeight? fontWeight,
     FontStyle? fontStyle,
     TextAlign? textAlign,
-    double? fontSize,
+    double fontSize = 20,
     int? maxLines,
     Color? color,
   }) {
@@ -176,6 +189,7 @@ class AutoSizeTexts {
       minFontSize: 8,
       text ?? '',
       style: TextStyle(
+        decoration: textDecoration,
         fontWeight: fontWeight,
         fontStyle: fontStyle,
         fontSize: fontSize,
@@ -186,11 +200,12 @@ class AutoSizeTexts {
 
   static AutoSizeText autoSizeText22(
     String? text, {
+    TextDecoration? textDecoration,
     TextOverflow? textOverflow,
     FontWeight? fontWeight,
     FontStyle? fontStyle,
     TextAlign? textAlign,
-    double? fontSize,
+    double fontSize = 22,
     int? maxLines,
     Color? color,
   }) {
@@ -202,6 +217,7 @@ class AutoSizeTexts {
       minFontSize: 8,
       text ?? '',
       style: TextStyle(
+        decoration: textDecoration,
         fontWeight: fontWeight,
         fontStyle: fontStyle,
         fontSize: fontSize,
@@ -212,11 +228,12 @@ class AutoSizeTexts {
 
   static AutoSizeText autoSizeText24(
     String? text, {
+    TextDecoration? textDecoration,
     TextOverflow? textOverflow,
     FontWeight? fontWeight,
     FontStyle? fontStyle,
     TextAlign? textAlign,
-    double? fontSize,
+    double fontSize = 24,
     int? maxLines,
     Color? color,
   }) {
@@ -228,6 +245,7 @@ class AutoSizeTexts {
       minFontSize: 8,
       text ?? '',
       style: TextStyle(
+        decoration: textDecoration,
         fontWeight: fontWeight,
         fontStyle: fontStyle,
         fontSize: fontSize,
@@ -238,11 +256,12 @@ class AutoSizeTexts {
 
   static AutoSizeText autoSizeText26(
     String? text, {
+    TextDecoration? textDecoration,
     TextOverflow? textOverflow,
     FontWeight? fontWeight,
     FontStyle? fontStyle,
     TextAlign? textAlign,
-    double? fontSize,
+    double fontSize = 26,
     int? maxLines,
     Color? color,
   }) {
@@ -254,6 +273,7 @@ class AutoSizeTexts {
       minFontSize: 8,
       text ?? '',
       style: TextStyle(
+        decoration: textDecoration,
         fontWeight: fontWeight,
         fontStyle: fontStyle,
         fontSize: fontSize,
@@ -264,11 +284,12 @@ class AutoSizeTexts {
 
   static AutoSizeText autoSizeText28(
     String? text, {
+    TextDecoration? textDecoration,
     TextOverflow? textOverflow,
     FontWeight? fontWeight,
     FontStyle? fontStyle,
     TextAlign? textAlign,
-    double? fontSize,
+    double fontSize = 28,
     int? maxLines,
     Color? color,
   }) {
@@ -280,6 +301,7 @@ class AutoSizeTexts {
       minFontSize: 8,
       text ?? '',
       style: TextStyle(
+        decoration: textDecoration,
         fontWeight: fontWeight,
         fontStyle: fontStyle,
         fontSize: fontSize,
@@ -290,11 +312,12 @@ class AutoSizeTexts {
 
   static AutoSizeText autoSizeText32(
     String? text, {
+    TextDecoration? textDecoration,
     TextOverflow? textOverflow,
     FontWeight? fontWeight,
     FontStyle? fontStyle,
     TextAlign? textAlign,
-    double? fontSize,
+    double fontSize = 32,
     int? maxLines,
     Color? color,
   }) {
@@ -306,6 +329,7 @@ class AutoSizeTexts {
       minFontSize: 8,
       text ?? '',
       style: TextStyle(
+        decoration: textDecoration,
         fontWeight: fontWeight,
         fontStyle: fontStyle,
         fontSize: fontSize,

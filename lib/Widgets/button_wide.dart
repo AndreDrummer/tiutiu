@@ -41,10 +41,10 @@ class ButtonWide extends StatelessWidget {
         ),
         onPressed: () => onPressed?.call(),
         child: Container(
+          child: isLoading ? _loadingWidget() : _content(),
+          width: isToExpand ? Get.width : 260.0.w,
           alignment: Alignment.center,
           height: 48.0.h,
-          width: isToExpand ? Get.width : 260.0.w,
-          child: isLoading ? _loadingWidget() : _content(),
         ),
       ),
     );
@@ -72,6 +72,12 @@ class ButtonWide extends StatelessWidget {
           textAlign: TextAlign.center,
         ),
         Spacer(),
+        Visibility(
+          visible: hasIcon,
+          child: SizedBox(
+            width: 20.0.w,
+          ),
+        ),
       ],
     );
   }
