@@ -167,7 +167,13 @@ class AuthHosters extends StatelessWidget with TiuTiuPopUp {
   }
 
   void _loginWithApple() async {
-    try {} catch (exception) {
+    try {
+      // await authController.loginWithApple().then(
+      //   (success) {
+      //     if (success) goToHome();
+      //   },
+      // );
+    } catch (exception) {
       authController.isLoading = false;
       showPopUp(
         title: AuthStrings.authFailure,

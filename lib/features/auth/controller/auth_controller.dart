@@ -16,13 +16,11 @@ enum AuthKeys {
 }
 
 class AuthController extends GetxController {
-  AuthController({required AuthService authService})
-      : _authService = authService;
+  AuthController({required AuthService authService}) : _authService = authService;
 
   final AuthService _authService;
 
-  final Rx<EmailAndPasswordAuth> _emailAndPasswordAuth =
-      EmailAndPasswordAuth().obs;
+  final Rx<EmailAndPasswordAuth> _emailAndPasswordAuth = EmailAndPasswordAuth().obs;
   final RxBool _isCreatingNewAccount = false.obs;
   final RxBool _isShowingPassword = false.obs;
   final RxBool _isLoading = false.obs;
@@ -116,6 +114,21 @@ class AuthController extends GetxController {
     isLoading = false;
 
     return success;
+  }
+
+  Future<bool> loginWithApple() async {
+    isLoading = true;
+
+    await _authService.loginWithApple();
+
+    if (isLoading) {
+      await loadUserData();
+      registerFirstLogin();
+    }
+
+    isLoading = false;
+
+    return isLoading;
   }
 
   Future<void> passwordReset(String email) async {
@@ -226,6 +239,14 @@ class AuthController extends GetxController {
       tiutiuUserController.updateTiutiuUser(
         TiutiuUserEnum.lastLogin,
         lastSignInTime.toIso8601String(),
+      );
+    }
+
+    if (user?.providerData.first.providerId != AuthKeys.password.name) {
+      debugPrint('>> Updating emailVerified...');
+      tiutiuUserController.updateTiutiuUser(
+        TiutiuUserEnum.emailVerified,
+        true,
       );
     }
 

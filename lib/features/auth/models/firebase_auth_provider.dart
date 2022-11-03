@@ -1,3 +1,4 @@
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:tiutiu/features/auth/interface/auth_providers.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:tiutiu/core/Exceptions/tiutiu_exceptions.dart';
@@ -53,18 +54,21 @@ class FirebaseAuthProvider implements AuthProviders {
   }
 
   Future<void> _sendEmailVerification(User? user) async {
-    if (user != null && !user.emailVerified) {
-      var actionCodeSettings = ActionCodeSettings(
-        url: 'https://tiutiu.page.link/verify-email?email=${user.email}',
-        androidPackageName: 'com.anjasolutions.tiutiu',
-        iOSBundleId: 'com.anjasolutions.tiutiu',
-        androidMinimumVersion: '12',
-        androidInstallApp: true,
-        handleCodeInApp: true,
-      );
+    user?.sendEmailVerification();
+    // Para quando a atualização já estiver na loja
 
-      await user.sendEmailVerification(actionCodeSettings);
-    }
+    // if (user != null && !user.emailVerified) {
+    //   var actionCodeSettings = ActionCodeSettings(
+    //     url: 'https://tiutiu.page.link/verify-email?email=${user.email}',
+    //     androidPackageName: 'com.anjasolutions.tiutiu',
+    //     iOSBundleId: 'com.anjasolutions.tiutiu',
+    //     androidMinimumVersion: '12',
+    //     androidInstallApp: true,
+    //     handleCodeInApp: true,
+    //   );
+
+    //   await user.sendEmailVerification(actionCodeSettings);
+    // }
   }
 
   @override
@@ -161,7 +165,14 @@ class FirebaseAuthProvider implements AuthProviders {
   }
 
   @override
-  Future<void> loginWithApple() {
-    throw UnimplementedError();
+  Future<void> loginWithApple() async {
+    final credential = await SignInWithApple.getAppleIDCredential(
+      scopes: [
+        AppleIDAuthorizationScopes.email,
+        AppleIDAuthorizationScopes.fullName,
+      ],
+    );
+
+    print(credential);
   }
 }
