@@ -55,6 +55,10 @@ class AuthController extends GetxController {
     _setEmailAndPasswordAuth = EmailAndPasswordAuth().fromMap(map);
   }
 
+  Future<void> verifyPhoneNumber() async {
+    await _authService.verifyPhoneNumber('62994670169');
+  }
+
   Future<bool> createUserWithEmailAndPassword() async {
     bool success = false;
 
@@ -226,6 +230,8 @@ class AuthController extends GetxController {
     final creationTime = _authService.authUser?.metadata.creationTime;
     final loggedUser = tiutiuUserController.tiutiuUser;
 
+    await user?.reload();
+
     if (creationTime != null) {
       debugPrint('>> Updating createAt...');
       tiutiuUserController.updateTiutiuUser(
@@ -247,6 +253,12 @@ class AuthController extends GetxController {
       tiutiuUserController.updateTiutiuUser(
         TiutiuUserEnum.emailVerified,
         true,
+      );
+    } else {
+      debugPrint('>> Updating password emailVerified... ${user?.emailVerified}');
+      tiutiuUserController.updateTiutiuUser(
+        TiutiuUserEnum.emailVerified,
+        user?.emailVerified ?? false,
       );
     }
 
