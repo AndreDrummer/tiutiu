@@ -58,6 +58,6 @@ extension TiutiuStringExtension on String {
 
 extension NullableStringExtension on dynamic {
   bool isNotEmptyNeighterNull() {
-    return this != null && this!.toString().isNotEmpty && this != '-';
+    return this != null && this!.toString().isNotEmpty && this != '-' && this != 'null';
   }
 }

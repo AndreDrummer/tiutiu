@@ -1,9 +1,13 @@
 import 'package:tiutiu/features/location/extensions/service_location_status.dart';
+import 'package:tiutiu/core/local_storage/local_storage_keys.dart';
+import 'package:tiutiu/core/extensions/string_extension.dart';
+import 'package:tiutiu/core/local_storage/local_storage.dart';
 import 'package:tiutiu/core/models/latlng.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
+import 'dart:io';
 
 class CurrentLocationController extends GetxController {
   final Rx<LocationPermission> _permission = LocationPermission.denied.obs;
@@ -99,12 +103,43 @@ class CurrentLocationController extends GetxController {
         location = currentLocation;
       }
 
-      final placemarkList = await placemarkFromCoordinates(
-        location.latitude,
-        location.longitude,
-      );
+      Placemark placemark = Placemark();
 
-      currentPlacemark = placemarkList.first;
+      try {
+        final placemarkList = await placemarkFromCoordinates(
+          location.latitude,
+          location.longitude,
+        );
+
+        placemark = placemarkList.first;
+
+        LocalStorage.setValueUnderLocalStorageKey(
+          key: LocalStorageKey.lastKnowLocation,
+          value: placemark.toJson(),
+        );
+      } catch (e) {
+        debugPrint('>> An failure occured when trying set up current placemark.\n');
+        final storagePlacemark = await LocalStorage.getValueUnderLocalStorageKey(LocalStorageKey.lastKnowLocation);
+        if (storagePlacemark != null) {
+          placemark = Placemark.fromMap(storagePlacemark);
+          debugPrint('>> A storaged placemark is being used instead.');
+        }
+      }
+
+      currentPlacemark = placemark;
+    }
+  }
+
+  bool hasAValidPlacemark() {
+    bool isValid = false;
+
+    isValid = currentPlacemark.subAdministrativeArea.isNotEmptyNeighterNull() &&
+        currentPlacemark.administrativeArea.isNotEmptyNeighterNull();
+
+    if (Platform.isAndroid) {
+      return isValid;
+    } else {
+      return isValid && currentPlacemark.locality.isNotEmptyNeighterNull();
     }
   }
 }

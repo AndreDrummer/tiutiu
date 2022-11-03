@@ -1,5 +1,6 @@
 enum LocalStorageKey {
   emailPasswordAuthData,
+  lastKnowLocation,
   facebookAuthData,
   googleAuthData,
   appleAuthData,
