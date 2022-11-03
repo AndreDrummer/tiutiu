@@ -28,41 +28,39 @@ class EmailAndPassword extends StatelessWidget with TiuTiuPopUp {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: AppColors.black.withAlpha(100),
-      body: Obx(
-        () => Stack(
-          children: [
-            ImageCarouselBackground(),
-            DarkOver(),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Obx(
-                () => Form(
-                  key: _formKey,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      SizedBox(height: 32.0.h),
-                      TiutiuLogo(),
-                      Spacer(),
-                      _createAccountHeadline(),
-                      _doLoginHeadline(),
-                      SizedBox(height: 16.0.h),
-                      _emailInput(),
-                      _passwordInput(),
-                      _repeatPasswordInput(),
-                      _createAccountTip(),
-                      Spacer(),
-                      _submitButton(context),
-                      _cancelButton(),
-                      SizedBox(height: 8.0.h),
-                    ],
-                  ),
+      body: Stack(
+        children: [
+          ImageCarouselBackground(),
+          DarkOver(),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Obx(
+              () => Form(
+                key: _formKey,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SizedBox(height: 32.0.h),
+                    TiutiuLogo(),
+                    Spacer(),
+                    _createAccountHeadline(),
+                    _doLoginHeadline(),
+                    SizedBox(height: 16.0.h),
+                    _emailInput(),
+                    _passwordInput(),
+                    _repeatPasswordInput(),
+                    _createAccountTip(),
+                    Spacer(),
+                    _submitButton(context),
+                    _cancelButton(),
+                    SizedBox(height: 8.0.h),
+                  ],
                 ),
               ),
             ),
-            _loadingWidget()
-          ],
-        ),
+          ),
+          _loadingWidget()
+        ],
       ),
     );
   }
@@ -153,8 +151,7 @@ class EmailAndPassword extends StatelessWidget with TiuTiuPopUp {
             repeatPassword: repeatedPassword,
           ),
           onPasswordVisibilityChange: () {
-            authController.isShowingPassword =
-                !authController.isShowingPassword;
+            authController.isShowingPassword = !authController.isShowingPassword;
           },
           showPassword: authController.isShowingPassword,
           labelText: AppStrings.repeatPassword,
@@ -173,16 +170,13 @@ class EmailAndPassword extends StatelessWidget with TiuTiuPopUp {
           padding: EdgeInsets.zero,
         ),
         onPressed: () {
-          authController.isCreatingNewAccount =
-              !authController.isCreatingNewAccount;
+          authController.isCreatingNewAccount = !authController.isCreatingNewAccount;
         },
         child: Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             OneLineText(
-              text: authController.isCreatingNewAccount
-                  ? AuthStrings.haveAnAccount
-                  : AuthStrings.doNotHaveAnAccount,
+              text: authController.isCreatingNewAccount ? AuthStrings.haveAnAccount : AuthStrings.doNotHaveAnAccount,
               widgetAlignment: Alignment.centerRight,
               fontWeight: FontWeight.w500,
               color: AppColors.white,
@@ -190,9 +184,7 @@ class EmailAndPassword extends StatelessWidget with TiuTiuPopUp {
             SizedBox(width: 4.0.w),
             OneLineText(
               widgetAlignment: Alignment.centerRight,
-              text: authController.isCreatingNewAccount
-                  ? AuthStrings.enterAccount
-                  : AuthStrings.createYours,
+              text: authController.isCreatingNewAccount ? AuthStrings.enterAccount : AuthStrings.createYours,
               fontWeight: FontWeight.bold,
               color: AppColors.white,
             ),
@@ -204,20 +196,22 @@ class EmailAndPassword extends StatelessWidget with TiuTiuPopUp {
 
   ButtonWide _submitButton(BuildContext context) {
     return ButtonWide(
-      text: authController.isCreatingNewAccount
-          ? AuthStrings.createAccount
-          : AuthStrings.enter,
+      text: authController.isCreatingNewAccount ? AuthStrings.createAccount : AuthStrings.enter,
       isToExpand: true,
       onPressed: () async {
         if (_formKey.currentState!.validate()) {
-          if (authController.isCreatingNewAccount) {
-            _createUserWithEmailAndPassword();
-          } else {
-            _loginWithEmailAndPassword();
-          }
+          _submit();
         }
       },
     );
+  }
+
+  void _submit() {
+    if (authController.isCreatingNewAccount) {
+      _createUserWithEmailAndPassword();
+    } else {
+      _loginWithEmailAndPassword();
+    }
   }
 
   Widget _cancelButton() {
@@ -234,9 +228,7 @@ class EmailAndPassword extends StatelessWidget with TiuTiuPopUp {
   Widget _loadingWidget() {
     return Obx(
       () => LoadDarkScreen(
-        message: authController.isCreatingNewAccount
-            ? AuthStrings.registeringUser
-            : AuthStrings.loginInProgress,
+        message: authController.isCreatingNewAccount ? AuthStrings.registeringUser : AuthStrings.loginInProgress,
         visible: authController.isLoading,
       ),
     );
