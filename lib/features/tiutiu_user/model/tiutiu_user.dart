@@ -1,11 +1,13 @@
 enum TiutiuUserEnum {
   allowContactViaWhatsApp,
   notificationToken,
+  emailVerified,
+  phoneVerified,
   displayName,
   phoneNumber,
   createdAt,
-  lastLogin,
   photoBACK,
+  lastLogin,
   isAnONG,
   avatar,
   email,
@@ -15,6 +17,8 @@ enum TiutiuUserEnum {
 class TiutiuUser {
   TiutiuUser({
     this.allowContactViaWhatsApp = false,
+    this.emailVerified = false,
+    this.phoneVerified = false,
     this.notificationToken,
     this.isAnONG = false,
     this.displayName,
@@ -29,15 +33,15 @@ class TiutiuUser {
 
   static TiutiuUser fromMap(Map<String, dynamic> map) {
     return TiutiuUser(
-      allowContactViaWhatsApp:
-          map[TiutiuUserEnum.allowContactViaWhatsApp.name] ?? false,
+      allowContactViaWhatsApp: map[TiutiuUserEnum.allowContactViaWhatsApp.name] ?? false,
+      lastLogin: map[TiutiuUserEnum.lastLogin.name] ?? map[TiutiuUserEnum.createdAt.name],
+      emailVerified: map[TiutiuUserEnum.emailVerified.name] ?? false,
+      phoneVerified: map[TiutiuUserEnum.phoneVerified.name] ?? false,
       notificationToken: map[TiutiuUserEnum.notificationToken.name],
       avatar: map[TiutiuUserEnum.avatar.name] ?? map['photoURL'],
       isAnONG: map[TiutiuUserEnum.isAnONG.name] ?? false,
       phoneNumber: map[TiutiuUserEnum.phoneNumber.name],
       displayName: map[TiutiuUserEnum.displayName.name],
-      lastLogin: map[TiutiuUserEnum.lastLogin.name] ??
-          map[TiutiuUserEnum.createdAt.name],
       createdAt: map[TiutiuUserEnum.createdAt.name],
       photoBACK: map[TiutiuUserEnum.photoBACK.name],
       email: map[TiutiuUserEnum.email.name],
@@ -49,6 +53,8 @@ class TiutiuUser {
     return TiutiuUser(
       notificationToken: map[TiutiuUserEnum.notificationToken.name],
       avatar: map[TiutiuUserEnum.avatar.name] ?? map['photoURL'],
+      emailVerified: map[TiutiuUserEnum.emailVerified.name],
+      phoneVerified: map[TiutiuUserEnum.phoneVerified.name],
       phoneNumber: map[TiutiuUserEnum.phoneNumber.name],
       displayName: map[TiutiuUserEnum.displayName.name],
       createdAt: map[TiutiuUserEnum.createdAt.name],
@@ -62,8 +68,10 @@ class TiutiuUser {
 
   bool allowContactViaWhatsApp;
   String? notificationToken;
+  bool emailVerified;
   String? phoneNumber;
   String? displayName;
+  bool phoneVerified;
   String? createdAt;
   String? lastLogin;
   String? photoBACK;
@@ -74,8 +82,11 @@ class TiutiuUser {
 
   Map<String, dynamic> toMap() {
     return {
-      TiutiuUserEnum.notificationToken.name: notificationToken,
       TiutiuUserEnum.allowContactViaWhatsApp.name: allowContactViaWhatsApp,
+      TiutiuUserEnum.notificationToken.name: notificationToken,
+      TiutiuUserEnum.emailVerified.name: emailVerified,
+      TiutiuUserEnum.emailVerified.name: emailVerified,
+      TiutiuUserEnum.phoneVerified.name: phoneVerified,
       TiutiuUserEnum.phoneNumber.name: phoneNumber,
       TiutiuUserEnum.displayName.name: displayName,
       TiutiuUserEnum.lastLogin.name: lastLogin,
