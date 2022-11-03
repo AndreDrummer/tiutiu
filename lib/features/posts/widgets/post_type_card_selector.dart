@@ -76,7 +76,7 @@ class PostTypeCardSelector extends StatelessWidget {
   }
 
   AutoSizeText _selectorTitle() {
-    return AutoSizeTexts.autoSizeText20(
+    return AutoSizeTexts.autoSizeText16(
       color: isSelected ? AppColors.white : AppColors.secondary,
       fontWeight: FontWeight.w700,
       textAlign: TextAlign.center,
