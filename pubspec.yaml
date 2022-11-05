@@ -24,30 +24,22 @@ dependencies:
   flutter:
     sdk: flutter  
   mask_text_input_formatter: ^2.3.0
-  firebase_dynamic_links: ^5.0.4
-  flutter_facebook_auth: ^5.0.1
+  flutter_facebook_auth: ^4.4.1+1  
   font_awesome_flutter: ^10.1.0
   flutter_screenutil: ^5.5.3+2
-  cached_network_image: ^3.2.1  
-  firebase_messaging: ^14.0.4
+  cached_network_image: ^3.2.1    
   shared_preferences: ^2.0.15
   permission_handler: ^10.0.0
-  firebase_analytics: ^10.0.4
   sign_in_with_apple: ^4.1.0
-  loading_animations: ^2.2.0
+  loading_animations: ^2.2.0  
   flutter_speed_dial: ^6.0.0  
-  firebase_database: ^10.0.4
-  firebase_storage: ^11.0.4
-  connectivity_plus: ^2.3.7
+  connectivity_plus: ^2.3.7    
   pin_code_fields: ^7.4.0
-  carousel_slider: ^4.0.0
-  cloud_firestore: ^4.0.4
+  carousel_slider: ^4.0.0  
   cupertino_icons: ^1.0.5
   auto_size_text: ^3.0.0
   google_sign_in: ^5.4.0
-  image_picker: ^0.8.5+3  
-  firebase_core: ^2.1.1
-  firebase_auth: ^4.1.1
+  image_picker: ^0.8.5+3      
   maps_launcher: ^2.0.1  
   brasil_fields: ^1.6.0
   google_fonts: ^3.0.1
@@ -63,6 +55,16 @@ dependencies:
   dio: ^4.0.6
   get: ^4.6.5
   chewie:
+
+  firebase_core_platform_interface: 4.5.1
+  firebase_dynamic_links: ^4.3.8  
+  firebase_messaging: ^12.0.1
+  firebase_analytics: ^9.3.0
+  firebase_database: ^9.1.0
+  firebase_storage: ^10.3.4
+  cloud_firestore: ^3.4.3
+  firebase_core: ^1.23.0
+  firebase_auth: ^3.10.0  
 
 flutter_icons:
   android: "launcher_icon"
@@ -86,30 +88,3 @@ flutter:
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
-
-  # For details regarding adding assets from package dependencies, see
-  # https://flutter.dev/assets-and-images/#from-packages
-
-  # To add custom fonts to your application, add a fonts section here,
-  # in this "flutter" section. Each entry in this list should have a
-  # "family" key with the font family name, and a "fonts" key with a
-  # list giving the asset and other descriptors for the font. For
-  # example:
-  fonts:           
-    - family:  Tiutiu
-      fonts:
-       - asset: fonts/Tiutiu.ttf
-    - family:  Gender
-      fonts:
-       - asset: fonts/Gender.ttf
-    - family: Rajdhani
-      fonts:
-        - asset: fonts/Rajdhani-Bold.ttf
-        - asset: fonts/Rajdhani-Light.ttf
-        - asset: fonts/Rajdhani-Medium.ttf
-        - asset: fonts/Rajdhani-Regular.ttf
-        - asset: fonts/Rajdhani-SemiBold.ttf          
-          weight: 700    
-  #
-  # For details regarding fonts from package dependencies,
-  # see https://flutter.dev/custom-fonts/#from-packages
