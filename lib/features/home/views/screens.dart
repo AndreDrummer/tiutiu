@@ -17,10 +17,13 @@ final screens = <Widget>[
   Obx(
     () {
       print(tiutiuUserController.tiutiuUser.emailVerified);
-      return ValidatedArea(
-        isValid: true, //tiutiuUserController.tiutiuUser.emailVerified && tiutiuUserController.tiutiuUser.phoneVerified,
-        fallbackChild: !tiutiuUserController.tiutiuUser.emailVerified ? VerifyEmail() : VerifyPhone(),
-        validChild: AuthenticatedArea(child: SelectPostType()),
+      return AuthenticatedArea(
+        child: ValidatedArea(
+          isValid:
+              true, //tiutiuUserController.tiutiuUser.emailVerified && tiutiuUserController.tiutiuUser.phoneVerified,
+          fallbackChild: !tiutiuUserController.tiutiuUser.emailVerified ? VerifyEmail() : VerifyPhone(),
+          validChild: SelectPostType(),
+        ),
       );
     },
   ),
