@@ -30,6 +30,8 @@ class EditProfile extends StatefulWidget {
 }
 
 class _EditProfileState extends State<EditProfile> {
+  final TextEditingController phoneNumberController = TextEditingController();
+  final TextEditingController nameController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   late TiutiuUser previousUser;
@@ -37,6 +39,8 @@ class _EditProfileState extends State<EditProfile> {
   @override
   void initState() {
     previousUser = tiutiuUserController.tiutiuUser;
+    phoneNumberController.text = previousUser.phoneNumber ?? '';
+    nameController.text = previousUser.displayName ?? '';
     super.initState();
   }
 
@@ -188,15 +192,9 @@ class _EditProfileState extends State<EditProfile> {
 
   Widget _userName() {
     return UnderlineInputText(
-      onChanged: (name) {
-        tiutiuUserController.updateTiutiuUser(
-          TiutiuUserEnum.displayName,
-          name,
-        );
-      },
-      initialValue: tiutiuUserController.tiutiuUser.displayName,
       labelText: MyProfileStrings.howCallYou,
       validator: Validators.verifyEmpty,
+      controller: nameController,
       fontSizeLabelText: 16.0.h,
       readOnly: false,
     );
@@ -207,20 +205,14 @@ class _EditProfileState extends State<EditProfile> {
       children: [
         SizedBox(height: 16.0.h),
         UnderlineInputText(
-          onChanged: (number) {
-            tiutiuUserController.updateTiutiuUser(
-              TiutiuUserEnum.phoneNumber,
-              number,
-            );
-          },
+          initialValue: tiutiuUserController.tiutiuUser.phoneNumber,
           labelText: MyProfileStrings.whatsapp,
+          keyboardType: TextInputType.number,
+          fontSizeLabelText: 16.0.h,
           inputFormatters: [
             FilteringTextInputFormatter.digitsOnly,
             TelefoneInputFormatter(),
           ],
-          initialValue: tiutiuUserController.tiutiuUser.phoneNumber,
-          keyboardType: TextInputType.number,
-          fontSizeLabelText: 16.0.h,
         ),
       ],
     );
