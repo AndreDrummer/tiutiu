@@ -1,3 +1,4 @@
+import 'package:tiutiu/core/utils/validators.dart';
 import 'package:tiutiu/features/auth/models/firebase_auth_provider.dart';
 import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
 import 'package:tiutiu/features/profile/views/edit_profile.dart';
@@ -46,7 +47,7 @@ class AuthenticatedArea extends StatelessWidget {
   bool _isAppropriatelyRegistered(TiutiuUser user) {
     bool registered = false;
 
-    final hasNumber = user.phoneNumber != null;
+    final hasNumber = Validators.isValidPhone(user.phoneNumber);
     final hasName = user.displayName != null;
     final hasAvatar = user.avatar != null;
     final hasUid = user.uid != null;
