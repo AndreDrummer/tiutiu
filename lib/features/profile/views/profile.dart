@@ -175,11 +175,11 @@ class Profile extends StatelessWidget with TiuTiuPopUp {
               isToCenterText: false,
               isToExpand: true,
               onPressed: () {
-                print('Opcao');
-                testWhatsapp(code: generateCode());
                 if (title == MyProfileOptionsTile.leave) {
                   _exitApp(title);
                 } else {
+                  print('Opcao');
+                  testWhatsapp(code: generateCode());
                   profileController.handleOptionHitted(title);
                 }
               },

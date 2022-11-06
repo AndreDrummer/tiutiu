@@ -12,6 +12,7 @@ class UnderlineInputText extends StatelessWidget {
     this.inputFormatters,
     this.initialValue,
     this.capitalize,
+    this.controller,
     this.validator,
     this.onChanged,
     this.labelText,
@@ -24,6 +25,7 @@ class UnderlineInputText extends StatelessWidget {
 
   final List<TextInputFormatter>? inputFormatters;
   final String? Function(String?)? validator;
+  final TextEditingController? controller;
   final void Function(String)? onChanged;
   final TextCapitalization? capitalize;
   final TextInputType? keyboardType;
@@ -35,6 +37,16 @@ class UnderlineInputText extends StatelessWidget {
   final Widget? suffix;
   final int? maxLines;
   final bool readOnly;
+
+  String? getInitialValue() {
+    if (controller != null) return null;
+    return initialValue == 'null' || initialValue == null ? '' : initialValue;
+  }
+
+  TextEditingController? getController() {
+    if (initialValue != null) return null;
+    return controller;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -55,11 +67,12 @@ class UnderlineInputText extends StatelessWidget {
           ),
           SizedBox(height: 14.0.h),
           TextFormField(
-            readOnly: readOnly,
-            initialValue: initialValue == 'null' || initialValue == null ? '' : initialValue,
             textCapitalization: capitalize ?? TextCapitalization.sentences,
+            initialValue: getInitialValue(),
+            controller: getController(),
             onChanged: onChanged,
             validator: validator,
+            readOnly: readOnly,
             style: TextStyle(
               color: Colors.black,
               fontSize: fontSizeLabelText != null ? fontSizeLabelText! * .9 : 18.0.sp,
