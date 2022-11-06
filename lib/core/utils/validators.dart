@@ -7,8 +7,8 @@ class Validators {
     return null;
   }
 
-  static String? verifyLength(String? value) {
-    if (value != null && value.length < 6) {
+  static String? verifyLength(String? value, {int length = 6}) {
+    if (value != null && value.length < length) {
       return AuthStrings.passwordShouldBeAtLeast6;
     }
     return null;
@@ -26,5 +26,22 @@ class Validators {
       return ValidatorsStrings.requiredField;
     }
     return null;
+  }
+
+  static bool isValidPhone(String? value) {
+    if (value == null) return false;
+
+    value = value.replaceAll('(', '');
+    value = value.replaceAll(')', '');
+    value = value.replaceAll('-', '');
+    value = value.replaceAll(' ', '');
+
+    print('Phone $value');
+
+    if (!value.isPhoneNumber) {
+      return false;
+    }
+
+    return true;
   }
 }
