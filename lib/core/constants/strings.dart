@@ -70,6 +70,7 @@ class AuthStrings {
 }
 
 class ValidatorsStrings {
+  static const String invalidPhoneNumber = 'Número inválido';
   static const String requiredField = 'Campo obrigatório';
 }
 
