@@ -45,7 +45,7 @@ class AppStrings {
 }
 
 class AuthStrings {
-  static const String passwordShouldBeAtLeast6 = 'Senha deve ter no mínimo 6 dígitos';
+  static String passwordShouldBeAtLeast(String field, int length) => '$field deve ter no mínimo $length dígitos';
   static const String typePasswordAgain = 'Digite a senha novamente';
   static String get authentique => 'Autentique-se para continuar.';
   static String get createNewAccount => 'Crie uma nova conta.';
