@@ -205,9 +205,10 @@ class _EditProfileState extends State<EditProfile> {
       children: [
         SizedBox(height: 16.0.h),
         UnderlineInputText(
-          initialValue: tiutiuUserController.tiutiuUser.phoneNumber,
+          validator: (value) => Validators.verifyLength(value, length: 12, field: 'Telefone'),
           labelText: MyProfileStrings.whatsapp,
           keyboardType: TextInputType.number,
+          controller: phoneNumberController,
           fontSizeLabelText: 16.0.h,
           inputFormatters: [
             FilteringTextInputFormatter.digitsOnly,
@@ -223,11 +224,11 @@ class _EditProfileState extends State<EditProfile> {
       padding: EdgeInsets.symmetric(horizontal: 8.0.w),
       child: ColumnButtonBar(
         onPrimaryPressed: () {
-          if (_formKey.currentState!.validate() && tiutiuUserController.tiutiuUser.avatar != null) {
+          if (_formIsValid()) {
             profileController.showErrorEmptyPic = false;
             FocusScope.of(context).unfocus();
             profileController.save().then((_) => profileController.isSetting = false);
-          } else {
+          } else if (tiutiuUserController.tiutiuUser.avatar == null) {
             profileController.showErrorEmptyPic = true;
           }
         },
@@ -247,5 +248,9 @@ class _EditProfileState extends State<EditProfile> {
         roundeCorners: true,
       ),
     );
+  }
+
+  bool _formIsValid() {
+    return _formKey.currentState!.validate() && tiutiuUserController.tiutiuUser.avatar != null;
   }
 }
