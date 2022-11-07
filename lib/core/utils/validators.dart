@@ -7,9 +7,9 @@ class Validators {
     return null;
   }
 
-  static String? verifyLength(String? value, {int length = 6}) {
+  static String? verifyLength(String? value, {String field = 'Senha', int length = 6}) {
     if (value != null && value.length < length) {
-      return AuthStrings.passwordShouldBeAtLeast6;
+      return AuthStrings.passwordShouldBeAtLeast(field, length);
     }
     return null;
   }
