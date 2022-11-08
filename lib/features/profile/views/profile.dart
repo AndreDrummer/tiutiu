@@ -146,7 +146,7 @@ class Profile extends StatelessWidget with TiuTiuPopUp {
 
   Widget _userSinceDate() {
     return AutoSizeText(
-      '${UserStrings.userSince} ${Formatter.getFormattedDate(_user.createdAt ?? DateTime.now().toIso8601String())}',
+      '${UserStrings.userSince} ${Formatters.getFormattedDate(_user.createdAt ?? DateTime.now().toIso8601String())}',
     );
   }
 

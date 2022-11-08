@@ -5,9 +5,10 @@ import 'package:tiutiu/core/constants/text_styles.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:tiutiu/Widgets/cancel_button.dart';
+import 'package:tiutiu/core/utils/formatter.dart';
+import 'package:tiutiu/Widgets/button_wide.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'dart:async';
 
 class VerifyPhone extends StatefulWidget {
@@ -18,6 +19,8 @@ class VerifyPhone extends StatefulWidget {
 }
 
 class _VerifyPhoneState extends State<VerifyPhone> {
+  bool enableResendButton = false;
+  bool codeFilled = false;
   int? _secondsToExpirate;
   Timer? _timer;
 
@@ -35,7 +38,8 @@ class _VerifyPhoneState extends State<VerifyPhone> {
       (timer) => setState(
         () {
           if (_secondsToExpirate! < 1) {
-            _timer!.cancel();
+            _timer?.cancel();
+            enableResendButton = true;
           } else {
             _secondsToExpirate = _secondsToExpirate! - 1;
           }
@@ -44,14 +48,18 @@ class _VerifyPhoneState extends State<VerifyPhone> {
     );
   }
 
-  String formatClock(int seconds) {
-    var min = seconds ~/ 60;
-    var sec = seconds % 60;
-    if (min == 0) {
-      return '$sec\s';
-    } else {
-      return '$min min $sec seg ';
-    }
+  void restartTimer() {
+    setState(() {
+      _secondsToExpirate = authController.secondsToExpireCode;
+      enableResendButton = false;
+    });
+    startTimer();
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    super.dispose();
   }
 
   @override
@@ -60,7 +68,7 @@ class _VerifyPhoneState extends State<VerifyPhone> {
     final String? number = tiutiuUserController.tiutiuUser.phoneNumber;
 
     return FutureBuilder(
-      future: authController.verifyPhoneNumber(),
+      future: authController.verifyIfWhatsappTokenStillValid(),
       builder: (context, snapshot) {
         return Column(
           children: [
@@ -73,78 +81,26 @@ class _VerifyPhoneState extends State<VerifyPhone> {
             Spacer(),
             _resendWithin(),
             Spacer(),
-            _resendButton(),
-            Spacer(),
+            _confirmButton(),
+            SizedBox(height: 16.0.h),
           ],
         );
       },
     );
   }
 
-  Widget _resendButton() {
-    return Obx(
-      () => SimpleTextButton(
-        onPressed: authController.isWhatsappTokenStillValid ? null : authController.verifyPhoneNumber,
-        textColor: AppColors.primary,
-        text: 'Reenviar',
-        fontSize: 16,
-      ),
-    );
-  }
-
-  Column _resendWithin() {
+  Widget _topBar() {
     return Column(
       children: [
-        AutoSizeTexts.autoSizeText14(
-          'O código é valido por 5 minutos.',
-          fontWeight: FontWeight.w300,
-        ),
+        Icon(FontAwesomeIcons.whatsapp, color: AppColors.primary, size: 64.0.h),
         Padding(
-          padding: EdgeInsets.symmetric(vertical: 16.0.h),
-          child: AutoSizeTexts.autoSizeText14(
-            'Aguarde ${formatClock(_secondsToExpirate!)} para receber outro código',
-            fontWeight: FontWeight.w600,
+          padding: const EdgeInsets.all(16.0),
+          child: AutoSizeTexts.autoSizeText24(
+            color: AppColors.primary,
+            'Verifique seu número',
           ),
         ),
       ],
-    );
-  }
-
-  Padding _codeBoxes(BuildContext context, TextEditingController textEditingController) {
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: PinCodeTextField(
-        inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-        keyboardType: TextInputType.number,
-        appContext: context,
-        length: 6,
-        obscureText: false,
-        animationType: AnimationType.fade,
-        pinTheme: PinTheme(
-          selectedFillColor: AppColors.primary.withAlpha(100),
-          inactiveFillColor: Colors.transparent,
-          selectedColor: AppColors.primary,
-          inactiveColor: Colors.green,
-          shape: PinCodeFieldShape.box,
-          borderRadius: BorderRadius.circular(5),
-          activeFillColor: Colors.white,
-          fieldHeight: 50,
-          fieldWidth: 40,
-        ),
-        animationDuration: Duration(milliseconds: 300),
-        controller: textEditingController,
-        enableActiveFill: true,
-        onCompleted: (v) {
-          print("Completed");
-        },
-        onChanged: (value) {
-          print(value);
-        },
-        beforeTextPaste: (text) {
-          print("Allowing to paste $text");
-          return true;
-        },
-      ),
     );
   }
 
@@ -177,20 +133,103 @@ class _VerifyPhoneState extends State<VerifyPhone> {
     );
   }
 
-  void onResendToken() {}
-
-  Widget _topBar() {
-    return Column(
-      children: [
-        Icon(FontAwesomeIcons.whatsapp, color: AppColors.primary, size: 64.0.h),
-        Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: AutoSizeTexts.autoSizeText24(
-            color: AppColors.primary,
-            'Verifique seu número',
-          ),
+  Padding _codeBoxes(BuildContext context, TextEditingController textEditingController) {
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: PinCodeTextField(
+        inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+        keyboardType: TextInputType.number,
+        appContext: context,
+        length: 6,
+        obscureText: false,
+        animationType: AnimationType.fade,
+        pinTheme: PinTheme(
+          selectedFillColor: AppColors.primary.withAlpha(100),
+          inactiveFillColor: Colors.transparent,
+          selectedColor: AppColors.primary,
+          inactiveColor: Colors.green,
+          shape: PinCodeFieldShape.box,
+          borderRadius: BorderRadius.circular(5),
+          activeFillColor: Colors.white,
+          fieldHeight: 50,
+          fieldWidth: 40,
         ),
-      ],
+        animationDuration: Duration(milliseconds: 300),
+        controller: textEditingController,
+        enableActiveFill: true,
+        onCompleted: (v) {
+          setState(() {
+            codeFilled = true;
+          });
+        },
+        onChanged: (value) {
+          if (value.length < 6) {
+            setState(() {
+              codeFilled = false;
+            });
+          }
+        },
+        beforeTextPaste: (text) {
+          print("Allowing to paste $text");
+          return true;
+        },
+      ),
+    );
+  }
+
+  Widget _resendWithin() {
+    return AnimatedOpacity(
+      duration: Duration(milliseconds: 500),
+      opacity: !codeFilled ? 1 : 0,
+      child: Column(
+        children: [
+          AutoSizeTexts.autoSizeText14(
+            'O código é valido por 5 minutos.',
+            fontWeight: FontWeight.w300,
+          ),
+          Visibility(
+            visible: !enableResendButton,
+            child: Padding(
+              padding: EdgeInsets.symmetric(vertical: 16.0.h),
+              child: AutoSizeTexts.autoSizeText14(
+                'Aguarde ${Formatters.timeSecondsFormmated(_secondsToExpirate ?? 0)} para receber outro código',
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+            replacement: _resendButton(),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _resendButton() {
+    return Visibility(
+      visible: !codeFilled,
+      child: SimpleTextButton(
+        onPressed: !enableResendButton
+            ? null
+            : () async {
+                await authController.sendWhatsAppCode();
+                restartTimer();
+              },
+        textColor: AppColors.primary,
+        text: 'Receber novo código',
+        fontSize: 16,
+      ),
+    );
+  }
+
+  Widget _confirmButton() {
+    return AnimatedOpacity(
+      duration: Duration(milliseconds: 500),
+      opacity: codeFilled ? 1 : 0,
+      child: ButtonWide(
+        onPressed: () {
+          authController.verifyWhatsAppCode();
+        },
+        text: 'Validar',
+      ),
     );
   }
 }
