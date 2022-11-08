@@ -5,6 +5,7 @@ class FirebaseEnvPath {
   static const String env = kDebugMode ? 'debug' : 'prod';
   static const String projectName = 'tiutiu';
   // static const String env = 'prod';
+  static const String whatsappToken = 'WHATSAPP_TOKEN';
   static const String notifications = 'Notifications';
   static const String disappeared = 'Disappeared';
   static const String favorites = 'Favorites';
@@ -12,6 +13,7 @@ class FirebaseEnvPath {
   static const String envString = 'env';
   static const String donate = 'Donate';
   static const String users = 'Users';
+  static const String keys = 'KEYS';
 
   // Quando a migração estiver completa e o app v2.0 lançado, remover o user com U maiusculo.
   static const String userss = 'users';
