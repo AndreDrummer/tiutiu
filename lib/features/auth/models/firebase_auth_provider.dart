@@ -1,7 +1,10 @@
-import 'package:sign_in_with_apple/sign_in_with_apple.dart';
+import 'dart:math';
+
 import 'package:tiutiu/features/auth/interface/auth_providers.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
+import 'package:tiutiu/features/auth/service/whatsapp_data.dart';
 import 'package:tiutiu/core/Exceptions/tiutiu_exceptions.dart';
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
@@ -21,18 +24,25 @@ class FirebaseAuthProvider implements AuthProviders {
     return _firebaseAuth.authStateChanges();
   }
 
-  Future<void> verifyPhoneNumber(String phone) async {
-    await _firebaseAuth.verifyPhoneNumber(
-      verificationCompleted: (PhoneAuthCredential credential) {},
-      codeSent: (String verificationId, int? resendToken) {
-        print('>> $verificationId');
-      },
-      codeAutoRetrievalTimeout: (String verificationId) {},
-      verificationFailed: (FirebaseAuthException e) {
-        print('>> Deu ruim! $e');
-      },
-      phoneNumber: '+55$phone',
-    );
+  Future verifyPhoneNumber(String phoneNumber) async {
+    final code = _generateCode();
+
+    final whatsappService = WhatsappService(code: code, phoneNumber: phoneNumber);
+
+    try {
+      whatsappService.sendCodeVerification();
+    } on Exception catch (error) {
+      debugPrint('Error sending WhatsApp Message: $error');
+    }
+  }
+
+  String _generateCode() {
+    String code = '';
+    for (int i = 0; i < 6; i++) {
+      final digit = Random().nextInt(9);
+      code += '$digit';
+    }
+    return code;
   }
 
   @override

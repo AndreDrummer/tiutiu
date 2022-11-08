@@ -19,8 +19,7 @@ final screens = <Widget>[
       print(tiutiuUserController.tiutiuUser.emailVerified);
       return AuthenticatedArea(
         child: ValidatedArea(
-          isValid:
-              true, //tiutiuUserController.tiutiuUser.emailVerified && tiutiuUserController.tiutiuUser.phoneVerified,
+          isValid: tiutiuUserController.tiutiuUser.emailVerified && tiutiuUserController.tiutiuUser.phoneVerified,
           fallbackChild: !tiutiuUserController.tiutiuUser.emailVerified ? VerifyEmail() : VerifyPhone(),
           validChild: SelectPostType(),
         ),
