@@ -7,10 +7,11 @@ import 'package:flutter/material.dart';
 
 class ColumnButtonBar extends StatelessWidget {
   const ColumnButtonBar({
+    this.showCancelButton = true,
     this.buttonSecondaryColor,
     this.buttonPrimaryColor,
-    this.onPrimaryPressed,
     this.onSecondaryPressed,
+    this.onPrimaryPressed,
     this.textPrimary,
     this.textSecond,
     super.key,
@@ -20,33 +21,34 @@ class ColumnButtonBar extends StatelessWidget {
   final Function()? onSecondaryPressed;
   final Color? buttonSecondaryColor;
   final Color? buttonPrimaryColor;
+  final bool showCancelButton;
   final String? textPrimary;
   final String? textSecond;
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 104.0.h,
-      child: Column(
-        children: [
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 8.0.w),
-            child: ButtonWide(
-              color: buttonPrimaryColor ?? AppColors.primary,
-              text: textPrimary ?? AppStrings.save,
-              onPressed: () => onPrimaryPressed?.call(),
-              isToExpand: false,
-            ),
+    return Column(
+      children: [
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 8.0.w),
+          child: ButtonWide(
+            color: buttonPrimaryColor ?? AppColors.primary,
+            text: textPrimary ?? AppStrings.save,
+            onPressed: () => onPrimaryPressed?.call(),
+            isToExpand: false,
           ),
-          Padding(
+        ),
+        Visibility(
+          visible: showCancelButton,
+          child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 8.0.w),
             child: CancelButton(
               textColor: buttonSecondaryColor ?? AppColors.secondary,
               onCancel: () => onSecondaryPressed?.call(),
             ),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
