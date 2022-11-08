@@ -36,8 +36,6 @@ class Validators {
     value = value.replaceAll('-', '');
     value = value.replaceAll(' ', '');
 
-    print('Phone $value');
-
     if (!value.isPhoneNumber) {
       return false;
     }
