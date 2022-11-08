@@ -52,7 +52,7 @@ class EmailAndPassword extends StatelessWidget with TiuTiuPopUp {
                     _createAccountTip(),
                     Spacer(),
                     _submitButton(context),
-                    _cancelButton(),
+                    _SimpleTextButton(),
                     SizedBox(height: 8.0.h),
                   ],
                 ),
@@ -214,10 +214,10 @@ class EmailAndPassword extends StatelessWidget with TiuTiuPopUp {
     }
   }
 
-  Widget _cancelButton() {
+  Widget _SimpleTextButton() {
     return Center(
-      child: CancelButton(
-        onCancel: () {
+      child: SimpleTextButton(
+        onPressed: () {
           authController.clearEmailAndPassword();
           Get.back();
         },
