@@ -161,7 +161,7 @@ class AnnouncerProfile extends StatelessWidget {
       child: Column(
         children: [
           AutoSizeTexts.autoSizeText12(
-            '${UserStrings.userLastSeen} ${Formatter.getFormattedDateAndTime(_user.lastLogin ?? DateTime.now().toIso8601String())}',
+            '${UserStrings.userLastSeen} ${Formatters.getFormattedDateAndTime(_user.lastLogin ?? DateTime.now().toIso8601String())}',
             fontStyle: FontStyle.italic,
           ),
           Spacer(),
@@ -172,7 +172,7 @@ class AnnouncerProfile extends StatelessWidget {
 
   Widget _userSinceDate() {
     return AutoSizeText(
-      '${UserStrings.userSince} ${Formatter.getFormattedDate(_user.createdAt ?? DateTime.now().toIso8601String())}',
+      '${UserStrings.userSince} ${Formatters.getFormattedDate(_user.createdAt ?? DateTime.now().toIso8601String())}',
     );
   }
 
@@ -220,7 +220,7 @@ class AnnouncerProfile extends StatelessWidget {
               isToExpand: false,
               onPressed: () {
                 Launcher.openWhatsApp(
-                  number: Formatter.unmaskNumber(_user.phoneNumber!),
+                  number: Formatters.unmaskNumber(_user.phoneNumber!),
                 );
               },
             ),
