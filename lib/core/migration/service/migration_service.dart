@@ -129,7 +129,7 @@ class MigrationService {
     required String createdAt,
     required DateTime cutdate,
   }) {
-    final dateTime = Formatter.getDateTime(createdAt);
+    final dateTime = Formatters.getDateTime(createdAt);
     final included = dateTime.isAfter(cutdate);
 
     // debugPrint('>> Included $included');

@@ -23,7 +23,7 @@ class FirebaseAuthProvider implements AuthProviders {
     return _firebaseAuth.authStateChanges();
   }
 
-  Future verifyPhoneNumber(String phoneNumber, String code) async {
+  Future sendWhatsAppCode(String phoneNumber, String code) async {
     final whatsappService = WhatsappService(code: code, phoneNumber: phoneNumber);
 
     try {
