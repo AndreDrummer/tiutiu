@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:tiutiu/features/auth/interface/auth_providers.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:tiutiu/features/auth/service/whatsapp_data.dart';
@@ -8,6 +6,7 @@ import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
+import 'dart:math';
 
 final String _iosClientId = '791022711249-jva0r9f0eddfo4skv18c0i1e26clq7pd.apps.googleusercontent.com';
 
@@ -24,25 +23,14 @@ class FirebaseAuthProvider implements AuthProviders {
     return _firebaseAuth.authStateChanges();
   }
 
-  Future verifyPhoneNumber(String phoneNumber) async {
-    final code = _generateCode();
-
+  Future verifyPhoneNumber(String phoneNumber, String code) async {
     final whatsappService = WhatsappService(code: code, phoneNumber: phoneNumber);
 
     try {
-      whatsappService.sendCodeVerification();
+      // await whatsappService.sendCodeVerification();
     } on Exception catch (error) {
       debugPrint('Error sending WhatsApp Message: $error');
     }
-  }
-
-  String _generateCode() {
-    String code = '';
-    for (int i = 0; i < 6; i++) {
-      final digit = Random().nextInt(9);
-      code += '$digit';
-    }
-    return code;
   }
 
   @override
