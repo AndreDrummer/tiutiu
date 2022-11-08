@@ -17,7 +17,7 @@ class AdPostedAt extends StatelessWidget {
     return SizedBox(
       height: 16.0.h,
       child: AutoSizeTexts.autoSizeText10(
-        '${AppStrings.postedAt} ${Formatter.getFormattedDate(createdAt)}',
+        '${AppStrings.postedAt} ${Formatters.getFormattedDate(createdAt)}',
         fontWeight: FontWeight.w700,
         textAlign: TextAlign.left,
         color: Colors.grey,
