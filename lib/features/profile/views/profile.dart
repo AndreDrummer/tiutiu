@@ -1,6 +1,3 @@
-import 'dart:math';
-
-import 'package:dio/dio.dart';
 import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
 import 'package:tiutiu/core/widgets/default_basic_app_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -178,8 +175,6 @@ class Profile extends StatelessWidget with TiuTiuPopUp {
                 if (title == MyProfileOptionsTile.leave) {
                   _exitApp(title);
                 } else {
-                  print('Opcao');
-                  testWhatsapp(code: generateCode());
                   profileController.handleOptionHitted(title);
                 }
               },
@@ -189,15 +184,6 @@ class Profile extends StatelessWidget with TiuTiuPopUp {
         ),
       ),
     );
-  }
-
-  String generateCode() {
-    String code = '';
-    for (int i = 0; i < 6; i++) {
-      final digit = Random().nextInt(9);
-      code += '$digit';
-    }
-    return code;
   }
 
   Future<void> _exitApp(String title) async {
@@ -217,60 +203,5 @@ class Profile extends StatelessWidget with TiuTiuPopUp {
       warning: true,
       danger: false,
     );
-  }
-
-  Future testWhatsapp({String phoneNumber = '62994670169', String code = '123456'}) async {
-    final _dio = Dio();
-
-    final token =
-        'EAALNROzeMskBANZAZCUroigNbvxxIZApQ0v9t1GkHKg4qeZBOokqemM5ZCrCx8yTBFgcZAwZA06aRzI2nZAWfB7yyOPPOmHBxdzzTTIFZAyxBNS4i6kNIvsbpPjZBk4lVLIC9kZCDYx61M9ZAs4eheiZC2YjYEB1zPUMILOttCQz1uVaAZBlMrYuO8KmCkE1rZC30uITyTxQwO75EeBGWV4SObGMU3p';
-
-    final templateProd = 'tiutiu_whatsapp_token_code_prod';
-    final numberIdProd = '100356716232975';
-
-    final templateTest = 'tiutiu_whatsapp_token_code';
-    final numberIdTest = '108901298698499';
-
-    final template = templateTest;
-    // final template = templateProd;
-
-    final numberId = numberIdTest;
-    // final numberId = numberIdProd;
-
-    final headers = {'Authorization': 'Bearer $token'};
-
-    final body = {
-      "messaging_product": "whatsapp",
-      "to": "55$phoneNumber",
-      "type": "template",
-      "template": {
-        "name": "$template",
-        "language": {"code": "pt_BR"},
-        "components": [
-          {
-            "type": "body",
-            "parameters": [
-              {
-                "type": "text",
-                "text": "$code",
-              }
-            ]
-          }
-        ]
-      }
-    };
-
-    try {
-      _dio.post(
-        'https://graph.facebook.com/v15.0/$numberId/messages',
-        data: body,
-        options: Options(
-          contentType: 'application/json',
-          headers: headers,
-        ),
-      );
-    } on Exception catch (error) {
-      debugPrint('Error sending WhatsApp Message: $error');
-    }
   }
 }
