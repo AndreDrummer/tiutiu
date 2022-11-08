@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 
 class ColumnButtonBar extends StatelessWidget {
   const ColumnButtonBar({
-    this.showCancelButton = true,
+    this.showSimpleTextButton = true,
     this.buttonSecondaryColor,
     this.buttonPrimaryColor,
     this.onSecondaryPressed,
@@ -21,7 +21,7 @@ class ColumnButtonBar extends StatelessWidget {
   final Function()? onSecondaryPressed;
   final Color? buttonSecondaryColor;
   final Color? buttonPrimaryColor;
-  final bool showCancelButton;
+  final bool showSimpleTextButton;
   final String? textPrimary;
   final String? textSecond;
 
@@ -39,12 +39,12 @@ class ColumnButtonBar extends StatelessWidget {
           ),
         ),
         Visibility(
-          visible: showCancelButton,
+          visible: showSimpleTextButton,
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 8.0.w),
-            child: CancelButton(
+            child: SimpleTextButton(
               textColor: buttonSecondaryColor ?? AppColors.secondary,
-              onCancel: () => onSecondaryPressed?.call(),
+              onPressed: () => onSecondaryPressed?.call(),
             ),
           ),
         ),

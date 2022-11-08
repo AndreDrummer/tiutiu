@@ -5,9 +5,11 @@ import 'package:tiutiu/features/auth/service/auth_service.dart';
 import 'package:tiutiu/core/local_storage/local_storage.dart';
 import 'package:tiutiu/core/constants/images_assets.dart';
 import 'package:tiutiu/features/system/controllers.dart';
+import 'package:tiutiu/core/models/whatsapp_token.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
+import 'dart:math';
 
 enum AuthKeys {
   password,
@@ -21,12 +23,16 @@ class AuthController extends GetxController {
   final AuthService _authService;
 
   final Rx<EmailAndPasswordAuth> _emailAndPasswordAuth = EmailAndPasswordAuth().obs;
+  final RxBool _isWhatsappTokenStillValid = true.obs;
   final RxBool _isCreatingNewAccount = false.obs;
   final RxBool _isShowingPassword = false.obs;
+  final RxInt _secondsToExpireCode = 0.obs;
   final RxBool _isLoading = false.obs;
 
   EmailAndPasswordAuth get emailAndPasswordAuth => _emailAndPasswordAuth.value;
+  bool get isWhatsappTokenStillValid => _isWhatsappTokenStillValid.value;
   bool get isCreatingNewAccount => _isCreatingNewAccount.value;
+  int get secondsToExpireCode => _secondsToExpireCode.value;
   bool get isShowingPassword => _isShowingPassword.value;
   bool get userExists => _authService.userExists;
   bool get isLoading => _isLoading.value;
@@ -45,10 +51,7 @@ class AuthController extends GetxController {
     _emailAndPasswordAuth(EmailAndPasswordAuth());
   }
 
-  void updateEmailAndPasswordAuth(
-    EmailAndPasswordAuthEnum property,
-    dynamic data,
-  ) {
+  void updateEmailAndPasswordAuth(EmailAndPasswordAuthEnum property, dynamic data) {
     final map = emailAndPasswordAuth.toMap();
     map[property.name] = data;
 
@@ -56,7 +59,57 @@ class AuthController extends GetxController {
   }
 
   Future<void> verifyPhoneNumber() async {
-    await _authService.verifyPhoneNumber('62994670169');
+    await _verifyIfWhatsappTokenStillValid();
+
+    if (!isWhatsappTokenStillValid) {
+      final code = _generateCode();
+      final whatsappTokenData = WhatsAppToken(
+        expirationDate: DateTime.now().add(Duration(minutes: 5)).toIso8601String(),
+        code: code,
+      );
+
+      await LocalStorage.setDataUnderKey(
+        key: LocalStorageKey.whatsappTokenData,
+        data: whatsappTokenData.toMap(),
+      );
+
+      await _authService.verifyPhoneNumber('62994670169', code);
+    }
+  }
+
+  String _generateCode() {
+    debugPrint('>> Generating code..');
+    String code = '';
+    for (int i = 0; i < 6; i++) {
+      final digit = Random().nextInt(9);
+      code += '$digit';
+    }
+
+    debugPrint('>> Code generated $code..');
+    return code;
+  }
+
+  Future<void> _verifyIfWhatsappTokenStillValid() async {
+    final whatsAppTokenData = await LocalStorage.getDataUnderKey(
+      key: LocalStorageKey.whatsappTokenData,
+      mapper: WhatsAppToken(),
+    );
+
+    debugPrint('>> Whatsapp tokenData ${whatsAppTokenData?.toMap()}..');
+
+    if (whatsAppTokenData == null) {
+      _isWhatsappTokenStillValid(false);
+    } else {
+      final expirationDate = (whatsAppTokenData as WhatsAppToken).expirationDate!;
+      final isTokenExpired = DateTime.now().isAfter(DateTime.parse(expirationDate));
+
+      _isWhatsappTokenStillValid(!isTokenExpired);
+
+      if (isWhatsappTokenStillValid) {
+        final seconds = DateTime.parse(expirationDate).difference(DateTime.now()).inSeconds;
+        _secondsToExpireCode(seconds);
+      }
+    }
   }
 
   Future<bool> createUserWithEmailAndPassword() async {
