@@ -47,26 +47,24 @@ class WhatsappService {
 
     final String token = await _getWhatsappToken();
 
-    // try {
-    //   _dio.post(
-    //     endpoint,
-    //     data: body,
-    //     options: Options(
-    //       contentType: applicationType,
-    //       headers: {'Authorization': 'Bearer $token'},
-    //     ),
-    //   );
-    // } on Exception catch (_) {
-    //   rethrow;
-    // }
+    try {
+      _dio.post(
+        endpoint,
+        data: body(),
+        options: Options(
+          contentType: applicationType,
+          headers: {'Authorization': 'Bearer $token'},
+        ),
+      );
+    } on Exception catch (_) {
+      rethrow;
+    }
   }
 
   Future<String> _getWhatsappToken() async {
-    final docs =
+    final keys =
         await FirebaseFirestore.instance.collection(FirebaseEnvPath.projectName).doc(FirebaseEnvPath.keys).get();
 
-    print(docs.get(FirebaseEnvPath.whatsappToken));
-
-    return docs.get(FirebaseEnvPath.whatsappToken);
+    return keys.get(FirebaseEnvPath.whatsappToken);
   }
 }

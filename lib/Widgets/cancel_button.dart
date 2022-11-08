@@ -4,35 +4,35 @@ import 'package:tiutiu/core/constants/strings.dart';
 import 'package:tiutiu/Widgets/one_line_text.dart';
 import 'package:flutter/material.dart';
 
-class CancelButton extends StatelessWidget {
-  const CancelButton({
-    required this.onCancel,
+class SimpleTextButton extends StatelessWidget {
+  const SimpleTextButton({
+    required this.onPressed,
     this.textColor,
+    this.fontSize,
     this.text,
     super.key,
   });
 
-  final Function() onCancel;
+  final Function()? onPressed;
   final Color? textColor;
+  final double? fontSize;
   final String? text;
 
   @override
   Widget build(BuildContext context) {
     return TextButton(
       style: TextButton.styleFrom(
-        foregroundColor: Colors.transparent,
+        foregroundColor: textColor ?? AppColors.white,
+        disabledForegroundColor: Colors.grey,
         padding: EdgeInsets.zero,
       ),
       child: OneLineText(
-        color: textColor ?? AppColors.white,
-        text: text ?? AppStrings.cancel,
         widgetAlignment: Alignment.center,
+        text: text ?? AppStrings.cancel,
+        fontSize: fontSize ?? 16.0.sp,
         fontWeight: FontWeight.bold,
-        fontSize: 16.0.sp,
       ),
-      onPressed: () {
-        onCancel();
-      },
+      onPressed: onPressed,
     );
   }
 }
