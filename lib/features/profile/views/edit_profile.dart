@@ -223,10 +223,13 @@ class _EditProfileState extends State<EditProfile> {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 8.0.w),
       child: ColumnButtonBar(
+        showCancelButton: !widget.isCompletingProfile,
         onPrimaryPressed: () {
           if (_formIsValid()) {
+            debugPrint('>> Updating profile...');
             profileController.showErrorEmptyPic = false;
             FocusScope.of(context).unfocus();
+            _setDataToUser();
             profileController.save().then((_) => profileController.isSetting = false);
           } else if (tiutiuUserController.tiutiuUser.avatar == null) {
             profileController.showErrorEmptyPic = true;
@@ -240,11 +243,16 @@ class _EditProfileState extends State<EditProfile> {
     );
   }
 
+  void _setDataToUser() {
+    tiutiuUserController.updateTiutiuUser(TiutiuUserEnum.phoneNumber, phoneNumberController.text);
+    tiutiuUserController.updateTiutiuUser(TiutiuUserEnum.displayName, nameController.text);
+  }
+
   Widget _loadingWidget() {
     return Obx(
       () => LoadDarkScreen(
         message: MyProfileStrings.updatingProfile,
-        visible: tiutiuUserController.isLoading,
+        visible: profileController.isLoading,
         roundeCorners: true,
       ),
     );
