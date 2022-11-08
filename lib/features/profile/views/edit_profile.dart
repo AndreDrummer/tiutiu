@@ -223,7 +223,7 @@ class _EditProfileState extends State<EditProfile> {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 8.0.w),
       child: ColumnButtonBar(
-        showCancelButton: !widget.isCompletingProfile,
+        showSimpleTextButton: !widget.isCompletingProfile,
         onPrimaryPressed: () {
           if (_formIsValid()) {
             debugPrint('>> Updating profile...');

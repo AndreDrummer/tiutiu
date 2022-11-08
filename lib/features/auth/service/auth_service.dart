@@ -5,8 +5,8 @@ class AuthService {
   FirebaseAuthProvider _firebaseAuthProvider = FirebaseAuthProvider.instance;
   User? get authUser => FirebaseAuthProvider.instance.firebaseAuthUser;
 
-  Future<void> verifyPhoneNumber(String? phone) async {
-    await _firebaseAuthProvider.verifyPhoneNumber(phone ?? '62994670169');
+  Future<void> verifyPhoneNumber(String phone, String code) async {
+    await _firebaseAuthProvider.verifyPhoneNumber(phone, code);
   }
 
   Future<bool> loginWithGoogle({bool autologin = false}) async {
