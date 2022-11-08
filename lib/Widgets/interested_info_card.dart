@@ -35,8 +35,7 @@ class _InterestedInfoCardState extends State<InterestedInfoCard> {
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
 
-    bool canOpenWhatsApp = widget.interestedUser!.phoneNumber != null &&
-        widget.interestedUser!.phoneNumber!.isNotEmpty;
+    bool canOpenWhatsApp = widget.interestedUser!.phoneNumber != null && widget.interestedUser!.phoneNumber!.isNotEmpty;
 
     String? phoneToCall;
 
@@ -53,8 +52,7 @@ class _InterestedInfoCardState extends State<InterestedInfoCard> {
                   child: CircleAvatar(
                     backgroundColor: Colors.transparent,
                     child: ClipOval(
-                      child:
-                          AssetHandle.getImage(widget.interestedUser!.avatar),
+                      child: AssetHandle.getImage(widget.interestedUser!.avatar),
                     ),
                   ),
                 ),
@@ -99,7 +97,7 @@ class _InterestedInfoCardState extends State<InterestedInfoCard> {
                     ? _ActionButton(
                         onPressed: () {
                           Launcher.openWhatsApp(
-                            number: Formatter.unmaskNumber(
+                            number: Formatters.unmaskNumber(
                               widget.interestedUser!.phoneNumber!,
                             ),
                           );
@@ -171,9 +169,7 @@ class _ActionButton extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              icon != null
-                  ? Icon(icon, size: 18, color: AppColors.white)
-                  : Container(),
+              icon != null ? Icon(icon, size: 18, color: AppColors.white) : Container(),
               SizedBox(width: 5),
               AutoSizeText(
                 text!,

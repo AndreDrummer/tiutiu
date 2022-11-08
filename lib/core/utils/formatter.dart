@@ -1,13 +1,9 @@
 import 'package:intl/intl.dart';
 
-class Formatter {
+class Formatters {
   static String unmaskNumber(String number) {
     try {
-      String serializedNumber = number
-          .split('(')[1]
-          .replaceAll(')', '')
-          .replaceAll('-', '')
-          .replaceAll(' ', '');
+      String serializedNumber = number.split('(')[1].replaceAll(')', '').replaceAll('-', '').replaceAll(' ', '');
       return serializedNumber;
     } catch (error) {
       return number;
@@ -36,11 +32,20 @@ class Formatter {
     final timeMinute = DateTime.parse(createdAt).minute;
     final timeHour = DateTime.parse(createdAt).hour;
 
-    return DateFormat('dd/MM/yyy').format(date) +
-        ' $timeHour:${timeMinute < 10 ? '0$timeMinute' : timeMinute}';
+    return DateFormat('dd/MM/yyy').format(date) + ' $timeHour:${timeMinute < 10 ? '0$timeMinute' : timeMinute}';
   }
 
-  static String timeFormmated(int minutes) {
+  static String timeSecondsFormmated(int seconds) {
+    var min = seconds ~/ 60;
+    var sec = seconds % 60;
+    if (min == 0) {
+      return '$sec\s';
+    } else {
+      return '$min min ${sec < 10 ? '0$sec' : sec} seg ';
+    }
+  }
+
+  static String timeMinutesFormmated(int minutes) {
     int hour = minutes ~/ 60;
     int min = minutes % 60;
     if (hour == 0 && min == 1) {

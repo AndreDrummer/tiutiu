@@ -58,13 +58,13 @@ class AuthController extends GetxController {
     _setEmailAndPasswordAuth = EmailAndPasswordAuth().fromMap(map);
   }
 
-  Future<void> verifyPhoneNumber() async {
-    await _verifyIfWhatsappTokenStillValid();
+  Future<void> sendWhatsAppCode() async {
+    await verifyIfWhatsappTokenStillValid();
 
     if (!isWhatsappTokenStillValid) {
       final code = _generateCode();
       final whatsappTokenData = WhatsAppToken(
-        expirationDate: DateTime.now().add(Duration(minutes: 5)).toIso8601String(),
+        expirationDate: DateTime.now().add(Duration(seconds: 8)).toIso8601String(),
         code: code,
       );
 
@@ -73,7 +73,7 @@ class AuthController extends GetxController {
         data: whatsappTokenData.toMap(),
       );
 
-      await _authService.verifyPhoneNumber('62994670169', code);
+      await _authService.sendWhatsAppCode('62994670169', code);
     }
   }
 
@@ -89,7 +89,9 @@ class AuthController extends GetxController {
     return code;
   }
 
-  Future<void> _verifyIfWhatsappTokenStillValid() async {
+  void verifyWhatsAppCode() {}
+
+  Future<void> verifyIfWhatsappTokenStillValid() async {
     final whatsAppTokenData = await LocalStorage.getDataUnderKey(
       key: LocalStorageKey.whatsappTokenData,
       mapper: WhatsAppToken(),

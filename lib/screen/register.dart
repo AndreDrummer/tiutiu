@@ -67,8 +67,7 @@ class _RegisterState extends State<Register> {
         return SimpleDialog(
           children: <Widget>[
             TextButton(
-              child: AutoSizeText('Tirar uma foto',
-                  style: TextStyle(color: Colors.black)),
+              child: AutoSizeText('Tirar uma foto', style: TextStyle(color: Colors.black)),
               onPressed: () {
                 Navigator.pop(context);
                 selectImage(ImageSource.camera);
@@ -176,10 +175,8 @@ class _RegisterState extends State<Register> {
     UploadTask uploadTask;
     Reference storageReference;
 
-    storageReference = FirebaseStorage.instance
-        .ref()
-        .child('${tiutiuUserController.tiutiuUser.uid}')
-        .child('avatar/foto_perfil');
+    storageReference =
+        FirebaseStorage.instance.ref().child('${tiutiuUserController.tiutiuUser.uid}').child('avatar/foto_perfil');
 
     uploadTask = storageReference.putFile(userProfile['photoFile']!);
 
@@ -210,7 +207,7 @@ class _RegisterState extends State<Register> {
     }
 
     if (_whatsapp.text.trim().isNotEmpty) {
-      String? unMaskNumber = Formatter.unmaskNumber(_whatsapp.text.trim());
+      String? unMaskNumber = Formatters.unmaskNumber(_whatsapp.text.trim());
       if (!regExp.hasMatch(unMaskNumber) || unMaskNumber.length < 11) {
         setState(() {
           whatsappHasError = true;
@@ -275,8 +272,7 @@ class _RegisterState extends State<Register> {
                                 backgroundColor: Colors.black12,
                                 child: ClipOval(
                                   child: userProfile.isEmpty
-                                      ? Icon(Icons.person,
-                                          color: AppColors.white, size: 50)
+                                      ? Icon(Icons.person, color: AppColors.white, size: 50)
                                       : Image.file(
                                           userProfile['photoFile']!,
                                           width: 1000,
@@ -310,9 +306,7 @@ class _RegisterState extends State<Register> {
                       OutlinedInputText(
                         hintText: 'Como quer ser chamado (Obrigatório)',
                       ),
-                      nameHasError
-                          ? HintError(message: nameHasErrorMessage)
-                          : Container(),
+                      nameHasError ? HintError(message: nameHasErrorMessage) : Container(),
                       SizedBox(height: 15),
                       OutlinedInputText(
                         inputFormatters: [celularMask],
@@ -320,9 +314,7 @@ class _RegisterState extends State<Register> {
                         hintText: '(XX) X XXXX-XXXX',
                         onChanged: (text) {},
                       ),
-                      whatsappHasError!
-                          ? HintError(message: whatsappHasErrorMessage)
-                          : Container(),
+                      whatsappHasError! ? HintError(message: whatsappHasErrorMessage) : Container(),
                       SizedBox(height: 15),
                       OutlinedInputText(
                         inputFormatters: [telefoneMask],
@@ -330,14 +322,11 @@ class _RegisterState extends State<Register> {
                         hintText: '(XX) XXXX-XXXX',
                         onChanged: (text) {},
                       ),
-                      telefoneHasError
-                          ? HintError(message: telefoneHasErrorMessage)
-                          : Container(),
+                      telefoneHasError ? HintError(message: telefoneHasErrorMessage) : Container(),
                       SizedBox(height: 20),
                       Align(
                         alignment: Alignment(-0.8, 1),
-                        child: AutoSizeText(
-                            'Escolha sua melhor forma de contato.'),
+                        child: AutoSizeText('Escolha sua melhor forma de contato.'),
                       ),
                       StreamBuilder<Object>(
                         builder: (context, snapshot) {
@@ -349,8 +338,7 @@ class _RegisterState extends State<Register> {
                                   child: Row(
                                     children: [
                                       Radio(
-                                        activeColor:
-                                            Theme.of(context).primaryColor,
+                                        activeColor: Theme.of(context).primaryColor,
                                         groupValue: snapshot.data,
                                         value: 0,
                                         onChanged: (value) {
@@ -425,8 +413,7 @@ class _RegisterState extends State<Register> {
                                           });
                                         },
                                       ),
-                                      AutoSizeText(
-                                          'Somente pelo chat do aplicativo'),
+                                      AutoSizeText('Somente pelo chat do aplicativo'),
                                     ],
                                   ),
                                 ),
