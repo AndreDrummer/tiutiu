@@ -192,7 +192,6 @@ class AuthHosters extends StatelessWidget with TiuTiuPopUp {
       );
     } catch (exception) {
       authController.isLoading = false;
-      print(exception);
       showPopUp(
         title: AuthStrings.authFailure,
         message: exception.toString(),
