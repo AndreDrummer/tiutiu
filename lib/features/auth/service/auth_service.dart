@@ -6,7 +6,11 @@ class AuthService {
   User? get authUser => FirebaseAuthProvider.instance.firebaseAuthUser;
 
   Future<void> sendWhatsAppCode(String phone, String code) async {
-    await _firebaseAuthProvider.sendWhatsAppCode(phone, code);
+    try {
+      await _firebaseAuthProvider.sendWhatsAppCode(phone, code);
+    } on Exception catch (_) {
+      rethrow;
+    }
   }
 
   Future<bool> loginWithGoogle({bool autologin = false}) async {

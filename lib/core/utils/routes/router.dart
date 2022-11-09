@@ -1,5 +1,4 @@
 import 'package:tiutiu/features/auth/views/email_and_password.dart';
-import 'package:tiutiu/screen/interested_information_list.dart';
 import 'package:tiutiu/features/auth/views/auth_hosters.dart';
 import 'package:tiutiu/features/chat/screens/chat_screen.dart';
 import 'package:tiutiu/features/chat/screens/chat_tabs.dart';
@@ -12,7 +11,6 @@ import 'package:tiutiu/features/home/views/home.dart';
 import 'package:tiutiu/screen/choose_location.dart';
 import 'package:tiutiu/screen/notifications.dart';
 import 'package:tiutiu/screen/favorites.dart';
-import 'package:tiutiu/screen/register.dart';
 import 'package:tiutiu/screen/settings.dart';
 import 'package:tiutiu/Widgets/new_map.dart';
 import 'package:tiutiu/screen/my_pets.dart';
@@ -62,10 +60,6 @@ class RouterGenerator {
         return MaterialPageRoute(
           builder: (_) => Favorites(),
         );
-      case Routes.register:
-        return MaterialPageRoute(
-          builder: (_) => Register(),
-        );
       case Routes.home:
         return MaterialPageRoute(
           builder: (_) => Home(),
@@ -87,10 +81,6 @@ class RouterGenerator {
           builder: (_) => PetDetails(
             inReviewMode: inReviewMode,
           ),
-        );
-      case Routes.interestedList:
-        return MaterialPageRoute(
-          builder: (_) => InterestedList(),
         );
       case Routes.info:
         return MaterialPageRoute(

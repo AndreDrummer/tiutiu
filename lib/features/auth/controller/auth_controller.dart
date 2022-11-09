@@ -1,3 +1,5 @@
+import 'package:tiutiu/core/constants/strings.dart';
+import 'package:tiutiu/core/utils/formatter.dart';
 import 'package:tiutiu/features/auth/models/email_password_auth.dart';
 import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
 import 'package:tiutiu/core/local_storage/local_storage_keys.dart';
@@ -23,17 +25,21 @@ class AuthController extends GetxController {
   final AuthService _authService;
 
   final Rx<EmailAndPasswordAuth> _emailAndPasswordAuth = EmailAndPasswordAuth().obs;
-  final RxBool _isWhatsappTokenStillValid = true.obs;
   final RxBool _isCreatingNewAccount = false.obs;
+  final RxBool _isWhatsappTokenValid = true.obs;
   final RxBool _isShowingPassword = false.obs;
+  final RxBool _numberVerified = false.obs;
   final RxInt _secondsToExpireCode = 0.obs;
+  final RxString _feedbackText = ''.obs;
   final RxBool _isLoading = false.obs;
 
   EmailAndPasswordAuth get emailAndPasswordAuth => _emailAndPasswordAuth.value;
-  bool get isWhatsappTokenStillValid => _isWhatsappTokenStillValid.value;
+  bool get isWhatsappTokenValid => _isWhatsappTokenValid.value;
   bool get isCreatingNewAccount => _isCreatingNewAccount.value;
   int get secondsToExpireCode => _secondsToExpireCode.value;
   bool get isShowingPassword => _isShowingPassword.value;
+  bool get numberVerified => _numberVerified.value;
+  String get feedbackText => _feedbackText.value;
   bool get userExists => _authService.userExists;
   bool get isLoading => _isLoading.value;
 
@@ -45,6 +51,7 @@ class AuthController extends GetxController {
 
   void set isCreatingNewAccount(bool value) => _isCreatingNewAccount(value);
   void set isShowingPassword(bool value) => _isShowingPassword(value);
+  void set feedbackText(String text) => _feedbackText(text);
   void set isLoading(bool value) => _isLoading(value);
 
   void clearEmailAndPassword() {
@@ -59,21 +66,28 @@ class AuthController extends GetxController {
   }
 
   Future<void> sendWhatsAppCode() async {
-    await verifyIfWhatsappTokenStillValid();
+    await verifyIfWhatsappTokenIsStillValid();
 
-    if (!isWhatsappTokenStillValid) {
+    if (!isWhatsappTokenValid) {
+      int seconds = 120;
       final code = _generateCode();
       final whatsappTokenData = WhatsAppToken(
-        expirationDate: DateTime.now().add(Duration(seconds: 8)).toIso8601String(),
+        expirationDate: DateTime.now().add(Duration(seconds: seconds)).toIso8601String(),
         code: code,
       );
 
-      await LocalStorage.setDataUnderKey(
+      _secondsToExpireCode(seconds);
+
+      LocalStorage.setDataUnderKey(
         key: LocalStorageKey.whatsappTokenData,
         data: whatsappTokenData.toMap(),
       );
 
-      await _authService.sendWhatsAppCode('62994670169', code);
+      final phoneNumber = Formatters.unmaskNumber(tiutiuUserController.tiutiuUser.phoneNumber);
+
+      if (phoneNumber != null) {
+        _authService.sendWhatsAppCode(phoneNumber, code);
+      }
     }
   }
 
@@ -89,29 +103,69 @@ class AuthController extends GetxController {
     return code;
   }
 
-  void verifyWhatsAppCode() {}
-
-  Future<void> verifyIfWhatsappTokenStillValid() async {
-    final whatsAppTokenData = await LocalStorage.getDataUnderKey(
-      key: LocalStorageKey.whatsappTokenData,
-      mapper: WhatsAppToken(),
-    );
-
+  Future<bool> verifyWhatsAppCode(String insertedCode) async {
+    bool success = false;
+    final whatsAppTokenData = await _getWhatsappStorageToken();
     debugPrint('>> Whatsapp tokenData ${whatsAppTokenData?.toMap()}..');
 
-    if (whatsAppTokenData == null) {
-      _isWhatsappTokenStillValid(false);
+    if (whatsAppTokenData != null) {
+      final codeSent = (whatsAppTokenData as WhatsAppToken).code;
+      if (codeSent == insertedCode) {
+        _feedbackText(AuthStrings.successfullyVerifiedCode);
+        success = codeSent == insertedCode;
+
+        _numberVerified(success);
+
+        debugPrint('>> Valid inserted code $codeSent == $insertedCode');
+      } else {
+        debugPrint('>> INVALID CODE $codeSent != $insertedCode');
+        _feedbackText(AuthStrings.invalidCode);
+      }
     } else {
+      _feedbackText(AuthStrings.tryVerifyCodeAgain);
+    }
+
+    return success;
+  }
+
+  void continueAfterValidateNumber() {
+    tiutiuUserController.updateTiutiuUser(
+      TiutiuUserEnum.phoneVerified,
+      true,
+    );
+
+    updateUserInfo();
+  }
+
+  Future<void> verifyIfWhatsappTokenIsStillValid() async {
+    final whatsAppTokenData = await _getWhatsappStorageToken();
+
+    if (whatsAppTokenData == null) {
+      debugPrint('>> Token expired');
+      _isWhatsappTokenValid(false);
+    } else {
+      debugPrint('>> Whatsapp tokenData ${whatsAppTokenData?.toMap()}..');
       final expirationDate = (whatsAppTokenData as WhatsAppToken).expirationDate!;
       final isTokenExpired = DateTime.now().isAfter(DateTime.parse(expirationDate));
 
-      _isWhatsappTokenStillValid(!isTokenExpired);
+      _isWhatsappTokenValid(!isTokenExpired);
 
-      if (isWhatsappTokenStillValid) {
+      if (isWhatsappTokenValid) {
         final seconds = DateTime.parse(expirationDate).difference(DateTime.now()).inSeconds;
         _secondsToExpireCode(seconds);
+      } else {
+        LocalStorage.deleteDataUnderKey(LocalStorageKey.whatsappTokenData);
       }
+
+      debugPrint('>> Token still valid $isWhatsappTokenValid');
     }
+  }
+
+  Future _getWhatsappStorageToken() async {
+    return await LocalStorage.getDataUnderKey(
+      key: LocalStorageKey.whatsappTokenData,
+      mapper: WhatsAppToken(),
+    );
   }
 
   Future<bool> createUserWithEmailAndPassword() async {
