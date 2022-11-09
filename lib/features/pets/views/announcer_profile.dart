@@ -219,9 +219,10 @@ class AnnouncerProfile extends StatelessWidget {
               icon: Tiutiu.whatsapp,
               isToExpand: false,
               onPressed: () {
-                Launcher.openWhatsApp(
-                  number: Formatters.unmaskNumber(_user.phoneNumber!),
-                );
+                final number = Formatters.unmaskNumber(_user.phoneNumber);
+                if (number != null) {
+                  Launcher.openWhatsApp(number: number);
+                }
               },
             ),
           ),
