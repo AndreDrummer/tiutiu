@@ -33,6 +33,7 @@ class AppStrings {
   static String get find => 'Encontrar';
   static String get name => 'Tiu, tiu';
   static String get email => 'E-mail';
+  static String get wait => 'Aguarde';
   static String get post => 'Postar';
   static String get back => 'Voltar';
   static String get save => 'Salvar';
@@ -46,23 +47,35 @@ class AppStrings {
 
 class AuthStrings {
   static String passwordShouldBeAtLeast(String field, int length) => '$field deve ter no mínimo $length dígitos';
+  static const String tryVerifyCodeAgain = 'Não foi possível verificar o código.\nTente novamente.';
+  static const String insertCodeSentToNumber = 'Insira o código enviado para o número';
+  static const String successfullyVerifiedCode = 'Código verificado com sucesso!';
+  static const String doYouWannaPasteCodeCopied = 'Deseja colar o código copiado';
+  static const String codeIsValidForMinutes = 'O código é valido por 2 minutos.';
   static const String typePasswordAgain = 'Digite a senha novamente';
   static String get authentique => 'Autentique-se para continuar.';
+  static const String verifyYourNumber = 'Verifique seu número';
+  static const String verifyYourEmail = 'Verifique seu email';
   static String get createNewAccount => 'Crie uma nova conta.';
   static const String passwordNotMatch = 'Senhas não conferem';
   static const String forgetMyPassword = 'Esqueci minha senha';
   static String get doNotHaveAnAccount => 'Não tem uma conta?';
   static String get continueAnon => 'Continuar anônimamente';
+  static const String numberVerified = 'Número verificado';
   static const String loginInProgress = 'Realizando Login';
   static String get enterAccount => 'Entrar na sua conta.';
+  static String get receiveNewCode => 'Receber novo código';
   static String get authFailure => 'Falha na autenticação';
   static String get haveAnAccount => 'Já tem uma conta?';
   static const String authenticanting = 'Autênticando...';
   static const String registeringUser = 'Criando conta';
+  static const String invalidCode = 'Código inválido!';
   static const String invalidEmail = 'E-mail inválido';
   static String get createAccount => 'Criar conta';
+  static const String pasteCode = 'Colar código';
   static String get createYours => 'Crie a sua.';
   static String get facebook => 'Facebook';
+  static String get validate => 'Validar';
   static String get google => 'Google';
   static String get enter => 'Entrar';
   static String get email => 'E-mail';

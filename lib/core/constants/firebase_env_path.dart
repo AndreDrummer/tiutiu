@@ -3,12 +3,13 @@ import 'package:flutter/foundation.dart';
 class FirebaseEnvPath {
   static const String usersFavoritesCollection = 'favorites';
   static const String env = kDebugMode ? 'debug' : 'prod';
-  static const String projectName = 'tiutiu';
   // static const String env = 'prod';
   static const String whatsappToken = 'WHATSAPP_TOKEN';
+  static const String whatsappCodes = 'whatsappCodes';
   static const String notifications = 'Notifications';
   static const String disappeared = 'Disappeared';
   static const String favorites = 'Favorites';
+  static const String projectName = 'tiutiu';
   static const String adopted = 'Adopted';
   static const String envString = 'env';
   static const String donate = 'Donate';
