@@ -3,6 +3,7 @@ import 'package:tiutiu/features/system/controllers.dart';
 import 'package:tiutiu/core/constants/text_styles.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:tiutiu/core/constants/strings.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -61,7 +62,7 @@ class _VerifyEmailState extends State<VerifyEmail> {
           padding: const EdgeInsets.all(16.0),
           child: AutoSizeTexts.autoSizeText24(
             color: AppColors.primary,
-            'Verifique seu e-mail',
+            AuthStrings.verifyYourEmail,
           ),
         ),
       ],
@@ -71,8 +72,8 @@ class _VerifyEmailState extends State<VerifyEmail> {
   AutoSizeText _headline1() {
     return AutoSizeTexts.autoSizeText18(
       fontWeight: FontWeight.w600,
-      'Um link de verificação foi enviado',
       textAlign: TextAlign.center,
+      AuthStrings.linkWasSent,
     );
   }
 
@@ -122,17 +123,17 @@ class _VerifyEmailState extends State<VerifyEmail> {
 
   AutoSizeText _warningMessage() {
     return AutoSizeTexts.autoSizeText14(
+      AuthStrings.verifyEmailAdvice,
       fontWeight: FontWeight.w300,
-      'Somente contas verificadas podem publicar um anúncio. Cheque sua caixa de spam se necessário.',
       textAlign: TextAlign.center,
     );
   }
 
   AutoSizeText _noEmailReceived() {
     return AutoSizeTexts.autoSizeText16(
+      AuthStrings.dontReceiveEmail,
       fontWeight: FontWeight.w600,
       textAlign: TextAlign.center,
-      'Não recebeu um email?',
     );
   }
 
@@ -146,7 +147,7 @@ class _VerifyEmailState extends State<VerifyEmail> {
           fontWeight: FontWeight.w600,
           textAlign: TextAlign.center,
           color: Colors.lightBlue,
-          'Reenviar',
+          AuthStrings.resend,
         ),
         onPressed: _onEmailResent,
       ),
@@ -167,9 +168,9 @@ class _VerifyEmailState extends State<VerifyEmail> {
         resendButtonIsEnabled = true;
       });
 
-      resultMessage = 'E-mail enviado!';
+      resultMessage = AuthStrings.emailSent;
     } catch (exception) {
-      resultMessage = 'Não foi possível reenviar o e-mail. Tente novamente mais tarde!';
+      resultMessage = AuthStrings.unableToResendEmail;
       debugPrint('>> Could not send the email due to $exception');
     }
 
