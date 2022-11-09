@@ -1,13 +1,17 @@
+import 'package:flutter/foundation.dart';
 import 'package:intl/intl.dart';
 
 class Formatters {
-  static String unmaskNumber(String number) {
+  static String? unmaskNumber(String? number) {
     try {
-      String serializedNumber = number.split('(')[1].replaceAll(')', '').replaceAll('-', '').replaceAll(' ', '');
-      return serializedNumber;
+      number = number?.replaceAll('(', '');
+      number = number?.replaceAll(')', '');
+      number = number?.replaceAll('-', '');
+      number = number?.replaceAll(' ', '');
     } catch (error) {
-      return number;
+      debugPrint('>> Error when unmasking phoneNumber $number. $error');
     }
+    return number;
   }
 
   static DateTime getDateTime(String createdAt) {
