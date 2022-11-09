@@ -3,8 +3,12 @@ import 'package:get/get.dart';
 
 class SystemController extends GetxController {
   RxBool _internetConnected = false.obs;
+  RxBool _snackBarIsOpen = false.obs;
 
   bool get internetConnected => _internetConnected.value;
+  bool get snackBarIsOpen => _snackBarIsOpen.value;
+
+  void set snackBarIsOpen(bool value) => _snackBarIsOpen(value);
 
   void handleInternetConnectivityStatus(
     ConnectivityResult? connectivityResult,

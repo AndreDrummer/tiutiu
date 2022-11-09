@@ -170,10 +170,10 @@ class PetDetailsStrings {
 
 class MyProfileStrings {
   static const String allowContactViaWhatsApp = 'Permitir contato via WhatsApp';
-  static const String howCallYou = 'Como gostaria de ser chamado?';
   static const String updatingProfile = 'Atualizando perfil...';
   static const String completeProfile = 'Completar perfil';
   static const String deleteAccount = 'Apagar minha conta';
+  static const String howCallYou = 'Como devo te chamar?';
   static const String whatsapp = 'Seu número de WhatsApp';
   static const String insertAPicture = 'Insira uma foto';
   static const String editProfile = 'Editar perfil';

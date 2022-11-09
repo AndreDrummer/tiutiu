@@ -30,7 +30,6 @@ class StatesAndCities {
   List<String> get stateNames => location.states.map((e) => e.name).toList();
 
   List<String> citiesOf({String stateName = 'Acre'}) {
-    print('state $stateName');
     return location.states
         .where((state) => state.name == stateName)
         .first

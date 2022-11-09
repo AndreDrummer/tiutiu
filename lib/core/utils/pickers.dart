@@ -1,4 +1,5 @@
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:tiutiu/features/system/controllers.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/core/constants/strings.dart';
 import 'package:image_picker/image_picker.dart';
@@ -18,7 +19,6 @@ mixin Pickers {
     required BuildContext context,
   }) async {
     final ImagePicker _picker = ImagePicker();
-
     showBottomSheet(
       backgroundColor: Colors.white,
       shape: RoundedRectangleBorder(
@@ -32,7 +32,7 @@ mixin Pickers {
       elevation: 8.0,
       builder: (context) {
         return Container(
-          height: 96.0.h,
+          height: systemController.snackBarIsOpen ? 112.0.h : 88.0.h,
           child: Column(
             children: [
               TextButton(
@@ -69,7 +69,6 @@ mixin Pickers {
                   switch (pickerAssetType) {
                     case PickerAssetType.photo:
                       pic = await _picker.pickImage(source: ImageSource.gallery);
-                      print(pic);
                       break;
                     case PickerAssetType.video:
                       pic = await _picker.pickVideo(source: ImageSource.gallery);
