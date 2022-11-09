@@ -51,7 +51,7 @@ class StartScreen extends StatelessWidget {
                       text: AppStrings.getStarted,
                       color: AppColors.primary,
                       onPressed: () {
-                        if (authController.userExists) Get.toNamed(Routes.authOrHome);
+                        if (authController.userExists) Get.toNamed(Routes.home);
                         Get.toNamed(Routes.authHosters);
                       },
                     ),

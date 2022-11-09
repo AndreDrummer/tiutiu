@@ -16,7 +16,6 @@ final screens = <Widget>[
   DisappearedList(),
   Obx(
     () {
-      print(tiutiuUserController.tiutiuUser.emailVerified);
       return AuthenticatedArea(
         child: ValidatedArea(
           isValid: tiutiuUserController.tiutiuUser.emailVerified && tiutiuUserController.tiutiuUser.phoneVerified,
@@ -26,9 +25,9 @@ final screens = <Widget>[
       );
     },
   ),
-  AuthenticatedArea(
-    child: Obx(
-      () => IndexedStack(
+  Obx(
+    () => AuthenticatedArea(
+      child: IndexedStack(
         index: profileController.isSetting ? 1 : 0,
         children: [
           Profile(user: tiutiuUserController.tiutiuUser),

@@ -18,14 +18,19 @@ class _VerifyEmailState extends State<VerifyEmail> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Spacer(),
-        _topBar(),
-        SizedBox(height: 32.0.h),
-        _content(),
-        Spacer(),
-      ],
+    return FutureBuilder(
+      future: authController.updateUserInfo(),
+      builder: (context, snapshot) {
+        return Column(
+          children: [
+            Spacer(),
+            _topBar(),
+            SizedBox(height: 32.0.h),
+            _content(),
+            Spacer(),
+          ],
+        );
+      },
     );
   }
 
@@ -42,13 +47,7 @@ class _VerifyEmailState extends State<VerifyEmail> {
           SizedBox(height: 16.0.h),
           _warningMessage(),
           SizedBox(height: 16.0.h),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              _noEmailReceived(),
-              _resendButton(),
-            ],
-          ),
+          _resendEmail(),
         ],
       ),
     );
@@ -101,6 +100,26 @@ class _VerifyEmailState extends State<VerifyEmail> {
     );
   }
 
+  Widget _resendEmail() {
+    return FutureBuilder(
+      future: authController.verifyShouldShowResendEmailButton(),
+      builder: (context, snapshot) {
+        return Obx(
+          () => Visibility(
+            visible: authController.allowResendEmail,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                _noEmailReceived(),
+                _resendButton(),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
   AutoSizeText _warningMessage() {
     return AutoSizeTexts.autoSizeText14(
       fontWeight: FontWeight.w300,
@@ -142,27 +161,33 @@ class _VerifyEmailState extends State<VerifyEmail> {
     });
 
     try {
-      print(authController.user?.email);
-      await authController.user?.sendEmailVerification();
-      resultMessage = 'E-mail enviado!';
-    } catch (exception) {
+      await authController.resendEmail();
+
       setState(() {
         resendButtonIsEnabled = true;
       });
 
+      resultMessage = 'E-mail enviado!';
+    } catch (exception) {
       resultMessage = 'Não foi possível reenviar o e-mail. Tente novamente mais tarde!';
       debugPrint('>> Could not send the email due to $exception');
     }
 
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: Text(resultMessage),
-      action: SnackBarAction(
-        label: 'OK',
-        onPressed: () {
-          Get.back();
-        },
-      ),
-    ));
+    systemController.snackBarIsOpen = true;
+    ScaffoldMessenger.of(context)
+        .showSnackBar(
+          SnackBar(
+            content: Text(resultMessage),
+            action: SnackBarAction(
+              label: 'OK',
+              onPressed: () {
+                Get.back();
+              },
+            ),
+          ),
+        )
+        .closed
+        .then((value) => systemController.snackBarIsOpen = false);
 
     setState(() {
       resendButtonIsEnabled = true;
