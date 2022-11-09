@@ -7,7 +7,6 @@ class Routes {
   static const notifications = '/notications';
   static const authHosters = '/auth-hosters';
   static const startScreen = '/start-screen';
-  static const authOrHome = '/auth-or-home';
   static const petDetails = '/pet-details';
   static const favorites = '/favorites';
   static const chatList = '/chat-list';

@@ -76,11 +76,15 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
           denyText: 'Não',
           confirmAction: () {
             Navigator.pop(context);
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: AutoSizeText('${pet.name} foi excluído com sucesso!'),
-              ),
-            );
+            systemController.snackBarIsOpen = true;
+            ScaffoldMessenger.of(context)
+                .showSnackBar(
+                  SnackBar(
+                    content: AutoSizeText('${pet.name} foi excluído com sucesso!'),
+                  ),
+                )
+                .closed
+                .then((value) => systemController.snackBarIsOpen = false);
           },
           confirmText: 'Sim',
         );

@@ -1,5 +1,3 @@
-import 'package:tiutiu/core/constants/strings.dart';
-import 'package:tiutiu/core/utils/formatter.dart';
 import 'package:tiutiu/features/auth/models/email_password_auth.dart';
 import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
 import 'package:tiutiu/core/local_storage/local_storage_keys.dart';
@@ -8,6 +6,8 @@ import 'package:tiutiu/core/local_storage/local_storage.dart';
 import 'package:tiutiu/core/constants/images_assets.dart';
 import 'package:tiutiu/features/system/controllers.dart';
 import 'package:tiutiu/core/models/whatsapp_token.dart';
+import 'package:tiutiu/core/constants/strings.dart';
+import 'package:tiutiu/core/utils/formatter.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
@@ -28,6 +28,7 @@ class AuthController extends GetxController {
   final RxBool _isCreatingNewAccount = false.obs;
   final RxBool _isWhatsappTokenValid = true.obs;
   final RxBool _isShowingPassword = false.obs;
+  final RxBool _allowResendEmail = false.obs;
   final RxBool _numberVerified = false.obs;
   final RxInt _secondsToExpireCode = 0.obs;
   final RxString _feedbackText = ''.obs;
@@ -38,6 +39,7 @@ class AuthController extends GetxController {
   bool get isCreatingNewAccount => _isCreatingNewAccount.value;
   int get secondsToExpireCode => _secondsToExpireCode.value;
   bool get isShowingPassword => _isShowingPassword.value;
+  bool get allowResendEmail => _allowResendEmail.value;
   bool get numberVerified => _numberVerified.value;
   String get feedbackText => _feedbackText.value;
   bool get userExists => _authService.userExists;
@@ -86,6 +88,7 @@ class AuthController extends GetxController {
       final phoneNumber = Formatters.unmaskNumber(tiutiuUserController.tiutiuUser.phoneNumber);
 
       if (phoneNumber != null) {
+        debugPrint('>> sending Whatsapp token...');
         _authService.sendWhatsAppCode(phoneNumber, code);
       }
     }
@@ -159,6 +162,38 @@ class AuthController extends GetxController {
 
       debugPrint('>> Token still valid $isWhatsappTokenValid');
     }
+  }
+
+  Future<void> verifyShouldShowResendEmailButton() async {
+    final lastSendEmailTime = await LocalStorage.getValueUnderLocalStorageKey(LocalStorageKey.lastSendEmailTime);
+    debugPrint('>> resend Email storage data $lastSendEmailTime');
+
+    if (lastSendEmailTime == null) {
+      _allowResendEmail(true);
+    } else {
+      final minutes = DateTime.parse(lastSendEmailTime).difference(DateTime.now()).inMinutes;
+
+      if (minutes > 10) {
+        _allowResendEmail(true);
+        LocalStorage.deleteDataUnderKey(LocalStorageKey.lastSendEmailTime);
+      } else {
+        _allowResendEmail(false);
+      }
+    }
+  }
+
+  Future<void> resendEmail() async {
+    if (allowResendEmail) {
+      debugPrint('>> resending Email verification...');
+
+      await user?.sendEmailVerification();
+      await LocalStorage.setValueUnderLocalStorageKey(
+        key: LocalStorageKey.lastSendEmailTime,
+        value: DateTime.now().toIso8601String(),
+      );
+    }
+
+    verifyShouldShowResendEmailButton();
   }
 
   Future _getWhatsappStorageToken() async {
@@ -409,6 +444,17 @@ class AuthController extends GetxController {
         TiutiuUserEnum.email,
         authController.user!.email,
       );
+    }
+
+    bool isEmailVerified = loggedUser.emailVerified;
+    bool isPhoneVerified = loggedUser.phoneVerified;
+
+    if (!isEmailVerified && allowResendEmail) {
+      resendEmail();
+    }
+
+    if (!isPhoneVerified && !isWhatsappTokenValid) {
+      sendWhatsAppCode();
     }
 
     await tiutiuUserController.updateUserDataOnServer();

@@ -29,7 +29,7 @@ class _VerifyPhoneState extends State<VerifyPhone> {
 
   @override
   void initState() {
-    authController.sendWhatsAppCode().then((_) => startTimer());
+    authController.verifyIfWhatsappTokenIsStillValid().then((_) => startTimer());
     super.initState();
   }
 
@@ -94,10 +94,10 @@ class _VerifyPhoneState extends State<VerifyPhone> {
         children: [
           AnimatedContainer(
             height: authController.numberVerified ? Get.width / 2 : 48.0.h,
-            duration: Duration(seconds: 1),
+            duration: Duration(milliseconds: 500),
           ),
           AnimatedContainer(
-            duration: Duration(seconds: 1),
+            duration: Duration(milliseconds: 500),
             child: Icon(
               authController.numberVerified ? Icons.verified_user : FontAwesomeIcons.whatsapp,
               color: AppColors.primary,
@@ -267,12 +267,16 @@ class _VerifyPhoneState extends State<VerifyPhone> {
               } else {
                 authController.verifyWhatsAppCode(codeController.text).then((success) {
                   if (!success) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: AutoSizeTexts.autoSizeText14(authController.feedbackText),
-                        backgroundColor: success ? AppColors.success : AppColors.danger,
-                      ),
-                    );
+                    systemController.snackBarIsOpen = true;
+                    ScaffoldMessenger.of(context)
+                        .showSnackBar(
+                          SnackBar(
+                            content: AutoSizeTexts.autoSizeText14(authController.feedbackText),
+                            backgroundColor: success ? AppColors.success : AppColors.danger,
+                          ),
+                        )
+                        .closed
+                        .then((value) => systemController.snackBarIsOpen = false);
                     codeController.clear();
                   }
                 });
@@ -283,7 +287,7 @@ class _VerifyPhoneState extends State<VerifyPhone> {
         ),
         AnimatedContainer(
           height: authController.numberVerified ? 64.0.h : 16.0.h,
-          duration: Duration(seconds: 1),
+          duration: Duration(milliseconds: 500),
         ),
       ],
     );
