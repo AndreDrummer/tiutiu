@@ -4,11 +4,13 @@ import 'package:tiutiu/features/system/controllers.dart';
 import 'package:tiutiu/core/constants/text_styles.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
+import 'package:tiutiu/core/constants/strings.dart';
 import 'package:tiutiu/Widgets/cancel_button.dart';
 import 'package:tiutiu/core/utils/formatter.dart';
 import 'package:tiutiu/Widgets/button_wide.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'dart:async';
 
 class VerifyPhone extends StatefulWidget {
@@ -19,6 +21,7 @@ class VerifyPhone extends StatefulWidget {
 }
 
 class _VerifyPhoneState extends State<VerifyPhone> {
+  final TextEditingController codeController = TextEditingController();
   bool enableResendButton = false;
   bool codeFilled = false;
   int? _secondsToExpirate;
@@ -26,11 +29,12 @@ class _VerifyPhoneState extends State<VerifyPhone> {
 
   @override
   void initState() {
-    startTimer();
+    authController.sendWhatsAppCode().then((_) => startTimer());
     super.initState();
   }
 
   void startTimer() {
+    enableResendButton = !authController.isWhatsappTokenValid;
     _secondsToExpirate = authController.secondsToExpireCode;
 
     _timer = Timer.periodic(
@@ -51,7 +55,6 @@ class _VerifyPhoneState extends State<VerifyPhone> {
   void restartTimer() {
     setState(() {
       _secondsToExpirate = authController.secondsToExpireCode;
-      enableResendButton = false;
     });
     startTimer();
   }
@@ -64,25 +67,21 @@ class _VerifyPhoneState extends State<VerifyPhone> {
 
   @override
   Widget build(BuildContext context) {
-    final TextEditingController textEditingController = TextEditingController();
     final String? number = tiutiuUserController.tiutiuUser.phoneNumber;
 
     return FutureBuilder(
-      future: authController.verifyIfWhatsappTokenStillValid(),
+      future: authController.verifyIfWhatsappTokenIsStillValid(),
       builder: (context, snapshot) {
         return Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            SizedBox(height: 48.0.h),
             _topBar(),
-            SizedBox(height: 32.0.h),
             _insertCodeSentToTheNumberText(number),
-            SizedBox(height: 16.0.h),
-            _codeBoxes(context, textEditingController),
+            _codeBoxes(context),
             Spacer(),
             _resendWithin(),
             Spacer(),
             _confirmButton(),
-            SizedBox(height: 16.0.h),
           ],
         );
       },
@@ -90,146 +89,203 @@ class _VerifyPhoneState extends State<VerifyPhone> {
   }
 
   Widget _topBar() {
-    return Column(
-      children: [
-        Icon(FontAwesomeIcons.whatsapp, color: AppColors.primary, size: 64.0.h),
-        Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: AutoSizeTexts.autoSizeText24(
-            color: AppColors.primary,
-            'Verifique seu número',
-          ),
-        ),
-      ],
-    );
-  }
-
-  Column _insertCodeSentToTheNumberText(String? number) {
-    return Column(
-      children: [
-        AutoSizeTexts.autoSizeText18(
-          fontWeight: FontWeight.w600,
-          'Insira o código enviado para o número',
-          textAlign: TextAlign.center,
-        ),
-        SizedBox(height: 4.0.h),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            AutoSizeTexts.autoSizeText18(
-              fontWeight: FontWeight.w500,
-              textAlign: TextAlign.center,
-              color: AppColors.primary,
-              number,
-            ),
-            AutoSizeTexts.autoSizeText18(
-              fontWeight: FontWeight.w500,
-              textAlign: TextAlign.center,
-              '.',
-            ),
-          ],
-        ),
-      ],
-    );
-  }
-
-  Padding _codeBoxes(BuildContext context, TextEditingController textEditingController) {
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: PinCodeTextField(
-        inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-        keyboardType: TextInputType.number,
-        appContext: context,
-        length: 6,
-        obscureText: false,
-        animationType: AnimationType.fade,
-        pinTheme: PinTheme(
-          selectedFillColor: AppColors.primary.withAlpha(100),
-          inactiveFillColor: Colors.transparent,
-          selectedColor: AppColors.primary,
-          inactiveColor: Colors.green,
-          shape: PinCodeFieldShape.box,
-          borderRadius: BorderRadius.circular(5),
-          activeFillColor: Colors.white,
-          fieldHeight: 50,
-          fieldWidth: 40,
-        ),
-        animationDuration: Duration(milliseconds: 300),
-        controller: textEditingController,
-        enableActiveFill: true,
-        onCompleted: (v) {
-          setState(() {
-            codeFilled = true;
-          });
-        },
-        onChanged: (value) {
-          if (value.length < 6) {
-            setState(() {
-              codeFilled = false;
-            });
-          }
-        },
-        beforeTextPaste: (text) {
-          print("Allowing to paste $text");
-          return true;
-        },
-      ),
-    );
-  }
-
-  Widget _resendWithin() {
-    return AnimatedOpacity(
-      duration: Duration(milliseconds: 500),
-      opacity: !codeFilled ? 1 : 0,
-      child: Column(
+    return Obx(
+      () => Column(
         children: [
-          AutoSizeTexts.autoSizeText14(
-            'O código é valido por 5 minutos.',
-            fontWeight: FontWeight.w300,
+          AnimatedContainer(
+            height: authController.numberVerified ? Get.width / 2 : 48.0.h,
+            duration: Duration(seconds: 1),
           ),
-          Visibility(
-            visible: !enableResendButton,
-            child: Padding(
-              padding: EdgeInsets.symmetric(vertical: 16.0.h),
-              child: AutoSizeTexts.autoSizeText14(
-                'Aguarde ${Formatters.timeSecondsFormmated(_secondsToExpirate ?? 0)} para receber outro código',
-                fontWeight: FontWeight.w600,
-              ),
+          AnimatedContainer(
+            duration: Duration(seconds: 1),
+            child: Icon(
+              authController.numberVerified ? Icons.verified_user : FontAwesomeIcons.whatsapp,
+              color: AppColors.primary,
+              size: authController.numberVerified ? 80.0.h : 64.0.h,
             ),
-            replacement: _resendButton(),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: AutoSizeTexts.autoSizeText24(
+              authController.numberVerified ? AuthStrings.numberVerified : AuthStrings.verifyYourNumber,
+              color: AppColors.primary,
+            ),
           ),
         ],
       ),
     );
   }
 
-  Widget _resendButton() {
+  Widget _insertCodeSentToTheNumberText(String? number) {
     return Visibility(
-      visible: !codeFilled,
-      child: SimpleTextButton(
-        onPressed: !enableResendButton
-            ? null
-            : () async {
-                await authController.sendWhatsAppCode();
-                restartTimer();
-              },
-        textColor: AppColors.primary,
-        text: 'Receber novo código',
-        fontSize: 16,
+      visible: !authController.numberVerified,
+      child: Column(
+        children: [
+          SizedBox(height: 32.0.h),
+          AutoSizeTexts.autoSizeText18(
+            AuthStrings.insertCodeSentToNumber,
+            fontWeight: FontWeight.w600,
+            textAlign: TextAlign.center,
+          ),
+          SizedBox(height: 4.0.h),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              AutoSizeTexts.autoSizeText18(
+                fontWeight: FontWeight.w500,
+                textAlign: TextAlign.center,
+                color: AppColors.primary,
+                number,
+              ),
+              AutoSizeTexts.autoSizeText18(
+                fontWeight: FontWeight.w500,
+                textAlign: TextAlign.center,
+                '.',
+              ),
+            ],
+          ),
+          SizedBox(height: 16.0.h),
+        ],
+      ),
+    );
+  }
+
+  Widget _codeBoxes(
+    BuildContext context,
+  ) {
+    return Visibility(
+      visible: !authController.numberVerified,
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: PinCodeTextField(
+          inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+          keyboardType: TextInputType.number,
+          animationType: AnimationType.fade,
+          appContext: context,
+          obscureText: false,
+          length: 6,
+          pinTheme: PinTheme(
+            selectedFillColor: AppColors.primary.withAlpha(100),
+            inactiveFillColor: Colors.transparent,
+            borderRadius: BorderRadius.circular(5),
+            activeFillColor: AppColors.white,
+            selectedColor: AppColors.primary,
+            inactiveColor: AppColors.primary,
+            shape: PinCodeFieldShape.box,
+            fieldHeight: 50,
+            fieldWidth: 40,
+          ),
+          animationDuration: Duration(milliseconds: 300),
+          controller: codeController,
+          enableActiveFill: true,
+          onCompleted: (v) {
+            setState(() {
+              codeFilled = true;
+            });
+          },
+          onChanged: (value) {
+            if (value.length < 6) {
+              setState(() {
+                codeFilled = false;
+              });
+            }
+          },
+          beforeTextPaste: (text) {
+            return GetUtils.isNum(text ?? "");
+          },
+          dialogConfig: DialogConfig(
+            dialogContent: AuthStrings.doYouWannaPasteCodeCopied,
+            dialogTitle: AuthStrings.pasteCode,
+            affirmativeText: AppStrings.yes,
+            negativeText: AppStrings.no,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _resendWithin() {
+    return Visibility(
+      visible: !authController.numberVerified,
+      child: AnimatedOpacity(
+        duration: Duration(milliseconds: 500),
+        opacity: !codeFilled ? 1 : 0,
+        child: Column(
+          children: [
+            AutoSizeTexts.autoSizeText14(
+              AuthStrings.codeIsValidForMinutes,
+              fontWeight: FontWeight.w300,
+            ),
+            Obx(
+              () => Visibility(
+                visible: authController.isWhatsappTokenValid,
+                child: Padding(
+                  padding: EdgeInsets.symmetric(vertical: 16.0.h),
+                  child: AutoSizeTexts.autoSizeText14(
+                    '${AppStrings.wait} ${Formatters.timeSecondsFormmated(_secondsToExpirate ?? 0)} para receber outro código',
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                replacement: _resendButton(),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _resendButton() {
+    return Obx(
+      () => Visibility(
+        visible: !codeFilled,
+        child: SimpleTextButton(
+          onPressed: authController.isWhatsappTokenValid
+              ? null
+              : () async {
+                  await authController.sendWhatsAppCode();
+                  restartTimer();
+                },
+          text: AuthStrings.receiveNewCode,
+          textColor: AppColors.primary,
+          fontSize: 16,
+        ),
       ),
     );
   }
 
   Widget _confirmButton() {
-    return AnimatedOpacity(
-      duration: Duration(milliseconds: 500),
-      opacity: codeFilled ? 1 : 0,
-      child: ButtonWide(
-        onPressed: () {
-          authController.verifyWhatsAppCode();
-        },
-        text: 'Validar',
-      ),
+    return Column(
+      children: [
+        AnimatedOpacity(
+          duration: Duration(seconds: 0),
+          opacity: (codeFilled || authController.numberVerified) ? 1 : 0,
+          child: ButtonWide(
+            onPressed: () {
+              if (authController.numberVerified) {
+                authController.continueAfterValidateNumber();
+              } else {
+                authController.verifyWhatsAppCode(codeController.text).then((success) {
+                  if (!success) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: AutoSizeTexts.autoSizeText14(authController.feedbackText),
+                        backgroundColor: success ? AppColors.success : AppColors.danger,
+                      ),
+                    );
+                    codeController.clear();
+                  }
+                });
+              }
+            },
+            text: authController.numberVerified ? AppStrings.contines : AuthStrings.validate,
+          ),
+        ),
+        AnimatedContainer(
+          height: authController.numberVerified ? 64.0.h : 16.0.h,
+          duration: Duration(seconds: 1),
+        ),
+      ],
     );
   }
 }

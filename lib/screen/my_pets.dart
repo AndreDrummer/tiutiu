@@ -13,7 +13,6 @@ import 'package:tiutiu/Widgets/popup_message.dart';
 import 'package:tiutiu/Widgets/loading_page.dart';
 import 'package:tiutiu/Widgets/background.dart';
 import 'package:tiutiu/Widgets/empty_list.dart';
-import 'interested_information_list.dart';
 import 'package:flutter/material.dart';
 
 class MyPetsScreen extends StatefulWidget {
@@ -57,14 +56,10 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
   }
 
   void _addNewPet() {
-    if ((widget.kind != FirebaseEnvPath.adopted || widget.kind == null) &&
-        isAuthenticated) {
-      Navigator.pushReplacementNamed(context, Routes.petLocationPicker,
-          arguments: {'kind': widget.kind});
+    if ((widget.kind != FirebaseEnvPath.adopted || widget.kind == null) && isAuthenticated) {
+      Navigator.pushReplacementNamed(context, Routes.petLocationPicker, arguments: {'kind': widget.kind});
     } else {
-      Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(builder: (BuildContext context) => StartScreen()),
+      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (BuildContext context) => StartScreen()),
           ModalRoute.withName(Routes.auth));
     }
   }
@@ -122,18 +117,17 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
               ),
         ),
       ),
-      floatingActionButton:
-          widget.kind == FirebaseEnvPath.adopted || widget.kind == null
-              ? null
-              : Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    FloatingActionButton(
-                      onPressed: _addNewPet,
-                      child: Icon(Icons.add),
-                    ),
-                  ],
+      floatingActionButton: widget.kind == FirebaseEnvPath.adopted || widget.kind == null
+          ? null
+          : Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                FloatingActionButton(
+                  onPressed: _addNewPet,
+                  child: Icon(Icons.add),
                 ),
+              ],
+            ),
       body: Stack(
         children: [
           Background(),
@@ -147,8 +141,7 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
                 return Container();
               }
 
-              List<Pet> pets =
-                  petsController.getPetListFromSnapshots(snapshot.data!.docs);
+              List<Pet> pets = petsController.getPetListFromSnapshots(snapshot.data!.docs);
 
               if (pets.isEmpty) {
                 return EmptyListScreen(
@@ -188,19 +181,15 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
                                           topLeft: Radius.circular(12),
                                           topRight: Radius.circular(12),
                                         ),
-                                        child: AssetHandle.getImage(
-                                            pets[index].photos.first!),
+                                        child: AssetHandle.getImage(pets[index].photos.first!),
                                       ),
                                     ),
-                                    widget.kind == null ||
-                                            widget.kind ==
-                                                FirebaseEnvPath.adopted
+                                    widget.kind == null || widget.kind == FirebaseEnvPath.adopted
                                         ? Container()
                                         : Positioned(
                                             top: 20,
                                             right: 5,
-                                            child:
-                                                _lablePetKind(pets[index].type),
+                                            child: _lablePetKind(pets[index].type),
                                           )
                                   ],
                                 ),
@@ -208,20 +197,15 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
                                 Row(
                                   children: [
                                     Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          vertical: 16.0, horizontal: 15),
+                                      padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 15),
                                       child: Container(
                                         width: 160,
                                         child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
+                                          crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
                                             AutoSizeText(
                                               pets[index].name!,
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .headline4!
-                                                  .copyWith(
+                                              style: Theme.of(context).textTheme.headline4!.copyWith(
                                                     fontSize: 22,
                                                     color: Colors.black,
                                                     fontWeight: FontWeight.w700,
@@ -230,10 +214,7 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
                                             SizedBox(height: 10),
                                             AutoSizeText(
                                               pets[index].breed,
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .headline4!
-                                                  .copyWith(
+                                              style: Theme.of(context).textTheme.headline4!.copyWith(
                                                     fontSize: 16,
                                                     color: Colors.grey,
                                                     fontWeight: FontWeight.w300,
@@ -245,48 +226,33 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
                                     ),
                                     Expanded(
                                       flex: 2,
-                                      child: widget.kind == null ||
-                                              widget.kind ==
-                                                  FirebaseEnvPath.adopted
+                                      child: widget.kind == null || widget.kind == FirebaseEnvPath.adopted
                                           ? Container()
                                           : Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.end,
+                                              mainAxisAlignment: MainAxisAlignment.end,
                                               children: [
                                                 AutoSizeText(
                                                   ' |',
-                                                  style:
-                                                      TextStyle(fontSize: 20),
+                                                  style: TextStyle(fontSize: 20),
                                                 ),
                                                 IconButton(
-                                                  icon: Icon(Icons.edit,
-                                                      size: 30,
-                                                      color: Colors.black),
+                                                  icon: Icon(Icons.edit, size: 30, color: Colors.black),
                                                   onPressed: () {
                                                     showDialog(
                                                         context: context,
-                                                        builder: (context) =>
-                                                            PopUpMessage(
-                                                              title:
-                                                                  'Localização',
-                                                              message:
-                                                                  'Deseja alterar a localização do PET ?',
-                                                              confirmText:
-                                                                  'Sim',
-                                                              confirmAction:
-                                                                  () {
-                                                                Navigator.pop(
-                                                                    context);
+                                                        builder: (context) => PopUpMessage(
+                                                              title: 'Localização',
+                                                              message: 'Deseja alterar a localização do PET ?',
+                                                              confirmText: 'Sim',
+                                                              confirmAction: () {
+                                                                Navigator.pop(context);
                                                                 Navigator.push(
                                                                   context,
                                                                   MaterialPageRoute(
-                                                                    builder:
-                                                                        (context) {
+                                                                    builder: (context) {
                                                                       return ChooseLocation(
-                                                                        editMode:
-                                                                            true,
-                                                                        pet: pets[
-                                                                            index],
+                                                                        editMode: true,
+                                                                        pet: pets[index],
                                                                       );
                                                                     },
                                                                   ),
@@ -294,17 +260,14 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
                                                               },
                                                               denyText: 'Não',
                                                               denyAction: () {
-                                                                Navigator.pop(
-                                                                    context);
+                                                                Navigator.pop(context);
                                                               },
                                                             ));
                                                   },
                                                   color: AppColors.white,
                                                 ),
                                                 IconButton(
-                                                  icon: Icon(Icons.delete,
-                                                      size: 30,
-                                                      color: AppColors.danger),
+                                                  icon: Icon(Icons.delete, size: 30, color: AppColors.danger),
                                                   onPressed: () => openDialog(
                                                     pets[index],
                                                   ),
@@ -314,8 +277,7 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
                                     )
                                   ],
                                 ),
-                                widget.kind == null ||
-                                        widget.kind == FirebaseEnvPath.adopted
+                                widget.kind == null || widget.kind == FirebaseEnvPath.adopted
                                     ? Container()
                                     : Column(
                                         children: [
@@ -323,96 +285,69 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
                                           Padding(
                                             padding: const EdgeInsets.all(8.0),
                                             child: InkWell(
-                                              onTap: () {
-                                                Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                    builder: (context) {
-                                                      return InterestedList(
-                                                          pet: pets[index],
-                                                          kind:
-                                                              pets[index].type);
-                                                    },
-                                                  ),
-                                                );
-                                              },
+                                              onTap: () {},
                                               child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
+                                                mainAxisAlignment: MainAxisAlignment.center,
                                                 children: [
                                                   Container(
-                                                    padding:
-                                                        const EdgeInsets.all(
-                                                            4.0),
+                                                    padding: const EdgeInsets.all(4.0),
                                                     decoration: BoxDecoration(
                                                       shape: BoxShape.circle,
                                                       border: Border.all(
-                                                        style:
-                                                            BorderStyle.solid,
+                                                        style: BorderStyle.solid,
                                                       ),
                                                     ),
                                                     child: Icon(Icons.menu),
                                                   ),
                                                   SizedBox(width: 10),
                                                   Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceBetween,
+                                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                     children: [
                                                       AutoSizeText(
-                                                        pets[index].type ==
-                                                                FirebaseEnvPath
-                                                                    .donate
+                                                        pets[index].type == FirebaseEnvPath.donate
                                                             ? 'Ver lista de interessados'
                                                             : 'Ver notificações',
                                                         style: TextStyle(
-                                                          decoration:
-                                                              TextDecoration
-                                                                  .underline,
+                                                          decoration: TextDecoration.underline,
                                                         ),
                                                       ),
                                                       Row(
                                                         children: [
                                                           SizedBox(width: 50),
-                                                          AutoSizeText(pets[
-                                                                          index]
-                                                                      .type ==
-                                                                  FirebaseEnvPath
-                                                                      .disappeared
+                                                          AutoSizeText(pets[index].type == FirebaseEnvPath.disappeared
                                                               ? 'Econtrado'
                                                               : 'Doado'),
                                                           StreamBuilder<Object>(
                                                               stream: null,
-                                                              builder: (context,
-                                                                  snapshot) {
+                                                              builder: (context, snapshot) {
                                                                 return Switch(
-                                                                    value: pets[
-                                                                            index]
-                                                                        .donatedOrFound,
-                                                                    onChanged:
-                                                                        (value) {
-                                                                      print(
-                                                                          "PET ${pets[index].toMap()}");
+                                                                    value: pets[index].donatedOrFound,
+                                                                    onChanged: (value) {
+                                                                      print("PET ${pets[index].toMap()}");
                                                                       showDialog(
-                                                                          context:
-                                                                              context,
-                                                                          builder:
-                                                                              (context) {
-                                                                            final bool
-                                                                                textToDisplay =
+                                                                          context: context,
+                                                                          builder: (context) {
+                                                                            final bool textToDisplay =
                                                                                 pets[index].donatedOrFound;
                                                                             return PopUpMessage(
                                                                               warning: true,
-                                                                              title: '${!textToDisplay ? 'Marcar' : 'Desmarcar'} como ${pets[index].type == FirebaseEnvPath.disappeared ? 'encontrado' : 'doado'}',
-                                                                              message: 'Ao ${!textToDisplay ? 'marcar' : 'desmarcar'} o PET ${!textToDisplay ? 'deixará de' : 'voltará a'} aparecer para o público.',
+                                                                              title:
+                                                                                  '${!textToDisplay ? 'Marcar' : 'Desmarcar'} como ${pets[index].type == FirebaseEnvPath.disappeared ? 'encontrado' : 'doado'}',
+                                                                              message:
+                                                                                  'Ao ${!textToDisplay ? 'marcar' : 'desmarcar'} o PET ${!textToDisplay ? 'deixará de' : 'voltará a'} aparecer para o público.',
                                                                               confirmAction: () {
                                                                                 Navigator.pop(context);
-                                                                                if (pets[index].type == FirebaseEnvPath.disappeared) {
+                                                                                if (pets[index].type ==
+                                                                                    FirebaseEnvPath.disappeared) {
                                                                                 } else {}
                                                                               },
-                                                                              confirmText: !textToDisplay ? 'Pode marcar' : 'Desmarcar',
+                                                                              confirmText: !textToDisplay
+                                                                                  ? 'Pode marcar'
+                                                                                  : 'Desmarcar',
                                                                               denyAction: () => Navigator.pop(context),
-                                                                              denyText: !textToDisplay ? 'Não marcar agora' : 'Não desmarcar',
+                                                                              denyText: !textToDisplay
+                                                                                  ? 'Não marcar agora'
+                                                                                  : 'Não desmarcar',
                                                                             );
                                                                           });
                                                                     });
@@ -457,8 +392,7 @@ Widget _lablePetKind(String kind) {
   return Container(
     decoration: BoxDecoration(
       borderRadius: BorderRadius.circular(12),
-      color:
-          kind == FirebaseEnvPath.donate ? AppColors.secondary : Colors.black,
+      color: kind == FirebaseEnvPath.donate ? AppColors.secondary : Colors.black,
     ),
     child: Padding(
       padding: const EdgeInsets.all(8.0),
