@@ -3,7 +3,6 @@ import 'package:tiutiu/core/widgets/default_basic_app_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/constants/images_assets.dart';
 import 'package:tiutiu/features/system/controllers.dart';
-import 'package:tiutiu/core/constants/text_styles.dart';
 import 'package:tiutiu/Widgets/column_button_bar.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/Widgets/load_dark_screen.dart';
@@ -101,12 +100,6 @@ class _EditProfileState extends State<EditProfile> {
               top: 0.0.h,
               child: _roundedPicture(),
             ),
-            Positioned(
-              child: _errorImageNull(),
-              right: 96.0.h,
-              left: 96.0.h,
-              top: 132.0.h,
-            ),
           ],
         ),
         Container(
@@ -121,6 +114,7 @@ class _EditProfileState extends State<EditProfile> {
               _userPhoneNumber(),
               Spacer(),
               _buttons(context),
+              Spacer(),
             ],
           ),
         )
@@ -150,19 +144,6 @@ class _EditProfileState extends State<EditProfile> {
             );
           },
           viewOnly: false,
-        ),
-      ),
-    );
-  }
-
-  Widget _errorImageNull() {
-    return Obx(
-      () => Visibility(
-        visible: profileController.showErrorEmptyPic,
-        child: AutoSizeTexts.autoSizeText16(
-          MyProfileStrings.insertAPicture,
-          fontWeight: FontWeight.w600,
-          color: AppColors.danger,
         ),
       ),
     );
@@ -227,12 +208,25 @@ class _EditProfileState extends State<EditProfile> {
         onPrimaryPressed: () {
           if (_formIsValid()) {
             debugPrint('>> Updating profile...');
+
             profileController.showErrorEmptyPic = false;
             FocusScope.of(context).unfocus();
+
             _setDataToUser();
             profileController.save().then((_) => profileController.isSetting = false);
           } else if (tiutiuUserController.tiutiuUser.avatar == null) {
             profileController.showErrorEmptyPic = true;
+            systemController.snackBarIsOpen = true;
+
+            ScaffoldMessenger.of(context)
+                .showSnackBar(
+                  SnackBar(
+                    content: Text(MyProfileStrings.insertAPicture),
+                    backgroundColor: AppColors.danger,
+                  ),
+                )
+                .closed
+                .then((value) => systemController.snackBarIsOpen = false);
           }
         },
         onSecondaryPressed: () {

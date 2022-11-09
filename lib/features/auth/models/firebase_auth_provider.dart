@@ -178,13 +178,11 @@ class FirebaseAuthProvider implements AuthProviders {
 
   @override
   Future<void> loginWithApple() async {
-    final credential = await SignInWithApple.getAppleIDCredential(
+    await SignInWithApple.getAppleIDCredential(
       scopes: [
         AppleIDAuthorizationScopes.email,
         AppleIDAuthorizationScopes.fullName,
       ],
     );
-
-    print(credential);
   }
 }
