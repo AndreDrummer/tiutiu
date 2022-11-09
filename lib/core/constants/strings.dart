@@ -47,14 +47,19 @@ class AppStrings {
 
 class AuthStrings {
   static String passwordShouldBeAtLeast(String field, int length) => '$field deve ter no mínimo $length dígitos';
+  static const String unableToResendEmail = 'Não foi possível reenviar o e-mail. Tente novamente mais tarde!';
+  static const String verifyEmailAdvice =
+      'Somente contas verificadas podem publicar um anúncio. Cheque sua caixa de spam se necessário.';
   static const String tryVerifyCodeAgain = 'Não foi possível verificar o código.\nTente novamente.';
   static const String insertCodeSentToNumber = 'Insira o código enviado para o número';
   static const String successfullyVerifiedCode = 'Código verificado com sucesso!';
   static const String doYouWannaPasteCodeCopied = 'Deseja colar o código copiado';
   static const String codeIsValidForMinutes = 'O código é valido por 2 minutos.';
+  static const String linkWasSent = 'Um link de verificação foi enviado';
   static const String typePasswordAgain = 'Digite a senha novamente';
   static String get authentique => 'Autentique-se para continuar.';
   static const String verifyYourNumber = 'Verifique seu número';
+  static const String dontReceiveEmail = 'Não recebeu um email?';
   static const String verifyYourEmail = 'Verifique seu email';
   static String get createNewAccount => 'Crie uma nova conta.';
   static const String passwordNotMatch = 'Senhas não conferem';
@@ -71,10 +76,12 @@ class AuthStrings {
   static const String registeringUser = 'Criando conta';
   static const String invalidCode = 'Código inválido!';
   static const String invalidEmail = 'E-mail inválido';
+  static const String emailSent = 'E-mail enviado!';
   static String get createAccount => 'Criar conta';
   static const String pasteCode = 'Colar código';
   static String get createYours => 'Crie a sua.';
   static String get facebook => 'Facebook';
+  static const String resend = 'Reenviar';
   static String get validate => 'Validar';
   static String get google => 'Google';
   static String get enter => 'Entrar';
