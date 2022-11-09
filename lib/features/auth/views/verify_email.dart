@@ -20,7 +20,7 @@ class _VerifyEmailState extends State<VerifyEmail> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        SizedBox(height: 32.0.h),
+        Spacer(),
         _topBar(),
         SizedBox(height: 32.0.h),
         _content(),
@@ -57,7 +57,7 @@ class _VerifyEmailState extends State<VerifyEmail> {
   Widget _topBar() {
     return Column(
       children: [
-        Icon(Icons.mark_email_unread_outlined, color: AppColors.primary, size: 120.0.h),
+        Icon(Icons.mark_email_unread_outlined, color: AppColors.primary, size: 64.0.h),
         Padding(
           padding: const EdgeInsets.all(16.0),
           child: AutoSizeTexts.autoSizeText24(
@@ -103,7 +103,7 @@ class _VerifyEmailState extends State<VerifyEmail> {
 
   AutoSizeText _warningMessage() {
     return AutoSizeTexts.autoSizeText14(
-      fontWeight: FontWeight.w400,
+      fontWeight: FontWeight.w300,
       'Somente contas verificadas podem publicar um anúncio. Cheque sua caixa de spam se necessário.',
       textAlign: TextAlign.center,
     );
