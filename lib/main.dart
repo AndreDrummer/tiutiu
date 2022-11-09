@@ -37,10 +37,8 @@ class _TiuTiuAppState extends State<TiuTiuApp> {
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
     ]);
-    connecitivitySubscription = Connectivity()
-        .onConnectivityChanged
-        .listen((ConnectivityResult result) {
-      system.handleInternetConnectivityStatus(result);
+    connecitivitySubscription = Connectivity().onConnectivityChanged.listen((ConnectivityResult result) {
+      systemController.handleInternetConnectivityStatus(result);
     });
     super.initState();
   }

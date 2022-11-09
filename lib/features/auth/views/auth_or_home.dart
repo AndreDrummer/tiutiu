@@ -22,7 +22,7 @@ class _AuthOrHomeState extends State<AuthOrHome> {
     return Obx(
       () => Visibility(
         replacement: NoConnection(),
-        visible: system.internetConnected,
+        visible: systemController.internetConnected,
         child: FutureBuilder(
           future: authController.tryAutoLoginIn(),
           builder: (_, AsyncSnapshot snapshot) {
