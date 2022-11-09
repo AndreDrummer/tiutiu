@@ -6,7 +6,6 @@ import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
-import 'dart:math';
 
 final String _iosClientId = '791022711249-jva0r9f0eddfo4skv18c0i1e26clq7pd.apps.googleusercontent.com';
 
@@ -27,9 +26,10 @@ class FirebaseAuthProvider implements AuthProviders {
     final whatsappService = WhatsappService(code: code, phoneNumber: phoneNumber);
 
     try {
-      // await whatsappService.sendCodeVerification();
+      await whatsappService.sendCodeVerification();
     } on Exception catch (error) {
-      debugPrint('Error sending WhatsApp Message: $error');
+      debugPrint('>> Error sending WhatsApp Message: $error');
+      rethrow;
     }
   }
 
