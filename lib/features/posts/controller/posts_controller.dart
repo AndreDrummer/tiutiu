@@ -110,6 +110,7 @@ class PostsController extends GetxController {
     await _uploadVideo();
     await _uploadImages();
     await _uploadPostData();
+    await loadPosts(getFromInternet: true);
     isLoading = false;
     clearForm();
     goToHome();
@@ -222,20 +223,19 @@ class PostsController extends GetxController {
   }
 
   Future<void> _uploadVideo() async {
-    if (post.video != null) _uploadingPostText(PostFlowStrings.sendingVideo);
-
-    await _postsRepository.uploadVideo(
-      onUploaded: (videoUrlDownload) {
-        updatePost(PetEnum.video, videoUrlDownload);
-      },
-      post: post,
-    );
+    if (post.video != null) {
+      _uploadingPostText(PostFlowStrings.sendingVideo);
+      await _postsRepository.uploadVideo(
+        onUploaded: (videoUrlDownload) {
+          updatePost(PetEnum.video, videoUrlDownload);
+        },
+        post: post,
+      );
+    }
   }
 
   Future<void> _uploadImages() async {
-    if (post.video != null) {
-      _uploadingPostText(PostFlowStrings.imageQty(post.photos.length));
-    }
+    _uploadingPostText(PostFlowStrings.imageQty(post.photos.length));
 
     await _postsRepository.uploadImages(
       onUploaded: (urlList) {
@@ -409,6 +409,7 @@ class PostsController extends GetxController {
   void clearForm() {
     _isFullAddress(false);
     _formIsValid(true);
+    _flowIndex(0);
     _post(Pet());
     disposeVideoController();
   }
