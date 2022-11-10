@@ -1,33 +1,33 @@
 import 'package:tiutiu/Widgets/cards/widgets/card_builder.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:tiutiu/features/pets/model/pet_model.dart';
 import 'package:tiutiu/core/utils/other_functions.dart';
+import 'package:tiutiu/core/models/post.dart';
 import 'package:flutter/material.dart';
 
 class CardAdList extends StatelessWidget {
   const CardAdList({
-    required this.pet,
+    required this.post,
   });
 
-  final Pet pet;
+  final Post post;
 
   @override
   Widget build(BuildContext context) {
     List<String> distanceText = OtherFunctions.distanceCalculate(
-      pet.latitude!,
-      pet.longitude!,
+      post.latitude!,
+      post.longitude!,
     );
 
     CardBuilder cardBuilder = CardBuilder(
       distanceText: distanceText[0],
-      pet: pet,
+      post: post,
     );
 
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12.0.h),
       ),
-      height: 172.0.h + pet.name!.length,
+      height: 172.0.h + post.name!.length,
       padding: EdgeInsets.zero,
       child: Card(
         shape: RoundedRectangleBorder(

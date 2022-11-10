@@ -1,3 +1,4 @@
+import 'package:tiutiu/core/models/post.dart';
 import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
 import 'package:tiutiu/features/auth/service/auth_service.dart';
 import 'package:tiutiu/core/constants/firebase_env_path.dart';
@@ -60,10 +61,10 @@ class MigrationService {
         if (includedAfterMay2022) {
           final map = petAd.data();
           final tiutiuUser = await getUserData(petAd.data()['ownerReference']);
-          map[PetEnum.owner.name] = tiutiuUser;
+          map[PostEnum.owner.name] = tiutiuUser;
           // debugPrint('>> ${map[PetEnum.owner.name]}');
 
-          insertAdDataInNewPath(Pet.fromMigrate(map));
+          // insertAdDataInNewPath(Pet.fromMigrate(map));
         } else {
           deletePost(petAd);
         }
@@ -78,10 +79,10 @@ class MigrationService {
     final list = await _firestore.collection(pathToPosts).get();
 
     list.docs.forEach((snapshot) async {
-      final pet = Pet.fromMigrate(snapshot.data());
+      // final pet = Pet.fromMigrate(snapshot.data());
       // final owner = await tiutiuUserController.getUserById(pet.ownerId!);
 
-      snapshot.reference.set({PetEnum.description.name: pet.description}, SetOptions(merge: true));
+      // snapshot.reference.set({PetEnum.description.name: pet.description}, SetOptions(merge: true));
     });
   }
 
@@ -106,10 +107,10 @@ class MigrationService {
   void insertUserDataInNewPath(TiutiuUser user) {
     _firestore
         .collection(FirebaseEnvPath.projectName)
-        .doc('env')
-        .collection(FirebaseEnvPath.env)
-        .doc(FirebaseEnvPath.userss)
-        .collection(FirebaseEnvPath.userss)
+        .doc(FirebaseEnvPath.env)
+        .collection(FirebaseEnvPath.environment)
+        .doc(FirebaseEnvPath.users.toLowerCase())
+        .collection(FirebaseEnvPath.users.toLowerCase())
         .doc(user.uid!)
         .set(user.toMap());
   }
@@ -117,8 +118,8 @@ class MigrationService {
   void insertAdDataInNewPath(Pet pet) {
     _firestore
         .collection(FirebaseEnvPath.projectName)
-        .doc('env')
-        .collection(FirebaseEnvPath.env)
+        .doc(FirebaseEnvPath.env)
+        .collection(FirebaseEnvPath.environment)
         .doc(FirebaseEnvPath.posts)
         .collection(FirebaseEnvPath.posts)
         .doc(pet.uid)

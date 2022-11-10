@@ -9,6 +9,7 @@ import 'package:tiutiu/Widgets/cards/widgets/ad_title.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/Widgets/cards/widgets/ad_views.dart';
 import 'package:tiutiu/features/pets/model/pet_model.dart';
+import 'package:tiutiu/core/models/post.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -16,39 +17,39 @@ class CardBuilder {
   const CardBuilder({
     required this.distanceText,
     this.inReviewMode = false,
-    required Pet pet,
-  }) : _pet = pet;
+    required Post post,
+  }) : _post = post;
 
   final String distanceText;
   final bool inReviewMode;
-  final Pet _pet;
+  final Post _post;
 
   Widget adDistanceFromUser() => AdDistanceFromUser(distanceText: distanceText);
 
-  Widget adDescription() => AdDescription(description: _pet.breed);
+  Widget adDescription() => AdDescription(description: (_post as Pet).breed);
 
-  Widget adPostedAt() => AdPostedAt(createdAt: _pet.createdAt!);
+  Widget adPostedAt() => AdPostedAt(createdAt: (_post as Pet).createdAt!);
 
   Widget adInteresteds() => AdInteresteds(
-        visible: _pet.disappeared,
-        petKind: _pet.type,
+        visible: (_post as Pet).disappeared,
+        petKind: (_post as Pet).type,
       );
 
   Widget adImages() => AdImages(
         cardHeight: Get.height / (inReviewMode ? 3 : 2.2),
-        photos: _pet.photos,
+        photos: (_post as Pet).photos,
       );
 
-  Widget adViews() => AdViews(views: _pet.views);
+  Widget adViews() => AdViews(views: (_post as Pet).views);
 
-  Widget adTitle() => AdTitle(title: _pet.name!);
+  Widget adTitle() => AdTitle(title: (_post as Pet).name!);
 
   Widget divider() => Divider(height: 8.0.h);
 
   Widget favoriteButton() => FavoriteButton();
 
   Widget adCityState() => AdCityState(
-        state: _pet.state,
-        city: _pet.city,
+        state: (_post as Pet).state,
+        city: (_post as Pet).city,
       );
 }

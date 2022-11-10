@@ -1,3 +1,4 @@
+import 'package:tiutiu/core/models/post.dart';
 import 'package:tiutiu/features/posts/repository/posts_repository.dart';
 import 'package:tiutiu/features/posts/validators/form_validators.dart';
 import 'package:tiutiu/core/local_storage/local_storage_keys.dart';
@@ -81,8 +82,8 @@ class PostsController extends GetxController {
 
   Map<String, dynamic> _insertOwnerData(Map<String, dynamic> postMap) {
     if (post.owner == null) {
-      postMap[PetEnum.owner.name] = tiutiuUserController.tiutiuUser.toMap();
-      postMap[PetEnum.ownerId.name] = tiutiuUserController.tiutiuUser.uid;
+      postMap[PostEnum.owner.name] = tiutiuUserController.tiutiuUser.toMap();
+      postMap[PostEnum.ownerId.name] = tiutiuUserController.tiutiuUser.uid;
     }
 
     return postMap;
@@ -102,7 +103,7 @@ class PostsController extends GetxController {
   }
 
   Future<void> uploadPost() async {
-    updatePost(PetEnum.createdAt, DateTime.now().toIso8601String());
+    updatePost(PostEnum.createdAt.name, DateTime.now().toIso8601String());
 
     await _mockPostData();
 
@@ -227,7 +228,7 @@ class PostsController extends GetxController {
       _uploadingPostText(PostFlowStrings.sendingVideo);
       await _postsRepository.uploadVideo(
         onUploaded: (videoUrlDownload) {
-          updatePost(PetEnum.video, videoUrlDownload);
+          updatePost(PostEnum.video.name, videoUrlDownload);
         },
         post: post,
       );
@@ -239,7 +240,7 @@ class PostsController extends GetxController {
 
     await _postsRepository.uploadImages(
       onUploaded: (urlList) {
-        updatePost(PetEnum.photos, urlList);
+        updatePost(PostEnum.photos.name, urlList);
       },
       post: post,
     );
@@ -321,14 +322,14 @@ class PostsController extends GetxController {
     return cachedVideosMap;
   }
 
-  void updatePost(PetEnum property, dynamic data) {
+  void updatePost(String property, dynamic data) {
     final postMap = _insertOwnerData(post.toMap());
-    postMap[property.name] = data;
+    postMap[property] = data;
 
     debugPrint('>>update $postMap');
 
     if (property == PetEnum.otherCaracteristics) {
-      postMap[property.name] = _handlePetOtherCaracteristics(data);
+      postMap[property] = _handlePetOtherCaracteristics(data);
     }
 
     if ((post.latitude == null || post.longitude == null)) {
@@ -340,8 +341,8 @@ class PostsController extends GetxController {
   }
 
   void _insertLatLng(Map<String, dynamic> postMap) {
-    postMap[PetEnum.longitude.name] = currentLocationController.location.longitude;
-    postMap[PetEnum.latitude.name] = currentLocationController.location.latitude;
+    postMap[PostEnum.longitude.name] = currentLocationController.location.longitude;
+    postMap[PostEnum.latitude.name] = currentLocationController.location.latitude;
   }
 
   void _setPostStateAndCity(Map<String, dynamic> postMap) async {
@@ -357,8 +358,8 @@ class PostsController extends GetxController {
       city = placemark.locality!;
     }
 
-    postMap[PetEnum.state.name] = state;
-    postMap[PetEnum.city.name] = city;
+    postMap[PostEnum.state.name] = state;
+    postMap[PostEnum.city.name] = city;
   }
 
   void nextStepFlow() {
@@ -425,19 +426,19 @@ class PostsController extends GetxController {
       final postMap = _insertOwnerData(post.toMap());
       var newImageList = [];
 
-      newImageList.addAll(postMap[PetEnum.photos.name]);
+      newImageList.addAll(postMap[PostEnum.photos.name]);
       newImageList.add(picture);
 
-      postMap[PetEnum.photos.name] = newImageList;
+      postMap[PostEnum.photos.name] = newImageList;
       _post(Pet().fromMap(postMap));
     }
   }
 
   void removePictureOnIndex(int index) {
     var postMap = post.toMap();
-    var newImageList = postMap[PetEnum.photos.name];
+    var newImageList = postMap[PostEnum.photos.name];
     newImageList.removeAt(index);
-    postMap[PetEnum.photos.name] = newImageList;
+    postMap[PostEnum.photos.name] = newImageList;
     _post(Pet().fromMap(postMap));
   }
 
