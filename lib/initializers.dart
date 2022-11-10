@@ -1,8 +1,9 @@
 import 'package:tiutiu/features/refine_search/dependency_injection.dart';
 import 'package:tiutiu/features/tiutiu_user/dependency_injection.dart';
+import 'package:tiutiu/features/favorites/dependency_injection.dart';
 import 'package:tiutiu/features/location/dependency_injection.dart';
-import 'package:tiutiu/features/posts/dependency_injection.dart';
 import 'package:tiutiu/features/system/dependency_injection.dart';
+import 'package:tiutiu/features/posts/dependency_injection.dart';
 import 'package:tiutiu/features/home/dependency_injection.dart';
 import 'package:tiutiu/features/auth/dependency_injection.dart';
 import 'package:tiutiu/features/chat/dependency_injection.dart';
@@ -35,6 +36,7 @@ class TiuTiuInitializer {
     CurrentLocationControllerDependency(),
     RefineSearchControllerDependency(),
     TiutiuUserControllerDependency(),
+    FavoritesControllerDependency(),
     SystemControllerDependency(),
     PostsControllerDependency(),
     HomeControllerDependency(),

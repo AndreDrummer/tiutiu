@@ -1,58 +1,27 @@
-import 'package:tiutiu/features/pets/model/pet_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:tiutiu/core/constants/firebase_env_path.dart';
+import 'package:tiutiu/core/models/post.dart';
 import 'package:get/get.dart';
+import 'package:tiutiu/features/pets/model/pet_model.dart';
+import 'package:tiutiu/features/system/controllers.dart';
 
 class FavoritesController extends GetxController {
-  final RxList<QueryDocumentSnapshot> _favoritesListReference =
-      <QueryDocumentSnapshot>[].obs;
-  final RxList<String> _favoritesPETSIDList = <String>[].obs;
-  final RxList<Pet> _favoritesPETSList = <Pet>[].obs;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+// /tiutiu/env/debug/users/users
+  void addFavorite(Post post) {}
 
-  List<QueryDocumentSnapshot> get favoritesListReference =>
-      _favoritesListReference;
-  List<String> get favoritesPETSIDList => _favoritesPETSIDList;
-  List<Pet> get favoritesPETSList => _favoritesPETSList;
+  void removeFavorite() {}
 
-  void set favoritesListReference(List<QueryDocumentSnapshot> list) {
-    _favoritesListReference(list);
-  }
-
-  void set favoritesPETSIDList(List<String> list) {
-    _favoritesPETSIDList(list);
-  }
-
-  void set favoritesPETSList(List<Pet> list) {
-    _favoritesPETSList(list);
-  }
-
-  Future<void> loadFavoritesReference() async {}
-
-  Future<void> loadPETsFavorites() async {
-    List<Pet> petFavoritesList = [];
-    List<String> petFavoritesID = [];
-
-    for (int i = 0; i < favoritesListReference.length; i++) {
-      DocumentSnapshot pet = await ((favoritesListReference[i].data()
-              as Map<String, dynamic>)['id'] as DocumentReference)
-          .get();
-      if (pet.data() != null) {
-        petFavoritesList
-            .add(Pet().fromMap((pet.data() as Map<String, dynamic>)));
-        petFavoritesID.add(pet.id);
-      }
-    }
-
-    favoritesPETSList = petFavoritesList;
-    favoritesPETSIDList = petFavoritesID;
-  }
-
-  bool handleFavorite(String id) {
-    if (favoritesPETSIDList.contains(id)) {
-      var tempList = favoritesPETSIDList;
-      tempList.remove(id);
-      print('removeu');
-      favoritesPETSIDList = tempList;
-    }
-    return favoritesPETSIDList.contains(id);
+  Stream<List<Post>> favorites() {
+    return _firestore
+        .collection(FirebaseEnvPath.projectName)
+        .doc(FirebaseEnvPath.env)
+        .collection(FirebaseEnvPath.environment)
+        .doc(FirebaseEnvPath.users.toLowerCase())
+        .collection(FirebaseEnvPath.users.toLowerCase())
+        .doc(tiutiuUserController.tiutiuUser.uid)
+        .collection(FirebaseEnvPath.favorites.toLowerCase())
+        .snapshots()
+        .asyncMap((snapshot) => snapshot.docs.map((favorite) => Pet().fromMap(favorite.data())).toList());
   }
 }

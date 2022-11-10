@@ -1,30 +1,30 @@
 import 'package:tiutiu/Widgets/cards/widgets/card_builder.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:tiutiu/features/pets/model/pet_model.dart';
 import 'package:tiutiu/core/utils/other_functions.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
+import 'package:tiutiu/core/models/post.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class CardAd extends StatelessWidget {
-  CardAd({required this.pet, this.inReviewMode = false});
+  CardAd({required this.post, this.inReviewMode = false});
 
   final bool inReviewMode;
-  final Pet pet;
+  final Post post;
 
   @override
   Widget build(BuildContext context) {
-    debugPrint(pet.toString());
+    debugPrint(post.toString());
 
     List<String> distanceText = OtherFunctions.distanceCalculate(
-      pet.latitude!,
-      pet.longitude!,
+      post.latitude!,
+      post.longitude!,
     );
 
     CardBuilder cardBuilder = CardBuilder(
       distanceText: distanceText[0],
       inReviewMode: inReviewMode,
-      pet: pet,
+      post: post,
     );
 
     return Card(
