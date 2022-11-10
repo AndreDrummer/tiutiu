@@ -10,7 +10,7 @@ import 'package:tiutiu/screen/informantes_screen.dart';
 import 'package:tiutiu/features/home/views/home.dart';
 import 'package:tiutiu/screen/choose_location.dart';
 import 'package:tiutiu/screen/notifications.dart';
-import 'package:tiutiu/screen/favorites.dart';
+import 'package:tiutiu/features/favorites/screen/favorites.dart';
 import 'package:tiutiu/screen/settings.dart';
 import 'package:tiutiu/Widgets/new_map.dart';
 import 'package:tiutiu/screen/my_pets.dart';
