@@ -48,7 +48,7 @@ SizedBox _otherCaracteristicsGrid(List<String> caracs) {
             controlAffinity: ListTileControlAffinity.leading,
             title: AutoSizeTexts.autoSizeText12(carac),
             onChanged: (_) {
-              postsController.updatePost(PetEnum.otherCaracteristics, carac);
+              postsController.updatePost(PetEnum.otherCaracteristics.name, carac);
             },
             value: postsController.post.otherCaracteristics.contains(carac),
           ),

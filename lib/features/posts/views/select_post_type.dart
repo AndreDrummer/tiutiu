@@ -1,17 +1,17 @@
-import 'package:tiutiu/Widgets/load_dark_screen.dart';
 import 'package:tiutiu/features/posts/widgets/post_type_card_selector.dart';
 import 'package:tiutiu/core/widgets/default_basic_app_bar.dart';
 import 'package:tiutiu/core/extensions/string_extension.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:tiutiu/features/pets/model/pet_model.dart';
 import 'package:tiutiu/features/posts/flow/post_flow.dart';
 import 'package:tiutiu/core/constants/images_assets.dart';
 import 'package:tiutiu/features/system/controllers.dart';
 import 'package:tiutiu/core/mixins/tiu_tiu_pop_up.dart';
+import 'package:tiutiu/Widgets/load_dark_screen.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/Widgets/row_button_bar.dart';
 import 'package:tiutiu/core/constants/strings.dart';
 import 'package:tiutiu/Widgets/one_line_text.dart';
+import 'package:tiutiu/core/models/post.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -77,7 +77,7 @@ class SelectPostType extends StatelessWidget with TiuTiuPopUp {
 
               return PostTypeCardSelector(
                 onTypeSelected: () {
-                  postsController.updatePost(PetEnum.type, type);
+                  postsController.updatePost(PostEnum.type.name, type);
                 },
                 isSelected: postsController.post.type == type,
                 image: petsTypeImage.elementAt(index),

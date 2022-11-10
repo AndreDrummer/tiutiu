@@ -1,10 +1,10 @@
 import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
 import 'package:tiutiu/features/pets/services/pet_service.dart';
 import 'package:tiutiu/core/constants/firebase_env_path.dart';
-import 'package:tiutiu/features/pets/model/pet_model.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:tiutiu/core/models/chat_model.dart';
+import 'package:tiutiu/core/models/post.dart';
 import 'package:flutter/foundation.dart';
 import 'dart:io';
 
@@ -16,11 +16,9 @@ class TiutiuUserService {
   final PetService _petService;
 
   Future<TiutiuUser> getUserByID(String id) async {
-    DocumentSnapshot userSnaphsot =
-        await _firestore.collection(newPathToUser).doc(id).get();
+    DocumentSnapshot userSnaphsot = await _firestore.collection(newPathToUser).doc(id).get();
 
-    if (userSnaphsot.data() != null)
-      return TiutiuUser.fromMap(userSnaphsot.data() as Map<String, dynamic>);
+    if (userSnaphsot.data() != null) return TiutiuUser.fromMap(userSnaphsot.data() as Map<String, dynamic>);
     return TiutiuUser();
   }
 
@@ -44,14 +42,11 @@ class TiutiuUserService {
     final favorites = userReference.collection(FirebaseEnvPath.favorites);
 
     if (add) {
-      favorites.doc().set({PetEnum.uid.name: petReference});
+      favorites.doc().set({PostEnum.uid.name: petReference});
     } else {
       var petInRemotionId;
 
-      await favorites
-          .where(PetEnum.uid.name, isEqualTo: petReference)
-          .get()
-          .then((value) {
+      await favorites.where(PostEnum.uid.name, isEqualTo: petReference).get().then((value) {
         petInRemotionId = value.docs.first.id;
       });
 
@@ -60,10 +55,7 @@ class TiutiuUserService {
   }
 
   void updateUser({required TiutiuUser userData}) {
-    _firestore
-        .collection(newPathToUser)
-        .doc(userData.uid)
-        .set(userData.toMap(), SetOptions(merge: true));
+    _firestore.collection(newPathToUser).doc(userData.uid).set(userData.toMap(), SetOptions(merge: true));
   }
 
   Future<String?> uploadAvatar(String userId, File file) async {
@@ -139,17 +131,12 @@ class TiutiuUserService {
   }
 
   Stream<QuerySnapshot<Map<String, dynamic>>> getUserPostsById(String uid) {
-    return _firestore
-        .collection(pathToPosts)
-        .where(PetEnum.ownerId.name, isEqualTo: uid)
-        .snapshots();
+    return _firestore.collection(pathToPosts).where(PostEnum.ownerId.name, isEqualTo: uid).snapshots();
   }
 
   Future<void> deleteUserData(DocumentReference userReference) async {
-    QuerySnapshot notifications =
-        await userReference.collection(FirebaseEnvPath.notifications).get();
-    QuerySnapshot petsFavorited =
-        await userReference.collection(FirebaseEnvPath.favorites).get();
+    QuerySnapshot notifications = await userReference.collection(FirebaseEnvPath.notifications).get();
+    QuerySnapshot petsFavorited = await userReference.collection(FirebaseEnvPath.favorites).get();
 
     QuerySnapshot petsDonated = await _firestore
         .collection(FirebaseEnvPath.donate)
@@ -163,9 +150,7 @@ class TiutiuUserService {
 
     for (int i = 0; i < petsDonated.docs.length; i++) {
       await petsDonated.docs[i].reference.delete();
-      final adoptInterestedsReference = await petsDonated.docs[i].reference
-          .collection('adoptInteresteds')
-          .get();
+      final adoptInterestedsReference = await petsDonated.docs[i].reference.collection('adoptInteresteds').get();
 
       for (QueryDocumentSnapshot doc in adoptInterestedsReference.docs) {
         doc.reference.delete();
@@ -174,9 +159,7 @@ class TiutiuUserService {
 
     for (int i = 0; i < petsDisappeared.docs.length; i++) {
       await petsDisappeared.docs[i].reference.delete();
-      final infoInterestedsReference = await petsDonated.docs[i].reference
-          .collection('infoInteresteds')
-          .get();
+      final infoInterestedsReference = await petsDonated.docs[i].reference.collection('infoInteresteds').get();
 
       for (QueryDocumentSnapshot doc in infoInterestedsReference.docs) {
         doc.reference.delete();
