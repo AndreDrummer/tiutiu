@@ -1,7 +1,7 @@
 import 'package:tiutiu/features/posts/widgets/location_selecter.dart';
-import 'package:tiutiu/features/pets/model/pet_model.dart';
 import 'package:tiutiu/core/data/states_and_cities.dart';
 import 'package:tiutiu/features/system/controllers.dart';
+import 'package:tiutiu/core/models/post.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -17,9 +17,9 @@ class PostLocation extends StatelessWidget {
         initialState: postsController.post.state,
         initialCity: postsController.post.city,
         onStateChanged: (state) {
-          postsController.updatePost(PetEnum.state, state);
+          postsController.updatePost(PostEnum.state.name, state);
           postsController.updatePost(
-            PetEnum.city,
+            PostEnum.city.name,
             StatesAndCities()
                 .citiesOf(
                   stateName: postsController.post.state,
@@ -28,7 +28,7 @@ class PostLocation extends StatelessWidget {
           );
         },
         onCityChanged: (city) {
-          postsController.updatePost(PetEnum.city, city);
+          postsController.updatePost(PostEnum.city.name, city);
         },
       ),
     );

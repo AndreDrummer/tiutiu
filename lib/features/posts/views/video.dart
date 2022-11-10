@@ -2,7 +2,6 @@ import 'package:tiutiu/features/posts/widgets/ad_video_item.dart';
 import 'package:tiutiu/features/posts/widgets/video_player.dart';
 import 'package:tiutiu/Widgets/animated_text_icon_button.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:tiutiu/features/pets/model/pet_model.dart';
 import 'package:tiutiu/features/system/controllers.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/core/constants/strings.dart';
@@ -10,6 +9,7 @@ import 'package:tiutiu/core/utils/video_utils.dart';
 import 'package:tiutiu/Widgets/one_line_text.dart';
 import 'package:video_player/video_player.dart';
 import 'package:tiutiu/core/utils/pickers.dart';
+import 'package:tiutiu/core/models/post.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'dart:io';
@@ -40,8 +40,7 @@ class _VideoState extends State<Video> {
 
   void initializeChewiwController() {
     if (postsController.post.video != null) {
-      postsController.chewieController =
-          VideoUtils.instance.getChewieController(
+      postsController.chewieController = VideoUtils.instance.getChewieController(
         postsController.post.video,
       );
     }
@@ -96,7 +95,7 @@ class _VideoState extends State<Video> {
               videoPlayerController!.pause();
               final videoDuration = videoPlayerController!.value.duration;
               if (videoDuration.inSeconds <= VIDEO_SECS_LIMIT) {
-                postsController.updatePost(PetEnum.video, videoFile);
+                postsController.updatePost(PostEnum.video.name, videoFile);
                 postsController.clearError();
               } else {
                 debugPrint('Video Size Exceed ${videoDuration.inSeconds}');
@@ -144,7 +143,7 @@ class _VideoState extends State<Video> {
           icon: Icons.remove,
           onPressed: () {
             postsController.disposeVideoController();
-            postsController.updatePost(PetEnum.video, null);
+            postsController.updatePost(PostEnum.video.name, null);
           },
         );
       },

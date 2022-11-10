@@ -1,4 +1,5 @@
 import 'package:tiutiu/core/constants/firebase_env_path.dart';
+import 'package:tiutiu/core/models/post.dart';
 import 'package:tiutiu/features/chat/common/functions.dart';
 import 'package:tiutiu/features/pets/model/pet_model.dart';
 import 'package:tiutiu/features/system/controllers.dart';
@@ -29,8 +30,7 @@ class PetsController extends GetxController {
   }
 
   Future<Pet> openPetDetails(String petId, String petKind) async {
-    DocumentReference petRef =
-        await OtherFunctions.getReferenceById(petId, petKind);
+    DocumentReference petRef = await OtherFunctions.getReferenceById(petId, petKind);
     DocumentSnapshot petSnapshot = await petRef.get();
     Pet petData = Pet().fromMap(petSnapshot.data() as Map<String, dynamic>);
     return Future.value(petData);
@@ -49,8 +49,7 @@ class PetsController extends GetxController {
     required DocumentReference petReference,
     required int actualViews,
   }) {
-    petReference
-        .set({PetEnum.views.name: ++actualViews}, SetOptions(merge: true));
+    petReference.set({PostEnum.views.name: ++actualViews}, SetOptions(merge: true));
   }
 
   void navigateToAuth() {}
@@ -67,7 +66,7 @@ class PetsController extends GetxController {
     required int actualInteresteds,
   }) {
     petReference.set({
-      PetEnum.interesteds.name: ++actualInteresteds,
+      PostEnum.interesteds.name: ++actualInteresteds,
     }, SetOptions(merge: true));
   }
 }
