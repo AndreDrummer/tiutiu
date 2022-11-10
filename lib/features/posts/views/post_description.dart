@@ -3,6 +3,7 @@ import 'package:tiutiu/Widgets/underline_input_dropdown.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/core/extensions/string_extension.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:tiutiu/core/models/post.dart';
 import 'package:tiutiu/features/pets/model/pet_model.dart';
 import 'package:tiutiu/features/posts/widgets/text_area.dart';
 import 'package:tiutiu/features/system/controllers.dart';
@@ -32,11 +33,10 @@ class PostDescription extends StatelessWidget {
 
   UnderlineInputDropdown _breed() {
     return UnderlineInputDropdown(
-      isInErrorState: !postsController.post.breed.isNotEmptyNeighterNull() &&
-          !postsController.formIsValid,
+      isInErrorState: !postsController.post.breed.isNotEmptyNeighterNull() && !postsController.formIsValid,
       initialValue: postsController.post.breed,
       onChanged: (breed) {
-        postsController.updatePost(PetEnum.breed, breed);
+        postsController.updatePost(PetEnum.breed.name, breed);
       },
       items: DummyData.breeds[postsController.post.type]!,
       labelText: PetDetailsStrings.breed,
@@ -46,11 +46,10 @@ class PostDescription extends StatelessWidget {
 
   UnderlineInputDropdown _color() {
     return UnderlineInputDropdown(
-      isInErrorState: !postsController.post.color.isNotEmptyNeighterNull() &&
-          !postsController.formIsValid,
+      isInErrorState: !postsController.post.color.isNotEmptyNeighterNull() && !postsController.formIsValid,
       initialValue: postsController.post.color,
       onChanged: (color) {
-        postsController.updatePost(PetEnum.color, color);
+        postsController.updatePost(PetEnum.color.name, color);
       },
       labelText: PetDetailsStrings.color,
       items: DummyData.color,
@@ -60,11 +59,10 @@ class PostDescription extends StatelessWidget {
 
   UnderlineInputDropdown _gender() {
     return UnderlineInputDropdown(
-      isInErrorState: !postsController.post.gender.isNotEmptyNeighterNull() &&
-          !postsController.formIsValid,
+      isInErrorState: !postsController.post.gender.isNotEmptyNeighterNull() && !postsController.formIsValid,
       initialValue: postsController.post.gender.toString(),
       onChanged: (gender) {
-        postsController.updatePost(PetEnum.gender, gender);
+        postsController.updatePost(PetEnum.gender.name, gender);
       },
       labelText: PetDetailsStrings.sex,
       items: DummyData.gender,
@@ -85,14 +83,12 @@ class PostDescription extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 8.0.w),
       child: TextArea(
-        isInErrorState:
-            !postsController.post.description.isNotEmptyNeighterNull() &&
-                !postsController.formIsValid,
+        isInErrorState: !postsController.post.description.isNotEmptyNeighterNull() && !postsController.formIsValid,
         initialValue: postsController.post.description,
         labelText: AppStrings.jotSomethingDown,
         maxLines: 4,
         onChanged: (description) {
-          postsController.updatePost(PetEnum.description, description);
+          postsController.updatePost(PostEnum.description.name, description);
         },
       ),
     );
