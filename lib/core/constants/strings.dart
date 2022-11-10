@@ -217,6 +217,10 @@ class PostFlowStrings {
   static const String otherCaracteristics = 'Outras características (Opcional)';
   static const String describeDiseaseType = 'Descreva qual o tipo de doença';
   static const String insertAtLeastOnePicture = 'Insira pelo menos uma foto';
+  static String imageQty(int imagesQty) {
+    return imagesQty > 1 ? 'Enviando as fotos...' : 'Enviando a foto...';
+  }
+
   static const String fillFullAddress = 'Preencher endereço completo?';
   static const String selectPetType = 'Selecione o tipo de PET';
   static const String addVideo = 'Se quiser, adicione um vídeo.';
@@ -230,9 +234,6 @@ class PostFlowStrings {
   static const String typeAddress = 'Digite o endereço';
   static const String sendingData = 'Enviando dados...';
   static const String finalizing = 'Finalizando...';
-  static String imageQty(int imagesQty) {
-    return imagesQty > 1 ? 'as fotos...' : 'a foto...';
-  }
 
   static const String removeVideo = 'Remover vídeo';
   static const String picTime = 'Hora das fotos!';

@@ -29,7 +29,7 @@ mixin Pickers {
       ),
       context: context,
       enableDrag: true,
-      elevation: 8.0,
+      elevation: 16.0,
       builder: (context) {
         return Container(
           height: systemController.snackBarIsOpen ? 112.0.h : 88.0.h,
