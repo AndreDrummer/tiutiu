@@ -84,9 +84,8 @@ class ButtonWide extends StatelessWidget {
 
   Widget _loadingWidget() {
     return SizedBox(
-      height: 32.0.h,
       child: CircularProgressIndicator(
-        backgroundColor: AppColors.white,
+        color: AppColors.white,
       ),
     );
   }
