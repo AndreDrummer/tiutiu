@@ -1,3 +1,4 @@
+import 'package:tiutiu/core/utils/formatter.dart';
 import 'package:tiutiu/features/pets/model/pet_model.dart';
 import 'package:tiutiu/features/system/controllers.dart';
 import 'package:tiutiu/core/utils/math_functions.dart';
@@ -29,6 +30,8 @@ class Ordenators {
   }
 
   static int orderByDistance(Pet ad1, Pet ad2) {
+    final postADate = Formatters.getDateTime(ad1.createdAt!);
+    final postBDate = Formatters.getDateTime(ad2.createdAt!);
     LatLng location = currentLocationController.location;
 
     double distance1 = MathFunctions.distanceMatrix(
@@ -47,7 +50,7 @@ class Ordenators {
 
     if (distance1 < distance2) return -1;
     if (distance1 > distance2) return 1;
-    return 0;
+    return postADate.isBefore(postBDate) ? -1 : 1;
   }
 
   static int orderByAge(Pet a, Pet b) {
