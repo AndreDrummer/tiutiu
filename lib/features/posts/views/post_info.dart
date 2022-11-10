@@ -1,3 +1,4 @@
+import 'package:tiutiu/core/models/post.dart';
 import 'package:tiutiu/features/posts/validators/form_validators.dart';
 import 'package:tiutiu/features/posts/widgets/text_area.dart';
 import 'package:tiutiu/core/extensions/string_extension.dart';
@@ -46,7 +47,7 @@ class PostInfo extends StatelessWidget {
             validator: Validators.verifyEmpty,
             onChanged: (name) {
               nameKeyForm.currentState!.validate();
-              postsController.updatePost(PetEnum.name, name);
+              postsController.updatePost(PostEnum.name.name, name);
             },
             labelText: PostFlowStrings.petName,
             fontSizeLabelText: 14.0.sp,
@@ -73,7 +74,7 @@ class PostInfo extends StatelessWidget {
                 initialValue: postsController.post.ageYear.toString(),
                 onChanged: (anos) {
                   postsController.updatePost(
-                    PetEnum.ageYear,
+                    PetEnum.ageYear.name,
                     int.parse(anos ?? '0'),
                   );
                 },
@@ -87,7 +88,7 @@ class PostInfo extends StatelessWidget {
                 initialValue: postsController.post.ageMonth.toString(),
                 onChanged: (meses) {
                   postsController.updatePost(
-                    PetEnum.ageMonth,
+                    PetEnum.ageMonth.name,
                     int.parse(meses ?? '0'),
                   );
                 },
@@ -109,7 +110,7 @@ class PostInfo extends StatelessWidget {
         isInErrorState: !postsController.post.size.isNotEmptyNeighterNull() && !postsController.formIsValid,
         initialValue: postsController.post.size.toString(),
         onChanged: (size) {
-          postsController.updatePost(PetEnum.size, size);
+          postsController.updatePost(PetEnum.size.name, size);
         },
         labelText: PostFlowStrings.size,
         items: DummyData.size,
@@ -129,7 +130,7 @@ class PostInfo extends StatelessWidget {
             isInErrorState: !postsController.post.health.isNotEmptyNeighterNull() && !postsController.formIsValid,
             initialValue: postsController.post.health.toString(),
             onChanged: (health) {
-              postsController.updatePost(PetEnum.health, health);
+              postsController.updatePost(PetEnum.health.name, health);
             },
             labelText: PetDetailsStrings.health,
             items: DummyData.health,
@@ -158,7 +159,7 @@ class PostInfo extends StatelessWidget {
                   maxLines: 1,
                   onChanged: (chronicDiseaseInfo) {
                     postsController.updatePost(
-                      PetEnum.chronicDiseaseInfo,
+                      PetEnum.chronicDiseaseInfo.name,
                       chronicDiseaseInfo,
                     );
                   },
