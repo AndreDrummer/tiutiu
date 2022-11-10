@@ -120,7 +120,7 @@ class OtherFunctions {
   }) async {
     String? fileDonwloadUrl;
 
-    if (!videoPath.toString().isUrl()) {
+    if (videoPath != null && !videoPath.toString().isUrl()) {
       var urldonwload = await uploadPostFile('$storagePath', videoPath);
 
       fileDonwloadUrl = urldonwload;
