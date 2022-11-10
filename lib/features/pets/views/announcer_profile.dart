@@ -63,12 +63,6 @@ class AnnouncerProfile extends StatelessWidget {
               top: 0.0.h,
               child: _roundedPicture(),
             ),
-            Positioned(
-              child: _errorImageNull(),
-              right: 96.0.h,
-              left: 96.0.h,
-              top: 132.0.h,
-            ),
           ],
         ),
         Container(
@@ -108,19 +102,6 @@ class AnnouncerProfile extends StatelessWidget {
           radius: Get.width / 4,
           onAssetRemoved: () {},
           viewOnly: true,
-        ),
-      ),
-    );
-  }
-
-  Widget _errorImageNull() {
-    return Obx(
-      () => Visibility(
-        visible: profileController.showErrorEmptyPic,
-        child: AutoSizeTexts.autoSizeText16(
-          MyProfileStrings.insertAPicture,
-          fontWeight: FontWeight.w600,
-          color: AppColors.danger,
         ),
       ),
     );

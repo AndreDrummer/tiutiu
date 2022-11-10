@@ -1,6 +1,8 @@
 class AppStrings {
   static String get authError => 'Ocorreu um erro com sua autenticação.\nTente sair e entrar novamente.';
   static String get headline2 => 'Muitos Pets Lindos\nEstão Aguardando Por Você';
+  static String get verifyEmailToSeeContactInfo =>
+      'Verifique seu email para ver as\ninformações de contato deste anúncio!';
   static String get verifyFilters => 'Verifique seus filtros de busca.';
   static String get imagesWarning => 'Imagens meramente ilustrativas';
   static String get wannaLeave => 'Deseja realmente sair?';
@@ -69,7 +71,6 @@ class AuthStrings {
   static const String numberVerified = 'Número verificado';
   static const String loginInProgress = 'Realizando Login';
   static String get enterAccount => 'Entrar na sua conta.';
-  static String get receiveNewCode => 'Receber novo código';
   static String get authFailure => 'Falha na autenticação';
   static String get haveAnAccount => 'Já tem uma conta?';
   static const String authenticanting = 'Autênticando...';
@@ -77,6 +78,7 @@ class AuthStrings {
   static const String invalidCode = 'Código inválido!';
   static const String invalidEmail = 'E-mail inválido';
   static const String emailSent = 'E-mail enviado!';
+  static String get receiveCode => 'Receber código';
   static String get createAccount => 'Criar conta';
   static const String pasteCode = 'Colar código';
   static String get createYours => 'Crie a sua.';

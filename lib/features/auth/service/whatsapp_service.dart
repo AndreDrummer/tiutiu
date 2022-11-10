@@ -10,17 +10,16 @@ class WhatsappService {
   final String phoneNumber;
   final String code;
 
-  // final template = 'tiutiu_whatsapp_token_code_prod';
-  final template = 'tiutiu_whatsapp_token_code';
+  Future<void> sendCodeVerification() async {
+    final _dio = Dio();
 
-  // final numberId = '100356716232975'; // Prod
-  final numberId = '108901298698499'; // Test
+    final DocumentSnapshot<Map<String, dynamic>> keys = await _getWhatsappKeys();
+    final String template = keys.get(FirebaseEnvPath.whatsappTemplateDebug);
+    final String numberId = keys.get(FirebaseEnvPath.whatsappNumberIdDebug);
+    String endpoint = 'https://graph.facebook.com/v15.0/$numberId/messages';
+    final String token = keys.get(FirebaseEnvPath.whatsappToken);
 
-  String get endpoint => 'https://graph.facebook.com/v15.0/$numberId/messages';
-  String get applicationType => 'application/json';
-
-  Map<String, dynamic> body() {
-    return {
+    final body = {
       "messaging_product": "whatsapp",
       "to": "55$phoneNumber",
       "type": "template",
@@ -40,20 +39,14 @@ class WhatsappService {
         ]
       }
     };
-  }
-
-  Future<void> sendCodeVerification() async {
-    final _dio = Dio();
-
-    final String token = await _getWhatsappToken();
 
     try {
       _dio.post(
         endpoint,
-        data: body(),
+        data: body,
         options: Options(
-          contentType: applicationType,
           headers: {'Authorization': 'Bearer $token'},
+          contentType: 'application/json',
         ),
       );
     } on Exception catch (_) {
@@ -61,10 +54,7 @@ class WhatsappService {
     }
   }
 
-  Future<String> _getWhatsappToken() async {
-    final keys =
-        await FirebaseFirestore.instance.collection(FirebaseEnvPath.projectName).doc(FirebaseEnvPath.keys).get();
-
-    return keys.get(FirebaseEnvPath.whatsappToken);
+  Future<DocumentSnapshot<Map<String, dynamic>>> _getWhatsappKeys() async {
+    return await FirebaseFirestore.instance.collection(FirebaseEnvPath.projectName).doc(FirebaseEnvPath.keys).get();
   }
 }

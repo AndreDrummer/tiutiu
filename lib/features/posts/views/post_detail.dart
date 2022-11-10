@@ -358,7 +358,8 @@ class _PetDetailsState extends State<PetDetails> {
   }) {
     final Pet pet = postsController.post;
     return Visibility(
-      visible: !widget.inReviewMode,
+      replacement: widget.inReviewMode ? SizedBox.shrink() : _verifyEmailBoxWarning(),
+      visible: !widget.inReviewMode && tiutiuUserController.tiutiuUser.phoneVerified,
       child: Container(
         margin: EdgeInsets.only(
           right: 4.0.w,
@@ -400,6 +401,28 @@ class _PetDetailsState extends State<PetDetails> {
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _verifyEmailBoxWarning() {
+    return Container(
+      margin: EdgeInsets.all(16.0.h),
+      padding: EdgeInsets.all(8.0.h),
+      alignment: Alignment.center,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(12),
+        color: AppColors.warning,
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          AutoSizeTexts.autoSizeText14(
+            AppStrings.verifyEmailToSeeContactInfo,
+            textAlign: TextAlign.center,
+          ),
+          Icon(Icons.warning),
+        ],
       ),
     );
   }
