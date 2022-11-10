@@ -5,15 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class ProfileController extends GetxController {
-  final RxBool _showErrorEmptyPic = false.obs;
   final RxBool _isSetting = false.obs;
   final RxBool _isLoading = false.obs;
 
-  bool get showErrorEmptyPic => _showErrorEmptyPic.value;
   bool get isSetting => _isSetting.value;
   bool get isLoading => _isLoading.value;
-
-  void set showErrorEmptyPic(bool value) => _showErrorEmptyPic(value);
   void set isSetting(bool value) => _isSetting(value);
 
   void handleOptionHitted(String option) {
