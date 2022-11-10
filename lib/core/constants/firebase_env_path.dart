@@ -1,6 +1,10 @@
 import 'package:flutter/foundation.dart';
 
 class FirebaseEnvPath {
+  static const String whatsappNumberIdDebug = 'WHATSAPP_NUMBER_ID_DEBUG';
+  static const String whatsappTemplateDebug = 'WHATSAPP_TEMPLATE_DEBUG';
+  static const String whatsappNumberIdProd = 'WHATSAPP_NUMBER_ID_PROD';
+  static const String whatsappTemplateProd = 'WHATSAPP_TEMPLATE_PROD';
   static const String usersFavoritesCollection = 'favorites';
   static const String env = kDebugMode ? 'debug' : 'prod';
   // static const String env = 'prod';
