@@ -73,6 +73,7 @@ class _PetDetailsState extends State<PetDetails> {
       child: WillPopScope(
         onWillPop: () async {
           chewieController?.pause();
+          if (!widget.inReviewMode) postsController.clearForm();
           return true;
         },
         child: Scaffold(

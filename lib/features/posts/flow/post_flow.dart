@@ -45,6 +45,7 @@ class PostFlow extends StatelessWidget with TiuTiuPopUp {
             children: [
               Scaffold(
                 resizeToAvoidBottomInset: true,
+                backgroundColor: AppColors.white,
                 body: SizedBox(
                   height: postsController.flowIndex >= 6 ? Get.height / 1.33 : Get.height,
                   child: Column(
@@ -108,6 +109,7 @@ class PostFlow extends StatelessWidget with TiuTiuPopUp {
                   () {
                     return Container(
                       color: AppColors.white,
+                      margin: EdgeInsets.only(bottom: 8.0.h),
                       child: RowButtonBar(
                         isLoading: postsController.isLoading,
                         buttonSecondaryColor: Colors.grey,
