@@ -25,6 +25,7 @@ class AuthController extends GetxController {
   final AuthService _authService;
 
   final Rx<EmailAndPasswordAuth> _emailAndPasswordAuth = EmailAndPasswordAuth().obs;
+  final RxBool _isUpdatingUserDataOnServer = false.obs;
   final RxBool _isCreatingNewAccount = false.obs;
   final RxBool _isWhatsappTokenValid = true.obs;
   final RxBool _isShowingPassword = false.obs;
@@ -106,7 +107,7 @@ class AuthController extends GetxController {
     return code;
   }
 
-  Future<bool> verifyWhatsAppCode(String insertedCode) async {
+  Future<bool> whatsAppCodeIsValid(String insertedCode) async {
     bool success = false;
     final whatsAppTokenData = await _getWhatsappStorageToken();
     debugPrint('>> Whatsapp tokenData ${whatsAppTokenData?.toMap()}..');
@@ -114,9 +115,7 @@ class AuthController extends GetxController {
     if (whatsAppTokenData != null) {
       final codeSent = (whatsAppTokenData as WhatsAppToken).code;
       if (codeSent == insertedCode) {
-        _feedbackText(AuthStrings.successfullyVerifiedCode);
         success = codeSent == insertedCode;
-
         _numberVerified(success);
 
         debugPrint('>> Valid inserted code $codeSent == $insertedCode');
@@ -137,6 +136,8 @@ class AuthController extends GetxController {
       true,
     );
 
+    LocalStorage.deleteDataUnderKey(LocalStorageKey.whatsappTokenData);
+    _numberVerified(false);
     updateUserInfo();
   }
 
@@ -165,25 +166,39 @@ class AuthController extends GetxController {
   }
 
   Future<void> verifyShouldShowResendEmailButton() async {
-    final lastSendEmailTime = await LocalStorage.getValueUnderLocalStorageKey(LocalStorageKey.lastSendEmailTime);
-    debugPrint('>> resend Email storage data $lastSendEmailTime');
+    checkIfEmailWasVerified();
 
-    if (lastSendEmailTime == null) {
-      _allowResendEmail(true);
-    } else {
-      final minutes = DateTime.parse(lastSendEmailTime).difference(DateTime.now()).inMinutes;
+    if (!tiutiuUserController.tiutiuUser.emailVerified) {
+      final lastSendEmailTime = await LocalStorage.getValueUnderLocalStorageKey(LocalStorageKey.lastSendEmailTime);
+      debugPrint('>> verify should resend email storage data $lastSendEmailTime');
 
-      if (minutes > 10) {
-        _allowResendEmail(true);
-        LocalStorage.deleteDataUnderKey(LocalStorageKey.lastSendEmailTime);
-      } else {
-        _allowResendEmail(false);
+      if (lastSendEmailTime != null) {
+        final minutes = DateTime.now().difference(DateTime.parse(lastSendEmailTime)).inMinutes;
+
+        if (minutes > 2) {
+          debugPrint('>> last sent email is expired...');
+          await LocalStorage.deleteDataUnderKey(LocalStorageKey.lastSendEmailTime);
+          _allowResendEmail(true);
+        } else {
+          _allowResendEmail(false);
+        }
       }
     }
   }
 
-  Future<void> resendEmail() async {
-    if (allowResendEmail) {
+  Future<void> checkIfEmailWasVerified() async {
+    await user?.reload();
+
+    final isEmailVerified = user?.emailVerified ?? false;
+
+    if (isEmailVerified) {
+      tiutiuUserController.updateTiutiuUser(TiutiuUserEnum.emailVerified, isEmailVerified);
+    }
+  }
+
+  Future<void> sendEmail() async {
+    if (user != null && !user!.emailVerified) {
+      _allowResendEmail(false);
       debugPrint('>> resending Email verification...');
 
       await user?.sendEmailVerification();
@@ -192,8 +207,6 @@ class AuthController extends GetxController {
         value: DateTime.now().toIso8601String(),
       );
     }
-
-    verifyShouldShowResendEmailButton();
   }
 
   Future _getWhatsappStorageToken() async {
@@ -370,94 +383,91 @@ class AuthController extends GetxController {
   }
 
   Future<void> updateUserInfo() async {
-    final lastSignInTime = _authService.authUser?.metadata.lastSignInTime;
-    final creationTime = _authService.authUser?.metadata.creationTime;
-    final loggedUser = tiutiuUserController.tiutiuUser;
+    if (!_isUpdatingUserDataOnServer.value) {
+      final lastSignInTime = _authService.authUser?.metadata.lastSignInTime;
+      final creationTime = _authService.authUser?.metadata.creationTime;
+      final loggedUser = tiutiuUserController.tiutiuUser;
 
-    await user?.reload();
+      _isUpdatingUserDataOnServer(true);
+      await user?.reload();
 
-    if (creationTime != null) {
-      debugPrint('>> Updating createAt...');
-      tiutiuUserController.updateTiutiuUser(
-        TiutiuUserEnum.createdAt,
-        creationTime.toIso8601String(),
-      );
+      if (creationTime != null) {
+        debugPrint('>> Updating createAt...');
+        tiutiuUserController.updateTiutiuUser(
+          TiutiuUserEnum.createdAt,
+          creationTime.toIso8601String(),
+        );
+      }
+
+      if (lastSignInTime != null) {
+        debugPrint('>> Updating lastSeen...');
+        tiutiuUserController.updateTiutiuUser(
+          TiutiuUserEnum.lastLogin,
+          lastSignInTime.toIso8601String(),
+        );
+      }
+
+      if (user?.providerData.first.providerId != AuthKeys.password.name) {
+        debugPrint('>> Updating emailVerified...');
+        tiutiuUserController.updateTiutiuUser(
+          TiutiuUserEnum.emailVerified,
+          true,
+        );
+      } else {
+        debugPrint('>> Updating password emailVerified... ${user?.emailVerified}');
+        tiutiuUserController.updateTiutiuUser(
+          TiutiuUserEnum.emailVerified,
+          user?.emailVerified ?? false,
+        );
+      }
+
+      if (loggedUser.displayName == null) {
+        debugPrint('>> Updating displayName...');
+        tiutiuUserController.updateTiutiuUser(
+          TiutiuUserEnum.displayName,
+          user?.displayName,
+        );
+      }
+
+      if (loggedUser.avatar == null) {
+        debugPrint('>> Updating avatar...');
+        tiutiuUserController.updateTiutiuUser(
+          TiutiuUserEnum.avatar,
+          user?.photoURL,
+        );
+      }
+
+      if (loggedUser.phoneNumber == null) {
+        debugPrint('>> Updating phoneNumber...');
+        tiutiuUserController.updateTiutiuUser(
+          TiutiuUserEnum.phoneNumber,
+          user?.phoneNumber,
+        );
+      }
+
+      if (loggedUser.uid == null) {
+        debugPrint('>> Updating uid...');
+        tiutiuUserController.updateTiutiuUser(
+          TiutiuUserEnum.uid,
+          loggedUser.uid ?? user!.uid,
+        );
+      }
+
+      if (loggedUser.email == null) {
+        debugPrint('>> Updating email...');
+        tiutiuUserController.updateTiutiuUser(
+          TiutiuUserEnum.email,
+          authController.user!.email,
+        );
+      }
+
+      if (!user!.emailVerified) {
+        sendEmail();
+      }
+
+      await tiutiuUserController.updateUserDataOnServer();
+      _isUpdatingUserDataOnServer(false);
     }
-
-    if (lastSignInTime != null) {
-      debugPrint('>> Updating lastSeen...');
-      tiutiuUserController.updateTiutiuUser(
-        TiutiuUserEnum.lastLogin,
-        lastSignInTime.toIso8601String(),
-      );
-    }
-
-    if (user?.providerData.first.providerId != AuthKeys.password.name) {
-      debugPrint('>> Updating emailVerified...');
-      tiutiuUserController.updateTiutiuUser(
-        TiutiuUserEnum.emailVerified,
-        true,
-      );
-    } else {
-      debugPrint('>> Updating password emailVerified... ${user?.emailVerified}');
-      tiutiuUserController.updateTiutiuUser(
-        TiutiuUserEnum.emailVerified,
-        user?.emailVerified ?? false,
-      );
-    }
-
-    if (loggedUser.displayName == null) {
-      debugPrint('>> Updating displayName...');
-      tiutiuUserController.updateTiutiuUser(
-        TiutiuUserEnum.displayName,
-        user?.displayName,
-      );
-    }
-
-    if (loggedUser.avatar == null) {
-      debugPrint('>> Updating avatar...');
-      tiutiuUserController.updateTiutiuUser(
-        TiutiuUserEnum.avatar,
-        user?.photoURL,
-      );
-    }
-
-    if (loggedUser.phoneNumber == null) {
-      debugPrint('>> Updating phoneNumber...');
-      tiutiuUserController.updateTiutiuUser(
-        TiutiuUserEnum.phoneNumber,
-        user?.phoneNumber,
-      );
-    }
-
-    if (loggedUser.uid == null) {
-      debugPrint('>> Updating uid...');
-      tiutiuUserController.updateTiutiuUser(
-        TiutiuUserEnum.uid,
-        loggedUser.uid ?? user!.uid,
-      );
-    }
-
-    if (loggedUser.email == null) {
-      debugPrint('>> Updating email...');
-      tiutiuUserController.updateTiutiuUser(
-        TiutiuUserEnum.email,
-        authController.user!.email,
-      );
-    }
-
-    bool isEmailVerified = loggedUser.emailVerified;
-    bool isPhoneVerified = loggedUser.phoneVerified;
-
-    if (!isEmailVerified && allowResendEmail) {
-      resendEmail();
-    }
-
-    if (!isPhoneVerified && !isWhatsappTokenValid) {
-      sendWhatsAppCode();
-    }
-
-    await tiutiuUserController.updateUserDataOnServer();
   }
 
   Future<void> signOut() async {

@@ -20,7 +20,7 @@ class _VerifyEmailState extends State<VerifyEmail> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: authController.updateUserInfo(),
+      future: authController.verifyShouldShowResendEmailButton(),
       builder: (context, snapshot) {
         return Column(
           children: [
@@ -162,7 +162,7 @@ class _VerifyEmailState extends State<VerifyEmail> {
     });
 
     try {
-      await authController.resendEmail();
+      await authController.sendEmail();
 
       setState(() {
         resendButtonIsEnabled = true;
