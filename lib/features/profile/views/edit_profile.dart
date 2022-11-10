@@ -186,7 +186,7 @@ class _EditProfileState extends State<EditProfile> {
       children: [
         SizedBox(height: 16.0.h),
         UnderlineInputText(
-          validator: (value) => Validators.verifyLength(value, length: 12, field: 'Telefone'),
+          validator: (value) => Validators.verifyLength(value, length: 14, field: 'Telefone'),
           labelText: MyProfileStrings.whatsapp,
           keyboardType: TextInputType.number,
           controller: phoneNumberController,
@@ -208,14 +208,12 @@ class _EditProfileState extends State<EditProfile> {
         onPrimaryPressed: () {
           if (_formIsValid()) {
             debugPrint('>> Updating profile...');
-
-            profileController.showErrorEmptyPic = false;
             FocusScope.of(context).unfocus();
 
             _setDataToUser();
+
             profileController.save().then((_) => profileController.isSetting = false);
           } else if (tiutiuUserController.tiutiuUser.avatar == null) {
-            profileController.showErrorEmptyPic = true;
             systemController.snackBarIsOpen = true;
 
             ScaffoldMessenger.of(context)
@@ -240,6 +238,10 @@ class _EditProfileState extends State<EditProfile> {
   void _setDataToUser() {
     tiutiuUserController.updateTiutiuUser(TiutiuUserEnum.phoneNumber, phoneNumberController.text);
     tiutiuUserController.updateTiutiuUser(TiutiuUserEnum.displayName, nameController.text);
+
+    if (phoneNumberController.text != previousUser.phoneNumber) {
+      tiutiuUserController.updateTiutiuUser(TiutiuUserEnum.phoneVerified, false);
+    }
   }
 
   Widget _loadingWidget() {

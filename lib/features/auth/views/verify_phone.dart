@@ -93,15 +93,15 @@ class _VerifyPhoneState extends State<VerifyPhone> {
       () => Column(
         children: [
           AnimatedContainer(
-            height: authController.numberVerified ? Get.width / 2 : 48.0.h,
+            height: authController.numberVerified ? Get.width / 3 : 48.0.h,
             duration: Duration(milliseconds: 500),
           ),
           AnimatedContainer(
             duration: Duration(milliseconds: 500),
             child: Icon(
               authController.numberVerified ? Icons.verified_user : FontAwesomeIcons.whatsapp,
+              size: authController.numberVerified ? 96.0.h : 64.0.h,
               color: AppColors.primary,
-              size: authController.numberVerified ? 80.0.h : 64.0.h,
             ),
           ),
           Padding(
@@ -127,7 +127,7 @@ class _VerifyPhoneState extends State<VerifyPhone> {
             fontWeight: FontWeight.w600,
             textAlign: TextAlign.center,
           ),
-          SizedBox(height: 4.0.h),
+          SizedBox(height: 8.0.h),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -153,51 +153,55 @@ class _VerifyPhoneState extends State<VerifyPhone> {
   Widget _codeBoxes(
     BuildContext context,
   ) {
-    return Visibility(
-      visible: !authController.numberVerified,
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: PinCodeTextField(
-          inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-          keyboardType: TextInputType.number,
-          animationType: AnimationType.fade,
-          appContext: context,
-          obscureText: false,
-          length: 6,
-          pinTheme: PinTheme(
-            selectedFillColor: AppColors.primary.withAlpha(100),
-            inactiveFillColor: Colors.transparent,
-            borderRadius: BorderRadius.circular(5),
-            activeFillColor: AppColors.white,
-            selectedColor: AppColors.primary,
-            inactiveColor: AppColors.primary,
-            shape: PinCodeFieldShape.box,
-            fieldHeight: 50,
-            fieldWidth: 40,
-          ),
-          animationDuration: Duration(milliseconds: 300),
-          controller: codeController,
-          enableActiveFill: true,
-          onCompleted: (v) {
-            setState(() {
-              codeFilled = true;
-            });
-          },
-          onChanged: (value) {
-            if (value.length < 6) {
+    return AnimatedOpacity(
+      duration: Duration(milliseconds: 500),
+      opacity: authController.numberVerified ? 0 : 1,
+      child: Visibility(
+        visible: !authController.numberVerified,
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: PinCodeTextField(
+            inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+            keyboardType: TextInputType.number,
+            animationType: AnimationType.fade,
+            appContext: context,
+            obscureText: false,
+            length: 6,
+            pinTheme: PinTheme(
+              selectedFillColor: AppColors.primary.withAlpha(100),
+              inactiveFillColor: Colors.transparent,
+              borderRadius: BorderRadius.circular(5),
+              activeFillColor: AppColors.white,
+              selectedColor: AppColors.primary,
+              inactiveColor: AppColors.primary,
+              shape: PinCodeFieldShape.box,
+              fieldHeight: 50,
+              fieldWidth: 40,
+            ),
+            animationDuration: Duration(milliseconds: 300),
+            controller: codeController,
+            enableActiveFill: true,
+            onCompleted: (v) {
               setState(() {
-                codeFilled = false;
+                codeFilled = true;
               });
-            }
-          },
-          beforeTextPaste: (text) {
-            return GetUtils.isNum(text ?? "");
-          },
-          dialogConfig: DialogConfig(
-            dialogContent: AuthStrings.doYouWannaPasteCodeCopied,
-            dialogTitle: AuthStrings.pasteCode,
-            affirmativeText: AppStrings.yes,
-            negativeText: AppStrings.no,
+            },
+            onChanged: (value) {
+              if (value.length < 6) {
+                setState(() {
+                  codeFilled = false;
+                });
+              }
+            },
+            beforeTextPaste: (text) {
+              return GetUtils.isNum(text ?? "");
+            },
+            dialogConfig: DialogConfig(
+              dialogContent: AuthStrings.doYouWannaPasteCodeCopied,
+              dialogTitle: AuthStrings.pasteCode,
+              affirmativeText: AppStrings.yes,
+              negativeText: AppStrings.no,
+            ),
           ),
         ),
       ),
@@ -210,26 +214,24 @@ class _VerifyPhoneState extends State<VerifyPhone> {
       child: AnimatedOpacity(
         duration: Duration(milliseconds: 500),
         opacity: !codeFilled ? 1 : 0,
-        child: Column(
-          children: [
-            AutoSizeTexts.autoSizeText14(
-              AuthStrings.codeIsValidForMinutes,
-              fontWeight: FontWeight.w300,
-            ),
-            Obx(
-              () => Visibility(
-                visible: authController.isWhatsappTokenValid,
-                child: Padding(
-                  padding: EdgeInsets.symmetric(vertical: 16.0.h),
-                  child: AutoSizeTexts.autoSizeText14(
-                    '${AppStrings.wait} ${Formatters.timeSecondsFormmated(_secondsToExpirate ?? 0)} para receber outro código',
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-                replacement: _resendButton(),
+        child: Visibility(
+          visible: authController.isWhatsappTokenValid,
+          replacement: _resendButton(),
+          child: Column(
+            children: [
+              AutoSizeTexts.autoSizeText14(
+                AuthStrings.codeIsValidForMinutes,
+                fontWeight: FontWeight.w300,
               ),
-            ),
-          ],
+              Padding(
+                padding: EdgeInsets.symmetric(vertical: 16.0.h),
+                child: AutoSizeTexts.autoSizeText14(
+                  '${AppStrings.wait} ${Formatters.timeSecondsFormmated(_secondsToExpirate ?? 0)} para receber outro código',
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -246,7 +248,7 @@ class _VerifyPhoneState extends State<VerifyPhone> {
                   await authController.sendWhatsAppCode();
                   restartTimer();
                 },
-          text: AuthStrings.receiveNewCode,
+          text: AuthStrings.receiveCode,
           textColor: AppColors.primary,
           fontSize: 16,
         ),
@@ -260,35 +262,34 @@ class _VerifyPhoneState extends State<VerifyPhone> {
         AnimatedOpacity(
           duration: Duration(seconds: 0),
           opacity: (codeFilled || authController.numberVerified) ? 1 : 0,
-          child: ButtonWide(
-            onPressed: () {
-              if (authController.numberVerified) {
-                authController.continueAfterValidateNumber();
-              } else {
-                authController.verifyWhatsAppCode(codeController.text).then((success) {
-                  if (!success) {
+          child: Visibility(
+            replacement: CircularProgressIndicator(),
+            visible: !authController.numberVerified,
+            child: ButtonWide(
+              onPressed: () {
+                authController.whatsAppCodeIsValid(codeController.text).then((valid) {
+                  if (!valid) {
                     systemController.snackBarIsOpen = true;
                     ScaffoldMessenger.of(context)
                         .showSnackBar(
                           SnackBar(
                             content: AutoSizeTexts.autoSizeText14(authController.feedbackText),
-                            backgroundColor: success ? AppColors.success : AppColors.danger,
+                            backgroundColor: valid ? AppColors.success : AppColors.danger,
                           ),
                         )
                         .closed
                         .then((value) => systemController.snackBarIsOpen = false);
                     codeController.clear();
+                  } else {
+                    Future.delayed(Duration(seconds: 2)).then((value) => authController.continueAfterValidateNumber());
                   }
                 });
-              }
-            },
-            text: authController.numberVerified ? AppStrings.contines : AuthStrings.validate,
+              },
+              text: authController.numberVerified ? AppStrings.contines : AuthStrings.validate,
+            ),
           ),
         ),
-        AnimatedContainer(
-          height: authController.numberVerified ? 64.0.h : 16.0.h,
-          duration: Duration(milliseconds: 500),
-        ),
+        SizedBox(height: authController.numberVerified ? 64.0.h : 16.0.h),
       ],
     );
   }
