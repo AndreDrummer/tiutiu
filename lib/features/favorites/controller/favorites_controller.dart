@@ -19,7 +19,7 @@ class FavoritesController extends GetxController {
     _favoritesCollection().doc(post.uid).delete();
   }
 
-  Stream<List<Post>> favorites() {
+  Stream<List<Post>> favoritesList() {
     return _favoritesCollection().snapshots().asyncMap((snapshot) {
       List<Post> favoritePosts = [];
       snapshot.docs.forEach((favorite) {
@@ -29,6 +29,12 @@ class FavoritesController extends GetxController {
       });
       return favoritePosts;
     });
+  }
+
+  Stream<bool> postIsFavorited(Post post) {
+    return _favoritesCollection()
+        .snapshots()
+        .asyncMap((event) => event.docs.firstWhereOrNull((e) => e.get(PostEnum.uid.name) == post.uid) != null);
   }
 
   CollectionReference<Map<String, dynamic>> _favoritesCollection() {
