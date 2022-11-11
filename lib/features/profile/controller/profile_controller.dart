@@ -17,6 +17,7 @@ class ProfileController extends GetxController {
 
     switch (option) {
       case MyProfileOptionsTile.favorites:
+        homeController.setFavoriteIndex();
         break;
       case MyProfileOptionsTile.settings:
         isSetting = true;

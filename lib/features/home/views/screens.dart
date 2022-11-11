@@ -13,7 +13,7 @@ import 'package:get/get.dart';
 
 final screens = <Widget>[
   DonateList(),
-  DisappearedList(),
+  FinderList(),
   Obx(
     () {
       return AuthenticatedArea(
