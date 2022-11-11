@@ -7,21 +7,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class DonateList extends StatelessWidget {
-  const DonateList({Key? key}) : super(key: key);
-
   @override
-  Widget build(BuildContext context) {
-    return _PetsList();
-  }
+  Widget build(BuildContext context) => _PetsList();
 }
 
-class DisappearedList extends StatelessWidget {
-  const DisappearedList({super.key});
-
+class FinderList extends StatelessWidget {
   @override
-  Widget build(BuildContext context) {
-    return _PetsList(disappeared: true);
-  }
+  Widget build(BuildContext context) => _PetsList(disappeared: true);
 }
 
 class _PetsList extends StatelessWidget with TiuTiuPopUp {
@@ -32,12 +24,12 @@ class _PetsList extends StatelessWidget with TiuTiuPopUp {
   @override
   Widget build(BuildContext context) {
     return Obx(() {
-      final posts = postsController.filteredPosts;
+      final posts = postsController.filteredPosts.where((post) => post.disappeared == disappeared).toList();
 
       return RefreshIndicator(
         onRefresh: () async => postsController.loadPosts(getFromInternet: true),
         child: ListView.builder(
-          itemCount: posts.length + 1,
+          itemCount: (posts.length + 1),
           padding: EdgeInsets.zero,
           key: UniqueKey(),
           itemBuilder: (_, index) {

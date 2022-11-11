@@ -12,7 +12,7 @@ class BottomBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Obx(
       () => BottomNavigationBar(
-          onTap: (index) => homeController.bottomBarIndex = index,
+          onTap: (index) => homeController.setIndex(index),
           currentIndex: homeController.bottomBarIndex,
           selectedItemColor: AppColors.primary,
           unselectedItemColor: AppColors.white,
