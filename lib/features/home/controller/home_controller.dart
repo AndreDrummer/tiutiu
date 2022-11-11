@@ -3,7 +3,19 @@ import 'package:get/get.dart';
 import 'package:tiutiu/core/models/filter_params.dart';
 import 'package:tiutiu/features/system/controllers.dart';
 
-final DISAPPEARED_INDEX = 1;
+enum BottomBarIndex {
+  FAVORITES(indx: 4),
+  PROFILE(indx: 3),
+  FINDER(indx: 1),
+  DONATE(indx: 0),
+  POST(indx: 2);
+
+  const BottomBarIndex({
+    required this.indx,
+  });
+
+  final int indx;
+}
 
 enum CardVisibilityKind {
   banner,
@@ -12,8 +24,7 @@ enum CardVisibilityKind {
 
 class HomeController extends GetxController {
   final ScrollController _scrollController = ScrollController();
-  final Rx<CardVisibilityKind> _cardVisibilityKind =
-      CardVisibilityKind.card.obs;
+  final Rx<CardVisibilityKind> _cardVisibilityKind = CardVisibilityKind.card.obs;
   final RxBool _isAppBarCollapsed = false.obs;
   final RxInt _bottomBarIndex = 0.obs;
 
@@ -27,14 +38,14 @@ class HomeController extends GetxController {
     _isAppBarCollapsed(value);
   }
 
-  void set bottomBarIndex(int? index) {
-    if (index == DISAPPEARED_INDEX) {
+  void _setbottomBarIndex(BottomBarIndex index) {
+    if (index == BottomBarIndex.FINDER.indx) {
       filterController.updateParams(FilterParamsEnum.disappeared, true);
     } else {
       filterController.updateParams(FilterParamsEnum.disappeared, false);
     }
 
-    _bottomBarIndex(index ?? bottomBarIndex);
+    _bottomBarIndex(index.indx);
   }
 
   void onScrollUp() {
@@ -51,5 +62,29 @@ class HomeController extends GetxController {
     } else {
       _cardVisibilityKind(CardVisibilityKind.card);
     }
+  }
+
+  void setIndex(int index) {
+    _setbottomBarIndex(BottomBarIndex.values.where((bottomBarIndex) => bottomBarIndex.indx == index).first);
+  }
+
+  void setDonateIndex() {
+    _setbottomBarIndex(BottomBarIndex.DONATE);
+  }
+
+  void setFinderIndex() {
+    _setbottomBarIndex(BottomBarIndex.FINDER);
+  }
+
+  void setPostIndex() {
+    _setbottomBarIndex(BottomBarIndex.POST);
+  }
+
+  void setProfileIndex() {
+    _setbottomBarIndex(BottomBarIndex.PROFILE);
+  }
+
+  void setFavoriteIndex() {
+    _setbottomBarIndex(BottomBarIndex.FAVORITES);
   }
 }

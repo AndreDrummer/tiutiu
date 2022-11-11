@@ -477,7 +477,7 @@ class AuthController extends GetxController {
     clearAllAuthData();
     clearEmailAndPassword();
     debugPrint('>> Cleaning cache...');
-    homeController.bottomBarIndex = 0;
+    homeController.setDonateIndex();
     debugPrint('>> Logout done!');
   }
 
