@@ -75,9 +75,9 @@ class Pet extends Post {
     return Pet(
       createdAt: map[PostEnum.createdAt.name] ?? DateTime.now().toIso8601String(),
       uid: map[PostEnum.uid.name] != null ? map[PostEnum.uid.name] : Uuid().v4(),
+      otherCaracteristics: map[PetEnum.otherCaracteristics.name] ?? [],
       chronicDiseaseInfo: map[PetEnum.chronicDiseaseInfo.name] ?? '',
       describedAddress: map[PostEnum.describedAddress.name] ?? '',
-      otherCaracteristics: map[PetEnum.otherCaracteristics.name],
       donatedOrFound: map[PetEnum.donatedOrFound.name] ?? false,
       lastSeenDetails: map[PetEnum.lastSeenDetails.name] ?? '',
       owner: TiutiuUser.fromMap(map[PostEnum.owner.name]),

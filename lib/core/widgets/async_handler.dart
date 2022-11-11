@@ -16,9 +16,7 @@ class AsyncHandler<T> extends StatelessWidget {
     this.errorMessage,
     this.errorWidget,
     super.key,
-  }) : assert(forceReturnBuildWidget
-            ? forcedDataReturned != null
-            : forcedDataReturned == null);
+  }) : assert(forceReturnBuildWidget ? forcedDataReturned != null : forcedDataReturned == null);
 
   final Widget Function(T data) buildWidget;
   final void Function()? onErrorCallback;
@@ -34,23 +32,23 @@ class AsyncHandler<T> extends StatelessWidget {
   Widget _handleSnapshotState() {
     final ConnectionState connectionState = snapshot.connectionState;
 
-    if (snapshot.hasError)
+    if (snapshot.hasError) {
       return errorWidget ??
           ErrorPage(
             onErrorCallback: onErrorCallback,
             errorMessage: errorMessage,
             error: snapshot.error,
           );
+    }
 
-    if (connectionState == ConnectionState.waiting && showLoadingScreen)
-      return LoadingPage();
+    if (connectionState == ConnectionState.waiting && showLoadingScreen) return LoadingPage();
 
     if ((!snapshot.hasData || snapshot.data == null) && !forceReturnBuildWidget)
       return noResultScreen ?? EmptyListScreen();
 
-    return forceReturnBuildWidget
-        ? buildWidget(forcedDataReturned!)
-        : buildWidget(snapshot.data!);
+    if (snapshot.data is List && (snapshot.data as List).isEmpty) return noResultScreen ?? EmptyListScreen();
+
+    return forceReturnBuildWidget ? buildWidget(forcedDataReturned!) : buildWidget(snapshot.data!);
   }
 
   @override

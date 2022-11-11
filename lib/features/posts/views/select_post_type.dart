@@ -109,7 +109,7 @@ class SelectPostType extends StatelessWidget with TiuTiuPopUp {
               secondaryAction: () {
                 postsController.clearForm();
                 Get.back();
-                homeController.bottomBarIndex = 0;
+                homeController.setDonateIndex();
               },
               danger: true,
             );
