@@ -19,9 +19,7 @@ class AdImages extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return homeController.cardVisibilityKind == CardVisibilityKind.card
-        ? _cardAdImage()
-        : _cardAdListImage();
+    return homeController.cardVisibilityKind == CardVisibilityKind.card ? _cardAdImage() : _cardAdListImage();
   }
 
   Widget _cardAdImage() {
@@ -41,7 +39,7 @@ class AdImages extends StatelessWidget {
           return ClipRRect(
             borderRadius: BorderRadius.only(
               topLeft: Radius.circular(8),
-              topRight: Radius.circular(8),
+              bottomLeft: Radius.circular(8),
             ),
             child: Container(
               width: double.infinity,
