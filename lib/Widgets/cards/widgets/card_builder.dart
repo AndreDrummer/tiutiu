@@ -1,5 +1,6 @@
 import 'package:tiutiu/Widgets/cards/widgets/ad_distance_from_user.dart';
 import 'package:tiutiu/features/favorites/widgets/favorite_button.dart';
+import 'package:tiutiu/features/home/controller/home_controller.dart';
 import 'package:tiutiu/Widgets/cards/widgets/ad_interesteds.dart';
 import 'package:tiutiu/Widgets/cards/widgets/ad_description.dart';
 import 'package:tiutiu/Widgets/cards/widgets/ad_city_state.dart';
@@ -8,7 +9,6 @@ import 'package:tiutiu/Widgets/cards/widgets/ad_images.dart';
 import 'package:tiutiu/Widgets/cards/widgets/ad_title.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/Widgets/cards/widgets/ad_views.dart';
-import 'package:tiutiu/features/home/controller/home_controller.dart';
 import 'package:tiutiu/features/pets/model/pet_model.dart';
 import 'package:tiutiu/features/system/controllers.dart';
 import 'package:tiutiu/core/models/post.dart';
@@ -30,10 +30,21 @@ class CardBuilder {
 
   Widget adInteresteds() => AdInteresteds(visible: (_post as Pet).disappeared, petKind: (_post as Pet).type);
 
-  Widget favoriteButton() => Visibility(
-      replacement: RemoveFavoriteButton(onTap: () => favoritesController.removeFavorite(_post)),
-      visible: homeController.bottomBarIndex != BottomBarIndex.FAVORITES.indx,
-      child: AddFavoriteButton(onTap: () => favoritesController.addFavorite(_post)));
+  Widget favoriteButton() {
+    return Obx(
+      () => StreamBuilder<bool>(
+        stream: favoritesController.postIsFavorited(_post),
+        builder: (context, snapshot) {
+          return AddRemoveFavorite(
+            isRemoveButton: homeController.bottomBarIndex == BottomBarIndex.FAVORITES.indx,
+            onRemove: () => favoritesController.removeFavorite(_post),
+            onAdd: () => favoritesController.addFavorite(_post),
+            active: snapshot.data ?? false,
+          );
+        },
+      ),
+    );
+  }
 
   Widget adCityState() => AdCityState(state: (_post as Pet).state, city: (_post as Pet).city);
 
