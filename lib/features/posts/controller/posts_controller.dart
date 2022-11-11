@@ -490,7 +490,7 @@ class PostsController extends GetxController {
       return route.settings.name == Routes.home;
     });
 
-    homeController.bottomBarIndex = 0;
+    homeController.setDonateIndex();
   }
 
   void toggleFullAddress() {

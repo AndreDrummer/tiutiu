@@ -22,6 +22,14 @@ class FavoritesController extends GetxController {
         .doc(tiutiuUserController.tiutiuUser.uid)
         .collection(FirebaseEnvPath.favorites.toLowerCase())
         .snapshots()
-        .asyncMap((snapshot) => snapshot.docs.map((favorite) => Pet().fromMap(favorite.data())).toList());
+        .asyncMap((snapshot) {
+      List<Post> favoritePosts = [];
+      snapshot.docs.forEach((favorite) {
+        if (favorite.data().isNotEmpty) {
+          favoritePosts.add(Pet().fromMap(favorite.data()));
+        }
+      });
+      return favoritePosts;
+    });
   }
 }
