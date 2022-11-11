@@ -52,8 +52,8 @@ class _PetDetailsState extends State<PetDetails> {
     }
 
     chewieController = VideoUtils.instance.getChewieController(
+      autoPlay: false,
       videoPath,
-      autoPlay: true,
     );
   }
 
