@@ -2,38 +2,17 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:flutter/material.dart';
 
-class AddFavoriteButton extends StatelessWidget {
-  const AddFavoriteButton({
-    this.active = false,
-    this.onTap,
-    super.key,
-  });
-
-  final Function()? onTap;
-  final bool active;
-
-  @override
-  Widget build(BuildContext context) => _AddRemoveFavorite(active: active, onTap: onTap);
-}
-
-class RemoveFavoriteButton extends StatelessWidget {
-  const RemoveFavoriteButton({super.key, this.onTap});
-
-  final Function()? onTap;
-
-  @override
-  Widget build(BuildContext context) => _AddRemoveFavorite(onTap: onTap, isRemoveButton: true);
-}
-
-class _AddRemoveFavorite extends StatelessWidget {
-  const _AddRemoveFavorite({
+class AddRemoveFavorite extends StatelessWidget {
+  const AddRemoveFavorite({
     this.isRemoveButton = false,
     this.active = false,
-    this.onTap,
+    this.onRemove,
+    this.onAdd,
   });
 
+  final Function()? onRemove;
   final bool isRemoveButton;
-  final Function()? onTap;
+  final Function()? onAdd;
   final bool active;
 
   @override
@@ -54,7 +33,7 @@ class _AddRemoveFavorite extends StatelessWidget {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24.0.h)),
         elevation: 2.0,
       ),
-      onTap: onTap,
+      onTap: (active || isRemoveButton) ? onRemove : onAdd,
     );
   }
 }
