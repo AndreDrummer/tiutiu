@@ -20,7 +20,7 @@ class _FavoritesState extends State<Favorites> {
         automaticallyImplyLeading: false,
       ),
       body: StreamBuilder<List<Post>>(
-        stream: favoritesController.favorites(),
+        stream: favoritesController.favoritesList(),
         builder: (context, snapshot) {
           return AsyncHandler<List<Post>>(
             buildWidget: (posts) {
