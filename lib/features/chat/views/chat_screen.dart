@@ -1,54 +1,54 @@
+import 'package:tiutiu/core/widgets/default_basic_app_bar.dart';
+import 'package:tiutiu/features/chat/widgets/message_bubble.dart';
 import 'package:tiutiu/features/chat/widgets/new_message.dart';
-import 'package:tiutiu/features/chat/widgets/messages.dart';
+import 'package:tiutiu/features/chat/model/contact.dart';
+import 'package:tiutiu/features/chat/model/message.dart';
+import 'package:tiutiu/features/system/controllers.dart';
+import 'package:tiutiu/core/widgets/async_handler.dart';
 import 'package:tiutiu/core/utils/other_functions.dart';
-import 'package:auto_size_text/auto_size_text.dart';
-import 'package:tiutiu/Widgets/background.dart';
+import 'package:tiutiu/core/constants/strings.dart';
 import 'package:flutter/material.dart';
 
 class ChatScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final routeArguments = ModalRoute.of(context)!.settings.arguments;
-    final chatId = (routeArguments as Map)['chatId'];
-    final chatTitle = (routeArguments)['chatTitle'];
-    final message = (routeArguments)['message'];
-    final receiverNotificationToken = (routeArguments)['receiverNotificationToken'];
-    final receiverId = (routeArguments)['receiverId'];
-
     return Scaffold(
-      appBar: AppBar(
-        title: AutoSizeText(
-          OtherFunctions.firstCharacterUpper(chatTitle),
-          style: Theme.of(context).textTheme.headline4!.copyWith(
-                fontSize: 20,
-                fontWeight: FontWeight.w700,
-              ),
+      appBar: DefaultBasicAppBar(
+        text: OtherFunctions.firstCharacterUpper(
+          'chatController.contactChatingWith.secondUser.displayName!',
         ),
       ),
-      body: Stack(
-        children: [
-          Background(
-            dark: true,
-          ),
-          Container(
-            child: Column(
-              children: [
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 8.0, right: 16.0, top: 8.0),
-                    child: Messages(chatId: chatId),
-                  ),
-                ),
-                NewMessage(
-                  receiverNotificationToken: receiverNotificationToken,
-                  receiverId: receiverId,
-                  chatId: chatId,
-                  chat: message,
-                ),
-              ],
-            ),
-          ),
-        ],
+      body: StreamBuilder<List<Message>>(
+        stream: chatController.messages(tiutiuUserController.tiutiuUser.uid!),
+        builder: (context, snapshot) {
+          return AsyncHandler<List<Message>>(
+            emptyMessage: ChatStrings.noContact,
+            forceReturnBuildWidget: true,
+            forcedDataReturned: [Message(createdAt: 'createdAt', senderId: 'senderId', text: 'text', id: 'id')],
+            snapshot: snapshot,
+            buildWidget: (contacts) {
+              return ListView.builder(
+                itemCount: 6,
+                itemBuilder: ((context, index) {
+                  return MessageBubble(
+                    lastMessageWasMine: index == 3,
+                    belongToMe: index < 3,
+                    message: index < 3
+                        ? 'Olá, tudo bem? Vi que voce esta doando um shitsu, queria saber mais informacaoes'
+                        : 'Tudo sim e você? Entao... ja doei ele. Valeu!',
+                    time: DateTime.now().toIso8601String(),
+                  );
+                }),
+              );
+            },
+          );
+        },
+      ),
+      bottomNavigationBar: NewMessage(
+        contact: Contact.initial(),
+        receiverId: '',
+        receiverNotificationToken: '',
+        chatId: '',
       ),
     );
   }
