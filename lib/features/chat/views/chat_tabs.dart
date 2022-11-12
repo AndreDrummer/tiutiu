@@ -1,6 +1,6 @@
 import 'package:tiutiu/core/extensions/string_extension.dart';
-import 'package:tiutiu/features/chat/screens/global_chat.dart';
-import 'package:tiutiu/features/chat/screens/my_chats.dart';
+import 'package:tiutiu/features/chat/views/global_chat.dart';
+import 'package:tiutiu/features/chat/views/my_contacts.dart';
 import 'package:tiutiu/features/system/controllers.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:auto_size_text/auto_size_text.dart';
@@ -47,9 +47,8 @@ class _ChatTabState extends State<ChatTab> with SingleTickerProviderStateMixin {
 
   Widget _textFieldSearch() {
     final _textSearchController = TextEditingController(
-        text: chatController.currentlyTabChat == 0
-            ? chatController.textChatSearch
-            : chatController.textGlobalChatSearch);
+        text:
+            chatController.currentlyTabChat == 0 ? chatController.textChatSearch : chatController.textGlobalChatSearch);
     return TextField(
       controller: _textSearchController,
       onSubmitted: (value) => chatController.isSearching = false,
@@ -111,9 +110,7 @@ class _ChatTabState extends State<ChatTab> with SingleTickerProviderStateMixin {
                   chatController.isSearching = !chatController.isSearching;
                 },
                 icon: Icon(
-                  chatController.isSearching
-                      ? Icons.done
-                      : Icons.search_outlined,
+                  chatController.isSearching ? Icons.done : Icons.search_outlined,
                   color: AppColors.white,
                 ),
               )
@@ -131,7 +128,7 @@ class _ChatTabState extends State<ChatTab> with SingleTickerProviderStateMixin {
         body: TabBarView(
           controller: _controller,
           children: [
-            MyChats(),
+            MyContacts(),
             GlobalChat(),
           ],
         ),

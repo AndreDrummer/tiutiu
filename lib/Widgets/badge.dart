@@ -1,33 +1,35 @@
-import 'package:auto_size_text/auto_size_text.dart';
-import 'package:flutter/material.dart';
+import 'package:tiutiu/core/constants/text_styles.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
+import 'package:flutter/material.dart';
 
 class Badge extends StatelessWidget {
   Badge({
-    this.text,
     this.color = Colors.blue,
     this.textSize = 10,
+    this.show = false,
+    this.text,
   });
 
-  final text;
   final double textSize;
   final Color color;
+  final bool show;
+  final text;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: color,
-        borderRadius: BorderRadius.circular(25),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(4.0),
-        child: AutoSizeText(
-          text.toString(),
-          style: TextStyle(
+    return Visibility(
+      visible: show,
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(24),
+          color: color,
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(2.0),
+          child: AutoSizeTexts.autoSizeText8(
+            fontWeight: FontWeight.w600,
             color: AppColors.white,
-            fontSize: textSize,
-            fontWeight: FontWeight.bold,
+            text.toString(),
           ),
         ),
       ),

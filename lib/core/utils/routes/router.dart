@@ -1,16 +1,15 @@
 import 'package:tiutiu/features/auth/views/email_and_password.dart';
+import 'package:tiutiu/features/favorites/screen/favorites.dart';
 import 'package:tiutiu/features/auth/views/auth_hosters.dart';
-import 'package:tiutiu/features/chat/screens/chat_screen.dart';
-import 'package:tiutiu/features/chat/screens/chat_tabs.dart';
-import 'package:tiutiu/features/auth/views/start_screen.dart';
 import 'package:tiutiu/features/posts/views/post_detail.dart';
+import 'package:tiutiu/features/auth/views/start_screen.dart';
+import 'package:tiutiu/features/chat/views/my_contacts.dart';
 import 'package:tiutiu/core/utils/routes/routes_name.dart';
 import 'package:tiutiu/features/system/app_bootstrap.dart';
 import 'package:tiutiu/screen/informantes_screen.dart';
 import 'package:tiutiu/features/home/views/home.dart';
 import 'package:tiutiu/screen/choose_location.dart';
 import 'package:tiutiu/screen/notifications.dart';
-import 'package:tiutiu/features/favorites/screen/favorites.dart';
 import 'package:tiutiu/screen/settings.dart';
 import 'package:tiutiu/Widgets/new_map.dart';
 import 'package:tiutiu/screen/my_pets.dart';
@@ -36,13 +35,9 @@ class RouterGenerator {
         return MaterialPageRoute(
           builder: (_) => EmailAndPassword(),
         );
-      case Routes.chat:
+      case Routes.contacts:
         return MaterialPageRoute(
-          builder: (_) => ChatScreen(),
-        );
-      case Routes.chatList:
-        return MaterialPageRoute(
-          builder: (_) => ChatTab(),
+          builder: (_) => MyContacts(),
         );
       case Routes.settings:
         return MaterialPageRoute(

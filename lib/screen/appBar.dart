@@ -56,7 +56,7 @@ class TitleAppBar extends StatelessWidget {
                           onPressed: authController.userExists
                               ? navigateToAuth
                               : () {
-                                  Navigator.pushNamed(context, Routes.chatList);
+                                  Navigator.pushNamed(context, Routes.chat);
                                 },
                           icon: Icon(
                             Icons.chat,
@@ -67,8 +67,7 @@ class TitleAppBar extends StatelessWidget {
                           stream: newMessagesStream,
                           builder: (context, snapshot) {
                             int newMessagesQty =
-                                CommonChatFunctions.filterOnlyMyChats(snapshot,
-                                    'tiutiuUserController.tiutiuUser.uid!');
+                                CommonChatFunctions.filterOnlyMyChats(snapshot, 'tiutiuUserController.tiutiuUser.uid!');
 
                             return Positioned(
                               right: 10,
