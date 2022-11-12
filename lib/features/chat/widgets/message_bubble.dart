@@ -25,13 +25,15 @@ class MessageBubble extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChatBubble(
-      margin: EdgeInsets.only(top: lastMessageWasMine ? 12.0.h : 4.0.h, left: 5.0.w, right: 5.0.w),
+      shadowColor: belongToMe ? AppColors.secondary : AppColors.primary,
+      elevation: 16.0,
+      margin: EdgeInsets.only(top: lastMessageWasMine ? 12.0.h : 4.0.h, left: 16.0.w, right: 16.0.w),
       backGroundColor: belongToMe ? Colors.lightGreen : Colors.deepPurple,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         mainAxisSize: MainAxisSize.min,
         children: [
-          Container(child: AutoSizeTexts.autoSizeText14(message, color: AppColors.white), width: Get.width / 1.6),
+          Container(child: AutoSizeTexts.autoSizeText14(message, color: AppColors.white), width: Get.width / 2),
           Container(
             child: AutoSizeTexts.autoSizeText10(Formatters.getFormattedTime(time), color: AppColors.white),
             margin: EdgeInsets.only(top: 32.0.h),
