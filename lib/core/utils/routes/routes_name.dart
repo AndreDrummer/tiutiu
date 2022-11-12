@@ -9,10 +9,10 @@ class Routes {
   static const startScreen = '/start-screen';
   static const petDetails = '/pet-details';
   static const favorites = '/favorites';
-  static const chatList = '/chat-list';
   static const register = '/register';
   static const petForm = '/pet-form';
   static const settings = '/settings';
+  static const contacts = '/contacts';
   static const myPets = '/my-pets';
   static const newMap = '/new-map';
   static const search = '/search';

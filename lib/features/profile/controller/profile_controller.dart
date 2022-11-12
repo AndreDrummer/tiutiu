@@ -1,4 +1,5 @@
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:tiutiu/core/utils/routes/routes_name.dart';
 import 'package:tiutiu/features/system/controllers.dart';
 import 'package:tiutiu/core/constants/strings.dart';
 import 'package:flutter/material.dart';
@@ -28,6 +29,7 @@ class ProfileController extends GetxController {
         authController.signOut();
         break;
       case MyProfileOptionsTile.chat:
+        Get.toNamed(Routes.contacts);
         break;
     }
   }

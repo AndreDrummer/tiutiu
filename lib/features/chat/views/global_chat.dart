@@ -32,15 +32,13 @@ class _GlobalChatState extends State<GlobalChat> {
           // Search(onChanged: chatController.textGlobalChatSearch, placeholder: 'Pesquisar uma pessoa'),
           Expanded(
             child: StreamBuilder(
-              stream: chatController.globalChatList(),
+              stream: null,
               builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting)
                   return Center(child: CircularProgressIndicator());
 
-                List<TiutiuUser> messagesList = snapshot.data!.docs
-                    .map((e) =>
-                        TiutiuUser.fromMap(e.data() as Map<String, dynamic>))
-                    .toList();
+                List<TiutiuUser> messagesList =
+                    snapshot.data!.docs.map((e) => TiutiuUser.fromMap(e.data() as Map<String, dynamic>)).toList();
 
                 if (messagesList.isEmpty) {
                   return EmptyListScreen(
@@ -52,16 +50,14 @@ class _GlobalChatState extends State<GlobalChat> {
                 return Builder(
                   builder: (context) {
                     if (chatController.textGlobalChatSearch.isNotEmpty) {
-                      messagesList = CommonChatFunctions.searchUser(
-                          messagesList, chatController.textGlobalChatSearch);
+                      messagesList = CommonChatFunctions.searchUser(messagesList, chatController.textGlobalChatSearch);
                       messagesList.sort(CommonChatFunctions.orderByName);
                     } else {
                       messagesList.sort(CommonChatFunctions.orderByName);
                     }
 
                     messagesList.removeWhere(
-                      (element) =>
-                          element.uid == tiutiuUserController.tiutiuUser.uid,
+                      (element) => element.uid == tiutiuUserController.tiutiuUser.uid,
                     );
 
                     return Column(
