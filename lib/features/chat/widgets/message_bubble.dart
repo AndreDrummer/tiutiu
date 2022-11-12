@@ -33,7 +33,7 @@ class MessageBubble extends StatelessWidget {
     return ChatBubble(
       shadowColor: belongToMe ? AppColors.secondary : AppColors.primary,
       elevation: 16.0,
-      margin: EdgeInsets.only(top: lastMessageWasMine ? 12.0.h : 4.0.h, left: 16.0.w, right: 16.0.w),
+      margin: EdgeInsets.only(top: !lastMessageWasMine ? 12.0.h : 4.0.h, left: 16.0.w, right: 16.0.w),
       backGroundColor: belongToMe ? Colors.lightGreen : Colors.deepPurple,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
