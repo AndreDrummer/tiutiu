@@ -54,10 +54,10 @@ class AuthStrings {
       'Somente contas verificadas podem publicar um anúncio. Cheque sua caixa de spam se necessário.';
   static const String tryVerifyCodeAgain = 'Não foi possível verificar o código.\nTente novamente.';
   static const String insertCodeSentToNumber = 'Insira o código enviado para o número';
+  static const String linkWasSent = 'Um link de verificação foi enviado para o email';
   static const String successfullyVerifiedCode = 'Código verificado com sucesso!';
   static const String doYouWannaPasteCodeCopied = 'Deseja colar o código copiado';
   static const String codeIsValidForMinutes = 'O código é valido por 2 minutos.';
-  static const String linkWasSent = 'Um link de verificação foi enviado';
   static const String typePasswordAgain = 'Digite a senha novamente';
   static String get authentique => 'Autentique-se para continuar.';
   static const String verifyYourNumber = 'Verifique seu número';

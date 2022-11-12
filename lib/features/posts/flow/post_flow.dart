@@ -5,6 +5,7 @@ import 'package:tiutiu/features/posts/views/review_post.dart';
 import 'package:tiutiu/features/posts/views/post_info.dart';
 import 'package:tiutiu/features/posts/widgets/stepper.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:tiutiu/features/pets/model/pet_model.dart';
 import 'package:tiutiu/features/posts/views/images.dart';
 import 'package:tiutiu/features/system/controllers.dart';
 import 'package:tiutiu/core/mixins/tiu_tiu_pop_up.dart';
@@ -32,7 +33,7 @@ class PostFlow extends StatelessWidget with TiuTiuPopUp {
             PostFlowStrings.moreDetails,
             PostFlowStrings.description,
             PostFlowStrings.whereIsIt(
-              petGender: postsController.post.gender,
+              petGender: (postsController.post as Pet).gender,
               petName: '${postsController.post.name}',
             ),
             PostFlowStrings.picTime,
