@@ -7,8 +7,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
 
 class TiutiuUserController extends GetxController {
-  TiutiuUserController(TiutiuUserService tiutiuUserService)
-      : _tiutiuUserService = tiutiuUserService;
+  TiutiuUserController(TiutiuUserService tiutiuUserService) : _tiutiuUserService = tiutiuUserService;
 
   final TiutiuUserService _tiutiuUserService;
 
@@ -40,13 +39,14 @@ class TiutiuUserController extends GetxController {
 
   Future<void> handleNotifications(data) async {}
 
-  Stream<QuerySnapshot> loadNotifications() {
-    return _tiutiuUserService.loadNotifications(tiutiuUser.uid!);
-  }
-
   Future<TiutiuUser> getUserById(String id) async {
     final TiutiuUser user = await _tiutiuUserService.getUserByID(id);
     return user;
+  }
+
+  Future<DocumentReference> getUserReferenceById(String id) async {
+    final DocumentReference userReference = await _tiutiuUserService.getUserReference(id);
+    return userReference;
   }
 
   Future<void> updateUserDataOnServer() async {

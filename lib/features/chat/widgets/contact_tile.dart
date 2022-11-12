@@ -1,4 +1,6 @@
+import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:tiutiu/features/system/controllers.dart';
 import 'package:tiutiu/features/chat/model/contact.dart';
 import 'package:tiutiu/core/utils/other_functions.dart';
 import 'package:tiutiu/core/constants/text_styles.dart';
@@ -13,24 +15,24 @@ import 'package:flutter/material.dart';
 class ContactTile extends StatelessWidget {
   ContactTile({
     required this.hasNewMessage,
+    required this.userReceiver,
     required this.onContactTap,
-    required this.messageId,
-    required this.myUserId,
     required this.contact,
   });
 
+  final TiutiuUser? userReceiver;
   final Function()? onContactTap;
   final bool hasNewMessage;
-  final String messageId;
-  final String myUserId;
   final Contact contact;
 
   @override
   Widget build(BuildContext context) {
-    bool itsMe = myUserId == contact.senderUser.uid;
-    String profilePic = itsMe ? contact.receiverUser.avatar! : contact.senderUser.avatar!;
-    Timestamp stamp = contact.lastMessageTime!;
+    TiutiuUser loggedUser = tiutiuUserController.tiutiuUser;
+    bool itsMe = loggedUser.uid == userReceiver?.uid;
+    Timestamp stamp = contact.lastMessageTime;
     DateTime date = stamp.toDate();
+
+    String? profilePic = itsMe ? loggedUser.avatar : userReceiver?.avatar!;
 
     return InkWell(
       onTap: onContactTap,
@@ -43,8 +45,8 @@ class ContactTile extends StatelessWidget {
             ),
             title: AutoSizeTexts.autoSizeText14(
               itsMe
-                  ? OtherFunctions.firstCharacterUpper(contact.receiverUser.displayName!)
-                  : OtherFunctions.firstCharacterUpper(contact.senderUser.displayName!),
+                  ? OtherFunctions.firstCharacterUpper(loggedUser.displayName ?? '')
+                  : OtherFunctions.firstCharacterUpper(userReceiver?.displayName ?? ''),
               fontWeight: FontWeight.bold,
             ),
             subtitle: AutoSizeTexts.autoSizeText12(
