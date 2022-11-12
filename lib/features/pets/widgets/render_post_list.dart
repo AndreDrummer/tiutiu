@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:tiutiu/Widgets/cards/card_ad.dart';
 import 'package:tiutiu/Widgets/cards/card_ad_list.dart';
 import 'package:tiutiu/core/models/post.dart';
+import 'package:tiutiu/core/utils/routes/routes_name.dart';
 import 'package:tiutiu/features/home/controller/home_controller.dart';
 import 'package:tiutiu/features/pets/widgets/back_to_start.dart';
 import 'package:tiutiu/features/system/controllers.dart';
@@ -25,8 +26,15 @@ class RenderListItem extends StatelessWidget {
         onPressed: onNavigateToTop,
       );
     return Obx(
-      () =>
-          homeController.cardVisibilityKind == CardVisibilityKind.banner ? CardAdList(post: post) : CardAd(post: post),
+      () => GestureDetector(
+        onTap: () {
+          Get.toNamed(Routes.petDetails);
+          postsController.post = post;
+        },
+        child: homeController.cardVisibilityKind == CardVisibilityKind.banner
+            ? CardAdList(post: post)
+            : CardAd(post: post),
+      ),
     );
   }
 }

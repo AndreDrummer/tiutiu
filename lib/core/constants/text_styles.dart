@@ -120,8 +120,8 @@ class AutoSizeTexts {
     TextOverflow? textOverflow,
     FontWeight? fontWeight,
     FontStyle? fontStyle,
-    TextAlign? textAlign,
     double fontSize = 16,
+    TextAlign? textAlign,
     int? maxLines,
     Color? color,
   }) {
