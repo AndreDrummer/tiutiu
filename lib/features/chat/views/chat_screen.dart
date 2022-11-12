@@ -1,5 +1,5 @@
-import 'package:tiutiu/core/widgets/default_basic_app_bar.dart';
 import 'package:tiutiu/features/chat/widgets/message_bubble.dart';
+import 'package:tiutiu/core/widgets/default_basic_app_bar.dart';
 import 'package:tiutiu/features/chat/widgets/new_message.dart';
 import 'package:tiutiu/features/chat/model/contact.dart';
 import 'package:tiutiu/features/chat/model/message.dart';
@@ -22,6 +22,7 @@ class ChatScreen extends StatelessWidget {
         stream: chatController.messages(tiutiuUserController.tiutiuUser.uid!),
         builder: (context, snapshot) {
           return AsyncHandler<List<Message>>(
+            showLoadingScreen: false,
             emptyMessage: ChatStrings.noContact,
             forceReturnBuildWidget: true,
             forcedDataReturned: [Message(createdAt: 'createdAt', senderId: 'senderId', text: 'text', id: 'id')],
@@ -44,11 +45,10 @@ class ChatScreen extends StatelessWidget {
           );
         },
       ),
-      bottomNavigationBar: NewMessage(
+      bottomSheet: NewMessage(
+        receiverNotificationToken: '',
         contact: Contact.initial(),
         receiverId: '',
-        receiverNotificationToken: '',
-        chatId: '',
       ),
     );
   }

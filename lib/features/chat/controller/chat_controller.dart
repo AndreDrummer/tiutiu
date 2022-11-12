@@ -39,7 +39,7 @@ class ChatController extends GetxController {
     // firestore.collection('Chats').doc(chatId).collection('chat').add(message.toJson());
   }
 
-  void updateLastMessage(String chatId, Map<String, dynamic> messageData) {
+  void updateContactLastMessage(Contact contact) {
     // firestore.collection('Chats').doc(chatId).set(messageData, SetOptions(merge: true));
   }
 
