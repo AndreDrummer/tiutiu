@@ -21,13 +21,13 @@ class _NewMessageState extends State<NewMessage> {
   final Color whiteColor = AppColors.white;
   String _enteredMessage = '';
 
-  void _sendMessage() async {
+  Future<void> _sendMessage() async {
     FocusScope.of(context).unfocus();
 
-    chatController.sendNewMessage(
+    await chatController.sendNewMessage(
       Message(
-        receiverId: chatController.contactChatingWith.receiverUser.uid,
-        senderId: tiutiuUserController.tiutiuUser.uid!,
+        receiver: chatController.userChatingWith,
+        sender: tiutiuUserController.tiutiuUser,
         createdAt: FieldValue.serverTimestamp(),
         text: _enteredMessage,
         id: Uuid().v4(),
@@ -55,7 +55,7 @@ class _NewMessageState extends State<NewMessage> {
                 padding: EdgeInsets.only(left: 16.0.w),
                 child: TextField(
                   controller: _controller,
-                  onSubmitted: (value) => _sendMessage(),
+                  onSubmitted: (value) async => await _sendMessage(),
                   textCapitalization: TextCapitalization.sentences,
                   style: TextStyle(color: Colors.black54),
                   decoration: InputDecoration(

@@ -52,11 +52,11 @@ class MessageBubble extends StatelessWidget {
         ],
       ),
       clipper: ChatBubbleClipper1(
-        type: belongToMe ? BubbleType.receiverBubble : BubbleType.sendBubble,
+        type: belongToMe ? BubbleType.sendBubble : BubbleType.receiverBubble,
         nipWidth: 5.0.w,
         radius: 12.0.h,
       ),
-      alignment: belongToMe ? Alignment.centerLeft : Alignment.centerRight,
+      alignment: belongToMe ? Alignment.centerRight : Alignment.centerLeft,
     );
   }
 }
