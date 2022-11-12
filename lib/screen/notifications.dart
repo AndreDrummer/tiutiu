@@ -60,10 +60,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                       //         medium_banner: true, adId: adsProvider.topAdId)
                       //     : Container(),
                       SizedBox(height: 40),
-                      EmptyListScreen(
-                        text: 'Nenhuma notificação!',
-                        icon: Icons.notifications_off_outlined,
-                      ),
+                      EmptyListScreen(text: 'Nenhuma notificação!'),
                     ],
                   );
                 }

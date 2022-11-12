@@ -148,10 +148,7 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
               List<Pet> pets = petsController.getPetListFromSnapshots(snapshot.data!.docs);
 
               if (pets.isEmpty) {
-                return EmptyListScreen(
-                  text: 'Nenhum PET',
-                  icon: Icons.pets_outlined,
-                );
+                return EmptyListScreen(text: 'Nenhum PET');
               }
               return Column(
                 children: [
