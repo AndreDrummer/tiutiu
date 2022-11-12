@@ -363,11 +363,7 @@ class _PetDetailsState extends State<PetDetails> {
       replacement: widget.inReviewMode ? SizedBox.shrink() : _verifyEmailBoxWarning(),
       visible: !widget.inReviewMode && tiutiuUserController.tiutiuUser.phoneVerified,
       child: Container(
-        margin: EdgeInsets.only(
-          right: 4.0.w,
-          top: 16.0.h,
-          left: 4.0.w,
-        ),
+        margin: EdgeInsets.only(right: 4.0.w, top: 16.0.h, left: 4.0.w),
         child: Column(
           children: [
             Row(
@@ -379,7 +375,9 @@ class _PetDetailsState extends State<PetDetails> {
                     text: AppStrings.chat,
                     isToExpand: false,
                     icon: Icons.phone,
-                    onPressed: () {},
+                    onPressed: () {
+                      chatController.startsChatWith(post.owner!);
+                    },
                   ),
                 ),
                 SizedBox(width: 16.0.w),

@@ -21,20 +21,20 @@ class CommonChatFunctions {
   }
 
   static void openChat({
-    required TiutiuUser secondUser,
-    required TiutiuUser firstUser,
+    required TiutiuUser receiverUser,
+    required TiutiuUser senderUser,
   }) {
     Get.toNamed(
       Routes.chat,
       arguments: {
-        'chatId': GenerateHashKey.cesar(firstUser.uid!, secondUser.uid!),
-        'receiverNotificationToken': secondUser.notificationToken,
-        'chatTitle': secondUser.displayName,
-        'receiverId': secondUser.uid,
+        'chatId': GenerateHashKey.cesar(senderUser.uid!, receiverUser.uid!),
+        'receiverNotificationToken': receiverUser.notificationToken,
+        'chatTitle': receiverUser.displayName,
+        'receiverId': receiverUser.uid,
         'message': Contact(
           lastMessageTime: Timestamp.now(),
-          secondUser: secondUser,
-          firstUser: firstUser,
+          receiverUser: receiverUser,
+          senderUser: senderUser,
           lastSenderId: '',
           lastMessage: '',
           id: '',
@@ -47,11 +47,11 @@ class CommonChatFunctions {
     List<Contact> newChat = [];
     if (textToFilter.isNotEmpty) {
       for (Contact chat in chatList) {
-        if (chat.firstUser.uid != myId &&
-            chat.firstUser.displayName!.removeAccent().toLowerCase().contains(textToFilter.toLowerCase()))
+        if (chat.senderUser.uid != myId &&
+            chat.senderUser.displayName!.removeAccent().toLowerCase().contains(textToFilter.toLowerCase()))
           newChat.add(chat);
-        if (chat.secondUser != myId &&
-            chat.secondUser.displayName!.removeAccent().toLowerCase().contains(textToFilter.toLowerCase()))
+        if (chat.receiverUser != myId &&
+            chat.receiverUser.displayName!.removeAccent().toLowerCase().contains(textToFilter.toLowerCase()))
           newChat.add(chat);
       }
       return newChat;
@@ -105,8 +105,8 @@ class CommonChatFunctions {
     List<QueryDocumentSnapshot> messagesList = [];
     if (snapshot.data != null) {
       snapshot.data!.docs.forEach((element) {
-        if (TiutiuUser.fromMap(element.get('firstUser')).uid == uid ||
-            TiutiuUser.fromMap(element.get('secondUser')).uid == uid) messagesList.add(element);
+        if (TiutiuUser.fromMap(element.get('senderUser')).uid == uid ||
+            TiutiuUser.fromMap(element.get('receiverUser')).uid == uid) messagesList.add(element);
       });
 
       messagesList.forEach((e) {
