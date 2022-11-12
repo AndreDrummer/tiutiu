@@ -20,10 +20,16 @@ class MessageBubble extends StatelessWidget {
   final bool lastMessageWasMine;
   final bool belongToMe;
   final String message;
-  final String time;
+  final dynamic time;
 
   @override
   Widget build(BuildContext context) {
+    final formattedTime = time != null
+        ? Formatters.getFormattedTime(time.toDate().toIso8601String())
+        : Formatters.getFormattedTime(
+            DateTime.now().toIso8601String(),
+          );
+
     return ChatBubble(
       shadowColor: belongToMe ? AppColors.secondary : AppColors.primary,
       elevation: 16.0,
@@ -35,7 +41,10 @@ class MessageBubble extends StatelessWidget {
         children: [
           Container(child: AutoSizeTexts.autoSizeText14(message, color: AppColors.white), width: Get.width / 2),
           Container(
-            child: AutoSizeTexts.autoSizeText10(Formatters.getFormattedTime(time), color: AppColors.white),
+            child: AutoSizeTexts.autoSizeText10(
+              formattedTime,
+              color: AppColors.white,
+            ),
             margin: EdgeInsets.only(top: 32.0.h),
             alignment: Alignment(1, 1),
             padding: EdgeInsets.zero,

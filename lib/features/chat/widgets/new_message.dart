@@ -1,27 +1,16 @@
-import 'dart:io';
-
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:tiutiu/features/chat/model/contact.dart';
 import 'package:tiutiu/features/chat/model/message.dart';
 import 'package:tiutiu/features/system/controllers.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:tiutiu/core/constants/strings.dart';
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
+import 'dart:io';
 
 FirebaseFirestore firestore = FirebaseFirestore.instance;
 
 class NewMessage extends StatefulWidget {
-  NewMessage({
-    required this.receiverNotificationToken,
-    required this.receiverId,
-    required this.contact,
-  });
-
-  final String receiverNotificationToken;
-  final String receiverId;
-  final Contact contact;
-
   @override
   _NewMessageState createState() => _NewMessageState();
 }
@@ -35,23 +24,13 @@ class _NewMessageState extends State<NewMessage> {
   void _sendMessage() async {
     FocusScope.of(context).unfocus();
 
-    chatController.createFirstMessage(widget.contact.id!, widget.contact);
-
     chatController.sendNewMessage(
-      widget.contact.id!,
       Message(
+        receiverId: chatController.contactChatingWith.receiverUser.uid,
         senderId: tiutiuUserController.tiutiuUser.uid!,
         createdAt: FieldValue.serverTimestamp(),
         text: _enteredMessage,
         id: Uuid().v4(),
-      ),
-    );
-
-    chatController.updateContactLastMessage(
-      widget.contact.copyWith(
-        lastMessageTime: FieldValue.serverTimestamp(),
-        lastSenderId: tiutiuUserController.tiutiuUser.uid,
-        lastMessage: _enteredMessage,
       ),
     );
 
@@ -80,11 +59,11 @@ class _NewMessageState extends State<NewMessage> {
                   textCapitalization: TextCapitalization.sentences,
                   style: TextStyle(color: Colors.black54),
                   decoration: InputDecoration(
-                    hintText: 'Escreva sua mensagem...',
-                    hintStyle: TextStyle(color: Colors.grey),
                     focusedBorder: UnderlineInputBorder(borderSide: BorderSide.none),
                     disabledBorder: UnderlineInputBorder(borderSide: BorderSide.none),
                     enabledBorder: UnderlineInputBorder(borderSide: BorderSide.none),
+                    hintStyle: TextStyle(color: Colors.grey),
+                    hintText: ChatStrings.writeYourMessage,
                   ),
                   onChanged: (value) {
                     setState(() {

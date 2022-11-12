@@ -56,8 +56,8 @@ class PetsController extends GetxController {
 
   void handleChatButtonPressed() {
     CommonChatFunctions.openChat(
-      firstUser: tiutiuUserController.tiutiuUser,
-      secondUser: Pet().owner!,
+      senderUser: tiutiuUserController.tiutiuUser,
+      receiverUser: Pet().owner!,
     );
   }
 
