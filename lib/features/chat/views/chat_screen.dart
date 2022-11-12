@@ -32,12 +32,14 @@ class ChatScreen extends StatelessWidget {
               snapshot: snapshot,
               buildWidget: (messages) {
                 return SizedBox(
-                  height: Get.height * .825,
+                  height: Get.height * .82,
                   child: ListView.builder(
                     itemCount: messages.length,
                     itemBuilder: ((context, index) {
                       final message = messages[index];
                       final previousMessage = index > 1 ? messages[index - 1] : message;
+
+                      print('${previousMessage.sender.uid} == $loggedUserId');
 
                       return MessageBubble(
                         lastMessageWasMine: previousMessage.sender.uid == loggedUserId,
