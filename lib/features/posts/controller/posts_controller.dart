@@ -38,18 +38,18 @@ class PostsController extends GetxController {
   final RxBool _formIsValid = true.obs;
   final RxBool _isLoading = false.obs;
   final RxBool _hasError = false.obs;
-  final Rx<Pet> _post = Pet().obs;
+  final Rx<Post> _post = Post().obs;
   final RxInt _postsCount = 0.obs;
   final RxInt _flowIndex = 0.obs;
 
-  bool get existChronicDisease => post.health == PetHealthString.chronicDisease;
+  bool get existChronicDisease => (post as Pet).health == PetHealthString.chronicDisease;
   String get uploadingPostText => _uploadingPostText.value;
   Map<String, dynamic> get cachedVideos => _cachedVideos;
   int get postPhotoFrameQty => _postPhotoFrameQty.value;
   String get flowErrorText => _flowErrorText.value;
   bool get isInReviewMode => _isInReviewMode.value;
   bool get isFullAddress => _isFullAddress.value;
-  bool get formIsInInitialState => post == Pet();
+  bool get formIsInInitialState => post == Post();
   List<Pet> get filteredPosts => _filteredPosts;
   bool get postReviewed => _postReviewed.value;
   bool get formIsValid => _formIsValid.value;
@@ -59,12 +59,12 @@ class PostsController extends GetxController {
   bool get hasError => _hasError.value;
   ChewieController? chewieController;
   List<Pet> get posts => _posts;
-  Pet get post => _post.value;
+  Post get post => _post.value;
 
   void set isInReviewMode(bool value) => _isInReviewMode(value);
   void set postReviewed(bool value) => _postReviewed(value);
   void set isLoading(bool value) => _isLoading(value);
-  void set post(Pet pet) => _post(pet);
+  void set post(Post pet) => _post(pet);
 
   bool isInStepReview() => _flowIndex.value == _FLOW_STEPS_QTY - 2;
   bool isInStepPost() => _flowIndex.value == _FLOW_STEPS_QTY - 1;
@@ -91,7 +91,7 @@ class PostsController extends GetxController {
 
   List _handlePetOtherCaracteristics(String incomingCaracteristic) {
     List caracteristics = [];
-    caracteristics.addAll(post.otherCaracteristics);
+    caracteristics.addAll((post as Pet).otherCaracteristics);
 
     if (caracteristics.contains(incomingCaracteristic)) {
       caracteristics.remove(incomingCaracteristic);

@@ -1,19 +1,20 @@
-import 'package:flutter/widgets.dart';
 import 'package:tiutiu/core/extensions/string_extension.dart';
 import 'package:tiutiu/features/pets/model/pet_model.dart';
+import 'package:tiutiu/core/models/post.dart';
+import 'package:flutter/widgets.dart';
 
 final GlobalKey<FormState> diaseaseForm = GlobalKey<FormState>();
 final GlobalKey<FormState> nameKeyForm = GlobalKey<FormState>();
 
 class PostFormValidator {
-  PostFormValidator(Pet pet) : _pet = pet;
+  PostFormValidator(Post pet) : _pet = pet;
 
-  final Pet _pet;
+  final Post _pet;
 
   bool isStep1Valid(existChronicDiseaseInfo) {
     bool isValid = nameKeyForm.currentState!.validate() &&
-        _pet.health.isNotEmptyNeighterNull() &&
-        _pet.size.isNotEmptyNeighterNull();
+        (_pet as Pet).health.isNotEmptyNeighterNull() &&
+        (_pet as Pet).size.isNotEmptyNeighterNull();
 
     if (existChronicDiseaseInfo) {
       isValid = isValid && diaseaseForm.currentState!.validate();
@@ -23,9 +24,9 @@ class PostFormValidator {
   }
 
   bool isStep2Valid() {
-    bool isValid = _pet.breed.isNotEmptyNeighterNull() &&
-        _pet.color.isNotEmptyNeighterNull() &&
-        _pet.gender.isNotEmptyNeighterNull() &&
+    bool isValid = (_pet as Pet).breed.isNotEmptyNeighterNull() &&
+        (_pet as Pet).color.isNotEmptyNeighterNull() &&
+        (_pet as Pet).gender.isNotEmptyNeighterNull() &&
         _pet.description.isNotEmptyNeighterNull();
 
     return isValid;
