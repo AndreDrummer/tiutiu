@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
 import 'package:tiutiu/features/chat/services/chat_service.dart';
 import 'package:tiutiu/core/utils/routes/routes_name.dart';
@@ -29,17 +30,17 @@ class ChatController extends GetxController {
   void set currentlyTabChat(int tab) => _currentlyTabChat(tab);
   void set isSearching(bool value) => _isSearching(value);
 
-  Contact contactChatingWith = Contact.initial();
+  TiutiuUser userChatingWith = TiutiuUser();
 
-  void resetContactChatingWith() {
-    contactChatingWith = Contact.initial();
+  void resetUserChatingWith() {
+    userChatingWith = TiutiuUser();
   }
 
   Stream<List<Message>> messages(String chatId) {
     return _chatService.messages(
       chatId,
       _getChatId(
-        receiverUserId: contactChatingWith.receiverUser.uid!,
+        receiverUserId: userChatingWith.uid!,
         senderUserId: tiutiuUserController.tiutiuUser.uid!,
       ),
     );
@@ -47,16 +48,19 @@ class ChatController extends GetxController {
 
   Stream<List<Contact>> contacts() => _chatService.contacts(tiutiuUserController.tiutiuUser.uid!);
 
-  void sendNewMessage(Message message) {
-    debugPrint('<> Before Update Contact ${contactChatingWith.lastMessage}');
-
-    contactChatingWith = contactChatingWith.copyWith(
+  Future<void> sendNewMessage(Message message) async {
+    final contact = Contact(
+      userReceiverReference: await tiutiuUserController.getUserReferenceById(message.receiver.uid!),
+      userSenderReference: await tiutiuUserController.getUserReferenceById(message.sender.uid!),
+      id: _getChatId(senderUserId: message.sender.uid!, receiverUserId: message.receiver.uid!),
+      userReceiverId: message.receiver.uid!,
       lastMessageTime: message.createdAt,
+      userSenderId: message.sender.uid,
       lastMessage: message.text,
+      open: false,
     );
-    debugPrint('<> After Update Contact ${contactChatingWith.lastMessage}');
 
-    _chatService.sendMessage(message, contactChatingWith);
+    _chatService.sendMessageAndUpdateContact(message, contact);
   }
 
   void updateContactLastMessage(Contact contact) {
@@ -71,19 +75,27 @@ class ChatController extends GetxController {
     // return FirebaseFirestore.instance.collection('Chats').snapshots();
   }
 
-  void startsChatWith(TiutiuUser user) {
-    contactChatingWith = Contact(
-      id: _getChatId(senderUserId: tiutiuUserController.tiutiuUser.uid!, receiverUserId: user.uid!),
-      lastSenderId: tiutiuUserController.tiutiuUser.uid,
-      senderUser: tiutiuUserController.tiutiuUser,
-      lastMessageTime: null,
-      receiverUser: user,
-      lastMessage: null,
-    );
+  void startsChatWith(TiutiuUser? user) {
+    userChatingWith = user ?? TiutiuUser();
 
-    debugPrint('<> MyUser ${contactChatingWith.senderUser.uid}');
-    debugPrint('<> receiverUser ${contactChatingWith.receiverUser.uid}');
     Get.toNamed(Routes.chat);
+  }
+
+  Stream<TiutiuUser> receiverUser(Contact contact) {
+    final userReference = getUserCorrectReceiverReference(contact);
+    if (userReference == null) return Stream.value(TiutiuUser());
+
+    return userReference.snapshots().asyncMap((doc) {
+      TiutiuUser user = TiutiuUser.fromMap(doc.data() as Map<String, dynamic>);
+      userChatingWith = user;
+      return user;
+    });
+  }
+
+  DocumentReference? getUserCorrectReceiverReference(Contact contact) {
+    if (tiutiuUserController.tiutiuUser.uid == contact.userReceiverId) return contact.userSenderReference;
+    if (tiutiuUserController.tiutiuUser.uid == contact.userSenderId) return contact.userReceiverReference;
+    return contact.userReceiverReference;
   }
 
   String _getChatId({required String senderUserId, required String receiverUserId}) {
