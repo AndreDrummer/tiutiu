@@ -4,7 +4,7 @@ import 'package:tiutiu/core/extensions/string_extension.dart';
 import 'package:tiutiu/core/utils/routes/routes_name.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:tiutiu/core/utils/cesar_cripto.dart';
-import 'package:tiutiu/features/chat/model/chat_model.dart';
+import 'package:tiutiu/features/chat/model/contact.dart';
 import 'package:flutter/material.dart';
 
 class CommonChatFunctions {
@@ -31,7 +31,7 @@ class CommonChatFunctions {
         'receiverNotificationToken': secondUser.notificationToken,
         'chatTitle': secondUser.displayName,
         'receiverId': secondUser.uid,
-        'message': Chat(
+        'message': Contact(
           lastMessageTime: Timestamp.now(),
           secondUser: secondUser,
           firstUser: firstUser,
@@ -43,10 +43,10 @@ class CommonChatFunctions {
     );
   }
 
-  static List<Chat> searchChat(List<Chat> chatList, String textToFilter, String myId) {
-    List<Chat> newChat = [];
+  static List<Contact> searchChat(List<Contact> chatList, String textToFilter, String myId) {
+    List<Contact> newChat = [];
     if (textToFilter.isNotEmpty) {
-      for (Chat chat in chatList) {
+      for (Contact chat in chatList) {
         if (chat.firstUser.uid != myId &&
             chat.firstUser.displayName!.removeAccent().toLowerCase().contains(textToFilter.toLowerCase()))
           newChat.add(chat);
