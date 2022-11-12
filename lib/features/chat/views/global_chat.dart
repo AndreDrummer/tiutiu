@@ -41,10 +41,7 @@ class _GlobalChatState extends State<GlobalChat> {
                     snapshot.data!.docs.map((e) => TiutiuUser.fromMap(e.data() as Map<String, dynamic>)).toList();
 
                 if (messagesList.isEmpty) {
-                  return EmptyListScreen(
-                    text: 'Ninguém entrou para o chat ainda!',
-                    icon: Icons.chat,
-                  );
+                  return EmptyListScreen(text: 'Ninguém entrou para o chat ainda!');
                 }
 
                 return Builder(
@@ -128,8 +125,8 @@ class _ListTileMessage extends StatelessWidget {
     return InkWell(
       onTap: () {
         CommonChatFunctions.openChat(
-          firstUser: myUser,
-          secondUser: user,
+          senderUser: myUser,
+          receiverUser: user,
         );
       },
       child: Column(
