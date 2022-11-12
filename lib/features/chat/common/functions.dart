@@ -4,7 +4,7 @@ import 'package:tiutiu/core/extensions/string_extension.dart';
 import 'package:tiutiu/core/utils/routes/routes_name.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:tiutiu/core/utils/cesar_cripto.dart';
-import 'package:tiutiu/core/models/chat_model.dart';
+import 'package:tiutiu/features/chat/model/chat_model.dart';
 import 'package:flutter/material.dart';
 
 class CommonChatFunctions {
@@ -35,29 +35,24 @@ class CommonChatFunctions {
           lastMessageTime: Timestamp.now(),
           secondUser: secondUser,
           firstUser: firstUser,
+          lastSenderId: '',
           lastMessage: '',
-          lastSender: '',
           id: '',
         ),
       },
     );
   }
 
-  static List<Chat> searchChat(
-      List<Chat> chatList, String textToFilter, String myId) {
+  static List<Chat> searchChat(List<Chat> chatList, String textToFilter, String myId) {
     List<Chat> newChat = [];
     if (textToFilter.isNotEmpty) {
       for (Chat chat in chatList) {
         if (chat.firstUser.uid != myId &&
-            chat.firstUser.displayName!
-                .removeAccent()
-                .toLowerCase()
-                .contains(textToFilter.toLowerCase())) newChat.add(chat);
+            chat.firstUser.displayName!.removeAccent().toLowerCase().contains(textToFilter.toLowerCase()))
+          newChat.add(chat);
         if (chat.secondUser != myId &&
-            chat.secondUser.displayName!
-                .removeAccent()
-                .toLowerCase()
-                .contains(textToFilter.toLowerCase())) newChat.add(chat);
+            chat.secondUser.displayName!.removeAccent().toLowerCase().contains(textToFilter.toLowerCase()))
+          newChat.add(chat);
       }
       return newChat;
     } else {
@@ -65,15 +60,11 @@ class CommonChatFunctions {
     }
   }
 
-  static List<TiutiuUser> searchUser(
-      List<TiutiuUser> userList, String textToFilter) {
+  static List<TiutiuUser> searchUser(List<TiutiuUser> userList, String textToFilter) {
     List<TiutiuUser> newUserList = [];
     if (textToFilter.isNotEmpty) {
       for (TiutiuUser user in userList) {
-        if (user.displayName!
-            .removeAccent()
-            .toLowerCase()
-            .contains(textToFilter.removeAccent().toLowerCase()))
+        if (user.displayName!.removeAccent().toLowerCase().contains(textToFilter.removeAccent().toLowerCase()))
           newUserList.add(user);
       }
       return newUserList;
@@ -109,21 +100,17 @@ class CommonChatFunctions {
     return 1;
   }
 
-  static int filterOnlyMyChats(
-      AsyncSnapshot<QuerySnapshot> snapshot, String uid) {
+  static int filterOnlyMyChats(AsyncSnapshot<QuerySnapshot> snapshot, String uid) {
     int qtd = 0;
     List<QueryDocumentSnapshot> messagesList = [];
     if (snapshot.data != null) {
       snapshot.data!.docs.forEach((element) {
         if (TiutiuUser.fromMap(element.get('firstUser')).uid == uid ||
-            TiutiuUser.fromMap(element.get('secondUser')).uid == uid)
-          messagesList.add(element);
+            TiutiuUser.fromMap(element.get('secondUser')).uid == uid) messagesList.add(element);
       });
 
       messagesList.forEach((e) {
-        if (e.get('open') != null &&
-            !e.get('open') &&
-            e.get('lastSender') != uid) {
+        if (e.get('open') != null && !e.get('open') && e.get('lastSender') != uid) {
           qtd++;
         }
       });

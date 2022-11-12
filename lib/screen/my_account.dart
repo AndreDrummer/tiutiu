@@ -119,7 +119,7 @@ class _MyAccountState extends State<MyAccount> {
                         icon: Icons.chat_bubble_outline,
                         text: 'Chat',
                         onPressed: () {
-                          Navigator.pushNamed(context, Routes.chatList);
+                          Navigator.pushNamed(context, Routes.chat);
                         },
                       ),
                       MyAccountCard(
@@ -149,15 +149,11 @@ class _MyAccountState extends State<MyAccount> {
                               padding: const EdgeInsets.all(8.0),
                               child: Row(
                                 children: [
-                                  Icon(Icons.settings,
-                                      color: Colors.grey, size: 22),
+                                  Icon(Icons.settings, color: Colors.grey, size: 22),
                                   SizedBox(width: 20),
                                   AutoSizeText(
                                     'Configurações',
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .headline4!
-                                        .copyWith(
+                                    style: Theme.of(context).textTheme.headline4!.copyWith(
                                           fontSize: 18,
                                           color: Colors.blueGrey[400],
                                         ),
@@ -196,15 +192,11 @@ class _MyAccountState extends State<MyAccount> {
                               padding: const EdgeInsets.all(8.0),
                               child: Row(
                                 children: [
-                                  Icon(Icons.exit_to_app,
-                                      color: Colors.grey, size: 22),
+                                  Icon(Icons.exit_to_app, color: Colors.grey, size: 22),
                                   SizedBox(width: 20),
                                   AutoSizeText(
                                     'Sair',
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .headline4!
-                                        .copyWith(
+                                    style: Theme.of(context).textTheme.headline4!.copyWith(
                                           fontSize: 18,
                                           color: Colors.blueGrey[400],
                                         ),

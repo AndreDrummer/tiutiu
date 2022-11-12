@@ -1,8 +1,8 @@
 import 'package:tiutiu/features/chat/widgets/new_message.dart';
 import 'package:tiutiu/features/chat/widgets/messages.dart';
 import 'package:tiutiu/core/utils/other_functions.dart';
-import 'package:tiutiu/Widgets/background.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:tiutiu/Widgets/background.dart';
 import 'package:flutter/material.dart';
 
 class ChatScreen extends StatelessWidget {
@@ -12,8 +12,7 @@ class ChatScreen extends StatelessWidget {
     final chatId = (routeArguments as Map)['chatId'];
     final chatTitle = (routeArguments)['chatTitle'];
     final message = (routeArguments)['message'];
-    final receiverNotificationToken =
-        (routeArguments)['receiverNotificationToken'];
+    final receiverNotificationToken = (routeArguments)['receiverNotificationToken'];
     final receiverId = (routeArguments)['receiverId'];
 
     return Scaffold(
@@ -36,8 +35,7 @@ class ChatScreen extends StatelessWidget {
               children: [
                 Expanded(
                   child: Padding(
-                    padding:
-                        const EdgeInsets.only(left: 8.0, right: 16.0, top: 8.0),
+                    padding: const EdgeInsets.only(left: 8.0, right: 16.0, top: 8.0),
                     child: Messages(chatId: chatId),
                   ),
                 ),
