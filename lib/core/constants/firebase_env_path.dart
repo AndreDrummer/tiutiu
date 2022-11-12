@@ -21,8 +21,10 @@ class FirebaseEnvPath {
   static const String env = 'env';
 
   // Quando a migração estiver completa e o app v2.0 lançado, remover o user com U maiusculo.
+  static const String messages = 'messages';
+  static const String contacts = 'contacts';
   static const String posts = 'posts';
-  static const String chats = 'chats';
+  static const String chat = 'chat';
 }
 
 enum FileType {
