@@ -29,7 +29,7 @@ class ProfileController extends GetxController {
         authController.signOut();
         break;
       case MyProfileOptionsTile.chat:
-        Get.toNamed(Routes.contacts);
+        Get.toNamed(Routes.chat);
         break;
     }
   }
