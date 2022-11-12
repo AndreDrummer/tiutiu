@@ -1,11 +1,13 @@
-import 'package:tiutiu/core/constants/firebase_env_path.dart';
+import 'package:tiutiu/features/chat/services/chat_service.dart';
+import 'package:tiutiu/features/chat/model/chat_model.dart';
 import 'package:tiutiu/core/models/message_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:tiutiu/core/models/chat_model.dart';
 import 'package:get/get.dart';
 
 class ChatController extends GetxController {
-  FirebaseFirestore firestore = FirebaseFirestore.instance;
+  ChatController({required ChatService chatService}) : _chatService = chatService;
+
+  final ChatService _chatService;
 
   final RxString _textGlobalChatSearch = ''.obs;
   final RxString _textChatSearch = ''.obs;
@@ -22,46 +24,24 @@ class ChatController extends GetxController {
   void set currentlyTabChat(int tab) => _currentlyTabChat(tab);
   void set isSearching(bool value) => _isSearching(value);
 
-  Stream<QuerySnapshot> messagesList(String chatId) {
-    return firestore
-        .collection('Chats')
-        .doc(chatId)
-        .collection('chat')
-        .orderBy('createdAt', descending: true)
-        .snapshots();
-  }
-
-  Stream<QuerySnapshot> globalChatList() {
-    return firestore.collection(FirebaseEnvPath.users).snapshots();
+  Stream myContacts(String userId) {
+    return _chatService.myContacts(userId);
   }
 
   void createFirstMessage(String chatId, Chat chat) {
-    firestore
-        .collection('Chats')
-        .doc(chatId)
-        .set(chat.toJson(), SetOptions(merge: true));
+    // firestore.collection('Chats').doc(chatId).set(chat.toJson(), SetOptions(merge: true));
   }
 
   void sendNewMessage(String chatId, Message message) {
-    firestore
-        .collection('Chats')
-        .doc(chatId)
-        .collection('chat')
-        .add(message.toJson());
+    // firestore.collection('Chats').doc(chatId).collection('chat').add(message.toJson());
   }
 
   void updateLastMessage(String chatId, Map<String, dynamic> messageData) {
-    firestore
-        .collection('Chats')
-        .doc(chatId)
-        .set(messageData, SetOptions(merge: true));
+    // firestore.collection('Chats').doc(chatId).set(messageData, SetOptions(merge: true));
   }
 
   void markMessageAsRead(String chatId) {
-    firestore
-        .collection('Chats')
-        .doc(chatId)
-        .set({'open': true}, SetOptions(merge: true));
+    // firestore.collection('Chats').doc(chatId).set({'open': true}, SetOptions(merge: true));
   }
 
   Stream<QuerySnapshot> newMessages() {

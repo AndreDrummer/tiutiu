@@ -39,6 +39,13 @@ class Formatters {
     return DateFormat('dd/MM/yyy').format(date) + ' $timeHour:${timeMinute < 10 ? '0$timeMinute' : timeMinute}';
   }
 
+  static String getFormattedTime(String createdAt) {
+    final timeMinute = DateTime.parse(createdAt).minute;
+    final timeHour = DateTime.parse(createdAt).hour;
+
+    return '$timeHour:${timeMinute < 10 ? '0$timeMinute' : timeMinute}';
+  }
+
   static String timeSecondsFormmated(int seconds) {
     var min = seconds ~/ 60;
     var sec = seconds % 60;

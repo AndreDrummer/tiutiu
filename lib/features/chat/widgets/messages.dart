@@ -19,7 +19,7 @@ class Messages extends StatelessWidget {
     final myUserId = FirebaseAuth.instance.currentUser!.uid;
 
     return StreamBuilder(
-      stream: chatController.messagesList(chatId),
+      stream: null,
       builder: (context, AsyncSnapshot snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return Center(child: CircularProgressIndicator());
@@ -37,11 +37,8 @@ class Messages extends StatelessWidget {
               child: MessageBubble(
                 message: Message.fromSnapshot(chatDocs[index]).text.trim(),
                 user: Message.fromSnapshot(chatDocs[index]).user,
-                belongToMe:
-                    Message.fromSnapshot(chatDocs[index]).userId == myUserId,
-                time: (Message.fromSnapshot(chatDocs[index]).createdAt)
-                        ?.toDate()
-                        ?.toIso8601String() ??
+                belongToMe: Message.fromSnapshot(chatDocs[index]).userId == myUserId,
+                time: (Message.fromSnapshot(chatDocs[index]).createdAt)?.toDate()?.toIso8601String() ??
                     DateTime.now().toIso8601String(),
                 key: ValueKey(chatDocs[index].id),
               ),
