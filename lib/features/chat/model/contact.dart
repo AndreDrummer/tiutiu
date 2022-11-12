@@ -1,13 +1,13 @@
-import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/widgets.dart';
 
 enum ContactEnum {
+  userReceiverReference,
+  userSenderReference,
   lastMessageTime,
-  lastSenderId,
+  userReceiverId,
+  userSenderId,
   lastMessage,
-  receiverUser,
-  senderUser,
   open,
   id,
 }
@@ -15,60 +15,52 @@ enum ContactEnum {
 class Contact {
   factory Contact.fromSnapshot(DocumentSnapshot snapshot) {
     return Contact(
-      receiverUser: TiutiuUser.fromMap((snapshot.data() as Map<String, dynamic>)[ContactEnum.receiverUser.name]),
-      senderUser: TiutiuUser.fromMap((snapshot.data() as Map<String, dynamic>)[ContactEnum.senderUser.name]),
+      userReceiverReference: (snapshot.data() as Map<String, dynamic>)[ContactEnum.userReceiverReference.name],
+      userSenderReference: (snapshot.data() as Map<String, dynamic>)[ContactEnum.userSenderReference.name],
       lastMessageTime: (snapshot.data() as Map<String, dynamic>)[ContactEnum.lastMessageTime.name],
-      lastSenderId: (snapshot.data() as Map<String, dynamic>)[ContactEnum.lastSenderId.name],
+      userReceiverId: (snapshot.data() as Map<String, dynamic>)[ContactEnum.userReceiverId.name],
+      userSenderId: (snapshot.data() as Map<String, dynamic>)[ContactEnum.userSenderId.name],
       lastMessage: (snapshot.data() as Map<String, dynamic>)[ContactEnum.lastMessage.name],
       open: (snapshot.data() as Map<String, dynamic>)[ContactEnum.open.name],
       id: snapshot.id,
     );
   }
   Contact({
-    required this.lastMessageTime,
-    required this.lastSenderId,
-    required this.lastMessage,
-    required this.receiverUser,
-    required this.senderUser,
+    this.userReceiverReference,
+    this.userSenderReference,
+    this.lastMessageTime,
+    this.userReceiverId,
     this.open = false,
-    required this.id,
+    this.userSenderId,
+    this.lastMessage,
+    this.id,
   });
 
-  factory Contact.initial() {
-    return Contact(
-      receiverUser: TiutiuUser(),
-      senderUser: TiutiuUser(),
-      lastMessageTime: null,
-      lastSenderId: null,
-      lastMessage: null,
-      open: null,
-      id: null,
-    );
-  }
-
   Contact copyWith({
+    DocumentReference? userReceiverReference,
+    DocumentReference? userSenderReference,
     dynamic lastMessageTime,
-    TiutiuUser? receiverUser,
-    TiutiuUser? senderUser,
+    String? userReceiverId,
+    String? userSenderId,
     String? lastMessage,
-    String? lastSenderId,
     String? id,
     bool? open,
   }) {
+    debugPrint('<> Updating Contact userSenderReference... $userSenderReference');
     debugPrint('<> Updating Contact lastMessageTime... $lastMessageTime');
-    debugPrint('<> Updating Contact receiverUser... $receiverUser');
-    debugPrint('<> Updating Contact senderUser... $senderUser');
+    debugPrint('<> Updating Contact userSenderId... $userSenderId');
+    debugPrint('<> Updating Contact userSenderId... $userSenderId');
     debugPrint('<> Updating Contact lastMessage... $lastMessage');
-    debugPrint('<> Updating Contact lastSenderId... $lastSenderId');
-    debugPrint('<> Updating Contact id... $id');
     debugPrint('<> Updating Contact open... $open');
+    debugPrint('<> Updating Contact id... $id');
 
     return Contact(
+      userReceiverReference: userReceiverReference ?? this.userReceiverReference,
+      userSenderReference: userSenderReference ?? this.userSenderReference,
       lastMessageTime: lastMessageTime ?? this.lastMessageTime,
-      lastSenderId: lastSenderId ?? this.lastSenderId,
+      userReceiverId: userReceiverId ?? this.userReceiverId,
+      userSenderId: userSenderId ?? this.userSenderId,
       lastMessage: lastMessage ?? this.lastMessage,
-      receiverUser: receiverUser ?? this.receiverUser,
-      senderUser: senderUser ?? this.senderUser,
       open: open ?? this.open,
       id: id ?? this.id,
     );
@@ -76,22 +68,24 @@ class Contact {
 
   Map<String, dynamic> toJson() {
     return {
-      ContactEnum.receiverUser.name: receiverUser.toMap(),
+      ContactEnum.userReceiverReference.name: userReceiverReference,
+      ContactEnum.userSenderReference.name: userSenderReference,
+      ContactEnum.userSenderReference.name: userSenderReference,
       ContactEnum.lastMessageTime.name: lastMessageTime,
-      ContactEnum.senderUser.name: senderUser.toMap(),
-      ContactEnum.lastSenderId.name: lastSenderId,
-      ContactEnum.lastMessage.name: lastMessage,
+      ContactEnum.userReceiverId.name: userReceiverId,
+      ContactEnum.userSenderId.name: userSenderId,
       ContactEnum.lastMessage.name: lastMessage,
       ContactEnum.open.name: open,
       ContactEnum.id.name: id,
     };
   }
 
+  DocumentReference? userReceiverReference;
+  DocumentReference? userSenderReference;
   dynamic lastMessageTime;
-  TiutiuUser receiverUser;
-  TiutiuUser senderUser;
-  String? lastSenderId;
+  String? userReceiverId;
+  String? userSenderId;
   String? lastMessage;
   String? id;
-  bool? open;
+  bool open;
 }

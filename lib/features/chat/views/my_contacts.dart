@@ -16,25 +16,6 @@ class _MyContactsState extends State<MyContacts> {
   late Contact contact;
 
   @override
-  void initState() {
-    super.initState();
-  }
-
-  TiutiuUser pickTheRightReceiverUser(Contact contact) {
-    final myUser = tiutiuUserController.tiutiuUser;
-    if (contact.senderUser.uid == myUser.uid) return contact.receiverUser;
-    if (contact.receiverUser.uid == myUser.uid) return contact.senderUser;
-    return contact.receiverUser;
-  }
-
-  bool existsNewMessage(Contact contact) {
-    return contact.open != null &&
-        contact.lastSenderId != tiutiuUserController.tiutiuUser.uid &&
-        contact.lastSenderId != null &&
-        !contact.open!;
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: DefaultBasicAppBar(text: ChatStrings.myContacts),
@@ -49,12 +30,17 @@ class _MyContactsState extends State<MyContacts> {
                 itemCount: contacts.length,
                 itemBuilder: ((context, index) {
                   final contact = contacts[index];
-                  return ContactTile(
-                    onContactTap: (() => chatController.startsChatWith(pickTheRightReceiverUser(contact))),
-                    myUserId: tiutiuUserController.tiutiuUser.uid!,
-                    hasNewMessage: index.isOdd,
-                    contact: contact,
-                    messageId: '',
+
+                  return StreamBuilder<TiutiuUser>(
+                    stream: chatController.receiverUser(contact),
+                    builder: (context, snapshot) {
+                      return ContactTile(
+                        onContactTap: (() => chatController.startsChatWith(snapshot.data)),
+                        userReceiver: snapshot.data,
+                        hasNewMessage: contact.open,
+                        contact: contact,
+                      );
+                    },
                   );
                 }),
               );
