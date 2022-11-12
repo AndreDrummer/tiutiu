@@ -1,10 +1,6 @@
-import 'package:get/get.dart';
 import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
 import 'package:tiutiu/core/extensions/string_extension.dart';
-import 'package:tiutiu/core/utils/routes/routes_name.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:tiutiu/core/utils/cesar_cripto.dart';
-import 'package:tiutiu/features/chat/model/contact.dart';
 import 'package:flutter/material.dart';
 
 class CommonChatFunctions {
@@ -18,46 +14,6 @@ class CommonChatFunctions {
     });
 
     return newList;
-  }
-
-  static void openChat({
-    required TiutiuUser receiverUser,
-    required TiutiuUser senderUser,
-  }) {
-    Get.toNamed(
-      Routes.chat,
-      arguments: {
-        'chatId': GenerateHashKey.cesar(senderUser.uid!, receiverUser.uid!),
-        'receiverNotificationToken': receiverUser.notificationToken,
-        'chatTitle': receiverUser.displayName,
-        'receiverId': receiverUser.uid,
-        'message': Contact(
-          lastMessageTime: Timestamp.now(),
-          receiverUser: receiverUser,
-          senderUser: senderUser,
-          lastSenderId: '',
-          lastMessage: '',
-          id: '',
-        ),
-      },
-    );
-  }
-
-  static List<Contact> searchChat(List<Contact> chatList, String textToFilter, String myId) {
-    List<Contact> newChat = [];
-    if (textToFilter.isNotEmpty) {
-      for (Contact chat in chatList) {
-        if (chat.senderUser.uid != myId &&
-            chat.senderUser.displayName!.removeAccent().toLowerCase().contains(textToFilter.toLowerCase()))
-          newChat.add(chat);
-        if (chat.receiverUser != myId &&
-            chat.receiverUser.displayName!.removeAccent().toLowerCase().contains(textToFilter.toLowerCase()))
-          newChat.add(chat);
-      }
-      return newChat;
-    } else {
-      return chatList;
-    }
   }
 
   static List<TiutiuUser> searchUser(List<TiutiuUser> userList, String textToFilter) {
