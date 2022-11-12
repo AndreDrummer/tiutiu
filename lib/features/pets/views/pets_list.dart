@@ -1,5 +1,4 @@
 import 'package:tiutiu/features/pets/widgets/render_post_list.dart';
-import 'package:tiutiu/core/utils/routes/routes_name.dart';
 import 'package:tiutiu/features/system/controllers.dart';
 import 'package:tiutiu/core/mixins/tiu_tiu_pop_up.dart';
 import 'package:tiutiu/Widgets/empty_list.dart';
@@ -35,16 +34,10 @@ class _PetsList extends StatelessWidget with TiuTiuPopUp {
           itemBuilder: (_, index) {
             if (posts.isEmpty) return EmptyListScreen();
 
-            return GestureDetector(
-              onTap: () {
-                Get.toNamed(Routes.petDetails);
-                postsController.post = posts[index < posts.length ? index : posts.length - 1];
-              },
-              child: RenderListItem(
-                post: posts[index < posts.length ? index : posts.length - 1],
-                onNavigateToTop: () => homeController.onScrollUp(),
-                showBackToStartButton: index == posts.length,
-              ),
+            return RenderListItem(
+              post: posts[index < posts.length ? index : posts.length - 1],
+              onNavigateToTop: () => homeController.onScrollUp(),
+              showBackToStartButton: index == posts.length,
             );
           },
         ),

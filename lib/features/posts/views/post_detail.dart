@@ -18,6 +18,7 @@ import 'package:tiutiu/core/constants/strings.dart';
 import 'package:maps_launcher/maps_launcher.dart';
 import 'package:tiutiu/Widgets/button_wide.dart';
 import 'package:tiutiu/core/Custom/icons.dart';
+import 'package:tiutiu/core/models/post.dart';
 import 'package:flutter/material.dart';
 import 'package:chewie/chewie.dart';
 import 'package:get/get.dart';
@@ -66,8 +67,8 @@ class _PetDetailsState extends State<PetDetails> {
 
   @override
   Widget build(BuildContext context) {
-    final Pet post = postsController.post;
-    final petCaracteristics = PetCaracteristics.petCaracteristics(post);
+    final Post post = postsController.post;
+    final petCaracteristics = PetCaracteristics.petCaracteristics((post as Pet));
 
     return SafeArea(
       child: WillPopScope(
@@ -330,11 +331,11 @@ class _PetDetailsState extends State<PetDetails> {
 
     final describedAddress = post.describedAddress.isNotEmptyNeighterNull() ? '\n\n${post.describedAddress}' : '';
 
-    final showIcon = !post.describedAddress.isNotEmptyNeighterNull() && !post.disappeared;
+    final showIcon = !post.describedAddress.isNotEmptyNeighterNull() && !(post as Pet).disappeared;
 
     return CardContent(
       icon: showIcon ? null : Icons.launch,
-      content: post.disappeared ? post.lastSeenDetails : '${post.city} - ${post.state} $describedAddress',
+      content: (post as Pet).disappeared ? (post).lastSeenDetails : '${post.city} - ${post.state} $describedAddress',
       title: post.disappeared
           ? PetDetailsStrings.lastSeen
           : PetDetailsStrings.whereIsIt(
@@ -357,7 +358,7 @@ class _PetDetailsState extends State<PetDetails> {
     String? emailSubject,
     TiutiuUser? user,
   }) {
-    final Pet pet = postsController.post;
+    final Post post = postsController.post;
     return Visibility(
       replacement: widget.inReviewMode ? SizedBox.shrink() : _verifyEmailBoxWarning(),
       visible: !widget.inReviewMode && tiutiuUserController.tiutiuUser.phoneVerified,
@@ -394,9 +395,9 @@ class _PetDetailsState extends State<PetDetails> {
               ],
             ),
             ButtonWide(
-              text: pet.disappeared ? AppStrings.provideInfo : AppStrings.iamInterested,
-              icon: pet.disappeared ? Icons.info : Icons.favorite_border,
-              color: pet.disappeared ? AppColors.info : AppColors.danger,
+              text: (post as Pet).disappeared ? AppStrings.provideInfo : AppStrings.iamInterested,
+              icon: post.disappeared ? Icons.info : Icons.favorite_border,
+              color: post.disappeared ? AppColors.info : AppColors.danger,
               isToExpand: true,
               onPressed: () {},
             ),
