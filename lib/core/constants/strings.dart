@@ -257,3 +257,9 @@ class PostFlowStrings {
   static const String data = 'Dados';
   static const String age = 'Idade';
 }
+
+class ChatStrings {
+  static const String noContact = 'Nenhum contato ainda';
+  static const String myContacts = 'Meus Contatos';
+  static const String news = 'Nova';
+}

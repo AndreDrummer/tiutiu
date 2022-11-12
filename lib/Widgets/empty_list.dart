@@ -19,7 +19,7 @@ class EmptyListScreen extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          AutoSizeTexts.autoSizeText16(AppStrings.noPetFound),
+          AutoSizeTexts.autoSizeText16(text ?? AppStrings.noPetFound),
           SizedBox(width: 10.0.w),
           Icon(icon),
         ],
