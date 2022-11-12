@@ -50,6 +50,7 @@ class _TiuTiuAppState extends State<TiuTiuApp> {
       builder: (_, __) => GetMaterialApp(
         title: 'Tiu, tiu - App',
         theme: ThemeData(
+          bottomSheetTheme: BottomSheetThemeData(backgroundColor: Colors.black.withOpacity(0)),
           scaffoldBackgroundColor: Color(0XFFF9F9F9),
           primarySwatch: AppColors.secondary,
           primaryColor: AppColors.primary,
