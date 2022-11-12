@@ -9,7 +9,7 @@ class ChatService extends GetxController {
 
   Stream<List<Message>> messages(String userId, String contactId) {
     return _pathToMessages(userId, contactId)
-        .orderBy(MessageEnum.createdAt.name, descending: false)
+        .orderBy(MessageEnum.createdAt.name, descending: true)
         .snapshots()
         .asyncMap((snapshot) {
       return snapshot.docs.map((favorite) => Message.fromSnapshot(favorite)).toList();
@@ -25,16 +25,16 @@ class ChatService extends GetxController {
     });
   }
 
-  void sendMessage(Message message, Contact contact) {
+  void sendMessageAndUpdateContact(Message message, Contact contact) {
     /// Because that Firebase does not support queries like OR, we need to duplicate the data there
     /// in order to guarantee performance. So that is why we need to record the same data in a path
     /// under the user sender messages collection and another under the user receiver messages collection.
 
-    _pathToMessages(message.senderId!, contact.id!).doc(message.id).set(message.toJson());
-    _pathToContact(message.senderId!, contact.id!).set(contact.toJson());
+    _pathToMessages(message.sender.uid!, contact.id!).doc(message.id).set(message.toJson());
+    _pathToContact(message.sender.uid!, contact.id!).set(contact.toJson());
 
-    _pathToMessages(message.receiverId!, contact.id!).doc(message.id).set(message.toJson());
-    _pathToContact(message.receiverId!, contact.id!).set(contact.toJson());
+    _pathToMessages(message.receiver.uid!, contact.id!).doc(message.id).set(message.toJson());
+    _pathToContact(message.receiver.uid!, contact.id!).set(contact.toJson());
   }
 
   CollectionReference<Map<String, dynamic>> _pathToContacts(String userId) {

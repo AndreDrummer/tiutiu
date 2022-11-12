@@ -1,10 +1,8 @@
 import 'package:tiutiu/core/constants/firebase_env_path.dart';
-import 'package:tiutiu/core/models/post.dart';
-import 'package:tiutiu/features/chat/common/functions.dart';
 import 'package:tiutiu/features/pets/model/pet_model.dart';
-import 'package:tiutiu/features/system/controllers.dart';
 import 'package:tiutiu/core/utils/other_functions.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:tiutiu/core/models/post.dart';
 import 'package:get/get.dart';
 
 class PetsController extends GetxController {
@@ -16,10 +14,6 @@ class PetsController extends GetxController {
 
   void set loadingText(String text) => _loadingText(text);
   void set isLoading(bool value) => _isLoading(value);
-
-  Stream<List<Pet>> teste() {
-    return Stream.value(<Pet>[]);
-  }
 
   List<Pet> getPetListFromSnapshots(List<DocumentSnapshot> docs) {
     List<Pet> pets = [];
@@ -50,23 +44,5 @@ class PetsController extends GetxController {
     required int actualViews,
   }) {
     petReference.set({PostEnum.views.name: ++actualViews}, SetOptions(merge: true));
-  }
-
-  void navigateToAuth() {}
-
-  void handleChatButtonPressed() {
-    CommonChatFunctions.openChat(
-      senderUser: tiutiuUserController.tiutiuUser,
-      receiverUser: Pet().owner!,
-    );
-  }
-
-  void showInterest({
-    required DocumentReference petReference,
-    required int actualInteresteds,
-  }) {
-    petReference.set({
-      PostEnum.interesteds.name: ++actualInteresteds,
-    }, SetOptions(merge: true));
   }
 }

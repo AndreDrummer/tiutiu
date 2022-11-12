@@ -1,45 +1,46 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
 
 enum MessageEnum {
-  receiverId,
+  receiver,
   createdAt,
-  senderId,
+  sender,
   text,
   id,
 }
 
 class Message {
   Message({
-    required this.receiverId,
+    required this.receiver,
     required this.createdAt,
-    required this.senderId,
+    required this.sender,
     required this.text,
     required this.id,
   });
 
   factory Message.fromSnapshot(DocumentSnapshot snapshot) {
     return Message(
-      receiverId: (snapshot.data() as Map<String, dynamic>)[MessageEnum.receiverId.name],
-      createdAt: (snapshot.data() as Map<String, dynamic>)[MessageEnum.createdAt.name],
-      senderId: (snapshot.data() as Map<String, dynamic>)[MessageEnum.senderId.name],
-      text: (snapshot.data() as Map<String, dynamic>)[MessageEnum.text.name],
+      receiver: TiutiuUser.fromMap(snapshot.get(MessageEnum.receiver.name)),
+      sender: TiutiuUser.fromMap(snapshot.get(MessageEnum.sender.name)),
+      createdAt: snapshot.get(MessageEnum.createdAt.name),
+      text: snapshot.get(MessageEnum.text.name),
       id: snapshot.id,
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
-      MessageEnum.receiverId.name: receiverId,
+      MessageEnum.receiver.name: receiver.toMap(),
+      MessageEnum.sender.name: sender.toMap(),
       MessageEnum.createdAt.name: createdAt,
-      MessageEnum.senderId.name: senderId,
       MessageEnum.text.name: text,
       MessageEnum.id.name: id,
     };
   }
 
-  String? receiverId;
+  TiutiuUser receiver;
+  TiutiuUser sender;
   dynamic createdAt;
-  String? senderId;
   String? text;
   String? id;
 }
