@@ -70,34 +70,31 @@ class _VerifyEmailState extends State<VerifyEmail> {
   }
 
   AutoSizeText _headline1() {
-    return AutoSizeTexts.autoSizeText18(
+    return AutoSizeTexts.autoSizeText16(
       fontWeight: FontWeight.w600,
       textAlign: TextAlign.center,
       AuthStrings.linkWasSent,
     );
   }
 
-  Row _headline2(String? email) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        AutoSizeTexts.autoSizeText18(
-          fontWeight: FontWeight.w600,
-          textAlign: TextAlign.center,
-          'para o email ',
-        ),
-        AutoSizeTexts.autoSizeText18(
-          fontWeight: FontWeight.w500,
-          textAlign: TextAlign.center,
-          color: AppColors.primary,
-          email,
-        ),
-        AutoSizeTexts.autoSizeText18(
-          fontWeight: FontWeight.w500,
-          textAlign: TextAlign.center,
-          '.',
-        ),
-      ],
+  Widget _headline2(String? email) {
+    return FittedBox(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          AutoSizeTexts.autoSizeText16(
+            fontWeight: FontWeight.w500,
+            textAlign: TextAlign.center,
+            color: AppColors.primary,
+            email,
+          ),
+          AutoSizeTexts.autoSizeText16(
+            fontWeight: FontWeight.w500,
+            textAlign: TextAlign.center,
+            '.',
+          ),
+        ],
+      ),
     );
   }
 

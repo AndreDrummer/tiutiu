@@ -1,13 +1,13 @@
 import 'package:tiutiu/features/posts/services/post_service.dart';
 import 'package:tiutiu/core/local_storage/local_storage.dart';
 import 'package:tiutiu/features/pets/model/pet_model.dart';
+import 'package:tiutiu/core/models/post.dart';
 import 'package:flutter/foundation.dart';
 
 final DISAPPEARED_TAB = 1;
 
 class PostsRepository {
-  PostsRepository({required PostService postService})
-      : _postService = postService;
+  PostsRepository({required PostService postService}) : _postService = postService;
 
   final PostService _postService;
 
@@ -92,7 +92,7 @@ class PostsRepository {
 
   Future<void> uploadVideo({
     required Function(String?) onUploaded,
-    required Pet post,
+    required Post post,
   }) async {
     await _postService.uploadVideo(
       onVideoUploaded: onUploaded,
@@ -102,7 +102,7 @@ class PostsRepository {
 
   Future<void> uploadImages({
     required Function(List) onUploaded,
-    required Pet post,
+    required Post post,
   }) async {
     await _postService.uploadImages(
       onImagesUploaded: onUploaded,
@@ -110,7 +110,7 @@ class PostsRepository {
     );
   }
 
-  Future<void> uploadPostData({required Pet post}) async {
+  Future<void> uploadPostData({required Post post}) async {
     await _postService.uploadPostData(post);
   }
 }
