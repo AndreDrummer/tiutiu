@@ -2,7 +2,7 @@ import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/features/system/controllers.dart';
 import 'package:tiutiu/core/models/message_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:tiutiu/core/models/chat_model.dart';
+import 'package:tiutiu/features/chat/model/chat_model.dart';
 import 'package:flutter/material.dart';
 
 FirebaseFirestore firestore = FirebaseFirestore.instance;
@@ -85,12 +85,9 @@ class _NewMessageState extends State<NewMessage> {
                   decoration: InputDecoration(
                     labelText: 'Escreva sua mensagem...',
                     labelStyle: TextStyle(color: Colors.blueGrey),
-                    focusedBorder:
-                        UnderlineInputBorder(borderSide: BorderSide.none),
-                    disabledBorder:
-                        UnderlineInputBorder(borderSide: BorderSide.none),
-                    enabledBorder:
-                        UnderlineInputBorder(borderSide: BorderSide.none),
+                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide.none),
+                    disabledBorder: UnderlineInputBorder(borderSide: BorderSide.none),
+                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide.none),
                   ),
                   onChanged: (value) {
                     setState(() {
