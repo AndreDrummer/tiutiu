@@ -217,7 +217,7 @@ class GenerateHashKey {
     return output;
   }
 
-  static String generateHash(String palavra1, String palavra2) {
+  static String generateUniqueChatHash(String palavra1, String palavra2) {
     return cesar(palavra1.toUpperCase(), palavra2.toUpperCase());
   }
 }

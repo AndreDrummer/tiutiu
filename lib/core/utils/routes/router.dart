@@ -1,4 +1,5 @@
 import 'package:tiutiu/features/auth/views/email_and_password.dart';
+import 'package:tiutiu/features/chat/views/chat_screen.dart';
 import 'package:tiutiu/features/favorites/screen/favorites.dart';
 import 'package:tiutiu/features/auth/views/auth_hosters.dart';
 import 'package:tiutiu/features/posts/views/post_detail.dart';
@@ -38,6 +39,10 @@ class RouterGenerator {
       case Routes.contacts:
         return MaterialPageRoute(
           builder: (_) => MyContacts(),
+        );
+      case Routes.chat:
+        return MaterialPageRoute(
+          builder: (_) => ChatScreen(),
         );
       case Routes.settings:
         return MaterialPageRoute(
