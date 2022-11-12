@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/features/chat/model/contact.dart';
 import 'package:tiutiu/features/chat/model/message.dart';
@@ -14,47 +16,43 @@ class NewMessage extends StatefulWidget {
     required this.receiverNotificationToken,
     required this.receiverId,
     required this.contact,
-    required this.chatId,
   });
 
   final String receiverNotificationToken;
   final String receiverId;
   final Contact contact;
-  final String chatId;
 
   @override
   _NewMessageState createState() => _NewMessageState();
 }
 
 class _NewMessageState extends State<NewMessage> {
-  final _controller = TextEditingController();
-  String _enteredMessage = '';
   final Color destakColor = AppColors.secondary;
+  final _controller = TextEditingController();
   final Color whiteColor = AppColors.white;
+  String _enteredMessage = '';
 
   void _sendMessage() async {
     FocusScope.of(context).unfocus();
 
-    chatController.createFirstMessage(widget.chatId, widget.contact);
+    chatController.createFirstMessage(widget.contact.id!, widget.contact);
 
     chatController.sendNewMessage(
-      widget.chatId,
+      widget.contact.id!,
       Message(
-        text: _enteredMessage,
-        createdAt: FieldValue.serverTimestamp(),
         senderId: tiutiuUserController.tiutiuUser.uid!,
+        createdAt: FieldValue.serverTimestamp(),
+        text: _enteredMessage,
         id: Uuid().v4(),
       ),
     );
 
-    chatController.updateLastMessage(
-      widget.chatId,
-      {
-        'lastSender': tiutiuUserController.tiutiuUser.uid,
-        'lastMessageTime': FieldValue.serverTimestamp(),
-        'lastMessage': _enteredMessage,
-        'open': false,
-      },
+    chatController.updateContactLastMessage(
+      widget.contact.copyWith(
+        lastMessageTime: FieldValue.serverTimestamp(),
+        lastSenderId: tiutiuUserController.tiutiuUser.uid,
+        lastMessage: _enteredMessage,
+      ),
     );
 
     _controller.clear();
@@ -63,28 +61,27 @@ class _NewMessageState extends State<NewMessage> {
   @override
   Widget build(BuildContext context) {
     return Container(
+      margin: EdgeInsets.only(bottom: Platform.isIOS ? 8.0.h : 0.0),
       padding: const EdgeInsets.all(6.0),
       child: Row(
         children: [
           Expanded(
             child: Card(
-              margin: EdgeInsets.symmetric(vertical: 16.0, horizontal: 8.0.w),
+              elevation: 16.0,
               color: whiteColor,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(Radius.circular(24)),
               ),
               child: Padding(
-                padding: EdgeInsets.only(left: 8.0.w),
+                padding: EdgeInsets.only(left: 16.0.w),
                 child: TextField(
                   controller: _controller,
                   onSubmitted: (value) => _sendMessage(),
                   textCapitalization: TextCapitalization.sentences,
                   style: TextStyle(color: Colors.black54),
                   decoration: InputDecoration(
-                    labelText: 'Escreva sua mensagem...',
-                    labelStyle: TextStyle(
-                      color: Colors.blueGrey,
-                    ),
+                    hintText: 'Escreva sua mensagem...',
+                    hintStyle: TextStyle(color: Colors.grey),
                     focusedBorder: UnderlineInputBorder(borderSide: BorderSide.none),
                     disabledBorder: UnderlineInputBorder(borderSide: BorderSide.none),
                     enabledBorder: UnderlineInputBorder(borderSide: BorderSide.none),
@@ -99,16 +96,23 @@ class _NewMessageState extends State<NewMessage> {
             ),
           ),
           GestureDetector(
-            child: Container(
-              margin: const EdgeInsets.all(8.0),
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
+            child: SizedBox(
+              height: 56.0,
+              width: 56.0,
+              child: Card(
+                elevation: 16.0,
                 color: destakColor,
-              ),
-              padding: const EdgeInsets.all(14.0),
-              child: Padding(
-                child: Icon(Icons.send_rounded, color: whiteColor),
-                padding: const EdgeInsets.only(left: 4.0),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(1000)),
+                ),
+                child: Container(
+                  decoration: BoxDecoration(shape: BoxShape.circle),
+                  margin: EdgeInsets.only(left: 8.0.w),
+                  child: Padding(
+                    child: Icon(Icons.send_rounded, color: whiteColor),
+                    padding: EdgeInsets.only(right: 4.0.w),
+                  ),
+                ),
               ),
             ),
             onTap: _enteredMessage.trim().isEmpty ? null : _sendMessage,

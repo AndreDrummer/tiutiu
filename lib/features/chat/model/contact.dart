@@ -12,6 +12,17 @@ enum ContactEnum {
 }
 
 class Contact {
+  factory Contact.fromSnapshot(DocumentSnapshot snapshot) {
+    return Contact(
+      secondUser: TiutiuUser.fromMap((snapshot.data() as Map<String, dynamic>)[ContactEnum.secondUser.name]),
+      firstUser: TiutiuUser.fromMap((snapshot.data() as Map<String, dynamic>)[ContactEnum.firstUser.name]),
+      lastMessageTime: (snapshot.data() as Map<String, dynamic>)[ContactEnum.lastMessageTime.name],
+      lastSenderId: (snapshot.data() as Map<String, dynamic>)[ContactEnum.lastSenderId.name],
+      lastMessage: (snapshot.data() as Map<String, dynamic>)[ContactEnum.lastMessage.name],
+      open: (snapshot.data() as Map<String, dynamic>)[ContactEnum.open.name],
+      id: snapshot.id,
+    );
+  }
   Contact({
     required this.lastMessageTime,
     required this.lastSenderId,
@@ -34,15 +45,23 @@ class Contact {
     );
   }
 
-  factory Contact.fromSnapshot(DocumentSnapshot snapshot) {
+  Contact copyWith({
+    dynamic lastMessageTime,
+    TiutiuUser? secondUser,
+    TiutiuUser? firstUser,
+    String? lastMessage,
+    String? lastSenderId,
+    String? id,
+    bool? open,
+  }) {
     return Contact(
-      secondUser: TiutiuUser.fromMap((snapshot.data() as Map<String, dynamic>)[ContactEnum.secondUser.name]),
-      firstUser: TiutiuUser.fromMap((snapshot.data() as Map<String, dynamic>)[ContactEnum.firstUser.name]),
-      lastMessageTime: (snapshot.data() as Map<String, dynamic>)[ContactEnum.lastMessageTime.name],
-      lastSenderId: (snapshot.data() as Map<String, dynamic>)[ContactEnum.lastSenderId.name],
-      lastMessage: (snapshot.data() as Map<String, dynamic>)[ContactEnum.lastMessage.name],
-      open: (snapshot.data() as Map<String, dynamic>)[ContactEnum.open.name],
-      id: snapshot.id,
+      lastMessageTime: lastMessageTime ?? this.lastMessageTime,
+      lastSenderId: lastSenderId ?? this.lastSenderId,
+      lastMessage: lastMessage ?? this.lastMessage,
+      secondUser: secondUser ?? this.secondUser,
+      firstUser: firstUser ?? this.firstUser,
+      open: open ?? this.open,
+      id: id ?? this.id,
     );
   }
 
@@ -58,7 +77,7 @@ class Contact {
     };
   }
 
-  Timestamp? lastMessageTime;
+  dynamic lastMessageTime;
   TiutiuUser secondUser;
   TiutiuUser firstUser;
   String? lastMessage;
