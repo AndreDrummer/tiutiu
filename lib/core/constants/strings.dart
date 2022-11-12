@@ -259,6 +259,8 @@ class PostFlowStrings {
 }
 
 class ChatStrings {
+  static const String writeYourMessage = 'Escreva sua mensagem...';
+  static const String startConversation = 'Incie a conversa';
   static const String noContact = 'Nenhum contato ainda';
   static const String myContacts = 'Meus Contatos';
   static const String news = 'Nova';
