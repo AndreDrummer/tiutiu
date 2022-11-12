@@ -1,7 +1,6 @@
-import 'package:tiutiu/core/models/post.dart';
 import 'package:tiutiu/features/posts/validators/form_validators.dart';
-import 'package:tiutiu/features/posts/widgets/text_area.dart';
 import 'package:tiutiu/core/extensions/string_extension.dart';
+import 'package:tiutiu/features/posts/widgets/text_area.dart';
 import 'package:tiutiu/Widgets/underline_input_dropdown.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/features/pets/model/pet_model.dart';
@@ -12,6 +11,7 @@ import 'package:tiutiu/core/constants/strings.dart';
 import 'package:tiutiu/core/utils/validators.dart';
 import 'package:tiutiu/Widgets/one_line_text.dart';
 import 'package:tiutiu/core/data/dummy_data.dart';
+import 'package:tiutiu/core/models/post.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -71,7 +71,7 @@ class PostInfo extends StatelessWidget {
           children: [
             Expanded(
               child: UnderlineInputDropdown(
-                initialValue: postsController.post.ageYear.toString(),
+                initialValue: (postsController.post as Pet).ageYear.toString(),
                 onChanged: (anos) {
                   postsController.updatePost(
                     PetEnum.ageYear.name,
@@ -85,7 +85,7 @@ class PostInfo extends StatelessWidget {
             ),
             Expanded(
               child: UnderlineInputDropdown(
-                initialValue: postsController.post.ageMonth.toString(),
+                initialValue: (postsController.post as Pet).ageMonth.toString(),
                 onChanged: (meses) {
                   postsController.updatePost(
                     PetEnum.ageMonth.name,
@@ -107,8 +107,8 @@ class PostInfo extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.only(top: 32.0.h),
       child: UnderlineInputDropdown(
-        isInErrorState: !postsController.post.size.isNotEmptyNeighterNull() && !postsController.formIsValid,
-        initialValue: postsController.post.size.toString(),
+        isInErrorState: !(postsController.post as Pet).size.isNotEmptyNeighterNull() && !postsController.formIsValid,
+        initialValue: (postsController.post as Pet).size.toString(),
         onChanged: (size) {
           postsController.updatePost(PetEnum.size.name, size);
         },
@@ -127,8 +127,9 @@ class PostInfo extends StatelessWidget {
       child: ListView(
         children: [
           UnderlineInputDropdown(
-            isInErrorState: !postsController.post.health.isNotEmptyNeighterNull() && !postsController.formIsValid,
-            initialValue: postsController.post.health.toString(),
+            isInErrorState:
+                !(postsController.post as Pet).health.isNotEmptyNeighterNull() && !postsController.formIsValid,
+            initialValue: (postsController.post as Pet).health.toString(),
             onChanged: (health) {
               postsController.updatePost(PetEnum.health.name, health);
             },
@@ -154,8 +155,8 @@ class PostInfo extends StatelessWidget {
               child: Form(
                 key: diaseaseForm,
                 child: TextArea(
-                  isInErrorState:
-                      !postsController.post.chronicDiseaseInfo.isNotEmptyNeighterNull() && !postsController.formIsValid,
+                  isInErrorState: !(postsController.post as Pet).chronicDiseaseInfo.isNotEmptyNeighterNull() &&
+                      !postsController.formIsValid,
                   maxLines: 1,
                   onChanged: (chronicDiseaseInfo) {
                     postsController.updatePost(
@@ -163,7 +164,7 @@ class PostInfo extends StatelessWidget {
                       chronicDiseaseInfo,
                     );
                   },
-                  initialValue: postsController.post.chronicDiseaseInfo,
+                  initialValue: (postsController.post as Pet).chronicDiseaseInfo,
                   validator: postsController.existChronicDisease ? Validators.verifyEmpty : null,
                   labelText: PostFlowStrings.describeDiseaseType,
                 ),

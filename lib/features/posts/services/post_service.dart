@@ -1,21 +1,20 @@
 import 'package:tiutiu/core/constants/firebase_env_path.dart';
-import 'package:tiutiu/features/pets/model/pet_model.dart';
 import 'package:tiutiu/core/utils/other_functions.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:tiutiu/core/models/post.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 
 class PostService extends GetxService {
   Future<List<Map<String, dynamic>>> loadPets() async {
-    final posts =
-        await FirebaseFirestore.instance.collection(pathToPosts).get();
+    final posts = await FirebaseFirestore.instance.collection(pathToPosts).get();
 
     return posts.docs.map((post) => post.data()).toList();
   }
 
   Future<void> uploadVideo({
     required Function(String?) onVideoUploaded,
-    required Pet post,
+    required Post post,
   }) async {
     try {
       final videosStoragePath = userPostsStoragePath(
@@ -37,7 +36,7 @@ class PostService extends GetxService {
 
   Future<void> uploadImages({
     required Function(List) onImagesUploaded,
-    required Pet post,
+    required Post post,
   }) async {
     try {
       final imagesStoragePath = userPostsStoragePath(
@@ -46,8 +45,7 @@ class PostService extends GetxService {
         postId: post.uid!,
       );
 
-      final imagesUrlDownloadList =
-          await OtherFunctions.getImageListUrlDownload(
+      final imagesUrlDownloadList = await OtherFunctions.getImageListUrlDownload(
         storagePath: imagesStoragePath,
         imagesPathList: post.photos,
       );
@@ -58,14 +56,11 @@ class PostService extends GetxService {
     }
   }
 
-  Future<bool> uploadPostData(Pet post) async {
+  Future<bool> uploadPostData(Post post) async {
     bool success = false;
 
     try {
-      await FirebaseFirestore.instance
-          .collection(pathToPosts)
-          .doc(post.uid!)
-          .set(post.toMap());
+      await FirebaseFirestore.instance.collection(pathToPosts).doc(post.uid!).set(post.toMap());
       debugPrint('>> Posted Successfully ${post.uid}');
       success = true;
     } on Exception catch (exception) {
