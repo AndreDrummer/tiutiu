@@ -67,10 +67,6 @@ class ChatController extends GetxController {
     // firestore.collection('Chats').doc(chatId).set(messageData, SetOptions(merge: true));
   }
 
-  void markMessageAsRead(String chatId) {
-    // firestore.collection('Chats').doc(chatId).set({'open': true}, SetOptions(merge: true));
-  }
-
   void newMessages() {
     // return FirebaseFirestore.instance.collection('Chats').snapshots();
   }
@@ -81,9 +77,15 @@ class ChatController extends GetxController {
     Get.toNamed(Routes.chat);
   }
 
+  Future<void> markMessageAsRead(Contact contact) async {
+    final myUserId = tiutiuUserController.tiutiuUser.uid;
+    final userSenderId = contact.userSenderId;
+
+    if (myUserId != userSenderId) _chatService.markMessageAsRead(contact, myUserId!);
+  }
+
   Stream<TiutiuUser> receiverUser(Contact contact) {
-    final userReference = getUserCorrectReceiverReference(contact);
-    if (userReference == null) return Stream.value(TiutiuUser());
+    final userReference = getCorrectUserReceiverReference(contact);
 
     return userReference.snapshots().asyncMap((doc) {
       TiutiuUser user = TiutiuUser.fromMap(doc.data() as Map<String, dynamic>);
@@ -92,10 +94,16 @@ class ChatController extends GetxController {
     });
   }
 
-  DocumentReference? getUserCorrectReceiverReference(Contact contact) {
-    if (tiutiuUserController.tiutiuUser.uid == contact.userReceiverId) return contact.userSenderReference;
-    if (tiutiuUserController.tiutiuUser.uid == contact.userSenderId) return contact.userReceiverReference;
-    return contact.userReceiverReference;
+  DocumentReference getCorrectUserReceiverReference(Contact contact) {
+    if (tiutiuUserController.tiutiuUser.uid == contact.userReceiverId) return contact.userSenderReference!;
+    if (tiutiuUserController.tiutiuUser.uid == contact.userSenderId) return contact.userReceiverReference!;
+    return contact.userReceiverReference!;
+  }
+
+  String getCorrectUserReceiverId(Contact contact) {
+    if (tiutiuUserController.tiutiuUser.uid == contact.userReceiverId) return contact.userSenderId!;
+    if (tiutiuUserController.tiutiuUser.uid == contact.userSenderId) return contact.userReceiverId!;
+    return contact.userReceiverId!;
   }
 
   String _getChatId({required String senderUserId, required String receiverUserId}) {
