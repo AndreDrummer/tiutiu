@@ -46,7 +46,7 @@ class AutoSizeTexts {
       textAlign: textAlign,
       maxLines: maxLines,
       maxFontSize: 10,
-      minFontSize: 10,
+      minFontSize: 8,
       text ?? '',
       style: TextStyle(
         decoration: textDecoration,
@@ -74,7 +74,7 @@ class AutoSizeTexts {
       textAlign: textAlign,
       maxLines: maxLines,
       maxFontSize: 12,
-      minFontSize: 12,
+      minFontSize: 8,
       text ?? '',
       style: TextStyle(
         decoration: textDecoration,
@@ -102,7 +102,7 @@ class AutoSizeTexts {
       textAlign: textAlign,
       maxLines: maxLines,
       maxFontSize: 14,
-      minFontSize: 14,
+      minFontSize: 8,
       text ?? '',
       style: TextStyle(
         decoration: textDecoration,
@@ -130,7 +130,7 @@ class AutoSizeTexts {
       textAlign: textAlign,
       maxLines: maxLines,
       maxFontSize: 16,
-      minFontSize: 16,
+      minFontSize: 8,
       text ?? '',
       style: TextStyle(
         decoration: textDecoration,
@@ -158,7 +158,7 @@ class AutoSizeTexts {
       textAlign: textAlign,
       maxLines: maxLines,
       maxFontSize: 18,
-      minFontSize: 18,
+      minFontSize: 8,
       text ?? '',
       style: TextStyle(
         decoration: textDecoration,
@@ -186,7 +186,7 @@ class AutoSizeTexts {
       textAlign: textAlign,
       maxLines: maxLines,
       maxFontSize: 20,
-      minFontSize: 20,
+      minFontSize: 8,
       text ?? '',
       style: TextStyle(
         decoration: textDecoration,
@@ -214,7 +214,7 @@ class AutoSizeTexts {
       textAlign: textAlign,
       maxLines: maxLines,
       maxFontSize: 22,
-      minFontSize: 22,
+      minFontSize: 8,
       text ?? '',
       style: TextStyle(
         decoration: textDecoration,
@@ -242,7 +242,7 @@ class AutoSizeTexts {
       textAlign: textAlign,
       maxLines: maxLines,
       maxFontSize: 24,
-      minFontSize: 24,
+      minFontSize: 8,
       text ?? '',
       style: TextStyle(
         decoration: textDecoration,
@@ -270,7 +270,7 @@ class AutoSizeTexts {
       textAlign: textAlign,
       maxLines: maxLines,
       maxFontSize: 26,
-      minFontSize: 26,
+      minFontSize: 8,
       text ?? '',
       style: TextStyle(
         decoration: textDecoration,
@@ -298,7 +298,7 @@ class AutoSizeTexts {
       textAlign: textAlign,
       maxLines: maxLines,
       maxFontSize: 28,
-      minFontSize: 28,
+      minFontSize: 8,
       text ?? '',
       style: TextStyle(
         decoration: textDecoration,
@@ -326,7 +326,7 @@ class AutoSizeTexts {
       textAlign: textAlign,
       maxLines: maxLines,
       maxFontSize: 32,
-      minFontSize: 32,
+      minFontSize: 8,
       text ?? '',
       style: TextStyle(
         decoration: textDecoration,

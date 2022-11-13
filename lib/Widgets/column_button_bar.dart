@@ -33,8 +33,8 @@ class ColumnButtonBar extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: 8.0.w),
           child: ButtonWide(
             color: buttonPrimaryColor ?? AppColors.primary,
-            text: textPrimary ?? AppStrings.save,
             onPressed: () => onPrimaryPressed?.call(),
+            text: textPrimary ?? AppStrings.save,
             isToExpand: false,
           ),
         ),
