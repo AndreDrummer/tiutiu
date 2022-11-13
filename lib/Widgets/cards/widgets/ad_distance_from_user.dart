@@ -1,6 +1,7 @@
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiutiu/core/constants/text_styles.dart';
-import 'package:tiutiu/core/Custom/icons.dart';
+
 import 'package:flutter/material.dart';
 
 class AdDistanceFromUser extends StatelessWidget {
@@ -25,7 +26,7 @@ class AdDistanceFromUser extends StatelessWidget {
           ),
           SizedBox(width: 8.0.w),
           Icon(
-            Tiutiu.location_arrow,
+            FontAwesomeIcons.locationArrow,
             color: Colors.grey,
             size: 12.0.h,
           )

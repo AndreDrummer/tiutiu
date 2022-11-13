@@ -38,12 +38,12 @@ class Home extends StatelessWidget with TiuTiuPopUp {
               headerSliverBuilder: (context, innerBoxIsScrolled) {
                 return [
                   SliverAppBar(
+                    expandedHeight: homeController.bottomBarIndex < 2 ? Get.height / 4 : 0.0,
+                    toolbarHeight: homeController.bottomBarIndex < 2 ? 56.0.h : 0.0,
                     backgroundColor: Colors.transparent,
                     automaticallyImplyLeading: false,
-                    expandedHeight: homeController.bottomBarIndex < 2 ? Get.height / 4 : 0.0,
                     shadowColor: AppColors.white,
                     flexibleSpace: Header(),
-                    toolbarHeight: homeController.bottomBarIndex < 2 ? 56.0.h : 0.0,
                     floating: true,
                     pinned: true,
                   ),
