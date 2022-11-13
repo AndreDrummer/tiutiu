@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
 import 'package:tiutiu/core/widgets/default_basic_app_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -60,7 +62,7 @@ class Profile extends StatelessWidget with TiuTiuPopUp {
       ),
       child: SizedBox(
         height: Get.width / 2.5,
-        child: ListView(
+        child: Column(
           children: [
             Stack(
               children: [
@@ -139,7 +141,7 @@ class Profile extends StatelessWidget with TiuTiuPopUp {
       width: 200.0.w,
       child: AutoSizeTexts.autoSizeText24(
         fontWeight: FontWeight.w700,
-        '${_user.displayName}',
+        Formatters.cuttedText('${_user.displayName}', size: 32),
       ),
     );
   }
@@ -161,7 +163,7 @@ class Profile extends StatelessWidget with TiuTiuPopUp {
         ),
       ),
       child: Container(
-        height: Get.height * .55,
+        height: _cardHeight(),
         child: ListView(
           padding: EdgeInsets.symmetric(horizontal: 8.0.w),
           children: profileController.myProfileOptionsTile.map((title) {
@@ -204,4 +206,6 @@ class Profile extends StatelessWidget with TiuTiuPopUp {
       danger: false,
     );
   }
+
+  double _cardHeight() => Platform.isIOS ? Get.height * .585 : Get.height * .625;
 }
