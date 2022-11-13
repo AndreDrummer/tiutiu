@@ -31,10 +31,14 @@ class ChatService extends GetxController {
     /// under the user sender messages collection and another under the user receiver messages collection.
 
     _pathToMessages(message.sender.uid!, contact.id!).doc(message.id).set(message.toJson());
-    _pathToContact(message.sender.uid!, contact.id!).set(contact.toJson());
+    _pathToContact(message.sender.uid!, contact.id!).set(contact.copyWith(open: true).toJson());
 
     _pathToMessages(message.receiver.uid!, contact.id!).doc(message.id).set(message.toJson());
     _pathToContact(message.receiver.uid!, contact.id!).set(contact.toJson());
+  }
+
+  void markMessageAsRead(Contact contact, String userId) {
+    _pathToContact(userId, contact.id!).set(contact.copyWith(open: true).toJson(), SetOptions(merge: true));
   }
 
   CollectionReference<Map<String, dynamic>> _pathToContacts(String userId) {

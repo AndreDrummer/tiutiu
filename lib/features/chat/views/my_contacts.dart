@@ -17,6 +17,8 @@ class _MyContactsState extends State<MyContacts> {
 
   @override
   Widget build(BuildContext context) {
+    final myUserId = tiutiuUserController.tiutiuUser.uid;
+
     return Scaffold(
       appBar: DefaultBasicAppBar(text: ChatStrings.myContacts),
       body: StreamBuilder<List<Contact>>(
@@ -33,11 +35,14 @@ class _MyContactsState extends State<MyContacts> {
 
                   return StreamBuilder<TiutiuUser>(
                     stream: chatController.receiverUser(contact),
-                    builder: (context, snapshot) {
+                    builder: (context, userSnapshot) {
                       return ContactTile(
-                        onContactTap: (() => chatController.startsChatWith(snapshot.data)),
-                        userReceiver: snapshot.data,
-                        hasNewMessage: contact.open,
+                        onContactTap: (() {
+                          chatController.markMessageAsRead(contact);
+                          chatController.startsChatWith(userSnapshot.data);
+                        }),
+                        hasNewMessage: !contact.open && contact.userSenderId != myUserId,
+                        userReceiver: userSnapshot.data,
                         contact: contact,
                       );
                     },
