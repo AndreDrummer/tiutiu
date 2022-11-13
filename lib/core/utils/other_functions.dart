@@ -1,3 +1,4 @@
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
 import 'package:tiutiu/features/pets/views/announcer_profile.dart';
 import 'package:tiutiu/core/extensions/string_extension.dart';
@@ -8,7 +9,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:tiutiu/core/constants/strings.dart';
 import 'package:tiutiu/core/models/latlng.dart';
-import 'package:tiutiu/core/Custom/icons.dart';
+
 import 'package:geocoding/geocoding.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -99,16 +100,19 @@ class OtherFunctions {
     return documentSnapshot.reference;
   }
 
-  static void navigateToAnnouncerDetail(TiutiuUser user) {
-    Get.to(() => AnnouncerProfile(user: user));
+  static void navigateToAnnouncerDetail(TiutiuUser user, {bool popAndPush = false}) {
+    if (popAndPush)
+      Get.off(() => AnnouncerProfile(user: user));
+    else
+      Get.to(() => AnnouncerProfile(user: user));
   }
 
   static IconData getIconFromPetType(String type) {
     final Map<String, dynamic> petIconType = {
-      PetTypeStrings.bird: Tiutiu.twitter_bird,
-      PetTypeStrings.exotic: Tiutiu.hamster,
-      PetTypeStrings.dog: Tiutiu.dog,
-      PetTypeStrings.cat: Tiutiu.cat,
+      PetTypeStrings.bird: FontAwesomeIcons.b,
+      PetTypeStrings.exotic: FontAwesomeIcons.staffSnake,
+      PetTypeStrings.dog: FontAwesomeIcons.dog,
+      PetTypeStrings.cat: FontAwesomeIcons.cat,
     };
 
     return petIconType[type];

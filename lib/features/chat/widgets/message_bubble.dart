@@ -2,8 +2,8 @@ import 'package:flutter_chat_bubble/clippers/chat_bubble_clipper_1.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/constants/text_styles.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
-import 'package:flutter_chat_bubble/chat_bubble.dart';
 import 'package:flutter_chat_bubble/bubble_type.dart';
+import 'package:flutter_chat_bubble/chat_bubble.dart';
 import 'package:tiutiu/core/utils/formatter.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -34,11 +34,11 @@ class MessageBubble extends StatelessWidget {
         : Formatters.getFormattedTime(time.toDate().toIso8601String());
 
     return ChatBubble(
-      margin: EdgeInsets.only(top: lastMessageBelongsToTheSameUser ? 4.0.h : 12.0.h, left: 16.0.w, right: 12.0.w),
+      margin: EdgeInsets.only(top: lastMessageBelongsToTheSameUser ? 2.0.h : 16.0.h, left: 16.0.w, right: 12.0.w),
       backGroundColor: belongToMe ? Colors.lightGreen : Colors.deepPurple,
       shadowColor: belongToMe ? AppColors.secondary : AppColors.primary,
       padding: EdgeInsets.symmetric(horizontal: 16.0.w),
-      elevation: 16.0,
+      elevation: 4.0,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         mainAxisSize: MainAxisSize.min,

@@ -1,4 +1,5 @@
 import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiutiu/core/widgets/default_basic_app_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/utils/launcher_functions.dart';
@@ -10,7 +11,6 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:tiutiu/Widgets/avatar_profile.dart';
 import 'package:tiutiu/core/constants/strings.dart';
 import 'package:tiutiu/core/utils/formatter.dart';
-import 'package:tiutiu/core/Custom/icons.dart';
 import 'package:tiutiu/Widgets/button_wide.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -190,14 +190,16 @@ class AnnouncerProfile extends StatelessWidget {
               text: AppStrings.chat,
               isToExpand: false,
               icon: Icons.phone,
-              onPressed: () {},
+              onPressed: () {
+                chatController.startsChatWith(_user);
+              },
             ),
           ),
           Expanded(
             child: ButtonWide(
+              icon: FontAwesomeIcons.whatsapp,
               text: AppStrings.whatsapp,
               color: AppColors.primary,
-              icon: Tiutiu.whatsapp,
               isToExpand: false,
               onPressed: () {
                 final number = Formatters.unmaskNumber(_user.phoneNumber);
