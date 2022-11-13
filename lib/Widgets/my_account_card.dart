@@ -26,36 +26,32 @@ class MyAccountCard extends StatelessWidget {
       margin: EdgeInsets.zero,
       width: Get.width,
       child: Padding(
-        padding: EdgeInsets.symmetric(vertical: 4.0.h),
+        padding: EdgeInsets.symmetric(vertical: 2.0.h),
         child: ElevatedButton(
           onPressed: onPressed,
           style: ElevatedButton.styleFrom(
             foregroundColor: Colors.transparent,
             backgroundColor: Colors.white,
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12.0.h),
+              borderRadius: BorderRadius.circular(8.0.h),
             ),
             padding: EdgeInsets.zero,
-            elevation: 8.0,
+            elevation: 2.0,
           ),
           child: Padding(
-            padding: EdgeInsets.all(20.0.h),
+            padding: EdgeInsets.symmetric(vertical: 12.0.h, horizontal: 8.0.h),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Container(
-                  width: Get.width / 3,
-                  child: AutoSizeTexts.autoSizeText16(
+                  child: AutoSizeTexts.autoSizeText14(
                     fontWeight: FontWeight.w600,
                     color: AppColors.primary,
                     '$text',
                   ),
+                  width: Get.width / 3,
                 ),
-                Icon(
-                  color: AppColors.secondary.withAlpha(104),
-                  size: 24.0.h,
-                  icon,
-                ),
+                Icon(color: AppColors.secondary, icon),
               ],
             ),
           ),
