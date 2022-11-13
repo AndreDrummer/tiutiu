@@ -77,4 +77,9 @@ class Formatters {
       return '$hour horas e $min minutos';
     }
   }
+
+  static String cuttedText(String message, {int size = 32}) {
+    if (message.length > size) return message.substring(0, size);
+    return message;
+  }
 }
