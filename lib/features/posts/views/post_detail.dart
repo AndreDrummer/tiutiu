@@ -1,3 +1,4 @@
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
 import 'package:tiutiu/Widgets/pet_other_caracteristics_card.dart';
 import 'package:tiutiu/core/models/pet_caracteristics_model.dart';
@@ -17,7 +18,7 @@ import 'package:tiutiu/core/utils/video_utils.dart';
 import 'package:tiutiu/core/constants/strings.dart';
 import 'package:maps_launcher/maps_launcher.dart';
 import 'package:tiutiu/Widgets/button_wide.dart';
-import 'package:tiutiu/core/Custom/icons.dart';
+
 import 'package:tiutiu/core/models/post.dart';
 import 'package:flutter/material.dart';
 import 'package:chewie/chewie.dart';
@@ -385,7 +386,7 @@ class _PetDetailsState extends State<PetDetails> {
                   child: ButtonWide(
                     text: AppStrings.whatsapp,
                     color: AppColors.primary,
-                    icon: Tiutiu.whatsapp,
+                    icon: FontAwesomeIcons.whatsapp,
                     isToExpand: false,
                     onPressed: () {},
                   ),

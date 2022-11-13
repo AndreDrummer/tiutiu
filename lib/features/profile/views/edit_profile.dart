@@ -58,10 +58,8 @@ class _EditProfileState extends State<EditProfile> {
       },
       child: SafeArea(
         child: Scaffold(
-          appBar: DefaultBasicAppBar(
-            automaticallyImplyLeading: false,
-            text: title,
-          ),
+          resizeToAvoidBottomInset: false,
+          appBar: DefaultBasicAppBar(automaticallyImplyLeading: false, text: title),
           body: Form(
             key: _formKey,
             child: Center(
@@ -89,36 +87,38 @@ class _EditProfileState extends State<EditProfile> {
   }
 
   Widget _cardContent(BuildContext context) {
-    return ListView(
-      children: [
-        Stack(
-          children: [
-            _backgroundImage(),
-            Positioned(
-              right: 52.0,
-              left: 52.0,
-              top: 0.0.h,
-              child: _roundedPicture(),
-            ),
-          ],
-        ),
-        Container(
-          height: Get.height / 2,
-          margin: EdgeInsets.only(left: 8.0.w, top: 16.0.h),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
+    return GestureDetector(
+      onTap: () => FocusScope.of(context).unfocus(),
+      child: ListView(
+        children: [
+          Stack(
             children: [
-              Spacer(),
-              _userName(),
-              Spacer(),
-              _userPhoneNumber(),
-              Spacer(),
-              _buttons(context),
-              Spacer(),
+              _backgroundImage(),
+              Positioned(
+                right: 52.0,
+                left: 52.0,
+                top: 0.0.h,
+                child: _roundedPicture(),
+              ),
             ],
           ),
-        )
-      ],
+          Container(
+            height: Get.height / 2,
+            margin: EdgeInsets.only(left: 8.0.w, top: 16.0.h),
+            child: Column(
+              children: [
+                SizedBox(height: 16.0.h),
+                _userName(),
+                Spacer(),
+                _userPhoneNumber(),
+                Spacer(),
+                _buttons(context),
+                Spacer(),
+              ],
+            ),
+          )
+        ],
+      ),
     );
   }
 
