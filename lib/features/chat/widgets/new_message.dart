@@ -22,8 +22,6 @@ class _NewMessageState extends State<NewMessage> {
   String _enteredMessage = '';
 
   Future<void> _sendMessage() async {
-    FocusScope.of(context).unfocus();
-
     await chatController.sendNewMessage(
       Message(
         receiver: chatController.userChatingWith,
