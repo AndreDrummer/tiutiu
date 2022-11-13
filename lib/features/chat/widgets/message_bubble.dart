@@ -10,44 +10,50 @@ import 'package:get/get.dart';
 
 class MessageBubble extends StatelessWidget {
   MessageBubble({
-    required this.lastMessageWasMine,
+    required this.lastMessageBelongsToTheSameUser,
     required this.belongToMe,
     required this.message,
     required this.time,
     super.key,
   });
 
-  final bool lastMessageWasMine;
+  final bool lastMessageBelongsToTheSameUser;
   final bool belongToMe;
   final String message;
   final dynamic time;
 
+  EdgeInsetsGeometry _messagePadding(String messageText) {
+    if (message.length > Get.width / 2) return EdgeInsets.symmetric(vertical: 8.0.h);
+    return EdgeInsets.zero;
+  }
+
   @override
   Widget build(BuildContext context) {
-    final formattedTime = time != null
-        ? Formatters.getFormattedTime(time.toDate().toIso8601String())
-        : Formatters.getFormattedTime(
-            DateTime.now().toIso8601String(),
-          );
+    final formattedTime = time == null
+        ? Formatters.getFormattedTime(DateTime.now().toIso8601String())
+        : Formatters.getFormattedTime(time.toDate().toIso8601String());
 
     return ChatBubble(
-      shadowColor: belongToMe ? AppColors.secondary : AppColors.primary,
-      elevation: 16.0,
-      margin: EdgeInsets.only(top: !lastMessageWasMine ? 12.0.h : 4.0.h, left: 16.0.w, right: 16.0.w),
+      margin: EdgeInsets.only(top: lastMessageBelongsToTheSameUser ? 4.0.h : 12.0.h, left: 16.0.w, right: 12.0.w),
       backGroundColor: belongToMe ? Colors.lightGreen : Colors.deepPurple,
+      shadowColor: belongToMe ? AppColors.secondary : AppColors.primary,
+      padding: EdgeInsets.symmetric(horizontal: 16.0.w),
+      elevation: 16.0,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         mainAxisSize: MainAxisSize.min,
         children: [
-          Container(child: AutoSizeTexts.autoSizeText14(message, color: AppColors.white), width: Get.width / 2),
           Container(
-            child: AutoSizeTexts.autoSizeText10(
-              formattedTime,
-              color: AppColors.white,
-            ),
+            child: AutoSizeTexts.autoSizeText14(message, color: AppColors.white),
+            padding: _messagePadding(message),
+            margin: EdgeInsets.zero,
+            width: Get.width / 2,
+          ),
+          Container(
+            child: AutoSizeTexts.autoSizeText10(formattedTime, color: AppColors.white),
+            padding: EdgeInsets.only(bottom: 2.0.h, top: 2.0.h),
             margin: EdgeInsets.only(top: 32.0.h),
             alignment: Alignment(1, 1),
-            padding: EdgeInsets.zero,
           ),
         ],
       ),
