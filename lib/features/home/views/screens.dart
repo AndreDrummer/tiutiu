@@ -31,7 +31,7 @@ final screens = <Widget>[
         index: profileController.isSetting ? 1 : 0,
         children: [
           Profile(user: tiutiuUserController.tiutiuUser),
-          EditProfile(),
+          EditProfile(isEditingProfile: profileController.isSetting),
         ],
       ),
     ),
