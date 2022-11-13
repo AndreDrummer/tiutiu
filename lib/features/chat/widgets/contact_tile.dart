@@ -25,11 +25,16 @@ class ContactTile extends StatelessWidget {
   final bool hasNewMessage;
   final Contact contact;
 
+  String _cuttedMessage(String message) {
+    if (message.length > 36) return message.substring(0, 36) + '...';
+    return message;
+  }
+
   @override
   Widget build(BuildContext context) {
+    Timestamp stamp = contact.lastMessageTime ?? Timestamp.now();
     TiutiuUser loggedUser = tiutiuUserController.tiutiuUser;
     bool itsMe = loggedUser.uid == userReceiver?.uid;
-    Timestamp stamp = contact.lastMessageTime;
     DateTime date = stamp.toDate();
 
     String? profilePic = itsMe ? loggedUser.avatar : userReceiver?.avatar!;
@@ -37,6 +42,7 @@ class ContactTile extends StatelessWidget {
     return InkWell(
       onTap: onContactTap,
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           ListTile(
             leading: CircleAvatar(
@@ -50,9 +56,9 @@ class ContactTile extends StatelessWidget {
               fontWeight: FontWeight.bold,
             ),
             subtitle: AutoSizeTexts.autoSizeText12(
-              fontWeight: hasNewMessage ? FontWeight.bold : null,
-              contact.lastMessage!,
-            ),
+                fontWeight: hasNewMessage ? FontWeight.bold : null,
+                textOverflow: TextOverflow.fade,
+                _cuttedMessage(contact.lastMessage ?? '')),
             trailing: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
