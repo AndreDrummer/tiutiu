@@ -4,9 +4,9 @@ import 'package:tiutiu/features/system/controllers.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:tiutiu/core/constants/strings.dart';
+import 'package:tiutiu/core/utils/dimensions.dart';
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
-import 'dart:io';
 
 FirebaseFirestore firestore = FirebaseFirestore.instance;
 
@@ -38,7 +38,7 @@ class _NewMessageState extends State<NewMessage> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(bottom: Platform.isIOS ? 8.0.h : 0.0),
+      margin: EdgeInsets.only(bottom: Dimensions.getDimensByPlatform(androidDimen: 0.0.h, iosDimen: 8.0.h)),
       padding: const EdgeInsets.all(6.0),
       child: Row(
         children: [
