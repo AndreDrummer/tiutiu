@@ -1,4 +1,3 @@
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/core/constants/strings.dart';
 import 'package:tiutiu/Widgets/one_line_text.dart';
@@ -29,8 +28,8 @@ class SimpleTextButton extends StatelessWidget {
       child: OneLineText(
         widgetAlignment: Alignment.center,
         text: text ?? AppStrings.cancel,
-        fontSize: fontSize ?? 16.0.sp,
         fontWeight: FontWeight.bold,
+        fontSize: fontSize ?? 16.0,
       ),
       onPressed: onPressed,
     );

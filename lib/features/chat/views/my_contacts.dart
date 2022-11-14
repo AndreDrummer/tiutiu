@@ -1,3 +1,4 @@
+import 'package:tiutiu/core/widgets/verify_account_warning.dart';
 import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
 import 'package:tiutiu/features/chat/widgets/contact_tile.dart';
 import 'package:tiutiu/core/widgets/default_basic_app_bar.dart';
@@ -25,6 +26,7 @@ class _MyContactsState extends State<MyContacts> {
         stream: chatController.contacts(),
         builder: (context, snapshot) {
           return AsyncHandler<List<Contact>>(
+            emptyWidget: VerifyAccountWarning(child: SizedBox.shrink()),
             emptyMessage: ChatStrings.noContact,
             snapshot: snapshot,
             buildWidget: (contacts) {

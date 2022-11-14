@@ -9,9 +9,9 @@ import 'package:tiutiu/core/utils/other_functions.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/core/utils/asset_handle.dart';
 import 'package:tiutiu/core/constants/strings.dart';
+import 'package:tiutiu/core/utils/dimensions.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'dart:io';
 
 class ChatScreen extends StatelessWidget {
   @override
@@ -41,7 +41,9 @@ class ChatScreen extends StatelessWidget {
                     final message = messages[index];
 
                     return Padding(
-                      padding: EdgeInsets.only(bottom: _bottomPaddingPlatform(index)),
+                      padding: EdgeInsets.only(
+                        bottom: index > 0 ? 0 : Dimensions.getDimensByPlatform(androidDimen: 56.0.h, iosDimen: 32.0.h),
+                      ),
                       child: MessageBubble(
                         lastMessageBelongsToTheSameUser: previousMessage.sender.uid == message.sender.uid,
                         belongToMe: message.sender.uid == loggedUserId,
@@ -73,7 +75,7 @@ class ChatScreen extends StatelessWidget {
             onTap: () => OtherFunctions.navigateToAnnouncerDetail(chatController.userChatingWith, popAndPush: true),
             child: CircleAvatar(
               backgroundColor: AppColors.secondary,
-              radius: _avatarBorderPlatform(),
+              radius: Dimensions.getDimensByPlatform(androidDimen: 18.0.h, iosDimen: 16.0.h),
               child: CircleAvatar(
                 child: ClipOval(
                   child: AssetHandle.getImage(
@@ -86,23 +88,12 @@ class ChatScreen extends StatelessWidget {
           Spacer(),
           AutoSizeTexts.autoSizeText20(
             OtherFunctions.firstCharacterUpper(
-              chatController.userChatingWith.displayName!,
+              chatController.userChatingWith.displayName!.split(' ').first,
             ),
           ),
-          SizedBox(width: Get.width / 2.7),
+          SizedBox(width: Get.width / 2.15),
         ],
       ),
     );
-  }
-
-  double _avatarBorderPlatform() {
-    if (Platform.isIOS) return 16.0.h;
-    return 18.0.h;
-  }
-
-  double _bottomPaddingPlatform(int index) {
-    if (index > 0) return 0.0;
-    if (Platform.isIOS) return 32.0.h;
-    return 56.0.h;
   }
 }

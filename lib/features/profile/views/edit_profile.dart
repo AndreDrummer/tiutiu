@@ -176,7 +176,7 @@ class _EditProfileState extends State<EditProfile> {
       labelText: MyProfileStrings.howCallYou,
       validator: Validators.verifyEmpty,
       controller: nameController,
-      fontSizeLabelText: 16.0.h,
+      fontSizeLabelText: 16.0,
       readOnly: false,
     );
   }
@@ -190,7 +190,7 @@ class _EditProfileState extends State<EditProfile> {
           labelText: MyProfileStrings.whatsapp,
           keyboardType: TextInputType.number,
           controller: phoneNumberController,
-          fontSizeLabelText: 16.0.h,
+          fontSizeLabelText: 16.0,
           inputFormatters: [
             FilteringTextInputFormatter.digitsOnly,
             TelefoneInputFormatter(),
