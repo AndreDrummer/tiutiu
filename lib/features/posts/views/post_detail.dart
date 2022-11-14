@@ -1,9 +1,10 @@
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
 import 'package:tiutiu/Widgets/pet_other_caracteristics_card.dart';
 import 'package:tiutiu/core/models/pet_caracteristics_model.dart';
 import 'package:tiutiu/features/posts/widgets/video_player.dart';
+import 'package:tiutiu/core/widgets/verify_account_warning.dart';
 import 'package:tiutiu/features/pets/widgets/card_content.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiutiu/core/extensions/string_extension.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/features/pets/model/pet_model.dart';
@@ -18,7 +19,6 @@ import 'package:tiutiu/core/utils/video_utils.dart';
 import 'package:tiutiu/core/constants/strings.dart';
 import 'package:maps_launcher/maps_launcher.dart';
 import 'package:tiutiu/Widgets/button_wide.dart';
-
 import 'package:tiutiu/core/models/post.dart';
 import 'package:flutter/material.dart';
 import 'package:chewie/chewie.dart';
@@ -90,13 +90,21 @@ class _PetDetailsState extends State<PetDetails> {
                       context: context,
                     ),
                     _petCaracteristics(petCaracteristics),
-                    _description(post.description),
-                    _address(),
-                    _ownerAdcontact(
-                      whatsappMessage: 'whatsappMessage',
-                      emailMessage: 'emailMessage',
-                      emailSubject: 'emailSubject',
-                      user: post.owner!,
+                    VerifyAccountWarning(
+                      isHiddingContactInfo: true,
+                      anotherRequiredCondition: widget.inReviewMode,
+                      child: Column(
+                        children: [
+                          _description(post.description),
+                          _address(),
+                          _ownerAdcontact(
+                            whatsappMessage: 'whatsappMessage',
+                            emailMessage: 'emailMessage',
+                            emailSubject: 'emailSubject',
+                            user: post.owner!,
+                          ),
+                        ],
+                      ),
                     ),
                     LoadDarkScreen(
                       message: petsController.loadingText,
@@ -360,69 +368,43 @@ class _PetDetailsState extends State<PetDetails> {
     TiutiuUser? user,
   }) {
     final Post post = postsController.post;
-    return Visibility(
-      replacement: widget.inReviewMode ? SizedBox.shrink() : _verifyEmailBoxWarning(),
-      visible: !widget.inReviewMode && tiutiuUserController.tiutiuUser.phoneVerified,
-      child: Container(
-        margin: EdgeInsets.only(right: 4.0.w, top: 16.0.h, left: 4.0.w),
-        child: Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Expanded(
-                  child: ButtonWide(
-                    color: AppColors.secondary,
-                    text: AppStrings.chat,
-                    isToExpand: false,
-                    icon: Icons.phone,
-                    onPressed: () {
-                      chatController.startsChatWith(post.owner!);
-                    },
-                  ),
-                ),
-                SizedBox(width: 16.0.w),
-                Expanded(
-                  child: ButtonWide(
-                    text: AppStrings.whatsapp,
-                    color: AppColors.primary,
-                    icon: FontAwesomeIcons.whatsapp,
-                    isToExpand: false,
-                    onPressed: () {},
-                  ),
-                ),
-              ],
-            ),
-            ButtonWide(
-              text: (post as Pet).disappeared ? AppStrings.provideInfo : AppStrings.iamInterested,
-              icon: post.disappeared ? Icons.info : Icons.favorite_border,
-              color: post.disappeared ? AppColors.info : AppColors.danger,
-              isToExpand: true,
-              onPressed: () {},
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _verifyEmailBoxWarning() {
     return Container(
-      margin: EdgeInsets.all(16.0.h),
-      padding: EdgeInsets.all(8.0.h),
-      alignment: Alignment.center,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(12),
-        color: AppColors.warning,
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      margin: EdgeInsets.only(right: 4.0.w, top: 16.0.h, left: 4.0.w),
+      child: Column(
         children: [
-          AutoSizeTexts.autoSizeText14(
-            AppStrings.verifyEmailToSeeContactInfo,
-            textAlign: TextAlign.center,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Expanded(
+                child: ButtonWide(
+                  color: AppColors.secondary,
+                  text: AppStrings.chat,
+                  isToExpand: false,
+                  icon: Icons.phone,
+                  onPressed: () {
+                    chatController.startsChatWith(post.owner!);
+                  },
+                ),
+              ),
+              SizedBox(width: 16.0.w),
+              Expanded(
+                child: ButtonWide(
+                  text: AppStrings.whatsapp,
+                  color: AppColors.primary,
+                  icon: FontAwesomeIcons.whatsapp,
+                  isToExpand: false,
+                  onPressed: () {},
+                ),
+              ),
+            ],
           ),
-          Icon(Icons.warning),
+          ButtonWide(
+            text: (post as Pet).disappeared ? AppStrings.provideInfo : AppStrings.iamInterested,
+            icon: post.disappeared ? Icons.info : Icons.favorite_border,
+            color: post.disappeared ? AppColors.info : AppColors.danger,
+            isToExpand: true,
+            onPressed: () {},
+          ),
         ],
       ),
     );

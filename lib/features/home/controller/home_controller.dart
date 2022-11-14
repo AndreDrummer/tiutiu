@@ -1,5 +1,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
+import 'package:tiutiu/core/models/filter_params.dart';
+import 'package:tiutiu/features/system/controllers.dart';
 
 enum BottomBarIndex {
   FAVORITES(indx: 4),
@@ -37,10 +39,15 @@ class HomeController extends GetxController {
   }
 
   void _setbottomBarIndex(BottomBarIndex index) {
+    _cardVisibilityKind(CardVisibilityKind.card);
+    filterController.updateParams(FilterParamsEnum.disappeared, false);
+
     if (index == BottomBarIndex.FAVORITES) {
       _cardVisibilityKind(CardVisibilityKind.banner);
-    } else {
-      _cardVisibilityKind(CardVisibilityKind.card);
+    }
+
+    if (index == BottomBarIndex.FINDER) {
+      filterController.updateParams(FilterParamsEnum.disappeared, true);
     }
 
     _bottomBarIndex(index.indx);
