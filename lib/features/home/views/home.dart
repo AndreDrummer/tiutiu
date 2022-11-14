@@ -1,3 +1,4 @@
+import 'package:tiutiu/core/utils/dimensions.dart';
 import 'package:tiutiu/features/home/widgets/bottom_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/features/home/widgets/header.dart';
@@ -37,17 +38,24 @@ class Home extends StatelessWidget with TiuTiuPopUp {
             body: NestedScrollView(
               headerSliverBuilder: (context, innerBoxIsScrolled) {
                 return [
-                  SliverAppBar(
-                    expandedHeight: homeController.bottomBarIndex < 2
-                        ? (tiutiuUserController.tiutiuUser.emailVerified ? Get.height / 4 : Get.height / 3.7)
-                        : 0.0,
-                    toolbarHeight: homeController.bottomBarIndex < 2 ? 56.0.h : 0.0,
-                    backgroundColor: Colors.transparent,
-                    automaticallyImplyLeading: false,
-                    shadowColor: AppColors.white,
-                    flexibleSpace: Header(),
-                    floating: true,
-                    pinned: true,
+                  Obx(
+                    () => SliverAppBar(
+                      expandedHeight: homeController.bottomBarIndex < 2
+                          ? (tiutiuUserController.tiutiuUser.emailVerified
+                              ? Get.height / 4.2
+                              : Dimensions.getDimensByPlatform(
+                                  androidDimen: Get.height / 3.6,
+                                  iosDimen: Get.height / 3.75,
+                                ))
+                          : 0.0,
+                      toolbarHeight: homeController.bottomBarIndex < 2 ? 56.0.h : 0.0,
+                      backgroundColor: Colors.transparent,
+                      automaticallyImplyLeading: false,
+                      shadowColor: AppColors.white,
+                      flexibleSpace: Header(),
+                      floating: true,
+                      pinned: true,
+                    ),
                   ),
                 ];
               },
