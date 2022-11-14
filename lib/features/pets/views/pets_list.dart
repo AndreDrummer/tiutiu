@@ -12,18 +12,14 @@ class DonateList extends StatelessWidget {
 
 class FinderList extends StatelessWidget {
   @override
-  Widget build(BuildContext context) => _PetsList(disappeared: true);
+  Widget build(BuildContext context) => _PetsList();
 }
 
 class _PetsList extends StatelessWidget with TiuTiuPopUp {
-  const _PetsList({this.disappeared = false});
-
-  final bool disappeared;
-
   @override
   Widget build(BuildContext context) {
     return Obx(() {
-      final posts = postsController.filteredPosts.where((post) => post.disappeared == disappeared).toList();
+      final posts = postsController.filteredPosts;
 
       return RefreshIndicator(
         onRefresh: () async => postsController.loadPosts(getFromInternet: true),
@@ -32,7 +28,11 @@ class _PetsList extends StatelessWidget with TiuTiuPopUp {
           padding: EdgeInsets.zero,
           key: UniqueKey(),
           itemBuilder: (_, index) {
-            if (posts.isEmpty) return EmptyListScreen();
+            if (posts.isEmpty)
+              return Padding(
+                padding: EdgeInsets.only(top: Get.width / 2),
+                child: EmptyListScreen(),
+              );
 
             return RenderListItem(
               post: posts[index < posts.length ? index : posts.length - 1],
