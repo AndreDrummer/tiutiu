@@ -1,3 +1,4 @@
+import 'package:tiutiu/core/widgets/verify_account_warning.dart';
 import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiutiu/core/widgets/default_basic_app_bar.dart';
@@ -179,37 +180,43 @@ class AnnouncerProfile extends StatelessWidget {
   }
 
   Widget _contactButtonRow() {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 8.0.w),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Expanded(
-            child: ButtonWide(
-              color: AppColors.secondary,
-              text: AppStrings.chat,
-              isToExpand: false,
-              icon: Icons.phone,
-              onPressed: () {
-                chatController.startsChatWith(_user);
-              },
+    return VerifyAccountWarning(
+      isHiddingContactInfo: true,
+      fontSize: 10,
+      margin: EdgeInsets.only(left: 2.0.w, right: 16.0.w, top: 24.0.h),
+      padding: EdgeInsets.all(4.0.h),
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 8.0.w),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Expanded(
+              child: ButtonWide(
+                color: AppColors.secondary,
+                text: AppStrings.chat,
+                isToExpand: false,
+                icon: Icons.phone,
+                onPressed: () {
+                  chatController.startsChatWith(_user);
+                },
+              ),
             ),
-          ),
-          Expanded(
-            child: ButtonWide(
-              icon: FontAwesomeIcons.whatsapp,
-              text: AppStrings.whatsapp,
-              color: AppColors.primary,
-              isToExpand: false,
-              onPressed: () {
-                final number = Formatters.unmaskNumber(_user.phoneNumber);
-                if (number != null) {
-                  Launcher.openWhatsApp(number: number);
-                }
-              },
+            Expanded(
+              child: ButtonWide(
+                icon: FontAwesomeIcons.whatsapp,
+                text: AppStrings.whatsapp,
+                color: AppColors.primary,
+                isToExpand: false,
+                onPressed: () {
+                  final number = Formatters.unmaskNumber(_user.phoneNumber);
+                  if (number != null) {
+                    Launcher.openWhatsApp(number: number);
+                  }
+                },
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
