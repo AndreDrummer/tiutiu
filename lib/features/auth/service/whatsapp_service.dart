@@ -14,8 +14,16 @@ class WhatsappService {
     final _dio = Dio();
 
     final DocumentSnapshot<Map<String, dynamic>> keys = await _getWhatsappKeys();
-    final String template = keys.get(FirebaseEnvPath.whatsappTemplateDebug);
-    final String numberId = keys.get(FirebaseEnvPath.whatsappNumberIdDebug);
+    final bool allowProd = keys.get(FirebaseEnvPath.allowUseWhatsappProdNumber);
+
+    final String template = keys.get(
+      allowProd ? FirebaseEnvPath.whatsappTemplateProd : FirebaseEnvPath.whatsappTemplateDebug,
+    );
+
+    final String numberId = keys.get(
+      allowProd ? FirebaseEnvPath.whatsappNumberIdProd : FirebaseEnvPath.whatsappNumberIdDebug,
+    );
+
     String endpoint = 'https://graph.facebook.com/v15.0/$numberId/messages';
     final String token = keys.get(FirebaseEnvPath.whatsappToken);
 

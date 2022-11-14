@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 
 class FirebaseEnvPath {
+  static const String allowUseWhatsappProdNumber = 'USE_WHATSAPP_PROD_NUMBER';
   static const String whatsappNumberIdDebug = 'WHATSAPP_NUMBER_ID_DEBUG';
   static const String whatsappTemplateDebug = 'WHATSAPP_TEMPLATE_DEBUG';
   static const String whatsappNumberIdProd = 'WHATSAPP_NUMBER_ID_PROD';
