@@ -2,7 +2,9 @@ class AppStrings {
   static String get authError => 'Ocorreu um erro com sua autenticação.\nTente sair e entrar novamente.';
   static String get headline2 => 'Muitos Pets Lindos\nEstão Aguardando Por Você';
   static String get verifyEmailToSeeContactInfo =>
-      'Verifique seu email para ver as\ninformações de contato deste anúncio!';
+      'Verifique seu email para ver as informações de contato deste anúncio!';
+  static String get verifyEmailWarning =>
+      'Sua conta ainda não foi verificada, por isso algumas funcionalidades estão restritas!';
   static String get verifyFilters => 'Verifique seus filtros de busca.';
   static String get imagesWarning => 'Imagens meramente ilustrativas';
   static String get wannaLeave => 'Deseja realmente sair?';
