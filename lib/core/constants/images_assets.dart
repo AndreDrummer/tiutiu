@@ -1,25 +1,23 @@
 class ImageAssets {
-  static String get dogPlaceholder => 'assets/webp/dog-placeholder.webp';
-  static String get googleMapsPin => 'assets/webp/google-maps-pin.webp';
-  static String get googlePlaces => 'assets/webp/google-places.webp';
-  static String get profileEmpty => 'assets/webp/profileEmpty.webp';
-  static String get playstoreLogo => 'assets/webp/playstore.webp';
-  static String get staticMap => 'assets/webp/static_map.webp';
-  static String get sadPanda => 'assets/webp/sad-panda.webp';
-  static String get googleLogo => 'assets/webp/google.webp';
-  static String get patinhas => 'assets/webp/patinhas.webp';
-  static String get instaLogo => 'assets/webp/insta.webp';
-  static String get dogCat2 => 'assets/webp/dogCat2.webp';
-  static String get newPin => 'assets/webp/new-pin2.webp';
-  static String get newLogo => 'assets/webp/newLogo.png';
-  static String get noWifi => 'assets/webp/no-wifi.webp';
-  static String get bones2 => 'assets/webp/bones2.webp';
-  static String get dogCat => 'assets/webp/dogCat.webp';
-  static String get tiutiu => 'assets/webp/tiutiu.webp';
-  static String get fadeIn => 'assets/webp/fadeIn.webp';
-  static String get bones => 'assets/webp/bones.webp';
-  static String get fundo => 'assets/webp/fundo.webp';
-  static String get face => 'assets/webp/face.webp';
+  static String get googleMapsPin => 'assets/images/google-maps-pin.webp';
+  static String get googlePlaces => 'assets/images/google-places.webp';
+  static String get profileEmpty => 'assets/images/profileEmpty.webp';
+  static String get playstoreLogo => 'assets/images/playstore.webp';
+  static String get staticMap => 'assets/images/static_map.webp';
+  static String get sadPanda => 'assets/images/sad-panda.png';
+  static String get patinhas => 'assets/images/patinhas.webp';
+  static String get instaLogo => 'assets/images/insta.webp';
+  static String get dogCat2 => 'assets/images/dogCat2.webp';
+  static String get newPin => 'assets/images/new-pin2.webp';
+  static String get newLogo => 'assets/images/newLogo.png';
+  static String get noWifi => 'assets/images/no-wifi.webp';
+  static String get bones2 => 'assets/images/bones2.webp';
+  static String get dogCat => 'assets/images/dogCat.webp';
+  static String get tiutiu => 'assets/images/tiutiu.webp';
+  static String get fadeIn => 'assets/images/fadeIn.webp';
+  static String get bones => 'assets/images/bones.webp';
+  static String get fundo => 'assets/images/fundo.webp';
+  static String get face => 'assets/images/face.webp';
 }
 
 class StartScreenAssets {
