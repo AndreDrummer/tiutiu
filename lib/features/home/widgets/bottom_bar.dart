@@ -46,7 +46,7 @@ class BottomBar extends StatelessWidget {
     FontAwesomeIcons.paw,
     FontAwesomeIcons.searchengin,
     FontAwesomeIcons.squarePlus,
-    FontAwesomeIcons.user,
+    Icons.person,
     Icons.favorite,
   ];
 }
