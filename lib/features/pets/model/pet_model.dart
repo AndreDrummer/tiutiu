@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
 import 'package:tiutiu/core/models/post.dart';
 import 'package:uuid/uuid.dart';
@@ -18,6 +19,38 @@ enum PetEnum {
 }
 
 class Pet extends Post {
+  factory Pet.fromSnapshot(DocumentSnapshot snapshot) {
+    return Pet(
+      createdAt: snapshot.get(PostEnum.createdAt.name) ?? DateTime.now().toIso8601String(),
+      uid: snapshot.get(PostEnum.uid.name) != null ? snapshot.get(PostEnum.uid.name) : Uuid().v4(),
+      otherCaracteristics: snapshot.get(PetEnum.otherCaracteristics.name) ?? [],
+      chronicDiseaseInfo: snapshot.get(PetEnum.chronicDiseaseInfo.name) ?? '',
+      describedAddress: snapshot.get(PostEnum.describedAddress.name) ?? '',
+      donatedOrFound: snapshot.get(PetEnum.donatedOrFound.name) ?? false,
+      lastSeenDetails: snapshot.get(PetEnum.lastSeenDetails.name) ?? '',
+      owner: TiutiuUser.fromMap(snapshot.get(PostEnum.owner.name)),
+      disappeared: snapshot.get(PetEnum.disappeared.name) ?? false,
+      description: snapshot.get(PostEnum.description.name) ?? '',
+      city: snapshot.get(PostEnum.city.name) ?? 'Acrelândia',
+      interesteds: snapshot.get(PostEnum.interesteds.name),
+      state: snapshot.get(PostEnum.state.name) ?? 'Acre',
+      ageMonth: snapshot.get(PetEnum.ageMonth.name) ?? 0,
+      health: snapshot.get(PetEnum.health.name) ?? '-',
+      gender: snapshot.get(PetEnum.gender.name) ?? '-',
+      longitude: snapshot.get(PostEnum.longitude.name),
+      ageYear: snapshot.get(PetEnum.ageYear.name) ?? 0,
+      color: snapshot.get(PetEnum.color.name) ?? '-',
+      breed: snapshot.get(PetEnum.breed.name) ?? '-',
+      latitude: snapshot.get(PostEnum.latitude.name),
+      views: snapshot.get(PostEnum.views.name) ?? 0,
+      size: snapshot.get(PetEnum.size.name) ?? '-',
+      type: snapshot.get(PostEnum.type.name) ?? '-',
+      ownerId: snapshot.get(PostEnum.ownerId.name),
+      photos: snapshot.get(PostEnum.photos.name),
+      video: snapshot.get(PostEnum.video.name),
+      name: snapshot.get(PostEnum.name.name),
+    );
+  }
   Pet({
     this.otherCaracteristics = const [],
     this.chronicDiseaseInfo = '',

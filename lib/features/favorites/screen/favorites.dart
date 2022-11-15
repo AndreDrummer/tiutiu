@@ -16,7 +16,7 @@ class _FavoritesState extends State<Favorites> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: DefaultBasicAppBar(
-        text: MyProfileOptionsTile.favorites,
+        text: AppStrings.favorites,
         automaticallyImplyLeading: false,
       ),
       body: StreamBuilder<List<Post>>(
