@@ -4,7 +4,7 @@ import 'package:tiutiu/features/auth/widgets/dark_over.dart';
 import 'package:tiutiu/features/auth/widgets/headline.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/utils/routes/routes_name.dart';
-import 'package:tiutiu/features/system/controllers.dart';
+import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/mixins/tiu_tiu_pop_up.dart';
 import 'package:tiutiu/core/widgets/outline_input_text.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';

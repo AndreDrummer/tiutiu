@@ -1,8 +1,8 @@
 import 'package:tiutiu/core/constants/firebase_env_path.dart';
-import 'package:tiutiu/features/posts/model/pet_model.dart';
-import 'package:tiutiu/features/system/controllers.dart';
+import 'package:tiutiu/core/pets/model/pet_model.dart';
+import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:tiutiu/core/models/post.dart';
+import 'package:tiutiu/features/posts/model/post.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 
