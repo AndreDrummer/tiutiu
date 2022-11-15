@@ -1,6 +1,6 @@
+import 'package:tiutiu/core/widgets/one_line_text.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/core/constants/strings.dart';
-import 'package:tiutiu/core/widgets/one_line_text.dart';
 import 'package:flutter/material.dart';
 
 class SimpleTextButton extends StatelessWidget {
