@@ -12,7 +12,7 @@ import 'package:tiutiu/screen/choose_location.dart';
 import 'package:tiutiu/screen/notifications.dart';
 import 'package:tiutiu/screen/settings.dart';
 import 'package:tiutiu/Widgets/new_map.dart';
-import 'package:tiutiu/screen/my_pets.dart';
+import 'package:tiutiu/features/posts/views/my_posts.dart';
 import 'package:tiutiu/screen/about.dart';
 import 'package:flutter/material.dart';
 
@@ -51,9 +51,9 @@ class RouterGenerator {
         return MaterialPageRoute(
           builder: (_) => About(),
         );
-      case Routes.myPets:
+      case Routes.myPosts:
         return MaterialPageRoute(
-          builder: (_) => MyPetsScreen(),
+          builder: (_) => MyPosts(),
         );
       case Routes.favorites:
         return MaterialPageRoute(

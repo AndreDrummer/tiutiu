@@ -1,33 +1,25 @@
 import 'package:tiutiu/Widgets/cards/widgets/card_builder.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:tiutiu/core/utils/other_functions.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/core/models/post.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:tiutiu/features/system/controllers.dart';
 
 class CardAd extends StatelessWidget {
-  CardAd({required this.post, this.inReviewMode = false});
+  CardAd({
+    this.showFavoriteButton = false,
+    this.inReviewMode = false,
+    required this.cardBuilder,
+    required this.post,
+  });
 
+  final CardBuilder cardBuilder;
+  final bool showFavoriteButton;
   final bool inReviewMode;
   final Post post;
 
   @override
   Widget build(BuildContext context) {
-    debugPrint(post.toString());
-
-    List<String> distanceText = OtherFunctions.distanceCalculate(
-      post.latitude!,
-      post.longitude!,
-    );
-
-    CardBuilder cardBuilder = CardBuilder(
-      distanceText: distanceText[0],
-      inReviewMode: inReviewMode,
-      post: post,
-    );
-
     return Card(
       elevation: 4.0,
       shape: RoundedRectangleBorder(
@@ -39,7 +31,7 @@ class CardAd extends StatelessWidget {
             children: [
               cardBuilder.adImages(),
               Visibility(
-                visible: !inReviewMode && authController.userExists,
+                visible: !inReviewMode && showFavoriteButton,
                 child: Positioned(
                   child: cardBuilder.favoriteButton(),
                   bottom: 16.0.h,
