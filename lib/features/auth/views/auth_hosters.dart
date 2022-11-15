@@ -1,15 +1,15 @@
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/features/auth/widgets/headline.dart';
+import 'package:tiutiu/core/widgets/load_dark_screen.dart';
 import 'package:tiutiu/core/utils/routes/routes_name.dart';
 import 'package:tiutiu/features/system/controllers.dart';
 import 'package:tiutiu/core/mixins/tiu_tiu_pop_up.dart';
 import 'package:tiutiu/core/constants/text_styles.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
-import 'package:tiutiu/Widgets/load_dark_screen.dart';
+import 'package:tiutiu/core/widgets/tiutiu_logo.dart';
+import 'package:tiutiu/core/widgets/button_wide.dart';
 import 'package:tiutiu/core/constants/strings.dart';
-import 'package:tiutiu/Widgets/tiutiu_logo.dart';
-import 'package:tiutiu/Widgets/button_wide.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'dart:math';
@@ -102,9 +102,9 @@ class AuthHosters extends StatelessWidget with TiuTiuPopUp {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           ButtonWide(
-            textIconColor: AppColors.black,
             icon: FontAwesomeIcons.apple,
             onPressed: _loginWithApple,
+            textColor: AppColors.black,
             text: AuthStrings.apple,
             color: AppColors.white,
             isToExpand: true,

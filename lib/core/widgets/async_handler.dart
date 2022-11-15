@@ -1,6 +1,6 @@
-import 'package:tiutiu/Widgets/loading_page.dart';
-import 'package:tiutiu/Widgets/error_page.dart';
-import 'package:tiutiu/Widgets/empty_list.dart';
+import 'package:tiutiu/core/widgets/loading_page.dart';
+import 'package:tiutiu/core/widgets/error_page.dart';
+import 'package:tiutiu/core/widgets/empty_list.dart';
 import 'package:flutter/material.dart';
 
 class AsyncHandler<T> extends StatelessWidget {

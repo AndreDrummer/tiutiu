@@ -1,6 +1,6 @@
 import 'package:tiutiu/features/posts/services/post_service.dart';
 import 'package:tiutiu/core/local_storage/local_storage.dart';
-import 'package:tiutiu/features/pets/model/pet_model.dart';
+import 'package:tiutiu/features/posts/model/pet_model.dart';
 import 'package:tiutiu/core/models/post.dart';
 import 'package:flutter/foundation.dart';
 

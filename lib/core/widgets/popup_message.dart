@@ -11,6 +11,7 @@ class PopUpMessage extends StatelessWidget {
     this.confirmAction,
     this.confirmText,
     this.denyAction,
+    this.textColor,
     this.message,
     this.title,
   });
@@ -18,6 +19,7 @@ class PopUpMessage extends StatelessWidget {
   final void Function()? confirmAction;
   final void Function()? denyAction;
   final String? confirmText;
+  final Color? textColor;
   final String denyText;
   final String? message;
   final String? title;
@@ -40,12 +42,13 @@ class PopUpMessage extends StatelessWidget {
         children: [
           Text(
             '$title',
-            style: TextStyle(color: AppColors.white, fontSize: 16),
+            style: TextStyle(color: textColor ?? AppColors.white, fontSize: 16),
           ),
           SizedBox(
             height: 14.0.h,
             child: Image.asset(
               ImageAssets.newLogo,
+              color: textColor,
             ),
           )
         ],
@@ -53,8 +56,8 @@ class PopUpMessage extends StatelessWidget {
       content: Text(
         '$message',
         style: TextStyle(
+          color: textColor ?? AppColors.white,
           fontWeight: FontWeight.w500,
-          color: AppColors.white,
           fontSize: 15,
         ),
       ),
@@ -64,7 +67,7 @@ class PopUpMessage extends StatelessWidget {
                 onPressed: () => confirmAction?.call(),
                 child: Text(
                   '$confirmText',
-                  style: TextStyle(color: AppColors.white),
+                  style: TextStyle(color: textColor ?? AppColors.white),
                 ),
               )
             : Container(),
@@ -73,7 +76,7 @@ class PopUpMessage extends StatelessWidget {
                 onPressed: () => denyAction?.call(),
                 child: Text(
                   denyText,
-                  style: TextStyle(color: AppColors.white),
+                  style: TextStyle(color: textColor ?? AppColors.white),
                 ),
               )
             : Container()
