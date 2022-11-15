@@ -1,6 +1,7 @@
 class Routes {
   static const announcerDetails = '/announcer-details';
   static const emailAndPassword = '/email-password';
+  static const initPostFlow = '/init-post-flow';
   static const authHosters = '/auth-hosters';
   static const startScreen = '/start-screen';
   static const petDetails = '/pet-details';
