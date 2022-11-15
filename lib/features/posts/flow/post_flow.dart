@@ -56,7 +56,7 @@ class PostFlow extends StatelessWidget with TiuTiuPopUp {
                     children: [
                       SizedBox(height: 24.0.h),
                       Steper(
-                        currentStep: postsController.flowIndex,
+                        currentStep: postsController.flowIndex + (postsController.postReviewed ? 1 : 0),
                         stepsName: _stepsNames,
                       ),
                       _divider(),
@@ -76,7 +76,7 @@ class PostFlow extends StatelessWidget with TiuTiuPopUp {
                               child: Row(
                                 children: [
                                   OneLineText(
-                                    text: '${postsController.flowIndex + (postsController.postReviewed ? 2 : 1)}',
+                                    text: '${postsController.flowIndex + (postsController.postReviewed ? 1 : 1)}',
                                     fontWeight: FontWeight.bold,
                                     color: AppColors.secondary,
                                     fontSize: 32.0,

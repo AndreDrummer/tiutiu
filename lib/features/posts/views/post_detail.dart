@@ -1,4 +1,3 @@
-import 'package:tiutiu/core/utils/dimensions.dart';
 import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
 import 'package:tiutiu/Widgets/pet_other_caracteristics_card.dart';
 import 'package:tiutiu/core/models/pet_caracteristics_model.dart';
@@ -14,10 +13,11 @@ import 'package:tiutiu/core/constants/text_styles.dart';
 import 'package:tiutiu/core/utils/other_functions.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/Widgets/load_dark_screen.dart';
-import 'package:tiutiu/Widgets/dots_indicator.dart';
 import 'package:tiutiu/core/utils/asset_handle.dart';
+import 'package:tiutiu/Widgets/dots_indicator.dart';
 import 'package:tiutiu/core/utils/video_utils.dart';
 import 'package:tiutiu/core/constants/strings.dart';
+import 'package:tiutiu/core/utils/dimensions.dart';
 import 'package:maps_launcher/maps_launcher.dart';
 import 'package:tiutiu/Widgets/button_wide.dart';
 import 'package:tiutiu/core/models/post.dart';
@@ -78,7 +78,12 @@ class _PetDetailsState extends State<PetDetails> {
               future: postsController.cacheVideos(),
               builder: (context, snapshot) {
                 return ListView(
-                  padding: EdgeInsets.only(right: Dimensions.getDimensByPlatform(iosDimen: 0.0.w, androidDimen: 4.0.w)),
+                  padding: EdgeInsets.only(
+                    right: Dimensions.getDimensBasedOnDeviceHeight(
+                      greaterDeviceHeightDouble: 0.0.w,
+                      minDeviceHeightDouble: 4.0.w,
+                    ),
+                  ),
                   children: [
                     _showImagesAndVideos(
                       boxHeight: Get.height / 2.5,
@@ -367,7 +372,11 @@ class _PetDetailsState extends State<PetDetails> {
       replacement: backReviewAndUploadPost(),
       visible: !widget.inReviewMode,
       child: Container(
-        margin: EdgeInsets.only(right: 4.0.w, top: 16.0.h, left: 4.0.w),
+        margin: EdgeInsets.only(
+          top: Dimensions.getDimensBasedOnDeviceHeight(minDeviceHeightDouble: 24.0.h, greaterDeviceHeightDouble: 2.0.h),
+          right: 4.0.w,
+          left: 4.0.w,
+        ),
         child: Column(
           children: [
             Row(
@@ -375,21 +384,19 @@ class _PetDetailsState extends State<PetDetails> {
               children: [
                 Expanded(
                   child: ButtonWide(
+                    onPressed: () => chatController.startsChatWith(post.owner!),
                     color: AppColors.secondary,
                     text: AppStrings.chat,
                     isToExpand: false,
                     icon: Icons.phone,
-                    onPressed: () {
-                      chatController.startsChatWith(post.owner!);
-                    },
                   ),
                 ),
                 SizedBox(width: 16.0.w),
                 Expanded(
                   child: ButtonWide(
+                    icon: FontAwesomeIcons.whatsapp,
                     text: AppStrings.whatsapp,
                     color: AppColors.primary,
-                    icon: FontAwesomeIcons.whatsapp,
                     isToExpand: false,
                     onPressed: () {},
                   ),
@@ -411,7 +418,12 @@ class _PetDetailsState extends State<PetDetails> {
 
   Widget backReviewAndUploadPost() {
     return Padding(
-      padding: EdgeInsets.only(top: 32.0.h),
+      padding: EdgeInsets.only(
+        top: Dimensions.getDimensBasedOnDeviceHeight(
+          greaterDeviceHeightDouble: Get.width / 5.5,
+          minDeviceHeightDouble: Get.width / 4,
+        ),
+      ),
       child: ButtonWide(
         rounded: false,
         onPressed: () {

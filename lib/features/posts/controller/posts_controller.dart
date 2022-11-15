@@ -411,6 +411,7 @@ class PostsController extends GetxController {
 
   void clearForm() {
     _isFullAddress(false);
+    _postReviewed(false);
     _formIsValid(true);
     _flowIndex(0);
     _post(Pet());
@@ -458,6 +459,7 @@ class PostsController extends GetxController {
   }
 
   void previousStepFlow() {
+    _postReviewed(false);
     _formIsValid(true);
     _pauseVideo();
 
