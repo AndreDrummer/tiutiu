@@ -37,10 +37,8 @@ class AssetHandle {
   }) {
     if (imagePath == null || imagePath.toString().isEmpty) {
       return FadeInImage(
-        image: AssetImage(ImageAssets.profileEmpty),
-        placeholder: AssetImage(
-          isUserImage ? ImageAssets.profileEmpty : ImageAssets.profileEmpty,
-        ),
+        placeholder: AssetImage(isUserImage ? ImageAssets.profileEmpty : ImageAssets.newLogo),
+        image: AssetImage(isUserImage ? ImageAssets.profileEmpty : ImageAssets.newLogo),
         fit: fit ?? BoxFit.fill,
         width: 1000,
       );
