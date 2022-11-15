@@ -40,7 +40,7 @@ class PostDescription extends StatelessWidget {
       },
       items: DummyData.breeds[postsController.post.type]!,
       labelText: PetDetailsStrings.breed,
-      fontSize: 14.0.sp,
+      fontSize: 14.0,
     );
   }
 
@@ -53,7 +53,7 @@ class PostDescription extends StatelessWidget {
       },
       labelText: PetDetailsStrings.color,
       items: DummyData.color,
-      fontSize: 14.0.sp,
+      fontSize: 14.0,
     );
   }
 
@@ -66,7 +66,7 @@ class PostDescription extends StatelessWidget {
       },
       labelText: PetDetailsStrings.sex,
       items: DummyData.gender,
-      fontSize: 14.0.sp,
+      fontSize: 14.0,
     );
   }
 

@@ -1,4 +1,3 @@
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/constants/text_styles.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/Widgets/hint_error.dart';
@@ -32,7 +31,7 @@ class UnderlineInputDropdown extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           AutoSizeTexts.autoSizeText26(
-            fontSize: fontSize ?? 24.0.sp,
+            fontSize: fontSize ?? 24.0,
             color: AppColors.black,
             labelText,
           ),

@@ -62,7 +62,7 @@ class LocationSelecter extends StatelessWidget {
       labelText: PostFlowStrings.state,
       initialValue: initialState,
       onChanged: onStateChanged,
-      fontSize: 12.0.sp,
+      fontSize: 12.0,
     );
   }
 
@@ -72,7 +72,7 @@ class LocationSelecter extends StatelessWidget {
       labelText: PostFlowStrings.city,
       initialValue: initialCity,
       onChanged: onCityChanged,
-      fontSize: 12.0.sp,
+      fontSize: 12.0,
     );
   }
 

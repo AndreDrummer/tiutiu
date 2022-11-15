@@ -461,7 +461,7 @@ class AuthController extends GetxController {
         );
       }
 
-      if (!user!.emailVerified) {
+      if (!user!.emailVerified && allowResendEmail) {
         sendEmail();
       }
 

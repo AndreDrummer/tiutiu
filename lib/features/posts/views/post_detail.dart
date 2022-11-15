@@ -1,3 +1,4 @@
+import 'package:tiutiu/core/utils/dimensions.dart';
 import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
 import 'package:tiutiu/Widgets/pet_other_caracteristics_card.dart';
 import 'package:tiutiu/core/models/pet_caracteristics_model.dart';
@@ -60,13 +61,6 @@ class _PetDetailsState extends State<PetDetails> {
   }
 
   @override
-  void dispose() {
-    chewieController?.pause();
-    chewieController?.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     final Post post = postsController.post;
     final petCaracteristics = PetCaracteristics.petCaracteristics((post as Pet));
@@ -80,19 +74,20 @@ class _PetDetailsState extends State<PetDetails> {
         },
         child: Scaffold(
           appBar: _appBar(post.name!),
-          body: FutureBuilder<void>(
+          body: FutureBuilder(
               future: postsController.cacheVideos(),
               builder: (context, snapshot) {
                 return ListView(
+                  padding: EdgeInsets.only(right: Dimensions.getDimensByPlatform(iosDimen: 0.0.w, androidDimen: 4.0.w)),
                   children: [
                     _showImagesAndVideos(
                       boxHeight: Get.height / 2.5,
                       context: context,
                     ),
                     _petCaracteristics(petCaracteristics),
-                    VerifyAccountWarning(
+                    VerifyAccountWarningInterstitial(
+                      anotherRequiredCondition: !widget.inReviewMode,
                       isHiddingContactInfo: true,
-                      anotherRequiredCondition: widget.inReviewMode,
                       child: Column(
                         children: [
                           _description(post.description),
@@ -272,7 +267,7 @@ class _PetDetailsState extends State<PetDetails> {
         fullscreenController.openFullScreenMode(photos);
       },
       child: Container(
-        child: AssetHandle.getImage(photos.elementAt(index)),
+        child: AssetHandle.getImage(photos.elementAt(index), fit: BoxFit.cover),
         width: double.infinity,
       ),
     );
@@ -368,44 +363,62 @@ class _PetDetailsState extends State<PetDetails> {
     TiutiuUser? user,
   }) {
     final Post post = postsController.post;
-    return Container(
-      margin: EdgeInsets.only(right: 4.0.w, top: 16.0.h, left: 4.0.w),
-      child: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Expanded(
-                child: ButtonWide(
-                  color: AppColors.secondary,
-                  text: AppStrings.chat,
-                  isToExpand: false,
-                  icon: Icons.phone,
-                  onPressed: () {
-                    chatController.startsChatWith(post.owner!);
-                  },
+    return Visibility(
+      replacement: backReviewAndUploadPost(),
+      visible: !widget.inReviewMode,
+      child: Container(
+        margin: EdgeInsets.only(right: 4.0.w, top: 16.0.h, left: 4.0.w),
+        child: Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                  child: ButtonWide(
+                    color: AppColors.secondary,
+                    text: AppStrings.chat,
+                    isToExpand: false,
+                    icon: Icons.phone,
+                    onPressed: () {
+                      chatController.startsChatWith(post.owner!);
+                    },
+                  ),
                 ),
-              ),
-              SizedBox(width: 16.0.w),
-              Expanded(
-                child: ButtonWide(
-                  text: AppStrings.whatsapp,
-                  color: AppColors.primary,
-                  icon: FontAwesomeIcons.whatsapp,
-                  isToExpand: false,
-                  onPressed: () {},
+                SizedBox(width: 16.0.w),
+                Expanded(
+                  child: ButtonWide(
+                    text: AppStrings.whatsapp,
+                    color: AppColors.primary,
+                    icon: FontAwesomeIcons.whatsapp,
+                    isToExpand: false,
+                    onPressed: () {},
+                  ),
                 ),
-              ),
-            ],
-          ),
-          ButtonWide(
-            text: (post as Pet).disappeared ? AppStrings.provideInfo : AppStrings.iamInterested,
-            icon: post.disappeared ? Icons.info : Icons.favorite_border,
-            color: post.disappeared ? AppColors.info : AppColors.danger,
-            isToExpand: true,
-            onPressed: () {},
-          ),
-        ],
+              ],
+            ),
+            ButtonWide(
+              text: (post as Pet).disappeared ? AppStrings.provideInfo : AppStrings.iamInterested,
+              icon: post.disappeared ? Icons.info : Icons.favorite_border,
+              color: post.disappeared ? AppColors.info : AppColors.danger,
+              isToExpand: true,
+              onPressed: () {},
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget backReviewAndUploadPost() {
+    return Padding(
+      padding: EdgeInsets.only(top: 32.0.h),
+      child: ButtonWide(
+        rounded: false,
+        onPressed: () {
+          postsController.backReviewAndPost();
+        },
+        text: PostFlowStrings.post,
+        isToExpand: true,
       ),
     );
   }

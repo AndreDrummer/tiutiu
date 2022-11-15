@@ -38,8 +38,11 @@ class PostFlow extends StatelessWidget with TiuTiuPopUp {
             ),
             PostFlowStrings.picTime,
             PostFlowStrings.addVideo,
-            PostFlowStrings.reviewYourPost,
-            postsController.isLoading ? PostFlowStrings.posting : PostFlowStrings.allDone,
+            postsController.postReviewed
+                ? postsController.isLoading
+                    ? PostFlowStrings.posting
+                    : PostFlowStrings.allDone
+                : PostFlowStrings.reviewYourPost,
           ];
 
           return Stack(
@@ -48,16 +51,14 @@ class PostFlow extends StatelessWidget with TiuTiuPopUp {
                 resizeToAvoidBottomInset: true,
                 backgroundColor: AppColors.white,
                 body: SizedBox(
-                  height: postsController.flowIndex >= 6 ? Get.height / 1.33 : Get.height,
+                  height: postsController.flowIndex >= 6 ? Get.height / 1.36 : Get.height,
                   child: Column(
                     children: [
                       SizedBox(height: 24.0.h),
-                      Obx(() {
-                        return Steper(
-                          currentStep: postsController.flowIndex,
-                          stepsName: _stepsNames,
-                        );
-                      }),
+                      Steper(
+                        currentStep: postsController.flowIndex,
+                        stepsName: _stepsNames,
+                      ),
                       _divider(),
                       Obx(
                         () => Row(
@@ -67,7 +68,7 @@ class PostFlow extends StatelessWidget with TiuTiuPopUp {
                               padding: EdgeInsets.only(left: 8.0.w),
                               child: OneLineText(
                                 text: _screensTitle.elementAt(postsController.flowIndex),
-                                fontSize: 16.0.sp,
+                                fontSize: 16.0,
                               ),
                             ),
                             Padding(
@@ -75,16 +76,16 @@ class PostFlow extends StatelessWidget with TiuTiuPopUp {
                               child: Row(
                                 children: [
                                   OneLineText(
-                                    text: '${postsController.flowIndex + 1}',
+                                    text: '${postsController.flowIndex + (postsController.postReviewed ? 2 : 1)}',
                                     fontWeight: FontWeight.bold,
                                     color: AppColors.secondary,
-                                    fontSize: 32.0.sp,
+                                    fontSize: 32.0,
                                   ),
                                   OneLineText(
                                     color: AppColors.black.withAlpha(100),
                                     widgetAlignment: Alignment.centerRight,
                                     text: ' / ${_screensTitle.length}',
-                                    fontSize: 16.0.sp,
+                                    fontSize: 16.0,
                                   ),
                                 ],
                               ),
@@ -166,7 +167,7 @@ void _setMockData() {
 final _stepsNames = [
   PostFlowStrings.data,
   PostFlowStrings.details,
-  PetDetailsStrings.description,
+  PetDetailsStrings.caracteristics,
   PostFlowStrings.local,
   PostFlowStrings.pictures,
   PostFlowStrings.videos,
@@ -180,6 +181,5 @@ List<Widget> _stepsScreens = [
   PostLocation(),
   Images(),
   Video(),
-  ReviewPost(),
   ReviewPost(),
 ];
