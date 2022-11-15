@@ -1,7 +1,7 @@
+import 'package:tiutiu/core/widgets/play_store_rating.dart';
+import 'package:tiutiu/core/widgets/background.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:tiutiu/core/widgets/background.dart';
-import 'package:tiutiu/core/widgets/play_store_rating.dart';
 
 class About extends StatelessWidget {
   @override
