@@ -1,3 +1,4 @@
+import 'package:tiutiu/core/extensions/string_extension.dart';
 import 'package:flutter/foundation.dart';
 
 class FirebaseEnvPath {
@@ -8,24 +9,21 @@ class FirebaseEnvPath {
   static const String whatsappTemplateProd = 'WHATSAPP_TEMPLATE_PROD';
   static const String environment = kDebugMode ? 'debug' : 'prod';
   static const String usersFavoritesCollection = 'favorites';
-  // static const String environment = 'prod';
   static const String whatsappToken = 'WHATSAPP_TOKEN';
   static const String whatsappCodes = 'whatsappCodes';
   static const String notifications = 'Notifications';
   static const String disappeared = 'Disappeared';
   static const String favorites = 'Favorites';
   static const String projectName = 'tiutiu';
+  static const String messages = 'messages';
+  static const String contacts = 'contacts';
   static const String adopted = 'Adopted';
   static const String donate = 'Donate';
   static const String users = 'Users';
-  static const String keys = 'KEYS';
-  static const String env = 'env';
-
-  // Quando a migração estiver completa e o app v2.0 lançado, remover o user com U maiusculo.
-  static const String messages = 'messages';
-  static const String contacts = 'contacts';
   static const String posts = 'posts';
+  static const String keys = 'KEYS';
   static const String chat = 'chat';
+  static const String env = 'env';
 }
 
 enum FileType {
@@ -33,19 +31,43 @@ enum FileType {
   video,
 }
 
-String get pathToPosts =>
-    '${FirebaseEnvPath.projectName}/${FirebaseEnvPath.env}/${FirebaseEnvPath.environment}/${FirebaseEnvPath.posts}/${FirebaseEnvPath.posts}';
+String get pathToPosts {
+  return FirebaseEnvPath.projectName
+      .concat(FirebaseEnvPath.env, joiner: '/')
+      .concat(FirebaseEnvPath.environment, joiner: '/')
+      .concat(FirebaseEnvPath.posts, joiner: '/')
+      .concat(FirebaseEnvPath.posts, joiner: '/');
+}
 
-String get newPathToUser =>
-    '${FirebaseEnvPath.projectName}/${FirebaseEnvPath.env}/${FirebaseEnvPath.environment}/${FirebaseEnvPath.users.toLowerCase()}/${FirebaseEnvPath.users.toLowerCase()}';
+String get newPathToUser {
+  return FirebaseEnvPath.projectName
+      .concat(FirebaseEnvPath.env, joiner: '/')
+      .concat(FirebaseEnvPath.environment, joiner: '/')
+      .concat(FirebaseEnvPath.users.toLowerCase(), joiner: '/')
+      .concat(FirebaseEnvPath.users.toLowerCase(), joiner: '/');
+}
 
-String userProfileStoragePath(String userId) =>
-    '${FirebaseEnvPath.projectName}/${FirebaseEnvPath.env}/${FirebaseEnvPath.users.toLowerCase()}/$userId/avatar/profile.png';
+String userProfileStoragePath(String userId) {
+  return FirebaseEnvPath.projectName
+      .concat(FirebaseEnvPath.env, joiner: '/')
+      .concat(FirebaseEnvPath.environment, joiner: '/')
+      .concat(FirebaseEnvPath.users.toLowerCase(), joiner: '/')
+      .concat(userId, joiner: '/')
+      .concat('avatar', joiner: '/')
+      .concat('profile.png', joiner: '/');
+}
 
 String userPostsStoragePath({
   required String fileType,
   required String userId,
   required String postId,
 }) {
-  return '${FirebaseEnvPath.projectName}/${FirebaseEnvPath.env}/${FirebaseEnvPath.users.toLowerCase()}/$userId/${FirebaseEnvPath.posts}/$postId/$fileType';
+  return FirebaseEnvPath.projectName
+      .concat(FirebaseEnvPath.env, joiner: '/')
+      .concat(FirebaseEnvPath.environment, joiner: '/')
+      .concat(FirebaseEnvPath.users.toLowerCase(), joiner: '/')
+      .concat(userId, joiner: '/')
+      .concat(FirebaseEnvPath.posts, joiner: '/')
+      .concat(postId, joiner: '/')
+      .concat(fileType, joiner: '/');
 }

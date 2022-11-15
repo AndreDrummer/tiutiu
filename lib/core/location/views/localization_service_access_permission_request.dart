@@ -1,4 +1,4 @@
-import 'package:tiutiu/features/location/controller/current_location_controller.dart';
+import 'package:tiutiu/core/location/controller/current_location_controller.dart';
 import 'package:tiutiu/core/widgets/default_basic_app_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/constants/images_assets.dart';
