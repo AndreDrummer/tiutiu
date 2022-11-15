@@ -1,8 +1,8 @@
-import 'package:auto_size_text/auto_size_text.dart';
-import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/core/constants/images_assets.dart';
+import 'package:tiutiu/core/constants/app_colors.dart';
+import 'package:auto_size_text/auto_size_text.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter/material.dart';
 
 class NoConnection extends StatelessWidget {
   @override
@@ -25,8 +25,7 @@ class NoConnection extends StatelessWidget {
                 ),
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Image.asset(ImageAssets.noWifi,
-                      color: AppColors.danger, width: 50, height: 50),
+                  child: Image.asset(ImageAssets.noWifi, color: AppColors.danger, width: 50, height: 50),
                 ),
               ),
               SizedBox(height: 20),
