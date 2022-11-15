@@ -28,9 +28,9 @@ class _PetsList extends StatelessWidget with TiuTiuPopUp {
         child: ListView.builder(
           itemCount: (posts.length + 1),
           padding: EdgeInsets.only(
-            right: Dimensions.getDimensByPlatform(
-              androidDimen: 5.0.w,
-              iosDimen: 0.0.w,
+            right: Dimensions.getDimensBasedOnDeviceHeight(
+              minDeviceHeightDouble: 5.0.w,
+              greaterDeviceHeightDouble: 0.0.w,
             ),
           ),
           key: UniqueKey(),

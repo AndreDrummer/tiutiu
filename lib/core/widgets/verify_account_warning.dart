@@ -85,7 +85,7 @@ class VerifyAccountWarningInterstitial extends StatelessWidget {
     final isLoggedIn = authController.userExists;
 
     return Visibility(
-      visible: !anotherRequiredCondition && tiutiuUserController.tiutiuUser.emailVerified,
+      visible: anotherRequiredCondition && tiutiuUserController.tiutiuUser.emailVerified,
       child: child,
       replacement: Container(
         height: Get.width / 4,

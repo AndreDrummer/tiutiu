@@ -21,15 +21,19 @@ class Steper extends StatelessWidget {
   Widget build(BuildContext context) {
     int n = 0;
     return Card(
-      margin: EdgeInsets.all(8.0.h),
+      margin: EdgeInsets.only(
+        right: 8.0.w,
+        left: 4.0.w,
+        top: 4.0.h,
+      ),
       elevation: 8.0.h,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(24.0.h),
+        borderRadius: BorderRadius.circular(8.0.h),
       ),
       child: Container(
         alignment: Alignment.center,
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(24.0.h),
+          borderRadius: BorderRadius.circular(8.0.h),
           color: AppColors.black,
         ),
         child: Stack(

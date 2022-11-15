@@ -49,6 +49,9 @@ class ProfileController extends GetxController {
     MyProfileOptionsTile.favorites,
     MyProfileOptionsTile.chat,
     MyProfileOptionsTile.settings,
+    MyProfileOptionsTile.about,
+    MyProfileOptionsTile.support,
+    MyProfileOptionsTile.deleteAccount,
     MyProfileOptionsTile.leave,
   ];
 
@@ -59,6 +62,9 @@ class ProfileController extends GetxController {
     Icons.favorite,
     FontAwesomeIcons.comments,
     FontAwesomeIcons.gear,
+    FontAwesomeIcons.info,
+    FontAwesomeIcons.circleDollarToSlot,
+    FontAwesomeIcons.deleteLeft,
     FontAwesomeIcons.arrowRightFromBracket,
   ];
 }
