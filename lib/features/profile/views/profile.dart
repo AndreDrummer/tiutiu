@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
 import 'package:tiutiu/core/widgets/default_basic_app_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -14,6 +12,7 @@ import 'package:tiutiu/core/constants/strings.dart';
 import 'package:tiutiu/core/utils/formatter.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'dart:io';
 
 class Profile extends StatelessWidget with TiuTiuPopUp {
   Profile({
@@ -140,8 +139,8 @@ class Profile extends StatelessWidget with TiuTiuPopUp {
     return Container(
       width: 200.0.w,
       child: AutoSizeTexts.autoSizeText24(
-        fontWeight: FontWeight.w700,
         Formatters.cuttedText('${_user.displayName}', size: 32),
+        fontWeight: FontWeight.w700,
       ),
     );
   }

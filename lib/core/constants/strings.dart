@@ -195,10 +195,14 @@ class MyProfileStrings {
 }
 
 class MyProfileOptionsTile {
+  static const String deleteAccount = 'Deletar minha conta';
+  static const String about = 'Sobre o aplicativo';
+  static const String talkWithUs = 'Fale conosco';
   static const String settings = 'Configurações';
   static const String favorites = 'Favoritos';
   static const String myPosts = 'Meus Posts';
   static const String chat = 'Chat Online';
+  static const String support = 'Apoie';
   static const String leave = 'Sair';
 }
 
