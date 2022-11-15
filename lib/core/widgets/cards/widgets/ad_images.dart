@@ -1,6 +1,6 @@
 import 'package:tiutiu/features/home/controller/home_controller.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:tiutiu/features/system/controllers.dart';
+import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:tiutiu/core/utils/asset_handle.dart';

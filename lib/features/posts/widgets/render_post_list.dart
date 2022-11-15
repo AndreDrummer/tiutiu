@@ -2,11 +2,11 @@ import 'package:tiutiu/features/home/controller/home_controller.dart';
 import 'package:tiutiu/features/posts/widgets/back_to_start.dart';
 import 'package:tiutiu/core/widgets/cards/widgets/card_builder.dart';
 import 'package:tiutiu/core/utils/routes/routes_name.dart';
-import 'package:tiutiu/features/system/controllers.dart';
+import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/widgets/cards/card_ad_list.dart';
 import 'package:tiutiu/core/utils/other_functions.dart';
 import 'package:tiutiu/core/widgets/cards/card_ad.dart';
-import 'package:tiutiu/core/models/post.dart';
+import 'package:tiutiu/features/posts/model/post.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

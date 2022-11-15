@@ -1,7 +1,7 @@
 import 'package:tiutiu/features/home/controller/home_controller.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:tiutiu/features/system/controllers.dart';
-import 'package:tiutiu/core/data/states_and_cities.dart';
+import 'package:tiutiu/core/controllers/controllers.dart';
+import 'package:tiutiu/core/location/models/states_and_cities.dart';
 import 'package:tiutiu/core/constants/text_styles.dart';
 import 'package:flutter/material.dart';
 

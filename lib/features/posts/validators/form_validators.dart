@@ -1,6 +1,6 @@
 import 'package:tiutiu/core/extensions/string_extension.dart';
-import 'package:tiutiu/features/posts/model/pet_model.dart';
-import 'package:tiutiu/core/models/post.dart';
+import 'package:tiutiu/core/pets/model/pet_model.dart';
+import 'package:tiutiu/features/posts/model/post.dart';
 import 'package:flutter/widgets.dart';
 
 final GlobalKey<FormState> diaseaseForm = GlobalKey<FormState>();

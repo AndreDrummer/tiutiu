@@ -1,5 +1,5 @@
+import 'package:tiutiu/core/location/models/location_model.dart';
 import 'package:tiutiu/core/constants/images_assets.dart';
-import 'package:tiutiu/core/models/location_model.dart';
 import 'package:flutter/services.dart';
 import 'dart:convert';
 
