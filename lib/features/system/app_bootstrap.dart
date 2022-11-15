@@ -2,7 +2,7 @@ import 'package:tiutiu/features/location/views/localization_service_access_permi
 import 'package:tiutiu/features/location/extensions/service_location_status.dart';
 import 'package:tiutiu/features/auth/views/auth_or_home.dart';
 import 'package:tiutiu/features/system/controllers.dart';
-import 'package:tiutiu/Widgets/loading_page.dart';
+import 'package:tiutiu/core/widgets/loading_page.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -25,8 +25,7 @@ class _BootstrapState extends State<AppBootstrap> {
 
         return Obx(
           () {
-            debugPrint(
-                '>> GPS is active? ${currentLocationController.gpsStatus.isActive}');
+            debugPrint('>> GPS is active? ${currentLocationController.gpsStatus.isActive}');
             return currentLocationController.gpsStatus.isActive
                 ? _RequestPermissionsOrHome()
                 : LocalizationServiceAccessPermissionAccess(

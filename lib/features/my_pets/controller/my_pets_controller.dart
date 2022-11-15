@@ -1,10 +1,9 @@
 import 'package:get/get.dart';
 import 'package:tiutiu/features/my_pets/services/my_pets_service.dart';
-import 'package:tiutiu/features/pets/model/pet_model.dart';
+import 'package:tiutiu/features/posts/model/pet_model.dart';
 
 class MyPetsController extends GetxController {
-  MyPetsController(MyPetsService myPetsService)
-      : _myPetsService = myPetsService;
+  MyPetsController(MyPetsService myPetsService) : _myPetsService = myPetsService;
 
   final RxList<Pet> _myPetsDisappeareds = <Pet>[].obs;
   final RxList<Pet> _myPetsToDonate = <Pet>[].obs;

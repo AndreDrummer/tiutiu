@@ -4,7 +4,7 @@ import 'package:tiutiu/core/local_storage/local_storage_keys.dart';
 import 'package:tiutiu/core/constants/firebase_env_path.dart';
 import 'package:tiutiu/core/local_storage/local_storage.dart';
 import 'package:tiutiu/core/extensions/string_extension.dart';
-import 'package:tiutiu/features/pets/model/pet_model.dart';
+import 'package:tiutiu/features/posts/model/pet_model.dart';
 import 'package:tiutiu/core/utils/file_cache_manager.dart';
 import 'package:tiutiu/core/utils/routes/routes_name.dart';
 import 'package:tiutiu/features/system/controllers.dart';
@@ -33,6 +33,7 @@ class PostsController extends GetxController {
   final RxBool _isFullAddress = false.obs;
   final RxList<Pet> _posts = <Pet>[].obs;
   final RxString _flowErrorText = ''.obs;
+  final RxBool _isEditingPost = false.obs;
   final RxBool _postReviewed = false.obs;
   final RxInt _postPhotoFrameQty = 1.obs;
   final RxBool _formIsValid = true.obs;
@@ -48,6 +49,7 @@ class PostsController extends GetxController {
   int get postPhotoFrameQty => _postPhotoFrameQty.value;
   String get flowErrorText => _flowErrorText.value;
   bool get isInReviewMode => _isInReviewMode.value;
+  bool get isEditingPost => _isEditingPost.value;
   bool get isFullAddress => _isFullAddress.value;
   bool get formIsInInitialState => post == Post();
   List<Pet> get filteredPosts => _filteredPosts;
@@ -62,6 +64,7 @@ class PostsController extends GetxController {
   Post get post => _post.value;
 
   void set isInReviewMode(bool value) => _isInReviewMode(value);
+  void set isEditingPost(bool value) => _isEditingPost(value);
   void set postReviewed(bool value) => _postReviewed(value);
   void set isLoading(bool value) => _isLoading(value);
   void set post(Post pet) => _post(pet);

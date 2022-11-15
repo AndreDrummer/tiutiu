@@ -6,7 +6,7 @@ import 'package:tiutiu/features/system/controllers.dart';
 import 'package:tiutiu/core/widgets/async_handler.dart';
 import 'package:tiutiu/features/home/views/home.dart';
 import 'package:tiutiu/core/constants/strings.dart';
-import 'package:tiutiu/screen/no_connection.dart';
+import 'package:tiutiu/core/widgets/no_connection.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
