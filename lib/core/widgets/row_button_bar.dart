@@ -1,8 +1,8 @@
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/widgets/button_wide_outlined.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
-import 'package:tiutiu/core/constants/strings.dart';
 import 'package:tiutiu/core/widgets/button_wide.dart';
+import 'package:tiutiu/core/constants/strings.dart';
 import 'package:flutter/material.dart';
 
 class RowButtonBar extends StatelessWidget {
