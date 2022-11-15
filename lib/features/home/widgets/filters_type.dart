@@ -1,6 +1,6 @@
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:tiutiu/core/models/filter_params.dart';
-import 'package:tiutiu/features/system/controllers.dart';
+import 'package:tiutiu/features/posts/model/filter_params.dart';
+import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/widgets/home_filter_item.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

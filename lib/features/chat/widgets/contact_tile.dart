@@ -1,6 +1,6 @@
 import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:tiutiu/features/system/controllers.dart';
+import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/features/chat/model/contact.dart';
 import 'package:tiutiu/core/utils/other_functions.dart';
 import 'package:tiutiu/core/constants/text_styles.dart';

@@ -7,7 +7,7 @@ import 'package:tiutiu/features/auth/views/start_screen.dart';
 import 'package:tiutiu/features/chat/views/my_contacts.dart';
 import 'package:tiutiu/features/posts/views/my_posts.dart';
 import 'package:tiutiu/core/utils/routes/routes_name.dart';
-import 'package:tiutiu/features/system/app_bootstrap.dart';
+import 'package:tiutiu/core/system/app_bootstrap.dart';
 import 'package:tiutiu/features/home/views/home.dart';
 import 'package:tiutiu/core/widgets/about.dart';
 import 'package:flutter/material.dart';

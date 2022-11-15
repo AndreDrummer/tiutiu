@@ -52,6 +52,7 @@ extension TiutiuStringExtension on String {
         .toLowerCase();
   }
 
+  String concat(String lastPart, {String joiner = ''}) => this + '$joiner$lastPart';
   bool isAsset() => this.contains(Constantes.ASSETS);
   bool isUrl() => this.contains(Constantes.HTTP);
 }

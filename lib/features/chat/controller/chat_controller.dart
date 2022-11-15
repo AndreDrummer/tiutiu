@@ -3,7 +3,7 @@ import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
 import 'package:tiutiu/features/chat/services/chat_service.dart';
 import 'package:tiutiu/core/utils/routes/routes_name.dart';
 import 'package:tiutiu/features/chat/model/message.dart';
-import 'package:tiutiu/features/system/controllers.dart';
+import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/features/chat/model/contact.dart';
 import 'package:tiutiu/core/utils/cesar_cripto.dart';
 import 'package:flutter/widgets.dart';
