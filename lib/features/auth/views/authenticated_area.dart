@@ -3,7 +3,7 @@ import 'package:tiutiu/features/auth/models/firebase_auth_provider.dart';
 import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
 import 'package:tiutiu/features/profile/views/edit_profile.dart';
 import 'package:tiutiu/features/auth/views/auth_hosters.dart';
-import 'package:tiutiu/features/system/controllers.dart';
+import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/widgets/load_dark_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';

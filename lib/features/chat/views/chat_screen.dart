@@ -2,7 +2,7 @@ import 'package:tiutiu/features/chat/widgets/message_bubble.dart';
 import 'package:tiutiu/features/chat/widgets/new_message.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/features/chat/model/message.dart';
-import 'package:tiutiu/features/system/controllers.dart';
+import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/widgets/async_handler.dart';
 import 'package:tiutiu/core/constants/text_styles.dart';
 import 'package:tiutiu/core/utils/other_functions.dart';

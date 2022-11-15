@@ -2,7 +2,7 @@ import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
 import 'package:tiutiu/core/constants/firebase_env_path.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:tiutiu/core/models/post.dart';
+import 'package:tiutiu/features/posts/model/post.dart';
 import 'package:flutter/foundation.dart';
 import 'dart:io';
 

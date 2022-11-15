@@ -1,7 +1,7 @@
 import 'package:tiutiu/features/posts/widgets/location_selecter.dart';
-import 'package:tiutiu/core/data/states_and_cities.dart';
-import 'package:tiutiu/features/system/controllers.dart';
-import 'package:tiutiu/core/models/post.dart';
+import 'package:tiutiu/core/location/models/states_and_cities.dart';
+import 'package:tiutiu/core/controllers/controllers.dart';
+import 'package:tiutiu/features/posts/model/post.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
