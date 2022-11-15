@@ -199,7 +199,6 @@ class MyProfileOptionsTile {
   static const String about = 'Sobre o aplicativo';
   static const String talkWithUs = 'Fale conosco';
   static const String settings = 'Configurações';
-  static const String favorites = 'Favoritos';
   static const String myPosts = 'Meus Posts';
   static const String chat = 'Chat Online';
   static const String support = 'Apoie';
