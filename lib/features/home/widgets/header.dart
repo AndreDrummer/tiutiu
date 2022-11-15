@@ -19,8 +19,10 @@ class Header extends StatelessWidget {
         VerifyAccountWarningBanner(
           padding: EdgeInsets.symmetric(horizontal: 4.0.w, vertical: 2.0.h),
           margin: EdgeInsets.only(
-            right: Dimensions.getDimensByPlatform(iosDimen: 4.0.w, androidDimen: 8.5.w),
-            left: Dimensions.getDimensByPlatform(iosDimen: 4.0.w, androidDimen: 4.0.w),
+            right:
+                Dimensions.getDimensBasedOnDeviceHeight(greaterDeviceHeightDouble: 4.0.w, minDeviceHeightDouble: 8.5.w),
+            left:
+                Dimensions.getDimensBasedOnDeviceHeight(greaterDeviceHeightDouble: 4.0.w, minDeviceHeightDouble: 4.0.w),
             bottom: 8.0.h,
             top: 8.0.h,
           ),
