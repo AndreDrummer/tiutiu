@@ -1,4 +1,3 @@
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiutiu/core/utils/routes/routes_name.dart';
 import 'package:tiutiu/features/system/controllers.dart';
 import 'package:tiutiu/core/constants/strings.dart';
@@ -17,9 +16,6 @@ class ProfileController extends GetxController {
     isSetting = false;
 
     switch (option) {
-      case MyProfileOptionsTile.favorites:
-        homeController.setFavoriteIndex();
-        break;
       case MyProfileOptionsTile.settings:
         isSetting = true;
         break;
@@ -46,7 +42,6 @@ class ProfileController extends GetxController {
 
   static const List<String> _myProfileOptionsTile = [
     MyProfileOptionsTile.myPosts,
-    MyProfileOptionsTile.favorites,
     MyProfileOptionsTile.chat,
     MyProfileOptionsTile.settings,
     MyProfileOptionsTile.about,
@@ -59,12 +54,11 @@ class ProfileController extends GetxController {
 
   final List<IconData> _myProfileOptionsIcon = [
     Icons.grid_view,
-    Icons.favorite,
-    FontAwesomeIcons.comments,
-    FontAwesomeIcons.gear,
-    FontAwesomeIcons.info,
-    FontAwesomeIcons.circleDollarToSlot,
-    FontAwesomeIcons.deleteLeft,
-    FontAwesomeIcons.arrowRightFromBracket,
+    Icons.forum,
+    Icons.manage_accounts,
+    Icons.info,
+    Icons.volunteer_activism,
+    Icons.person_off,
+    Icons.exit_to_app,
   ];
 }
