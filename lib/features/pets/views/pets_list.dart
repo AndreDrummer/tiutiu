@@ -1,3 +1,5 @@
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:tiutiu/core/utils/dimensions.dart';
 import 'package:tiutiu/features/pets/widgets/render_post_list.dart';
 import 'package:tiutiu/features/system/controllers.dart';
 import 'package:tiutiu/core/mixins/tiu_tiu_pop_up.dart';
@@ -25,7 +27,12 @@ class _PetsList extends StatelessWidget with TiuTiuPopUp {
         onRefresh: () async => postsController.loadPosts(getFromInternet: true),
         child: ListView.builder(
           itemCount: (posts.length + 1),
-          padding: EdgeInsets.zero,
+          padding: EdgeInsets.only(
+            right: Dimensions.getDimensByPlatform(
+              androidDimen: 5.0.w,
+              iosDimen: 0.0.w,
+            ),
+          ),
           key: UniqueKey(),
           itemBuilder: (_, index) {
             if (posts.isEmpty)

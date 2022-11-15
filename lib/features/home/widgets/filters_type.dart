@@ -18,22 +18,26 @@ class FiltersType extends StatelessWidget {
         final filterText = filterController.getParams.type;
 
         return Container(
-          margin: EdgeInsets.symmetric(horizontal: 2.0.w),
-          height: Get.width / 5,
-          child: ListView(scrollDirection: Axis.horizontal, children: [
-            for (int i = 0; i < filtersTypeText.length; i++)
-              HomeFilterItem(
-                onItemTap: () {
-                  filterController.updateParams(
-                    FilterParamsEnum.type,
-                    filtersTypeText[i],
-                  );
-                },
-                isActive: filterText == filtersTypeText[i],
-                type: filtersTypeText[i],
-                icon: filtersIcon[i],
-              )
-          ]),
+          margin: EdgeInsets.symmetric(horizontal: 2.0.w, vertical: 4.0.h),
+          height: Get.width / 6,
+          child: ListView(
+            shrinkWrap: true,
+            scrollDirection: Axis.horizontal,
+            children: [
+              for (int i = 0; i < filtersTypeText.length; i++)
+                HomeFilterItem(
+                  onItemTap: () {
+                    filterController.updateParams(
+                      FilterParamsEnum.type,
+                      filtersTypeText[i],
+                    );
+                  },
+                  isActive: filterText == filtersTypeText[i],
+                  type: filtersTypeText[i],
+                  icon: filtersIcon[i],
+                )
+            ],
+          ),
         );
       },
     );

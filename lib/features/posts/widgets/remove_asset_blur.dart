@@ -36,7 +36,7 @@ class RemoveAssetBlur extends StatelessWidget {
         },
         spaceBetweenLines: 16.0.h,
         spaceBetweenIcons: 16.0.h,
-        fontSize: 24.0.sp,
+        fontSize: 24.0,
         onClose: onClose,
       ),
     );

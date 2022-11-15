@@ -54,7 +54,7 @@ class Ordenators {
   }
 
   static int orderByAge(Pet a, Pet b) {
-    if (a.ageYear == b.ageYear) return a.ageMonth! - b.ageMonth!;
-    return a.ageYear! - b.ageYear!;
+    if (a.ageYear == b.ageYear) return a.ageMonth - b.ageMonth;
+    return a.ageYear - b.ageYear;
   }
 }

@@ -1,7 +1,7 @@
-import 'package:tiutiu/core/constants/app_colors.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/constants/text_styles.dart';
+import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/core/utils/asset_handle.dart';
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 
 class PetOtherCaracteristicsCard extends StatelessWidget {
@@ -23,30 +23,35 @@ class PetOtherCaracteristicsCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(12),
       ),
       child: Container(
-        height: 75,
-        width: 170,
+        width: 128.0.w,
+        height: 72.0.h,
         alignment: Alignment.center,
         child: Padding(
-          padding: const EdgeInsets.all(10.0),
+          padding: EdgeInsets.only(right: 8.0),
           child: Row(
             children: [
-              SizedBox(width: 8.0),
-              Opacity(
-                opacity: 0.4,
-                child: Icon(icon, color: Theme.of(context).primaryColor, size: 35),
+              SizedBox(
+                width: 32.0.w,
+                child: Opacity(
+                  opacity: 0.4,
+                  child: Icon(
+                    color: Theme.of(context).primaryColor,
+                    size: 16.0.h,
+                    icon,
+                  ),
+                ),
               ),
               Expanded(
                 child: Container(
+                  width: 72.0.w,
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       FittedBox(
-                        child: AutoSizeText(
+                        child: AutoSizeTexts.autoSizeText12(
                           title!.toUpperCase(),
-                          style: TextStyle(
-                            letterSpacing: 1.2,
-                            fontWeight: FontWeight.w300,
-                          ),
+                          fontWeight: FontWeight.w300,
                         ),
                       ),
                       SizedBox(height: 10),
