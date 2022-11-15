@@ -1,28 +1,29 @@
-import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
+import 'package:tiutiu/core/utils/routes/routes_name.dart';
 import 'package:tiutiu/core/widgets/pet_other_caracteristics_card.dart';
 import 'package:tiutiu/core/pets/model/pet_caracteristics_model.dart';
+import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
 import 'package:tiutiu/features/posts/widgets/video_player.dart';
 import 'package:tiutiu/core/widgets/verify_account_warning.dart';
 import 'package:tiutiu/features/posts/widgets/card_content.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiutiu/core/extensions/string_extension.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:tiutiu/core/pets/model/pet_model.dart';
+import 'package:tiutiu/core/widgets/load_dark_screen.dart';
 import 'package:tiutiu/core/constants/images_assets.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
+import 'package:tiutiu/core/widgets/dots_indicator.dart';
 import 'package:tiutiu/core/mixins/tiu_tiu_pop_up.dart';
 import 'package:tiutiu/core/constants/text_styles.dart';
 import 'package:tiutiu/core/utils/other_functions.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
-import 'package:tiutiu/core/widgets/load_dark_screen.dart';
+import 'package:tiutiu/features/posts/model/post.dart';
+import 'package:tiutiu/core/pets/model/pet_model.dart';
+import 'package:tiutiu/core/widgets/button_wide.dart';
 import 'package:tiutiu/core/utils/asset_handle.dart';
-import 'package:tiutiu/core/widgets/dots_indicator.dart';
 import 'package:tiutiu/core/utils/video_utils.dart';
 import 'package:tiutiu/core/constants/strings.dart';
 import 'package:tiutiu/core/utils/dimensions.dart';
 import 'package:maps_launcher/maps_launcher.dart';
-import 'package:tiutiu/core/widgets/button_wide.dart';
-import 'package:tiutiu/features/posts/model/post.dart';
 import 'package:flutter/material.dart';
 import 'package:chewie/chewie.dart';
 import 'package:get/get.dart';
@@ -440,7 +441,9 @@ class _PetDetailsState extends State<PetDetails> with TiuTiuPopUp {
           textColor: AppColors.black,
           color: AppColors.warning,
           icon: Icons.edit,
-          onPressed: () {},
+          onPressed: () {
+            Get.toNamed(Routes.initPostFlow);
+          },
           isToExpand: true,
           rounded: false,
         ),
