@@ -1,4 +1,3 @@
-import 'package:tiutiu/features/refine_search/dependency_injection.dart';
 import 'package:tiutiu/features/tiutiu_user/dependency_injection.dart';
 import 'package:tiutiu/features/favorites/dependency_injection.dart';
 import 'package:tiutiu/features/location/dependency_injection.dart';
@@ -33,7 +32,6 @@ class TiuTiuInitializer {
 
   static List<DependencyInjection> _dependencies = [
     CurrentLocationControllerDependency(),
-    RefineSearchControllerDependency(),
     TiutiuUserControllerDependency(),
     FavoritesControllerDependency(),
     SystemControllerDependency(),
