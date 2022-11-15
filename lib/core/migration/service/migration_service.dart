@@ -1,12 +1,12 @@
-import 'package:tiutiu/core/models/post.dart';
+import 'package:tiutiu/features/posts/model/post.dart';
 import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
 import 'package:tiutiu/features/auth/service/auth_service.dart';
 import 'package:tiutiu/core/constants/firebase_env_path.dart';
-import 'package:tiutiu/features/posts/model/pet_model.dart';
+import 'package:tiutiu/core/pets/model/pet_model.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:tiutiu/core/utils/formatter.dart';
-import 'package:tiutiu/core/models/latlng.dart';
+import 'package:tiutiu/core/location/models/latlng.dart';
 import 'package:geocoding/geocoding.dart';
 
 class MigrationService {

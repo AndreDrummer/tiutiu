@@ -9,9 +9,9 @@ import 'package:tiutiu/core/widgets/cards/widgets/ad_images.dart';
 import 'package:tiutiu/core/widgets/cards/widgets/ad_title.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/widgets/cards/widgets/ad_views.dart';
-import 'package:tiutiu/features/posts/model/pet_model.dart';
-import 'package:tiutiu/features/system/controllers.dart';
-import 'package:tiutiu/core/models/post.dart';
+import 'package:tiutiu/core/pets/model/pet_model.dart';
+import 'package:tiutiu/core/controllers/controllers.dart';
+import 'package:tiutiu/features/posts/model/post.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

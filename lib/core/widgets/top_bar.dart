@@ -1,8 +1,9 @@
 import 'package:tiutiu/core/widgets/toggle_posts_card_appearence.dart';
 import 'package:tiutiu/core/widgets/input_close_button.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:tiutiu/features/system/controllers.dart';
-import 'package:tiutiu/core/models/filter_params.dart';
+import 'package:tiutiu/core/utils/routes/routes_name.dart';
+import 'package:tiutiu/core/controllers/controllers.dart';
+import 'package:tiutiu/features/posts/model/filter_params.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/core/constants/strings.dart';
 import 'package:tiutiu/core/widgets/badge.dart';
@@ -61,7 +62,9 @@ class TopBar extends StatelessWidget {
             children: [
               IconButton(
                 padding: EdgeInsets.zero,
-                onPressed: () {},
+                onPressed: () {
+                  Get.toNamed(Routes.contacts);
+                },
                 icon: Icon(
                   Icons.forum,
                   color: AppColors.secondary,

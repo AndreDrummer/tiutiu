@@ -1,8 +1,8 @@
-import 'package:tiutiu/features/location/extensions/service_location_status.dart';
+import 'package:tiutiu/core/location/extensions/service_location_status.dart';
 import 'package:tiutiu/core/local_storage/local_storage_keys.dart';
 import 'package:tiutiu/core/extensions/string_extension.dart';
 import 'package:tiutiu/core/local_storage/local_storage.dart';
-import 'package:tiutiu/core/models/latlng.dart';
+import 'package:tiutiu/core/location/models/latlng.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:flutter/foundation.dart';

@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:tiutiu/features/full_screen/views/fullscreen_images.dart';
+import 'package:tiutiu/core/full_screen/views/fullscreen_images.dart';
 
 class FullscreenController extends GetxController {
   final RxDouble _zoom = 1.1.obs;
