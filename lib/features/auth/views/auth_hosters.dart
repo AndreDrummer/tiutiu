@@ -30,7 +30,12 @@ class AuthHosters extends StatelessWidget with TiuTiuPopUp {
             left: 8.0,
             right: 8.0,
             child: Column(
-              children: [_headline(), SizedBox(height: 16.0.h), _authButtons(), _continueAnonButton()],
+              children: [
+                _headline(),
+                SizedBox(height: 16.0.h),
+                _authButtons(),
+                _continueAnonButton(),
+              ],
             ),
           ),
           _loadingWidget(),
@@ -80,7 +85,15 @@ class AuthHosters extends StatelessWidget with TiuTiuPopUp {
     );
   }
 
-  Widget _headline() => Headline(text: AuthStrings.authentique, textColor: AppColors.white);
+  Widget _headline() {
+    return Padding(
+      padding: EdgeInsets.only(left: 16.0.w),
+      child: Headline(
+        text: AuthStrings.authentique,
+        textColor: AppColors.white,
+      ),
+    );
+  }
 
   Widget _authButtons() {
     return Container(

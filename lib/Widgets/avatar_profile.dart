@@ -103,7 +103,7 @@ class _AvatarProfileState extends State<AvatarProfile> with Pickers {
         spaceBetweenIcons: 0.0.w,
         onRemove: onRemove,
         onClose: onClose,
-        fontSize: 16.sp,
+        fontSize: 16,
       ),
     );
   }

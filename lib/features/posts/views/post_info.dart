@@ -50,7 +50,7 @@ class PostInfo extends StatelessWidget {
               postsController.updatePost(PostEnum.name.name, name);
             },
             labelText: PostFlowStrings.petName,
-            fontSizeLabelText: 14.0.sp,
+            fontSizeLabelText: 14.0,
           ),
         ),
       ),
@@ -79,7 +79,7 @@ class PostInfo extends StatelessWidget {
                   );
                 },
                 labelText: PostFlowStrings.years,
-                fontSize: 14.0.sp,
+                fontSize: 14.0,
                 items: yearsList,
               ),
             ),
@@ -93,7 +93,7 @@ class PostInfo extends StatelessWidget {
                   );
                 },
                 labelText: PostFlowStrings.months,
-                fontSize: 14.0.sp,
+                fontSize: 14.0,
                 items: monthsList,
               ),
             ),
@@ -114,7 +114,7 @@ class PostInfo extends StatelessWidget {
         },
         labelText: PostFlowStrings.size,
         items: DummyData.size,
-        fontSize: 14.0.sp,
+        fontSize: 14.0,
       ),
     );
   }
@@ -135,7 +135,7 @@ class PostInfo extends StatelessWidget {
             },
             labelText: PetDetailsStrings.health,
             items: DummyData.health,
-            fontSize: 14.0.sp,
+            fontSize: 14.0,
           ),
           _chronicDiseaseInfo(),
         ],
