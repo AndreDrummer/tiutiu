@@ -1,5 +1,5 @@
 import 'package:tiutiu/core/utils/formatter.dart';
-import 'package:tiutiu/features/pets/model/pet_model.dart';
+import 'package:tiutiu/features/posts/model/pet_model.dart';
 import 'package:tiutiu/features/system/controllers.dart';
 import 'package:tiutiu/core/utils/math_functions.dart';
 import 'package:tiutiu/core/models/latlng.dart';

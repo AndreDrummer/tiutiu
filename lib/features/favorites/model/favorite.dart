@@ -1,4 +1,4 @@
-import 'package:tiutiu/features/pets/model/pet_model.dart';
+import 'package:tiutiu/features/posts/model/pet_model.dart';
 
 enum FavoriteEnum {
   ownerId,

@@ -1,7 +1,7 @@
-import 'package:tiutiu/Widgets/cards/widgets/card_builder.dart';
+import 'package:tiutiu/core/widgets/cards/widgets/card_builder.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/features/system/controllers.dart';
-import 'package:tiutiu/Widgets/cards/card_ad.dart';
+import 'package:tiutiu/core/widgets/cards/card_ad.dart';
 import 'package:tiutiu/core/models/post.dart';
 import 'package:flutter/material.dart';
 
