@@ -7,7 +7,6 @@ import 'package:tiutiu/features/posts/dependency_injection.dart';
 import 'package:tiutiu/features/home/dependency_injection.dart';
 import 'package:tiutiu/features/auth/dependency_injection.dart';
 import 'package:tiutiu/features/chat/dependency_injection.dart';
-import 'package:tiutiu/features/pets/dependency_injection.dart';
 import 'package:tiutiu/core/models/dependency_injection.dart';
 import 'package:tiutiu/features/system/controllers.dart';
 import 'package:tiutiu/core/data/states_and_cities.dart';
@@ -42,6 +41,5 @@ class TiuTiuInitializer {
     HomeControllerDependency(),
     ChatControllerDependency(),
     AuthControllerDependency(),
-    PetControllerDependency(),
   ];
 }

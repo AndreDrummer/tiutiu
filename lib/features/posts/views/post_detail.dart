@@ -1,26 +1,27 @@
-import 'package:tiutiu/core/constants/images_assets.dart';
 import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
-import 'package:tiutiu/Widgets/pet_other_caracteristics_card.dart';
+import 'package:tiutiu/core/widgets/pet_other_caracteristics_card.dart';
 import 'package:tiutiu/core/models/pet_caracteristics_model.dart';
 import 'package:tiutiu/features/posts/widgets/video_player.dart';
 import 'package:tiutiu/core/widgets/verify_account_warning.dart';
-import 'package:tiutiu/features/pets/widgets/card_content.dart';
+import 'package:tiutiu/features/posts/widgets/card_content.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiutiu/core/extensions/string_extension.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:tiutiu/features/pets/model/pet_model.dart';
+import 'package:tiutiu/features/posts/model/pet_model.dart';
+import 'package:tiutiu/core/constants/images_assets.dart';
 import 'package:tiutiu/features/system/controllers.dart';
+import 'package:tiutiu/core/mixins/tiu_tiu_pop_up.dart';
 import 'package:tiutiu/core/constants/text_styles.dart';
 import 'package:tiutiu/core/utils/other_functions.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
-import 'package:tiutiu/Widgets/load_dark_screen.dart';
+import 'package:tiutiu/core/widgets/load_dark_screen.dart';
 import 'package:tiutiu/core/utils/asset_handle.dart';
-import 'package:tiutiu/Widgets/dots_indicator.dart';
+import 'package:tiutiu/core/widgets/dots_indicator.dart';
 import 'package:tiutiu/core/utils/video_utils.dart';
 import 'package:tiutiu/core/constants/strings.dart';
 import 'package:tiutiu/core/utils/dimensions.dart';
 import 'package:maps_launcher/maps_launcher.dart';
-import 'package:tiutiu/Widgets/button_wide.dart';
+import 'package:tiutiu/core/widgets/button_wide.dart';
 import 'package:tiutiu/core/models/post.dart';
 import 'package:flutter/material.dart';
 import 'package:chewie/chewie.dart';
@@ -35,7 +36,7 @@ class PetDetails extends StatefulWidget {
   State<PetDetails> createState() => _PetDetailsState();
 }
 
-class _PetDetailsState extends State<PetDetails> {
+class _PetDetailsState extends State<PetDetails> with TiuTiuPopUp {
   ChewieController? chewieController;
 
   @override
@@ -112,8 +113,8 @@ class _PetDetailsState extends State<PetDetails> {
                         ),
                       ),
                       LoadDarkScreen(
-                        message: petsController.loadingText,
-                        visible: petsController.isLoading,
+                        message: postsController.uploadingPostText,
+                        visible: postsController.isLoading,
                       )
                     ],
                   );
@@ -147,10 +148,7 @@ class _PetDetailsState extends State<PetDetails> {
     );
   }
 
-  Widget _showImagesAndVideos({
-    required BuildContext context,
-    required double boxHeight,
-  }) {
+  Widget _showImagesAndVideos({required BuildContext context, required double boxHeight}) {
     final post = postsController.post;
     final hasVideo = post.video != null;
     final PageController _pageController = PageController();
@@ -229,10 +227,7 @@ class _PetDetailsState extends State<PetDetails> {
     );
   }
 
-  Container _images({
-    required PageController pageController,
-    required double boxHeight,
-  }) {
+  Container _images({required PageController pageController, required double boxHeight}) {
     final hasVideo = postsController.post.video != null;
     final photos = postsController.post.photos;
 
@@ -284,10 +279,7 @@ class _PetDetailsState extends State<PetDetails> {
     );
   }
 
-  Widget _dotsIndicator({
-    required PageController pageController,
-    required int length,
-  }) {
+  Widget _dotsIndicator({required PageController pageController, required int length}) {
     return Container(
       padding: const EdgeInsets.all(8.0),
       child: Center(
@@ -367,16 +359,11 @@ class _PetDetailsState extends State<PetDetails> {
     );
   }
 
-  Widget _ownerAdcontact({
-    String? whatsappMessage,
-    String? emailMessage,
-    String? emailSubject,
-    TiutiuUser? user,
-  }) {
+  Widget _ownerAdcontact({String? whatsappMessage, String? emailMessage, String? emailSubject, TiutiuUser? user}) {
     final Post post = postsController.post;
     return Visibility(
+      visible: !widget.inReviewMode && !postsController.isEditingPost,
       replacement: backReviewAndUploadPost(),
-      visible: !widget.inReviewMode,
       child: Container(
         margin: EdgeInsets.only(
           top: Dimensions.getDimensBasedOnDeviceHeight(minDeviceHeightDouble: 24.0.h, greaterDeviceHeightDouble: 2.0.h),
@@ -423,21 +410,66 @@ class _PetDetailsState extends State<PetDetails> {
   }
 
   Widget backReviewAndUploadPost() {
-    return Padding(
-      padding: EdgeInsets.only(
-        top: Dimensions.getDimensBasedOnDeviceHeight(
-          greaterDeviceHeightDouble: Get.width / 5.5,
-          minDeviceHeightDouble: Get.width / 4,
+    return Visibility(
+      visible: !postsController.isEditingPost,
+      replacement: editPostButtons(),
+      child: Padding(
+        padding: EdgeInsets.only(
+          top: Dimensions.getDimensBasedOnDeviceHeight(
+            greaterDeviceHeightDouble: Get.width / 5.5,
+            minDeviceHeightDouble: Get.width / 4,
+          ),
+        ),
+        child: ButtonWide(
+          rounded: false,
+          onPressed: () {
+            postsController.backReviewAndPost();
+          },
+          text: PostFlowStrings.post,
+          isToExpand: true,
         ),
       ),
-      child: ButtonWide(
-        rounded: false,
-        onPressed: () {
-          postsController.backReviewAndPost();
-        },
-        text: PostFlowStrings.post,
-        isToExpand: true,
-      ),
+    );
+  }
+
+  Widget editPostButtons() {
+    return Column(
+      children: [
+        ButtonWide(
+          text: PostFlowStrings.editAd,
+          textColor: AppColors.black,
+          color: AppColors.warning,
+          icon: Icons.edit,
+          onPressed: () {},
+          isToExpand: true,
+          rounded: false,
+        ),
+        ButtonWide(
+          text: PostFlowStrings.deleteAd,
+          icon: Icons.delete_forever,
+          color: AppColors.danger,
+          onPressed: () async {
+            await showPopUp(
+              message: PostFlowStrings.deleteForever,
+              confirmText: AppStrings.yes,
+              textColor: AppColors.black,
+              mainAction: () {
+                Get.back();
+              },
+              secondaryAction: () {
+                Get.back();
+              },
+              barrierDismissible: false,
+              title: PostFlowStrings.deleteAd,
+              denyText: AppStrings.no,
+              warning: true,
+              danger: false,
+            );
+          },
+          isToExpand: true,
+          rounded: false,
+        )
+      ],
     );
   }
 }

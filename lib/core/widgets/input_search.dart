@@ -1,4 +1,4 @@
-import 'package:tiutiu/Widgets/custom_input_search.dart';
+import 'package:tiutiu/core/widgets/custom_input_search.dart';
 import 'package:flutter/material.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
 
@@ -84,8 +84,7 @@ class _CustomInputState extends State<CustomInput> {
                     ),
                   )
                 : Padding(
-                    padding: EdgeInsets.only(
-                        left: MediaQuery.of(context).size.width * 0.18),
+                    padding: EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.18),
                     child: CustomDropdownButtonSearch(
                       initialValue: widget.searchPetTypeInitialValue,
                       isExpanded: true,

@@ -228,13 +228,14 @@ class PostFlowStrings {
   }
 
   static const String fillFullAddress = 'Preencher endereço completo?';
+  static const String deleteForever = 'Excluir anúncio em definitivo?';
   static const String selectPetType = 'Selecione o tipo de PET';
   static const String addVideo = 'Se quiser, adicione um vídeo.';
   static const String moreDetails = 'Mais detalhes e descrição';
   static const String addDescription = 'Adicione uma descrição';
   static const String fillAdData = 'Preencher dados do anúncio';
-  static const String description = 'Outras caracteristicas';
   static const String addMorePictures = 'Adicionar mais fotos';
+  static const String description = 'Outras caracteristicas';
   static const String postCancelTitle = 'Cancelar postagem?';
   static const String sendingVideo = 'Enviando o vídeo...';
   static const String typeAddress = 'Digite o endereço';
@@ -242,7 +243,9 @@ class PostFlowStrings {
   static const String finalizing = 'Finalizando...';
 
   static const String removeVideo = 'Remover vídeo';
+  static const String deleteAd = 'Apagar Anúncio';
   static const String picTime = 'Hora das fotos!';
+  static const String editAd = 'Editar Anúncio';
   static const String petsData = 'Dados do PET';
   static const String allDone = 'Tudo pronto!';
   static const String reviewButton = 'Revisar';
@@ -255,6 +258,7 @@ class PostFlowStrings {
   static const String review = 'Revisar';
   static const String petName = 'Nome';
   static const String state = 'Estado';
+  static const String delete = 'Apagar';
   static const String months = 'Meses';
   static const String local = 'Local';
   static const String city = 'Cidade';

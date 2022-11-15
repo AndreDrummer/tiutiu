@@ -1,5 +1,5 @@
 import 'package:tiutiu/core/constants/firebase_env_path.dart';
-import 'package:tiutiu/features/pets/model/pet_model.dart';
+import 'package:tiutiu/features/posts/model/pet_model.dart';
 import 'package:tiutiu/features/system/controllers.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:tiutiu/core/models/post.dart';

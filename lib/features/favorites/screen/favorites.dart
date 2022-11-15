@@ -1,7 +1,9 @@
-import 'package:tiutiu/features/pets/widgets/render_post_list.dart';
+import 'package:tiutiu/core/widgets/toggle_posts_card_appearence.dart';
+import 'package:tiutiu/features/posts/widgets/render_post_list.dart';
 import 'package:tiutiu/core/widgets/default_basic_app_bar.dart';
 import 'package:tiutiu/features/system/controllers.dart';
 import 'package:tiutiu/core/widgets/async_handler.dart';
+import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/core/constants/strings.dart';
 import 'package:tiutiu/core/models/post.dart';
 import 'package:flutter/material.dart';
@@ -18,6 +20,11 @@ class _FavoritesState extends State<Favorites> {
       appBar: DefaultBasicAppBar(
         text: AppStrings.favorites,
         automaticallyImplyLeading: false,
+        actions: [
+          TogglePostCardAppearence(
+            color: AppColors.white,
+          ),
+        ],
       ),
       body: StreamBuilder<List<Post>>(
         stream: favoritesController.favoritesList(),
@@ -27,10 +34,7 @@ class _FavoritesState extends State<Favorites> {
               return ListView.builder(
                 itemCount: posts.length,
                 itemBuilder: ((context, index) {
-                  return RenderListItem(
-                    onNavigateToTop: () => homeController.onScrollUp(),
-                    post: posts[index],
-                  );
+                  return RenderListItem(post: posts[index]);
                 }),
               );
             },
