@@ -1,4 +1,4 @@
-import 'package:tiutiu/features/filter/controller/filter_controller.dart';
+import 'package:tiutiu/features/posts/controller/filter_controller.dart';
 import 'package:tiutiu/features/posts/repository/posts_repository.dart';
 import 'package:tiutiu/features/posts/controller/posts_controller.dart';
 import 'package:tiutiu/features/posts/services/post_service.dart';
