@@ -30,11 +30,12 @@ class _FavoritesState extends State<Favorites> {
         stream: favoritesController.favoritesList(),
         builder: (context, snapshot) {
           return AsyncHandler<List<Post>>(
+            emptyMessage: AppStrings.noPostFavorited,
             buildWidget: (posts) {
               return ListView.builder(
                 itemCount: posts.length,
                 itemBuilder: ((context, index) {
-                  return RenderListItem(post: posts[index]);
+                  return RenderListItem(post: posts[index], showFavoriteButton: true);
                 }),
               );
             },
