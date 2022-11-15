@@ -17,14 +17,22 @@ class Images extends StatelessWidget with Pickers {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Spacer(),
-        _insertPicturesLabel(),
-        _picturesList(context),
-        _addPicturesButton(),
-        Spacer(),
-      ],
+    return GestureDetector(
+      onTap: () {
+        if (systemController.bottomSheetIsOpen) {
+          Get.back();
+          systemController.bottomSheetIsOpen = false;
+        }
+      },
+      child: Column(
+        children: [
+          Spacer(),
+          _insertPicturesLabel(),
+          _picturesList(context),
+          _addPicturesButton(),
+          Spacer(),
+        ],
+      ),
     );
   }
 
@@ -51,8 +59,7 @@ class Images extends StatelessWidget with Pickers {
       height: 256.0.h,
       child: Obx(
         () {
-          final hasError = postsController.post.photos.isEmpty &&
-              !postsController.formIsValid;
+          final hasError = postsController.post.photos.isEmpty && !postsController.formIsValid;
 
           return ListView.builder(
             itemCount: postsController.postPhotoFrameQty,
@@ -68,9 +75,7 @@ class Images extends StatelessWidget with Pickers {
                   final photos = postsController.post.photos;
 
                   return AdPicture(
-                    imagePath: photosQty < framesQty && (index == framesQty - 1)
-                        ? null
-                        : photos[index],
+                    imagePath: photosQty < framesQty && (index == framesQty - 1) ? null : photos[index],
                     color: AppColors.primary,
                     onPicturedRemoved: () {
                       postsController.removePictureOnIndex(index);

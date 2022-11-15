@@ -50,7 +50,7 @@ class PetCaracteristics {
           ),
           PetCaracteristics(
             title: PetDetailsStrings.health,
-            icon: FontAwesomeIcons.heart,
+            icon: FontAwesomeIcons.heartPulse,
             content:
                 pet.health == PetHealthString.chronicDisease ? '${pet.health}:\n${pet.chronicDiseaseInfo}' : pet.health,
           ),
@@ -63,7 +63,7 @@ class PetCaracteristics {
         List.generate(
           pet.otherCaracteristics.length,
           (index) => PetCaracteristics(
-            title: PetDetailsStrings.otherCaracteristics,
+            title: PetDetailsStrings.caracteristics,
             content: pet.otherCaracteristics[index],
             icon: Icons.auto_awesome,
           ),

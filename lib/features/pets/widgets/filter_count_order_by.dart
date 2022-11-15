@@ -68,7 +68,7 @@ class FilterResultCount extends StatelessWidget {
                       colorText: Colors.black54,
                       isExpanded: false,
                       withPipe: false,
-                      fontSize: 12.sp,
+                      fontSize: 12,
                       label: '',
                     )
                   ],

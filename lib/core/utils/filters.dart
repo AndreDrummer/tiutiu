@@ -5,7 +5,7 @@ class Filters {
     List<Pet> newPetList = [];
 
     for (int i = 0; i < petsListResult.length; i++) {
-      if (petsListResult[i].ageYear! >= 10) {
+      if (petsListResult[i].ageYear >= 10) {
         newPetList.add(petsListResult[i]);
       }
     }
