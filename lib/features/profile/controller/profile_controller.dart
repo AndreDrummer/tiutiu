@@ -16,6 +16,9 @@ class ProfileController extends GetxController {
     isSetting = false;
 
     switch (option) {
+      case MyProfileOptionsTile.myPosts:
+        Get.toNamed(Routes.myPosts);
+        break;
       case MyProfileOptionsTile.settings:
         isSetting = true;
         break;
@@ -45,6 +48,7 @@ class ProfileController extends GetxController {
     MyProfileOptionsTile.chat,
     MyProfileOptionsTile.settings,
     MyProfileOptionsTile.about,
+    MyProfileOptionsTile.talkWithUs,
     MyProfileOptionsTile.support,
     MyProfileOptionsTile.deleteAccount,
     MyProfileOptionsTile.leave,
@@ -53,10 +57,11 @@ class ProfileController extends GetxController {
   List<IconData> get myProfileOptionsIcon => _myProfileOptionsIcon;
 
   final List<IconData> _myProfileOptionsIcon = [
-    Icons.grid_view,
+    Icons.view_agenda,
     Icons.forum,
     Icons.manage_accounts,
     Icons.info,
+    Icons.headset_mic,
     Icons.volunteer_activism,
     Icons.person_off,
     Icons.exit_to_app,

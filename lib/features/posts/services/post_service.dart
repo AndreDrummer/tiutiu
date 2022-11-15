@@ -1,4 +1,5 @@
 import 'package:tiutiu/core/constants/firebase_env_path.dart';
+import 'package:tiutiu/features/pets/model/pet_model.dart';
 import 'package:tiutiu/core/utils/other_functions.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:tiutiu/core/models/post.dart';
@@ -6,7 +7,7 @@ import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 
 class PostService extends GetxService {
-  Future<List<Map<String, dynamic>>> loadPets() async {
+  Future<List<Map<String, dynamic>>> loadPosts() async {
     final posts = await FirebaseFirestore.instance.collection(pathToPosts).get();
 
     return posts.docs.map((post) => post.data()).toList();
@@ -68,5 +69,15 @@ class PostService extends GetxService {
     }
 
     return success;
+  }
+
+  Stream<List<Post>> getMyPosts(String myUserId) {
+    return FirebaseFirestore.instance
+        .collection(pathToPosts)
+        .where(PostEnum.ownerId.name, isEqualTo: myUserId)
+        .snapshots()
+        .asyncMap((snapshot) {
+      return snapshot.docs.map((post) => Pet.fromSnapshot(post)).toList();
+    });
   }
 }
