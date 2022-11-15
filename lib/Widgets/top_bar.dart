@@ -1,4 +1,4 @@
-import 'package:tiutiu/features/home/controller/home_controller.dart';
+import 'package:tiutiu/Widgets/toggle_posts_card_appearence.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/features/system/controllers.dart';
 import 'package:tiutiu/Widgets/input_close_button.dart';
@@ -88,20 +88,7 @@ class TopBar extends StatelessWidget {
                   )
                 ],
               ),
-              IconButton(
-                padding: EdgeInsets.zero,
-                onPressed: () {
-                  homeController.changeCardVisibilityKind();
-                },
-                icon: Obx(
-                  () => Icon(
-                    color: AppColors.secondary,
-                    homeController.cardVisibilityKind == CardVisibilityKind.card
-                        ? Icons.view_list_outlined
-                        : Icons.view_agenda,
-                  ),
-                ),
-              )
+              TogglePostCardAppearence()
             ],
           ),
         ],

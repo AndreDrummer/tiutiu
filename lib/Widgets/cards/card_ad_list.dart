@@ -1,29 +1,21 @@
 import 'package:tiutiu/Widgets/cards/widgets/card_builder.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:tiutiu/core/utils/other_functions.dart';
 import 'package:tiutiu/core/models/post.dart';
 import 'package:flutter/material.dart';
-import 'package:tiutiu/features/system/controllers.dart';
 
 class CardAdList extends StatelessWidget {
   const CardAdList({
+    required this.showFavoriteButton,
+    required this.cardBuilder,
     required this.post,
   });
 
+  final CardBuilder cardBuilder;
+  final bool showFavoriteButton;
   final Post post;
 
   @override
   Widget build(BuildContext context) {
-    List<String> distanceText = OtherFunctions.distanceCalculate(
-      post.latitude!,
-      post.longitude!,
-    );
-
-    CardBuilder cardBuilder = CardBuilder(
-      distanceText: distanceText[0],
-      post: post,
-    );
-
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12.0.h),
@@ -60,8 +52,8 @@ class CardAdList extends StatelessWidget {
                       Padding(
                         padding: EdgeInsets.only(left: 8.0.w, bottom: 4.0.h),
                         child: Visibility(
-                          visible: authController.userExists,
                           child: cardBuilder.favoriteButton(),
+                          visible: showFavoriteButton,
                         ),
                       ),
                     ],

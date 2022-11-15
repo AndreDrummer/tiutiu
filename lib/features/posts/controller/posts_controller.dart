@@ -1,4 +1,3 @@
-import 'package:tiutiu/core/models/post.dart';
 import 'package:tiutiu/features/posts/repository/posts_repository.dart';
 import 'package:tiutiu/features/posts/validators/form_validators.dart';
 import 'package:tiutiu/core/local_storage/local_storage_keys.dart';
@@ -12,6 +11,7 @@ import 'package:tiutiu/features/system/controllers.dart';
 import 'package:tiutiu/core/data/states_and_cities.dart';
 import 'package:tiutiu/core/constants/strings.dart';
 import 'package:tiutiu/core/utils/ordenators.dart';
+import 'package:tiutiu/core/models/post.dart';
 import 'package:flutter/foundation.dart';
 import 'package:chewie/chewie.dart';
 import 'package:get/get.dart';
@@ -117,12 +117,14 @@ class PostsController extends GetxController {
   }
 
   Future<void> loadPosts({bool getFromInternet = false}) async {
-    final list = await _postsRepository.getPostList(
-      getFromInternet: getFromInternet,
-    );
+    final list = await _postsRepository.getPostList(getFromInternet: getFromInternet);
 
     _posts(list);
     _filterPosts();
+  }
+
+  Stream<List<Post>> getMyPosts() {
+    return _postsRepository.getMyPostList(tiutiuUserController.tiutiuUser.uid!);
   }
 
   List<Pet> _filterPosts() {
