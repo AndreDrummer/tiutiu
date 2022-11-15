@@ -6,26 +6,20 @@ import 'package:flutter/material.dart';
 import 'dart:io';
 
 class AssetHandle {
-  const AssetHandle(this._imagePath);
-
-  final _imagePath;
-
-  ImageProvider build() {
-    if (_imagePath.isUrl()) {
-      return NetworkImage(_imagePath);
-    } else if (_imagePath is File) {
-      return FileImage(_imagePath);
-    } else if (_imagePath is String) {
-      return AssetHandle(_imagePath).build();
+  static ImageProvider imageProvider(dynamic imagePath) {
+    if (imagePath.toString().isUrl()) {
+      return NetworkImage(imagePath);
+    } else if (imagePath is File) {
+      return FileImage(imagePath);
+    } else if (imagePath is String) {
+      return AssetImage(imagePath);
     }
 
-    return AssetHandle(ImageAssets.profileEmpty).build();
+    return placeholder();
   }
 
-  static ImageProvider placeholder() {
-    return AssetHandle(
-      ImageAssets.profileEmpty,
-    ).build();
+  static ImageProvider placeholder({bool isUserImage = false}) {
+    return AssetImage(isUserImage ? ImageAssets.profileEmpty : ImageAssets.newLogo);
   }
 
   static Widget getImage(
