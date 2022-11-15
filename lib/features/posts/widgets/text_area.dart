@@ -1,6 +1,6 @@
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
-import 'package:tiutiu/Widgets/hint_error.dart';
+import 'package:tiutiu/core/widgets/hint_error.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
 
 class TextArea extends StatelessWidget {
@@ -62,8 +62,7 @@ class TextArea extends StatelessWidget {
       ),
       borderSide: BorderSide(
         style: BorderStyle.solid,
-        color:
-            isInErrorState ? AppColors.danger : AppColors.black.withAlpha(80),
+        color: isInErrorState ? AppColors.danger : AppColors.black.withAlpha(80),
       ),
     );
   }

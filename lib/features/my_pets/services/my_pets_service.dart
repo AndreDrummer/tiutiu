@@ -1,5 +1,5 @@
 import 'package:tiutiu/core/constants/firebase_env_path.dart';
-import 'package:tiutiu/features/pets/model/pet_model.dart';
+import 'package:tiutiu/features/posts/model/pet_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class MyPetsService {
@@ -12,9 +12,7 @@ class MyPetsService {
         .collection(FirebaseEnvPath.donate)
         .get();
 
-    return donates.docs
-        .map((snapshot) => Pet().fromMap(snapshot.data()))
-        .toList();
+    return donates.docs.map((snapshot) => Pet().fromMap(snapshot.data())).toList();
   }
 
   Future<List<Pet>> loadMyPetsDisappeareds(String userId) async {
@@ -26,8 +24,6 @@ class MyPetsService {
         .collection(FirebaseEnvPath.donate)
         .get();
 
-    return disappeared.docs
-        .map((snapshot) => Pet().fromMap(snapshot.data()))
-        .toList();
+    return disappeared.docs.map((snapshot) => Pet().fromMap(snapshot.data())).toList();
   }
 }

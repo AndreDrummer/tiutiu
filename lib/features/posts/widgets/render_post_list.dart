@@ -1,11 +1,11 @@
 import 'package:tiutiu/features/home/controller/home_controller.dart';
-import 'package:tiutiu/features/pets/widgets/back_to_start.dart';
-import 'package:tiutiu/Widgets/cards/widgets/card_builder.dart';
+import 'package:tiutiu/features/posts/widgets/back_to_start.dart';
+import 'package:tiutiu/core/widgets/cards/widgets/card_builder.dart';
 import 'package:tiutiu/core/utils/routes/routes_name.dart';
 import 'package:tiutiu/features/system/controllers.dart';
-import 'package:tiutiu/Widgets/cards/card_ad_list.dart';
+import 'package:tiutiu/core/widgets/cards/card_ad_list.dart';
 import 'package:tiutiu/core/utils/other_functions.dart';
-import 'package:tiutiu/Widgets/cards/card_ad.dart';
+import 'package:tiutiu/core/widgets/cards/card_ad.dart';
 import 'package:tiutiu/core/models/post.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -14,12 +14,14 @@ class RenderListItem extends StatelessWidget {
   const RenderListItem({
     this.showBackToStartButton = false,
     this.showFavoriteButton = false,
-    required this.onNavigateToTop,
+    this.onNavigateToTop,
+    this.onItemTapped,
     required this.post,
   });
 
   final Function()? onNavigateToTop;
   final bool showBackToStartButton;
+  final Function()? onItemTapped;
   final bool? showFavoriteButton;
   final Post post;
 
@@ -42,8 +44,12 @@ class RenderListItem extends StatelessWidget {
     return Obx(
       () => GestureDetector(
         onTap: () {
-          Get.toNamed(Routes.petDetails);
-          postsController.post = post;
+          if (onItemTapped != null) {
+            onItemTapped?.call();
+          } else {
+            Get.toNamed(Routes.petDetails);
+            postsController.post = post;
+          }
         },
         child: homeController.cardVisibilityKind == CardVisibilityKind.banner
             ? CardAdList(

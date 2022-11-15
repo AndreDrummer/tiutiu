@@ -1,9 +1,9 @@
+import 'package:tiutiu/features/posts/widgets/filter_count_order_by.dart';
+import 'package:tiutiu/core/widgets/verify_account_warning.dart';
+import 'package:tiutiu/features/home/widgets/filters_type.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/utils/dimensions.dart';
-import 'package:tiutiu/core/widgets/verify_account_warning.dart';
-import 'package:tiutiu/features/pets/widgets/filter_count_order_by.dart';
-import 'package:tiutiu/features/home/widgets/filters_type.dart';
-import 'package:tiutiu/Widgets/top_bar.dart';
+import 'package:tiutiu/core/widgets/top_bar.dart';
 import 'package:flutter/material.dart';
 
 class Header extends StatelessWidget {
