@@ -10,14 +10,14 @@ class ButtonWide extends StatelessWidget {
     this.isToExpand = false,
     this.isLoading = false,
     this.rounded = true,
-    this.textIconColor,
+    this.textColor,
     this.onPressed,
     this.color,
     this.icon,
     this.text,
   });
 
-  final Color? textIconColor;
+  final Color? textColor;
   final Function? onPressed;
   final bool isToExpand;
   final bool isLoading;
@@ -59,14 +59,14 @@ class ButtonWide extends StatelessWidget {
         Visibility(
           visible: hasIcon,
           child: Icon(
-            color: textIconColor ?? AppColors.white,
+            color: textColor ?? AppColors.white,
             size: 20.0.h,
             icon,
           ),
         ),
         Spacer(),
         AutoSizeTexts.autoSizeText16(
-          color: textIconColor ?? AppColors.white,
+          color: textColor ?? AppColors.white,
           text ?? AppStrings.getStarted,
           fontWeight: FontWeight.w700,
           textAlign: TextAlign.center,

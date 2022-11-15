@@ -8,14 +8,14 @@ class OutlinedButtonWide extends StatelessWidget {
   OutlinedButtonWide({
     this.isToExpand = false,
     this.rounded = true,
-    this.textIconColor,
+    this.textColor,
     this.onPressed,
     this.color,
     this.icon,
     this.text,
   });
 
-  final Color? textIconColor;
+  final Color? textColor;
   final Function? onPressed;
   final bool isToExpand;
   final IconData? icon;
@@ -52,7 +52,7 @@ class OutlinedButtonWide extends StatelessWidget {
               Visibility(
                 visible: hasIcon,
                 child: Icon(
-                  color: textIconColor ?? AppColors.white,
+                  color: textColor ?? AppColors.white,
                   size: 20.0.h,
                   icon,
                 ),

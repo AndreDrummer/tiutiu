@@ -1,5 +1,5 @@
 import 'package:tiutiu/core/constants/strings.dart';
-import 'package:tiutiu/Widgets/popup_message.dart';
+import 'package:tiutiu/core/widgets/popup_message.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -13,6 +13,7 @@ mixin TiuTiuPopUp {
     String title = 'Erro',
     bool danger = false,
     String? confirmText,
+    Color? textColor,
     String? denyText,
   }) async {
     return await showDialog(
@@ -23,6 +24,7 @@ mixin TiuTiuPopUp {
           denyText: denyText ?? AppStrings.ok,
           confirmText: confirmText ?? '',
           confirmAction: secondaryAction,
+          textColor: textColor,
           denyAction: () {
             if (mainAction != null) {
               mainAction();
@@ -30,10 +32,10 @@ mixin TiuTiuPopUp {
               Get.back();
             }
           },
-          title: title,
           message: message,
-          error: danger,
           warning: warning,
+          error: danger,
+          title: title,
         );
       },
     );

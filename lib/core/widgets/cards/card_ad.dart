@@ -1,4 +1,4 @@
-import 'package:tiutiu/Widgets/cards/widgets/card_builder.dart';
+import 'package:tiutiu/core/widgets/cards/widgets/card_builder.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/core/models/post.dart';

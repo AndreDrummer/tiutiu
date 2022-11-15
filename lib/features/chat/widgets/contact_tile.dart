@@ -9,7 +9,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:tiutiu/core/utils/asset_handle.dart';
 import 'package:tiutiu/core/constants/strings.dart';
 import 'package:tiutiu/core/utils/formatter.dart';
-import 'package:tiutiu/Widgets/badge.dart';
+import 'package:tiutiu/core/widgets/badge.dart';
 import 'package:flutter/material.dart';
 
 class ContactTile extends StatelessWidget {

@@ -1,6 +1,6 @@
 import 'package:tiutiu/core/constants/text_styles.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
-import 'package:tiutiu/Widgets/hint_error.dart';
+import 'package:tiutiu/core/widgets/hint_error.dart';
 import 'package:flutter/material.dart';
 
 class UnderlineInputDropdown extends StatelessWidget {
