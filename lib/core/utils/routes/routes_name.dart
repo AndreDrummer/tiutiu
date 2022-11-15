@@ -13,7 +13,7 @@ class Routes {
   static const petForm = '/pet-form';
   static const settings = '/settings';
   static const contacts = '/contacts';
-  static const myPets = '/my-pets';
+  static const myPosts = '/my-posts';
   static const newMap = '/new-map';
   static const search = '/search';
   static const about = '/about';

@@ -31,6 +31,12 @@ class PostsRepository {
     return petsList;
   }
 
+  Stream<List<Post>> getMyPostList(String myUserId, {bool getFromInternet = false}) {
+    debugPrint('>> streaming my posts...');
+
+    return _postService.getMyPosts(myUserId);
+  }
+
   Future<List<Pet>> _getPostsFromCache() async {
     debugPrint('>>Cache getPostsFromCache');
     final postsCached = await _cachedPostsMap();
@@ -44,7 +50,7 @@ class PostsRepository {
 
   Future<List<Pet>> _getPostFromInternet() async {
     debugPrint('>>Cache _getPostFromInternet');
-    final postData = await _postService.loadPets();
+    final postData = await _postService.loadPosts();
 
     var postsList = List<Pet>.from(postData.map((post) => Pet().fromMap(post)));
     _cachePosts(posts: postsList);

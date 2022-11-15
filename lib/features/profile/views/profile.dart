@@ -6,7 +6,6 @@ import 'package:tiutiu/features/system/controllers.dart';
 import 'package:tiutiu/core/mixins/tiu_tiu_pop_up.dart';
 import 'package:tiutiu/core/constants/text_styles.dart';
 import 'package:tiutiu/Widgets/my_account_card.dart';
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:tiutiu/Widgets/avatar_profile.dart';
 import 'package:tiutiu/core/constants/strings.dart';
 import 'package:tiutiu/core/utils/formatter.dart';
@@ -60,7 +59,7 @@ class Profile extends StatelessWidget with TiuTiuPopUp {
         ),
       ),
       child: SizedBox(
-        height: Get.width / 2.5,
+        height: Get.width / 3,
         child: Column(
           children: [
             Stack(
@@ -72,15 +71,8 @@ class Profile extends StatelessWidget with TiuTiuPopUp {
                     children: [
                       _roundedPicture(),
                       Padding(
-                        padding: EdgeInsets.only(top: 36.0.h, left: 8.0.w),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            _userName(),
-                            SizedBox(height: 4.0.h),
-                            _userSinceDate(),
-                          ],
-                        ),
+                        padding: EdgeInsets.only(top: 24.0.h, left: 8.0.w),
+                        child: _userName(),
                       ),
                     ],
                   ),
@@ -100,14 +92,14 @@ class Profile extends StatelessWidget with TiuTiuPopUp {
         fullscreenController.openFullScreenMode([_user.avatar]);
       },
       child: Container(
-        margin: EdgeInsets.symmetric(vertical: 16.0.h),
+        margin: EdgeInsets.symmetric(vertical: 12.0.h),
         alignment: Alignment.center,
         child: AvatarProfile(
           onAssetPicked: (file) {},
           avatarPath: _user.avatar,
           onAssetRemoved: () {},
           viewOnly: true,
-          radius: 48.0.h,
+          radius: 32.0.h,
         ),
       ),
     );
@@ -122,7 +114,7 @@ class Profile extends StatelessWidget with TiuTiuPopUp {
           topLeft: Radius.circular(12.0.h),
         ),
         child: Container(
-          height: Get.width / 2.5,
+          height: Get.width / 3,
           width: double.infinity,
           child: ClipRRect(
             child: Image.asset(
@@ -142,12 +134,6 @@ class Profile extends StatelessWidget with TiuTiuPopUp {
         Formatters.cuttedText('${_user.displayName}', size: 32),
         fontWeight: FontWeight.w700,
       ),
-    );
-  }
-
-  Widget _userSinceDate() {
-    return AutoSizeText(
-      '${UserStrings.userSince} ${Formatters.getFormattedDate(_user.createdAt ?? DateTime.now().toIso8601String())}',
     );
   }
 
@@ -206,5 +192,5 @@ class Profile extends StatelessWidget with TiuTiuPopUp {
     );
   }
 
-  double _cardHeight() => Platform.isIOS ? Get.height * .585 : Get.height * .625;
+  double _cardHeight() => Platform.isIOS ? Get.height * .62 : Get.height * .64;
 }
