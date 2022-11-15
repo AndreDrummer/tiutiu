@@ -34,7 +34,7 @@ class StartScreen extends StatelessWidget {
                     fontWeight: FontWeight.bold,
                     color: AppColors.white,
                     AppStrings.headline1,
-                    fontSize: 32.0.sp,
+                    fontSize: 32.0,
                   ),
                   SizedBox(height: 24.0.h),
                   AutoSizeTexts.autoSizeText22(
@@ -42,7 +42,7 @@ class StartScreen extends StatelessWidget {
                     fontWeight: FontWeight.w300,
                     color: AppColors.white,
                     AppStrings.headline2,
-                    fontSize: 20.0.sp,
+                    fontSize: 20.0,
                   ),
                   Spacer(),
                   Padding(

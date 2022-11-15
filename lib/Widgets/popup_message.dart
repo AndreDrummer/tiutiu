@@ -40,7 +40,7 @@ class PopUpMessage extends StatelessWidget {
         children: [
           Text(
             '$title',
-            style: TextStyle(color: AppColors.white, fontSize: 16.sp),
+            style: TextStyle(color: AppColors.white, fontSize: 16),
           ),
           SizedBox(
             height: 14.0.h,

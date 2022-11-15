@@ -60,7 +60,7 @@ class UnderlineInputText extends StatelessWidget {
           Visibility(
             visible: labelText != null,
             child: AutoSizeTexts.autoSizeText26(
-              fontSize: fontSizeLabelText ?? 24.0.sp,
+              fontSize: fontSizeLabelText ?? 24.0,
               color: Colors.black,
               '$labelText',
             ),
@@ -75,7 +75,7 @@ class UnderlineInputText extends StatelessWidget {
             readOnly: readOnly,
             style: TextStyle(
               color: Colors.black,
-              fontSize: fontSizeLabelText != null ? fontSizeLabelText! * .9 : 18.0.sp,
+              fontSize: fontSizeLabelText != null ? fontSizeLabelText! * .9 : 18.0,
             ),
             minLines: 1,
             maxLines: maxLines ?? 2,
@@ -91,7 +91,7 @@ class UnderlineInputText extends StatelessWidget {
               focusedBorder: _underlineInputBorder(),
               border: _underlineInputBorder(),
               hintStyle: TextStyle(
-                fontSize: fontSizeLabelText != null ? fontSizeLabelText! * .85 : 18.0.sp,
+                fontSize: fontSizeLabelText != null ? fontSizeLabelText! * .85 : 18.0,
                 color: Colors.grey,
               ),
               isCollapsed: true,

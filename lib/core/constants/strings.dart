@@ -3,8 +3,9 @@ class AppStrings {
   static String get headline2 => 'Muitos Pets Lindos\nEstão Aguardando Por Você';
   static String get verifyEmailToSeeContactInfo =>
       'Verifique seu email para ver as informações de contato deste anúncio!';
-  static String get verifyEmailWarning =>
-      'Sua conta ainda não foi verificada, por isso algumas funcionalidades estão restritas!';
+  static String get doLoginWarning => 'Faça login para ter acesso a todas as funcionalidades.';
+  static String get verifyAccountWarning =>
+      'Sua conta ainda não foi verificada, por isso algumas funcionalidades ainda estão restritas!';
   static String get verifyFilters => 'Verifique seus filtros de busca.';
   static String get imagesWarning => 'Imagens meramente ilustrativas';
   static String get wannaLeave => 'Deseja realmente sair?';
@@ -153,7 +154,6 @@ class UserStrings {
 }
 
 class PetDetailsStrings {
-  static String get otherCaracteristics => 'Características';
   static String get lastSeen => 'Visto pela última vez em';
 
   static String whereIsIt({
@@ -166,6 +166,7 @@ class PetDetailsStrings {
     return 'Onde está o PET';
   }
 
+  static String get caracteristics => 'Características';
   static String get health => 'Estado de Saúde';
   static String get description => 'Descrição';
   static String get detailsOf => 'Detalhes de';
