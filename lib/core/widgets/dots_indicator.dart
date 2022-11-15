@@ -1,7 +1,6 @@
+import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'dart:math';
-
-import 'package:tiutiu/core/constants/app_colors.dart';
 
 class DotsIndicator extends AnimatedWidget {
   DotsIndicator({
