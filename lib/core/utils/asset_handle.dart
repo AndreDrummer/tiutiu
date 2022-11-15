@@ -1,10 +1,9 @@
+import 'package:tiutiu/core/widgets/loading_image_animation.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:tiutiu/core/extensions/string_extension.dart';
 import 'package:tiutiu/core/constants/images_assets.dart';
 import 'package:flutter/material.dart';
 import 'dart:io';
-
-import 'package:tiutiu/core/extensions/string_extension.dart';
-import 'package:tiutiu/core/widgets/loading_image_animation.dart';
 
 class AssetHandle {
   const AssetHandle(this._imagePath);
@@ -31,6 +30,7 @@ class AssetHandle {
 
   static Widget getImage(
     dynamic imagePath, {
+    BorderRadius? borderRadius,
     bool isUserImage = false,
     Object? hero,
     BoxFit? fit,
@@ -45,12 +45,7 @@ class AssetHandle {
         width: 1000,
       );
     } else if (imagePath.toString().isUrl()) {
-      return _networkImage(
-        isUserImage: isUserImage,
-        hero: hero,
-        imagePath,
-        fit: fit,
-      );
+      return _networkImage(isUserImage: isUserImage, hero: hero, imagePath, fit: fit, borderRadius: borderRadius);
     } else if (imagePath.toString().isAsset()) {
       return _imageAsset(imagePath, fit: fit);
     } else {
@@ -71,6 +66,7 @@ class AssetHandle {
 
   static Widget _networkImage(
     dynamic imagePath, {
+    BorderRadius? borderRadius,
     bool isUserImage = false,
     BoxFit? fit,
     Object? hero,
@@ -81,6 +77,7 @@ class AssetHandle {
         errorWidget: (context, url, error) => Icon(Icons.error),
         imageBuilder: (context, imageProvider) => Container(
           decoration: BoxDecoration(
+            borderRadius: borderRadius,
             image: DecorationImage(
               image: imageProvider,
               fit: BoxFit.cover,
@@ -89,8 +86,7 @@ class AssetHandle {
         ),
         placeholder: (_, __) => Center(
           child: LoadingImageAnimation(
-            imagePath:
-                isUserImage ? ImageAssets.profileEmpty : ImageAssets.newLogo,
+            imagePath: isUserImage ? ImageAssets.profileEmpty : ImageAssets.newLogo,
           ),
         ),
         fit: fit ?? BoxFit.cover,

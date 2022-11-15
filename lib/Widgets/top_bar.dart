@@ -20,7 +20,7 @@ class TopBar extends StatelessWidget {
     );
 
     return Padding(
-      padding: EdgeInsets.fromLTRB(6.0.w, 8.0.h, 8.0.w, 0.0.h),
+      padding: EdgeInsets.fromLTRB(9.5.w, 4.0.h, 8.0.w, 0.0.h),
       child: Row(
         children: [
           Expanded(
@@ -58,56 +58,53 @@ class TopBar extends StatelessWidget {
               },
             ),
           ),
-          Padding(
-            padding: EdgeInsets.only(top: 8.0.h),
-            child: Row(
-              children: [
-                IconButton(
-                  padding: EdgeInsets.zero,
-                  onPressed: () {},
-                  icon: Icon(
-                    FontAwesomeIcons.comments,
-                    color: AppColors.secondary,
-                    size: 16.0.h,
-                  ),
+          Row(
+            children: [
+              IconButton(
+                padding: EdgeInsets.zero,
+                onPressed: () {},
+                icon: Icon(
+                  FontAwesomeIcons.comments,
+                  color: AppColors.secondary,
+                  size: 16.0.h,
                 ),
-                Stack(
-                  children: [
-                    IconButton(
-                      padding: EdgeInsets.zero,
-                      onPressed: () {},
-                      icon: Icon(
-                        color: AppColors.secondary,
-                        FontAwesomeIcons.bell,
-                        size: 16.0.h,
-                      ),
-                    ),
-                    Positioned(
-                      right: 8.0.w,
-                      child: Badge(
-                        color: AppColors.info,
-                        text: 0,
-                      ),
-                    )
-                  ],
-                ),
-                IconButton(
-                  padding: EdgeInsets.zero,
-                  onPressed: () {
-                    homeController.changeCardVisibilityKind();
-                  },
-                  icon: Obx(
-                    () => Icon(
+              ),
+              Stack(
+                children: [
+                  IconButton(
+                    padding: EdgeInsets.zero,
+                    onPressed: () {},
+                    icon: Icon(
                       color: AppColors.secondary,
-                      homeController.cardVisibilityKind == CardVisibilityKind.card
-                          ? FontAwesomeIcons.list
-                          : FontAwesomeIcons.tableCells,
+                      FontAwesomeIcons.bell,
                       size: 16.0.h,
                     ),
                   ),
-                )
-              ],
-            ),
+                  Positioned(
+                    right: 8.0.w,
+                    child: Badge(
+                      color: AppColors.info,
+                      text: 0,
+                    ),
+                  )
+                ],
+              ),
+              IconButton(
+                padding: EdgeInsets.zero,
+                onPressed: () {
+                  homeController.changeCardVisibilityKind();
+                },
+                icon: Obx(
+                  () => Icon(
+                    color: AppColors.secondary,
+                    homeController.cardVisibilityKind == CardVisibilityKind.card
+                        ? FontAwesomeIcons.list
+                        : FontAwesomeIcons.tableCells,
+                    size: 16.0.h,
+                  ),
+                ),
+              )
+            ],
           ),
         ],
       ),

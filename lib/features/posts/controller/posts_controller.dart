@@ -17,7 +17,7 @@ import 'package:chewie/chewie.dart';
 import 'package:get/get.dart';
 import 'dart:io';
 
-const int _FLOW_STEPS_QTY = 8;
+const int _FLOW_STEPS_QTY = 7;
 
 class PostsController extends GetxController {
   PostsController({
@@ -66,9 +66,8 @@ class PostsController extends GetxController {
   void set isLoading(bool value) => _isLoading(value);
   void set post(Post pet) => _post(pet);
 
-  bool isInStepReview() => _flowIndex.value == _FLOW_STEPS_QTY - 2;
-  bool isInStepPost() => _flowIndex.value == _FLOW_STEPS_QTY - 1;
-  bool lastStep() => _flowIndex.value == _FLOW_STEPS_QTY - 1;
+  bool isInStepReview() => _flowIndex.value == _FLOW_STEPS_QTY - 1 && !postReviewed;
+  bool lastStep() => _flowIndex.value == _FLOW_STEPS_QTY - 1 && postReviewed;
   bool firstStep() => _flowIndex.value == 0;
 
   @override
@@ -326,9 +325,9 @@ class PostsController extends GetxController {
     final postMap = _insertOwnerData(post.toMap());
     postMap[property] = data;
 
-    debugPrint('>>update $postMap');
+    debugPrint('>> updating post... $postMap');
 
-    if (property == PetEnum.otherCaracteristics) {
+    if (property == PetEnum.otherCaracteristics.name) {
       postMap[property] = _handlePetOtherCaracteristics(data);
     }
 
@@ -337,7 +336,10 @@ class PostsController extends GetxController {
       _insertLatLng(postMap);
     }
 
-    _post(Pet().fromMap(postMap));
+    final newPost = Pet().fromMap(postMap);
+    debugPrint('>> post updated $newPost');
+
+    _post(newPost);
   }
 
   void _insertLatLng(Map<String, dynamic> postMap) {
@@ -451,38 +453,40 @@ class PostsController extends GetxController {
   }
 
   void _nextStep() {
-    _pauseVideoController();
+    _pauseVideo();
     if (flowIndex < _FLOW_STEPS_QTY) _flowIndex(flowIndex + 1);
   }
 
   void previousStepFlow() {
     _formIsValid(true);
-    _pauseVideoController();
+    _pauseVideo();
 
     if (firstStep()) {
       Get.back();
-    } else if (isInStepPost()) {
-      _flowIndex(flowIndex - 2);
     } else {
       _flowIndex(flowIndex - 1);
     }
   }
 
-  void _pauseVideoController() {
+  void _pauseVideo() {
     if (chewieController != null) {
       chewieController!.pause();
     }
   }
 
   void reviewPost() {
-    if (!lastStep()) {
-      Get.toNamed(
-        Routes.petDetails,
-        arguments: true,
-      )?.then((_) {
-        _nextStep();
-      });
-    }
+    Get.toNamed(
+      Routes.petDetails,
+      arguments: true,
+    )?.then((_) {
+      _postReviewed(true);
+    });
+  }
+
+  void backReviewAndPost() {
+    _pauseVideo();
+    Get.back();
+    uploadPost();
   }
 
   void goToHome() {

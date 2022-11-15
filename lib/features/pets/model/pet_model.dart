@@ -6,7 +6,6 @@ enum PetEnum {
   otherCaracteristics,
   chronicDiseaseInfo,
   lastSeenDetails,
-  storageHashKey,
   donatedOrFound,
   disappeared,
   ageMonth,
@@ -30,7 +29,6 @@ class Pet extends Post {
     String description = '',
     List photos = const [],
     int interesteds = 0,
-    this.storageHashKey,
     String state = 'Acre',
     String? createdAt,
     double? longitude,
@@ -81,24 +79,23 @@ class Pet extends Post {
       donatedOrFound: map[PetEnum.donatedOrFound.name] ?? false,
       lastSeenDetails: map[PetEnum.lastSeenDetails.name] ?? '',
       owner: TiutiuUser.fromMap(map[PostEnum.owner.name]),
-      storageHashKey: map[PetEnum.storageHashKey.name],
+      disappeared: map[PetEnum.disappeared.name] ?? false,
       description: map[PostEnum.description.name] ?? '',
       city: map[PostEnum.city.name] ?? 'Acrelândia',
-      disappeared: map[PetEnum.disappeared.name],
       interesteds: map[PostEnum.interesteds.name],
       state: map[PostEnum.state.name] ?? 'Acre',
+      ageMonth: map[PetEnum.ageMonth.name] ?? 0,
       health: map[PetEnum.health.name] ?? '-',
       gender: map[PetEnum.gender.name] ?? '-',
       longitude: map[PostEnum.longitude.name],
+      ageYear: map[PetEnum.ageYear.name] ?? 0,
       color: map[PetEnum.color.name] ?? '-',
       breed: map[PetEnum.breed.name] ?? '-',
       latitude: map[PostEnum.latitude.name],
       views: map[PostEnum.views.name] ?? 0,
-      ageMonth: map[PetEnum.ageMonth.name],
       size: map[PetEnum.size.name] ?? '-',
       type: map[PostEnum.type.name] ?? '-',
       ownerId: map[PostEnum.ownerId.name],
-      ageYear: map[PetEnum.ageYear.name],
       photos: map[PostEnum.photos.name],
       video: map[PostEnum.video.name],
       name: map[PostEnum.name.name],
@@ -108,14 +105,13 @@ class Pet extends Post {
   String chronicDiseaseInfo;
   List otherCaracteristics;
   String lastSeenDetails;
-  String? storageHashKey;
   bool donatedOrFound;
   bool disappeared;
   String gender;
   String health;
-  int? ageMonth;
+  int ageMonth;
   String breed;
-  int? ageYear;
+  int ageYear;
   String color;
   String size;
 
@@ -129,7 +125,6 @@ class Pet extends Post {
       PostEnum.describedAddress.name: describedAddress,
       PetEnum.lastSeenDetails.name: lastSeenDetails,
       PetEnum.donatedOrFound.name: donatedOrFound,
-      PetEnum.storageHashKey.name: storageHashKey,
       PostEnum.interesteds.name: interesteds,
       PostEnum.description.name: description,
       PetEnum.disappeared.name: disappeared,
@@ -156,7 +151,7 @@ class Pet extends Post {
 
   @override
   String toString() {
-    return 'Pet(otherCaracteristics: $otherCaracteristics, chronicDiseaseInfo: $chronicDiseaseInfo, lastSeenDetails: $lastSeenDetails, storageHashKey: $storageHashKey, donatedOrFound: $donatedOrFound, createdAt: $createdAt, owner: $owner, longitude: $longitude, disappeared: $disappeared, latitude: $latitude, ownerId: $ownerId, interesteds: $interesteds, description: $description, gender: $gender, health: $health, color: $color, ageMonth: $ageMonth, breed: $breed, ageYear: $ageYear, size: $size, state: $state, photos: $photos, name: $name, type: $type, city: $city, uid: $uid, views: $views, video: $video)';
+    return 'Pet(otherCaracteristics: $otherCaracteristics, chronicDiseaseInfo: $chronicDiseaseInfo, lastSeenDetails: $lastSeenDetails, donatedOrFound: $donatedOrFound, createdAt: $createdAt, owner: $owner, longitude: $longitude, disappeared: $disappeared, latitude: $latitude, ownerId: $ownerId, interesteds: $interesteds, description: $description, gender: $gender, health: $health, color: $color, ageMonth: $ageMonth, breed: $breed, ageYear: $ageYear, size: $size, state: $state, photos: $photos, name: $name, type: $type, city: $city, uid: $uid, views: $views, video: $video)';
   }
 
   @override
@@ -167,7 +162,6 @@ class Pet extends Post {
         other.chronicDiseaseInfo == chronicDiseaseInfo &&
         other.describedAddress == describedAddress &&
         other.lastSeenDetails == lastSeenDetails &&
-        other.storageHashKey == storageHashKey &&
         other.donatedOrFound == donatedOrFound &&
         other.disappeared == disappeared &&
         other.interesteds == interesteds &&
@@ -200,7 +194,6 @@ class Pet extends Post {
         chronicDiseaseInfo.hashCode ^
         describedAddress.hashCode ^
         lastSeenDetails.hashCode ^
-        storageHashKey.hashCode ^
         donatedOrFound.hashCode ^
         interesteds.hashCode ^
         description.hashCode ^

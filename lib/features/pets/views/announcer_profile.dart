@@ -180,7 +180,7 @@ class AnnouncerProfile extends StatelessWidget {
   }
 
   Widget _contactButtonRow() {
-    return VerifyAccountWarning(
+    return VerifyAccountWarningBanner(
       isHiddingContactInfo: true,
       fontSize: 10,
       margin: EdgeInsets.only(left: 2.0.w, right: 16.0.w, top: 24.0.h),
