@@ -1,5 +1,4 @@
 import 'package:tiutiu/features/home/controller/home_controller.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/features/system/controllers.dart';
 import 'package:tiutiu/Widgets/input_close_button.dart';
@@ -64,9 +63,8 @@ class TopBar extends StatelessWidget {
                 padding: EdgeInsets.zero,
                 onPressed: () {},
                 icon: Icon(
-                  FontAwesomeIcons.comments,
+                  Icons.forum,
                   color: AppColors.secondary,
-                  size: 16.0.h,
                 ),
               ),
               Stack(
@@ -75,14 +73,15 @@ class TopBar extends StatelessWidget {
                     padding: EdgeInsets.zero,
                     onPressed: () {},
                     icon: Icon(
+                      Icons.notifications_none_rounded,
                       color: AppColors.secondary,
-                      FontAwesomeIcons.bell,
-                      size: 16.0.h,
                     ),
                   ),
                   Positioned(
-                    right: 8.0.w,
+                    right: 11.0.w,
+                    top: 8.0.w,
                     child: Badge(
+                      show: true,
                       color: AppColors.info,
                       text: 0,
                     ),
@@ -98,9 +97,8 @@ class TopBar extends StatelessWidget {
                   () => Icon(
                     color: AppColors.secondary,
                     homeController.cardVisibilityKind == CardVisibilityKind.card
-                        ? FontAwesomeIcons.list
-                        : FontAwesomeIcons.tableCells,
-                    size: 16.0.h,
+                        ? Icons.view_list_outlined
+                        : Icons.view_agenda,
                   ),
                 ),
               )

@@ -1,3 +1,4 @@
+import 'package:tiutiu/core/constants/images_assets.dart';
 import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
 import 'package:tiutiu/Widgets/pet_other_caracteristics_card.dart';
 import 'package:tiutiu/core/models/pet_caracteristics_model.dart';
@@ -74,45 +75,50 @@ class _PetDetailsState extends State<PetDetails> {
         },
         child: Scaffold(
           appBar: _appBar(post.name!),
-          body: FutureBuilder(
-              future: postsController.cacheVideos(),
-              builder: (context, snapshot) {
-                return ListView(
-                  padding: EdgeInsets.only(
-                    right: Dimensions.getDimensBasedOnDeviceHeight(
-                      greaterDeviceHeightDouble: 0.0.w,
-                      minDeviceHeightDouble: 4.0.w,
-                    ),
-                  ),
-                  children: [
-                    _showImagesAndVideos(
-                      boxHeight: Get.height / 2.5,
-                      context: context,
-                    ),
-                    _petCaracteristics(petCaracteristics),
-                    VerifyAccountWarningInterstitial(
-                      anotherRequiredCondition: !widget.inReviewMode,
-                      isHiddingContactInfo: true,
-                      child: Column(
-                        children: [
-                          _description(post.description),
-                          _address(),
-                          _ownerAdcontact(
-                            whatsappMessage: 'whatsappMessage',
-                            emailMessage: 'emailMessage',
-                            emailSubject: 'emailSubject',
-                            user: post.owner!,
-                          ),
-                        ],
+          body: Container(
+            decoration: BoxDecoration(
+              image: DecorationImage(image: AssetHandle.imageProvider(ImageAssets.bones2), fit: BoxFit.fill),
+            ),
+            child: FutureBuilder(
+                future: postsController.cacheVideos(),
+                builder: (context, snapshot) {
+                  return ListView(
+                    padding: EdgeInsets.only(
+                      right: Dimensions.getDimensBasedOnDeviceHeight(
+                        greaterDeviceHeightDouble: 0.0.w,
+                        minDeviceHeightDouble: 4.0.w,
                       ),
                     ),
-                    LoadDarkScreen(
-                      message: petsController.loadingText,
-                      visible: petsController.isLoading,
-                    )
-                  ],
-                );
-              }),
+                    children: [
+                      _showImagesAndVideos(
+                        boxHeight: Get.height / 2.5,
+                        context: context,
+                      ),
+                      _petCaracteristics(petCaracteristics),
+                      VerifyAccountWarningInterstitial(
+                        anotherRequiredCondition: !widget.inReviewMode,
+                        isHiddingContactInfo: true,
+                        child: Column(
+                          children: [
+                            _description(post.description),
+                            _address(),
+                            _ownerAdcontact(
+                              whatsappMessage: 'whatsappMessage',
+                              emailMessage: 'emailMessage',
+                              emailSubject: 'emailSubject',
+                              user: post.owner!,
+                            ),
+                          ],
+                        ),
+                      ),
+                      LoadDarkScreen(
+                        message: petsController.loadingText,
+                        visible: petsController.isLoading,
+                      )
+                    ],
+                  );
+                }),
+          ),
         ),
       ),
     );
