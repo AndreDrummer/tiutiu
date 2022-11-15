@@ -1,8 +1,12 @@
-import 'dart:io';
+import 'package:get/get.dart';
 
 class Dimensions {
-  static double getDimensByPlatform({required double iosDimen, required double androidDimen}) {
-    if (Platform.isIOS) return iosDimen;
-    return androidDimen;
+  static double getDimensBasedOnDeviceHeight({
+    required double greaterDeviceHeightDouble,
+    required double minDeviceHeightDouble,
+    double minDeviceHeight = 850,
+  }) {
+    if (Get.height <= minDeviceHeight) return minDeviceHeightDouble;
+    return greaterDeviceHeightDouble;
   }
 }
