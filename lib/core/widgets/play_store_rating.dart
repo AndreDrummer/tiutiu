@@ -1,8 +1,8 @@
-import 'package:auto_size_text/auto_size_text.dart';
-import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:tiutiu/core/constants/images_assets.dart';
 import 'package:tiutiu/core/utils/launcher_functions.dart';
+import 'package:tiutiu/core/constants/images_assets.dart';
+import 'package:auto_size_text/auto_size_text.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter/material.dart';
 
 class RatingUs extends StatelessWidget {
   @override
@@ -54,8 +54,7 @@ class RatingUs extends StatelessWidget {
             ),
             elevation: 6.0,
             child: Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 4.0, vertical: 8.0),
+              padding: const EdgeInsets.symmetric(horizontal: 4.0, vertical: 8.0),
               child: Row(
                 children: [
                   Container(
@@ -65,8 +64,7 @@ class RatingUs extends StatelessWidget {
                   SizedBox(width: 10),
                   AutoSizeText(
                     text!,
-                    style: GoogleFonts.roboto(
-                        fontSize: 14, fontWeight: FontWeight.w700),
+                    style: GoogleFonts.roboto(fontSize: 14, fontWeight: FontWeight.w700),
                   ),
                 ],
               ),
