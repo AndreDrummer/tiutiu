@@ -8,9 +8,10 @@ class AppStrings {
       'Sua conta ainda não foi verificada, por isso algumas funcionalidades ainda estão restritas!';
   static String get verifyFilters => 'Verifique seus filtros de busca.';
   static String get imagesWarning => 'Imagens meramente ilustrativas';
+  static String get noPostFavorited => 'Nenhum PET foi favoritado.';
   static String get wannaLeave => 'Deseja realmente sair?';
   static String get loadingImage => 'Carregando imagem...';
-  static String get noPetFound => 'Nenhum PET encontrado';
+  static String get noPostFound => 'Nenhum PET encontrado.';
   static String get jotSomethingDown => 'Escreva aqui...';
   static String get iamInterested => 'Estou interessado';
   static String get backToStart => 'Voltar ao início';

@@ -17,6 +17,7 @@ class EmptyListScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Visibility(
             visible: isAPetScreenList,
@@ -25,7 +26,7 @@ class EmptyListScreen extends StatelessWidget {
               height: 64.0.h,
             ),
           ),
-          AutoSizeTexts.autoSizeText16(text ?? AppStrings.noPetFound),
+          AutoSizeTexts.autoSizeText16(text ?? AppStrings.noPostFound),
         ],
       ),
       alignment: Alignment.center,
