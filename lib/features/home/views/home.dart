@@ -68,18 +68,18 @@ class Home extends StatelessWidget with TiuTiuPopUp {
   }
 
   double expandedHeight() {
-    final homeListPadding = Dimensions.getDimensByPlatform(
-      androidDimen: Get.height / 4.6,
-      iosDimen: Get.height / 4.8,
+    final homeListPadding = Dimensions.getDimensBasedOnDeviceHeight(
+      minDeviceHeightDouble: Get.height / 4.6,
+      greaterDeviceHeightDouble: Get.height / 4.8,
     );
 
     if (homeController.bottomBarIndex < 2) {
       if (tiutiuUserController.tiutiuUser.emailVerified) {
         return homeListPadding;
       } else if (authController.userExists) {
-        return Dimensions.getDimensByPlatform(
-          androidDimen: Get.height / 3.7,
-          iosDimen: Get.height / 3.4,
+        return Dimensions.getDimensBasedOnDeviceHeight(
+          minDeviceHeightDouble: Get.height / 3.7,
+          greaterDeviceHeightDouble: Get.height / 3.4,
         );
       } else {
         return homeListPadding;

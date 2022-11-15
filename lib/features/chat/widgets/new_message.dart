@@ -38,7 +38,9 @@ class _NewMessageState extends State<NewMessage> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(bottom: Dimensions.getDimensByPlatform(androidDimen: 0.0.h, iosDimen: 8.0.h)),
+      margin: EdgeInsets.only(
+          bottom:
+              Dimensions.getDimensBasedOnDeviceHeight(minDeviceHeightDouble: 0.0.h, greaterDeviceHeightDouble: 8.0.h)),
       padding: const EdgeInsets.all(6.0),
       child: Row(
         children: [

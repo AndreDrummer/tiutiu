@@ -42,7 +42,10 @@ class ChatScreen extends StatelessWidget {
 
                     return Padding(
                       padding: EdgeInsets.only(
-                        bottom: index > 0 ? 0 : Dimensions.getDimensByPlatform(androidDimen: 56.0.h, iosDimen: 32.0.h),
+                        bottom: index > 0
+                            ? 0
+                            : Dimensions.getDimensBasedOnDeviceHeight(
+                                minDeviceHeightDouble: 56.0.h, greaterDeviceHeightDouble: 32.0.h),
                       ),
                       child: MessageBubble(
                         lastMessageBelongsToTheSameUser: previousMessage.sender.uid == message.sender.uid,
@@ -75,7 +78,8 @@ class ChatScreen extends StatelessWidget {
             onTap: () => OtherFunctions.navigateToAnnouncerDetail(chatController.userChatingWith, popAndPush: true),
             child: CircleAvatar(
               backgroundColor: AppColors.secondary,
-              radius: Dimensions.getDimensByPlatform(androidDimen: 18.0.h, iosDimen: 16.0.h),
+              radius: Dimensions.getDimensBasedOnDeviceHeight(
+                  minDeviceHeightDouble: 18.0.h, greaterDeviceHeightDouble: 16.0.h),
               child: CircleAvatar(
                 child: ClipOval(
                   child: AssetHandle.getImage(
