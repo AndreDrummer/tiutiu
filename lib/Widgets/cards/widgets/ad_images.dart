@@ -23,6 +23,11 @@ class AdImages extends StatelessWidget {
   }
 
   Widget _cardAdImage() {
+    final borderRadius = BorderRadius.only(
+      topRight: Radius.circular(8),
+      topLeft: Radius.circular(8),
+    );
+
     return Container(
       decoration: BoxDecoration(
         color: AppColors.white,
@@ -37,10 +42,7 @@ class AdImages extends StatelessWidget {
         itemCount: photos.length,
         itemBuilder: (ctx, index, i) {
           return ClipRRect(
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(8),
-              bottomLeft: Radius.circular(8),
-            ),
+            borderRadius: borderRadius,
             child: Container(
               width: double.infinity,
               color: AppColors.white,
@@ -64,13 +66,29 @@ class AdImages extends StatelessWidget {
   }
 
   Widget _cardAdListImage() {
+    final borderRadius = BorderRadius.only(
+      bottomLeft: Radius.circular(8.0.h),
+      topLeft: Radius.circular(8.0.h),
+    );
+
     return Container(
+      decoration: BoxDecoration(
+        color: AppColors.white,
+        borderRadius: BorderRadius.only(
+          bottomLeft: Radius.circular(8.0.h),
+          topLeft: Radius.circular(8.0.h),
+        ),
+      ),
       child: CarouselSlider.builder(
         itemCount: photos.length,
         itemBuilder: (ctx, index, i) {
           return Container(
+            decoration: BoxDecoration(
+              color: AppColors.white,
+              borderRadius: borderRadius,
+            ),
+            child: AssetHandle.getImage(photos.elementAt(index), borderRadius: borderRadius),
             width: double.infinity,
-            child: AssetHandle.getImage(photos.elementAt(index)),
           );
         },
         options: CarouselOptions(
@@ -81,8 +99,8 @@ class AdImages extends StatelessWidget {
           autoPlay: true,
         ),
       ),
-      height: Get.height,
       width: Get.width * .48,
+      height: Get.height,
     );
   }
 }

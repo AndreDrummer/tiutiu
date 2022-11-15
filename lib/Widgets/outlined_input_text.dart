@@ -51,7 +51,7 @@ class OutlinedOutlinedInputText extends StatelessWidget {
         style: TextStyle(
           color: textColor ?? AppColors.white,
           fontWeight: FontWeight.w600,
-          fontSize: 18.0.sp,
+          fontSize: 18.0,
         ),
         cursorColor: textColor ?? AppColors.white,
         decoration: InputDecoration(
@@ -59,20 +59,18 @@ class OutlinedOutlinedInputText extends StatelessWidget {
           counterText: '',
           labelText: labelText,
           hintStyle: TextStyle(
-            color: textColor != null
-                ? textColor!.withOpacity(.7)
-                : AppColors.white,
+            color: textColor != null ? textColor!.withOpacity(.7) : AppColors.white,
             fontWeight: FontWeight.w600,
-            fontSize: 18.0.sp,
+            fontSize: 18.0,
           ),
           errorStyle: TextStyle(
             color: Colors.amber,
             fontWeight: FontWeight.w600,
-            fontSize: 10.0.sp,
+            fontSize: 10.0,
           ),
           labelStyle: TextStyle(
             color: textColor ?? AppColors.white,
-            fontSize: 21.0.sp,
+            fontSize: 21.0,
           ),
           errorBorder: _outlineInputBorder(isError: true),
           disabledBorder: _outlineInputBorder(),

@@ -17,7 +17,6 @@ class AdTitle extends StatelessWidget {
       child: AutoSizeTexts.autoSizeText16(
         textOverflow: TextOverflow.fade,
         fontWeight: FontWeight.w700,
-        maxLines: 2,
         title,
       ),
       width: 120.0.w,

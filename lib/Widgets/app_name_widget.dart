@@ -1,4 +1,3 @@
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/constants/strings.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -24,7 +23,7 @@ class AppNameWidget extends StatelessWidget {
         textStyle: TextStyle(
           fontWeight: fontWeight ?? FontWeight.bold,
           letterSpacing: letterSpacing ?? 12,
-          fontSize: fontSize ?? 32.0.sp,
+          fontSize: fontSize ?? 32.0,
         ),
       ),
       maxFontSize: 32,

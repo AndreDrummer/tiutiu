@@ -5,6 +5,7 @@ import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/core/models/post.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:tiutiu/features/system/controllers.dart';
 
 class CardAd extends StatelessWidget {
   CardAd({required this.post, this.inReviewMode = false});
@@ -38,11 +39,11 @@ class CardAd extends StatelessWidget {
             children: [
               cardBuilder.adImages(),
               Visibility(
-                visible: !inReviewMode,
+                visible: !inReviewMode && authController.userExists,
                 child: Positioned(
                   child: cardBuilder.favoriteButton(),
                   bottom: 16.0.h,
-                  right: 16.0.w,
+                  right: 8.0.w,
                 ),
               ),
             ],
@@ -56,11 +57,11 @@ class CardAd extends StatelessWidget {
               ),
             ),
             child: Container(
-              margin: EdgeInsets.all(8.0.h),
+              margin: EdgeInsets.only(top: 8.0.h, left: 8.0.w),
               child: Row(
                 children: [
                   Container(
-                    width: Get.width * .92,
+                    width: Get.width * .91,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
