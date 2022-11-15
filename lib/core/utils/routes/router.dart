@@ -7,7 +7,6 @@ import 'package:tiutiu/features/auth/views/start_screen.dart';
 import 'package:tiutiu/features/chat/views/my_contacts.dart';
 import 'package:tiutiu/core/utils/routes/routes_name.dart';
 import 'package:tiutiu/features/system/app_bootstrap.dart';
-import 'package:tiutiu/screen/informantes_screen.dart';
 import 'package:tiutiu/features/home/views/home.dart';
 import 'package:tiutiu/screen/choose_location.dart';
 import 'package:tiutiu/screen/notifications.dart';
@@ -81,10 +80,6 @@ class RouterGenerator {
           builder: (_) => PetDetails(
             inReviewMode: inReviewMode,
           ),
-        );
-      case Routes.info:
-        return MaterialPageRoute(
-          builder: (_) => InformantesScreen(),
         );
       case Routes.notifications:
         return MaterialPageRoute(

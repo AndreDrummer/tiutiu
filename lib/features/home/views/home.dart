@@ -42,7 +42,12 @@ class Home extends StatelessWidget with TiuTiuPopUp {
                     () {
                       print('>> v ${authController.userExists}');
                       return SliverAppBar(
-                        toolbarHeight: homeController.bottomBarIndex < 2 ? 48.0.h : 0.0,
+                        toolbarHeight: homeController.bottomBarIndex < 2
+                            ? Dimensions.getDimensBasedOnDeviceHeight(
+                                greaterDeviceHeightDouble: 40.0.h,
+                                minDeviceHeightDouble: 48.0.h,
+                              )
+                            : 0.0,
                         backgroundColor: Colors.transparent,
                         expandedHeight: expandedHeight(),
                         automaticallyImplyLeading: false,
