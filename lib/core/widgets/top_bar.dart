@@ -60,36 +60,42 @@ class TopBar extends StatelessWidget {
           ),
           Row(
             children: [
-              IconButton(
-                padding: EdgeInsets.zero,
-                onPressed: () {
-                  Get.toNamed(Routes.contacts);
-                },
-                icon: Icon(
-                  Icons.forum,
-                  color: AppColors.secondary,
+              Visibility(
+                visible: authController.userExists,
+                child: IconButton(
+                  padding: EdgeInsets.zero,
+                  onPressed: () {
+                    Get.toNamed(Routes.contacts);
+                  },
+                  icon: Icon(
+                    Icons.forum,
+                    color: AppColors.secondary,
+                  ),
                 ),
               ),
-              Stack(
-                children: [
-                  IconButton(
-                    padding: EdgeInsets.zero,
-                    onPressed: () {},
-                    icon: Icon(
-                      Icons.notifications_none_rounded,
-                      color: AppColors.secondary,
+              Visibility(
+                visible: authController.userExists,
+                child: Stack(
+                  children: [
+                    IconButton(
+                      padding: EdgeInsets.zero,
+                      onPressed: () {},
+                      icon: Icon(
+                        Icons.notifications_none_rounded,
+                        color: AppColors.secondary,
+                      ),
                     ),
-                  ),
-                  Positioned(
-                    right: 11.0.w,
-                    top: 8.0.w,
-                    child: Badge(
-                      show: true,
-                      color: AppColors.info,
-                      text: 0,
-                    ),
-                  )
-                ],
+                    Positioned(
+                      right: 11.0.w,
+                      top: 8.0.w,
+                      child: Badge(
+                        show: true,
+                        color: AppColors.info,
+                        text: 0,
+                      ),
+                    )
+                  ],
+                ),
               ),
               TogglePostCardAppearence()
             ],
