@@ -58,7 +58,7 @@ class TextArea extends StatelessWidget {
   OutlineInputBorder _outlineInputBorder() {
     return OutlineInputBorder(
       borderRadius: BorderRadius.all(
-        Radius.circular(8.0.h),
+        Radius.circular(4.0.h),
       ),
       borderSide: BorderSide(
         style: BorderStyle.solid,

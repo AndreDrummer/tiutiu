@@ -3,11 +3,13 @@ import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:flutter/material.dart';
 
 class DefaultBasicAppBar extends AppBar {
-  DefaultBasicAppBar({required String text, bool automaticallyImplyLeading = true, List<Widget>? actions})
+  DefaultBasicAppBar(
+      {required String text, bool automaticallyImplyLeading = true, List<Widget>? actions, Widget? leading})
       : super(
           automaticallyImplyLeading: automaticallyImplyLeading,
           title: AutoSizeTexts.autoSizeText20(text),
           backgroundColor: AppColors.primary,
+          leading: leading,
           actions: actions,
         );
 }
