@@ -34,11 +34,11 @@ class MessageBubble extends StatelessWidget {
         : Formatters.getFormattedTime(time.toDate().toIso8601String());
 
     return ChatBubble(
-      margin: EdgeInsets.only(top: lastMessageBelongsToTheSameUser ? 2.0.h : 16.0.h, left: 16.0.w, right: 12.0.w),
+      margin: EdgeInsets.only(top: lastMessageBelongsToTheSameUser ? 4.0.h : 16.0.h, left: 16.0.w, right: 12.0.w),
       backGroundColor: belongToMe ? Colors.lightGreen : Colors.deepPurple,
       shadowColor: belongToMe ? AppColors.secondary : AppColors.primary,
       padding: EdgeInsets.symmetric(horizontal: 16.0.w),
-      elevation: 4.0,
+      elevation: 2.0,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         mainAxisSize: MainAxisSize.min,
