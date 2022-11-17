@@ -23,18 +23,21 @@ class PostInfo extends StatelessWidget {
 
     return Obx(
       () => ListView(
+        padding: EdgeInsets.only(top: 8.0.h),
         children: [
           _petName(),
-          SizedBox(height: 8.0.h),
+          _divider(),
           _petAge(yearsList, monthsList),
-          SizedBox(height: 8.0.h),
+          _divider(),
           _petSize(),
-          SizedBox(height: 40.0.h),
+          _divider(),
           _health(),
         ],
       ),
     );
   }
+
+  SizedBox _divider() => SizedBox(height: 16.0.h);
 
   Padding _petName() {
     return Padding(
@@ -121,7 +124,7 @@ class PostInfo extends StatelessWidget {
 
   Widget _health() {
     return AnimatedContainer(
-      height: postsController.existChronicDisease ? 136.0.h : 72.0.h,
+      height: postsController.existChronicDisease ? 144.0.h : 80.0.h,
       margin: EdgeInsets.only(bottom: 8.0.h),
       duration: Duration(milliseconds: 500),
       child: ListView(
@@ -147,11 +150,11 @@ class PostInfo extends StatelessWidget {
     return Visibility(
       visible: postsController.existChronicDisease,
       child: Container(
-        margin: EdgeInsets.symmetric(vertical: 16.0.h),
+        margin: EdgeInsets.symmetric(vertical: 8.0.h),
         child: Column(
           children: [
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 8.0.w),
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: Form(
                 key: diaseaseForm,
                 child: TextArea(

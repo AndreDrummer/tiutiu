@@ -1,3 +1,4 @@
+import 'package:tiutiu/core/utils/routes/routes_name.dart';
 import 'package:tiutiu/features/posts/widgets/post_type_card_selector.dart';
 import 'package:tiutiu/core/widgets/default_basic_app_bar.dart';
 import 'package:tiutiu/core/extensions/string_extension.dart';
@@ -35,7 +36,7 @@ class SelectPostType extends StatelessWidget with TiuTiuPopUp {
         return true;
       },
       child: Scaffold(
-        appBar: DefaultBasicAppBar(text: PostFlowStrings.post),
+        appBar: DefaultBasicAppBar(text: postsController.isEditingPost ? PostFlowStrings.editAd : PostFlowStrings.post),
         body: Obx(
           () => Stack(
             children: [
@@ -117,7 +118,7 @@ class SelectPostType extends StatelessWidget with TiuTiuPopUp {
 
                 if (postsController.isEditingPost) {
                   postsController.isEditingPost = false;
-                  Get.back();
+                  Get.offAndToNamed(Routes.myPosts);
                 } else {
                   homeController.setDonateIndex();
                 }
