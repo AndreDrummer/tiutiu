@@ -91,8 +91,13 @@ class _PetDetailsState extends State<PetDetails> with TiuTiuPopUp {
                         boxHeight: Get.height / 2.2,
                         context: context,
                       ),
-                      _petCaracteristics(petCaracteristics),
+                      Visibility(
+                        replacement: _petCaracteristicsGrid(petCaracteristics),
+                        child: _petCaracteristics(petCaracteristics),
+                        visible: authController.userExists,
+                      ),
                       VerifyAccountWarningInterstitial(
+                        margin: EdgeInsets.symmetric(horizontal: 4.0.w, vertical: 8.0.h),
                         isHiddingContactInfo: true,
                         child: Column(
                           children: [
@@ -160,8 +165,8 @@ class _PetDetailsState extends State<PetDetails> with TiuTiuPopUp {
           ),
         ),
         Positioned(
-          bottom: 20.0.h,
-          left: 16.0.w,
+          bottom: 16.0.h,
+          left: 8.0.w,
           child: InkWell(
             onTap: () {
               OtherFunctions.navigateToAnnouncerDetail(
@@ -191,6 +196,7 @@ class _PetDetailsState extends State<PetDetails> with TiuTiuPopUp {
       child: Row(
         children: [
           CircleAvatar(
+            radius: 10.0.h,
             backgroundColor: Colors.transparent,
             child: ClipOval(
               child: AssetHandle.getImage(
@@ -204,7 +210,7 @@ class _PetDetailsState extends State<PetDetails> with TiuTiuPopUp {
               right: 18.0.h,
               left: 8.0.h,
             ),
-            child: AutoSizeTexts.autoSizeText12(
+            child: AutoSizeTexts.autoSizeText10(
               OtherFunctions.firstCharacterUpper(
                 postsController.post.owner!.displayName ?? 'Usuário do Tiutiu',
               ).trim(),
@@ -309,6 +315,25 @@ class _PetDetailsState extends State<PetDetails> with TiuTiuPopUp {
             );
           },
         ),
+      ),
+    );
+  }
+
+  Widget _petCaracteristicsGrid(List<PetCaracteristics> petCaracteristics) {
+    return Container(
+      margin: EdgeInsets.only(top: 4.0.h),
+      height: Get.width / 2,
+      child: GridView.count(
+        crossAxisCount: 2,
+        physics: NeverScrollableScrollPhysics(),
+        scrollDirection: Axis.horizontal,
+        children: petCaracteristics.map((carac) {
+          return PetOtherCaracteristicsCard(
+            content: carac.content,
+            title: carac.title,
+            icon: carac.icon,
+          );
+        }).toList(),
       ),
     );
   }
