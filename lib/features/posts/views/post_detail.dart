@@ -1,13 +1,12 @@
-import 'package:tiutiu/core/utils/routes/routes_name.dart';
 import 'package:tiutiu/core/widgets/pet_other_caracteristics_card.dart';
 import 'package:tiutiu/core/pets/model/pet_caracteristics_model.dart';
-import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
 import 'package:tiutiu/features/posts/widgets/video_player.dart';
 import 'package:tiutiu/core/widgets/verify_account_warning.dart';
 import 'package:tiutiu/features/posts/widgets/card_content.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiutiu/core/extensions/string_extension.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:tiutiu/core/utils/routes/routes_name.dart';
 import 'package:tiutiu/core/widgets/load_dark_screen.dart';
 import 'package:tiutiu/core/constants/images_assets.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
@@ -29,10 +28,6 @@ import 'package:chewie/chewie.dart';
 import 'package:get/get.dart';
 
 class PetDetails extends StatefulWidget {
-  const PetDetails({super.key, this.inReviewMode = false});
-
-  final bool inReviewMode;
-
   @override
   State<PetDetails> createState() => _PetDetailsState();
 }
@@ -72,7 +67,7 @@ class _PetDetailsState extends State<PetDetails> with TiuTiuPopUp {
       child: WillPopScope(
         onWillPop: () async {
           chewieController?.pause();
-          if (!widget.inReviewMode) postsController.clearForm();
+          if (!postsController.isInReviewMode) postsController.clearForm();
           return true;
         },
         child: Scaffold(
@@ -93,23 +88,17 @@ class _PetDetailsState extends State<PetDetails> with TiuTiuPopUp {
                     ),
                     children: [
                       _showImagesAndVideos(
-                        boxHeight: Get.height / 2.5,
+                        boxHeight: Get.height / 2.2,
                         context: context,
                       ),
                       _petCaracteristics(petCaracteristics),
                       VerifyAccountWarningInterstitial(
-                        anotherRequiredCondition: !widget.inReviewMode,
                         isHiddingContactInfo: true,
                         child: Column(
                           children: [
                             _description(post.description),
                             _address(),
-                            _ownerAdcontact(
-                              whatsappMessage: 'whatsappMessage',
-                              emailMessage: 'emailMessage',
-                              emailSubject: 'emailSubject',
-                              user: post.owner!,
-                            ),
+                            postDetailBottomView(),
                           ],
                         ),
                       ),
@@ -136,7 +125,7 @@ class _PetDetailsState extends State<PetDetails> with TiuTiuPopUp {
       ),
       actions: [
         Visibility(
-          visible: !widget.inReviewMode,
+          visible: !postsController.isInReviewMode,
           child: IconButton(
             icon: Icon(
               color: AppColors.white,
@@ -171,8 +160,8 @@ class _PetDetailsState extends State<PetDetails> with TiuTiuPopUp {
           ),
         ),
         Positioned(
-          bottom: 40.0.h,
-          left: 24.0.w,
+          bottom: 20.0.h,
+          left: 16.0.w,
           child: InkWell(
             onTap: () {
               OtherFunctions.navigateToAnnouncerDetail(
@@ -305,13 +294,13 @@ class _PetDetailsState extends State<PetDetails> with TiuTiuPopUp {
 
   Container _petCaracteristics(List<PetCaracteristics> petCaracteristics) {
     return Container(
-      height: 64.0.h,
+      height: 56.0.h,
       child: Padding(
-        padding: EdgeInsets.all(2.0.h),
+        padding: EdgeInsets.symmetric(horizontal: 2.0.h),
         child: ListView.builder(
           key: UniqueKey(),
-          scrollDirection: Axis.horizontal,
           itemCount: petCaracteristics.length,
+          scrollDirection: Axis.horizontal,
           itemBuilder: (_, int index) {
             return PetOtherCaracteristicsCard(
               content: petCaracteristics[index].content,
@@ -360,75 +349,70 @@ class _PetDetailsState extends State<PetDetails> with TiuTiuPopUp {
     );
   }
 
-  Widget _ownerAdcontact({String? whatsappMessage, String? emailMessage, String? emailSubject, TiutiuUser? user}) {
+  Widget ownerAdcontact() {
     final Post post = postsController.post;
-    return Visibility(
-      visible: !widget.inReviewMode && !postsController.isEditingPost,
-      replacement: backReviewAndUploadPost(),
-      child: Container(
-        margin: EdgeInsets.only(
-          top: Dimensions.getDimensBasedOnDeviceHeight(minDeviceHeightDouble: 24.0.h, greaterDeviceHeightDouble: 2.0.h),
-          right: 4.0.w,
-          left: 4.0.w,
+    return Container(
+      margin: EdgeInsets.only(
+        top: Dimensions.getDimensBasedOnDeviceHeight(
+          greaterDeviceHeightDouble: 2.0.h,
+          minDeviceHeightDouble: 24.0.h,
         ),
-        child: Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Expanded(
-                  child: ButtonWide(
-                    onPressed: () => chatController.startsChatWith(post.owner!),
-                    color: AppColors.secondary,
-                    text: AppStrings.chat,
-                    isToExpand: false,
-                    icon: Icons.phone,
-                  ),
+        right: 4.0.w,
+        left: 4.0.w,
+      ),
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Expanded(
+                child: ButtonWide(
+                  onPressed: () => chatController.startsChatWith(post.owner!),
+                  color: AppColors.secondary,
+                  text: AppStrings.chat,
+                  isToExpand: false,
+                  icon: Icons.phone,
                 ),
-                SizedBox(width: 16.0.w),
-                Expanded(
-                  child: ButtonWide(
-                    icon: FontAwesomeIcons.whatsapp,
-                    text: AppStrings.whatsapp,
-                    color: AppColors.primary,
-                    isToExpand: false,
-                    onPressed: () {},
-                  ),
+              ),
+              Expanded(
+                child: ButtonWide(
+                  icon: FontAwesomeIcons.whatsapp,
+                  text: AppStrings.whatsapp,
+                  color: AppColors.primary,
+                  isToExpand: false,
+                  onPressed: () {},
                 ),
-              ],
-            ),
-            ButtonWide(
-              text: (post as Pet).disappeared ? AppStrings.provideInfo : AppStrings.iamInterested,
-              icon: post.disappeared ? Icons.info : Icons.favorite_border,
-              color: post.disappeared ? AppColors.info : AppColors.danger,
-              isToExpand: true,
-              onPressed: () {},
-            ),
-          ],
-        ),
+              ),
+            ],
+          ),
+          ButtonWide(
+            padding: EdgeInsets.symmetric(horizontal: 8.0.h),
+            text: (post as Pet).disappeared ? AppStrings.provideInfo : AppStrings.iamInterested,
+            icon: post.disappeared ? Icons.info : Icons.favorite_border,
+            color: post.disappeared ? AppColors.info : AppColors.danger,
+            isToExpand: true,
+            onPressed: () {},
+          ),
+        ],
       ),
     );
   }
 
   Widget backReviewAndUploadPost() {
-    return Visibility(
-      visible: !postsController.isEditingPost,
-      replacement: editPostButtons(),
-      child: Padding(
-        padding: EdgeInsets.only(
-          top: Dimensions.getDimensBasedOnDeviceHeight(
-            greaterDeviceHeightDouble: Get.width / 5.5,
-            minDeviceHeightDouble: Get.width / 4,
-          ),
+    return Padding(
+      padding: EdgeInsets.only(
+        top: Dimensions.getDimensBasedOnDeviceHeight(
+          greaterDeviceHeightDouble: Get.width / 7.5,
+          minDeviceHeightDouble: Get.width / 4,
         ),
-        child: ButtonWide(
-          rounded: false,
-          onPressed: () {
-            postsController.backReviewAndPost();
-          },
-          text: PostFlowStrings.post,
-          isToExpand: true,
-        ),
+      ),
+      child: ButtonWide(
+        text: postsController.isEditingPost ? PostFlowStrings.postUpdate : PostFlowStrings.post,
+        onPressed: () {
+          postsController.backReviewAndPost();
+        },
+        isToExpand: true,
+        rounded: false,
       ),
     );
   }
@@ -437,17 +421,19 @@ class _PetDetailsState extends State<PetDetails> with TiuTiuPopUp {
     return Column(
       children: [
         ButtonWide(
+          padding: EdgeInsets.symmetric(vertical: 2.0, horizontal: 8.0.w),
           text: PostFlowStrings.editAd,
           textColor: AppColors.black,
           color: AppColors.warning,
           icon: Icons.edit,
           onPressed: () {
-            Get.toNamed(Routes.initPostFlow);
+            Get.offNamed(Routes.initPostFlow);
           },
           isToExpand: true,
           rounded: false,
         ),
         ButtonWide(
+          padding: EdgeInsets.symmetric(vertical: 2.0, horizontal: 8.0.w),
           text: PostFlowStrings.deleteAd,
           icon: Icons.delete_forever,
           color: AppColors.danger,
@@ -473,6 +459,31 @@ class _PetDetailsState extends State<PetDetails> with TiuTiuPopUp {
           rounded: false,
         )
       ],
+    );
+  }
+
+  Widget editOrContact() {
+    final myUserId = tiutiuUserController.tiutiuUser.uid;
+    final postOwnerId = postsController.post.ownerId;
+
+    final showAdContact = !postsController.isEditingPost && !postsController.isInReviewMode && postOwnerId != myUserId;
+
+    return Obx(
+      () => Visibility(
+        replacement: editPostButtons(),
+        child: ownerAdcontact(),
+        visible: showAdContact,
+      ),
+    );
+  }
+
+  Widget postDetailBottomView() {
+    return Obx(
+      () => Visibility(
+        visible: postsController.isInReviewMode,
+        replacement: editOrContact(),
+        child: backReviewAndUploadPost(),
+      ),
     );
   }
 }

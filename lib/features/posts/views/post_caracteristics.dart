@@ -1,10 +1,7 @@
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:tiutiu/core/pets/model/pet_model.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/constants/text_styles.dart';
-import 'package:tiutiu/core/constants/app_colors.dart';
-import 'package:tiutiu/core/constants/strings.dart';
-import 'package:tiutiu/core/widgets/one_line_text.dart';
+import 'package:tiutiu/core/pets/model/pet_model.dart';
 import 'package:tiutiu/core/data/dummy_data.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -15,27 +12,16 @@ class PostCaracteristics extends StatelessWidget {
     final caracs = DummyData.otherCaracteristicsList;
 
     return Obx(
-      () => ListView(
-        padding: EdgeInsets.zero,
-        children: [_otherCaracteristicsLabel(), _otherCaracteristicsGrid(caracs)],
-      ),
+      () => _otherCaracteristicsGrid(caracs),
     );
   }
-}
-
-OneLineText _otherCaracteristicsLabel() {
-  return OneLineText(
-    text: PostFlowStrings.otherCaracteristics,
-    widgetAlignment: Alignment(-0.75, 1),
-    fontWeight: FontWeight.w500,
-    color: AppColors.secondary,
-  );
 }
 
 SizedBox _otherCaracteristicsGrid(List<String> caracs) {
   return SizedBox(
     height: Get.height / 2,
     child: GridView.count(
+      padding: EdgeInsets.only(top: 8.0.h),
       physics: NeverScrollableScrollPhysics(),
       childAspectRatio: 18 / 3,
       crossAxisSpacing: 2.0.h,

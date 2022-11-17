@@ -33,17 +33,17 @@ class LocationSelecter extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       child: ListView(
+        padding: EdgeInsets.only(top: 16.0.h),
         children: [
-          SizedBox(height: 16.0.h),
           _stateSelector(),
-          _spacer(),
+          _divider(),
           _citySelector(),
-          SizedBox(height: 16.0.h),
           AnimatedContainer(
             margin: EdgeInsets.symmetric(horizontal: 16.0.w),
-            height: fillFullAddress ? 164.0.h : 32.0.h,
+            height: fillFullAddress ? 164.0.h : 40.0.h,
             duration: Duration(milliseconds: 500),
             child: ListView(
+              padding: EdgeInsets.only(top: 8.0.h),
               physics: NeverScrollableScrollPhysics(),
               children: [
                 _fillFullAddressCheckbox(),
@@ -92,7 +92,7 @@ class LocationSelecter extends StatelessWidget {
   Widget _fillFullAddressTextArea() {
     return Obx(
       () => Padding(
-        padding: EdgeInsets.only(top: 8.0.h),
+        padding: EdgeInsets.zero,
         child: TextArea(
           onChanged: (address) {
             postsController.updatePost(
@@ -109,5 +109,5 @@ class LocationSelecter extends StatelessWidget {
     );
   }
 
-  SizedBox _spacer() => SizedBox(height: 32.0.h);
+  SizedBox _divider() => SizedBox(height: 32.0.h);
 }
