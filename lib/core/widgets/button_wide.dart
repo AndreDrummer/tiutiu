@@ -10,15 +10,17 @@ class ButtonWide extends StatelessWidget {
     this.isToExpand = false,
     this.isLoading = false,
     this.rounded = true,
-    this.textColor,
     this.onPressed,
+    this.textColor,
+    this.padding,
     this.color,
     this.icon,
     this.text,
   });
 
-  final Color? textColor;
+  final EdgeInsetsGeometry? padding;
   final Function? onPressed;
+  final Color? textColor;
   final bool isToExpand;
   final bool isLoading;
   final IconData? icon;
@@ -29,7 +31,7 @@ class ButtonWide extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: padding ?? const EdgeInsets.all(8.0),
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
           shape: RoundedRectangleBorder(

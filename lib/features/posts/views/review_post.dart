@@ -1,5 +1,4 @@
 import 'package:tiutiu/core/widgets/cards/widgets/card_builder.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/widgets/cards/card_ad.dart';
 import 'package:tiutiu/features/posts/model/post.dart';
@@ -16,7 +15,6 @@ class ReviewPost extends StatelessWidget {
         postsController.reviewPost();
       },
       child: Container(
-        margin: EdgeInsets.only(top: 32.0.h),
         child: CardAd(
           cardBuilder: CardBuilder(distanceText: '0.00', post: post),
           inReviewMode: inReviewMode,

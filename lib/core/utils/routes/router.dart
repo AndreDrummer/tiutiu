@@ -61,14 +61,8 @@ class RouterGenerator {
           builder: (_) => Home(),
         );
       case Routes.petDetails:
-        final argument = settings.arguments;
-
-        final inReviewMode = argument != null ? (argument as bool) : false;
-
         return MaterialPageRoute(
-          builder: (_) => PetDetails(
-            inReviewMode: inReviewMode,
-          ),
+          builder: (_) => PetDetails(),
         );
     }
     return null;

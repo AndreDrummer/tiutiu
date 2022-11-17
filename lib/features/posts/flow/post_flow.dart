@@ -5,16 +5,16 @@ import 'package:tiutiu/features/posts/views/review_post.dart';
 import 'package:tiutiu/features/posts/views/post_info.dart';
 import 'package:tiutiu/features/posts/widgets/stepper.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:tiutiu/core/pets/model/pet_model.dart';
-import 'package:tiutiu/features/posts/views/images.dart';
-import 'package:tiutiu/core/controllers/controllers.dart';
-import 'package:tiutiu/core/mixins/tiu_tiu_pop_up.dart';
-import 'package:tiutiu/features/posts/views/video.dart';
-import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/core/widgets/load_dark_screen.dart';
-import 'package:tiutiu/core/constants/strings.dart';
+import 'package:tiutiu/core/controllers/controllers.dart';
+import 'package:tiutiu/features/posts/views/images.dart';
 import 'package:tiutiu/core/widgets/row_button_bar.dart';
 import 'package:tiutiu/core/widgets/one_line_text.dart';
+import 'package:tiutiu/core/mixins/tiu_tiu_pop_up.dart';
+import 'package:tiutiu/features/posts/views/video.dart';
+import 'package:tiutiu/core/pets/model/pet_model.dart';
+import 'package:tiutiu/core/constants/app_colors.dart';
+import 'package:tiutiu/core/constants/strings.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -51,7 +51,7 @@ class PostFlow extends StatelessWidget with TiuTiuPopUp {
                 resizeToAvoidBottomInset: true,
                 backgroundColor: AppColors.white,
                 body: SizedBox(
-                  height: postsController.flowIndex >= 6 ? Get.height / 1.36 : Get.height,
+                  height: postsController.flowIndex >= 6 ? Get.height / 1.26 : Get.height,
                   child: Column(
                     children: [
                       SizedBox(height: 24.0.h),
@@ -167,7 +167,7 @@ void _setMockData() {
 final _stepsNames = [
   PostFlowStrings.data,
   PostFlowStrings.details,
-  PetDetailsStrings.caracteristics,
+  PostFlowStrings.otherCaracteristics,
   PostFlowStrings.local,
   PostFlowStrings.pictures,
   PostFlowStrings.videos,
