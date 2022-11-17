@@ -17,13 +17,14 @@ class PostDescription extends StatelessWidget {
   Widget build(BuildContext context) {
     return Obx(
       () => ListView(
+        padding: EdgeInsets.only(top: 8.0.h),
         children: [
           _breed(),
           _spacer(),
           _color(),
           _spacer(),
           _gender(),
-          _spacer(),
+          SizedBox(height: 16.0.h),
           _descriptionLabel(),
           _descriptionInputText(),
         ],
@@ -73,7 +74,7 @@ class PostDescription extends StatelessWidget {
   OneLineText _descriptionLabel() {
     return OneLineText(
       text: PostFlowStrings.addDescription,
-      widgetAlignment: Alignment(-0.92, 1),
+      widgetAlignment: Alignment(-0.85, 1),
       fontWeight: FontWeight.w500,
       color: AppColors.secondary,
     );
@@ -81,7 +82,7 @@ class PostDescription extends StatelessWidget {
 
   Padding _descriptionInputText() {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 8.0.w),
+      padding: EdgeInsets.symmetric(horizontal: 16.0.w),
       child: TextArea(
         isInErrorState: !postsController.post.description.isNotEmptyNeighterNull() && !postsController.formIsValid,
         initialValue: postsController.post.description,
