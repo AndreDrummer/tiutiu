@@ -21,7 +21,7 @@ class CardContent extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.all(2.0.h),
       child: Card(
-        margin: EdgeInsets.symmetric(horizontal: 4.0.w, vertical: 2.0.h),
+        margin: EdgeInsets.symmetric(horizontal: 4.0.w),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         elevation: 8.0,
         child: Padding(
@@ -35,7 +35,7 @@ class CardContent extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      AutoSizeTexts.autoSizeText16(
+                      AutoSizeTexts.autoSizeText14(
                         fontWeight: FontWeight.w600,
                         title,
                       ),
