@@ -83,8 +83,8 @@ class Home extends StatelessWidget with TiuTiuPopUp {
         return homeListPadding;
       } else if (authController.userExists) {
         return Dimensions.getDimensBasedOnDeviceHeight(
-          minDeviceHeightDouble: Get.height / 3.7,
-          greaterDeviceHeightDouble: Get.height / 3.4,
+          minDeviceHeightDouble: Get.height / 4,
+          greaterDeviceHeightDouble: Get.height / 4.1,
         );
       } else {
         return homeListPadding;

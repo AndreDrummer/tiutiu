@@ -242,7 +242,7 @@ class PostFlowStrings {
   static const String typeAddress = 'Digite o endereço';
   static const String sendingData = 'Enviando dados...';
   static const String finalizing = 'Finalizando...';
-
+  static const String postUpdate = 'Atualizar anúncio';
   static const String removeVideo = 'Remover vídeo';
   static const String deleteAd = 'Apagar Anúncio';
   static const String picTime = 'Hora das fotos!';

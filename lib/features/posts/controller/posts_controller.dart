@@ -30,12 +30,12 @@ class PostsController extends GetxController {
   final RxList<Pet> _filteredPosts = <Pet>[].obs;
   final RxString _uploadingPostText = ''.obs;
   final RxBool _isInReviewMode = false.obs;
+  final RxBool _isEditingPost = false.obs;
   final RxBool _isFullAddress = false.obs;
   final RxList<Pet> _posts = <Pet>[].obs;
-  final RxString _flowErrorText = ''.obs;
-  final RxBool _isEditingPost = false.obs;
-  final RxBool _postReviewed = false.obs;
   final RxInt _postPhotoFrameQty = 1.obs;
+  final RxString _flowErrorText = ''.obs;
+  final RxBool _postReviewed = false.obs;
   final RxBool _formIsValid = true.obs;
   final RxBool _isLoading = false.obs;
   final RxBool _hasError = false.obs;
@@ -105,7 +105,7 @@ class PostsController extends GetxController {
   }
 
   Future<void> uploadPost() async {
-    updatePost(PostEnum.createdAt.name, DateTime.now().toIso8601String());
+    if (post.createdAt == null) updatePost(PostEnum.createdAt.name, DateTime.now().toIso8601String());
 
     await _mockPostData();
 
@@ -115,6 +115,7 @@ class PostsController extends GetxController {
     await _uploadPostData();
     await loadPosts(getFromInternet: true);
     isLoading = false;
+    isEditingPost = false;
     clearForm();
     goToHome();
   }
@@ -390,7 +391,6 @@ class PostsController extends GetxController {
         _formIsValid(validator.isStep5Valid());
         break;
       case 5:
-        _isInReviewMode(true);
         isLoading = false;
         break;
       case 7:
@@ -482,11 +482,11 @@ class PostsController extends GetxController {
   }
 
   void reviewPost() {
-    Get.toNamed(
-      Routes.petDetails,
-      arguments: true,
-    )?.then((_) {
+    _postReviewed(false);
+    isInReviewMode = true;
+    Get.toNamed(Routes.petDetails)?.then((_) {
       _postReviewed(true);
+      isInReviewMode = false;
     });
   }
 
