@@ -45,7 +45,7 @@ class TiutiuUserController extends GetxController {
   }
 
   Future<DocumentReference> getUserReferenceById(String id) async {
-    final DocumentReference userReference = await _tiutiuUserService.getUserReference(id);
+    final DocumentReference userReference = await _tiutiuUserService.getUserReferenceById(id);
     return userReference;
   }
 

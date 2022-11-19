@@ -49,6 +49,7 @@ class RenderListItem extends StatelessWidget {
           } else {
             Get.toNamed(Routes.petDetails);
             postsController.post = post;
+            postsController.increasePostViews();
           }
         },
         child: homeController.cardVisibilityKind == CardVisibilityKind.banner
