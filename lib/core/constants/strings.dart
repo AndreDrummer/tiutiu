@@ -110,7 +110,7 @@ class BottomBarStrings {
 
 class FilterStrings {
   static String get orderedBy => 'ordenados por:  ';
-  static String get disappeared => 'Desaparecido';
+  static String get disappeared => 'Desaparecidos';
   static String get foundAt => 'encontrados em ';
   static String get petBreed => 'Raça do Pet';
   static String get petName => 'Nome do Pet';
@@ -215,10 +215,11 @@ class PostFlowStrings {
   }) {
     final cuttedName = petName.split(' ').first;
     if (isDisappeared) return 'Onde foi visto pela última vez?';
+
     if (petGender == PetDetailsStrings.male) {
-      return 'Onde o $cuttedName foi visto pela última vez?';
+      return 'Onde está o $cuttedName?';
     } else if (petGender == PetDetailsStrings.female) {
-      return 'Onde a $cuttedName foi visto pela última vez?';
+      return 'Onde está a $cuttedName?';
     }
 
     return 'Onde está o PET?';

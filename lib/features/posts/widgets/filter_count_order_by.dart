@@ -44,24 +44,21 @@ class FilterResultCount extends StatelessWidget {
                 ),
                 Spacer(),
                 Visibility(
-                  replacement: SizedBox(
-                    width: 120.0.w,
-                    child: Row(
-                      children: [
-                        AutoSizeTexts.autoSizeText12('Desaparecido'),
-                        Obx(
-                          () => Switch(
-                            value: filterController.filterParams.value.disappeared,
-                            onChanged: (_) {
-                              filterController.updateParams(
-                                FilterParamsEnum.disappeared,
-                                !filterController.filterParams.value.disappeared,
-                              );
-                            },
-                          ),
+                  replacement: Row(
+                    children: [
+                      AutoSizeTexts.autoSizeText12(FilterStrings.disappeared),
+                      Obx(
+                        () => Switch(
+                          value: filterController.filterParams.value.disappeared,
+                          onChanged: (_) {
+                            filterController.updateParams(
+                              FilterParamsEnum.disappeared,
+                              !filterController.filterParams.value.disappeared,
+                            );
+                          },
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                   visible: !isInMyPosts,
                   child: DropdownButton<String>(
