@@ -457,6 +457,7 @@ class _PetDetailsState extends State<PetDetails> with TiuTiuPopUp {
           color: AppColors.warning,
           icon: Icons.edit,
           onPressed: () {
+            postsController.isEditingPost = true;
             Get.offNamed(Routes.initPostFlow);
           },
           isToExpand: true,
@@ -478,12 +479,7 @@ class _PetDetailsState extends State<PetDetails> with TiuTiuPopUp {
               secondaryAction: () {
                 Get.back();
                 postsController.deletePost().then((myPostsCount) {
-                  print(myPostsCount);
-                  if (myPostsCount < 1) {
-                    Get.back();
-                  } else {
-                    Get.offNamed(Routes.myPosts);
-                  }
+                  Get.back();
                   ScaffoldMessenger.of(context)
                       .showSnackBar(SnackBar(content: AutoSizeTexts.autoSizeText14(PostFlowStrings.adDeleted)));
                 });

@@ -1,17 +1,17 @@
 import 'package:tiutiu/features/posts/repository/posts_repository.dart';
 import 'package:tiutiu/features/posts/validators/form_validators.dart';
+import 'package:tiutiu/core/location/models/states_and_cities.dart';
 import 'package:tiutiu/core/local_storage/local_storage_keys.dart';
 import 'package:tiutiu/core/constants/firebase_env_path.dart';
 import 'package:tiutiu/core/local_storage/local_storage.dart';
 import 'package:tiutiu/core/extensions/string_extension.dart';
-import 'package:tiutiu/core/pets/model/pet_model.dart';
 import 'package:tiutiu/core/utils/file_cache_manager.dart';
 import 'package:tiutiu/core/utils/routes/routes_name.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
-import 'package:tiutiu/core/location/models/states_and_cities.dart';
+import 'package:tiutiu/core/pets/model/pet_model.dart';
+import 'package:tiutiu/features/posts/model/post.dart';
 import 'package:tiutiu/core/constants/strings.dart';
 import 'package:tiutiu/core/utils/ordenators.dart';
-import 'package:tiutiu/features/posts/model/post.dart';
 import 'package:flutter/foundation.dart';
 import 'package:chewie/chewie.dart';
 import 'package:get/get.dart';
@@ -29,10 +29,10 @@ class PostsController extends GetxController {
   final RxMap<String, dynamic> _cachedVideos = <String, dynamic>{}.obs;
   final RxList<Post> _filteredPosts = <Post>[].obs;
   final RxString _uploadingPostText = ''.obs;
+  final RxList<Post> _myPosts = <Pet>[].obs;
   final RxBool _isInMyPostsList = false.obs;
   final RxBool _isInReviewMode = false.obs;
   final RxBool _isEditingPost = false.obs;
-  final RxList<Post> _myPosts = <Pet>[].obs;
   final RxBool _isFullAddress = false.obs;
   final RxList<Pet> _posts = <Pet>[].obs;
   final RxInt _postPhotoFrameQty = 1.obs;
@@ -52,10 +52,10 @@ class PostsController extends GetxController {
   bool get isInMyPostsList => _isInMyPostsList.value;
   bool get isInReviewMode => _isInReviewMode.value;
   String get flowErrorText => _flowErrorText.value;
-  bool get isEditingPost => _isEditingPost.value;
-  bool get isFullAddress => _isFullAddress.value;
   bool get formIsInInitialState => post == Post();
   List<Post> get filteredPosts => _filteredPosts;
+  bool get isEditingPost => _isEditingPost.value;
+  bool get isFullAddress => _isFullAddress.value;
   bool get postReviewed => _postReviewed.value;
   bool get formIsValid => _formIsValid.value;
   int get postsCount => _postsCount.value;
@@ -119,6 +119,7 @@ class PostsController extends GetxController {
     await _uploadImages();
     await _uploadPostData();
     await allPosts(getFromInternet: true);
+    await getMyPosts();
     isLoading = false;
     isEditingPost = false;
     clearForm();
@@ -128,14 +129,14 @@ class PostsController extends GetxController {
   Future<int> deletePost() async {
     isLoading = true;
     _uploadingPostText(PostFlowStrings.deletingAd);
-    await Future.delayed(Duration(seconds: 1));
 
-    // await _postsRepository.deletePost(post: post);
+    await _postsRepository.deletePost(post: post);
+    await allPosts(getFromInternet: true);
     clearForm();
     _uploadingPostText('');
     isLoading = false;
 
-    return postsCount;
+    return myPosts.length;
   }
 
   Future<void> allPosts({bool getFromInternet = false}) async {
