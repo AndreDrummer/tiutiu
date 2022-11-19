@@ -315,8 +315,18 @@ class AuthController extends GetxController {
       loadUserData();
     }
 
+    if (success) storeLoginTime();
+
     debugPrint('>> Successfull login? $success');
     return success;
+  }
+
+  Future<void> storeLoginTime() async {
+    final lastLoginTime = DateTime.now().toIso8601String();
+    await LocalStorage.setValueUnderLocalStorageKey(
+      key: LocalStorageKey.lastLoginTime,
+      value: lastLoginTime,
+    );
   }
 
   Future<bool> trySignInWithEmailAndPassword() async {
