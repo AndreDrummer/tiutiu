@@ -27,12 +27,12 @@ import 'package:flutter/material.dart';
 import 'package:chewie/chewie.dart';
 import 'package:get/get.dart';
 
-class PetDetails extends StatefulWidget {
+class PostDetails extends StatefulWidget {
   @override
-  State<PetDetails> createState() => _PetDetailsState();
+  State<PostDetails> createState() => _PostDetailsState();
 }
 
-class _PetDetailsState extends State<PetDetails> with TiuTiuPopUp {
+class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
   ChewieController? chewieController;
 
   @override
@@ -134,7 +134,7 @@ class _PetDetailsState extends State<PetDetails> with TiuTiuPopUp {
     return AppBar(
       leading: BackButton(color: AppColors.white),
       title: AutoSizeTexts.autoSizeText20(
-        '${PetDetailsStrings.detailsOf} ${petName.split(' ').first}',
+        '${PostDetailsStrings.detailsOf} ${petName.split(' ').first}',
         fontWeight: FontWeight.w600,
         color: AppColors.white,
       ),
@@ -352,7 +352,7 @@ class _PetDetailsState extends State<PetDetails> with TiuTiuPopUp {
     return Visibility(
       visible: description != null,
       child: CardContent(
-        title: PetDetailsStrings.description,
+        title: PostDetailsStrings.description,
         content: description ?? '',
       ),
     );
@@ -369,8 +369,8 @@ class _PetDetailsState extends State<PetDetails> with TiuTiuPopUp {
       icon: showIcon ? Icons.launch : null,
       content: (post as Pet).disappeared ? (post).lastSeenDetails : '${post.city} - ${post.state} $describedAddress',
       title: post.disappeared
-          ? PetDetailsStrings.lastSeen
-          : PetDetailsStrings.whereIsIt(
+          ? PostDetailsStrings.lastSeen
+          : PostDetailsStrings.whereIsIt(
               petGender: post.gender,
               petName: '${post.name}',
             ),
