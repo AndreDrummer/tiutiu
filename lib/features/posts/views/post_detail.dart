@@ -72,48 +72,56 @@ class _PetDetailsState extends State<PetDetails> with TiuTiuPopUp {
         },
         child: Scaffold(
           appBar: _appBar(post.name!),
-          body: Container(
-            decoration: BoxDecoration(
-              image: DecorationImage(image: AssetHandle.imageProvider(ImageAssets.bones2), fit: BoxFit.fill),
-            ),
-            child: FutureBuilder(
-                future: postsController.cacheVideos(),
-                builder: (context, snapshot) {
-                  return ListView(
-                    padding: EdgeInsets.only(
-                      right: Dimensions.getDimensBasedOnDeviceHeight(
-                        greaterDeviceHeightDouble: 0.0.w,
-                        minDeviceHeightDouble: 4.0.w,
-                      ),
-                    ),
-                    children: [
-                      _showImagesAndVideos(
-                        boxHeight: Get.height / 2.2,
-                        context: context,
-                      ),
-                      Visibility(
-                        replacement: _petCaracteristicsGrid(petCaracteristics),
-                        child: _petCaracteristics(petCaracteristics),
-                        visible: authController.userExists,
-                      ),
-                      VerifyAccountWarningInterstitial(
-                        margin: EdgeInsets.symmetric(horizontal: 4.0.w, vertical: 8.0.h),
-                        isHiddingContactInfo: true,
-                        child: Column(
-                          children: [
-                            _description(post.description),
-                            _address(),
-                            postDetailBottomView(),
-                          ],
+          body: Stack(
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                  image: DecorationImage(image: AssetHandle.imageProvider(ImageAssets.bones2), fit: BoxFit.fill),
+                ),
+                child: FutureBuilder(
+                    future: postsController.cacheVideos(),
+                    builder: (context, snapshot) {
+                      return ListView(
+                        padding: EdgeInsets.only(
+                          right: Dimensions.getDimensBasedOnDeviceHeight(
+                            greaterDeviceHeightDouble: 0.0.w,
+                            minDeviceHeightDouble: 4.0.w,
+                          ),
                         ),
-                      ),
-                      LoadDarkScreen(
-                        message: postsController.uploadingPostText,
-                        visible: postsController.isLoading,
-                      )
-                    ],
-                  );
-                }),
+                        children: [
+                          _showImagesAndVideos(
+                            boxHeight: Get.height / 2.2,
+                            context: context,
+                          ),
+                          Visibility(
+                            replacement: _petCaracteristicsGrid(petCaracteristics),
+                            child: _petCaracteristics(petCaracteristics),
+                            visible: authController.userExists,
+                          ),
+                          VerifyAccountWarningInterstitial(
+                            margin: EdgeInsets.symmetric(horizontal: 4.0.w, vertical: 8.0.h),
+                            isHiddingContactInfo: true,
+                            child: Column(
+                              children: [
+                                _description(post.description),
+                                _address(),
+                                postDetailBottomView(),
+                              ],
+                            ),
+                          ),
+                          LoadDarkScreen(
+                            message: postsController.uploadingPostText,
+                            visible: postsController.isLoading,
+                          )
+                        ],
+                      );
+                    }),
+              ),
+              LoadDarkScreen(
+                message: postsController.uploadingPostText,
+                visible: postsController.isLoading,
+              )
+            ],
           ),
         ),
       ),
@@ -472,6 +480,7 @@ class _PetDetailsState extends State<PetDetails> with TiuTiuPopUp {
               },
               secondaryAction: () {
                 Get.back();
+                postsController.deletePost().then((value) => Get.back());
               },
               barrierDismissible: false,
               title: PostFlowStrings.deleteAd,
