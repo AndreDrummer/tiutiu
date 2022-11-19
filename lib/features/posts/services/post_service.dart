@@ -1,8 +1,9 @@
 import 'package:tiutiu/core/constants/firebase_env_path.dart';
-import 'package:tiutiu/core/pets/model/pet_model.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:tiutiu/core/utils/other_functions.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:tiutiu/core/pets/model/pet_model.dart';
 import 'package:tiutiu/features/posts/model/post.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 
@@ -18,11 +19,7 @@ class PostService extends GetxService {
     required Post post,
   }) async {
     try {
-      final videosStoragePath = userPostsStoragePath(
-        fileType: FileType.video.name,
-        userId: post.ownerId!,
-        postId: post.uid!,
-      );
+      final videosStoragePath = storagePathToVideo(post);
 
       final videoUrlDownload = await OtherFunctions.getVideoUrlDownload(
         storagePath: videosStoragePath,
@@ -40,11 +37,7 @@ class PostService extends GetxService {
     required Post post,
   }) async {
     try {
-      final imagesStoragePath = userPostsStoragePath(
-        fileType: FileType.images.name,
-        userId: post.ownerId!,
-        postId: post.uid!,
-      );
+      final imagesStoragePath = storagePathToImages(post);
 
       final imagesUrlDownloadList = await OtherFunctions.getImageListUrlDownload(
         storagePath: imagesStoragePath,
@@ -71,6 +64,47 @@ class PostService extends GetxService {
     return success;
   }
 
+  Future<bool> deletePost(Post post) async {
+    bool success = false;
+
+    try {
+      final videosStoragePath = storagePathToVideo(post);
+
+      await deletePostVideo(videosStoragePath, post.uid!);
+      await deletePostImages(post);
+
+      await FirebaseFirestore.instance.collection(pathToPosts).doc(post.uid).delete();
+      debugPrint('>> Post deleted Successfully ${post.uid}');
+      success = true;
+    } on Exception catch (exception) {
+      debugPrint('Erro when tryna to delete post with id ${post.uid}: $exception');
+    }
+
+    return success;
+  }
+
+  Future<void> deletePostVideo(String videoPath, String postId) async {
+    try {
+      await FirebaseStorage.instance.ref(videoPath).delete();
+    } on Exception catch (exception) {
+      debugPrint('Erro when tryna to delete video of post with id $postId: $exception');
+    }
+  }
+
+  Future<void> deletePostImages(Post post) async {
+    int currentImage = 0;
+    try {
+      final imagesStoragePath = storagePathToImages(post);
+      final imagesQqty = post.photos.length;
+
+      for (currentImage = 0; currentImage < imagesQqty; currentImage++) {
+        await FirebaseStorage.instance.ref(imagesStoragePath).child('image$currentImage').delete();
+      }
+    } on Exception catch (exception) {
+      debugPrint('Erro when tryna to image$currentImage of post with id ${post.uid}: $exception');
+    }
+  }
+
   Stream<List<Post>> getMyPosts(String myUserId) {
     return FirebaseFirestore.instance
         .collection(pathToPosts)
@@ -80,4 +114,16 @@ class PostService extends GetxService {
       return snapshot.docs.map((post) => Pet.fromSnapshot(post)).toList();
     });
   }
+
+  String storagePathToImages(Post post) => userPostsStoragePath(
+        fileType: FileType.images.name,
+        userId: post.ownerId!,
+        postId: post.uid!,
+      );
+
+  String storagePathToVideo(Post post) => userPostsStoragePath(
+        fileType: FileType.video.name,
+        userId: post.ownerId!,
+        postId: post.uid!,
+      );
 }
