@@ -34,7 +34,11 @@ class ChatScreen extends StatelessWidget {
             stream: chatController.messages(loggedUserId),
             builder: (context, snapshot) {
               return AsyncHandler<List<Message>>(
-                emptyMessage: ChatStrings.startConversation,
+                emptyWidget: AutoSizeTexts.autoSizeText16(
+                  ChatStrings.startConversation,
+                  fontWeight: FontWeight.bold,
+                  color: AppColors.white,
+                ),
                 showLoadingScreen: false,
                 snapshot: snapshot,
                 buildWidget: (messages) {

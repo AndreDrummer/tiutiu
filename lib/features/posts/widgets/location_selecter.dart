@@ -1,4 +1,5 @@
 import 'package:tiutiu/core/extensions/string_extension.dart';
+import 'package:tiutiu/core/pets/model/pet_model.dart';
 import 'package:tiutiu/features/posts/widgets/text_area.dart';
 import 'package:tiutiu/core/widgets/underline_input_dropdown.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -80,7 +81,9 @@ class LocationSelecter extends StatelessWidget {
     return CheckboxListTile(
       contentPadding: EdgeInsets.zero,
       title: AutoSizeTexts.autoSizeText16(
-        PostFlowStrings.fillFullAddress,
+        (postsController.post as Pet).disappeared
+            ? PostFlowStrings.provideMoreDetails
+            : PostFlowStrings.fillFullAddress,
         fontWeight: FontWeight.w500,
         color: AppColors.secondary,
       ),
@@ -95,15 +98,23 @@ class LocationSelecter extends StatelessWidget {
         padding: EdgeInsets.zero,
         child: TextArea(
           onChanged: (address) {
-            postsController.updatePost(
-              PostEnum.describedAddress.name,
-              address,
-            );
+            if ((postsController.post as Pet).disappeared) {
+              postsController.updatePost(
+                PetEnum.lastSeenDetails.name,
+                address,
+              );
+            } else {
+              postsController.updatePost(
+                PostEnum.describedAddress.name,
+                address,
+              );
+            }
           },
           initialValue: postsController.post.describedAddress,
           isInErrorState:
               !postsController.post.describedAddress.isNotEmptyNeighterNull() && !postsController.formIsValid,
-          labelText: PostFlowStrings.typeAddress,
+          labelText:
+              (postsController.post as Pet).disappeared ? AppStrings.jotSomethingDown : PostFlowStrings.typeAddress,
         ),
       ),
     );

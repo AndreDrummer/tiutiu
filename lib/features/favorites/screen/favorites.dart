@@ -1,5 +1,5 @@
 import 'package:tiutiu/core/widgets/toggle_posts_card_appearence.dart';
-import 'package:tiutiu/features/posts/widgets/render_post_list.dart';
+import 'package:tiutiu/features/posts/widgets/render_post_item.dart';
 import 'package:tiutiu/core/widgets/default_basic_app_bar.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/widgets/async_handler.dart';
