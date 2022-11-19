@@ -28,7 +28,7 @@ class ChatScreen extends StatelessWidget {
         appBar: _appBar(),
         body: Container(
           decoration: BoxDecoration(
-            image: DecorationImage(image: AssetHandle.imageProvider(ImageAssets.bones2), fit: BoxFit.fill),
+            image: DecorationImage(image: AssetHandle.imageProvider(ImageAssets.bones2), fit: BoxFit.cover),
           ),
           child: StreamBuilder<List<Message>>(
             stream: chatController.messages(loggedUserId),
