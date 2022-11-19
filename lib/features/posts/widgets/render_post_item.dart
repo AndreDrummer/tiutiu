@@ -47,7 +47,7 @@ class RenderListItem extends StatelessWidget {
           if (onItemTapped != null) {
             onItemTapped?.call();
           } else {
-            Get.toNamed(Routes.petDetails);
+            Get.toNamed(Routes.postDetails);
             postsController.post = post;
             postsController.increasePostViews();
           }

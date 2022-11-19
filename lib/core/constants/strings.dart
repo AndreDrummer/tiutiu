@@ -52,6 +52,8 @@ class AppStrings {
 }
 
 class AuthStrings {
+  static const String deleteAccountWarning = 'Após excluir sua conta não será possível recuperá-la.\Deseja continuar?';
+  static const String demandRecentLoginWarning = 'Está ação requer que você faça login novamente.\nDeseja deslogar?';
   static String passwordShouldBeAtLeast(String field, int length) => '$field deve ter no mínimo $length dígitos';
   static const String unableToResendEmail = 'Não foi possível reenviar o e-mail. Tente novamente mais tarde!';
   static const String verifyEmailAdvice =
@@ -78,6 +80,7 @@ class AuthStrings {
   static String get authFailure => 'Falha na autenticação';
   static String get haveAnAccount => 'Já tem uma conta?';
   static const String authenticanting = 'Autênticando...';
+  static const String deleteAccount = 'Excluir conta';
   static const String registeringUser = 'Criando conta';
   static const String invalidCode = 'Código inválido!';
   static const String invalidEmail = 'E-mail inválido';
@@ -86,6 +89,7 @@ class AuthStrings {
   static String get createAccount => 'Criar conta';
   static const String pasteCode = 'Colar código';
   static String get createYours => 'Crie a sua.';
+  static const String doLogin = 'Faça login';
   static String get facebook => 'Facebook';
   static const String resend = 'Reenviar';
   static String get validate => 'Validar';
@@ -155,7 +159,7 @@ class UserStrings {
   static String get contact => 'Contato';
 }
 
-class PetDetailsStrings {
+class PostDetailsStrings {
   static String get lastSeen => 'Visto pela última vez em';
 
   static String whereIsIt({
@@ -216,9 +220,9 @@ class PostFlowStrings {
     final cuttedName = petName.split(' ').first;
     if (isDisappeared) return 'Onde foi visto pela última vez?';
 
-    if (petGender == PetDetailsStrings.male) {
+    if (petGender == PostDetailsStrings.male) {
       return 'Onde está o $cuttedName?';
-    } else if (petGender == PetDetailsStrings.female) {
+    } else if (petGender == PostDetailsStrings.female) {
       return 'Onde está a $cuttedName?';
     }
 

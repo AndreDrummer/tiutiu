@@ -508,7 +508,7 @@ class PostsController extends GetxController {
   void reviewPost() {
     _postReviewed(false);
     isInReviewMode = true;
-    Get.toNamed(Routes.petDetails)?.then((_) {
+    Get.toNamed(Routes.postDetails)?.then((_) {
       _postReviewed(true);
       isInReviewMode = false;
     });
