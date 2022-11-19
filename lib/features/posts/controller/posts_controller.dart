@@ -27,10 +27,12 @@ class PostsController extends GetxController {
   final PostsRepository _postsRepository;
 
   final RxMap<String, dynamic> _cachedVideos = <String, dynamic>{}.obs;
-  final RxList<Pet> _filteredPosts = <Pet>[].obs;
+  final RxList<Post> _filteredPosts = <Post>[].obs;
   final RxString _uploadingPostText = ''.obs;
+  final RxBool _isInMyPostsList = false.obs;
   final RxBool _isInReviewMode = false.obs;
   final RxBool _isEditingPost = false.obs;
+  final RxList<Post> _myPosts = <Pet>[].obs;
   final RxBool _isFullAddress = false.obs;
   final RxList<Pet> _posts = <Pet>[].obs;
   final RxInt _postPhotoFrameQty = 1.obs;
@@ -39,7 +41,7 @@ class PostsController extends GetxController {
   final RxBool _formIsValid = true.obs;
   final RxBool _isLoading = false.obs;
   final RxBool _hasError = false.obs;
-  final Rx<Post> _post = Post().obs;
+  final Rx<Post> _post = Pet().obs;
   final RxInt _postsCount = 0.obs;
   final RxInt _flowIndex = 0.obs;
 
@@ -47,12 +49,13 @@ class PostsController extends GetxController {
   String get uploadingPostText => _uploadingPostText.value;
   Map<String, dynamic> get cachedVideos => _cachedVideos;
   int get postPhotoFrameQty => _postPhotoFrameQty.value;
-  String get flowErrorText => _flowErrorText.value;
+  bool get isInMyPostsList => _isInMyPostsList.value;
   bool get isInReviewMode => _isInReviewMode.value;
+  String get flowErrorText => _flowErrorText.value;
   bool get isEditingPost => _isEditingPost.value;
   bool get isFullAddress => _isFullAddress.value;
   bool get formIsInInitialState => post == Post();
-  List<Pet> get filteredPosts => _filteredPosts;
+  List<Post> get filteredPosts => _filteredPosts;
   bool get postReviewed => _postReviewed.value;
   bool get formIsValid => _formIsValid.value;
   int get postsCount => _postsCount.value;
@@ -60,9 +63,11 @@ class PostsController extends GetxController {
   int get flowIndex => _flowIndex.value;
   bool get hasError => _hasError.value;
   ChewieController? chewieController;
-  List<Pet> get posts => _posts;
+  List<Post> get myPosts => _myPosts;
+  List<Post> get posts => _posts;
   Post get post => _post.value;
 
+  void set isInMyPostsList(bool value) => _isInMyPostsList(value);
   void set isInReviewMode(bool value) => _isInReviewMode(value);
   void set isEditingPost(bool value) => _isEditingPost(value);
   void set postReviewed(bool value) => _postReviewed(value);
@@ -113,39 +118,47 @@ class PostsController extends GetxController {
     await _uploadVideo();
     await _uploadImages();
     await _uploadPostData();
-    await loadPosts(getFromInternet: true);
+    await allPosts(getFromInternet: true);
     isLoading = false;
     isEditingPost = false;
     clearForm();
     goToHome();
   }
 
-  Future<void> deletePost() async {
+  Future<int> deletePost() async {
     isLoading = true;
-    _uploadingPostText('Deletando anúncio');
-    await _postsRepository.deletePost(post: post);
+    _uploadingPostText(PostFlowStrings.deletingAd);
+    await Future.delayed(Duration(seconds: 1));
+
+    // await _postsRepository.deletePost(post: post);
+    clearForm();
     _uploadingPostText('');
     isLoading = false;
+
+    return postsCount;
   }
 
-  Future<void> loadPosts({bool getFromInternet = false}) async {
+  Future<void> allPosts({bool getFromInternet = false}) async {
     final list = await _postsRepository.getPostList(getFromInternet: getFromInternet);
 
     _posts(list);
     _filterPosts();
   }
 
-  Stream<List<Post>> getMyPosts() {
-    return _postsRepository.getMyPostList(tiutiuUserController.tiutiuUser.uid!);
+  Future<void> getMyPosts() async {
+    _myPosts(await _postsRepository.getMyPostList(tiutiuUserController.tiutiuUser.uid!));
+    _filterPosts();
   }
 
-  List<Pet> _filterPosts() {
+  List<Post> _filterPosts() {
+    final postsToFilter = isInMyPostsList ? _myPosts : _posts;
     final filterParams = filterController.getParams;
 
+    debugPrint('>> isInMyPostsList $isInMyPostsList');
     debugPrint('>> filteredPosts');
     debugPrint('>> filters $filterParams');
 
-    final filteredByType = _filterByType(_posts, filterParams.type);
+    final filteredByType = _filterByType(postsToFilter, filterParams.type);
     final filteredByState = _filterByState(filteredByType, filterParams.state);
 
     final filteredByDisappeared = _filterByDisappeared(
@@ -167,7 +180,7 @@ class PostsController extends GetxController {
     return returnedList;
   }
 
-  List<Pet> _filterByName(String filterName) {
+  List<Post> _filterByName(String filterName) {
     List<Pet> postsFilteredByName = [];
 
     _posts.forEach((post) {
@@ -187,7 +200,7 @@ class PostsController extends GetxController {
     return postsFilteredByName;
   }
 
-  List<Pet> _filterByType(List<Pet> list, String type) {
+  List<Post> _filterByType(List<Post> list, String type) {
     debugPrint('>> _filterByType');
 
     if (type != PetTypeStrings.all) {
@@ -199,7 +212,7 @@ class PostsController extends GetxController {
     return list;
   }
 
-  List<Pet> _filterByState(List<Pet> list, String state) {
+  List<Post> _filterByState(List<Post> list, String state) {
     debugPrint('>> _filterByState');
 
     final isBr = state == StatesAndCities().stateInitials.first;
@@ -215,14 +228,14 @@ class PostsController extends GetxController {
     return list;
   }
 
-  List<Pet> _filterByDisappeared(List<Pet> list, bool disappeared) {
+  List<Post> _filterByDisappeared(List<Post> list, bool disappeared) {
     debugPrint('>> _filterByDisappeared');
     return list.where((post) {
-      return post.disappeared == disappeared;
+      return (post as Pet).disappeared == disappeared;
     }).toList();
   }
 
-  List<Pet> _ordernatedList(List<Pet> list, String orderParam) {
+  List<Post> _ordernatedList(List<Post> list, String orderParam) {
     if (orderParam == FilterStrings.distance) {
       list.sort(Ordenators.orderByDistance);
     } else if (orderParam == FilterStrings.date) {
@@ -424,6 +437,7 @@ class PostsController extends GetxController {
 
   void clearForm() {
     _isFullAddress(false);
+    _isEditingPost(false);
     _postReviewed(false);
     _formIsValid(true);
     _flowIndex(0);
@@ -496,6 +510,18 @@ class PostsController extends GetxController {
       _postReviewed(true);
       isInReviewMode = false;
     });
+  }
+
+  void openMypostsLists() {
+    filterController.reset();
+    postsController.isInMyPostsList = true;
+    _filterPosts();
+    Get.toNamed(Routes.myPosts);
+  }
+
+  void closeMypostsLists() {
+    postsController.isInMyPostsList = false;
+    Get.back();
   }
 
   void backReviewAndPost() {

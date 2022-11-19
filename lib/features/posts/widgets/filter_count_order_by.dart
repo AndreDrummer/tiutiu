@@ -12,7 +12,10 @@ import 'package:get/get.dart';
 class FilterResultCount extends StatelessWidget {
   const FilterResultCount({
     super.key,
+    this.isInMyPosts = false,
   });
+
+  final bool isInMyPosts;
 
   @override
   Widget build(BuildContext context) {
@@ -29,28 +32,57 @@ class FilterResultCount extends StatelessWidget {
                 Row(
                   children: [
                     AutoSizeTexts.autoSizeText12('${postsController.postsCount} '),
-                    AutoSizeTexts.autoSizeText12(FilterStrings.foundAt),
+                    Visibility(
+                      visible: !isInMyPosts,
+                      child: AutoSizeTexts.autoSizeText12(FilterStrings.foundAt),
+                    ),
+                    Visibility(
+                      visible: isInMyPosts,
+                      child: AutoSizeTexts.autoSizeText12(FilterStrings.ads),
+                    ),
                   ],
                 ),
                 Spacer(),
-                DropdownButton<String>(
-                  value: filterController.filterParams.value.state,
-                  underline: SizedBox(),
-                  onChanged: (value) {
-                    filterController.updateParams(
-                      FilterParamsEnum.state,
-                      value,
-                    );
-                  },
-                  items: StatesAndCities()
-                      .stateInitials
-                      .map(
-                        (e) => DropdownMenuItem<String>(
-                          child: AutoSizeTexts.autoSizeText12(e),
-                          value: e,
+                Visibility(
+                  replacement: SizedBox(
+                    width: 120.0.w,
+                    child: Row(
+                      children: [
+                        AutoSizeTexts.autoSizeText12('Desaparecido'),
+                        Obx(
+                          () => Switch(
+                            value: filterController.filterParams.value.disappeared,
+                            onChanged: (_) {
+                              filterController.updateParams(
+                                FilterParamsEnum.disappeared,
+                                !filterController.filterParams.value.disappeared,
+                              );
+                            },
+                          ),
                         ),
-                      )
-                      .toList(),
+                      ],
+                    ),
+                  ),
+                  visible: !isInMyPosts,
+                  child: DropdownButton<String>(
+                    value: filterController.filterParams.value.state,
+                    underline: SizedBox(),
+                    onChanged: (value) {
+                      filterController.updateParams(
+                        FilterParamsEnum.state,
+                        value,
+                      );
+                    },
+                    items: StatesAndCities()
+                        .stateInitials
+                        .map(
+                          (e) => DropdownMenuItem<String>(
+                            child: AutoSizeTexts.autoSizeText12(e),
+                            value: e,
+                          ),
+                        )
+                        .toList(),
+                  ),
                 ),
                 Spacer(),
                 Row(

@@ -1,15 +1,16 @@
-import 'package:tiutiu/core/utils/formatter.dart';
-import 'package:tiutiu/core/pets/model/pet_model.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
-import 'package:tiutiu/core/utils/math_functions.dart';
 import 'package:tiutiu/core/location/models/latlng.dart';
+import 'package:tiutiu/core/pets/model/pet_model.dart';
+import 'package:tiutiu/core/utils/math_functions.dart';
+import 'package:tiutiu/features/posts/model/post.dart';
+import 'package:tiutiu/core/utils/formatter.dart';
 
 class Ordenators {
-  static int orderByPostDate(Pet a, Pet b) {
+  static int orderByPostDate(Post a, Post b) {
     return DateTime.parse(b.createdAt!).millisecondsSinceEpoch - DateTime.parse(a.createdAt!).millisecondsSinceEpoch;
   }
 
-  static int orderByName(Pet a, Pet b) {
+  static int orderByName(Post a, Post b) {
     List<int> aname = a.name!.codeUnits;
     List<int> bname = b.name!.codeUnits;
 
@@ -29,7 +30,7 @@ class Ordenators {
     return 1;
   }
 
-  static int orderByDistance(Pet ad1, Pet ad2) {
+  static int orderByDistance(Post ad1, Post ad2) {
     final postADate = Formatters.getDateTime(ad1.createdAt!);
     final postBDate = Formatters.getDateTime(ad2.createdAt!);
     LatLng location = currentLocationController.location;
@@ -53,8 +54,8 @@ class Ordenators {
     return postADate.isBefore(postBDate) ? -1 : 1;
   }
 
-  static int orderByAge(Pet a, Pet b) {
-    if (a.ageYear == b.ageYear) return a.ageMonth - b.ageMonth;
+  static int orderByAge(Post a, Post b) {
+    if ((a as Pet).ageYear == (b as Pet).ageYear) return a.ageMonth - b.ageMonth;
     return a.ageYear - b.ageYear;
   }
 }
