@@ -10,14 +10,14 @@ class TiutiuUserService {
   FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   Future<TiutiuUser> getUserByID(String id) async {
-    DocumentSnapshot userSnaphsot = await _firestore.collection(newPathToUser).doc(id).get();
+    DocumentSnapshot userSnaphsot = await _firestore.collection(pathToUsers).doc(id).get();
 
     if (userSnaphsot.data() != null) return TiutiuUser.fromMap(userSnaphsot.data() as Map<String, dynamic>);
     return TiutiuUser();
   }
 
-  Future<DocumentReference> getUserReference(String userId) async {
-    return (await _firestore.collection(newPathToUser).doc(userId).get()).reference;
+  Future<DocumentReference> getUserReferenceById(String userId) async {
+    return (await _firestore.collection(pathToUsers).doc(userId).get()).reference;
   }
 
   Future<TiutiuUser> getUserByReference(DocumentReference userReference) async {
@@ -29,7 +29,7 @@ class TiutiuUserService {
   }
 
   void updateUser({required TiutiuUser userData}) {
-    _firestore.collection(newPathToUser).doc(userData.uid).set(userData.toMap(), SetOptions(merge: true));
+    _firestore.collection(pathToUsers).doc(userData.uid).set(userData.toMap(), SetOptions(merge: true));
   }
 
   Future<String?> uploadAvatar(String userId, File file) async {
