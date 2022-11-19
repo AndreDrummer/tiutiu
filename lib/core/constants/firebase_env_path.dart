@@ -39,12 +39,30 @@ String get pathToPosts {
       .concat(FirebaseEnvPath.posts, joiner: '/');
 }
 
-String get newPathToUser {
+String pathToPost(String postId) {
+  return FirebaseEnvPath.projectName
+      .concat(FirebaseEnvPath.env, joiner: '/')
+      .concat(FirebaseEnvPath.environment, joiner: '/')
+      .concat(FirebaseEnvPath.posts, joiner: '/')
+      .concat(FirebaseEnvPath.posts, joiner: '/')
+      .concat(postId, joiner: '/');
+}
+
+String get pathToUsers {
   return FirebaseEnvPath.projectName
       .concat(FirebaseEnvPath.env, joiner: '/')
       .concat(FirebaseEnvPath.environment, joiner: '/')
       .concat(FirebaseEnvPath.users.toLowerCase(), joiner: '/')
       .concat(FirebaseEnvPath.users.toLowerCase(), joiner: '/');
+}
+
+String pathToUser(String userId) {
+  return FirebaseEnvPath.projectName
+      .concat(FirebaseEnvPath.env, joiner: '/')
+      .concat(FirebaseEnvPath.environment, joiner: '/')
+      .concat(FirebaseEnvPath.users.toLowerCase(), joiner: '/')
+      .concat(FirebaseEnvPath.users.toLowerCase(), joiner: '/')
+      .concat(userId, joiner: '/');
 }
 
 String userProfileStoragePath(String userId) {
