@@ -120,6 +120,14 @@ class PostsController extends GetxController {
     goToHome();
   }
 
+  Future<void> deletePost() async {
+    isLoading = true;
+    _uploadingPostText('Deletando anúncio');
+    await _postsRepository.deletePost(post: post);
+    _uploadingPostText('');
+    isLoading = false;
+  }
+
   Future<void> loadPosts({bool getFromInternet = false}) async {
     final list = await _postsRepository.getPostList(getFromInternet: getFromInternet);
 
