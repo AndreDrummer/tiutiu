@@ -136,7 +136,7 @@ class PostInfo extends StatelessWidget {
             onChanged: (health) {
               postsController.updatePost(PetEnum.health.name, health);
             },
-            labelText: PetDetailsStrings.health,
+            labelText: PostDetailsStrings.health,
             items: DummyData.health,
             fontSize: 14.0,
           ),

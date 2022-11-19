@@ -1,3 +1,4 @@
+import 'package:tiutiu/features/delete_account/views/delete_account_screen.dart';
 import 'package:tiutiu/features/auth/views/email_and_password.dart';
 import 'package:tiutiu/features/favorites/screen/favorites.dart';
 import 'package:tiutiu/features/posts/flow/init_post_flow.dart';
@@ -32,6 +33,26 @@ class RouterGenerator {
         return MaterialPageRoute(
           builder: (_) => EmailAndPassword(),
         );
+      case Routes.home:
+        return MaterialPageRoute(
+          builder: (_) => Home(),
+        );
+      case Routes.postDetails:
+        return MaterialPageRoute(
+          builder: (_) => PostDetails(),
+        );
+      case Routes.initPostFlow:
+        return MaterialPageRoute(
+          builder: (_) => InitPostFlow(),
+        );
+      case Routes.favorites:
+        return MaterialPageRoute(
+          builder: (_) => Favorites(),
+        );
+      case Routes.myPosts:
+        return MaterialPageRoute(
+          builder: (_) => MyPosts(),
+        );
       case Routes.contacts:
         return MaterialPageRoute(
           builder: (_) => MyContacts(),
@@ -44,25 +65,10 @@ class RouterGenerator {
         return MaterialPageRoute(
           builder: (_) => About(),
         );
-      case Routes.initPostFlow:
+
+      case Routes.deleteAccount:
         return MaterialPageRoute(
-          builder: (_) => InitPostFlow(),
-        );
-      case Routes.myPosts:
-        return MaterialPageRoute(
-          builder: (_) => MyPosts(),
-        );
-      case Routes.favorites:
-        return MaterialPageRoute(
-          builder: (_) => Favorites(),
-        );
-      case Routes.home:
-        return MaterialPageRoute(
-          builder: (_) => Home(),
-        );
-      case Routes.petDetails:
-        return MaterialPageRoute(
-          builder: (_) => PetDetails(),
+          builder: (_) => DeleteAccountScreen(),
         );
     }
     return null;
