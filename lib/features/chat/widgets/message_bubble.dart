@@ -46,13 +46,11 @@ class MessageBubble extends StatelessWidget {
           Container(
             child: AutoSizeTexts.autoSizeText14(message, color: AppColors.white),
             padding: _messagePadding(message),
-            margin: EdgeInsets.zero,
+            margin: EdgeInsets.all(8.0.h),
             width: Get.width / 2,
           ),
           Container(
             child: AutoSizeTexts.autoSizeText10(formattedTime, color: AppColors.white),
-            padding: EdgeInsets.only(bottom: 2.0.h, top: 2.0.h),
-            margin: EdgeInsets.only(top: 32.0.h),
             alignment: Alignment(1, 1),
           ),
         ],
