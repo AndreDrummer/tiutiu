@@ -115,6 +115,7 @@ class FilterStrings {
   static String get petBreed => 'Raça do Pet';
   static String get petName => 'Nome do Pet';
   static String get distance => 'Distância';
+  static String get ads => 'anúncios';
   static String get date => 'Data';
   static String get age => 'Idade';
   static String get name => 'Nome';
@@ -210,33 +211,43 @@ class PostFlowStrings {
   static String whereIsIt({
     required String petName,
     required String petGender,
+    bool isDisappeared = false,
   }) {
-    if (petGender == PetDetailsStrings.male)
-      return 'Onde está o $petName?';
-    else if (petGender == PetDetailsStrings.female) return 'Onde está a $petName?';
+    final cuttedName = petName.split(' ').first;
+    if (isDisappeared) return 'Onde foi visto pela última vez?';
+    if (petGender == PetDetailsStrings.male) {
+      return 'Onde o $cuttedName foi visto pela última vez?';
+    } else if (petGender == PetDetailsStrings.female) {
+      return 'Onde a $cuttedName foi visto pela última vez?';
+    }
+
     return 'Onde está o PET?';
   }
 
   static const String videoSizeExceed = 'Tamanho máximo do vídeo excedido!\nO vídeo deve ter até 1:30 min';
   static const String postCancelMessage = 'Saindo agora todos os dados serão perdidos.\nContinuar?';
+  static const String otherCaracteristicsOptional = 'Outras características (Opcional)';
   static const String insertVideo = 'Insira um vídeo - máx 1:30 min (Opcional)';
   static const String reviewYourPost = 'Clique no card para revisar seu post';
-  static const String otherCaracteristics = 'Outras características (Opcional)';
   static const String describeDiseaseType = 'Descreva qual o tipo de doença';
   static const String insertAtLeastOnePicture = 'Insira pelo menos uma foto';
+  static const String deletingAd = 'Deletando anúncio...';
+  static const String adDeleted = 'Anúncio Excluído!';
   static String imageQty(int imagesQty) {
     return imagesQty > 1 ? 'Enviando as fotos...' : 'Enviando a foto...';
   }
 
+  static const String isThisPetDisappeared = 'Este PET está desaparecido?';
   static const String fillFullAddress = 'Preencher endereço completo?';
   static const String deleteForever = 'Excluir anúncio em definitivo?';
+  static const String otherCaracteristics = 'Outras caracteristicas';
+  static const String provideMoreDetails = 'Fornecer mais detalhes';
   static const String selectPetType = 'Selecione o tipo de PET';
   static const String addVideo = 'Se quiser, adicione um vídeo.';
   static const String moreDetails = 'Mais detalhes e descrição';
   static const String addDescription = 'Adicione uma descrição';
   static const String fillAdData = 'Preencher dados do anúncio';
   static const String addMorePictures = 'Adicionar mais fotos';
-  static const String description = 'Outras caracteristicas';
   static const String postCancelTitle = 'Cancelar postagem?';
   static const String sendingVideo = 'Enviando o vídeo...';
   static const String typeAddress = 'Digite o endereço';

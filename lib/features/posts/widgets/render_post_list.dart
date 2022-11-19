@@ -1,68 +1,55 @@
-import 'package:tiutiu/features/home/controller/home_controller.dart';
-import 'package:tiutiu/features/posts/widgets/back_to_start.dart';
-import 'package:tiutiu/core/widgets/cards/widgets/card_builder.dart';
-import 'package:tiutiu/core/utils/routes/routes_name.dart';
+import 'package:tiutiu/features/posts/widgets/render_post_item.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
-import 'package:tiutiu/core/widgets/cards/card_ad_list.dart';
-import 'package:tiutiu/core/utils/other_functions.dart';
-import 'package:tiutiu/core/widgets/cards/card_ad.dart';
 import 'package:tiutiu/features/posts/model/post.dart';
+import 'package:tiutiu/core/widgets/empty_list.dart';
+import 'package:tiutiu/core/utils/dimensions.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class RenderListItem extends StatelessWidget {
-  const RenderListItem({
-    this.showBackToStartButton = false,
-    this.showFavoriteButton = false,
-    this.onNavigateToTop,
-    this.onItemTapped,
-    required this.post,
+class RenderPostList extends StatelessWidget {
+  const RenderPostList({
+    this.firstChild = const SizedBox.shrink(),
+    required this.itemCount,
+    required this.posts,
+    super.key,
   });
 
-  final Function()? onNavigateToTop;
-  final bool showBackToStartButton;
-  final Function()? onItemTapped;
-  final bool? showFavoriteButton;
-  final Post post;
+  final Widget firstChild;
+  final List<Post> posts;
+  final int itemCount;
 
   @override
   Widget build(BuildContext context) {
-    List<String> distanceText = OtherFunctions.distanceCalculate(
-      post.latitude!,
-      post.longitude!,
-    );
-
-    CardBuilder cardBuilder = CardBuilder(
-      distanceText: distanceText[0],
-      post: post,
-    );
-
-    if (showBackToStartButton)
-      return BackToStart(
-        onPressed: onNavigateToTop,
-      );
-    return Obx(
-      () => GestureDetector(
-        onTap: () {
-          if (onItemTapped != null) {
-            onItemTapped?.call();
-          } else {
-            Get.toNamed(Routes.petDetails);
-            postsController.post = post;
-          }
-        },
-        child: homeController.cardVisibilityKind == CardVisibilityKind.banner
-            ? CardAdList(
-                showFavoriteButton: showFavoriteButton ?? authController.userExists,
-                cardBuilder: cardBuilder,
-                post: post,
-              )
-            : CardAd(
-                showFavoriteButton: showFavoriteButton ?? authController.userExists,
-                cardBuilder: cardBuilder,
-                post: post,
+    return Column(
+      children: [
+        firstChild,
+        Expanded(
+          child: ListView.builder(
+            itemCount: itemCount,
+            padding: EdgeInsets.only(
+              right: Dimensions.getDimensBasedOnDeviceHeight(
+                greaterDeviceHeightDouble: 0.0.w,
+                minDeviceHeightDouble: 5.0.w,
               ),
-      ),
+            ),
+            key: UniqueKey(),
+            itemBuilder: (_, index) {
+              if (posts.isEmpty)
+                return Padding(
+                  padding: EdgeInsets.only(top: Get.width / 2),
+                  child: EmptyListScreen(),
+                );
+
+              return RenderListItem(
+                post: posts[index < posts.length ? index : posts.length - 1],
+                onNavigateToTop: () => homeController.onScrollUp(),
+                showBackToStartButton: index == posts.length,
+              );
+            },
+          ),
+        ),
+      ],
     );
   }
 }
