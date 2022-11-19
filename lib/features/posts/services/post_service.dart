@@ -14,6 +14,10 @@ class PostService extends GetxService {
     return posts.docs.map((post) => post.data()).toList();
   }
 
+  Future<void> increasePostViews(String postId, int currentViews) async {
+    await FirebaseFirestore.instance.doc(pathToPost(postId)).set({'views': ++currentViews}, SetOptions(merge: true));
+  }
+
   Future<void> uploadVideo({required Function(String?) onVideoUploaded, required Post post}) async {
     try {
       final videosStoragePath = storagePathToVideo(post);
@@ -69,7 +73,7 @@ class PostService extends GetxService {
       }
       await deletePostImages(post);
 
-      await FirebaseFirestore.instance.collection(pathToPosts).doc(post.uid).delete();
+      // await FirebaseFirestore.instance.collection(pathToPosts).doc(post.uid).delete();
       debugPrint('>> Post deleted Successfully ${post.uid}');
       success = true;
     } on Exception catch (exception) {
@@ -94,7 +98,8 @@ class PostService extends GetxService {
       final imagesQqty = post.photos.length;
 
       for (currentImage = 0; currentImage < imagesQqty; currentImage++) {
-        await FirebaseStorage.instance.ref(imagesStoragePath).child('image$currentImage').delete();
+        print(FirebaseStorage.instance.ref(imagesStoragePath).child('image$currentImage'));
+        // await FirebaseStorage.instance.ref(imagesStoragePath).child('image$currentImage').delete();
       }
     } on Exception catch (exception) {
       debugPrint('Erro when tryna to image$currentImage of post with id ${post.uid}: $exception');
