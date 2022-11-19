@@ -48,16 +48,26 @@ class _VideoState extends State<Video> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Spacer(),
-        _insertVideoLabel(),
-        _video(),
-        Spacer(),
-        _videoErrorLabel(),
-        _removeVideoButton(),
-        Spacer(),
-      ],
+    print(systemController.bottomSheetIsOpen);
+    return GestureDetector(
+      onTap: () {
+        print(systemController.bottomSheetIsOpen);
+        if (systemController.bottomSheetIsOpen) {
+          Get.back();
+          systemController.bottomSheetIsOpen = false;
+        }
+      },
+      child: Column(
+        children: [
+          Spacer(),
+          _insertVideoLabel(),
+          _video(),
+          Spacer(),
+          _videoErrorLabel(),
+          _removeVideoButton(),
+          Spacer(),
+        ],
+      ),
     );
   }
 
