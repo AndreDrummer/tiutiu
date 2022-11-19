@@ -96,20 +96,14 @@ class PostsRepository {
     return cachedPostsMap;
   }
 
-  Future<void> uploadVideo({
-    required Function(String?) onUploaded,
-    required Post post,
-  }) async {
+  Future<void> uploadVideo({required Function(String?) onUploaded, required Post post}) async {
     await _postService.uploadVideo(
       onVideoUploaded: onUploaded,
       post: post,
     );
   }
 
-  Future<void> uploadImages({
-    required Function(List) onUploaded,
-    required Post post,
-  }) async {
+  Future<void> uploadImages({required Function(List) onUploaded, required Post post}) async {
     await _postService.uploadImages(
       onImagesUploaded: onUploaded,
       post: post,
