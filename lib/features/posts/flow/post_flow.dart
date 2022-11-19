@@ -31,8 +31,9 @@ class PostFlow extends StatelessWidget with TiuTiuPopUp {
           List<String> _screensTitle = [
             PostFlowStrings.petsData,
             PostFlowStrings.moreDetails,
-            PostFlowStrings.description,
+            PostFlowStrings.otherCaracteristicsOptional,
             PostFlowStrings.whereIsIt(
+              isDisappeared: (postsController.post as Pet).disappeared,
               petGender: (postsController.post as Pet).gender,
               petName: '${postsController.post.name}',
             ),
@@ -51,13 +52,16 @@ class PostFlow extends StatelessWidget with TiuTiuPopUp {
                 resizeToAvoidBottomInset: true,
                 backgroundColor: AppColors.white,
                 body: SizedBox(
-                  height: postsController.flowIndex >= 6 ? Get.height / 1.26 : Get.height,
+                  height: postsController.flowIndex >= 6 ? Get.height / 1.24 : Get.height,
                   child: Column(
                     children: [
                       SizedBox(height: 24.0.h),
-                      Steper(
-                        currentStep: postsController.flowIndex + (postsController.postReviewed ? 1 : 0),
-                        stepsName: _stepsNames,
+                      Padding(
+                        padding: EdgeInsets.only(left: 4.0),
+                        child: Steper(
+                          currentStep: postsController.flowIndex + (postsController.postReviewed ? 1 : 0),
+                          stepsName: _stepsNames,
+                        ),
                       ),
                       _divider(),
                       Obx(

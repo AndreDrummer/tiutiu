@@ -26,7 +26,7 @@ class TiuTiuInitializer {
     await currentLocationController.updateGPSStatus();
     await currentLocationController.setUserLocation();
     await StatesAndCities().getUFAndCities();
-    await postsController.loadPosts();
+    await postsController.allPosts();
     await postsController.getCachedAssets();
   }
 

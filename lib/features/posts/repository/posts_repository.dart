@@ -31,7 +31,7 @@ class PostsRepository {
     return petsList;
   }
 
-  Stream<List<Post>> getMyPostList(String myUserId, {bool getFromInternet = false}) {
+  Future<List<Post>> getMyPostList(String myUserId, {bool getFromInternet = false}) {
     debugPrint('>> streaming my posts...');
 
     return _postService.getMyPosts(myUserId);

@@ -117,9 +117,11 @@ class _PetDetailsState extends State<PetDetails> with TiuTiuPopUp {
                       );
                     }),
               ),
-              LoadDarkScreen(
-                message: postsController.uploadingPostText,
-                visible: postsController.isLoading,
+              Obx(
+                () => LoadDarkScreen(
+                  message: postsController.uploadingPostText,
+                  visible: postsController.isLoading,
+                ),
               )
             ],
           ),
@@ -132,7 +134,7 @@ class _PetDetailsState extends State<PetDetails> with TiuTiuPopUp {
     return AppBar(
       leading: BackButton(color: AppColors.white),
       title: AutoSizeTexts.autoSizeText20(
-        '${PetDetailsStrings.detailsOf} $petName',
+        '${PetDetailsStrings.detailsOf} ${petName.split(' ').first}',
         fontWeight: FontWeight.w600,
         color: AppColors.white,
       ),
@@ -364,7 +366,7 @@ class _PetDetailsState extends State<PetDetails> with TiuTiuPopUp {
     final showIcon = !post.describedAddress.isNotEmptyNeighterNull() && !(post as Pet).disappeared;
 
     return CardContent(
-      icon: showIcon ? null : Icons.launch,
+      icon: showIcon ? Icons.launch : null,
       content: (post as Pet).disappeared ? (post).lastSeenDetails : '${post.city} - ${post.state} $describedAddress',
       title: post.disappeared
           ? PetDetailsStrings.lastSeen
@@ -433,12 +435,7 @@ class _PetDetailsState extends State<PetDetails> with TiuTiuPopUp {
 
   Widget backReviewAndUploadPost() {
     return Padding(
-      padding: EdgeInsets.only(
-        top: Dimensions.getDimensBasedOnDeviceHeight(
-          greaterDeviceHeightDouble: Get.width / 7.5,
-          minDeviceHeightDouble: Get.width / 4,
-        ),
-      ),
+      padding: EdgeInsets.only(top: 16.0.h),
       child: ButtonWide(
         text: postsController.isEditingPost ? PostFlowStrings.postUpdate : PostFlowStrings.post,
         onPressed: () {
@@ -480,7 +477,16 @@ class _PetDetailsState extends State<PetDetails> with TiuTiuPopUp {
               },
               secondaryAction: () {
                 Get.back();
-                postsController.deletePost().then((value) => Get.back());
+                postsController.deletePost().then((myPostsCount) {
+                  print(myPostsCount);
+                  if (myPostsCount < 1) {
+                    Get.back();
+                  } else {
+                    Get.offNamed(Routes.myPosts);
+                  }
+                  ScaffoldMessenger.of(context)
+                      .showSnackBar(SnackBar(content: AutoSizeTexts.autoSizeText14(PostFlowStrings.adDeleted)));
+                });
               },
               barrierDismissible: false,
               title: PostFlowStrings.deleteAd,
