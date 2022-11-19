@@ -17,7 +17,7 @@ class ProfileController extends GetxController {
 
     switch (option) {
       case MyProfileOptionsTile.myPosts:
-        Get.toNamed(Routes.myPosts);
+        postsController.openMypostsLists();
         break;
       case MyProfileOptionsTile.settings:
         isSetting = true;

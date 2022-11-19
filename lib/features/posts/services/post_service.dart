@@ -14,10 +14,7 @@ class PostService extends GetxService {
     return posts.docs.map((post) => post.data()).toList();
   }
 
-  Future<void> uploadVideo({
-    required Function(String?) onVideoUploaded,
-    required Post post,
-  }) async {
+  Future<void> uploadVideo({required Function(String?) onVideoUploaded, required Post post}) async {
     try {
       final videosStoragePath = storagePathToVideo(post);
 
@@ -32,10 +29,7 @@ class PostService extends GetxService {
     }
   }
 
-  Future<void> uploadImages({
-    required Function(List) onImagesUploaded,
-    required Post post,
-  }) async {
+  Future<void> uploadImages({required Function(List) onImagesUploaded, required Post post}) async {
     try {
       final imagesStoragePath = storagePathToImages(post);
 
@@ -105,14 +99,18 @@ class PostService extends GetxService {
     }
   }
 
-  Stream<List<Post>> getMyPosts(String myUserId) {
-    return FirebaseFirestore.instance
-        .collection(pathToPosts)
-        .where(PostEnum.ownerId.name, isEqualTo: myUserId)
-        .snapshots()
-        .asyncMap((snapshot) {
-      return snapshot.docs.map((post) => Pet.fromSnapshot(post)).toList();
-    });
+  Future<List<Post>> getMyPosts(String myUserId) async {
+    try {
+      final posts = await FirebaseFirestore.instance
+          .collection(pathToPosts)
+          .where(PostEnum.ownerId.name, isEqualTo: myUserId)
+          .get();
+
+      return posts.docs.map((post) => Pet.fromSnapshot(post)).toList();
+    } on Exception catch (exception) {
+      debugPrint('Erro when tryna get my posts: $exception');
+      return List.empty();
+    }
   }
 
   String storagePathToImages(Post post) => userPostsStoragePath(
