@@ -83,7 +83,7 @@ class PostFlow extends StatelessWidget with TiuTiuPopUp {
                                     text: '${postsController.flowIndex + (postsController.postReviewed ? 1 : 1)}',
                                     fontWeight: FontWeight.bold,
                                     color: AppColors.secondary,
-                                    fontSize: 32.0,
+                                    fontSize: 24.0,
                                   ),
                                   OneLineText(
                                     color: AppColors.black.withAlpha(100),
