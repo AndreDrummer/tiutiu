@@ -26,7 +26,7 @@ class OneLineText extends StatelessWidget {
       padding: EdgeInsets.symmetric(vertical: 4.0.h),
       child: Align(
         alignment: widgetAlignment ?? Alignment(-0.95, 1),
-        child: AutoSizeTexts.autoSizeText32(
+        child: AutoSizeTexts.autoSizeText24(
           fontWeight: fontWeight ?? FontWeight.w600,
           textOverflow: TextOverflow.fade,
           textAlign: textAlign,

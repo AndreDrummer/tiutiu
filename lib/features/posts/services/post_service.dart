@@ -64,7 +64,9 @@ class PostService extends GetxService {
     try {
       final videosStoragePath = storagePathToVideo(post);
 
-      await deletePostVideo(videosStoragePath, post.uid!);
+      if (post.video != null) {
+        await deletePostVideo(videosStoragePath, post.uid!);
+      }
       await deletePostImages(post);
 
       await FirebaseFirestore.instance.collection(pathToPosts).doc(post.uid).delete();

@@ -1,3 +1,4 @@
+import 'package:tiutiu/core/constants/text_styles.dart';
 import 'package:tiutiu/core/widgets/verify_account_warning.dart';
 import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
 import 'package:tiutiu/features/chat/widgets/contact_tile.dart';
@@ -26,8 +27,9 @@ class _MyContactsState extends State<MyContacts> {
         stream: chatController.contacts(),
         builder: (context, snapshot) {
           return AsyncHandler<List<Contact>>(
-            emptyWidget: VerifyAccountWarningInterstitial(child: SizedBox.shrink()),
-            emptyMessage: ChatStrings.noContact,
+            emptyWidget: VerifyAccountWarningInterstitial(
+              child: AutoSizeTexts.autoSizeText16(ChatStrings.noContact),
+            ),
             snapshot: snapshot,
             buildWidget: (contacts) {
               return ListView.builder(

@@ -34,6 +34,7 @@ class SelectPostType extends StatelessWidget with TiuTiuPopUp {
 
     return WillPopScope(
       onWillPop: () async {
+        if (!postsController.isInReviewMode) postsController.clearForm();
         if (postsController.isEditingPost) postsController.isEditingPost = false;
         return true;
       },
