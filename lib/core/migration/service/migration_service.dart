@@ -87,7 +87,7 @@ class MigrationService {
   }
 
   void updateSomeUserData() async {
-    final list = await _firestore.collection(newPathToUser).get();
+    final list = await _firestore.collection(pathToUsers).get();
 
     list.docs.forEach((snapshot) async {
       final user = TiutiuUser.fromMap(snapshot.data());

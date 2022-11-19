@@ -1,4 +1,5 @@
 import 'package:tiutiu/features/posts/repository/posts_repository.dart';
+import 'package:tiutiu/features/posts/services/post_service.dart';
 import 'package:tiutiu/features/posts/validators/form_validators.dart';
 import 'package:tiutiu/core/location/models/states_and_cities.dart';
 import 'package:tiutiu/core/local_storage/local_storage_keys.dart';
@@ -511,6 +512,12 @@ class PostsController extends GetxController {
       _postReviewed(true);
       isInReviewMode = false;
     });
+  }
+
+  Future<void> increasePostViews() async {
+    if (!isEditingPost && !isInReviewMode) {
+      await PostService().increasePostViews(post.uid!, post.views);
+    }
   }
 
   void openMypostsLists() {
