@@ -49,7 +49,6 @@ String get newPathToUser {
 
 String userProfileStoragePath(String userId) {
   return FirebaseEnvPath.projectName
-      .concat(FirebaseEnvPath.env, joiner: '/')
       .concat(FirebaseEnvPath.environment, joiner: '/')
       .concat(FirebaseEnvPath.users.toLowerCase(), joiner: '/')
       .concat(userId, joiner: '/')
@@ -63,7 +62,6 @@ String userPostsStoragePath({
   required String postId,
 }) {
   return FirebaseEnvPath.projectName
-      .concat(FirebaseEnvPath.env, joiner: '/')
       .concat(FirebaseEnvPath.environment, joiner: '/')
       .concat(FirebaseEnvPath.users.toLowerCase(), joiner: '/')
       .concat(userId, joiner: '/')
