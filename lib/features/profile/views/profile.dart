@@ -1,12 +1,14 @@
+import 'package:tiutiu/core/local_storage/local_storage.dart';
+import 'package:tiutiu/core/local_storage/local_storage_keys.dart';
 import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
 import 'package:tiutiu/core/widgets/default_basic_app_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/constants/images_assets.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
-import 'package:tiutiu/core/mixins/tiu_tiu_pop_up.dart';
-import 'package:tiutiu/core/constants/text_styles.dart';
 import 'package:tiutiu/core/widgets/my_account_card.dart';
 import 'package:tiutiu/core/widgets/avatar_profile.dart';
+import 'package:tiutiu/core/mixins/tiu_tiu_pop_up.dart';
+import 'package:tiutiu/core/constants/text_styles.dart';
 import 'package:tiutiu/core/constants/strings.dart';
 import 'package:tiutiu/core/utils/formatter.dart';
 import 'package:flutter/material.dart';
@@ -67,11 +69,11 @@ class Profile extends StatelessWidget with TiuTiuPopUp {
                 _backgroundImage(),
                 Positioned(
                   child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       _roundedPicture(),
                       Padding(
-                        padding: EdgeInsets.only(top: 24.0.h, left: 8.0.w),
+                        padding: EdgeInsets.only(bottom: 6.0.h, left: 8.0.w),
                         child: _userName(),
                       ),
                     ],
@@ -161,6 +163,8 @@ class Profile extends StatelessWidget with TiuTiuPopUp {
               onPressed: () {
                 if (title == MyProfileOptionsTile.leave) {
                   _exitApp(title);
+                } else if (title == MyProfileOptionsTile.deleteAccount) {
+                  _deleteAccount(title);
                 } else {
                   profileController.handleOptionHitted(title);
                 }
@@ -189,6 +193,42 @@ class Profile extends StatelessWidget with TiuTiuPopUp {
       denyText: AppStrings.no,
       warning: true,
       danger: false,
+    );
+  }
+
+  Future<void> _deleteAccount(String title) async {
+    String? lastLoginTime = await LocalStorage.getValueUnderLocalStorageKey(LocalStorageKey.lastLoginTime);
+    lastLoginTime ??= DateTime.now().toIso8601String();
+    final lastLoginDateTime = DateTime.parse(lastLoginTime);
+
+    String popUpMessage = '';
+    String popUpTitle = '';
+
+    final loginTimeOver2Minutes = DateTime.now().difference(lastLoginDateTime).inMinutes >= 2;
+
+    if (loginTimeOver2Minutes) {
+      popUpMessage = AuthStrings.demandRecentLoginWarning;
+      popUpTitle = AuthStrings.doLogin;
+    } else {
+      popUpMessage = AuthStrings.deleteAccountWarning;
+      popUpTitle = AuthStrings.deleteAccount;
+    }
+
+    await showPopUp(
+      secondaryAction: () {
+        Get.back();
+        loginTimeOver2Minutes
+            ? profileController.handleOptionHitted(MyProfileOptionsTile.leave)
+            : profileController.handleOptionHitted(title);
+      },
+      warning: loginTimeOver2Minutes,
+      danger: !loginTimeOver2Minutes,
+      confirmText: AppStrings.yes,
+      barrierDismissible: false,
+      denyText: AppStrings.no,
+      message: popUpMessage,
+      mainAction: Get.back,
+      title: popUpTitle,
     );
   }
 

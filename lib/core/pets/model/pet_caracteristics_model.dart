@@ -29,27 +29,27 @@ class PetCaracteristics {
             content: pet.type,
           ),
           PetCaracteristics(
-            icon: pet.gender == PetDetailsStrings.female ? Icons.female : Icons.male,
-            title: PetDetailsStrings.sex,
+            icon: pet.gender == PostDetailsStrings.female ? Icons.female : Icons.male,
+            title: PostDetailsStrings.sex,
             content: pet.gender,
           ),
           PetCaracteristics(
             icon: Icons.linear_scale,
-            title: PetDetailsStrings.breed,
+            title: PostDetailsStrings.breed,
             content: pet.breed,
           ),
           PetCaracteristics(
             icon: Icons.color_lens,
-            title: PetDetailsStrings.color,
+            title: PostDetailsStrings.color,
             content: pet.color,
           ),
           PetCaracteristics(
             icon: Icons.close_fullscreen,
-            title: PetDetailsStrings.size,
+            title: PostDetailsStrings.size,
             content: pet.size,
           ),
           PetCaracteristics(
-            title: PetDetailsStrings.health,
+            title: PostDetailsStrings.health,
             icon: FontAwesomeIcons.heartPulse,
             content:
                 pet.health == PetHealthString.chronicDisease ? '${pet.health}:\n${pet.chronicDiseaseInfo}' : pet.health,
@@ -57,13 +57,13 @@ class PetCaracteristics {
           PetCaracteristics(
             content: '${pet.ageYear}a ${pet.ageMonth}m',
             icon: FontAwesomeIcons.cakeCandles,
-            title: PetDetailsStrings.age,
+            title: PostDetailsStrings.age,
           ),
         ] +
         List.generate(
           pet.otherCaracteristics.length,
           (index) => PetCaracteristics(
-            title: PetDetailsStrings.caracteristics,
+            title: PostDetailsStrings.caracteristics,
             content: pet.otherCaracteristics[index],
             icon: Icons.auto_awesome,
           ),

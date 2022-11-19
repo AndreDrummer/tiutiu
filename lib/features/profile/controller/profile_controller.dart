@@ -22,7 +22,8 @@ class ProfileController extends GetxController {
       case MyProfileOptionsTile.settings:
         isSetting = true;
         break;
-      case MyProfileOptionsTile.myPosts:
+      case MyProfileOptionsTile.deleteAccount:
+        Get.toNamed(Routes.deleteAccount);
         break;
       case MyProfileOptionsTile.leave:
         authController.signOut();
