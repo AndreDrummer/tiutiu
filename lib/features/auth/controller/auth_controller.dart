@@ -315,17 +315,15 @@ class AuthController extends GetxController {
       loadUserData();
     }
 
-    if (success) storeLoginTime();
-
     debugPrint('>> Successfull login? $success');
     return success;
   }
 
-  Future<void> storeLoginTime() async {
-    final lastLoginTime = DateTime.now().toIso8601String();
+  Future<void> recordLogoutTimeNow() async {
+    final lastLogoutTime = DateTime.now().toIso8601String();
     await LocalStorage.setValueUnderLocalStorageKey(
-      key: LocalStorageKey.lastLoginTime,
-      value: lastLoginTime,
+      key: LocalStorageKey.lastLogoutTime,
+      value: lastLogoutTime,
     );
   }
 
@@ -480,15 +478,16 @@ class AuthController extends GetxController {
     }
   }
 
-  Future<void> signOut() async {
+  Future<void> signOut({bool recordLogoutTime = false}) async {
     debugPrint('>> Login out...');
     await _authService.logOut();
     debugPrint('>> User ${_authService.authUser}');
     clearAllAuthData();
     clearEmailAndPassword();
     debugPrint('>> Cleaning cache...');
-    homeController.setDonateIndex();
+    homeController.setProfileIndex();
     debugPrint('>> Logout done!');
+    if (recordLogoutTime) recordLogoutTimeNow();
   }
 
   void clearAllAuthData() {

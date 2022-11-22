@@ -1,5 +1,3 @@
-import 'package:tiutiu/core/local_storage/local_storage.dart';
-import 'package:tiutiu/core/local_storage/local_storage_keys.dart';
 import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
 import 'package:tiutiu/core/widgets/default_basic_app_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -7,8 +5,9 @@ import 'package:tiutiu/core/constants/images_assets.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/widgets/my_account_card.dart';
 import 'package:tiutiu/core/widgets/avatar_profile.dart';
-import 'package:tiutiu/core/mixins/tiu_tiu_pop_up.dart';
 import 'package:tiutiu/core/constants/text_styles.dart';
+import 'package:tiutiu/core/mixins/tiu_tiu_pop_up.dart';
+import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/core/constants/strings.dart';
 import 'package:tiutiu/core/utils/formatter.dart';
 import 'package:flutter/material.dart';
@@ -181,6 +180,7 @@ class Profile extends StatelessWidget with TiuTiuPopUp {
     await showPopUp(
       message: AppStrings.wannaLeave,
       confirmText: AppStrings.yes,
+      textColor: AppColors.black,
       mainAction: () {
         Get.back();
       },
@@ -197,39 +197,12 @@ class Profile extends StatelessWidget with TiuTiuPopUp {
   }
 
   Future<void> _deleteAccount(String title) async {
-    String? lastLoginTime = await LocalStorage.getValueUnderLocalStorageKey(LocalStorageKey.lastLoginTime);
-    lastLoginTime ??= DateTime.now().toIso8601String();
-    final lastLoginDateTime = DateTime.parse(lastLoginTime);
+    final canDeleteAccount = await deleteAccountController.canDeleteAccount();
 
-    String popUpMessage = '';
-    String popUpTitle = '';
-
-    final loginTimeOver2Minutes = DateTime.now().difference(lastLoginDateTime).inMinutes >= 2;
-
-    if (loginTimeOver2Minutes) {
-      popUpMessage = AuthStrings.demandRecentLoginWarning;
-      popUpTitle = AuthStrings.doLogin;
-    } else {
-      popUpMessage = AuthStrings.deleteAccountWarning;
-      popUpTitle = AuthStrings.deleteAccount;
-    }
-
-    await showPopUp(
-      secondaryAction: () {
-        Get.back();
-        loginTimeOver2Minutes
-            ? profileController.handleOptionHitted(MyProfileOptionsTile.leave)
-            : profileController.handleOptionHitted(title);
-      },
-      warning: loginTimeOver2Minutes,
-      danger: !loginTimeOver2Minutes,
-      confirmText: AppStrings.yes,
-      barrierDismissible: false,
-      denyText: AppStrings.no,
-      message: popUpMessage,
-      mainAction: Get.back,
-      title: popUpTitle,
-    );
+    if (!canDeleteAccount)
+      await deleteAccountController.showDeleteAccountLogoutWarningPopup();
+    else
+      profileController.handleOptionHitted(title);
   }
 
   double _cardHeight() => Platform.isIOS ? Get.height * .62 : Get.height * .64;
