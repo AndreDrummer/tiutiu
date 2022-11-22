@@ -52,8 +52,9 @@ class AppStrings {
 }
 
 class AuthStrings {
-  static const String deleteAccountWarning = 'Após excluir sua conta não será possível recuperá-la.\Deseja continuar?';
-  static const String demandRecentLoginWarning = 'Está ação requer que você faça login novamente.\nDeseja deslogar?';
+  static const String deleteAccountWarning =
+      'Após excluir sua conta não será possível recuperá-la.\n\nDeseja continuar?';
+  static const String demandRecentLoginWarning = 'Está ação requer que você faça login novamente.\n\nDeseja deslogar?';
   static String passwordShouldBeAtLeast(String field, int length) => '$field deve ter no mínimo $length dígitos';
   static const String unableToResendEmail = 'Não foi possível reenviar o e-mail. Tente novamente mais tarde!';
   static const String verifyEmailAdvice =
@@ -291,4 +292,20 @@ class ChatStrings {
   static const String noContact = 'Nenhum contato ainda';
   static const String myContacts = 'Meus Contatos';
   static const String news = 'Nova';
+}
+
+class DeleteAccountStrings {
+  static const String deletingAccountStarting = 'Inicializando exclusão de conta';
+  static const String noPetInMyRegion = 'Nenhum PET na minha região';
+  static const String alreadyFoundPet = 'Já encontrei meu PET';
+  static const String tellUsTheMotive = 'Conte-nos o motivo';
+  static const String cannotUse = 'Não consigo usar o app';
+  static const String alreadyAdopted = 'Já adotei um PET';
+  static const String alreadyDonated = 'Já doei meu PET';
+  static const String deletingAds = 'Excluíndo anúncios';
+  static const String deleteAccount = 'Excluir conta';
+  static const String muchAds = 'Muitos anúncios';
+  static const String finishing = 'Finalizando';
+  static const String other = 'Outro';
+  static const String bugs = 'Bugs';
 }
