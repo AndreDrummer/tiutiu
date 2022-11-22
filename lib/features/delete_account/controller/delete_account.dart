@@ -1,3 +1,4 @@
+import 'package:tiutiu/core/utils/routes/routes_name.dart';
 import 'package:tiutiu/features/delete_account/service/delete_account_service.dart';
 import 'package:tiutiu/features/delete_account/model/delete_account.dart';
 import 'package:tiutiu/core/local_storage/local_storage_keys.dart';
@@ -15,8 +16,8 @@ class DeleteAccountController extends GetxController with TiuTiuPopUp {
 
   final DeleteAccountService _deleteAccountService;
 
+  final RxString _deleteAccountMotive = DeleteAccountStrings.other.obs;
   final RxString _deleteAccountMotiveDescribed = ''.obs;
-  final RxString _deleteAccountMotive = ''.obs;
   final RxInt _deleteAccountGroupValue = 7.obs;
   final RxString _loadingText = ''.obs;
   final RxBool _isLoading = false.obs;
@@ -42,9 +43,6 @@ class DeleteAccountController extends GetxController with TiuTiuPopUp {
     if (lastLogoutTime != null) {
       final lastLogoutDateTime = DateTime.parse(lastLogoutTime);
       logoutTimeOver2Minutes = DateTime.now().difference(lastLogoutDateTime).inMinutes >= 2;
-
-      print(lastLogoutTime);
-      print(logoutTimeOver2Minutes);
 
       return !logoutTimeOver2Minutes;
     }
@@ -74,6 +72,7 @@ class DeleteAccountController extends GetxController with TiuTiuPopUp {
     );
 
     _setLoading(false, '');
+    await showAccountDeletedFeedbackPopup();
   }
 
   Future<void> showDeleteAccountLogoutWarningPopup() async {
@@ -94,9 +93,32 @@ class DeleteAccountController extends GetxController with TiuTiuPopUp {
     );
   }
 
+  Future<void> showAccountDeletedFeedbackPopup() async {
+    await showPopUp(
+      message: DeleteAccountStrings.foreverDeletedAccount,
+      title: DeleteAccountStrings.deleteAccount,
+      confirmText: AppStrings.ok,
+      barrierDismissible: false,
+      mainAction: () {
+        Get.back();
+        Get.offNamedUntil(Routes.startScreen, (route) {
+          return route.settings.name == Routes.home;
+        });
+      },
+      warning: false,
+      danger: true,
+    );
+  }
+
   void _setLoading(bool value, String loadingText) {
     _isLoading(value);
     _loadingText(loadingText);
+  }
+
+  void reset() {
+    deleteAccountMotive = DeleteAccountStrings.other;
+    deleteAccountMotiveDescribed = '';
+    deleteAccountGroupValue = 7;
   }
 
   List<String> _deleteAccountMotives = [

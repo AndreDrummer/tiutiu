@@ -6,7 +6,6 @@ import 'package:tiutiu/features/posts/flow/post_flow.dart';
 import 'package:tiutiu/core/widgets/load_dark_screen.dart';
 import 'package:tiutiu/core/constants/images_assets.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
-import 'package:tiutiu/core/utils/routes/routes_name.dart';
 import 'package:tiutiu/core/widgets/row_button_bar.dart';
 import 'package:tiutiu/core/widgets/one_line_text.dart';
 import 'package:tiutiu/core/mixins/tiu_tiu_pop_up.dart';
@@ -177,7 +176,7 @@ class SelectPostType extends StatelessWidget with TiuTiuPopUp {
 
                 if (postsController.isEditingPost) {
                   postsController.isEditingPost = false;
-                  Get.offAndToNamed(Routes.myPosts);
+                  Get.back();
                 } else {
                   homeController.setDonateIndex();
                 }

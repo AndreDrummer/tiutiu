@@ -2,6 +2,7 @@ import 'package:tiutiu/core/widgets/default_basic_app_bar.dart';
 import 'package:tiutiu/features/posts/widgets/text_area.dart';
 import 'package:tiutiu/core/widgets/column_button_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:tiutiu/core/widgets/load_dark_screen.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/constants/text_styles.dart';
 import 'package:tiutiu/core/mixins/tiu_tiu_pop_up.dart';
@@ -15,23 +16,33 @@ class DeleteAccountScreen extends StatelessWidget with TiuTiuPopUp {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: DefaultBasicAppBar(
-        text: DeleteAccountStrings.tellUsTheMotive,
-        backgroundColor: AppColors.danger,
-      ),
-      body: Obx(
-        () => ListView(
+    return WillPopScope(
+      onWillPop: () async {
+        deleteAccountController.reset();
+        return true;
+      },
+      child: Obx(
+        () => Stack(
           children: [
-            _deleteAccountOptions(),
-            _describedMotiveTextArea(),
+            Scaffold(
+              appBar: DefaultBasicAppBar(
+                text: DeleteAccountStrings.tellUsTheMotive,
+                backgroundColor: AppColors.danger,
+              ),
+              body: ListView(
+                children: [
+                  _deleteAccountOptions(),
+                  _describedMotiveTextArea(),
+                ],
+              ),
+              bottomNavigationBar: _submitButton(),
+            ),
+            LoadDarkScreen(
+              message: deleteAccountController.loadingText,
+              visible: deleteAccountController.isLoading,
+            ),
           ],
         ),
-      ),
-      bottomNavigationBar: Container(
-        width: double.infinity,
-        child: _submitButton(),
-        height: 112.0.h,
       ),
     );
   }
@@ -82,26 +93,37 @@ class DeleteAccountScreen extends StatelessWidget with TiuTiuPopUp {
   }
 
   Widget _submitButton() {
-    return ColumnButtonBar(
-      buttonPrimaryColor: AppColors.danger,
-      onPrimaryPressed: () async {
-        deleteAccountController.hasError = deleteAccountController.deleteAccountMotive == DeleteAccountStrings.other &&
-            deleteAccountController.deleteAccountMotiveDescribed.isEmpty;
-
-        if (!deleteAccountController.hasError) {
-          deleteAccountController.canDeleteAccount().then((canDeleteAccount) {
-            if (canDeleteAccount) {
-              _onDeleteAccountButtonPressed();
-            } else {}
-          });
-        }
-      },
-      textPrimary: DeleteAccountStrings.deleteAccount,
-      onSecondaryPressed: Get.back,
+    return SizedBox(
+      width: double.infinity,
+      height: 112.0.h,
+      child: ColumnButtonBar(
+        onPrimaryPressed: _onDeleteAccountButtonPressed,
+        textPrimary: DeleteAccountStrings.deleteAccount,
+        buttonPrimaryColor: AppColors.danger,
+        onSecondaryPressed: () {
+          deleteAccountController.reset();
+          Get.back();
+        },
+      ),
     );
   }
 
   Future<void> _onDeleteAccountButtonPressed() async {
+    deleteAccountController.hasError = deleteAccountController.deleteAccountMotive == DeleteAccountStrings.other &&
+        deleteAccountController.deleteAccountMotiveDescribed.isEmpty;
+
+    if (!deleteAccountController.hasError) {
+      deleteAccountController.canDeleteAccount().then((canDeleteAccount) async {
+        if (canDeleteAccount) {
+          await _deleteAccountForever();
+        } else {
+          deleteAccountController.showDeleteAccountLogoutWarningPopup().then((_) => Get.back());
+        }
+      });
+    }
+  }
+
+  Future<void> _deleteAccountForever() async {
     await showPopUp(
       secondaryAction: () async {
         Get.back();

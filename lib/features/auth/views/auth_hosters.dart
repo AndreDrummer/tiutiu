@@ -35,6 +35,7 @@ class AuthHosters extends StatelessWidget with TiuTiuPopUp {
                 SizedBox(height: 16.0.h),
                 _authButtons(),
                 _continueAnonButton(),
+                SizedBox(height: 16.0.h),
               ],
             ),
           ),
@@ -97,7 +98,7 @@ class AuthHosters extends StatelessWidget with TiuTiuPopUp {
 
   Widget _authButtons() {
     return Container(
-      height: Get.height / 2.6,
+      height: Get.height / 2.7,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -183,7 +184,10 @@ class AuthHosters extends StatelessWidget with TiuTiuPopUp {
     try {
       // await authController.loginWithApple().then(
       //   (success) {
-      //     if (success) goToHome();
+      //     if (success) {
+      //        goToHome();
+      //        authController.isLoading = false;
+      //      }
       //   },
       // );
     } catch (exception) {
@@ -200,7 +204,10 @@ class AuthHosters extends StatelessWidget with TiuTiuPopUp {
     try {
       await authController.loginWithFacebook().then(
         (success) {
-          if (success) goToHome();
+          if (success) {
+            goToHome();
+            authController.isLoading = false;
+          }
         },
       );
     } catch (exception) {

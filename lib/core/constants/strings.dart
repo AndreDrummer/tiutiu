@@ -296,6 +296,7 @@ class ChatStrings {
 
 class DeleteAccountStrings {
   static const String deletingAccountStarting = 'Inicializando exclusão de conta';
+  static const String foreverDeletedAccount = 'Conta excluída pra sempre!';
   static const String noPetInMyRegion = 'Nenhum PET na minha região';
   static const String alreadyFoundPet = 'Já encontrei meu PET';
   static const String tellUsTheMotive = 'Conte-nos o motivo';
