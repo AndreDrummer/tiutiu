@@ -24,14 +24,14 @@ class DeleteAccountService {
     try {
       await Future.delayed(Duration(seconds: 2));
       onPostsDeletionStarts();
-      // await Future.delayed(Duration(seconds: 2));
       await deleteUserPosts(userId);
       onFinishing();
-      // await Future.delayed(Duration(seconds: 2));
       final userDataReference = await _tiutiuUserService.getUserReferenceById(userId);
 
       await userDataReference.set(deleteAccountData.toMap());
       await authController.user?.delete();
+      await authController.signOut();
+      await authController.user?.reload();
     } on Exception catch (exception) {
       debugPrint('Erro when tryna to delete user with id $userId: $exception');
     }
