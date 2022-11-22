@@ -21,7 +21,7 @@ class RouterGenerator {
         return MaterialPageRoute(
           builder: (_) => AppBootstrap(),
         );
-      case Routes.auth:
+      case Routes.startScreen:
         return MaterialPageRoute(
           builder: (_) => StartScreen(),
         );
