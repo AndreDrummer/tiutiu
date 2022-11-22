@@ -11,11 +11,13 @@ class TextArea extends StatelessWidget {
     this.initialValue,
     this.validator,
     this.onChanged,
+    this.onSubmit,
     super.key,
   });
 
   final String? Function(String?)? validator;
   final void Function(String)? onChanged;
+  final void Function(String)? onSubmit;
   final String? initialValue;
   final bool isInErrorState;
   final String labelText;
@@ -30,6 +32,7 @@ class TextArea extends StatelessWidget {
           TextFormField(
             textCapitalization: TextCapitalization.sentences,
             textInputAction: TextInputAction.done,
+            onFieldSubmitted: onSubmit,
             initialValue: initialValue,
             onChanged: onChanged,
             validator: validator,
