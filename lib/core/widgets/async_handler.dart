@@ -37,7 +37,6 @@ class AsyncHandler<T> extends StatelessWidget {
     final ConnectionState connectionState = snapshot.connectionState;
 
     if (snapshot.hasError) {
-      print(snapshot.error);
       return errorWidget ??
           ErrorPage(
             onErrorCallback: onErrorCallback,

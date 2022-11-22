@@ -134,7 +134,9 @@ class PostFlow extends StatelessWidget with TiuTiuPopUp {
                         textPrimary: postsController.isInStepReview()
                             ? PostFlowStrings.reviewButton
                             : postsController.lastStep()
-                                ? PostFlowStrings.post
+                                ? postsController.isEditingPost
+                                    ? PostFlowStrings.postUpdate
+                                    : PostFlowStrings.post
                                 : AppStrings.contines,
                         textSecond: AppStrings.back,
                       ),

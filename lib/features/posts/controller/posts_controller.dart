@@ -79,6 +79,8 @@ class PostsController extends GetxController {
   bool lastStep() => _flowIndex.value == _FLOW_STEPS_QTY - 1 && postReviewed;
   bool firstStep() => _flowIndex.value == 0;
 
+  List<String> _urlPicturesToBeDeleted = [];
+
   @override
   void onInit() {
     ever(filterController.filterParams, (_) {
@@ -267,6 +269,7 @@ class PostsController extends GetxController {
     _uploadingPostText(PostFlowStrings.imageQty(post.photos.length));
 
     await _postsRepository.uploadImages(
+      imagesToDelete: _urlPicturesToBeDeleted,
       onUploaded: (urlList) {
         updatePost(PostEnum.photos.name, urlList);
       },
@@ -438,6 +441,7 @@ class PostsController extends GetxController {
   }
 
   void clearForm() {
+    _urlPicturesToBeDeleted.clear();
     _isFullAddress(false);
     _isEditingPost(false);
     _postReviewed(false);
@@ -469,7 +473,7 @@ class PostsController extends GetxController {
   void removePictureOnIndex(int index) {
     var postMap = post.toMap();
     var newImageList = postMap[PostEnum.photos.name];
-    newImageList.removeAt(index);
+    _urlPicturesToBeDeleted.add(newImageList.removeAt(index));
     postMap[PostEnum.photos.name] = newImageList;
     _post(Pet().fromMap(postMap));
   }
