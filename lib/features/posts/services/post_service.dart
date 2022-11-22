@@ -33,9 +33,20 @@ class PostService extends GetxService {
     }
   }
 
-  Future<void> uploadImages({required Function(List) onImagesUploaded, required Post post}) async {
+  Future<void> uploadImages({
+    required Function(List) onImagesUploaded,
+    List<String> imagesToDelete = const [],
+    required Post post,
+  }) async {
     try {
       final imagesStoragePath = storagePathToImages(post);
+
+      if (imagesToDelete.isNotEmpty) {
+        final FirebaseStorage _storage = FirebaseStorage.instance;
+        for (int index = 0; index < imagesToDelete.length; index++) {
+          await _storage.refFromURL(imagesToDelete[index]).delete().onError((error, stackTrace) => null);
+        }
+      }
 
       final imagesUrlDownloadList = await OtherFunctions.getImageListUrlDownload(
         storagePath: imagesStoragePath,
@@ -45,6 +56,7 @@ class PostService extends GetxService {
       onImagesUploaded(imagesUrlDownloadList);
     } on Exception catch (exception) {
       debugPrint('Erro when tryna to get images url download list: $exception');
+      rethrow;
     }
   }
 
@@ -73,7 +85,7 @@ class PostService extends GetxService {
       }
       await deletePostImages(post);
 
-      // await FirebaseFirestore.instance.collection(pathToPosts).doc(post.uid).delete();
+      await FirebaseFirestore.instance.collection(pathToPosts).doc(post.uid).delete();
       debugPrint('>> Post deleted Successfully ${post.uid}');
       success = true;
     } on Exception catch (exception) {
@@ -98,8 +110,7 @@ class PostService extends GetxService {
       final imagesQqty = post.photos.length;
 
       for (currentImage = 0; currentImage < imagesQqty; currentImage++) {
-        print(FirebaseStorage.instance.ref(imagesStoragePath).child('image$currentImage'));
-        // await FirebaseStorage.instance.ref(imagesStoragePath).child('image$currentImage').delete();
+        await FirebaseStorage.instance.ref(imagesStoragePath).child('image$currentImage').delete();
       }
     } on Exception catch (exception) {
       debugPrint('Erro when tryna to image$currentImage of post with id ${post.uid}: $exception');

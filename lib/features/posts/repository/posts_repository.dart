@@ -103,8 +103,13 @@ class PostsRepository {
     );
   }
 
-  Future<void> uploadImages({required Function(List) onUploaded, required Post post}) async {
+  Future<void> uploadImages({
+    required Function(List) onUploaded,
+    required Post post,
+    List<String> imagesToDelete = const [],
+  }) async {
     await _postService.uploadImages(
+      imagesToDelete: imagesToDelete,
       onImagesUploaded: onUploaded,
       post: post,
     );

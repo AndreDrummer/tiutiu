@@ -259,6 +259,7 @@ class EmailAndPassword extends StatelessWidget with TiuTiuPopUp {
       await authController.loginWithEmailAndPassword().then((success) {
         if (success) {
           Get.toNamed(Routes.home);
+          authController.isLoading = false;
         }
       });
     } catch (exception) {
