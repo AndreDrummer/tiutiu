@@ -488,6 +488,7 @@ class AuthController extends GetxController {
     homeController.setProfileIndex();
     debugPrint('>> Logout done!');
     if (recordLogoutTime) recordLogoutTimeNow();
+    debugPrint('>> User still exists? ${_authService.userExists}');
   }
 
   void clearAllAuthData() {
@@ -496,11 +497,11 @@ class AuthController extends GetxController {
   }
 
   final _startScreenImages = [
-    StartScreenAssets.whiteCat,
+    StartScreenAssets.munkun,
     StartScreenAssets.greyCat,
+    StartScreenAssets.whiteCat,
     StartScreenAssets.pinscher,
     StartScreenAssets.oldMel,
-    StartScreenAssets.munkun,
     StartScreenAssets.liu,
     StartScreenAssets.husky,
     StartScreenAssets.hairy,
