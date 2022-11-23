@@ -11,6 +11,7 @@ enum PetEnum {
   disappeared,
   ageMonth,
   ageYear,
+  reward,
   gender,
   health,
   color,
@@ -21,8 +22,8 @@ enum PetEnum {
 class Pet extends Post {
   factory Pet.fromSnapshot(DocumentSnapshot snapshot) {
     return Pet(
-      createdAt: snapshot.get(PostEnum.createdAt.name) ?? DateTime.now().toIso8601String(),
       uid: snapshot.get(PostEnum.uid.name) != null ? snapshot.get(PostEnum.uid.name) : Uuid().v4(),
+      createdAt: snapshot.get(PostEnum.createdAt.name) ?? DateTime.now().toIso8601String(),
       otherCaracteristics: snapshot.get(PetEnum.otherCaracteristics.name) ?? [],
       chronicDiseaseInfo: snapshot.get(PetEnum.chronicDiseaseInfo.name) ?? '',
       describedAddress: snapshot.get(PostEnum.describedAddress.name) ?? '',
@@ -47,6 +48,7 @@ class Pet extends Post {
       type: snapshot.get(PostEnum.type.name) ?? '-',
       ownerId: snapshot.get(PostEnum.ownerId.name),
       photos: snapshot.get(PostEnum.photos.name),
+      reward: snapshot.get(PetEnum.reward.name),
       video: snapshot.get(PostEnum.video.name),
       name: snapshot.get(PostEnum.name.name),
     );
@@ -76,6 +78,7 @@ class Pet extends Post {
     this.breed = '-',
     this.size = '-',
     String? ownerId,
+    this.reward = '',
     int views = 0,
     dynamic video,
     String? name,
@@ -124,6 +127,7 @@ class Pet extends Post {
       ageYear: map[PetEnum.ageYear.name] ?? 0,
       color: map[PetEnum.color.name] ?? '-',
       breed: map[PetEnum.breed.name] ?? '-',
+      reward: map[PetEnum.reward.name] ?? '',
       latitude: map[PostEnum.latitude.name],
       views: map[PostEnum.views.name] ?? 0,
       size: map[PetEnum.size.name] ?? '-',
@@ -142,6 +146,7 @@ class Pet extends Post {
   bool disappeared;
   String gender;
   String health;
+  String reward;
   int ageMonth;
   String breed;
   int ageYear;
@@ -170,6 +175,7 @@ class Pet extends Post {
       PetEnum.ageYear.name: ageYear,
       PetEnum.health.name: health,
       PetEnum.gender.name: gender,
+      PetEnum.reward.name: reward,
       PostEnum.state.name: state,
       PostEnum.views.name: views,
       PetEnum.color.name: color,
@@ -184,7 +190,7 @@ class Pet extends Post {
 
   @override
   String toString() {
-    return 'Pet(otherCaracteristics: $otherCaracteristics, chronicDiseaseInfo: $chronicDiseaseInfo, lastSeenDetails: $lastSeenDetails, donatedOrFound: $donatedOrFound, createdAt: $createdAt, owner: $owner, longitude: $longitude, disappeared: $disappeared, latitude: $latitude, ownerId: $ownerId, interesteds: $interesteds, description: $description, gender: $gender, health: $health, color: $color, ageMonth: $ageMonth, breed: $breed, ageYear: $ageYear, size: $size, state: $state, photos: $photos, name: $name, type: $type, city: $city, uid: $uid, views: $views, video: $video)';
+    return 'Pet(otherCaracteristics: $otherCaracteristics, chronicDiseaseInfo: $chronicDiseaseInfo, lastSeenDetails: $lastSeenDetails, donatedOrFound: $donatedOrFound, createdAt: $createdAt, owner: $owner, longitude: $longitude, disappeared: $disappeared, latitude: $latitude, ownerId: $ownerId, interesteds: $interesteds, description: $description, gender: $gender, health: $health, color: $color, ageMonth: $ageMonth, breed: $breed, ageYear: $ageYear, size: $size, state: $state, photos: $photos, name: $name, type: $type, city: $city, uid: $uid, views: $views, video: $video, reward: $reward)';
   }
 
   @override
@@ -206,6 +212,7 @@ class Pet extends Post {
         other.ownerId == ownerId &&
         other.ageYear == ageYear &&
         other.gender == gender &&
+        other.reward == reward &&
         other.health == health &&
         other.photos == photos &&
         other.owner == owner &&

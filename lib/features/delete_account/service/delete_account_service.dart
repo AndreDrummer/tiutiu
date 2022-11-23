@@ -25,13 +25,14 @@ class DeleteAccountService {
       await Future.delayed(Duration(seconds: 2));
       onPostsDeletionStarts();
       await deleteUserPosts(userId);
+      await _postService.deleteUserAvatar(userId);
       onFinishing();
       final userDataReference = await _tiutiuUserService.getUserReferenceById(userId);
 
       await userDataReference.set(deleteAccountData.toMap());
       await authController.user?.delete();
-      await authController.signOut();
       await authController.user?.reload();
+      await authController.signOut();
     } on Exception catch (exception) {
       debugPrint('Erro when tryna to delete user with id $userId: $exception');
     }
@@ -39,9 +40,11 @@ class DeleteAccountService {
 
   Future<void> deleteUserPosts(String userId) async {
     final List<Post> userPosts = await _postService.getMyPosts(userId);
+    debugPrint('>> Delete ${userPosts.length} user posts');
 
-    userPosts.forEach((post) async {
-      await _postService.deletePost(post);
-    });
+    for (int i = 0; i < userPosts.length; i++) {
+      debugPrint('>> Deleting user post ${userPosts[i].uid}');
+      await _postService.deletePost(userPosts[i]);
+    }
   }
 }

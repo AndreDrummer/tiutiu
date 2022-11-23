@@ -473,7 +473,10 @@ class PostsController extends GetxController {
   void removePictureOnIndex(int index) {
     var postMap = post.toMap();
     var newImageList = postMap[PostEnum.photos.name];
-    _urlPicturesToBeDeleted.add(newImageList.removeAt(index));
+    final removedImage = newImageList.removeAt(index);
+    if (removedImage.toString().isUrl()) {
+      _urlPicturesToBeDeleted.add(removedImage);
+    }
     postMap[PostEnum.photos.name] = newImageList;
     _post(Pet().fromMap(postMap));
   }

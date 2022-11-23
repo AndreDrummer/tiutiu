@@ -478,7 +478,7 @@ class AuthController extends GetxController {
     }
   }
 
-  Future<void> signOut({bool recordLogoutTime = false}) async {
+  Future<void> signOut() async {
     debugPrint('>> Login out...');
     await _authService.logOut();
     debugPrint('>> User ${_authService.authUser}');
@@ -487,7 +487,7 @@ class AuthController extends GetxController {
     debugPrint('>> Cleaning cache...');
     homeController.setProfileIndex();
     debugPrint('>> Logout done!');
-    if (recordLogoutTime) recordLogoutTimeNow();
+    recordLogoutTimeNow();
     debugPrint('>> User still exists? ${_authService.userExists}');
   }
 
