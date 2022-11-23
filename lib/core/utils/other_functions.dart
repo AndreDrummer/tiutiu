@@ -1,16 +1,14 @@
-import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
 import 'package:tiutiu/features/posts/views/announcer_profile.dart';
+import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiutiu/core/extensions/string_extension.dart';
-import 'package:tiutiu/core/pets/model/pet_model.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
+import 'package:tiutiu/core/location/models/latlng.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:tiutiu/core/utils/math_functions.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:tiutiu/core/constants/strings.dart';
-import 'package:tiutiu/core/location/models/latlng.dart';
-import 'package:geocoding/geocoding.dart';
 import 'package:flutter/material.dart';
+import 'package:uuid/uuid.dart';
 import 'package:get/get.dart';
 import 'dart:io';
 
@@ -52,51 +50,9 @@ class OtherFunctions {
     return TiutiuStringExtension(text.trim()).capitalize();
   }
 
-  // static Future<String>? getAddress(provider.Location location) async {
-  static Future<String>? getAddress(LatLng position) async {
-    final result = await placemarkFromCoordinates(
-      position.latitude,
-      position.longitude,
-    );
-
-    print(result);
-    // GeocodingModel local = GeocodingModel.fromSnapshot(result.results.first);
-    // return local.formattedAddress;
-    return '';
-  }
-
-  static Future<List<Pet>> filterResultsByState(List<Pet> petsListResult, String stateName) async {
-    List<Pet> newPetList = [];
-
-    for (int i = 0; i < petsListResult.length; i++) {
-      // List<Address> addresses = await Geocoder.local
-      //     .findAddressesFromCoordinates(Coordinates(
-      //         petsListResult[i].latitude, petsListResult[i].longitude));
-      // if (addresses.first.adminArea == stateName) {
-      //   newPetList.add(petsListResult[i]);
-      // }
-    }
-
-    return newPetList;
-  }
-
-  static Future<String> getUserLocalState(LatLng local) async {
-    // List<Address> addresses = await Geocoder.local.findAddressesFromCoordinates(
-    //     Coordinates(local.latitude, local.longitude));
-
-    // return addresses.first.adminArea;
-    return '';
-  }
-
-  static String getPhotoName(String photoUrl, String hasKey) {
-    String photoName = photoUrl.split(hasKey).last.split('?').first.split('%2F').last;
+  static String getPhotoName(String photoUrl) {
+    String photoName = photoUrl.split('%2F').last.split('?').first;
     return photoName;
-  }
-
-  static Future<DocumentReference> getReferenceById(String id, String collectionName) async {
-    FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
-    DocumentSnapshot documentSnapshot = await firebaseFirestore.collection(collectionName).doc('$id').get();
-    return documentSnapshot.reference;
   }
 
   static void navigateToAnnouncerDetail(TiutiuUser user, {bool popAndPush = false}) {
@@ -143,7 +99,7 @@ class OtherFunctions {
     for (var imagePath in imagesPathList) {
       if (!imagePath.toString().isUrl()) {
         var imageUrlDonwload = await uploadPostFile(
-          '$storagePath/image${imagesPathList.indexOf(imagePath)}',
+          '$storagePath/${Uuid().v4()}',
           imagePath,
         );
 

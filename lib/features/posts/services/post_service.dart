@@ -42,12 +42,17 @@ class PostService extends GetxService {
       final imagesStoragePath = storagePathToImages(post);
 
       if (imagesToDelete.isNotEmpty) {
+        debugPrint('>> Deleting images removed...');
         final FirebaseStorage _storage = FirebaseStorage.instance;
         for (int index = 0; index < imagesToDelete.length; index++) {
+          debugPrint('>> Deleting ${OtherFunctions.getPhotoName(imagesToDelete[index])}');
           await _storage.refFromURL(imagesToDelete[index]).delete().onError((error, stackTrace) => null);
         }
+
+        debugPrint('>> Images deleted!');
       }
 
+      debugPrint('>> Uploading images...');
       final imagesUrlDownloadList = await OtherFunctions.getImageListUrlDownload(
         storagePath: imagesStoragePath,
         imagesPathList: post.photos,
@@ -86,6 +91,7 @@ class PostService extends GetxService {
       await deletePostImages(post);
 
       await FirebaseFirestore.instance.collection(pathToPosts).doc(post.uid).delete();
+
       debugPrint('>> Post deleted Successfully ${post.uid}');
       success = true;
     } on Exception catch (exception) {
@@ -104,16 +110,17 @@ class PostService extends GetxService {
   }
 
   Future<void> deletePostImages(Post post) async {
-    int currentImage = 0;
+    String currentImage = 'null';
     try {
       final imagesStoragePath = storagePathToImages(post);
       final imagesQqty = post.photos.length;
 
-      for (currentImage = 0; currentImage < imagesQqty; currentImage++) {
-        await FirebaseStorage.instance.ref(imagesStoragePath).child('image$currentImage').delete();
+      for (int i = 0; i < imagesQqty; i++) {
+        currentImage = OtherFunctions.getPhotoName(post.photos.elementAt(i));
+        await FirebaseStorage.instance.ref(imagesStoragePath).child(currentImage).delete();
       }
     } on Exception catch (exception) {
-      debugPrint('Erro when tryna to image$currentImage of post with id ${post.uid}: $exception');
+      debugPrint('Erro when tryna to $currentImage of post with id ${post.uid}: $exception');
     }
   }
 
@@ -131,13 +138,22 @@ class PostService extends GetxService {
     }
   }
 
-  String storagePathToImages(Post post) => userPostsStoragePath(
+  Future<void> deleteUserAvatar(String userId) async {
+    try {
+      debugPrint('>> Deleting user avatar...');
+      await FirebaseStorage.instance.ref().child(userAvatarStoragePath(userId)).delete();
+    } on Exception catch (exception) {
+      debugPrint('Erro when deleting user avatar: $exception');
+    }
+  }
+
+  String storagePathToImages(Post post) => postsStoragePath(
         fileType: FileType.images.name,
         userId: post.ownerId!,
         postId: post.uid!,
       );
 
-  String storagePathToVideo(Post post) => userPostsStoragePath(
+  String storagePathToVideo(Post post) => postsStoragePath(
         fileType: FileType.video.name,
         userId: post.ownerId!,
         postId: post.uid!,
