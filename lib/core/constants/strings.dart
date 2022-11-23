@@ -270,6 +270,7 @@ class PostFlowStrings {
   static const String size = 'Tamanho do PET';
   static const String petType = 'Tipo de PET';
   static const String posting = 'Postando...';
+  static const String reward = 'Recompensa';
   static const String details = 'Detalhes';
   static const String pictures = 'Fotos';
   static const String videos = 'Videos';
@@ -300,6 +301,7 @@ class DeleteAccountStrings {
   static const String noPetInMyRegion = 'Nenhum PET na minha região';
   static const String alreadyFoundPet = 'Já encontrei meu PET';
   static const String tellUsTheMotive = 'Conte-nos o motivo';
+  static const String whichBugs = 'Quais bugs aconteceram?';
   static const String cannotUse = 'Não consigo usar o app';
   static const String alreadyAdopted = 'Já adotei um PET';
   static const String alreadyDonated = 'Já doei meu PET';

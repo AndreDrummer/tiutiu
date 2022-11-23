@@ -72,14 +72,16 @@ class DeleteAccountScreen extends StatelessWidget with TiuTiuPopUp {
   }
 
   Visibility _describedMotiveTextArea() {
+    final motiveIsBug = deleteAccountController.deleteAccountMotive == DeleteAccountStrings.bugs;
+
     return Visibility(
-      visible: deleteAccountController.deleteAccountMotive == DeleteAccountStrings.other,
+      visible: deleteAccountController.deleteAccountMotive == DeleteAccountStrings.other || motiveIsBug,
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: TextArea(
+          labelText: motiveIsBug ? DeleteAccountStrings.whichBugs : AppStrings.jotSomethingDown,
           initialValue: deleteAccountController.deleteAccountMotiveDescribed,
           isInErrorState: deleteAccountController.hasError,
-          labelText: AppStrings.jotSomethingDown,
           onSubmit: (value) {
             deleteAccountController.deleteAccountMotiveDescribed = value;
             if (value.isNotEmpty) deleteAccountController.deleteAccountMotiveDescribed = value;
@@ -109,7 +111,8 @@ class DeleteAccountScreen extends StatelessWidget with TiuTiuPopUp {
   }
 
   Future<void> _onDeleteAccountButtonPressed() async {
-    deleteAccountController.hasError = deleteAccountController.deleteAccountMotive == DeleteAccountStrings.other &&
+    deleteAccountController.hasError = (deleteAccountController.deleteAccountMotive == DeleteAccountStrings.other ||
+            deleteAccountController.deleteAccountMotive == DeleteAccountStrings.bugs) &&
         deleteAccountController.deleteAccountMotiveDescribed.isEmpty;
 
     if (!deleteAccountController.hasError) {
