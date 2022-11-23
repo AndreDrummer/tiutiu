@@ -1,5 +1,6 @@
 import 'package:tiutiu/features/posts/widgets/post_type_card_selector.dart';
 import 'package:tiutiu/core/widgets/default_basic_app_bar.dart';
+import 'package:tiutiu/features/posts/widgets/text_area.dart';
 import 'package:tiutiu/core/extensions/string_extension.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/features/posts/flow/post_flow.dart';
@@ -14,6 +15,8 @@ import 'package:tiutiu/core/pets/model/pet_model.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/features/posts/model/post.dart';
 import 'package:tiutiu/core/constants/strings.dart';
+import 'package:brasil_fields/brasil_fields.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -43,17 +46,15 @@ class SelectPostType extends StatelessWidget with TiuTiuPopUp {
           () => Stack(
             children: [
               Container(
-                margin: EdgeInsets.symmetric(horizontal: 8.0.w),
-                child: Column(
+                margin: EdgeInsets.symmetric(horizontal: 4.0.w),
+                child: ListView(
                   children: [
-                    SizedBox(height: 16.0.h),
+                    SizedBox(height: 4.0.h),
                     _screenTitle(),
-                    SizedBox(height: 8.0.h),
                     _gridView(filtersTypeText, petsTypeImage),
-                    SizedBox(height: 24.0.h),
+                    SizedBox(height: 8.0.h),
                     _isDisappearedBoxSelection(),
-                    Spacer(),
-                    _buttons(),
+                    _reward(),
                   ],
                 ),
               ),
@@ -61,6 +62,7 @@ class SelectPostType extends StatelessWidget with TiuTiuPopUp {
             ],
           ),
         ),
+        bottomSheet: _buttons(),
       ),
     );
   }
@@ -69,15 +71,15 @@ class SelectPostType extends StatelessWidget with TiuTiuPopUp {
     return OneLineText(
       text: PostFlowStrings.selectPetType,
       widgetAlignment: Alignment(-0.9, 1),
-      fontSize: 24,
+      fontSize: 16,
     );
   }
 
   OneLineText _isThisPetDisappeared() {
     return OneLineText(
       text: PostFlowStrings.isThisPetDisappeared,
-      widgetAlignment: Alignment(0.15, 1),
-      fontSize: 24,
+      widgetAlignment: Alignment(-0.88, 1),
+      fontSize: 16,
     );
   }
 
@@ -87,13 +89,11 @@ class SelectPostType extends StatelessWidget with TiuTiuPopUp {
         duration: Duration(seconds: 1),
         opacity: postsController.post.type.isNotEmptyNeighterNull() ? 1 : 0,
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             _isThisPetDisappeared(),
             Row(
-              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Spacer(),
+                SizedBox(width: 4.0.w),
                 Expanded(
                   child: CheckboxListTile(
                     contentPadding: EdgeInsets.zero,
@@ -112,6 +112,7 @@ class SelectPostType extends StatelessWidget with TiuTiuPopUp {
                     title: AutoSizeTexts.autoSizeText12(AppStrings.no),
                     onChanged: (_) {
                       postsController.updatePost(PetEnum.disappeared.name, false);
+                      postsController.updatePost(PetEnum.reward.name, '');
                     },
                     value: !(postsController.post as Pet).disappeared,
                   ),
@@ -120,6 +121,32 @@ class SelectPostType extends StatelessWidget with TiuTiuPopUp {
               ],
             ),
           ],
+        ),
+      ),
+    );
+  }
+
+  Widget _reward() {
+    return Obx(
+      () => AnimatedOpacity(
+        duration: Duration(seconds: 1),
+        opacity: (postsController.post as Pet).disappeared ? 1 : 0,
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 8.0.w),
+          child: TextArea(
+            initialValue: (postsController.post as Pet).reward,
+            inputFormatters: [
+              FilteringTextInputFormatter.digitsOnly,
+              RealInputFormatter(),
+            ],
+            onChanged: (value) {
+              postsController.updatePost(PetEnum.reward.name, value);
+            },
+            labelText: PostFlowStrings.reward,
+            hintText: '1.000',
+            prefix: 'R\$ ',
+            maxLines: 1,
+          ),
         ),
       ),
     );

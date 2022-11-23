@@ -65,7 +65,7 @@ String pathToUser(String userId) {
       .concat(userId, joiner: '/');
 }
 
-String userProfileStoragePath(String userId) {
+String userAvatarStoragePath(String userId) {
   return FirebaseEnvPath.projectName
       .concat(FirebaseEnvPath.environment, joiner: '/')
       .concat(FirebaseEnvPath.users.toLowerCase(), joiner: '/')
@@ -74,7 +74,7 @@ String userProfileStoragePath(String userId) {
       .concat('profile.png', joiner: '/');
 }
 
-String userPostsStoragePath({
+String postsStoragePath({
   required String fileType,
   required String userId,
   required String postId,
