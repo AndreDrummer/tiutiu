@@ -36,7 +36,7 @@ class TiutiuUserService {
     Reference ref = FirebaseStorage.instance.ref();
     String? avatarURL;
 
-    final avatarRef = ref.child(userProfileStoragePath(userId));
+    final avatarRef = ref.child(userAvatarStoragePath(userId));
 
     try {
       var uploadTask = avatarRef.putFile(file);
