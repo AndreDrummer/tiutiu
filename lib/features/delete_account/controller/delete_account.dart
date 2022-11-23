@@ -79,7 +79,7 @@ class DeleteAccountController extends GetxController with TiuTiuPopUp {
     await showPopUp(
       secondaryAction: () {
         Get.back();
-        authController.signOut(recordLogoutTime: true);
+        authController.signOut();
       },
       message: AuthStrings.demandRecentLoginWarning,
       title: AuthStrings.doLogin,

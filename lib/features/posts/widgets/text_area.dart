@@ -1,3 +1,4 @@
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
 import 'package:tiutiu/core/widgets/hint_error.dart';
@@ -7,20 +8,26 @@ class TextArea extends StatelessWidget {
   const TextArea({
     this.isInErrorState = false,
     required this.labelText,
+    this.inputFormatters,
     this.maxLines = 3,
     this.initialValue,
+    this.prefix = '',
     this.validator,
     this.onChanged,
     this.onSubmit,
+    this.hintText,
     super.key,
   });
 
+  final List<TextInputFormatter>? inputFormatters;
   final String? Function(String?)? validator;
   final void Function(String)? onChanged;
   final void Function(String)? onSubmit;
   final String? initialValue;
   final bool isInErrorState;
   final String labelText;
+  final String? hintText;
+  final String prefix;
   final int maxLines;
 
   @override
@@ -32,20 +39,23 @@ class TextArea extends StatelessWidget {
           TextFormField(
             textCapitalization: TextCapitalization.sentences,
             textInputAction: TextInputAction.done,
+            inputFormatters: inputFormatters,
             onFieldSubmitted: onSubmit,
             initialValue: initialValue,
             onChanged: onChanged,
             validator: validator,
             maxLines: maxLines,
             decoration: InputDecoration(
+              prefix: Text(prefix),
               labelText: labelText,
+              hintText: hintText,
               labelStyle: TextStyle(
                 color: isInErrorState ? AppColors.danger : null,
               ),
-              errorBorder: _outlineInputBorder(),
               disabledBorder: _outlineInputBorder(),
               enabledBorder: _outlineInputBorder(),
               focusedBorder: _outlineInputBorder(),
+              errorBorder: _outlineInputBorder(),
               border: _outlineInputBorder(),
             ),
           ),
