@@ -49,9 +49,17 @@ class SelectPostType extends StatelessWidget with TiuTiuPopUp {
                 margin: EdgeInsets.symmetric(horizontal: 4.0.w),
                 child: ListView(
                   children: [
-                    SizedBox(height: 4.0.h),
-                    _screenTitle(),
-                    _gridView(filtersTypeText, petsTypeImage),
+                    Container(
+                      margin: EdgeInsets.only(top: Get.width / 3),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          _screenTitle(),
+                          SizedBox(height: 8.0.h),
+                          _gridView(filtersTypeText, petsTypeImage),
+                        ],
+                      ),
+                    ),
                     SizedBox(height: 8.0.h),
                     _isDisappearedBoxSelection(),
                     _reward(),
@@ -70,7 +78,7 @@ class SelectPostType extends StatelessWidget with TiuTiuPopUp {
   OneLineText _screenTitle() {
     return OneLineText(
       text: PostFlowStrings.selectPetType,
-      widgetAlignment: Alignment(-0.9, 1),
+      widgetAlignment: Alignment.center,
       fontSize: 16,
     );
   }
@@ -155,27 +163,45 @@ class SelectPostType extends StatelessWidget with TiuTiuPopUp {
   Obx _gridView(List<String> filtersTypeText, List<String> petsTypeImage) {
     return Obx(
       () {
-        return GridView.count(
-          physics: NeverScrollableScrollPhysics(),
-          crossAxisSpacing: 0.0.h,
-          mainAxisSpacing: 0.0.h,
-          childAspectRatio: 1,
-          crossAxisCount: 2,
-          shrinkWrap: true,
-          children: filtersTypeText.map(
-            (type) {
-              final index = filtersTypeText.indexOf(type);
+        return SizedBox(
+          height: 248.0.h,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Column(
+                children: filtersTypeText.sublist(0, 2).map(
+                  (type) {
+                    final index = filtersTypeText.indexOf(type);
 
-              return PostTypeCardSelector(
-                onTypeSelected: () {
-                  postsController.updatePost(PostEnum.type.name, type);
-                },
-                isSelected: postsController.post.type == type,
-                image: petsTypeImage.elementAt(index),
-                typeText: type,
-              );
-            },
-          ).toList(),
+                    return PostTypeCardSelector(
+                      onTypeSelected: () {
+                        postsController.updatePost(PostEnum.type.name, type);
+                      },
+                      isSelected: postsController.post.type == type,
+                      image: petsTypeImage.elementAt(index),
+                      typeText: type,
+                    );
+                  },
+                ).toList(),
+              ),
+              Column(
+                children: filtersTypeText.sublist(2, 4).map(
+                  (type) {
+                    final index = filtersTypeText.indexOf(type);
+
+                    return PostTypeCardSelector(
+                      onTypeSelected: () {
+                        postsController.updatePost(PostEnum.type.name, type);
+                      },
+                      isSelected: postsController.post.type == type,
+                      image: petsTypeImage.elementAt(index),
+                      typeText: type,
+                    );
+                  },
+                ).toList(),
+              ),
+            ],
+          ),
         );
       },
     );

@@ -48,22 +48,27 @@ class PostTypeCardSelector extends StatelessWidget {
         borderRadius: BorderRadius.circular(8.0.h),
       ),
       elevation: isSelected ? 8.0 : 4.0,
-      child: _cardSelectorContent(),
+      child: _cardSelectorContent(isSelected),
     );
   }
 
-  ListView _cardSelectorContent() {
-    return ListView(
-      children: [
-        _selectorImage(),
-        SizedBox(height: 4.0.h),
-        _selectorTitle(),
-      ],
+  Widget _cardSelectorContent(bool isSelected) {
+    return SizedBox(
+      height: isSelected ? 112.0.h : 100.0.h,
+      width: isSelected ? 112.0.h : 100.0.h,
+      child: ListView(
+        children: [
+          _selectorImage(),
+          SizedBox(height: 3.0.h),
+          _selectorTitle(),
+        ],
+      ),
     );
   }
 
   SizedBox _selectorImage() {
     return SizedBox(
+      height: isSelected ? 92.0.h : 80.0.h,
       child: ClipRRect(
         borderRadius: BorderRadius.circular(8.0.h),
         child: AssetHandle.getImage(
@@ -71,7 +76,6 @@ class PostTypeCardSelector extends StatelessWidget {
           image,
         ),
       ),
-      height: isSelected ? 128.0.h : 118.0.h,
     );
   }
 
