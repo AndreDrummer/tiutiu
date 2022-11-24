@@ -50,7 +50,7 @@ class DeleteAccountScreen extends StatelessWidget with TiuTiuPopUp {
   Widget _deleteAccountOptions() {
     final motives = deleteAccountController.deleteAccountMotives;
     return SizedBox(
-      height: Get.height / 2,
+      height: Get.height / 1.9,
       child: ListView.builder(
         itemCount: motives.length,
         itemBuilder: (context, index) {
