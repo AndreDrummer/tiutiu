@@ -18,6 +18,13 @@ class PostService extends GetxService {
     await FirebaseFirestore.instance.doc(pathToPost(postId)).set({'views': ++currentViews}, SetOptions(merge: true));
   }
 
+  Stream<int> postViews(String postId) {
+    return FirebaseFirestore.instance
+        .doc(pathToPost(postId))
+        .snapshots()
+        .asyncMap((snp) => snp.get(PostEnum.views.name));
+  }
+
   Future<void> uploadVideo({required Function(String?) onVideoUploaded, required Post post}) async {
     try {
       final videosStoragePath = storagePathToVideo(post);

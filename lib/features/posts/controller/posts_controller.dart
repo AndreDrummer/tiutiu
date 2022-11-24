@@ -527,6 +527,10 @@ class PostsController extends GetxController {
     }
   }
 
+  Stream<int> postViews(String postId) {
+    return PostService().postViews(postId);
+  }
+
   void openMypostsLists() {
     filterController.reset();
     postsController.isInMyPostsList = true;
