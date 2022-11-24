@@ -10,6 +10,7 @@ import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/core/widgets/tiutiu_logo.dart';
 import 'package:tiutiu/core/widgets/button_wide.dart';
 import 'package:tiutiu/core/constants/strings.dart';
+import 'package:tiutiu/core/utils/dimensions.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'dart:math';
@@ -98,7 +99,11 @@ class AuthHosters extends StatelessWidget with TiuTiuPopUp {
 
   Widget _authButtons() {
     return Container(
-      height: Get.height / 2.7,
+      height: Get.height /
+          Dimensions.getDimensBasedOnDeviceHeight(
+            greaterDeviceHeightDouble: 2.7,
+            minDeviceHeightDouble: 2.6,
+          ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -170,7 +175,16 @@ class AuthHosters extends StatelessWidget with TiuTiuPopUp {
   }
 
   void _loginWithGoogle() async {
-    try {} catch (exception) {
+    try {
+      await authController.loginWithGoogle().then(
+        (success) {
+          if (success) {
+            goToHome();
+            authController.isLoading = false;
+          }
+        },
+      );
+    } catch (exception) {
       authController.isLoading = false;
       showPopUp(
         title: AuthStrings.authFailure,
