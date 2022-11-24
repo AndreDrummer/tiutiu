@@ -1,17 +1,17 @@
 import 'package:tiutiu/core/widgets/cards/widgets/ad_distance_from_user.dart';
 import 'package:tiutiu/features/favorites/widgets/favorite_button.dart';
-import 'package:tiutiu/features/home/controller/home_controller.dart';
 import 'package:tiutiu/core/widgets/cards/widgets/ad_interesteds.dart';
 import 'package:tiutiu/core/widgets/cards/widgets/ad_description.dart';
+import 'package:tiutiu/features/home/controller/home_controller.dart';
 import 'package:tiutiu/core/widgets/cards/widgets/ad_city_state.dart';
 import 'package:tiutiu/core/widgets/cards/widgets/ad_posted_at.dart';
 import 'package:tiutiu/core/widgets/cards/widgets/ad_images.dart';
 import 'package:tiutiu/core/widgets/cards/widgets/ad_title.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/widgets/cards/widgets/ad_views.dart';
-import 'package:tiutiu/core/pets/model/pet_model.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/features/posts/model/post.dart';
+import 'package:tiutiu/core/pets/model/pet_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -54,9 +54,9 @@ class CardBuilder {
 
   Widget adPostedAt() => AdPostedAt(createdAt: (_post as Pet).createdAt!);
 
-  Widget adViews() => AdViews(views: (_post as Pet).views);
-
   Widget adTitle() => AdTitle(title: (_post as Pet).name!);
 
   Widget divider() => Divider(height: 8.0.h);
+
+  Widget adViews() => AdViews(post: _post);
 }

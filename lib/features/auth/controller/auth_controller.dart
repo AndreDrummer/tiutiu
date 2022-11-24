@@ -277,6 +277,21 @@ class AuthController extends GetxController {
     return success;
   }
 
+  Future<bool> loginWithGoogle({bool firstLogin = true}) async {
+    isLoading = true;
+
+    final bool success = await _authService.loginWithGoogle();
+
+    if (success) {
+      await loadUserData();
+      registerFirstLogin();
+    }
+
+    isLoading = false;
+
+    return success;
+  }
+
   Future<bool> loginWithApple() async {
     isLoading = true;
 
