@@ -32,7 +32,7 @@ class ContactTile extends StatelessWidget {
     bool itsMe = loggedUser.uid == userReceiver?.uid;
     DateTime date = stamp.toDate();
 
-    String? profilePic = itsMe ? loggedUser.avatar : userReceiver?.avatar!;
+    String? profilePic = itsMe ? loggedUser.avatar : userReceiver?.avatar;
 
     return InkWell(
       onTap: onContactTap,

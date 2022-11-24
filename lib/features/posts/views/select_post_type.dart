@@ -1,4 +1,4 @@
-import 'package:tiutiu/features/posts/widgets/post_type_card_selector.dart';
+import 'package:tiutiu/features/posts/widgets/select_post_type_grid_view.dart';
 import 'package:tiutiu/core/widgets/default_basic_app_bar.dart';
 import 'package:tiutiu/features/posts/widgets/text_area.dart';
 import 'package:tiutiu/core/extensions/string_extension.dart';
@@ -21,18 +21,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class SelectPostType extends StatelessWidget with TiuTiuPopUp {
+  final screenAnimationDuration = Duration(milliseconds: 700);
+
   @override
   Widget build(BuildContext context) {
     debugPrint('>> Post Type Screen Opened...');
-
-    final filtersTypeText = filterController.filterTypeText.sublist(1).reversed.toList();
-
-    final petsTypeImage = [
-      StartScreenAssets.hamster,
-      StartScreenAssets.cockatiel,
-      StartScreenAssets.greyCat,
-      StartScreenAssets.munkun,
-    ];
 
     return WillPopScope(
       onWillPop: () async {
@@ -49,19 +42,8 @@ class SelectPostType extends StatelessWidget with TiuTiuPopUp {
                 margin: EdgeInsets.symmetric(horizontal: 4.0.w),
                 child: ListView(
                   children: [
-                    Container(
-                      margin: EdgeInsets.only(top: Get.width / 3),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          _screenTitle(),
-                          SizedBox(height: 8.0.h),
-                          _gridView(filtersTypeText, petsTypeImage),
-                        ],
-                      ),
-                    ),
-                    SizedBox(height: 8.0.h),
-                    _isDisappearedBoxSelection(),
+                    _selectPostType(),
+                    _isDisappearedSelection(),
                     _reward(),
                   ],
                 ),
@@ -75,15 +57,106 @@ class SelectPostType extends StatelessWidget with TiuTiuPopUp {
     );
   }
 
-  OneLineText _screenTitle() {
+  AnimatedContainer _selectPostType() {
+    double marginTop = postsController.post.type.isNotEmptyNeighterNull() ? 10 : Get.width / 3;
+    final filtersTypeText = filterController.filterTypeText.sublist(1).reversed.toList();
+
+    final petsTypeImage = [
+      StartScreenAssets.hamster,
+      StartScreenAssets.cockatiel,
+      StartScreenAssets.greyCat,
+      StartScreenAssets.munkun,
+    ];
+
+    return AnimatedContainer(
+      margin: EdgeInsets.only(top: marginTop),
+      duration: screenAnimationDuration,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          _selectPostTypeTitle(),
+          _gridView(filtersTypeText, petsTypeImage),
+        ],
+      ),
+    );
+  }
+
+  OneLineText _selectPostTypeTitle() {
     return OneLineText(
       text: PostFlowStrings.selectPetType,
-      widgetAlignment: Alignment.center,
+      widgetAlignment: Alignment(-0.9, 1),
       fontSize: 16,
     );
   }
 
-  OneLineText _isThisPetDisappeared() {
+  Widget _gridView(List<String> filtersTypeText, List<String> petsTypeImage) {
+    return Obx(() {
+      return SelectPostTypeGridView(
+        onTypeSelected: (typeSelected) {
+          postsController.updatePost(PostEnum.type.name, typeSelected);
+        },
+        pairRowAxisAlignment: MainAxisAlignment.start,
+        petsTypeSelected: postsController.post.type,
+        oddRowAxisAlignment: MainAxisAlignment.end,
+        collsNumber: (filtersTypeText.length ~/ 2),
+        rowsNumber: (filtersTypeText.length ~/ 2),
+        filtersTypeText: filtersTypeText,
+        petsTypeImage: petsTypeImage,
+      );
+    });
+  }
+
+  Widget _isDisappearedSelection() {
+    return Obx(
+      () {
+        double marginTop = (postsController.post as Pet).disappeared ? 16.0.h : 48.0.h;
+        return AnimatedOpacity(
+          duration: screenAnimationDuration,
+          opacity: postsController.post.type.isNotEmptyNeighterNull() ? 1 : 0,
+          child: AnimatedContainer(
+            margin: EdgeInsets.only(top: marginTop),
+            duration: screenAnimationDuration,
+            child: Column(
+              children: [
+                _isDisappearedSelectionTitle(),
+                Row(
+                  children: [
+                    SizedBox(width: 4.0.w),
+                    Expanded(
+                      child: CheckboxListTile(
+                        contentPadding: EdgeInsets.zero,
+                        controlAffinity: ListTileControlAffinity.leading,
+                        title: AutoSizeTexts.autoSizeText12(AppStrings.yes),
+                        onChanged: (_) {
+                          postsController.updatePost(PetEnum.disappeared.name, true);
+                        },
+                        value: (postsController.post as Pet).disappeared,
+                      ),
+                    ),
+                    Expanded(
+                      child: CheckboxListTile(
+                        contentPadding: EdgeInsets.zero,
+                        controlAffinity: ListTileControlAffinity.leading,
+                        title: AutoSizeTexts.autoSizeText12(AppStrings.no),
+                        onChanged: (_) {
+                          postsController.updatePost(PetEnum.disappeared.name, false);
+                          postsController.updatePost(PetEnum.reward.name, '');
+                        },
+                        value: !(postsController.post as Pet).disappeared,
+                      ),
+                    ),
+                    Spacer(),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  OneLineText _isDisappearedSelectionTitle() {
     return OneLineText(
       text: PostFlowStrings.isThisPetDisappeared,
       widgetAlignment: Alignment(-0.88, 1),
@@ -91,126 +164,52 @@ class SelectPostType extends StatelessWidget with TiuTiuPopUp {
     );
   }
 
-  Widget _isDisappearedBoxSelection() {
-    return Obx(
-      () => AnimatedOpacity(
-        duration: Duration(seconds: 1),
-        opacity: postsController.post.type.isNotEmptyNeighterNull() ? 1 : 0,
-        child: Column(
-          children: [
-            _isThisPetDisappeared(),
-            Row(
-              children: [
-                SizedBox(width: 4.0.w),
-                Expanded(
-                  child: CheckboxListTile(
-                    contentPadding: EdgeInsets.zero,
-                    controlAffinity: ListTileControlAffinity.leading,
-                    title: AutoSizeTexts.autoSizeText12(AppStrings.yes),
-                    onChanged: (_) {
-                      postsController.updatePost(PetEnum.disappeared.name, true);
-                    },
-                    value: (postsController.post as Pet).disappeared,
-                  ),
-                ),
-                Expanded(
-                  child: CheckboxListTile(
-                    contentPadding: EdgeInsets.zero,
-                    controlAffinity: ListTileControlAffinity.leading,
-                    title: AutoSizeTexts.autoSizeText12(AppStrings.no),
-                    onChanged: (_) {
-                      postsController.updatePost(PetEnum.disappeared.name, false);
-                      postsController.updatePost(PetEnum.reward.name, '');
-                    },
-                    value: !(postsController.post as Pet).disappeared,
-                  ),
-                ),
-                Spacer(),
-              ],
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
   Widget _reward() {
-    return Obx(
-      () => AnimatedOpacity(
-        duration: Duration(seconds: 1),
+    return Obx(() {
+      double marginTop = (postsController.post as Pet).disappeared ? 10 : Get.width / 3;
+
+      return AnimatedOpacity(
         opacity: (postsController.post as Pet).disappeared ? 1 : 0,
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 8.0.w),
-          child: TextArea(
-            initialValue: (postsController.post as Pet).reward,
-            inputFormatters: [
-              FilteringTextInputFormatter.digitsOnly,
-              RealInputFormatter(),
+        duration: screenAnimationDuration,
+        child: AnimatedContainer(
+          duration: screenAnimationDuration,
+          margin: EdgeInsets.only(top: marginTop, left: 8.0.w, right: 8.0.w),
+          child: Column(
+            children: [
+              _rewardTitle(),
+              TextArea(
+                initialValue: (postsController.post as Pet).reward,
+                inputFormatters: [
+                  FilteringTextInputFormatter.digitsOnly,
+                  RealInputFormatter(),
+                ],
+                onChanged: (value) {
+                  postsController.updatePost(PetEnum.reward.name, value);
+                },
+                labelText: 'R\$ 1.000',
+                hintText: '1.000',
+                prefix: 'R\$ ',
+                maxLines: 1,
+              ),
             ],
-            onChanged: (value) {
-              postsController.updatePost(PetEnum.reward.name, value);
-            },
-            labelText: PostFlowStrings.reward,
-            hintText: '1.000',
-            prefix: 'R\$ ',
-            maxLines: 1,
           ),
         ),
-      ),
-    );
+      );
+    });
   }
 
-  Obx _gridView(List<String> filtersTypeText, List<String> petsTypeImage) {
-    return Obx(
-      () {
-        return SizedBox(
-          height: 248.0.h,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Column(
-                children: filtersTypeText.sublist(0, 2).map(
-                  (type) {
-                    final index = filtersTypeText.indexOf(type);
-
-                    return PostTypeCardSelector(
-                      onTypeSelected: () {
-                        postsController.updatePost(PostEnum.type.name, type);
-                      },
-                      isSelected: postsController.post.type == type,
-                      image: petsTypeImage.elementAt(index),
-                      typeText: type,
-                    );
-                  },
-                ).toList(),
-              ),
-              Column(
-                children: filtersTypeText.sublist(2, 4).map(
-                  (type) {
-                    final index = filtersTypeText.indexOf(type);
-
-                    return PostTypeCardSelector(
-                      onTypeSelected: () {
-                        postsController.updatePost(PostEnum.type.name, type);
-                      },
-                      isSelected: postsController.post.type == type,
-                      image: petsTypeImage.elementAt(index),
-                      typeText: type,
-                    );
-                  },
-                ).toList(),
-              ),
-            ],
-          ),
-        );
-      },
+  OneLineText _rewardTitle() {
+    return OneLineText(
+      text: PostFlowStrings.reward,
+      widgetAlignment: Alignment(-0.99, 1),
+      fontSize: 16,
     );
   }
 
   Obx _buttons() {
     return Obx(
       () => AnimatedOpacity(
-        duration: Duration(seconds: 1),
+        duration: screenAnimationDuration,
         opacity: postsController.post.type.isNotEmptyNeighterNull() ? 1 : 0,
         child: RowButtonBar(
           onPrimaryPressed: () async {
