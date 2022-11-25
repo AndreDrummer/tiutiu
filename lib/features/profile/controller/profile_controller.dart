@@ -26,7 +26,6 @@ class ProfileController extends GetxController {
         break;
       case MyProfileOptionsTile.talkWithUs:
         Get.toNamed(Routes.talkWithUs);
-        isSetting = true;
         break;
       case MyProfileOptionsTile.deleteAccount:
         Get.toNamed(Routes.deleteAccount);
