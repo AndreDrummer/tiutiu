@@ -1,3 +1,4 @@
+import 'package:tiutiu/features/talk_with_us/dependency_injection.dart';
 import 'package:tiutiu/features/tiutiu_user/dependency_injection.dart';
 import 'package:tiutiu/features/favorites/dependency_injection.dart';
 import 'package:tiutiu/core/location/models/states_and_cities.dart';
@@ -39,5 +40,6 @@ class TiuTiuInitializer {
     HomeControllerDependency(),
     ChatControllerDependency(),
     AuthControllerDependency(),
+    TalkWithUsDependency(),
   ];
 }

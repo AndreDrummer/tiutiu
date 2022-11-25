@@ -430,19 +430,11 @@ class AuthController extends GetxController {
         );
       }
 
-      if (user?.providerData.first.providerId != AuthKeys.password.name) {
-        debugPrint('>> Updating emailVerified...');
-        tiutiuUserController.updateTiutiuUser(
-          TiutiuUserEnum.emailVerified,
-          true,
-        );
-      } else {
-        debugPrint('>> Updating password emailVerified... ${user?.emailVerified}');
-        tiutiuUserController.updateTiutiuUser(
-          TiutiuUserEnum.emailVerified,
-          user?.emailVerified ?? false,
-        );
-      }
+      debugPrint('>> Updating emailVerified... ${user?.emailVerified}');
+      tiutiuUserController.updateTiutiuUser(
+        TiutiuUserEnum.emailVerified,
+        user?.emailVerified ?? false,
+      );
 
       if (loggedUser.displayName == null) {
         debugPrint('>> Updating displayName...');

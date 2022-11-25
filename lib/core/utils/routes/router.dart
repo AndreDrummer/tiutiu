@@ -1,4 +1,5 @@
 import 'package:tiutiu/features/delete_account/views/delete_account_screen.dart';
+import 'package:tiutiu/features/talk_with_us/views/talk_with_us.dart';
 import 'package:tiutiu/features/auth/views/email_and_password.dart';
 import 'package:tiutiu/features/favorites/screen/favorites.dart';
 import 'package:tiutiu/features/posts/flow/init_post_flow.dart';
@@ -64,6 +65,10 @@ class RouterGenerator {
       case Routes.about:
         return MaterialPageRoute(
           builder: (_) => About(),
+        );
+      case Routes.talkWithUs:
+        return MaterialPageRoute(
+          builder: (_) => TalkWithUs(),
         );
 
       case Routes.deleteAccount:
