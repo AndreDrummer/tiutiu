@@ -42,6 +42,7 @@ class AppStrings {
   static String get wait => 'Aguarde';
   static String get post => 'Postar';
   static String get back => 'Voltar';
+  static String get send => 'Enviar';
   static String get save => 'Salvar';
   static String get leave => 'Sair';
   static String get type => 'Tipo';
@@ -314,11 +315,12 @@ class DeleteAccountStrings {
 }
 
 class TalkWithUsStrings {
+  static const String sendingYourMessage = 'Enviando sua mensagem para o administrador';
   static const String wannaAnnounceOnApp = 'Quero anunciar no Tiu, tiu';
   static const String anotherUserIssue = 'Problema com outro usuário';
   static const String writeYourMessage = 'Escreva sua mensagem';
-  static const String dificultsUse = 'Dificuldade ap usa o app';
+  static const String dificultsUse = 'Dificuldade ao usa o app';
   static const String subject = 'Sobre o quê você quer falar';
-  static const String addImages = 'Adicionar imagens';
+  static const String addImages = 'Adicionar um print';
   static const String partnership = 'Parceria';
 }
