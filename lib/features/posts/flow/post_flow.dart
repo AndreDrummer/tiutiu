@@ -9,13 +9,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/widgets/load_dark_screen.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/widgets/row_button_bar.dart';
+import 'package:tiutiu/features/posts/views/images.dart';
 import 'package:tiutiu/core/widgets/cancel_button.dart';
 import 'package:tiutiu/core/widgets/one_line_text.dart';
 import 'package:tiutiu/core/mixins/tiu_tiu_pop_up.dart';
 import 'package:tiutiu/features/posts/views/video.dart';
 import 'package:tiutiu/core/pets/model/pet_model.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
-import 'package:tiutiu/core/widgets/add_image.dart';
 import 'package:tiutiu/core/constants/strings.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -63,14 +63,7 @@ class PostFlow extends StatelessWidget with TiuTiuPopUp {
             PostDescription(),
             PostCaracteristics(),
             PostLocation(),
-            AddImage(
-              hasError: postsController.post.photos.isEmpty && !postsController.formIsValid,
-              onRemovePictureOnIndex: postsController.removePictureOnIndex,
-              onAddPictureOnIndex: postsController.addPictureOnIndex,
-              addedImagesQty: postsController.post.photos.length,
-              images: postsController.post.photos,
-              maxImagesQty: 6,
-            ),
+            Images(),
             Video(),
             ReviewPost(),
           ];

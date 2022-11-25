@@ -10,7 +10,7 @@ class BodyCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.only(
-        bottom: 16.0.h,
+        bottom: 8.0.h,
         right: 4.0.w,
         left: 4.0.w,
         top: 8.0.h,
