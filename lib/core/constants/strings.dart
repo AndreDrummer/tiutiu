@@ -312,3 +312,13 @@ class DeleteAccountStrings {
   static const String other = 'Outro';
   static const String bugs = 'Bugs';
 }
+
+class TalkWithUsStrings {
+  static const String wannaAnnounceOnApp = 'Quero anunciar no Tiu, tiu';
+  static const String anotherUserIssue = 'Problema com outro usuário';
+  static const String writeYourMessage = 'Escreva sua mensagem';
+  static const String dificultsUse = 'Dificuldade ap usa o app';
+  static const String subject = 'Sobre o quê você quer falar';
+  static const String addImages = 'Adicionar imagens';
+  static const String partnership = 'Parceria';
+}
