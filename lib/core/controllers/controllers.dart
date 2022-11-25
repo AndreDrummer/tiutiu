@@ -1,8 +1,9 @@
 import 'package:tiutiu/core/location/controller/current_location_controller.dart';
-import 'package:tiutiu/features/delete_account/controller/delete_account.dart';
 import 'package:tiutiu/features/favorites/controller/favorites_controller.dart';
+import 'package:tiutiu/features/delete_account/controller/delete_account.dart';
 import 'package:tiutiu/features/tiutiu_user/controller/user_controller.dart';
 import 'package:tiutiu/features/profile/controller/profile_controller.dart';
+import 'package:tiutiu/features/talk_with_us/controller/talk_with_us.dart';
 import 'package:tiutiu/features/posts/controller/filter_controller.dart';
 import 'package:tiutiu/features/posts/controller/posts_controller.dart';
 import 'package:tiutiu/core/system/controller/system_controller.dart';
@@ -16,6 +17,7 @@ final CurrentLocationController currentLocationController = Get.find();
 final DeleteAccountController deleteAccountController = Get.find();
 final TiutiuUserController tiutiuUserController = Get.find();
 final FullscreenController fullscreenController = Get.find();
+final TalkWithUsController talkWithUsController = Get.find();
 final FavoritesController favoritesController = Get.find();
 final ProfileController profileController = Get.find();
 final FilterController filterController = Get.find();

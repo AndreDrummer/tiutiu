@@ -6,6 +6,7 @@ class Routes {
   static const authHosters = '/auth-hosters';
   static const startScreen = '/start-screen';
   static const postDetails = '/pet-details';
+  static const talkWithUs = '/talk-with-us';
   static const favorites = '/favorites';
   static const contacts = '/contacts';
   static const myPosts = '/my-posts';

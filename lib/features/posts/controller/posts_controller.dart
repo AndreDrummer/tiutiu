@@ -1,14 +1,15 @@
 import 'package:tiutiu/features/posts/repository/posts_repository.dart';
-import 'package:tiutiu/features/posts/services/post_service.dart';
 import 'package:tiutiu/features/posts/validators/form_validators.dart';
 import 'package:tiutiu/core/location/models/states_and_cities.dart';
 import 'package:tiutiu/core/local_storage/local_storage_keys.dart';
+import 'package:tiutiu/features/posts/services/post_service.dart';
 import 'package:tiutiu/core/constants/firebase_env_path.dart';
 import 'package:tiutiu/core/local_storage/local_storage.dart';
 import 'package:tiutiu/core/extensions/string_extension.dart';
 import 'package:tiutiu/core/utils/file_cache_manager.dart';
 import 'package:tiutiu/core/utils/routes/routes_name.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
+import 'package:tiutiu/core/mixins/tiu_tiu_pop_up.dart';
 import 'package:tiutiu/core/pets/model/pet_model.dart';
 import 'package:tiutiu/features/posts/model/post.dart';
 import 'package:tiutiu/core/constants/strings.dart';
@@ -20,7 +21,7 @@ import 'dart:io';
 
 const int _FLOW_STEPS_QTY = 7;
 
-class PostsController extends GetxController {
+class PostsController extends GetxController with TiuTiuPopUp {
   PostsController({
     required PostsRepository postsRepository,
   }) : _postsRepository = postsRepository;
@@ -36,7 +37,6 @@ class PostsController extends GetxController {
   final RxBool _isEditingPost = false.obs;
   final RxBool _isFullAddress = false.obs;
   final RxList<Pet> _posts = <Pet>[].obs;
-  final RxInt _postPhotoFrameQty = 1.obs;
   final RxString _flowErrorText = ''.obs;
   final RxBool _postReviewed = false.obs;
   final RxBool _formIsValid = true.obs;
@@ -49,7 +49,6 @@ class PostsController extends GetxController {
   bool get existChronicDisease => (post as Pet).health == PetHealthString.chronicDisease;
   String get uploadingPostText => _uploadingPostText.value;
   Map<String, dynamic> get cachedVideos => _cachedVideos;
-  int get postPhotoFrameQty => _postPhotoFrameQty.value;
   bool get isInMyPostsList => _isInMyPostsList.value;
   bool get isInReviewMode => _isInReviewMode.value;
   String get flowErrorText => _flowErrorText.value;
@@ -481,14 +480,6 @@ class PostsController extends GetxController {
     _post(Pet().fromMap(postMap));
   }
 
-  void increasePhotosQty() {
-    if (postPhotoFrameQty < 6) _postPhotoFrameQty(postPhotoFrameQty + 1);
-  }
-
-  void decreasePhotosQty() {
-    if (postPhotoFrameQty > 1) _postPhotoFrameQty(postPhotoFrameQty - 1);
-  }
-
   void _nextStep() {
     _pauseVideo();
     if (flowIndex < _FLOW_STEPS_QTY) _flowIndex(flowIndex + 1);
@@ -525,6 +516,35 @@ class PostsController extends GetxController {
     if (!isEditingPost && !isInReviewMode) {
       await PostService().increasePostViews(post.uid!, post.views);
     }
+  }
+
+  Future<bool> showsCancelPostPopUp({bool isInsideFlow = false}) async {
+    bool returnValue = false;
+
+    await showPopUp(
+      message: PostFlowStrings.postCancelMessage,
+      title: PostFlowStrings.postCancelTitle,
+      mainAction: () => Get.back(),
+      confirmText: AppStrings.yes,
+      barrierDismissible: false,
+      denyText: AppStrings.no,
+      secondaryAction: () {
+        Get.back();
+
+        if (postsController.isEditingPost) {
+          postsController.isEditingPost = false;
+          Get.back();
+        } else {
+          homeController.setDonateIndex();
+        }
+
+        postsController.clearForm();
+        if (isInsideFlow) returnValue = true;
+      },
+      danger: true,
+    );
+
+    return returnValue;
   }
 
   Stream<int> postViews(String postId) {
