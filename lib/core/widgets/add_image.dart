@@ -125,7 +125,7 @@ class _AddImageState extends State<AddImage> with Pickers {
     final photosQty = widget.addedImagesQty;
 
     return AnimatedTextIconButton(
-      showCondition: (photosQty == photosFrameQty) && photosFrameQty < 6,
+      showCondition: (photosQty == photosFrameQty) && photosFrameQty < widget.maxImagesQty,
       textLabel: PostFlowStrings.addMorePictures,
       onPressed: () {
         increasePhotosQty();
