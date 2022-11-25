@@ -6,9 +6,9 @@ enum TalkWithUsEnum {
 
 class TalkWithUs {
   TalkWithUs({
-    this.contactSubject,
-    this.contactMessage,
-    this.screenshots,
+    this.screenshots = const [],
+    this.contactSubject = '-',
+    this.contactMessage = '',
   });
 
   factory TalkWithUs.fromMap(Map<String, dynamic> map) {
@@ -19,9 +19,9 @@ class TalkWithUs {
     );
   }
 
-  String? contactSubject;
-  String? contactMessage;
-  List? screenshots;
+  String contactMessage;
+  String contactSubject;
+  List screenshots;
 
   Map<String, dynamic> toMap() {
     return {

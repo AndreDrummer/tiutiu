@@ -399,34 +399,35 @@ class PostsController extends GetxController with TiuTiuPopUp {
     PostFormValidator validator = PostFormValidator(post);
     _postReviewed(false);
 
-    switch (flowIndex) {
-      case 0:
-        _formIsValid(validator.isStep1Valid(existChronicDisease));
-        break;
-      case 1:
-        _formIsValid(validator.isStep2Valid());
-        break;
-      case 2:
-        _formIsValid(validator.isStep3Valid());
-        break;
-      case 3:
-        _formIsValid(validator.isStep4Valid(isFullAddress));
-        break;
-      case 4:
-        _formIsValid(validator.isStep5Valid());
-        break;
-      case 5:
-        isLoading = false;
-        break;
-      case 7:
-        isLoading = true;
-        Future.delayed(Duration(seconds: 10), () {
-          isLoading = false;
-        });
-        break;
-    }
+    // switch (flowIndex) {
+    //   case 0:
+    //     _formIsValid(validator.isStep1Valid(existChronicDisease));
+    //     break;
+    //   case 1:
+    //     _formIsValid(validator.isStep2Valid());
+    //     break;
+    //   case 2:
+    //     _formIsValid(validator.isStep3Valid());
+    //     break;
+    //   case 3:
+    //     _formIsValid(validator.isStep4Valid(isFullAddress));
+    //     break;
+    //   case 4:
+    //     _formIsValid(validator.isStep5Valid());
+    //     break;
+    //   case 5:
+    //     isLoading = false;
+    //     break;
+    //   case 7:
+    //     isLoading = true;
+    //     Future.delayed(Duration(seconds: 10), () {
+    //       isLoading = false;
+    //     });
+    //     break;
+    // }
 
-    if (formIsValid) _nextStep();
+    _nextStep();
+    // if (formIsValid) _nextStep();
   }
 
   void setError(String errorMessage) {
