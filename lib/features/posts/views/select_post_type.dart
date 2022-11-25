@@ -216,28 +216,7 @@ class SelectPostType extends StatelessWidget with TiuTiuPopUp {
             await _setLocation();
             Get.to(() => PostFlow());
           },
-          onSecondaryPressed: () {
-            showPopUp(
-              message: PostFlowStrings.postCancelMessage,
-              title: PostFlowStrings.postCancelTitle,
-              mainAction: () => Get.back(),
-              confirmText: AppStrings.yes,
-              denyText: AppStrings.no,
-              secondaryAction: () {
-                Get.back();
-
-                if (postsController.isEditingPost) {
-                  postsController.isEditingPost = false;
-                  Get.back();
-                } else {
-                  homeController.setDonateIndex();
-                }
-
-                postsController.clearForm();
-              },
-              danger: true,
-            );
-          },
+          onSecondaryPressed: postsController.showsCancelPostPopUp,
           buttonSecondaryColor: AppColors.danger,
           textPrimary: AppStrings.contines,
           textSecond: AppStrings.cancel,
