@@ -13,6 +13,7 @@ class FirebaseEnvPath {
   static const String whatsappCodes = 'whatsappCodes';
   static const String notifications = 'Notifications';
   static const String disappeared = 'Disappeared';
+  static const String feedbacks = 'feedbacks';
   static const String favorites = 'Favorites';
   static const String projectName = 'tiutiu';
   static const String messages = 'messages';
@@ -37,6 +38,14 @@ String get pathToPosts {
       .concat(FirebaseEnvPath.environment, joiner: '/')
       .concat(FirebaseEnvPath.posts, joiner: '/')
       .concat(FirebaseEnvPath.posts, joiner: '/');
+}
+
+String get pathToFeedbacks {
+  return FirebaseEnvPath.projectName
+      .concat(FirebaseEnvPath.env, joiner: '/')
+      .concat(FirebaseEnvPath.environment, joiner: '/')
+      .concat(FirebaseEnvPath.feedbacks, joiner: '/')
+      .concat(FirebaseEnvPath.feedbacks, joiner: '/');
 }
 
 String pathToPost(String postId) {
@@ -84,6 +93,20 @@ String postsStoragePath({
       .concat(FirebaseEnvPath.users.toLowerCase(), joiner: '/')
       .concat(userId, joiner: '/')
       .concat(FirebaseEnvPath.posts, joiner: '/')
+      .concat(postId, joiner: '/')
+      .concat(fileType, joiner: '/');
+}
+
+String feedbackStoragePath({
+  required String fileType,
+  required String userId,
+  required String postId,
+}) {
+  return FirebaseEnvPath.projectName
+      .concat(FirebaseEnvPath.environment, joiner: '/')
+      .concat(FirebaseEnvPath.users.toLowerCase(), joiner: '/')
+      .concat(userId, joiner: '/')
+      .concat(FirebaseEnvPath.feedbacks, joiner: '/')
       .concat(postId, joiner: '/')
       .concat(fileType, joiner: '/');
 }
