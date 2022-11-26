@@ -89,7 +89,7 @@ class DeleteAccountController extends GetxController with TiuTiuPopUp {
       denyText: AppStrings.no,
       mainAction: Get.back,
       warning: true,
-      danger: false,
+      error: false,
     );
   }
 
@@ -106,7 +106,7 @@ class DeleteAccountController extends GetxController with TiuTiuPopUp {
         });
       },
       warning: false,
-      danger: true,
+      error: true,
     );
   }
 

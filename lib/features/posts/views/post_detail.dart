@@ -488,7 +488,7 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
               title: PostFlowStrings.deleteAd,
               denyText: AppStrings.no,
               warning: true,
-              danger: false,
+              error: false,
             );
           },
           isToExpand: true,
