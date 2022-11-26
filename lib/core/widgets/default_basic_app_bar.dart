@@ -12,7 +12,7 @@ class DefaultBasicAppBar extends AppBar {
   }) : super(
           backgroundColor: backgroundColor ?? AppColors.primary,
           automaticallyImplyLeading: automaticallyImplyLeading,
-          title: AutoSizeTexts.autoSizeText20(text),
+          title: AutoSizeTexts.autoSizeText16(text),
           leading: leading,
           actions: actions,
         );
