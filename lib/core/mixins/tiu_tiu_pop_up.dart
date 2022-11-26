@@ -11,7 +11,7 @@ mixin TiuTiuPopUp {
     void Function()? mainAction,
     bool warning = false,
     String title = 'Erro',
-    bool danger = false,
+    bool error = false,
     String? confirmText,
     Color? textColor,
     String? denyText,
@@ -34,10 +34,45 @@ mixin TiuTiuPopUp {
           },
           message: message,
           warning: warning,
-          error: danger,
+          error: error,
           title: title,
         );
       },
+    );
+  }
+
+  Future<void> showsOnRequestErrorPopup({
+    void Function()? onCancel,
+    void Function()? onRetry,
+    required String message,
+    required String title,
+    String? confirmText,
+    String? denyText,
+  }) async {
+    await showPopUp(
+      secondaryAction: onCancel,
+      barrierDismissible: false,
+      confirmText: confirmText,
+      mainAction: onRetry,
+      denyText: denyText,
+      message: message,
+      error: true,
+      title: title,
+    );
+  }
+
+  Future<void> showsOnRequestSuccessPopup({
+    void Function()? onDone,
+    required String message,
+  }) async {
+    await showPopUp(
+      confirmText: AppStrings.ok,
+      barrierDismissible: false,
+      title: AppStrings.success,
+      mainAction: onDone,
+      message: message,
+      warning: false,
+      error: false,
     );
   }
 }

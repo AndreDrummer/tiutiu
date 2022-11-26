@@ -27,7 +27,7 @@ class PostService extends GetxService {
 
   Future<void> uploadVideo({required Function(String?) onVideoUploaded, required Post post}) async {
     try {
-      final videosStoragePath = storagePathToVideo(post);
+      final videosStoragePath = postStoragePathToVideo(post);
 
       final videoUrlDownload = await OtherFunctions.getVideoUrlDownload(
         storagePath: videosStoragePath,
@@ -46,7 +46,7 @@ class PostService extends GetxService {
     required Post post,
   }) async {
     try {
-      final imagesStoragePath = storagePathToImages(post);
+      final imagesStoragePath = postStoragePathToImages(post);
 
       if (imagesToDelete.isNotEmpty) {
         debugPrint('>> Deleting images removed...');
@@ -90,7 +90,7 @@ class PostService extends GetxService {
     bool success = false;
 
     try {
-      final videosStoragePath = storagePathToVideo(post);
+      final videosStoragePath = postStoragePathToVideo(post);
 
       if (post.video != null) {
         await deletePostVideo(videosStoragePath, post.uid!);
@@ -119,7 +119,7 @@ class PostService extends GetxService {
   Future<void> deletePostImages(Post post) async {
     String currentImage = 'null';
     try {
-      final imagesStoragePath = storagePathToImages(post);
+      final imagesStoragePath = postStoragePathToImages(post);
       final imagesQqty = post.photos.length;
 
       for (int i = 0; i < imagesQqty; i++) {
@@ -154,13 +154,13 @@ class PostService extends GetxService {
     }
   }
 
-  String storagePathToImages(Post post) => postsStoragePath(
+  String postStoragePathToImages(Post post) => postsStoragePath(
         fileType: FileType.images.name,
         userId: post.ownerId!,
         postId: post.uid!,
       );
 
-  String storagePathToVideo(Post post) => postsStoragePath(
+  String postStoragePathToVideo(Post post) => postsStoragePath(
         fileType: FileType.video.name,
         userId: post.ownerId!,
         postId: post.uid!,
