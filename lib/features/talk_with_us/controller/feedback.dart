@@ -1,7 +1,7 @@
-import 'package:tiutiu/core/utils/routes/routes_name.dart';
 import 'package:tiutiu/features/talk_with_us/service/feedback.dart';
 import 'package:tiutiu/features/talk_with_us/model/feedback.dart';
 import 'package:tiutiu/core/extensions/string_extension.dart';
+import 'package:tiutiu/core/utils/routes/routes_name.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/mixins/tiu_tiu_pop_up.dart';
 import 'package:tiutiu/core/constants/strings.dart';
@@ -68,8 +68,16 @@ class FeedbackController extends GetxController with TiuTiuPopUp {
   }
 
   void setLoading(bool loadingValue, String loadingText) {
-    isLoading = loadingValue;
+    _isLoading(loadingValue);
     _loadingText(loadingText);
+  }
+
+  void clearForm() {
+    _feedback(Feedback());
+    setLoading(false, '');
+    _insertImages(false);
+    _isFormValid(true);
+    Get.offNamedUntil(Routes.home, (routeName) => routeName == Routes.home);
   }
 
   Future<void> submitForm() async {
@@ -77,41 +85,36 @@ class FeedbackController extends GetxController with TiuTiuPopUp {
 
     if (isFormValid) {
       setLoading(true, '');
-      await Future.delayed(Duration(seconds: 1));
-      if (feedback.createdAt == null) updateFeedback(FeedbackEnum.createdAt, DateTime.now().toIso8601String());
-      if (feedback.ownerId == null) updateFeedback(FeedbackEnum.ownerId, tiutiuUserController.tiutiuUser.uid);
-      if (feedback.uid == null) updateFeedback(FeedbackEnum.uid, Uuid().v4());
-      if (!insertImages) updateFeedback(FeedbackEnum.screenshots, []);
 
-      final uploadFeedbackProccess = [
-        _uploadPrints(),
-        _uploadFeedbackData(),
-      ];
-
-      await Future.wait(uploadFeedbackProccess).onError((error, stackTrace) {
+      await _prepareFormToSubmit().then((_) async => _showsSuccessPopup(), onError: (error, stackTrace) {
         debugPrint('>> Error when tryna upload feedback: $error, $stackTrace');
         setLoading(false, '');
         _showsErrorPopup();
-        return [];
-      }).then((_) => _showsSuccessPopup());
+      });
     }
 
     setLoading(false, '');
   }
 
-  void clearForm() {
-    _feedback(Feedback());
-    setLoading(false, '');
-    Get.offNamedUntil(Routes.home, (routeName) => routeName == Routes.home);
+  Future<void> _prepareFormToSubmit() async {
+    if (feedback.createdAt == null) updateFeedback(FeedbackEnum.createdAt, DateTime.now().toIso8601String());
+    if (feedback.ownerId == null) updateFeedback(FeedbackEnum.ownerId, tiutiuUserController.tiutiuUser.uid);
+    if (feedback.uid == null) updateFeedback(FeedbackEnum.uid, Uuid().v4());
+    if (!insertImages) updateFeedback(FeedbackEnum.screenshots, []);
+
+    await _uploadPrints();
+    await _uploadFeedbackData();
   }
 
   Future<void> _uploadPrints() async {
     if (feedback.screenshots.isNotEmpty) {
-      setLoading(true, PostFlowStrings.imageQty(feedback.screenshots.length));
+      _loadingText(PostFlowStrings.imageQty(feedback.screenshots.length));
 
       await FeedbackService().uploadPrints(
         onPrintsUploaded: (printsUrlList) {
+          print('>> Lista $printsUrlList');
           updateFeedback(FeedbackEnum.screenshots, printsUrlList);
+          print('>> Feedback ${feedback.toMap()}');
         },
         feedback: feedback,
       );
@@ -122,6 +125,16 @@ class FeedbackController extends GetxController with TiuTiuPopUp {
     setLoading(true, FeedbackStrings.sendingYourMessage);
 
     await FeedbackService().uploadFeedbackData(feedback);
+  }
+
+  Future<void> _showsSuccessPopup() async {
+    await showsOnRequestSuccessPopup(
+      message: FeedbackStrings.successSent,
+      onDone: () {
+        Get.back();
+        clearForm();
+      },
+    );
   }
 
   Future<void> _showsErrorPopup() async {
@@ -135,16 +148,6 @@ class FeedbackController extends GetxController with TiuTiuPopUp {
         setLoading(true, FeedbackStrings.tryingAgain);
         Get.back();
         submitForm();
-      },
-    );
-  }
-
-  Future<void> _showsSuccessPopup() async {
-    await showsOnRequestSuccessPopup(
-      message: FeedbackStrings.successSent,
-      onDone: () {
-        Get.back();
-        clearForm();
       },
     );
   }
