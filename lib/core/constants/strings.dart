@@ -330,3 +330,10 @@ class FeedbackStrings {
   static const String partnership = 'Parceria';
   static const String failure = 'Falha';
 }
+
+class SupportUsStrings {
+  static const String helpMaintainTheApp = 'Ajude-nos a manter este aplicativo!';
+  static const String keyPixCopied = 'Chave copiada!';
+  static const String copyKey = 'Copiar chave';
+  static const String keyPIX = 'Chave PIX';
+}
