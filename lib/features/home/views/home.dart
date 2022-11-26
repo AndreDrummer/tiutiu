@@ -24,7 +24,7 @@ class Home extends StatelessWidget with TiuTiuPopUp {
               barrierDismissible: false,
               title: AppStrings.endApp,
               denyText: AppStrings.no,
-              danger: false,
+              error: false,
               warning: true,
               mainAction: () {
                 Get.back();

@@ -189,7 +189,7 @@ class AuthHosters extends StatelessWidget with TiuTiuPopUp {
       showPopUp(
         title: AuthStrings.authFailure,
         message: exception.toString(),
-        danger: true,
+        error: true,
       );
     }
   }
@@ -209,7 +209,7 @@ class AuthHosters extends StatelessWidget with TiuTiuPopUp {
       showPopUp(
         title: AuthStrings.authFailure,
         message: exception.toString(),
-        danger: true,
+        error: true,
       );
     }
   }
@@ -229,7 +229,7 @@ class AuthHosters extends StatelessWidget with TiuTiuPopUp {
       showPopUp(
         title: AuthStrings.authFailure,
         message: exception.toString(),
-        danger: true,
+        error: true,
       );
     }
   }

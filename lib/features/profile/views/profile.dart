@@ -192,7 +192,7 @@ class Profile extends StatelessWidget with TiuTiuPopUp {
       title: AppStrings.leave,
       denyText: AppStrings.no,
       warning: true,
-      danger: false,
+      error: false,
     );
   }
 

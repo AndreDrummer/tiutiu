@@ -249,7 +249,7 @@ class EmailAndPassword extends StatelessWidget with TiuTiuPopUp {
       showPopUp(
         title: AuthStrings.authFailure,
         message: exception.toString(),
-        danger: true,
+        error: true,
       );
     }
   }
@@ -270,7 +270,7 @@ class EmailAndPassword extends StatelessWidget with TiuTiuPopUp {
       showPopUp(
         title: AuthStrings.authFailure,
         message: exception.toString(),
-        danger: true,
+        error: true,
       );
     }
   }

@@ -1,6 +1,6 @@
-import 'package:tiutiu/features/talk_with_us/model/talk_with_us.dart';
 import 'package:tiutiu/features/talk_with_us/widgets/body_card.dart';
 import 'package:tiutiu/core/widgets/underline_input_dropdown.dart';
+import 'package:tiutiu/features/talk_with_us/model/feedback.dart';
 import 'package:tiutiu/core/widgets/default_basic_app_bar.dart';
 import 'package:tiutiu/core/extensions/string_extension.dart';
 import 'package:tiutiu/features/posts/widgets/text_area.dart';
@@ -39,8 +39,8 @@ class TalkWithUs extends StatelessWidget {
               ),
             ),
             LoadDarkScreen(
-              message: talkWithUsController.loadingText,
-              visible: talkWithUsController.isLoading,
+              message: feedbackController.loadingText,
+              visible: feedbackController.isLoading,
             ),
           ],
         ),
@@ -50,11 +50,11 @@ class TalkWithUs extends StatelessWidget {
 
   Widget _selectYourSubject() {
     final talkWithUsSubjects = [
-      TalkWithUsStrings.wannaAnnounceOnApp,
-      TalkWithUsStrings.writeYourMessage,
-      TalkWithUsStrings.anotherUserIssue,
-      TalkWithUsStrings.dificultsUse,
-      TalkWithUsStrings.partnership,
+      FeedbackStrings.wannaAnnounceOnApp,
+      FeedbackStrings.writeYourMessage,
+      FeedbackStrings.anotherUserIssue,
+      FeedbackStrings.dificultsUse,
+      FeedbackStrings.partnership,
       DeleteAccountStrings.bugs,
       '-',
     ];
@@ -63,14 +63,14 @@ class TalkWithUs extends StatelessWidget {
       () => Padding(
         padding: EdgeInsets.symmetric(vertical: 16.0.h),
         child: UnderlineInputDropdown(
-          labelText: TalkWithUsStrings.subject,
-          isInErrorState: !talkWithUsController.talkWithUs.contactSubject.isNotEmptyNeighterNull() &&
-              !talkWithUsController.isFormValid,
+          labelText: FeedbackStrings.subject,
+          isInErrorState:
+              !feedbackController.feedback.contactSubject.isNotEmptyNeighterNull() && !feedbackController.isFormValid,
           items: talkWithUsSubjects,
           onChanged: (value) {
-            talkWithUsController.updateTalkWithUs(TalkWithUsEnum.contactSubject, value);
+            feedbackController.updateFeedback(FeedbackEnum.contactSubject, value);
           },
-          initialValue: talkWithUsController.talkWithUs.contactSubject,
+          initialValue: feedbackController.feedback.contactSubject,
           fontSize: 18,
         ),
       ),
@@ -82,13 +82,13 @@ class TalkWithUs extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: 12.0.w),
       child: Obx(
         () => TextArea(
-          initialValue: talkWithUsController.talkWithUs.contactMessage,
+          initialValue: feedbackController.feedback.contactMessage,
           onChanged: (message) {
-            talkWithUsController.updateTalkWithUs(TalkWithUsEnum.contactMessage, message);
+            feedbackController.updateFeedback(FeedbackEnum.contactMessage, message);
           },
-          isInErrorState: !talkWithUsController.talkWithUs.contactMessage.isNotEmptyNeighterNull() &&
-              !talkWithUsController.isFormValid,
-          labelText: TalkWithUsStrings.writeYourMessage,
+          isInErrorState:
+              !feedbackController.feedback.contactMessage.isNotEmptyNeighterNull() && !feedbackController.isFormValid,
+          labelText: FeedbackStrings.writeYourMessage,
           maxLines: 5,
         ),
       ),
@@ -97,48 +97,53 @@ class TalkWithUs extends StatelessWidget {
 
   Widget _addImagesCheckbox() {
     return Obx(
-      () => AnimatedContainer(
-        duration: screenAnimationDuration,
-        margin: EdgeInsets.only(
-          bottom: !talkWithUsController.insertImages ? Get.width / 1.15 : 0.0.h,
-          top: !talkWithUsController.insertImages ? 16.0.h : 0.0.h,
-        ),
-        child: Row(
-          children: [
-            SizedBox(width: 2.0.w),
-            Checkbox(
-              value: talkWithUsController.insertImages,
-              onChanged: (_) {
-                talkWithUsController.insertImages = !talkWithUsController.insertImages;
-              },
-            ),
-            AutoSizeTexts.autoSizeText16(
-              TalkWithUsStrings.addImages,
-              fontWeight: FontWeight.w500,
-              color: AppColors.secondary,
-            )
-          ],
+      () => GestureDetector(
+        onTap: () {
+          feedbackController.insertImages = !feedbackController.insertImages;
+        },
+        child: AnimatedContainer(
+          duration: screenAnimationDuration,
+          margin: EdgeInsets.only(
+            bottom: !feedbackController.insertImages ? Get.width / 1.15 : 0.0.h,
+            top: !feedbackController.insertImages ? 16.0.h : 0.0.h,
+          ),
+          child: Row(
+            children: [
+              SizedBox(width: 2.0.w),
+              Checkbox(
+                value: feedbackController.insertImages,
+                onChanged: (_) {
+                  feedbackController.insertImages = !feedbackController.insertImages;
+                },
+              ),
+              AutoSizeTexts.autoSizeText16(
+                FeedbackStrings.addImages,
+                fontWeight: FontWeight.w500,
+                color: AppColors.secondary,
+              )
+            ],
+          ),
         ),
       ),
     );
   }
 
   Widget _screenshots() {
-    final hasErrorOnImages = talkWithUsController.insertImages && talkWithUsController.talkWithUs.screenshots.isEmpty;
-    final addedImagesQty = talkWithUsController.talkWithUs.screenshots.length;
-    final images = talkWithUsController.talkWithUs.screenshots;
+    final hasErrorOnImages = feedbackController.insertImages && feedbackController.feedback.screenshots.isEmpty;
+    final addedImagesQty = feedbackController.feedback.screenshots.length;
+    final images = feedbackController.feedback.screenshots;
 
     return AnimatedOpacity(
-      opacity: talkWithUsController.insertImages ? 1 : 0,
+      opacity: feedbackController.insertImages ? 1 : 0,
       duration: screenAnimationDuration,
       child: Visibility(
-        visible: talkWithUsController.insertImages,
+        visible: feedbackController.insertImages,
         child: SizedBox(
           height: 280.0.h,
           child: AddImage(
-            onRemovePictureOnIndex: talkWithUsController.removePictureOnIndex,
-            onAddPictureOnIndex: talkWithUsController.addPictureOnIndex,
-            maxImagesQty: talkWithUsController.maxScreenshots,
+            onRemovePictureOnIndex: feedbackController.removePictureOnIndex,
+            onAddPictureOnIndex: feedbackController.addPictureOnIndex,
+            maxImagesQty: feedbackController.maxScreenshots,
             addedImagesQty: addedImagesQty,
             hasError: hasErrorOnImages,
             images: images,
@@ -150,8 +155,8 @@ class TalkWithUs extends StatelessWidget {
 
   ButtonWide _submitButton() {
     return ButtonWide(
-      onPressed: talkWithUsController.submitForm,
-      isLoading: talkWithUsController.isLoading,
+      onPressed: feedbackController.submitForm,
+      isLoading: feedbackController.isLoading,
       text: AppStrings.send,
     );
   }
