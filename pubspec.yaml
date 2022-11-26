@@ -43,6 +43,7 @@ dependencies:
   image_picker: ^0.8.5+3      
   maps_launcher: ^2.0.1  
   brasil_fields: ^1.6.0
+  flutter_html: ^2.2.1
   google_fonts: ^3.0.1
   url_launcher: ^6.1.5
   share_plus: ^4.0.10

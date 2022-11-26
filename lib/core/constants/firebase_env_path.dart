@@ -25,6 +25,7 @@ class FirebaseEnvPath {
   static const String keys = 'KEYS';
   static const String chat = 'chat';
   static const String env = 'env';
+  static const String pix = 'PIX';
 }
 
 enum FileType {
