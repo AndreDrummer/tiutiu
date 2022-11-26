@@ -139,7 +139,7 @@ class DeleteAccountScreen extends StatelessWidget with TiuTiuPopUp {
       denyText: AppStrings.no,
       mainAction: Get.back,
       warning: false,
-      danger: true,
+      error: true,
     );
   }
 }
