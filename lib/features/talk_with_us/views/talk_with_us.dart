@@ -6,18 +6,27 @@ import 'package:tiutiu/core/extensions/string_extension.dart';
 import 'package:tiutiu/features/posts/widgets/text_area.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/widgets/load_dark_screen.dart';
+import 'package:tiutiu/core/constants/images_assets.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/constants/text_styles.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/core/widgets/button_wide.dart';
+import 'package:tiutiu/core/utils/asset_handle.dart';
 import 'package:tiutiu/core/constants/strings.dart';
 import 'package:tiutiu/core/widgets/add_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class TalkWithUs extends StatelessWidget {
+class TalkWithUs extends StatefulWidget {
   TalkWithUs({super.key});
-  final screenAnimationDuration = Duration(milliseconds: 500);
+
+  @override
+  State<TalkWithUs> createState() => _TalkWithUsState();
+}
+
+class _TalkWithUsState extends State<TalkWithUs> {
+  final screenAnimationDuration = Duration(seconds: 1);
+  bool showAddImagesWidget = false;
 
   @override
   Widget build(BuildContext context) {
@@ -25,24 +34,32 @@ class TalkWithUs extends StatelessWidget {
       appBar: DefaultBasicAppBar(text: MyProfileOptionsTile.talkWithUs),
       resizeToAvoidBottomInset: false,
       body: Obx(
-        () => Stack(
-          children: [
-            BodyCard(
-              child: ListView(
-                children: [
-                  _selectYourSubject(),
-                  _describeYourMessage(),
-                  _addImagesCheckbox(),
-                  _screenshots(),
-                  _submitButton()
-                ],
+        () => Container(
+          height: double.infinity,
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+            image: DecorationImage(image: AssetHandle.imageProvider(ImageAssets.bones2), fit: BoxFit.cover),
+          ),
+          child: Stack(
+            children: [
+              BodyCard(
+                bodyHeight: feedbackController.insertImages ? Get.height : Get.width,
+                child: ListView(
+                  children: [
+                    _selectYourSubject(),
+                    _describeYourMessage(),
+                    _addImagesCheckbox(),
+                    _screenshots(),
+                    _submitButton()
+                  ],
+                ),
               ),
-            ),
-            LoadDarkScreen(
-              message: feedbackController.loadingText,
-              visible: feedbackController.isLoading,
-            ),
-          ],
+              LoadDarkScreen(
+                message: feedbackController.loadingText,
+                visible: feedbackController.isLoading,
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -51,9 +68,9 @@ class TalkWithUs extends StatelessWidget {
   Widget _selectYourSubject() {
     final talkWithUsSubjects = [
       FeedbackStrings.wannaAnnounceOnApp,
-      FeedbackStrings.writeYourMessage,
       FeedbackStrings.anotherUserIssue,
       FeedbackStrings.dificultsUse,
+      FeedbackStrings.writeYourMessage,
       FeedbackStrings.partnership,
       DeleteAccountStrings.bugs,
       '-',
@@ -103,10 +120,6 @@ class TalkWithUs extends StatelessWidget {
         },
         child: AnimatedContainer(
           duration: screenAnimationDuration,
-          margin: EdgeInsets.only(
-            bottom: !feedbackController.insertImages ? Get.width / 1.15 : 0.0.h,
-            top: !feedbackController.insertImages ? 16.0.h : 0.0.h,
-          ),
           child: Row(
             children: [
               SizedBox(width: 2.0.w),
@@ -135,9 +148,14 @@ class TalkWithUs extends StatelessWidget {
 
     return AnimatedOpacity(
       opacity: feedbackController.insertImages ? 1 : 0,
+      onEnd: () {
+        setState(() {
+          showAddImagesWidget = !showAddImagesWidget;
+        });
+      },
       duration: screenAnimationDuration,
       child: Visibility(
-        visible: feedbackController.insertImages,
+        visible: showAddImagesWidget,
         child: SizedBox(
           height: 280.0.h,
           child: AddImage(
@@ -153,11 +171,14 @@ class TalkWithUs extends StatelessWidget {
     );
   }
 
-  ButtonWide _submitButton() {
-    return ButtonWide(
-      onPressed: feedbackController.submitForm,
-      isLoading: feedbackController.isLoading,
-      text: AppStrings.send,
+  Widget _submitButton() {
+    return Padding(
+      child: ButtonWide(
+        onPressed: feedbackController.submitForm,
+        isLoading: feedbackController.isLoading,
+        text: AppStrings.send,
+      ),
+      padding: EdgeInsets.only(top: 24.0.h),
     );
   }
 }

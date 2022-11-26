@@ -24,8 +24,8 @@ mixin Pickers {
       backgroundColor: Colors.white,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
-          topRight: Radius.circular(24.0.h),
-          topLeft: Radius.circular(24.0.h),
+          topRight: Radius.circular(12.0.h),
+          topLeft: Radius.circular(12.0.h),
         ),
       ),
       context: context,
