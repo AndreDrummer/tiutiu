@@ -8,6 +8,7 @@ class Routes {
   static const postDetails = '/pet-details';
   static const talkWithUs = '/talk-with-us';
   static const favorites = '/favorites';
+  static const suportUs = '/suport-us';
   static const contacts = '/contacts';
   static const myPosts = '/my-posts';
   static const about = '/about';
