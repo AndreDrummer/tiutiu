@@ -28,6 +28,7 @@ class AppStrings {
   static String get views => 'visualizações';
   static String get favorites => 'Favoritos';
   static String get getStarted => 'Começar';
+  static String get success => 'Sucesso!';
   static String get whatsapp => 'WhatsApp';
   static String get contines => 'Continuar';
   static String get infos => 'informações';
@@ -314,13 +315,18 @@ class DeleteAccountStrings {
   static const String bugs = 'Bugs';
 }
 
-class TalkWithUsStrings {
+class FeedbackStrings {
   static const String sendingYourMessage = 'Enviando sua mensagem para o administrador';
+  static const String failureWarning = 'Algo deu errado ao enviar seu feedback.';
+  static const String successSent = 'Sua mensagem foi enviada com sucesso!';
   static const String wannaAnnounceOnApp = 'Quero anunciar no Tiu, tiu';
   static const String anotherUserIssue = 'Problema com outro usuário';
   static const String writeYourMessage = 'Escreva sua mensagem';
   static const String dificultsUse = 'Dificuldade ao usa o app';
   static const String subject = 'Sobre o quê você quer falar';
-  static const String addImages = 'Adicionar um print';
+  static const String tryingAgain = 'Tentando de novo';
+  static const String addImages = 'Adicionar  fotos';
+  static const String tryAgain = 'Tentar novamente';
   static const String partnership = 'Parceria';
+  static const String failure = 'Falha';
 }
