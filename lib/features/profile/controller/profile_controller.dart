@@ -30,6 +30,9 @@ class ProfileController extends GetxController {
       case MyProfileOptionsTile.support:
         Get.toNamed(Routes.suportUs);
         break;
+      case MyProfileOptionsTile.ourNet:
+        Get.toNamed(Routes.followUs);
+        break;
       case MyProfileOptionsTile.deleteAccount:
         Get.toNamed(Routes.deleteAccount);
         break;
@@ -58,6 +61,7 @@ class ProfileController extends GetxController {
     MyProfileOptionsTile.settings,
     MyProfileOptionsTile.about,
     MyProfileOptionsTile.talkWithUs,
+    MyProfileOptionsTile.ourNet,
     MyProfileOptionsTile.support,
     MyProfileOptionsTile.deleteAccount,
     MyProfileOptionsTile.leave,
@@ -71,6 +75,7 @@ class ProfileController extends GetxController {
     Icons.manage_accounts,
     Icons.info,
     Icons.headset_mic,
+    Icons.groups,
     Icons.volunteer_activism,
     Icons.person_off,
     Icons.exit_to_app,
