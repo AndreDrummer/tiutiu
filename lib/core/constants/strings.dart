@@ -208,6 +208,7 @@ class MyProfileOptionsTile {
   static const String about = 'Sobre o aplicativo';
   static const String talkWithUs = 'Fale conosco';
   static const String settings = 'Configurações';
+  static const String ourNet = 'Nossa redes';
   static const String myPosts = 'Meus Posts';
   static const String chat = 'Chat Online';
   static const String support = 'Apoie';
@@ -334,6 +335,6 @@ class FeedbackStrings {
 class SupportUsStrings {
   static const String helpMaintainTheApp = 'Ajude-nos a manter este aplicativo!';
   static const String keyPixCopied = 'Chave copiada!';
+  static const String keyPIX = 'Chave Aleatória PIX';
   static const String copyKey = 'Copiar chave';
-  static const String keyPIX = 'Chave PIX';
 }

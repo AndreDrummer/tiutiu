@@ -9,6 +9,7 @@ class Routes {
   static const talkWithUs = '/talk-with-us';
   static const favorites = '/favorites';
   static const suportUs = '/suport-us';
+  static const followUs = '/follow-us';
   static const contacts = '/contacts';
   static const myPosts = '/my-posts';
   static const about = '/about';
