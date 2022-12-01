@@ -13,9 +13,11 @@ class FollowUs extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.black,
       body: Stack(
         children: [
           ImageCarouselBackground(),
+          Container(color: AppColors.black.withOpacity(.5)),
           Container(
             width: double.infinity,
             height: Get.height,
