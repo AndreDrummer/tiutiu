@@ -16,7 +16,7 @@ class InitPostFlow extends StatelessWidget {
       () => AuthenticatedArea(
         child: ValidatedArea(
           isValid: tiutiuUserController.tiutiuUser.emailVerified && tiutiuUserController.tiutiuUser.phoneVerified,
-          fallbackChild: !tiutiuUserController.tiutiuUser.emailVerified ? VerifyEmail() : VerifyPhone(),
+          fallbackChild: tiutiuUserController.tiutiuUser.emailVerified ? VerifyEmail() : VerifyPhone(),
           validChild: SelectPostType(),
         ),
       ),
