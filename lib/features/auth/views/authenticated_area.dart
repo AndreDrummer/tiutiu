@@ -1,7 +1,7 @@
 import 'package:tiutiu/features/auth/models/firebase_auth_provider.dart';
-import 'package:tiutiu/features/profile/views/settings.dart';
 import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
 import 'package:tiutiu/features/auth/views/auth_hosters.dart';
+import 'package:tiutiu/features/profile/views/settings.dart';
 import 'package:tiutiu/core/widgets/load_dark_screen.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/utils/validators.dart';
@@ -20,27 +20,30 @@ class AuthenticatedArea extends StatelessWidget {
   Widget build(BuildContext context) {
     final authProvider = FirebaseAuthProvider.instance;
 
-    return StreamBuilder<User?>(
-      stream: authProvider.userStream(),
-      builder: (context, snapshot) {
-        final isRegistered = _isAppropriatelyRegistered(tiutiuUserController.tiutiuUser);
+    return Scaffold(
+      resizeToAvoidBottomInset: false,
+      body: StreamBuilder<User?>(
+        stream: authProvider.userStream(),
+        builder: (context, snapshot) {
+          final isRegistered = _isAppropriatelyRegistered(tiutiuUserController.tiutiuUser);
 
-        debugPrint('>> Is registered? $isRegistered');
+          debugPrint('>> Is registered? $isRegistered');
 
-        if (isRegistered) {
-          return child;
-        } else if (snapshot.hasData) {
-          final user = snapshot.requireData;
-          final isAuthenticated = user != null;
+          if (isRegistered) {
+            return child;
+          } else if (snapshot.hasData) {
+            final user = snapshot.requireData;
+            final isAuthenticated = user != null;
 
-          debugPrint('>> Is authenticated? $isAuthenticated');
+            debugPrint('>> Is authenticated? $isAuthenticated');
 
-          if (isAuthenticated && !isRegistered) return Settings(isCompletingProfile: true);
-          if (isAuthenticated && isRegistered) return child;
-        }
+            if (isAuthenticated && !isRegistered) return Settings(isCompletingProfile: true);
+            if (isAuthenticated && isRegistered) return child;
+          }
 
-        return authProvider.firebaseAuthUser == null ? AuthHosters() : LoadDarkScreen();
-      },
+          return authProvider.firebaseAuthUser == null ? AuthHosters() : LoadDarkScreen();
+        },
+      ),
     );
   }
 
