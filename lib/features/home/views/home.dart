@@ -1,3 +1,4 @@
+import 'package:tiutiu/core/utils/routes/routes_name.dart';
 import 'package:tiutiu/features/home/widgets/bottom_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/features/home/widgets/header.dart';
@@ -62,6 +63,18 @@ class Home extends StatelessWidget with TiuTiuPopUp {
               body: screens.elementAt(homeController.bottomBarIndex),
               controller: homeController.scrollController,
               floatHeaderSlivers: true,
+            ),
+            floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+            floatingActionButton: Visibility(
+              visible: homeController.bottomBarIndex < 2,
+              child: FloatingActionButton(
+                tooltip: PostFlowStrings.post,
+                child: Icon(Icons.add),
+                onPressed: () {
+                  Get.toNamed(Routes.initPostFlow);
+                },
+                mini: true,
+              ),
             ),
             bottomNavigationBar: Visibility(child: BottomBar()),
             resizeToAvoidBottomInset: false,

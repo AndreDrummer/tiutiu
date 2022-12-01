@@ -492,7 +492,7 @@ class AuthController extends GetxController {
     clearAllAuthData();
     clearEmailAndPassword();
     debugPrint('>> Cleaning cache...');
-    homeController.setProfileIndex();
+    homeController.setDonateIndex();
     debugPrint('>> Logout done!');
     recordLogoutTimeNow();
     debugPrint('>> User still exists? ${_authService.userExists}');

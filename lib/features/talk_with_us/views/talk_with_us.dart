@@ -70,7 +70,6 @@ class _TalkWithUsState extends State<TalkWithUs> {
       FeedbackStrings.wannaAnnounceOnApp,
       FeedbackStrings.anotherUserIssue,
       FeedbackStrings.dificultsUse,
-      FeedbackStrings.writeYourMessage,
       FeedbackStrings.partnership,
       DeleteAccountStrings.bugs,
       '-',

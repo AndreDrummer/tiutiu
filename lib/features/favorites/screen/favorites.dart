@@ -18,8 +18,8 @@ class _FavoritesState extends State<Favorites> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: DefaultBasicAppBar(
+        automaticallyImplyLeading: true,
         text: AppStrings.favorites,
-        automaticallyImplyLeading: false,
         actions: [
           TogglePostCardAppearence(
             color: AppColors.white,

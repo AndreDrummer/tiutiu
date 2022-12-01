@@ -27,8 +27,8 @@ class RatingUs extends StatelessWidget {
             buttons(
               context: context,
               imagePath: Platform.isAndroid ? ImageAssets.playstoreLogo : ImageAssets.applestoreLogo,
-              urlToOpen: Platform.isAndroid ? 'https://cutt.ly/4gIMH8V' : 'https://cutt.ly/4gIMH8V',
               text: 'Avalie na\n${Platform.isAndroid ? 'PlayStore' : 'Apple Store'}',
+              urlToOpen: 'https://tiutiu.page.link/jdF1',
             ),
             buttons(
               urlToOpen: 'https://www.instagram.com/tiutiuapp/',
