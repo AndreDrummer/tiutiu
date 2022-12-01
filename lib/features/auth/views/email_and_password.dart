@@ -1,20 +1,20 @@
 import 'package:tiutiu/features/auth/widgets/image_carousel_background.dart';
 import 'package:tiutiu/features/auth/models/email_password_auth.dart';
+import 'package:tiutiu/core/widgets/outline_input_text.dart';
 import 'package:tiutiu/features/auth/widgets/dark_over.dart';
 import 'package:tiutiu/features/auth/widgets/headline.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:tiutiu/core/widgets/load_dark_screen.dart';
 import 'package:tiutiu/core/utils/routes/routes_name.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
-import 'package:tiutiu/core/mixins/tiu_tiu_pop_up.dart';
-import 'package:tiutiu/core/widgets/outline_input_text.dart';
-import 'package:tiutiu/core/constants/app_colors.dart';
-import 'package:tiutiu/core/widgets/load_dark_screen.dart';
-import 'package:tiutiu/core/constants/strings.dart';
-import 'package:tiutiu/core/utils/validators.dart';
 import 'package:tiutiu/core/widgets/cancel_button.dart';
+import 'package:tiutiu/core/mixins/tiu_tiu_pop_up.dart';
 import 'package:tiutiu/core/widgets/one_line_text.dart';
+import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/core/widgets/tiutiu_logo.dart';
 import 'package:tiutiu/core/widgets/button_wide.dart';
+import 'package:tiutiu/core/constants/strings.dart';
+import 'package:tiutiu/core/utils/validators.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -49,8 +49,9 @@ class EmailAndPassword extends StatelessWidget with TiuTiuPopUp {
                     _emailInput(),
                     _passwordInput(),
                     _repeatPasswordInput(),
-                    _createAccountTip(),
+                    _resetPassword(),
                     Spacer(),
+                    _createAccountTip(),
                     _submitButton(context),
                     _SimpleTextButton(),
                     SizedBox(height: 8.0.h),
@@ -173,7 +174,7 @@ class EmailAndPassword extends StatelessWidget with TiuTiuPopUp {
           authController.isCreatingNewAccount = !authController.isCreatingNewAccount;
         },
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.end,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             OneLineText(
               text: authController.isCreatingNewAccount ? AuthStrings.haveAnAccount : AuthStrings.doNotHaveAnAccount,
@@ -189,6 +190,42 @@ class EmailAndPassword extends StatelessWidget with TiuTiuPopUp {
               color: AppColors.white,
             ),
           ],
+        ),
+      ),
+    );
+  }
+
+  Widget _resetPassword() {
+    return Visibility(
+      visible: !authController.isCreatingNewAccount,
+      child: Padding(
+        padding: EdgeInsets.only(right: 8.0.w),
+        child: TextButton(
+          style: TextButton.styleFrom(
+            foregroundColor: Colors.transparent,
+            padding: EdgeInsets.zero,
+          ),
+          onPressed: () {
+            // authController.passwordReset();
+          },
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              OneLineText(
+                widgetAlignment: Alignment.centerRight,
+                text: AuthStrings.forgotPassword,
+                fontWeight: FontWeight.w500,
+                color: AppColors.white,
+              ),
+              SizedBox(width: 4.0.w),
+              OneLineText(
+                widgetAlignment: Alignment.centerRight,
+                text: AuthStrings.clickHere,
+                fontWeight: FontWeight.bold,
+                color: AppColors.white,
+              ),
+            ],
+          ),
         ),
       ),
     );

@@ -80,6 +80,7 @@ class _VerifyPhoneState extends State<VerifyPhone> {
             _codeBoxes(context),
             Spacer(),
             _resendWithin(),
+            _cancelButton(),
             Spacer(),
             _confirmButton(),
           ],
@@ -241,7 +242,7 @@ class _VerifyPhoneState extends State<VerifyPhone> {
     return Obx(
       () => Visibility(
         visible: !codeFilled,
-        child: SimpleTextButton(
+        child: ButtonWide(
           onPressed: authController.isWhatsappTokenValid
               ? null
               : () async {
@@ -249,10 +250,18 @@ class _VerifyPhoneState extends State<VerifyPhone> {
                   restartTimer();
                 },
           text: AuthStrings.receiveCode,
-          textColor: AppColors.primary,
-          fontSize: 16,
         ),
       ),
+    );
+  }
+
+  Widget _cancelButton() {
+    return SimpleTextButton(
+      onPressed: () {
+        Get.back();
+      },
+      textColor: AppColors.danger,
+      text: AppStrings.cancel,
     );
   }
 
