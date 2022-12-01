@@ -1,10 +1,10 @@
-import 'package:tiutiu/core/utils/validators.dart';
 import 'package:tiutiu/features/auth/models/firebase_auth_provider.dart';
+import 'package:tiutiu/features/profile/views/settings.dart';
 import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
-import 'package:tiutiu/features/profile/views/edit_profile.dart';
 import 'package:tiutiu/features/auth/views/auth_hosters.dart';
-import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/widgets/load_dark_screen.dart';
+import 'package:tiutiu/core/controllers/controllers.dart';
+import 'package:tiutiu/core/utils/validators.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -35,7 +35,7 @@ class AuthenticatedArea extends StatelessWidget {
 
           debugPrint('>> Is authenticated? $isAuthenticated');
 
-          if (isAuthenticated && !isRegistered) return EditProfile(isCompletingProfile: true);
+          if (isAuthenticated && !isRegistered) return Settings(isCompletingProfile: true);
           if (isAuthenticated && isRegistered) return child;
         }
 
