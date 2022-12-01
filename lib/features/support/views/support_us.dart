@@ -31,7 +31,7 @@ class SupportUs extends StatelessWidget {
         height: Get.height,
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetHandle.imageProvider(backgroundImages.elementAt(Random().nextInt(2))),
+            image: AssetHandle.imageProvider(backgroundImages.elementAt(Random().nextInt(3))),
             fit: BoxFit.cover,
           ),
         ),
@@ -39,6 +39,7 @@ class SupportUs extends StatelessWidget {
           children: [
             Spacer(),
             _copyKey(),
+            SizedBox(height: 16.0.h),
           ],
         ),
       ),

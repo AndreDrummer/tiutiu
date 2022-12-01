@@ -112,9 +112,7 @@ class FeedbackController extends GetxController with TiuTiuPopUp {
 
       await FeedbackService().uploadPrints(
         onPrintsUploaded: (printsUrlList) {
-          print('>> Lista $printsUrlList');
           updateFeedback(FeedbackEnum.screenshots, printsUrlList);
-          print('>> Feedback ${feedback.toMap()}');
         },
         feedback: feedback,
       );

@@ -4,23 +4,21 @@ import 'package:tiutiu/core/constants/strings.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class ProfileController extends GetxController {
-  final RxBool _isSetting = false.obs;
+class MoreController extends GetxController {
   final RxBool _isLoading = false.obs;
 
-  bool get isSetting => _isSetting.value;
   bool get isLoading => _isLoading.value;
-  void set isSetting(bool value) => _isSetting(value);
 
   void handleOptionHitted(String option) {
-    isSetting = false;
-
     switch (option) {
       case MyProfileOptionsTile.myPosts:
         postsController.openMypostsLists();
         break;
+      case MyProfileOptionsTile.favorites:
+        Get.toNamed(Routes.favorites);
+        break;
       case MyProfileOptionsTile.settings:
-        isSetting = true;
+        Get.toNamed(Routes.settings);
         break;
       case MyProfileOptionsTile.about:
         break;
@@ -57,6 +55,7 @@ class ProfileController extends GetxController {
 
   static const List<String> _myProfileOptionsTile = [
     MyProfileOptionsTile.myPosts,
+    MyProfileOptionsTile.favorites,
     MyProfileOptionsTile.chat,
     MyProfileOptionsTile.settings,
     MyProfileOptionsTile.about,
@@ -71,6 +70,7 @@ class ProfileController extends GetxController {
 
   final List<IconData> _myProfileOptionsIcon = [
     Icons.view_agenda,
+    Icons.favorite,
     Icons.forum,
     Icons.manage_accounts,
     Icons.info,
