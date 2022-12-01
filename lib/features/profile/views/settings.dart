@@ -103,11 +103,11 @@ class _SettingsState extends State<Settings> {
               children: [
                 SizedBox(height: 16.0.h),
                 _userName(),
-                Spacer(),
+                SizedBox(height: 16.0.h),
                 _userPhoneNumber(),
+                SizedBox(height: 16.0.h),
                 Spacer(),
                 _buttons(context),
-                Spacer(),
               ],
             ),
           )
@@ -199,14 +199,16 @@ class _SettingsState extends State<Settings> {
       padding: EdgeInsets.symmetric(horizontal: 8.0.w),
       child: ColumnButtonBar(
         showSimpleTextButton: !widget.isCompletingProfile,
-        onPrimaryPressed: () {
+        onPrimaryPressed: () async {
           if (_formIsValid()) {
             debugPrint('>> Updating profile...');
             FocusScope.of(context).unfocus();
 
             _setDataToUser();
 
-            moreController.save();
+            await moreController.save();
+            Get.back();
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(MoreStrings.profileUpdated)));
           } else if (tiutiuUserController.tiutiuUser.avatar == null) {
             systemController.snackBarIsOpen = true;
 
