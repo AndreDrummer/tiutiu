@@ -2,7 +2,6 @@ import 'package:tiutiu/core/widgets/cards/widgets/ad_distance_from_user.dart';
 import 'package:tiutiu/features/favorites/widgets/favorite_button.dart';
 import 'package:tiutiu/core/widgets/cards/widgets/ad_interesteds.dart';
 import 'package:tiutiu/core/widgets/cards/widgets/ad_description.dart';
-import 'package:tiutiu/features/home/controller/home_controller.dart';
 import 'package:tiutiu/core/widgets/cards/widgets/ad_city_state.dart';
 import 'package:tiutiu/core/widgets/cards/widgets/ad_posted_at.dart';
 import 'package:tiutiu/core/widgets/cards/widgets/ad_images.dart';
@@ -36,10 +35,10 @@ class CardBuilder {
         stream: favoritesController.postIsFavorited(_post),
         builder: (context, snapshot) {
           return AddRemoveFavorite(
-            isRemoveButton: homeController.bottomBarIndex == BottomBarIndex.FAVORITES.indx,
             onRemove: () => favoritesController.removeFavorite(_post),
             onAdd: () => favoritesController.addFavorite(_post),
             active: snapshot.data ?? false,
+            isRemoveButton: false,
           );
         },
       ),

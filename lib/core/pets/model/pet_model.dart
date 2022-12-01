@@ -106,7 +106,6 @@ class Pet extends Post {
 
   @override
   Pet fromMap(Map<String, dynamic> map) {
-    print(map[PostEnum.uid.name]);
     return Pet(
       createdAt: map[PostEnum.createdAt.name] ?? DateTime.now().toIso8601String(),
       uid: map[PostEnum.uid.name] != null ? map[PostEnum.uid.name] : Uuid().v4(),

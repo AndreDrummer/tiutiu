@@ -14,8 +14,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'dart:io';
 
-class Profile extends StatelessWidget with TiuTiuPopUp {
-  Profile({
+class More extends StatelessWidget with TiuTiuPopUp {
+  More({
     required final TiutiuUser user,
   }) : _user = user;
 
@@ -29,7 +29,7 @@ class Profile extends StatelessWidget with TiuTiuPopUp {
       child: Scaffold(
         appBar: DefaultBasicAppBar(
           automaticallyImplyLeading: true,
-          text: _itsMe ? MyProfileStrings.myProfile : _user.displayName ?? '',
+          text: _itsMe ? MoreStrings.myProfile : _user.displayName ?? '',
         ),
         body: Container(
           margin: EdgeInsets.only(
@@ -152,11 +152,11 @@ class Profile extends StatelessWidget with TiuTiuPopUp {
         height: _cardHeight(),
         child: ListView(
           padding: EdgeInsets.symmetric(horizontal: 8.0.w),
-          children: profileController.myProfileOptionsTile.map((title) {
-            final index = profileController.myProfileOptionsTile.indexOf(title);
+          children: moreController.myProfileOptionsTile.map((title) {
+            final index = moreController.myProfileOptionsTile.indexOf(title);
 
             return MyAccountCard(
-              icon: profileController.myProfileOptionsIcon.elementAt(index),
+              icon: moreController.myProfileOptionsIcon.elementAt(index),
               isToCenterText: false,
               isToExpand: true,
               onPressed: () {
@@ -165,7 +165,7 @@ class Profile extends StatelessWidget with TiuTiuPopUp {
                 } else if (title == MyProfileOptionsTile.deleteAccount) {
                   _deleteAccount(title);
                 } else {
-                  profileController.handleOptionHitted(title);
+                  moreController.handleOptionHitted(title);
                 }
               },
               text: title,
@@ -186,7 +186,7 @@ class Profile extends StatelessWidget with TiuTiuPopUp {
       },
       secondaryAction: () {
         Get.back();
-        profileController.handleOptionHitted(title);
+        moreController.handleOptionHitted(title);
       },
       barrierDismissible: false,
       title: AppStrings.leave,
@@ -202,7 +202,7 @@ class Profile extends StatelessWidget with TiuTiuPopUp {
     if (!canDeleteAccount)
       await deleteAccountController.showDeleteAccountLogoutWarningPopup();
     else
-      profileController.handleOptionHitted(title);
+      moreController.handleOptionHitted(title);
   }
 
   double _cardHeight() => Platform.isIOS ? Get.height * .62 : Get.height * .64;
