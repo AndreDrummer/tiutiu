@@ -37,16 +37,12 @@ class BottomBar extends StatelessWidget {
   final List<String> bottomBarLabels = [
     AppStrings.adopte,
     AppStrings.find,
-    AppStrings.post,
-    AppStrings.profile,
-    BottomBarStrings.favorites,
+    AppStrings.more,
   ];
 
   final List<IconData> bottomBarIcons = [
     FontAwesomeIcons.paw,
     FontAwesomeIcons.searchengin,
-    FontAwesomeIcons.squarePlus,
-    Icons.person,
-    Icons.favorite,
+    Icons.menu,
   ];
 }

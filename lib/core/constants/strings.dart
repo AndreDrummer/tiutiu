@@ -46,6 +46,7 @@ class AppStrings {
   static String get send => 'Enviar';
   static String get save => 'Salvar';
   static String get leave => 'Sair';
+  static String get more => 'Mais';
   static String get type => 'Tipo';
   static String get chat => 'Chat';
   static String get yes => 'Sim';
@@ -189,7 +190,7 @@ class PostDetailsStrings {
   static String get sex => 'Sexo';
 }
 
-class MyProfileStrings {
+class MoreStrings {
   static const String allowContactViaWhatsApp = 'Permitir contato via WhatsApp';
   static const String updatingProfile = 'Atualizando perfil...';
   static const String completeProfile = 'Completar perfil';
@@ -208,6 +209,7 @@ class MyProfileOptionsTile {
   static const String about = 'Sobre o aplicativo';
   static const String talkWithUs = 'Fale conosco';
   static const String settings = 'Configurações';
+  static const String favorites = 'Favoritos';
   static const String ourNet = 'Nossa redes';
   static const String myPosts = 'Meus Posts';
   static const String chat = 'Chat Online';

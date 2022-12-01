@@ -1,13 +1,13 @@
 import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
 import 'package:tiutiu/core/widgets/default_basic_app_bar.dart';
+import 'package:tiutiu/core/widgets/column_button_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:tiutiu/core/widgets/load_dark_screen.dart';
 import 'package:tiutiu/core/constants/images_assets.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
-import 'package:tiutiu/core/widgets/column_button_bar.dart';
-import 'package:tiutiu/core/constants/app_colors.dart';
-import 'package:tiutiu/core/widgets/load_dark_screen.dart';
 import 'package:tiutiu/core/widgets/underline_text.dart';
 import 'package:tiutiu/core/widgets/avatar_profile.dart';
+import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/core/constants/strings.dart';
 import 'package:tiutiu/core/utils/validators.dart';
 import 'package:brasil_fields/brasil_fields.dart';
@@ -15,8 +15,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class EditProfile extends StatefulWidget {
-  EditProfile({
+class Settings extends StatefulWidget {
+  Settings({
     this.isCompletingProfile = false,
     this.isEditingProfile = false,
   });
@@ -25,10 +25,10 @@ class EditProfile extends StatefulWidget {
   final bool isEditingProfile;
 
   @override
-  State<EditProfile> createState() => _EditProfileState();
+  State<Settings> createState() => _SettingsState();
 }
 
-class _EditProfileState extends State<EditProfile> {
+class _SettingsState extends State<Settings> {
   final TextEditingController phoneNumberController = TextEditingController();
   final TextEditingController nameController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -46,38 +46,32 @@ class _EditProfileState extends State<EditProfile> {
   @override
   Widget build(BuildContext context) {
     final title = widget.isEditingProfile
-        ? MyProfileStrings.editProfile
+        ? MoreStrings.editProfile
         : widget.isCompletingProfile
-            ? MyProfileStrings.completeProfile
+            ? MoreStrings.completeProfile
             : tiutiuUserController.tiutiuUser.displayName ?? '';
 
-    return WillPopScope(
-      onWillPop: () async {
-        profileController.isSetting = false;
-        return true;
-      },
-      child: SafeArea(
-        child: Scaffold(
-          resizeToAvoidBottomInset: false,
-          appBar: DefaultBasicAppBar(automaticallyImplyLeading: false, text: title),
-          body: Form(
-            key: _formKey,
-            child: Center(
-              child: Container(
-                margin: const EdgeInsets.all(8.0),
-                height: Get.height,
-                child: Stack(
-                  children: [
-                    Card(
-                      elevation: 8.0,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(24.0.h),
-                      ),
-                      child: _cardContent(context),
+    return SafeArea(
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
+        appBar: DefaultBasicAppBar(automaticallyImplyLeading: false, text: title),
+        body: Form(
+          key: _formKey,
+          child: Center(
+            child: Container(
+              margin: const EdgeInsets.all(8.0),
+              height: Get.height,
+              child: Stack(
+                children: [
+                  Card(
+                    elevation: 8.0,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(24.0.h),
                     ),
-                    _loadingWidget()
-                  ],
-                ),
+                    child: _cardContent(context),
+                  ),
+                  _loadingWidget()
+                ],
               ),
             ),
           ),
@@ -173,7 +167,7 @@ class _EditProfileState extends State<EditProfile> {
 
   Widget _userName() {
     return UnderlineInputText(
-      labelText: MyProfileStrings.howCallYou,
+      labelText: MoreStrings.howCallYou,
       validator: Validators.verifyEmpty,
       controller: nameController,
       fontSizeLabelText: 16.0,
@@ -187,7 +181,7 @@ class _EditProfileState extends State<EditProfile> {
         SizedBox(height: 16.0.h),
         UnderlineInputText(
           validator: (value) => Validators.verifyLength(value, length: 14, field: 'Telefone'),
-          labelText: MyProfileStrings.whatsapp,
+          labelText: MoreStrings.whatsapp,
           keyboardType: TextInputType.number,
           controller: phoneNumberController,
           fontSizeLabelText: 16.0,
@@ -212,14 +206,14 @@ class _EditProfileState extends State<EditProfile> {
 
             _setDataToUser();
 
-            profileController.save().then((_) => profileController.isSetting = false);
+            moreController.save();
           } else if (tiutiuUserController.tiutiuUser.avatar == null) {
             systemController.snackBarIsOpen = true;
 
             ScaffoldMessenger.of(context)
                 .showSnackBar(
                   SnackBar(
-                    content: Text(MyProfileStrings.insertAPicture),
+                    content: Text(MoreStrings.insertAPicture),
                     backgroundColor: AppColors.danger,
                   ),
                 )
@@ -229,7 +223,7 @@ class _EditProfileState extends State<EditProfile> {
         },
         onSecondaryPressed: () {
           tiutiuUserController.resetUserWithThisUser(user: previousUser);
-          profileController.isSetting = false;
+          Get.back();
         },
       ),
     );
@@ -247,8 +241,8 @@ class _EditProfileState extends State<EditProfile> {
   Widget _loadingWidget() {
     return Obx(
       () => LoadDarkScreen(
-        message: MyProfileStrings.updatingProfile,
-        visible: profileController.isLoading,
+        message: MoreStrings.updatingProfile,
+        visible: moreController.isLoading,
         roundeCorners: true,
       ),
     );
