@@ -1,5 +1,4 @@
 import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
-import 'package:tiutiu/core/widgets/default_basic_app_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/constants/images_assets.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
@@ -12,7 +11,6 @@ import 'package:tiutiu/core/constants/strings.dart';
 import 'package:tiutiu/core/utils/formatter.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'dart:io';
 
 class More extends StatelessWidget with TiuTiuPopUp {
   More({
@@ -23,14 +21,8 @@ class More extends StatelessWidget with TiuTiuPopUp {
 
   @override
   Widget build(BuildContext context) {
-    bool _itsMe = _user.uid == tiutiuUserController.tiutiuUser.uid;
-
     return SafeArea(
       child: Scaffold(
-        appBar: DefaultBasicAppBar(
-          automaticallyImplyLeading: true,
-          text: _itsMe ? MoreStrings.myProfile : _user.displayName ?? '',
-        ),
         body: Container(
           margin: EdgeInsets.only(
             right: 8.0.w,
@@ -142,14 +134,8 @@ class More extends StatelessWidget with TiuTiuPopUp {
     return Card(
       margin: EdgeInsets.zero,
       elevation: 8.0,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.only(
-          bottomRight: Radius.circular(12.0.h),
-          bottomLeft: Radius.circular(12.0.h),
-        ),
-      ),
       child: Container(
-        height: _cardHeight(),
+        height: Get.height,
         child: ListView(
           padding: EdgeInsets.symmetric(horizontal: 8.0.w),
           children: moreController.myProfileOptionsTile.map((title) {
@@ -204,6 +190,4 @@ class More extends StatelessWidget with TiuTiuPopUp {
     else
       moreController.handleOptionHitted(title);
   }
-
-  double _cardHeight() => Platform.isIOS ? Get.height * .62 : Get.height * .64;
 }
