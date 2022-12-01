@@ -4,11 +4,9 @@ import 'package:tiutiu/features/posts/model/filter_params.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
 
 enum BottomBarIndex {
-  FAVORITES(indx: 4),
-  PROFILE(indx: 3),
+  MORE(indx: 2),
   FINDER(indx: 1),
-  DONATE(indx: 0),
-  POST(indx: 2);
+  DONATE(indx: 0);
 
   const BottomBarIndex({
     required this.indx,
@@ -41,10 +39,6 @@ class HomeController extends GetxController {
   void _setbottomBarIndex(BottomBarIndex index) {
     _cardVisibilityKind(CardVisibilityKind.card);
     filterController.updateParams(FilterParamsEnum.disappeared, false);
-
-    if (index == BottomBarIndex.FAVORITES) {
-      _cardVisibilityKind(CardVisibilityKind.banner);
-    }
 
     if (index == BottomBarIndex.FINDER) {
       filterController.updateParams(FilterParamsEnum.disappeared, true);
@@ -81,15 +75,7 @@ class HomeController extends GetxController {
     _setbottomBarIndex(BottomBarIndex.FINDER);
   }
 
-  void setPostIndex() {
-    _setbottomBarIndex(BottomBarIndex.POST);
-  }
-
-  void setProfileIndex() {
-    _setbottomBarIndex(BottomBarIndex.PROFILE);
-  }
-
-  void setFavoriteIndex() {
-    _setbottomBarIndex(BottomBarIndex.FAVORITES);
+  void setMoreIndex() {
+    _setbottomBarIndex(BottomBarIndex.MORE);
   }
 }
