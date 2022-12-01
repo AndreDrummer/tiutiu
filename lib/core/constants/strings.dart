@@ -75,11 +75,11 @@ class AuthStrings {
   static const String verifyYourEmail = 'Verifique seu email';
   static String get createNewAccount => 'Crie uma nova conta.';
   static const String passwordNotMatch = 'Senhas não conferem';
-  static const String forgetMyPassword = 'Esqueci minha senha';
   static String get doNotHaveAnAccount => 'Não tem uma conta?';
   static String get continueAnon => 'Continuar anônimamente';
   static const String numberVerified = 'Número verificado';
   static const String loginInProgress = 'Realizando Login';
+  static const String forgotPassword = 'Esqueceu a senha?';
   static String get enterAccount => 'Entrar na sua conta.';
   static String get authFailure => 'Falha na autenticação';
   static String get haveAnAccount => 'Já tem uma conta?';
@@ -92,6 +92,7 @@ class AuthStrings {
   static String get receiveCode => 'Receber código';
   static String get createAccount => 'Criar conta';
   static const String pasteCode = 'Colar código';
+  static const String clickHere = 'Clique aqui';
   static String get createYours => 'Crie a sua.';
   static const String doLogin = 'Faça login';
   static String get facebook => 'Facebook';
@@ -194,6 +195,7 @@ class MoreStrings {
   static const String allowContactViaWhatsApp = 'Permitir contato via WhatsApp';
   static const String updatingProfile = 'Atualizando perfil...';
   static const String completeProfile = 'Completar perfil';
+  static const String profileUpdated = 'Perfil atualizado';
   static const String deleteAccount = 'Apagar minha conta';
   static const String howCallYou = 'Como devo te chamar?';
   static const String whatsapp = 'Seu número de WhatsApp';
