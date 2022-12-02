@@ -1,4 +1,3 @@
-import 'package:tiutiu/core/widgets/default_basic_app_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/constants/images_assets.dart';
@@ -24,22 +23,33 @@ class SupportUs extends StatelessWidget {
       DonateAssets.donate3,
     ];
 
-    return Scaffold(
-      appBar: DefaultBasicAppBar(text: SupportUsStrings.helpMaintainTheApp),
-      body: Container(
-        alignment: Alignment.center,
-        height: Get.height,
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetHandle.imageProvider(backgroundImages.elementAt(Random().nextInt(3))),
-            fit: BoxFit.cover,
-          ),
-        ),
-        child: Column(
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: AppColors.black,
+        body: Stack(
           children: [
-            Spacer(),
-            _copyKey(),
-            SizedBox(height: 16.0.h),
+            Container(
+              alignment: Alignment.center,
+              height: Get.height,
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetHandle.imageProvider(backgroundImages.elementAt(Random().nextInt(3))),
+                  fit: BoxFit.cover,
+                ),
+              ),
+              child: Column(
+                children: [
+                  Spacer(),
+                  _copyKey(),
+                  SizedBox(height: 16.0.h),
+                ],
+              ),
+            ),
+            Positioned(
+              child: BackButton(
+                color: AppColors.white,
+              ),
+            )
           ],
         ),
       ),
