@@ -137,46 +137,42 @@ class FirebaseAuthProvider implements AuthProviders {
 
   @override
   Future<void> passwordReset(String email) async {
-    await _firebaseAuth.sendPasswordResetEmail(email: email);
+    try {
+      await _firebaseAuth.sendPasswordResetEmail(email: email);
+    } on FirebaseException catch (exception) {
+      debugPrint('An error ocurred when tryna reset Password: $exception');
+      throw TiuTiuAuthException(exception.code);
+    }
   }
 
   @override
   Future<bool> loginWithFacebook({bool firstLogin = true}) async {
     try {
-      OAuthCredential credential;
-
       debugPrint('>> Fisrt Login? $firstLogin');
 
-      if (firstLogin) {
-        final LoginResult result = await _facebookSignIn.login();
+      final LoginResult result = await _facebookSignIn.login(loginBehavior: LoginBehavior.webOnly);
 
-        debugPrint('>> Facebook LoginResul ${result.status}');
+      debugPrint('>> Facebook LoginResul ${result.status}');
 
-        if (result.status == LoginStatus.success) {
-          AccessToken? accessToken = result.accessToken!;
+      if (result.status == LoginStatus.success) {
+        final userData = await FacebookAuth.i.getUserData(
+          fields: "name,email,picture.width(200),birthday,friends,gender,link",
+        );
 
-          credential = FacebookAuthProvider.credential(accessToken.token);
+        AuthCredential credential = FacebookAuthProvider.credential(result.accessToken!.token);
 
-          await _firebaseAuth.signInWithCredential(credential);
-        } else {
-          return false;
-        }
+        print('>> Data $userData');
+        print('>> Token ${result.accessToken?.toJson()}');
+
+        await FirebaseAuth.instance.signInWithCredential(credential);
       } else {
-        final accessToken = await _facebookSignIn.accessToken;
-
-        if (accessToken?.token != null) {
-          credential = FacebookAuthProvider.credential(accessToken!.token);
-          debugPrint('>> Facebook Credential $credential');
-          await _firebaseAuth.signInWithCredential(credential);
-        } else {
-          return false;
-        }
+        return false;
       }
 
       return _firebaseAuth.currentUser != null;
-    } catch (exception) {
+    } on FirebaseException catch (exception) {
       debugPrint('An error ocurred when tryna to login with Facebook: $exception');
-      throw TiuTiuAuthException('Error validating access token');
+      throw TiuTiuAuthException(exception.code);
     }
   }
 

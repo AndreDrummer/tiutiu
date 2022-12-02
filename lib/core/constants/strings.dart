@@ -55,6 +55,8 @@ class AppStrings {
 }
 
 class AuthStrings {
+  static const String resetPasswordInstructionsSent =
+      'As instruções de como resetar sua senha foi enviada para o e-mail informado.';
   static const String deleteAccountWarning =
       'Após excluir sua conta não será possível recuperá-la.\n\nDeseja continuar?';
   static const String demandRecentLoginWarning = 'Está ação requer que você faça login novamente.\n\nDeseja deslogar?';
@@ -78,13 +80,16 @@ class AuthStrings {
   static String get doNotHaveAnAccount => 'Não tem uma conta?';
   static String get continueAnon => 'Continuar anônimamente';
   static const String numberVerified = 'Número verificado';
+  static const String typeYourEmail = 'Digite seu email';
   static const String loginInProgress = 'Realizando Login';
   static const String forgotPassword = 'Esqueceu a senha?';
   static String get enterAccount => 'Entrar na sua conta.';
   static String get authFailure => 'Falha na autenticação';
   static String get haveAnAccount => 'Já tem uma conta?';
   static const String authenticanting = 'Autênticando...';
+  static String get resetPassword => 'Resetar a senha.';
   static const String deleteAccount = 'Excluir conta';
+  static const String receiveEmail = 'Receber email';
   static const String registeringUser = 'Criando conta';
   static const String invalidCode = 'Código inválido!';
   static const String invalidEmail = 'E-mail inválido';
