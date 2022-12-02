@@ -45,11 +45,12 @@ class EmailAndPassword extends StatelessWidget with TiuTiuPopUp {
                     Spacer(),
                     _createAccountHeadline(),
                     _doLoginHeadline(),
+                    _resetPasswordHeadline(),
                     SizedBox(height: 16.0.h),
                     _emailInput(),
                     _passwordInput(),
                     _repeatPasswordInput(),
-                    _resetPassword(),
+                    _resetPasswordWidget(),
                     Spacer(),
                     _createAccountTip(),
                     _submitButton(context),
@@ -68,7 +69,7 @@ class EmailAndPassword extends StatelessWidget with TiuTiuPopUp {
 
   AnimatedOpacity _createAccountHeadline() {
     return AnimatedOpacity(
-      opacity: authController.isCreatingNewAccount ? 1 : 0,
+      opacity: authController.isCreatingNewAccount && !authController.isResetingPassword ? 1 : 0,
       duration: Duration(milliseconds: 1500),
       child: Visibility(
         visible: authController.isCreatingNewAccount,
@@ -85,7 +86,7 @@ class EmailAndPassword extends StatelessWidget with TiuTiuPopUp {
 
   AnimatedOpacity _doLoginHeadline() {
     return AnimatedOpacity(
-      opacity: !authController.isCreatingNewAccount ? 1 : 0,
+      opacity: !authController.isCreatingNewAccount && !authController.isResetingPassword ? 1 : 0,
       duration: Duration(milliseconds: 1500),
       child: Visibility(
         visible: !authController.isCreatingNewAccount,
@@ -100,8 +101,26 @@ class EmailAndPassword extends StatelessWidget with TiuTiuPopUp {
     );
   }
 
+  AnimatedOpacity _resetPasswordHeadline() {
+    return AnimatedOpacity(
+      opacity: authController.isResetingPassword ? 1 : 0,
+      duration: Duration(milliseconds: 1500),
+      child: Visibility(
+        visible: !authController.isCreatingNewAccount,
+        child: Align(
+          alignment: Alignment.centerLeft,
+          child: Headline(
+            text: AuthStrings.resetPassword,
+            textColor: AppColors.white,
+          ),
+        ),
+      ),
+    );
+  }
+
   OutlinedInputText _emailInput() {
     return OutlinedInputText(
+      labelText: authController.isResetingPassword ? AuthStrings.typeYourEmail : AuthStrings.email,
       initialValue: authController.emailAndPasswordAuth.email,
       keyboardType: TextInputType.emailAddress,
       onChanged: (email) {
@@ -114,22 +133,29 @@ class EmailAndPassword extends StatelessWidget with TiuTiuPopUp {
     );
   }
 
-  OutlinedInputText _passwordInput() {
-    return OutlinedInputText(
-      initialValue: authController.emailAndPasswordAuth.password,
-      validator: Validators.verifyEmpty,
-      onPasswordVisibilityChange: () {
-        authController.isShowingPassword = !authController.isShowingPassword;
-      },
-      onChanged: (password) {
-        authController.updateEmailAndPasswordAuth(
-          EmailAndPasswordAuthEnum.password,
-          password,
-        );
-      },
-      showPassword: authController.isShowingPassword,
-      labelText: AppStrings.password,
-      isPassword: true,
+  Widget _passwordInput() {
+    return AnimatedOpacity(
+      opacity: !authController.isResetingPassword ? 1 : 0,
+      duration: Duration(milliseconds: 1500),
+      child: Visibility(
+        visible: !authController.isResetingPassword,
+        child: OutlinedInputText(
+          initialValue: authController.emailAndPasswordAuth.password,
+          validator: Validators.verifyEmpty,
+          onPasswordVisibilityChange: () {
+            authController.isShowingPassword = !authController.isShowingPassword;
+          },
+          onChanged: (password) {
+            authController.updateEmailAndPasswordAuth(
+              EmailAndPasswordAuthEnum.password,
+              password,
+            );
+          },
+          showPassword: authController.isShowingPassword,
+          labelText: AppStrings.password,
+          isPassword: true,
+        ),
+      ),
     );
   }
 
@@ -172,6 +198,7 @@ class EmailAndPassword extends StatelessWidget with TiuTiuPopUp {
         ),
         onPressed: () {
           authController.isCreatingNewAccount = !authController.isCreatingNewAccount;
+          authController.isResetingPassword = false;
         },
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -195,7 +222,7 @@ class EmailAndPassword extends StatelessWidget with TiuTiuPopUp {
     );
   }
 
-  Widget _resetPassword() {
+  Widget _resetPasswordWidget() {
     return Visibility(
       visible: !authController.isCreatingNewAccount,
       child: Padding(
@@ -206,7 +233,7 @@ class EmailAndPassword extends StatelessWidget with TiuTiuPopUp {
             padding: EdgeInsets.zero,
           ),
           onPressed: () {
-            // authController.passwordReset();
+            authController.isResetingPassword = true;
           },
           child: Row(
             mainAxisAlignment: MainAxisAlignment.end,
@@ -233,19 +260,25 @@ class EmailAndPassword extends StatelessWidget with TiuTiuPopUp {
 
   ButtonWide _submitButton(BuildContext context) {
     return ButtonWide(
-      text: authController.isCreatingNewAccount ? AuthStrings.createAccount : AuthStrings.enter,
+      text: authController.isCreatingNewAccount
+          ? AuthStrings.createAccount
+          : authController.isResetingPassword
+              ? AuthStrings.receiveEmail
+              : AuthStrings.enter,
       isToExpand: true,
       onPressed: () async {
         if (_formKey.currentState!.validate()) {
-          _submit();
+          _submit(context);
         }
       },
     );
   }
 
-  void _submit() {
+  void _submit(BuildContext context) {
     if (authController.isCreatingNewAccount) {
       _createUserWithEmailAndPassword();
+    } else if (authController.isResetingPassword) {
+      _resetPassword(context);
     } else {
       _loginWithEmailAndPassword();
     }
@@ -265,7 +298,7 @@ class EmailAndPassword extends StatelessWidget with TiuTiuPopUp {
   Widget _loadingWidget() {
     return Obx(
       () => LoadDarkScreen(
-        message: authController.isCreatingNewAccount ? AuthStrings.registeringUser : AuthStrings.loginInProgress,
+        message: authController.feedbackText,
         visible: authController.isLoading,
       ),
     );
@@ -304,6 +337,23 @@ class EmailAndPassword extends StatelessWidget with TiuTiuPopUp {
 
       debugPrint('${exception.toString()}');
 
+      showPopUp(
+        title: AuthStrings.authFailure,
+        message: exception.toString(),
+        error: true,
+      );
+    }
+  }
+
+  Future<void> _resetPassword(BuildContext context) async {
+    try {
+      await authController.passwordReset().then(
+        (_) {
+          showsOnRequestSuccessPopup(message: AuthStrings.resetPasswordInstructionsSent);
+        },
+      );
+    } catch (exception) {
+      authController.isLoading = false;
       showPopUp(
         title: AuthStrings.authFailure,
         message: exception.toString(),
