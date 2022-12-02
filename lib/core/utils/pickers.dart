@@ -33,7 +33,7 @@ mixin Pickers {
       elevation: 16.0,
       builder: (context) {
         return Container(
-          height: systemController.snackBarIsOpen ? 112.0.h : 93.0.h,
+          height: systemController.snackBarIsOpen ? 112.0.h : 100.0.h,
           child: Column(
             children: [
               TextButton(
