@@ -28,6 +28,7 @@ class AuthController extends GetxController {
   final RxBool _isUpdatingUserDataOnServer = false.obs;
   final RxBool _isCreatingNewAccount = false.obs;
   final RxBool _isWhatsappTokenValid = true.obs;
+  final RxBool _isResetingPassword = false.obs;
   final RxBool _isShowingPassword = false.obs;
   final RxBool _allowResendEmail = false.obs;
   final RxBool _numberVerified = false.obs;
@@ -39,6 +40,7 @@ class AuthController extends GetxController {
   bool get isWhatsappTokenValid => _isWhatsappTokenValid.value;
   bool get isCreatingNewAccount => _isCreatingNewAccount.value;
   int get secondsToExpireCode => _secondsToExpireCode.value;
+  bool get isResetingPassword => _isResetingPassword.value;
   bool get isShowingPassword => _isShowingPassword.value;
   bool get allowResendEmail => _allowResendEmail.value;
   bool get numberVerified => _numberVerified.value;
@@ -53,12 +55,18 @@ class AuthController extends GetxController {
   }
 
   void set isCreatingNewAccount(bool value) => _isCreatingNewAccount(value);
+  void set isResetingPassword(bool value) => _isResetingPassword(value);
   void set isShowingPassword(bool value) => _isShowingPassword(value);
   void set feedbackText(String text) => _feedbackText(text);
   void set isLoading(bool value) => _isLoading(value);
 
   void clearEmailAndPassword() {
     _emailAndPasswordAuth(EmailAndPasswordAuth());
+  }
+
+  void setLoading(bool loadingValue, String loadingText) {
+    _isLoading(loadingValue);
+    _feedbackText(loadingText);
   }
 
   void updateEmailAndPasswordAuth(EmailAndPasswordAuthEnum property, dynamic data) {
@@ -220,7 +228,7 @@ class AuthController extends GetxController {
     bool success = false;
 
     if (emailAndPasswordAuth.password == emailAndPasswordAuth.repeatPassword) {
-      isLoading = true;
+      setLoading(true, AuthStrings.registeringUser);
       success = await _authService.createUserWithEmailAndPassword(
         password: emailAndPasswordAuth.password!,
         email: emailAndPasswordAuth.email!,
@@ -233,14 +241,14 @@ class AuthController extends GetxController {
 
       isCreatingNewAccount = false;
       isShowingPassword = false;
-      isLoading = false;
+      setLoading(false, '');
     }
 
     return success;
   }
 
   Future<bool> loginWithEmailAndPassword() async {
-    isLoading = true;
+    setLoading(true, AuthStrings.loginInProgress);
 
     final bool success = await _authService.loginWithEmailAndPassword(
       password: emailAndPasswordAuth.password!,
@@ -253,7 +261,7 @@ class AuthController extends GetxController {
     }
 
     isShowingPassword = false;
-    isLoading = false;
+    setLoading(false, '');
 
     debugPrint('${success ? 'Successfully' : 'Not'} authenticated');
 
@@ -261,7 +269,7 @@ class AuthController extends GetxController {
   }
 
   Future<bool> loginWithFacebook({bool firstLogin = true}) async {
-    isLoading = true;
+    setLoading(true, AuthStrings.loginInProgress);
 
     final bool success = await _authService.loginWithFacebook(
       firstLogin: firstLogin,
@@ -272,13 +280,12 @@ class AuthController extends GetxController {
       registerFirstLogin();
     }
 
-    isLoading = false;
-
+    setLoading(false, '');
     return success;
   }
 
   Future<bool> loginWithGoogle({bool firstLogin = true}) async {
-    isLoading = true;
+    setLoading(true, AuthStrings.loginInProgress);
 
     final bool success = await _authService.loginWithGoogle();
 
@@ -287,13 +294,13 @@ class AuthController extends GetxController {
       registerFirstLogin();
     }
 
-    isLoading = false;
+    setLoading(false, '');
 
     return success;
   }
 
   Future<bool> loginWithApple() async {
-    isLoading = true;
+    setLoading(true, AuthStrings.loginInProgress);
 
     await _authService.loginWithApple();
 
@@ -302,13 +309,18 @@ class AuthController extends GetxController {
       registerFirstLogin();
     }
 
-    isLoading = false;
+    setLoading(false, '');
 
     return isLoading;
   }
 
-  Future<void> passwordReset(String email) async {
-    await _authService.passwordReset(email);
+  Future<void> passwordReset() async {
+    setLoading(true, AppStrings.wait);
+    await _authService.passwordReset(emailAndPasswordAuth.email!);
+    isResetingPassword = false;
+    clearEmailAndPassword();
+    setLoading(false, '');
+    isLoading = false;
   }
 
   Future<bool> tryAutoLoginIn() async {
