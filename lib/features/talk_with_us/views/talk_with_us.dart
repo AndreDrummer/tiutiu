@@ -43,14 +43,14 @@ class _TalkWithUsState extends State<TalkWithUs> {
           child: Stack(
             children: [
               BodyCard(
-                bodyHeight: feedbackController.insertImages ? Get.height : Get.width,
+                bodyHeight: feedbackController.insertImages ? Get.height : Get.width * 1.05,
                 child: ListView(
                   children: [
                     _selectYourSubject(),
                     _describeYourMessage(),
                     _addImagesCheckbox(),
                     _screenshots(),
-                    _submitButton()
+                    _submitButton(),
                   ],
                 ),
               ),
