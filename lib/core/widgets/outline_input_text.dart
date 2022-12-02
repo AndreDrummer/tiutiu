@@ -14,18 +14,23 @@ class OutlinedInputText extends StatelessWidget {
     this.inputFormatters,
     this.keyboardType,
     this.initialValue,
+    this.controller,
     this.textColor,
     this.onChanged,
     this.hintText,
     this.validator,
     this.maxLength,
     super.key,
-  }) : assert((showPassword == true && isPassword == true) || showPassword == false);
+  }) : assert(
+          (showPassword == true && isPassword == true) || showPassword == false,
+          controller != null || initialValue != null,
+        );
 
   final List<TextInputFormatter>? inputFormatters;
   final Function()? onPasswordVisibilityChange;
   final TextCapitalization textCapitalization;
   final String? Function(String?)? validator;
+  final TextEditingController? controller;
   final void Function(String)? onChanged;
   final TextInputType? keyboardType;
   final String? initialValue;
@@ -52,6 +57,7 @@ class OutlinedInputText extends StatelessWidget {
         inputFormatters: inputFormatters,
         initialValue: initialValue,
         keyboardType: keyboardType,
+        controller: controller,
         onChanged: onChanged,
         validator: validator,
         style: TextStyle(
