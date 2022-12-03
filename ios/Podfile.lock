@@ -12,14 +12,14 @@ PODS:
   - connectivity_plus (0.0.1):
     - Flutter
     - ReachabilitySwift
-  - FBAEMKit (14.1.0):
-    - FBSDKCoreKit_Basics (= 14.1.0)
-  - FBSDKCoreKit (14.1.0):
-    - FBAEMKit (= 14.1.0)
-    - FBSDKCoreKit_Basics (= 14.1.0)
-  - FBSDKCoreKit_Basics (14.1.0)
-  - FBSDKLoginKit (14.1.0):
-    - FBSDKCoreKit (= 14.1.0)
+  - FBAEMKit (15.1.0):
+    - FBSDKCoreKit_Basics (= 15.1.0)
+  - FBSDKCoreKit (15.1.0):
+    - FBAEMKit (= 15.1.0)
+    - FBSDKCoreKit_Basics (= 15.1.0)
+  - FBSDKCoreKit_Basics (15.1.0)
+  - FBSDKLoginKit (15.1.0):
+    - FBSDKCoreKit (= 15.1.0)
   - Firebase/Analytics (9.6.0):
     - Firebase/Core
   - Firebase/Auth (9.6.0):
@@ -147,8 +147,10 @@ PODS:
   - Flutter (1.0.0)
   - flutter_chat_bubble (0.0.1):
     - Flutter
-  - flutter_facebook_auth (4.4.1):
-    - FBSDKLoginKit (= 14.1.0)
+  - flutter_facebook_auth (5.0.4):
+    - FBSDKLoginKit (~> 15.1.0)
+    - Flutter
+  - flutter_secure_storage (6.0.0):
     - Flutter
   - FMDB (2.7.5):
     - FMDB/standard (= 2.7.5)
@@ -259,6 +261,7 @@ DEPENDENCIES:
   - Flutter (from `Flutter`)
   - flutter_chat_bubble (from `.symlinks/plugins/flutter_chat_bubble/ios`)
   - flutter_facebook_auth (from `.symlinks/plugins/flutter_facebook_auth/ios`)
+  - flutter_secure_storage (from `.symlinks/plugins/flutter_secure_storage/ios`)
   - geocoding (from `.symlinks/plugins/geocoding/ios`)
   - geolocator_apple (from `.symlinks/plugins/geolocator_apple/ios`)
   - google_sign_in_ios (from `.symlinks/plugins/google_sign_in_ios/ios`)
@@ -337,6 +340,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/flutter_chat_bubble/ios"
   flutter_facebook_auth:
     :path: ".symlinks/plugins/flutter_facebook_auth/ios"
+  flutter_secure_storage:
+    :path: ".symlinks/plugins/flutter_secure_storage/ios"
   geocoding:
     :path: ".symlinks/plugins/geocoding/ios"
   geolocator_apple:
@@ -377,10 +382,10 @@ SPEC CHECKSUMS:
   AppAuth: 8fca6b5563a5baef2c04bee27538025e4ceb2add
   cloud_firestore: 49d69be2b924677f2974d8b38acc705c9908c09b
   connectivity_plus: 413a8857dd5d9f1c399a39130850d02fe0feaf7e
-  FBAEMKit: a899515e45476027f73aef377b5cffadcd56ca3a
-  FBSDKCoreKit: 24f8bc8d3b5b2a8c5c656a1329492a12e8efa792
-  FBSDKCoreKit_Basics: 6e578c9bdc7aa1365dbbbde633c9ebb536bcaa98
-  FBSDKLoginKit: 787de205d524c3a4b17d527916f1d066e4361660
+  FBAEMKit: c7f82b5145d446bcbbcd50485c032689032fc6a2
+  FBSDKCoreKit: 7542746fc63a2a38dd6a865eeb54268341f37b83
+  FBSDKCoreKit_Basics: 92d6b26c0bed30ab09bbdd96dccaa26e6c9978d1
+  FBSDKLoginKit: 4e275d30cf90e92bdf3a7c82857a8642abf23037
   Firebase: 5ae8b7cf8efce559a653aef0ad95bab3f427c351
   firebase_analytics: 9937a91df25cce5b0ee19eaf65277ff8bf0f88e5
   firebase_auth: 07a4db69cfa447ac42cb7faa560fc100708b707c
@@ -406,7 +411,8 @@ SPEC CHECKSUMS:
   FirebaseStorageInternal: 81d8a597324ccd06c41a43c5700bc1185a2fc328
   Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
   flutter_chat_bubble: cad6265ec611ba0f7bede70eabc26fdfce9bf2b0
-  flutter_facebook_auth: 361ac7a57263ebf327f26089507ead0d66558ee8
+  flutter_facebook_auth: c69f4e643b1d9cc9063ec87c9411bd9ec268108f
+  flutter_secure_storage: 23fc622d89d073675f2eaa109381aefbcf5a49be
   FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
   geocoding: 32cfcdb16d38d907caaba65e2e42ad10d38bee58
   geolocator_apple: cc556e6844d508c95df1e87e3ea6fa4e58c50401

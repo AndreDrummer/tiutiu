@@ -1,6 +1,7 @@
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/constants/text_styles.dart';
+import 'package:tiutiu/core/widgets/simple_text_button.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:tiutiu/core/constants/strings.dart';
@@ -49,6 +50,7 @@ class _VerifyEmailState extends State<VerifyEmail> {
           _warningMessage(),
           SizedBox(height: 16.0.h),
           _resendEmail(),
+          _backButton()
         ],
       ),
     );
@@ -113,6 +115,19 @@ class _VerifyEmailState extends State<VerifyEmail> {
               ],
             ),
           ),
+        );
+      },
+    );
+  }
+
+  Widget _backButton() {
+    return FutureBuilder(
+      future: authController.verifyShouldShowResendEmailButton(),
+      builder: (context, snapshot) {
+        return SimpleTextButton(
+          textColor: AppColors.black.withOpacity(.7),
+          onPressed: () => Get.back(),
+          text: AppStrings.backToHome,
         );
       },
     );
