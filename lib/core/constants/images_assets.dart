@@ -1,6 +1,7 @@
 class ImageAssets {
   static String get googleMapsPin => 'assets/images/google-maps-pin.webp';
   static String get googlePlaces => 'assets/images/google-places.webp';
+  static String get noConnection => 'assets/images/no-connection.webp';
   static String get profileEmpty => 'assets/images/profileEmpty.webp';
   static String get playstoreLogo => 'assets/images/playstore.webp';
   static String get applestoreLogo => 'assets/images/apple.webp';
@@ -11,7 +12,6 @@ class ImageAssets {
   static String get dogCat2 => 'assets/images/dogCat2.webp';
   static String get newPin => 'assets/images/new-pin2.webp';
   static String get newLogo => 'assets/images/newLogo.png';
-  static String get noWifi => 'assets/images/no-wifi.webp';
   static String get bones2 => 'assets/images/bones2.webp';
   static String get dogCat => 'assets/images/dogCat.webp';
   static String get follow => 'assets/images/follow.webp';
