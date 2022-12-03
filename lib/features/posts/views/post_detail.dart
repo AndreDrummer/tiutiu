@@ -1,7 +1,8 @@
+import 'package:tiutiu/core/utils/launcher_functions.dart';
 import 'package:tiutiu/core/widgets/pet_other_caracteristics_card.dart';
 import 'package:tiutiu/core/pets/model/pet_caracteristics_model.dart';
 import 'package:tiutiu/features/posts/widgets/video_player.dart';
-import 'package:tiutiu/core/widgets/verify_account_warning.dart';
+import 'package:tiutiu/core/widgets/warning_widget.dart';
 import 'package:tiutiu/features/posts/widgets/card_content.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiutiu/core/extensions/string_extension.dart';
@@ -392,6 +393,7 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
           greaterDeviceHeightDouble: 2.0.h,
           minDeviceHeightDouble: 24.0.h,
         ),
+        bottom: 16.0.h,
         right: 4.0.w,
         left: 4.0.w,
       ),
@@ -415,7 +417,9 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
                   text: AppStrings.whatsapp,
                   color: AppColors.primary,
                   isToExpand: false,
-                  onPressed: () {},
+                  onPressed: () async {
+                    await Launcher.openWhatsApp(number: post.owner!.phoneNumber!);
+                  },
                 ),
               ),
             ],

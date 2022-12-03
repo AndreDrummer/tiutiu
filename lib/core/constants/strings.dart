@@ -1,4 +1,5 @@
 class AppStrings {
+  static String get noConnectionWarning => 'Estes anúncios podem estar desatualizados porque você está sem internet.';
   static String get authError => 'Ocorreu um erro com sua autenticação.\nTente sair e entrar novamente.';
   static String get headline2 => 'Muitos Pets Lindos\nEstão Aguardando Por Você';
   static String get verifyEmailToSeeContactInfo =>
@@ -9,6 +10,7 @@ class AppStrings {
   static String get verifyFilters => 'Verifique seus filtros de busca.';
   static String get imagesWarning => 'Imagens meramente ilustrativas';
   static String get noPostFavorited => 'Nenhum PET foi favoritado.';
+  static String get backToCivilization => 'Voltar a civilização';
   static String get wannaLeave => 'Deseja realmente sair?';
   static String get loadingImage => 'Carregando imagem...';
   static String get noPostFound => 'Nenhum PET encontrado.';

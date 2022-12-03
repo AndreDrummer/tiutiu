@@ -1,5 +1,5 @@
 import 'package:tiutiu/core/constants/text_styles.dart';
-import 'package:tiutiu/core/widgets/verify_account_warning.dart';
+import 'package:tiutiu/core/widgets/warning_widget.dart';
 import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
 import 'package:tiutiu/features/chat/widgets/contact_tile.dart';
 import 'package:tiutiu/core/widgets/default_basic_app_bar.dart';

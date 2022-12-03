@@ -6,11 +6,15 @@ import 'package:tiutiu/core/constants/strings.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class VerifyAccountWarningBanner extends StatelessWidget {
-  const VerifyAccountWarningBanner({
+class WarningBanner extends StatelessWidget {
+  const WarningBanner({
     this.isHiddingContactInfo = false,
+    this.showBannerCondition = false,
     required this.child,
+    this.textWarning,
     this.fontSize,
+    this.textColor,
+    this.tileColor,
     this.tileSize,
     this.padding,
     this.margin,
@@ -19,8 +23,12 @@ class VerifyAccountWarningBanner extends StatelessWidget {
   final EdgeInsetsGeometry? padding;
   final EdgeInsetsGeometry? margin;
   final bool isHiddingContactInfo;
+  final bool showBannerCondition;
+  final String? textWarning;
   final double? tileSize;
   final double? fontSize;
+  final Color? textColor;
+  final Color? tileColor;
   final Widget child;
 
   @override
@@ -28,7 +36,7 @@ class VerifyAccountWarningBanner extends StatelessWidget {
     final isLoggedIn = authController.userExists;
 
     return Visibility(
-      visible: tiutiuUserController.tiutiuUser.emailVerified,
+      visible: showBannerCondition,
       child: child,
       replacement: Visibility(
         visible: isLoggedIn,
@@ -38,7 +46,11 @@ class VerifyAccountWarningBanner extends StatelessWidget {
           margin: margin ?? EdgeInsets.symmetric(vertical: 32.0.h, horizontal: 8.0.w),
           alignment: Alignment.center,
           decoration: BoxDecoration(
-            color: isHiddingContactInfo ? Colors.amber : AppColors.danger,
+            color: tileColor != null
+                ? tileColor
+                : isHiddingContactInfo
+                    ? Colors.amber
+                    : AppColors.danger,
             borderRadius: BorderRadius.circular(4.0.h),
           ),
           child: Row(
@@ -46,14 +58,30 @@ class VerifyAccountWarningBanner extends StatelessWidget {
             children: [
               Expanded(
                 child: AutoSizeTexts.autoSizeText12(
-                  isHiddingContactInfo ? AppStrings.verifyEmailToSeeContactInfo : AppStrings.verifyAccountWarning,
-                  color: isHiddingContactInfo ? AppColors.black : AppColors.white,
+                  textWarning != null
+                      ? textWarning
+                      : isHiddingContactInfo
+                          ? AppStrings.verifyEmailToSeeContactInfo
+                          : AppStrings.verifyAccountWarning,
+                  color: textColor != null
+                      ? textColor
+                      : isHiddingContactInfo
+                          ? AppColors.black
+                          : AppColors.white,
                   textOverflow: TextOverflow.fade,
                   textAlign: TextAlign.left,
                   fontSize: fontSize,
                 ),
               ),
-              Icon(Icons.warning, size: 12.0.h, color: isHiddingContactInfo ? AppColors.black : AppColors.white),
+              Icon(
+                Icons.warning,
+                size: 12.0.h,
+                color: textColor != null
+                    ? textColor
+                    : isHiddingContactInfo
+                        ? AppColors.black
+                        : AppColors.white,
+              ),
             ],
           ),
         ),

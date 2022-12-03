@@ -24,7 +24,7 @@ class TiuTiuAuthException {
     if (authErrors.containsKey(keyException)) {
       return authErrors[keyException]!;
     } else {
-      return 'Ocorreu um erro inesperado!';
+      return 'Ocorreu um erro inesperado!\nVerifique sua conexão com a internet.';
     }
   }
 }
