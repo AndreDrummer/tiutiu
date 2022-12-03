@@ -15,6 +15,7 @@ class PostService extends GetxService {
   }
 
   Future<void> increasePostViews(String postId, int currentViews) async {
+    print('kkk $postId');
     await FirebaseFirestore.instance.doc(pathToPost(postId)).set({'views': ++currentViews}, SetOptions(merge: true));
   }
 

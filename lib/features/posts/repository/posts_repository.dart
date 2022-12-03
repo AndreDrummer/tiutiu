@@ -11,7 +11,7 @@ class PostsRepository {
 
   final PostService _postService;
 
-  Future<List<Pet>> getPostList({bool getFromInternet = false}) async {
+  Future<List<Pet>> getPostList() async {
     debugPrint('>>Cache getPostList');
     List<Pet> petsList = [];
 
@@ -19,7 +19,7 @@ class PostsRepository {
     today = today.split('T').first;
     final todaysCache = await LocalStorage.getValueUnderStringKey(today);
 
-    if (todaysCache != null && !getFromInternet) {
+    if (todaysCache != null) {
       debugPrint('>>Cache exists');
       petsList = await _getPostsFromCache();
     } else {
