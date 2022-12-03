@@ -5,7 +5,7 @@ import 'package:tiutiu/core/constants/text_styles.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:tiutiu/core/constants/strings.dart';
-import 'package:tiutiu/core/widgets/cancel_button.dart';
+import 'package:tiutiu/core/widgets/simple_text_button.dart';
 import 'package:tiutiu/core/utils/formatter.dart';
 import 'package:tiutiu/core/widgets/button_wide.dart';
 import 'package:flutter/services.dart';
@@ -80,7 +80,7 @@ class _VerifyPhoneState extends State<VerifyPhone> {
             _codeBoxes(context),
             Spacer(),
             _resendWithin(),
-            _cancelButton(),
+            _backButton(),
             Spacer(),
             _confirmButton(),
           ],
@@ -255,13 +255,11 @@ class _VerifyPhoneState extends State<VerifyPhone> {
     );
   }
 
-  Widget _cancelButton() {
+  Widget _backButton() {
     return SimpleTextButton(
-      onPressed: () {
-        Get.back();
-      },
-      textColor: AppColors.danger,
-      text: AppStrings.cancel,
+      textColor: AppColors.black.withOpacity(.7),
+      onPressed: () => Get.back(),
+      text: AppStrings.backToHome,
     );
   }
 
