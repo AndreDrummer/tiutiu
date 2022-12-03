@@ -1,9 +1,10 @@
-import 'package:flutter/foundation.dart';
 import 'package:tiutiu/features/tiutiu_user/services/tiutiu_user_service.dart';
 import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
 import 'package:tiutiu/core/extensions/string_extension.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
+import 'package:tiutiu/features/posts/model/post.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 
 class TiutiuUserController extends GetxController {
@@ -18,11 +19,7 @@ class TiutiuUserController extends GetxController {
   TiutiuUser get tiutiuUser => _tiutiuUser.value;
   bool get isLoading => _isLoading.value;
 
-  void updateTiutiuUser(
-    TiutiuUserEnum property,
-    dynamic data, [
-    bool replace = false,
-  ]) {
+  void updateTiutiuUser(TiutiuUserEnum property, dynamic data, [bool replace = false]) {
     if (replace && data is TiutiuUser) {
       _tiutiuUser(data);
     } else {
@@ -36,6 +33,10 @@ class TiutiuUserController extends GetxController {
   }
 
   void set isLoading(bool value) => _isLoading(value);
+
+  void resetUserWithThisUser({TiutiuUser? user}) {
+    _tiutiuUser(user ?? TiutiuUser());
+  }
 
   Future<void> handleNotifications(data) async {}
 
@@ -71,7 +72,5 @@ class TiutiuUserController extends GetxController {
     _tiutiuUser(await getUserById(userId));
   }
 
-  void resetUserWithThisUser({TiutiuUser? user}) {
-    _tiutiuUser(user ?? TiutiuUser());
-  }
+  Future<void> showInterestOnPost(Post post) async {}
 }

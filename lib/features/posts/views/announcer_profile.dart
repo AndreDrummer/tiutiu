@@ -1,4 +1,4 @@
-import 'package:tiutiu/core/widgets/verify_account_warning.dart';
+import 'package:tiutiu/core/widgets/warning_widget.dart';
 import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiutiu/core/widgets/default_basic_app_bar.dart';
@@ -180,7 +180,7 @@ class AnnouncerProfile extends StatelessWidget {
   }
 
   Widget _contactButtonRow() {
-    return VerifyAccountWarningBanner(
+    return WarningBanner(
       isHiddingContactInfo: true,
       fontSize: 10,
       margin: EdgeInsets.only(left: 2.0.w, right: 16.0.w, top: 24.0.h),
