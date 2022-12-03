@@ -10,7 +10,7 @@ import 'package:tiutiu/core/widgets/load_dark_screen.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/widgets/row_button_bar.dart';
 import 'package:tiutiu/features/posts/views/images.dart';
-import 'package:tiutiu/core/widgets/cancel_button.dart';
+import 'package:tiutiu/core/widgets/simple_text_button.dart';
 import 'package:tiutiu/core/widgets/one_line_text.dart';
 import 'package:tiutiu/core/mixins/tiu_tiu_pop_up.dart';
 import 'package:tiutiu/features/posts/views/video.dart';
