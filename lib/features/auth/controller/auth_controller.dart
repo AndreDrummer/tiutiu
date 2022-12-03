@@ -80,7 +80,7 @@ class AuthController extends GetxController {
     await verifyIfWhatsappTokenIsStillValid();
 
     if (!isWhatsappTokenValid) {
-      int seconds = 120;
+      int seconds = 10;
       final code = _generateCode();
       final whatsappTokenData = WhatsAppToken(
         expirationDate: DateTime.now().add(Duration(seconds: seconds)).toIso8601String(),
@@ -190,6 +190,8 @@ class AuthController extends GetxController {
         } else {
           _allowResendEmail(false);
         }
+      } else {
+        _allowResendEmail(true);
       }
     }
   }

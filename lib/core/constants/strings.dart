@@ -12,6 +12,7 @@ class AppStrings {
   static String get wannaLeave => 'Deseja realmente sair?';
   static String get loadingImage => 'Carregando imagem...';
   static String get noPostFound => 'Nenhum PET encontrado.';
+  static String get backToHome => 'Voltar a tela inicial';
   static String get jotSomethingDown => 'Escreva aqui...';
   static String get iamInterested => 'Estou interessado';
   static String get backToStart => 'Voltar ao início';

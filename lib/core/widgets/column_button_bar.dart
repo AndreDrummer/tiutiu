@@ -1,5 +1,5 @@
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:tiutiu/core/widgets/cancel_button.dart';
+import 'package:tiutiu/core/widgets/simple_text_button.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/core/widgets/button_wide.dart';
 import 'package:tiutiu/core/constants/strings.dart';

@@ -152,7 +152,7 @@ class FirebaseAuthProvider implements AuthProviders {
 
       final LoginResult result = await _facebookSignIn.login(loginBehavior: LoginBehavior.webOnly);
 
-      debugPrint('>> Facebook LoginResul ${result.status}');
+      debugPrint('>> Facebook LoginResult ${result.status}');
 
       if (result.status == LoginStatus.success) {
         final userData = await FacebookAuth.i.getUserData(
@@ -161,8 +161,7 @@ class FirebaseAuthProvider implements AuthProviders {
 
         AuthCredential credential = FacebookAuthProvider.credential(result.accessToken!.token);
 
-        print('>> Data $userData');
-        print('>> Token ${result.accessToken?.toJson()}');
+        print('>> Facebook Login Data $userData');
 
         await FirebaseAuth.instance.signInWithCredential(credential);
       } else {
