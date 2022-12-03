@@ -1,3 +1,5 @@
+import 'package:tiutiu/core/widgets/async_handler.dart';
+import 'package:tiutiu/features/posts/model/post.dart';
 import 'package:tiutiu/features/posts/widgets/render_post_list.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/mixins/tiu_tiu_pop_up.dart';
@@ -17,16 +19,31 @@ class FinderList extends StatelessWidget {
 class _PostsList extends StatelessWidget with TiuTiuPopUp {
   @override
   Widget build(BuildContext context) {
-    return Obx(() {
-      final posts = postsController.filteredPosts;
+    return StreamBuilder<List<Post>>(
+      stream: null,
+      builder: (context, snapshot) {
+        return AsyncHandler<List<Post>>(
+          forcedDataReturned: snapshot.data ?? [],
+          forceReturnBuildWidget: true,
+          buildWidget: (livePostList) {
+            return Obx(
+              () {
+                final connected = systemController.internetConnected;
+                final posts = connected ? livePostList : postsController.filteredPosts;
 
-      return RefreshIndicator(
-        onRefresh: () async => postsController.allPosts(getFromInternet: true),
-        child: RenderPostList(
-          itemCount: posts.length + 1,
-          posts: posts,
-        ),
-      );
-    });
+                return RefreshIndicator(
+                  onRefresh: () async => postsController.allPosts(),
+                  child: RenderPostList(
+                    itemCount: posts.length + 1,
+                    posts: posts,
+                  ),
+                );
+              },
+            );
+          },
+          snapshot: snapshot,
+        );
+      },
+    );
   }
 }

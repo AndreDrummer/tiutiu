@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get_state_manager/get_state_manager.dart';
+import 'package:tiutiu/core/controllers/controllers.dart';
+import 'package:tiutiu/core/widgets/no_connection.dart';
 
 class ValidatedArea extends StatelessWidget {
   const ValidatedArea({
@@ -13,5 +16,13 @@ class ValidatedArea extends StatelessWidget {
   final bool isValid;
 
   @override
-  Widget build(BuildContext context) => isValid ? validChild : fallbackChild;
+  Widget build(BuildContext context) {
+    return Obx(
+      () => Visibility(
+        replacement: NoConnection(),
+        visible: systemController.internetConnected,
+        child: isValid ? validChild : fallbackChild,
+      ),
+    );
+  }
 }
