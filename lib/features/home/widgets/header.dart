@@ -1,7 +1,8 @@
 import 'package:tiutiu/features/posts/widgets/filter_count_order_by.dart';
-import 'package:tiutiu/core/widgets/verify_account_warning.dart';
 import 'package:tiutiu/features/home/widgets/filters_type.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:tiutiu/core/controllers/controllers.dart';
+import 'package:tiutiu/core/widgets/warning_widget.dart';
 import 'package:tiutiu/core/utils/dimensions.dart';
 import 'package:tiutiu/core/widgets/top_bar.dart';
 import 'package:flutter/material.dart';
@@ -16,7 +17,8 @@ class Header extends StatelessWidget {
         TopBar(),
         FiltersType(),
         FilterResultCount(),
-        VerifyAccountWarningBanner(
+        WarningBanner(
+          showBannerCondition: tiutiuUserController.tiutiuUser.emailVerified,
           padding: EdgeInsets.symmetric(horizontal: 4.0.w, vertical: 2.0.h),
           margin: EdgeInsets.only(
             right: Dimensions.getDimensBasedOnDeviceHeight(

@@ -130,6 +130,7 @@ class FirebaseAuthProvider implements AuthProviders {
       }
     } on Exception catch (error) {
       debugPrint('>> Erro ao realizar login com Google: $error');
+      throw TiuTiuAuthException('$error');
     }
 
     return _firebaseAuth.currentUser != null;

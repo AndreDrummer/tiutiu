@@ -120,8 +120,8 @@ class PostsController extends GetxController with TiuTiuPopUp {
     await _uploadVideo();
     await _uploadImages();
     await _uploadPostData();
-    await allPosts(getFromInternet: true);
     await getMyPosts();
+    await allPosts();
     isLoading = false;
     isEditingPost = false;
     clearForm();
@@ -133,7 +133,7 @@ class PostsController extends GetxController with TiuTiuPopUp {
     _uploadingPostText(PostFlowStrings.deletingAd);
 
     await _postsRepository.deletePost(post: post);
-    await allPosts(getFromInternet: true);
+    await allPosts();
     clearForm();
     _uploadingPostText('');
     isLoading = false;
@@ -141,8 +141,8 @@ class PostsController extends GetxController with TiuTiuPopUp {
     return myPosts.length;
   }
 
-  Future<void> allPosts({bool getFromInternet = false}) async {
-    final list = await _postsRepository.getPostList(getFromInternet: getFromInternet);
+  Future<void> allPosts() async {
+    final list = await _postsRepository.getPostList();
 
     _posts(list);
     _filterPosts();
