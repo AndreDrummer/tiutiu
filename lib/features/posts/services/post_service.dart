@@ -1,7 +1,6 @@
 import 'package:tiutiu/core/constants/firebase_env_path.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:tiutiu/core/utils/other_functions.dart';
-import 'package:tiutiu/core/pets/model/pet_model.dart';
 import 'package:tiutiu/features/posts/model/post.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
@@ -14,8 +13,11 @@ class PostService extends GetxService {
     return posts.docs.map((post) => post.data()).toList();
   }
 
+  CollectionReference<Map<String, dynamic>> pathToPostsStream() {
+    return FirebaseFirestore.instance.collection(pathToPosts);
+  }
+
   Future<void> increasePostViews(String postId, int currentViews) async {
-    print('kkk $postId');
     await FirebaseFirestore.instance.doc(pathToPost(postId)).set({'views': ++currentViews}, SetOptions(merge: true));
   }
 
@@ -129,20 +131,6 @@ class PostService extends GetxService {
       }
     } on Exception catch (exception) {
       debugPrint('Erro when tryna to $currentImage of post with id ${post.uid}: $exception');
-    }
-  }
-
-  Future<List<Post>> getMyPosts(String myUserId) async {
-    try {
-      final posts = await FirebaseFirestore.instance
-          .collection(pathToPosts)
-          .where(PostEnum.ownerId.name, isEqualTo: myUserId)
-          .get();
-
-      return posts.docs.map((post) => Pet.fromSnapshot(post)).toList();
-    } on Exception catch (exception) {
-      debugPrint('Erro when tryna get my posts: $exception');
-      return List.empty();
     }
   }
 

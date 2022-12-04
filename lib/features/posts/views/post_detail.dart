@@ -1,18 +1,18 @@
-import 'package:tiutiu/core/utils/launcher_functions.dart';
 import 'package:tiutiu/core/widgets/pet_other_caracteristics_card.dart';
 import 'package:tiutiu/core/pets/model/pet_caracteristics_model.dart';
 import 'package:tiutiu/features/posts/widgets/video_player.dart';
-import 'package:tiutiu/core/widgets/warning_widget.dart';
 import 'package:tiutiu/features/posts/widgets/card_content.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiutiu/core/extensions/string_extension.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:tiutiu/core/utils/launcher_functions.dart';
 import 'package:tiutiu/core/utils/routes/routes_name.dart';
 import 'package:tiutiu/core/widgets/load_dark_screen.dart';
 import 'package:tiutiu/core/constants/images_assets.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/widgets/dots_indicator.dart';
 import 'package:tiutiu/core/mixins/tiu_tiu_pop_up.dart';
+import 'package:tiutiu/core/widgets/warning_widget.dart';
 import 'package:tiutiu/core/constants/text_styles.dart';
 import 'package:tiutiu/core/utils/other_functions.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
@@ -58,6 +58,8 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
       videoPath,
     );
   }
+
+  bool postBelongsToMe() => postsController.postBelongsToMe();
 
   @override
   Widget build(BuildContext context) {
@@ -180,9 +182,11 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
           left: 8.0.w,
           child: InkWell(
             onTap: () {
-              OtherFunctions.navigateToAnnouncerDetail(
-                postsController.post.owner!,
-              );
+              if (postBelongsToMe()) {
+                Get.toNamed(Routes.settings);
+              } else {
+                OtherFunctions.navigateToAnnouncerDetail(postsController.post.owner!);
+              }
             },
             child: _announcerBadge(),
           ),
@@ -217,14 +221,9 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
             ),
           ),
           Padding(
-            padding: EdgeInsets.only(
-              right: 18.0.h,
-              left: 8.0.h,
-            ),
+            padding: EdgeInsets.only(right: 18.0.h, left: 8.0.h),
             child: AutoSizeTexts.autoSizeText10(
-              OtherFunctions.firstCharacterUpper(
-                postsController.post.owner!.displayName ?? 'Usuário do Tiutiu',
-              ).trim(),
+              OtherFunctions.firstCharacterUpper(announcerName()).trim(),
               fontWeight: FontWeight.bold,
               color: AppColors.white,
             ),
@@ -232,6 +231,13 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
         ],
       ),
     );
+  }
+
+  String announcerName() {
+    final owner = postsController.post.owner!;
+    late String userName = postBelongsToMe() ? 'Você' : owner.displayName ?? 'Usuário do Tiutiu';
+
+    return userName;
   }
 
   Container _images({required PageController pageController, required double boxHeight}) {
