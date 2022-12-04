@@ -533,7 +533,7 @@ class PostsController extends GetxController with TiuTiuPopUp {
   }
 
   Future<void> increasePostViews() async {
-    if (!isEditingPost && !isInReviewMode && postBelongsToMe()) {
+    if (!isEditingPost && !isInReviewMode && !postBelongsToMe()) {
       await _postService.increasePostViews(post.uid!, post.views);
     }
   }
