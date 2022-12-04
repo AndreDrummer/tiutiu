@@ -144,7 +144,7 @@ class AuthController extends GetxController {
       true,
     );
 
-    LocalStorage.deleteDataUnderKey(LocalStorageKey.whatsappTokenData);
+    LocalStorage.deleteDataUnderLocalStorageKey(LocalStorageKey.whatsappTokenData);
     _numberVerified(false);
     updateUserInfo();
   }
@@ -166,7 +166,7 @@ class AuthController extends GetxController {
         final seconds = DateTime.parse(expirationDate).difference(DateTime.now()).inSeconds;
         _secondsToExpireCode(seconds);
       } else {
-        LocalStorage.deleteDataUnderKey(LocalStorageKey.whatsappTokenData);
+        LocalStorage.deleteDataUnderLocalStorageKey(LocalStorageKey.whatsappTokenData);
       }
 
       debugPrint('>> Token still valid $isWhatsappTokenValid');
@@ -185,7 +185,7 @@ class AuthController extends GetxController {
 
         if (minutes > 2) {
           debugPrint('>> last sent email is expired...');
-          await LocalStorage.deleteDataUnderKey(LocalStorageKey.lastSendEmailTime);
+          await LocalStorage.deleteDataUnderLocalStorageKey(LocalStorageKey.lastSendEmailTime);
           _allowResendEmail(true);
         } else {
           _allowResendEmail(false);

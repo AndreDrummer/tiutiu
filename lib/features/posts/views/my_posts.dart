@@ -8,38 +8,24 @@ import 'package:tiutiu/core/constants/strings.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class MyPosts extends StatefulWidget {
-  @override
-  State<MyPosts> createState() => _MyPostsState();
-}
-
-class _MyPostsState extends State<MyPosts> {
-  @override
-  void initState() {
-    postsController.getMyPosts();
-    super.initState();
-  }
-
+class MyPosts extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Obx(
-      () => RefreshIndicator(
-        onRefresh: () async => postsController.getMyPosts(),
-        child: Scaffold(
-          appBar: DefaultBasicAppBar(
-            leading: BackButton(onPressed: postsController.closeMypostsLists),
-            text: MyProfileOptionsTile.myPosts,
-            actions: [
-              TogglePostCardAppearence(
-                color: AppColors.white,
-              ),
-            ],
-          ),
-          body: RenderPostList(
-            itemCount: postsController.filteredPosts.length + 1,
-            firstChild: FilterResultCount(isInMyPosts: true),
-            posts: postsController.filteredPosts,
-          ),
+      () => Scaffold(
+        appBar: DefaultBasicAppBar(
+          leading: BackButton(onPressed: postsController.closeMypostsLists),
+          text: MyProfileOptionsTile.myPosts,
+          actions: [
+            TogglePostCardAppearence(
+              color: AppColors.white,
+            ),
+          ],
+        ),
+        body: RenderPostList(
+          itemCount: postsController.filteredPosts.length + 1,
+          firstChild: FilterResultCount(isInMyPosts: true),
+          posts: postsController.filteredPosts,
         ),
       ),
     );

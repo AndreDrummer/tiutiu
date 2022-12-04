@@ -1,5 +1,6 @@
 import 'package:tiutiu/features/posts/repository/posts_repository.dart';
 import 'package:tiutiu/features/posts/validators/form_validators.dart';
+import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
 import 'package:tiutiu/core/location/models/states_and_cities.dart';
 import 'package:tiutiu/core/local_storage/local_storage_keys.dart';
 import 'package:tiutiu/features/posts/services/post_service.dart';
@@ -24,14 +25,16 @@ const int _FLOW_STEPS_QTY = 7;
 class PostsController extends GetxController with TiuTiuPopUp {
   PostsController({
     required PostsRepository postsRepository,
-  }) : _postsRepository = postsRepository;
+    required PostService postService,
+  })  : _postsRepository = postsRepository,
+        _postService = postService;
 
   final PostsRepository _postsRepository;
+  final PostService _postService;
 
   final RxMap<String, dynamic> _cachedVideos = <String, dynamic>{}.obs;
   final RxList<Post> _filteredPosts = <Post>[].obs;
   final RxString _uploadingPostText = ''.obs;
-  final RxList<Post> _myPosts = <Pet>[].obs;
   final RxBool _isInMyPostsList = false.obs;
   final RxBool _isInReviewMode = false.obs;
   final RxBool _isEditingPost = false.obs;
@@ -63,7 +66,6 @@ class PostsController extends GetxController with TiuTiuPopUp {
   int get flowIndex => _flowIndex.value;
   bool get hasError => _hasError.value;
   ChewieController? chewieController;
-  List<Post> get myPosts => _myPosts;
   List<Post> get posts => _posts;
   Post get post => _post.value;
 
@@ -87,6 +89,25 @@ class PostsController extends GetxController with TiuTiuPopUp {
     });
 
     super.onInit();
+  }
+
+  bool postBelongsToMe([Post? postToCompareWith]) {
+    TiutiuUser myUser = tiutiuUserController.tiutiuUser;
+    Post p = postToCompareWith ?? post;
+    TiutiuUser postOwner = p.owner!;
+
+    return myUser.uid == postOwner.uid;
+  }
+
+  Stream<List<Post>> postsStream() {
+    return _postService.pathToPostsStream().snapshots().asyncMap((postSnapshot) {
+      final postsList = postSnapshot.docs.map((post) {
+        return Pet().fromMap(post.data());
+      }).toList();
+
+      _posts(postsList);
+      return _filterPosts();
+    });
   }
 
   Map<String, dynamic> _insertOwnerData(Map<String, dynamic> postMap) {
@@ -120,7 +141,6 @@ class PostsController extends GetxController with TiuTiuPopUp {
     await _uploadVideo();
     await _uploadImages();
     await _uploadPostData();
-    await getMyPosts();
     await allPosts();
     isLoading = false;
     isEditingPost = false;
@@ -138,7 +158,7 @@ class PostsController extends GetxController with TiuTiuPopUp {
     _uploadingPostText('');
     isLoading = false;
 
-    return myPosts.length;
+    return loggedUserPosts().length;
   }
 
   Future<void> allPosts() async {
@@ -148,13 +168,12 @@ class PostsController extends GetxController with TiuTiuPopUp {
     _filterPosts();
   }
 
-  Future<void> getMyPosts() async {
-    _myPosts(await _postsRepository.getMyPostList(tiutiuUserController.tiutiuUser.uid!));
-    _filterPosts();
+  List<Post> loggedUserPosts() {
+    return _posts.where(postBelongsToMe).toList();
   }
 
   List<Post> _filterPosts() {
-    final postsToFilter = isInMyPostsList ? _myPosts : _posts;
+    final postsToFilter = isInMyPostsList ? loggedUserPosts() : _posts;
     final filterParams = filterController.getParams;
 
     debugPrint('>> isInMyPostsList $isInMyPostsList');
@@ -514,8 +533,8 @@ class PostsController extends GetxController with TiuTiuPopUp {
   }
 
   Future<void> increasePostViews() async {
-    if (!isEditingPost && !isInReviewMode) {
-      await PostService().increasePostViews(post.uid!, post.views);
+    if (!isEditingPost && !isInReviewMode && postBelongsToMe()) {
+      await _postService.increasePostViews(post.uid!, post.views);
     }
   }
 
@@ -549,7 +568,7 @@ class PostsController extends GetxController with TiuTiuPopUp {
   }
 
   Stream<int> postViews(String postId) {
-    return PostService().postViews(postId);
+    return _postService.postViews(postId);
   }
 
   void openMypostsLists() {
