@@ -1,13 +1,13 @@
-import 'package:tiutiu/core/utils/dimensions.dart';
 import 'package:tiutiu/core/widgets/toggle_posts_card_appearence.dart';
+import 'package:tiutiu/features/posts/model/filter_params.dart';
 import 'package:tiutiu/core/widgets/input_close_button.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/utils/routes/routes_name.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/widgets/warning_widget.dart';
-import 'package:tiutiu/features/posts/model/filter_params.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/core/constants/strings.dart';
+import 'package:tiutiu/core/utils/dimensions.dart';
 import 'package:tiutiu/core/widgets/badge.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -107,9 +107,10 @@ class TopBar extends StatelessWidget {
             ],
           ),
           WarningBanner(
+            showBannerCondition: !systemController.internetConnected && postsController.posts.isNotEmpty,
             padding: EdgeInsets.symmetric(horizontal: 4.0.w, vertical: 2.0.h),
-            showBannerCondition: systemController.internetConnected,
             textWarning: AppStrings.noConnectionWarning,
+            replacement: SizedBox.shrink(),
             tileColor: AppColors.warning,
             textColor: AppColors.black,
             margin: EdgeInsets.only(
@@ -120,7 +121,6 @@ class TopBar extends StatelessWidget {
               left: 0.0.h,
               top: 0.0.h,
             ),
-            child: SizedBox.shrink(),
           )
         ],
       ),

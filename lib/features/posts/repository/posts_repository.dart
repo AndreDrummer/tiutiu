@@ -1,3 +1,4 @@
+import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/features/posts/services/post_service.dart';
 import 'package:tiutiu/core/local_storage/local_storage.dart';
 import 'package:tiutiu/core/pets/model/pet_model.dart';
@@ -15,26 +16,24 @@ class PostsRepository {
     debugPrint('>>Cache getPostList');
     List<Pet> petsList = [];
 
+    var yesterday = DateTime.now().subtract(Duration(days: 1)).toIso8601String();
     var today = DateTime.now().toIso8601String();
+
+    yesterday = yesterday.split('T').first;
     today = today.split('T').first;
+
     final todaysCache = await LocalStorage.getValueUnderStringKey(today);
 
-    if (todaysCache != null) {
+    if (todaysCache != null && !systemController.internetConnected) {
+      await LocalStorage.deleteValueUnderStringKey(yesterday);
       debugPrint('>>Cache exists');
       petsList = await _getPostsFromCache();
     } else {
-      debugPrint('>>Cache is null');
       debugPrint('>>downloading from Internet...');
       petsList = await _getPostFromInternet();
     }
 
     return petsList;
-  }
-
-  Future<List<Post>> getMyPostList(String myUserId, {bool getFromInternet = false}) {
-    debugPrint('>> streaming my posts...');
-
-    return _postService.getMyPosts(myUserId);
   }
 
   Future<List<Pet>> _getPostsFromCache() async {

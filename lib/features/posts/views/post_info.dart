@@ -30,7 +30,7 @@ class PostInfo extends StatelessWidget {
           _petAge(yearsList, monthsList),
           _divider(),
           _petSize(),
-          _divider(),
+          SizedBox(height: 32.0.h),
           _health(),
         ],
       ),
