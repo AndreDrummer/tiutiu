@@ -18,7 +18,7 @@ class Header extends StatelessWidget {
         FiltersType(),
         FilterResultCount(),
         WarningBanner(
-          showBannerCondition: tiutiuUserController.tiutiuUser.emailVerified,
+          showBannerCondition: !tiutiuUserController.tiutiuUser.emailVerified,
           padding: EdgeInsets.symmetric(horizontal: 4.0.w, vertical: 2.0.h),
           margin: EdgeInsets.only(
             right: Dimensions.getDimensBasedOnDeviceHeight(
@@ -32,7 +32,7 @@ class Header extends StatelessWidget {
             bottom: 8.0.h,
             top: 0.0.h,
           ),
-          child: SizedBox.shrink(),
+          replacement: SizedBox.shrink(),
         )
       ],
     );

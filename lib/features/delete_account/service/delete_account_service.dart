@@ -39,7 +39,7 @@ class DeleteAccountService {
   }
 
   Future<void> deleteUserPosts(String userId) async {
-    final List<Post> userPosts = await _postService.getMyPosts(userId);
+    final List<Post> userPosts = postsController.loggedUserPosts();
     debugPrint('>> Delete ${userPosts.length} user posts');
 
     for (int i = 0; i < userPosts.length; i++) {
