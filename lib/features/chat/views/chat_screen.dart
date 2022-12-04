@@ -1,7 +1,7 @@
+import 'package:tiutiu/features/auth/widgets/image_carousel_background.dart';
 import 'package:tiutiu/features/chat/widgets/message_bubble.dart';
 import 'package:tiutiu/features/chat/widgets/new_message.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:tiutiu/core/constants/images_assets.dart';
 import 'package:tiutiu/features/chat/model/message.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/widgets/async_handler.dart';
@@ -25,54 +25,56 @@ class ChatScreen extends StatelessWidget {
         return true;
       },
       child: Scaffold(
+        backgroundColor: AppColors.black,
         appBar: _appBar(),
-        body: Container(
-          decoration: BoxDecoration(
-            image: DecorationImage(image: AssetHandle.imageProvider(ImageAssets.bones2), fit: BoxFit.cover),
-          ),
-          child: StreamBuilder<List<Message>>(
-            stream: chatController.messages(loggedUserId),
-            builder: (context, snapshot) {
-              return AsyncHandler<List<Message>>(
-                emptyWidget: AutoSizeTexts.autoSizeText16(
-                  ChatStrings.startConversation,
-                  fontWeight: FontWeight.bold,
-                  color: AppColors.white,
-                ),
-                showLoadingScreen: false,
-                snapshot: snapshot,
-                buildWidget: (messages) {
-                  return ListView.builder(
-                    itemCount: messages.length,
-                    itemBuilder: ((context, index) {
-                      final previousIndex = index + 1 >= messages.length ? index : index + 1;
-                      final previousMessage = messages[previousIndex];
-                      final message = messages[index];
+        body: Stack(
+          children: [
+            ImageCarouselBackground(),
+            Container(color: AppColors.black.withOpacity(.7)),
+            StreamBuilder<List<Message>>(
+              stream: chatController.messages(loggedUserId),
+              builder: (context, snapshot) {
+                return AsyncHandler<List<Message>>(
+                  emptyWidget: AutoSizeTexts.autoSizeText16(
+                    ChatStrings.startConversation,
+                    fontWeight: FontWeight.bold,
+                    color: AppColors.white,
+                  ),
+                  showLoadingScreen: false,
+                  snapshot: snapshot,
+                  buildWidget: (messages) {
+                    return ListView.builder(
+                      itemCount: messages.length,
+                      itemBuilder: ((context, index) {
+                        final previousIndex = index + 1 >= messages.length ? index : index + 1;
+                        final previousMessage = messages[previousIndex];
+                        final message = messages[index];
 
-                      return Padding(
-                        padding: EdgeInsets.only(
-                          bottom: index > 0
-                              ? 0
-                              : Dimensions.getDimensBasedOnDeviceHeight(
-                                  minDeviceHeightDouble: 72.0.h,
-                                  greaterDeviceHeightDouble: 32.0.h,
-                                ),
-                        ),
-                        child: MessageBubble(
-                          lastMessageBelongsToTheSameUser: previousMessage.sender.uid == message.sender.uid,
-                          belongToMe: message.sender.uid == loggedUserId,
-                          time: message.createdAt,
-                          message: message.text!,
-                          key: UniqueKey(),
-                        ),
-                      );
-                    }),
-                    reverse: true,
-                  );
-                },
-              );
-            },
-          ),
+                        return Padding(
+                          padding: EdgeInsets.only(
+                            bottom: index > 0
+                                ? 0
+                                : Dimensions.getDimensBasedOnDeviceHeight(
+                                    minDeviceHeightDouble: 72.0.h,
+                                    greaterDeviceHeightDouble: 32.0.h,
+                                  ),
+                          ),
+                          child: MessageBubble(
+                            lastMessageBelongsToTheSameUser: previousMessage.sender.uid == message.sender.uid,
+                            belongToMe: message.sender.uid == loggedUserId,
+                            time: message.createdAt,
+                            message: message.text!,
+                            key: UniqueKey(),
+                          ),
+                        );
+                      }),
+                      reverse: true,
+                    );
+                  },
+                );
+              },
+            ),
+          ],
         ),
         bottomSheet: NewMessage(),
       ),
