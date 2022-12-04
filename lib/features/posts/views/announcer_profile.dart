@@ -1,18 +1,18 @@
-import 'package:tiutiu/core/widgets/warning_widget.dart';
 import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiutiu/core/widgets/default_basic_app_bar.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/utils/launcher_functions.dart';
 import 'package:tiutiu/core/constants/images_assets.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
+import 'package:tiutiu/core/widgets/warning_widget.dart';
+import 'package:tiutiu/core/widgets/avatar_profile.dart';
 import 'package:tiutiu/core/constants/text_styles.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
+import 'package:tiutiu/core/widgets/button_wide.dart';
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:tiutiu/core/widgets/avatar_profile.dart';
 import 'package:tiutiu/core/constants/strings.dart';
 import 'package:tiutiu/core/utils/formatter.dart';
-import 'package:tiutiu/core/widgets/button_wide.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -185,7 +185,7 @@ class AnnouncerProfile extends StatelessWidget {
       fontSize: 10,
       margin: EdgeInsets.only(left: 2.0.w, right: 16.0.w, top: 24.0.h),
       padding: EdgeInsets.all(4.0.h),
-      child: Padding(
+      replacement: Padding(
         padding: EdgeInsets.symmetric(horizontal: 8.0.w),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
