@@ -1,7 +1,7 @@
+import 'package:tiutiu/core/widgets/simple_text_button.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/constants/text_styles.dart';
-import 'package:tiutiu/core/widgets/simple_text_button.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:tiutiu/core/constants/strings.dart';
@@ -20,19 +20,21 @@ class _VerifyEmailState extends State<VerifyEmail> {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: authController.verifyShouldShowResendEmailButton(),
-      builder: (context, snapshot) {
-        return Column(
-          children: [
-            Spacer(),
-            _topBar(),
-            SizedBox(height: 32.0.h),
-            _content(),
-            Spacer(),
-          ],
-        );
-      },
+    return Scaffold(
+      body: FutureBuilder(
+        future: authController.verifyShouldShowResendEmailButton(),
+        builder: (context, snapshot) {
+          return Column(
+            children: [
+              Spacer(),
+              _topBar(),
+              SizedBox(height: 32.0.h),
+              _content(),
+              Spacer(),
+            ],
+          );
+        },
+      ),
     );
   }
 

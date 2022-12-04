@@ -3,6 +3,7 @@ class ImageAssets {
   static String get googlePlaces => 'assets/images/google-places.webp';
   static String get noConnection => 'assets/images/no-connection.webp';
   static String get profileEmpty => 'assets/images/profileEmpty.webp';
+  static String get notFoundET => 'assets/images/not-found-et.webp';
   static String get playstoreLogo => 'assets/images/playstore.webp';
   static String get applestoreLogo => 'assets/images/apple.webp';
   static String get staticMap => 'assets/images/static_map.webp';
