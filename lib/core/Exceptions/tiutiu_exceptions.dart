@@ -11,10 +11,10 @@ class TiuTiuAuthException {
     ErrorCodes.weakPassword: 'Senha fraca. Escolha uma senha com no mínimo 6 dígitos.',
     ErrorCodes.accountExistsWithDifferentCredential:
         'Você já criou uma conta com este email. Tente fazer login com essa outra conta.',
-    ErrorCodes.userNotFound: 'Não existe nenhuma conta com essa credencial!',
-    ErrorCodes.operationNotAllowed: 'Ação não autorizada.',
+    ErrorCodes.userNotFound: 'Nenhuma conta com esse acesso foi encontrada!',
     ErrorCodes.domainUnauthorized: 'Domínio não autorizado!',
     ErrorCodes.wrongPassword: 'Usuário ou senha incorreto!',
+    ErrorCodes.operationNotAllowed: 'Ação não autorizada.',
     ErrorCodes.userDisabled: 'Usuário desativado!',
     ErrorCodes.invalidEmail: 'E-mail Inválido!',
   };

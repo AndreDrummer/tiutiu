@@ -1,8 +1,10 @@
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:tiutiu/core/widgets/simple_text_button.dart';
 import 'package:tiutiu/core/constants/images_assets.dart';
+import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/constants/text_styles.dart';
 import 'package:tiutiu/core/constants/strings.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class EmptyListScreen extends StatelessWidget {
   EmptyListScreen({
@@ -21,12 +23,17 @@ class EmptyListScreen extends StatelessWidget {
         children: [
           Visibility(
             visible: isAPetScreenList,
-            child: Container(
-              child: Image.asset(ImageAssets.sadPanda),
-              height: 64.0.h,
-            ),
+            child: Container(child: Image.asset(ImageAssets.notFoundET), height: Get.width / 2),
           ),
-          AutoSizeTexts.autoSizeText16(text ?? AppStrings.noPostFound),
+          AutoSizeTexts.autoSizeText12(text ?? AppStrings.noPostFound),
+          SimpleTextButton(
+            text: AppStrings.cleanFilters,
+            textColor: Colors.lightBlue,
+            fontSize: 12,
+            onPressed: () {
+              filterController.reset();
+            },
+          )
         ],
       ),
       alignment: Alignment.center,
