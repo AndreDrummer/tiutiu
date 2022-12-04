@@ -54,7 +54,9 @@ class ChatScreen extends StatelessWidget {
                           bottom: index > 0
                               ? 0
                               : Dimensions.getDimensBasedOnDeviceHeight(
-                                  minDeviceHeightDouble: 56.0.h, greaterDeviceHeightDouble: 32.0.h),
+                                  minDeviceHeightDouble: 72.0.h,
+                                  greaterDeviceHeightDouble: 32.0.h,
+                                ),
                         ),
                         child: MessageBubble(
                           lastMessageBelongsToTheSameUser: previousMessage.sender.uid == message.sender.uid,
@@ -89,7 +91,9 @@ class ChatScreen extends StatelessWidget {
             child: CircleAvatar(
               backgroundColor: AppColors.secondary,
               radius: Dimensions.getDimensBasedOnDeviceHeight(
-                  minDeviceHeightDouble: 18.0.h, greaterDeviceHeightDouble: 16.0.h),
+                minDeviceHeightDouble: 18.0.h,
+                greaterDeviceHeightDouble: 16.0.h,
+              ),
               child: CircleAvatar(
                 child: ClipOval(
                   child: AssetHandle.getImage(

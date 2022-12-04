@@ -102,7 +102,7 @@ class AuthHosters extends StatelessWidget with TiuTiuPopUp {
       height: Get.height /
           Dimensions.getDimensBasedOnDeviceHeight(
             greaterDeviceHeightDouble: 2.7,
-            minDeviceHeightDouble: 2.6,
+            minDeviceHeightDouble: 2.5,
           ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

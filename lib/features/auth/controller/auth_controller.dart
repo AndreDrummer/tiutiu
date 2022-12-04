@@ -3,6 +3,7 @@ import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
 import 'package:tiutiu/core/local_storage/local_storage_keys.dart';
 import 'package:tiutiu/features/auth/service/auth_service.dart';
 import 'package:tiutiu/core/local_storage/local_storage.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:tiutiu/core/constants/images_assets.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/models/whatsapp_token.dart';
@@ -427,6 +428,13 @@ class AuthController extends GetxController {
 
       _isUpdatingUserDataOnServer(true);
       await user?.reload();
+
+      final fcmToken = await FirebaseMessaging.instance.getToken();
+      debugPrint('>> Updating FCM Token $fcmToken');
+      tiutiuUserController.updateTiutiuUser(
+        TiutiuUserEnum.notificationToken,
+        fcmToken,
+      );
 
       if (creationTime != null) {
         debugPrint('>> Updating createAt...');
