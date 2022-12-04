@@ -39,8 +39,11 @@ class _NewMessageState extends State<NewMessage> {
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.only(
-          bottom:
-              Dimensions.getDimensBasedOnDeviceHeight(minDeviceHeightDouble: 0.0.h, greaterDeviceHeightDouble: 8.0.h)),
+        bottom: Dimensions.getDimensBasedOnDeviceHeight(
+          minDeviceHeightDouble: 0.0.h,
+          greaterDeviceHeightDouble: 8.0.h,
+        ),
+      ),
       padding: const EdgeInsets.all(6.0),
       child: Row(
         children: [

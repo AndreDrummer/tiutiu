@@ -141,7 +141,7 @@ class More extends StatelessWidget with TiuTiuPopUp {
           children: moreController.myProfileOptionsTile.map((title) {
             final index = moreController.myProfileOptionsTile.indexOf(title);
 
-            return MyAccountCard(
+            return MoreCardOptions(
               icon: moreController.myProfileOptionsIcon.elementAt(index),
               isToCenterText: false,
               isToExpand: true,
