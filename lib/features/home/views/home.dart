@@ -45,7 +45,7 @@ class Home extends StatelessWidget with TiuTiuPopUp {
                         toolbarHeight: homeController.bottomBarIndex < 2
                             ? Dimensions.getDimensBasedOnDeviceHeight(
                                 greaterDeviceHeightDouble: systemController.internetConnected ? 40.0.h : 64.0.h,
-                                minDeviceHeightDouble: systemController.internetConnected ? 48.0.h : 72.0.h,
+                                minDeviceHeightDouble: systemController.internetConnected ? 48.0.h : 80.0.h,
                               )
                             : 0.0,
                         backgroundColor: Colors.transparent,
@@ -85,6 +85,7 @@ class Home extends StatelessWidget with TiuTiuPopUp {
   }
 
   double expandedHeight() {
+    print(Get.height);
     final homeListPadding = Dimensions.getDimensBasedOnDeviceHeight(
       minDeviceHeightDouble: Get.height / 4.6,
       greaterDeviceHeightDouble: Get.height / 4.8,
