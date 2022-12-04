@@ -4,8 +4,8 @@ import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class MyAccountCard extends StatelessWidget {
-  MyAccountCard({
+class MoreCardOptions extends StatelessWidget {
+  MoreCardOptions({
     this.isToCenterText = false,
     this.isToExpand = false,
     this.onPressed,
@@ -51,7 +51,7 @@ class MyAccountCard extends StatelessWidget {
                   ),
                   width: Get.width / 3,
                 ),
-                Icon(color: AppColors.secondary, icon),
+                Icon(color: AppColors.secondary.withOpacity(.5), icon),
               ],
             ),
           ),

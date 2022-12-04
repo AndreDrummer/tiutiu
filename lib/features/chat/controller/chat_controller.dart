@@ -1,10 +1,10 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
 import 'package:tiutiu/features/chat/services/chat_service.dart';
 import 'package:tiutiu/core/utils/routes/routes_name.dart';
-import 'package:tiutiu/features/chat/model/message.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
+import 'package:tiutiu/features/chat/model/message.dart';
 import 'package:tiutiu/features/chat/model/contact.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:tiutiu/core/utils/cesar_cripto.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
@@ -24,7 +24,6 @@ class ChatController extends GetxController {
   String get textChatSearch => _textChatSearch.value;
   bool get isSearching => _isSearching.value;
 
-  // void set contactChatingWith(Contact contact) => _contactChatingWith(contact);
   void set textGlobalChatSearch(String value) => _textGlobalChatSearch(value);
   void set textChatSearch(String value) => _textChatSearch(value);
   void set currentlyTabChat(int tab) => _currentlyTabChat(tab);
@@ -61,14 +60,6 @@ class ChatController extends GetxController {
     );
 
     _chatService.sendMessageAndUpdateContact(message, contact);
-  }
-
-  void updateContactLastMessage(Contact contact) {
-    // firestore.collection('Chats').doc(chatId).set(messageData, SetOptions(merge: true));
-  }
-
-  void newMessages() {
-    // return FirebaseFirestore.instance.collection('Chats').snapshots();
   }
 
   void startsChatWith(TiutiuUser? user) {
