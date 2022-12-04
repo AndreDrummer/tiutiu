@@ -1,6 +1,6 @@
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiutiu/core/location/models/states_and_cities.dart';
 import 'package:tiutiu/features/posts/model/filter_params.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiutiu/core/constants/strings.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -8,7 +8,7 @@ import 'package:get/get.dart';
 class FilterController extends GetxController {
   final Rx<FilterParams> filterParams = FilterParams(
     state: StatesAndCities().stateInitials.first,
-    orderBy: FilterStrings.distance,
+    orderBy: FilterStrings.date,
     type: PetTypeStrings.all,
     disappeared: false,
     name: '',
