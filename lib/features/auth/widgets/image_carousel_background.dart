@@ -20,7 +20,7 @@ class ImageCarouselBackground extends StatelessWidget {
             width: double.infinity,
             child: AssetHandle.getImage(
               photos.elementAt(index),
-              fit: BoxFit.fitHeight,
+              fit: BoxFit.cover,
             ),
           );
         },
