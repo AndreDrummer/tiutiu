@@ -61,6 +61,14 @@ class ChatService extends GetxController {
   }
 
   CollectionReference<Map<String, dynamic>> _pathToMessages(String userId, String contactId) {
+    // Update [contacts] document data to make the path available.
+    _firestore
+        .collection(FirebaseEnvPath.projectName)
+        .doc(FirebaseEnvPath.env)
+        .collection(FirebaseEnvPath.environment)
+        .doc(FirebaseEnvPath.contacts)
+        .set({FirebaseEnvPath.contacts: FirebaseEnvPath.contacts});
+
     return _firestore
         .collection(FirebaseEnvPath.projectName)
         .doc(FirebaseEnvPath.env)
