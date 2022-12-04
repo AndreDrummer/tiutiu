@@ -30,35 +30,42 @@ class _TalkWithUsState extends State<TalkWithUs> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: DefaultBasicAppBar(text: MyProfileOptionsTile.talkWithUs),
-      resizeToAvoidBottomInset: false,
-      body: Obx(
-        () => Container(
-          height: double.infinity,
-          alignment: Alignment.center,
-          decoration: BoxDecoration(
-            image: DecorationImage(image: AssetHandle.imageProvider(ImageAssets.bones2), fit: BoxFit.cover),
-          ),
-          child: Stack(
-            children: [
-              BodyCard(
-                bodyHeight: feedbackController.insertImages ? Get.height : Get.width * 1.05,
-                child: ListView(
-                  children: [
-                    _selectYourSubject(),
-                    _describeYourMessage(),
-                    _addImagesCheckbox(),
-                    _screenshots(),
-                    _submitButton(),
-                  ],
+    return WillPopScope(
+      onWillPop: () async {
+        feedbackController.insertImages = false;
+
+        return true;
+      },
+      child: Scaffold(
+        appBar: DefaultBasicAppBar(text: MyProfileOptionsTile.talkWithUs),
+        resizeToAvoidBottomInset: false,
+        body: Obx(
+          () => Container(
+            height: double.infinity,
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+              image: DecorationImage(image: AssetHandle.imageProvider(ImageAssets.bones2), fit: BoxFit.cover),
+            ),
+            child: Stack(
+              children: [
+                BodyCard(
+                  bodyHeight: feedbackController.insertImages ? Get.height : Get.width * 1.05,
+                  child: ListView(
+                    children: [
+                      _selectYourSubject(),
+                      _describeYourMessage(),
+                      _addImagesCheckbox(),
+                      _screenshots(),
+                      _submitButton(),
+                    ],
+                  ),
                 ),
-              ),
-              LoadDarkScreen(
-                message: feedbackController.loadingText,
-                visible: feedbackController.isLoading,
-              ),
-            ],
+                LoadDarkScreen(
+                  message: feedbackController.loadingText,
+                  visible: feedbackController.isLoading,
+                ),
+              ],
+            ),
           ),
         ),
       ),
