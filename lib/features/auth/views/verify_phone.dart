@@ -1,13 +1,13 @@
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:tiutiu/core/widgets/simple_text_button.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/constants/text_styles.dart';
+import 'package:tiutiu/core/widgets/button_wide.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:tiutiu/core/constants/strings.dart';
-import 'package:tiutiu/core/widgets/simple_text_button.dart';
 import 'package:tiutiu/core/utils/formatter.dart';
-import 'package:tiutiu/core/widgets/button_wide.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -69,23 +69,25 @@ class _VerifyPhoneState extends State<VerifyPhone> {
   Widget build(BuildContext context) {
     final String? number = tiutiuUserController.tiutiuUser.phoneNumber;
 
-    return FutureBuilder(
-      future: authController.verifyIfWhatsappTokenIsStillValid(),
-      builder: (context, snapshot) {
-        return Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            _topBar(),
-            _insertCodeSentToTheNumberText(number),
-            _codeBoxes(context),
-            Spacer(),
-            _resendWithin(),
-            _backButton(),
-            Spacer(),
-            _confirmButton(),
-          ],
-        );
-      },
+    return Scaffold(
+      body: FutureBuilder(
+        future: authController.verifyIfWhatsappTokenIsStillValid(),
+        builder: (context, snapshot) {
+          return Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              _topBar(),
+              _insertCodeSentToTheNumberText(number),
+              _codeBoxes(context),
+              Spacer(),
+              _resendWithin(),
+              _backButton(),
+              Spacer(),
+              _confirmButton(),
+            ],
+          );
+        },
+      ),
     );
   }
 
