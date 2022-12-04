@@ -10,7 +10,7 @@ class WarningBanner extends StatelessWidget {
   const WarningBanner({
     this.isHiddingContactInfo = false,
     this.showBannerCondition = false,
-    required this.child,
+    required this.replacement,
     this.textWarning,
     this.fontSize,
     this.textColor,
@@ -25,11 +25,11 @@ class WarningBanner extends StatelessWidget {
   final bool isHiddingContactInfo;
   final bool showBannerCondition;
   final String? textWarning;
+  final Widget replacement;
   final double? tileSize;
   final double? fontSize;
   final Color? textColor;
   final Color? tileColor;
-  final Widget child;
 
   @override
   Widget build(BuildContext context) {
@@ -37,8 +37,8 @@ class WarningBanner extends StatelessWidget {
 
     return Visibility(
       visible: showBannerCondition,
-      child: child,
-      replacement: Visibility(
+      replacement: replacement,
+      child: Visibility(
         visible: isLoggedIn,
         child: Container(
           height: tileSize ?? 24.0.h,
