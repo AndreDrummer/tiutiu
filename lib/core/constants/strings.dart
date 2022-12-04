@@ -13,7 +13,7 @@ class AppStrings {
   static String get backToCivilization => 'Voltar a civilização';
   static String get wannaLeave => 'Deseja realmente sair?';
   static String get loadingImage => 'Carregando imagem...';
-  static String get noPostFound => 'Nenhum PET encontrado.';
+  static String get noPostFound => 'Nada foi encontrado.';
   static String get backToHome => 'Voltar a tela inicial';
   static String get jotSomethingDown => 'Escreva aqui...';
   static String get iamInterested => 'Estou interessado';
@@ -22,6 +22,7 @@ class AppStrings {
   static String get genericError => 'Ocorreu um erro';
   static String get headline1 => 'Faça Um Novo Amigo';
   static String get takeApicture => 'Tirar uma foto';
+  static String get cleanFilters => 'Limpar filtros';
   static String get recordVideo => 'Gravar um vídeo';
   static String get endApp => 'Encerrar aplicação';
   static String get openGallery => 'Abrir galeria';
