@@ -1,4 +1,5 @@
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:tiutiu/core/utils/routes/routes_name.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/constants/text_styles.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
@@ -110,35 +111,44 @@ class VerifyAccountWarningInterstitial extends StatelessWidget {
   Widget build(BuildContext context) {
     final isLoggedIn = authController.userExists;
 
-    return Visibility(
-      visible: tiutiuUserController.tiutiuUser.emailVerified,
-      child: child,
-      replacement: Container(
-        height: Get.width / 4,
-        padding: padding ?? EdgeInsets.symmetric(horizontal: 4.0.w, vertical: 2.0.h),
-        margin: margin ?? EdgeInsets.symmetric(vertical: 32.0.h, horizontal: 6.0.w),
-        alignment: Alignment.center,
-        decoration: BoxDecoration(
-          color: isHiddingContactInfo ? Colors.amber : AppColors.danger,
-          borderRadius: BorderRadius.circular(8.0.h),
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            Icon(!isLoggedIn ? Icons.login : Icons.warning,
-                size: 32.0.h, color: isHiddingContactInfo ? AppColors.black : AppColors.white),
-            AutoSizeTexts.autoSizeText24(
-              isHiddingContactInfo
-                  ? !isLoggedIn
-                      ? AppStrings.doLoginWarning
-                      : AppStrings.verifyEmailToSeeContactInfo
-                  : AppStrings.verifyAccountWarning,
-              color: isHiddingContactInfo ? AppColors.black : AppColors.white,
-              textOverflow: TextOverflow.fade,
-              textAlign: TextAlign.center,
-              fontSize: fontSize,
-            ),
-          ],
+    return GestureDetector(
+      onTap: () {
+        if (authController.userExists) {
+          Get.offNamed(Routes.verifyEmail);
+        } else {
+          Get.offNamed(Routes.authHosters);
+        }
+      },
+      child: Visibility(
+        visible: tiutiuUserController.tiutiuUser.emailVerified,
+        child: child,
+        replacement: Container(
+          height: Get.width / 4,
+          padding: padding ?? EdgeInsets.symmetric(horizontal: 4.0.w, vertical: 2.0.h),
+          margin: margin ?? EdgeInsets.symmetric(vertical: 32.0.h, horizontal: 6.0.w),
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+            color: isHiddingContactInfo ? Colors.amber : AppColors.danger,
+            borderRadius: BorderRadius.circular(8.0.h),
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Icon(!isLoggedIn ? Icons.login : Icons.warning,
+                  size: 32.0.h, color: isHiddingContactInfo ? AppColors.black : AppColors.white),
+              AutoSizeTexts.autoSizeText24(
+                isHiddingContactInfo
+                    ? !isLoggedIn
+                        ? AppStrings.doLoginWarning
+                        : AppStrings.verifyEmailToSeeContactInfo
+                    : AppStrings.verifyAccountWarning,
+                color: isHiddingContactInfo ? AppColors.black : AppColors.white,
+                textOverflow: TextOverflow.fade,
+                textAlign: TextAlign.center,
+                fontSize: fontSize,
+              ),
+            ],
+          ),
         ),
       ),
     );

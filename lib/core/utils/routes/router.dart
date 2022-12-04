@@ -6,6 +6,8 @@ import 'package:tiutiu/features/posts/flow/init_post_flow.dart';
 import 'package:tiutiu/features/support/views/support_us.dart';
 import 'package:tiutiu/features/posts/views/post_detail.dart';
 import 'package:tiutiu/features/auth/views/start_screen.dart';
+import 'package:tiutiu/features/auth/views/verify_email.dart';
+import 'package:tiutiu/features/auth/views/verify_phone.dart';
 import 'package:tiutiu/features/auth/views/auth_hosters.dart';
 import 'package:tiutiu/features/chat/views/chat_screen.dart';
 import 'package:tiutiu/features/chat/views/my_contacts.dart';
@@ -64,6 +66,14 @@ class RouterGenerator {
       case Routes.chat:
         return MaterialPageRoute(
           builder: (_) => ChatScreen(),
+        );
+      case Routes.verifyEmail:
+        return MaterialPageRoute(
+          builder: (_) => VerifyEmail(),
+        );
+      case Routes.verifyPhone:
+        return MaterialPageRoute(
+          builder: (_) => VerifyPhone(),
         );
 
       case Routes.about:
