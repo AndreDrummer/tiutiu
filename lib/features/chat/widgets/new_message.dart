@@ -22,15 +22,17 @@ class _NewMessageState extends State<NewMessage> {
   String _enteredMessage = '';
 
   Future<void> _sendMessage() async {
-    await chatController.sendNewMessage(
-      Message(
-        receiver: chatController.userChatingWith,
-        sender: tiutiuUserController.tiutiuUser,
-        createdAt: FieldValue.serverTimestamp(),
-        text: _enteredMessage,
-        id: Uuid().v4(),
-      ),
-    );
+    if (_controller.text.isNotEmpty) {
+      await chatController.sendNewMessage(
+        Message(
+          receiver: chatController.userChatingWith,
+          sender: tiutiuUserController.tiutiuUser,
+          createdAt: FieldValue.serverTimestamp(),
+          text: _enteredMessage,
+          id: Uuid().v4(),
+        ),
+      );
+    }
 
     _controller.clear();
   }
