@@ -64,7 +64,9 @@ Future<void> setupFlutterNotifications() async {
 void showFlutterNotification(RemoteMessage message) {
   RemoteNotification? notification = message.notification;
   AndroidNotification? android = message.notification?.android;
+
   if (notification != null && android != null && !kIsWeb) {
+    print('Handling a foreground message ${message.messageId}');
     flutterLocalNotificationsPlugin.show(
       notification.hashCode,
       notification.title,
@@ -74,7 +76,9 @@ void showFlutterNotification(RemoteMessage message) {
           channel.id,
           channel.name,
           channelDescription: channel.description,
-          icon: 'launch_background',
+          importance: Importance.high,
+          color: AppColors.primary,
+          icon: 'notification_icon',
         ),
       ),
     );
@@ -88,8 +92,10 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   FirebaseMessaging.onMessage.listen(showFlutterNotification);
+
   await TiuTiuInitializer.start();
   await setupFlutterNotifications();
   runApp(TiuTiuApp());
