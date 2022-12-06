@@ -76,7 +76,7 @@ flutter_icons:
   ios: true
 
 flutter_native_splash:
-  background_image: "assets/images/splashscreen.png"
+  background_image: "assets/images/splash.png"
 
 dev_dependencies:
   flutter_test:
