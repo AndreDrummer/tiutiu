@@ -1,6 +1,6 @@
-import 'package:tiutiu/core/utils/routes/routes_name.dart';
 import 'package:tiutiu/features/home/widgets/bottom_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:tiutiu/core/utils/routes/routes_name.dart';
 import 'package:tiutiu/features/home/widgets/header.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/features/home/views/screens.dart';
@@ -15,6 +15,8 @@ import 'dart:io';
 class Home extends StatelessWidget with TiuTiuPopUp {
   @override
   Widget build(BuildContext context) {
+    print(Get.width);
+    print(Get.height);
     return SafeArea(
       child: Obx(
         () => WillPopScope(
