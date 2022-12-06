@@ -14,6 +14,8 @@ import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'dart:math';
 
+const int WHATSAPP_EXPIRATION_TOKEN_TIMER = 30;
+
 enum AuthKeys {
   password,
   token,
@@ -81,14 +83,13 @@ class AuthController extends GetxController {
     await verifyIfWhatsappTokenIsStillValid();
 
     if (!isWhatsappTokenValid) {
-      int seconds = 10;
       final code = _generateCode();
       final whatsappTokenData = WhatsAppToken(
-        expirationDate: DateTime.now().add(Duration(seconds: seconds)).toIso8601String(),
+        expirationDate: DateTime.now().add(Duration(seconds: WHATSAPP_EXPIRATION_TOKEN_TIMER)).toIso8601String(),
         code: code,
       );
 
-      _secondsToExpireCode(seconds);
+      _secondsToExpireCode(WHATSAPP_EXPIRATION_TOKEN_TIMER);
 
       LocalStorage.setDataUnderKey(
         key: LocalStorageKey.whatsappTokenData,
