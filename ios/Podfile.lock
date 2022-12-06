@@ -150,6 +150,10 @@ PODS:
   - flutter_facebook_auth (5.0.4):
     - FBSDKLoginKit (~> 15.1.0)
     - Flutter
+  - flutter_local_notifications (0.0.1):
+    - Flutter
+  - flutter_native_splash (0.0.1):
+    - Flutter
   - flutter_secure_storage (6.0.0):
     - Flutter
   - FMDB (2.7.5):
@@ -261,6 +265,8 @@ DEPENDENCIES:
   - Flutter (from `Flutter`)
   - flutter_chat_bubble (from `.symlinks/plugins/flutter_chat_bubble/ios`)
   - flutter_facebook_auth (from `.symlinks/plugins/flutter_facebook_auth/ios`)
+  - flutter_local_notifications (from `.symlinks/plugins/flutter_local_notifications/ios`)
+  - flutter_native_splash (from `.symlinks/plugins/flutter_native_splash/ios`)
   - flutter_secure_storage (from `.symlinks/plugins/flutter_secure_storage/ios`)
   - geocoding (from `.symlinks/plugins/geocoding/ios`)
   - geolocator_apple (from `.symlinks/plugins/geolocator_apple/ios`)
@@ -340,6 +346,10 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/flutter_chat_bubble/ios"
   flutter_facebook_auth:
     :path: ".symlinks/plugins/flutter_facebook_auth/ios"
+  flutter_local_notifications:
+    :path: ".symlinks/plugins/flutter_local_notifications/ios"
+  flutter_native_splash:
+    :path: ".symlinks/plugins/flutter_native_splash/ios"
   flutter_secure_storage:
     :path: ".symlinks/plugins/flutter_secure_storage/ios"
   geocoding:
@@ -412,6 +422,8 @@ SPEC CHECKSUMS:
   Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
   flutter_chat_bubble: cad6265ec611ba0f7bede70eabc26fdfce9bf2b0
   flutter_facebook_auth: c69f4e643b1d9cc9063ec87c9411bd9ec268108f
+  flutter_local_notifications: 0c0b1ae97e741e1521e4c1629a459d04b9aec743
+  flutter_native_splash: 52501b97d1c0a5f898d687f1646226c1f93c56ef
   flutter_secure_storage: 23fc622d89d073675f2eaa109381aefbcf5a49be
   FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
   geocoding: 32cfcdb16d38d907caaba65e2e42ad10d38bee58
