@@ -42,7 +42,7 @@ class TopBar extends StatelessWidget {
                       decoration: InputDecoration(
                         constraints: BoxConstraints(maxHeight: 32.0.h),
                         contentPadding: EdgeInsets.only(left: 8.0.w),
-                        fillColor: AppColors.secondary.withAlpha(20),
+                        fillColor: AppColors.primary.withAlpha(20),
                         suffixIcon: Visibility(
                           visible: filterController.getParams.name.isNotEmpty,
                           child: InputCloseButton(
@@ -73,7 +73,7 @@ class TopBar extends StatelessWidget {
                       },
                       icon: Icon(
                         Icons.forum,
-                        color: AppColors.secondary,
+                        color: AppColors.primary,
                       ),
                     ),
                   ),
@@ -86,7 +86,7 @@ class TopBar extends StatelessWidget {
                           onPressed: () {},
                           icon: Icon(
                             Icons.notifications_none_rounded,
-                            color: AppColors.secondary,
+                            color: AppColors.primary,
                           ),
                         ),
                         Positioned(
@@ -131,7 +131,7 @@ class TopBar extends StatelessWidget {
     return OutlineInputBorder(
       borderSide: BorderSide(
         style: BorderStyle.solid,
-        color: AppColors.secondary,
+        color: AppColors.primary,
         width: 1.0.w,
       ),
       borderRadius: BorderRadius.circular(12),
