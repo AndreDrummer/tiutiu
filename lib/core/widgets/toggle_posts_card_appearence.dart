@@ -18,7 +18,7 @@ class TogglePostCardAppearence extends StatelessWidget {
       },
       icon: Obx(
         () => Icon(
-          color: color ?? AppColors.secondary,
+          color: color ?? AppColors.primary,
           homeController.cardVisibilityKind == CardVisibilityKind.card ? Icons.view_list_outlined : Icons.view_agenda,
         ),
       ),

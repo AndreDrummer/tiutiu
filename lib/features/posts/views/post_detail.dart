@@ -135,6 +135,7 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
 
   AppBar _appBar(String petName) {
     return AppBar(
+      backgroundColor: AppColors.primary,
       leading: BackButton(color: AppColors.white),
       title: AutoSizeTexts.autoSizeText20(
         '${PostDetailsStrings.detailsOf} ${petName.split(' ').first}',
@@ -317,6 +318,7 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
 
   Container _petCaracteristics(List<PetCaracteristics> petCaracteristics) {
     return Container(
+      margin: EdgeInsets.only(top: 4.0.h),
       height: 56.0.h,
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 2.0.h),
@@ -395,11 +397,8 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
     final Post post = postsController.post;
     return Container(
       margin: EdgeInsets.only(
-        top: Dimensions.getDimensBasedOnDeviceHeight(
-          greaterDeviceHeightDouble: 2.0.h,
-          minDeviceHeightDouble: 24.0.h,
-        ),
         right: 4.0.w,
+        top: 16.0.h,
         left: 4.0.w,
       ),
       child: Column(

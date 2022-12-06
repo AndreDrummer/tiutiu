@@ -24,8 +24,11 @@ class WhatsappService {
       allowProd ? FirebaseEnvPath.whatsappNumberIdProd : FirebaseEnvPath.whatsappNumberIdDebug,
     );
 
+    final String token = keys.get(
+      allowProd ? FirebaseEnvPath.whatsappTokenProd : FirebaseEnvPath.whatsappTokenDebug,
+    );
+
     String endpoint = 'https://graph.facebook.com/v15.0/$numberId/messages';
-    final String token = keys.get(FirebaseEnvPath.whatsappToken);
 
     final body = {
       "messaging_product": "whatsapp",

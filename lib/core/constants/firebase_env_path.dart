@@ -8,8 +8,9 @@ class FirebaseEnvPath {
   static const String whatsappNumberIdProd = 'WHATSAPP_NUMBER_ID_PROD';
   static const String whatsappTemplateProd = 'WHATSAPP_TEMPLATE_PROD';
   static const String environment = kDebugMode ? 'debug' : 'prod';
+  static const String whatsappTokenDebug = 'WHATSAPP_TOKEN_DEBUG';
+  static const String whatsappTokenProd = 'WHATSAPP_TOKEN_PROD';
   static const String usersFavoritesCollection = 'favorites';
-  static const String whatsappToken = 'WHATSAPP_TOKEN';
   static const String whatsappCodes = 'whatsappCodes';
   static const String notifications = 'Notifications';
   static const String disappeared = 'Disappeared';
