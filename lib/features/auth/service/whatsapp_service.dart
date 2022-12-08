@@ -1,5 +1,6 @@
 import 'package:tiutiu/core/constants/firebase_env_path.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 import 'package:dio/dio.dart';
 
 class WhatsappService {
@@ -30,7 +31,7 @@ class WhatsappService {
 
     String endpoint = 'https://graph.facebook.com/v15.0/$numberId/messages';
 
-    final body = {
+    final bodyDebug = {
       "messaging_product": "whatsapp",
       "to": "55$phoneNumber",
       "type": "template",
@@ -51,10 +52,22 @@ class WhatsappService {
       }
     };
 
+    final bodyProd = {
+      "messaging_product": "whatsapp",
+      "recipient_type": "individual",
+      "to": "55$phoneNumber",
+      "type": "text",
+      "text": {
+        "preview_url": false,
+        "body":
+            "*Código de verificação Tiu, tiu App*\n\nInsira esse código de verificação para validar seu número de telefone: *$code*."
+      }
+    };
+
     try {
       _dio.post(
         endpoint,
-        data: body,
+        data: kDebugMode ? bodyDebug : bodyProd,
         options: Options(
           headers: {'Authorization': 'Bearer $token'},
           contentType: 'application/json',
