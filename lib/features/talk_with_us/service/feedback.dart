@@ -1,5 +1,7 @@
 import 'package:tiutiu/features/talk_with_us/model/feedback.dart';
 import 'package:tiutiu/core/constants/firebase_env_path.dart';
+import 'package:tiutiu/core/constants/endpoints_name.dart';
+import 'package:tiutiu/core/utils/endpoint_resolver.dart';
 import 'package:tiutiu/core/utils/other_functions.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
@@ -9,11 +11,13 @@ class FeedbackService {
     bool success = false;
 
     try {
-      await FirebaseFirestore.instance.collection(pathToFeedbacks).doc(feedback.uid!).set(feedback.toMap());
+      await EndpointResolver.getDocumentEndpoint(EndpointNames.pathToFeedback.name, [feedback.uid!])
+          .set(feedback.toMap());
       debugPrint('>> Feedback Posted Successfully ${feedback.uid}');
       success = true;
-    } on Exception catch (exception) {
+    } on FirebaseException catch (exception) {
       debugPrint('Erro when tryna to send Feedback data to Firestore: $exception');
+      rethrow;
     }
 
     return success;
@@ -36,9 +40,11 @@ class FeedbackService {
     }
   }
 
-  String _feedbackStoragePathToImages(Feedback feedback) => feedbackStoragePath(
-        fileType: FileType.images.name,
-        userId: feedback.ownerId!,
-        postId: feedback.uid!,
-      );
+  String _feedbackStoragePathToImages(Feedback feedback) {
+    return EndpointResolver.formattedEndpoint(EndpointNames.feedbackStoragePath.name, [
+      feedback.ownerId,
+      feedback.uid,
+      FileType.images.name,
+    ]);
+  }
 }
