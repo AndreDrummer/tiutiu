@@ -162,7 +162,7 @@ class FirebaseAuthProvider implements AuthProviders {
 
         AuthCredential credential = FacebookAuthProvider.credential(result.accessToken!.token);
 
-        print('>> Facebook Login Data $userData');
+        debugPrint('>> Facebook Login Data $userData');
 
         await FirebaseAuth.instance.signInWithCredential(credential);
       } else {

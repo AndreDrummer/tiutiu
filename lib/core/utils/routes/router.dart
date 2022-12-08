@@ -1,6 +1,7 @@
 import 'package:tiutiu/features/delete_account/views/delete_account_screen.dart';
 import 'package:tiutiu/features/talk_with_us/views/talk_with_us.dart';
 import 'package:tiutiu/features/auth/views/email_and_password.dart';
+import 'package:tiutiu/core/system/views/loading_start_screen.dart';
 import 'package:tiutiu/features/favorites/screen/favorites.dart';
 import 'package:tiutiu/features/posts/flow/init_post_flow.dart';
 import 'package:tiutiu/features/support/views/support_us.dart';
@@ -15,7 +16,6 @@ import 'package:tiutiu/features/profile/views/settings.dart';
 import 'package:tiutiu/features/support/views/social.dart';
 import 'package:tiutiu/features/posts/views/my_posts.dart';
 import 'package:tiutiu/core/utils/routes/routes_name.dart';
-import 'package:tiutiu/core/system/app_bootstrap.dart';
 import 'package:tiutiu/features/home/views/home.dart';
 import 'package:tiutiu/core/widgets/about.dart';
 import 'package:flutter/material.dart';
@@ -25,7 +25,7 @@ class RouterGenerator {
     switch (settings.name) {
       case Routes.root:
         return MaterialPageRoute(
-          builder: (_) => AppBootstrap(),
+          builder: (_) => LoadingStartScreen(),
         );
       case Routes.startScreen:
         return MaterialPageRoute(
