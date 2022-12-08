@@ -15,8 +15,6 @@ import 'dart:io';
 class Home extends StatelessWidget with TiuTiuPopUp {
   @override
   Widget build(BuildContext context) {
-    print(Get.width);
-    print(Get.height);
     return SafeArea(
       child: Obx(
         () => WillPopScope(
@@ -78,7 +76,7 @@ class Home extends StatelessWidget with TiuTiuPopUp {
                 mini: true,
               ),
             ),
-            bottomNavigationBar: Visibility(child: BottomBar()),
+            bottomNavigationBar: BottomBar(),
             resizeToAvoidBottomInset: false,
           ),
         ),
@@ -87,7 +85,6 @@ class Home extends StatelessWidget with TiuTiuPopUp {
   }
 
   double expandedHeight() {
-    print(Get.height);
     final homeListPadding = Dimensions.getDimensBasedOnDeviceHeight(
       minDeviceHeightDouble: Get.height / 4.6,
       greaterDeviceHeightDouble: Get.height / 4.8,

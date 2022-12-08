@@ -10,6 +10,10 @@ import 'package:uuid/uuid.dart';
 import 'package:get/get.dart';
 
 class FeedbackController extends GetxController with TiuTiuPopUp {
+  FeedbackController({required FeedbackService feedbackService}) : _feedbackService = feedbackService;
+
+  final FeedbackService _feedbackService;
+
   final Rx<Feedback> _feedback = Feedback().obs;
   final RxBool _insertImages = false.obs;
   final RxString _loadingText = ''.obs;
@@ -110,7 +114,7 @@ class FeedbackController extends GetxController with TiuTiuPopUp {
     if (feedback.screenshots.isNotEmpty) {
       _loadingText(PostFlowStrings.imageQty(feedback.screenshots.length));
 
-      await FeedbackService().uploadPrints(
+      await _feedbackService.uploadPrints(
         onPrintsUploaded: (printsUrlList) {
           updateFeedback(FeedbackEnum.screenshots, printsUrlList);
         },
@@ -122,7 +126,7 @@ class FeedbackController extends GetxController with TiuTiuPopUp {
   Future<void> _uploadFeedbackData() async {
     setLoading(true, FeedbackStrings.sendingYourMessage);
 
-    await FeedbackService().uploadFeedbackData(feedback);
+    await _feedbackService.uploadFeedbackData(feedback);
   }
 
   Future<void> _showsSuccessPopup() async {
