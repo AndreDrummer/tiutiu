@@ -1,12 +1,14 @@
-import 'package:tiutiu/features/posts/model/post.dart';
+import 'package:tiutiu/core/constants/endpoints_name.dart';
 import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
 import 'package:tiutiu/features/auth/service/auth_service.dart';
 import 'package:tiutiu/core/constants/firebase_env_path.dart';
-import 'package:tiutiu/core/pets/model/pet_model.dart';
+import 'package:tiutiu/core/utils/endpoint_resolver.dart';
+import 'package:tiutiu/core/location/models/latlng.dart';
+import 'package:tiutiu/features/posts/model/post.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:tiutiu/core/pets/model/pet_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:tiutiu/core/utils/formatter.dart';
-import 'package:tiutiu/core/location/models/latlng.dart';
 import 'package:geocoding/geocoding.dart';
 
 class MigrationService {
@@ -76,7 +78,10 @@ class MigrationService {
   }
 
   void updateSomePetData() async {
-    final list = await _firestore.collection(pathToPosts).get();
+    final endpoint = EndpointResolver.getCollectionEndpoint(EndpointNames.pathToPosts.name);
+
+    final list = await endpoint.get();
+    // final list = await _firestore.collection(pathToPosts).get();
 
     list.docs.forEach((snapshot) async {
       // final pet = Pet.fromMigrate(snapshot.data());
@@ -87,7 +92,7 @@ class MigrationService {
   }
 
   void updateSomeUserData() async {
-    final list = await _firestore.collection(pathToUsers).get();
+    final list = await EndpointResolver.getCollectionEndpoint(EndpointNames.pathToUsers.name).get();
 
     list.docs.forEach((snapshot) async {
       final user = TiutiuUser.fromMap(snapshot.data());
