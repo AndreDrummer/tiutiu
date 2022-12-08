@@ -2,12 +2,11 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/utils/routes/routes_name.dart';
-import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/core/utils/routes/router.dart';
+import 'package:tiutiu/core/system/initializer.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:tiutiu/initializers.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
@@ -92,12 +91,10 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-
+  SystemInitializer.initDependencies();
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   FirebaseMessaging.onMessage.listen(showFlutterNotification);
 
-  await TiuTiuInitializer.start();
-  await setupFlutterNotifications();
   runApp(TiuTiuApp());
 }
 
@@ -107,16 +104,14 @@ class TiuTiuApp extends StatefulWidget {
 }
 
 class _TiuTiuAppState extends State<TiuTiuApp> {
-  late StreamSubscription<ConnectivityResult> connecitivitySubscription;
-
   @override
   void initState() {
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
     ]);
-    connecitivitySubscription = Connectivity().onConnectivityChanged.listen((ConnectivityResult result) {
-      systemController.handleInternetConnectivityStatus(result);
-    });
+
+    systemController.handleInternetConnectivityStatus();
+    systemController.onAppEndpointsChange();
     super.initState();
   }
 
