@@ -44,8 +44,9 @@ class Home extends StatelessWidget with TiuTiuPopUp {
                       return SliverAppBar(
                         toolbarHeight: homeController.bottomBarIndex < 2
                             ? Dimensions.getDimensBasedOnDeviceHeight(
-                                greaterDeviceHeightDouble: systemController.internetConnected ? 40.0.h : 64.0.h,
-                                minDeviceHeightDouble: systemController.internetConnected ? 48.0.h : 80.0.h,
+                                greaterDeviceHeightDouble:
+                                    systemController.properties.internetConnected ? 40.0.h : 64.0.h,
+                                minDeviceHeightDouble: systemController.properties.internetConnected ? 48.0.h : 80.0.h,
                               )
                             : 0.0,
                         backgroundColor: Colors.transparent,
@@ -66,7 +67,7 @@ class Home extends StatelessWidget with TiuTiuPopUp {
             ),
             floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
             floatingActionButton: Visibility(
-              visible: homeController.bottomBarIndex < 2,
+              visible: homeController.bottomBarIndex < 2 && systemController.properties.allowPost,
               child: FloatingActionButton(
                 tooltip: PostFlowStrings.post,
                 child: Icon(Icons.add),
@@ -86,12 +87,12 @@ class Home extends StatelessWidget with TiuTiuPopUp {
 
   double expandedHeight() {
     final homeListPadding = Dimensions.getDimensBasedOnDeviceHeight(
-      minDeviceHeightDouble: Get.height / 4.6,
       greaterDeviceHeightDouble: Get.height / 4.8,
+      minDeviceHeightDouble: Get.height / 4.6,
     );
 
     if (homeController.bottomBarIndex < 2) {
-      if (tiutiuUserController.tiutiuUser.emailVerified && systemController.internetConnected) {
+      if (tiutiuUserController.tiutiuUser.emailVerified && systemController.properties.internetConnected) {
         return homeListPadding;
       } else if (authController.userExists) {
         return Dimensions.getDimensBasedOnDeviceHeight(

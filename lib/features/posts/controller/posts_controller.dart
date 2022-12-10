@@ -237,10 +237,10 @@ class PostsController extends GetxController with TiuTiuPopUp {
   List<Post> _filterByState(List<Post> list, String state) {
     debugPrint('>> _filterByState');
 
-    final isBr = state == StatesAndCities().stateInitials.first;
+    final isBr = state == StatesAndCities.stateAndCities.stateInitials.first;
 
     if (!isBr) {
-      final filterState = StatesAndCities().getStateNameFromInitial(state);
+      final filterState = StatesAndCities.stateAndCities.getStateNameFromInitial(state);
 
       return list.where((post) {
         return post.state == filterState;
@@ -406,7 +406,7 @@ class PostsController extends GetxController with TiuTiuPopUp {
       city = placemark.subAdministrativeArea!;
       state = placemark.administrativeArea!;
     } else if (Platform.isIOS) {
-      state = StatesAndCities().getStateNameFromInitial(placemark.administrativeArea!);
+      state = StatesAndCities.stateAndCities.getStateNameFromInitial(placemark.administrativeArea!);
       city = placemark.locality!;
     }
 

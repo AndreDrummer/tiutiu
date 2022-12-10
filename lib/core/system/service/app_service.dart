@@ -1,9 +1,12 @@
+import 'package:tiutiu/core/system/model/app_properties.dart';
 import 'package:tiutiu/core/constants/firebase_env_path.dart';
+import 'package:tiutiu/core/constants/endpoints_name.dart';
+import 'package:tiutiu/core/utils/endpoint_resolver.dart';
 import 'package:tiutiu/core/system/model/endpoint.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 
-class SystemService {
+class AppService {
   Stream<List<Endpoint>> getAppEndpoints() {
     try {
       return _pathToEndpoints().snapshots().asyncMap((querySnapshots) {
@@ -11,6 +14,17 @@ class SystemService {
       });
     } on FirebaseException catch (exception) {
       debugPrint('Error occured when trying get app endpoints: ${exception.message}');
+      rethrow;
+    }
+  }
+
+  Stream<AppProperties> getAppProperties(AppProperties currentProperties) {
+    try {
+      return EndpointResolver.getDocumentEndpoint(EndpointNames.pathToSystemProperties.name)
+          .snapshots()
+          .asyncMap(currentProperties.fromSnapshot);
+    } on FirebaseException catch (exception) {
+      debugPrint('Error occured when trying get System Properties: ${exception.message}');
       rethrow;
     }
   }

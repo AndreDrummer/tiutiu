@@ -50,7 +50,7 @@ class _VideoState extends State<Video> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        if (systemController.bottomSheetIsOpen) {
+        if (systemController.properties.bottomSheetIsOpen) {
           Get.back();
           systemController.bottomSheetIsOpen = false;
         }
