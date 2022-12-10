@@ -24,7 +24,7 @@ class PostsRepository {
 
     final todaysCache = await LocalStorage.getValueUnderStringKey(today);
 
-    if (todaysCache != null && !systemController.internetConnected) {
+    if (todaysCache != null && !systemController.properties.internetConnected) {
       await LocalStorage.deleteValueUnderStringKey(yesterday);
       debugPrint('>>Cache exists');
       petsList = await _getPostsFromCache();

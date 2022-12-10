@@ -19,13 +19,9 @@ class _LoadingStartScreenState extends State<LoadingStartScreen> {
           case ConnectionState.waiting:
           case ConnectionState.active:
           case ConnectionState.none:
-            return Center(
-              child: CircularProgressIndicator(),
-            );
+            return Center(child: CircularProgressIndicator());
           case ConnectionState.done:
-            return Center(
-              child: AppBootstrap(),
-            );
+            return AppBootstrap();
         }
       },
     );

@@ -343,7 +343,7 @@ class AuthController extends GetxController {
         count++;
       }
     } else {
-      loadUserData();
+      await loadUserData();
     }
 
     debugPrint('>> Successfull login? $success');
