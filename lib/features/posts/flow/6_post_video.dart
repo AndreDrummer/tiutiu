@@ -16,14 +16,14 @@ import 'dart:io';
 
 final int VIDEO_SECS_LIMIT = 90;
 
-class Video extends StatefulWidget with Pickers {
-  const Video({super.key});
+class PostVideo extends StatefulWidget with Pickers {
+  const PostVideo({super.key});
 
   @override
-  State<Video> createState() => _VideoState();
+  State<PostVideo> createState() => _PostVideoVideoState();
 }
 
-class _VideoState extends State<Video> {
+class _PostVideoVideoState extends State<PostVideo> {
   VideoPlayerController? videoPlayerController;
 
   @override
