@@ -59,7 +59,7 @@ class LocationSelecter extends StatelessWidget {
 
   UnderlineInputDropdown _stateSelector() {
     return UnderlineInputDropdown(
-      items: StatesAndCities().stateNames,
+      items: StatesAndCities.stateAndCities.stateNames,
       labelText: PostFlowStrings.state,
       initialValue: initialState,
       onChanged: onStateChanged,
@@ -69,7 +69,7 @@ class LocationSelecter extends StatelessWidget {
 
   UnderlineInputDropdown _citySelector() {
     return UnderlineInputDropdown(
-      items: StatesAndCities().citiesOf(stateName: initialState),
+      items: StatesAndCities.stateAndCities.citiesOf(stateName: initialState),
       labelText: PostFlowStrings.city,
       initialValue: initialCity,
       onChanged: onCityChanged,
