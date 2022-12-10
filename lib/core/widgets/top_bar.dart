@@ -107,7 +107,7 @@ class TopBar extends StatelessWidget {
             ],
           ),
           WarningBanner(
-            showBannerCondition: !systemController.internetConnected && postsController.posts.isNotEmpty,
+            showBannerCondition: !systemController.properties.internetConnected && postsController.posts.isNotEmpty,
             padding: EdgeInsets.symmetric(horizontal: 4.0.w, vertical: 2.0.h),
             textWarning: AppStrings.noConnectionWarning,
             replacement: SizedBox.shrink(),

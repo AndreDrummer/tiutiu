@@ -20,11 +20,7 @@ class PostLocation extends StatelessWidget {
           postsController.updatePost(PostEnum.state.name, state);
           postsController.updatePost(
             PostEnum.city.name,
-            StatesAndCities()
-                .citiesOf(
-                  stateName: postsController.post.state,
-                )
-                .first,
+            StatesAndCities.stateAndCities.citiesOf(stateName: postsController.post.state).first,
           );
         },
         onCityChanged: (city) {
