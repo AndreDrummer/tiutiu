@@ -70,8 +70,7 @@ class FilterResultCount extends StatelessWidget {
                         value,
                       );
                     },
-                    items: StatesAndCities()
-                        .stateInitials
+                    items: StatesAndCities.stateAndCities.stateInitials
                         .map(
                           (e) => DropdownMenuItem<String>(
                             child: AutoSizeTexts.autoSizeText12(e),
