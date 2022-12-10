@@ -2,8 +2,8 @@ import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/widgets/add_image.dart';
 import 'package:flutter/material.dart';
 
-class Images extends StatelessWidget {
-  const Images({super.key});
+class PostImages extends StatelessWidget {
+  const PostImages({super.key});
 
   @override
   Widget build(BuildContext context) {

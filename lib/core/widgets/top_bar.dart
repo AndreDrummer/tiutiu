@@ -66,26 +66,15 @@ class TopBar extends StatelessWidget {
                 children: [
                   Visibility(
                     visible: authController.userExists,
-                    child: IconButton(
-                      padding: EdgeInsets.zero,
-                      onPressed: () {
-                        Get.toNamed(Routes.contacts);
-                      },
-                      icon: Icon(
-                        Icons.forum,
-                        color: AppColors.primary,
-                      ),
-                    ),
-                  ),
-                  Visibility(
-                    visible: authController.userExists,
                     child: Stack(
                       children: [
                         IconButton(
                           padding: EdgeInsets.zero,
-                          onPressed: () {},
+                          onPressed: () {
+                            Get.toNamed(Routes.contacts);
+                          },
                           icon: Icon(
-                            Icons.notifications_none_rounded,
+                            Icons.forum,
                             color: AppColors.primary,
                           ),
                         ),

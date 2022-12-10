@@ -140,11 +140,11 @@ class FilterStrings {
 }
 
 class PetTypeStrings {
-  static String get exotic => 'Exótico';
-  static String get dog => 'Cachorro';
-  static String get bird => 'Pássaro';
-  static String get all => 'Todos';
-  static String get cat => 'Gato';
+  static const String exotic = 'Exótico';
+  static const String dog = 'Cachorro';
+  static const String bird = 'Pássaro';
+  static const String all = 'Todos';
+  static const String cat = 'Gato';
 }
 
 class PetHealthString {
