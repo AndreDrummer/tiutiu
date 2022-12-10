@@ -1,6 +1,7 @@
+import 'package:tiutiu/core/full_screen/controller/controller.dart';
 import 'package:tiutiu/core/system/controller/app_controller.dart';
-import 'package:tiutiu/core/system/service/app_service.dart';
 import 'package:tiutiu/core/models/dependency_injection.dart';
+import 'package:tiutiu/core/system/service/app_service.dart';
 import 'package:get/instance_manager.dart';
 
 class SystemControllerDependency extends DependencyInjection {
@@ -8,5 +9,6 @@ class SystemControllerDependency extends DependencyInjection {
   void init() {
     Get.lazyPut(() => AppService());
     Get.lazyPut(() => AppController(systemService: Get.find()));
+    Get.lazyPut(() => FullscreenController());
   }
 }
