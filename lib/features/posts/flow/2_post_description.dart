@@ -46,6 +46,22 @@ class PostDescription extends StatelessWidget {
   }
 
   UnderlineInputDropdown _color() {
+    final petType = (postsController.post as Pet).type;
+    late List<String> items;
+
+    switch (petType) {
+      case PetTypeStrings.dog:
+        items = DummyData.dogColors;
+        break;
+
+      case PetTypeStrings.cat:
+        items = DummyData.catColors;
+        break;
+
+      default:
+        items = DummyData.allColors;
+    }
+
     return UnderlineInputDropdown(
       isInErrorState: !(postsController.post as Pet).color.isNotEmptyNeighterNull() && !postsController.formIsValid,
       initialValue: (postsController.post as Pet).color,
@@ -53,12 +69,25 @@ class PostDescription extends StatelessWidget {
         postsController.updatePost(PetEnum.color.name, color);
       },
       labelText: PostDetailsStrings.color,
-      items: DummyData.color,
+      items: items,
       fontSize: 14.0,
     );
   }
 
   UnderlineInputDropdown _gender() {
+    final petType = (postsController.post as Pet).type;
+    late List<String> items;
+
+    switch (petType) {
+      case PetTypeStrings.dog:
+      case PetTypeStrings.cat:
+        items = DummyData.gender.sublist(0, 3);
+        break;
+
+      default:
+        items = DummyData.gender;
+    }
+
     return UnderlineInputDropdown(
       isInErrorState: !(postsController.post as Pet).gender.isNotEmptyNeighterNull() && !postsController.formIsValid,
       initialValue: (postsController.post as Pet).gender.toString(),
@@ -66,7 +95,7 @@ class PostDescription extends StatelessWidget {
         postsController.updatePost(PetEnum.gender.name, gender);
       },
       labelText: PostDetailsStrings.sex,
-      items: DummyData.gender,
+      items: items,
       fontSize: 14.0,
     );
   }
