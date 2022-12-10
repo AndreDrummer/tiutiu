@@ -1,19 +1,19 @@
-import 'package:tiutiu/features/posts/views/post_caracteristics.dart';
-import 'package:tiutiu/features/posts/views/post_description.dart';
+import 'package:tiutiu/features/posts/flow/3_post_caracteristics.dart';
+import 'package:tiutiu/features/posts/flow/2_post_description.dart';
 import 'package:tiutiu/core/widgets/default_basic_app_bar.dart';
-import 'package:tiutiu/features/posts/views/post_location.dart';
-import 'package:tiutiu/features/posts/views/review_post.dart';
-import 'package:tiutiu/features/posts/views/post_info.dart';
+import 'package:tiutiu/features/posts/flow/4_post_location.dart';
+import 'package:tiutiu/features/posts/flow/5_post_images.dart';
+import 'package:tiutiu/features/posts/flow/7_review_post.dart';
+import 'package:tiutiu/core/widgets/simple_text_button.dart';
+import 'package:tiutiu/features/posts/flow/6_post_video.dart';
+import 'package:tiutiu/features/posts/flow/1_post_info.dart';
 import 'package:tiutiu/features/posts/widgets/stepper.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/widgets/load_dark_screen.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/widgets/row_button_bar.dart';
-import 'package:tiutiu/features/posts/views/images.dart';
-import 'package:tiutiu/core/widgets/simple_text_button.dart';
 import 'package:tiutiu/core/widgets/one_line_text.dart';
 import 'package:tiutiu/core/mixins/tiu_tiu_pop_up.dart';
-import 'package:tiutiu/features/posts/views/video.dart';
 import 'package:tiutiu/core/pets/model/pet_model.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/core/constants/strings.dart';
@@ -63,8 +63,8 @@ class PostFlow extends StatelessWidget with TiuTiuPopUp {
             PostDescription(),
             PostCaracteristics(),
             PostLocation(),
-            Images(),
-            Video(),
+            PostImages(),
+            PostVideo(),
             ReviewPost(),
           ];
 

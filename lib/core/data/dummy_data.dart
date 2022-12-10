@@ -273,27 +273,6 @@ class DummyData {
     'Grande',
   ];
 
-  static const distancies = [
-    'Até 1 Km',
-    'Até 3 Km',
-    'Até 5 Km',
-    'Até 10 Km',
-    'Até 20 Km',
-    'Até 50 Km',
-    'Até 100 Km',
-    'Até 1000 Km',
-  ];
-
-  static const ages = [
-    '-1 .ageYear',
-    '1 .ageYear',
-    '2 anos',
-    '3 anos',
-    '4 anos',
-    '5 anos',
-    '10+ anos',
-  ];
-
   static List<String> health = [
     '-',
     PetHealthString.chronicDisease,
@@ -312,7 +291,65 @@ class DummyData {
     'Não tem',
   ];
 
-  static const color = [
+  static const catColors = [
+    '-',
+    'Amarelo',
+    'Branca',
+    'Bicolor',
+    'Branco',
+    'Branco com Cinza',
+    'Branco com Preto',
+    'Cinzento',
+    'Carey',
+    'Escaminha',
+    'Malhado',
+    'Marrom',
+    'Marrom com amarelo',
+    'Marrom com branco',
+    'Marrom com cinza',
+    'Marrom com preto',
+    'Mostarda',
+    'Multicolor',
+    'Laranja',
+    'Frajola',
+    'Rajado',
+    'Preto',
+    'Preto com Amarelo',
+    'Tricolor',
+    'Tigrado',
+  ];
+
+  static const dogColors = [
+    '-',
+    'Amarelo',
+    'Azul Escuro',
+    'Bege',
+    'Bicolor',
+    'Branco',
+    'Branco com Cinza',
+    'Branco com Preto',
+    'Chocolate',
+    'Castanho',
+    'Cinza',
+    'Dourado',
+    'Dálmata',
+    'Magno',
+    'Marrom',
+    'Marrom Acobreado',
+    'Marrom com Amarelo',
+    'Marrom com Branco',
+    'Marrom com Cinza',
+    'Marrom com Preto',
+    'Mostarda',
+    'Multicolor',
+    'Preto',
+    'Preto com Amarelo',
+    'Fulva (Ruivo)',
+    'Tricolor',
+    'Vermelho',
+  ];
+
+  static const allColors = [
     '-',
     'Abóbora',
     'Açafrão',

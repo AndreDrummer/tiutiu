@@ -445,8 +445,8 @@ class PostsController extends GetxController with TiuTiuPopUp {
         break;
     }
 
-    // _nextStep();
-    if (formIsValid) _nextStep();
+    _nextStep();
+    // if (formIsValid) _nextStep();
   }
 
   void setError(String errorMessage) {
