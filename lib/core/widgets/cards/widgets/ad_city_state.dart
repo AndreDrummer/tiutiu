@@ -18,8 +18,8 @@ class AdCityState extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final rightSide = homeController.cardVisibilityKind == CardVisibilityKind.card;
-    final statesInitials = StatesAndCities().stateInitials;
-    final statesName = StatesAndCities().stateNames;
+    final statesInitials = StatesAndCities.stateAndCities.stateInitials;
+    final statesName = StatesAndCities.stateAndCities.stateNames;
 
     String UF = statesInitials.elementAt(statesName.indexOf(state));
 

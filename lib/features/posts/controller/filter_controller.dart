@@ -7,7 +7,7 @@ import 'package:get/get.dart';
 
 class FilterController extends GetxController {
   final Rx<FilterParams> filterParams = FilterParams(
-    state: StatesAndCities().stateInitials.first,
+    state: StatesAndCities.stateAndCities.stateInitials.first,
     orderBy: FilterStrings.date,
     type: PetTypeStrings.all,
     disappeared: false,
@@ -23,7 +23,7 @@ class FilterController extends GetxController {
 
   void reset() {
     filterParams(FilterParams(
-      state: StatesAndCities().stateInitials.first,
+      state: StatesAndCities.stateAndCities.stateInitials.first,
       orderBy: FilterStrings.distance,
       type: PetTypeStrings.all,
       disappeared: false,

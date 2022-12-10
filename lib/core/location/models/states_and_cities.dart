@@ -9,9 +9,8 @@ enum DataStringsKeys {
 }
 
 class StatesAndCities {
-  factory StatesAndCities() => _stateAndCities;
   StatesAndCities.internal();
-  static StatesAndCities _stateAndCities = StatesAndCities.internal();
+  static StatesAndCities stateAndCities = StatesAndCities.internal();
 
   late UFLocation location;
 
@@ -22,7 +21,7 @@ class StatesAndCities {
 
   String getStateNameFromInitial(String ufInitial) {
     return stateNames.elementAt(
-      StatesAndCities().stateInitials.indexOf(ufInitial),
+      StatesAndCities.stateAndCities.stateInitials.indexOf(ufInitial),
     );
   }
 
