@@ -37,15 +37,16 @@ dependencies:
   loading_animations: ^2.2.0  
   flutter_speed_dial: ^6.0.0  
   connectivity_plus: ^2.3.7    
+  package_info_plus: ^1.0.0
+  device_info_plus: ^8.0.0
   pin_code_fields: ^7.4.0
   carousel_slider: ^4.0.0  
   cupertino_icons: ^1.0.5
   auto_size_text: ^3.0.0
   google_sign_in: ^5.4.0
   image_picker: ^0.8.5+3      
-  maps_launcher: ^2.0.1  
-  brasil_fields: ^1.6.0
-  flutter_html: ^2.2.1
+  maps_launcher: ^2.0.1
+  brasil_fields: ^1.6.0  
   google_fonts: ^3.0.1
   url_launcher: ^6.1.5
   share_plus: ^4.0.10
