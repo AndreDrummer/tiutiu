@@ -7,6 +7,7 @@ enum AppPropertiesEnum {
   internetConnected,
   bottomSheetIsOpen,
   previousVersion,
+  runningVersion,
   snackBarIsOpen,
   appBirthday,
   appAdminID,
@@ -23,6 +24,7 @@ class AppProperties {
       internetConnected: map[AppPropertiesEnum.internetConnected.name],
       bottomSheetIsOpen: map[AppPropertiesEnum.bottomSheetIsOpen.name],
       previousVersion: map[AppPropertiesEnum.previousVersion.name],
+      runningVersion: map[AppPropertiesEnum.runningVersion.name],
       snackBarIsOpen: map[AppPropertiesEnum.snackBarIsOpen.name],
       appBirthday: map[AppPropertiesEnum.appBirthday.name],
       appAdminID: map[AppPropertiesEnum.appAdminID.name],
@@ -38,8 +40,9 @@ class AppProperties {
     this.internetConnected = false,
     this.bottomSheetIsOpen = false,
     this.mostUpdatedVersion = '',
-    this.previousVersion = '',
     this.snackBarIsOpen = false,
+    this.previousVersion = '',
+    this.runningVersion = '',
     this.allowPost = false,
     this.isLoading = false,
     this.appAdminID = '',
@@ -55,6 +58,7 @@ class AppProperties {
       systemStateTextFeedback: this.systemStateTextFeedback,
       internetConnected: this.internetConnected,
       bottomSheetIsOpen: this.bottomSheetIsOpen,
+      runningVersion: this.runningVersion,
       snackBarIsOpen: this.snackBarIsOpen,
       appBirthday: this.appBirthday,
       isLoading: this.isLoading,
@@ -65,6 +69,7 @@ class AppProperties {
   final String systemStateTextFeedback;
   final String mostUpdatedVersion;
   final String previousVersion;
+  final String runningVersion;
   final bool internetConnected;
   final bool bottomSheetIsOpen;
   final bool snackBarIsOpen;
@@ -80,6 +85,7 @@ class AppProperties {
     String? previousVersion,
     bool? internetConnected,
     bool? bottomSheetIsOpen,
+    String? runningVersion,
     bool? snackBarIsOpen,
     String? appBirthday,
     String? appAdminID,
@@ -94,6 +100,7 @@ class AppProperties {
       bottomSheetIsOpen: bottomSheetIsOpen ?? this.bottomSheetIsOpen,
       previousVersion: previousVersion ?? this.previousVersion,
       snackBarIsOpen: snackBarIsOpen ?? this.snackBarIsOpen,
+      runningVersion: runningVersion ?? this.runningVersion,
       appBirthday: appBirthday ?? this.appBirthday,
       appAdminID: appAdminID ?? this.appAdminID,
       allowPost: allowPost ?? this.allowPost,
@@ -107,9 +114,9 @@ class AppProperties {
       AppPropertiesEnum.systemStateTextFeedback.name: systemStateTextFeedback,
       AppPropertiesEnum.mostUpdatedVersion.name: mostUpdatedVersion,
       AppPropertiesEnum.mostUpdatedVersion.name: mostUpdatedVersion,
-      AppPropertiesEnum.previousVersion.name: previousVersion,
       AppPropertiesEnum.internetConnected.name: internetConnected,
       AppPropertiesEnum.bottomSheetIsOpen.name: bottomSheetIsOpen,
+      AppPropertiesEnum.runningVersion.name: runningVersion,
       AppPropertiesEnum.snackBarIsOpen.name: snackBarIsOpen,
       AppPropertiesEnum.appBirthday.name: appBirthday,
       AppPropertiesEnum.appAdminID.name: appAdminID,
@@ -127,6 +134,7 @@ class AppProperties {
       internetConnected: $internetConnected,
       bottomSheetIsOpen: $bottomSheetIsOpen,
       previousVersion: $previousVersion,
+      runningVersion: $runningVersion,
       snackBarIsOpen: $snackBarIsOpen,
       appBirthday: $appBirthday,
       appAdminID: $appAdminID,
