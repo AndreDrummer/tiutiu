@@ -8,6 +8,8 @@ class AppStrings {
   static String get verifyAccountWarning =>
       'Sua conta ainda não foi verificada, por isso algumas funcionalidades ainda estão restritas!';
   static String get verifyFilters => 'Verifique seus filtros de busca.';
+  static String get tryAgainInABrief =>
+      'Anúncios temporariamente indisponíveis.\nEntre novamente em alguns minutos.\n\nAgradecessemos a compreensão!';
   static String get imagesWarning => 'Imagens meramente ilustrativas';
   static String get noPostFavorited => 'Nenhum PET foi favoritado.';
   static String get backToCivilization => 'Voltar a civilização';
@@ -133,7 +135,7 @@ class FilterStrings {
   static String get petBreed => 'Raça do Pet';
   static String get petName => 'Nome do Pet';
   static String get distance => 'Distância';
-  static String get ads => 'anúncios';
+  static String get posts => 'posts';
   static String get date => 'Data';
   static String get age => 'Idade';
   static String get name => 'Nome';

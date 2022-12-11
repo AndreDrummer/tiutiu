@@ -37,7 +37,7 @@ class MessageBubble extends StatelessWidget {
       margin: EdgeInsets.only(top: lastMessageBelongsToTheSameUser ? 4.0.h : 16.0.h, left: 16.0.w, right: 12.0.w),
       backGroundColor: belongToMe ? Colors.lightGreen : Colors.deepPurple,
       shadowColor: belongToMe ? AppColors.secondary : AppColors.primary,
-      padding: EdgeInsets.symmetric(horizontal: 16.0.w),
+      padding: EdgeInsets.only(left: 0.0.w),
       elevation: 2.0,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -58,7 +58,7 @@ class MessageBubble extends StatelessWidget {
       clipper: ChatBubbleClipper1(
         type: belongToMe ? BubbleType.sendBubble : BubbleType.receiverBubble,
         nipWidth: 5.0.w,
-        radius: 12.0.h,
+        radius: 8.0.h,
       ),
       alignment: belongToMe ? Alignment.centerRight : Alignment.centerLeft,
     );

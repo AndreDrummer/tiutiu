@@ -4,6 +4,7 @@ enum EndpointNames {
   pathToSupportUsData,
   feedbackStoragePath,
   postsStoragePath,
+  pathToFavorites,
   pathToFeedbacks,
   pathToFeedback,
   pathToPosts,

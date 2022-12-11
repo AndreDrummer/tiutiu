@@ -10,6 +10,7 @@ class ButtonWide extends StatelessWidget {
     this.isToExpand = false,
     this.isLoading = false,
     this.rounded = true,
+    this.tiny = false,
     this.onPressed,
     this.textColor,
     this.padding,
@@ -27,6 +28,7 @@ class ButtonWide extends StatelessWidget {
   final String? text;
   final Color? color;
   final bool rounded;
+  final bool tiny;
 
   @override
   Widget build(BuildContext context) {
@@ -34,19 +36,15 @@ class ButtonWide extends StatelessWidget {
       padding: padding ?? const EdgeInsets.all(8.0),
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(
-              rounded ? 24.0.h : 8.0.h,
-            ),
-          ),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(rounded ? 24.0.h : 8.0.h)),
           backgroundColor: color ?? AppColors.primary,
         ),
         onPressed: () => onPressed?.call(),
         child: Container(
           child: isLoading ? _loadingWidget() : _content(),
           width: isToExpand ? Get.width : 260.0.w,
+          height: tiny ? 32.0.h : 48.0.h,
           alignment: Alignment.center,
-          height: 48.0.h,
         ),
       ),
     );
