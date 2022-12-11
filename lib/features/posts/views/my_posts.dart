@@ -15,17 +15,14 @@ class MyPosts extends StatelessWidget {
       () => Scaffold(
         appBar: DefaultBasicAppBar(
           leading: BackButton(onPressed: postsController.closeMypostsLists),
+          actions: [TogglePostCardAppearence(color: AppColors.white)],
           text: MyProfileOptionsTile.myPosts,
-          actions: [
-            TogglePostCardAppearence(
-              color: AppColors.white,
-            ),
-          ],
         ),
         body: RenderPostList(
+          firstChild: FilterResultCount(postsCount: postsController.postsCount, isInMyPosts: true),
           itemCount: postsController.filteredPosts.length + 1,
-          firstChild: FilterResultCount(isInMyPosts: true),
           posts: postsController.filteredPosts,
+          isInMyPosts: true,
         ),
       ),
     );

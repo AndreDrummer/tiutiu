@@ -1,5 +1,6 @@
 import 'package:tiutiu/core/widgets/pet_other_caracteristics_card.dart';
 import 'package:tiutiu/core/pets/model/pet_caracteristics_model.dart';
+import 'package:tiutiu/features/favorites/widgets/favorite_button.dart';
 import 'package:tiutiu/features/posts/widgets/video_player.dart';
 import 'package:tiutiu/features/posts/widgets/card_content.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -127,6 +128,15 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
                 ),
               )
             ],
+          ),
+          floatingActionButtonLocation: FloatingActionButtonLocation.miniCenterDocked,
+          floatingActionButton: FloatingActionButton(
+            backgroundColor: Colors.transparent,
+            child: AddRemoveFavorite(
+              post: postsController.post,
+              isRemoveButton: false,
+            ),
+            onPressed: () {},
           ),
         ),
       ),
@@ -398,7 +408,7 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
     return Container(
       margin: EdgeInsets.only(
         right: 4.0.w,
-        top: 16.0.h,
+        top: 4.0.h,
         left: 4.0.w,
       ),
       child: Column(
@@ -413,6 +423,7 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
                   text: AppStrings.chat,
                   isToExpand: false,
                   icon: Icons.phone,
+                  tiny: true,
                 ),
               ),
               Expanded(
@@ -424,6 +435,7 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
                   onPressed: () async {
                     await Launcher.openWhatsApp(number: post.owner!.phoneNumber!);
                   },
+                  tiny: true,
                 ),
               ),
             ],
