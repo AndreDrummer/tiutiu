@@ -57,7 +57,7 @@ class _NewMessageState extends State<NewMessage> {
                 borderRadius: BorderRadius.all(Radius.circular(24)),
               ),
               child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 8.0.w),
+                padding: EdgeInsets.only(left: 8.0.w, right: 4.0.w),
                 child: TextField(
                   controller: _controller,
                   onSubmitted: (value) async => await _sendMessage(),

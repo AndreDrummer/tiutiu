@@ -79,7 +79,7 @@ class Formatters {
   }
 
   static String cuttedText(String message, {int size = 32}) {
-    if (message.length > size) return message.substring(0, size);
+    if (message.length > size) return message.substring(0, size) + '...';
     return message;
   }
 }
