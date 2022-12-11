@@ -1,9 +1,12 @@
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:tiutiu/core/utils/routes/routes_name.dart';
+import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/constants/text_styles.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/core/widgets/tiutiu_logo.dart';
 import 'package:tiutiu/core/constants/strings.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class ErrorPage extends StatelessWidget {
   const ErrorPage({
@@ -36,7 +39,7 @@ class ErrorPage extends StatelessWidget {
             Padding(
               padding: EdgeInsets.symmetric(vertical: 32.0.h),
               child: AutoSizeTexts.autoSizeText16(
-                errorMessage ?? error.toString(),
+                errorMessage ?? AppStrings.tryAgainInABrief,
                 textAlign: TextAlign.center,
                 color: AppColors.white,
               ),
@@ -52,7 +55,15 @@ class ErrorPage extends StatelessWidget {
                 color: AppColors.white,
                 AppStrings.leave,
               ),
-              onPressed: onErrorCallback,
+              onPressed: () async {
+                if (onErrorCallback != null) {
+                  onErrorCallback?.call();
+                } else {
+                  await authController.signOut().then((_) {
+                    Get.offAllNamed(Routes.home);
+                  });
+                }
+              },
             ),
             Spacer(),
           ],

@@ -1,14 +1,15 @@
-import 'package:tiutiu/core/constants/firebase_env_path.dart';
-import 'package:tiutiu/core/pets/model/pet_model.dart';
+import 'package:tiutiu/features/posts/model/filter_params.dart';
+import 'package:tiutiu/features/posts/utils/post_utils.dart';
+import 'package:tiutiu/core/constants/endpoints_name.dart';
+import 'package:tiutiu/core/utils/endpoint_resolver.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:tiutiu/features/posts/model/post.dart';
+import 'package:tiutiu/core/pets/model/pet_model.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 
 class FavoritesController extends GetxController {
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-
   void addFavorite(Post post) {
     debugPrint('>> Add to favorites');
     _favoritesCollection().doc(post.uid).set(post.toMap());
@@ -19,15 +20,19 @@ class FavoritesController extends GetxController {
     _favoritesCollection().doc(post.uid).delete();
   }
 
-  Stream<List<Post>> favoritesList() {
-    return _favoritesCollection().snapshots().asyncMap((snapshot) {
-      List<Post> favoritePosts = [];
-      snapshot.docs.forEach((favorite) {
+  Stream<List<Post>> favoritesList(FilterParams filters) {
+    final queryMap = _favoritesCollection().where(FilterParamsEnum.disappeared.name, isEqualTo: false);
+    List<Post> favoritePosts = [];
+
+    return queryMap.snapshots().asyncMap((event) {
+      favoritePosts.clear();
+      event.docs.forEach((favorite) {
         if (favorite.data().isNotEmpty) {
           favoritePosts.add(Pet().fromMap(favorite.data()));
         }
       });
-      return favoritePosts;
+
+      return PostUtils.filterPosts(postsList: favoritePosts);
     });
   }
 
@@ -38,13 +43,9 @@ class FavoritesController extends GetxController {
   }
 
   CollectionReference<Map<String, dynamic>> _favoritesCollection() {
-    return _firestore
-        .collection(FirebaseEnvPath.projectName)
-        .doc(FirebaseEnvPath.env)
-        .collection(FirebaseEnvPath.environment)
-        .doc(FirebaseEnvPath.users.toLowerCase())
-        .collection(FirebaseEnvPath.users.toLowerCase())
-        .doc(tiutiuUserController.tiutiuUser.uid)
-        .collection(FirebaseEnvPath.favorites.toLowerCase());
+    return EndpointResolver.getCollectionEndpoint(
+      EndpointNames.pathToFavorites.name,
+      [tiutiuUserController.tiutiuUser.uid],
+    );
   }
 }
