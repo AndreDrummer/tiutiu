@@ -68,8 +68,8 @@ class AuthStrings {
   static const String demandRecentLoginWarning = 'Está ação requer que você faça login novamente.\n\nDeseja deslogar?';
   static String passwordShouldBeAtLeast(String field, int length) => '$field deve ter no mínimo $length dígitos';
   static const String unableToResendEmail = 'Não foi possível reenviar o e-mail. Tente novamente mais tarde!';
-  static const String verifyEmailAdvice =
-      'Somente contas verificadas podem publicar um anúncio. Cheque sua caixa de spam se necessário.';
+  static const String verifyEmailAdvice = 'Somente contas verificadas podem publicar um anúncio.';
+  static const String checkYourSpam = 'Cheque sua caixa de spam se necessário.';
   static const String tryVerifyCodeAgain = 'Não foi possível verificar o código.\nTente novamente.';
   static const String insertCodeSentToNumber = 'Insira o código enviado para o número';
   static const String linkWasSent = 'Um link de verificação foi enviado para o email';

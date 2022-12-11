@@ -1,7 +1,7 @@
-import 'package:tiutiu/core/constants/endpoints_name.dart';
 import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
 import 'package:tiutiu/features/auth/service/auth_service.dart';
 import 'package:tiutiu/core/constants/firebase_env_path.dart';
+import 'package:tiutiu/core/constants/endpoints_name.dart';
 import 'package:tiutiu/core/utils/endpoint_resolver.dart';
 import 'package:tiutiu/core/location/models/latlng.dart';
 import 'package:tiutiu/features/posts/model/post.dart';
@@ -17,16 +17,17 @@ class MigrationService {
   final String petAdPurpose = FirebaseEnvPath.donate;
 
   void migrate() async {
-    final loggedMoreThanOneDay = DateTime.now().difference(DateTime(2022, 09, 21)).inDays < 1;
+    moveEndpointsToProd();
+  }
 
-    if (loggedMoreThanOneDay) {
-      await loginWithEmailAndPassword('andre@gmail.com', '123123');
-    }
-
-    // migrateAllUsers();
-    // migrateAllPetAds();
-    // updateSomePetData();
-    // updateSomeUserData();
+  void moveEndpointsToProd() async {
+    _pathToEndpoints('debug').snapshots().forEach((event) {
+      print('|| MIGRATION || moveEndpointsToProd');
+      event.docs.forEach((e) {
+        print('|| MIGRATION || Data ${e.data()}');
+        // _pathToEndpoints('prod').doc(e.id).set(e.data());
+      });
+    });
   }
 
   void migrateAllUsers() async {
@@ -183,5 +184,14 @@ class MigrationService {
     );
 
     return placemarkList.first.subAdministrativeArea;
+  }
+
+  CollectionReference<Map<String, dynamic>> _pathToEndpoints(String environment) {
+    return FirebaseFirestore.instance
+        .collection(FirebaseEnvPath.projectName)
+        .doc(FirebaseEnvPath.env)
+        .collection(environment)
+        .doc(FirebaseEnvPath.endpoints)
+        .collection(FirebaseEnvPath.endpoints);
   }
 }

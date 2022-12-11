@@ -232,8 +232,8 @@ class _SettingsState extends State<Settings> {
   }
 
   void _setDataToUser() {
-    tiutiuUserController.updateTiutiuUser(TiutiuUserEnum.phoneNumber, phoneNumberController.text);
-    tiutiuUserController.updateTiutiuUser(TiutiuUserEnum.displayName, nameController.text);
+    tiutiuUserController.updateTiutiuUser(TiutiuUserEnum.phoneNumber, phoneNumberController.text.trim());
+    tiutiuUserController.updateTiutiuUser(TiutiuUserEnum.displayName, nameController.text.trim());
 
     if (phoneNumberController.text != previousUser.phoneNumber) {
       tiutiuUserController.updateTiutiuUser(TiutiuUserEnum.phoneVerified, false);
