@@ -6,6 +6,7 @@ import 'package:tiutiu/core/local_storage/local_storage_keys.dart';
 import 'package:tiutiu/features/posts/services/post_service.dart';
 import 'package:tiutiu/core/constants/firebase_env_path.dart';
 import 'package:tiutiu/core/local_storage/local_storage.dart';
+import 'package:tiutiu/features/posts/utils/post_utils.dart';
 import 'package:tiutiu/core/extensions/string_extension.dart';
 import 'package:tiutiu/core/utils/file_cache_manager.dart';
 import 'package:tiutiu/core/utils/routes/routes_name.dart';
@@ -14,7 +15,6 @@ import 'package:tiutiu/core/mixins/tiu_tiu_pop_up.dart';
 import 'package:tiutiu/core/pets/model/pet_model.dart';
 import 'package:tiutiu/features/posts/model/post.dart';
 import 'package:tiutiu/core/constants/strings.dart';
-import 'package:tiutiu/core/utils/ordenators.dart';
 import 'package:flutter/foundation.dart';
 import 'package:chewie/chewie.dart';
 import 'package:get/get.dart';
@@ -106,7 +106,7 @@ class PostsController extends GetxController with TiuTiuPopUp {
       }).toList();
 
       _posts(postsList);
-      return _filterPosts();
+      return PostUtils.filterPosts(postsList: _posts);
     });
   }
 
@@ -163,112 +163,16 @@ class PostsController extends GetxController with TiuTiuPopUp {
 
   Future<void> allPosts() async {
     final list = await _postsRepository.getPostList();
-
     _posts(list);
-    _filterPosts();
+
+    final filteredPosts = PostUtils.filterPosts(postsList: _posts);
+
+    _filteredPosts(filteredPosts);
+    _postsCount(filteredPosts.length);
   }
 
   List<Post> loggedUserPosts() {
     return _posts.where(postBelongsToMe).toList();
-  }
-
-  List<Post> _filterPosts() {
-    final postsToFilter = isInMyPostsList ? loggedUserPosts() : _posts;
-    final filterParams = filterController.getParams;
-
-    debugPrint('>> isInMyPostsList $isInMyPostsList');
-    debugPrint('>> filteredPosts');
-    debugPrint('>> filters $filterParams');
-
-    final filteredByType = _filterByType(postsToFilter, filterParams.type);
-    final filteredByState = _filterByState(filteredByType, filterParams.state);
-
-    final filteredByDisappeared = _filterByDisappeared(
-      filteredByState,
-      filterParams.disappeared,
-    );
-
-    final isFilteringByName = filterParams.name.isNotEmptyNeighterNull();
-    final filteredList = filteredByDisappeared;
-
-    final returnedList = _ordernatedList(
-      isFilteringByName ? _filterByName(filterParams.name) : filteredList,
-      filterParams.orderBy,
-    );
-
-    _filteredPosts(returnedList);
-    _postsCount(filteredPosts.length);
-
-    return returnedList;
-  }
-
-  List<Post> _filterByName(String filterName) {
-    List<Pet> postsFilteredByName = [];
-
-    _posts.forEach((post) {
-      final isFilteringByName = filterName.isNotEmptyNeighterNull();
-
-      String petName = post.name!.toLowerCase();
-
-      if (isFilteringByName) {
-        if (petName.contains(filterName.toLowerCase())) {
-          postsFilteredByName.add(post);
-        }
-      } else {
-        postsFilteredByName.add(post);
-      }
-    });
-
-    return postsFilteredByName;
-  }
-
-  List<Post> _filterByType(List<Post> list, String type) {
-    debugPrint('>> _filterByType');
-
-    if (type != PetTypeStrings.all) {
-      return list.where((post) {
-        return post.type == type;
-      }).toList();
-    }
-
-    return list;
-  }
-
-  List<Post> _filterByState(List<Post> list, String state) {
-    debugPrint('>> _filterByState');
-
-    final isBr = state == StatesAndCities.stateAndCities.stateInitials.first;
-
-    if (!isBr) {
-      final filterState = StatesAndCities.stateAndCities.getStateNameFromInitial(state);
-
-      return list.where((post) {
-        return post.state == filterState;
-      }).toList();
-    }
-
-    return list;
-  }
-
-  List<Post> _filterByDisappeared(List<Post> list, bool disappeared) {
-    debugPrint('>> _filterByDisappeared');
-    return list.where((post) {
-      return (post as Pet).disappeared == disappeared;
-    }).toList();
-  }
-
-  List<Post> _ordernatedList(List<Post> list, String orderParam) {
-    if (orderParam == FilterStrings.distance) {
-      list.sort(Ordenators.orderByDistance);
-    } else if (orderParam == FilterStrings.date) {
-      list.sort(Ordenators.orderByPostDate);
-    } else if (orderParam == FilterStrings.age) {
-      list.sort(Ordenators.orderByAge);
-    } else if (orderParam == FilterStrings.name) {
-      list.sort(Ordenators.orderByName);
-    }
-
-    return list;
   }
 
   Future<void> _uploadVideo() async {
@@ -369,6 +273,12 @@ class PostsController extends GetxController with TiuTiuPopUp {
     }
 
     return cachedVideosMap;
+  }
+
+  void _filterPosts() {
+    final postsTofilter = isInMyPostsList ? loggedUserPosts() : _posts;
+    _filteredPosts(PostUtils.filterPosts(postsList: postsTofilter));
+    _postsCount(filteredPosts.length);
   }
 
   void updatePost(String property, dynamic data) {

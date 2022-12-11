@@ -24,7 +24,7 @@ class _AuthOrHomeState extends State<AuthOrHome> {
         return AsyncHandler(
           errorMessage: AppStrings.authError,
           onErrorCallback: () async {
-            await authController.signOut().then((value) {
+            await authController.signOut().then((_) {
               Get.offAllNamed(Routes.home);
             });
           },

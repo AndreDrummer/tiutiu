@@ -11,11 +11,13 @@ import 'package:get/get.dart';
 
 class FilterResultCount extends StatelessWidget {
   const FilterResultCount({
-    super.key,
+    required this.postsCount,
     this.isInMyPosts = false,
+    super.key,
   });
 
   final bool isInMyPosts;
+  final int postsCount;
 
   @override
   Widget build(BuildContext context) {
@@ -31,14 +33,14 @@ class FilterResultCount extends StatelessWidget {
               children: [
                 Row(
                   children: [
-                    AutoSizeTexts.autoSizeText12('${postsController.postsCount} '),
+                    AutoSizeTexts.autoSizeText12('$postsCount '),
                     Visibility(
-                      visible: !isInMyPosts,
                       child: AutoSizeTexts.autoSizeText12(FilterStrings.foundAt),
+                      visible: !isInMyPosts,
                     ),
                     Visibility(
+                      child: AutoSizeTexts.autoSizeText12(FilterStrings.posts),
                       visible: isInMyPosts,
-                      child: AutoSizeTexts.autoSizeText12(FilterStrings.ads),
                     ),
                   ],
                 ),

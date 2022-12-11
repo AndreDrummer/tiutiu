@@ -22,8 +22,8 @@ class EmptyListScreen extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Visibility(
-            visible: isAPetScreenList,
             child: Container(child: Image.asset(ImageAssets.notFoundET), height: Get.width / 2),
+            visible: isAPetScreenList,
           ),
           AutoSizeTexts.autoSizeText12(text ?? AppStrings.noPostFound),
           SimpleTextButton(
@@ -32,6 +32,9 @@ class EmptyListScreen extends StatelessWidget {
             fontSize: 12,
             onPressed: () {
               filterController.reset();
+              if (!postsController.isInMyPostsList) {
+                homeController.setDonateIndex();
+              }
             },
           )
         ],
