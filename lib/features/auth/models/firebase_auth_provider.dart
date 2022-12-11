@@ -73,18 +73,18 @@ class FirebaseAuthProvider implements AuthProviders {
     user?.sendEmailVerification();
     // Para quando a atualização já estiver na loja
 
-    // if (user != null && !user.emailVerified) {
-    //   var actionCodeSettings = ActionCodeSettings(
-    //     url: 'https://tiutiu.page.link/verify-email?email=${user.email}',
-    //     androidPackageName: 'com.anjasolutions.tiutiu',
-    //     iOSBundleId: 'com.anjasolutions.tiutiu',
-    //     androidMinimumVersion: '12',
-    //     androidInstallApp: true,
-    //     handleCodeInApp: true,
-    //   );
+    if (user != null && !user.emailVerified) {
+      var actionCodeSettings = ActionCodeSettings(
+        url: 'https://tiutiu.page.link/verify-email?email=${user.email}',
+        androidPackageName: 'com.anjasolutions.tiutiu',
+        iOSBundleId: 'com.anjasolutions.tiutiu',
+        androidMinimumVersion: '12',
+        androidInstallApp: true,
+        handleCodeInApp: true,
+      );
 
-    //   await user.sendEmailVerification(actionCodeSettings);
-    // }
+      await user.sendEmailVerification(actionCodeSettings);
+    }
   }
 
   @override

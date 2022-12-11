@@ -28,7 +28,7 @@ class _NewMessageState extends State<NewMessage> {
           receiver: chatController.userChatingWith,
           sender: tiutiuUserController.tiutiuUser,
           createdAt: FieldValue.serverTimestamp(),
-          text: _enteredMessage,
+          text: _enteredMessage.trim(),
           id: Uuid().v4(),
         ),
       );
