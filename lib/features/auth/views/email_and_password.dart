@@ -1,13 +1,13 @@
 import 'package:tiutiu/features/auth/widgets/image_carousel_background.dart';
 import 'package:tiutiu/features/auth/models/email_password_auth.dart';
 import 'package:tiutiu/core/widgets/outline_input_text.dart';
+import 'package:tiutiu/core/widgets/simple_text_button.dart';
 import 'package:tiutiu/features/auth/widgets/dark_over.dart';
 import 'package:tiutiu/features/auth/widgets/headline.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/widgets/load_dark_screen.dart';
 import 'package:tiutiu/core/utils/routes/routes_name.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
-import 'package:tiutiu/core/widgets/simple_text_button.dart';
 import 'package:tiutiu/core/mixins/tiu_tiu_pop_up.dart';
 import 'package:tiutiu/core/widgets/one_line_text.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
@@ -335,13 +335,13 @@ class EmailAndPassword extends StatelessWidget with TiuTiuPopUp {
     } catch (exception) {
       authController.isLoading = false;
 
-      debugPrint('${exception.toString()}');
-
       showPopUp(
+        message: AppStrings.genericError,
         title: AuthStrings.authFailure,
-        message: exception.toString(),
         error: true,
       );
+
+      debugPrint('>> Authentication Failed ${exception.toString()}');
     }
   }
 

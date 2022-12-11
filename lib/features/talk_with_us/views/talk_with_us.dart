@@ -112,7 +112,7 @@ class _TalkWithUsState extends State<TalkWithUs> {
         () => TextArea(
           initialValue: feedbackController.feedback.contactMessage,
           onChanged: (message) {
-            feedbackController.updateFeedback(FeedbackEnum.contactMessage, message);
+            feedbackController.updateFeedback(FeedbackEnum.contactMessage, message.trim());
           },
           isInErrorState:
               !feedbackController.feedback.contactMessage.isNotEmptyNeighterNull() && !feedbackController.isFormValid,

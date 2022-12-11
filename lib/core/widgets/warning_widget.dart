@@ -36,54 +36,63 @@ class WarningBanner extends StatelessWidget {
   Widget build(BuildContext context) {
     final isLoggedIn = authController.userExists;
 
-    return Visibility(
-      visible: showBannerCondition,
-      replacement: replacement,
+    return GestureDetector(
+      onTap: () {
+        if (authController.userExists) {
+          Get.toNamed(Routes.verifyEmail);
+        } else {
+          Get.toNamed(Routes.authHosters);
+        }
+      },
       child: Visibility(
-        visible: isLoggedIn,
-        child: Container(
-          height: tileSize ?? 24.0.h,
-          padding: padding ?? EdgeInsets.symmetric(horizontal: 4.0.w, vertical: 2.0.h),
-          margin: margin ?? EdgeInsets.symmetric(vertical: 32.0.h, horizontal: 8.0.w),
-          alignment: Alignment.center,
-          decoration: BoxDecoration(
-            color: tileColor != null
-                ? tileColor
-                : isHiddingContactInfo
-                    ? Colors.amber
-                    : AppColors.danger,
-            borderRadius: BorderRadius.circular(4.0.h),
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Expanded(
-                child: AutoSizeTexts.autoSizeText12(
-                  textWarning != null
-                      ? textWarning
-                      : isHiddingContactInfo
-                          ? AppStrings.verifyEmailToSeeContactInfo
-                          : AppStrings.verifyAccountWarning,
+        visible: showBannerCondition,
+        replacement: replacement,
+        child: Visibility(
+          visible: isLoggedIn,
+          child: Container(
+            height: tileSize ?? 24.0.h,
+            padding: padding ?? EdgeInsets.symmetric(horizontal: 4.0.w, vertical: 2.0.h),
+            margin: margin ?? EdgeInsets.symmetric(vertical: 32.0.h, horizontal: 8.0.w),
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+              color: tileColor != null
+                  ? tileColor
+                  : isHiddingContactInfo
+                      ? Colors.amber
+                      : AppColors.danger,
+              borderRadius: BorderRadius.circular(4.0.h),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Expanded(
+                  child: AutoSizeTexts.autoSizeText12(
+                    textWarning != null
+                        ? textWarning
+                        : isHiddingContactInfo
+                            ? AppStrings.verifyEmailToSeeContactInfo
+                            : AppStrings.verifyAccountWarning,
+                    color: textColor != null
+                        ? textColor
+                        : isHiddingContactInfo
+                            ? AppColors.black
+                            : AppColors.white,
+                    textOverflow: TextOverflow.fade,
+                    textAlign: TextAlign.left,
+                    fontSize: fontSize,
+                  ),
+                ),
+                Icon(
+                  Icons.warning,
+                  size: 12.0.h,
                   color: textColor != null
                       ? textColor
                       : isHiddingContactInfo
                           ? AppColors.black
                           : AppColors.white,
-                  textOverflow: TextOverflow.fade,
-                  textAlign: TextAlign.left,
-                  fontSize: fontSize,
                 ),
-              ),
-              Icon(
-                Icons.warning,
-                size: 12.0.h,
-                color: textColor != null
-                    ? textColor
-                    : isHiddingContactInfo
-                        ? AppColors.black
-                        : AppColors.white,
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
