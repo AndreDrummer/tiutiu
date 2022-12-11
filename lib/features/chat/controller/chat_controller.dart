@@ -80,7 +80,7 @@ class ChatController extends GetxController {
 
     return userReference.snapshots().asyncMap((doc) {
       TiutiuUser user = TiutiuUser.fromMap(doc.data() as Map<String, dynamic>);
-      userChatingWith = user;
+
       return user;
     });
   }
