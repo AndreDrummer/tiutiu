@@ -3,11 +3,13 @@ import 'package:tiutiu/features/talk_with_us/model/feedback.dart';
 import 'package:tiutiu/core/extensions/string_extension.dart';
 import 'package:tiutiu/core/utils/routes/routes_name.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:tiutiu/core/mixins/tiu_tiu_pop_up.dart';
 import 'package:tiutiu/core/constants/strings.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:uuid/uuid.dart';
 import 'package:get/get.dart';
+import 'dart:io';
 
 class FeedbackController extends GetxController with TiuTiuPopUp {
   FeedbackController({required FeedbackService feedbackService}) : _feedbackService = feedbackService;
@@ -90,7 +92,9 @@ class FeedbackController extends GetxController with TiuTiuPopUp {
     if (isFormValid) {
       setLoading(true, '');
 
-      await _prepareFormToSubmit().then((_) async => _showsSuccessPopup(), onError: (error, stackTrace) {
+      updateFeedback(FeedbackEnum.deviceInfo, await getDeviceInfo());
+
+      await _submit().then((_) async => _showsSuccessPopup(), onError: (error, stackTrace) {
         debugPrint('>> Error when tryna upload feedback: $error, $stackTrace');
         setLoading(false, '');
         _showsErrorPopup();
@@ -100,7 +104,7 @@ class FeedbackController extends GetxController with TiuTiuPopUp {
     setLoading(false, '');
   }
 
-  Future<void> _prepareFormToSubmit() async {
+  Future<void> _submit() async {
     if (feedback.createdAt == null) updateFeedback(FeedbackEnum.createdAt, DateTime.now().toIso8601String());
     if (feedback.ownerId == null) updateFeedback(FeedbackEnum.ownerId, tiutiuUserController.tiutiuUser.uid);
     if (feedback.uid == null) updateFeedback(FeedbackEnum.uid, Uuid().v4());
@@ -108,6 +112,15 @@ class FeedbackController extends GetxController with TiuTiuPopUp {
 
     await _uploadPrints();
     await _uploadFeedbackData();
+  }
+
+  Future<BaseDeviceInfo> getDeviceInfo() async {
+    DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
+    final info = Platform.isIOS ? await deviceInfo.iosInfo : await deviceInfo.androidInfo;
+
+    debugPrint('>> Device Info: $info');
+
+    return info;
   }
 
   Future<void> _uploadPrints() async {
