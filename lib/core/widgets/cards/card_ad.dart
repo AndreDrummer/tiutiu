@@ -7,7 +7,7 @@ import 'package:get/get.dart';
 
 class CardAd extends StatelessWidget {
   CardAd({
-    this.showFavoriteButton = false,
+    this.showFavoriteButton = true,
     this.inReviewMode = false,
     required this.cardBuilder,
     required this.post,

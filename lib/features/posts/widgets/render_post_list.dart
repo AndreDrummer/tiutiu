@@ -10,12 +10,14 @@ import 'package:get/get.dart';
 class RenderPostList extends StatelessWidget {
   const RenderPostList({
     this.firstChild = const SizedBox.shrink(),
+    this.isInMyPosts = false,
     required this.itemCount,
     required this.posts,
     super.key,
   });
 
   final Widget firstChild;
+  final bool isInMyPosts;
   final List<Post> posts;
   final int itemCount;
 
@@ -45,6 +47,8 @@ class RenderPostList extends StatelessWidget {
                 post: posts[index < posts.length ? index : posts.length - 1],
                 onNavigateToTop: () => homeController.onScrollUp(),
                 showBackToStartButton: index == posts.length,
+                showFavoriteButton: !isInMyPosts,
+                key: UniqueKey(),
               );
             },
           ),
