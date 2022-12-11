@@ -3,6 +3,7 @@ import 'package:tiutiu/core/system/model/app_properties.dart';
 import 'package:tiutiu/core/system/service/app_service.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:tiutiu/core/system/model/endpoint.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
@@ -38,15 +39,24 @@ class AppController extends GetxController {
   }
 
   Future<void> loadApp() async {
-    _systemProperties(properties.copyWith(isLoading: true));
-    await currentLocationController.updateGPSStatus();
-    await currentLocationController.setUserLocation();
-    await StatesAndCities.stateAndCities.getUFAndCities();
-    await postsController.allPosts();
-    await postsController.getCachedAssets();
+    try {
+      _systemProperties(properties.copyWith(isLoading: true));
 
-    systemController.onAppPropertiesChange();
-    _systemProperties(properties.copyWith(isLoading: false));
+      await StatesAndCities.stateAndCities.getUFAndCities();
+      await currentLocationController.updateGPSStatus();
+      await currentLocationController.setUserLocation();
+      await postsController.allPosts();
+      await postsController.getCachedAssets();
+
+      PackageInfo packageInfo = await PackageInfo.fromPlatform();
+      _systemProperties(properties.copyWith(runningVersion: packageInfo.version));
+
+      _systemProperties(properties.copyWith(isLoading: false));
+
+      systemController.onAppPropertiesChange();
+    } on Exception catch (exception) {
+      debugPrint('>> App Initialization Exception $exception');
+    }
   }
 
   void onAppEndpointsChange() => _systemService.getAppEndpoints().listen(_endpoints);
