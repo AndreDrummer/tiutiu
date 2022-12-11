@@ -348,6 +348,5 @@ class FeedbackStrings {
 class SupportUsStrings {
   static const String helpMaintainTheApp = 'Ajude-nos a manter este aplicativo!';
   static const String keyPixCopied = 'Chave copiada!';
-  static const String keyPIX = 'Chave Aleatória PIX';
   static const String copyKey = 'Copiar chave';
 }
