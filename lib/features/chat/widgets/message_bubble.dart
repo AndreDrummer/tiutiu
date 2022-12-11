@@ -37,27 +37,40 @@ class MessageBubble extends StatelessWidget {
       margin: EdgeInsets.only(top: lastMessageBelongsToTheSameUser ? 4.0.h : 16.0.h, left: 16.0.w, right: 12.0.w),
       backGroundColor: belongToMe ? Colors.lightGreen : Colors.deepPurple,
       shadowColor: belongToMe ? AppColors.secondary : AppColors.primary,
-      padding: EdgeInsets.only(left: 0.0.w),
+      padding: EdgeInsets.only(right: 12.0.w),
       elevation: 2.0,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Container(
-            child: AutoSizeTexts.autoSizeText14(message, color: AppColors.white),
-            padding: _messagePadding(message),
-            margin: EdgeInsets.all(8.0.h),
-            width: Get.width / 2,
-          ),
-          Container(
-            child: AutoSizeTexts.autoSizeText10(formattedTime, color: AppColors.white),
-            alignment: Alignment(1, 1),
-          ),
-        ],
+      child: SizedBox(
+        width: Get.width / 2,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              child: AutoSizeTexts.autoSizeText14(
+                textAlign: TextAlign.start,
+                color: AppColors.white,
+                message,
+              ),
+              padding: _messagePadding(message),
+              margin: EdgeInsets.all(8.0.h),
+            ),
+            Container(
+              margin: EdgeInsets.only(bottom: 8.0.h),
+              child: AutoSizeTexts.autoSizeText10(
+                textAlign: TextAlign.justify,
+                color: AppColors.white,
+                formattedTime,
+              ),
+              alignment: Alignment(1, 1),
+            )
+          ],
+        ),
       ),
       clipper: ChatBubbleClipper1(
         type: belongToMe ? BubbleType.sendBubble : BubbleType.receiverBubble,
-        nipWidth: 5.0.w,
+        nipRadius: lastMessageBelongsToTheSameUser ? 3.0 : 2.0,
+        nipHeight: lastMessageBelongsToTheSameUser ? 5 : 10,
+        nipWidth: 4.0.w,
         radius: 8.0.h,
       ),
       alignment: belongToMe ? Alignment.centerRight : Alignment.centerLeft,
