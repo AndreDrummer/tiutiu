@@ -106,7 +106,7 @@ class LocationSelecter extends StatelessWidget {
             } else {
               postsController.updatePost(
                 PostEnum.describedAddress.name,
-                address,
+                address.trim(),
               );
             }
           },
