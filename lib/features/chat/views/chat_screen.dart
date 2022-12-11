@@ -55,8 +55,8 @@ class ChatScreen extends StatelessWidget {
                             bottom: index > 0
                                 ? 0
                                 : Dimensions.getDimensBasedOnDeviceHeight(
-                                    minDeviceHeightDouble: 72.0.h,
                                     greaterDeviceHeightDouble: 32.0.h,
+                                    minDeviceHeightDouble: 56.0.h,
                                   ),
                           ),
                           child: MessageBubble(

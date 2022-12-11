@@ -6,6 +6,7 @@ import 'package:tiutiu/core/widgets/warning_widget.dart';
 import 'package:tiutiu/core/utils/dimensions.dart';
 import 'package:tiutiu/core/widgets/top_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class Header extends StatelessWidget {
   const Header({super.key});
@@ -16,7 +17,7 @@ class Header extends StatelessWidget {
       children: [
         TopBar(),
         FiltersType(),
-        FilterResultCount(),
+        Obx(() => FilterResultCount(postsCount: postsController.postsCount)),
         WarningBanner(
           showBannerCondition: !tiutiuUserController.tiutiuUser.emailVerified,
           padding: EdgeInsets.symmetric(horizontal: 4.0.w, vertical: 2.0.h),

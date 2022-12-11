@@ -8,7 +8,6 @@ import 'package:tiutiu/core/widgets/cards/widgets/ad_images.dart';
 import 'package:tiutiu/core/widgets/cards/widgets/ad_title.dart';
 import 'package:tiutiu/core/widgets/cards/widgets/ad_views.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/features/posts/model/post.dart';
 import 'package:tiutiu/core/pets/model/pet_model.dart';
 import 'package:flutter/material.dart';
@@ -29,23 +28,9 @@ class CardBuilder {
 
   Widget adInteresteds() => AdInteresteds(visible: (_post as Pet).disappeared, petKind: (_post as Pet).type);
 
-  Widget favoriteButton() {
-    return Obx(
-      () => StreamBuilder<bool>(
-        stream: favoritesController.postIsFavorited(_post),
-        builder: (context, snapshot) {
-          return AddRemoveFavorite(
-            onRemove: () => favoritesController.removeFavorite(_post),
-            onAdd: () => favoritesController.addFavorite(_post),
-            active: snapshot.data ?? false,
-            isRemoveButton: false,
-          );
-        },
-      ),
-    );
-  }
-
   Widget adCityState() => AdCityState(state: (_post as Pet).state, city: (_post as Pet).city);
+
+  Widget favoriteButton() => AddRemoveFavorite(isRemoveButton: false, post: _post);
 
   Widget adDistanceFromUser() => AdDistanceFromUser(distanceText: distanceText);
 

@@ -1,39 +1,52 @@
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
+import 'package:tiutiu/features/posts/model/post.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class AddRemoveFavorite extends StatelessWidget {
   const AddRemoveFavorite({
     this.isRemoveButton = false,
-    this.active = false,
-    this.onRemove,
-    this.onAdd,
+    required this.post,
   });
 
-  final Function()? onRemove;
   final bool isRemoveButton;
-  final Function()? onAdd;
-  final bool active;
+  final Post post;
 
   @override
   Widget build(BuildContext context) {
-    final icon = isRemoveButton
-        ? Icons.delete
-        : active
-            ? Icons.favorite
-            : Icons.favorite_border;
+    return Obx(
+      () => StreamBuilder<bool>(
+        stream: favoritesController.postIsFavorited(post),
+        builder: (context, snapshot) {
+          final isActive = snapshot.data ?? false;
 
-    return GestureDetector(
-      child: Card(
-        margin: EdgeInsets.zero,
-        child: Padding(
-          child: Icon(color: isRemoveButton ? AppColors.danger : AppColors.primary, size: 16.0.h, icon),
-          padding: EdgeInsets.all(8.0.h),
-        ),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24.0.h)),
-        elevation: 2.0,
+          final icon = isRemoveButton
+              ? Icons.delete
+              : isActive
+                  ? Icons.favorite
+                  : Icons.favorite_border;
+
+          print('isActive ${isActive || isRemoveButton}');
+
+          return GestureDetector(
+            child: Card(
+              margin: EdgeInsets.zero,
+              child: Padding(
+                child: Icon(color: isRemoveButton ? AppColors.danger : AppColors.primary, size: 16.0.h, icon),
+                padding: EdgeInsets.all(8.0.h),
+              ),
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24.0.h)),
+              elevation: 2.0,
+            ),
+            onTap: (isActive || isRemoveButton) ? removeFavorite : addFavorite,
+          );
+        },
       ),
-      onTap: (active || isRemoveButton) ? onRemove : onAdd,
     );
   }
+
+  void removeFavorite() => favoritesController.removeFavorite(post);
+  void addFavorite() => favoritesController.addFavorite(post);
 }
