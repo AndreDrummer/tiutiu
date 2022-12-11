@@ -35,7 +35,7 @@ class TopBar extends StatelessWidget {
                       onChanged: (value) {
                         filterController.updateParams(
                           FilterParamsEnum.name,
-                          value,
+                          value.trim(),
                         );
                       },
                       controller: _fieldController,
