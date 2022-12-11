@@ -13,10 +13,11 @@ import 'package:get/get.dart';
 class RenderListItem extends StatelessWidget {
   const RenderListItem({
     this.showBackToStartButton = false,
-    this.showFavoriteButton = false,
+    this.showFavoriteButton = true,
     this.onNavigateToTop,
     this.onItemTapped,
     required this.post,
+    super.key,
   });
 
   final Function()? onNavigateToTop;

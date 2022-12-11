@@ -3,11 +3,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class EndpointResolver {
   static CollectionReference<Map<String, dynamic>> getCollectionEndpoint(String endpointName, [List? params]) {
-    return FirebaseFirestore.instance.collection(formattedEndpoint(endpointName));
+    return FirebaseFirestore.instance.collection(formattedEndpoint(endpointName, params));
   }
 
   static DocumentReference<Map<String, dynamic>> getDocumentEndpoint(String endpointName, [List? params]) {
-    return FirebaseFirestore.instance.doc(formattedEndpoint(endpointName));
+    return FirebaseFirestore.instance.doc(formattedEndpoint(endpointName, params));
   }
 
   static String formattedEndpoint(String endpointName, [List? params]) {
