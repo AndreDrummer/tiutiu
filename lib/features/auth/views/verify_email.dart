@@ -135,11 +135,21 @@ class _VerifyEmailState extends State<VerifyEmail> {
     );
   }
 
-  AutoSizeText _warningMessage() {
-    return AutoSizeTexts.autoSizeText14(
-      AuthStrings.verifyEmailAdvice,
-      fontWeight: FontWeight.w300,
-      textAlign: TextAlign.center,
+  Widget _warningMessage() {
+    return Column(
+      children: [
+        AutoSizeTexts.autoSizeText14(
+          AuthStrings.verifyEmailAdvice,
+          fontWeight: FontWeight.w300,
+          textAlign: TextAlign.center,
+        ),
+        AutoSizeTexts.autoSizeText14(
+          fontWeight: FontWeight.w300,
+          textAlign: TextAlign.center,
+          AuthStrings.checkYourSpam,
+          color: AppColors.danger,
+        ),
+      ],
     );
   }
 

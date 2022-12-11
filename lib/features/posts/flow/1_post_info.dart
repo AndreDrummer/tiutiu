@@ -50,7 +50,7 @@ class PostInfo extends StatelessWidget {
             validator: Validators.verifyEmpty,
             onChanged: (name) {
               nameKeyForm.currentState!.validate();
-              postsController.updatePost(PostEnum.name.name, name);
+              postsController.updatePost(PostEnum.name.name, name.trim());
             },
             labelText: PostFlowStrings.petName,
             fontSizeLabelText: 14.0,

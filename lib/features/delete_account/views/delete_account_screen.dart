@@ -83,11 +83,11 @@ class DeleteAccountScreen extends StatelessWidget with TiuTiuPopUp {
           initialValue: deleteAccountController.deleteAccountMotiveDescribed,
           isInErrorState: deleteAccountController.hasError,
           onSubmit: (value) {
-            deleteAccountController.deleteAccountMotiveDescribed = value;
-            if (value.isNotEmpty) deleteAccountController.deleteAccountMotiveDescribed = value;
+            deleteAccountController.deleteAccountMotiveDescribed = value.trim();
+            if (value.isNotEmpty) deleteAccountController.deleteAccountMotiveDescribed = value.trim();
           },
           onChanged: (value) {
-            if (value.isEmpty) deleteAccountController.deleteAccountMotiveDescribed = value;
+            if (value.isEmpty) deleteAccountController.deleteAccountMotiveDescribed = value.trim();
           },
         ),
       ),
