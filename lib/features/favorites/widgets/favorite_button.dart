@@ -9,9 +9,11 @@ class AddRemoveFavorite extends StatelessWidget {
   const AddRemoveFavorite({
     this.isRemoveButton = false,
     required this.post,
+    this.tiny = false,
   });
 
   final bool isRemoveButton;
+  final bool tiny;
   final Post post;
 
   @override
@@ -34,11 +36,15 @@ class AddRemoveFavorite extends StatelessWidget {
             child: Card(
               margin: EdgeInsets.zero,
               child: Padding(
-                child: Icon(color: isRemoveButton ? AppColors.danger : AppColors.primary, size: 16.0.h, icon),
+                child: Icon(
+                  color: isRemoveButton ? AppColors.danger : AppColors.primary,
+                  size: tiny ? 16.0.h : 24.0.h,
+                  icon,
+                ),
                 padding: EdgeInsets.all(8.0.h),
               ),
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24.0.h)),
-              elevation: 2.0,
+              elevation: 8.0,
             ),
             onTap: (isActive || isRemoveButton) ? removeFavorite : addFavorite,
           );
