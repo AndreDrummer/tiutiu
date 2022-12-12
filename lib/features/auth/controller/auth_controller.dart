@@ -185,9 +185,7 @@ class AuthController extends GetxController {
       if (lastSendEmailTime != null) {
         final minutes = DateTime.now().difference(DateTime.parse(lastSendEmailTime)).inMinutes;
 
-        print('Minutes $minutes');
-
-        if (minutes > 2) {
+        if (minutes >= 2) {
           debugPrint('>> last sent email is expired...');
           await LocalStorage.deleteDataUnderLocalStorageKey(LocalStorageKey.lastSendEmailTime);
           _allowResendEmail(true);
