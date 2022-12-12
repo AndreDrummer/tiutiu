@@ -28,9 +28,9 @@ class CardBuilder {
 
   Widget adInteresteds() => AdInteresteds(visible: (_post as Pet).disappeared, petKind: (_post as Pet).type);
 
-  Widget adCityState() => AdCityState(state: (_post as Pet).state, city: (_post as Pet).city);
+  Widget favoriteButton() => AddRemoveFavorite(isRemoveButton: false, post: _post, tiny: true);
 
-  Widget favoriteButton() => AddRemoveFavorite(isRemoveButton: false, post: _post);
+  Widget adCityState() => AdCityState(state: (_post as Pet).state, city: (_post as Pet).city);
 
   Widget adDistanceFromUser() => AdDistanceFromUser(distanceText: distanceText);
 
