@@ -1,6 +1,6 @@
+import 'package:tiutiu/features/favorites/widgets/favorite_button.dart';
 import 'package:tiutiu/core/widgets/pet_other_caracteristics_card.dart';
 import 'package:tiutiu/core/pets/model/pet_caracteristics_model.dart';
-import 'package:tiutiu/features/favorites/widgets/favorite_button.dart';
 import 'package:tiutiu/features/posts/widgets/video_player.dart';
 import 'package:tiutiu/features/posts/widgets/card_content.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -24,6 +24,7 @@ import 'package:tiutiu/core/utils/asset_handle.dart';
 import 'package:tiutiu/core/utils/video_utils.dart';
 import 'package:tiutiu/core/constants/strings.dart';
 import 'package:tiutiu/core/utils/dimensions.dart';
+import 'package:tiutiu/core/utils/formatter.dart';
 import 'package:maps_launcher/maps_launcher.dart';
 import 'package:flutter/material.dart';
 import 'package:chewie/chewie.dart';
@@ -67,103 +68,132 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
     final Post post = postsController.post;
     final petCaracteristics = PetCaracteristics.petCaracteristics((post as Pet));
 
-    return SafeArea(
-      child: WillPopScope(
-        onWillPop: () async {
-          chewieController?.pause();
-          if (!postsController.isInReviewMode) postsController.clearForm();
-          return true;
-        },
-        child: Scaffold(
-          appBar: _appBar(post.name!),
-          body: Stack(
-            children: [
-              Container(
-                decoration: BoxDecoration(
-                  image: DecorationImage(image: AssetHandle.imageProvider(ImageAssets.bones2), fit: BoxFit.fill),
-                ),
-                child: FutureBuilder(
-                    future: postsController.cacheVideos(),
-                    builder: (context, snapshot) {
-                      return ListView(
-                        padding: EdgeInsets.only(
-                          right: Dimensions.getDimensBasedOnDeviceHeight(
-                            greaterDeviceHeightDouble: 0.0.w,
-                            minDeviceHeightDouble: 4.0.w,
+    return WillPopScope(
+      onWillPop: () async {
+        chewieController?.pause();
+        if (!postsController.isInReviewMode) postsController.clearForm();
+        return true;
+      },
+      child: Scaffold(
+        body: Stack(
+          children: [
+            Container(
+              decoration: BoxDecoration(
+                image: DecorationImage(image: AssetHandle.imageProvider(ImageAssets.bones2), fit: BoxFit.fill),
+              ),
+              child: FutureBuilder(
+                  future: postsController.cacheVideos(),
+                  builder: (context, snapshot) {
+                    return ListView(
+                      padding: EdgeInsets.only(
+                        right: Dimensions.getDimensBasedOnDeviceHeight(
+                          greaterDeviceHeightDouble: 0.0.w,
+                          minDeviceHeightDouble: 4.0.w,
+                        ),
+                      ),
+                      children: [
+                        _showImagesAndVideos(
+                          boxHeight: Get.height / 2.2,
+                          context: context,
+                        ),
+                        _postTitle(post.name!),
+                        Visibility(
+                          replacement: _petCaracteristicsGrid(petCaracteristics),
+                          child: _petCaracteristics(petCaracteristics),
+                          visible: authController.userExists,
+                        ),
+                        VerifyAccountWarningInterstitial(
+                          margin: EdgeInsets.symmetric(horizontal: 4.0.w, vertical: 8.0.h),
+                          isHiddingContactInfo: true,
+                          child: Column(
+                            children: [
+                              _description(post.description),
+                              _address(),
+                              postDetailBottomView(),
+                            ],
                           ),
                         ),
-                        children: [
-                          _showImagesAndVideos(
-                            boxHeight: Get.height / 2.2,
-                            context: context,
-                          ),
-                          Visibility(
-                            replacement: _petCaracteristicsGrid(petCaracteristics),
-                            child: _petCaracteristics(petCaracteristics),
-                            visible: authController.userExists,
-                          ),
-                          VerifyAccountWarningInterstitial(
-                            margin: EdgeInsets.symmetric(horizontal: 4.0.w, vertical: 8.0.h),
-                            isHiddingContactInfo: true,
-                            child: Column(
-                              children: [
-                                _description(post.description),
-                                _address(),
-                                postDetailBottomView(),
-                              ],
-                            ),
-                          ),
-                          LoadDarkScreen(
-                            message: postsController.uploadingPostText,
-                            visible: postsController.isLoading,
-                          )
-                        ],
-                      );
-                    }),
-              ),
-              Obx(
-                () => LoadDarkScreen(
-                  message: postsController.uploadingPostText,
-                  visible: postsController.isLoading,
-                ),
-              )
-            ],
-          ),
-          floatingActionButtonLocation: FloatingActionButtonLocation.miniCenterDocked,
-          floatingActionButton: FloatingActionButton(
-            backgroundColor: Colors.transparent,
-            child: AddRemoveFavorite(
-              post: postsController.post,
-              isRemoveButton: false,
+                        LoadDarkScreen(
+                          message: postsController.uploadingPostText,
+                          visible: postsController.isLoading,
+                        )
+                      ],
+                    );
+                  }),
             ),
-            onPressed: () {},
-          ),
+            Positioned(
+              child: BackButton(color: AppColors.white),
+              left: 8.0.w,
+              top: 24.0.h,
+            ),
+            Obx(
+              () => LoadDarkScreen(
+                message: postsController.uploadingPostText,
+                visible: postsController.isLoading,
+              ),
+            )
+          ],
         ),
       ),
     );
   }
 
-  AppBar _appBar(String petName) {
-    return AppBar(
-      backgroundColor: AppColors.primary,
-      leading: BackButton(color: AppColors.white),
-      title: AutoSizeTexts.autoSizeText20(
-        '${PostDetailsStrings.detailsOf} ${petName.split(' ').first}',
-        fontWeight: FontWeight.w600,
-        color: AppColors.white,
-      ),
-      actions: [
-        Visibility(
-          visible: !postsController.isInReviewMode,
-          child: IconButton(
-            icon: Icon(
-              color: AppColors.white,
-              Icons.share,
-            ),
-            onPressed: () {},
+  Widget _postTitle(String petName) {
+    return Container(
+      child: Card(
+        elevation: 16.0,
+        margin: EdgeInsets.zero,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+            bottomRight: Radius.circular(12.0.h),
+            bottomLeft: Radius.circular(12.0.h),
           ),
         ),
-      ],
+        child: Row(
+          children: [
+            Padding(
+              padding: EdgeInsets.all(16.0.h),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  AutoSizeTexts.autoSizeText24(
+                    '${Formatters.cuttedText(petName, size: 18)}',
+                    fontWeight: FontWeight.w600,
+                  ),
+                ],
+              ),
+            ),
+            Spacer(),
+            AddRemoveFavorite(
+              post: postsController.post,
+              isRemoveButton: false,
+              tiny: true,
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 4.0.h),
+              child: _shareButton(),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _shareButton() {
+    return Visibility(
+      visible: !postsController.isInReviewMode,
+      child: Card(
+        elevation: 8.0,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24.0.h)),
+        child: Padding(
+          padding: EdgeInsets.all(8.0.h),
+          child: Icon(
+            color: AppColors.secondary,
+            Icons.share,
+            size: 16.0.h,
+          ),
+        ),
+      ),
     );
   }
 
@@ -329,7 +359,7 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
   Container _petCaracteristics(List<PetCaracteristics> petCaracteristics) {
     return Container(
       margin: EdgeInsets.only(top: 4.0.h),
-      height: 56.0.h,
+      height: 64.0.h,
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 2.0.h),
         child: ListView.builder(
@@ -412,33 +442,25 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
         left: 4.0.w,
       ),
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Expanded(
-                child: ButtonWide(
-                  onPressed: () => chatController.startsChatWith(post.owner!),
-                  color: AppColors.secondary,
-                  text: AppStrings.chat,
-                  isToExpand: false,
-                  icon: Icons.phone,
-                  tiny: true,
-                ),
-              ),
-              Expanded(
-                child: ButtonWide(
-                  icon: FontAwesomeIcons.whatsapp,
-                  text: AppStrings.whatsapp,
-                  color: AppColors.primary,
-                  isToExpand: false,
-                  onPressed: () async {
-                    await Launcher.openWhatsApp(number: post.owner!.phoneNumber!);
-                  },
-                  tiny: true,
-                ),
-              ),
-            ],
+          ButtonWide(
+            padding: EdgeInsets.symmetric(vertical: 1.0.h, horizontal: 2.0.w),
+            onPressed: () => chatController.startsChatWith(post.owner!),
+            color: AppColors.secondary,
+            text: AppStrings.chat,
+            isToExpand: true,
+            icon: Icons.phone,
+          ),
+          ButtonWide(
+            padding: EdgeInsets.symmetric(vertical: 1.0.h, horizontal: 2.0.w),
+            icon: FontAwesomeIcons.whatsapp,
+            text: AppStrings.whatsapp,
+            color: AppColors.primary,
+            isToExpand: true,
+            onPressed: () async {
+              await Launcher.openWhatsApp(number: post.owner!.phoneNumber!);
+            },
           ),
         ],
       ),
