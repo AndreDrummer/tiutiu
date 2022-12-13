@@ -101,7 +101,7 @@ class AuthHosters extends StatelessWidget with TiuTiuPopUp {
     return Container(
       height: Get.height /
           Dimensions.getDimensBasedOnDeviceHeight(
-            greaterDeviceHeightDouble: 2.7,
+            greaterDeviceHeightDouble: 2.8,
             minDeviceHeightDouble: 2.5,
           ),
       child: Column(
@@ -115,7 +115,6 @@ class AuthHosters extends StatelessWidget with TiuTiuPopUp {
             color: AppColors.white,
             isToExpand: true,
           ),
-          SizedBox(height: 4.0.h),
           ButtonWide(
             icon: FontAwesomeIcons.envelope,
             text: AuthStrings.email,
@@ -125,7 +124,6 @@ class AuthHosters extends StatelessWidget with TiuTiuPopUp {
               Get.toNamed(Routes.emailAndPassword);
             },
           ),
-          SizedBox(height: 4.0.h),
           ButtonWide(
             icon: FontAwesomeIcons.google,
             onPressed: _loginWithGoogle,
@@ -133,7 +131,6 @@ class AuthHosters extends StatelessWidget with TiuTiuPopUp {
             color: AppColors.danger,
             isToExpand: true,
           ),
-          SizedBox(height: 4.0.h),
           ButtonWide(
             icon: FontAwesomeIcons.facebook,
             onPressed: _loginWithFacebook,

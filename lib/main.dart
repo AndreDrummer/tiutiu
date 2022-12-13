@@ -14,6 +14,14 @@ import 'firebase_options.dart';
 import 'package:get/get.dart';
 import 'dart:async';
 
+/// Initialize the [FlutterLocalNotificationsPlugin] package.
+late FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
+
+/// Create a [AndroidNotificationChannel] for heads up notifications
+late AndroidNotificationChannel channel;
+
+bool isFlutterLocalNotificationsInitialized = false;
+
 @pragma('vm:entry-point')
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
@@ -22,11 +30,6 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 
   print('Handling a background message ${message.messageId}');
 }
-
-/// Create a [AndroidNotificationChannel] for heads up notifications
-late AndroidNotificationChannel channel;
-
-bool isFlutterLocalNotificationsInitialized = false;
 
 Future<void> setupFlutterNotifications() async {
   if (isFlutterLocalNotificationsInitialized) {
@@ -84,16 +87,20 @@ void showFlutterNotification(RemoteMessage message) {
   }
 }
 
-/// Initialize the [FlutterLocalNotificationsPlugin] package.
-late FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
+// It is assumed that all messages contain a data field with the key 'type'
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   SystemInitializer.initDependencies();
+  await setupFlutterNotifications();
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   FirebaseMessaging.onMessage.listen(showFlutterNotification);
+  FirebaseMessaging.onMessageOpenedApp.listen((message) {
+    print('Pouraaa');
+    chatController.setupInteractedMessage(message);
+  });
 
   runApp(TiuTiuApp());
 }
@@ -106,13 +113,14 @@ class TiuTiuApp extends StatefulWidget {
 class _TiuTiuAppState extends State<TiuTiuApp> {
   @override
   void initState() {
+    super.initState();
+
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
     ]);
 
     systemController.handleInternetConnectivityStatus();
     systemController.onAppEndpointsChange();
-    super.initState();
   }
 
   @override
