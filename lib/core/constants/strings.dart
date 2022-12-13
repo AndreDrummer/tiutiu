@@ -13,10 +13,12 @@ class AppStrings {
   static String get imagesWarning => 'Imagens meramente ilustrativas';
   static String get noPostFavorited => 'Nenhum PET foi favoritado.';
   static String get backToCivilization => 'Voltar a civilização';
+  static String get chatWithAnnouncer => 'Falar com anuanciante';
   static String get wannaLeave => 'Deseja realmente sair?';
   static String get loadingImage => 'Carregando imagem...';
   static String get noPostFound => 'Nada foi encontrado.';
   static String get backToHome => 'Voltar a tela inicial';
+  static String get callInWhatsapp => 'Chamar no WhatsApp';
   static String get jotSomethingDown => 'Escreva aqui...';
   static String get iamInterested => 'Estou interessado';
   static String get backToStart => 'Voltar ao início';
@@ -35,7 +37,6 @@ class AppStrings {
   static String get favorites => 'Favoritos';
   static String get getStarted => 'Começar';
   static String get success => 'Sucesso!';
-  static String get whatsapp => 'WhatsApp';
   static String get contines => 'Continuar';
   static String get infos => 'informações';
   static String get postedAt => 'Postado';
@@ -54,7 +55,6 @@ class AppStrings {
   static String get leave => 'Sair';
   static String get more => 'Mais';
   static String get type => 'Tipo';
-  static String get chat => 'Chat';
   static String get yes => 'Sim';
   static String get no => 'Não';
   static String get ok => 'OK';
