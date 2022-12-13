@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
 import 'package:tiutiu/features/chat/services/chat_service.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:tiutiu/core/utils/routes/routes_name.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/features/chat/model/message.dart';
@@ -31,10 +34,6 @@ class ChatController extends GetxController {
 
   TiutiuUser userChatingWith = TiutiuUser();
 
-  void resetUserChatingWith() {
-    userChatingWith = TiutiuUser();
-  }
-
   Stream<List<Message>> messages(String chatId) {
     return _chatService.messages(
       chatId,
@@ -62,10 +61,23 @@ class ChatController extends GetxController {
     _chatService.sendMessageAndUpdateContact(message, contact);
   }
 
-  void startsChatWith(TiutiuUser? user) {
-    userChatingWith = user ?? TiutiuUser();
+  Future<void> setupInteractedMessage(RemoteMessage? initialMessage) async {
+    print('77 To ligado..');
+    // Get any messages which caused the application to open from
+    // a terminated state.
+    initialMessage ??= await FirebaseMessaging.instance.getInitialMessage();
 
-    Get.toNamed(Routes.chat);
+    print('77 To ligado.. $initialMessage');
+
+    // If the message also contains a data property with a "type" of "chat",
+    // navigate to a chat screen
+    if (initialMessage != null) {
+      onNotificationMessageTapped(initialMessage);
+    }
+
+    // Also handle any interaction when the app is in the background via a
+    // Stream listener
+    FirebaseMessaging.onMessageOpenedApp.listen(onNotificationMessageTapped);
   }
 
   Future<void> markMessageAsRead(Contact contact) async {
@@ -103,5 +115,22 @@ class ChatController extends GetxController {
     debugPrint('<> Generated Hash $hash');
 
     return hash;
+  }
+
+  void startsChatWith(TiutiuUser? user) {
+    userChatingWith = user ?? TiutiuUser();
+
+    Get.toNamed(Routes.chat);
+  }
+
+  void onNotificationMessageTapped(RemoteMessage message) {
+    print('77 Euuu ${jsonDecode(message.data['data'])['sender']}');
+    TiutiuUser sender = TiutiuUser.fromMap(jsonDecode(message.data['data'])[MessageEnum.sender.name]);
+
+    startsChatWith(sender);
+  }
+
+  void resetUserChatingWith() {
+    userChatingWith = TiutiuUser();
   }
 }
