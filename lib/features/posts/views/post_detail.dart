@@ -448,14 +448,14 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
             padding: EdgeInsets.symmetric(vertical: 1.0.h, horizontal: 2.0.w),
             onPressed: () => chatController.startsChatWith(post.owner!),
             color: AppColors.secondary,
-            text: AppStrings.chat,
+            text: AppStrings.chatWithAnnouncer,
             isToExpand: true,
-            icon: Icons.phone,
+            icon: Icons.forum,
           ),
           ButtonWide(
             padding: EdgeInsets.symmetric(vertical: 1.0.h, horizontal: 2.0.w),
             icon: FontAwesomeIcons.whatsapp,
-            text: AppStrings.whatsapp,
+            text: AppStrings.callInWhatsapp,
             color: AppColors.primary,
             isToExpand: true,
             onPressed: () async {
