@@ -37,6 +37,7 @@ class FavoritesController extends GetxController {
   }
 
   Stream<bool> postIsFavorited(Post post) {
+    if (tiutiuUserController.tiutiuUser.uid == null) return Stream.value(false);
     return _favoritesCollection()
         .snapshots()
         .asyncMap((event) => event.docs.firstWhereOrNull((e) => e.get(PostEnum.uid.name) == post.uid) != null);

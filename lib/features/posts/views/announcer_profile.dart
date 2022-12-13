@@ -193,7 +193,7 @@ class AnnouncerProfile extends StatelessWidget {
             Expanded(
               child: ButtonWide(
                 color: AppColors.secondary,
-                text: AppStrings.chat,
+                text: AppStrings.chatWithAnnouncer,
                 isToExpand: false,
                 icon: Icons.phone,
                 onPressed: () {
@@ -204,7 +204,7 @@ class AnnouncerProfile extends StatelessWidget {
             Expanded(
               child: ButtonWide(
                 icon: FontAwesomeIcons.whatsapp,
-                text: AppStrings.whatsapp,
+                text: AppStrings.callInWhatsapp,
                 color: AppColors.primary,
                 isToExpand: false,
                 onPressed: () {

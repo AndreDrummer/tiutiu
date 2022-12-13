@@ -36,7 +36,7 @@ class ButtonWide extends StatelessWidget {
       padding: padding ?? const EdgeInsets.all(8.0),
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(rounded ? 12.0.h : 8.0.h)),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(rounded ? 24.0.h : 8.0.h)),
           backgroundColor: color ?? AppColors.primary,
         ),
         onPressed: () => onPressed?.call(),
