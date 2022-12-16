@@ -14,6 +14,7 @@ class Header extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView(
+      physics: NeverScrollableScrollPhysics(),
       children: [
         TopBar(),
         FiltersType(),
