@@ -73,16 +73,13 @@ class _VerifyPhoneState extends State<VerifyPhone> {
       body: FutureBuilder(
         future: authController.verifyIfWhatsappTokenIsStillValid(),
         builder: (context, snapshot) {
-          return Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+          return ListView(
             children: [
               _topBar(),
               _insertCodeSentToTheNumberText(number),
               _codeBoxes(context),
-              Spacer(),
               _resendWithin(),
               _backButton(),
-              Spacer(),
               _confirmButton(),
             ],
           );
