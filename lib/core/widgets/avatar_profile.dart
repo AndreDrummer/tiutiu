@@ -42,6 +42,7 @@ class _AvatarProfileState extends State<AvatarProfile> with Pickers {
                   isEditingImage = true;
                 });
               } else {
+                FocusScope.of(context).unfocus();
                 pickAnAsset(
                   onAssetPicked: (file) => widget.onAssetPicked?.call(file),
                   pickerAssetType: PickerAssetType.photo,
