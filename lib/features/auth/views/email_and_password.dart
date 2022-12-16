@@ -336,8 +336,8 @@ class EmailAndPassword extends StatelessWidget with TiuTiuPopUp {
       authController.isLoading = false;
 
       showPopUp(
-        message: AppStrings.genericError,
         title: AuthStrings.authFailure,
+        message: exception.toString(),
         error: true,
       );
 
