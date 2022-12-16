@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -10,6 +12,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
+import 'package:tiutiu/features/chat/model/message.dart';
 import 'firebase_options.dart';
 import 'package:get/get.dart';
 import 'dart:async';
@@ -25,7 +28,7 @@ bool isFlutterLocalNotificationsInitialized = false;
 @pragma('vm:entry-point')
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  await setupFlutterNotifications();
+  setupFlutterNotifications();
   showFlutterNotification(message);
 
   print('Handling a background message ${message.messageId}');
@@ -68,7 +71,6 @@ void showFlutterNotification(RemoteMessage message) {
   AndroidNotification? android = message.notification?.android;
 
   if (notification != null && android != null && !kIsWeb) {
-    print('Handling a foreground message ${message.messageId}');
     flutterLocalNotificationsPlugin.show(
       notification.hashCode,
       notification.title,
@@ -96,11 +98,19 @@ Future<void> main() async {
   SystemInitializer.initDependencies();
   await setupFlutterNotifications();
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
-  FirebaseMessaging.onMessage.listen(showFlutterNotification);
-  FirebaseMessaging.onMessageOpenedApp.listen((message) {
-    print('Pouraaa');
-    chatController.setupInteractedMessage(message);
+  FirebaseMessaging.onMessage.listen((message) {
+    flutterLocalNotificationsPlugin.initialize(
+        InitializationSettings(
+          android: AndroidInitializationSettings('notification_icon'),
+        ), onDidReceiveNotificationResponse: (respose) {
+      chatController.setupInteractedMessage(message);
+      print('Respose ${jsonDecode(message.data['data'])[MessageEnum.sender.name]}');
+    });
+    showFlutterNotification(message);
   });
+
+  print(
+      '>> Testa ${(await flutterLocalNotificationsPlugin.getNotificationAppLaunchDetails())?.notificationResponse?.payload}');
 
   runApp(TiuTiuApp());
 }
@@ -121,6 +131,7 @@ class _TiuTiuAppState extends State<TiuTiuApp> {
 
     systemController.handleInternetConnectivityStatus();
     systemController.onAppEndpointsChange();
+    print('>> Height ${Get.height}');
   }
 
   @override
