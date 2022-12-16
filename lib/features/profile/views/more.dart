@@ -1,3 +1,4 @@
+import 'package:tiutiu/core/utils/dimensions.dart';
 import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/constants/images_assets.dart';
@@ -132,10 +133,13 @@ class More extends StatelessWidget with TiuTiuPopUp {
 
   Widget _cardBody() {
     return Card(
-      margin: EdgeInsets.zero,
       elevation: 8.0,
       child: Container(
-        height: Get.height,
+        margin: EdgeInsets.only(bottom: 4.0.h),
+        height: Dimensions.getDimensBasedOnDeviceHeight(
+          greaterDeviceHeightDouble: Get.height,
+          minDeviceHeightDouble: Get.height / 1.52,
+        ),
         child: ListView(
           padding: EdgeInsets.symmetric(horizontal: 8.0.w),
           children: moreController.myProfileOptionsTile.map((title) {
