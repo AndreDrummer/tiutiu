@@ -6,17 +6,11 @@ import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
-import 'dart:io';
-
-final String _googleClientId = '791022711249-kb8hft6pk0cahhub0cugbtrt473i94np.apps.googleusercontent.com';
 
 class FirebaseAuthProvider implements AuthProviders {
   FirebaseAuthProvider._();
 
-  final GoogleSignIn _googleSignIn = GoogleSignIn(
-    serverClientId: Platform.isIOS ? null : _googleClientId,
-    clientId: Platform.isIOS ? _googleClientId : null,
-  );
+  final GoogleSignIn _googleSignIn = GoogleSignIn();
   static FirebaseAuthProvider instance = FirebaseAuthProvider._();
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   User? get firebaseAuthUser => _firebaseAuth.currentUser;

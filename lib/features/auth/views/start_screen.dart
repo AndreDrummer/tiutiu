@@ -63,7 +63,7 @@ class StartScreen extends StatelessWidget {
           ),
           Positioned(
             right: 8.0.w,
-            top: 32.0.h,
+            top: 40.0.h,
             left: 8.0.w,
             child: SizedBox(
               width: Get.width,
