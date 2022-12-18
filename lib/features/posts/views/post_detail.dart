@@ -88,6 +88,7 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
                       padding: EdgeInsets.only(
                         right: Dimensions.getDimensBasedOnDeviceHeight(
                           smaller: 4.0.w,
+                          medium: 4.0.w,
                           bigger: 0.0.w,
                         ),
                       ),
