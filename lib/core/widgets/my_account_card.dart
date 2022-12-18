@@ -4,8 +4,8 @@ import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class MoreCardOptions extends StatelessWidget {
-  MoreCardOptions({
+class MoreCardOption extends StatelessWidget {
+  MoreCardOption({
     this.isToCenterText = false,
     this.isToExpand = false,
     this.onPressed,
@@ -33,7 +33,10 @@ class MoreCardOptions extends StatelessWidget {
             foregroundColor: Colors.transparent,
             backgroundColor: Colors.white,
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(8.0.h),
+              borderRadius: BorderRadius.only(
+                bottomRight: Radius.circular(8.0.h),
+                bottomLeft: Radius.circular(8.0.h),
+              ),
             ),
             padding: EdgeInsets.zero,
             elevation: 2.0,
@@ -49,7 +52,7 @@ class MoreCardOptions extends StatelessWidget {
                     color: AppColors.primary,
                     '$text',
                   ),
-                  width: Get.width / 3,
+                  width: Get.width / 2.5,
                 ),
                 Icon(color: AppColors.secondary.withOpacity(.5), icon),
               ],

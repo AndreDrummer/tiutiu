@@ -1,4 +1,3 @@
-import 'package:tiutiu/core/utils/dimensions.dart';
 import 'package:tiutiu/core/widgets/simple_text_button.dart';
 import 'package:tiutiu/core/constants/images_assets.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
@@ -18,31 +17,28 @@ class EmptyListScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Visibility(
-            child: Container(
-                child: Image.asset(ImageAssets.notFoundET),
-                height: Dimensions.getDimensBasedOnDeviceHeight(smaller: Get.width / 3, bigger: Get.width / 2)),
-            visible: isAPetScreenList,
+    return Column(
+      children: [
+        Visibility(
+          child: Container(
+            child: Image.asset(ImageAssets.notFoundET),
+            height: Get.width / 2,
           ),
-          AutoSizeTexts.autoSizeText12(text ?? AppStrings.noPostFound),
-          SimpleTextButton(
-            text: AppStrings.cleanFilters,
-            textColor: Colors.lightBlue,
-            fontSize: 12,
-            onPressed: () {
-              filterController.reset();
-              if (!postsController.isInMyPostsList) {
-                homeController.setDonateIndex();
-              }
-            },
-          )
-        ],
-      ),
-      alignment: Alignment.center,
+          visible: isAPetScreenList,
+        ),
+        AutoSizeTexts.autoSizeText12(text ?? AppStrings.noPostFound),
+        SimpleTextButton(
+          text: AppStrings.cleanFilters,
+          textColor: Colors.lightBlue,
+          fontSize: 12,
+          onPressed: () {
+            filterController.reset();
+            if (!postsController.isInMyPostsList) {
+              homeController.setDonateIndex();
+            }
+          },
+        ),
+      ],
     );
   }
 }
