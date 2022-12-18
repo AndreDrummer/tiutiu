@@ -31,8 +31,8 @@ class RenderPostList extends StatelessWidget {
             itemCount: itemCount,
             padding: EdgeInsets.only(
               right: Dimensions.getDimensBasedOnDeviceHeight(
-                greaterDeviceHeightDouble: 0.0.w,
-                minDeviceHeightDouble: 5.0.w,
+                smaller: 5.0.w,
+                bigger: 0.0.w,
               ),
             ),
             key: UniqueKey(),

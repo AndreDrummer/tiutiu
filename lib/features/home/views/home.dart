@@ -44,9 +44,8 @@ class Home extends StatelessWidget with TiuTiuPopUp {
                       return SliverAppBar(
                         toolbarHeight: homeController.bottomBarIndex < 2
                             ? Dimensions.getDimensBasedOnDeviceHeight(
-                                greaterDeviceHeightDouble:
-                                    systemController.properties.internetConnected ? 48.0.h : 64.0.h,
-                                minDeviceHeightDouble: systemController.properties.internetConnected ? 56.0.h : 80.0.h,
+                                smaller: systemController.properties.internetConnected ? 56.0.h : 80.0.h,
+                                bigger: systemController.properties.internetConnected ? 48.0.h : 64.0.h,
                               )
                             : 0.0,
                         backgroundColor: Colors.transparent,
@@ -87,8 +86,8 @@ class Home extends StatelessWidget with TiuTiuPopUp {
 
   double expandedHeight() {
     final homeListPadding = Dimensions.getDimensBasedOnDeviceHeight(
-      greaterDeviceHeightDouble: Get.height / 4.8,
-      minDeviceHeightDouble: Get.height / 3.8,
+      bigger: Get.height / 4.8,
+      smaller: Get.height / 3.8,
     );
 
     if (homeController.bottomBarIndex < 2) {
@@ -96,8 +95,8 @@ class Home extends StatelessWidget with TiuTiuPopUp {
         return homeListPadding;
       } else if (authController.userExists) {
         return Dimensions.getDimensBasedOnDeviceHeight(
-          minDeviceHeightDouble: Get.height / 3.8,
-          greaterDeviceHeightDouble: Get.height / 4.1,
+          smaller: Get.height / 3.8,
+          bigger: Get.height / 4.1,
         );
       } else {
         return homeListPadding;
