@@ -7,10 +7,10 @@ import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/widgets/warning_widget.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/core/constants/strings.dart';
-import 'package:tiutiu/core/utils/dimensions.dart';
 import 'package:tiutiu/core/widgets/badge.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'dart:io';
 
 class TopBar extends StatelessWidget {
   const TopBar({super.key});
@@ -62,54 +62,54 @@ class TopBar extends StatelessWidget {
                   },
                 ),
               ),
-              Row(
-                children: [
-                  Visibility(
-                    visible: authController.userExists,
-                    child: Stack(
-                      children: [
-                        IconButton(
-                          padding: EdgeInsets.zero,
-                          onPressed: () {
-                            Get.toNamed(Routes.contacts);
-                          },
-                          icon: Icon(
-                            Icons.forum,
-                            color: AppColors.primary,
-                          ),
-                        ),
-                        Positioned(
-                          right: 11.0.w,
-                          top: 8.0.w,
-                          child: Badge(
-                            show: true,
-                            color: AppColors.info,
-                            text: 0,
-                          ),
-                        )
-                      ],
+              Visibility(
+                visible: authController.userExists,
+                child: Stack(
+                  children: [
+                    IconButton(
+                      padding: EdgeInsets.zero,
+                      onPressed: () {
+                        Get.toNamed(Routes.contacts);
+                      },
+                      icon: Icon(
+                        Icons.forum,
+                        color: AppColors.primary,
+                      ),
                     ),
-                  ),
-                  TogglePostCardAppearence()
-                ],
+                    Positioned(
+                      right: 11.0.w,
+                      top: 8.0.w,
+                      child: Badge(
+                        show: true,
+                        color: AppColors.info,
+                        text: 0,
+                      ),
+                    )
+                  ],
+                ),
               ),
+              TogglePostCardAppearence()
             ],
+          ),
+          Visibility(
+            child: SizedBox(height: 8.0.h),
+            visible: Platform.isIOS,
+          ),
+          WarningBanner(
+            showBannerCondition:
+                systemController.properties.internetConnected && !tiutiuUserController.tiutiuUser.emailVerified,
+            padding: EdgeInsets.symmetric(horizontal: 4.0.w, vertical: 2.0.h),
+            replacement: SizedBox.shrink(),
+            margin: EdgeInsets.zero,
           ),
           WarningBanner(
             showBannerCondition: !systemController.properties.internetConnected && postsController.posts.isNotEmpty,
-            padding: EdgeInsets.symmetric(horizontal: 4.0.w, vertical: 2.0.h),
             textWarning: AppStrings.noConnectionWarning,
+            padding: EdgeInsets.all(2.0.h),
             replacement: SizedBox.shrink(),
             tileColor: AppColors.warning,
             textColor: AppColors.black,
-            margin: EdgeInsets.only(
-              right: Dimensions.getDimensBasedOnDeviceHeight(
-                smaller: 4.0.w,
-                bigger: 0.0.w,
-              ),
-              left: 0.0.h,
-              top: 0.0.h,
-            ),
+            margin: EdgeInsets.zero,
           )
         ],
       ),

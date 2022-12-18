@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/features/auth/widgets/headline.dart';
@@ -36,6 +38,10 @@ class AuthHosters extends StatelessWidget with TiuTiuPopUp {
                 SizedBox(height: 16.0.h),
                 _authButtons(),
                 _continueAnonButton(),
+                Visibility(
+                  child: SizedBox(height: 8.0.h),
+                  visible: Platform.isIOS,
+                )
               ],
             ),
           ),
@@ -99,7 +105,12 @@ class AuthHosters extends StatelessWidget with TiuTiuPopUp {
   Widget _authButtons() {
     print(Get.height);
     return Container(
-      height: Get.height / Dimensions.getDimensBasedOnDeviceHeight(smaller: 2.4, bigger: 2.8),
+      height: Get.height /
+          Dimensions.getDimensBasedOnDeviceHeight(
+            smaller: 2.75,
+            medium: 3.0,
+            bigger: 3.0,
+          ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

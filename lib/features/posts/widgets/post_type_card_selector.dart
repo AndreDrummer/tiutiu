@@ -1,4 +1,5 @@
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:tiutiu/core/constants/text_styles.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/core/utils/asset_handle.dart';
@@ -57,10 +58,14 @@ class PostTypeCardSelector extends StatelessWidget {
       height: isSelected ? 112.0.h : 100.0.h,
       width: isSelected ? 112.0.h : 100.0.h,
       child: ListView(
+        shrinkWrap: true,
+        physics: NeverScrollableScrollPhysics(),
         children: [
           _selectorImage(),
-          SizedBox(height: 3.0.h),
-          _selectorTitle(),
+          Padding(
+            padding: EdgeInsets.symmetric(vertical: 3.0.h),
+            child: _selectorTitle(),
+          ),
         ],
       ),
     );
@@ -80,8 +85,9 @@ class PostTypeCardSelector extends StatelessWidget {
   }
 
   AutoSizeText _selectorTitle() {
-    return AutoSizeTexts.autoSizeText16(
+    return AutoSizeTexts.autoSizeText(
       color: isSelected ? AppColors.white : AppColors.secondary,
+      fontSize: Get.height <= 616 ? 14 : 16,
       fontWeight: FontWeight.w700,
       textAlign: TextAlign.center,
       typeText,
