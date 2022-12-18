@@ -8,7 +8,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'dart:io';
 
-final String _googleClientId = '791022711249-jva0r9f0eddfo4skv18c0i1e26clq7pd.apps.googleusercontent.com';
+final String _googleClientId = '791022711249-kb8hft6pk0cahhub0cugbtrt473i94np.apps.googleusercontent.com';
 
 class FirebaseAuthProvider implements AuthProviders {
   FirebaseAuthProvider._();
@@ -78,7 +78,7 @@ class FirebaseAuthProvider implements AuthProviders {
     //   var actionCodeSettings = ActionCodeSettings(
     //     url: 'https://tiutiu.page.link/verify-email?email=${user.email}',
     //     androidPackageName: 'com.anjasolutions.tiutiu',
-    //     iOSBundleId: 'com.anjasolutions.tiutiu',
+    //     iOSBundleId: 'com.anjasolutions.tiutiuapp',
     //     androidMinimumVersion: '12',
     //     androidInstallApp: true,
     //     handleCodeInApp: true,
