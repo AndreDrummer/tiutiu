@@ -51,8 +51,8 @@ class ChatScreen extends StatelessWidget {
                           buildWidget: (messages) {
                             return SizedBox(
                               height: Dimensions.getDimensBasedOnDeviceHeight(
-                                greaterDeviceHeightDouble: Get.height - 208,
-                                minDeviceHeightDouble: Get.height - 144,
+                                smaller: Get.height - 144,
+                                bigger: Get.height - 208,
                               ),
                               child: ListView.builder(
                                 itemCount: messages.length,

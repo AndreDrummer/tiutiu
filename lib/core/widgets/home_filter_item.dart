@@ -22,14 +22,14 @@ class HomeFilterItem extends StatelessWidget {
     return GestureDetector(
       onTap: onItemTap,
       child: Container(
-        margin: EdgeInsets.symmetric(horizontal: 7.5.w, vertical: 2.0.h),
+        margin: EdgeInsets.symmetric(horizontal: 4.0.w, vertical: 2.0.h),
         decoration: BoxDecoration(
           border: Border.all(width: 1.0.w, color: AppColors.primary),
           color: isActive ? AppColors.primary : AppColors.white,
           borderRadius: BorderRadius.circular(12),
         ),
-        height: 56.0.h,
-        width: 56.0.w,
+        height: 64.0.h,
+        width: 64.0.w,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [

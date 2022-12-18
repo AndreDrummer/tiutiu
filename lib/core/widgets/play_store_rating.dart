@@ -18,8 +18,8 @@ class RatingUs extends StatelessWidget {
       child: Container(
         alignment: Alignment.center,
         height: Dimensions.getDimensBasedOnDeviceHeight(
-          greaterDeviceHeightDouble: 120.0.h,
-          minDeviceHeightDouble: 152.0.h,
+          smaller: 152.0.h,
+          bigger: 120.0.h,
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
