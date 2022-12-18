@@ -43,6 +43,7 @@ class _NewMessageState extends State<NewMessage> {
       margin: EdgeInsets.only(
         bottom: Dimensions.getDimensBasedOnDeviceHeight(
           smaller: 0.0.h,
+          medium: 0.0.h,
           bigger: 8.0.h,
         ),
       ),
