@@ -15,27 +15,19 @@
       },
       "oauth_client": [
         {
-          "client_id": "791022711249-65cb7a3lbas8h7esodtqhtf31idjntil.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.anjasolutions.tiutiu",
-            "certificate_hash": "357982fc6ea6170b7160ffb8da833dff61a9d1f3"
-          }
-        },
-        {
-          "client_id": "791022711249-7vv5b1smr72a4k42u1q2l6n6uomua16o.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.anjasolutions.tiutiu",
-            "certificate_hash": "21dffe6664e491bab83a5d3f6e0477df6ecb45f8"
-          }
-        },
-        {
           "client_id": "791022711249-f32ckkv6g4fd6nk3m66tpnnmldq3j52e.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.anjasolutions.tiutiu",
             "certificate_hash": "fb8720b030db883ced935879e9bb2c594c04238b"
+          }
+        },
+        {
+          "client_id": "791022711249-f52j17snqj8cpcfric7avt3ucoftrodd.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.anjasolutions.tiutiu",
+            "certificate_hash": "f96708e25d3cf7494665162a10d13b6585f9ba20"
           }
         },
         {
