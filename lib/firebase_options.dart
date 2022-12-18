@@ -60,15 +60,13 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyCkWxBe5Mvka6c8QFvjAl2JABvegobovT8',
-    appId: '1:791022711249:ios:9e632c0548a2461c3170f0',
+    appId: '1:791022711249:ios:30fcded7e40e01623170f0',
     messagingSenderId: '791022711249',
     projectId: 'tiutiu-5cd14',
     databaseURL: 'https://tiutiu-5cd14.firebaseio.com',
     storageBucket: 'tiutiu-5cd14.appspot.com',
-    androidClientId:
-        '791022711249-65cb7a3lbas8h7esodtqhtf31idjntil.apps.googleusercontent.com',
-    iosClientId:
-        '791022711249-jva0r9f0eddfo4skv18c0i1e26clq7pd.apps.googleusercontent.com',
-    iosBundleId: 'com.anjasolutions.tiutiu',
+    androidClientId: '791022711249-8i6j58p61e7gdlbffqft27hndtljug4m.apps.googleusercontent.com',
+    iosClientId: '791022711249-kb8hft6pk0cahhub0cugbtrt473i94np.apps.googleusercontent.com',
+    iosBundleId: 'com.anjasolutions.tiutiuapp',
   );
 }

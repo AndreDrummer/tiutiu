@@ -87,8 +87,8 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
                     return ListView(
                       padding: EdgeInsets.only(
                         right: Dimensions.getDimensBasedOnDeviceHeight(
-                          greaterDeviceHeightDouble: 0.0.w,
-                          minDeviceHeightDouble: 4.0.w,
+                          smaller: 4.0.w,
+                          bigger: 0.0.w,
                         ),
                       ),
                       children: [

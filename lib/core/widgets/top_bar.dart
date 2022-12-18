@@ -104,8 +104,8 @@ class TopBar extends StatelessWidget {
             textColor: AppColors.black,
             margin: EdgeInsets.only(
               right: Dimensions.getDimensBasedOnDeviceHeight(
-                greaterDeviceHeightDouble: 0.0.w,
-                minDeviceHeightDouble: 4.0.w,
+                smaller: 4.0.w,
+                bigger: 0.0.w,
               ),
               left: 0.0.h,
               top: 0.0.h,
