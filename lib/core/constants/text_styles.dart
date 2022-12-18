@@ -2,6 +2,34 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 
 class AutoSizeTexts {
+  static AutoSizeText autoSizeText(
+    String? text, {
+    TextDecoration? textDecoration,
+    TextOverflow? textOverflow,
+    required double fontSize,
+    FontWeight? fontWeight,
+    FontStyle? fontStyle,
+    TextAlign? textAlign,
+    int? maxLines,
+    Color? color,
+  }) {
+    return AutoSizeText(
+      maxFontSize: fontSize,
+      overflow: textOverflow,
+      textAlign: textAlign,
+      maxLines: maxLines,
+      minFontSize: 8,
+      text ?? '',
+      style: TextStyle(
+        decoration: textDecoration,
+        fontWeight: fontWeight,
+        fontStyle: fontStyle,
+        fontSize: fontSize,
+        color: color,
+      ),
+    );
+  }
+
   static AutoSizeText autoSizeText8(
     String? text, {
     TextDecoration? textDecoration,

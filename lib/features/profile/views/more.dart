@@ -1,4 +1,3 @@
-import 'package:tiutiu/core/utils/dimensions.dart';
 import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/constants/images_assets.dart';
@@ -9,6 +8,7 @@ import 'package:tiutiu/core/constants/text_styles.dart';
 import 'package:tiutiu/core/mixins/tiu_tiu_pop_up.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/core/constants/strings.dart';
+import 'package:tiutiu/core/utils/dimensions.dart';
 import 'package:tiutiu/core/utils/formatter.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -25,57 +25,51 @@ class More extends StatelessWidget with TiuTiuPopUp {
     return SafeArea(
       child: Scaffold(
         body: Container(
-          margin: EdgeInsets.only(
-            right: 8.0.w,
-            left: 8.0.w,
-            top: 8.0.w,
-          ),
+          margin: EdgeInsets.all(4.0.h),
+          child: _cardContent(context),
           height: Get.height,
-          child: ListView(
-            children: [
-              _cardHeader(context),
-              _cardBody(),
-            ],
-          ),
         ),
       ),
     );
   }
 
-  Widget _cardHeader(BuildContext context) {
+  Widget _cardContent(BuildContext context) {
     return Card(
       margin: EdgeInsets.zero,
       elevation: 8.0,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.only(
-          topRight: Radius.circular(12.0.h),
-          topLeft: Radius.circular(12.0.h),
-        ),
+        borderRadius: BorderRadius.all(Radius.circular(8.0.h)),
       ),
-      child: SizedBox(
-        height: Get.width / 3,
-        child: Column(
-          children: [
-            Stack(
+      child: ListView(
+        padding: EdgeInsets.zero,
+        children: [
+          _cardHeader(),
+          _cardBody(),
+        ],
+      ),
+    );
+  }
+
+  Widget _cardHeader() {
+    return SizedBox(
+      height: Get.width / 3,
+      child: Stack(
+        children: [
+          _backgroundImage(),
+          Positioned(
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                _backgroundImage(),
-                Positioned(
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      _roundedPicture(),
-                      Padding(
-                        padding: EdgeInsets.only(bottom: 6.0.h, left: 8.0.w),
-                        child: _userName(),
-                      ),
-                    ],
-                  ),
-                  left: 16.0,
+                _roundedPicture(),
+                Padding(
+                  padding: EdgeInsets.only(bottom: 6.0.h, left: 8.0.w),
+                  child: _userName(),
                 ),
               ],
             ),
-          ],
-        ),
+            left: 16.0,
+          ),
+        ],
       ),
     );
   }
@@ -104,8 +98,8 @@ class More extends StatelessWidget with TiuTiuPopUp {
       opacity: .3,
       child: ClipRRect(
         borderRadius: BorderRadius.only(
-          topRight: Radius.circular(12.0.h),
-          topLeft: Radius.circular(12.0.h),
+          topRight: Radius.circular(8.0.h),
+          topLeft: Radius.circular(8.0.h),
         ),
         child: Container(
           height: Get.width / 3,
@@ -132,20 +126,25 @@ class More extends StatelessWidget with TiuTiuPopUp {
   }
 
   Widget _cardBody() {
-    return Card(
-      elevation: 8.0,
-      child: Container(
-        margin: EdgeInsets.only(bottom: 4.0.h),
-        height: Dimensions.getDimensBasedOnDeviceHeight(
-          smaller: Get.height / 1.52,
-          bigger: Get.height,
-        ),
-        child: ListView(
-          padding: EdgeInsets.symmetric(horizontal: 8.0.w),
-          children: moreController.myProfileOptionsTile.map((title) {
-            final index = moreController.myProfileOptionsTile.indexOf(title);
+    final myProfileOptionsTile = moreController.myProfileOptionsTile;
 
-            return MoreCardOptions(
+    return Container(
+      padding: EdgeInsets.zero,
+      margin: EdgeInsets.zero,
+      height: Dimensions.getDimensBasedOnDeviceHeight(
+        smaller: Get.width * 1.13,
+        medium: Get.width * 1.11,
+        bigger: Get.width * 1.5,
+      ),
+      child: ListView(
+        padding: EdgeInsets.symmetric(horizontal: 1.0.w),
+        children: myProfileOptionsTile.map((title) {
+          final index = myProfileOptionsTile.indexOf(title);
+          final lastIndex = index == myProfileOptionsTile.length - 1;
+
+          return Padding(
+            padding: EdgeInsets.only(bottom: lastIndex ? 1.0.h : 0.0.h),
+            child: MoreCardOption(
               icon: moreController.myProfileOptionsIcon.elementAt(index),
               isToCenterText: false,
               isToExpand: true,
@@ -159,9 +158,9 @@ class More extends StatelessWidget with TiuTiuPopUp {
                 }
               },
               text: title,
-            );
-          }).toList(),
-        ),
+            ),
+          );
+        }).toList(),
       ),
     );
   }
