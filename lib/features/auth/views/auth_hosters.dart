@@ -36,7 +36,6 @@ class AuthHosters extends StatelessWidget with TiuTiuPopUp {
                 SizedBox(height: 16.0.h),
                 _authButtons(),
                 _continueAnonButton(),
-                SizedBox(height: 16.0.h),
               ],
             ),
           ),
@@ -98,12 +97,9 @@ class AuthHosters extends StatelessWidget with TiuTiuPopUp {
   }
 
   Widget _authButtons() {
+    print(Get.height);
     return Container(
-      height: Get.height /
-          Dimensions.getDimensBasedOnDeviceHeight(
-            greaterDeviceHeightDouble: 2.8,
-            minDeviceHeightDouble: 2.5,
-          ),
+      height: Get.height / Dimensions.getDimensBasedOnDeviceHeight(smaller: 2.4, bigger: 2.8),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

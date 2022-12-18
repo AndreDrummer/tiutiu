@@ -24,12 +24,12 @@ class Header extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: 4.0.w, vertical: 2.0.h),
           margin: EdgeInsets.only(
             right: Dimensions.getDimensBasedOnDeviceHeight(
-              greaterDeviceHeightDouble: 4.0.w,
-              minDeviceHeightDouble: 8.5.w,
+              smaller: 8.5.w,
+              bigger: 4.0.w,
             ),
             left: Dimensions.getDimensBasedOnDeviceHeight(
-              greaterDeviceHeightDouble: 4.0.w,
-              minDeviceHeightDouble: 4.0.w,
+              smaller: 4.0.w,
+              bigger: 4.0.w,
             ),
             bottom: 8.0.h,
             top: 0.0.h,
