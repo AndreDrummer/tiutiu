@@ -42,8 +42,8 @@ class _NewMessageState extends State<NewMessage> {
     return Container(
       margin: EdgeInsets.only(
         bottom: Dimensions.getDimensBasedOnDeviceHeight(
-          minDeviceHeightDouble: 0.0.h,
-          greaterDeviceHeightDouble: 8.0.h,
+          smaller: 0.0.h,
+          bigger: 8.0.h,
         ),
       ),
       padding: const EdgeInsets.all(6.0),

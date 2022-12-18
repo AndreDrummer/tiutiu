@@ -1,15 +1,16 @@
 import 'package:get/get.dart';
 
-// Pixel 30 -> 683
-// Redmi 834
+// Nexus 5 -> 616
+// Pixel30 -> 683
+// Redmi 8 -> 834
 
 class Dimensions {
   static double getDimensBasedOnDeviceHeight({
-    required double greaterDeviceHeightDouble,
-    required double minDeviceHeightDouble,
-    double minDeviceHeight = 684,
+    required double smaller,
+    required double bigger,
+    double minDeviceHeight = 617,
   }) {
-    if (Get.height <= minDeviceHeight) return minDeviceHeightDouble;
-    return greaterDeviceHeightDouble;
+    if (Get.height <= minDeviceHeight) return smaller;
+    return bigger;
   }
 }

@@ -1,3 +1,4 @@
+import 'package:tiutiu/core/utils/dimensions.dart';
 import 'package:tiutiu/core/widgets/simple_text_button.dart';
 import 'package:tiutiu/core/constants/images_assets.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
@@ -22,7 +23,9 @@ class EmptyListScreen extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Visibility(
-            child: Container(child: Image.asset(ImageAssets.notFoundET), height: Get.width / 2),
+            child: Container(
+                child: Image.asset(ImageAssets.notFoundET),
+                height: Dimensions.getDimensBasedOnDeviceHeight(smaller: Get.width / 3, bigger: Get.width / 2)),
             visible: isAPetScreenList,
           ),
           AutoSizeTexts.autoSizeText12(text ?? AppStrings.noPostFound),
