@@ -19,6 +19,7 @@ class RatingUs extends StatelessWidget {
         alignment: Alignment.center,
         height: Dimensions.getDimensBasedOnDeviceHeight(
           smaller: 152.0.h,
+          medium: 152.0.h,
           bigger: 120.0.h,
         ),
         child: Row(
