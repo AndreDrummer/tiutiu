@@ -1,10 +1,9 @@
-import 'dart:convert';
-
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/utils/routes/routes_name.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
+import 'package:tiutiu/features/chat/model/message.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/core/utils/routes/router.dart';
 import 'package:tiutiu/core/system/initializer.dart';
@@ -12,7 +11,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
-import 'package:tiutiu/features/chat/model/message.dart';
 import 'firebase_options.dart';
 import 'package:get/get.dart';
 import 'dart:async';
@@ -28,13 +26,38 @@ bool isFlutterLocalNotificationsInitialized = false;
 @pragma('vm:entry-point')
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  setupFlutterNotifications();
-  showFlutterNotification(message);
+  _setupFlutterNotifications();
 
+  flutterLocalNotificationsPlugin.initialize(
+    InitializationSettings(
+      android: AndroidInitializationSettings('notification_icon'),
+    ),
+    onDidReceiveBackgroundNotificationResponse: (_) => chatController.setupInteractedMessage(message),
+    onDidReceiveNotificationResponse: (_) => chatController.setupInteractedMessage(message),
+  );
+
+  _showFlutterNotification(message);
   print('Handling a background message ${message.messageId}');
 }
 
-Future<void> setupFlutterNotifications() async {
+Future<void> _firebaseMessagingForegroundHandler(RemoteMessage message) async {
+  _setupFlutterNotifications();
+
+  flutterLocalNotificationsPlugin.initialize(
+    InitializationSettings(
+      android: AndroidInitializationSettings('notification_icon'),
+    ),
+    onDidReceiveNotificationResponse: (_) {
+      chatController.setupInteractedMessage(message);
+    },
+  );
+
+  _showFlutterNotification(message);
+
+  print('Handling a foreground message ${message.messageId}');
+}
+
+Future<void> _setupFlutterNotifications() async {
   if (isFlutterLocalNotificationsInitialized) {
     return;
   }
@@ -66,7 +89,7 @@ Future<void> setupFlutterNotifications() async {
   isFlutterLocalNotificationsInitialized = true;
 }
 
-void showFlutterNotification(RemoteMessage message) {
+void _showFlutterNotification(RemoteMessage message) {
   RemoteNotification? notification = message.notification;
   AndroidNotification? android = message.notification?.android;
 
@@ -89,28 +112,14 @@ void showFlutterNotification(RemoteMessage message) {
   }
 }
 
-// It is assumed that all messages contain a data field with the key 'type'
-
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  _setupFlutterNotifications();
   SystemInitializer.initDependencies();
-  await setupFlutterNotifications();
-  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
-  FirebaseMessaging.onMessage.listen((message) {
-    flutterLocalNotificationsPlugin.initialize(
-        InitializationSettings(
-          android: AndroidInitializationSettings('notification_icon'),
-        ), onDidReceiveNotificationResponse: (respose) {
-      chatController.setupInteractedMessage(message);
-      print('Respose ${jsonDecode(message.data['data'])[MessageEnum.sender.name]}');
-    });
-    showFlutterNotification(message);
-  });
 
-  print(
-      '>> Testa ${(await flutterLocalNotificationsPlugin.getNotificationAppLaunchDetails())?.notificationResponse?.payload}');
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+  FirebaseMessaging.onMessage.listen(_firebaseMessagingForegroundHandler);
 
   runApp(TiuTiuApp());
 }

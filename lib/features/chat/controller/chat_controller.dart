@@ -61,7 +61,7 @@ class ChatController extends GetxController {
     _chatService.sendMessageAndUpdateContact(message, contact);
   }
 
-  Future<void> setupInteractedMessage(RemoteMessage? initialMessage) async {
+  Future<void> setupInteractedMessage([RemoteMessage? initialMessage]) async {
     print('77 To ligado..');
     // Get any messages which caused the application to open from
     // a terminated state.
