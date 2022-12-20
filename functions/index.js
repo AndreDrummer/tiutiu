@@ -6,7 +6,11 @@ admin.initializeApp();
 exports.createNotificationChat = functions.firestore
     .document('tiutiu/env/{environment}/contacts/{userId}/{contactId}/messages/{messageId}')
     .onCreate((snap, context) => {
-        console.log(snap.data());
+
+        console.log(`>> Data ${snap.data()}`);
+        console.log(`>> Resource ${context.resource}`);
+        console.log(`>> Resource ${context.resource}`);
+        
         admin.messaging().sendToDevice(`${snap.data()['receiver']['notificationToken']}`, {
             notification: {
                 title: `Nova mensagem de ${snap.data()['sender']['displayName']}`,
