@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
 import 'package:tiutiu/features/chat/services/chat_service.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -11,6 +9,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:tiutiu/core/utils/cesar_cripto.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
+import 'dart:convert';
 
 class ChatController extends GetxController {
   ChatController({required ChatService chatService}) : _chatService = chatService;
@@ -34,12 +33,12 @@ class ChatController extends GetxController {
 
   TiutiuUser userChatingWith = TiutiuUser();
 
-  Stream<List<Message>> messages(String chatId) {
+  Stream<List<Message>> messages(String loggedUserId) {
     return _chatService.messages(
-      chatId,
+      loggedUserId,
       _getChatId(
         receiverUserId: userChatingWith.uid!,
-        senderUserId: tiutiuUserController.tiutiuUser.uid!,
+        senderUserId: loggedUserId,
       ),
     );
   }
@@ -59,25 +58,6 @@ class ChatController extends GetxController {
     );
 
     _chatService.sendMessageAndUpdateContact(message, contact);
-  }
-
-  Future<void> setupInteractedMessage([RemoteMessage? initialMessage]) async {
-    print('77 To ligado..');
-    // Get any messages which caused the application to open from
-    // a terminated state.
-    initialMessage ??= await FirebaseMessaging.instance.getInitialMessage();
-
-    print('77 To ligado.. $initialMessage');
-
-    // If the message also contains a data property with a "type" of "chat",
-    // navigate to a chat screen
-    if (initialMessage != null) {
-      onNotificationMessageTapped(initialMessage);
-    }
-
-    // Also handle any interaction when the app is in the background via a
-    // Stream listener
-    FirebaseMessaging.onMessageOpenedApp.listen(onNotificationMessageTapped);
   }
 
   Future<void> markMessageAsRead(Contact contact) async {
@@ -117,17 +97,39 @@ class ChatController extends GetxController {
     return hash;
   }
 
-  void startsChatWith(TiutiuUser? user) {
-    userChatingWith = user ?? TiutiuUser();
+  Future<void> setupInteractedMessage([RemoteMessage? initialMessage]) async {
+    // Get any messages which caused the application to open from
+    // a terminated state.
+    initialMessage ??= await FirebaseMessaging.instance.getInitialMessage();
 
-    Get.toNamed(Routes.chat);
+    // If the message also contains a data property with a "type" of "chat",
+    // navigate to a chat screen
+    if (initialMessage != null) {
+      onNotificationMessageTapped(initialMessage);
+    }
+
+    // Also handle any interaction when the app is in the background via a
+    // Stream listener
+    FirebaseMessaging.onMessageOpenedApp.listen(onNotificationMessageTapped);
   }
 
   void onNotificationMessageTapped(RemoteMessage message) {
-    print('77 Euuu ${jsonDecode(message.data['data'])['sender']}');
+    TiutiuUser myUser = TiutiuUser.fromMap(jsonDecode(message.data['data'])[MessageEnum.receiver.name]);
     TiutiuUser sender = TiutiuUser.fromMap(jsonDecode(message.data['data'])[MessageEnum.sender.name]);
 
-    startsChatWith(sender);
+    chatController.startsChatWith(
+      myUserId: myUser.uid!,
+      user: sender,
+    );
+  }
+
+  void startsChatWith({
+    TiutiuUser? user,
+    required String myUserId,
+  }) {
+    userChatingWith = user ?? TiutiuUser();
+
+    Get.toNamed(Routes.chat, arguments: myUserId);
   }
 
   void resetUserChatingWith() {
