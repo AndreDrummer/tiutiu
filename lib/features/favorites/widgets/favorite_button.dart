@@ -30,8 +30,6 @@ class AddRemoveFavorite extends StatelessWidget {
                   ? Icons.favorite
                   : Icons.favorite_border;
 
-          print('isActive ${isActive || isRemoveButton}');
-
           return GestureDetector(
             child: Card(
               margin: EdgeInsets.zero,

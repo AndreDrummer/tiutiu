@@ -103,7 +103,6 @@ class AuthHosters extends StatelessWidget with TiuTiuPopUp {
   }
 
   Widget _authButtons() {
-    print(Get.height);
     return Container(
       height: Get.height /
           Dimensions.getDimensBasedOnDeviceHeight(
