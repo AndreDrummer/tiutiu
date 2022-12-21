@@ -34,7 +34,7 @@ Future<void> _firebaseMessagingForegroundHandler(RemoteMessage message) async {
 
   _showFlutterNotification(message);
 
-  print('Handling a foreground message ${message.messageId}');
+  debugPrint('Handling a foreground message ${message.messageId}');
 }
 
 Future<void> _setupFlutterNotifications() async {
@@ -120,7 +120,7 @@ class _TiuTiuAppState extends State<TiuTiuApp> {
 
     systemController.handleInternetConnectivityStatus();
     systemController.onAppEndpointsChange();
-    print('>> Height ${Get.height}');
+    debugPrint('>> Height ${Get.height}');
 
     // Run code required to handle interacted messages in an async function
     // as initState() must not be async
