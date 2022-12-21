@@ -2,8 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
 
 enum MessageEnum {
-  receiver,
+  lastBackgroundImage,
   createdAt,
+  receiver,
   sender,
   text,
   id,

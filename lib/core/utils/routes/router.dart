@@ -65,7 +65,7 @@ class RouterGenerator {
         );
       case Routes.chat:
         return MaterialPageRoute(
-          builder: (_) => ChatScreen(),
+          builder: (_) => ChatScreen(loggedUserId: settings.arguments as String),
         );
       case Routes.verifyEmail:
         return MaterialPageRoute(

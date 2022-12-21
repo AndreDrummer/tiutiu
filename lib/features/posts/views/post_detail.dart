@@ -447,7 +447,10 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
         children: [
           ButtonWide(
             padding: EdgeInsets.symmetric(vertical: 1.0.h, horizontal: 2.0.w),
-            onPressed: () => chatController.startsChatWith(post.owner!),
+            onPressed: () => chatController.startsChatWith(
+              myUserId: tiutiuUserController.tiutiuUser.uid!,
+              user: post.owner!,
+            ),
             color: AppColors.secondary,
             text: AppStrings.chatWithAnnouncer,
             isToExpand: true,
