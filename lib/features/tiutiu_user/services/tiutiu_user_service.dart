@@ -53,9 +53,9 @@ class TiutiuUserService {
     return avatarURL;
   }
 
-  Stream<QuerySnapshot<Map<String, dynamic>>> getUserPostsById(String uid) {
+  Stream<QuerySnapshot<Map<String, dynamic>>> getUserPostsById(String userId) {
     return EndpointResolver.getCollectionEndpoint(EndpointNames.pathToPosts.name)
-        .where(PostEnum.ownerId.name, isEqualTo: uid)
+        .where(PostEnum.ownerId.name, isEqualTo: userId)
         .snapshots();
   }
 }
