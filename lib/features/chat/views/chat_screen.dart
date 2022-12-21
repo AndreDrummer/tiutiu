@@ -1,3 +1,4 @@
+import 'package:tiutiu/core/utils/dimensions.dart';
 import 'package:tiutiu/features/auth/widgets/image_carousel_background.dart';
 import 'package:tiutiu/features/chat/widgets/message_bubble.dart';
 import 'package:tiutiu/features/chat/widgets/new_message.dart';
@@ -10,7 +11,6 @@ import 'package:tiutiu/core/constants/text_styles.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/core/utils/asset_handle.dart';
 import 'package:tiutiu/core/constants/strings.dart';
-import 'package:tiutiu/core/utils/dimensions.dart';
 import 'package:tiutiu/core/utils/formatter.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -34,61 +34,60 @@ class ChatScreen extends StatelessWidget {
       child: SafeArea(
         child: Scaffold(
           backgroundColor: AppColors.black,
-          body: Column(
+          body: Stack(
             children: [
-              _appBar(),
-              Expanded(
-                child: Stack(
-                  children: [
-                    ImageCarouselBackground(),
-                    Container(color: AppColors.black.withOpacity(.7)),
-                    StreamBuilder<List<Message>>(
-                      stream: chatController.messages(loggedUserId),
-                      builder: (context, snapshot) {
-                        return AsyncHandler<List<Message>>(
-                          emptyWidget: AutoSizeTexts.autoSizeText16(
-                            ChatStrings.startConversation,
-                            fontWeight: FontWeight.bold,
-                            color: AppColors.white,
-                          ),
-                          showLoadingScreen: false,
-                          snapshot: snapshot,
-                          buildWidget: (messages) {
-                            return SizedBox(
-                              height: Dimensions.getDimensBasedOnDeviceHeight(
-                                smaller: Get.height - 144,
-                                medium: Get.height - 144,
-                                bigger: Get.height - 208,
-                              ),
-                              child: ListView.builder(
-                                itemCount: messages.length,
-                                itemBuilder: ((context, index) {
-                                  final previousIndex = index + 1 >= messages.length ? index : index + 1;
-                                  final previousMessage = messages[previousIndex];
-                                  final message = messages[index];
+              ImageCarouselBackground(autoPlay: false),
+              Container(color: AppColors.black.withOpacity(.7)),
+              Positioned.fill(
+                bottom: Dimensions.getDimensBasedOnDeviceHeight(
+                  smaller: 48.0.h,
+                  medium: 48.0.h,
+                  bigger: 56.0.h,
+                ),
+                top: 40.0.h,
+                child: StreamBuilder<List<Message>>(
+                  stream: chatController.messages(loggedUserId),
+                  builder: (context, snapshot) {
+                    return AsyncHandler<List<Message>>(
+                      emptyWidget: AutoSizeTexts.autoSizeText16(
+                        ChatStrings.startConversation,
+                        fontWeight: FontWeight.bold,
+                        color: AppColors.white,
+                      ),
+                      showLoadingScreen: false,
+                      snapshot: snapshot,
+                      buildWidget: (messages) {
+                        return ListView.builder(
+                          itemCount: messages.length,
+                          itemBuilder: ((context, index) {
+                            final previousIndex = index + 1 >= messages.length ? index : index + 1;
+                            final previousMessage = messages[previousIndex];
+                            final message = messages[index];
 
-                                  return Padding(
-                                    padding: EdgeInsets.only(
-                                      bottom: index > 0 ? 0 : 8.0.h,
-                                    ),
-                                    child: MessageBubble(
-                                      lastMessageBelongsToTheSameUser: previousMessage.sender.uid == message.sender.uid,
-                                      belongToMe: message.sender.uid == loggedUserId,
-                                      time: message.createdAt,
-                                      message: message.text!,
-                                      key: UniqueKey(),
-                                    ),
-                                  );
-                                }),
-                                reverse: true,
+                            return Padding(
+                              padding: EdgeInsets.only(
+                                top: index == (messages.length - 1) ? 8.0.h : 0.0.h,
+                                bottom: index > 0 ? 0 : 8.0.h,
+                              ),
+                              child: MessageBubble(
+                                lastMessageBelongsToTheSameUser: previousMessage.sender.uid == message.sender.uid,
+                                belongToMe: message.sender.uid == loggedUserId,
+                                time: message.createdAt,
+                                message: message.text!,
+                                key: UniqueKey(),
                               ),
                             );
-                          },
+                          }),
+                          reverse: true,
                         );
                       },
-                    ),
-                  ],
+                    );
+                  },
                 ),
+              ),
+              Positioned(
+                child: _appBar(),
+                top: 0.0.h,
               ),
             ],
           ),
@@ -99,12 +98,13 @@ class ChatScreen extends StatelessWidget {
   }
 
   Widget _appBar() {
-    return Container(
-      height: 56.0,
-      width: double.infinity,
-      color: AppColors.primary,
+    return Card(
+      margin: EdgeInsets.zero,
+      elevation: 8.0,
       child: Container(
-        width: Get.width / 2,
+        height: 56.0,
+        width: Get.width,
+        color: AppColors.primary,
         child: Row(
           children: [
             BackButton(color: AppColors.white),

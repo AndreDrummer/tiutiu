@@ -22,9 +22,7 @@ class MigrationService {
 
   void moveEndpointsToProd() async {
     _pathToEndpoints('debug').snapshots().forEach((event) {
-      print('|| MIGRATION || moveEndpointsToProd');
       event.docs.forEach((e) {
-        print('|| MIGRATION || Data ${e.data()}');
         // _pathToEndpoints('prod').doc(e.id).set(e.data());
       });
     });

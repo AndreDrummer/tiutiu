@@ -8,7 +8,7 @@ import 'package:get/get.dart';
 class Dimensions {
   static double getDimensBasedOnDeviceHeight({
     double minDeviceHeight = 616,
-    double medDeviceHeight = 834,
+    double medDeviceHeight = 835,
     required double smaller,
     required double bigger,
     required double medium,
