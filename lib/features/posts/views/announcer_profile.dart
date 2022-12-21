@@ -80,7 +80,7 @@ class AnnouncerProfile extends StatelessWidget {
               _userPostsQty(),
               Spacer(),
               _contactTitle(),
-              _contactButtonRow(),
+              _contactButtonRow(context),
               Spacer(),
             ],
           ),
@@ -161,7 +161,7 @@ class AnnouncerProfile extends StatelessWidget {
   Widget _userPostsQty() {
     return StreamBuilder<int>(
       initialData: 1,
-      stream: tiutiuUserController.service.getUserPostsById(_user.uid!).asyncMap<int>((event) => event.docs.length),
+      stream: tiutiuUserController.getUserPostsById(_user.uid!).asyncMap<int>((event) => event.docs.length),
       builder: (context, snapshot) {
         final qty = snapshot.data ?? 1;
         return AutoSizeText('$qty ${UserStrings.postsQty(qty)}');
@@ -179,7 +179,7 @@ class AnnouncerProfile extends StatelessWidget {
     );
   }
 
-  Widget _contactButtonRow() {
+  Widget _contactButtonRow(BuildContext context) {
     return WarningBanner(
       isHiddingContactInfo: true,
       fontSize: 10,
@@ -197,7 +197,10 @@ class AnnouncerProfile extends StatelessWidget {
                 isToExpand: false,
                 icon: Icons.phone,
                 onPressed: () {
-                  chatController.startsChatWith(_user);
+                  chatController.startsChatWith(
+                    myUserId: tiutiuUserController.tiutiuUser.uid!,
+                    user: _user,
+                  );
                 },
               ),
             ),

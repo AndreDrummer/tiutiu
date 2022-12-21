@@ -60,6 +60,7 @@ class _NewMessageState extends State<NewMessage> {
               child: Padding(
                 padding: EdgeInsets.only(left: 8.0.w, right: 4.0.w),
                 child: TextField(
+                  autofocus: true,
                   controller: _controller,
                   onSubmitted: (value) async => await _sendMessage(),
                   textCapitalization: TextCapitalization.sentences,
@@ -71,6 +72,7 @@ class _NewMessageState extends State<NewMessage> {
                     hintStyle: TextStyle(color: Colors.grey),
                     hintText: ChatStrings.writeYourMessage,
                   ),
+                  textInputAction: TextInputAction.send,
                   maxLines: 4,
                   minLines: 1,
                   onChanged: (value) {

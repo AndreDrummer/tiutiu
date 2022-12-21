@@ -2,7 +2,6 @@ import 'package:tiutiu/features/tiutiu_user/services/tiutiu_user_service.dart';
 import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
 import 'package:tiutiu/core/extensions/string_extension.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
-import 'package:tiutiu/features/posts/model/post.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
@@ -15,7 +14,6 @@ class TiutiuUserController extends GetxController {
   final Rx<TiutiuUser> _tiutiuUser = TiutiuUser().obs;
   final RxBool _isLoading = false.obs;
 
-  TiutiuUserService get service => _tiutiuUserService;
   TiutiuUser get tiutiuUser => _tiutiuUser.value;
   bool get isLoading => _isLoading.value;
 
@@ -72,5 +70,7 @@ class TiutiuUserController extends GetxController {
     _tiutiuUser(await getUserById(userId));
   }
 
-  Future<void> showInterestOnPost(Post post) async {}
+  Stream<QuerySnapshot<Map<String, dynamic>>> getUserPostsById(String userId) {
+    return _tiutiuUserService.getUserPostsById(userId);
+  }
 }
