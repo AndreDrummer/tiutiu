@@ -43,7 +43,10 @@ class _MyContactsState extends State<MyContacts> {
                       return ContactTile(
                         onContactTap: (() {
                           chatController.markMessageAsRead(contact);
-                          chatController.startsChatWith(userSnapshot.data);
+                          chatController.startsChatWith(
+                            user: userSnapshot.data,
+                            myUserId: myUserId!,
+                          );
                         }),
                         hasNewMessage: !contact.open && contact.userSenderId != myUserId,
                         userReceiver: userSnapshot.data,

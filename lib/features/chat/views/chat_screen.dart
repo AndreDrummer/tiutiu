@@ -2,11 +2,11 @@ import 'package:tiutiu/features/auth/widgets/image_carousel_background.dart';
 import 'package:tiutiu/features/chat/widgets/message_bubble.dart';
 import 'package:tiutiu/features/chat/widgets/new_message.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:tiutiu/features/chat/model/message.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
+import 'package:tiutiu/features/chat/model/message.dart';
+import 'package:tiutiu/core/utils/other_functions.dart';
 import 'package:tiutiu/core/widgets/async_handler.dart';
 import 'package:tiutiu/core/constants/text_styles.dart';
-import 'package:tiutiu/core/utils/other_functions.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/core/utils/asset_handle.dart';
 import 'package:tiutiu/core/constants/strings.dart';
@@ -17,10 +17,15 @@ import 'package:get/get.dart';
 import 'dart:io';
 
 class ChatScreen extends StatelessWidget {
+  const ChatScreen({
+    required this.loggedUserId,
+    super.key,
+  });
+
+  final String loggedUserId;
+
   @override
   Widget build(BuildContext context) {
-    final loggedUserId = tiutiuUserController.tiutiuUser.uid!;
-
     return WillPopScope(
       onWillPop: () async {
         chatController.resetUserChatingWith();
