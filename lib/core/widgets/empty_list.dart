@@ -8,10 +8,12 @@ import 'package:get/get.dart';
 
 class EmptyListScreen extends StatelessWidget {
   EmptyListScreen({
+    this.showClearFiltersButton = true,
     this.isAPetScreenList = true,
     this.text,
   });
 
+  final bool showClearFiltersButton;
   final bool isAPetScreenList;
   final String? text;
 
@@ -27,16 +29,19 @@ class EmptyListScreen extends StatelessWidget {
           visible: isAPetScreenList,
         ),
         AutoSizeTexts.autoSizeText12(text ?? AppStrings.noPostFound),
-        SimpleTextButton(
-          text: AppStrings.cleanFilters,
-          textColor: Colors.lightBlue,
-          fontSize: 12,
-          onPressed: () {
-            filterController.reset();
-            if (!postsController.isInMyPostsList) {
-              homeController.setDonateIndex();
-            }
-          },
+        Visibility(
+          visible: showClearFiltersButton,
+          child: SimpleTextButton(
+            text: AppStrings.cleanFilters,
+            textColor: Colors.lightBlue,
+            fontSize: 12,
+            onPressed: () {
+              filterController.reset();
+              if (homeController.bottomBarIndex <= 1) {
+                homeController.setDonateIndex();
+              }
+            },
+          ),
         ),
       ],
     );

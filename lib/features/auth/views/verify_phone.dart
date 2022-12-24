@@ -13,6 +13,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'dart:async';
 
+import 'package:tiutiu/features/home/controller/home_controller.dart';
+
 class VerifyPhone extends StatefulWidget {
   const VerifyPhone({super.key});
 
@@ -255,10 +257,13 @@ class _VerifyPhoneState extends State<VerifyPhone> {
   }
 
   Widget _backButton() {
-    return SimpleTextButton(
-      textColor: AppColors.black.withOpacity(.7),
-      onPressed: () => Get.back(),
-      text: AppStrings.backToHome,
+    return Visibility(
+      visible: homeController.bottomBarIndex != BottomBarIndex.POST.indx,
+      child: SimpleTextButton(
+        textColor: AppColors.black.withOpacity(.7),
+        onPressed: () => Get.back(),
+        text: AppStrings.back,
+      ),
     );
   }
 
@@ -275,7 +280,7 @@ class _VerifyPhoneState extends State<VerifyPhone> {
               onPressed: () {
                 authController.whatsAppCodeIsValid(codeController.text).then((valid) {
                   if (!valid) {
-                    systemController.snackBarIsOpen = true;
+                    appController.snackBarIsOpen = true;
                     ScaffoldMessenger.of(context)
                         .showSnackBar(
                           SnackBar(
@@ -284,7 +289,7 @@ class _VerifyPhoneState extends State<VerifyPhone> {
                           ),
                         )
                         .closed
-                        .then((value) => systemController.snackBarIsOpen = false);
+                        .then((value) => appController.snackBarIsOpen = false);
                     codeController.clear();
                   } else {
                     Future.delayed(Duration(seconds: 2)).then((value) => authController.continueAfterValidateNumber());

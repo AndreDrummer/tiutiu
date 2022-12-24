@@ -26,38 +26,39 @@ class RenderPostList extends StatelessWidget {
     return Column(
       children: [
         firstChild,
-        Expanded(
-          child: ListView.builder(
-            itemCount: itemCount,
+        Visibility(
+          visible: posts.isNotEmpty,
+          replacement: Padding(
             padding: EdgeInsets.only(
-              right: Dimensions.getDimensBasedOnDeviceHeight(
-                smaller: 5.0.w,
-                medium: 5.0.w,
-                bigger: 0.0.w,
+              top: Dimensions.getDimensBasedOnDeviceHeight(
+                smaller: Get.width / 5,
+                bigger: Get.width / 2,
+                medium: Get.width / 4,
               ),
             ),
-            key: UniqueKey(),
-            itemBuilder: (_, index) {
-              if (posts.isEmpty)
-                return Padding(
-                  padding: EdgeInsets.only(
-                    top: Dimensions.getDimensBasedOnDeviceHeight(
-                      smaller: Get.width / 5,
-                      bigger: Get.width / 3,
-                      medium: Get.width / 4,
-                    ),
-                  ),
-                  child: EmptyListScreen(),
+            child: EmptyListScreen(),
+          ),
+          child: Expanded(
+            child: ListView.builder(
+              itemCount: itemCount,
+              padding: EdgeInsets.only(
+                right: Dimensions.getDimensBasedOnDeviceHeight(
+                  smaller: 5.0.w,
+                  medium: 5.0.w,
+                  bigger: 0.0.w,
+                ),
+              ),
+              key: UniqueKey(),
+              itemBuilder: (_, index) {
+                return RenderListItem(
+                  post: posts[index < posts.length ? index : posts.length - 1],
+                  onNavigateToTop: () => homeController.onScrollUp(),
+                  showBackToStartButton: index == posts.length,
+                  showFavoriteButton: !isInMyPosts,
+                  key: UniqueKey(),
                 );
-
-              return RenderListItem(
-                post: posts[index < posts.length ? index : posts.length - 1],
-                onNavigateToTop: () => homeController.onScrollUp(),
-                showBackToStartButton: index == posts.length,
-                showFavoriteButton: !isInMyPosts,
-                key: UniqueKey(),
-              );
-            },
+              },
+            ),
           ),
         ),
       ],
