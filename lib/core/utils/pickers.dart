@@ -19,7 +19,7 @@ mixin Pickers {
     required BuildContext context,
   }) async {
     final ImagePicker _picker = ImagePicker();
-    systemController.bottomSheetIsOpen = true;
+    appController.bottomSheetIsOpen = true;
     showBottomSheet(
       backgroundColor: Colors.white,
       shape: RoundedRectangleBorder(
@@ -33,7 +33,7 @@ mixin Pickers {
       elevation: 16.0,
       builder: (context) {
         return Container(
-          height: systemController.properties.snackBarIsOpen ? 112.0.h : 100.0.h,
+          height: appController.properties.snackBarIsOpen ? 112.0.h : 100.0.h,
           child: Column(
             children: [
               TextButton(
@@ -45,7 +45,7 @@ mixin Pickers {
                   ),
                 ),
                 onPressed: () async {
-                  systemController.bottomSheetIsOpen = false;
+                  appController.bottomSheetIsOpen = false;
                   Get.back();
                   var pic;
                   switch (pickerAssetType) {
@@ -66,7 +66,7 @@ mixin Pickers {
                   AppStrings.openGallery,
                 ),
                 onPressed: () async {
-                  systemController.bottomSheetIsOpen = false;
+                  appController.bottomSheetIsOpen = false;
                   Get.back();
                   var pic;
                   switch (pickerAssetType) {

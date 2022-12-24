@@ -37,9 +37,6 @@ class MoreController extends GetxController {
       case MyProfileOptionsTile.leave:
         authController.signOut();
         break;
-      case MyProfileOptionsTile.chat:
-        Get.toNamed(Routes.contacts);
-        break;
     }
   }
 
@@ -56,7 +53,6 @@ class MoreController extends GetxController {
   static const List<String> _myProfileOptionsTile = [
     MyProfileOptionsTile.myPosts,
     MyProfileOptionsTile.favorites,
-    MyProfileOptionsTile.chat,
     MyProfileOptionsTile.settings,
     MyProfileOptionsTile.about,
     MyProfileOptionsTile.talkWithUs,
@@ -71,7 +67,6 @@ class MoreController extends GetxController {
   final List<IconData> _myProfileOptionsIcon = [
     Icons.view_agenda,
     Icons.favorite,
-    Icons.forum,
     Icons.manage_accounts,
     Icons.info,
     Icons.headset_mic,

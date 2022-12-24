@@ -490,6 +490,7 @@ class PostsController extends GetxController with TiuTiuPopUp {
 
   void closeMypostsLists() {
     postsController.isInMyPostsList = false;
+    filterController.reset();
     Get.back();
   }
 

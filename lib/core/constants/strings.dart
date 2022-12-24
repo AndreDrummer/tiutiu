@@ -10,6 +10,7 @@ class AppStrings {
   static String get verifyFilters => 'Verifique seus filtros de busca.';
   static String get tryAgainInABrief =>
       'Anúncios temporariamente indisponíveis.\nEntre novamente em alguns minutos.\n\nAgradecessemos a compreensão!';
+  static String get changeListVisual => 'Mude a visualização da lista';
   static String get imagesWarning => 'Imagens meramente ilustrativas';
   static String get noPostFavorited => 'Nenhum PET foi favoritado.';
   static String get backToCivilization => 'Voltar a civilização';
@@ -17,7 +18,6 @@ class AppStrings {
   static String get wannaLeave => 'Deseja realmente sair?';
   static String get loadingImage => 'Carregando imagem...';
   static String get noPostFound => 'Nada foi encontrado.';
-  static String get backToHome => 'Voltar a tela inicial';
   static String get callInWhatsapp => 'Chamar no WhatsApp';
   static String get jotSomethingDown => 'Escreva aqui...';
   static String get iamInterested => 'Estou interessado';
@@ -49,6 +49,7 @@ class AppStrings {
   static String get email => 'E-mail';
   static String get wait => 'Aguarde';
   static String get post => 'Postar';
+  static const String chat = 'Chat';
   static String get back => 'Voltar';
   static String get send => 'Enviar';
   static String get save => 'Salvar';
@@ -225,7 +226,6 @@ class MyProfileOptionsTile {
   static const String favorites = 'Favoritos';
   static const String ourNet = 'Nossa redes';
   static const String myPosts = 'Meus Posts';
-  static const String chat = 'Chat Online';
   static const String support = 'Apoie';
   static const String leave = 'Sair';
 }

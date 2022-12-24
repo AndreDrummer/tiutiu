@@ -17,24 +17,32 @@ class Favorites extends StatefulWidget {
 class _FavoritesState extends State<Favorites> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: DefaultBasicAppBar(
-        actions: [TogglePostCardAppearence(color: AppColors.white)],
-        automaticallyImplyLeading: true,
-        text: AppStrings.favorites,
-      ),
-      body: Obx(
-        () => StreamBuilder<List<Post>>(
-          stream: favoritesController.favoritesList(filterController.getParams),
-          builder: (context, snapshot) {
-            final posts = snapshot.data ?? [];
+    return WillPopScope(
+      onWillPop: () async {
+        filterController.reset();
+        return true;
+      },
+      child: Scaffold(
+        appBar: DefaultBasicAppBar(
+          actions: [TogglePostCardAppearence(color: AppColors.white)],
+          automaticallyImplyLeading: true,
+          text: AppStrings.favorites,
+        ),
+        body: Obx(
+          () => StreamBuilder<List<Post>>(
+            stream: favoritesController.favoritesList(filterController.getParams),
+            builder: (context, snapshot) {
+              final posts = snapshot.data ?? [];
 
-            return RenderPostList(
-              firstChild: FilterResultCount(postsCount: posts.length),
-              itemCount: posts.length,
-              posts: posts,
-            );
-          },
+              print('Favorites $posts');
+
+              return RenderPostList(
+                firstChild: FilterResultCount(postsCount: posts.length),
+                itemCount: posts.length,
+                posts: posts,
+              );
+            },
+          ),
         ),
       ),
     );
