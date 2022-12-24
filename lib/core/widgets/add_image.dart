@@ -55,9 +55,9 @@ class _AddImageState extends State<AddImage> with Pickers {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        if (systemController.properties.bottomSheetIsOpen) {
+        if (appController.properties.bottomSheetIsOpen) {
           Get.back();
-          systemController.bottomSheetIsOpen = false;
+          appController.bottomSheetIsOpen = false;
         }
       },
       child: Column(

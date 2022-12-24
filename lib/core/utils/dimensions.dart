@@ -7,14 +7,16 @@ import 'package:get/get.dart';
 
 class Dimensions {
   static double getDimensBasedOnDeviceHeight({
-    double minDeviceHeight = 616,
-    double medDeviceHeight = 835,
     required double smaller,
     required double bigger,
     required double medium,
   }) {
-    if (Get.height <= minDeviceHeight) return smaller;
-    if (Get.height > minDeviceHeight && Get.height <= medDeviceHeight) return medium;
+    if (isMediumDevice()) return medium;
+    if (isSmallDevice()) return smaller;
     return bigger;
   }
+
+  static bool isMediumDevice() => Get.height > 616 && Get.height <= 835;
+  static bool isSmallDevice() => Get.height <= 616;
+  static bool isBigDevice() => Get.height > 835;
 }

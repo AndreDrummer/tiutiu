@@ -11,7 +11,7 @@ class EndpointResolver {
   }
 
   static String formattedEndpoint(String endpointName, [List? params]) {
-    final endpoint = systemController.endpoints.where((endpoint) => endpoint.name == endpointName).first;
+    final endpoint = appController.endpoints.where((endpoint) => endpoint.name == endpointName).first;
     String endpointPath = endpoint.path;
 
     if (params != null && params.isNotEmpty) {

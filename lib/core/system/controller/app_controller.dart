@@ -53,7 +53,7 @@ class AppController extends GetxController {
 
       _systemProperties(properties.copyWith(isLoading: false));
 
-      systemController.onAppPropertiesChange();
+      appController.onAppPropertiesChange();
     } on Exception catch (exception) {
       debugPrint('>> App Initialization Exception $exception');
     }
