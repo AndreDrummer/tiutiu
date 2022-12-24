@@ -4,9 +4,11 @@ import 'package:tiutiu/features/posts/model/filter_params.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
 
 enum BottomBarIndex {
-  MORE(indx: 2),
+  CHAT(indx: 3),
+  DONATE(indx: 0),
   FINDER(indx: 1),
-  DONATE(indx: 0);
+  POST(indx: 2),
+  MORE(indx: 4);
 
   const BottomBarIndex({
     required this.indx,
@@ -69,6 +71,14 @@ class HomeController extends GetxController {
 
   void setDonateIndex() {
     _setbottomBarIndex(BottomBarIndex.DONATE);
+  }
+
+  void setChatIndex() {
+    _setbottomBarIndex(BottomBarIndex.CHAT);
+  }
+
+  void setPostIndex() {
+    _setbottomBarIndex(BottomBarIndex.POST);
   }
 
   void setFinderIndex() {
