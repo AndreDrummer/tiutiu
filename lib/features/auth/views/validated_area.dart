@@ -20,7 +20,7 @@ class ValidatedArea extends StatelessWidget {
     return Obx(
       () => Visibility(
         replacement: NoConnection(),
-        visible: systemController.properties.internetConnected,
+        visible: appController.properties.internetConnected,
         child: isValid ? validChild : fallbackChild,
       ),
     );

@@ -7,6 +7,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:tiutiu/core/constants/strings.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:tiutiu/features/home/controller/home_controller.dart';
 
 class VerifyEmail extends StatefulWidget {
   const VerifyEmail({super.key});
@@ -123,15 +124,13 @@ class _VerifyEmailState extends State<VerifyEmail> {
   }
 
   Widget _backButton() {
-    return FutureBuilder(
-      future: authController.verifyShouldShowResendEmailButton(),
-      builder: (context, snapshot) {
-        return SimpleTextButton(
-          textColor: AppColors.black.withOpacity(.7),
-          onPressed: () => Get.back(),
-          text: AppStrings.backToHome,
-        );
-      },
+    return Visibility(
+      visible: homeController.bottomBarIndex != BottomBarIndex.POST.indx,
+      child: SimpleTextButton(
+        textColor: AppColors.black.withOpacity(.7),
+        onPressed: () => Get.back(),
+        text: AppStrings.back,
+      ),
     );
   }
 
@@ -140,11 +139,9 @@ class _VerifyEmailState extends State<VerifyEmail> {
       children: [
         AutoSizeTexts.autoSizeText14(
           AuthStrings.verifyEmailAdvice,
-          fontWeight: FontWeight.w300,
           textAlign: TextAlign.center,
         ),
         AutoSizeTexts.autoSizeText14(
-          fontWeight: FontWeight.w300,
           textAlign: TextAlign.center,
           AuthStrings.checkYourSpam,
           color: AppColors.danger,
@@ -198,7 +195,7 @@ class _VerifyEmailState extends State<VerifyEmail> {
       debugPrint('>> Could not send the email due to $exception');
     }
 
-    systemController.snackBarIsOpen = true;
+    appController.snackBarIsOpen = true;
     ScaffoldMessenger.of(context)
         .showSnackBar(
           SnackBar(
@@ -212,7 +209,7 @@ class _VerifyEmailState extends State<VerifyEmail> {
           ),
         )
         .closed
-        .then((value) => systemController.snackBarIsOpen = false);
+        .then((value) => appController.snackBarIsOpen = false);
 
     setState(() {
       resendButtonIsEnabled = true;

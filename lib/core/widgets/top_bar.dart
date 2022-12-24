@@ -1,16 +1,13 @@
-import 'package:tiutiu/core/widgets/toggle_posts_card_appearence.dart';
 import 'package:tiutiu/features/posts/model/filter_params.dart';
 import 'package:tiutiu/core/widgets/input_close_button.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:tiutiu/core/utils/routes/routes_name.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/widgets/warning_widget.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/core/constants/strings.dart';
-import 'package:tiutiu/core/widgets/badge.dart';
+import 'package:tiutiu/core/utils/dimensions.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'dart:io';
 
 class TopBar extends StatelessWidget {
   const TopBar({super.key});
@@ -62,48 +59,21 @@ class TopBar extends StatelessWidget {
                   },
                 ),
               ),
-              Visibility(
-                visible: authController.userExists,
-                child: Stack(
-                  children: [
-                    IconButton(
-                      padding: EdgeInsets.zero,
-                      onPressed: () {
-                        Get.toNamed(Routes.contacts);
-                      },
-                      icon: Icon(
-                        Icons.forum,
-                        color: AppColors.primary,
-                      ),
-                    ),
-                    Positioned(
-                      right: 11.0.w,
-                      top: 8.0.w,
-                      child: Badge(
-                        show: true,
-                        color: AppColors.info,
-                        text: 0,
-                      ),
-                    )
-                  ],
-                ),
-              ),
-              TogglePostCardAppearence()
             ],
           ),
           Visibility(
-            child: SizedBox(height: 8.0.h),
-            visible: Platform.isIOS,
+            visible: Dimensions.isBigDevice(),
+            child: SizedBox(height: 4.0.h),
           ),
           WarningBanner(
             showBannerCondition:
-                systemController.properties.internetConnected && !tiutiuUserController.tiutiuUser.emailVerified,
+                appController.properties.internetConnected && !tiutiuUserController.tiutiuUser.emailVerified,
             padding: EdgeInsets.symmetric(horizontal: 4.0.w, vertical: 2.0.h),
             replacement: SizedBox.shrink(),
             margin: EdgeInsets.zero,
           ),
           WarningBanner(
-            showBannerCondition: !systemController.properties.internetConnected && postsController.posts.isNotEmpty,
+            showBannerCondition: !appController.properties.internetConnected && postsController.posts.isNotEmpty,
             textWarning: AppStrings.noConnectionWarning,
             padding: EdgeInsets.all(2.0.h),
             replacement: SizedBox.shrink(),

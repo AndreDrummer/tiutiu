@@ -210,7 +210,7 @@ class _SettingsState extends State<Settings> {
             Get.back();
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(MoreStrings.profileUpdated)));
           } else if (tiutiuUserController.tiutiuUser.avatar == null) {
-            systemController.snackBarIsOpen = true;
+            appController.snackBarIsOpen = true;
 
             ScaffoldMessenger.of(context)
                 .showSnackBar(
@@ -220,7 +220,7 @@ class _SettingsState extends State<Settings> {
                   ),
                 )
                 .closed
-                .then((value) => systemController.snackBarIsOpen = false);
+                .then((value) => appController.snackBarIsOpen = false);
           }
         },
         onSecondaryPressed: () {
