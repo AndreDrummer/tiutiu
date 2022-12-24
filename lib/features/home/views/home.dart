@@ -1,6 +1,6 @@
+import 'package:tiutiu/features/home/controller/home_controller.dart';
 import 'package:tiutiu/features/home/widgets/bottom_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:tiutiu/core/utils/routes/routes_name.dart';
 import 'package:tiutiu/features/home/widgets/header.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/features/home/views/screens.dart';
@@ -44,9 +44,9 @@ class Home extends StatelessWidget with TiuTiuPopUp {
                       return SliverAppBar(
                         toolbarHeight: homeController.bottomBarIndex < 2
                             ? Dimensions.getDimensBasedOnDeviceHeight(
-                                smaller: systemController.properties.internetConnected ? 56.0.h : 80.0.h,
-                                medium: systemController.properties.internetConnected ? 48.0.h : 80.0.h,
-                                bigger: systemController.properties.internetConnected ? 40.0.h : 64.0.h,
+                                smaller: appController.properties.internetConnected ? 56.0.h : 80.0.h,
+                                medium: appController.properties.internetConnected ? 48.0.h : 80.0.h,
+                                bigger: appController.properties.internetConnected ? 40.0.h : 64.0.h,
                               )
                             : 0.0,
                         backgroundColor: Colors.transparent,
@@ -67,14 +67,17 @@ class Home extends StatelessWidget with TiuTiuPopUp {
             ),
             floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
             floatingActionButton: Visibility(
-              visible: homeController.bottomBarIndex < 2 && systemController.properties.allowPost,
+              visible: homeController.bottomBarIndex < 2 && appController.properties.allowPost,
               child: FloatingActionButton(
-                tooltip: PostFlowStrings.post,
-                child: Icon(Icons.add),
+                child: Icon(
+                  homeController.cardVisibilityKind == CardVisibilityKind.card
+                      ? Icons.view_list_outlined
+                      : Icons.view_agenda,
+                ),
+                tooltip: AppStrings.changeListVisual,
                 onPressed: () {
-                  Get.toNamed(Routes.initPostFlow);
+                  homeController.changeCardVisibilityKind();
                 },
-                mini: true,
               ),
             ),
             bottomNavigationBar: BottomBar(),

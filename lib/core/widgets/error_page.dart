@@ -61,6 +61,7 @@ class ErrorPage extends StatelessWidget {
                 } else {
                   await authController.signOut().then((_) {
                     Get.offAllNamed(Routes.home);
+                    homeController.setMoreIndex();
                   });
                 }
               },
