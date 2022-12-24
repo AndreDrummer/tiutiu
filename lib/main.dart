@@ -118,8 +118,8 @@ class _TiuTiuAppState extends State<TiuTiuApp> {
       DeviceOrientation.portraitUp,
     ]);
 
-    systemController.handleInternetConnectivityStatus();
-    systemController.onAppEndpointsChange();
+    appController.handleInternetConnectivityStatus();
+    appController.onAppEndpointsChange();
     debugPrint('>> Height ${Get.height}');
 
     // Run code required to handle interacted messages in an async function

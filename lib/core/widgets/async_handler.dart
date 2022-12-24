@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 class AsyncHandler<T> extends StatelessWidget {
   const AsyncHandler({
     this.forceReturnBuildWidget = false,
+    this.showClearFiltersButton = true,
     this.showLoadingScreen = true,
     required this.buildWidget,
     this.forcedDataReturned,
@@ -22,6 +23,7 @@ class AsyncHandler<T> extends StatelessWidget {
 
   final Widget Function(T data) buildWidget;
   final void Function()? onErrorCallback;
+  final bool showClearFiltersButton;
   final bool forceReturnBuildWidget;
   final AsyncSnapshot<T> snapshot;
   final Widget? noResultScreen;
@@ -49,11 +51,27 @@ class AsyncHandler<T> extends StatelessWidget {
 
     if (forceReturnBuildWidget) return buildWidget(forcedDataReturned!);
 
-    if (!snapshot.hasData || snapshot.data == null)
-      return Center(child: noResultScreen ?? emptyWidget ?? EmptyListScreen(text: emptyMessage));
+    if (!snapshot.hasData || snapshot.data == null) {
+      return Center(
+        child: noResultScreen ??
+            emptyWidget ??
+            EmptyListScreen(
+              text: emptyMessage,
+              showClearFiltersButton: showClearFiltersButton,
+            ),
+      );
+    }
 
-    if (snapshot.data is List && (snapshot.data as List).isEmpty)
-      return Center(child: noResultScreen ?? emptyWidget ?? EmptyListScreen(text: emptyMessage));
+    if (snapshot.data is List && (snapshot.data as List).isEmpty) {
+      return Center(
+        child: noResultScreen ??
+            emptyWidget ??
+            EmptyListScreen(
+              text: emptyMessage,
+              showClearFiltersButton: showClearFiltersButton,
+            ),
+      );
+    }
 
     return forceReturnBuildWidget ? buildWidget(forcedDataReturned!) : buildWidget(snapshot.data!);
   }

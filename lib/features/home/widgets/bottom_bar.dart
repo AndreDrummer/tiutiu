@@ -19,12 +19,12 @@ class BottomBar extends StatelessWidget {
           type: BottomNavigationBarType.fixed,
           backgroundColor: Colors.black,
           showSelectedLabels: true,
-          items: bottomBarLabels
+          items: getBottomBarLabelsVerified()
               .map(
                 (label) => BottomNavigationBarItem(
                   icon: Icon(
-                    bottomBarIcons.elementAt(
-                      bottomBarLabels.indexOf(label),
+                    getBottomBarIconsVerified().elementAt(
+                      getBottomBarLabelsVerified().indexOf(label),
                     ),
                   ),
                   label: label,
@@ -34,15 +34,39 @@ class BottomBar extends StatelessWidget {
     );
   }
 
-  final List<String> bottomBarLabels = [
+  final List<String> _bottomBarLabels = [
     AppStrings.adopte,
     AppStrings.find,
+    AppStrings.post,
+    AppStrings.chat,
     AppStrings.more,
   ];
 
-  final List<IconData> bottomBarIcons = [
+  final List<IconData> _bottomBarIcons = [
     FontAwesomeIcons.paw,
     FontAwesomeIcons.searchengin,
+    FontAwesomeIcons.squarePlus,
+    Icons.forum,
     Icons.menu,
   ];
+
+  List<String> getBottomBarLabelsVerified() {
+    if (authController.user?.emailVerified ?? false) return _bottomBarLabels;
+
+    // Remove chat option from NavigationBar
+    if (_bottomBarLabels.contains(AppStrings.chat)) {
+      _bottomBarLabels.remove(AppStrings.chat);
+    }
+    return _bottomBarLabels;
+  }
+
+  List<IconData> getBottomBarIconsVerified() {
+    if (authController.user?.emailVerified ?? false) return _bottomBarIcons;
+
+    // Remove chat option from NavigationBar
+    if (_bottomBarIcons.contains(Icons.forum)) {
+      _bottomBarIcons.remove(Icons.forum);
+    }
+    return _bottomBarIcons;
+  }
 }
