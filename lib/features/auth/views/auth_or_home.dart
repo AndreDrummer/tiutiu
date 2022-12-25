@@ -1,6 +1,4 @@
-import 'package:tiutiu/core/local_storage/local_storage_keys.dart';
-import 'package:tiutiu/core/local_storage/local_storage.dart';
-import 'package:tiutiu/features/auth/views/start_screen.dart';
+import 'package:tiutiu/features/auth/views/start_screen_or_home.dart';
 import 'package:tiutiu/core/utils/routes/routes_name.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/widgets/async_handler.dart';
@@ -30,23 +28,8 @@ class _AuthOrHomeState extends State<AuthOrHome> {
           },
           snapshot: snapshot,
           buildWidget: (_) {
-            return FutureBuilder(
-              future: LocalStorage.getBooleanKey(
-                key: LocalStorageKey.firstOpen,
-              ),
-              builder: (_, AsyncSnapshot<bool> snapshot) {
-                return AsyncHandler<bool>(
-                  snapshot: snapshot,
-                  buildWidget: (firstOpen) {
-                    LocalStorage.setBooleanUnderKey(
-                      key: LocalStorageKey.firstOpen,
-                      value: false,
-                    );
-
-                    return firstOpen ? StartScreen() : Home();
-                  },
-                );
-              },
+            return StartScreenOrSomeScreen(
+              somescreen: Home(),
             );
           },
         );

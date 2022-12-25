@@ -1,20 +1,32 @@
+import 'package:tiutiu/features/chat/views/my_contacts.dart';
 import 'package:tiutiu/features/home/controller/home_controller.dart';
 import 'package:tiutiu/features/home/widgets/bottom_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/features/home/widgets/header.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
-import 'package:tiutiu/features/home/views/screens.dart';
 import 'package:tiutiu/core/mixins/tiu_tiu_pop_up.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/core/constants/strings.dart';
 import 'package:tiutiu/core/utils/dimensions.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:tiutiu/features/posts/flow/init_post_flow.dart';
+import 'package:tiutiu/features/posts/views/posts_list.dart';
 import 'dart:io';
+
+import 'package:tiutiu/features/profile/views/more.dart';
 
 class Home extends StatelessWidget with TiuTiuPopUp {
   @override
   Widget build(BuildContext context) {
+    final screens = <Widget>[
+      DonateList(),
+      FinderList(),
+      InitPostFlow(),
+      authController.user?.emailVerified ?? false ? MyContacts() : More(),
+      More(),
+    ];
+
     return SafeArea(
       child: Obx(
         () => WillPopScope(

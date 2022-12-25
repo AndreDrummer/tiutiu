@@ -1,3 +1,4 @@
+import 'package:tiutiu/features/auth/views/authenticated_area.dart';
 import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/constants/images_assets.dart';
@@ -13,21 +14,21 @@ import 'package:tiutiu/core/utils/formatter.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+late TiutiuUser _user;
+
 class More extends StatelessWidget with TiuTiuPopUp {
-  More({
-    required final TiutiuUser user,
-  }) : _user = user;
-
-  final TiutiuUser _user;
-
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        body: Container(
-          margin: EdgeInsets.all(4.0.h),
-          child: _cardContent(context),
-          height: Get.height,
+    _user = tiutiuUserController.tiutiuUser;
+
+    return AuthenticatedArea(
+      child: SafeArea(
+        child: Scaffold(
+          body: Container(
+            margin: EdgeInsets.all(4.0.h),
+            child: _cardContent(context),
+            height: Get.height,
+          ),
         ),
       ),
     );

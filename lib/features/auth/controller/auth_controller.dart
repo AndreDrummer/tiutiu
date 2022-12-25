@@ -1,3 +1,4 @@
+import 'package:tiutiu/core/Exceptions/tiutiu_exceptions.dart';
 import 'package:tiutiu/features/auth/models/email_password_auth.dart';
 import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
 import 'package:tiutiu/core/local_storage/local_storage_keys.dart';
@@ -14,7 +15,7 @@ import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'dart:math';
 
-const int WHATSAPP_EXPIRATION_TOKEN_TIMER = 30;
+const int WHATSAPP_EXPIRATION_TOKEN_TIMER = 60;
 
 enum AuthKeys {
   password,
@@ -241,6 +242,7 @@ class AuthController extends GetxController {
       if (success) {
         await loadUserData();
         saveEmailAndPasswordAuthData();
+        tiutiuUserController.checkUserRegistered();
       }
 
       isCreatingNewAccount = false;
@@ -262,6 +264,7 @@ class AuthController extends GetxController {
     if (success) {
       await loadUserData();
       saveEmailAndPasswordAuthData();
+      tiutiuUserController.checkUserRegistered();
     }
 
     isShowingPassword = false;
@@ -282,6 +285,7 @@ class AuthController extends GetxController {
     if (success) {
       await loadUserData();
       registerFirstLogin();
+      tiutiuUserController.checkUserRegistered();
     }
 
     setLoading(false, '');
@@ -296,6 +300,7 @@ class AuthController extends GetxController {
     if (success) {
       await loadUserData();
       registerFirstLogin();
+      tiutiuUserController.checkUserRegistered();
     }
 
     setLoading(false, '');
@@ -422,89 +427,94 @@ class AuthController extends GetxController {
   }
 
   Future<void> updateUserInfo() async {
-    if (!_isUpdatingUserDataOnServer.value) {
-      final lastSignInTime = _authService.authUser?.metadata.lastSignInTime;
-      final creationTime = _authService.authUser?.metadata.creationTime;
-      final loggedUser = tiutiuUserController.tiutiuUser;
+    try {
+      if (!_isUpdatingUserDataOnServer.value) {
+        final lastSignInTime = _authService.authUser?.metadata.lastSignInTime;
+        final creationTime = _authService.authUser?.metadata.creationTime;
+        final loggedUser = tiutiuUserController.tiutiuUser;
 
-      _isUpdatingUserDataOnServer(true);
-      await user?.reload();
+        _isUpdatingUserDataOnServer(true);
+        await user?.reload();
 
-      final fcmToken = await FirebaseMessaging.instance.getToken();
-      debugPrint('>> Updating FCM Token $fcmToken');
-      tiutiuUserController.updateTiutiuUser(
-        TiutiuUserEnum.notificationToken,
-        fcmToken,
-      );
-
-      if (creationTime != null) {
-        debugPrint('>> Updating createAt...');
+        final fcmToken = await FirebaseMessaging.instance.getToken();
+        debugPrint('>> Updating FCM Token $fcmToken');
         tiutiuUserController.updateTiutiuUser(
-          TiutiuUserEnum.createdAt,
-          creationTime.toIso8601String(),
+          TiutiuUserEnum.notificationToken,
+          fcmToken,
         );
-      }
 
-      if (lastSignInTime != null) {
-        debugPrint('>> Updating lastSeen...');
+        if (creationTime != null) {
+          debugPrint('>> Updating createAt...');
+          tiutiuUserController.updateTiutiuUser(
+            TiutiuUserEnum.createdAt,
+            creationTime.toIso8601String(),
+          );
+        }
+
+        if (lastSignInTime != null) {
+          debugPrint('>> Updating lastSeen...');
+          tiutiuUserController.updateTiutiuUser(
+            TiutiuUserEnum.lastLogin,
+            lastSignInTime.toIso8601String(),
+          );
+        }
+
+        debugPrint('>> Updating emailVerified... ${user?.emailVerified}');
         tiutiuUserController.updateTiutiuUser(
-          TiutiuUserEnum.lastLogin,
-          lastSignInTime.toIso8601String(),
+          TiutiuUserEnum.emailVerified,
+          user?.emailVerified ?? false,
         );
+
+        if (loggedUser.displayName == null) {
+          debugPrint('>> Updating displayName...');
+          tiutiuUserController.updateTiutiuUser(
+            TiutiuUserEnum.displayName,
+            user?.displayName,
+          );
+        }
+
+        if (loggedUser.avatar == null) {
+          debugPrint('>> Updating avatar...');
+          tiutiuUserController.updateTiutiuUser(
+            TiutiuUserEnum.avatar,
+            user?.photoURL,
+          );
+        }
+
+        if (loggedUser.phoneNumber == null) {
+          debugPrint('>> Updating phoneNumber...');
+          tiutiuUserController.updateTiutiuUser(
+            TiutiuUserEnum.phoneNumber,
+            user?.phoneNumber,
+          );
+        }
+
+        if (loggedUser.uid == null) {
+          debugPrint('>> Updating uid...');
+          tiutiuUserController.updateTiutiuUser(
+            TiutiuUserEnum.uid,
+            loggedUser.uid ?? user!.uid,
+          );
+        }
+
+        if (loggedUser.email == null) {
+          debugPrint('>> Updating email...');
+          tiutiuUserController.updateTiutiuUser(
+            TiutiuUserEnum.email,
+            authController.user!.email,
+          );
+        }
+
+        if (!user!.emailVerified && allowResendEmail) {
+          sendEmail();
+        }
+
+        await tiutiuUserController.updateUserDataOnServer();
+        _isUpdatingUserDataOnServer(false);
       }
-
-      debugPrint('>> Updating emailVerified... ${user?.emailVerified}');
-      tiutiuUserController.updateTiutiuUser(
-        TiutiuUserEnum.emailVerified,
-        user?.emailVerified ?? false,
-      );
-
-      if (loggedUser.displayName == null) {
-        debugPrint('>> Updating displayName...');
-        tiutiuUserController.updateTiutiuUser(
-          TiutiuUserEnum.displayName,
-          user?.displayName,
-        );
-      }
-
-      if (loggedUser.avatar == null) {
-        debugPrint('>> Updating avatar...');
-        tiutiuUserController.updateTiutiuUser(
-          TiutiuUserEnum.avatar,
-          user?.photoURL,
-        );
-      }
-
-      if (loggedUser.phoneNumber == null) {
-        debugPrint('>> Updating phoneNumber...');
-        tiutiuUserController.updateTiutiuUser(
-          TiutiuUserEnum.phoneNumber,
-          user?.phoneNumber,
-        );
-      }
-
-      if (loggedUser.uid == null) {
-        debugPrint('>> Updating uid...');
-        tiutiuUserController.updateTiutiuUser(
-          TiutiuUserEnum.uid,
-          loggedUser.uid ?? user!.uid,
-        );
-      }
-
-      if (loggedUser.email == null) {
-        debugPrint('>> Updating email...');
-        tiutiuUserController.updateTiutiuUser(
-          TiutiuUserEnum.email,
-          authController.user!.email,
-        );
-      }
-
-      if (!user!.emailVerified && allowResendEmail) {
-        sendEmail();
-      }
-
-      await tiutiuUserController.updateUserDataOnServer();
-      _isUpdatingUserDataOnServer(false);
+    } on FirebaseAuthException catch (exception) {
+      debugPrint('>> An error ocurred when updating user info: ${exception.message}');
+      throw TiuTiuAuthException(exception.code);
     }
   }
 
@@ -515,8 +525,10 @@ class AuthController extends GetxController {
     clearAllAuthData();
     clearEmailAndPassword();
     debugPrint('>> Cleaning cache...');
+    tiutiuUserController.checkUserRegistered();
     debugPrint('>> Logout done!');
     recordLogoutTimeNow();
+    setLoading(false, '');
     debugPrint('>> User still exists? ${_authService.userExists}');
   }
 
