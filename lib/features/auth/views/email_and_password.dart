@@ -310,7 +310,7 @@ class EmailAndPassword extends StatelessWidget with TiuTiuPopUp {
         (success) {
           if (success) {
             homeController.setDonateIndex();
-            Get.toNamed(Routes.home);
+            Get.offNamed(Routes.home);
             authController.clearEmailAndPassword();
           }
         },
@@ -330,7 +330,7 @@ class EmailAndPassword extends StatelessWidget with TiuTiuPopUp {
       await authController.loginWithEmailAndPassword().then((success) {
         if (success) {
           homeController.setDonateIndex();
-          Get.toNamed(Routes.home);
+          Get.offNamed(Routes.home);
           authController.isLoading = false;
         }
       });

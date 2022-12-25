@@ -1,10 +1,10 @@
 import 'package:tiutiu/features/auth/models/firebase_auth_provider.dart';
-import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
 import 'package:tiutiu/features/auth/views/auth_hosters.dart';
+import 'package:tiutiu/features/auth/views/start_screen_or_home.dart';
+import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:tiutiu/features/profile/views/settings.dart';
 import 'package:tiutiu/core/widgets/load_dark_screen.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
-import 'package:tiutiu/core/utils/validators.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -22,41 +22,35 @@ class AuthenticatedArea extends StatelessWidget {
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      body: StreamBuilder<User?>(
-        stream: authProvider.userStream(),
-        builder: (context, snapshot) {
-          final isRegistered = _isAppropriatelyRegistered(tiutiuUserController.tiutiuUser);
+      body: Builder(builder: (context) {
+        tiutiuUserController.checkUserRegistered();
+        return StreamBuilder<User?>(
+          stream: authProvider.userStream(),
+          builder: (context, snapshot) {
+            return Obx(() {
+              final bool isRegistered = tiutiuUserController.isAppropriatelyRegistered;
 
-          debugPrint('>> Is registered? $isRegistered');
+              debugPrint('>> Is registered? ${tiutiuUserController.isAppropriatelyRegistered}');
 
-          if (isRegistered) {
-            return child;
-          } else if (snapshot.hasData) {
-            final user = snapshot.requireData;
-            final isAuthenticated = user != null;
+              if (isRegistered) {
+                return child;
+              } else if (snapshot.hasData) {
+                final user = snapshot.requireData;
+                final isAuthenticated = user != null;
 
-            debugPrint('>> Is authenticated? $isAuthenticated');
+                debugPrint('>> Is authenticated? $isAuthenticated');
 
-            if (isAuthenticated && !isRegistered) return Settings(isCompletingProfile: true);
-            if (isAuthenticated && isRegistered) return child;
-          }
+                if (isAuthenticated && !isRegistered) return Settings(isCompletingProfile: true);
+                if (isAuthenticated && isRegistered) return child;
+              }
 
-          return authProvider.firebaseAuthUser == null ? AuthHosters() : LoadDarkScreen();
-        },
-      ),
+              return authProvider.firebaseAuthUser == null
+                  ? StartScreenOrSomeScreen(somescreen: AuthHosters())
+                  : LoadDarkScreen();
+            });
+          },
+        );
+      }),
     );
-  }
-
-  bool _isAppropriatelyRegistered(TiutiuUser user) {
-    bool registered = false;
-
-    final hasNumber = Validators.isValidPhone(user.phoneNumber);
-    final hasName = user.displayName != null;
-    final hasAvatar = user.avatar != null;
-    final hasUid = user.uid != null;
-
-    registered = hasNumber && hasName && hasAvatar && hasUid;
-
-    return registered;
   }
 }

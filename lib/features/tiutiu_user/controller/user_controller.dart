@@ -1,3 +1,4 @@
+import 'package:tiutiu/core/utils/validators.dart';
 import 'package:tiutiu/features/tiutiu_user/services/tiutiu_user_service.dart';
 import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
 import 'package:tiutiu/core/extensions/string_extension.dart';
@@ -12,8 +13,10 @@ class TiutiuUserController extends GetxController {
   final TiutiuUserService _tiutiuUserService;
 
   final Rx<TiutiuUser> _tiutiuUser = TiutiuUser().obs;
+  final RxBool _isAppropriatelyRegistered = false.obs;
   final RxBool _isLoading = false.obs;
 
+  bool get isAppropriatelyRegistered => _isAppropriatelyRegistered.value;
   TiutiuUser get tiutiuUser => _tiutiuUser.value;
   bool get isLoading => _isLoading.value;
 
@@ -72,5 +75,18 @@ class TiutiuUserController extends GetxController {
 
   Stream<QuerySnapshot<Map<String, dynamic>>> getUserPostsById(String userId) {
     return _tiutiuUserService.getUserPostsById(userId);
+  }
+
+  void checkUserRegistered() {
+    bool registered = false;
+
+    final hasNumber = Validators.isValidPhone(tiutiuUser.phoneNumber);
+    final hasName = tiutiuUser.displayName != null;
+    final hasAvatar = tiutiuUser.avatar != null;
+    final hasUid = tiutiuUser.uid != null;
+
+    registered = hasNumber && hasName && hasAvatar && hasUid;
+
+    _isAppropriatelyRegistered(registered);
   }
 }
