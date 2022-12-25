@@ -207,7 +207,7 @@ class _SettingsState extends State<Settings> {
             _setDataToUser();
 
             await moreController.save();
-            Get.back();
+
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(MoreStrings.profileUpdated)));
           } else if (tiutiuUserController.tiutiuUser.avatar == null) {
             appController.snackBarIsOpen = true;

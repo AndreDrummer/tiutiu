@@ -1,3 +1,4 @@
+import 'package:tiutiu/features/auth/views/authenticated_area.dart';
 import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
 import 'package:tiutiu/features/chat/widgets/contact_tile.dart';
 import 'package:tiutiu/core/widgets/default_basic_app_bar.dart';
@@ -21,44 +22,46 @@ class _MyContactsState extends State<MyContacts> {
   Widget build(BuildContext context) {
     final myUserId = tiutiuUserController.tiutiuUser.uid;
 
-    return Scaffold(
-      appBar: DefaultBasicAppBar(text: ChatStrings.myContacts),
-      body: StreamBuilder<List<Contact>>(
-        stream: chatController.contacts(),
-        builder: (context, snapshot) {
-          return AsyncHandler<List<Contact>>(
-            emptyWidget: VerifyAccountWarningInterstitial(
-              child: AutoSizeTexts.autoSizeText16(ChatStrings.noContact),
-            ),
-            snapshot: snapshot,
-            buildWidget: (contacts) {
-              return ListView.builder(
-                itemCount: contacts.length,
-                itemBuilder: ((context, index) {
-                  final contact = contacts[index];
+    return AuthenticatedArea(
+      child: Scaffold(
+        appBar: DefaultBasicAppBar(text: ChatStrings.myContacts),
+        body: StreamBuilder<List<Contact>>(
+          stream: chatController.contacts(),
+          builder: (context, snapshot) {
+            return AsyncHandler<List<Contact>>(
+              emptyWidget: VerifyAccountWarningInterstitial(
+                child: AutoSizeTexts.autoSizeText16(ChatStrings.noContact),
+              ),
+              snapshot: snapshot,
+              buildWidget: (contacts) {
+                return ListView.builder(
+                  itemCount: contacts.length,
+                  itemBuilder: ((context, index) {
+                    final contact = contacts[index];
 
-                  return StreamBuilder<TiutiuUser>(
-                    stream: chatController.receiverUser(contact),
-                    builder: (context, userSnapshot) {
-                      return ContactTile(
-                        onContactTap: (() {
-                          chatController.markMessageAsRead(contact);
-                          chatController.startsChatWith(
-                            user: userSnapshot.data,
-                            myUserId: myUserId!,
-                          );
-                        }),
-                        hasNewMessage: !contact.open && contact.userSenderId != myUserId,
-                        userReceiver: userSnapshot.data,
-                        contact: contact,
-                      );
-                    },
-                  );
-                }),
-              );
-            },
-          );
-        },
+                    return StreamBuilder<TiutiuUser>(
+                      stream: chatController.receiverUser(contact),
+                      builder: (context, userSnapshot) {
+                        return ContactTile(
+                          onContactTap: (() {
+                            chatController.markMessageAsRead(contact);
+                            chatController.startsChatWith(
+                              user: userSnapshot.data,
+                              myUserId: myUserId!,
+                            );
+                          }),
+                          hasNewMessage: !contact.open && contact.userSenderId != myUserId,
+                          userReceiver: userSnapshot.data,
+                          contact: contact,
+                        );
+                      },
+                    );
+                  }),
+                );
+              },
+            );
+          },
+        ),
       ),
     );
   }
