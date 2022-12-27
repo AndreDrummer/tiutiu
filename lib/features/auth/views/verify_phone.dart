@@ -1,19 +1,19 @@
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:tiutiu/core/widgets/simple_text_button.dart';
+import 'package:tiutiu/core/widgets/button_wide_outlined.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:tiutiu/core/utils/routes/routes_name.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/constants/text_styles.dart';
-import 'package:tiutiu/core/widgets/button_wide.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
+import 'package:tiutiu/core/widgets/button_wide.dart';
 import 'package:tiutiu/core/constants/strings.dart';
+import 'package:tiutiu/core/utils/dimensions.dart';
 import 'package:tiutiu/core/utils/formatter.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'dart:async';
-
-import 'package:tiutiu/features/home/controller/home_controller.dart';
 
 class VerifyPhone extends StatefulWidget {
   const VerifyPhone({super.key});
@@ -80,8 +80,15 @@ class _VerifyPhoneState extends State<VerifyPhone> {
               _topBar(),
               _insertCodeSentToTheNumberText(number),
               _codeBoxes(context),
+              SizedBox(
+                height: Get.width /
+                    Dimensions.getDimensBasedOnDeviceHeight(
+                      bigger: 2.2,
+                      medium: 2.2,
+                      smaller: 8,
+                    ),
+              ),
               _resendWithin(),
-              _backButton(),
               _confirmButton(),
             ],
           );
@@ -125,8 +132,9 @@ class _VerifyPhoneState extends State<VerifyPhone> {
         children: [
           SizedBox(height: 32.0.h),
           AutoSizeTexts.autoSizeText18(
-            AuthStrings.insertCodeSentToNumber,
-            fontWeight: FontWeight.w600,
+            authController.isWhatsappTokenValid
+                ? AuthStrings.insertCodeSentToNumber
+                : AuthStrings.weWilSendACodeToThisNumber,
             textAlign: TextAlign.center,
           ),
           SizedBox(height: 8.0.h),
@@ -146,7 +154,18 @@ class _VerifyPhoneState extends State<VerifyPhone> {
               ),
             ],
           ),
-          SizedBox(height: 16.0.h),
+          Visibility(
+            replacement: SizedBox(height: 16.0.h),
+            visible: !authController.isWhatsappTokenValid,
+            child: Padding(
+              padding: EdgeInsets.symmetric(vertical: 8.0.h),
+              child: AutoSizeTexts.autoSizeText14(
+                AuthStrings.confirmeIfThisNumberIsCorrect,
+                fontWeight: FontWeight.w600,
+                textAlign: TextAlign.center,
+              ),
+            ),
+          ),
         ],
       ),
     );
@@ -240,30 +259,29 @@ class _VerifyPhoneState extends State<VerifyPhone> {
   }
 
   Widget _resendButton() {
-    return Obx(
-      () => Visibility(
-        visible: !codeFilled,
-        child: ButtonWide(
-          onPressed: authController.isWhatsappTokenValid
-              ? null
-              : () async {
-                  await authController.sendWhatsAppCode();
-                  restartTimer();
-                },
-          text: AuthStrings.receiveCode,
+    return Column(
+      children: [
+        Visibility(
+          visible: !codeFilled,
+          child: ButtonWide(
+            isToExpand: true,
+            onPressed: () async {
+              await authController.sendWhatsAppCode();
+              restartTimer();
+            },
+            text: AuthStrings.confirmAndReceiveCode,
+          ),
         ),
-      ),
-    );
-  }
-
-  Widget _backButton() {
-    return Visibility(
-      visible: homeController.bottomBarIndex != BottomBarIndex.POST.indx,
-      child: SimpleTextButton(
-        textColor: AppColors.black.withOpacity(.7),
-        onPressed: () => Get.back(),
-        text: AppStrings.back,
-      ),
+        Visibility(
+          visible: !codeFilled,
+          child: OutlinedButtonWide(
+            onPressed: () async {
+              Get.toNamed(Routes.settings);
+            },
+            text: AuthStrings.editPhoneNumber,
+          ),
+        ),
+      ],
     );
   }
 

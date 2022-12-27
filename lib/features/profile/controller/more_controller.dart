@@ -44,6 +44,7 @@ class MoreController extends GetxController {
     _isLoading(true);
 
     await authController.updateUserInfo();
+    tiutiuUserController.checkUserRegistered();
 
     _isLoading(false);
   }
