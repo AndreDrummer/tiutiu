@@ -102,6 +102,7 @@ class _SettingsState extends State<Settings> {
                 SizedBox(height: 16.0.h),
                 Spacer(),
                 _buttons(context),
+                SizedBox(height: 16.0.h),
               ],
             ),
           )
