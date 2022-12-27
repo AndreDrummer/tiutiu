@@ -106,20 +106,23 @@ class AuthHosters extends StatelessWidget with TiuTiuPopUp {
     return Container(
       height: Get.height /
           Dimensions.getDimensBasedOnDeviceHeight(
-            smaller: 2.75,
-            medium: 3.0,
-            bigger: 3.0,
+            smaller: Platform.isIOS ? 2.75 : 3.7,
+            medium: Platform.isIOS ? 3.0 : 4.0,
+            bigger: Platform.isIOS ? 3.0 : 4.0,
           ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          ButtonWide(
-            icon: FontAwesomeIcons.apple,
-            onPressed: _loginWithApple,
-            textColor: AppColors.black,
-            text: AuthStrings.apple,
-            color: AppColors.white,
-            isToExpand: true,
+          Visibility(
+            visible: Platform.isIOS,
+            child: ButtonWide(
+              icon: FontAwesomeIcons.apple,
+              onPressed: _loginWithApple,
+              textColor: AppColors.black,
+              text: AuthStrings.apple,
+              color: AppColors.white,
+              isToExpand: true,
+            ),
           ),
           ButtonWide(
             icon: FontAwesomeIcons.envelope,
