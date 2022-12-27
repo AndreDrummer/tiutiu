@@ -5,7 +5,6 @@ import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/widgets/warning_widget.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/core/constants/strings.dart';
-import 'package:tiutiu/core/utils/dimensions.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -19,7 +18,7 @@ class TopBar extends StatelessWidget {
     );
 
     return Padding(
-      padding: EdgeInsets.fromLTRB(9.5.w, 4.0.h, 8.0.w, 0.0.h),
+      padding: EdgeInsets.fromLTRB(6.0.w, 6.0.h, 12.0.w, 4.0.h),
       child: Column(
         children: [
           Row(
@@ -60,10 +59,6 @@ class TopBar extends StatelessWidget {
                 ),
               ),
             ],
-          ),
-          Visibility(
-            visible: Dimensions.isBigDevice(),
-            child: SizedBox(height: 4.0.h),
           ),
           WarningBanner(
             showBannerCondition:
