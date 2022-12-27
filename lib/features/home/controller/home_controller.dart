@@ -39,6 +39,8 @@ class HomeController extends GetxController {
   }
 
   void _setbottomBarIndex(BottomBarIndex index) {
+    tiutiuUserController.checkUserRegistered();
+
     _cardVisibilityKind(CardVisibilityKind.card);
     filterController.updateParams(FilterParamsEnum.disappeared, false);
 
