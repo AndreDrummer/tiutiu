@@ -70,7 +70,6 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
 
     return WillPopScope(
       onWillPop: () async {
-        chewieController?.pause();
         if (!postsController.isInReviewMode) postsController.clearForm();
         return true;
       },
@@ -165,10 +164,13 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
               ),
             ),
             Spacer(),
-            AddRemoveFavorite(
-              post: postsController.post,
-              isRemoveButton: false,
-              tiny: true,
+            Visibility(
+              visible: !postsController.isInReviewMode,
+              child: AddRemoveFavorite(
+                post: postsController.post,
+                isRemoveButton: false,
+                tiny: true,
+              ),
             ),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 4.0.h),

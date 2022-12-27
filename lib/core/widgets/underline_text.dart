@@ -75,7 +75,7 @@ class UnderlineInputText extends StatelessWidget {
             readOnly: readOnly,
             style: TextStyle(
               color: Colors.black,
-              fontSize: fontSizeLabelText != null ? fontSizeLabelText! * .9 : 18.0,
+              fontSize: fontSizeLabelText != null ? fontSizeLabelText! * 1.5 : 18.0,
             ),
             minLines: 1,
             maxLines: maxLines ?? 2,
