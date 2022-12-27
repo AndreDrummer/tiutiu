@@ -60,12 +60,15 @@ class TopBar extends StatelessWidget {
               ),
             ],
           ),
-          WarningBanner(
-            showBannerCondition:
-                appController.properties.internetConnected && !tiutiuUserController.tiutiuUser.emailVerified,
-            padding: EdgeInsets.symmetric(horizontal: 4.0.w, vertical: 2.0.h),
-            replacement: SizedBox.shrink(),
-            margin: EdgeInsets.zero,
+          Padding(
+            padding: EdgeInsets.only(top: 8.0.h),
+            child: WarningBanner(
+              showBannerCondition:
+                  appController.properties.internetConnected && !tiutiuUserController.tiutiuUser.emailVerified,
+              padding: EdgeInsets.symmetric(horizontal: 4.0.w, vertical: 2.0.h),
+              replacement: SizedBox.shrink(),
+              margin: EdgeInsets.zero,
+            ),
           ),
           WarningBanner(
             showBannerCondition: !appController.properties.internetConnected && postsController.posts.isNotEmpty,
