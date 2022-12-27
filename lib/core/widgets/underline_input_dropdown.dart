@@ -51,7 +51,7 @@ class UnderlineInputDropdown extends StatelessWidget {
             selectedItemBuilder: (_) => items
                 .map<DropdownMenuItem<String>>(
                   (e) => DropdownMenuItem<String>(
-                    child: AutoSizeTexts.autoSizeText14(
+                    child: AutoSizeTexts.autoSizeText18(
                       e,
                       color: AppColors.black,
                     ),
@@ -62,7 +62,7 @@ class UnderlineInputDropdown extends StatelessWidget {
             items: items
                 .map<DropdownMenuItem<String>>(
                   (e) => DropdownMenuItem<String>(
-                    child: AutoSizeTexts.autoSizeText14(e, color: AppColors.black),
+                    child: AutoSizeTexts.autoSizeText18(e, color: AppColors.black),
                     value: e,
                   ),
                 )

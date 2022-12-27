@@ -1,20 +1,19 @@
-import 'package:tiutiu/features/chat/views/my_contacts.dart';
 import 'package:tiutiu/features/home/controller/home_controller.dart';
+import 'package:tiutiu/features/posts/flow/init_post_flow.dart';
 import 'package:tiutiu/features/home/widgets/bottom_bar.dart';
+import 'package:tiutiu/features/posts/views/posts_list.dart';
+import 'package:tiutiu/features/chat/views/my_contacts.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/features/home/widgets/header.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
+import 'package:tiutiu/features/profile/views/more.dart';
 import 'package:tiutiu/core/mixins/tiu_tiu_pop_up.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/core/constants/strings.dart';
 import 'package:tiutiu/core/utils/dimensions.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:tiutiu/features/posts/flow/init_post_flow.dart';
-import 'package:tiutiu/features/posts/views/posts_list.dart';
 import 'dart:io';
-
-import 'package:tiutiu/features/profile/views/more.dart';
 
 class Home extends StatelessWidget with TiuTiuPopUp {
   @override
@@ -101,7 +100,7 @@ class Home extends StatelessWidget with TiuTiuPopUp {
   double expandedHeight() {
     final homeListPadding = Dimensions.getDimensBasedOnDeviceHeight(
       smaller: Get.height / 3.8,
-      medium: Get.height / 4.8,
+      medium: Get.height / 4.5,
       bigger: Get.height / 4.8,
     );
 

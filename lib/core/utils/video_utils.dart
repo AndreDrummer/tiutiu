@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:tiutiu/core/extensions/string_extension.dart';
+import 'package:tiutiu/core/widgets/loading_video_screen.dart';
 import 'package:video_player/video_player.dart';
 import 'package:flutter/material.dart';
 import 'package:chewie/chewie.dart';
@@ -28,9 +29,9 @@ class VideoUtils {
         videoPlayerController = VideoPlayerController.file(videoPath);
       }
       chewieController = ChewieController(
-        placeholder: Center(child: CircularProgressIndicator()),
         aspectRatio: videoPlayerController?.value.aspectRatio,
         videoPlayerController: videoPlayerController!,
+        placeholder: Center(child: LoadingVideo()),
         showControlsOnInitialize: false,
         allowedScreenSleep: false,
         allowFullScreen: false,
