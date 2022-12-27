@@ -55,11 +55,9 @@ class Home extends StatelessWidget with TiuTiuPopUp {
                     () {
                       return SliverAppBar(
                         toolbarHeight: homeController.bottomBarIndex < 2
-                            ? Dimensions.getDimensBasedOnDeviceHeight(
-                                smaller: appController.properties.internetConnected ? 56.0.h : 80.0.h,
-                                medium: appController.properties.internetConnected ? 40.0.h : 80.0.h,
-                                bigger: appController.properties.internetConnected ? 40.0.h : 64.0.h,
-                              )
+                            ? appController.properties.internetConnected
+                                ? 40.0.h
+                                : 72.0.h
                             : 0.0,
                         backgroundColor: Colors.transparent,
                         expandedHeight: expandedHeight(),
