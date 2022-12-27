@@ -1,7 +1,7 @@
-import 'package:flutter/widgets.dart';
-import 'package:get/get.dart';
 import 'package:tiutiu/features/posts/model/filter_params.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
+import 'package:flutter/widgets.dart';
+import 'package:get/get.dart';
 
 enum BottomBarIndex {
   CHAT(indx: 3),
@@ -23,8 +23,8 @@ enum CardVisibilityKind {
 }
 
 class HomeController extends GetxController {
+  final Rx<CardVisibilityKind> _cardVisibilityKind = CardVisibilityKind.banner.obs;
   final ScrollController _scrollController = ScrollController();
-  final Rx<CardVisibilityKind> _cardVisibilityKind = CardVisibilityKind.card.obs;
   final RxBool _isAppBarCollapsed = false.obs;
   final RxInt _bottomBarIndex = 0.obs;
 
@@ -41,7 +41,6 @@ class HomeController extends GetxController {
   void _setbottomBarIndex(BottomBarIndex index) {
     tiutiuUserController.checkUserRegistered();
 
-    _cardVisibilityKind(CardVisibilityKind.card);
     filterController.updateParams(FilterParamsEnum.disappeared, false);
 
     if (index == BottomBarIndex.FINDER) {
@@ -49,6 +48,10 @@ class HomeController extends GetxController {
     }
 
     _bottomBarIndex(index.indx);
+  }
+
+  void setCardVisibilityToDefaut() {
+    _cardVisibilityKind(CardVisibilityKind.banner);
   }
 
   void onScrollUp() {
@@ -61,7 +64,7 @@ class HomeController extends GetxController {
 
   void changeCardVisibilityKind() {
     if (cardVisibilityKind == CardVisibilityKind.card) {
-      _cardVisibilityKind(CardVisibilityKind.banner);
+      setCardVisibilityToDefaut();
     } else {
       _cardVisibilityKind(CardVisibilityKind.card);
     }
