@@ -12,13 +12,17 @@ class TiutiuUserController extends GetxController {
 
   final TiutiuUserService _tiutiuUserService;
 
+  final RxBool _whatsappNumberHasBeenUpdated = false.obs;
   final Rx<TiutiuUser> _tiutiuUser = TiutiuUser().obs;
   final RxBool _isAppropriatelyRegistered = false.obs;
   final RxBool _isLoading = false.obs;
 
+  bool get whatsappNumberHasBeenUpdated => _whatsappNumberHasBeenUpdated.value;
   bool get isAppropriatelyRegistered => _isAppropriatelyRegistered.value;
   TiutiuUser get tiutiuUser => _tiutiuUser.value;
   bool get isLoading => _isLoading.value;
+
+  void set whatsappNumberHasBeenUpdated(bool value) => _whatsappNumberHasBeenUpdated(value);
 
   void updateTiutiuUser(TiutiuUserEnum property, dynamic data, [bool replace = false]) {
     if (replace && data is TiutiuUser) {

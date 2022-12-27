@@ -1,8 +1,8 @@
-import 'package:tiutiu/core/Exceptions/tiutiu_exceptions.dart';
 import 'package:tiutiu/features/auth/models/email_password_auth.dart';
 import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
 import 'package:tiutiu/core/local_storage/local_storage_keys.dart';
 import 'package:tiutiu/features/auth/service/auth_service.dart';
+import 'package:tiutiu/core/Exceptions/tiutiu_exceptions.dart';
 import 'package:tiutiu/core/local_storage/local_storage.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:tiutiu/core/constants/images_assets.dart';
@@ -15,7 +15,7 @@ import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'dart:math';
 
-const int WHATSAPP_EXPIRATION_TOKEN_TIMER = 60;
+const int WHATSAPP_EXPIRATION_TOKEN_TIMER = 120;
 
 enum AuthKeys {
   password,
@@ -102,6 +102,7 @@ class AuthController extends GetxController {
       if (phoneNumber != null) {
         debugPrint('>> sending Whatsapp token...');
         _authService.sendWhatsAppCode(phoneNumber, code);
+        tiutiuUserController.whatsappNumberHasBeenUpdated = false;
       }
     }
   }
@@ -156,7 +157,10 @@ class AuthController extends GetxController {
     final whatsAppTokenData = await _getWhatsappStorageToken();
 
     if (whatsAppTokenData == null) {
-      debugPrint('>> Token expired');
+      debugPrint('>> Token expired: No data');
+      _isWhatsappTokenValid(false);
+    } else if (tiutiuUserController.whatsappNumberHasBeenUpdated) {
+      debugPrint('>> Token expired: Number has been updated');
       _isWhatsappTokenValid(false);
     } else {
       debugPrint('>> Whatsapp tokenData ${whatsAppTokenData?.toMap()}..');

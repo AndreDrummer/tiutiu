@@ -62,22 +62,26 @@ class AppStrings {
 }
 
 class AuthStrings {
-  static const String resetPasswordInstructionsSent =
-      'As instruções de como resetar sua senha foi enviada para o e-mail informado.';
-  static const String deleteAccountWarning =
-      'Após excluir sua conta não será possível recuperá-la.\n\nDeseja continuar?';
   static const String demandRecentLoginWarning = 'Está ação requer que você faça login novamente.\n\nDeseja deslogar?';
   static String passwordShouldBeAtLeast(String field, int length) => '$field deve ter no mínimo $length dígitos';
   static const String unableToResendEmail = 'Não foi possível reenviar o e-mail. Tente novamente mais tarde!';
   static const String verifyEmailAdvice = 'Somente contas verificadas podem publicar um anúncio.';
-  static const String checkYourSpam = 'Cheque sua caixa de spam se necessário.';
   static const String tryVerifyCodeAgain = 'Não foi possível verificar o código.\nTente novamente.';
+  static const String confirmeIfThisNumberIsCorrect = 'Confirme se o número está correto.';
+  static const String weWilSendACodeToThisNumber = 'Vamos enviar um código para o número';
   static const String insertCodeSentToNumber = 'Insira o código enviado para o número';
   static const String linkWasSent = 'Um link de verificação foi enviado para o email';
   static const String successfullyVerifiedCode = 'Código verificado com sucesso!';
   static const String doYouWannaPasteCodeCopied = 'Deseja colar o código copiado';
+  static const String resetPasswordInstructionsSent =
+      'As instruções de como resetar sua senha foi enviada para o e-mail informado.';
   static const String codeIsValidForMinutes = 'O código é valido por 2 minutos.';
+  static const String deleteAccountWarning =
+      'Após excluir sua conta não será possível recuperá-la.\n\nDeseja continuar?';
+  static const String checkYourSpam = 'Cheque sua caixa de spam se necessário.';
+  static String get confirmAndReceiveCode => 'Confirmar e receber código';
   static const String typePasswordAgain = 'Digite a senha novamente';
+  static String get editPhoneNumber => 'Editar número de telefone';
   static String get authentique => 'Autentique-se para continuar.';
   static const String verifyYourNumber = 'Verifique seu número';
   static const String dontReceiveEmail = 'Não recebeu um email?';
@@ -87,13 +91,13 @@ class AuthStrings {
   static String get doNotHaveAnAccount => 'Não tem uma conta?';
   static String get continueAnon => 'Continuar anônimamente';
   static const String numberVerified = 'Número verificado';
-  static const String typeYourEmail = 'Digite seu email';
   static const String loginInProgress = 'Realizando Login';
   static const String forgotPassword = 'Esqueceu a senha?';
   static String get enterAccount => 'Entrar na sua conta.';
   static String get authFailure => 'Falha na autenticação';
   static String get haveAnAccount => 'Já tem uma conta?';
   static const String authenticanting = 'Autênticando...';
+  static const String typeYourEmail = 'Digite seu email';
   static String get resetPassword => 'Resetar a senha.';
   static const String deleteAccount = 'Excluir conta';
   static const String receiveEmail = 'Receber email';
@@ -101,7 +105,6 @@ class AuthStrings {
   static const String invalidCode = 'Código inválido!';
   static const String invalidEmail = 'E-mail inválido';
   static const String emailSent = 'E-mail enviado!';
-  static String get receiveCode => 'Receber código';
   static String get createAccount => 'Criar conta';
   static const String pasteCode = 'Colar código';
   static const String clickHere = 'Clique aqui';

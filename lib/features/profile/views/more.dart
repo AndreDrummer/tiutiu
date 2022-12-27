@@ -119,9 +119,11 @@ class More extends StatelessWidget with TiuTiuPopUp {
   Widget _userName() {
     return Container(
       width: 200.0.w,
-      child: AutoSizeTexts.autoSizeText24(
-        Formatters.cuttedText('${_user.displayName}', size: 32),
-        fontWeight: FontWeight.w700,
+      child: Obx(
+        () => AutoSizeTexts.autoSizeText24(
+          Formatters.cuttedText('${tiutiuUserController.tiutiuUser.displayName}', size: 32),
+          fontWeight: FontWeight.w700,
+        ),
       ),
     );
   }
@@ -134,7 +136,7 @@ class More extends StatelessWidget with TiuTiuPopUp {
       margin: EdgeInsets.zero,
       height: Dimensions.getDimensBasedOnDeviceHeight(
         smaller: Get.width * 1.13,
-        medium: Get.width * 1.11,
+        medium: Get.width * 1.4,
         bigger: Get.width * 1.5,
       ),
       child: ListView(
