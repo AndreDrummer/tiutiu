@@ -1,4 +1,5 @@
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:tiutiu/core/constants/text_styles.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/core/constants/strings.dart';
@@ -15,8 +16,8 @@ class OutlinedButtonWide extends StatelessWidget {
     this.text,
   });
 
-  final Color? textColor;
   final Function? onPressed;
+  final Color? textColor;
   final bool isToExpand;
   final IconData? icon;
   final String? text;
@@ -44,6 +45,7 @@ class OutlinedButtonWide extends StatelessWidget {
         ),
         onPressed: () => onPressed?.call(),
         child: Container(
+          width: isToExpand ? Get.width : 260.0.w,
           alignment: Alignment.center,
           height: 48.0.h,
           child: Row(

@@ -16,12 +16,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class Settings extends StatefulWidget {
-  Settings({
-    this.isCompletingProfile = false,
-    this.isEditingProfile = false,
-  });
+  Settings({this.isEditingProfile = true});
 
-  final bool isCompletingProfile;
   final bool isEditingProfile;
 
   @override
@@ -45,11 +41,9 @@ class _SettingsState extends State<Settings> {
 
   @override
   Widget build(BuildContext context) {
-    final title = widget.isEditingProfile
-        ? MoreStrings.editProfile
-        : widget.isCompletingProfile
-            ? MoreStrings.completeProfile
-            : tiutiuUserController.tiutiuUser.displayName ?? '';
+    print('isEditing ${widget.isEditingProfile}');
+
+    final title = widget.isEditingProfile ? MoreStrings.editProfile : MoreStrings.completeProfile;
 
     return SafeArea(
       child: Scaffold(
@@ -198,7 +192,7 @@ class _SettingsState extends State<Settings> {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 8.0.w),
       child: ColumnButtonBar(
-        showSimpleTextButton: !widget.isCompletingProfile,
+        showSimpleTextButton: widget.isEditingProfile,
         onPrimaryPressed: () async {
           if (_formIsValid()) {
             debugPrint('>> Updating profile...');
@@ -207,6 +201,8 @@ class _SettingsState extends State<Settings> {
             _setDataToUser();
 
             await moreController.save();
+
+            if (widget.isEditingProfile) Get.back();
 
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(MoreStrings.profileUpdated)));
           } else if (tiutiuUserController.tiutiuUser.avatar == null) {
@@ -237,6 +233,7 @@ class _SettingsState extends State<Settings> {
 
     if (phoneNumberController.text != previousUser.phoneNumber) {
       tiutiuUserController.updateTiutiuUser(TiutiuUserEnum.phoneVerified, false);
+      tiutiuUserController.whatsappNumberHasBeenUpdated = true;
     }
   }
 
