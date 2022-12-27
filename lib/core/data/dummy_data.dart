@@ -283,12 +283,12 @@ class DummyData {
     PetHealthString.ill,
   ];
 
-  static const gender = [
+  static List<String> gender = [
     '-',
-    'Macho',
-    'Fêmea',
-    'Hermafrodita',
-    'Não tem',
+    PostDetailsStrings.male,
+    PostDetailsStrings.female,
+    PostDetailsStrings.hermaphrodite,
+    PostDetailsStrings.none,
   ];
 
   static const catColors = [

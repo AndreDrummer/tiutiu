@@ -40,6 +40,7 @@ class LoadDarkScreen extends StatelessWidget {
                 ),
                 SizedBox(height: 15),
                 AutoSizeTexts.autoSizeText12(
+                  textAlign: TextAlign.center,
                   color: AppColors.white,
                   message,
                 )

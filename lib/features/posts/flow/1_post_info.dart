@@ -1,34 +1,28 @@
 import 'package:tiutiu/features/posts/validators/form_validators.dart';
+import 'package:tiutiu/core/widgets/underline_input_dropdown.dart';
 import 'package:tiutiu/core/extensions/string_extension.dart';
 import 'package:tiutiu/features/posts/widgets/text_area.dart';
-import 'package:tiutiu/core/widgets/underline_input_dropdown.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:tiutiu/core/pets/model/pet_model.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
-import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/core/widgets/underline_text.dart';
+import 'package:tiutiu/features/posts/model/post.dart';
+import 'package:tiutiu/core/pets/model/pet_model.dart';
 import 'package:tiutiu/core/constants/strings.dart';
 import 'package:tiutiu/core/utils/validators.dart';
-import 'package:tiutiu/core/widgets/one_line_text.dart';
 import 'package:tiutiu/core/data/dummy_data.dart';
-import 'package:tiutiu/features/posts/model/post.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class PostInfo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final monthsList = List<String>.generate(13, (index) => '$index');
-    final yearsList = List.generate(22, (index) => '$index');
-
     return Obx(
       () => ListView(
         padding: EdgeInsets.only(top: 8.0.h),
         children: [
           _petName(),
           _divider(),
-          _petAge(yearsList, monthsList),
-          _divider(),
+          _gender(),
           _petSize(),
           SizedBox(height: 32.0.h),
           _health(),
@@ -37,7 +31,7 @@ class PostInfo extends StatelessWidget {
     );
   }
 
-  SizedBox _divider() => SizedBox(height: 16.0.h);
+  SizedBox _divider() => SizedBox(height: 8.0.h);
 
   Padding _petName() {
     return Padding(
@@ -53,56 +47,40 @@ class PostInfo extends StatelessWidget {
               postsController.updatePost(PostEnum.name.name, name.trim());
             },
             labelText: PostFlowStrings.petName,
-            fontSizeLabelText: 14.0,
+            fontSizeLabelText: 12.0,
           ),
         ),
       ),
     );
   }
 
-  Column _petAge(List<String> yearsList, List<String> monthsList) {
-    return Column(
-      children: [
-        OneLineText(
-          widgetAlignment: Alignment(-0.92, 1),
-          fontWeight: FontWeight.w500,
-          color: AppColors.secondary,
-          text: PostFlowStrings.age,
-          fontSize: 14,
-        ),
-        Row(
-          children: [
-            Expanded(
-              child: UnderlineInputDropdown(
-                initialValue: (postsController.post as Pet).ageYear.toString(),
-                onChanged: (anos) {
-                  postsController.updatePost(
-                    PetEnum.ageYear.name,
-                    int.parse(anos ?? '0'),
-                  );
-                },
-                labelText: PostFlowStrings.years,
-                fontSize: 14.0,
-                items: yearsList,
-              ),
-            ),
-            Expanded(
-              child: UnderlineInputDropdown(
-                initialValue: (postsController.post as Pet).ageMonth.toString(),
-                onChanged: (meses) {
-                  postsController.updatePost(
-                    PetEnum.ageMonth.name,
-                    int.parse(meses ?? '0'),
-                  );
-                },
-                labelText: PostFlowStrings.months,
-                fontSize: 14.0,
-                items: monthsList,
-              ),
-            ),
-          ],
-        ),
-      ],
+  UnderlineInputDropdown _gender() {
+    final petType = (postsController.post as Pet).type;
+    late List<String> items;
+
+    switch (petType) {
+      case PetTypeStrings.dog:
+      case PetTypeStrings.cat:
+        items = DummyData.gender.sublist(0, 3);
+        break;
+
+      default:
+        items = DummyData.gender;
+    }
+
+    return UnderlineInputDropdown(
+      isInErrorState: !(postsController.post as Pet).gender.isNotEmptyNeighterNull() && !postsController.formIsValid,
+      initialValue: (postsController.post as Pet).gender.toString(),
+      onChanged: (gender) {
+        if (gender == PostDetailsStrings.male) {
+          postsController.updatePost(PetEnum.health.name, '-');
+        }
+
+        postsController.updatePost(PetEnum.gender.name, gender);
+      },
+      labelText: PostDetailsStrings.sex,
+      items: items,
+      fontSize: 12.0,
     );
   }
 
@@ -117,12 +95,21 @@ class PostInfo extends StatelessWidget {
         },
         labelText: PostFlowStrings.size,
         items: DummyData.size,
-        fontSize: 14.0,
+        fontSize: 12.0,
       ),
     );
   }
 
   Widget _health() {
+    final petIsMale = (postsController.post as Pet).gender == PostDetailsStrings.male;
+    List<String> healthState = DummyData.health;
+
+    if (petIsMale) {
+      healthState.remove(PetHealthString.preganant);
+    } else if (!healthState.contains(PetHealthString.preganant)) {
+      healthState.add(PetHealthString.preganant);
+    }
+
     return AnimatedContainer(
       height: postsController.existChronicDisease ? 152.0.h : 80.0.h,
       margin: EdgeInsets.only(bottom: 8.0.h),
@@ -137,8 +124,8 @@ class PostInfo extends StatelessWidget {
               postsController.updatePost(PetEnum.health.name, health);
             },
             labelText: PostDetailsStrings.health,
-            items: DummyData.health,
-            fontSize: 14.0,
+            items: healthState,
+            fontSize: 12.0,
           ),
           _chronicDiseaseInfo(),
         ],

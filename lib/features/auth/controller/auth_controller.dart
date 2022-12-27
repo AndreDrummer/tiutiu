@@ -15,7 +15,7 @@ import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'dart:math';
 
-const int WHATSAPP_EXPIRATION_TOKEN_TIMER = 120;
+const int WHATSAPP_EXPIRATION_TOKEN_TIMER = 20;
 
 enum AuthKeys {
   password,
