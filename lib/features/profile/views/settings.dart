@@ -41,31 +41,31 @@ class _SettingsState extends State<Settings> {
 
   @override
   Widget build(BuildContext context) {
-    print('isEditing ${widget.isEditingProfile}');
-
     final title = widget.isEditingProfile ? MoreStrings.editProfile : MoreStrings.completeProfile;
 
     return SafeArea(
       child: Scaffold(
-        resizeToAvoidBottomInset: false,
         appBar: DefaultBasicAppBar(automaticallyImplyLeading: false, text: title),
-        body: Form(
-          key: _formKey,
-          child: Center(
-            child: Container(
-              margin: const EdgeInsets.all(8.0),
-              height: Get.height,
-              child: Stack(
-                children: [
-                  Card(
-                    elevation: 8.0,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(24.0.h),
+        body: GestureDetector(
+          onTap: () => FocusScope.of(context).unfocus(),
+          child: Form(
+            key: _formKey,
+            child: Center(
+              child: Container(
+                margin: const EdgeInsets.all(8.0),
+                height: Get.height,
+                child: Stack(
+                  children: [
+                    Card(
+                      elevation: 8.0,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(24.0.h),
+                      ),
+                      child: _cardContent(context),
                     ),
-                    child: _cardContent(context),
-                  ),
-                  _loadingWidget()
-                ],
+                    _loadingWidget()
+                  ],
+                ),
               ),
             ),
           ),
