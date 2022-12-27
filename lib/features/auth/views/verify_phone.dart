@@ -83,7 +83,7 @@ class _VerifyPhoneState extends State<VerifyPhone> {
               SizedBox(
                 height: Get.width /
                     Dimensions.getDimensBasedOnDeviceHeight(
-                      bigger: 2.2,
+                      bigger: 2.5,
                       medium: 2.2,
                       smaller: 8,
                     ),
