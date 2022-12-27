@@ -11,7 +11,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/features/posts/model/post.dart';
 import 'package:tiutiu/core/pets/model/pet_model.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 class CardBuilder {
   const CardBuilder({
@@ -24,8 +23,6 @@ class CardBuilder {
   final bool inReviewMode;
   final Post _post;
 
-  Widget adImages() => AdImages(cardHeight: Get.height / (inReviewMode ? 3 : 2.2), photos: (_post as Pet).photos);
-
   Widget adInteresteds() => AdInteresteds(visible: (_post as Pet).disappeared, petKind: (_post as Pet).type);
 
   Widget favoriteButton() => AddRemoveFavorite(isRemoveButton: false, post: _post, tiny: true);
@@ -37,6 +34,8 @@ class CardBuilder {
   Widget adDescription() => AdDescription(description: (_post as Pet).breed);
 
   Widget adPostedAt() => AdPostedAt(createdAt: (_post as Pet).createdAt!);
+
+  Widget adImages() => AdImages(photos: (_post as Pet).photos);
 
   Widget adTitle() => AdTitle(title: (_post as Pet).name!);
 
