@@ -7,6 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'dart:io';
 
+import 'package:tiutiu/core/utils/dimensions.dart';
+
 enum PickerAssetType {
   photo,
   video,
@@ -33,7 +35,13 @@ mixin Pickers {
       elevation: 16.0,
       builder: (context) {
         return Container(
-          height: appController.properties.snackBarIsOpen ? 112.0.h : 100.0.h,
+          height: appController.properties.snackBarIsOpen
+              ? 112.0.h
+              : Dimensions.getDimensBasedOnDeviceHeight(
+                  smaller: 128.0.h,
+                  bigger: 100.0.h,
+                  medium: 100.0.h,
+                ),
           child: Column(
             children: [
               TextButton(
