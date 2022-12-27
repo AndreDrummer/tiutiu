@@ -34,8 +34,6 @@ class _FavoritesState extends State<Favorites> {
             builder: (context, snapshot) {
               final posts = snapshot.data ?? [];
 
-              print('Favorites $posts');
-
               return RenderPostList(
                 firstChild: FilterResultCount(postsCount: posts.length),
                 itemCount: posts.length,
