@@ -23,7 +23,6 @@ class AuthenticatedArea extends StatelessWidget {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: Builder(builder: (context) {
-        tiutiuUserController.checkUserRegistered();
         return StreamBuilder<User?>(
           stream: authProvider.userStream(),
           builder: (context, snapshot) {
@@ -40,7 +39,7 @@ class AuthenticatedArea extends StatelessWidget {
 
                 debugPrint('>> Is authenticated? $isAuthenticated');
 
-                if (isAuthenticated && !isRegistered) return Settings(isCompletingProfile: true);
+                if (isAuthenticated && !isRegistered) return Settings(isEditingProfile: false);
                 if (isAuthenticated && isRegistered) return child;
               }
 

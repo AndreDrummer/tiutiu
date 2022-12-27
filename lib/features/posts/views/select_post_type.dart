@@ -20,6 +20,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+ScrollController _pageScroll = ScrollController();
+
 class SelectPostType extends StatelessWidget with TiuTiuPopUp {
   final screenAnimationDuration = Duration(milliseconds: 700);
 
@@ -41,6 +43,7 @@ class SelectPostType extends StatelessWidget with TiuTiuPopUp {
               Container(
                 margin: EdgeInsets.symmetric(horizontal: 4.0.w),
                 child: ListView(
+                  controller: _pageScroll,
                   children: [
                     _selectPostType(),
                     _isDisappearedSelection(),
@@ -129,6 +132,11 @@ class SelectPostType extends StatelessWidget with TiuTiuPopUp {
                         title: AutoSizeTexts.autoSizeText12(AppStrings.yes),
                         onChanged: (_) {
                           postsController.updatePost(PetEnum.disappeared.name, true);
+                          _pageScroll.animateTo(
+                            duration: screenAnimationDuration,
+                            curve: Curves.ease,
+                            80.0.h,
+                          );
                         },
                         value: (postsController.post as Pet).disappeared,
                       ),
@@ -141,6 +149,11 @@ class SelectPostType extends StatelessWidget with TiuTiuPopUp {
                         onChanged: (_) {
                           postsController.updatePost(PetEnum.disappeared.name, false);
                           postsController.updatePost(PetEnum.reward.name, '');
+                          _pageScroll.animateTo(
+                            duration: screenAnimationDuration,
+                            curve: Curves.ease,
+                            0.0.h,
+                          );
                         },
                         value: !(postsController.post as Pet).disappeared,
                       ),
@@ -166,14 +179,15 @@ class SelectPostType extends StatelessWidget with TiuTiuPopUp {
 
   Widget _reward() {
     return Obx(() {
+      double marginBottom = (postsController.post as Pet).disappeared ? Get.height : 0.0.h;
       double marginTop = (postsController.post as Pet).disappeared ? 10 : Get.width / 3;
 
       return AnimatedOpacity(
         opacity: (postsController.post as Pet).disappeared ? 1 : 0,
         duration: screenAnimationDuration,
         child: AnimatedContainer(
+          margin: EdgeInsets.only(top: marginTop, left: 8.0.w, right: 8.0.w, bottom: marginBottom),
           duration: screenAnimationDuration,
-          margin: EdgeInsets.only(top: marginTop, left: 8.0.w, right: 8.0.w),
           child: Column(
             children: [
               _rewardTitle(),
