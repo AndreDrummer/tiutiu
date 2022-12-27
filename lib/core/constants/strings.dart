@@ -180,6 +180,7 @@ class UserStrings {
 }
 
 class PostDetailsStrings {
+  static const String loadingVideoFirstTime = 'Carregando video...\n\nAguarde, isso só vai acontecer dessa vez 😃';
   static String get lastSeen => 'Visto pela última vez em';
 
   static String whereIsIt({
@@ -193,10 +194,12 @@ class PostDetailsStrings {
   }
 
   static String get caracteristics => 'Características';
+  static String get hermaphrodite => 'Hermafrodita';
   static String get health => 'Estado de Saúde';
   static String get description => 'Descrição';
   static String get detailsOf => 'Detalhes de';
   static String get announcer => 'Anunciante';
+  static String get none => 'Não tem';
   static String get size => 'Tamanho';
   static String get female => 'Fêmea';
   static String get male => 'Macho';
@@ -251,6 +254,7 @@ class PostFlowStrings {
     return 'Onde está o PET?';
   }
 
+  static const String stillSendingVideo = 'Ainda enviando o vídeo.\nDesculpe pela demora, mas por favor, aguarde!';
   static const String videoSizeExceed = 'Tamanho máximo do vídeo excedido!\nO vídeo deve ter até 1:30 min';
   static const String postCancelMessage = 'Saindo agora todos os dados serão perdidos.\nContinuar?';
   static const String otherCaracteristicsOptional = 'Outras características (Opcional)';

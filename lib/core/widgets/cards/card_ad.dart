@@ -29,7 +29,10 @@ class CardAd extends StatelessWidget {
         children: [
           Stack(
             children: [
-              cardBuilder.adImages(),
+              Container(
+                child: cardBuilder.adImages(),
+                height: Get.height / 2.1,
+              ),
               Visibility(
                 visible: !inReviewMode && showFavoriteButton,
                 child: Positioned(

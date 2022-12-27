@@ -9,12 +9,10 @@ import 'package:get/get.dart';
 
 class AdImages extends StatelessWidget {
   const AdImages({
-    required this.cardHeight,
     required this.photos,
     super.key,
   });
 
-  final double cardHeight;
   final List photos;
 
   @override
@@ -36,7 +34,6 @@ class AdImages extends StatelessWidget {
           topLeft: Radius.circular(8.0.h),
         ),
       ),
-      height: cardHeight,
       width: double.infinity,
       child: CarouselSlider.builder(
         itemCount: photos.length,

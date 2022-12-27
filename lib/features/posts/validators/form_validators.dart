@@ -14,6 +14,7 @@ class PostFormValidator {
   bool isStep1Valid(existChronicDiseaseInfo) {
     bool isValid = nameKeyForm.currentState!.validate() &&
         (_pet as Pet).health.isNotEmptyNeighterNull() &&
+        (_pet as Pet).gender.isNotEmptyNeighterNull() &&
         (_pet as Pet).size.isNotEmptyNeighterNull();
 
     if (existChronicDiseaseInfo) {
@@ -26,7 +27,6 @@ class PostFormValidator {
   bool isStep2Valid() {
     bool isValid = (_pet as Pet).breed.isNotEmptyNeighterNull() &&
         (_pet as Pet).color.isNotEmptyNeighterNull() &&
-        (_pet as Pet).gender.isNotEmptyNeighterNull() &&
         _pet.description.isNotEmptyNeighterNull();
 
     return isValid;

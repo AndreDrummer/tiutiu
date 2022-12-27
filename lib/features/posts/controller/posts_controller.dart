@@ -178,6 +178,11 @@ class PostsController extends GetxController with TiuTiuPopUp {
   Future<void> _uploadVideo() async {
     if (post.video != null) {
       _uploadingPostText(PostFlowStrings.sendingVideo);
+
+      Future.delayed(Duration(seconds: 30), () {
+        _uploadingPostText(PostFlowStrings.stillSendingVideo);
+      });
+
       await _postsRepository.uploadVideo(
         onUploaded: (videoUrlDownload) {
           updatePost(PostEnum.video.name, videoUrlDownload);
