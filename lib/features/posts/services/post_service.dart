@@ -12,12 +12,7 @@ class PostService extends GetxService {
   Future<List<Map<String, dynamic>>> loadPosts() async {
     final posts = await EndpointResolver.getCollectionEndpoint(EndpointNames.pathToPosts.name).get();
 
-    debugPrint('TiuTiuApp: PostService.loadPosts');
-
-    return posts.docs.map((post) {
-      debugPrint('TiuTiuApp: PostService.loadPosts -> map: $post');
-      return post.data();
-    }).toList();
+    return posts.docs.map((post) => post.data()).toList();
   }
 
   CollectionReference<Map<String, dynamic>> pathToPostsStream() {
