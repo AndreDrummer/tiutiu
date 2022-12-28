@@ -13,10 +13,10 @@ class FeedbackService {
     try {
       await EndpointResolver.getDocumentEndpoint(EndpointNames.pathToFeedback.name, [feedback.uid!])
           .set(feedback.toMap());
-      debugPrint('>> Feedback Posted Successfully ${feedback.uid}');
+      debugPrint('TiuTiuApp: Feedback Posted Successfully ${feedback.uid}');
       success = true;
     } on FirebaseException catch (exception) {
-      debugPrint('Erro when tryna to send Feedback data to Firestore: $exception');
+      debugPrint('TiuTiuApp: Erro when tryna to send Feedback data to Firestore: $exception');
       rethrow;
     }
 
@@ -27,7 +27,7 @@ class FeedbackService {
     try {
       final imagesStoragePath = _feedbackStoragePathToImages(feedback);
 
-      debugPrint('>> Uploading feedback prints...');
+      debugPrint('TiuTiuApp: Uploading feedback prints...');
       final imagesUrlDownloadList = await OtherFunctions.getImageListUrlDownload(
         imagesPathList: feedback.screenshots,
         storagePath: imagesStoragePath,
@@ -35,7 +35,7 @@ class FeedbackService {
 
       onPrintsUploaded(imagesUrlDownloadList);
     } on Exception catch (exception) {
-      debugPrint('Erro when tryna to get prints url download list: $exception');
+      debugPrint('TiuTiuApp: Erro when tryna to get prints url download list: $exception');
       rethrow;
     }
   }

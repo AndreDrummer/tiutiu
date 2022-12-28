@@ -36,10 +36,7 @@ class EmptyListScreen extends StatelessWidget {
             textColor: Colors.lightBlue,
             fontSize: 12,
             onPressed: () {
-              filterController.reset();
-              if (homeController.bottomBarIndex <= 1) {
-                homeController.setDonateIndex();
-              }
+              filterController.reset(homeController.bottomBarIndex == 1);
             },
           ),
         ),

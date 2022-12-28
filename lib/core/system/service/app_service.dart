@@ -13,7 +13,7 @@ class AppService {
         return querySnapshots.docs.map((snapshot) => Endpoint.fromSnapshot(snapshot)).toList();
       });
     } on FirebaseException catch (exception) {
-      debugPrint('Error occured when trying get app endpoints: ${exception.message}');
+      debugPrint('TiuTiuApp: Error occured when trying get app endpoints: ${exception.message}');
       rethrow;
     }
   }
@@ -24,7 +24,7 @@ class AppService {
           .snapshots()
           .asyncMap(currentProperties.fromSnapshot);
     } on FirebaseException catch (exception) {
-      debugPrint('Error occured when trying get System Properties: ${exception.message}');
+      debugPrint('TiuTiuApp: Error occured when trying get System Properties: ${exception.message}');
       rethrow;
     }
   }

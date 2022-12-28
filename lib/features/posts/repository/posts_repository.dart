@@ -13,7 +13,7 @@ class PostsRepository {
   final PostService _postService;
 
   Future<List<Pet>> getPostList() async {
-    debugPrint('>>Cache getPostList');
+    debugPrint('TiuTiuApp: Cache getPostList');
     List<Pet> petsList = [];
 
     var yesterday = DateTime.now().subtract(Duration(days: 1)).toIso8601String();
@@ -26,10 +26,10 @@ class PostsRepository {
 
     if (todaysCache != null && !appController.properties.internetConnected) {
       await LocalStorage.deleteValueUnderStringKey(yesterday);
-      debugPrint('>>Cache exists');
+      debugPrint('TiuTiuApp: Cache exists');
       petsList = await _getPostsFromCache();
     } else {
-      debugPrint('>>downloading from Internet...');
+      debugPrint('TiuTiuApp: downloading from Internet...');
       petsList = await _getPostFromInternet();
     }
 
@@ -37,10 +37,10 @@ class PostsRepository {
   }
 
   Future<List<Pet>> _getPostsFromCache() async {
-    debugPrint('>>Cache getPostsFromCache');
+    debugPrint('TiuTiuApp: Cache getPostsFromCache');
     final postsCached = await _cachedPostsMap();
 
-    debugPrint('>>Cached Posts Map $postsCached');
+    debugPrint('TiuTiuApp: Cached Posts Map $postsCached');
 
     return List<Pet>.from(
       postsCached.values.map((post) => Pet().fromMap(post)).toList(),
@@ -48,12 +48,20 @@ class PostsRepository {
   }
 
   Future<List<Pet>> _getPostFromInternet() async {
-    debugPrint('>>Cache _getPostFromInternet');
-    final postData = await _postService.loadPosts();
+    try {
+      debugPrint('TiuTiuApp: Cache _getPostFromInternet');
+      final postData = await _postService.loadPosts();
 
-    var postsList = List<Pet>.from(postData.map((post) => Pet().fromMap(post)));
-    _cachePosts(posts: postsList);
-    return postsList;
+      debugPrint('TiuTiuApp: Posts Loaded from Internet');
+      var postsList = List<Pet>.from(postData.map((post) => Pet().fromMap(post)));
+      _cachePosts(posts: postsList);
+
+      debugPrint('TiuTiuApp: Posts List $postsList');
+      return postsList;
+    } catch (any) {
+      debugPrint('TiuTiuApp: Something went wrong when trying loadPosts $any');
+      return [];
+    }
   }
 
   Future<void> _cachePosts({required List<Pet> posts}) async {
@@ -61,13 +69,13 @@ class PostsRepository {
     var today = DateTime.now().toIso8601String();
     today = today.split('T').first;
 
-    debugPrint('>>Cache _cachePost');
+    debugPrint('TiuTiuApp: Cache _cachePost');
 
     posts.forEach((post) async {
       postsToCache.putIfAbsent(post.uid!, () => post.toMap());
     });
 
-    debugPrint('>>Cache current saved post map $postsToCache');
+    debugPrint('TiuTiuApp: Cache current saved post map $postsToCache');
 
     await LocalStorage.setValueUnderStringKey(
       value: postsToCache,
@@ -76,7 +84,7 @@ class PostsRepository {
 
     final afterSavedMap = await LocalStorage.getValueUnderStringKey(today);
 
-    debugPrint('>>Cache After Saved Map $afterSavedMap');
+    debugPrint('TiuTiuApp: Cache After Saved Map $afterSavedMap');
   }
 
   Future<Map<String, dynamic>> _cachedPostsMap() async {
@@ -90,7 +98,7 @@ class PostsRepository {
       cachedPostsMap.addAll(storagedPosts);
     }
 
-    debugPrint('>>Storaged Posts $cachedPostsMap');
+    debugPrint('TiuTiuApp: Storaged Posts $cachedPostsMap');
 
     return cachedPostsMap;
   }

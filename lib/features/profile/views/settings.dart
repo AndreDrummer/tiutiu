@@ -196,7 +196,7 @@ class _SettingsState extends State<Settings> {
         showSimpleTextButton: widget.isEditingProfile,
         onPrimaryPressed: () async {
           if (_formIsValid()) {
-            debugPrint('>> Updating profile...');
+            debugPrint('TiuTiuApp: Updating profile...');
             FocusScope.of(context).unfocus();
 
             _setDataToUser();
