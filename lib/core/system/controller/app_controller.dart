@@ -42,6 +42,7 @@ class AppController extends GetxController {
     try {
       _systemProperties(properties.copyWith(isLoading: true));
 
+      await getInitialEndpoints();
       await StatesAndCities.stateAndCities.getUFAndCities();
       await currentLocationController.updateGPSStatus();
       await currentLocationController.setUserLocation();
@@ -59,7 +60,12 @@ class AppController extends GetxController {
     }
   }
 
-  void onAppEndpointsChange() => _systemService.getAppEndpoints().listen(_endpoints);
+  Future<void> getInitialEndpoints() async {
+    final initialEndpoints = await _systemService.getEndpoints();
+    _endpoints(initialEndpoints);
+  }
+
+  void onAppEndpointsChange() => _systemService.appEndpoints().listen(_endpoints);
 
   void onAppPropertiesChange() {
     _systemService.getAppProperties(properties).listen((realTimeproperties) {
