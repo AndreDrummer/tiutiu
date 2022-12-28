@@ -37,7 +37,7 @@ class FeedbackController extends GetxController with TiuTiuPopUp {
     final map = feedback.toMap();
     map[property.name] = data;
 
-    debugPrint('>> Updating talk with us data $map');
+    debugPrint('TiuTiuApp: Updating talk with us data $map');
 
     _feedback(Feedback.fromMap(map));
   }
@@ -95,7 +95,7 @@ class FeedbackController extends GetxController with TiuTiuPopUp {
       updateFeedback(FeedbackEnum.deviceInfo, await getDeviceInfo());
 
       await _submit().then((_) async => _showsSuccessPopup(), onError: (error, stackTrace) {
-        debugPrint('>> Error when tryna upload feedback: $error, $stackTrace');
+        debugPrint('TiuTiuApp: Error when tryna upload feedback: $error, $stackTrace');
         setLoading(false, '');
         _showsErrorPopup();
       });
@@ -118,7 +118,7 @@ class FeedbackController extends GetxController with TiuTiuPopUp {
     DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
     final info = Platform.isIOS ? await deviceInfo.iosInfo : await deviceInfo.androidInfo;
 
-    debugPrint('>> Device Info: $info');
+    debugPrint('TiuTiuApp: Device Info: $info');
 
     return info;
   }

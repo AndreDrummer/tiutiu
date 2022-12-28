@@ -45,8 +45,8 @@ class AppController extends GetxController {
       await StatesAndCities.stateAndCities.getUFAndCities();
       await currentLocationController.updateGPSStatus();
       await currentLocationController.setUserLocation();
-      await postsController.allPosts();
-      await postsController.getCachedAssets();
+      await postsController.getAllPosts();
+      await postsController.getCachedVideos();
 
       PackageInfo packageInfo = await PackageInfo.fromPlatform();
       _systemProperties(properties.copyWith(runningVersion: packageInfo.version));
@@ -55,7 +55,7 @@ class AppController extends GetxController {
 
       appController.onAppPropertiesChange();
     } on Exception catch (exception) {
-      debugPrint('>> App Initialization Exception $exception');
+      debugPrint('TiuTiuApp: App Initialization Exception $exception');
     }
   }
 
@@ -63,11 +63,11 @@ class AppController extends GetxController {
 
   void onAppPropertiesChange() {
     _systemService.getAppProperties(properties).listen((realTimeproperties) {
-      debugPrint('>> Current Properties $properties');
+      debugPrint('TiuTiuApp: Current Properties $properties');
 
       _systemProperties(realTimeproperties);
 
-      debugPrint('>> New Properties $properties');
+      debugPrint('TiuTiuApp: New Properties $properties');
     });
   }
 }

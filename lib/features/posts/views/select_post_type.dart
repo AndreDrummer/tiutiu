@@ -27,7 +27,7 @@ class SelectPostType extends StatelessWidget with TiuTiuPopUp {
 
   @override
   Widget build(BuildContext context) {
-    debugPrint('>> Post Type Screen Opened...');
+    debugPrint('TiuTiuApp: Post Type Screen Opened...');
 
     return WillPopScope(
       onWillPop: () async {
@@ -242,7 +242,7 @@ class SelectPostType extends StatelessWidget with TiuTiuPopUp {
   Future<void> _setLocation() async {
     final hasAValidPlacemark = currentLocationController.hasAValidPlacemark();
 
-    debugPrint('>> Placemark is valid $hasAValidPlacemark');
+    debugPrint('TiuTiuApp: Placemark is valid $hasAValidPlacemark');
 
     if (!hasAValidPlacemark) {
       postsController.isLoading = true;

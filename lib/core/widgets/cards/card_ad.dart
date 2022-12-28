@@ -1,5 +1,6 @@
 import 'package:tiutiu/core/widgets/cards/widgets/card_builder.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/features/posts/model/post.dart';
 import 'package:flutter/material.dart';
@@ -34,7 +35,7 @@ class CardAd extends StatelessWidget {
                 height: Get.height / 2.1,
               ),
               Visibility(
-                visible: !inReviewMode && showFavoriteButton,
+                visible: !inReviewMode && showFavoriteButton && authController.userExists && showFavoriteButton,
                 child: Positioned(
                   child: cardBuilder.favoriteButton(),
                   bottom: 16.0.h,

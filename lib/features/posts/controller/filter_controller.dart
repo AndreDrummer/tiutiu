@@ -21,12 +21,12 @@ class FilterController extends GetxController {
     filterParams(FilterParams.fromMap(paramMap));
   }
 
-  void reset() {
+  void reset([bool disappeared = false]) {
     filterParams(FilterParams(
       state: StatesAndCities.stateAndCities.stateInitials.first,
       orderBy: FilterStrings.distance,
       type: PetTypeStrings.all,
-      disappeared: false,
+      disappeared: disappeared,
       name: '',
     ));
   }

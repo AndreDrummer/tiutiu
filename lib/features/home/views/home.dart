@@ -22,7 +22,7 @@ class Home extends StatelessWidget with TiuTiuPopUp {
       DonateList(),
       FinderList(),
       InitPostFlow(),
-      authController.user?.emailVerified ?? false ? MyContacts() : More(),
+      Obx(() => tiutiuUserController.isAppropriatelyRegistered ? MyContacts() : More()),
       More(),
     ];
 
@@ -76,7 +76,7 @@ class Home extends StatelessWidget with TiuTiuPopUp {
             ),
             floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
             floatingActionButton: Visibility(
-              visible: homeController.bottomBarIndex < 2 && appController.properties.allowPost,
+              visible: homeController.bottomBarIndex < 2,
               child: FloatingActionButton(
                 child: Icon(
                   homeController.cardVisibilityKind == CardVisibilityKind.card
@@ -107,9 +107,9 @@ class Home extends StatelessWidget with TiuTiuPopUp {
     if (homeController.bottomBarIndex < 2) {
       if (!tiutiuUserController.tiutiuUser.emailVerified) {
         return Dimensions.getDimensBasedOnDeviceHeight(
-          smaller: Get.height / 3.5,
-          medium: Get.height / 3.5,
-          bigger: Get.height / 4.0,
+          smaller: Get.height / 4.2,
+          medium: Get.height / 4.5,
+          bigger: Get.height / 4.5,
         );
       } else {
         return homeListPadding;

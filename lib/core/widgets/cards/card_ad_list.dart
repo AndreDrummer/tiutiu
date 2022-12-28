@@ -1,5 +1,6 @@
 import 'package:tiutiu/core/widgets/cards/widgets/card_builder.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/features/posts/model/post.dart';
 import 'package:flutter/material.dart';
 
@@ -20,7 +21,7 @@ class CardAdList extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12.0.h),
       ),
-      height: 156.0.h,
+      height: 164.0.h,
       padding: EdgeInsets.zero,
       child: Card(
         shape: RoundedRectangleBorder(
@@ -52,8 +53,8 @@ class CardAdList extends StatelessWidget {
                       Padding(
                         padding: EdgeInsets.only(left: 8.0.w, bottom: 4.0.h),
                         child: Visibility(
+                          visible: authController.userExists && showFavoriteButton,
                           child: cardBuilder.favoriteButton(),
-                          visible: showFavoriteButton,
                         ),
                       ),
                     ],

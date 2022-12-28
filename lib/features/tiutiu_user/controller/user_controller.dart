@@ -60,7 +60,7 @@ class TiutiuUserController extends GetxController {
 
     isLoading = true;
     if (avatarPath != null && !avatarPath.toString().isUrl()) {
-      debugPrint('>> Updating Avatar...');
+      debugPrint('TiuTiuApp: Updating Avatar...');
       var urlAvatar = await _tiutiuUserService.uploadAvatar(
         tiutiuUser.uid ?? authController.user!.uid,
         avatarPath,

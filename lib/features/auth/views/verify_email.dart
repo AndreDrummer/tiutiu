@@ -192,7 +192,7 @@ class _VerifyEmailState extends State<VerifyEmail> {
       resultMessage = AuthStrings.emailSent;
     } catch (exception) {
       resultMessage = AuthStrings.unableToResendEmail;
-      debugPrint('>> Could not send the email due to $exception');
+      debugPrint('TiuTiuApp: Could not send the email due to $exception');
     }
 
     appController.snackBarIsOpen = true;
