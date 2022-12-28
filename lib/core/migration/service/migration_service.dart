@@ -63,7 +63,7 @@ class MigrationService {
           final map = petAd.data();
           final tiutiuUser = await getUserData(petAd.data()['ownerReference']);
           map[PostEnum.owner.name] = tiutiuUser;
-          // debugPrint('>> ${map[PetEnum.owner.name]}');
+          // debugPrint('TiuTiuApp: ${map[PetEnum.owner.name]}');
 
           // insertAdDataInNewPath(Pet.fromMigrate(map));
         } else {
@@ -103,7 +103,7 @@ class MigrationService {
   Future<TiutiuUser> getUserData(DocumentReference ownerReference) async {
     final userData = await ownerReference.get();
     final tiutiuUser = TiutiuUser.fromMapMigration((userData.data() as Map<String, dynamic>));
-    // debugPrint('>> ${tiutiuUser.toMap()}');
+    // debugPrint('TiuTiuApp: ${tiutiuUser.toMap()}');
 
     return tiutiuUser;
   }
@@ -137,7 +137,7 @@ class MigrationService {
     final dateTime = Formatters.getDateTime(createdAt);
     final included = dateTime.isAfter(cutdate);
 
-    // debugPrint('>> Included $included');
+    // debugPrint('TiuTiuApp: Included $included');
 
     return included;
   }

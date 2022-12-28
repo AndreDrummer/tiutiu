@@ -92,7 +92,7 @@ class ChatController extends GetxController {
   String _getChatId({required String senderUserId, required String receiverUserId}) {
     final hash = GenerateHashKey.generateUniqueChatHash(senderUserId, receiverUserId);
 
-    debugPrint('<> Generated Hash $hash');
+    debugPrint('TiuTiuApp: Generated Hash $hash');
 
     return hash;
   }

@@ -15,7 +15,7 @@ class AuthOrHome extends StatefulWidget {
 class _AuthOrHomeState extends State<AuthOrHome> {
   @override
   Widget build(BuildContext context) {
-    debugPrint('>> Loading AuthOrHome... >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
+    debugPrint('TiuTiuApp: Loading AuthOrHome... >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
     return FutureBuilder(
       future: authController.tryAutoLoginIn(),
       builder: (_, AsyncSnapshot snapshot) {

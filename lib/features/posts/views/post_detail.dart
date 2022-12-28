@@ -5,6 +5,7 @@ import 'package:tiutiu/features/posts/widgets/video_player.dart';
 import 'package:tiutiu/features/posts/widgets/card_content.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiutiu/core/extensions/string_extension.dart';
+import 'package:tiutiu/core/widgets/loading_video_screen.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/utils/launcher_functions.dart';
 import 'package:tiutiu/core/utils/routes/routes_name.dart';
@@ -37,6 +38,8 @@ class PostDetails extends StatefulWidget {
 
 class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
   ChewieController? chewieController;
+  bool isLoadingVideo = true;
+  late VideoUtils videoUtils;
 
   @override
   void initState() {
@@ -44,24 +47,32 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
     super.initState();
   }
 
-  void initializeVideo() {
+  Future<void> initializeVideo() async {
     final post = postsController.post;
 
-    final cachedVideos = postsController.cachedVideos;
-    final cacheExists = cachedVideos[post.uid!] != null;
-    var videoPath = post.video;
+    videoUtils = VideoUtils(post: post);
 
-    if (cacheExists) {
-      videoPath = cachedVideos[post.uid!];
-    }
+    await videoUtils.getChewieControllerAsync(autoPlay: true).then((value) {
+      chewieController = value;
+      setState(() {
+        isLoadingVideo = false;
+      });
+    });
 
-    chewieController = VideoUtils.instance.getChewieController(
-      autoPlay: false,
-      videoPath,
-    );
+    chewieController?.setVolume(0);
+  }
+
+  void finishVideo() {
+    chewieController?.pause();
+    chewieController?.dispose();
   }
 
   bool postBelongsToMe() => postsController.postBelongsToMe();
+
+  void onLeaveScreen() {
+    finishVideo();
+    if (!postsController.isInReviewMode) postsController.clearForm();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -70,7 +81,7 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
 
     return WillPopScope(
       onWillPop: () async {
-        if (!postsController.isInReviewMode) postsController.clearForm();
+        onLeaveScreen();
         return true;
       },
       child: Scaffold(
@@ -112,6 +123,7 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
                               postDetailBottomView(),
                             ],
                           ),
+                          action: onLeaveScreen,
                         ),
                         LoadDarkScreen(
                           message: postsController.uploadingPostText,
@@ -314,9 +326,13 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
     final thereIsVideo = chewieController != null;
 
     if (thereIsVideo) {
-      return TiuTiuVideoPlayer(
-        aspectRatio: chewieController!.videoPlayerController.value.aspectRatio,
-        chewieController: chewieController!,
+      return Visibility(
+        visible: !isLoadingVideo,
+        child: TiuTiuVideoPlayer(
+          aspectRatio: chewieController!.videoPlayerController.value.aspectRatio,
+          chewieController: chewieController!,
+        ),
+        replacement: Center(child: LoadingVideo()),
       );
     }
 
