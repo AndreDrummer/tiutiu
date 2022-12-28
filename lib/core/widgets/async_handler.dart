@@ -39,7 +39,7 @@ class AsyncHandler<T> extends StatelessWidget {
     final ConnectionState connectionState = snapshot.connectionState;
 
     if (snapshot.hasError) {
-      debugPrint('>> Error ao carregar dados do tipo $T. Message: ${snapshot.error} ${snapshot.stackTrace}');
+      debugPrint('TiuTiuApp: Error ao carregar dados do tipo $T. Message: ${snapshot.error} ${snapshot.stackTrace}');
       return errorWidget ??
           ErrorPage(
             onErrorCallback: onErrorCallback,

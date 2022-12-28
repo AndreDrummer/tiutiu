@@ -29,7 +29,7 @@ class AuthenticatedArea extends StatelessWidget {
             return Obx(() {
               final bool isRegistered = tiutiuUserController.isAppropriatelyRegistered;
 
-              debugPrint('>> Is registered? ${tiutiuUserController.isAppropriatelyRegistered}');
+              debugPrint('TiuTiuApp: Is registered? ${tiutiuUserController.isAppropriatelyRegistered}');
 
               if (isRegistered) {
                 return child;
@@ -37,7 +37,7 @@ class AuthenticatedArea extends StatelessWidget {
                 final user = snapshot.requireData;
                 final isAuthenticated = user != null;
 
-                debugPrint('>> Is authenticated? $isAuthenticated');
+                debugPrint('TiuTiuApp: Is authenticated? $isAuthenticated');
 
                 if (isAuthenticated && !isRegistered) return Settings(isEditingProfile: false);
                 if (isAuthenticated && isRegistered) return child;

@@ -1,14 +1,11 @@
+import 'package:tiutiu/core/utils/video_utils.dart';
 import 'package:tiutiu/features/posts/repository/posts_repository.dart';
 import 'package:tiutiu/features/posts/validators/form_validators.dart';
 import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
 import 'package:tiutiu/core/location/models/states_and_cities.dart';
-import 'package:tiutiu/core/local_storage/local_storage_keys.dart';
 import 'package:tiutiu/features/posts/services/post_service.dart';
-import 'package:tiutiu/core/constants/firebase_env_path.dart';
-import 'package:tiutiu/core/local_storage/local_storage.dart';
 import 'package:tiutiu/features/posts/utils/post_utils.dart';
 import 'package:tiutiu/core/extensions/string_extension.dart';
-import 'package:tiutiu/core/utils/file_cache_manager.dart';
 import 'package:tiutiu/core/utils/routes/routes_name.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/mixins/tiu_tiu_pop_up.dart';
@@ -49,6 +46,7 @@ class PostsController extends GetxController with TiuTiuPopUp {
   final RxInt _postsCount = 0.obs;
   final RxInt _flowIndex = 0.obs;
 
+  ChewieController? get chewieController => VideoUtils(post: post).getChewieController();
   bool get existChronicDisease => (post as Pet).health == PetHealthString.chronicDisease;
   String get uploadingPostText => _uploadingPostText.value;
   Map<String, dynamic> get cachedVideos => _cachedVideos;
@@ -65,7 +63,6 @@ class PostsController extends GetxController with TiuTiuPopUp {
   bool get isLoading => _isLoading.value;
   int get flowIndex => _flowIndex.value;
   bool get hasError => _hasError.value;
-  ChewieController? chewieController;
   List<Post> get posts => _posts;
   Post get post => _post.value;
 
@@ -132,6 +129,16 @@ class PostsController extends GetxController with TiuTiuPopUp {
     return caracteristics;
   }
 
+  Future<void> cacheVideos() async {
+    await VideoUtils(post: post).cacheVideos(isInReviewMode: isInReviewMode);
+  }
+
+  Future<void> getCachedVideos() async {
+    _cachedVideos(await VideoUtils(post: post).cachedVideosMap());
+
+    debugPrint('TiuTiuApp: getCachedVideos Videos $cachedVideos');
+  }
+
   Future<void> uploadPost() async {
     if (post.createdAt == null) updatePost(PostEnum.createdAt.name, DateTime.now().toIso8601String());
 
@@ -141,7 +148,7 @@ class PostsController extends GetxController with TiuTiuPopUp {
     await _uploadVideo();
     await _uploadImages();
     await _uploadPostData();
-    await allPosts();
+    await getAllPosts();
     isLoading = false;
     isEditingPost = false;
     clearForm();
@@ -153,7 +160,7 @@ class PostsController extends GetxController with TiuTiuPopUp {
     _uploadingPostText(PostFlowStrings.deletingAd);
 
     await _postsRepository.deletePost(post: post);
-    await allPosts();
+    await getAllPosts();
     clearForm();
     _uploadingPostText('');
     isLoading = false;
@@ -161,7 +168,7 @@ class PostsController extends GetxController with TiuTiuPopUp {
     return loggedUserPosts().length;
   }
 
-  Future<void> allPosts() async {
+  Future<void> getAllPosts() async {
     final list = await _postsRepository.getPostList();
     _posts(list);
 
@@ -180,7 +187,7 @@ class PostsController extends GetxController with TiuTiuPopUp {
       _uploadingPostText(PostFlowStrings.sendingVideo);
 
       Future.delayed(Duration(seconds: 30), () {
-        _uploadingPostText(PostFlowStrings.stillSendingVideo);
+        _uploadingPostText(PostFlowStrings.stillSendingAd);
       });
 
       await _postsRepository.uploadVideo(
@@ -224,60 +231,7 @@ class PostsController extends GetxController with TiuTiuPopUp {
     //         key: LocalStorageKey.mockedPost, mapper: Pet()) !=
     //     null;
 
-    // print('>>Mocked? $mocked');
-  }
-
-  Future<void> _cacheVideo(Map<String, dynamic> cachedVideosMap) async {
-    debugPrint('>>Cache _cacheVideo');
-    final videoPathSaved = await FileCacheManager.save(
-      fileUrl: post.video,
-      filename: post.uid!,
-      type: FileType.video,
-    );
-
-    cachedVideosMap.putIfAbsent(post.uid!, () => videoPathSaved);
-
-    debugPrint('>>Cache current video map $cachedVideosMap');
-
-    await LocalStorage.setValueUnderLocalStorageKey(
-      key: LocalStorageKey.videosCached,
-      value: cachedVideosMap,
-    );
-  }
-
-  Future<void> getCachedAssets() async {
-    _cachedVideos(await _cachedVideosMap());
-
-    debugPrint('>>getCachedAssets Videos $cachedVideos');
-  }
-
-  Future<void> cacheVideos() async {
-    final videosCachedData = await _cachedVideosMap();
-
-    if (!isInReviewMode && post.video != null) {
-      if (!videosCachedData.keys.contains(post.uid)) {
-        debugPrint('>>Cache cacheVideos Video Not Saved');
-        await _cacheVideo(videosCachedData);
-      } else {
-        debugPrint('>>Cache cacheVideos Video Already Saved');
-      }
-    }
-  }
-
-  Future<Map<String, dynamic>> _cachedVideosMap() async {
-    final storagedVideos = await LocalStorage.getValueUnderLocalStorageKey(
-      LocalStorageKey.videosCached,
-    );
-
-    debugPrint('>>Storaged Videos $storagedVideos');
-
-    final Map<String, dynamic> cachedVideosMap = {};
-
-    if (storagedVideos != null) {
-      cachedVideosMap.addAll(storagedVideos);
-    }
-
-    return cachedVideosMap;
+    // print('TiuTiuApp: Mocked? $mocked');
   }
 
   void _filterPosts() {
@@ -290,7 +244,7 @@ class PostsController extends GetxController with TiuTiuPopUp {
     final postMap = _insertOwnerData(post.toMap());
     postMap[property] = data;
 
-    debugPrint('>> updating post... $postMap');
+    debugPrint('TiuTiuApp: updating post... $postMap');
 
     if (property == PetEnum.otherCaracteristics.name) {
       postMap[property] = _handlePetOtherCaracteristics(data);
@@ -302,7 +256,7 @@ class PostsController extends GetxController with TiuTiuPopUp {
     }
 
     final newPost = Pet().fromMap(postMap);
-    debugPrint('>> post updated $newPost');
+    debugPrint('TiuTiuApp: post updated $newPost');
 
     _post(newPost);
   }
@@ -360,8 +314,8 @@ class PostsController extends GetxController with TiuTiuPopUp {
         break;
     }
 
-    _nextStep();
-    // if (formIsValid) _nextStep();
+    // _nextStep();
+    if (formIsValid) _nextStep();
   }
 
   void setError(String errorMessage) {
@@ -382,7 +336,7 @@ class PostsController extends GetxController with TiuTiuPopUp {
     _formIsValid(true);
     _flowIndex(0);
     _post(Pet());
-    disposeVideoController();
+    if (isInReviewMode) disposeVideoController();
   }
 
   void disposeVideoController() {

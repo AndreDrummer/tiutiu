@@ -25,7 +25,7 @@ class LocalizationServiceAccessPermissionAccess extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    debugPrint('>> local access denied? ${localAccessDenied ? 'Sim' : 'Não'}');
+    debugPrint('TiuTiuApp: local access denied? ${localAccessDenied ? 'Sim' : 'Não'}');
 
     return Scaffold(
       appBar: DefaultBasicAppBar(text: LocalPermissionStrings.appBarTitle),

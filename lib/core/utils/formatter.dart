@@ -9,7 +9,7 @@ class Formatters {
       number = number?.replaceAll('-', '');
       number = number?.replaceAll(' ', '');
     } catch (error) {
-      debugPrint('>> Error when unmasking phoneNumber $number. $error');
+      debugPrint('TiuTiuApp: Error when unmasking phoneNumber $number. $error');
     }
     return number;
   }

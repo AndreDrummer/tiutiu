@@ -46,13 +46,13 @@ class Contact {
     String? id,
     bool? open,
   }) {
-    debugPrint('<> Updating Contact userSenderReference... $userSenderReference');
-    debugPrint('<> Updating Contact lastMessageTime... $lastMessageTime');
-    debugPrint('<> Updating Contact userSenderId... $userSenderId');
-    debugPrint('<> Updating Contact userSenderId... $userSenderId');
-    debugPrint('<> Updating Contact lastMessage... $lastMessage');
-    debugPrint('<> Updating Contact open... $open');
-    debugPrint('<> Updating Contact id... $id');
+    debugPrint('TiuTiuApp: Updating Contact userSenderReference... $userSenderReference');
+    debugPrint('TiuTiuApp: Updating Contact lastMessageTime... $lastMessageTime');
+    debugPrint('TiuTiuApp: Updating Contact userSenderId... $userSenderId');
+    debugPrint('TiuTiuApp: Updating Contact userSenderId... $userSenderId');
+    debugPrint('TiuTiuApp: Updating Contact lastMessage... $lastMessage');
+    debugPrint('TiuTiuApp: Updating Contact open... $open');
+    debugPrint('TiuTiuApp: Updating Contact id... $id');
 
     return Contact(
       userReceiverReference: userReceiverReference ?? this.userReceiverReference,
