@@ -18,14 +18,14 @@ class _BootstrapState extends State<AppBootstrap> {
     return StreamBuilder<ServiceStatus>(
       stream: Geolocator.getServiceStatusStream(),
       builder: (context, snapshot) {
-        debugPrint('>> service status ${snapshot.data}');
+        debugPrint('TiuTiuApp: service status ${snapshot.data}');
         if (snapshot.data != null) {
           currentLocationController.updateGPSStatus();
         }
 
         return Obx(
           () {
-            debugPrint('>> GPS is active? ${currentLocationController.gpsStatus.isActive}');
+            debugPrint('TiuTiuApp: GPS is active? ${currentLocationController.gpsStatus.isActive}');
             return currentLocationController.gpsStatus.isActive
                 ? _RequestPermissionsOrHome()
                 : LocalizationServiceAccessPermissionAccess(

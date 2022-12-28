@@ -13,20 +13,23 @@ class WarningBanner extends StatelessWidget {
     this.showBannerCondition = false,
     required this.replacement,
     this.textWarning,
-    this.fontSize,
     this.textColor,
     this.tileColor,
     this.tileSize,
+    this.fontSize,
     this.padding,
+    this.action,
     this.margin,
     super.key,
   });
+
   final EdgeInsetsGeometry? padding;
   final EdgeInsetsGeometry? margin;
   final bool isHiddingContactInfo;
   final bool showBannerCondition;
   final String? textWarning;
   final Widget replacement;
+  final Function()? action;
   final double? tileSize;
   final double? fontSize;
   final Color? textColor;
@@ -38,10 +41,12 @@ class WarningBanner extends StatelessWidget {
 
     return GestureDetector(
       onTap: () {
+        action?.call();
+
         if (authController.userExists) {
-          Get.toNamed(Routes.verifyEmail);
+          Get.offNamed(Routes.verifyEmail);
         } else {
-          Get.toNamed(Routes.authHosters);
+          Get.offNamed(Routes.authHosters);
         }
       },
       child: Visibility(
@@ -106,6 +111,7 @@ class VerifyAccountWarningInterstitial extends StatelessWidget {
     required this.child,
     this.fontSize,
     this.padding,
+    this.action,
     this.margin,
     super.key,
   });
@@ -113,6 +119,7 @@ class VerifyAccountWarningInterstitial extends StatelessWidget {
   final EdgeInsetsGeometry? padding;
   final EdgeInsetsGeometry? margin;
   final bool isHiddingContactInfo;
+  final Function()? action;
   final double? fontSize;
   final Widget child;
 
@@ -122,6 +129,8 @@ class VerifyAccountWarningInterstitial extends StatelessWidget {
 
     return GestureDetector(
       onTap: () {
+        action?.call();
+
         if (authController.userExists) {
           Get.offNamed(Routes.verifyEmail);
         } else {

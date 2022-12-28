@@ -36,7 +36,7 @@ class FileCacheManager {
       type: type,
     );
 
-    debugPrint('>>Cache $fileSavedType saved!');
+    debugPrint('TiuTiuApp: Cache $fileSavedType saved!');
 
     return videoPathSaved.path;
   }

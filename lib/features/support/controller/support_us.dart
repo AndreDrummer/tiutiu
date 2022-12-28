@@ -19,7 +19,7 @@ class SupportUsController extends GetxController {
 
       return supportUsData;
     } on FirebaseException catch (exception) {
-      debugPrint('Error occured when trying get Support Us Data: ${exception.message}');
+      debugPrint('TiuTiuApp: Error occured when trying get Support Us Data: ${exception.message}');
       rethrow;
     }
   }

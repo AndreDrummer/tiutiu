@@ -343,7 +343,7 @@ class EmailAndPassword extends StatelessWidget with TiuTiuPopUp {
         error: true,
       );
 
-      debugPrint('>> Authentication Failed ${exception.toString()}');
+      debugPrint('TiuTiuApp: Authentication Failed ${exception.toString()}');
     }
   }
 
