@@ -1,15 +1,14 @@
+import 'package:tiutiu/core/widgets/animated_text_icon_button.dart';
 import 'package:tiutiu/features/posts/widgets/ad_video_item.dart';
 import 'package:tiutiu/features/posts/widgets/video_player.dart';
-import 'package:tiutiu/core/widgets/animated_text_icon_button.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
+import 'package:tiutiu/core/widgets/one_line_text.dart';
+import 'package:tiutiu/features/posts/model/post.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/core/constants/strings.dart';
-import 'package:tiutiu/core/utils/video_utils.dart';
-import 'package:tiutiu/core/widgets/one_line_text.dart';
 import 'package:video_player/video_player.dart';
 import 'package:tiutiu/core/utils/pickers.dart';
-import 'package:tiutiu/features/posts/model/post.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'dart:io';
@@ -28,7 +27,6 @@ class _PostVideoVideoState extends State<PostVideo> {
 
   @override
   void initState() {
-    initializeChewiwController();
     super.initState();
   }
 
@@ -36,14 +34,6 @@ class _PostVideoVideoState extends State<PostVideo> {
   void dispose() {
     videoPlayerController?.dispose();
     super.dispose();
-  }
-
-  void initializeChewiwController() {
-    if (postsController.post.video != null) {
-      postsController.chewieController = VideoUtils.instance.getChewieController(
-        postsController.post.video,
-      );
-    }
   }
 
   @override
@@ -106,7 +96,7 @@ class _PostVideoVideoState extends State<PostVideo> {
                 postsController.updatePost(PostEnum.video.name, videoFile);
                 postsController.clearError();
               } else {
-                debugPrint('Video Size Exceed ${videoDuration.inSeconds}');
+                debugPrint('TiuTiuApp: Video Size Exceed ${videoDuration.inSeconds}');
                 postsController.setError(PostFlowStrings.videoSizeExceed);
               }
             });
@@ -117,8 +107,6 @@ class _PostVideoVideoState extends State<PostVideo> {
   }
 
   Widget _playVideo() {
-    initializeChewiwController();
-
     return TiuTiuVideoPlayer(
       chewieController: postsController.chewieController!,
       aspectRatio: Get.width / (Get.height / 3),

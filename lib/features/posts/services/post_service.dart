@@ -12,7 +12,12 @@ class PostService extends GetxService {
   Future<List<Map<String, dynamic>>> loadPosts() async {
     final posts = await EndpointResolver.getCollectionEndpoint(EndpointNames.pathToPosts.name).get();
 
-    return posts.docs.map((post) => post.data()).toList();
+    debugPrint('TiuTiuApp: PostService.loadPosts');
+
+    return posts.docs.map((post) {
+      debugPrint('TiuTiuApp: PostService.loadPosts -> map: $post');
+      return post.data();
+    }).toList();
   }
 
   CollectionReference<Map<String, dynamic>> pathToPostsStream() {
@@ -21,7 +26,7 @@ class PostService extends GetxService {
 
   Future<void> increasePostViews(String postId, int currentViews) async {
     await EndpointResolver.getDocumentEndpoint(EndpointNames.pathToPost.name, [postId])
-        .set({'views': ++currentViews}, SetOptions(merge: true));
+        .set({PostEnum.views.name: ++currentViews}, SetOptions(merge: true));
   }
 
   Stream<int> postViews(String postId) {
@@ -54,17 +59,17 @@ class PostService extends GetxService {
       final imagesStoragePath = postStoragePathToImages(post);
 
       if (imagesToDelete.isNotEmpty) {
-        debugPrint('>> Deleting images removed...');
+        debugPrint('TiuTiuApp: Deleting images removed...');
         final FirebaseStorage _storage = FirebaseStorage.instance;
         for (int index = 0; index < imagesToDelete.length; index++) {
-          debugPrint('>> Deleting ${OtherFunctions.getPhotoName(imagesToDelete[index])}');
+          debugPrint('TiuTiuApp: Deleting ${OtherFunctions.getPhotoName(imagesToDelete[index])}');
           await _storage.refFromURL(imagesToDelete[index]).delete().onError((error, stackTrace) => null);
         }
 
-        debugPrint('>> Images deleted!');
+        debugPrint('TiuTiuApp: Images deleted!');
       }
 
-      debugPrint('>> Uploading images...');
+      debugPrint('TiuTiuApp: Uploading images...');
       final imagesUrlDownloadList = await OtherFunctions.getImageListUrlDownload(
         storagePath: imagesStoragePath,
         imagesPathList: post.photos,
@@ -72,7 +77,7 @@ class PostService extends GetxService {
 
       onImagesUploaded(imagesUrlDownloadList);
     } on Exception catch (exception) {
-      debugPrint('Erro when tryna to get images url download list: $exception');
+      debugPrint('TiuTiuApp: Erro when tryna to get images url download list: $exception');
       rethrow;
     }
   }
@@ -82,10 +87,10 @@ class PostService extends GetxService {
 
     try {
       await EndpointResolver.getDocumentEndpoint(EndpointNames.pathToPost.name, [post.uid!]).set(post.toMap());
-      debugPrint('>> Posted Successfully ${post.uid}');
+      debugPrint('TiuTiuApp: Posted Successfully ${post.uid}');
       success = true;
     } on Exception catch (exception) {
-      debugPrint('Erro when tryna to send data to Firestore: $exception');
+      debugPrint('TiuTiuApp: Erro when tryna to send data to Firestore: $exception');
     }
 
     return success;
@@ -104,10 +109,10 @@ class PostService extends GetxService {
 
       await EndpointResolver.getDocumentEndpoint(EndpointNames.pathToPost.name, [post.uid]).delete();
 
-      debugPrint('>> Post deleted Successfully ${post.uid}');
+      debugPrint('TiuTiuApp: Post deleted Successfully ${post.uid}');
       success = true;
     } on Exception catch (exception) {
-      debugPrint('Erro when tryna to delete post with id ${post.uid}: $exception');
+      debugPrint('TiuTiuApp: Erro when tryna to delete post with id ${post.uid}: $exception');
     }
 
     return success;
@@ -117,7 +122,7 @@ class PostService extends GetxService {
     try {
       await FirebaseStorage.instance.ref(videoPath).delete();
     } on Exception catch (exception) {
-      debugPrint('Erro when tryna to delete video of post with id $postId: $exception');
+      debugPrint('TiuTiuApp: Erro when tryna to delete video of post with id $postId: $exception');
     }
   }
 
@@ -132,20 +137,20 @@ class PostService extends GetxService {
         await FirebaseStorage.instance.ref(imagesStoragePath).child(currentImage).delete();
       }
     } on Exception catch (exception) {
-      debugPrint('Erro when tryna to $currentImage of post with id ${post.uid}: $exception');
+      debugPrint('TiuTiuApp: Erro when tryna to $currentImage of post with id ${post.uid}: $exception');
     }
   }
 
   Future<void> deleteUserAvatar(String userId) async {
     try {
-      debugPrint('>> Deleting user avatar...');
+      debugPrint('TiuTiuApp: Deleting user avatar...');
 
       await FirebaseStorage.instance
           .ref()
           .child(EndpointResolver.formattedEndpoint(EndpointNames.userAvatarStoragePath.name, [userId]))
           .delete();
     } on Exception catch (exception) {
-      debugPrint('Erro when deleting user avatar: $exception');
+      debugPrint('TiuTiuApp: Erro when deleting user avatar: $exception');
     }
   }
 

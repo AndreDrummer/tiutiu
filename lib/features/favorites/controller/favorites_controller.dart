@@ -11,12 +11,12 @@ import 'package:get/get.dart';
 
 class FavoritesController extends GetxController {
   void addFavorite(Post post) {
-    debugPrint('>> Add to favorites');
+    debugPrint('TiuTiuApp: Add to favorites');
     _favoritesCollection().doc(post.uid).set(post.toMap());
   }
 
   void removeFavorite(Post post) {
-    debugPrint('>> Remove from favorites');
+    debugPrint('TiuTiuApp: Remove from favorites');
     _favoritesCollection().doc(post.uid).delete();
   }
 
