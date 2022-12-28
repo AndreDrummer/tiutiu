@@ -26,7 +26,7 @@ class FirebaseAuthProvider implements AuthProviders {
     try {
       await whatsappService.sendCodeVerification();
     } on Exception catch (error) {
-      debugPrint('>> Error sending WhatsApp Message: $error');
+      debugPrint('TiuTiuApp: Error sending WhatsApp Message: $error');
       rethrow;
     }
   }
@@ -124,7 +124,7 @@ class FirebaseAuthProvider implements AuthProviders {
         await _firebaseAuth.signInWithCredential(credential);
       }
     } on Exception catch (error) {
-      debugPrint('>> Erro ao realizar login com Google: $error');
+      debugPrint('TiuTiuApp: Erro ao realizar login com Google: $error');
       throw TiuTiuAuthException('$error');
     }
 
@@ -136,7 +136,7 @@ class FirebaseAuthProvider implements AuthProviders {
     try {
       await _firebaseAuth.sendPasswordResetEmail(email: email);
     } on FirebaseException catch (exception) {
-      debugPrint('An error ocurred when tryna reset Password: $exception');
+      debugPrint('TiuTiuApp: An error ocurred when tryna reset Password: $exception');
       throw TiuTiuAuthException(exception.code);
     }
   }
@@ -144,11 +144,11 @@ class FirebaseAuthProvider implements AuthProviders {
   @override
   Future<bool> loginWithFacebook({bool firstLogin = true}) async {
     try {
-      debugPrint('>> Fisrt Login? $firstLogin');
+      debugPrint('TiuTiuApp: Fisrt Login? $firstLogin');
 
       final LoginResult result = await _facebookSignIn.login(loginBehavior: LoginBehavior.webOnly);
 
-      debugPrint('>> Facebook LoginResult ${result.status}');
+      debugPrint('TiuTiuApp: Facebook LoginResult ${result.status}');
 
       if (result.status == LoginStatus.success) {
         final userData = await FacebookAuth.i.getUserData(
@@ -157,7 +157,7 @@ class FirebaseAuthProvider implements AuthProviders {
 
         AuthCredential credential = FacebookAuthProvider.credential(result.accessToken!.token);
 
-        debugPrint('>> Facebook Login Data $userData');
+        debugPrint('TiuTiuApp: Facebook Login Data $userData');
 
         await FirebaseAuth.instance.signInWithCredential(credential);
       } else {
@@ -166,7 +166,7 @@ class FirebaseAuthProvider implements AuthProviders {
 
       return _firebaseAuth.currentUser != null;
     } on FirebaseException catch (exception) {
-      debugPrint('An error ocurred when tryna to login with Facebook: $exception');
+      debugPrint('TiuTiuApp: An error ocurred when tryna to login with Facebook: $exception');
       throw TiuTiuAuthException(exception.code);
     }
   }

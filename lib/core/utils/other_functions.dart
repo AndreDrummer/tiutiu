@@ -131,12 +131,12 @@ class OtherFunctions {
     try {
       var uploadTask = ref.putFile(file);
       await uploadTask.whenComplete(() {
-        debugPrint('File $fileName Successfully Uploaded');
+        debugPrint('TiuTiuApp: File $fileName Successfully Uploaded');
       });
 
       fileURL = await ref.getDownloadURL();
     } on FirebaseException catch (error) {
-      debugPrint('Ocorreu um erro ao fazer upload do arquivo $fileName: $error.');
+      debugPrint('TiuTiuApp: Ocorreu um erro ao fazer upload do arquivo $fileName: $error.');
     }
 
     return fileURL;

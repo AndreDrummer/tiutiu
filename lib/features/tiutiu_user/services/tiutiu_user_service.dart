@@ -42,12 +42,12 @@ class TiutiuUserService {
     try {
       var uploadTask = avatarRef.putFile(file);
       await uploadTask.whenComplete(() {
-        debugPrint('Success Upload Avatar');
+        debugPrint('TiuTiuApp: Success Upload Avatar');
       });
 
       avatarURL = await avatarRef.getDownloadURL();
     } on FirebaseException catch (error) {
-      debugPrint('Ocorreu um erro ao fazer upload do avatar: $error.');
+      debugPrint('TiuTiuApp: Ocorreu um erro ao fazer upload do avatar: $error.');
     }
 
     return avatarURL;

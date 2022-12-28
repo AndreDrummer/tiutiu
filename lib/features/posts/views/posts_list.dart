@@ -31,7 +31,7 @@ class _PostsList extends StatelessWidget with TiuTiuPopUp {
                 final posts = postsController.filteredPosts;
 
                 return RefreshIndicator(
-                  onRefresh: () async => postsController.allPosts(),
+                  onRefresh: () async => postsController.getAllPosts(),
                   child: RenderPostList(
                     itemCount: posts.length + 1,
                     posts: posts,
