@@ -7,11 +7,22 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 
 class AppService {
-  Stream<List<Endpoint>> getAppEndpoints() {
+  Stream<List<Endpoint>> appEndpoints() {
     try {
       return _pathToEndpoints().snapshots().asyncMap((querySnapshots) {
         return querySnapshots.docs.map((snapshot) => Endpoint.fromSnapshot(snapshot)).toList();
       });
+    } on FirebaseException catch (exception) {
+      debugPrint('TiuTiuApp: Error occured when streaming app endpoints: ${exception.message}');
+      rethrow;
+    }
+  }
+
+  Future<List<Endpoint>> getEndpoints() async {
+    try {
+      final endpointsCollection = await _pathToEndpoints().get();
+
+      return endpointsCollection.docs.map((snapshot) => Endpoint.fromSnapshot(snapshot)).toList();
     } on FirebaseException catch (exception) {
       debugPrint('TiuTiuApp: Error occured when trying get app endpoints: ${exception.message}');
       rethrow;
