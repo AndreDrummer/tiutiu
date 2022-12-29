@@ -40,7 +40,7 @@ class ChatScreen extends StatelessWidget {
               Container(color: AppColors.black.withOpacity(.7)),
               Positioned.fill(
                 bottom: Dimensions.getDimensBasedOnDeviceHeight(
-                  smaller: 48.0.h,
+                  smaller: 64.0.h,
                   medium: 48.0.h,
                   bigger: 56.0.h,
                 ),
