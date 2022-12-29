@@ -107,7 +107,7 @@ class AuthHosters extends StatelessWidget with TiuTiuPopUp {
       height: Get.height /
           Dimensions.getDimensBasedOnDeviceHeight(
             smaller: Platform.isIOS ? 2.75 : 3.7,
-            medium: Platform.isIOS ? 3.0 : 4.0,
+            medium: Platform.isIOS ? 2.9 : 4.0,
             bigger: Platform.isIOS ? 3.0 : 4.0,
           ),
       child: Column(
@@ -202,19 +202,20 @@ class AuthHosters extends StatelessWidget with TiuTiuPopUp {
 
   void _loginWithApple() async {
     try {
-      // await authController.loginWithApple().then(
-      //   (success) {
-      //     if (success) {
-      //        goToHome();
-      //        authController.isLoading = false;
-      //      }
-      //   },
-      // );
+      await authController.loginWithApple().then(
+        (success) {
+          if (success) {
+            goToHome();
+            authController.isLoading = false;
+          }
+        },
+      );
     } catch (exception) {
       authController.isLoading = false;
+      debugPrint('TiuTiuApp: Apple Auth Failed $exception');
       showPopUp(
+        message: AuthStrings.loginCouldNotProceed,
         title: AuthStrings.authFailure,
-        message: exception.toString(),
         error: true,
       );
     }

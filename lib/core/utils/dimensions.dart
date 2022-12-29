@@ -16,7 +16,7 @@ class Dimensions {
     return bigger;
   }
 
-  static bool isMediumDevice() => Get.height > 616 && Get.height <= 835;
-  static bool isSmallDevice() => Get.height <= 616;
+  static bool isMediumDevice() => Get.height > 690 && Get.height <= 835;
+  static bool isSmallDevice() => Get.height <= 690;
   static bool isBigDevice() => Get.height > 835;
 }

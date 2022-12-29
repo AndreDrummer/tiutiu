@@ -22,7 +22,7 @@ class Home extends StatelessWidget with TiuTiuPopUp {
       DonateList(),
       FinderList(),
       InitPostFlow(),
-      Obx(() => tiutiuUserController.isAppropriatelyRegistered ? MyContacts() : More()),
+      Obx(() => tiutiuUserController.tiutiuUser.emailVerified ? MyContacts() : More()),
       More(),
     ];
 

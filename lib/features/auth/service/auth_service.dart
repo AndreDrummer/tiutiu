@@ -23,8 +23,8 @@ class AuthService {
     );
   }
 
-  Future<void> loginWithApple() async {
-    await _firebaseAuthProvider.loginWithApple();
+  Future<bool> loginWithApple() async {
+    return await _firebaseAuthProvider.loginWithApple();
   }
 
   Future<bool> loginWithEmailAndPassword({
@@ -59,5 +59,5 @@ class AuthService {
     await _firebaseAuthProvider.logOut();
   }
 
-  bool get userExists => authUser != null;
+  Stream<User?> userStream() => _firebaseAuthProvider.authStateChanges();
 }
