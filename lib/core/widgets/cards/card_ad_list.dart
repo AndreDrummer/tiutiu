@@ -1,3 +1,4 @@
+import 'package:tiutiu/core/utils/dimensions.dart';
 import 'package:tiutiu/core/widgets/cards/widgets/card_builder.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
@@ -21,7 +22,11 @@ class CardAdList extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12.0.h),
       ),
-      height: 164.0.h,
+      height: Dimensions.getDimensBasedOnDeviceHeight(
+        smaller: 176.0.h,
+        bigger: 152.0.h,
+        medium: 160.0.h,
+      ),
       padding: EdgeInsets.zero,
       child: Card(
         shape: RoundedRectangleBorder(
