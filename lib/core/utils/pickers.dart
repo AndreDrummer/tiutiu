@@ -40,7 +40,7 @@ mixin Pickers {
               : Dimensions.getDimensBasedOnDeviceHeight(
                   smaller: 128.0.h,
                   bigger: 100.0.h,
-                  medium: 100.0.h,
+                  medium: 120.0.h,
                 ),
           child: Column(
             children: [

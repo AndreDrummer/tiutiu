@@ -16,9 +16,7 @@ class FirebaseAuthProvider implements AuthProviders {
   User? get firebaseAuthUser => _firebaseAuth.currentUser;
   final FacebookAuth _facebookSignIn = FacebookAuth.i;
 
-  Stream<User?> userStream() {
-    return _firebaseAuth.authStateChanges();
-  }
+  Stream<User?> authStateChanges() => _firebaseAuth.authStateChanges();
 
   Future sendWhatsAppCode(String phoneNumber, String code) async {
     final whatsappService = WhatsappService(code: code, phoneNumber: phoneNumber);
@@ -172,12 +170,39 @@ class FirebaseAuthProvider implements AuthProviders {
   }
 
   @override
-  Future<void> loginWithApple() async {
-    await SignInWithApple.getAppleIDCredential(
-      scopes: [
-        AppleIDAuthorizationScopes.email,
-        AppleIDAuthorizationScopes.fullName,
-      ],
-    );
+  Future<bool> loginWithApple() async {
+    try {
+      final appleIDcredential = await SignInWithApple.getAppleIDCredential(
+        scopes: [
+          AppleIDAuthorizationScopes.email,
+          AppleIDAuthorizationScopes.fullName,
+        ],
+      );
+
+      final oAuthProvider = OAuthProvider('apple.com');
+
+      final firebaseCredential = oAuthProvider.credential(
+        accessToken: appleIDcredential.authorizationCode,
+        idToken: appleIDcredential.identityToken,
+      );
+
+      debugPrint('TiuTiuApp: Dados Apple\n');
+      debugPrint('TiuTiuApp: $appleIDcredential\n');
+      debugPrint('TiuTiuApp: ${appleIDcredential.email}\n');
+      debugPrint('TiuTiuApp: ${appleIDcredential.familyName}\n');
+      debugPrint('TiuTiuApp: ${appleIDcredential.givenName}\n');
+
+      final appleUserName = '${appleIDcredential.givenName} ${appleIDcredential.familyName ?? ''}';
+
+      debugPrint('TiuTiuApp: $appleUserName');
+
+      await _firebaseAuth.signInWithCredential(firebaseCredential);
+      debugPrint('TiuTiuApp: Firebase Auth ${_firebaseAuth.currentUser}');
+
+      return _firebaseAuth.currentUser != null;
+    } on FirebaseException catch (exception) {
+      debugPrint('TiuTiuApp: An error ocurred when tryna to login with Apple: $exception');
+      throw TiuTiuAuthException(exception.code);
+    }
   }
 }

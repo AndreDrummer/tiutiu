@@ -63,18 +63,18 @@ class TopBar extends StatelessWidget {
           WarningBanner(
             showBannerCondition:
                 appController.properties.internetConnected && !tiutiuUserController.tiutiuUser.emailVerified,
-            padding: EdgeInsets.symmetric(horizontal: 4.0.w, vertical: 2.0.h),
+            padding: EdgeInsets.symmetric(horizontal: 4.0.w, vertical: 1.0.h),
             margin: EdgeInsets.only(top: 8.0.h),
             replacement: SizedBox.shrink(),
           ),
           WarningBanner(
             showBannerCondition: !appController.properties.internetConnected && postsController.posts.isNotEmpty,
             textWarning: AppStrings.noConnectionWarning,
+            margin: EdgeInsets.only(top: 8.0.h),
             padding: EdgeInsets.all(2.0.h),
             replacement: SizedBox.shrink(),
             tileColor: AppColors.warning,
             textColor: AppColors.black,
-            margin: EdgeInsets.zero,
           )
         ],
       ),
