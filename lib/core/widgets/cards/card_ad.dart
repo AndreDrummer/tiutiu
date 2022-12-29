@@ -1,3 +1,4 @@
+import 'package:tiutiu/core/utils/dimensions.dart';
 import 'package:tiutiu/core/widgets/cards/widgets/card_builder.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
@@ -32,10 +33,14 @@ class CardAd extends StatelessWidget {
             children: [
               Container(
                 child: cardBuilder.adImages(),
-                height: Get.height / 2.1,
+                height: Dimensions.getDimensBasedOnDeviceHeight(
+                  smaller: Get.height / 2.5,
+                  bigger: Get.height / 2.1,
+                  medium: Get.height / 2.1,
+                ),
               ),
               Visibility(
-                visible: !inReviewMode && showFavoriteButton && authController.userExists && showFavoriteButton,
+                visible: !inReviewMode && authController.userExists && showFavoriteButton,
                 child: Positioned(
                   child: cardBuilder.favoriteButton(),
                   bottom: 16.0.h,
