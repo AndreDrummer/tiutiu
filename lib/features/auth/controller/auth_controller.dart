@@ -38,6 +38,7 @@ class AuthController extends GetxController {
   final RxBool _numberVerified = false.obs;
   final RxInt _secondsToExpireCode = 0.obs;
   final RxString _feedbackText = ''.obs;
+  final RxBool _userExists = false.obs;
   final RxBool _isLoading = false.obs;
 
   EmailAndPasswordAuth get emailAndPasswordAuth => _emailAndPasswordAuth.value;
@@ -49,7 +50,7 @@ class AuthController extends GetxController {
   bool get allowResendEmail => _allowResendEmail.value;
   bool get numberVerified => _numberVerified.value;
   String get feedbackText => _feedbackText.value;
-  bool get userExists => _authService.userExists;
+  bool get userExists => _userExists.value;
   bool get isLoading => _isLoading.value;
 
   User? get user => _authService.authUser;
@@ -78,6 +79,12 @@ class AuthController extends GetxController {
     map[property.name] = data;
 
     _setEmailAndPasswordAuth = EmailAndPasswordAuth().fromMap(map);
+  }
+
+  void userStateChanges() {
+    _authService.userStream().listen((newUser) {
+      _userExists(newUser != null);
+    });
   }
 
   Future<void> sendWhatsAppCode() async {
@@ -315,16 +322,17 @@ class AuthController extends GetxController {
   Future<bool> loginWithApple() async {
     setLoading(true, AuthStrings.loginInProgress);
 
-    await _authService.loginWithApple();
+    final bool success = await _authService.loginWithApple();
 
-    if (isLoading) {
+    if (success) {
       await loadUserData();
       registerFirstLogin();
+      tiutiuUserController.checkUserRegistered();
     }
 
     setLoading(false, '');
 
-    return isLoading;
+    return success;
   }
 
   Future<void> passwordReset() async {
@@ -433,8 +441,9 @@ class AuthController extends GetxController {
   Future<void> updateUserInfo() async {
     try {
       if (!_isUpdatingUserDataOnServer.value) {
-        final lastSignInTime = _authService.authUser?.metadata.lastSignInTime;
-        final creationTime = _authService.authUser?.metadata.creationTime;
+        final isAppleUser = user?.providerData.first.providerId == 'apple.com';
+        final lastSignInTime = user?.metadata.lastSignInTime;
+        final creationTime = user?.metadata.creationTime;
         final loggedUser = tiutiuUserController.tiutiuUser;
 
         _isUpdatingUserDataOnServer(true);
@@ -463,11 +472,16 @@ class AuthController extends GetxController {
           );
         }
 
-        debugPrint('TiuTiuApp: Updating emailVerified... ${user?.emailVerified}');
-        tiutiuUserController.updateTiutiuUser(
-          TiutiuUserEnum.emailVerified,
-          user?.emailVerified ?? false,
-        );
+        if (isAppleUser) {
+          tiutiuUserController.updateTiutiuUser(TiutiuUserEnum.email, user?.providerData.first.email);
+          tiutiuUserController.updateTiutiuUser(TiutiuUserEnum.emailVerified, true);
+        } else {
+          debugPrint('TiuTiuApp: Updating emailVerified... ${user?.emailVerified}');
+          tiutiuUserController.updateTiutiuUser(
+            TiutiuUserEnum.emailVerified,
+            user?.emailVerified ?? false,
+          );
+        }
 
         if (loggedUser.displayName == null) {
           debugPrint('TiuTiuApp: Updating displayName...');
@@ -509,7 +523,7 @@ class AuthController extends GetxController {
           );
         }
 
-        if (!user!.emailVerified && allowResendEmail) {
+        if (!isAppleUser && !user!.emailVerified && allowResendEmail) {
           sendEmail();
         }
 
@@ -525,7 +539,7 @@ class AuthController extends GetxController {
   Future<void> signOut() async {
     debugPrint('TiuTiuApp: Login out...');
     await _authService.logOut();
-    debugPrint('TiuTiuApp: User ${_authService.authUser}');
+    debugPrint('TiuTiuApp: User $user');
     clearAllAuthData();
     clearEmailAndPassword();
     debugPrint('TiuTiuApp: Cleaning cache...');
@@ -533,7 +547,7 @@ class AuthController extends GetxController {
     debugPrint('TiuTiuApp: Logout done!');
     recordLogoutTimeNow();
     setLoading(false, '');
-    debugPrint('TiuTiuApp: User still exists? ${_authService.userExists}');
+    debugPrint('TiuTiuApp: User still exists? $userExists');
   }
 
   void clearAllAuthData() {
