@@ -120,6 +120,7 @@ class _TiuTiuAppState extends State<TiuTiuApp> {
 
     appController.handleInternetConnectivityStatus();
     appController.onAppEndpointsChange();
+    authController.userStateChanges();
     debugPrint('TiuTiuApp: Height ${Get.height}');
 
     // Run code required to handle interacted messages in an async function
