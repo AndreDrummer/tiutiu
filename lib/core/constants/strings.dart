@@ -78,6 +78,7 @@ class AuthStrings {
   static const String codeIsValidForMinutes = 'O código é valido por 2 minutos.';
   static const String deleteAccountWarning =
       'Após excluir sua conta não será possível recuperá-la.\n\nDeseja continuar?';
+  static String get loginCouldNotProceed => 'Não foi possível completar o login';
   static const String checkYourSpam = 'Cheque sua caixa de spam se necessário.';
   static String get confirmAndReceiveCode => 'Confirmar e receber código';
   static const String typePasswordAgain = 'Digite a senha novamente';
@@ -99,11 +100,11 @@ class AuthStrings {
   static const String authenticanting = 'Autênticando...';
   static const String typeYourEmail = 'Digite seu email';
   static String get resetPassword => 'Resetar a senha.';
-  static const String deleteAccount = 'Excluir conta';
-  static const String receiveEmail = 'Receber email';
   static const String registeringUser = 'Criando conta';
   static const String invalidCode = 'Código inválido!';
   static const String invalidEmail = 'E-mail inválido';
+  static const String deleteAccount = 'Excluir conta';
+  static const String receiveEmail = 'Receber email';
   static const String emailSent = 'E-mail enviado!';
   static String get createAccount => 'Criar conta';
   static const String pasteCode = 'Colar código';
