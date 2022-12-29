@@ -22,7 +22,6 @@ class PostDescription extends StatelessWidget {
       () => ListView(
         padding: EdgeInsets.only(top: 8.0.h),
         children: [
-          _spacer(),
           _breed(),
           _spacer(),
           _color(),
