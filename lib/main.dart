@@ -13,14 +13,18 @@ import 'package:flutter/material.dart';
 import 'firebase_options.dart';
 import 'package:get/get.dart';
 import 'dart:async';
+import 'dart:io';
 
 /// Initialize the [FlutterLocalNotificationsPlugin] package.
 late FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
+late NotificationSettings notificationSettings;
 
 /// Create a [AndroidNotificationChannel] for heads up notifications
 late AndroidNotificationChannel channel;
 
 bool isFlutterLocalNotificationsInitialized = false;
+
+FirebaseMessaging messaging = FirebaseMessaging.instance;
 
 Future<void> _firebaseMessagingForegroundHandler(RemoteMessage message) async {
   _setupFlutterNotifications();
@@ -61,13 +65,27 @@ Future<void> _setupFlutterNotifications() async {
 
   /// Update the iOS foreground notification presentation options to allow
   /// heads up notifications.
-  await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
+  await messaging.setForegroundNotificationPresentationOptions(
     alert: true,
     badge: true,
     sound: true,
   );
 
   isFlutterLocalNotificationsInitialized = true;
+}
+
+Future<void> _requireNotificationPermission() async {
+  notificationSettings = await messaging.requestPermission(
+    criticalAlert: false,
+    announcement: false,
+    provisional: false,
+    carPlay: false,
+    alert: true,
+    badge: true,
+    sound: true,
+  );
+
+  debugPrint('TiuTiuApp: User granted permission: ${notificationSettings.authorizationStatus}');
 }
 
 void _showFlutterNotification(RemoteMessage message) {
@@ -98,6 +116,8 @@ Future<void> main() async {
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
   SystemInitializer.initDependencies();
+
+  if (Platform.isIOS) await _requireNotificationPermission();
 
   FirebaseMessaging.onMessage.listen(_firebaseMessagingForegroundHandler);
 
