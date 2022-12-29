@@ -59,6 +59,11 @@
 	<string>É necessário para que você consiga gravar um video.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>É necessário para que você consiga pegar uma foto da galeria.</string>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>fetch</string>
+		<string>remote-notification</string>
+	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
