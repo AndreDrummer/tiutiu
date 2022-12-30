@@ -47,13 +47,13 @@ class _PostVideoVideoState extends State<PostVideo> {
       },
       child: Column(
         children: [
-          Spacer(),
+          _spacer(),
           _insertVideoLabel(),
           _video(),
-          Spacer(),
+          _spacer(),
           _videoErrorLabel(),
           _removeVideoButton(),
-          Spacer(),
+          _spacer(),
         ],
       ),
     );
@@ -108,22 +108,25 @@ class _PostVideoVideoState extends State<PostVideo> {
 
   Widget _playVideo() {
     return TiuTiuVideoPlayer(
+      aspectRatio: postsController.chewieController!.videoPlayerController.value.aspectRatio,
       chewieController: postsController.chewieController!,
-      aspectRatio: Get.width / (Get.height / 3),
       isInReviewMode: true,
     );
   }
 
   Widget _videoErrorLabel() {
-    return Obx(
-      () => Padding(
-        padding: EdgeInsets.only(bottom: 8.0.h),
-        child: OneLineText(
-          text: postsController.flowErrorText,
-          widgetAlignment: Alignment.center,
-          fontWeight: FontWeight.w500,
-          textAlign: TextAlign.center,
-          color: AppColors.danger,
+    return Visibility(
+      visible: postsController.flowErrorText.isNotEmpty,
+      child: Obx(
+        () => Padding(
+          padding: EdgeInsets.only(bottom: 8.0.h),
+          child: OneLineText(
+            text: postsController.flowErrorText,
+            widgetAlignment: Alignment.center,
+            fontWeight: FontWeight.w500,
+            textAlign: TextAlign.center,
+            color: AppColors.danger,
+          ),
         ),
       ),
     );
@@ -132,17 +135,27 @@ class _PostVideoVideoState extends State<PostVideo> {
   Obx _removeVideoButton() {
     return Obx(
       () {
-        return AnimatedTextIconButton(
-          showCondition: postsController.post.video != null,
-          textLabel: PostFlowStrings.removeVideo,
-          elementsColor: AppColors.danger,
-          icon: Icons.remove,
-          onPressed: () {
-            postsController.disposeVideoController();
-            postsController.updatePost(PostEnum.video.name, null);
-          },
+        return Padding(
+          padding: EdgeInsets.only(top: 2.0.h),
+          child: AnimatedTextIconButton(
+            showCondition: postsController.post.video != null,
+            textLabel: PostFlowStrings.removeVideo,
+            elementsColor: AppColors.danger,
+            icon: Icons.remove,
+            onPressed: () {
+              postsController.disposeVideoController();
+              postsController.updatePost(PostEnum.video.name, null);
+            },
+          ),
         );
       },
+    );
+  }
+
+  Widget _spacer() {
+    return Visibility(
+      visible: postsController.post.video == null,
+      child: Spacer(),
     );
   }
 }

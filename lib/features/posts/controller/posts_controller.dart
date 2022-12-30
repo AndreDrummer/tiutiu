@@ -30,12 +30,12 @@ class PostsController extends GetxController with TiuTiuPopUp {
   final PostService _postService;
 
   final RxMap<String, dynamic> _cachedVideos = <String, dynamic>{}.obs;
+  final RxBool _addressIsWithCompliment = false.obs;
   final RxList<Post> _filteredPosts = <Post>[].obs;
   final RxString _uploadingPostText = ''.obs;
   final RxBool _isInMyPostsList = false.obs;
   final RxBool _isInReviewMode = false.obs;
   final RxBool _isEditingPost = false.obs;
-  final RxBool _isFullAddress = false.obs;
   final RxList<Pet> _posts = <Pet>[].obs;
   final RxString _flowErrorText = ''.obs;
   final RxBool _postReviewed = false.obs;
@@ -48,6 +48,7 @@ class PostsController extends GetxController with TiuTiuPopUp {
 
   ChewieController? get chewieController => VideoUtils(post: post).getChewieController();
   bool get existChronicDisease => (post as Pet).health == PetHealthString.chronicDisease;
+  bool get addressIsWithCompliment => _addressIsWithCompliment.value;
   String get uploadingPostText => _uploadingPostText.value;
   Map<String, dynamic> get cachedVideos => _cachedVideos;
   bool get isInMyPostsList => _isInMyPostsList.value;
@@ -56,7 +57,6 @@ class PostsController extends GetxController with TiuTiuPopUp {
   bool get formIsInInitialState => post == Post();
   List<Post> get filteredPosts => _filteredPosts;
   bool get isEditingPost => _isEditingPost.value;
-  bool get isFullAddress => _isFullAddress.value;
   bool get postReviewed => _postReviewed.value;
   bool get formIsValid => _formIsValid.value;
   int get postsCount => _postsCount.value;
@@ -298,13 +298,14 @@ class PostsController extends GetxController with TiuTiuPopUp {
         _formIsValid(validator.isStep3Valid());
         break;
       case 3:
-        _formIsValid(validator.isStep4Valid(isFullAddress));
+        _formIsValid(validator.isStep4Valid(addressIsWithCompliment));
         break;
       case 4:
         _formIsValid(validator.isStep5Valid());
         break;
       case 5:
         isLoading = false;
+        chewieController?.pause();
         break;
       case 7:
         isLoading = true;
@@ -330,7 +331,7 @@ class PostsController extends GetxController with TiuTiuPopUp {
 
   void clearForm() {
     _urlPicturesToBeDeleted.clear();
-    _isFullAddress(false);
+    _addressIsWithCompliment(false);
     _isEditingPost(false);
     _postReviewed(false);
     _formIsValid(true);
@@ -468,6 +469,6 @@ class PostsController extends GetxController with TiuTiuPopUp {
   }
 
   void toggleFullAddress() {
-    _isFullAddress(!isFullAddress);
+    _addressIsWithCompliment(!addressIsWithCompliment);
   }
 }
