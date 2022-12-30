@@ -7,10 +7,11 @@ import 'package:tiutiu/features/posts/widgets/video_player.dart';
 import 'package:tiutiu/features/posts/widgets/card_content.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiutiu/core/widgets/loading_video_screen.dart';
-import 'package:tiutiu/core/widgets/simple_text_button.dart';
 import 'package:tiutiu/core/extensions/string_extension.dart';
+import 'package:tiutiu/core/widgets/simple_text_button.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/utils/routes/routes_name.dart';
+import 'package:tiutiu/core/utils/launcher_functions.dart';
 import 'package:tiutiu/core/widgets/load_dark_screen.dart';
 import 'package:tiutiu/core/constants/images_assets.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
@@ -460,10 +461,17 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
         children: [
           ButtonWide(
             padding: EdgeInsets.symmetric(vertical: 1.0.h, horizontal: 2.0.w),
-            onPressed: () => chatController.startsChatWith(
-              myUserId: tiutiuUserController.tiutiuUser.uid!,
-              user: post.owner!,
-            ),
+            onPressed: () {
+              postsController.handleContactTapped(
+                contactType: 'chat',
+                onAdWatched: () async {
+                  chatController.startsChatWith(
+                    myUserId: tiutiuUserController.tiutiuUser.uid!,
+                    user: post.owner!,
+                  );
+                },
+              );
+            },
             color: AppColors.secondary,
             text: AppStrings.chatWithAnnouncer,
             isToExpand: true,
@@ -476,7 +484,11 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
             color: AppColors.primary,
             isToExpand: true,
             onPressed: () async {
-              postsController.handleWhatsAppRedirection();
+              postsController.handleContactTapped(
+                onAdWatched: () async {
+                  await Launcher.openWhatsApp(number: post.owner!.phoneNumber!);
+                },
+              );
             },
           ),
         ],
