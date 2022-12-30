@@ -1,4 +1,5 @@
 import 'package:tiutiu/features/home/controller/home_controller.dart';
+import 'package:tiutiu/features/admob/widgets/ad_banner_300x60.dart';
 import 'package:tiutiu/features/posts/flow/init_post_flow.dart';
 import 'package:tiutiu/features/home/widgets/bottom_bar.dart';
 import 'package:tiutiu/features/posts/views/posts_list.dart';
@@ -70,7 +71,18 @@ class Home extends StatelessWidget with TiuTiuPopUp {
                   ),
                 ];
               },
-              body: screens.elementAt(homeController.bottomBarIndex),
+              body: Stack(
+                children: [
+                  screens.elementAt(homeController.bottomBarIndex),
+                  Visibility(
+                    visible: homeController.bottomBarIndex != 2,
+                    child: Positioned(
+                      child: AdBanner300x60(bannerAdId: 'ca-app-pub-3940256099942544/6300978111'),
+                      bottom: 0.0.h,
+                    ),
+                  )
+                ],
+              ),
               controller: homeController.scrollController,
               floatHeaderSlivers: true,
             ),
