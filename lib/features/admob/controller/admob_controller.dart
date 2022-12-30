@@ -23,7 +23,6 @@ final BannerAdListener _bannerAdlistener = BannerAdListener(
 );
 
 class AdMobController extends GetxController {
-  int minutesFreeOfRewarded = 2;
   bool _rewardedAdWasLoaded = false;
 
   final Rx<BannerAd> _bannerAd = BannerAd(
@@ -50,6 +49,11 @@ class AdMobController extends GetxController {
     );
   }
 
+  int minutesFreeOfRewardedAd(String contactType) {
+    if (contactType == 'whatsapp') return 2;
+    return 10;
+  }
+
   Future<void> loadRewardedAd() async {
     await RewardedAd.load(
       adUnitId: appController.getAdMobBlockID(blockName: AdMobBlockName.whatsaAppNumber, type: AdMobType.rewarded),
@@ -68,7 +72,7 @@ class AdMobController extends GetxController {
     );
   }
 
-  Future<void> showRewardedAd() async {
+  Future<void> showRewardedAd(String contactType) async {
     if (!_rewardedAdWasLoaded) {
       await loadRewardedAd();
     }
@@ -92,7 +96,9 @@ class AdMobController extends GetxController {
         print('Usuário assistiu certinho ${ad.adUnitId} ${rewardItem.amount}');
 
         await LocalStorage.setValueUnderLocalStorageKey(
-          key: LocalStorageKey.lastTimeWatchedARewarded,
+          key: contactType == 'whatsapp'
+              ? LocalStorageKey.lastTimeWatchedWhatsappRewarded
+              : LocalStorageKey.lastTimeWatchedChatRewarded,
           value: DateTime.now().toIso8601String(),
         );
       },
