@@ -23,6 +23,7 @@ final BannerAdListener _bannerAdlistener = BannerAdListener(
 );
 
 class AdMobController extends GetxController {
+  bool _interstitialAdWasLoaded = false;
   bool _rewardedAdWasLoaded = false;
 
   final Rx<BannerAd> _bannerAd = BannerAd(
@@ -32,6 +33,7 @@ class AdMobController extends GetxController {
     size: AdSize.banner,
   ).obs;
 
+  late InterstitialAd _interstitialAd;
   late RewardedAd _rewardedAd;
 
   BannerAd get bannerAd => _bannerAd.value;
@@ -105,7 +107,47 @@ class AdMobController extends GetxController {
     );
   }
 
-  void disposeAllAds() {
-    bannerAd.dispose();
+  Future<void> loadInterstitialAd() async {
+    await InterstitialAd.load(
+      adUnitId: appController.getAdMobBlockID(blockName: AdMobBlockName.onAppOpening, type: AdMobType.interstitial),
+      request: AdRequest(),
+      adLoadCallback: InterstitialAdLoadCallback(
+        onAdLoaded: (InterstitialAd ad) {
+          // Keep a reference to the ad so you can show it later.
+          this._interstitialAd = ad;
+          _interstitialAdWasLoaded = true;
+        },
+        onAdFailedToLoad: (LoadAdError error) {
+          print('InterstitialAd failed to load: $error');
+        },
+      ),
+    );
+  }
+
+  Future<void> showInterstitialAd() async {
+    while (!_interstitialAdWasLoaded) {
+      await loadInterstitialAd();
+    }
+
+    if (_interstitialAdWasLoaded) {
+      _interstitialAd.fullScreenContentCallback = FullScreenContentCallback(
+        onAdShowedFullScreenContent: (InterstitialAd ad) => print('%ad onAdShowedFullScreenContent.'),
+        onAdDismissedFullScreenContent: (InterstitialAd ad) async {
+          print('$ad onAdDismissedFullScreenContent.');
+
+          await LocalStorage.setValueUnderLocalStorageKey(
+            key: LocalStorageKey.lastTimeSeenAnIntertitial,
+            value: DateTime.now().toIso8601String(),
+          );
+        },
+        onAdFailedToShowFullScreenContent: (InterstitialAd ad, AdError error) {
+          print('$ad onAdFailedToShowFullScreenContent: $error');
+          ad.dispose();
+        },
+        onAdImpression: (InterstitialAd ad) => print('$ad impression occurred.'),
+      );
+
+      _interstitialAd.show();
+    }
   }
 }
