@@ -10,7 +10,8 @@ class AppStrings {
   static String get verifyFilters => 'Verifique seus filtros de busca.';
   static String get tryAgainInABrief =>
       'Anúncios temporariamente indisponíveis.\nEntre novamente em alguns minutos.\n\nAgradecessemos a compreensão!';
-  static String get watchAnAd => 'Assista a um anúncio para prosseguir.';
+  static String get watchAnAd =>
+      'Período livre de anúncio esgotado.\n\nAssista um anúncio para renovar e prosseguir anúncios.';
   static String get changeListVisual => 'Mude a visualização da lista';
   static String get imagesWarning => 'Imagens meramente ilustrativas';
   static String get noPostFavorited => 'Nenhum PET foi favoritado.';
@@ -48,7 +49,7 @@ class AppStrings {
   static String get adopte => 'Adotar';
   static String get find => 'Encontrar';
   static String get watch => 'Assistir';
-  static String get ad => 'Anúncio';
+  static String get warning => 'Aviso';
   static String get name => 'Tiu, tiu';
   static String get email => 'E-mail';
   static String get wait => 'Aguarde';
