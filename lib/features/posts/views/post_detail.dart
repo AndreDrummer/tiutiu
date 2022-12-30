@@ -1,10 +1,12 @@
 import 'package:tiutiu/features/favorites/widgets/favorite_button.dart';
 import 'package:tiutiu/core/widgets/pet_other_caracteristics_card.dart';
 import 'package:tiutiu/core/pets/model/pet_caracteristics_model.dart';
+import 'package:tiutiu/features/admob/widgets/ad_banner_300x60.dart';
 import 'package:tiutiu/features/posts/widgets/video_player.dart';
 import 'package:tiutiu/features/posts/widgets/card_content.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiutiu/core/widgets/loading_video_screen.dart';
+import 'package:tiutiu/core/widgets/simple_text_button.dart';
 import 'package:tiutiu/core/extensions/string_extension.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/utils/launcher_functions.dart';
@@ -13,8 +15,8 @@ import 'package:tiutiu/core/widgets/load_dark_screen.dart';
 import 'package:tiutiu/core/constants/images_assets.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/widgets/dots_indicator.dart';
-import 'package:tiutiu/core/mixins/tiu_tiu_pop_up.dart';
 import 'package:tiutiu/core/widgets/warning_widget.dart';
+import 'package:tiutiu/core/mixins/tiu_tiu_pop_up.dart';
 import 'package:tiutiu/core/constants/text_styles.dart';
 import 'package:tiutiu/core/utils/other_functions.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
@@ -103,18 +105,19 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
                         ),
                       ),
                       children: [
-                        _showImagesAndVideos(
-                          boxHeight: Get.height / 2.2,
-                          context: context,
-                        ),
+                        _showImagesAndVideos(boxHeight: Get.height / 1.5, context: context),
                         _postTitle(post.name!),
+                        Padding(
+                          child: AdBanner300x60(bannerAdId: 'ca-app-pub-3940256099942544/6300978111'),
+                          padding: EdgeInsets.only(top: 4.0.h),
+                        ),
                         Visibility(
                           replacement: _petCaracteristicsGrid(petCaracteristics),
                           child: _petCaracteristics(petCaracteristics),
                           visible: authController.userExists,
                         ),
                         VerifyAccountWarningInterstitial(
-                          margin: EdgeInsets.symmetric(horizontal: 4.0.w, vertical: 8.0.h),
+                          margin: EdgeInsets.symmetric(vertical: 8.0.h),
                           isHiddingContactInfo: true,
                           child: Column(
                             children: [
@@ -379,22 +382,19 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
 
   Container _petCaracteristics(List<PetCaracteristics> petCaracteristics) {
     return Container(
-      margin: EdgeInsets.only(top: 4.0.h),
+      margin: EdgeInsets.only(top: 2.0.h),
       height: 64.0.h,
-      child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 2.0.h),
-        child: ListView.builder(
-          key: UniqueKey(),
-          itemCount: petCaracteristics.length,
-          scrollDirection: Axis.horizontal,
-          itemBuilder: (_, int index) {
-            return PetOtherCaracteristicsCard(
-              content: petCaracteristics[index].content,
-              title: petCaracteristics[index].title,
-              icon: petCaracteristics[index].icon,
-            );
-          },
-        ),
+      child: ListView.builder(
+        key: UniqueKey(),
+        itemCount: petCaracteristics.length,
+        scrollDirection: Axis.horizontal,
+        itemBuilder: (_, int index) {
+          return PetOtherCaracteristicsCard(
+            content: petCaracteristics[index].content,
+            title: petCaracteristics[index].title,
+            icon: petCaracteristics[index].icon,
+          );
+        },
       ),
     );
   }
@@ -457,11 +457,7 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
   Widget ownerAdcontact() {
     final Post post = postsController.post;
     return Container(
-      margin: EdgeInsets.only(
-        right: 4.0.w,
-        top: 4.0.h,
-        left: 4.0.w,
-      ),
+      margin: EdgeInsets.only(bottom: 8.0.h, right: 4.0.w, left: 4.0.w, top: 4.0.h),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -506,53 +502,53 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
   }
 
   Widget editPostButtons() {
-    return Column(
-      children: [
-        ButtonWide(
-          padding: EdgeInsets.symmetric(vertical: 2.0, horizontal: 8.0.w),
-          text: PostFlowStrings.editAd,
-          textColor: AppColors.black,
-          color: AppColors.warning,
-          icon: Icons.edit,
-          onPressed: () {
-            postsController.isEditingPost = true;
-            Get.offNamed(Routes.initPostFlow);
-          },
-          isToExpand: true,
-          rounded: false,
-        ),
-        ButtonWide(
-          padding: EdgeInsets.symmetric(vertical: 2.0, horizontal: 8.0.w),
-          text: PostFlowStrings.deleteAd,
-          icon: Icons.delete_forever,
-          color: AppColors.danger,
-          onPressed: () async {
-            await showPopUp(
-              message: PostFlowStrings.deleteForever,
-              confirmText: AppStrings.yes,
-              textColor: AppColors.black,
-              mainAction: () {
-                Get.back();
-              },
-              secondaryAction: () {
-                Get.back();
-                postsController.deletePost().then((myPostsCount) {
+    return Padding(
+      padding: EdgeInsets.only(bottom: 16.0.h),
+      child: Column(
+        children: [
+          ButtonWide(
+            padding: EdgeInsets.only(top: 2.0, left: 4.0.w, right: 4.0.w),
+            text: PostFlowStrings.editAd,
+            textColor: AppColors.black,
+            color: AppColors.warning,
+            icon: Icons.edit,
+            onPressed: () {
+              postsController.isEditingPost = true;
+              Get.offNamed(Routes.initPostFlow);
+            },
+            isToExpand: true,
+            rounded: false,
+          ),
+          SimpleTextButton(
+            backgroundColor: AppColors.white,
+            text: PostFlowStrings.deleteAd,
+            textColor: AppColors.danger,
+            onPressed: () async {
+              await showPopUp(
+                message: PostFlowStrings.deleteForever,
+                confirmText: AppStrings.yes,
+                textColor: AppColors.black,
+                mainAction: () {
                   Get.back();
-                  ScaffoldMessenger.of(context)
-                      .showSnackBar(SnackBar(content: AutoSizeTexts.autoSizeText14(PostFlowStrings.adDeleted)));
-                });
-              },
-              barrierDismissible: false,
-              title: PostFlowStrings.deleteAd,
-              denyText: AppStrings.no,
-              warning: true,
-              error: false,
-            );
-          },
-          isToExpand: true,
-          rounded: false,
-        )
-      ],
+                },
+                secondaryAction: () {
+                  Get.back();
+                  postsController.deletePost().then((myPostsCount) {
+                    Get.back();
+                    ScaffoldMessenger.of(context)
+                        .showSnackBar(SnackBar(content: AutoSizeTexts.autoSizeText14(PostFlowStrings.adDeleted)));
+                  });
+                },
+                barrierDismissible: false,
+                title: PostFlowStrings.deleteAd,
+                denyText: AppStrings.no,
+                warning: true,
+                error: false,
+              );
+            },
+          )
+        ],
+      ),
     );
   }
 
