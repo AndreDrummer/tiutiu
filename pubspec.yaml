@@ -37,6 +37,7 @@ dependencies:
   loading_animations: ^2.2.0  
   flutter_speed_dial: ^6.0.0  
   connectivity_plus: ^2.3.7    
+  google_mobile_ads: ^2.3.0
   package_info_plus: ^1.0.0
   device_info_plus: ^8.0.0
   pin_code_fields: ^7.4.0

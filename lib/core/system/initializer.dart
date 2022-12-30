@@ -3,6 +3,7 @@ import 'package:tiutiu/features/tiutiu_user/dependency_injection.dart';
 import 'package:tiutiu/features/favorites/dependency_injection.dart';
 import 'package:tiutiu/features/support/dependency_injection.dart';
 import 'package:tiutiu/features/posts/dependency_injection.dart';
+import 'package:tiutiu/features/admob/dependency_injection.dart';
 import 'package:tiutiu/features/home/dependency_injection.dart';
 import 'package:tiutiu/features/auth/dependency_injection.dart';
 import 'package:tiutiu/core/location/dependency_injection.dart';
@@ -26,6 +27,7 @@ class SystemInitializer {
     TiutiuUserControllerDependency(),
     FavoritesControllerDependency(),
     SystemControllerDependency(),
+    AdMobControllerDependency(),
     PostsControllerDependency(),
     HomeControllerDependency(),
     ChatControllerDependency(),
