@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 class ReviewPost extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final inReviewMode = postsController.isInReviewMode;
     Post post = postsController.post;
 
     return InkWell(
@@ -17,7 +16,7 @@ class ReviewPost extends StatelessWidget {
       child: Container(
         child: CardAd(
           cardBuilder: CardBuilder(distanceText: '0.00', post: post),
-          inReviewMode: inReviewMode,
+          inReviewMode: true,
           post: post,
         ),
       ),
