@@ -53,22 +53,14 @@ class _AddImageState extends State<AddImage> with Pickers {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        if (appController.properties.bottomSheetIsOpen) {
-          Get.back();
-          appController.bottomSheetIsOpen = false;
-        }
-      },
-      child: Column(
-        children: [
-          Spacer(),
-          _insertPicturesLabel(),
-          _picturesList(context),
-          _addPicturesButton(),
-          Spacer(),
-        ],
-      ),
+    return Column(
+      children: [
+        Spacer(),
+        _insertPicturesLabel(),
+        _picturesList(context),
+        _addPicturesButton(),
+        Spacer(),
+      ],
     );
   }
 
@@ -103,16 +95,21 @@ class _AddImageState extends State<AddImage> with Pickers {
               decreasePhotosQty();
             },
             onAddPicture: () {
-              pickAnAsset(
-                context: context,
-                onAssetPicked: (image) {
-                  widget.onAddPictureOnIndex(
-                    image,
-                    index,
-                  );
-                },
-                pickerAssetType: PickerAssetType.photo,
-              );
+              if (appController.properties.bottomSheetIsOpen) {
+                Get.back();
+                appController.bottomSheetIsOpen = false;
+              } else {
+                pickAnAsset(
+                  context: context,
+                  onAssetPicked: (image) {
+                    widget.onAddPictureOnIndex(
+                      image,
+                      index,
+                    );
+                  },
+                  pickerAssetType: PickerAssetType.photo,
+                );
+              }
             },
             hasError: widget.hasError,
           );
