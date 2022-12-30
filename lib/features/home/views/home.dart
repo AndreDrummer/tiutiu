@@ -99,7 +99,7 @@ class Home extends StatelessWidget with TiuTiuPopUp {
 
   double expandedHeight() {
     final homeListPadding = Dimensions.getDimensBasedOnDeviceHeight(
-      smaller: Get.height / 3.8,
+      smaller: Get.height / 4.5,
       medium: Get.height / 4.5,
       bigger: Get.height / 4.8,
     );
@@ -107,7 +107,7 @@ class Home extends StatelessWidget with TiuTiuPopUp {
     if (homeController.bottomBarIndex < 2) {
       if (!tiutiuUserController.tiutiuUser.emailVerified) {
         return Dimensions.getDimensBasedOnDeviceHeight(
-          smaller: Get.height / 4.2,
+          smaller: Get.height / 3.7,
           medium: Get.height / 4.5,
           bigger: Get.height / 4.5,
         );
