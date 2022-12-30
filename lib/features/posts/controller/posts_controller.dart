@@ -1,18 +1,17 @@
-import 'package:tiutiu/core/constants/app_colors.dart';
-import 'package:tiutiu/core/local_storage/local_storage.dart';
-import 'package:tiutiu/core/local_storage/local_storage_keys.dart';
-import 'package:tiutiu/core/utils/launcher_functions.dart';
 import 'package:tiutiu/features/posts/repository/posts_repository.dart';
 import 'package:tiutiu/features/posts/validators/form_validators.dart';
-import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
 import 'package:tiutiu/core/location/models/states_and_cities.dart';
+import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
+import 'package:tiutiu/core/local_storage/local_storage_keys.dart';
 import 'package:tiutiu/features/posts/services/post_service.dart';
-import 'package:tiutiu/features/posts/utils/post_utils.dart';
 import 'package:tiutiu/core/extensions/string_extension.dart';
+import 'package:tiutiu/core/local_storage/local_storage.dart';
+import 'package:tiutiu/features/posts/utils/post_utils.dart';
 import 'package:tiutiu/core/utils/routes/routes_name.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/mixins/tiu_tiu_pop_up.dart';
 import 'package:tiutiu/core/pets/model/pet_model.dart';
+import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/features/posts/model/post.dart';
 import 'package:tiutiu/core/utils/video_utils.dart';
 import 'package:tiutiu/core/constants/strings.dart';
@@ -221,33 +220,41 @@ class PostsController extends GetxController with TiuTiuPopUp {
     _uploadingPostText('');
   }
 
-  Future<void> handleWhatsAppRedirection() async {
+  Future<void> handleContactTapped({String contactType = 'whatsapp', required Future Function() onAdWatched}) async {
     setLoading(true);
     final lastTimeWatchedRewarded = await LocalStorage.getValueUnderLocalStorageKey(
-      LocalStorageKey.lastTimeWatchedARewarded,
+      contactType == 'whatsapp'
+          ? LocalStorageKey.lastTimeWatchedWhatsappRewarded
+          : LocalStorageKey.lastTimeWatchedChatRewarded,
     );
 
-    debugPrint('TiuTiuApp: Last Time Watched a Rewarded $lastTimeWatchedRewarded');
+    debugPrint(
+      'TiuTiuApp: Last Time Watched a ${contactType == 'whatsapp' ? 'WhatsApp Rewarded' : 'Chat Rewarded'} $lastTimeWatchedRewarded',
+    );
 
     if (lastTimeWatchedRewarded == null) {
-      warningUserAboutRewarded();
+      warningUserAboutRewarded(contactType);
     } else {
       final minutes = DateTime.now().difference(DateTime.parse(lastTimeWatchedRewarded)).inMinutes;
 
-      if (minutes >= adMobController.minutesFreeOfRewarded) {
+      if (minutes >= adMobController.minutesFreeOfRewardedAd(contactType)) {
         debugPrint('TiuTiuApp: Must Show Rewarded..');
-        warningUserAboutRewarded();
+        warningUserAboutRewarded(contactType);
       } else {
-        await Launcher.openWhatsApp(number: post.owner!.phoneNumber!);
+        await onAdWatched();
       }
     }
 
     setLoading(false);
   }
 
-  Future<void> warningUserAboutRewarded() async {
+  Future<void> warningUserAboutRewarded(String contactType) async {
     await adMobController.loadRewardedAd();
-    await LocalStorage.deleteDataUnderLocalStorageKey(LocalStorageKey.lastTimeWatchedARewarded);
+    await LocalStorage.deleteDataUnderLocalStorageKey(
+      contactType == 'whatsapp'
+          ? LocalStorageKey.lastTimeWatchedWhatsappRewarded
+          : LocalStorageKey.lastTimeWatchedChatRewarded,
+    );
 
     await showPopUp(
       message: AppStrings.watchAnAd,
@@ -256,7 +263,7 @@ class PostsController extends GetxController with TiuTiuPopUp {
       mainAction: () async {
         Get.back();
         setLoading(false);
-        await adMobController.showRewardedAd();
+        await adMobController.showRewardedAd(contactType);
       },
       secondaryAction: () {
         Get.back();
