@@ -1,9 +1,9 @@
-import 'package:tiutiu/core/utils/dimensions.dart';
 import 'package:tiutiu/core/widgets/cards/widgets/card_builder.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/features/posts/model/post.dart';
+import 'package:tiutiu/core/utils/dimensions.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -24,9 +24,7 @@ class CardAd extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       elevation: 4.0,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(8),
-      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
       child: Column(
         children: [
           Stack(
@@ -36,7 +34,7 @@ class CardAd extends StatelessWidget {
                 child: cardBuilder.adImages(),
                 height: Dimensions.getDimensBasedOnDeviceHeight(
                   smaller: Get.height / 2.5,
-                  bigger: Get.height / 2.1,
+                  bigger: Get.height / 2.15,
                   medium: Get.height / 2.1,
                 ),
               ),
@@ -54,8 +52,8 @@ class CardAd extends StatelessWidget {
             decoration: BoxDecoration(
               color: AppColors.white,
               borderRadius: BorderRadius.only(
-                bottomRight: Radius.circular(8.0.h),
-                bottomLeft: Radius.circular(8.0.h),
+                topRight: Radius.circular(8.0.h),
+                topLeft: Radius.circular(8.0.h),
               ),
             ),
             child: Container(
