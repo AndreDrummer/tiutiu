@@ -1,3 +1,4 @@
+import 'package:tiutiu/core/utils/video_utils.dart';
 import 'package:tiutiu/core/widgets/animated_text_icon_button.dart';
 import 'package:tiutiu/features/posts/widgets/ad_video_item.dart';
 import 'package:tiutiu/features/posts/widgets/video_player.dart';
@@ -27,13 +28,21 @@ class _PostVideoVideoState extends State<PostVideo> {
 
   @override
   void initState() {
+    initializeChewiwController();
     super.initState();
   }
 
   @override
   void dispose() {
     videoPlayerController?.dispose();
+
     super.dispose();
+  }
+
+  void initializeChewiwController() {
+    if (postsController.post.video != null) {
+      postsController.chewieController = VideoUtils(post: postsController.post).getChewieController();
+    }
   }
 
   @override
@@ -107,6 +116,8 @@ class _PostVideoVideoState extends State<PostVideo> {
   }
 
   Widget _playVideo() {
+    initializeChewiwController();
+
     return TiuTiuVideoPlayer(
       aspectRatio: postsController.chewieController!.videoPlayerController.value.aspectRatio,
       chewieController: postsController.chewieController!,
