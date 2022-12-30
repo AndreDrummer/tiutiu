@@ -1,5 +1,6 @@
 enum LocalStorageKey {
-  lastTimeWatchedARewarded,
+  lastTimeWatchedWhatsappRewarded,
+  lastTimeWatchedChatRewarded,
   emailPasswordAuthData,
   lastSendEmailTime,
   whatsappTokenData,
