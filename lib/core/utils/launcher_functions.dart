@@ -1,3 +1,4 @@
+import 'package:tiutiu/core/utils/formatter.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class Launcher {
@@ -35,7 +36,7 @@ class Launcher {
   }
 
   static Future<void> openWhatsApp({required String number}) async {
-    final uri = Uri.parse('https://api.whatsapp.com/send/?phone=55$number');
+    final uri = Uri.parse('https://api.whatsapp.com/send/?phone=55${Formatters.unmaskNumber(number)}');
 
     if (!await launchUrl(
       uri,

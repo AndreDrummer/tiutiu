@@ -74,14 +74,23 @@ class Home extends StatelessWidget with TiuTiuPopUp {
               },
               body: Stack(
                 children: [
-                  screens.elementAt(homeController.bottomBarIndex),
-                  Visibility(
-                    visible: homeController.bottomBarIndex != 2,
-                    child: Positioned(
-                      child: AdBanner300x60(adBlockName: AdMobBlockName.home),
-                      bottom: 0.0.h,
-                    ),
-                  )
+                  Positioned.fill(
+                    child: screens.elementAt(homeController.bottomBarIndex),
+                  ),
+                  Obx(() {
+                    bool showAd = false;
+
+                    showAd = authController.userExists && homeController.bottomBarIndex != 2 ||
+                        !authController.userExists && homeController.bottomBarIndex < 2;
+
+                    return Visibility(
+                      visible: showAd,
+                      child: Positioned(
+                        child: AdBanner300x60(adBlockName: AdMobBlockName.home),
+                        bottom: 0.0.h,
+                      ),
+                    );
+                  })
                 ],
               ),
               controller: homeController.scrollController,
