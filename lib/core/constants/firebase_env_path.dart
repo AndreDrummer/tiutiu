@@ -17,6 +17,7 @@ class FirebaseEnvPath {
   static const String endpoints = 'endpoints';
   static const String favorites = 'Favorites';
   static const String projectName = 'tiutiu';
+  static const String admobids = 'admobids';
   static const String messages = 'messages';
   static const String contacts = 'contacts';
   static const String adopted = 'Adopted';

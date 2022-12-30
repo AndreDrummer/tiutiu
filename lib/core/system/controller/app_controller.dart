@@ -14,6 +14,7 @@ class AppController extends GetxController {
 
   final AppService _systemService;
 
+  final RxMap<String, dynamic> _adMobIDs = <String, dynamic>{}.obs;
   final Rx<AppProperties> _systemProperties = AppProperties().obs;
   final RxList<Endpoint> _endpoints = <Endpoint>[].obs;
 
@@ -54,6 +55,7 @@ class AppController extends GetxController {
 
       _systemProperties(properties.copyWith(isLoading: false));
 
+      await _getAdMobIDs();
       appController.onAppPropertiesChange();
     } on Exception catch (exception) {
       debugPrint('TiuTiuApp: App Initialization Exception $exception');
@@ -63,6 +65,11 @@ class AppController extends GetxController {
   Future<void> getInitialEndpoints() async {
     final initialEndpoints = await _systemService.getEndpoints();
     _endpoints(initialEndpoints);
+  }
+
+  Future<void> _getAdMobIDs() async {
+    final ids = await _systemService.getAdMobIds();
+    _adMobIDs(ids);
   }
 
   void onAppEndpointsChange() => _systemService.appEndpoints().listen(_endpoints);
@@ -75,5 +82,12 @@ class AppController extends GetxController {
 
       debugPrint('TiuTiuApp: New Properties $properties');
     });
+  }
+
+  String getAdMobBlockID({required String blockName}) {
+    final googleBannerAdtest = 'ca-app-pub-3940256099942544/6300978111';
+    final adMobID = _adMobIDs[blockName];
+
+    return (adMobID == null || kDebugMode) ? googleBannerAdtest : adMobID;
   }
 }

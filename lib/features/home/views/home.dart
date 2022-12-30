@@ -1,3 +1,4 @@
+import 'package:tiutiu/features/admob/constants/admob_block_names.dart';
 import 'package:tiutiu/features/home/controller/home_controller.dart';
 import 'package:tiutiu/features/admob/widgets/ad_banner_300x60.dart';
 import 'package:tiutiu/features/posts/flow/init_post_flow.dart';
@@ -77,7 +78,7 @@ class Home extends StatelessWidget with TiuTiuPopUp {
                   Visibility(
                     visible: homeController.bottomBarIndex != 2,
                     child: Positioned(
-                      child: AdBanner300x60(bannerAdId: 'ca-app-pub-3940256099942544/6300978111'),
+                      child: AdBanner300x60(adBlockName: AdMobBlockName.home),
                       bottom: 0.0.h,
                     ),
                   )
