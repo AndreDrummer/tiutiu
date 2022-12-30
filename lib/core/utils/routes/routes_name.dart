@@ -2,6 +2,7 @@ class Routes {
   static const announcerDetails = '/announcer-details';
   static const emailAndPassword = '/email-password';
   static const deleteAccount = '/delete-account';
+  static const postDennounce = '/post-dennounce';
   static const initPostFlow = '/init-post-flow';
   static const verifyEmail = '/verify-email';
   static const verifyPhone = '/verify-phone';

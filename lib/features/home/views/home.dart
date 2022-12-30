@@ -25,7 +25,7 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> with TiuTiuPopUp {
   @override
   void initState() {
-    adMobController.showInterstitialAd();
+    // adMobController.showInterstitialAd();
     super.initState();
   }
 
