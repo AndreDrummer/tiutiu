@@ -1,4 +1,5 @@
 import 'package:tiutiu/features/delete_account/views/delete_account_screen.dart';
+import 'package:tiutiu/features/dennounce/views/post_dennounce_screen.dart';
 import 'package:tiutiu/features/talk_with_us/views/talk_with_us.dart';
 import 'package:tiutiu/features/auth/views/email_and_password.dart';
 import 'package:tiutiu/core/system/views/loading_start_screen.dart';
@@ -58,6 +59,10 @@ class RouterGenerator {
       case Routes.favorites:
         return MaterialPageRoute(
           builder: (_) => Favorites(),
+        );
+      case Routes.postDennounce:
+        return MaterialPageRoute(
+          builder: (_) => PostDennounceScreen(),
         );
       case Routes.contacts:
         return MaterialPageRoute(
