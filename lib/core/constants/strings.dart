@@ -367,3 +367,10 @@ class SupportUsStrings {
   static const String keyPixCopied = 'Chave copiada!';
   static const String copyKey = 'Copiar chave';
 }
+
+class PostDennounceStrings {
+  static const String announceNoAnswer = 'Anunciante não responde';
+  static const String sexualContent = 'Conteúdo Sexual';
+  static const String other = 'Outro';
+  static const String fake = 'Falso';
+}

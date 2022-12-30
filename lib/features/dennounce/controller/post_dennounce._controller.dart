@@ -1,21 +1,25 @@
 import 'package:tiutiu/features/dennounce/model/post_dennounce.dart';
-import 'package:tiutiu/core/controllers/controllers.dart';
+import 'package:tiutiu/core/constants/strings.dart';
 import 'package:get/get.dart';
 
 class PostDennounceController extends GetxController {
-  final Rx<PostDennounce> _postBeingDennounced = PostDennounce().obs;
+  final Rx<PostDennounce> _postDennounce = PostDennounce().obs;
+  final RxInt _postDennounceGroupValue = 3.obs;
+  final RxBool _hasError = false.obs;
 
-  PostDennounce get postBeingDennounced => _postBeingDennounced.value;
+  int get postDennounceGroupValue => _postDennounceGroupValue.value;
+  List<String> get dennouncePostMotives => _dennouncePostMotives;
+  PostDennounce get postDennounce => _postDennounce.value;
+  bool get hasError => _hasError.value;
 
-  void updatePostDennounce(PostDennounceEnum property, dynamic data) {
-    final dennounceMap = postBeingDennounced.toMap();
+  void set updatePostDennounce(PostDennounce postDennounce) => _postDennounce(postDennounce);
+  void set postDennounceGroupValue(int value) => _postDennounceGroupValue(value);
+  void set hasError(bool value) => _hasError(value);
 
-    dennounceMap[property.name] = data;
-
-    if (dennounceMap[PostDennounceEnum.dennouncer.name] == null) {
-      dennounceMap[PostDennounceEnum.dennouncer.name] = tiutiuUserController.tiutiuUser.toMap();
-    }
-
-    _postBeingDennounced(PostDennounce.fromMap(dennounceMap));
-  }
+  final _dennouncePostMotives = [
+    PostDennounceStrings.announceNoAnswer,
+    PostDennounceStrings.sexualContent,
+    PostDennounceStrings.fake,
+    PostDennounceStrings.other,
+  ];
 }
