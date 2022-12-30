@@ -9,7 +9,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class DennounceButton extends StatelessWidget with TiuTiuPopUp {
-  const DennounceButton({super.key});
+  const DennounceButton({super.key, required this.onContinue});
+
+  final Function() onContinue;
 
   @override
   Widget build(BuildContext context) {
@@ -26,15 +28,8 @@ class DennounceButton extends StatelessWidget with TiuTiuPopUp {
             Get.back();
           },
           secondaryAction: () {
-            print('Denounce');
             Get.back();
-
-            postDennounceController.updatePostDennounce(
-              PostDennounceEnum.dennouncedPost,
-              postsController.post,
-            );
-
-            Get.toNamed(Routes.postDennounce);
+            onContinue();
           },
         );
       },
