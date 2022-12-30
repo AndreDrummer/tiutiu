@@ -41,12 +41,14 @@ class WarningBanner extends StatelessWidget {
 
     return GestureDetector(
       onTap: () {
-        action?.call();
+        if (!tiutiuUserController.tiutiuUser.emailVerified) {
+          action?.call();
 
-        if (authController.userExists) {
-          Get.offNamed(Routes.verifyEmail);
-        } else {
-          Get.offNamed(Routes.authHosters);
+          if (authController.userExists) {
+            Get.offNamed(Routes.verifyEmail);
+          } else {
+            Get.offNamed(Routes.authHosters);
+          }
         }
       },
       child: Visibility(
@@ -129,12 +131,14 @@ class VerifyAccountWarningInterstitial extends StatelessWidget {
 
     return GestureDetector(
       onTap: () {
-        action?.call();
+        if (!tiutiuUserController.tiutiuUser.emailVerified) {
+          action?.call();
 
-        if (authController.userExists) {
-          Get.offNamed(Routes.verifyEmail);
-        } else {
-          Get.offNamed(Routes.authHosters);
+          if (authController.userExists) {
+            Get.offNamed(Routes.verifyEmail);
+          } else {
+            Get.offNamed(Routes.authHosters);
+          }
         }
       },
       child: Visibility(

@@ -47,8 +47,8 @@ class LocationSelecter extends StatelessWidget {
               padding: EdgeInsets.only(top: 8.0.h),
               physics: NeverScrollableScrollPhysics(),
               children: [
-                _fillFullAddressCheckbox(),
-                _fillFullAddressTextArea(),
+                _fillAddressComplimentCheckbox(),
+                _fillAddressComplimentTextArea(),
               ],
             ),
           ),
@@ -77,7 +77,7 @@ class LocationSelecter extends StatelessWidget {
     );
   }
 
-  CheckboxListTile _fillFullAddressCheckbox() {
+  CheckboxListTile _fillAddressComplimentCheckbox() {
     return CheckboxListTile(
       contentPadding: EdgeInsets.zero,
       title: AutoSizeTexts.autoSizeText16(
@@ -92,31 +92,41 @@ class LocationSelecter extends StatelessWidget {
     );
   }
 
-  Widget _fillFullAddressTextArea() {
+  Widget _fillAddressComplimentTextArea() {
     return Obx(
-      () => Padding(
-        padding: EdgeInsets.zero,
-        child: TextArea(
-          onChanged: (address) {
-            if ((postsController.post as Pet).disappeared) {
-              postsController.updatePost(
-                PetEnum.lastSeenDetails.name,
-                address,
-              );
-            } else {
-              postsController.updatePost(
-                PostEnum.describedAddress.name,
-                address.trim(),
-              );
-            }
-          },
-          initialValue: postsController.post.describedAddress,
-          isInErrorState:
-              !postsController.post.describedAddress.isNotEmptyNeighterNull() && !postsController.formIsValid,
-          labelText:
-              (postsController.post as Pet).disappeared ? AppStrings.jotSomethingDown : PostFlowStrings.typeAddress,
-        ),
-      ),
+      () {
+        bool isDisappeared = (postsController.post as Pet).disappeared;
+        bool isInErrorState = isDisappeared &&
+                !(postsController.post as Pet).lastSeenDetails.isNotEmptyNeighterNull() &&
+                !postsController.formIsValid ||
+            !isDisappeared &&
+                !postsController.post.describedAddress.isNotEmptyNeighterNull() &&
+                !postsController.formIsValid;
+
+        return Padding(
+          padding: EdgeInsets.zero,
+          child: TextArea(
+            onChanged: (address) {
+              if ((postsController.post as Pet).disappeared) {
+                postsController.updatePost(
+                  PetEnum.lastSeenDetails.name,
+                  address,
+                );
+              } else {
+                postsController.updatePost(
+                  PostEnum.describedAddress.name,
+                  address.trim(),
+                );
+              }
+            },
+            initialValue:
+                isDisappeared ? (postsController.post as Pet).lastSeenDetails : postsController.post.describedAddress,
+            isInErrorState: isInErrorState,
+            labelText:
+                (postsController.post as Pet).disappeared ? AppStrings.jotSomethingDown : PostFlowStrings.typeAddress,
+          ),
+        );
+      },
     );
   }
 

@@ -10,7 +10,7 @@ class PostLocation extends StatelessWidget {
   Widget build(BuildContext context) {
     return Obx(
       () => LocationSelecter(
-        fillFullAddress: postsController.isFullAddress,
+        fillFullAddress: postsController.addressIsWithCompliment,
         onFullAddressSelected: (value) {
           postsController.toggleFullAddress();
         },

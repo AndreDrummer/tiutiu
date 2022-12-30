@@ -7,15 +7,15 @@ final GlobalKey<FormState> diaseaseForm = GlobalKey<FormState>();
 final GlobalKey<FormState> nameKeyForm = GlobalKey<FormState>();
 
 class PostFormValidator {
-  PostFormValidator(Post pet) : _pet = pet;
+  PostFormValidator(Post pet) : post = pet;
 
-  final Post _pet;
+  final Post post;
 
   bool isStep1Valid(existChronicDiseaseInfo) {
     bool isValid = nameKeyForm.currentState!.validate() &&
-        (_pet as Pet).health.isNotEmptyNeighterNull() &&
-        (_pet as Pet).gender.isNotEmptyNeighterNull() &&
-        (_pet as Pet).size.isNotEmptyNeighterNull();
+        (post as Pet).health.isNotEmptyNeighterNull() &&
+        (post as Pet).gender.isNotEmptyNeighterNull() &&
+        (post as Pet).size.isNotEmptyNeighterNull();
 
     if (existChronicDiseaseInfo) {
       isValid = isValid && diaseaseForm.currentState!.validate();
@@ -25,31 +25,29 @@ class PostFormValidator {
   }
 
   bool isStep2Valid() {
-    bool isValid = (_pet as Pet).breed.isNotEmptyNeighterNull() &&
-        (_pet as Pet).color.isNotEmptyNeighterNull() &&
-        _pet.description.isNotEmptyNeighterNull();
+    bool isValid = (post as Pet).breed.isNotEmptyNeighterNull() &&
+        (post as Pet).color.isNotEmptyNeighterNull() &&
+        post.description.isNotEmptyNeighterNull();
 
     return isValid;
   }
 
-  bool isStep3Valid() {
-    // Always valid: caracteristics are optional.
+  bool isStep3Valid() => true;
 
-    return true;
-  }
+  bool isStep4Valid(bool addressIsWithCompliment) {
+    bool isValid = post.state.isNotEmptyNeighterNull() && post.city.isNotEmptyNeighterNull();
 
-  bool isStep4Valid(bool isFullAddress) {
-    bool isValid = _pet.state.isNotEmptyNeighterNull() && _pet.city.isNotEmptyNeighterNull();
-
-    if (isFullAddress) {
-      isValid = isValid && _pet.describedAddress.isNotEmptyNeighterNull();
+    if (addressIsWithCompliment && !(post as Pet).disappeared) {
+      isValid = isValid && post.describedAddress.isNotEmptyNeighterNull();
+    } else if (addressIsWithCompliment && (post as Pet).disappeared) {
+      isValid = isValid && (post as Pet).lastSeenDetails.isNotEmptyNeighterNull();
     }
 
     return isValid;
   }
 
   bool isStep5Valid() {
-    bool isValid = _pet.photos.isNotEmpty;
+    bool isValid = post.photos.isNotEmpty;
     return isValid;
   }
 }
