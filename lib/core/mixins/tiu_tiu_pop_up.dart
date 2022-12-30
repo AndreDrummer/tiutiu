@@ -10,6 +10,7 @@ mixin TiuTiuPopUp {
     void Function()? secondaryAction,
     void Function()? mainAction,
     bool warning = false,
+    bool info = false,
     String title = 'Erro',
     bool error = false,
     String? confirmText,
@@ -36,6 +37,7 @@ mixin TiuTiuPopUp {
           warning: warning,
           error: error,
           title: title,
+          info: info,
         );
       },
     );

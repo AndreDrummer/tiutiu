@@ -9,6 +9,8 @@ import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'dart:async';
 
+import 'package:tiutiu/features/admob/constants/admob_block_names.dart';
+
 class AppController extends GetxController {
   AppController({required AppService systemService}) : _systemService = systemService;
 
@@ -84,10 +86,22 @@ class AppController extends GetxController {
     });
   }
 
-  String getAdMobBlockID({required String blockName}) {
+  String getAdMobBlockID({required String blockName, required String type}) {
     final googleBannerAdtest = 'ca-app-pub-3940256099942544/6300978111';
+    final googleRewardedtest = 'ca-app-pub-3940256099942544/1712485313';
     final adMobID = _adMobIDs[blockName];
 
-    return (adMobID == null || kDebugMode) ? googleBannerAdtest : adMobID;
+    String defaultID = '';
+
+    switch (type) {
+      case AdMobType.banner:
+        defaultID = googleBannerAdtest;
+        break;
+      case AdMobType.rewarded:
+        defaultID = googleRewardedtest;
+        break;
+    }
+
+    return (adMobID == null || kDebugMode) ? defaultID : adMobID;
   }
 }

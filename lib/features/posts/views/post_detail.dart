@@ -10,7 +10,6 @@ import 'package:tiutiu/core/widgets/loading_video_screen.dart';
 import 'package:tiutiu/core/widgets/simple_text_button.dart';
 import 'package:tiutiu/core/extensions/string_extension.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:tiutiu/core/utils/launcher_functions.dart';
 import 'package:tiutiu/core/utils/routes/routes_name.dart';
 import 'package:tiutiu/core/widgets/load_dark_screen.dart';
 import 'package:tiutiu/core/constants/images_assets.dart';
@@ -95,47 +94,44 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
                 image: DecorationImage(image: AssetHandle.imageProvider(ImageAssets.bones2), fit: BoxFit.fill),
               ),
               child: FutureBuilder(
-                  future: postsController.cacheVideos(),
-                  builder: (context, snapshot) {
-                    return ListView(
-                      padding: EdgeInsets.only(
-                        right: Dimensions.getDimensBasedOnDeviceHeight(
-                          smaller: 0.0.w,
-                          medium: 4.0.w,
-                          bigger: 0.0.w,
-                        ),
+                future: postsController.cacheVideos(),
+                builder: (context, snapshot) {
+                  return ListView(
+                    padding: EdgeInsets.only(
+                      right: Dimensions.getDimensBasedOnDeviceHeight(
+                        smaller: 0.0.w,
+                        medium: 4.0.w,
+                        bigger: 0.0.w,
                       ),
-                      children: [
-                        _showImagesAndVideos(boxHeight: Get.height / 1.5, context: context),
-                        _postTitle(post.name!),
-                        Padding(
-                          child: AdBanner300x60(adBlockName: AdMobBlockName.postDetailsScreen),
-                          padding: EdgeInsets.only(top: 4.0.h),
+                    ),
+                    children: [
+                      _showImagesAndVideos(boxHeight: Get.height / 1.5, context: context),
+                      _postTitle(post.name!),
+                      Padding(
+                        child: AdBanner300x60(adBlockName: AdMobBlockName.postDetailsScreen),
+                        padding: EdgeInsets.only(top: 4.0.h),
+                      ),
+                      Visibility(
+                        replacement: _petCaracteristicsGrid(petCaracteristics),
+                        child: _petCaracteristics(petCaracteristics),
+                        visible: authController.userExists,
+                      ),
+                      VerifyAccountWarningInterstitial(
+                        margin: EdgeInsets.symmetric(vertical: 8.0.h),
+                        isHiddingContactInfo: true,
+                        child: Column(
+                          children: [
+                            _description(post.description),
+                            _address(),
+                            postDetailBottomView(),
+                          ],
                         ),
-                        Visibility(
-                          replacement: _petCaracteristicsGrid(petCaracteristics),
-                          child: _petCaracteristics(petCaracteristics),
-                          visible: authController.userExists,
-                        ),
-                        VerifyAccountWarningInterstitial(
-                          margin: EdgeInsets.symmetric(vertical: 8.0.h),
-                          isHiddingContactInfo: true,
-                          child: Column(
-                            children: [
-                              _description(post.description),
-                              _address(),
-                              postDetailBottomView(),
-                            ],
-                          ),
-                          action: onLeaveScreen,
-                        ),
-                        LoadDarkScreen(
-                          message: postsController.uploadingPostText,
-                          visible: postsController.isLoading,
-                        )
-                      ],
-                    );
-                  }),
+                        action: onLeaveScreen,
+                      ),
+                    ],
+                  );
+                },
+              ),
             ),
             Positioned(
               child: BackButton(color: AppColors.white),
@@ -480,7 +476,7 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
             color: AppColors.primary,
             isToExpand: true,
             onPressed: () async {
-              await Launcher.openWhatsApp(number: post.owner!.phoneNumber!);
+              postsController.handleWhatsAppRedirection();
             },
           ),
         ],
