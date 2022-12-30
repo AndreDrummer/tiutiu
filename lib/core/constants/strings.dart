@@ -10,6 +10,7 @@ class AppStrings {
   static String get verifyFilters => 'Verifique seus filtros de busca.';
   static String get tryAgainInABrief =>
       'Anúncios temporariamente indisponíveis.\nEntre novamente em alguns minutos.\n\nAgradecessemos a compreensão!';
+  static String get watchAnAd => 'Assista a um anúncio para prosseguir.';
   static String get changeListVisual => 'Mude a visualização da lista';
   static String get imagesWarning => 'Imagens meramente ilustrativas';
   static String get noPostFavorited => 'Nenhum PET foi favoritado.';
@@ -21,6 +22,7 @@ class AppStrings {
   static String get callInWhatsapp => 'Chamar no WhatsApp';
   static String get jotSomethingDown => 'Escreva aqui...';
   static String get iamInterested => 'Estou interessado';
+  static String get noCallOnChat => 'Não, falar no chat';
   static String get backToStart => 'Voltar ao início';
   static String get repeatPassword => 'Repita a senha';
   static String get genericError => 'Ocorreu um erro';
@@ -45,6 +47,8 @@ class AppStrings {
   static String get password => 'Senha';
   static String get adopte => 'Adotar';
   static String get find => 'Encontrar';
+  static String get watch => 'Assistir';
+  static String get ad => 'Anúncio';
   static String get name => 'Tiu, tiu';
   static String get email => 'E-mail';
   static String get wait => 'Aguarde';
