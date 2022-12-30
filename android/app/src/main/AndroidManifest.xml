@@ -8,6 +8,8 @@
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
 
     <application android:label="@string/app_name" android:name="${applicationName}" android:icon="@mipmap/ic_launcher">
+        ca-app-pub-2837828701670824~5532122619
+        <meta-data android:name="com.google.android.gms.ads.APPLICATION_ID" android:value="ca-app-pub-2837828701670824~5532122619"/>
         <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id" />
         <meta-data android:name="com.facebook.sdk.ClientToken" android:value="@string/facebook_client_token" />
         <activity android:name=".MainActivity" android:exported="true" android:launchMode="singleTop" android:theme="@style/LaunchTheme" android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode" android:hardwareAccelerated="true" android:windowSoftInputMode="adjustResize">
@@ -20,8 +22,7 @@
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>        
-            <meta-data android:name="com.google.android.gms.ads.ca-app-pub-2837828701670824~5532122619" android:value="ca-app-pub-2837828701670824~5532122619"/>
+        </activity>
             <meta-data android:name="com.google.firebase.messaging.default_notification_icon" android:resource="@drawable/notification_icon" />
             <meta-data android:name="com.google.firebase.messaging.default_notification_channel_id" android:value="high_importance_channel" />
         <meta-data android:name="com.google.android.geo.API_KEY" android:value="AIzaSyCazQnC5pRqASolYk2wytC4LNNxvw0L-30" />
