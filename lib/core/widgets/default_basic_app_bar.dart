@@ -8,11 +8,12 @@ class DefaultBasicAppBar extends AppBar {
     bool automaticallyImplyLeading = true,
     Color? backgroundColor,
     List<Widget>? actions,
+    Color? textColor,
     Widget? leading,
   }) : super(
+          title: AutoSizeTexts.autoSizeText16(text, color: textColor),
           backgroundColor: backgroundColor ?? AppColors.primary,
           automaticallyImplyLeading: automaticallyImplyLeading,
-          title: AutoSizeTexts.autoSizeText16(text),
           leading: leading,
           actions: actions,
         );

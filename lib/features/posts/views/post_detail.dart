@@ -67,8 +67,10 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
   }
 
   void finishVideo() {
-    chewieController?.pause();
-    chewieController?.dispose();
+    if (chewieController?.isPlaying ?? false) {
+      chewieController?.pause();
+      chewieController?.dispose();
+    }
   }
 
   bool postBelongsToMe() => postsController.postBelongsToMe();
@@ -217,7 +219,20 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
   Widget _dennouncePostButton() {
     return Visibility(
       visible: !postsController.isInReviewMode && !postBelongsToMe() && authController.userExists,
-      child: DennounceButton(),
+      child: DennounceButton(
+        onContinue: () {
+          final postDennounce = postDennounceController.postDennounce;
+
+          postDennounce.copyWith(dennouncer: tiutiuUserController.tiutiuUser);
+          postDennounce.copyWith(dennouncedPost: postsController.post);
+          postDennounce.copyWith(motive: PostDennounceStrings.other);
+
+          postDennounceController.updatePostDennounce = postDennounce;
+
+          onLeaveScreen();
+          Get.toNamed(Routes.postDennounce);
+        },
+      ),
     );
   }
 
