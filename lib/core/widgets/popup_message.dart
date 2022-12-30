@@ -9,6 +9,7 @@ class PopUpMessage extends StatelessWidget {
     this.denyText = '',
     this.error = false,
     this.confirmAction,
+    this.info = false,
     this.confirmText,
     this.denyAction,
     this.textColor,
@@ -25,6 +26,7 @@ class PopUpMessage extends StatelessWidget {
   final String? title;
   final bool warning;
   final bool error;
+  final bool info;
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +38,9 @@ class PopUpMessage extends StatelessWidget {
           ? Color(0XFFDC3545)
           : warning
               ? Color(0XFFFFC107)
-              : AppColors.primary,
+              : info
+                  ? Color(0XFF536DFE)
+                  : AppColors.primary,
       title: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
