@@ -1,4 +1,7 @@
-import 'package:tiutiu/core/utils/video_utils.dart';
+import 'package:tiutiu/core/constants/app_colors.dart';
+import 'package:tiutiu/core/local_storage/local_storage.dart';
+import 'package:tiutiu/core/local_storage/local_storage_keys.dart';
+import 'package:tiutiu/core/utils/launcher_functions.dart';
 import 'package:tiutiu/features/posts/repository/posts_repository.dart';
 import 'package:tiutiu/features/posts/validators/form_validators.dart';
 import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
@@ -11,6 +14,7 @@ import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/mixins/tiu_tiu_pop_up.dart';
 import 'package:tiutiu/core/pets/model/pet_model.dart';
 import 'package:tiutiu/features/posts/model/post.dart';
+import 'package:tiutiu/core/utils/video_utils.dart';
 import 'package:tiutiu/core/constants/strings.dart';
 import 'package:flutter/foundation.dart';
 import 'package:chewie/chewie.dart';
@@ -142,28 +146,24 @@ class PostsController extends GetxController with TiuTiuPopUp {
   Future<void> uploadPost() async {
     if (post.createdAt == null) updatePost(PostEnum.createdAt.name, DateTime.now().toIso8601String());
 
-    await _mockPostData();
-
-    isLoading = true;
+    setLoading(true);
     await _uploadVideo();
     await _uploadImages();
     await _uploadPostData();
     await getAllPosts();
-    isLoading = false;
+    setLoading(false);
     isEditingPost = false;
     clearForm();
     goToHome();
   }
 
   Future<int> deletePost() async {
-    isLoading = true;
-    _uploadingPostText(PostFlowStrings.deletingAd);
+    setLoading(true, loadingText: PostFlowStrings.deletingAd);
 
     await _postsRepository.deletePost(post: post);
     await getAllPosts();
     clearForm();
-    _uploadingPostText('');
-    isLoading = false;
+    setLoading(false);
 
     return loggedUserPosts().length;
   }
@@ -221,17 +221,59 @@ class PostsController extends GetxController with TiuTiuPopUp {
     _uploadingPostText('');
   }
 
-  Future<void> _mockPostData() async {
-    // await LocalStorage.setDataUnderKey(
-    //   key: LocalStorageKey.mockedPost,
-    //   data: post.toMap(convertFileToVideoPath: true),
-    // );
+  Future<void> handleWhatsAppRedirection() async {
+    setLoading(true);
+    final lastTimeWatchedRewarded = await LocalStorage.getValueUnderLocalStorageKey(
+      LocalStorageKey.lastTimeWatchedARewarded,
+    );
 
-    // final mocked = await LocalStorage.getDataUnderKey(
-    //         key: LocalStorageKey.mockedPost, mapper: Pet()) !=
-    //     null;
+    debugPrint('TiuTiuApp: Last Time Watched a Rewarded $lastTimeWatchedRewarded');
 
-    // print('TiuTiuApp: Mocked? $mocked');
+    if (lastTimeWatchedRewarded == null) {
+      warningUserAboutRewarded();
+    } else {
+      final minutes = DateTime.now().difference(DateTime.parse(lastTimeWatchedRewarded)).inMinutes;
+
+      if (minutes >= adMobController.minutesFreeOfRewarded) {
+        debugPrint('TiuTiuApp: Must Show Rewarded..');
+        warningUserAboutRewarded();
+      } else {
+        await Launcher.openWhatsApp(number: post.owner!.phoneNumber!);
+      }
+    }
+
+    setLoading(false);
+  }
+
+  Future<void> warningUserAboutRewarded() async {
+    await adMobController.loadRewardedAd();
+    await LocalStorage.deleteDataUnderLocalStorageKey(LocalStorageKey.lastTimeWatchedARewarded);
+
+    await showPopUp(
+      message: AppStrings.watchAnAd,
+      confirmText: AppStrings.back,
+      textColor: AppColors.black,
+      mainAction: () async {
+        Get.back();
+        setLoading(false);
+        await adMobController.showRewardedAd();
+      },
+      secondaryAction: () {
+        Get.back();
+        setLoading(false);
+      },
+      denyText: AppStrings.watch,
+      barrierDismissible: false,
+      title: AppStrings.ad,
+      warning: false,
+      error: false,
+      info: true,
+    );
+  }
+
+  void setLoading(bool loadingValue, {String loadingText = ''}) {
+    _isLoading(loadingValue);
+    _uploadingPostText(loadingText);
   }
 
   void _filterPosts() {
@@ -304,13 +346,7 @@ class PostsController extends GetxController with TiuTiuPopUp {
         _formIsValid(validator.isStep5Valid());
         break;
       case 5:
-        isLoading = false;
-        break;
-      case 7:
-        isLoading = true;
-        Future.delayed(Duration(seconds: 10), () {
-          isLoading = false;
-        });
+        setLoading(false);
         break;
     }
 

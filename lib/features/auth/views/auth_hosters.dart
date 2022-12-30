@@ -247,7 +247,6 @@ class AuthHosters extends StatelessWidget with TiuTiuPopUp {
 
     if (bottomIndex == 0) Get.offAndToNamed(Routes.home);
 
-    filterController.reset(bottomIndex == 1);
     homeController.setDonateIndex();
   }
 }
