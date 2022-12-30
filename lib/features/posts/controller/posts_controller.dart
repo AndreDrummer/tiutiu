@@ -271,7 +271,7 @@ class PostsController extends GetxController with TiuTiuPopUp {
       },
       denyText: AppStrings.watch,
       barrierDismissible: false,
-      title: AppStrings.ad,
+      title: AppStrings.warning,
       warning: false,
       error: false,
       info: true,
