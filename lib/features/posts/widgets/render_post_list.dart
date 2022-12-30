@@ -30,11 +30,7 @@ class RenderPostList extends StatelessWidget {
           visible: posts.isNotEmpty,
           replacement: Padding(
             padding: EdgeInsets.only(
-              left: Dimensions.getDimensBasedOnDeviceHeight(
-                smaller: Get.width / 6.5,
-                bigger: Get.width / 4.5,
-                medium: Get.width / 5.5,
-              ),
+              left: Get.width / 4.5,
               top: Dimensions.getDimensBasedOnDeviceHeight(
                 smaller: Get.width / 5,
                 bigger: Get.width / 3,

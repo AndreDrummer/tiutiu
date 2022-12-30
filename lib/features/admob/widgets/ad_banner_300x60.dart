@@ -1,3 +1,5 @@
+import 'package:tiutiu/core/constants/app_colors.dart';
+import 'package:tiutiu/core/utils/dimensions.dart';
 import 'package:tiutiu/features/admob/constants/admob_block_names.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
@@ -31,12 +33,13 @@ class _AdBanner300x60State extends State<AdBanner300x60> {
   @override
   Widget build(BuildContext context) {
     return Container(
+      color: AppColors.black,
       child: ClipRRect(
         child: AdWidget(ad: adMobController.bannerAd),
         borderRadius: widget.borderRadius,
       ),
       width: Get.width,
-      height: 48.0.h,
+      height: Dimensions.isBigDevice() ? 48.0.h : 56.0.h,
     );
   }
 

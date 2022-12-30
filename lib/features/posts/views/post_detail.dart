@@ -235,7 +235,11 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
           ),
         ),
         Positioned(
-          bottom: 16.0.h,
+          bottom: Dimensions.getDimensBasedOnDeviceHeight(
+            smaller: 48.0.h,
+            bigger: 56.0.h,
+            medium: 64.0.h,
+          ),
           left: 8.0.w,
           child: InkWell(
             onTap: () {
