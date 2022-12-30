@@ -166,6 +166,7 @@ class AuthHosters extends StatelessWidget with TiuTiuPopUp {
         color: AppColors.white,
       ),
       onPressed: () {
+        filterController.reset();
         goToHome();
       },
     );

@@ -17,7 +17,18 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'dart:io';
 
-class Home extends StatelessWidget with TiuTiuPopUp {
+class Home extends StatefulWidget {
+  @override
+  State<Home> createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> with TiuTiuPopUp {
+  @override
+  void initState() {
+    adMobController.showInterstitialAd();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     final screens = <Widget>[
