@@ -1,8 +1,9 @@
+import 'package:tiutiu/features/dennounce/controller/post_dennounce._controller.dart';
 import 'package:tiutiu/core/location/controller/current_location_controller.dart';
-import 'package:tiutiu/features/admob/controller/admob_controller.dart';
 import 'package:tiutiu/features/favorites/controller/favorites_controller.dart';
 import 'package:tiutiu/features/delete_account/controller/delete_account.dart';
 import 'package:tiutiu/features/tiutiu_user/controller/user_controller.dart';
+import 'package:tiutiu/features/admob/controller/admob_controller.dart';
 import 'package:tiutiu/features/posts/controller/filter_controller.dart';
 import 'package:tiutiu/features/profile/controller/more_controller.dart';
 import 'package:tiutiu/features/posts/controller/posts_controller.dart';
@@ -17,6 +18,7 @@ import 'package:get/get.dart';
 
 final CurrentLocationController currentLocationController = Get.find();
 final DeleteAccountController deleteAccountController = Get.find();
+final PostDennounceController postDennounceController = Get.find();
 final TiutiuUserController tiutiuUserController = Get.find();
 final FullscreenController fullscreenController = Get.find();
 final SupportUsController supportUsController = Get.find();

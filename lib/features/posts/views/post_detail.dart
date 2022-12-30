@@ -1,5 +1,6 @@
-import 'package:tiutiu/features/admob/constants/admob_block_names.dart';
+import 'package:tiutiu/features/dennounce/widgets/dennounce_button.dart';
 import 'package:tiutiu/features/favorites/widgets/favorite_button.dart';
+import 'package:tiutiu/features/admob/constants/admob_block_names.dart';
 import 'package:tiutiu/core/widgets/pet_other_caracteristics_card.dart';
 import 'package:tiutiu/core/pets/model/pet_caracteristics_model.dart';
 import 'package:tiutiu/features/admob/widgets/ad_banner_300x60.dart';
@@ -177,18 +178,18 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
               ),
             ),
             Spacer(),
+            _dennouncePostButton(),
+            SizedBox(width: 4.0.w),
             Visibility(
-              visible: !postsController.isInReviewMode,
+              visible: !postsController.isInReviewMode && authController.userExists,
               child: AddRemoveFavorite(
                 post: postsController.post,
                 isRemoveButton: false,
                 tiny: true,
               ),
             ),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 4.0.h),
-              child: _shareButton(),
-            ),
+            SizedBox(width: 4.0.w),
+            _shareButton(),
           ],
         ),
       ),
@@ -210,6 +211,13 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
           ),
         ),
       ),
+    );
+  }
+
+  Widget _dennouncePostButton() {
+    return Visibility(
+      visible: !postsController.isInReviewMode && !postBelongsToMe() && authController.userExists,
+      child: DennounceButton(),
     );
   }
 
