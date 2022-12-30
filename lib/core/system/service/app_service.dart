@@ -29,6 +29,17 @@ class AppService {
     }
   }
 
+  Future<Map<String, dynamic>> getAdMobIds() async {
+    try {
+      final documentReferenceMap = await _pathToAdMobIDs().get();
+
+      return (documentReferenceMap.data() as Map<String, dynamic>);
+    } on FirebaseException catch (exception) {
+      debugPrint('TiuTiuApp: Error occured when trying get app endpoints: ${exception.message}');
+      rethrow;
+    }
+  }
+
   Stream<AppProperties> getAppProperties(AppProperties currentProperties) {
     try {
       return EndpointResolver.getDocumentEndpoint(EndpointNames.pathToSystemProperties.name)
@@ -48,4 +59,12 @@ CollectionReference<Map<String, dynamic>> _pathToEndpoints() {
       .collection(FirebaseEnvPath.environment)
       .doc(FirebaseEnvPath.endpoints)
       .collection(FirebaseEnvPath.endpoints);
+}
+
+DocumentReference<Map<String, dynamic>> _pathToAdMobIDs() {
+  return FirebaseFirestore.instance
+      .collection(FirebaseEnvPath.projectName)
+      .doc(FirebaseEnvPath.env)
+      .collection(FirebaseEnvPath.environment)
+      .doc(FirebaseEnvPath.admobids);
 }
