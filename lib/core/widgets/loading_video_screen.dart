@@ -13,13 +13,15 @@ class LoadingVideo extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          AutoSizeTexts.autoSizeText14(
+          Spacer(),
+          AutoSizeTexts.autoSizeText12(
             PostDetailsStrings.loadingVideoFirstTime,
             textAlign: TextAlign.center,
             color: AppColors.white,
           ),
           SizedBox(height: 16.0.h),
-          SizedBox(child: CircularProgressIndicator(), height: 16.0.h, width: 16.0.w)
+          SizedBox(child: CircularProgressIndicator(), height: 16.0.h, width: 16.0.w),
+          Spacer(),
         ],
       ),
     );
