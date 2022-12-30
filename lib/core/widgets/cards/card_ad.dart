@@ -32,6 +32,7 @@ class CardAd extends StatelessWidget {
           Stack(
             children: [
               Container(
+                width: double.infinity,
                 child: cardBuilder.adImages(),
                 height: Dimensions.getDimensBasedOnDeviceHeight(
                   smaller: Get.height / 2.5,
