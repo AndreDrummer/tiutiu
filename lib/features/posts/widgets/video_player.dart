@@ -33,9 +33,9 @@ class TiuTiuVideoPlayer extends StatelessWidget {
             child: Chewie(controller: chewieController),
           ),
           height: Dimensions.getDimensBasedOnDeviceHeight(
-            smaller: Get.height / 2.3,
-            bigger: Get.height / 1.5,
-            medium: Get.height / 2.1,
+            smaller: Get.height / 1.5,
+            medium: Get.height,
+            bigger: Get.height,
           ),
           margin: EdgeInsets.only(right: 8.0.w, left: 8.0.w),
         ),
