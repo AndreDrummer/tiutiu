@@ -4,8 +4,8 @@ import 'package:tiutiu/core/pets/model/pet_caracteristics_model.dart';
 import 'package:tiutiu/features/posts/widgets/video_player.dart';
 import 'package:tiutiu/features/posts/widgets/card_content.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:tiutiu/core/extensions/string_extension.dart';
 import 'package:tiutiu/core/widgets/loading_video_screen.dart';
+import 'package:tiutiu/core/extensions/string_extension.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/utils/launcher_functions.dart';
 import 'package:tiutiu/core/utils/routes/routes_name.dart';
@@ -97,7 +97,7 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
                     return ListView(
                       padding: EdgeInsets.only(
                         right: Dimensions.getDimensBasedOnDeviceHeight(
-                          smaller: 4.0.w,
+                          smaller: 0.0.w,
                           medium: 4.0.w,
                           bigger: 0.0.w,
                         ),
@@ -328,9 +328,11 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
     if (thereIsVideo) {
       return Visibility(
         visible: !isLoadingVideo,
-        child: TiuTiuVideoPlayer(
-          aspectRatio: chewieController!.videoPlayerController.value.aspectRatio,
-          chewieController: chewieController!,
+        child: SafeArea(
+          child: TiuTiuVideoPlayer(
+            aspectRatio: chewieController!.videoPlayerController.value.aspectRatio,
+            chewieController: chewieController!,
+          ),
         ),
         replacement: Center(child: LoadingVideo()),
       );

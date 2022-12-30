@@ -181,7 +181,7 @@ class UserStrings {
 }
 
 class PostDetailsStrings {
-  static const String loadingVideoFirstTime = 'Carregando video...\n\nAguarde, isso só vai acontecer dessa vez 😃';
+  static const String loadingVideoFirstTime = 'Carregando video...\n\nAguarde isso só\nvai acontecer dessa vez 😃';
   static String get lastSeen => 'Visto pela última vez em';
 
   static String whereIsIt({

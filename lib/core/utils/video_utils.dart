@@ -1,8 +1,8 @@
 import 'package:tiutiu/core/local_storage/local_storage_keys.dart';
-import 'package:tiutiu/core/constants/firebase_env_path.dart';
-import 'package:tiutiu/core/extensions/string_extension.dart';
 import 'package:tiutiu/core/widgets/loading_video_screen.dart';
+import 'package:tiutiu/core/constants/firebase_env_path.dart';
 import 'package:tiutiu/core/local_storage/local_storage.dart';
+import 'package:tiutiu/core/extensions/string_extension.dart';
 import 'package:tiutiu/core/utils/file_cache_manager.dart';
 import 'package:tiutiu/features/posts/model/post.dart';
 import 'package:video_player/video_player.dart';
@@ -75,15 +75,15 @@ class VideoUtils {
         videoPlayerController = VideoPlayerController.file(videoPath);
       }
       chewieController = ChewieController(
-        aspectRatio: videoPlayerController?.value.aspectRatio,
+        aspectRatio: videoPlayerController!.value.aspectRatio * .95,
         videoPlayerController: videoPlayerController!,
         placeholder: Center(child: LoadingVideo()),
         showControlsOnInitialize: false,
         allowedScreenSleep: false,
         allowFullScreen: false,
         autoInitialize: true,
-        allowMuting: true,
         autoPlay: autoPlay,
+        allowMuting: true,
         zoomAndPan: true,
       );
 
