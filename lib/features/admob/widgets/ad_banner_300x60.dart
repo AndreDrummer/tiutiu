@@ -7,12 +7,12 @@ import 'package:get/get.dart';
 class AdBanner300x60 extends StatefulWidget {
   const AdBanner300x60({
     this.borderRadius = BorderRadius.zero,
-    required this.bannerAdId,
+    required this.adBlockName,
     super.key,
   });
 
   final BorderRadiusGeometry? borderRadius;
-  final String bannerAdId;
+  final String adBlockName;
 
   @override
   State<AdBanner300x60> createState() => _AdBanner300x60State();
@@ -21,7 +21,8 @@ class AdBanner300x60 extends StatefulWidget {
 class _AdBanner300x60State extends State<AdBanner300x60> {
   @override
   void initState() {
-    adMobController.updateBannerAdId(widget.bannerAdId);
+    final blockID = appController.getAdMobBlockID(blockName: widget.adBlockName);
+    adMobController.updateBannerAdId(blockID);
     adMobController.bannerAd.load();
     super.initState();
   }
