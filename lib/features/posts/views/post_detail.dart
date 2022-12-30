@@ -1,3 +1,4 @@
+import 'package:tiutiu/features/admob/constants/admob_block_names.dart';
 import 'package:tiutiu/features/favorites/widgets/favorite_button.dart';
 import 'package:tiutiu/core/widgets/pet_other_caracteristics_card.dart';
 import 'package:tiutiu/core/pets/model/pet_caracteristics_model.dart';
@@ -108,7 +109,7 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
                         _showImagesAndVideos(boxHeight: Get.height / 1.5, context: context),
                         _postTitle(post.name!),
                         Padding(
-                          child: AdBanner300x60(bannerAdId: 'ca-app-pub-3940256099942544/6300978111'),
+                          child: AdBanner300x60(adBlockName: AdMobBlockName.postDetailsScreen),
                           padding: EdgeInsets.only(top: 4.0.h),
                         ),
                         Visibility(
