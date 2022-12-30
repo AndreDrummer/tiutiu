@@ -46,7 +46,6 @@ class PostsController extends GetxController with TiuTiuPopUp {
   final RxInt _postsCount = 0.obs;
   final RxInt _flowIndex = 0.obs;
 
-  ChewieController? get chewieController => VideoUtils(post: post).getChewieController();
   bool get existChronicDisease => (post as Pet).health == PetHealthString.chronicDisease;
   bool get addressIsWithCompliment => _addressIsWithCompliment.value;
   String get uploadingPostText => _uploadingPostText.value;
@@ -63,6 +62,7 @@ class PostsController extends GetxController with TiuTiuPopUp {
   bool get isLoading => _isLoading.value;
   int get flowIndex => _flowIndex.value;
   bool get hasError => _hasError.value;
+  ChewieController? chewieController;
   List<Post> get posts => _posts;
   Post get post => _post.value;
 
@@ -305,7 +305,6 @@ class PostsController extends GetxController with TiuTiuPopUp {
         break;
       case 5:
         isLoading = false;
-        chewieController?.pause();
         break;
       case 7:
         isLoading = true;
