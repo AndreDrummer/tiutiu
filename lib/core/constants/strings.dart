@@ -10,13 +10,12 @@ class AppStrings {
   static String get verifyFilters => 'Verifique seus filtros de busca.';
   static String get tryAgainInABrief =>
       'Anúncios temporariamente indisponíveis.\nEntre novamente em alguns minutos.\n\nAgradecessemos a compreensão!';
-  static String get watchAnAd =>
-      'Período livre de anúncio esgotado.\n\nAssista um anúncio para renovar e prosseguir anúncios.';
+  static String get watchAnAd => 'Limite de conversas atingido.\n\nAssista um vídeo para renovar.';
   static String get changeListVisual => 'Mude a visualização da lista';
   static String get imagesWarning => 'Imagens meramente ilustrativas';
   static String get noPostFavorited => 'Nenhum PET foi favoritado.';
   static String get backToCivilization => 'Voltar a civilização';
-  static String get chatWithAnnouncer => 'Falar com anuanciante';
+  static String get chatWithAnnouncer => 'Falar com anunciante';
   static String get wannaLeave => 'Deseja realmente sair?';
   static String get loadingImage => 'Carregando imagem...';
   static String get noPostFound => 'Nada foi encontrado.';
