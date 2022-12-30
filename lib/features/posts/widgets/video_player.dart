@@ -35,7 +35,7 @@ class TiuTiuVideoPlayer extends StatelessWidget {
           ),
           height: Dimensions.getDimensBasedOnDeviceHeight(
             smaller: Get.height / 2.3,
-            bigger: Get.height / 2.0,
+            bigger: Get.height / 2.1,
             medium: Get.height / 2.1,
           ),
         ),

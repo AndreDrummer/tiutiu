@@ -1,9 +1,10 @@
 import 'package:tiutiu/features/home/controller/home_controller.dart';
-import 'package:tiutiu/features/posts/widgets/back_to_start.dart';
 import 'package:tiutiu/core/widgets/cards/widgets/card_builder.dart';
+import 'package:tiutiu/features/posts/widgets/back_to_start.dart';
+import 'package:tiutiu/core/widgets/cards/card_ad_list.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/utils/routes/routes_name.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
-import 'package:tiutiu/core/widgets/cards/card_ad_list.dart';
 import 'package:tiutiu/core/utils/other_functions.dart';
 import 'package:tiutiu/core/widgets/cards/card_ad.dart';
 import 'package:tiutiu/features/posts/model/post.dart';
@@ -39,8 +40,11 @@ class RenderListItem extends StatelessWidget {
     );
 
     if (showBackToStartButton)
-      return BackToStart(
-        onPressed: onNavigateToTop,
+      return Padding(
+        padding: EdgeInsets.only(bottom: 56.0.h),
+        child: BackToStart(
+          onPressed: onNavigateToTop,
+        ),
       );
     return Obx(
       () => GestureDetector(
