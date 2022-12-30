@@ -58,6 +58,7 @@ class AppController extends GetxController {
       _systemProperties(properties.copyWith(isLoading: false));
 
       await _getAdMobIDs();
+
       appController.onAppPropertiesChange();
     } on Exception catch (exception) {
       debugPrint('TiuTiuApp: App Initialization Exception $exception');
@@ -87,6 +88,7 @@ class AppController extends GetxController {
   }
 
   String getAdMobBlockID({required String blockName, required String type}) {
+    final googleInterstitialtest = 'ca-app-pub-3940256099942544/4411468910';
     final googleBannerAdtest = 'ca-app-pub-3940256099942544/6300978111';
     final googleRewardedtest = 'ca-app-pub-3940256099942544/1712485313';
     final adMobID = _adMobIDs[blockName];
@@ -99,6 +101,9 @@ class AppController extends GetxController {
         break;
       case AdMobType.rewarded:
         defaultID = googleRewardedtest;
+        break;
+      case AdMobType.interstitial:
+        defaultID = googleInterstitialtest;
         break;
     }
 
