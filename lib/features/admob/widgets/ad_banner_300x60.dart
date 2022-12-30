@@ -1,3 +1,4 @@
+import 'package:tiutiu/features/admob/constants/admob_block_names.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
@@ -21,7 +22,7 @@ class AdBanner300x60 extends StatefulWidget {
 class _AdBanner300x60State extends State<AdBanner300x60> {
   @override
   void initState() {
-    final blockID = appController.getAdMobBlockID(blockName: widget.adBlockName);
+    final blockID = appController.getAdMobBlockID(blockName: widget.adBlockName, type: AdMobType.banner);
     adMobController.updateBannerAdId(blockID);
     adMobController.bannerAd.load();
     super.initState();
