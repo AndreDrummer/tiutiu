@@ -1,38 +1,16 @@
-import 'package:tiutiu/features/dennounce/model/post_dennounce.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:tiutiu/core/utils/routes/routes_name.dart';
-import 'package:tiutiu/core/controllers/controllers.dart';
-import 'package:tiutiu/core/mixins/tiu_tiu_pop_up.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
-import 'package:tiutiu/core/constants/strings.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
-class DennounceButton extends StatelessWidget with TiuTiuPopUp {
-  const DennounceButton({super.key, required this.onContinue});
+class DennounceButton extends StatelessWidget {
+  const DennounceButton({super.key, required this.onTap});
 
-  final Function() onContinue;
+  final Function() onTap;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        showPopUp(
-          message: 'Deseja denunciar este anúncio?',
-          confirmText: AppStrings.yes,
-          textColor: AppColors.black,
-          denyText: AppStrings.no,
-          title: 'Denúncia',
-          warning: true,
-          mainAction: () {
-            Get.back();
-          },
-          secondaryAction: () {
-            Get.back();
-            onContinue();
-          },
-        );
-      },
+      onTap: onTap,
       child: Card(
         elevation: 8.0,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24.0.h)),
