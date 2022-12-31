@@ -371,6 +371,7 @@ class SupportUsStrings {
 class PostDennounceStrings {
   static const String announceNoAnswer = 'Anunciante não responde';
   static const String sexualContent = 'Conteúdo Sexual';
+  static const String dennounce = 'Denunciar';
   static const String other = 'Outro';
   static const String fake = 'Falso';
 }

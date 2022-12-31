@@ -1,8 +1,10 @@
+import 'package:tiutiu/features/dennounce/views/post_dennounce_screen.dart';
 import 'package:tiutiu/features/dennounce/widgets/dennounce_button.dart';
 import 'package:tiutiu/features/favorites/widgets/favorite_button.dart';
 import 'package:tiutiu/features/admob/constants/admob_block_names.dart';
 import 'package:tiutiu/core/widgets/pet_other_caracteristics_card.dart';
 import 'package:tiutiu/core/pets/model/pet_caracteristics_model.dart';
+import 'package:tiutiu/features/dennounce/model/post_dennounce.dart';
 import 'package:tiutiu/features/admob/widgets/ad_banner_300x60.dart';
 import 'package:tiutiu/features/posts/widgets/video_player.dart';
 import 'package:tiutiu/features/posts/widgets/card_content.dart';
@@ -44,6 +46,8 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
   ChewieController? chewieController;
   bool isLoadingVideo = true;
   late VideoUtils videoUtils;
+
+  bool postIsBeingDennounced = false;
 
   @override
   void initState() {
@@ -147,6 +151,22 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
                 message: postsController.uploadingPostText,
                 visible: postsController.isLoading,
               ),
+            ),
+            Visibility(
+              visible: postIsBeingDennounced,
+              child: PostDennounceScreen(
+                onDennounce: () {
+                  setState(() {
+                    postIsBeingDennounced = false;
+                  });
+                },
+                onCancel: () {
+                  setState(() {
+                    postDennounceController.resetForm();
+                    postIsBeingDennounced = false;
+                  });
+                },
+              ),
             )
           ],
         ),
@@ -217,22 +237,21 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
   }
 
   Widget _dennouncePostButton() {
-    return Visibility(
-      visible: !postsController.isInReviewMode && !postBelongsToMe() && authController.userExists,
-      child: DennounceButton(
-        onContinue: () {
-          final postDennounce = postDennounceController.postDennounce;
+    return DennounceButton(
+      onTap: () {
+        setState(() {
+          postIsBeingDennounced = true;
+        });
 
-          postDennounce.copyWith(dennouncer: tiutiuUserController.tiutiuUser);
-          postDennounce.copyWith(dennouncedPost: postsController.post);
-          postDennounce.copyWith(motive: PostDennounceStrings.other);
+        postDennounceController.resetForm();
 
-          postDennounceController.updatePostDennounce = postDennounce;
-
-          onLeaveScreen();
-          Get.toNamed(Routes.postDennounce);
-        },
-      ),
+        postDennounceController.updatePostDennounce(PostDennounceEnum.dennouncedPost, postsController.post);
+        postDennounceController.updatePostDennounce(PostDennounceEnum.motive, PostDennounceStrings.other);
+        postDennounceController.updatePostDennounce(
+          PostDennounceEnum.dennouncer,
+          tiutiuUserController.tiutiuUser,
+        );
+      },
     );
   }
 
