@@ -1,5 +1,5 @@
-import 'package:tiutiu/core/constants/strings.dart';
 import 'package:tiutiu/core/widgets/popup_message.dart';
+import 'package:tiutiu/core/constants/strings.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
