@@ -199,7 +199,8 @@ class _VerifyEmailState extends State<VerifyEmail> {
     ScaffoldMessenger.of(context)
         .showSnackBar(
           SnackBar(
-            content: Text(resultMessage),
+            backgroundColor: AppColors.info,
+            content: AutoSizeTexts.autoSizeText14(resultMessage),
             action: SnackBarAction(
               label: 'OK',
               onPressed: () {

@@ -1,25 +1,26 @@
-import 'package:google_mobile_ads/google_mobile_ads.dart';
-import 'package:get/get.dart';
-import 'package:tiutiu/core/controllers/controllers.dart';
-import 'package:tiutiu/core/local_storage/local_storage.dart';
-import 'package:tiutiu/core/local_storage/local_storage_keys.dart';
 import 'package:tiutiu/features/admob/constants/admob_block_names.dart';
+import 'package:tiutiu/core/local_storage/local_storage_keys.dart';
+import 'package:tiutiu/core/local_storage/local_storage.dart';
+import 'package:tiutiu/core/controllers/controllers.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:flutter/foundation.dart';
+import 'package:get/get.dart';
 
 final BannerAdListener _bannerAdlistener = BannerAdListener(
   // Called when an ad is successfully received.
-  onAdLoaded: (Ad ad) => print('<> Ad loaded.'),
+  onAdLoaded: (Ad ad) => debugPrint('<> Ad loaded.'),
   // Called when an ad request failed.
   onAdFailedToLoad: (Ad ad, LoadAdError error) {
     // Dispose the ad here to free resources.
     ad.dispose();
-    print('<> Ad failed to load: $error');
+    debugPrint('<> Ad failed to load: $error');
   },
   // Called when an ad opens an overlay that covers the screen.
-  onAdOpened: (Ad ad) => print('<> Ad opened.'),
+  onAdOpened: (Ad ad) => debugPrint('<> Ad opened.'),
   // Called when an ad removes an overlay that covers the screen.
-  onAdClosed: (Ad ad) => print('<> Ad closed.'),
+  onAdClosed: (Ad ad) => debugPrint('<> Ad closed.'),
   // Called when an impression occurs on the ad.
-  onAdImpression: (Ad ad) => print('<> Ad impression.'),
+  onAdImpression: (Ad ad) => debugPrint('<> Ad impression.'),
 );
 
 class AdMobController extends GetxController {
@@ -27,10 +28,10 @@ class AdMobController extends GetxController {
   bool _rewardedAdWasLoaded = false;
 
   final Rx<BannerAd> _bannerAd = BannerAd(
-    adUnitId: 'ca-app-pub-3940256099942544/6300978111',
     listener: _bannerAdlistener,
     request: AdRequest(),
     size: AdSize.banner,
+    adUnitId: '',
   ).obs;
 
   late InterstitialAd _interstitialAd;
@@ -62,13 +63,13 @@ class AdMobController extends GetxController {
       request: AdRequest(),
       rewardedAdLoadCallback: RewardedAdLoadCallback(
         onAdLoaded: (RewardedAd ad) {
-          print('$ad loaded.');
+          debugPrint('$ad loaded.');
           // Keep a reference to the ad so you can show it later.
           this._rewardedAd = ad;
           _rewardedAdWasLoaded = true;
         },
         onAdFailedToLoad: (LoadAdError error) {
-          print('RewardedAd failed to load: $error');
+          debugPrint('RewardedAd failed to load: $error');
         },
       ),
     );
@@ -80,22 +81,22 @@ class AdMobController extends GetxController {
     }
 
     _rewardedAd.fullScreenContentCallback = FullScreenContentCallback(
-      onAdShowedFullScreenContent: (RewardedAd ad) => print('$ad onAdShowedFullScreenContent.'),
+      onAdShowedFullScreenContent: (RewardedAd ad) => debugPrint('$ad onAdShowedFullScreenContent.'),
       onAdDismissedFullScreenContent: (RewardedAd ad) {
-        print('$ad onAdDismissedFullScreenContent.');
+        debugPrint('$ad onAdDismissedFullScreenContent.');
         ad.dispose();
       },
       onAdFailedToShowFullScreenContent: (RewardedAd ad, AdError error) {
-        print('$ad onAdFailedToShowFullScreenContent: $error');
+        debugPrint('$ad onAdFailedToShowFullScreenContent: $error');
         ad.dispose();
       },
-      onAdImpression: (RewardedAd ad) => print('$ad impression occurred.'),
+      onAdImpression: (RewardedAd ad) => debugPrint('$ad impression occurred.'),
     );
 
     _rewardedAd.show(
       onUserEarnedReward: (AdWithoutView ad, RewardItem rewardItem) async {
         ad.dispose();
-        print('Usuário assistiu certinho ${ad.adUnitId} ${rewardItem.amount}');
+        debugPrint('Usuário assistiu certinho ${ad.adUnitId} ${rewardItem.amount}');
 
         await LocalStorage.setValueUnderLocalStorageKey(
           key: contactType == 'whatsapp'
@@ -118,7 +119,7 @@ class AdMobController extends GetxController {
           _interstitialAdWasLoaded = true;
         },
         onAdFailedToLoad: (LoadAdError error) {
-          print('InterstitialAd failed to load: $error');
+          debugPrint('InterstitialAd failed to load: $error');
         },
       ),
     );
@@ -131,9 +132,9 @@ class AdMobController extends GetxController {
 
     if (_interstitialAdWasLoaded) {
       _interstitialAd.fullScreenContentCallback = FullScreenContentCallback(
-        onAdShowedFullScreenContent: (InterstitialAd ad) => print('%ad onAdShowedFullScreenContent.'),
+        onAdShowedFullScreenContent: (InterstitialAd ad) => debugPrint('%ad onAdShowedFullScreenContent.'),
         onAdDismissedFullScreenContent: (InterstitialAd ad) async {
-          print('$ad onAdDismissedFullScreenContent.');
+          debugPrint('$ad onAdDismissedFullScreenContent.');
 
           await LocalStorage.setValueUnderLocalStorageKey(
             key: LocalStorageKey.lastTimeSeenAnIntertitial,
@@ -141,10 +142,10 @@ class AdMobController extends GetxController {
           );
         },
         onAdFailedToShowFullScreenContent: (InterstitialAd ad, AdError error) {
-          print('$ad onAdFailedToShowFullScreenContent: $error');
+          debugPrint('$ad onAdFailedToShowFullScreenContent: $error');
           ad.dispose();
         },
-        onAdImpression: (InterstitialAd ad) => print('$ad impression occurred.'),
+        onAdImpression: (InterstitialAd ad) => debugPrint('$ad impression occurred.'),
       );
 
       _interstitialAd.show();
