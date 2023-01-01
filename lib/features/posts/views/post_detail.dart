@@ -219,7 +219,7 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
   Widget _dennouncePostButton() {
     return DennounceButton(
       onTap: () {
-        postsController.postIsBeingDennounced = true;
+        postDennounceController.showPopup();
 
         postDennounceController.updatePostDennounce(
           PostDennounceEnum.dennouncedPost,
@@ -599,9 +599,9 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
   Obx _dennouncePopup() {
     return Obx(
       () {
-        return PostDennounceScreen(
-          hide: () => postsController.postIsBeingDennounced = false,
-          show: postsController.postIsBeingDennounced,
+        return Visibility(
+          visible: postDennounceController.popupIsVisble,
+          child: PostDennounceScreen(),
         );
       },
     );

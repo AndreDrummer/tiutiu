@@ -1,8 +1,9 @@
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:tiutiu/core/constants/firebase_env_path.dart';
 import 'package:tiutiu/features/chat/model/contact.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:tiutiu/features/chat/model/message.dart';
+import 'package:tiutiu/features/chat/model/enums.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ChatService extends GetxController {
   FirebaseFirestore _firestore = FirebaseFirestore.instance;

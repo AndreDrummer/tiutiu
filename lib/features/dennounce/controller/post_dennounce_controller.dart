@@ -1,20 +1,22 @@
-import 'package:flutter/foundation.dart';
-import 'package:tiutiu/core/controllers/controllers.dart';
-import 'package:tiutiu/features/dennounce/model/post_dennounce.dart';
-import 'package:tiutiu/core/constants/strings.dart';
-import 'package:get/get.dart';
 import 'package:tiutiu/features/dennounce/services/dennounce_services.dart';
+import 'package:tiutiu/features/dennounce/model/post_dennounce.dart';
+import 'package:tiutiu/core/controllers/controllers.dart';
+import 'package:tiutiu/core/constants/strings.dart';
+import 'package:flutter/foundation.dart';
 import 'package:uuid/uuid.dart';
+import 'package:get/get.dart';
 
 class PostDennounceController extends GetxController {
   final Rx<PostDennounce> _postDennounce = _defaultPostDennounce().obs;
-  final RxInt _postDennounceGroupValue = 3.obs;
+  final RxInt _postDennounceGroupValue = 2.obs;
+  final RxBool _showPopup = false.obs;
   final RxBool _isLoading = false.obs;
   final RxBool _hasError = false.obs;
 
   int get postDennounceGroupValue => _postDennounceGroupValue.value;
   List<String> get dennouncePostMotives => _dennouncePostMotives;
   PostDennounce get postDennounce => _postDennounce.value;
+  bool get popupIsVisble => _showPopup.value;
   bool get isLoading => _isLoading.value;
   bool get hasError => _hasError.value;
 
@@ -38,6 +40,14 @@ class PostDennounceController extends GetxController {
 
   void setLoading(bool loadingValue) {
     _isLoading(loadingValue);
+  }
+
+  void hidePopup() {
+    _showPopup(false);
+  }
+
+  void showPopup() {
+    _showPopup(true);
   }
 
   Future<void> submit() async {
