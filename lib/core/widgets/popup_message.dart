@@ -5,11 +5,9 @@ import 'package:flutter/material.dart';
 
 class PopUpMessage extends StatelessWidget {
   PopUpMessage({
-    this.warning = false,
+    this.backGroundColor,
     this.denyText = '',
-    this.error = false,
     this.confirmAction,
-    this.info = false,
     this.confirmText,
     this.denyAction,
     this.textColor,
@@ -19,28 +17,20 @@ class PopUpMessage extends StatelessWidget {
 
   final void Function()? confirmAction;
   final void Function()? denyAction;
+  final Color? backGroundColor;
   final String? confirmText;
   final Color? textColor;
   final String denyText;
   final String? message;
   final String? title;
-  final bool warning;
-  final bool error;
-  final bool info;
 
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
+      backgroundColor: backGroundColor ?? AppColors.primary,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
       ),
-      backgroundColor: error
-          ? Color(0XFFDC3545)
-          : warning
-              ? Color(0XFFFFC107)
-              : info
-                  ? Color(0XFF536DFE)
-                  : AppColors.primary,
       title: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [

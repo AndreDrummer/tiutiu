@@ -1,3 +1,5 @@
+import 'package:tiutiu/core/constants/contact_type.dart';
+
 class AppStrings {
   static String get noConnectionWarning => 'Estes anúncios podem estar desatualizados porque você está sem internet.';
   static String get authError => 'Ocorreu um erro com sua autenticação.\nTente sair e entrar novamente.';
@@ -10,7 +12,12 @@ class AppStrings {
   static String get verifyFilters => 'Verifique seus filtros de busca.';
   static String get tryAgainInABrief =>
       'Anúncios temporariamente indisponíveis.\nEntre novamente em alguns minutos.\n\nAgradecessemos a compreensão!';
-  static String get watchAnAd => 'Limite de conversas atingido.\n\nAssista um vídeo para renovar.';
+  static String watchAnAd(ContactType contactType) {
+    if (contactType == ContactType.whatsapp)
+      return 'Limite de conversas via WhatsApp atingido.\n\nAssista um vídeo para renovar.';
+    return 'Limite de conversas via Chat atingido.\n\nAssista um vídeo para renovar.';
+  }
+
   static String get changeListVisual => 'Mude a visualização da lista';
   static String get imagesWarning => 'Imagens meramente ilustrativas';
   static String get noPostFavorited => 'Nenhum PET foi favoritado.';

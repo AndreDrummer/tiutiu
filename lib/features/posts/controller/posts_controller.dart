@@ -9,6 +9,7 @@ import 'package:tiutiu/core/local_storage/local_storage.dart';
 import 'package:tiutiu/features/posts/utils/post_utils.dart';
 import 'package:tiutiu/core/utils/routes/routes_name.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
+import 'package:tiutiu/core/constants/contact_type.dart';
 import 'package:tiutiu/core/mixins/tiu_tiu_pop_up.dart';
 import 'package:tiutiu/core/pets/model/pet_model.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
@@ -180,9 +181,7 @@ class PostsController extends GetxController with TiuTiuPopUp {
     _postsCount(filteredPosts.length);
   }
 
-  List<Post> loggedUserPosts() {
-    return _posts.where(postBelongsToMe).toList();
-  }
+  List<Post> loggedUserPosts() => _posts.where(postBelongsToMe).toList();
 
   Future<void> _uploadVideo() async {
     if (post.video != null) {
@@ -199,6 +198,30 @@ class PostsController extends GetxController with TiuTiuPopUp {
         post: post,
       );
     }
+  }
+
+  Future<bool> shwoDeletePostPopup() async {
+    bool postWasDeleted = false;
+
+    await showPopUp(
+      message: PostFlowStrings.deleteForever,
+      confirmText: AppStrings.yes,
+      textColor: AppColors.black,
+      mainAction: () {
+        Get.back();
+      },
+      secondaryAction: () async {
+        Get.back();
+        await deletePost();
+        postWasDeleted = true;
+      },
+      backGroundColor: AppColors.warning,
+      title: PostFlowStrings.deleteAd,
+      barrierDismissible: false,
+      denyText: AppStrings.no,
+    );
+
+    return postWasDeleted;
   }
 
   Future<void> _uploadImages() async {
@@ -223,7 +246,7 @@ class PostsController extends GetxController with TiuTiuPopUp {
     _uploadingPostText('');
   }
 
-  Future<void> handleContactTapped({String contactType = 'whatsapp', required Future Function() onAdWatched}) async {
+  Future<void> handleContactTapped({required ContactType contactType, required Function() onAdWatched}) async {
     setLoading(true);
     final lastTimeWatchedRewarded = await LocalStorage.getValueUnderLocalStorageKey(
       contactType == 'whatsapp'
@@ -251,17 +274,17 @@ class PostsController extends GetxController with TiuTiuPopUp {
     setLoading(false);
   }
 
-  Future<void> warningUserAboutRewarded(String contactType) async {
+  Future<void> warningUserAboutRewarded(ContactType contactType) async {
+    final contactTypeIsWpp = contactType == ContactType.whatsapp;
+
     await LocalStorage.deleteDataUnderLocalStorageKey(
-      contactType == 'whatsapp'
-          ? LocalStorageKey.lastTimeWatchedWhatsappRewarded
-          : LocalStorageKey.lastTimeWatchedChatRewarded,
+      contactTypeIsWpp ? LocalStorageKey.lastTimeWatchedWhatsappRewarded : LocalStorageKey.lastTimeWatchedChatRewarded,
     );
 
     await showPopUp(
-      message: AppStrings.watchAnAd,
+      textColor: contactTypeIsWpp ? AppColors.black : AppColors.white,
+      message: AppStrings.watchAnAd(contactType),
       confirmText: AppStrings.back,
-      textColor: AppColors.black,
       mainAction: () async {
         Get.back();
         setLoading(false);
@@ -271,12 +294,10 @@ class PostsController extends GetxController with TiuTiuPopUp {
         Get.back();
         setLoading(false);
       },
+      backGroundColor: contactTypeIsWpp ? AppColors.success : AppColors.secondary,
       denyText: AppStrings.watch,
       barrierDismissible: false,
       title: AppStrings.warning,
-      warning: false,
-      error: false,
-      info: true,
     );
   }
 
@@ -475,7 +496,7 @@ class PostsController extends GetxController with TiuTiuPopUp {
         postsController.clearForm();
         if (isInsideFlow) returnValue = true;
       },
-      error: true,
+      backGroundColor: AppColors.danger,
     );
 
     return returnValue;
