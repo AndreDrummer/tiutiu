@@ -1,6 +1,8 @@
 enum EndpointNames {
   pathToSystemProperties,
   userAvatarStoragePath,
+  pathToPostDennounces,
+  pathToPostDennounce,
   pathToSupportUsData,
   feedbackStoragePath,
   postsStoragePath,
