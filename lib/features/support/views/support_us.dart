@@ -103,8 +103,9 @@ class SupportUs extends StatelessWidget {
           (_) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
-                backgroundColor: AppColors.info,
                 content: AutoSizeTexts.autoSizeText14(SupportUsStrings.keyPixCopied),
+                duration: Duration(milliseconds: 1500),
+                backgroundColor: AppColors.info,
               ),
             );
           },

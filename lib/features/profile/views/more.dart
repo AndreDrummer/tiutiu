@@ -180,11 +180,10 @@ class More extends StatelessWidget with TiuTiuPopUp {
         Get.back();
         moreController.handleOptionHitted(title);
       },
+      backGroundColor: AppColors.warning,
       barrierDismissible: false,
       title: AppStrings.leave,
       denyText: AppStrings.no,
-      warning: true,
-      error: false,
     );
   }
 
