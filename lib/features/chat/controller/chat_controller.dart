@@ -1,3 +1,4 @@
+import 'package:tiutiu/features/chat/model/enums.dart';
 import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
 import 'package:tiutiu/features/chat/services/chat_service.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
