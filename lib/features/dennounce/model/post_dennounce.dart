@@ -1,4 +1,5 @@
 import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
+import 'package:tiutiu/features/dennounce/model/dennounce.dart';
 import 'package:tiutiu/core/pets/model/pet_model.dart';
 import 'package:tiutiu/features/posts/model/post.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -11,7 +12,7 @@ enum PostDennounceEnum {
   uid,
 }
 
-class PostDennounce {
+class PostDennounce extends Dennounce {
   factory PostDennounce.fromSnapshot(DocumentSnapshot snapshot) {
     return PostDennounce(
       dennouncedPost: Pet().fromMap(snapshot.get(PostDennounceEnum.dennouncedPost.name)),
@@ -33,19 +34,16 @@ class PostDennounce {
   }
 
   PostDennounce({
-    required this.dennouncer,
+    required super.dennouncer,
     this.dennouncedPost,
-    this.description = '',
-    this.motive = '',
-    this.uid = '',
+    super.description,
+    super.motive,
+    super.uid,
   });
 
-  TiutiuUser dennouncer;
   Post? dennouncedPost;
-  String description;
-  String motive;
-  String uid;
 
+  @override
   PostDennounce copyWith({
     TiutiuUser? dennouncer,
     Post? dennouncedPost,
@@ -62,6 +60,7 @@ class PostDennounce {
     );
   }
 
+  @override
   Map<String, dynamic> toMap() {
     return {
       PostDennounceEnum.dennouncedPost.name: dennouncedPost?.toMap(),
