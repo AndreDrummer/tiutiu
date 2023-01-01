@@ -20,6 +20,7 @@ import 'package:tiutiu/core/constants/images_assets.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/widgets/dots_indicator.dart';
 import 'package:tiutiu/core/widgets/warning_widget.dart';
+import 'package:tiutiu/core/constants/contact_type.dart';
 import 'package:tiutiu/core/mixins/tiu_tiu_pop_up.dart';
 import 'package:tiutiu/core/constants/text_styles.dart';
 import 'package:tiutiu/core/utils/other_functions.dart';
@@ -172,7 +173,7 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   AutoSizeTexts.autoSizeText24(
-                    '${Formatters.cuttedText(petName, size: 18)}',
+                    '${Formatters.cuttedText(OtherFunctions.replacePhoneNumberWithStars('$petName'), size: 18)}',
                     fontWeight: FontWeight.w600,
                   ),
                 ],
@@ -440,7 +441,7 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
       visible: description != null,
       child: CardContent(
         title: PostDetailsStrings.description,
-        content: description ?? '',
+        content: OtherFunctions.replacePhoneNumberWithStars(description ?? ''),
       ),
     );
   }
@@ -448,7 +449,9 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
   CardContent _address() {
     final post = postsController.post;
 
-    final describedAddress = post.describedAddress.isNotEmptyNeighterNull() ? '\n\n${post.describedAddress}' : '';
+    final describedAddress = post.describedAddress.isNotEmptyNeighterNull()
+        ? '\n\n${OtherFunctions.replacePhoneNumberWithStars(post.describedAddress)}'
+        : '';
 
     final showIcon = !post.describedAddress.isNotEmptyNeighterNull() && !(post as Pet).disappeared;
 
@@ -482,7 +485,7 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
             padding: EdgeInsets.symmetric(vertical: 1.0.h, horizontal: 2.0.w),
             onPressed: () {
               postsController.handleContactTapped(
-                contactType: 'chat',
+                contactType: ContactType.chat,
                 onAdWatched: () async {
                   chatController.startsChatWith(
                     myUserId: tiutiuUserController.tiutiuUser.uid!,
@@ -504,6 +507,7 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
             isToExpand: true,
             onPressed: () async {
               postsController.handleContactTapped(
+                contactType: ContactType.whatsapp,
                 onAdWatched: () async {
                   await Launcher.openWhatsApp(number: post.owner!.phoneNumber!);
                 },
@@ -534,49 +538,32 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
       padding: EdgeInsets.only(bottom: 16.0.h),
       child: Column(
         children: [
-          ButtonWide(
-            padding: EdgeInsets.only(top: 2.0, left: 4.0.w, right: 4.0.w),
+          SimpleTextButton(
+            backgroundColor: AppColors.warning,
             text: PostFlowStrings.editAd,
             textColor: AppColors.black,
-            color: AppColors.warning,
             icon: Icons.edit,
             onPressed: () {
               postsController.isEditingPost = true;
               Get.offNamed(Routes.initPostFlow);
             },
-            isToExpand: true,
-            rounded: false,
           ),
           SimpleTextButton(
             backgroundColor: AppColors.white,
             text: PostFlowStrings.deleteAd,
             textColor: AppColors.danger,
             onPressed: () async {
-              await showPopUp(
-                message: PostFlowStrings.deleteForever,
-                confirmText: AppStrings.yes,
-                textColor: AppColors.black,
-                mainAction: () {
-                  Get.back();
-                },
-                secondaryAction: () {
-                  Get.back();
-                  postsController.deletePost().then((myPostsCount) {
-                    Get.back();
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: AutoSizeTexts.autoSizeText14(PostFlowStrings.adDeleted),
-                        backgroundColor: AppColors.info,
-                      ),
-                    );
-                  });
-                },
-                barrierDismissible: false,
-                title: PostFlowStrings.deleteAd,
-                denyText: AppStrings.no,
-                warning: true,
-                error: false,
-              );
+              final postWasDeleted = await postsController.shwoDeletePostPopup();
+
+              if (postWasDeleted) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: AutoSizeTexts.autoSizeText14(PostFlowStrings.adDeleted),
+                    duration: Duration(milliseconds: 1500),
+                    backgroundColor: AppColors.info,
+                  ),
+                );
+              }
             },
           )
         ],

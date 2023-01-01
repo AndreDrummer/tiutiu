@@ -1,3 +1,4 @@
+import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/core/widgets/popup_message.dart';
 import 'package:tiutiu/core/constants/strings.dart';
 import 'package:flutter/material.dart';
@@ -5,14 +6,12 @@ import 'package:get/get.dart';
 
 mixin TiuTiuPopUp {
   Future showPopUp({
-    required String message,
-    bool barrierDismissible = true,
     void Function()? secondaryAction,
+    bool barrierDismissible = true,
     void Function()? mainAction,
-    bool warning = false,
-    bool info = false,
+    required String message,
+    Color? backGroundColor,
     String title = 'Erro',
-    bool error = false,
     String? confirmText,
     Color? textColor,
     String? denyText,
@@ -23,6 +22,7 @@ mixin TiuTiuPopUp {
       builder: (context) {
         return PopUpMessage(
           denyText: denyText ?? AppStrings.ok,
+          backGroundColor: backGroundColor,
           confirmText: confirmText ?? '',
           confirmAction: secondaryAction,
           textColor: textColor,
@@ -34,10 +34,7 @@ mixin TiuTiuPopUp {
             }
           },
           message: message,
-          warning: warning,
-          error: error,
           title: title,
-          info: info,
         );
       },
     );
@@ -52,13 +49,13 @@ mixin TiuTiuPopUp {
     String? denyText,
   }) async {
     await showPopUp(
+      backGroundColor: AppColors.danger,
       secondaryAction: onCancel,
       barrierDismissible: false,
       confirmText: confirmText,
       mainAction: onRetry,
       denyText: denyText,
       message: message,
-      error: true,
       title: title,
     );
   }
@@ -73,8 +70,6 @@ mixin TiuTiuPopUp {
       title: AppStrings.success,
       mainAction: onDone,
       message: message,
-      warning: false,
-      error: false,
     );
   }
 }
