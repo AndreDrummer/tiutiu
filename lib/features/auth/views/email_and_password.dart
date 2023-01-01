@@ -320,7 +320,7 @@ class EmailAndPassword extends StatelessWidget with TiuTiuPopUp {
       showPopUp(
         title: AuthStrings.authFailure,
         message: exception.toString(),
-        error: true,
+        backGroundColor: AppColors.danger,
       );
     }
   }
@@ -340,7 +340,7 @@ class EmailAndPassword extends StatelessWidget with TiuTiuPopUp {
       showPopUp(
         title: AuthStrings.authFailure,
         message: exception.toString(),
-        error: true,
+        backGroundColor: AppColors.danger,
       );
 
       debugPrint('TiuTiuApp: Authentication Failed ${exception.toString()}');
@@ -359,7 +359,7 @@ class EmailAndPassword extends StatelessWidget with TiuTiuPopUp {
       showPopUp(
         title: AuthStrings.authFailure,
         message: exception.toString(),
-        error: true,
+        backGroundColor: AppColors.danger,
       );
     }
   }

@@ -44,13 +44,12 @@ class _HomeState extends State<Home> with TiuTiuPopUp {
         () => WillPopScope(
           onWillPop: () async {
             return showPopUp(
+              backGroundColor: AppColors.warning,
               message: AppStrings.wannaLeave,
               confirmText: AppStrings.yes,
               barrierDismissible: false,
               title: AppStrings.endApp,
               denyText: AppStrings.no,
-              error: false,
-              warning: true,
               mainAction: () {
                 Get.back();
               },

@@ -1,0 +1,4 @@
+enum ContactType {
+  whatsapp,
+  chat,
+}

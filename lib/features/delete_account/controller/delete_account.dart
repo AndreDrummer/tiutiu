@@ -82,14 +82,13 @@ class DeleteAccountController extends GetxController with TiuTiuPopUp {
         authController.signOut();
       },
       message: AuthStrings.demandRecentLoginWarning,
+      backGroundColor: AppColors.warning,
       title: AuthStrings.doLogin,
       confirmText: AppStrings.yes,
       textColor: AppColors.black,
       barrierDismissible: false,
       denyText: AppStrings.no,
       mainAction: Get.back,
-      warning: true,
-      error: false,
     );
   }
 
@@ -105,8 +104,7 @@ class DeleteAccountController extends GetxController with TiuTiuPopUp {
           return route.settings.name == Routes.home;
         });
       },
-      warning: false,
-      error: true,
+      backGroundColor: AppColors.danger,
     );
   }
 
