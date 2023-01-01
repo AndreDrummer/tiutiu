@@ -47,11 +47,10 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
   bool isLoadingVideo = true;
   late VideoUtils videoUtils;
 
-  bool postIsBeingDennounced = false;
-
   @override
   void initState() {
     initializeVideo();
+    loadAdvertise();
     super.initState();
   }
 
@@ -75,6 +74,10 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
       chewieController?.pause();
       chewieController?.dispose();
     }
+  }
+
+  Future<void> loadAdvertise() async {
+    await adMobController.loadRewardedAd();
   }
 
   bool postBelongsToMe() => postsController.postBelongsToMe();
@@ -141,33 +144,9 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
                 },
               ),
             ),
-            Positioned(
-              child: BackButton(color: AppColors.white),
-              left: 8.0.w,
-              top: 24.0.h,
-            ),
-            Obx(
-              () => LoadDarkScreen(
-                message: postsController.uploadingPostText,
-                visible: postsController.isLoading,
-              ),
-            ),
-            Visibility(
-              visible: postIsBeingDennounced,
-              child: PostDennounceScreen(
-                onDennounce: () {
-                  setState(() {
-                    postIsBeingDennounced = false;
-                  });
-                },
-                onCancel: () {
-                  setState(() {
-                    postDennounceController.resetForm();
-                    postIsBeingDennounced = false;
-                  });
-                },
-              ),
-            )
+            Positioned(child: BackButton(color: AppColors.white), left: 8.0.w, top: 24.0.h),
+            _dennouncePopup(),
+            _loadingBlur(),
           ],
         ),
       ),
@@ -239,17 +218,11 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
   Widget _dennouncePostButton() {
     return DennounceButton(
       onTap: () {
-        setState(() {
-          postIsBeingDennounced = true;
-        });
+        postsController.postIsBeingDennounced = true;
 
-        postDennounceController.resetForm();
-
-        postDennounceController.updatePostDennounce(PostDennounceEnum.dennouncedPost, postsController.post);
-        postDennounceController.updatePostDennounce(PostDennounceEnum.motive, PostDennounceStrings.other);
         postDennounceController.updatePostDennounce(
-          PostDennounceEnum.dennouncer,
-          tiutiuUserController.tiutiuUser,
+          PostDennounceEnum.dennouncedPost,
+          postsController.post,
         );
       },
     );
@@ -590,8 +563,12 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
                   Get.back();
                   postsController.deletePost().then((myPostsCount) {
                     Get.back();
-                    ScaffoldMessenger.of(context)
-                        .showSnackBar(SnackBar(content: AutoSizeTexts.autoSizeText14(PostFlowStrings.adDeleted)));
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: AutoSizeTexts.autoSizeText14(PostFlowStrings.adDeleted),
+                        backgroundColor: AppColors.info,
+                      ),
+                    );
                   });
                 },
                 barrierDismissible: false,
@@ -628,6 +605,26 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
         visible: postsController.isInReviewMode,
         replacement: editOrContact(),
         child: backReviewAndUploadPost(),
+      ),
+    );
+  }
+
+  Obx _dennouncePopup() {
+    return Obx(
+      () {
+        return PostDennounceScreen(
+          hide: () => postsController.postIsBeingDennounced = false,
+          show: postsController.postIsBeingDennounced,
+        );
+      },
+    );
+  }
+
+  Obx _loadingBlur() {
+    return Obx(
+      () => LoadDarkScreen(
+        message: postsController.uploadingPostText,
+        visible: postsController.isLoading,
       ),
     );
   }
