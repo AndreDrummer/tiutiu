@@ -1,16 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/widgets.dart';
-
-enum ContactEnum {
-  userReceiverReference,
-  userSenderReference,
-  lastMessageTime,
-  userReceiverId,
-  userSenderId,
-  lastMessage,
-  open,
-  id,
-}
+import 'package:tiutiu/features/chat/model/enums.dart';
 
 class Contact {
   factory Contact.fromSnapshot(DocumentSnapshot snapshot) {

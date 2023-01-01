@@ -9,10 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class PostDennounceScreen extends StatelessWidget {
-  const PostDennounceScreen({super.key, required this.show, required this.hide});
-
-  final Function() hide;
-  final bool show;
+  const PostDennounceScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -26,6 +23,7 @@ class PostDennounceScreen extends StatelessWidget {
         isLoading: postDennounceController.isLoading,
         onMotiveUpdate: _onUpdatePostDennounceMotive,
         denounceDescription: denounceDescription,
+        contentHeight: Get.height / 4.2,
         onMotiveDescribed: (motiveDescription) {
           if (motiveDescription.length >= 3) {
             postDennounceController.hasError = false;
@@ -35,10 +33,10 @@ class PostDennounceScreen extends StatelessWidget {
         },
         cancel: () {
           postDennounceController.resetForm();
-          hide();
+          postDennounceController.hidePopup();
         },
+        show: postDennounceController.popupIsVisble,
         motiveIsOther: motiveIsOther,
-        show: show,
       );
     });
   }
@@ -61,11 +59,11 @@ class PostDennounceScreen extends StatelessWidget {
     if (formIsValid) {
       postDennounceController.hasError = false;
       postDennounceController.submit().then((_) {
-        hide();
+        postDennounceController.hidePopup();
 
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: AutoSizeTexts.autoSizeText14(PostDennounceStrings.dennounceSentSuccessfully),
+            content: AutoSizeTexts.autoSizeText14(DennounceStrings.dennounceSentSuccessfully),
             duration: Duration(milliseconds: 1500),
             backgroundColor: AppColors.info,
           ),

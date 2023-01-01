@@ -25,9 +25,9 @@ class SystemInitializer {
 
   static List<DependencyInjection> _dependencies = [
     CurrentLocationControllerDependency(),
-    PostDennounceControllerDependency(),
     TiutiuUserControllerDependency(),
     FavoritesControllerDependency(),
+    DennounceControllerDependency(),
     SystemControllerDependency(),
     AdMobControllerDependency(),
     PostsControllerDependency(),

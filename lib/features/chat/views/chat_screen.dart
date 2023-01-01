@@ -1,5 +1,5 @@
-import 'package:tiutiu/core/utils/dimensions.dart';
 import 'package:tiutiu/features/auth/widgets/image_carousel_background.dart';
+import 'package:tiutiu/features/chat/model/enums.dart';
 import 'package:tiutiu/features/chat/widgets/message_bubble.dart';
 import 'package:tiutiu/features/chat/widgets/new_message.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -10,11 +10,14 @@ import 'package:tiutiu/core/widgets/async_handler.dart';
 import 'package:tiutiu/core/constants/text_styles.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/core/utils/asset_handle.dart';
+import 'package:tiutiu/core/utils/dimensions.dart';
 import 'package:tiutiu/core/constants/strings.dart';
 import 'package:tiutiu/core/utils/formatter.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'dart:io';
+
+import 'package:tiutiu/features/dennounce/views/user_dennounce_screen.dart';
 
 class ChatScreen extends StatelessWidget {
   const ChatScreen({
@@ -32,66 +35,71 @@ class ChatScreen extends StatelessWidget {
         return true;
       },
       child: SafeArea(
-        child: Scaffold(
-          backgroundColor: AppColors.black,
-          body: Stack(
-            children: [
-              ImageCarouselBackground(autoPlay: false),
-              Container(color: AppColors.black.withOpacity(.7)),
-              Positioned.fill(
-                bottom: Dimensions.getDimensBasedOnDeviceHeight(
-                  smaller: 64.0.h,
-                  medium: 48.0.h,
-                  bigger: 56.0.h,
-                ),
-                top: 40.0.h,
-                child: StreamBuilder<List<Message>>(
-                  stream: chatController.messages(loggedUserId),
-                  builder: (context, snapshot) {
-                    return AsyncHandler<List<Message>>(
-                      emptyWidget: AutoSizeTexts.autoSizeText16(
-                        ChatStrings.startConversation,
-                        fontWeight: FontWeight.bold,
-                        color: AppColors.white,
-                      ),
-                      showLoadingScreen: false,
-                      snapshot: snapshot,
-                      buildWidget: (messages) {
-                        return ListView.builder(
-                          itemCount: messages.length,
-                          itemBuilder: ((context, index) {
-                            final previousIndex = index + 1 >= messages.length ? index : index + 1;
-                            final previousMessage = messages[previousIndex];
-                            final message = messages[index];
+        child: Stack(
+          children: [
+            Scaffold(
+              backgroundColor: AppColors.black,
+              body: Stack(
+                children: [
+                  ImageCarouselBackground(autoPlay: false),
+                  Container(color: AppColors.black.withOpacity(.7)),
+                  Positioned.fill(
+                    bottom: Dimensions.getDimensBasedOnDeviceHeight(
+                      smaller: 64.0.h,
+                      medium: 48.0.h,
+                      bigger: 56.0.h,
+                    ),
+                    top: 40.0.h,
+                    child: StreamBuilder<List<Message>>(
+                      stream: chatController.messages(loggedUserId),
+                      builder: (context, snapshot) {
+                        return AsyncHandler<List<Message>>(
+                          emptyWidget: AutoSizeTexts.autoSizeText16(
+                            ChatStrings.startConversation,
+                            fontWeight: FontWeight.bold,
+                            color: AppColors.white,
+                          ),
+                          showLoadingScreen: false,
+                          snapshot: snapshot,
+                          buildWidget: (messages) {
+                            return ListView.builder(
+                              itemCount: messages.length,
+                              itemBuilder: ((context, index) {
+                                final previousIndex = index + 1 >= messages.length ? index : index + 1;
+                                final previousMessage = messages[previousIndex];
+                                final message = messages[index];
 
-                            return Padding(
-                              padding: EdgeInsets.only(
-                                top: index == (messages.length - 1) ? 8.0.h : 0.0.h,
-                                bottom: index > 0 ? 0 : 8.0.h,
-                              ),
-                              child: MessageBubble(
-                                lastMessageBelongsToTheSameUser: previousMessage.sender.uid == message.sender.uid,
-                                belongToMe: message.sender.uid == loggedUserId,
-                                time: message.createdAt,
-                                message: message.text!,
-                                key: UniqueKey(),
-                              ),
+                                return Padding(
+                                  padding: EdgeInsets.only(
+                                    top: index == (messages.length - 1) ? 8.0.h : 0.0.h,
+                                    bottom: index > 0 ? 0 : 8.0.h,
+                                  ),
+                                  child: MessageBubble(
+                                    lastMessageBelongsToTheSameUser: previousMessage.sender.uid == message.sender.uid,
+                                    belongToMe: message.sender.uid == loggedUserId,
+                                    time: message.createdAt,
+                                    message: message.text!,
+                                    key: UniqueKey(),
+                                  ),
+                                );
+                              }),
+                              reverse: true,
                             );
-                          }),
-                          reverse: true,
+                          },
                         );
                       },
-                    );
-                  },
-                ),
+                    ),
+                  ),
+                  Positioned(
+                    child: _appBar(),
+                    top: 0.0.h,
+                  ),
+                ],
               ),
-              Positioned(
-                child: _appBar(),
-                top: 0.0.h,
-              ),
-            ],
-          ),
-          bottomSheet: NewMessage(),
+              bottomSheet: NewMessage(),
+            ),
+            UserDennounceScreen()
+          ],
         ),
       ),
     );
@@ -134,15 +142,19 @@ class ChatScreen extends StatelessWidget {
                 Platform.isIOS ? Icons.more_horiz_outlined : Icons.more_vert_outlined,
                 color: AppColors.white,
               ),
-              onSelected: (String item) {},
+              onSelected: (String item) {
+                if (item == ChatActionsEnum.dennounceUser.name) {
+                  userDennounceController.showPopup();
+                }
+              },
               itemBuilder: (context) => <PopupMenuEntry<String>>[
                 PopupMenuItem<String>(
-                  value: 'trocarDepois1',
+                  value: ChatActionsEnum.deleteChat.name,
                   child: Text(ChatStrings.deleteChat),
                 ),
                 PopupMenuItem<String>(
                   child: Text(ChatStrings.dennounceUser(chatController.userChatingWith.displayName!.split(' ').first)),
-                  value: 'trocarDepois2',
+                  value: ChatActionsEnum.dennounceUser.name,
                 ),
               ],
             )
