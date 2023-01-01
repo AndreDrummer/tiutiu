@@ -1,3 +1,4 @@
+import 'package:tiutiu/core/constants/contact_type.dart';
 import 'package:tiutiu/features/admob/constants/admob_block_names.dart';
 import 'package:tiutiu/core/local_storage/local_storage_keys.dart';
 import 'package:tiutiu/core/local_storage/local_storage.dart';
@@ -52,8 +53,8 @@ class AdMobController extends GetxController {
     );
   }
 
-  int minutesFreeOfRewardedAd(String contactType) {
-    if (contactType == 'whatsapp') return 2;
+  int minutesFreeOfRewardedAd(ContactType contactType) {
+    if (contactType == ContactType.whatsapp) return 2;
     return 10;
   }
 
@@ -75,7 +76,7 @@ class AdMobController extends GetxController {
     );
   }
 
-  Future<void> showRewardedAd(String contactType) async {
+  Future<void> showRewardedAd(ContactType contactType) async {
     if (!_rewardedAdWasLoaded) {
       await loadRewardedAd();
     }
@@ -99,7 +100,7 @@ class AdMobController extends GetxController {
         debugPrint('Usuário assistiu certinho ${ad.adUnitId} ${rewardItem.amount}');
 
         await LocalStorage.setValueUnderLocalStorageKey(
-          key: contactType == 'whatsapp'
+          key: contactType == ContactType.whatsapp
               ? LocalStorageKey.lastTimeWatchedWhatsappRewarded
               : LocalStorageKey.lastTimeWatchedChatRewarded,
           value: DateTime.now().toIso8601String(),
@@ -126,7 +127,7 @@ class AdMobController extends GetxController {
   }
 
   Future<void> showInterstitialAd() async {
-    while (!_interstitialAdWasLoaded) {
+    if (!_interstitialAdWasLoaded) {
       await loadInterstitialAd();
     }
 

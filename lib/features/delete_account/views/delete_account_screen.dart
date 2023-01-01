@@ -133,13 +133,12 @@ class DeleteAccountScreen extends StatelessWidget with TiuTiuPopUp {
         await deleteAccountController.deleteAccountForever();
       },
       message: AuthStrings.deleteAccountWarning,
+      backGroundColor: AppColors.danger,
       title: AuthStrings.deleteAccount,
       confirmText: AppStrings.yes,
       barrierDismissible: false,
       denyText: AppStrings.no,
       mainAction: Get.back,
-      warning: false,
-      error: true,
     );
   }
 }
