@@ -85,7 +85,7 @@ class PostService extends GetxService {
       debugPrint('TiuTiuApp: Posted Successfully ${post.uid}');
       success = true;
     } on Exception catch (exception) {
-      debugPrint('TiuTiuApp: Erro when tryna to send data to Firestore: $exception');
+      debugPrint('TiuTiuApp: Erro when tryna to send post data to Firestore: $exception');
     }
 
     return success;
