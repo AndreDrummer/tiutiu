@@ -14,19 +14,23 @@ class DennouncePopup extends StatelessWidget {
     required this.denounceDescription,
     required this.dennounceMotives,
     required this.onMotiveUpdate,
+    required this.contentHeight,
     this.motiveIsOther = true,
     this.isLoading = false,
     this.onMotiveDescribed,
     required this.onSubmit,
     required this.cancel,
     this.show = false,
+    this.padding,
     super.key,
   });
 
   final void Function(String)? onMotiveDescribed;
   final Function(int?) onMotiveUpdate;
   final List<String> dennounceMotives;
+  final EdgeInsetsGeometry? padding;
   final String denounceDescription;
+  final double contentHeight;
   final Function() onSubmit;
   final bool motiveIsOther;
   final Function() cancel;
@@ -41,29 +45,8 @@ class DennouncePopup extends StatelessWidget {
         child: AnimatedContainer(
           duration: Duration(milliseconds: 500),
           margin: EdgeInsets.zero,
-          padding: EdgeInsets.only(
-            bottom: Dimensions.getDimensBasedOnDeviceHeight(
-              smaller: motiveIsOther ? Get.width / 3.3 : Get.width / 3,
-              bigger: motiveIsOther ? Get.width / 3.2 : Get.width / 2,
-              medium: motiveIsOther ? Get.width / 3.3 : Get.width / 3,
-            ),
-            top: Dimensions.getDimensBasedOnDeviceHeight(
-              bigger: motiveIsOther ? _topPadding(postDennounceController.hasError) : Get.width / 1.225,
-              smaller: motiveIsOther ? Get.width * .75 : Get.width,
-              medium: motiveIsOther ? Get.width * .75 : Get.width,
-            ),
-            right: Dimensions.getDimensBasedOnDeviceHeight(
-              smaller: 56.0.w,
-              bigger: 56.0.w,
-              medium: 56.0.w,
-            ),
-            left: Dimensions.getDimensBasedOnDeviceHeight(
-              smaller: 56.0.w,
-              bigger: 56.0.w,
-              medium: 56.0.w,
-            ),
-          ),
           height: Get.height,
+          padding: padding ?? _defaultPadding(),
           width: Get.width,
           color: AppColors.black.withOpacity(.5),
           child: Card(
@@ -110,7 +93,7 @@ class DennouncePopup extends StatelessWidget {
     return Column(
       children: [
         SizedBox(
-          height: Get.height / 4.2,
+          height: contentHeight,
           child: ListView.builder(
             padding: EdgeInsets.zero,
             itemCount: dennounceMotives.length,
@@ -180,4 +163,29 @@ class DennouncePopup extends StatelessWidget {
   }
 
   double _topPadding(bool hasError) => hasError ? Get.width * .65 : Get.width * .725;
+
+  EdgeInsetsGeometry _defaultPadding() {
+    return EdgeInsets.only(
+      bottom: Dimensions.getDimensBasedOnDeviceHeight(
+        smaller: motiveIsOther ? Get.width / 3.3 : Get.width / 3,
+        bigger: motiveIsOther ? Get.width / 3.2 : Get.width / 2,
+        medium: motiveIsOther ? Get.width / 3.3 : Get.width / 3,
+      ),
+      top: Dimensions.getDimensBasedOnDeviceHeight(
+        bigger: motiveIsOther ? _topPadding(postDennounceController.hasError) : Get.width / 1.225,
+        smaller: motiveIsOther ? Get.width * .75 : Get.width,
+        medium: motiveIsOther ? Get.width * .75 : Get.width,
+      ),
+      right: Dimensions.getDimensBasedOnDeviceHeight(
+        smaller: 56.0.w,
+        bigger: 56.0.w,
+        medium: 56.0.w,
+      ),
+      left: Dimensions.getDimensBasedOnDeviceHeight(
+        smaller: 56.0.w,
+        bigger: 56.0.w,
+        medium: 56.0.w,
+      ),
+    );
+  }
 }

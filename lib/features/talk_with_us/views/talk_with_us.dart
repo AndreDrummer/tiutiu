@@ -83,6 +83,7 @@ class _TalkWithUsState extends State<TalkWithUs> {
       FeedbackStrings.anotherUserIssue,
       FeedbackStrings.dificultsUse,
       FeedbackStrings.partnership,
+      FeedbackStrings.dennounce,
       DeleteAccountStrings.bugs,
       '-',
     ];
