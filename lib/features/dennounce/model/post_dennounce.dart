@@ -23,7 +23,6 @@ class PostDennounce {
   }
 
   factory PostDennounce.fromMap(Map<String, dynamic> map) {
-    print(map[PostDennounceEnum.dennouncer.name]);
     return PostDennounce(
       dennouncedPost: getPostDennounced(map[PostDennounceEnum.dennouncedPost.name]),
       dennouncer: getUserDennouncer(map[PostDennounceEnum.dennouncer.name]),
@@ -34,18 +33,18 @@ class PostDennounce {
   }
 
   PostDennounce({
+    required this.dennouncer,
     this.dennouncedPost,
-    this.description,
-    this.dennouncer,
-    this.motive,
-    this.uid,
+    this.description = '',
+    this.motive = '',
+    this.uid = '',
   });
 
-  TiutiuUser? dennouncer;
+  TiutiuUser dennouncer;
   Post? dennouncedPost;
-  String? description;
-  String? motive;
-  String? uid;
+  String description;
+  String motive;
+  String uid;
 
   PostDennounce copyWith({
     TiutiuUser? dennouncer,
@@ -55,18 +54,18 @@ class PostDennounce {
     String? uid,
   }) {
     return PostDennounce(
-      dennouncedPost: dennouncedPost ?? dennouncedPost,
-      description: description ?? description,
-      dennouncer: dennouncer ?? dennouncer,
-      motive: motive ?? motive,
-      uid: uid ?? uid,
+      dennouncedPost: dennouncedPost ?? this.dennouncedPost,
+      description: description ?? this.description,
+      dennouncer: dennouncer ?? this.dennouncer,
+      motive: motive ?? this.motive,
+      uid: uid ?? this.uid,
     );
   }
 
   Map<String, dynamic> toMap() {
     return {
       PostDennounceEnum.dennouncedPost.name: dennouncedPost?.toMap(),
-      PostDennounceEnum.dennouncer.name: dennouncer?.toMap(),
+      PostDennounceEnum.dennouncer.name: dennouncer.toMap(),
       PostDennounceEnum.description.name: description,
       PostDennounceEnum.motive.name: motive,
       PostDennounceEnum.uid.name: uid,

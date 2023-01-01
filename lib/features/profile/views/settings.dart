@@ -1,3 +1,4 @@
+import 'package:tiutiu/core/constants/text_styles.dart';
 import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
 import 'package:tiutiu/core/widgets/default_basic_app_bar.dart';
 import 'package:tiutiu/core/widgets/column_button_bar.dart';
@@ -205,14 +206,19 @@ class _SettingsState extends State<Settings> {
 
             if (widget.isEditingProfile) Get.back();
 
-            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(MoreStrings.profileUpdated)));
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(MoreStrings.profileUpdated),
+                backgroundColor: AppColors.info,
+              ),
+            );
           } else if (tiutiuUserController.tiutiuUser.avatar == null) {
             appController.snackBarIsOpen = true;
 
             ScaffoldMessenger.of(context)
                 .showSnackBar(
                   SnackBar(
-                    content: Text(MoreStrings.insertAPicture),
+                    content: AutoSizeTexts.autoSizeText14(MoreStrings.insertAPicture),
                     backgroundColor: AppColors.danger,
                   ),
                 )

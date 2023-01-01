@@ -35,6 +35,7 @@ class PostsController extends GetxController with TiuTiuPopUp {
   final RxMap<String, dynamic> _cachedVideos = <String, dynamic>{}.obs;
   final RxBool _addressIsWithCompliment = false.obs;
   final RxList<Post> _filteredPosts = <Post>[].obs;
+  final RxBool _postIsBeingDennounced = false.obs;
   final RxString _uploadingPostText = ''.obs;
   final RxBool _isInMyPostsList = false.obs;
   final RxBool _isInReviewMode = false.obs;
@@ -51,6 +52,7 @@ class PostsController extends GetxController with TiuTiuPopUp {
 
   bool get existChronicDisease => (post as Pet).health == PetHealthString.chronicDisease;
   bool get addressIsWithCompliment => _addressIsWithCompliment.value;
+  bool get postIsBeingDennounced => _postIsBeingDennounced.value;
   String get uploadingPostText => _uploadingPostText.value;
   Map<String, dynamic> get cachedVideos => _cachedVideos;
   bool get isInMyPostsList => _isInMyPostsList.value;
@@ -69,6 +71,7 @@ class PostsController extends GetxController with TiuTiuPopUp {
   List<Post> get posts => _posts;
   Post get post => _post.value;
 
+  void set postIsBeingDennounced(bool value) => _postIsBeingDennounced(value);
   void set isInMyPostsList(bool value) => _isInMyPostsList(value);
   void set isInReviewMode(bool value) => _isInReviewMode(value);
   void set isEditingPost(bool value) => _isEditingPost(value);
@@ -249,7 +252,6 @@ class PostsController extends GetxController with TiuTiuPopUp {
   }
 
   Future<void> warningUserAboutRewarded(String contactType) async {
-    await adMobController.loadRewardedAd();
     await LocalStorage.deleteDataUnderLocalStorageKey(
       contactType == 'whatsapp'
           ? LocalStorageKey.lastTimeWatchedWhatsappRewarded

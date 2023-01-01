@@ -369,9 +369,10 @@ class SupportUsStrings {
 }
 
 class PostDennounceStrings {
+  static const String dennounceSentSuccessfully = 'Sua denúncia foi enviada com sucesso!';
   static const String announceNoAnswer = 'Anunciante não responde';
   static const String sexualContent = 'Conteúdo Sexual';
+  static const String fake = 'É um anúncio falso';
   static const String dennounce = 'Denunciar';
   static const String other = 'Outro';
-  static const String fake = 'Falso';
 }
