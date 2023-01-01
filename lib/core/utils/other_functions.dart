@@ -46,6 +46,26 @@ class OtherFunctions {
     return [textDistance, textTime];
   }
 
+  static String replacePhoneNumberWithStars(String description) {
+    try {
+      String phoneNumber = description;
+
+      if (phoneNumber.contains(RegExp(r"[0-9]"))) {
+        phoneNumber = phoneNumber.split(phoneNumber.split(RegExp(r"[0-9]")).first).last;
+
+        String stars = '';
+        final starList = List.generate(phoneNumber.length, ((index) => '*'));
+        starList.forEach((star) => stars += star);
+
+        description = description.replaceAll(phoneNumber, stars);
+      }
+    } catch (err) {
+      debugPrint('An error occurred when trying remove phone number');
+    }
+
+    return description;
+  }
+
   static String firstCharacterUpper(String text) {
     return TiutiuStringExtension(text.trim()).capitalize();
   }
