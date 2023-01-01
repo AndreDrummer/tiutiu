@@ -304,6 +304,7 @@ class _VerifyPhoneState extends State<VerifyPhone> {
                           SnackBar(
                             content: AutoSizeTexts.autoSizeText14(authController.feedbackText),
                             backgroundColor: valid ? AppColors.success : AppColors.danger,
+                            duration: Duration(milliseconds: 1500),
                           ),
                         )
                         .closed

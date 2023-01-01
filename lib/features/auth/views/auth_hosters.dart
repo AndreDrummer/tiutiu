@@ -194,9 +194,9 @@ class AuthHosters extends StatelessWidget with TiuTiuPopUp {
     } catch (exception) {
       authController.isLoading = false;
       showPopUp(
+        backGroundColor: AppColors.danger,
         title: AuthStrings.authFailure,
         message: exception.toString(),
-        error: true,
       );
     }
   }
@@ -217,7 +217,7 @@ class AuthHosters extends StatelessWidget with TiuTiuPopUp {
       showPopUp(
         message: AuthStrings.loginCouldNotProceed,
         title: AuthStrings.authFailure,
-        error: true,
+        backGroundColor: AppColors.danger,
       );
     }
   }
@@ -237,7 +237,7 @@ class AuthHosters extends StatelessWidget with TiuTiuPopUp {
       showPopUp(
         title: AuthStrings.authFailure,
         message: exception.toString(),
-        error: true,
+        backGroundColor: AppColors.danger,
       );
     }
   }

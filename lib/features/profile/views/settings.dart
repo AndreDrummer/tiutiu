@@ -219,6 +219,7 @@ class _SettingsState extends State<Settings> {
                 .showSnackBar(
                   SnackBar(
                     content: AutoSizeTexts.autoSizeText14(MoreStrings.insertAPicture),
+                    duration: Duration(milliseconds: 1500),
                     backgroundColor: AppColors.danger,
                   ),
                 )

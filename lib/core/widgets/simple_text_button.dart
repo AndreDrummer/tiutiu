@@ -1,3 +1,4 @@
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/widgets/one_line_text.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/core/constants/strings.dart';
@@ -10,6 +11,7 @@ class SimpleTextButton extends StatelessWidget {
     this.textColor,
     this.fontSize,
     this.text,
+    this.icon,
     super.key,
   });
 
@@ -17,10 +19,13 @@ class SimpleTextButton extends StatelessWidget {
   final Color? backgroundColor;
   final Color? textColor;
   final double? fontSize;
+  final IconData? icon;
   final String? text;
 
   @override
   Widget build(BuildContext context) {
+    final hasIcon = icon != null;
+
     return SizedBox(
       width: 16.0 * (text != null ? text!.length : 5),
       child: TextButton(
@@ -30,11 +35,23 @@ class SimpleTextButton extends StatelessWidget {
           backgroundColor: backgroundColor,
           padding: EdgeInsets.zero,
         ),
-        child: OneLineText(
-          widgetAlignment: Alignment.center,
-          text: text ?? AppStrings.cancel,
-          fontWeight: FontWeight.bold,
-          fontSize: fontSize ?? 16.0,
+        child: Row(
+          mainAxisAlignment: hasIcon ? MainAxisAlignment.start : MainAxisAlignment.center,
+          children: [
+            Visibility(
+              visible: hasIcon,
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16.0.w),
+                child: Icon(Icons.edit, size: 14.0.h),
+              ),
+            ),
+            OneLineText(
+              widgetAlignment: Alignment.center,
+              text: text ?? AppStrings.cancel,
+              fontWeight: FontWeight.bold,
+              fontSize: fontSize ?? 16.0,
+            ),
+          ],
         ),
         onPressed: onPressed,
       ),
