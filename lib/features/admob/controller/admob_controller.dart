@@ -25,7 +25,7 @@ final BannerAdListener _bannerAdlistener = BannerAdListener(
 );
 
 class AdMobController extends GetxController {
-  bool _interstitialAdWasLoaded = false;
+  final RxBool _interstitialAdWasLoaded = false.obs;
   bool _rewardedAdWasLoaded = false;
 
   final Rx<BannerAd> _bannerAd = BannerAd(
@@ -38,6 +38,7 @@ class AdMobController extends GetxController {
   late InterstitialAd _interstitialAd;
   late RewardedAd _rewardedAd;
 
+  bool get interstitialAdWasLoaded => _interstitialAdWasLoaded.value;
   BannerAd get bannerAd => _bannerAd.value;
 
   void updateBannerAdId(String adId) {
@@ -117,21 +118,15 @@ class AdMobController extends GetxController {
         onAdLoaded: (InterstitialAd ad) {
           // Keep a reference to the ad so you can show it later.
           this._interstitialAd = ad;
-          _interstitialAdWasLoaded = true;
+          _interstitialAdWasLoaded(true);
         },
         onAdFailedToLoad: (LoadAdError error) {
           debugPrint('InterstitialAd failed to load: $error');
         },
       ),
     );
-  }
 
-  Future<void> showInterstitialAd() async {
-    if (!_interstitialAdWasLoaded) {
-      await loadInterstitialAd();
-    }
-
-    if (_interstitialAdWasLoaded) {
+    if (interstitialAdWasLoaded) {
       _interstitialAd.fullScreenContentCallback = FullScreenContentCallback(
         onAdShowedFullScreenContent: (InterstitialAd ad) => debugPrint('%ad onAdShowedFullScreenContent.'),
         onAdDismissedFullScreenContent: (InterstitialAd ad) async {
@@ -148,8 +143,16 @@ class AdMobController extends GetxController {
         },
         onAdImpression: (InterstitialAd ad) => debugPrint('$ad impression occurred.'),
       );
+    }
+  }
 
+  Future<void> showInterstitialAd() async {
+    if (!interstitialAdWasLoaded) {
+      await loadInterstitialAd();
+    } else {
       _interstitialAd.show();
+      _interstitialAd.dispose();
+      _interstitialAdWasLoaded(false);
     }
   }
 }

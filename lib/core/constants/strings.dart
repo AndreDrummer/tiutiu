@@ -366,6 +366,7 @@ class FeedbackStrings {
   static const String addImages = 'Adicionar fotos';
   static const String tryAgain = 'Tentar novamente';
   static const String partnership = 'Parceria';
+  static const String dennounce = 'Denúncia';
   static const String failure = 'Falha';
 }
 
@@ -376,10 +377,19 @@ class SupportUsStrings {
 }
 
 class PostDennounceStrings {
-  static const String dennounceSentSuccessfully = 'Sua denúncia foi enviada com sucesso!';
   static const String announceNoAnswer = 'Anunciante não responde';
   static const String sexualContent = 'Conteúdo Sexual';
   static const String fake = 'É um anúncio falso';
   static const String dennounce = 'Denunciar';
+  static const String other = 'Outro';
+}
+
+class DennounceStrings {
+  static const String dennounceSentSuccessfully = 'Sua denúncia foi enviada com sucesso!';
+}
+
+class UserDennounceStrings {
+  static const String sexualAppeal = 'Apelação sexual';
+  static const String scamTry = 'Tentativa de golpe';
   static const String other = 'Outro';
 }
