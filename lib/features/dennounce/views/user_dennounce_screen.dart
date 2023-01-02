@@ -16,16 +16,17 @@ class UserDennounceScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Obx(() {
-      final motiveIsOther = userDennounceController.postDennounce.motive == UserDennounceStrings.other;
-      final denounceDescription = userDennounceController.postDennounce.description;
+      final motiveIsOther = userDennounceController.userDennounce.motive == UserDennounceStrings.other;
+      final denounceDescription = userDennounceController.userDennounce.description;
 
       return DennouncePopup(
+        groupValue: userDennounceController.userDennounceGroupValue,
         contentHeight: Get.height / 6,
         padding: EdgeInsets.only(
           bottom: Dimensions.getDimensBasedOnDeviceHeight(
-            smaller: motiveIsOther ? Get.width / 3.3 : Get.width / 3,
+            smaller: motiveIsOther ? Get.width / 3.2 : Get.width / 3.2,
             medium: motiveIsOther ? Get.width / 3.3 : Get.width / 3,
-            bigger: Get.width / 2.05,
+            bigger: Get.width / 2.1,
           ),
           top: Dimensions.getDimensBasedOnDeviceHeight(
             bigger: motiveIsOther ? _topPadding(userDennounceController.hasError) : Get.width / 1.25,
@@ -47,6 +48,7 @@ class UserDennounceScreen extends StatelessWidget {
         onSubmit: () => _onSubmitUserDennounce(context, motiveIsOther),
         isLoading: userDennounceController.isLoading,
         onMotiveUpdate: _onUpdateUserDennounceMotive,
+        hasError: userDennounceController.hasError,
         denounceDescription: denounceDescription,
         onMotiveDescribed: (motiveDescription) {
           if (motiveDescription.length >= 3) {
@@ -68,17 +70,19 @@ class UserDennounceScreen extends StatelessWidget {
   void _onUpdateUserDennounceMotive(int? index) {
     int motiveIndex = index ?? 0;
 
+    print(index);
+
     final dennounceUserMotives = userDennounceController.dennounceUserMotives;
-    userDennounceController.postDennounceGroupValue = motiveIndex;
+    userDennounceController.userDennounceGroupValue = motiveIndex;
     userDennounceController.hasError = false;
 
     userDennounceController.updateUserDennounce(UserDennounceEnum.motive, dennounceUserMotives[motiveIndex]);
   }
 
   Future<void> _onSubmitUserDennounce(BuildContext context, bool motiveIsOther) async {
-    final postDennounce = userDennounceController.postDennounce;
+    final userDennounce = userDennounceController.userDennounce;
 
-    final formIsValid = motiveIsOther ? postDennounce.description.isNotEmptyNeighterNull() : true;
+    final formIsValid = motiveIsOther ? userDennounce.description.isNotEmptyNeighterNull() : true;
 
     if (formIsValid) {
       userDennounceController.hasError = false;
