@@ -1,3 +1,4 @@
+import 'package:tiutiu/core/utils/dimensions.dart';
 import 'package:tiutiu/features/dennounce/widgets/dennonuce_popup.dart';
 import 'package:tiutiu/features/dennounce/model/post_dennounce.dart';
 import 'package:tiutiu/core/extensions/string_extension.dart';
@@ -25,7 +26,11 @@ class PostDennounceScreen extends StatelessWidget {
         onMotiveUpdate: _onUpdatePostDennounceMotive,
         hasError: postDennounceController.hasError,
         denounceDescription: denounceDescription,
-        contentHeight: Get.height / 4.2,
+        contentHeight: Dimensions.getDimensBasedOnDeviceHeight(
+          smaller: Get.height / 4.2,
+          bigger: Get.height / 4.2,
+          medium: Get.height / 4.0,
+        ),
         onMotiveDescribed: (motiveDescription) {
           if (motiveDescription.length >= 3) {
             postDennounceController.hasError = false;
