@@ -161,19 +161,25 @@ class DennouncePopup extends StatelessWidget {
     );
   }
 
-  double _topPadding(bool hasError) => hasError ? Get.width * .65 : Get.width * .725;
+  double _topPadding(bool hasError) {
+    return Dimensions.getDimensBasedOnDeviceHeight(
+      smaller: hasError ? Get.width * .65 : Get.width * .525,
+      bigger: hasError ? Get.width * .65 : Get.width * .725,
+      medium: hasError ? Get.width * .65 : Get.width * .625,
+    );
+  }
 
   EdgeInsetsGeometry _defaultPadding() {
     return EdgeInsets.only(
       bottom: Dimensions.getDimensBasedOnDeviceHeight(
         smaller: motiveIsOther ? Get.width / 3.3 : Get.width / 3,
         bigger: motiveIsOther ? Get.width / 3.2 : Get.width / 2,
-        medium: motiveIsOther ? Get.width / 3.3 : Get.width / 3,
+        medium: motiveIsOther ? Get.width / 3.2 : Get.width / 2.1,
       ),
       top: Dimensions.getDimensBasedOnDeviceHeight(
+        smaller: motiveIsOther ? _topPadding(hasError) : Get.width / 1.225,
         bigger: motiveIsOther ? _topPadding(hasError) : Get.width / 1.225,
-        smaller: motiveIsOther ? Get.width * .75 : Get.width,
-        medium: motiveIsOther ? Get.width * .75 : Get.width,
+        medium: motiveIsOther ? _topPadding(hasError) : Get.width / 1.3,
       ),
       right: Dimensions.getDimensBasedOnDeviceHeight(
         smaller: 56.0.w,
