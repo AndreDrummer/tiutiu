@@ -18,10 +18,12 @@ class PostDennounceScreen extends StatelessWidget {
       final denounceDescription = postDennounceController.postDennounce.description;
 
       return DennouncePopup(
+        groupValue: postDennounceController.postDennounceGroupValue,
         dennounceMotives: postDennounceController.dennouncePostMotives,
         onSubmit: () => _onSubmitPostDennounce(context, motiveIsOther),
         isLoading: postDennounceController.isLoading,
         onMotiveUpdate: _onUpdatePostDennounceMotive,
+        hasError: postDennounceController.hasError,
         denounceDescription: denounceDescription,
         contentHeight: Get.height / 4.2,
         onMotiveDescribed: (motiveDescription) {

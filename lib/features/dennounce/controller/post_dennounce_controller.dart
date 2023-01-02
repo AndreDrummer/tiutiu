@@ -8,7 +8,7 @@ import 'package:get/get.dart';
 
 class PostDennounceController extends GetxController {
   final Rx<PostDennounce> _postDennounce = _defaultPostDennounce().obs;
-  final RxInt _postDennounceGroupValue = 2.obs;
+  final RxInt _postDennounceGroupValue = 3.obs;
   final RxBool _showPopup = false.obs;
   final RxBool _isLoading = false.obs;
   final RxBool _hasError = false.obs;
