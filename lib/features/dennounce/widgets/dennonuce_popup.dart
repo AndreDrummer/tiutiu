@@ -1,6 +1,5 @@
 import 'package:tiutiu/features/posts/widgets/text_area.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/widgets/one_line_text.dart';
 import 'package:tiutiu/core/constants/text_styles.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
@@ -16,7 +15,9 @@ class DennouncePopup extends StatelessWidget {
     required this.onMotiveUpdate,
     required this.contentHeight,
     this.motiveIsOther = true,
+    required this.groupValue,
     this.isLoading = false,
+    required this.hasError,
     this.onMotiveDescribed,
     required this.onSubmit,
     required this.cancel,
@@ -35,46 +36,46 @@ class DennouncePopup extends StatelessWidget {
   final bool motiveIsOther;
   final Function() cancel;
   final bool isLoading;
+  final int groupValue;
+  final bool hasError;
   final bool show;
 
   @override
   Widget build(BuildContext context) {
-    return Obx(() {
-      return Visibility(
-        visible: show,
-        child: AnimatedContainer(
-          duration: Duration(milliseconds: 500),
-          margin: EdgeInsets.zero,
-          height: Get.height,
-          padding: padding ?? _defaultPadding(),
-          width: Get.width,
-          color: AppColors.black.withOpacity(.5),
-          child: Card(
-            elevation: 16.0,
-            shape: RoundedRectangleBorder(
+    return Visibility(
+      visible: show,
+      child: AnimatedContainer(
+        duration: Duration(milliseconds: 500),
+        margin: EdgeInsets.zero,
+        height: Get.height,
+        padding: padding ?? _defaultPadding(),
+        width: Get.width,
+        color: AppColors.black.withOpacity(.5),
+        child: Card(
+          elevation: 16.0,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12.0.h),
+          ),
+          child: Container(
+            decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(12.0.h),
+              color: AppColors.white,
             ),
-            child: Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(12.0.h),
-                color: AppColors.white,
-              ),
-              height: motiveIsOther ? Get.width * 1.15 : Get.width / 1.17,
-              margin: EdgeInsets.zero,
-              child: ListView(
-                physics: NeverScrollableScrollPhysics(),
-                padding: EdgeInsets.zero,
-                children: [
-                  _title(),
-                  _content(),
-                  _bottom(),
-                ],
-              ),
+            height: motiveIsOther ? Get.width * 1.15 : Get.width / 1.17,
+            margin: EdgeInsets.zero,
+            child: ListView(
+              physics: NeverScrollableScrollPhysics(),
+              padding: EdgeInsets.zero,
+              children: [
+                _title(),
+                _content(),
+                _bottom(),
+              ],
             ),
           ),
         ),
-      );
-    });
+      ),
+    );
   }
 
   Column _title() {
@@ -100,14 +101,12 @@ class DennouncePopup extends StatelessWidget {
             itemBuilder: (context, index) {
               final motive = dennounceMotives[index];
 
-              return Obx(
-                () => RadioListTile(
-                  groupValue: postDennounceController.postDennounceGroupValue,
-                  title: AutoSizeTexts.autoSizeText14(motive),
-                  value: dennounceMotives.indexOf(motive),
-                  activeColor: AppColors.secondary,
-                  onChanged: onMotiveUpdate,
-                ),
+              return RadioListTile(
+                title: AutoSizeTexts.autoSizeText14(motive),
+                value: dennounceMotives.indexOf(motive),
+                activeColor: AppColors.secondary,
+                onChanged: onMotiveUpdate,
+                groupValue: groupValue,
               );
             },
           ),
@@ -117,10 +116,10 @@ class DennouncePopup extends StatelessWidget {
           child: Padding(
             padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0.w),
             child: TextArea(
-              isInErrorState: postDennounceController.hasError,
               initialValue: denounceDescription,
               labelText: 'Especifique o motivo',
               onChanged: onMotiveDescribed,
+              isInErrorState: hasError,
             ),
           ),
         ),
@@ -141,7 +140,7 @@ class DennouncePopup extends StatelessWidget {
               Visibility(
                 replacement: _circularProgressIndicator(),
                 child: TextButton(
-                  child: AutoSizeTexts.autoSizeText14(PostDennounceStrings.dennounce),
+                  child: AutoSizeTexts.autoSizeText14(DennounceStrings.dennounce),
                   onPressed: onSubmit,
                 ),
                 visible: !isLoading,
@@ -172,7 +171,7 @@ class DennouncePopup extends StatelessWidget {
         medium: motiveIsOther ? Get.width / 3.3 : Get.width / 3,
       ),
       top: Dimensions.getDimensBasedOnDeviceHeight(
-        bigger: motiveIsOther ? _topPadding(postDennounceController.hasError) : Get.width / 1.225,
+        bigger: motiveIsOther ? _topPadding(hasError) : Get.width / 1.225,
         smaller: motiveIsOther ? Get.width * .75 : Get.width,
         medium: motiveIsOther ? Get.width * .75 : Get.width,
       ),
