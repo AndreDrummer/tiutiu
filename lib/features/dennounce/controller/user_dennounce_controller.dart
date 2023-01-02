@@ -7,34 +7,34 @@ import 'package:uuid/uuid.dart';
 import 'package:get/get.dart';
 
 class UserDennounceController extends GetxController {
-  final Rx<UserDennounce> _postDennounce = _defaultUserDennounce().obs;
-  final RxInt _postDennounceGroupValue = 3.obs;
+  final Rx<UserDennounce> _userDennounce = _defaultUserDennounce().obs;
+  final RxInt _userDennounceGroupValue = 2.obs;
   final RxBool _showPopup = false.obs;
   final RxBool _isLoading = false.obs;
   final RxBool _hasError = false.obs;
 
-  int get postDennounceGroupValue => _postDennounceGroupValue.value;
+  int get userDennounceGroupValue => _userDennounceGroupValue.value;
   List<String> get dennounceUserMotives => _dennounceUserMotives;
-  UserDennounce get postDennounce => _postDennounce.value;
+  UserDennounce get userDennounce => _userDennounce.value;
   bool get popupIsVisible => _showPopup.value;
   bool get isLoading => _isLoading.value;
   bool get hasError => _hasError.value;
 
-  void set postDennounceGroupValue(int value) => _postDennounceGroupValue(value);
+  void set userDennounceGroupValue(int value) => _userDennounceGroupValue(value);
   void set isLoading(bool value) => _isLoading(value);
   void set hasError(bool value) => _hasError(value);
 
   void updateUserDennounce(UserDennounceEnum property, dynamic data) {
-    if (property == UserDennounceEnum.dennouncedUser) _postDennounce(postDennounce.copyWith(dennouncedUser: data));
-    if (property == UserDennounceEnum.description) _postDennounce(postDennounce.copyWith(description: data));
-    if (property == UserDennounceEnum.dennouncer) _postDennounce(postDennounce.copyWith(dennouncer: data));
-    if (property == UserDennounceEnum.motive) _postDennounce(postDennounce.copyWith(motive: data));
-    if (property == UserDennounceEnum.uid) _postDennounce(postDennounce.copyWith(uid: data));
+    if (property == UserDennounceEnum.dennouncedUser) _userDennounce(userDennounce.copyWith(dennouncedUser: data));
+    if (property == UserDennounceEnum.description) _userDennounce(userDennounce.copyWith(description: data));
+    if (property == UserDennounceEnum.dennouncer) _userDennounce(userDennounce.copyWith(dennouncer: data));
+    if (property == UserDennounceEnum.motive) _userDennounce(userDennounce.copyWith(motive: data));
+    if (property == UserDennounceEnum.uid) _userDennounce(userDennounce.copyWith(uid: data));
   }
 
   void resetForm() {
-    _postDennounce(_defaultUserDennounce());
-    _postDennounceGroupValue(3);
+    _userDennounce(_defaultUserDennounce());
+    _userDennounceGroupValue(2);
     _hasError(false);
   }
 
@@ -55,9 +55,9 @@ class UserDennounceController extends GetxController {
     updateUserDennounce(UserDennounceEnum.dennouncer, tiutiuUserController.tiutiuUser);
     updateUserDennounce(UserDennounceEnum.uid, Uuid().v4());
 
-    debugPrint('TiuTiuApp: User Dennounce UID ${postDennounce.uid}');
+    debugPrint('TiuTiuApp: User Dennounce UID ${userDennounce.uid}');
 
-    DennounceServices().uploadUserDennounceData(postDennounce);
+    DennounceServices().uploadUserDennounceData(userDennounce);
     resetForm();
     setLoading(false);
   }
