@@ -21,17 +21,21 @@ class UserDennounceScreen extends StatelessWidget {
 
       return DennouncePopup(
         groupValue: userDennounceController.userDennounceGroupValue,
-        contentHeight: Get.height / 6,
+        contentHeight: Dimensions.getDimensBasedOnDeviceHeight(
+          smaller: Get.height / 6,
+          bigger: Get.height / 6,
+          medium: Get.height / 5.5,
+        ),
         padding: EdgeInsets.only(
           bottom: Dimensions.getDimensBasedOnDeviceHeight(
             smaller: motiveIsOther ? Get.width / 3.2 : Get.width / 3.2,
-            medium: motiveIsOther ? Get.width / 3.3 : Get.width / 3,
+            medium: motiveIsOther ? Get.width / 3.2 : Get.width / 2,
             bigger: Get.width / 2.1,
           ),
           top: Dimensions.getDimensBasedOnDeviceHeight(
             bigger: motiveIsOther ? _topPadding(userDennounceController.hasError) : Get.width / 1.25,
-            smaller: motiveIsOther ? Get.width * .75 : Get.width,
-            medium: motiveIsOther ? Get.width * .75 : Get.width,
+            smaller: motiveIsOther ? Get.width * .75 : Get.width / 2,
+            medium: motiveIsOther ? Get.width * .65 : Get.width / 1.2,
           ),
           right: Dimensions.getDimensBasedOnDeviceHeight(
             smaller: 56.0.w,
@@ -102,5 +106,11 @@ class UserDennounceScreen extends StatelessWidget {
     }
   }
 
-  double _topPadding(bool hasError) => hasError ? Get.width / 2.2 : Get.width / 2.0;
+  double _topPadding(bool hasError) {
+    return Dimensions.getDimensBasedOnDeviceHeight(
+      smaller: hasError ? Get.width * .65 : Get.width * .525,
+      bigger: hasError ? Get.width * .65 : Get.width * .725,
+      medium: hasError ? Get.width * .65 : Get.width * .625,
+    );
+  }
 }
