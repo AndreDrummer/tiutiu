@@ -18,23 +18,24 @@ class UserDennounceScreen extends StatelessWidget {
     return Obx(() {
       final motiveIsOther = userDennounceController.userDennounce.motive == UserDennounceStrings.other;
       final denounceDescription = userDennounceController.userDennounce.description;
+      final motives = userDennounceController.dennounceUserMotives;
 
       return DennouncePopup(
         groupValue: userDennounceController.userDennounceGroupValue,
         contentHeight: Dimensions.getDimensBasedOnDeviceHeight(
-          smaller: Get.height / 6,
-          bigger: Get.height / 6,
+          smaller: Get.height / (motives.length * 1.3),
           medium: Get.height / 5.5,
+          bigger: Get.height / 6,
         ),
         padding: EdgeInsets.only(
           bottom: Dimensions.getDimensBasedOnDeviceHeight(
-            smaller: motiveIsOther ? Get.width / 3.2 : Get.width / 3.2,
+            smaller: motiveIsOther ? Get.width / 4.5 : Get.width / 3.0,
             medium: motiveIsOther ? Get.width / 3.2 : Get.width / 2,
             bigger: Get.width / 2.1,
           ),
           top: Dimensions.getDimensBasedOnDeviceHeight(
             bigger: motiveIsOther ? _topPadding(userDennounceController.hasError) : Get.width / 1.25,
-            smaller: motiveIsOther ? Get.width * .75 : Get.width / 2,
+            smaller: motiveIsOther ? Get.width / 4.25 : Get.width / 2.25,
             medium: motiveIsOther ? Get.width * .65 : Get.width / 1.2,
           ),
           right: Dimensions.getDimensBasedOnDeviceHeight(
@@ -48,7 +49,7 @@ class UserDennounceScreen extends StatelessWidget {
             medium: 56.0.w,
           ),
         ),
-        dennounceMotives: userDennounceController.dennounceUserMotives,
+        dennounceMotives: motives,
         onSubmit: () => _onSubmitUserDennounce(context, motiveIsOther),
         isLoading: userDennounceController.isLoading,
         onMotiveUpdate: _onUpdateUserDennounceMotive,
@@ -108,7 +109,7 @@ class UserDennounceScreen extends StatelessWidget {
 
   double _topPadding(bool hasError) {
     return Dimensions.getDimensBasedOnDeviceHeight(
-      smaller: hasError ? Get.width * .65 : Get.width * .525,
+      smaller: hasError ? Get.width * .65 : Get.width * .225,
       bigger: hasError ? Get.width * .65 : Get.width * .725,
       medium: hasError ? Get.width * .65 : Get.width * .625,
     );
