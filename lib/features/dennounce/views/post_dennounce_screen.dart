@@ -17,17 +17,18 @@ class PostDennounceScreen extends StatelessWidget {
     return Obx(() {
       final motiveIsOther = postDennounceController.postDennounce.motive == PostDennounceStrings.other;
       final denounceDescription = postDennounceController.postDennounce.description;
+      final motives = postDennounceController.dennouncePostMotives;
 
       return DennouncePopup(
         groupValue: postDennounceController.postDennounceGroupValue,
-        dennounceMotives: postDennounceController.dennouncePostMotives,
         onSubmit: () => _onSubmitPostDennounce(context, motiveIsOther),
         isLoading: postDennounceController.isLoading,
         onMotiveUpdate: _onUpdatePostDennounceMotive,
         hasError: postDennounceController.hasError,
         denounceDescription: denounceDescription,
+        dennounceMotives: motives,
         contentHeight: Dimensions.getDimensBasedOnDeviceHeight(
-          smaller: Get.height / 4.2,
+          smaller: Get.height / (motives.length - 1.2),
           bigger: Get.height / 4.2,
           medium: Get.height / 4.0,
         ),

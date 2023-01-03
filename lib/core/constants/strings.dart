@@ -12,10 +12,15 @@ class AppStrings {
   static String get verifyFilters => 'Verifique seus filtros de busca.';
   static String get tryAgainInABrief =>
       'Anúncios temporariamente indisponíveis.\nEntre novamente em alguns minutos.\n\nAgradecessemos a compreensão!';
-  static String watchAnAd(ContactType contactType) {
-    if (contactType == ContactType.whatsapp)
-      return 'Limite de conversas via WhatsApp atingido.\n\nAssista um vídeo para renovar.';
-    return 'Limite de conversas via Chat atingido.\n\nAssista um vídeo para renovar.';
+  static String watchAnAd(ContactType contactType, bool noPreviousData) {
+    if (noPreviousData) {
+      if (contactType == ContactType.whatsapp) return 'Assista um vídeo para conversar via WhatsApp.';
+      return 'Assista um vídeo para conversar via Chat.';
+    } else {
+      if (contactType == ContactType.whatsapp)
+        return 'Limite de conversas via WhatsApp atingido.\n\nAssista um vídeo para renovar.';
+      return 'Limite de conversas via Chat atingido.\n\nAssista um vídeo para renovar.';
+    }
   }
 
   static String get changeListVisual => 'Mude a visualização da lista';

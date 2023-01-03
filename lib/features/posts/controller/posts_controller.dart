@@ -246,17 +246,17 @@ class PostsController extends GetxController with TiuTiuPopUp {
   Future<void> handleContactTapped({required ContactType contactType, required Function() onAdWatched}) async {
     setLoading(true);
     final lastTimeWatchedRewarded = await LocalStorage.getValueUnderLocalStorageKey(
-      contactType == 'whatsapp'
+      contactType == ContactType.whatsapp
           ? LocalStorageKey.lastTimeWatchedWhatsappRewarded
           : LocalStorageKey.lastTimeWatchedChatRewarded,
     );
 
     debugPrint(
-      'TiuTiuApp: Last Time Watched a ${contactType == 'whatsapp' ? 'WhatsApp Rewarded' : 'Chat Rewarded'} $lastTimeWatchedRewarded',
+      'TiuTiuApp: Last Time Watched a ${contactType == ContactType.whatsapp ? 'WhatsApp Rewarded' : 'Chat Rewarded'} $lastTimeWatchedRewarded',
     );
 
     if (lastTimeWatchedRewarded == null) {
-      warningUserAboutRewarded(contactType);
+      warningUserAboutRewarded(contactType, noPreviousData: true);
     } else {
       final minutes = DateTime.now().difference(DateTime.parse(lastTimeWatchedRewarded)).inMinutes;
 
@@ -271,7 +271,7 @@ class PostsController extends GetxController with TiuTiuPopUp {
     setLoading(false);
   }
 
-  Future<void> warningUserAboutRewarded(ContactType contactType) async {
+  Future<void> warningUserAboutRewarded(ContactType contactType, {bool noPreviousData = false}) async {
     final contactTypeIsWpp = contactType == ContactType.whatsapp;
 
     await LocalStorage.deleteDataUnderLocalStorageKey(
@@ -279,9 +279,9 @@ class PostsController extends GetxController with TiuTiuPopUp {
     );
 
     await showPopUp(
-      textColor: contactTypeIsWpp ? AppColors.black : AppColors.white,
-      message: AppStrings.watchAnAd(contactType),
+      message: AppStrings.watchAnAd(contactType, noPreviousData),
       confirmText: AppStrings.back,
+      textColor: AppColors.white,
       mainAction: () async {
         Get.back();
         setLoading(false);
