@@ -131,8 +131,8 @@ class _HomeState extends State<Home> with TiuTiuPopUp {
 
   double expandedHeight() {
     final homeListPadding = Dimensions.getDimensBasedOnDeviceHeight(
-      smaller: Get.height / 4.5,
-      medium: Get.height / 4.5,
+      smaller: Get.height / 4.4,
+      medium: Get.height / 4.6,
       bigger: Get.height / 4.8,
     );
 

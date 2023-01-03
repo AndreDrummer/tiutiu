@@ -23,9 +23,10 @@ class CardAdList extends StatelessWidget {
         borderRadius: BorderRadius.circular(12.0.h),
       ),
       height: Dimensions.getDimensBasedOnDeviceHeight(
-        smaller: 176.0.h,
-        bigger: 152.0.h,
-        medium: 160.0.h,
+        xSmaller: 188.0.h,
+        smaller: 180.0.h,
+        bigger: 156.0.h,
+        medium: 164.0.h,
       ),
       padding: EdgeInsets.zero,
       child: Card(
