@@ -42,35 +42,38 @@ class DennouncePopup extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Visibility(
-      visible: show,
-      child: AnimatedContainer(
-        duration: Duration(milliseconds: 500),
-        margin: EdgeInsets.zero,
-        height: Get.height,
-        padding: padding ?? _defaultPadding(),
-        width: Get.width,
-        color: AppColors.black.withOpacity(.5),
-        child: Card(
-          elevation: 16.0,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12.0.h),
-          ),
-          child: Container(
-            decoration: BoxDecoration(
+    return GestureDetector(
+      onTap: cancel,
+      child: Visibility(
+        visible: show,
+        child: AnimatedContainer(
+          duration: Duration(milliseconds: 500),
+          margin: EdgeInsets.zero,
+          height: Get.height,
+          padding: padding ?? _defaultPadding(),
+          width: Get.width,
+          color: AppColors.black.withOpacity(.5),
+          child: Card(
+            elevation: 16.0,
+            shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(12.0.h),
-              color: AppColors.white,
             ),
-            height: motiveIsOther ? Get.width * 1.15 : Get.width / 1.17,
-            margin: EdgeInsets.zero,
-            child: ListView(
-              physics: NeverScrollableScrollPhysics(),
-              padding: EdgeInsets.zero,
-              children: [
-                _title(),
-                _content(),
-                _bottom(),
-              ],
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(12.0.h),
+                color: AppColors.white,
+              ),
+              height: motiveIsOther ? Get.width * 1.15 : Get.width / 1.17,
+              margin: EdgeInsets.zero,
+              child: ListView(
+                physics: NeverScrollableScrollPhysics(),
+                padding: EdgeInsets.zero,
+                children: [
+                  _title(),
+                  _content(),
+                  _bottom(),
+                ],
+              ),
             ),
           ),
         ),
@@ -90,7 +93,7 @@ class DennouncePopup extends StatelessWidget {
     );
   }
 
-  Column _content() {
+  Widget _content() {
     return Column(
       children: [
         SizedBox(
@@ -161,24 +164,16 @@ class DennouncePopup extends StatelessWidget {
     );
   }
 
-  double _topPadding(bool hasError) {
-    return Dimensions.getDimensBasedOnDeviceHeight(
-      smaller: hasError ? Get.width * .65 : Get.width * .525,
-      bigger: hasError ? Get.width * .65 : Get.width * .725,
-      medium: hasError ? Get.width * .65 : Get.width * .625,
-    );
-  }
-
   EdgeInsetsGeometry _defaultPadding() {
     return EdgeInsets.only(
       bottom: Dimensions.getDimensBasedOnDeviceHeight(
-        smaller: motiveIsOther ? Get.width / 3.3 : Get.width / 3,
-        bigger: motiveIsOther ? Get.width / 3.2 : Get.width / 2,
+        smaller: motiveIsOther ? Get.width / 8.0 : Get.width / 3.5,
         medium: motiveIsOther ? Get.width / 3.2 : Get.width / 2.1,
+        bigger: motiveIsOther ? Get.width / 3.2 : Get.width / 2,
       ),
       top: Dimensions.getDimensBasedOnDeviceHeight(
-        smaller: motiveIsOther ? _topPadding(hasError) : Get.width / 1.225,
         bigger: motiveIsOther ? _topPadding(hasError) : Get.width / 1.225,
+        smaller: motiveIsOther ? _topPadding(hasError) : Get.width / 2.5,
         medium: motiveIsOther ? _topPadding(hasError) : Get.width / 1.3,
       ),
       right: Dimensions.getDimensBasedOnDeviceHeight(
@@ -191,6 +186,14 @@ class DennouncePopup extends StatelessWidget {
         bigger: 56.0.w,
         medium: 56.0.w,
       ),
+    );
+  }
+
+  double _topPadding(bool hasError) {
+    return Dimensions.getDimensBasedOnDeviceHeight(
+      smaller: hasError ? Get.width * .65 : Get.width * .225,
+      bigger: hasError ? Get.width * .65 : Get.width * .725,
+      medium: hasError ? Get.width * .65 : Get.width * .625,
     );
   }
 }
