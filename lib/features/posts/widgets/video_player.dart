@@ -22,22 +22,25 @@ class TiuTiuVideoPlayer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        Container(
-          decoration: BoxDecoration(
-            border: Border.all(color: AppColors.black.withAlpha(25)),
-            borderRadius: BorderRadius.all(Radius.circular(16.0.h)),
-            color: AppColors.black,
+        Positioned.fill(
+          child: Container(
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+              border: Border.all(color: AppColors.black.withAlpha(25)),
+              borderRadius: BorderRadius.all(Radius.circular(16.0.h)),
+              color: AppColors.black,
+            ),
+            child: ClipRRect(
+              borderRadius: BorderRadius.all(Radius.circular(16.0.h)),
+              child: Chewie(controller: chewieController),
+            ),
+            height: Dimensions.getDimensBasedOnDeviceHeight(
+              smaller: isInReviewMode ? Get.height / 2.05 : Get.height / 1.5,
+              medium: isInReviewMode ? Get.height / 2.05 : Get.height,
+              bigger: isInReviewMode ? Get.height / 2.05 : Get.height,
+            ),
+            margin: EdgeInsets.only(right: 8.0.w, left: 8.0.w),
           ),
-          child: ClipRRect(
-            borderRadius: BorderRadius.all(Radius.circular(16.0.h)),
-            child: Chewie(controller: chewieController),
-          ),
-          height: Dimensions.getDimensBasedOnDeviceHeight(
-            smaller: isInReviewMode ? Get.height / 2.05 : Get.height / 1.5,
-            medium: isInReviewMode ? Get.height / 2.05 : Get.height,
-            bigger: isInReviewMode ? Get.height / 2.05 : Get.height,
-          ),
-          margin: EdgeInsets.only(right: 8.0.w, left: 8.0.w),
         ),
         Positioned(
           bottom: 40.0.h,

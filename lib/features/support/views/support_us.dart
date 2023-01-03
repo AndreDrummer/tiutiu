@@ -1,5 +1,5 @@
-import 'package:tiutiu/core/extensions/string_extension.dart';
 import 'package:tiutiu/features/support/models/support_us.dart';
+import 'package:tiutiu/core/extensions/string_extension.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/constants/text_styles.dart';
@@ -33,7 +33,7 @@ class SupportUs extends StatelessWidget {
                   children: [
                     Container(
                       child: AssetHandle.getImage(backgroundImages.elementAt(Random().nextInt(3))),
-                      decoration: BoxDecoration(color: AppColors.primary),
+                      decoration: BoxDecoration(color: AppColors.black),
                       alignment: Alignment.center,
                       height: Get.height,
                     ),
