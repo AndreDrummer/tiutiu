@@ -9,19 +9,21 @@ class LoadingVideo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
+    return SingleChildScrollView(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Spacer(),
           AutoSizeTexts.autoSizeText12(
             PostDetailsStrings.loadingVideoFirstTime,
             textAlign: TextAlign.center,
             color: AppColors.white,
           ),
           SizedBox(height: 16.0.h),
-          SizedBox(child: CircularProgressIndicator(), height: 16.0.h, width: 16.0.w),
-          Spacer(),
+          SizedBox(
+            child: CircularProgressIndicator(),
+            height: 16.0.h,
+            width: 16.0.w,
+          ),
         ],
       ),
     );

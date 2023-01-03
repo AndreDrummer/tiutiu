@@ -135,9 +135,10 @@ class More extends StatelessWidget with TiuTiuPopUp {
       padding: EdgeInsets.zero,
       margin: EdgeInsets.zero,
       height: Dimensions.getDimensBasedOnDeviceHeight(
-        smaller: Get.width * 1.13,
+        smaller: Get.width * 1.09,
         medium: Get.width * 1.4,
         bigger: Get.width * 1.5,
+        xSmaller: Get.width,
       ),
       child: ListView(
         padding: EdgeInsets.symmetric(horizontal: 1.0.w),

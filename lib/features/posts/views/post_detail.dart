@@ -66,8 +66,6 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
         isLoadingVideo = false;
       });
     });
-
-    chewieController?.setVolume(0);
   }
 
   void finishVideo() {
@@ -101,14 +99,32 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
       child: Scaffold(
         body: Stack(
           children: [
-            Container(
-              decoration: BoxDecoration(
-                image: DecorationImage(image: AssetHandle.imageProvider(ImageAssets.bones2), fit: BoxFit.fill),
-              ),
-              child: FutureBuilder(
+            _background(),
+            NestedScrollView(
+              headerSliverBuilder: (context, innerBoxIsScrolled) {
+                return [
+                  SliverOverlapAbsorber(
+                    handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
+                    sliver: SliverSafeArea(
+                      sliver: SliverAppBar(
+                        flexibleSpace: _showImagesAndVideos(boxHeight: Get.height / 1.5, context: context),
+                        backgroundColor: Colors.transparent,
+                        automaticallyImplyLeading: false,
+                        expandedHeight: Get.height / 1.6,
+                        shadowColor: AppColors.white,
+                        toolbarHeight: 256.0.h,
+                        floating: true,
+                        pinned: true,
+                      ),
+                    ),
+                  ),
+                ];
+              },
+              body: FutureBuilder(
                 future: postsController.cacheVideos(),
                 builder: (context, snapshot) {
                   return ListView(
+                    physics: NeverScrollableScrollPhysics(),
                     padding: EdgeInsets.only(
                       right: Dimensions.getDimensBasedOnDeviceHeight(
                         smaller: 0.0.w,
@@ -117,7 +133,6 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
                       ),
                     ),
                     children: [
-                      _showImagesAndVideos(boxHeight: Get.height / 1.5, context: context),
                       _postTitle(post.name!),
                       Padding(
                         child: AdBanner300x60(adBlockName: AdMobBlockName.postDetailsScreen),
@@ -145,10 +160,21 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
                 },
               ),
             ),
-            Positioned(child: BackButton(color: AppColors.white), left: 8.0.w, top: 24.0.h),
+            Positioned(child: BackButton(color: AppColors.white), left: 8.0.w, top: 32.0.h),
             _dennouncePopup(),
-            _loadingBlur(),
+            _loadingBlur()
           ],
+        ),
+      ),
+    );
+  }
+
+  Container _background() {
+    return Container(
+      decoration: BoxDecoration(
+        image: DecorationImage(
+          image: AssetHandle.imageProvider(ImageAssets.bones2),
+          fit: BoxFit.fill,
         ),
       ),
     );
@@ -230,10 +256,10 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
   }
 
   Widget _showImagesAndVideos({required BuildContext context, required double boxHeight}) {
-    final post = postsController.post;
-    final hasVideo = post.video != null;
     final PageController _pageController = PageController();
+    final post = postsController.post;
     final photosQty = post.photos.length;
+    final hasVideo = post.video != null;
 
     return Stack(
       children: [
@@ -349,11 +375,9 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
     if (thereIsVideo) {
       return Visibility(
         visible: !isLoadingVideo,
-        child: SafeArea(
-          child: TiuTiuVideoPlayer(
-            aspectRatio: chewieController!.videoPlayerController.value.aspectRatio,
-            chewieController: chewieController!,
-          ),
+        child: TiuTiuVideoPlayer(
+          aspectRatio: chewieController!.videoPlayerController.value.aspectRatio,
+          chewieController: chewieController!,
         ),
         replacement: Center(child: LoadingVideo()),
       );
