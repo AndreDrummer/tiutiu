@@ -390,6 +390,8 @@ class PostDennounceStrings {
 
 class DennounceStrings {
   static const String dennounceSentSuccessfully = 'Sua denúncia foi enviada com sucesso!';
+  static const String whichIsDennounceMotive = 'Qual motivo da sua denúncia?';
+  static const String specifyDennounceMotive = 'Especifique o motivo';
   static const String dennounce = 'Denunciar';
 }
 

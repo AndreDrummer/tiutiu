@@ -9,6 +9,7 @@ class TextArea extends StatelessWidget {
     this.isInErrorState = false,
     required this.labelText,
     this.inputFormatters,
+    this.textInputAction,
     this.maxLines = 3,
     this.initialValue,
     this.prefix = '',
@@ -22,6 +23,7 @@ class TextArea extends StatelessWidget {
   final List<TextInputFormatter>? inputFormatters;
   final String? Function(String?)? validator;
   final void Function(String)? onChanged;
+  final TextInputAction? textInputAction;
   final void Function(String)? onSubmit;
   final String? initialValue;
   final bool isInErrorState;
@@ -37,8 +39,8 @@ class TextArea extends StatelessWidget {
       child: Column(
         children: [
           TextFormField(
+            textInputAction: textInputAction ?? TextInputAction.done,
             textCapitalization: TextCapitalization.sentences,
-            textInputAction: TextInputAction.done,
             inputFormatters: inputFormatters,
             onFieldSubmitted: onSubmit,
             initialValue: initialValue,

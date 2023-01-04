@@ -1,11 +1,10 @@
-import 'package:tiutiu/features/dennounce/widgets/dennonuce_popup.dart';
+import 'package:tiutiu/features/dennounce/widgets/dennonuce_popup_content.dart';
 import 'package:tiutiu/features/dennounce/model/post_dennounce.dart';
 import 'package:tiutiu/core/extensions/string_extension.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/constants/text_styles.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/core/constants/strings.dart';
-import 'package:tiutiu/core/utils/dimensions.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -18,38 +17,17 @@ class PostDennounceScreen extends StatelessWidget {
       final motiveIsOther = postDennounceController.postDennounce.motive == PostDennounceStrings.other;
       final denounceDescription = postDennounceController.postDennounce.description;
       final motives = postDennounceController.dennouncePostMotives;
-      final hasError = postDennounceController.hasError;
 
-      return DennouncePopup(
-        onSubmit: () => _onSubmitPostDennounce(context, motiveIsOther),
+      return DennouncePopupContent(
+        onSubmit: () {
+          _onSubmitPostDennounce(context, motiveIsOther);
+        },
         groupValue: postDennounceController.postDennounceGroupValue,
         isLoading: postDennounceController.isLoading,
         onMotiveUpdate: _onUpdatePostDennounceMotive,
         hasError: postDennounceController.hasError,
         denounceDescription: denounceDescription,
         dennounceMotives: motives,
-        contentHeight: Dimensions.getDimensBasedOnDeviceHeight(
-          xSmaller: motiveIsOther
-              ? hasError
-                  ? Get.height / 2.35
-                  : Get.height / 2.5
-              : Get.height / 4.0,
-          smaller: motiveIsOther
-              ? hasError
-                  ? Get.height / 1.85
-                  : Get.height / 2.0
-              : Get.height / 3.0,
-          bigger: motiveIsOther
-              ? hasError
-                  ? Get.height / 2.35
-                  : Get.height / 2.5
-              : Get.height / 4.0,
-          medium: motiveIsOther
-              ? hasError
-                  ? Get.height / 2.35
-                  : Get.height / 2.5
-              : Get.height / 4.0,
-        ),
         onMotiveDescribed: (motiveDescription) {
           if (motiveDescription.length >= 3) {
             postDennounceController.hasError = false;
@@ -59,9 +37,7 @@ class PostDennounceScreen extends StatelessWidget {
         },
         cancel: () {
           postDennounceController.resetForm();
-          postDennounceController.hidePopup();
         },
-        show: postDennounceController.popupIsVisble,
         motiveIsOther: motiveIsOther,
       );
     });
@@ -85,7 +61,7 @@ class PostDennounceScreen extends StatelessWidget {
     if (formIsValid) {
       postDennounceController.hasError = false;
       postDennounceController.submit().then((_) {
-        postDennounceController.hidePopup();
+        Get.back();
 
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
