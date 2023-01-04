@@ -1,4 +1,3 @@
-import 'package:tiutiu/core/utils/dimensions.dart';
 import 'package:tiutiu/features/dennounce/widgets/dennonuce_popup.dart';
 import 'package:tiutiu/features/dennounce/model/post_dennounce.dart';
 import 'package:tiutiu/core/extensions/string_extension.dart';
@@ -6,6 +5,7 @@ import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/constants/text_styles.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/core/constants/strings.dart';
+import 'package:tiutiu/core/utils/dimensions.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -18,19 +18,37 @@ class PostDennounceScreen extends StatelessWidget {
       final motiveIsOther = postDennounceController.postDennounce.motive == PostDennounceStrings.other;
       final denounceDescription = postDennounceController.postDennounce.description;
       final motives = postDennounceController.dennouncePostMotives;
+      final hasError = postDennounceController.hasError;
 
       return DennouncePopup(
-        groupValue: postDennounceController.postDennounceGroupValue,
         onSubmit: () => _onSubmitPostDennounce(context, motiveIsOther),
+        groupValue: postDennounceController.postDennounceGroupValue,
         isLoading: postDennounceController.isLoading,
         onMotiveUpdate: _onUpdatePostDennounceMotive,
         hasError: postDennounceController.hasError,
         denounceDescription: denounceDescription,
         dennounceMotives: motives,
         contentHeight: Dimensions.getDimensBasedOnDeviceHeight(
-          smaller: Get.height / (motives.length - 1.2),
-          bigger: Get.height / 4.2,
-          medium: Get.height / 4.0,
+          xSmaller: motiveIsOther
+              ? hasError
+                  ? Get.height / 2.35
+                  : Get.height / 2.5
+              : Get.height / 4.0,
+          smaller: motiveIsOther
+              ? hasError
+                  ? Get.height / 1.85
+                  : Get.height / 2.0
+              : Get.height / 3.0,
+          bigger: motiveIsOther
+              ? hasError
+                  ? Get.height / 2.35
+                  : Get.height / 2.5
+              : Get.height / 4.0,
+          medium: motiveIsOther
+              ? hasError
+                  ? Get.height / 2.35
+                  : Get.height / 2.5
+              : Get.height / 4.0,
         ),
         onMotiveDescribed: (motiveDescription) {
           if (motiveDescription.length >= 3) {
