@@ -1,13 +1,12 @@
 import 'package:get/get_state_manager/get_state_manager.dart';
-import 'package:tiutiu/core/constants/firebase_env_path.dart';
+import 'package:tiutiu/core/constants/endpoints_name.dart';
+import 'package:tiutiu/core/utils/endpoint_resolver.dart';
 import 'package:tiutiu/features/chat/model/contact.dart';
 import 'package:tiutiu/features/chat/model/message.dart';
 import 'package:tiutiu/features/chat/model/enums.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ChatService extends GetxController {
-  FirebaseFirestore _firestore = FirebaseFirestore.instance;
-
   Stream<List<Message>> messages(String userId, String contactId) {
     return _pathToMessages(userId, contactId)
         .orderBy(MessageEnum.createdAt.name, descending: true)
@@ -43,40 +42,14 @@ class ChatService extends GetxController {
   }
 
   CollectionReference<Map<String, dynamic>> _pathToContacts(String userId) {
-    return _firestore
-        .collection(FirebaseEnvPath.projectName)
-        .doc(FirebaseEnvPath.env)
-        .collection(FirebaseEnvPath.environment)
-        .doc(FirebaseEnvPath.contacts)
-        .collection(userId);
+    return EndpointResolver.getCollectionEndpoint(EndpointNames.pathToContacts.name, [userId]);
   }
 
   DocumentReference<Map<String, dynamic>> _pathToContact(String userId, String contactId) {
-    return _firestore
-        .collection(FirebaseEnvPath.projectName)
-        .doc(FirebaseEnvPath.env)
-        .collection(FirebaseEnvPath.environment)
-        .doc(FirebaseEnvPath.contacts)
-        .collection(userId)
-        .doc(contactId);
+    return EndpointResolver.getDocumentEndpoint(EndpointNames.pathToContact.name, [userId, contactId]);
   }
 
   CollectionReference<Map<String, dynamic>> _pathToMessages(String userId, String contactId) {
-    // Update [contacts] document data to make the path available.
-    _firestore
-        .collection(FirebaseEnvPath.projectName)
-        .doc(FirebaseEnvPath.env)
-        .collection(FirebaseEnvPath.environment)
-        .doc(FirebaseEnvPath.contacts)
-        .set({FirebaseEnvPath.contacts: FirebaseEnvPath.contacts});
-
-    return _firestore
-        .collection(FirebaseEnvPath.projectName)
-        .doc(FirebaseEnvPath.env)
-        .collection(FirebaseEnvPath.environment)
-        .doc(FirebaseEnvPath.contacts)
-        .collection(userId)
-        .doc(contactId)
-        .collection(FirebaseEnvPath.messages);
+    return EndpointResolver.getCollectionEndpoint(EndpointNames.pathToMessages.name, [userId, contactId]);
   }
 }
