@@ -41,7 +41,7 @@ class SimpleTextButton extends StatelessWidget {
             Visibility(
               visible: hasIcon,
               child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16.0.w),
+                padding: EdgeInsets.symmetric(horizontal: 20.0.w),
                 child: Icon(Icons.edit, size: 14.0.h),
               ),
             ),

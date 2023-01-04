@@ -97,7 +97,9 @@ class _HomeState extends State<Home> with TiuTiuPopUp {
                       visible: showAd,
                       child: Positioned(
                         child: AdBanner300x60(adBlockName: AdMobBlockName.home),
-                        bottom: 0.0.h,
+                        bottom: 0,
+                        right: 0,
+                        left: 0,
                       ),
                     );
                   })
