@@ -62,9 +62,5 @@ CollectionReference<Map<String, dynamic>> _pathToEndpoints() {
 }
 
 DocumentReference<Map<String, dynamic>> _pathToAdMobIDs() {
-  return FirebaseFirestore.instance
-      .collection(FirebaseEnvPath.projectName)
-      .doc(FirebaseEnvPath.env)
-      .collection(FirebaseEnvPath.environment)
-      .doc(FirebaseEnvPath.admobids);
+  return EndpointResolver.getDocumentEndpoint(EndpointNames.pathToAdMobIDs.name);
 }

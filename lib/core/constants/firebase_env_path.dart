@@ -9,25 +9,14 @@ class FirebaseEnvPath {
   static const String environment = kDebugMode ? 'debug' : 'prod';
   static const String whatsappTokenDebug = 'WHATSAPP_TOKEN_DEBUG';
   static const String whatsappTokenProd = 'WHATSAPP_TOKEN_PROD';
-  static const String usersFavoritesCollection = 'favorites';
-  static const String whatsappCodes = 'whatsappCodes';
-  static const String notifications = 'Notifications';
   static const String disappeared = 'Disappeared';
-  static const String feedbacks = 'feedbacks';
   static const String endpoints = 'endpoints';
-  static const String favorites = 'Favorites';
   static const String projectName = 'tiutiu';
-  static const String admobids = 'admobids';
-  static const String messages = 'messages';
-  static const String contacts = 'contacts';
-  static const String adopted = 'Adopted';
   static const String donate = 'Donate';
   static const String users = 'Users';
   static const String posts = 'posts';
   static const String keys = 'KEYS';
-  static const String chat = 'chat';
   static const String env = 'env';
-  static const String pix = 'PIX';
 }
 
 enum FileType {
