@@ -180,7 +180,6 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
               ),
             ),
             Positioned(child: BackButton(color: AppColors.white), left: 8.0.w, top: 32.0.h),
-            _dennouncePopup(),
             _loadingBlur()
           ],
         ),
@@ -264,12 +263,12 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
   Widget _dennouncePostButton() {
     return DennounceButton(
       onTap: () {
-        postDennounceController.showPopup();
-
         postDennounceController.updatePostDennounce(
           PostDennounceEnum.dennouncedPost,
           postsController.post,
         );
+
+        showsDennouncePopup(content: PostDennounceScreen());
       },
     );
   }
@@ -636,17 +635,6 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
         replacement: editOrContact(),
         child: backReviewAndUploadPost(),
       ),
-    );
-  }
-
-  Obx _dennouncePopup() {
-    return Obx(
-      () {
-        return Visibility(
-          visible: postDennounceController.popupIsVisble,
-          child: PostDennounceScreen(),
-        );
-      },
     );
   }
 
