@@ -2,21 +2,18 @@ import 'package:tiutiu/features/dennounce/services/dennounce_services.dart';
 import 'package:tiutiu/features/dennounce/model/user_dennounce.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/constants/strings.dart';
-import 'package:flutter/foundation.dart';
 import 'package:uuid/uuid.dart';
 import 'package:get/get.dart';
 
 class UserDennounceController extends GetxController {
   final Rx<UserDennounce> _userDennounce = _defaultUserDennounce().obs;
   final RxInt _userDennounceGroupValue = 2.obs;
-  final RxBool _showPopup = false.obs;
   final RxBool _isLoading = false.obs;
   final RxBool _hasError = false.obs;
 
   int get userDennounceGroupValue => _userDennounceGroupValue.value;
   List<String> get dennounceUserMotives => _dennounceUserMotives;
   UserDennounce get userDennounce => _userDennounce.value;
-  bool get popupIsVisible => _showPopup.value;
   bool get isLoading => _isLoading.value;
   bool get hasError => _hasError.value;
 
@@ -42,20 +39,10 @@ class UserDennounceController extends GetxController {
     _isLoading(loadingValue);
   }
 
-  void hidePopup() {
-    _showPopup(false);
-  }
-
-  void showPopup() {
-    _showPopup(true);
-  }
-
   Future<void> submit() async {
     setLoading(true);
     updateUserDennounce(UserDennounceEnum.dennouncer, tiutiuUserController.tiutiuUser);
     updateUserDennounce(UserDennounceEnum.uid, Uuid().v4());
-
-    debugPrint('TiuTiuApp: User Dennounce UID ${userDennounce.uid}');
 
     DennounceServices().uploadUserDennounceData(userDennounce);
     resetForm();
