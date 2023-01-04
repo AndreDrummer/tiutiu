@@ -1,3 +1,4 @@
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/core/widgets/popup_message.dart';
 import 'package:tiutiu/core/constants/strings.dart';
@@ -70,6 +71,18 @@ mixin TiuTiuPopUp {
       title: AppStrings.success,
       mainAction: onDone,
       message: message,
+    );
+  }
+
+  Future<void> showsDennouncePopup({required Widget content}) async {
+    await showDialog(
+      context: Get.context!,
+      builder: (context) {
+        return Dialog(
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0.h)),
+          child: content,
+        );
+      },
     );
   }
 }
