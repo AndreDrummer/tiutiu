@@ -36,9 +36,8 @@ class DennouncePopupContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView(
-      shrinkWrap: true,
-      physics: NeverScrollableScrollPhysics(),
       padding: EdgeInsets.zero,
+      shrinkWrap: true,
       children: [
         _title(),
         _content(),
