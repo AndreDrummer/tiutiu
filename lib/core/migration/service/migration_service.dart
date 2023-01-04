@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
 import 'package:tiutiu/features/auth/service/auth_service.dart';
 import 'package:tiutiu/core/constants/firebase_env_path.dart';
@@ -17,18 +18,30 @@ class MigrationService {
   final String petAdPurpose = FirebaseEnvPath.donate;
 
   void migrate() async {
-    moveEndpointsToProd();
+    // moveEndpointsToProd();
   }
 
   void moveEndpointsToProd() async {
+    debugPrint('|| MIGRATION Starting... ||');
+    _pathToEndpoints('debug').snapshots().forEach((event) {
+      event.docs.forEach((e) {
+        _pathToEndpoints('prod').doc(e.id).set(e.data());
+      });
+    });
+    debugPrint('|| MIGRATION Finished! ||');
+  }
+
+  void moveAdMobIDsToProd() async {
+    debugPrint('|| MIGRATION Starting... ||');
     _pathToEndpoints('debug').snapshots().forEach((event) {
       event.docs.forEach((e) {
         // _pathToEndpoints('prod').doc(e.id).set(e.data());
       });
     });
+    debugPrint('|| MIGRATION Finished! ||');
   }
 
-  void migrateAllUsers() async {
+  void migrateUsers() async {
     final list = await _firestore.collection(petAdPurpose).get();
 
     list.docs.forEach((petAd) async {
@@ -46,7 +59,7 @@ class MigrationService {
     });
   }
 
-  void migrateAllPetAds() async {
+  void migratePosts() async {
     final list = await _firestore.collection(petAdPurpose).get();
 
     list.docs.forEach((petAd) async {
@@ -76,7 +89,7 @@ class MigrationService {
     });
   }
 
-  void updateSomePetData() async {
+  void updateSomePostData() async {
     final endpoint = EndpointResolver.getCollectionEndpoint(EndpointNames.pathToPosts.name);
 
     final list = await endpoint.get();
@@ -119,7 +132,7 @@ class MigrationService {
         .set(user.toMap());
   }
 
-  void insertAdDataInNewPath(Pet pet) {
+  void insertPostDataInNewPath(Pet pet) {
     _firestore
         .collection(FirebaseEnvPath.projectName)
         .doc(FirebaseEnvPath.env)
@@ -130,10 +143,7 @@ class MigrationService {
         .set(pet.toMap());
   }
 
-  bool includedAtTheCutDate({
-    required String createdAt,
-    required DateTime cutdate,
-  }) {
+  bool includedAtTheCutDate({required String createdAt, required DateTime cutdate}) {
     final dateTime = Formatters.getDateTime(createdAt);
     final included = dateTime.isAfter(cutdate);
 
