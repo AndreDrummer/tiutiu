@@ -86,10 +86,20 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
     if (!postsController.isInReviewMode) postsController.clearForm();
   }
 
+  double toolBarHeight(int descriptionLength) {
+    return Dimensions.getDimensBasedOnDeviceHeight(
+      smaller: (Get.height / 3.5) - (descriptionLength / 4) - 16.0.h,
+      xSmaller: (Get.height / 4.5) - (descriptionLength / 4),
+      bigger: (Get.height / 3.5) - (descriptionLength / 4),
+      medium: (Get.height / 3) - (descriptionLength / 4),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final Post post = postsController.post;
     final petCaracteristics = PetCaracteristics.petCaracteristics((post as Pet));
+    final description = post.description;
 
     return WillPopScope(
       onWillPop: () async {
@@ -106,13 +116,15 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
                   SliverOverlapAbsorber(
                     handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
                     sliver: SliverSafeArea(
+                      top: false,
+                      bottom: false,
                       sliver: SliverAppBar(
-                        flexibleSpace: _showImagesAndVideos(boxHeight: Get.height / 1.5, context: context),
+                        flexibleSpace: _showImagesAndVideos(boxHeight: Get.height, context: context),
+                        toolbarHeight: toolBarHeight(description.length),
                         backgroundColor: Colors.transparent,
                         automaticallyImplyLeading: false,
                         expandedHeight: Get.height / 1.6,
                         shadowColor: AppColors.white,
-                        toolbarHeight: 256.0.h,
                         floating: true,
                         pinned: true,
                       ),
@@ -124,6 +136,7 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
                 future: postsController.cacheVideos(),
                 builder: (context, snapshot) {
                   return ListView(
+                    primary: false,
                     physics: NeverScrollableScrollPhysics(),
                     padding: EdgeInsets.only(
                       right: Dimensions.getDimensBasedOnDeviceHeight(
@@ -135,8 +148,14 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
                     children: [
                       _postTitle(post.name!),
                       Padding(
+                        padding: EdgeInsets.only(
+                          top: Dimensions.getDimensBasedOnDeviceHeight(
+                            smaller: 8.0.h,
+                            bigger: 4.0.h,
+                            medium: 0.0.h,
+                          ),
+                        ),
                         child: AdBanner300x60(adBlockName: AdMobBlockName.postDetailsScreen),
-                        padding: EdgeInsets.only(top: 4.0.h),
                       ),
                       Visibility(
                         replacement: _petCaracteristicsGrid(petCaracteristics),
@@ -148,7 +167,7 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
                         isHiddingContactInfo: true,
                         child: Column(
                           children: [
-                            _description(post.description),
+                            _description(description),
                             _address(),
                             postDetailBottomView(),
                           ],
