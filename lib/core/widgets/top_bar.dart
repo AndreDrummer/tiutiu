@@ -1,4 +1,5 @@
 import 'package:tiutiu/features/posts/model/filter_params.dart';
+import 'package:tiutiu/core/extensions/string_extension.dart';
 import 'package:tiutiu/core/widgets/input_close_button.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
@@ -58,17 +59,11 @@ class TopBar extends StatelessWidget {
               ),
             ),
           ),
-          WarningBanner(
-            showBannerCondition:
-                appController.properties.internetConnected && !tiutiuUserController.tiutiuUser.emailVerified,
-            padding: EdgeInsets.symmetric(horizontal: 4.0.w, vertical: 1.0.h),
-            margin: EdgeInsets.only(top: 8.0.h),
-            replacement: SizedBox.shrink(),
-          ),
+          HighPriorityInfoBanner(),
           WarningBanner(
             showBannerCondition: !appController.properties.internetConnected && postsController.posts.isNotEmpty,
             textWarning: AppStrings.noConnectionWarning,
-            margin: EdgeInsets.only(top: 8.0.h),
+            margin: EdgeInsets.only(top: 4.0.h),
             padding: EdgeInsets.all(2.0.h),
             replacement: SizedBox.shrink(),
             tileColor: AppColors.warning,
@@ -105,7 +100,11 @@ class TopBar extends StatelessWidget {
   }
 
   String _greeting() {
-    String userName = tiutiuUserController.tiutiuUser.displayName!.split(' ').first;
+    bool isLogged = authController.userExists;
+    String? userName = isLogged
+        ? tiutiuUserController.tiutiuUser.displayName?.replaceAll(',', ' ').replaceAll('.', ' ').split(' ').first
+        : null;
+
     final now = DateTime.now();
     String greeting = '';
 
@@ -117,7 +116,7 @@ class TopBar extends StatelessWidget {
       greeting = GreetingStrings.goodNight;
     }
 
-    return '$greeting, ' + userName + '!';
+    return '${userName.isNotEmptyNeighterNull() ? greeting + ', $userName' : greeting}' + '!';
   }
 
   Widget _greetingIcon() {
