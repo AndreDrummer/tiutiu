@@ -30,7 +30,7 @@ class PostUtils {
       filterParams.orderBy,
     );
 
-    return returnedList;
+    return returnedList.where((post) => post.timesDennounced <= 3).toList();
   }
 
   static List<Post> _filterByName(List<Post> postsList, String filterName) {
