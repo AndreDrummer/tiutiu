@@ -76,8 +76,6 @@ class CardAd extends StatelessWidget {
                           children: [
                             cardBuilder.adDescription(),
                             Spacer(),
-                            cardBuilder.adInteresteds(),
-                            Spacer(),
                             cardBuilder.adViews(),
                           ],
                         ),
