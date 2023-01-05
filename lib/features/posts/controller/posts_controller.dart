@@ -470,6 +470,19 @@ class PostsController extends GetxController with TiuTiuPopUp {
     }
   }
 
+  Future<void> increasePostDennounces(String dennounceMotive) async {
+    if (!isEditingPost && !isInReviewMode && !postBelongsToMe()) {
+      List currentDennounces = post.dennounceMotives;
+      List dennounceMotives = [...currentDennounces];
+      int timesDennouncedQty = post.timesDennounced;
+      timesDennouncedQty++;
+
+      dennounceMotives.add(dennounceMotive);
+
+      await _postService.increasePostDennounces(post.uid!, timesDennouncedQty, dennounceMotives);
+    }
+  }
+
   Future<bool> showsCancelPostPopUp({bool isInsideFlow = false}) async {
     bool returnValue = false;
 
