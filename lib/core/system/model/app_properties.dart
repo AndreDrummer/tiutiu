@@ -1,8 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 enum AppPropertiesEnum {
-  isShowingDeveloperWarning,
+  thereIsDeveloperCommunication,
+  developerLinkRedirection,
   systemStateTextFeedback,
+  developerCommunication,
   mostUpdatedVersion,
   internetConnected,
   bottomSheetIsOpen,
@@ -18,8 +20,10 @@ enum AppPropertiesEnum {
 class AppProperties {
   factory AppProperties.fromMap(Map<String, dynamic> map) {
     return AppProperties(
-      isShowingDeveloperWarning: map[AppPropertiesEnum.isShowingDeveloperWarning.name],
+      thereIsDeveloperCommunication: map[AppPropertiesEnum.thereIsDeveloperCommunication.name],
+      developerLinkRedirection: map[AppPropertiesEnum.developerLinkRedirection.name],
       systemStateTextFeedback: map[AppPropertiesEnum.systemStateTextFeedback.name],
+      developerCommunication: map[AppPropertiesEnum.developerCommunication.name],
       mostUpdatedVersion: map[AppPropertiesEnum.mostUpdatedVersion.name],
       internetConnected: map[AppPropertiesEnum.internetConnected.name],
       bottomSheetIsOpen: map[AppPropertiesEnum.bottomSheetIsOpen.name],
@@ -35,8 +39,10 @@ class AppProperties {
 
   AppProperties({
     this.appBirthday = '2020-10-28T18:54:56.905834',
-    this.isShowingDeveloperWarning = false,
+    this.thereIsDeveloperCommunication = false,
+    this.developerLinkRedirection = '',
     this.systemStateTextFeedback = '',
+    this.developerCommunication = '',
     this.internetConnected = false,
     this.bottomSheetIsOpen = false,
     this.mostUpdatedVersion = '',
@@ -50,7 +56,9 @@ class AppProperties {
 
   AppProperties fromSnapshot(DocumentSnapshot snapshot) {
     return AppProperties(
-      isShowingDeveloperWarning: snapshot.get(AppPropertiesEnum.isShowingDeveloperWarning.name),
+      thereIsDeveloperCommunication: snapshot.get(AppPropertiesEnum.thereIsDeveloperCommunication.name),
+      developerLinkRedirection: snapshot.get(AppPropertiesEnum.developerLinkRedirection.name),
+      developerCommunication: snapshot.get(AppPropertiesEnum.developerCommunication.name),
       mostUpdatedVersion: snapshot.get(AppPropertiesEnum.mostUpdatedVersion.name),
       previousVersion: snapshot.get(AppPropertiesEnum.previousVersion.name),
       appAdminID: snapshot.get(AppPropertiesEnum.appAdminID.name),
@@ -65,13 +73,15 @@ class AppProperties {
     );
   }
 
-  final bool isShowingDeveloperWarning;
+  final bool thereIsDeveloperCommunication;
+  final String developerLinkRedirection;
   final String systemStateTextFeedback;
+  final String developerCommunication;
   final String mostUpdatedVersion;
-  final String previousVersion;
-  final String runningVersion;
   final bool internetConnected;
   final bool bottomSheetIsOpen;
+  final String previousVersion;
+  final String runningVersion;
   final bool snackBarIsOpen;
   final String appBirthday;
   final String appAdminID;
@@ -79,8 +89,10 @@ class AppProperties {
   final bool isLoading;
 
   AppProperties copyWith({
-    bool? isShowingDeveloperWarning,
+    bool? thereIsDeveloperCommunication,
+    String? developerLinkRedirection,
     String? systemStateTextFeedback,
+    String? developerCommunication,
     String? mostUpdatedVersion,
     String? previousVersion,
     bool? internetConnected,
@@ -93,8 +105,10 @@ class AppProperties {
     bool? isLoading,
   }) {
     return AppProperties(
-      isShowingDeveloperWarning: isShowingDeveloperWarning ?? this.isShowingDeveloperWarning,
+      thereIsDeveloperCommunication: thereIsDeveloperCommunication ?? this.thereIsDeveloperCommunication,
+      developerLinkRedirection: developerLinkRedirection ?? this.developerLinkRedirection,
       systemStateTextFeedback: systemStateTextFeedback ?? this.systemStateTextFeedback,
+      developerCommunication: developerCommunication ?? this.developerCommunication,
       mostUpdatedVersion: mostUpdatedVersion ?? this.mostUpdatedVersion,
       internetConnected: internetConnected ?? this.internetConnected,
       bottomSheetIsOpen: bottomSheetIsOpen ?? this.bottomSheetIsOpen,
@@ -110,12 +124,14 @@ class AppProperties {
 
   Map<String, dynamic> toMap() {
     return {
-      AppPropertiesEnum.isShowingDeveloperWarning.name: isShowingDeveloperWarning,
+      AppPropertiesEnum.thereIsDeveloperCommunication.name: thereIsDeveloperCommunication,
+      AppPropertiesEnum.developerLinkRedirection.name: developerLinkRedirection,
       AppPropertiesEnum.systemStateTextFeedback.name: systemStateTextFeedback,
+      AppPropertiesEnum.developerCommunication.name: developerCommunication,
       AppPropertiesEnum.mostUpdatedVersion.name: mostUpdatedVersion,
       AppPropertiesEnum.mostUpdatedVersion.name: mostUpdatedVersion,
-      AppPropertiesEnum.internetConnected.name: internetConnected,
       AppPropertiesEnum.bottomSheetIsOpen.name: bottomSheetIsOpen,
+      AppPropertiesEnum.internetConnected.name: internetConnected,
       AppPropertiesEnum.runningVersion.name: runningVersion,
       AppPropertiesEnum.snackBarIsOpen.name: snackBarIsOpen,
       AppPropertiesEnum.appBirthday.name: appBirthday,
@@ -128,8 +144,10 @@ class AppProperties {
   @override
   String toString() {
     return '''AppProperties(
-      isShowingDeveloperWarning: $isShowingDeveloperWarning,
+      thereIsDeveloperCommunication: $thereIsDeveloperCommunication,
+      developerLinkRedirection: $developerLinkRedirection,
       systemStateTextFeedback: $systemStateTextFeedback,
+      developerCommunication: $developerCommunication,
       mostUpdatedVersion: $mostUpdatedVersion,      
       internetConnected: $internetConnected,
       bottomSheetIsOpen: $bottomSheetIsOpen,

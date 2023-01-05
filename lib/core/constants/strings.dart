@@ -7,8 +7,7 @@ class AppStrings {
   static String get verifyEmailToSeeContactInfo =>
       'Verifique seu email para ver as informações de contato deste anúncio!';
   static String get doLoginWarning => 'Faça login para ter acesso a todas as funcionalidades.';
-  static String get verifyAccountWarning =>
-      'Sua conta ainda não foi verificada, por isso algumas funcionalidades ainda estão restritas!';
+  static String get verifyAccountWarning => 'Sua conta ainda não foi verificada!';
   static String get verifyFilters => 'Verifique seus filtros de busca.';
   static String get tryAgainInABrief =>
       'Anúncios temporariamente indisponíveis.\nEntre novamente em alguns minutos.\n\nAgradecessemos a compreensão!';
