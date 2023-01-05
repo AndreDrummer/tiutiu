@@ -68,7 +68,6 @@ class CardAdList extends StatelessWidget {
                   Spacer(),
                   cardBuilder.adDistanceFromUser(),
                   cardBuilder.adViews(),
-                  cardBuilder.adInteresteds(),
                   cardBuilder.adPostedAt(),
                   Spacer(),
                   cardBuilder.divider(),

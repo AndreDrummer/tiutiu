@@ -1,6 +1,5 @@
 import 'package:tiutiu/core/widgets/cards/widgets/ad_distance_from_user.dart';
 import 'package:tiutiu/features/favorites/widgets/favorite_button.dart';
-import 'package:tiutiu/core/widgets/cards/widgets/ad_interesteds.dart';
 import 'package:tiutiu/core/widgets/cards/widgets/ad_description.dart';
 import 'package:tiutiu/core/widgets/cards/widgets/ad_city_state.dart';
 import 'package:tiutiu/core/widgets/cards/widgets/ad_posted_at.dart';
@@ -22,8 +21,6 @@ class CardBuilder {
   final String distanceText;
   final bool inReviewMode;
   final Post _post;
-
-  Widget adInteresteds() => AdInteresteds(visible: (_post as Pet).disappeared, petKind: (_post as Pet).type);
 
   Widget favoriteButton() => AddRemoveFavorite(isRemoveButton: false, post: _post, tiny: true);
 
