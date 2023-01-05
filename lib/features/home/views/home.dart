@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:tiutiu/core/migration/service/migration_service.dart';
 import 'package:tiutiu/features/admob/constants/admob_block_names.dart';
 import 'package:tiutiu/features/home/controller/home_controller.dart';
@@ -27,7 +28,7 @@ class _HomeState extends State<Home> with TiuTiuPopUp {
   @override
   void initState() {
     MigrationService().migrate();
-    adMobController.showInterstitialAd();
+    if (!kDebugMode) adMobController.showInterstitialAd();
     super.initState();
   }
 
