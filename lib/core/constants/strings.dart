@@ -398,3 +398,9 @@ class UserDennounceStrings {
   static const String scamTry = 'Tentativa de golpe';
   static const String other = 'Outro';
 }
+
+class GreetingStrings {
+  static const String goodAfternoon = 'Boa tarde';
+  static const String goodMonring = 'Bom dia';
+  static const String goodNight = 'Boa noite';
+}
