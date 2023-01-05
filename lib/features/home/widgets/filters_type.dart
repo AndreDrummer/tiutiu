@@ -1,7 +1,7 @@
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/features/posts/model/filter_params.dart';
-import 'package:tiutiu/core/controllers/controllers.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/widgets/home_filter_item.dart';
+import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -18,7 +18,7 @@ class FiltersType extends StatelessWidget {
         final filterText = filterController.getParams.type;
 
         return Container(
-          margin: EdgeInsets.symmetric(horizontal: 2.0.w, vertical: 4.0.h),
+          margin: EdgeInsets.symmetric(horizontal: 2.0.w),
           height: Get.width / 6,
           child: ListView(
             shrinkWrap: true,
