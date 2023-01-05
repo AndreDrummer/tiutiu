@@ -1,7 +1,7 @@
-import 'package:tiutiu/core/constants/contact_type.dart';
 import 'package:tiutiu/features/admob/constants/admob_block_names.dart';
 import 'package:tiutiu/core/local_storage/local_storage_keys.dart';
 import 'package:tiutiu/core/local_storage/local_storage.dart';
+import 'package:tiutiu/core/constants/contact_type.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:flutter/foundation.dart';
@@ -112,7 +112,7 @@ class AdMobController extends GetxController {
 
   Future<void> loadInterstitialAd() async {
     await InterstitialAd.load(
-      adUnitId: appController.getAdMobBlockID(blockName: AdMobBlockName.onAppOpening, type: AdMobType.interstitial),
+      adUnitId: kDebugMode ? 'ca-app-pub-3940256099942544/4411468910' : 'ca-app-pub-2837828701670824/6618786222',
       request: AdRequest(),
       adLoadCallback: InterstitialAdLoadCallback(
         onAdLoaded: (InterstitialAd ad) {
