@@ -216,7 +216,7 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  AutoSizeTexts.autoSizeText24(
+                  AutoSizeTexts.autoSizeText18(
                     '${Formatters.cuttedText(OtherFunctions.replacePhoneNumberWithStars('$petName'), size: 18)}',
                     fontWeight: FontWeight.w600,
                   ),
