@@ -1,6 +1,7 @@
 enum TiutiuUserEnum {
   allowContactViaWhatsApp,
   notificationToken,
+  timesDennounced,
   emailVerified,
   phoneVerified,
   displayName,
@@ -19,6 +20,7 @@ class TiutiuUser {
     this.allowContactViaWhatsApp = false,
     this.emailVerified = false,
     this.phoneVerified = false,
+    this.timesDennounced = 0,
     this.notificationToken,
     this.isAnONG = false,
     this.displayName,
@@ -37,6 +39,7 @@ class TiutiuUser {
       lastLogin: map[TiutiuUserEnum.lastLogin.name] ?? map[TiutiuUserEnum.createdAt.name],
       emailVerified: map[TiutiuUserEnum.emailVerified.name] ?? false,
       phoneVerified: map[TiutiuUserEnum.phoneVerified.name] ?? false,
+      timesDennounced: map[TiutiuUserEnum.timesDennounced.name] ?? 0,
       notificationToken: map[TiutiuUserEnum.notificationToken.name],
       avatar: map[TiutiuUserEnum.avatar.name] ?? map['photoURL'],
       isAnONG: map[TiutiuUserEnum.isAnONG.name] ?? false,
@@ -53,6 +56,7 @@ class TiutiuUser {
     return TiutiuUser(
       notificationToken: map[TiutiuUserEnum.notificationToken.name],
       avatar: map[TiutiuUserEnum.avatar.name] ?? map['photoURL'],
+      timesDennounced: map[TiutiuUserEnum.timesDennounced.name],
       emailVerified: map[TiutiuUserEnum.emailVerified.name],
       phoneVerified: map[TiutiuUserEnum.phoneVerified.name],
       phoneNumber: map[TiutiuUserEnum.phoneNumber.name],
@@ -68,9 +72,10 @@ class TiutiuUser {
 
   bool allowContactViaWhatsApp;
   String? notificationToken;
-  bool emailVerified;
   String? phoneNumber;
   String? displayName;
+  int timesDennounced;
+  bool emailVerified;
   bool phoneVerified;
   String? createdAt;
   String? lastLogin;
@@ -84,7 +89,7 @@ class TiutiuUser {
     return {
       TiutiuUserEnum.allowContactViaWhatsApp.name: allowContactViaWhatsApp,
       TiutiuUserEnum.notificationToken.name: notificationToken,
-      TiutiuUserEnum.emailVerified.name: emailVerified,
+      TiutiuUserEnum.timesDennounced.name: timesDennounced,
       TiutiuUserEnum.emailVerified.name: emailVerified,
       TiutiuUserEnum.phoneVerified.name: phoneVerified,
       TiutiuUserEnum.phoneNumber.name: phoneNumber,
