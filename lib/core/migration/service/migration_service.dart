@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:tiutiu/core/system/model/endpoint.dart';
 import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
 import 'package:tiutiu/features/auth/service/auth_service.dart';
 import 'package:tiutiu/core/constants/firebase_env_path.dart';
@@ -17,8 +18,37 @@ class MigrationService {
   // final String petAdPurpose = FirebaseEnvPath.disappeared;
   final String petAdPurpose = FirebaseEnvPath.donate;
 
-  void migrate() async {
-    // moveEndpointsToProd();
+  void migrate() async {}
+
+  void updateEndpointsSintaxe() async {
+    try {
+      debugPrint('|| Updating Endpoint name... ||');
+      final a = await _pathToEndpoints('prod').get();
+      final docs = a.docs;
+
+      for (int i = 0; i < docs.length; i++) {
+        final endpoint = Endpoint.fromSnapshot(docs[i]);
+        // print('Endpoint ${endpoint.name}');
+        // if (endpoint.name == "pathToPostDennounces") {
+        debugPrint('|| Atual Endpoint $endpoint... ||');
+        final newEndpoint = Endpoint(
+          example: endpoint.example.replaceAll('debug', 'prod'),
+          path: endpoint.path,
+          type: endpoint.type,
+          name: endpoint.name,
+        );
+
+        debugPrint('|| Novo Endpoint $newEndpoint... ||');
+        await updateEndpoint(newEndpoint);
+        // }
+      }
+    } catch (merda) {
+      debugPrint('||  Merda $merda... ||');
+    }
+  }
+
+  Future updateEndpoint(Endpoint endpoint) async {
+    await _pathToEndpoint(endpoint.name).set(endpoint.toMap());
   }
 
   void moveEndpointsToProd() async {
@@ -31,14 +61,14 @@ class MigrationService {
     debugPrint('|| MIGRATION Finished! ||');
   }
 
-  void moveAdMobIDsToProd() async {
+  void moveSomeDocumentDataToProd() async {
     debugPrint('|| MIGRATION Starting... ||');
-    _pathToEndpoints('debug').snapshots().forEach((event) {
-      event.docs.forEach((e) {
-        // _pathToEndpoints('prod').doc(e.id).set(e.data());
-      });
-    });
-    debugPrint('|| MIGRATION Finished! ||');
+    final migratingDocument = 'systemProperties';
+
+    final data = await _pathToDocumentData('debug', migratingDocument).get();
+    debugPrint('|| MDATA ${data.data()} ||');
+
+    _pathToDocumentData('prod', migratingDocument).set(data.data() ?? {});
   }
 
   void migrateUsers() async {
@@ -201,5 +231,23 @@ class MigrationService {
         .collection(environment)
         .doc(FirebaseEnvPath.endpoints)
         .collection(FirebaseEnvPath.endpoints);
+  }
+
+  DocumentReference<Map<String, dynamic>> _pathToDocumentData(String environment, String documentName) {
+    return FirebaseFirestore.instance
+        .collection(FirebaseEnvPath.projectName)
+        .doc(FirebaseEnvPath.env)
+        .collection(environment)
+        .doc(documentName);
+  }
+
+  DocumentReference<Map<String, dynamic>> _pathToEndpoint(String endpointName) {
+    return FirebaseFirestore.instance
+        .collection(FirebaseEnvPath.projectName)
+        .doc(FirebaseEnvPath.env)
+        .collection('debug')
+        .doc(FirebaseEnvPath.endpoints)
+        .collection(FirebaseEnvPath.endpoints)
+        .doc(endpointName);
   }
 }
