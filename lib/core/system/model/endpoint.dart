@@ -5,7 +5,6 @@ enum EndpointEnum {
   type,
   name,
   path,
-  id,
 }
 
 enum EndpointTypeEnum {
@@ -19,7 +18,6 @@ class Endpoint {
     required this.type,
     required this.name,
     required this.path,
-    required this.id,
   });
 
   factory Endpoint.fromSnapshot(DocumentSnapshot snapshot) {
@@ -28,7 +26,29 @@ class Endpoint {
       type: snapshot.get(EndpointEnum.type.name),
       name: snapshot.get(EndpointEnum.name.name),
       path: snapshot.get(EndpointEnum.path.name),
-      id: snapshot.id,
+    );
+  }
+
+  factory Endpoint.fromMap(Map<String, dynamic> map) {
+    return Endpoint(
+      example: map[EndpointEnum.example.name],
+      type: map[EndpointEnum.type.name],
+      name: map[EndpointEnum.name.name],
+      path: map[EndpointEnum.path.name],
+    );
+  }
+
+  Endpoint copyWith({
+    String? example,
+    String? type,
+    String? name,
+    String? path,
+  }) {
+    return Endpoint(
+      example: example ?? this.example,
+      type: type ?? this.type,
+      name: name ?? this.name,
+      path: path ?? this.path,
     );
   }
 
@@ -36,7 +56,6 @@ class Endpoint {
   String type;
   String name;
   String path;
-  String id;
 
   Map<String, dynamic> toMap() {
     return {
@@ -44,12 +63,11 @@ class Endpoint {
       EndpointEnum.type.name: type,
       EndpointEnum.name.name: name,
       EndpointEnum.path.name: path,
-      EndpointEnum.id.name: id,
     };
   }
 
   @override
   String toString() {
-    return 'Endpoint(example: $example, type: $type, name: $name, id: $id, path: $path)';
+    return 'Endpoint(example: $example, type: $type, name: $name, path: $path)';
   }
 }
