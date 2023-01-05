@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:tiutiu/core/constants/firebase_env_path.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dio/dio.dart';
@@ -17,15 +18,15 @@ class WhatsappService {
     final bool allowProd = keys.get(FirebaseEnvPath.allowUseWhatsappProdNumber);
 
     final String template = keys.get(
-      allowProd ? FirebaseEnvPath.whatsappTemplateProd : FirebaseEnvPath.whatsappTemplateDebug,
+      (allowProd || !kDebugMode) ? FirebaseEnvPath.whatsappTemplateProd : FirebaseEnvPath.whatsappTemplateDebug,
     );
 
     final String numberId = keys.get(
-      allowProd ? FirebaseEnvPath.whatsappNumberIdProd : FirebaseEnvPath.whatsappNumberIdDebug,
+      (allowProd || !kDebugMode) ? FirebaseEnvPath.whatsappNumberIdProd : FirebaseEnvPath.whatsappNumberIdDebug,
     );
 
     final String token = keys.get(
-      allowProd ? FirebaseEnvPath.whatsappTokenProd : FirebaseEnvPath.whatsappTokenDebug,
+      (allowProd || !kDebugMode) ? FirebaseEnvPath.whatsappTokenProd : FirebaseEnvPath.whatsappTokenDebug,
     );
 
     String endpoint = 'https://graph.facebook.com/v15.0/$numberId/messages';

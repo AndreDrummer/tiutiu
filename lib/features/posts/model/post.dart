@@ -4,7 +4,8 @@ import 'package:uuid/uuid.dart';
 
 enum PostEnum {
   describedAddress,
-  interesteds,
+  dennounceMotives,
+  timesDennounced,
   description,
   createdAt,
   longitude,
@@ -25,11 +26,12 @@ enum PostEnum {
 
 class Post implements Mapper {
   Post({
+    this.dennounceMotives = const [],
     this.describedAddress = '',
+    this.timesDennounced = 0,
     this.city = 'Acrelândia',
     this.photos = const [],
     this.description = '',
-    this.interesteds = 0,
     this.state = 'Acre',
     this.hidden = false,
     this.done = false,
@@ -51,10 +53,11 @@ class Post implements Mapper {
       uid: map[PostEnum.uid.name] != null ? map[PostEnum.uid.name] : Uuid().v4(),
       createdAt: map[PostEnum.createdAt.name] ?? DateTime.now().toIso8601String(),
       describedAddress: map[PostEnum.describedAddress.name] ?? '',
+      dennounceMotives: map[PostEnum.dennounceMotives.name] ?? [],
+      timesDennounced: map[PostEnum.timesDennounced.name],
       owner: TiutiuUser.fromMap(map[PostEnum.owner.name]),
       description: map[PostEnum.description.name] ?? '',
       city: map[PostEnum.city.name] ?? 'Acrelândia',
-      interesteds: map[PostEnum.interesteds.name],
       state: map[PostEnum.state.name] ?? 'Acre',
       longitude: map[PostEnum.longitude.name],
       latitude: map[PostEnum.latitude.name],
@@ -70,13 +73,14 @@ class Post implements Mapper {
   }
 
   String describedAddress;
+  List dennounceMotives;
+  int timesDennounced;
   String description;
   String? createdAt;
   TiutiuUser? owner;
   double? longitude;
   double? latitude;
   String? ownerId;
-  int interesteds;
   dynamic video;
   String state;
   String? name;
@@ -93,8 +97,9 @@ class Post implements Mapper {
     return {
       PostEnum.photos.name: convertFileToVideoPath ? photos.map((e) => e.path).toList() : photos,
       PostEnum.video.name: convertFileToVideoPath ? video.path : video,
+      PostEnum.dennounceMotives.name: dennounceMotives,
       PostEnum.describedAddress.name: describedAddress,
-      PostEnum.interesteds.name: interesteds,
+      PostEnum.timesDennounced.name: timesDennounced,
       PostEnum.description.name: description,
       PostEnum.owner.name: owner?.toMap(),
       PostEnum.longitude.name: longitude,
@@ -114,7 +119,7 @@ class Post implements Mapper {
 
   @override
   String toString() {
-    return 'Post(createdAt: $createdAt, owner: $owner, longitude: $longitude, latitude: $latitude, ownerId: $ownerId, interesteds: $interesteds, description: $description, state: $state, photos: $photos, name: $name, type: $type, city: $city, uid: $uid, views: $views, video: $video, hidden: $hidden, done: $done)';
+    return 'Post(createdAt: $createdAt, owner: $owner, longitude: $longitude, latitude: $latitude, ownerId: $ownerId, timesDennounced: $timesDennounced, description: $description, state: $state, photos: $photos, name: $name, type: $type, city: $city, uid: $uid, views: $views, video: $video, hidden: $hidden, done: $done, dennounceMotives: $dennounceMotives)';
   }
 
   @override
@@ -122,8 +127,9 @@ class Post implements Mapper {
     if (identical(this, other)) return true;
 
     return other.describedAddress == describedAddress &&
+        other.dennounceMotives == dennounceMotives &&
+        other.timesDennounced == timesDennounced &&
         other.description == description &&
-        other.interesteds == interesteds &&
         other.createdAt == createdAt &&
         other.longitude == longitude &&
         other.latitude == latitude &&
@@ -144,7 +150,8 @@ class Post implements Mapper {
   @override
   int get hashCode {
     return describedAddress.hashCode ^
-        interesteds.hashCode ^
+        dennounceMotives.hashCode ^
+        timesDennounced.hashCode ^
         description.hashCode ^
         createdAt.hashCode ^
         longitude.hashCode ^
