@@ -1,5 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:intl/intl.dart';
+import 'package:tiutiu/core/data/dummy_data.dart';
+import 'package:tiutiu/core/utils/other_functions.dart';
 
 class Formatters {
   static String? unmaskNumber(String? number) {
@@ -37,6 +39,16 @@ class Formatters {
     final timeHour = DateTime.parse(createdAt).hour;
 
     return DateFormat('dd/MM/yyy').format(date) + ' $timeHour:${timeMinute < 10 ? '0$timeMinute' : timeMinute}';
+  }
+
+  static String getExtendedDate() {
+    final date = DateFormat('dd/MM/yyy').format(DateTime.now());
+    List<int> splittedDate = date.split('/').map((e) => int.parse(e)).toList();
+
+    return splittedDate.first.toString() +
+        ' de ' +
+        DummyData().yearMonths[splittedDate[1] - 1] +
+        ' de ${splittedDate.last}';
   }
 
   static String getFormattedTime(String createdAt) {
@@ -81,5 +93,12 @@ class Formatters {
   static String cuttedText(String message, {int size = 32}) {
     if (message.length > size) return message.substring(0, size) + '...';
     return message;
+  }
+
+  static String formmatedExtendedDate() {
+    final formattedDate = DateFormat('EEEE, DD/MM/yyyy', 'pt_Br').format(DateTime.now().toLocal());
+    final weekday = OtherFunctions.firstCharacterUpper(formattedDate.split(',').first);
+
+    return '${weekday.trim()}, ${getExtendedDate()}.';
   }
 }
