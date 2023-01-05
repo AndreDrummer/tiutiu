@@ -70,8 +70,12 @@ class _HomeState extends State<Home> with TiuTiuPopUp {
                       return SliverAppBar(
                         toolbarHeight: homeController.bottomBarIndex < 2
                             ? appController.properties.internetConnected
-                                ? 40.0.h
-                                : 72.0.h
+                                ? 48.0.h
+                                : Dimensions.getDimensBasedOnDeviceHeight(
+                                    smaller: 92.0.h,
+                                    medium: 84.0.h,
+                                    bigger: 76.0.h,
+                                  )
                             : 0.0,
                         backgroundColor: Colors.transparent,
                         expandedHeight: expandedHeight(),
@@ -136,17 +140,21 @@ class _HomeState extends State<Home> with TiuTiuPopUp {
 
   double expandedHeight() {
     final homeListPadding = Dimensions.getDimensBasedOnDeviceHeight(
-      smaller: Get.height / 4.4,
-      medium: Get.height / 4.6,
-      bigger: Get.height / 4.8,
+      smaller: Get.height / 3.7,
+      medium: Get.height / 4.3,
+      bigger: Get.height / 4.5,
     );
 
     if (homeController.bottomBarIndex < 2) {
-      if (!tiutiuUserController.tiutiuUser.emailVerified) {
+      final thereIsDeveloperCommunication = appController.properties.thereIsDeveloperCommunication;
+      final showInfoBanner = authController.userExists &&
+          (!appController.properties.internetConnected || !tiutiuUserController.tiutiuUser.emailVerified);
+
+      if (thereIsDeveloperCommunication || showInfoBanner) {
         return Dimensions.getDimensBasedOnDeviceHeight(
-          smaller: Get.height / 3.7,
-          medium: Get.height / 4.5,
-          bigger: Get.height / 4.5,
+          smaller: Get.height / 3.2,
+          medium: Get.height / 3.7,
+          bigger: Get.height / 3.7,
         );
       } else {
         return homeListPadding;
