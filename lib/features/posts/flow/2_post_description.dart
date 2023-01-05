@@ -1,5 +1,7 @@
+import 'package:tiutiu/core/utils/validators.dart';
 import 'package:tiutiu/core/widgets/underline_input_dropdown.dart';
 import 'package:tiutiu/core/extensions/string_extension.dart';
+import 'package:tiutiu/core/widgets/underline_text.dart';
 import 'package:tiutiu/features/posts/widgets/text_area.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
@@ -35,16 +37,35 @@ class PostDescription extends StatelessWidget {
     );
   }
 
-  UnderlineInputDropdown _breed() {
-    return UnderlineInputDropdown(
-      isInErrorState: !(postsController.post as Pet).breed.isNotEmptyNeighterNull() && !postsController.formIsValid,
-      initialValue: (postsController.post as Pet).breed,
-      onChanged: (breed) {
-        postsController.updatePost(PetEnum.breed.name, breed);
-      },
-      items: DummyData.breeds[postsController.post.type]!,
-      labelText: PostDetailsStrings.breed,
-      fontSize: 14.0,
+  Widget _breed() {
+    final postType = postsController.post.type;
+
+    return Visibility(
+      visible: postType != PetTypeStrings.exotic,
+      child: UnderlineInputDropdown(
+        isInErrorState: !(postsController.post as Pet).breed.isNotEmptyNeighterNull() && !postsController.formIsValid,
+        initialValue: (postsController.post as Pet).breed,
+        onChanged: (breed) {
+          postsController.updatePost(PetEnum.breed.name, breed);
+        },
+        items: postType == PetTypeStrings.exotic ? [] : DummyData.breeds[postsController.post.type]!,
+        labelText: PostDetailsStrings.breed,
+        fontSize: 14.0,
+      ),
+      replacement: Padding(
+        padding: EdgeInsets.fromLTRB(3.0.w, 0.0.h, 3.0.w, 16.0.h),
+        child: Obx(
+          () => UnderlineInputText(
+            initialValue: (postsController.post as Pet).breed,
+            validator: Validators.verifyEmpty,
+            onChanged: (exoticBreed) {
+              postsController.updatePost(PetEnum.breed.name, exoticBreed);
+            },
+            labelText: PostDetailsStrings.breed,
+            fontSizeLabelText: 12.0,
+          ),
+        ),
+      ),
     );
   }
 
