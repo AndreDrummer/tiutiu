@@ -44,7 +44,13 @@ class PostDennounceController extends GetxController {
     updatePostDennounce(PostDennounceEnum.dennouncer, tiutiuUserController.tiutiuUser);
     updatePostDennounce(PostDennounceEnum.uid, Uuid().v4());
 
-    DennounceServices().uploadPostDennounceData(postDennounce);
+    await DennounceServices().uploadPostDennounceData(postDennounce);
+    if (postDennounce.motive == PostDennounceStrings.other) {
+      postsController.increasePostDennounces('${PostDennounceStrings.other}: ${postDennounce.description}');
+    } else {
+      postsController.increasePostDennounces(postDennounce.motive);
+    }
+
     resetForm();
     setLoading(false);
   }
