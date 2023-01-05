@@ -2,6 +2,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:tiutiu/core/utils/routes/routes_name.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
@@ -123,6 +124,7 @@ Future<void> main() async {
   FirebaseMessaging.onMessage.listen(_firebaseMessagingForegroundHandler);
 
   MobileAds.instance.initialize();
+  initializeDateFormatting();
 
   runApp(TiuTiuApp());
 }
