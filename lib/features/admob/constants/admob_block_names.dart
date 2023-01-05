@@ -2,7 +2,6 @@ class AdMobBlockName {
   static String get DennouncePopup => 'post_dennounce_screen';
   static String get postDetailsScreen => 'post_details_screen';
   static String get whatsaAppNumber => 'whatsapp_number';
-  static String get onAppOpening => 'app_opening';
   static String get home => 'home';
 }
 
