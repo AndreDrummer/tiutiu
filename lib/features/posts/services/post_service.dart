@@ -24,6 +24,13 @@ class PostService extends GetxService {
         .set({PostEnum.views.name: ++currentViews}, SetOptions(merge: true));
   }
 
+  Future<void> increasePostDennounces(String postId, int currentDennounces, List dennounceMotives) async {
+    await EndpointResolver.getDocumentEndpoint(EndpointNames.pathToPost.name, [postId]).set({
+      PostEnum.dennounceMotives.name: dennounceMotives,
+      PostEnum.timesDennounced.name: currentDennounces,
+    }, SetOptions(merge: true));
+  }
+
   Stream<int> postViews(String postId) {
     return EndpointResolver.getDocumentEndpoint(EndpointNames.pathToPost.name, [postId])
         .snapshots()
