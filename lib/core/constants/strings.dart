@@ -33,7 +33,6 @@ class AppStrings {
   static String get noPostFound => 'Nada foi encontrado.';
   static String get callInWhatsapp => 'Chamar no WhatsApp';
   static String get jotSomethingDown => 'Escreva aqui...';
-  static String get iamInterested => 'Estou interessado';
   static String get noCallOnChat => 'Não, falar no chat';
   static String get backToStart => 'Voltar ao início';
   static String get repeatPassword => 'Repita a senha';
@@ -45,7 +44,6 @@ class AppStrings {
   static String get endApp => 'Encerrar aplicação';
   static String get openGallery => 'Abrir galeria';
   static String get loadingDots => 'Carregando...';
-  static String get interesteds => 'interessados';
   static String get provideInfo => 'Informar';
   static String get views => 'visualizações';
   static String get favorites => 'Favoritos';
