@@ -1,4 +1,6 @@
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:tiutiu/core/widgets/no_connection_text_info.dart';
 import 'package:tiutiu/features/chat/model/message.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
@@ -39,73 +41,85 @@ class _NewMessageState extends State<NewMessage> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.only(
-        bottom: Dimensions.getDimensBasedOnDeviceHeight(
-          smaller: 0.0.h,
-          medium: 0.0.h,
-          bigger: 8.0.h,
+    return Obx(
+      () => Visibility(
+        replacement: Container(
+          child: Padding(
+            padding: EdgeInsets.all(8.0.h),
+            child: NoConnectionTextInfo(),
+          ),
+          color: AppColors.white,
         ),
-      ),
-      padding: const EdgeInsets.all(6.0),
-      child: Row(
-        children: [
-          Expanded(
-            child: Card(
-              elevation: 16.0,
-              color: whiteColor,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(24)),
-              ),
-              child: Padding(
-                padding: EdgeInsets.only(left: 8.0.w, right: 4.0.w),
-                child: TextField(
-                  controller: _controller,
-                  onSubmitted: (value) async => await _sendMessage(),
-                  textCapitalization: TextCapitalization.sentences,
-                  style: TextStyle(color: Colors.black54),
-                  decoration: InputDecoration(
-                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide.none),
-                    disabledBorder: UnderlineInputBorder(borderSide: BorderSide.none),
-                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide.none),
-                    hintStyle: TextStyle(color: Colors.grey),
-                    hintText: ChatStrings.writeYourMessage,
-                  ),
-                  textInputAction: TextInputAction.send,
-                  maxLines: 4,
-                  minLines: 1,
-                  onChanged: (value) {
-                    setState(() {
-                      _enteredMessage = value;
-                    });
-                  },
-                ),
-              ),
+        visible: appController.properties.internetConnected,
+        child: Container(
+          margin: EdgeInsets.only(
+            bottom: Dimensions.getDimensBasedOnDeviceHeight(
+              smaller: 0.0.h,
+              medium: 0.0.h,
+              bigger: 8.0.h,
             ),
           ),
-          GestureDetector(
-            child: SizedBox(
-              height: 56.0,
-              width: 56.0,
-              child: Card(
-                elevation: 16.0,
-                color: destakColor,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(1000)),
-                ),
-                child: Container(
-                  decoration: BoxDecoration(shape: BoxShape.circle),
-                  margin: EdgeInsets.only(left: 8.0.w),
+          padding: const EdgeInsets.all(6.0),
+          child: Row(
+            children: [
+              Expanded(
+                child: Card(
+                  elevation: 16.0,
+                  color: whiteColor,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(24)),
+                  ),
                   child: Padding(
-                    child: Icon(Icons.send_rounded, color: whiteColor),
-                    padding: EdgeInsets.only(right: 4.0.w),
+                    padding: EdgeInsets.only(left: 8.0.w, right: 4.0.w),
+                    child: TextField(
+                      controller: _controller,
+                      onSubmitted: (value) async => await _sendMessage(),
+                      textCapitalization: TextCapitalization.sentences,
+                      style: TextStyle(color: Colors.black54),
+                      decoration: InputDecoration(
+                        focusedBorder: UnderlineInputBorder(borderSide: BorderSide.none),
+                        disabledBorder: UnderlineInputBorder(borderSide: BorderSide.none),
+                        enabledBorder: UnderlineInputBorder(borderSide: BorderSide.none),
+                        hintStyle: TextStyle(color: Colors.grey),
+                        hintText: ChatStrings.writeYourMessage,
+                      ),
+                      textInputAction: TextInputAction.send,
+                      maxLines: 4,
+                      minLines: 1,
+                      onChanged: (value) {
+                        setState(() {
+                          _enteredMessage = value;
+                        });
+                      },
+                    ),
                   ),
                 ),
               ),
-            ),
-            onTap: _enteredMessage.trim().isEmpty ? null : _sendMessage,
-          )
-        ],
+              GestureDetector(
+                child: SizedBox(
+                  height: 56.0,
+                  width: 56.0,
+                  child: Card(
+                    elevation: 16.0,
+                    color: destakColor,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(1000)),
+                    ),
+                    child: Container(
+                      decoration: BoxDecoration(shape: BoxShape.circle),
+                      margin: EdgeInsets.only(left: 8.0.w),
+                      child: Padding(
+                        child: Icon(Icons.send_rounded, color: whiteColor),
+                        padding: EdgeInsets.only(right: 4.0.w),
+                      ),
+                    ),
+                  ),
+                ),
+                onTap: _enteredMessage.trim().isEmpty ? null : _sendMessage,
+              )
+            ],
+          ),
+        ),
       ),
     );
   }

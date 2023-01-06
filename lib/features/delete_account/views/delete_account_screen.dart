@@ -2,7 +2,7 @@ import 'package:tiutiu/core/widgets/default_basic_app_bar.dart';
 import 'package:tiutiu/features/posts/widgets/text_area.dart';
 import 'package:tiutiu/core/widgets/column_button_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:tiutiu/core/widgets/load_dark_screen.dart';
+import 'package:tiutiu/core/views/load_dark_screen.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/constants/text_styles.dart';
 import 'package:tiutiu/core/mixins/tiu_tiu_pop_up.dart';
@@ -99,6 +99,7 @@ class DeleteAccountScreen extends StatelessWidget with TiuTiuPopUp {
       width: double.infinity,
       height: 112.0.h,
       child: ColumnButtonBar(
+        isConnected: appController.properties.internetConnected,
         onPrimaryPressed: _onDeleteAccountButtonPressed,
         textPrimary: DeleteAccountStrings.deleteAccount,
         buttonPrimaryColor: AppColors.danger,

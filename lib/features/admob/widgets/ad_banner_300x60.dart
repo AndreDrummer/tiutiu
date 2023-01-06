@@ -26,19 +26,23 @@ class _AdBanner300x60State extends State<AdBanner300x60> {
     final blockID = appController.getAdMobBlockID(blockName: widget.adBlockName, type: AdMobType.banner);
     adMobController.updateBannerAdId(blockID);
     adMobController.bannerAd.load();
+
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.zero,
-      child: ClipRRect(
-        child: AdWidget(ad: adMobController.bannerAd),
-        borderRadius: widget.borderRadius,
+    return Visibility(
+      visible: !adMobController.bannerAdFailedToLoad,
+      child: Container(
+        margin: EdgeInsets.zero,
+        child: ClipRRect(
+          child: AdWidget(ad: adMobController.bannerAd),
+          borderRadius: widget.borderRadius,
+        ),
+        width: Get.width,
+        height: Dimensions.isBigDevice() ? 48.0.h : 56.0.h,
       ),
-      width: Get.width,
-      height: Dimensions.isBigDevice() ? 48.0.h : 56.0.h,
     );
   }
 

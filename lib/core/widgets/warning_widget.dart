@@ -207,11 +207,9 @@ class HighPriorityInfoBanner extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Obx(() {
+      final showInfoBanner = authController.userExists && !tiutiuUserController.tiutiuUser.emailVerified;
       final thereIsDeveloperCommunication = appController.properties.thereIsDeveloperCommunication;
       final developerLinkRedirection = appController.properties.developerLinkRedirection;
-
-      final showInfoBanner = authController.userExists &&
-          (!appController.properties.internetConnected || !tiutiuUserController.tiutiuUser.emailVerified);
 
       return WarningBanner(
         margin: EdgeInsets.only(top: thereIsDeveloperCommunication ? 0 : 4.0.h),

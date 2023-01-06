@@ -1,3 +1,4 @@
+import 'package:tiutiu/core/widgets/no_connection_text_info.dart';
 import 'package:tiutiu/features/talk_with_us/widgets/body_card.dart';
 import 'package:tiutiu/core/widgets/underline_input_dropdown.dart';
 import 'package:tiutiu/features/talk_with_us/model/feedback.dart';
@@ -5,10 +6,10 @@ import 'package:tiutiu/core/widgets/default_basic_app_bar.dart';
 import 'package:tiutiu/core/extensions/string_extension.dart';
 import 'package:tiutiu/features/posts/widgets/text_area.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:tiutiu/core/widgets/load_dark_screen.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/constants/images_assets.dart';
 import 'package:tiutiu/core/constants/text_styles.dart';
+import 'package:tiutiu/core/views/load_dark_screen.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/core/widgets/button_wide.dart';
 import 'package:tiutiu/core/utils/asset_handle.dart';
@@ -186,13 +187,19 @@ class _TalkWithUsState extends State<TalkWithUs> {
   }
 
   Widget _submitButton() {
-    return Padding(
-      child: ButtonWide(
-        onPressed: feedbackController.submitForm,
-        isLoading: feedbackController.isLoading,
-        text: AppStrings.send,
+    return Obx(
+      () => Padding(
+        padding: EdgeInsets.only(top: 24.0.h),
+        child: Visibility(
+          visible: appController.properties.internetConnected,
+          child: ButtonWide(
+            onPressed: feedbackController.submitForm,
+            isLoading: feedbackController.isLoading,
+            text: AppStrings.send,
+          ),
+          replacement: NoConnectionTextInfo(),
+        ),
       ),
-      padding: EdgeInsets.only(top: 24.0.h),
     );
   }
 }

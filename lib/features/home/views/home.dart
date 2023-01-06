@@ -1,7 +1,6 @@
-import 'package:flutter/foundation.dart';
-import 'package:tiutiu/core/migration/service/migration_service.dart';
 import 'package:tiutiu/features/admob/constants/admob_block_names.dart';
 import 'package:tiutiu/features/home/controller/home_controller.dart';
+import 'package:tiutiu/core/migration/service/migration_service.dart';
 import 'package:tiutiu/features/admob/widgets/ad_banner_300x60.dart';
 import 'package:tiutiu/features/posts/flow/init_post_flow.dart';
 import 'package:tiutiu/features/home/widgets/bottom_bar.dart';
@@ -28,7 +27,7 @@ class _HomeState extends State<Home> with TiuTiuPopUp {
   @override
   void initState() {
     MigrationService().migrate();
-    if (!kDebugMode) adMobController.showInterstitialAd();
+    adMobController.loadOpeningAd();
     super.initState();
   }
 
@@ -141,20 +140,20 @@ class _HomeState extends State<Home> with TiuTiuPopUp {
   double expandedHeight() {
     final homeListPadding = Dimensions.getDimensBasedOnDeviceHeight(
       smaller: Get.height / 3.7,
-      medium: Get.height / 4.3,
-      bigger: Get.height / 4.5,
+      medium: Get.height / 4.6,
+      bigger: Get.height / 4.7,
     );
 
     if (homeController.bottomBarIndex < 2) {
       final thereIsDeveloperCommunication = appController.properties.thereIsDeveloperCommunication;
-      final showInfoBanner = authController.userExists &&
-          (!appController.properties.internetConnected || !tiutiuUserController.tiutiuUser.emailVerified);
+      final showInfoBanner = !appController.properties.internetConnected ||
+          (authController.userExists && !tiutiuUserController.tiutiuUser.emailVerified);
 
       if (thereIsDeveloperCommunication || showInfoBanner) {
         return Dimensions.getDimensBasedOnDeviceHeight(
           smaller: Get.height / 3.2,
-          medium: Get.height / 3.7,
-          bigger: Get.height / 3.7,
+          medium: Get.height / 3.9,
+          bigger: Get.height / 4.0,
         );
       } else {
         return homeListPadding;
