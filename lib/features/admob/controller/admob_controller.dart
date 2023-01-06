@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:tiutiu/features/admob/constants/admob_block_names.dart';
 import 'package:tiutiu/core/local_storage/local_storage_keys.dart';
 import 'package:tiutiu/core/local_storage/local_storage.dart';
@@ -59,9 +61,20 @@ class AdMobController extends GetxController {
     return 10;
   }
 
-  Future<void> loadRewardedAd() async {
+  Future<void> loadWhatsAppRewardedAd() async {
+    await _loadRewardedAd(AdMobBlockName.whatsappQuoteAdBlockId);
+  }
+
+  Future<void> loadChatRewardedAd() async {
+    await _loadRewardedAd(AdMobBlockName.chatQuoteAdBlockId);
+  }
+
+  Future<void> _loadRewardedAd(String adBlockName) async {
     await RewardedAd.load(
-      adUnitId: appController.getAdMobBlockID(blockName: AdMobBlockName.whatsaAppNumber, type: AdMobType.rewarded),
+      adUnitId: appController.getAdMobBlockID(
+        type: AdMobType.rewarded,
+        blockName: adBlockName,
+      ),
       request: AdRequest(),
       rewardedAdLoadCallback: RewardedAdLoadCallback(
         onAdLoaded: (RewardedAd ad) {
@@ -79,7 +92,7 @@ class AdMobController extends GetxController {
 
   Future<void> showRewardedAd(ContactType contactType) async {
     if (!_rewardedAdWasLoaded) {
-      await loadRewardedAd();
+      contactType == ContactType.whatsapp ? await loadWhatsAppRewardedAd() : await loadChatRewardedAd();
     }
 
     _rewardedAd.fullScreenContentCallback = FullScreenContentCallback(
@@ -98,7 +111,7 @@ class AdMobController extends GetxController {
     _rewardedAd.show(
       onUserEarnedReward: (AdWithoutView ad, RewardItem rewardItem) async {
         ad.dispose();
-        debugPrint('Usuário assistiu certinho ${ad.adUnitId} ${rewardItem.amount}');
+        debugPrint('TiuTiuApp: Usuário assistiu certinho ${ad.adUnitId} ${rewardItem.amount}');
 
         await LocalStorage.setValueUnderLocalStorageKey(
           key: contactType == ContactType.whatsapp
@@ -107,12 +120,19 @@ class AdMobController extends GetxController {
           value: DateTime.now().toIso8601String(),
         );
       },
-    );
+    ).then((_) => _rewardedAdWasLoaded = false);
   }
 
   Future<void> loadInterstitialAd() async {
+    final String androidIntertitialAdId = 'ca-app-pub-6457225629935762/1316775501';
+    final String iOSIntertitialAdId = 'ca-app-pub-6457225629935762/4903299747';
+    final String adTestId = 'ca-app-pub-3940256099942544/4411468910';
+    final bool isIOS = Platform.isIOS;
+
+    final String prodAdId = isIOS ? iOSIntertitialAdId : androidIntertitialAdId;
+
     await InterstitialAd.load(
-      adUnitId: kDebugMode ? 'ca-app-pub-3940256099942544/4411468910' : 'ca-app-pub-2837828701670824/6618786222',
+      adUnitId: kDebugMode ? adTestId : prodAdId,
       request: AdRequest(),
       adLoadCallback: InterstitialAdLoadCallback(
         onAdLoaded: (InterstitialAd ad) {
