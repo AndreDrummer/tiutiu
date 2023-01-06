@@ -76,7 +76,8 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
   }
 
   Future<void> loadAdvertise() async {
-    await adMobController.loadRewardedAd();
+    await adMobController.loadWhatsAppRewardedAd();
+    await adMobController.loadChatRewardedAd();
   }
 
   bool postBelongsToMe() => postsController.postBelongsToMe();
@@ -155,7 +156,7 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
                             medium: 0.0.h,
                           ),
                         ),
-                        child: AdBanner300x60(adBlockName: AdMobBlockName.postDetailsScreen),
+                        child: AdBanner300x60(adBlockName: AdMobBlockName.postDetailScreenAdBlockId),
                       ),
                       Visibility(
                         replacement: _petCaracteristicsGrid(petCaracteristics),
