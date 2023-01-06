@@ -207,6 +207,7 @@ class PostDetailsStrings {
     return 'Onde está o PET';
   }
 
+  static String get preparingPostToShare => 'Preparando anúncio para compartilhar';
   static String get caracteristics => 'Características';
   static String get hermaphrodite => 'Hermafrodita';
   static String get health => 'Estado de Saúde';

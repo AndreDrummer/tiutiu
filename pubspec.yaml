@@ -50,7 +50,7 @@ dependencies:
   brasil_fields: ^1.6.0  
   google_fonts: ^3.0.1
   url_launcher: ^6.1.5
-  share_plus: ^4.0.10
+  share_plus: ^6.3.0
   geolocator: ^9.0.1
   geocoding: ^2.0.5  
   provider: ^6.0.3
