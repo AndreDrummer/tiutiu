@@ -218,12 +218,19 @@ class OtherFunctions {
   static String getPostTextToShare(Post post) {
     String postTitle = Formatters.cuttedText(post.name ?? post.type, size: 20);
     String gender = (post as Pet).gender;
+    int ageMonth = post.ageMonth;
     int ageYear = post.ageYear;
     String color = post.color;
     String size = post.size;
-    bool isiOS = Platform.isIOS;
 
-    String age = ageYear <= 0 ? '${post.ageMonth} meses' : '$ageYear anos';
+    bool showNewBornText = ageYear == 0 && ageMonth == 0;
+
+    String age = showNewBornText
+        ? 'Recém Nascido'
+        : ageYear <= 0
+            ? '$ageMonth meses'
+            : '$ageYear anos';
+
     String typeIcon = post.type == PetTypeStrings.cat
         ? '🐈'
         : post.type == PetTypeStrings.dog
@@ -245,7 +252,7 @@ class OtherFunctions {
 
     String bodyText = '*$postTitle*\n⚧️ $gender\n🎂 $age\n📐 $size\n🎨 $color';
 
-    String footerText = 'Baixa aí na ${isiOS ? 'Apple Store' : 'Play Store'} pelo link: $dynamicLink.';
+    String footerText = 'Tem mais detalhes dele nesse link: $dynamicLink.';
 
     return '$headerText\n\n$bodyText\n\n$footerText';
   }
