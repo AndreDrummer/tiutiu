@@ -1,13 +1,13 @@
-import 'package:tiutiu/core/constants/text_styles.dart';
 import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
 import 'package:tiutiu/core/widgets/default_basic_app_bar.dart';
 import 'package:tiutiu/core/widgets/column_button_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:tiutiu/core/widgets/load_dark_screen.dart';
 import 'package:tiutiu/core/constants/images_assets.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/widgets/underline_text.dart';
+import 'package:tiutiu/core/views/load_dark_screen.dart';
 import 'package:tiutiu/core/widgets/avatar_profile.dart';
+import 'package:tiutiu/core/constants/text_styles.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/core/constants/strings.dart';
 import 'package:tiutiu/core/utils/validators.dart';
@@ -194,6 +194,7 @@ class _SettingsState extends State<Settings> {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 8.0.w),
       child: ColumnButtonBar(
+        isConnected: appController.properties.internetConnected,
         showSimpleTextButton: widget.isEditingProfile,
         onPrimaryPressed: () async {
           if (_formIsValid()) {

@@ -1,8 +1,7 @@
-import 'package:tiutiu/core/utils/dimensions.dart';
 import 'package:tiutiu/core/widgets/cards/widgets/card_builder.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/features/posts/model/post.dart';
+import 'package:tiutiu/core/utils/dimensions.dart';
 import 'package:flutter/material.dart';
 
 class CardAdList extends StatelessWidget {
@@ -57,11 +56,8 @@ class CardAdList extends StatelessWidget {
                         ],
                       ),
                       Padding(
+                        child: cardBuilder.favoriteButton(showFavoriteButton),
                         padding: EdgeInsets.only(left: 8.0.w, bottom: 4.0.h),
-                        child: Visibility(
-                          visible: authController.userExists && showFavoriteButton,
-                          child: cardBuilder.favoriteButton(),
-                        ),
                       ),
                     ],
                   ),
