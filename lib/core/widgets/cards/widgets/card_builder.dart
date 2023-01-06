@@ -22,7 +22,7 @@ class CardBuilder {
   final bool inReviewMode;
   final Post _post;
 
-  Widget favoriteButton() => AddRemoveFavorite(isRemoveButton: false, post: _post, tiny: true);
+  Widget favoriteButton(bool show) => AddRemoveFavorite(isRemoveButton: false, post: _post, tiny: true, show: show);
 
   Widget adCityState() => AdCityState(state: (_post as Pet).state, city: (_post as Pet).city);
 
