@@ -43,6 +43,7 @@ class AppStrings {
   static String get endApp => 'Encerrar aplicação';
   static String get openGallery => 'Abrir galeria';
   static String get loadingDots => 'Carregando...';
+  static String get noConnection => 'Sem internet';
   static String get provideInfo => 'Informar';
   static String get views => 'visualizações';
   static String get favorites => 'Favoritos';

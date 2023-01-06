@@ -1,5 +1,5 @@
 import 'package:tiutiu/core/local_storage/local_storage_keys.dart';
-import 'package:tiutiu/core/widgets/loading_video_screen.dart';
+import 'package:tiutiu/core/views/loading_video_screen.dart';
 import 'package:tiutiu/core/constants/firebase_env_path.dart';
 import 'package:tiutiu/core/local_storage/local_storage.dart';
 import 'package:tiutiu/core/extensions/string_extension.dart';

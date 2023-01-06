@@ -1,5 +1,5 @@
 import 'package:tiutiu/core/widgets/loading_page.dart';
-import 'package:tiutiu/core/widgets/error_page.dart';
+import 'package:tiutiu/core/views/user_feedback_screen.dart';
 import 'package:tiutiu/core/widgets/empty_list.dart';
 import 'package:flutter/material.dart';
 
@@ -41,9 +41,9 @@ class AsyncHandler<T> extends StatelessWidget {
     if (snapshot.hasError) {
       debugPrint('TiuTiuApp: Error ao carregar dados do tipo $T. Message: ${snapshot.error} ${snapshot.stackTrace}');
       return errorWidget ??
-          ErrorPage(
+          UserFeedbackScreen(
             onErrorCallback: onErrorCallback,
-            errorMessage: errorMessage,
+            feedbackMessage: errorMessage,
             error: snapshot.error,
           );
     }
