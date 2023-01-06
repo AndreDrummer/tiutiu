@@ -152,7 +152,7 @@ class _TiuTiuAppState extends State<TiuTiuApp> {
     // Run code required to handle interacted messages in an async function
     // as initState() must not be async
     chatController.setupInteractedMessage();
-    adMobController.loadInterstitialAd();
+    adMobController.loadOpeningAd();
   }
 
   @override

@@ -4,7 +4,7 @@ import 'package:tiutiu/features/posts/widgets/text_area.dart';
 import 'package:tiutiu/core/extensions/string_extension.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/features/posts/flow/post_flow.dart';
-import 'package:tiutiu/core/widgets/load_dark_screen.dart';
+import 'package:tiutiu/core/views/load_dark_screen.dart';
 import 'package:tiutiu/core/constants/images_assets.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/widgets/row_button_bar.dart';

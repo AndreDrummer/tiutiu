@@ -9,7 +9,7 @@ import 'package:tiutiu/features/posts/flow/6_post_video.dart';
 import 'package:tiutiu/features/posts/flow/1_post_info.dart';
 import 'package:tiutiu/features/posts/widgets/stepper.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:tiutiu/core/widgets/load_dark_screen.dart';
+import 'package:tiutiu/core/views/load_dark_screen.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/widgets/row_button_bar.dart';
 import 'package:tiutiu/core/widgets/one_line_text.dart';

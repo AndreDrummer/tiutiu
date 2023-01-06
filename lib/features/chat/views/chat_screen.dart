@@ -133,31 +133,35 @@ class ChatScreen extends StatelessWidget with TiuTiuPopUp {
               color: AppColors.white,
             ),
             Spacer(),
-            PopupMenuButton<String>(
-              icon: Icon(
-                Platform.isIOS ? Icons.more_horiz_outlined : Icons.more_vert_outlined,
-                color: AppColors.white,
-              ),
-              onSelected: (String item) {
-                if (item == ChatActionsEnum.dennounceUser.name) {
-                  userDennounceController.updateUserDennounce(
-                    UserDennounceEnum.dennouncedUser,
-                    chatController.userChatingWith,
-                  );
+            Visibility(
+              visible: appController.properties.internetConnected,
+              child: PopupMenuButton<String>(
+                icon: Icon(
+                  Platform.isIOS ? Icons.more_horiz_outlined : Icons.more_vert_outlined,
+                  color: AppColors.white,
+                ),
+                onSelected: (String item) {
+                  if (item == ChatActionsEnum.dennounceUser.name) {
+                    userDennounceController.updateUserDennounce(
+                      UserDennounceEnum.dennouncedUser,
+                      chatController.userChatingWith,
+                    );
 
-                  showsDennouncePopup(content: UserDennounceScreen());
-                }
-              },
-              itemBuilder: (context) => <PopupMenuEntry<String>>[
-                PopupMenuItem<String>(
-                  value: ChatActionsEnum.deleteChat.name,
-                  child: Text(ChatStrings.deleteChat),
-                ),
-                PopupMenuItem<String>(
-                  child: Text(ChatStrings.dennounceUser(chatController.userChatingWith.displayName!.split(' ').first)),
-                  value: ChatActionsEnum.dennounceUser.name,
-                ),
-              ],
+                    showsDennouncePopup(content: UserDennounceScreen());
+                  }
+                },
+                itemBuilder: (context) => <PopupMenuEntry<String>>[
+                  PopupMenuItem<String>(
+                    value: ChatActionsEnum.deleteChat.name,
+                    child: Text(ChatStrings.deleteChat),
+                  ),
+                  PopupMenuItem<String>(
+                    child:
+                        Text(ChatStrings.dennounceUser(chatController.userChatingWith.displayName!.split(' ').first)),
+                    value: ChatActionsEnum.dennounceUser.name,
+                  ),
+                ],
+              ),
             )
           ],
         ),

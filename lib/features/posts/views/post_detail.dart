@@ -6,16 +6,17 @@ import 'package:tiutiu/core/widgets/pet_other_caracteristics_card.dart';
 import 'package:tiutiu/core/pets/model/pet_caracteristics_model.dart';
 import 'package:tiutiu/features/dennounce/model/post_dennounce.dart';
 import 'package:tiutiu/features/admob/widgets/ad_banner_300x60.dart';
+import 'package:tiutiu/core/widgets/no_connection_text_info.dart';
 import 'package:tiutiu/features/posts/widgets/video_player.dart';
 import 'package:tiutiu/features/posts/widgets/card_content.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:tiutiu/core/widgets/loading_video_screen.dart';
+import 'package:tiutiu/core/views/loading_video_screen.dart';
 import 'package:tiutiu/core/extensions/string_extension.dart';
 import 'package:tiutiu/core/widgets/simple_text_button.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/utils/routes/routes_name.dart';
 import 'package:tiutiu/core/utils/launcher_functions.dart';
-import 'package:tiutiu/core/widgets/load_dark_screen.dart';
+import 'package:tiutiu/core/views/load_dark_screen.dart';
 import 'package:tiutiu/core/constants/images_assets.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/widgets/dots_indicator.dart';
@@ -226,18 +227,28 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
               ),
             ),
             Spacer(),
-            _dennouncePostButton(),
-            SizedBox(width: 4.0.w),
-            Visibility(
-              visible: !postsController.isInReviewMode && authController.userExists,
-              child: AddRemoveFavorite(
-                post: postsController.post,
-                isRemoveButton: false,
-                tiny: true,
+            Obx(
+              () => Visibility(
+                visible: !postsController.isInReviewMode &&
+                    authController.userExists &&
+                    appController.properties.internetConnected,
+                child: Row(
+                  children: [
+                    _dennouncePostButton(),
+                    SizedBox(width: 4.0.w),
+                    AddRemoveFavorite(
+                      show: appController.properties.internetConnected,
+                      post: postsController.post,
+                      isRemoveButton: false,
+                      tiny: true,
+                    ),
+                    SizedBox(width: 4.0.w),
+                  ],
+                ),
               ),
             ),
-            SizedBox(width: 4.0.w),
             _shareButton(),
+            SizedBox(width: 8.0.h)
           ],
         ),
       ),
@@ -245,19 +256,22 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
   }
 
   Widget _shareButton() {
-    return Visibility(
-      visible: !postsController.isInReviewMode,
-      child: GestureDetector(
-        onTap: postsController.sharePost,
-        child: Card(
-          elevation: 8.0,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24.0.h)),
-          child: Padding(
-            padding: EdgeInsets.all(8.0.h),
-            child: Icon(
-              color: AppColors.secondary,
-              Icons.share,
-              size: 16.0.h,
+    return Obx(
+      () => Visibility(
+        replacement: NoConnectionTextInfo(),
+        visible: !postsController.isInReviewMode && appController.properties.internetConnected,
+        child: GestureDetector(
+          onTap: postsController.sharePost,
+          child: Card(
+            elevation: 8.0,
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24.0.h)),
+            child: Padding(
+              padding: EdgeInsets.all(8.0.h),
+              child: Icon(
+                color: AppColors.secondary,
+                Icons.share,
+                size: 16.0.h,
+              ),
             ),
           ),
         ),

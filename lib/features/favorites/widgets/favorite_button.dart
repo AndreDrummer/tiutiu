@@ -8,45 +8,50 @@ import 'package:get/get.dart';
 class AddRemoveFavorite extends StatelessWidget {
   const AddRemoveFavorite({
     this.isRemoveButton = false,
+    required this.show,
     required this.post,
     this.tiny = false,
   });
 
   final bool isRemoveButton;
+  final bool show;
   final bool tiny;
   final Post post;
 
   @override
   Widget build(BuildContext context) {
     return Obx(
-      () => StreamBuilder<bool>(
-        stream: favoritesController.postIsFavorited(post),
-        builder: (context, snapshot) {
-          final isActive = snapshot.data ?? false;
+      () => Visibility(
+        visible: show && authController.userExists && appController.properties.internetConnected,
+        child: StreamBuilder<bool>(
+          stream: favoritesController.postIsFavorited(post),
+          builder: (context, snapshot) {
+            final isActive = snapshot.data ?? false;
 
-          final icon = isRemoveButton
-              ? Icons.delete
-              : isActive
-                  ? Icons.favorite
-                  : Icons.favorite_border;
+            final icon = isRemoveButton
+                ? Icons.delete
+                : isActive
+                    ? Icons.favorite
+                    : Icons.favorite_border;
 
-          return GestureDetector(
-            child: Card(
-              margin: EdgeInsets.zero,
-              child: Padding(
-                child: Icon(
-                  color: isRemoveButton ? AppColors.danger : AppColors.primary,
-                  size: tiny ? 16.0.h : 24.0.h,
-                  icon,
+            return GestureDetector(
+              child: Card(
+                margin: EdgeInsets.zero,
+                child: Padding(
+                  child: Icon(
+                    color: isRemoveButton ? AppColors.danger : AppColors.primary,
+                    size: tiny ? 16.0.h : 24.0.h,
+                    icon,
+                  ),
+                  padding: EdgeInsets.all(8.0.h),
                 ),
-                padding: EdgeInsets.all(8.0.h),
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24.0.h)),
+                elevation: 8.0,
               ),
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24.0.h)),
-              elevation: 8.0,
-            ),
-            onTap: (isActive || isRemoveButton) ? removeFavorite : addFavorite,
-          );
-        },
+              onTap: (isActive || isRemoveButton) ? removeFavorite : addFavorite,
+            );
+          },
+        ),
       ),
     );
   }
