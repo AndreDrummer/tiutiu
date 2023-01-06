@@ -8,16 +8,20 @@ import 'package:tiutiu/core/constants/strings.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class ErrorPage extends StatelessWidget {
-  const ErrorPage({
+class UserFeedbackScreen extends StatelessWidget {
+  const UserFeedbackScreen({
+    this.showLogoutOption = true,
     this.onErrorCallback,
-    this.errorMessage,
+    this.feedbackMessage,
     this.error,
+    this.icon,
     super.key,
   });
 
   final void Function()? onErrorCallback;
-  final String? errorMessage;
+  final String? feedbackMessage;
+  final bool showLogoutOption;
+  final IconData? icon;
   final dynamic error;
 
   @override
@@ -33,38 +37,41 @@ class ErrorPage extends StatelessWidget {
             Spacer(),
             Icon(
               color: AppColors.white,
-              Icons.info,
+              icon ?? Icons.info,
               size: 24.0.h,
             ),
             Padding(
               padding: EdgeInsets.symmetric(vertical: 32.0.h),
               child: AutoSizeTexts.autoSizeText16(
-                errorMessage ?? AppStrings.tryAgainInABrief,
+                feedbackMessage ?? AppStrings.tryAgainInABrief,
                 textAlign: TextAlign.center,
                 color: AppColors.white,
               ),
             ),
             Spacer(),
-            TextButton.icon(
-              icon: Icon(
-                color: AppColors.white,
-                Icons.exit_to_app,
-                size: 14.0.h,
+            Visibility(
+              visible: showLogoutOption,
+              child: TextButton.icon(
+                icon: Icon(
+                  color: AppColors.white,
+                  Icons.exit_to_app,
+                  size: 14.0.h,
+                ),
+                label: AutoSizeTexts.autoSizeText16(
+                  color: AppColors.white,
+                  AppStrings.leave,
+                ),
+                onPressed: () async {
+                  if (onErrorCallback != null) {
+                    onErrorCallback?.call();
+                  } else {
+                    await authController.signOut().then((_) {
+                      Get.offAllNamed(Routes.home);
+                      homeController.setMoreIndex();
+                    });
+                  }
+                },
               ),
-              label: AutoSizeTexts.autoSizeText16(
-                color: AppColors.white,
-                AppStrings.leave,
-              ),
-              onPressed: () async {
-                if (onErrorCallback != null) {
-                  onErrorCallback?.call();
-                } else {
-                  await authController.signOut().then((_) {
-                    Get.offAllNamed(Routes.home);
-                    homeController.setMoreIndex();
-                  });
-                }
-              },
             ),
             Spacer(),
           ],
