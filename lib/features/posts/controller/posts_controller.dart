@@ -10,12 +10,14 @@ import 'package:tiutiu/features/posts/utils/post_utils.dart';
 import 'package:tiutiu/core/utils/routes/routes_name.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/constants/contact_type.dart';
+import 'package:tiutiu/core/utils/other_functions.dart';
 import 'package:tiutiu/core/mixins/tiu_tiu_pop_up.dart';
 import 'package:tiutiu/core/pets/model/pet_model.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/features/posts/model/post.dart';
 import 'package:tiutiu/core/utils/video_utils.dart';
 import 'package:tiutiu/core/constants/strings.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:flutter/foundation.dart';
 import 'package:chewie/chewie.dart';
 import 'package:get/get.dart';
@@ -100,17 +102,6 @@ class PostsController extends GetxController with TiuTiuPopUp {
     return myUser.uid == postOwner.uid;
   }
 
-  Stream<List<Post>> postsStream() {
-    return _postService.pathToPostsStream().snapshots().asyncMap((postSnapshot) {
-      final postsList = postSnapshot.docs.map((post) {
-        return Pet().fromMap(post.data());
-      }).toList();
-
-      _posts(postsList);
-      return PostUtils.filterPosts(postsList: _posts);
-    });
-  }
-
   Map<String, dynamic> _insertOwnerData(Map<String, dynamic> postMap) {
     if (post.owner == null) {
       postMap[PostEnum.owner.name] = tiutiuUserController.tiutiuUser.toMap();
@@ -119,6 +110,8 @@ class PostsController extends GetxController with TiuTiuPopUp {
 
     return postMap;
   }
+
+  List<Post> loggedUserPosts() => _posts.where(postBelongsToMe).toList();
 
   List _handlePetOtherCaracteristics(String incomingCaracteristic) {
     List caracteristics = [];
@@ -131,6 +124,21 @@ class PostsController extends GetxController with TiuTiuPopUp {
     }
 
     return caracteristics;
+  }
+
+  Stream<List<Post>> postsStream() {
+    return _postService.pathToPostsStream().snapshots().asyncMap((postSnapshot) {
+      final postsList = postSnapshot.docs.map((post) {
+        return Pet().fromMap(post.data());
+      }).toList();
+
+      _posts(postsList);
+      return PostUtils.filterPosts(postsList: _posts);
+    });
+  }
+
+  Stream<int> postViews(String postId) {
+    return _postService.postViews(postId);
   }
 
   Future<void> cacheVideos() async {
@@ -177,8 +185,6 @@ class PostsController extends GetxController with TiuTiuPopUp {
     _filteredPosts(filteredPosts);
     _postsCount(filteredPosts.length);
   }
-
-  List<Post> loggedUserPosts() => _posts.where(postBelongsToMe).toList();
 
   Future<void> _uploadVideo() async {
     if (post.video != null) {
@@ -296,6 +302,69 @@ class PostsController extends GetxController with TiuTiuPopUp {
       barrierDismissible: false,
       title: AppStrings.warning,
     );
+  }
+
+  Future<void> increasePostViews() async {
+    if (!isEditingPost && !isInReviewMode && !postBelongsToMe()) {
+      await _postService.increasePostViews(post.uid!, post.views);
+    }
+  }
+
+  Future<void> increasePostDennounces(String dennounceMotive) async {
+    if (!isEditingPost && !isInReviewMode && !postBelongsToMe()) {
+      List currentDennounces = post.dennounceMotives;
+      List dennounceMotives = [...currentDennounces];
+      int timesDennouncedQty = post.timesDennounced;
+      timesDennouncedQty++;
+
+      dennounceMotives.add(dennounceMotive);
+
+      await _postService.increasePostDennounces(post.uid!, timesDennouncedQty, dennounceMotives);
+    }
+  }
+
+  Future<bool> showsCancelPostPopUp({bool isInsideFlow = false}) async {
+    bool returnValue = false;
+
+    await showPopUp(
+      message: PostFlowStrings.postCancelMessage,
+      title: PostFlowStrings.postCancelTitle,
+      mainAction: () => Get.back(),
+      confirmText: AppStrings.yes,
+      barrierDismissible: false,
+      denyText: AppStrings.no,
+      secondaryAction: () {
+        Get.back();
+
+        if (postsController.isEditingPost) {
+          postsController.isEditingPost = false;
+          Get.back();
+        } else {
+          homeController.setDonateIndex();
+        }
+
+        postsController.clearForm();
+        if (isInsideFlow) returnValue = true;
+      },
+      backGroundColor: AppColors.danger,
+    );
+
+    return returnValue;
+  }
+
+  Future sharePost() async {
+    setLoading(true, loadingText: PostDetailsStrings.preparingPostToShare);
+
+    String? postFirstImage = await OtherFunctions.getPostImageToShare(post);
+    String postText = OtherFunctions.getPostTextToShare(post);
+
+    setLoading(false);
+
+    if (postFirstImage != null) {
+      Share.shareXFiles([XFile(postFirstImage)], text: postText);
+    } else {
+      Share.share(postText);
+    }
   }
 
   void setLoading(bool loadingValue, {String loadingText = ''}) {
@@ -462,58 +531,6 @@ class PostsController extends GetxController with TiuTiuPopUp {
       _postReviewed(true);
       isInReviewMode = false;
     });
-  }
-
-  Future<void> increasePostViews() async {
-    if (!isEditingPost && !isInReviewMode && !postBelongsToMe()) {
-      await _postService.increasePostViews(post.uid!, post.views);
-    }
-  }
-
-  Future<void> increasePostDennounces(String dennounceMotive) async {
-    if (!isEditingPost && !isInReviewMode && !postBelongsToMe()) {
-      List currentDennounces = post.dennounceMotives;
-      List dennounceMotives = [...currentDennounces];
-      int timesDennouncedQty = post.timesDennounced;
-      timesDennouncedQty++;
-
-      dennounceMotives.add(dennounceMotive);
-
-      await _postService.increasePostDennounces(post.uid!, timesDennouncedQty, dennounceMotives);
-    }
-  }
-
-  Future<bool> showsCancelPostPopUp({bool isInsideFlow = false}) async {
-    bool returnValue = false;
-
-    await showPopUp(
-      message: PostFlowStrings.postCancelMessage,
-      title: PostFlowStrings.postCancelTitle,
-      mainAction: () => Get.back(),
-      confirmText: AppStrings.yes,
-      barrierDismissible: false,
-      denyText: AppStrings.no,
-      secondaryAction: () {
-        Get.back();
-
-        if (postsController.isEditingPost) {
-          postsController.isEditingPost = false;
-          Get.back();
-        } else {
-          homeController.setDonateIndex();
-        }
-
-        postsController.clearForm();
-        if (isInsideFlow) returnValue = true;
-      },
-      backGroundColor: AppColors.danger,
-    );
-
-    return returnValue;
-  }
-
-  Stream<int> postViews(String postId) {
-    return _postService.postViews(postId);
   }
 
   void openMypostsLists() {
