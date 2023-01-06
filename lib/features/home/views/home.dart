@@ -49,6 +49,7 @@ class _HomeState extends State<Home> with TiuTiuPopUp {
               backGroundColor: AppColors.warning,
               message: AppStrings.wannaLeave,
               confirmText: AppStrings.yes,
+              textColor: AppColors.black,
               barrierDismissible: false,
               title: AppStrings.endApp,
               denyText: AppStrings.no,
