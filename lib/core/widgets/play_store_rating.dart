@@ -1,10 +1,10 @@
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:tiutiu/core/constants/text_styles.dart';
-import 'package:tiutiu/core/utils/constantes.dart';
 import 'package:tiutiu/core/utils/launcher_functions.dart';
 import 'package:tiutiu/core/constants/images_assets.dart';
+import 'package:tiutiu/core/constants/text_styles.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/core/utils/dimensions.dart';
+import 'package:tiutiu/core/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'dart:io';
 
@@ -33,14 +33,14 @@ class RatingUs extends StatelessWidget {
               urlToOpen: 'https://cutt.ly/4gIMH8V',
             ),
             buttons(
-              urlToOpen: Constantes.APP_INSTAGRAM_PAGE,
+              urlToOpen: Constants.APP_INSTAGRAM_PAGE,
               imagePath: ImageAssets.instaLogo,
               text: '@tiutiuapp',
               context: context,
               bigger: true,
             ),
             buttons(
-              urlToOpen: Constantes.APP_FACEBOOK_PAGE,
+              urlToOpen: Constants.APP_FACEBOOK_PAGE,
               text: 'Tiu, Tiu App',
               imagePath: ImageAssets.face,
               context: context,
