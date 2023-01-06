@@ -34,6 +34,7 @@ import 'package:tiutiu/core/constants/strings.dart';
 import 'package:tiutiu/core/utils/dimensions.dart';
 import 'package:tiutiu/core/utils/formatter.dart';
 import 'package:maps_launcher/maps_launcher.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:chewie/chewie.dart';
 import 'package:get/get.dart';
@@ -60,7 +61,7 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
 
     videoUtils = VideoUtils(post: post);
 
-    await videoUtils.getChewieControllerAsync(autoPlay: true).then((value) {
+    await videoUtils.getChewieControllerAsync(autoPlay: !kDebugMode).then((value) {
       chewieController = value;
       setState(() {
         isLoadingVideo = false;
@@ -246,15 +247,18 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
   Widget _shareButton() {
     return Visibility(
       visible: !postsController.isInReviewMode,
-      child: Card(
-        elevation: 8.0,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24.0.h)),
-        child: Padding(
-          padding: EdgeInsets.all(8.0.h),
-          child: Icon(
-            color: AppColors.secondary,
-            Icons.share,
-            size: 16.0.h,
+      child: GestureDetector(
+        onTap: postsController.sharePost,
+        child: Card(
+          elevation: 8.0,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24.0.h)),
+          child: Padding(
+            padding: EdgeInsets.all(8.0.h),
+            child: Icon(
+              color: AppColors.secondary,
+              Icons.share,
+              size: 16.0.h,
+            ),
           ),
         ),
       ),

@@ -1,4 +1,4 @@
-import 'package:tiutiu/core/utils/constantes.dart';
+import 'package:tiutiu/core/utils/constants.dart';
 
 extension TiutiuStringExtension on String {
   String capitalize() {
@@ -53,8 +53,8 @@ extension TiutiuStringExtension on String {
   }
 
   String concat(String lastPart, {String joiner = ''}) => this + '$joiner$lastPart';
-  bool isAsset() => this.contains(Constantes.ASSETS);
-  bool isUrl() => this.contains(Constantes.HTTP);
+  bool isAsset() => this.contains(Constants.ASSETS);
+  bool isUrl() => this.contains(Constants.HTTP);
 }
 
 extension NullableStringExtension on dynamic {
