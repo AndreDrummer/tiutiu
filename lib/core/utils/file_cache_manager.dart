@@ -30,7 +30,7 @@ class FileCacheManager {
   }) async {
     final fileSavedType = type == FileType.images ? 'image' : 'video';
 
-    final videoPathSaved = await _downloadFile(
+    final fileSavedPath = await _downloadFile(
       filename: filename,
       fileUrl: fileUrl,
       type: type,
@@ -38,6 +38,6 @@ class FileCacheManager {
 
     debugPrint('TiuTiuApp: Cache $fileSavedType saved!');
 
-    return videoPathSaved.path;
+    return fileSavedPath.path;
   }
 }

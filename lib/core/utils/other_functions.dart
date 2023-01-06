@@ -1,12 +1,21 @@
 import 'package:tiutiu/features/posts/views/announcer_profile.dart';
 import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
+import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
+import 'package:tiutiu/core/local_storage/local_storage_keys.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiutiu/core/extensions/string_extension.dart';
+import 'package:tiutiu/core/constants/firebase_env_path.dart';
+import 'package:tiutiu/core/local_storage/local_storage.dart';
+import 'package:tiutiu/core/utils/file_cache_manager.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/location/models/latlng.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:tiutiu/core/utils/math_functions.dart';
+import 'package:tiutiu/core/pets/model/pet_model.dart';
+import 'package:tiutiu/features/posts/model/post.dart';
 import 'package:tiutiu/core/constants/strings.dart';
+import 'package:tiutiu/core/utils/constants.dart';
+import 'package:tiutiu/core/utils/formatter.dart';
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 import 'package:get/get.dart';
@@ -160,5 +169,84 @@ class OtherFunctions {
     }
 
     return fileURL;
+  }
+
+  static Future<String?> getPostImageToShare(Post post) async {
+    debugPrint('TiuTiuApp: Sharing Post...');
+    try {
+      String file;
+      final sharedFilesMap = await LocalStorage.getValueUnderLocalStorageKey(
+        LocalStorageKey.sharedFilesMap,
+      );
+
+      debugPrint('TiuTiuApp: Shared Files Map $sharedFilesMap');
+
+      if (sharedFilesMap != null && (sharedFilesMap as Map).containsKey(post.uid)) {
+        debugPrint('TiuTiuApp: Shared Files Map was NOT null $sharedFilesMap');
+        file = sharedFilesMap[post.uid];
+      } else {
+        debugPrint('TiuTiuApp: Shared Files Map is null $sharedFilesMap');
+        file = await FileCacheManager.save(
+          filename: post.name ?? '${post.type}',
+          fileUrl: post.photos[0],
+          type: FileType.images,
+        );
+
+        debugPrint('TiuTiuApp: Post First Image downloaded $file');
+
+        Map<String, dynamic> map = {};
+        if (sharedFilesMap != null) map.addAll(sharedFilesMap);
+
+        map.putIfAbsent(post.uid!, () => file);
+        debugPrint('TiuTiuApp: Post First Image will be cached $map');
+
+        await LocalStorage.setValueUnderLocalStorageKey(
+          key: LocalStorageKey.sharedFilesMap,
+          value: map,
+        );
+
+        debugPrint('TiuTiuApp: Post First Image cached $map');
+      }
+
+      return file;
+    } catch (exception) {
+      debugPrint('TiuTiuApp: An error occured when trying get post image to share: $exception.');
+      rethrow;
+    }
+  }
+
+  static String getPostTextToShare(Post post) {
+    String postTitle = Formatters.cuttedText(post.name ?? post.type, size: 20);
+    String gender = (post as Pet).gender;
+    int ageYear = post.ageYear;
+    String color = post.color;
+    String size = post.size;
+    bool isiOS = Platform.isIOS;
+
+    String age = ageYear <= 0 ? '${post.ageMonth} meses' : '$ageYear anos';
+    String typeIcon = post.type == PetTypeStrings.cat
+        ? '🐈'
+        : post.type == PetTypeStrings.dog
+            ? '🐶'
+            : post.type == PetTypeStrings.bird
+                ? '🐧'
+                : '';
+
+    final dynamicLinkParams = DynamicLinkParameters(
+      androidParameters: const AndroidParameters(packageName: Constants.APP_ANDROID_ID),
+      iosParameters: const IOSParameters(bundleId: Constants.APP_IOS_BUNDLE_ID),
+      link: Uri.parse('${Constants.DYNAMIC_LINK_PREFIX}/jdF1?q=${post.uid!}'),
+      uriPrefix: Constants.DYNAMIC_LINK_PREFIX,
+    );
+
+    final dynamicLink = dynamicLinkParams.link;
+
+    String headerText = 'Olha esse ${post.type.toLowerCase()} $typeIcon que eu vi no app *Tiu, tiu*:';
+
+    String bodyText = '*$postTitle*\n⚧️ $gender\n🎂 $age\n📐 $size\n🎨 $color';
+
+    String footerText = 'Baixa aí na ${isiOS ? 'Apple Store' : 'Play Store'} pelo link: $dynamicLink.';
+
+    return '$headerText\n\n$bodyText\n\n$footerText';
   }
 }
