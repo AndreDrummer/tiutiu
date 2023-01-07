@@ -22,7 +22,7 @@ class AddRemoveFavorite extends StatelessWidget {
   Widget build(BuildContext context) {
     return Obx(
       () => Visibility(
-        visible: show && authController.userExists && appController.properties.internetConnected,
+        visible: show && authController.userExists && systemController.properties.internetConnected,
         child: StreamBuilder<bool>(
           stream: favoritesController.postIsFavorited(post),
           builder: (context, snapshot) {

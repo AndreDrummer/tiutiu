@@ -402,6 +402,6 @@ class UserDennounceStrings {
 
 class GreetingStrings {
   static const String goodAfternoon = 'Boa tarde';
-  static const String goodMonring = 'Bom dia';
+  static const String goodMorning = 'Bom dia';
   static const String goodNight = 'Boa noite';
 }

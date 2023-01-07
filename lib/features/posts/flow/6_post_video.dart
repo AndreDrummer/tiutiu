@@ -49,9 +49,9 @@ class _PostVideoVideoState extends State<PostVideo> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        if (appController.properties.bottomSheetIsOpen) {
+        if (systemController.properties.bottomSheetIsOpen) {
           Get.back();
-          appController.bottomSheetIsOpen = false;
+          systemController.bottomSheetIsOpen = false;
         }
       },
       child: Column(

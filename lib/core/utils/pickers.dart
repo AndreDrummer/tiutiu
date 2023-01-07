@@ -21,7 +21,7 @@ mixin Pickers {
     required BuildContext context,
   }) async {
     final ImagePicker _picker = ImagePicker();
-    appController.bottomSheetIsOpen = true;
+    systemController.bottomSheetIsOpen = true;
     showBottomSheet(
       backgroundColor: Colors.white,
       shape: RoundedRectangleBorder(
@@ -35,7 +35,7 @@ mixin Pickers {
       elevation: 16.0,
       builder: (context) {
         return Container(
-          height: appController.properties.snackBarIsOpen
+          height: systemController.properties.snackBarIsOpen
               ? 112.0.h
               : Dimensions.getDimensBasedOnDeviceHeight(
                   smaller: 120.0.h,
@@ -53,7 +53,7 @@ mixin Pickers {
                   ),
                 ),
                 onPressed: () async {
-                  appController.bottomSheetIsOpen = false;
+                  systemController.bottomSheetIsOpen = false;
                   Get.back();
                   var pic;
                   switch (pickerAssetType) {
@@ -74,7 +74,7 @@ mixin Pickers {
                   AppStrings.openGallery,
                 ),
                 onPressed: () async {
-                  appController.bottomSheetIsOpen = false;
+                  systemController.bottomSheetIsOpen = false;
                   Get.back();
                   var pic;
                   switch (pickerAssetType) {

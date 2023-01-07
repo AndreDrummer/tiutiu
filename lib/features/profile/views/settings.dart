@@ -194,7 +194,7 @@ class _SettingsState extends State<Settings> {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 8.0.w),
       child: ColumnButtonBar(
-        isConnected: appController.properties.internetConnected,
+        isConnected: systemController.properties.internetConnected,
         showSimpleTextButton: widget.isEditingProfile,
         onPrimaryPressed: () async {
           if (_formIsValid()) {
@@ -214,7 +214,7 @@ class _SettingsState extends State<Settings> {
               ),
             );
           } else if (tiutiuUserController.tiutiuUser.avatar == null) {
-            appController.snackBarIsOpen = true;
+            systemController.snackBarIsOpen = true;
 
             ScaffoldMessenger.of(context)
                 .showSnackBar(
@@ -225,7 +225,7 @@ class _SettingsState extends State<Settings> {
                   ),
                 )
                 .closed
-                .then((value) => appController.snackBarIsOpen = false);
+                .then((value) => systemController.snackBarIsOpen = false);
           }
         },
         onSecondaryPressed: () {

@@ -2,6 +2,7 @@ import 'package:tiutiu/features/dennounce/controller/user_dennounce_controller.d
 import 'package:tiutiu/features/dennounce/controller/post_dennounce_controller.dart';
 import 'package:tiutiu/core/location/controller/current_location_controller.dart';
 import 'package:tiutiu/features/favorites/controller/favorites_controller.dart';
+import 'package:tiutiu/core/remote_config/controller/admin_remote_config.dart';
 import 'package:tiutiu/features/delete_account/controller/delete_account.dart';
 import 'package:tiutiu/features/tiutiu_user/controller/user_controller.dart';
 import 'package:tiutiu/features/posts/controller/filter_controller.dart';
@@ -11,12 +12,13 @@ import 'package:tiutiu/features/admob/controller/admob_controller.dart';
 import 'package:tiutiu/features/talk_with_us/controller/feedback.dart';
 import 'package:tiutiu/features/auth/controller/auth_controller.dart';
 import 'package:tiutiu/features/chat/controller/chat_controller.dart';
+import 'package:tiutiu/core/system/controller/system_controller.dart';
 import 'package:tiutiu/features/home/controller/home_controller.dart';
 import 'package:tiutiu/features/support/controller/support_us.dart';
 import 'package:tiutiu/core/full_screen/controller/controller.dart';
-import 'package:tiutiu/core/system/controller/app_controller.dart';
 import 'package:get/get.dart';
 
+final AdminRemoteConfigController adminRemoteConfigController = Get.find();
 final CurrentLocationController currentLocationController = Get.find();
 final DeleteAccountController deleteAccountController = Get.find();
 final PostDennounceController postDennounceController = Get.find();
@@ -33,4 +35,4 @@ final MoreController moreController = Get.find();
 final HomeController homeController = Get.find();
 final ChatController chatController = Get.find();
 final AuthController authController = Get.find();
-final AppController appController = Get.find();
+final SystemController systemController = Get.find();
