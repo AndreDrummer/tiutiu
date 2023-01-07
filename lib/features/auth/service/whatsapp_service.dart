@@ -3,8 +3,8 @@ import 'package:tiutiu/core/constants/firebase_env_path.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dio/dio.dart';
 
-class WhatsappService {
-  WhatsappService({
+class WhatsSystemService {
+  WhatsSystemService({
     required this.phoneNumber,
     required this.code,
   });

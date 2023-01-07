@@ -195,7 +195,7 @@ class _VerifyEmailState extends State<VerifyEmail> {
       debugPrint('TiuTiuApp: Could not send the email due to $exception');
     }
 
-    appController.snackBarIsOpen = true;
+    systemController.snackBarIsOpen = true;
     ScaffoldMessenger.of(context)
         .showSnackBar(
           SnackBar(
@@ -211,7 +211,7 @@ class _VerifyEmailState extends State<VerifyEmail> {
           ),
         )
         .closed
-        .then((value) => appController.snackBarIsOpen = false);
+        .then((value) => systemController.snackBarIsOpen = false);
 
     setState(() {
       resendButtonIsEnabled = true;

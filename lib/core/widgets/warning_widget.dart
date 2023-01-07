@@ -1,17 +1,25 @@
+import 'package:tiutiu/core/extensions/string_extension.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:tiutiu/core/utils/formatter.dart';
+import 'package:tiutiu/core/utils/launcher_functions.dart';
 import 'package:tiutiu/core/utils/routes/routes_name.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/constants/text_styles.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/core/constants/strings.dart';
+import 'package:tiutiu/core/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class WarningBanner extends StatelessWidget {
   const WarningBanner({
+    this.adminCommunicationIsDanger = false,
+    this.thereIsAdminCommunication = false,
     this.isHiddingContactInfo = false,
     this.showBannerCondition = false,
+    this.adminLinkRedirection,
     required this.replacement,
+    this.adminCommunication,
     this.textWarning,
     this.textColor,
     this.tileColor,
@@ -22,8 +30,12 @@ class WarningBanner extends StatelessWidget {
     super.key,
   });
 
+  final bool adminCommunicationIsDanger;
+  final bool thereIsAdminCommunication;
+  final String? adminLinkRedirection;
   final EdgeInsetsGeometry? padding;
   final EdgeInsetsGeometry? margin;
+  final String? adminCommunication;
   final bool isHiddingContactInfo;
   final bool showBannerCondition;
   final String? textWarning;
@@ -34,67 +46,94 @@ class WarningBanner extends StatelessWidget {
   final Color? tileColor;
 
   String? getBannerText() {
-    return textWarning != null
-        ? textWarning
-        : isHiddingContactInfo
-            ? AppStrings.verifyEmailToSeeContactInfo
-            : AppStrings.verifyAccountWarning;
+    if (thereIsAdminCommunication) {
+      return adminCommunication;
+    } else {
+      return textWarning != null
+          ? textWarning
+          : isHiddingContactInfo
+              ? AppStrings.verifyEmailToSeeContactInfo
+              : AppStrings.verifyAccountWarning;
+    }
   }
 
   Color? getBannerTextColor() {
-    return textColor != null
-        ? textColor
-        : isHiddingContactInfo
-            ? AppColors.black
-            : AppColors.white;
+    if (thereIsAdminCommunication) {
+      return AppColors.white;
+    } else {
+      return textColor != null
+          ? textColor
+          : isHiddingContactInfo
+              ? AppColors.black
+              : AppColors.white;
+    }
   }
 
   Color? getBannerBackgroundcolor() {
-    return tileColor != null
-        ? tileColor
-        : isHiddingContactInfo
-            ? Colors.amber
-            : AppColors.danger;
+    if (thereIsAdminCommunication) {
+      return adminCommunicationIsDanger ? AppColors.danger : AppColors.primary;
+    } else {
+      return tileColor != null
+          ? tileColor
+          : isHiddingContactInfo
+              ? Colors.amber
+              : AppColors.danger;
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    return Visibility(
-      visible: showBannerCondition,
-      replacement: replacement,
-      child: Container(
-        height: tileSize ?? 24.0.h,
-        padding: padding ?? EdgeInsets.symmetric(horizontal: 4.0.w, vertical: 2.0.h),
-        margin: margin ?? EdgeInsets.symmetric(vertical: 32.0.h, horizontal: 8.0.w),
-        alignment: Alignment.center,
-        decoration: BoxDecoration(
-          color: getBannerBackgroundcolor(),
-          borderRadius: BorderRadius.circular(4.0.h),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            SizedBox(width: 2.0.w),
-            Expanded(
-              child: AutoSizeTexts.autoSizeText12(
-                getBannerText(),
-                color: getBannerTextColor(),
-                textOverflow: TextOverflow.fade,
-                textAlign: TextAlign.left,
-                fontSize: fontSize,
-              ),
+    return GestureDetector(
+      onTap: () {
+        if (adminLinkRedirection.isNotEmptyNeighterNull()) {
+          Launcher.openBrowser('${adminLinkRedirection ?? Constants.APP_INSTAGRAM_PAGE}');
+        }
+      },
+      child: Visibility(
+        visible: showBannerCondition,
+        replacement: replacement,
+        child: Card(
+          elevation: 8.0,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4.0.h)),
+          child: Container(
+            height: tileSize ?? 24.0.h,
+            padding: padding ?? EdgeInsets.symmetric(horizontal: 4.0.w, vertical: 2.0.h),
+            margin: margin ?? EdgeInsets.symmetric(vertical: 32.0.h, horizontal: 8.0.w),
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+              color: getBannerBackgroundcolor(),
+              borderRadius: BorderRadius.circular(4.0.h),
             ),
-            Icon(
-              Icons.warning,
-              size: 12.0.h,
-              color: textColor != null
-                  ? textColor
-                  : isHiddingContactInfo
-                      ? AppColors.black
-                      : AppColors.white,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                SizedBox(width: 2.0.w),
+                Expanded(
+                  child: AutoSizeTexts.autoSizeText12(
+                    getBannerText(),
+                    color: getBannerTextColor(),
+                    textOverflow: TextOverflow.fade,
+                    textAlign: TextAlign.left,
+                    fontSize: fontSize,
+                  ),
+                ),
+                Visibility(
+                  visible: !thereIsAdminCommunication,
+                  child: Icon(
+                    Icons.warning,
+                    size: 12.0.h,
+                    color: textColor != null
+                        ? textColor
+                        : isHiddingContactInfo
+                            ? AppColors.black
+                            : AppColors.white,
+                  ),
+                  replacement: Icon(color: AppColors.white, Icons.launch, size: 12.0.h),
+                ),
+                SizedBox(width: 2.0.w),
+              ],
             ),
-            SizedBox(width: 2.0.w),
-          ],
+          ),
         ),
       ),
     );
@@ -168,5 +207,35 @@ class VerifyAccountWarningInterstitial extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+class HighPriorityInfoBanner extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Obx(() {
+      final showInfoBanner = authController.userExists && !tiutiuUserController.tiutiuUser.emailVerified;
+      final thereIsAdminCommunication = adminRemoteConfigController.configs.thereIsAdminCommunication;
+      final adminLinkRedirection = adminRemoteConfigController.configs.adminLinkRedirectsTo;
+
+      final adminCommunication = Formatters.cuttedText(
+        adminRemoteConfigController.configs.adminCommunication,
+        size: 200,
+      );
+
+      final tileSize = Formatters.cuttedText(adminCommunication).length.toDouble() + 8.0.h;
+
+      return WarningBanner(
+        adminCommunicationIsDanger: adminRemoteConfigController.configs.adminCommunicationIsDanger,
+        margin: EdgeInsets.only(top: thereIsAdminCommunication ? 0 : 4.0.h),
+        padding: EdgeInsets.symmetric(horizontal: 4.0.w, vertical: 1.0.h),
+        showBannerCondition: thereIsAdminCommunication || showInfoBanner,
+        tileSize: thereIsAdminCommunication ? tileSize : null,
+        thereIsAdminCommunication: thereIsAdminCommunication,
+        adminLinkRedirection: adminLinkRedirection,
+        adminCommunication: adminCommunication,
+        replacement: SizedBox.shrink(),
+      );
+    });
   }
 }
