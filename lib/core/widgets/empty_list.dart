@@ -24,7 +24,7 @@ class EmptyListScreen extends StatelessWidget {
         Visibility(
           child: Container(
             child: Image.asset(ImageAssets.notFoundET),
-            height: Get.width / 2,
+            height: Get.width / 3,
           ),
           visible: isAPetScreenList,
         ),

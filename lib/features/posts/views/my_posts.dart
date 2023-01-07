@@ -12,17 +12,23 @@ class MyPosts extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Obx(
-      () => Scaffold(
-        appBar: DefaultBasicAppBar(
-          leading: BackButton(onPressed: postsController.closeMypostsLists),
-          actions: [TogglePostCardAppearence(color: AppColors.white)],
-          text: MyProfileOptionsTile.myPosts,
-        ),
-        body: RenderPostList(
-          firstChild: FilterResultCount(postsCount: postsController.postsCount, isInMyPosts: true),
-          itemCount: postsController.filteredPosts.length + 1,
-          posts: postsController.filteredPosts,
-          isInMyPosts: true,
+      () => WillPopScope(
+        onWillPop: () async {
+          postsController.closeMypostsLists();
+          return true;
+        },
+        child: Scaffold(
+          appBar: DefaultBasicAppBar(
+            actions: [TogglePostCardAppearence(color: AppColors.white)],
+            text: MyProfileOptionsTile.myPosts,
+            automaticallyImplyLeading: true,
+          ),
+          body: RenderPostList(
+            firstChild: FilterResultCount(postsCount: postsController.postsCount, isInMyPosts: true),
+            itemCount: postsController.filteredPosts.length + 1,
+            posts: postsController.filteredPosts,
+            isInMyPosts: true,
+          ),
         ),
       ),
     );
