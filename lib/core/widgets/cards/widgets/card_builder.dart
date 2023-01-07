@@ -26,9 +26,10 @@ class CardBuilder {
 
   Widget adCityState() => AdCityState(state: (_post as Pet).state, city: (_post as Pet).city);
 
-  Widget adDistanceFromUser() => AdDistanceFromUser(distanceText: distanceText);
+  Widget adDescription({required double maxFontSize}) =>
+      AdDescription(description: (_post as Pet).breed, maxFontSize: maxFontSize);
 
-  Widget adDescription() => AdDescription(description: (_post as Pet).breed);
+  Widget adDistanceFromUser() => AdDistanceFromUser(distanceText: distanceText);
 
   Widget adPostedAt() => AdPostedAt(createdAt: (_post as Pet).createdAt!);
 
