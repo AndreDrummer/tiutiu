@@ -7,6 +7,10 @@ enum AdminRemoteConfigEnum {
   mostUpdatedVersion,
   adminCommunication,
   showSponsoredAds,
+  appInstagramLink,
+  appFacebookLink,
+  appleStoreLink,
+  playStoreLink,
   appBirthday,
   appAdminID,
   allowPost,
@@ -21,6 +25,10 @@ class AdminRemoteConfig {
       adminCommunication: map[AdminRemoteConfigEnum.adminCommunication.name],
       mostUpdatedVersion: map[AdminRemoteConfigEnum.mostUpdatedVersion.name],
       showSponsoredAds: map[AdminRemoteConfigEnum.showSponsoredAds.name],
+      appInstagramLink: map[AdminRemoteConfigEnum.appInstagramLink.name],
+      appFacebookLink: map[AdminRemoteConfigEnum.appFacebookLink.name],
+      appleStoreLink: map[AdminRemoteConfigEnum.appleStoreLink.name],
+      playStoreLink: map[AdminRemoteConfigEnum.playStoreLink.name],
       appBirthday: map[AdminRemoteConfigEnum.appBirthday.name],
       appAdminID: map[AdminRemoteConfigEnum.appAdminID.name],
       allowPost: map[AdminRemoteConfigEnum.allowPost.name],
@@ -34,6 +42,10 @@ class AdminRemoteConfig {
     this.adminCommunication = '',
     this.showSponsoredAds = false,
     this.mostUpdatedVersion = '',
+    this.appInstagramLink = '',
+    this.appFacebookLink = '',
+    this.playStoreLink = '',
+    this.appleStoreLink = '',
     this.allowPost = false,
     this.appBirthday = '',
     this.appAdminID = '',
@@ -47,6 +59,10 @@ class AdminRemoteConfig {
       adminCommunication: snapshot.get(AdminRemoteConfigEnum.adminCommunication.name),
       mostUpdatedVersion: snapshot.get(AdminRemoteConfigEnum.mostUpdatedVersion.name),
       showSponsoredAds: snapshot.get(AdminRemoteConfigEnum.showSponsoredAds.name),
+      appInstagramLink: snapshot.get(AdminRemoteConfigEnum.appInstagramLink.name),
+      appFacebookLink: snapshot.get(AdminRemoteConfigEnum.appFacebookLink.name),
+      appleStoreLink: snapshot.get(AdminRemoteConfigEnum.appleStoreLink.name),
+      playStoreLink: snapshot.get(AdminRemoteConfigEnum.playStoreLink.name),
       appBirthday: snapshot.get(AdminRemoteConfigEnum.appBirthday.name),
       appAdminID: snapshot.get(AdminRemoteConfigEnum.appAdminID.name),
       allowPost: snapshot.get(AdminRemoteConfigEnum.allowPost.name),
@@ -58,7 +74,11 @@ class AdminRemoteConfig {
   final String adminLinkRedirectsTo;
   final String adminCommunication;
   final String mostUpdatedVersion;
+  final String appInstagramLink;
+  final String appFacebookLink;
+  final String appleStoreLink;
   final bool showSponsoredAds;
+  final String playStoreLink;
   final String appBirthday;
   final String appAdminID;
   final bool allowPost;
@@ -69,7 +89,11 @@ class AdminRemoteConfig {
     String? adminLinkRedirectsTo,
     String? adminCommunication,
     String? mostUpdatedVersion,
+    String? appInstagramLink,
+    String? appFacebookLink,
+    String? appleStoreLink,
     bool? showSponsoredAds,
+    String? playStoreLink,
     String? appBirthday,
     String? appAdminID,
     bool? allowPost,
@@ -81,6 +105,10 @@ class AdminRemoteConfig {
       adminCommunication: adminCommunication ?? this.adminCommunication,
       mostUpdatedVersion: mostUpdatedVersion ?? this.mostUpdatedVersion,
       showSponsoredAds: showSponsoredAds ?? this.showSponsoredAds,
+      appInstagramLink: appInstagramLink ?? this.appInstagramLink,
+      appFacebookLink: appFacebookLink ?? this.appFacebookLink,
+      appleStoreLink: appleStoreLink ?? this.appleStoreLink,
+      playStoreLink: playStoreLink ?? this.playStoreLink,
       appBirthday: appBirthday ?? this.appBirthday,
       appAdminID: appAdminID ?? this.appAdminID,
       allowPost: allowPost ?? this.allowPost,
@@ -94,8 +122,11 @@ class AdminRemoteConfig {
       AdminRemoteConfigEnum.adminLinkRedirectsTo.name: adminLinkRedirectsTo,
       AdminRemoteConfigEnum.adminCommunication.name: adminCommunication,
       AdminRemoteConfigEnum.mostUpdatedVersion.name: mostUpdatedVersion,
-      AdminRemoteConfigEnum.mostUpdatedVersion.name: mostUpdatedVersion,
+      AdminRemoteConfigEnum.appInstagramLink.name: appInstagramLink,
       AdminRemoteConfigEnum.showSponsoredAds.name: showSponsoredAds,
+      AdminRemoteConfigEnum.appFacebookLink.name: appFacebookLink,
+      AdminRemoteConfigEnum.appleStoreLink.name: appleStoreLink,
+      AdminRemoteConfigEnum.playStoreLink.name: playStoreLink,
       AdminRemoteConfigEnum.appBirthday.name: appBirthday,
       AdminRemoteConfigEnum.appAdminID.name: appAdminID,
       AdminRemoteConfigEnum.allowPost.name: allowPost,
@@ -110,7 +141,11 @@ class AdminRemoteConfig {
       adminLinkRedirectsTo: $adminLinkRedirectsTo,
       mostUpdatedVersion: $mostUpdatedVersion,
       adminCommunication: $adminCommunication,
+      appInstagramLink: $appInstagramLink,      
       showSponsoredAds: $showSponsoredAds,      
+      appFacebookLink: $appFacebookLink,      
+      appleStoreLink: $appleStoreLink,      
+      playStoreLink: $playStoreLink,      
       appBirthday: $appBirthday,
       appAdminID: $appAdminID,
       allowPost: $allowPost,
