@@ -86,7 +86,10 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
 
   void onLeaveScreen() {
     finishVideo();
-    if (!postsController.isInReviewMode) postsController.clearForm();
+    if (!postsController.isInReviewMode) {
+      postsController.clearForm();
+      Get.offAllNamed(Routes.home);
+    }
   }
 
   double toolBarHeight(int descriptionLength) {
