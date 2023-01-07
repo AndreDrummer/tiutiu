@@ -30,87 +30,101 @@ class Sponsored extends StatelessWidget {
             return Card(
               margin: EdgeInsets.only(top: 4.0.h),
               elevation: 8.0,
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(4.0.h),
-                  color: colors[index],
-                ),
-                width: Get.width,
-                height: 96.0.h,
-                child: Row(
-                  children: [
-                    Container(
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        border: Border.all(
-                          style: BorderStyle.solid,
-                          color: colors[index],
-                          width: 1.0.w,
-                        ),
-                      ),
-                      child: AutoSizeTexts.autoSizeText12(
-                        color: AppColors.black,
-                        'Logo',
-                      ),
-                      width: Get.width / 4,
+              child: Stack(
+                children: [
+                  Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(4.0.h),
+                      color: colors[index],
                     ),
-                    SizedBox(width: 8.0.w),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                    width: Get.width,
+                    height: 96.0.h,
+                    child: Row(
                       children: [
-                        SizedBox(height: 2.0.h),
-                        AutoSizeTexts.autoSizeText16(
-                          'O nome da sua empresa',
-                          color: AppColors.white,
-                          fontWeight: FontWeight.w700,
+                        Container(
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            border: Border.all(
+                              style: BorderStyle.solid,
+                              color: colors[index],
+                              width: 1.0.w,
+                            ),
+                          ),
+                          child: AutoSizeTexts.autoSizeText12(
+                            color: AppColors.black,
+                            'Logo',
+                          ),
+                          width: Get.width / 4,
                         ),
-                        SizedBox(height: 4.0.h),
-                        AutoSizeTexts.autoSizeText10(
-                          'Seu slogan',
-                          fontWeight: FontWeight.w300,
-                          fontStyle: FontStyle.italic,
-                          color: AppColors.white,
-                        ),
-                        Spacer(),
-                        AutoSizeTexts.autoSizeText(
-                          fontWeight: FontWeight.w700,
-                          color: AppColors.white,
-                          fontSize: 8,
-                          'Contato',
-                        ),
-                        Row(
+                        SizedBox(width: 8.0.w),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
+                            SizedBox(height: 2.0.h),
+                            AutoSizeTexts.autoSizeText16(
+                              'O nome da sua empresa',
+                              color: AppColors.white,
+                              fontWeight: FontWeight.w700,
+                            ),
+                            SizedBox(height: 4.0.h),
                             AutoSizeTexts.autoSizeText10(
-                              '(11) 9 9999-9999',
+                              'Seu slogan',
+                              fontWeight: FontWeight.w300,
+                              fontStyle: FontStyle.italic,
                               color: AppColors.white,
                             ),
-                            Padding(
-                              padding: EdgeInsets.only(bottom: 6.0.h),
-                              child: Icon(
-                                Icons.phone,
-                                size: 6.0.h,
-                                color: AppColors.white,
-                              ),
-                            ),
-                            AutoSizeTexts.autoSizeText10(
-                              ' | (11) 9 9999-9999',
+                            Spacer(),
+                            AutoSizeTexts.autoSizeText(
+                              fontWeight: FontWeight.w700,
                               color: AppColors.white,
+                              fontSize: 8,
+                              'Contato',
                             ),
-                            Padding(
-                              padding: EdgeInsets.only(bottom: 8.0.h),
-                              child: Icon(
-                                FontAwesomeIcons.whatsapp,
-                                size: 6.0.h,
-                                color: AppColors.white,
-                              ),
-                            ),
+                            Row(
+                              children: [
+                                AutoSizeTexts.autoSizeText10(
+                                  '(11) 9 9999-9999',
+                                  color: AppColors.white,
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.only(bottom: 6.0.h),
+                                  child: Icon(
+                                    Icons.phone,
+                                    size: 6.0.h,
+                                    color: AppColors.white,
+                                  ),
+                                ),
+                                AutoSizeTexts.autoSizeText10(
+                                  ' | (11) 9 9999-9999',
+                                  color: AppColors.white,
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.only(bottom: 8.0.h),
+                                  child: Icon(
+                                    FontAwesomeIcons.whatsapp,
+                                    size: 6.0.h,
+                                    color: AppColors.white,
+                                  ),
+                                ),
+                              ],
+                            )
                           ],
-                        )
+                        ),
                       ],
                     ),
-                  ],
-                ),
+                  ),
+                  Positioned(
+                    bottom: 32.0.h,
+                    right: 32.0.w,
+                    child: AutoSizeTexts.autoSizeText22(
+                      fontStyle: FontStyle.italic,
+                      fontWeight: FontWeight.w900,
+                      color: AppColors.white,
+                      'Anúncie Aqui',
+                    ),
+                  )
+                ],
               ),
             );
           },

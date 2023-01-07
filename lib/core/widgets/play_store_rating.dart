@@ -1,10 +1,10 @@
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/utils/launcher_functions.dart';
 import 'package:tiutiu/core/constants/images_assets.dart';
 import 'package:tiutiu/core/constants/text_styles.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/core/utils/dimensions.dart';
-import 'package:tiutiu/core/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'dart:io';
 
@@ -27,22 +27,24 @@ class RatingUs extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             buttons(
-              context: context,
               imagePath: Platform.isAndroid ? ImageAssets.playstoreLogo : ImageAssets.applestoreLogo,
               text: 'Avalie na\n${Platform.isAndroid ? 'PlayStore' : 'Apple Store'}',
-              urlToOpen: 'https://cutt.ly/4gIMH8V',
+              urlToOpen: Platform.isAndroid
+                  ? adminRemoteConfigController.configs.playStoreLink
+                  : adminRemoteConfigController.configs.appleStoreLink,
+              context: context,
             ),
             buttons(
-              urlToOpen: Constants.APP_INSTAGRAM_PAGE,
+              urlToOpen: adminRemoteConfigController.configs.appInstagramLink,
               imagePath: ImageAssets.instaLogo,
               text: '@tiutiuapp',
               context: context,
               bigger: true,
             ),
             buttons(
-              urlToOpen: Constants.APP_FACEBOOK_PAGE,
-              text: 'Tiu, Tiu App',
+              urlToOpen: adminRemoteConfigController.configs.appFacebookLink,
               imagePath: ImageAssets.face,
+              text: 'Tiu, Tiu App',
               context: context,
             ),
           ],
