@@ -19,9 +19,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>$(MARKETING_VERSION)</string>
-	<key>GADApplicationIdentifier</key>
-	<string>ca-app-pub-2837828701670824~5532122619</string>
+	<string>$(MARKETING_VERSION)</string>	
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleURLTypes</key>
@@ -35,6 +33,16 @@
 				<string>com.googleusercontent.apps.791022711249-kb8hft6pk0cahhub0cugbtrt473i94np</string>
 			</array>
 		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>com.anjasolutions.tiutiuapp</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.anjasolutions.tiutiuapp</string>
+			</array>
+		</dict>
 	</array>
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
@@ -44,6 +52,8 @@
 	<string>1ea0f62bebebd8921b15b82af2c81a4a</string>
 	<key>FacebookDisplayName</key>
 	<string>Tiu, tiu</string>
+	<key>GADApplicationIdentifier</key>
+	<string>ca-app-pub-2837828701670824~5532122619</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>fbapi</string>
