@@ -59,7 +59,14 @@ class TopBar extends StatelessWidget {
               ),
             ),
           ),
-          HighPriorityInfoBanner(),
+          WarningBanner(
+            showBannerCondition: appController.properties.internetConnected &&
+                authController.userExists &&
+                !tiutiuUserController.tiutiuUser.emailVerified,
+            padding: EdgeInsets.symmetric(horizontal: 4.0.w, vertical: 1.0.h),
+            margin: EdgeInsets.only(top: 4.0.h),
+            replacement: SizedBox.shrink(),
+          ),
           WarningBanner(
             showBannerCondition: !appController.properties.internetConnected && postsController.posts.isNotEmpty,
             textWarning: AppStrings.noConnectionWarning,
