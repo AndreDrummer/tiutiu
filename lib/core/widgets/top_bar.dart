@@ -59,16 +59,9 @@ class TopBar extends StatelessWidget {
               ),
             ),
           ),
+          HighPriorityInfoBanner(),
           WarningBanner(
-            showBannerCondition: appController.properties.internetConnected &&
-                authController.userExists &&
-                !tiutiuUserController.tiutiuUser.emailVerified,
-            padding: EdgeInsets.symmetric(horizontal: 4.0.w, vertical: 1.0.h),
-            margin: EdgeInsets.only(top: 4.0.h),
-            replacement: SizedBox.shrink(),
-          ),
-          WarningBanner(
-            showBannerCondition: !appController.properties.internetConnected && postsController.posts.isNotEmpty,
+            showBannerCondition: !systemController.properties.internetConnected && postsController.posts.isNotEmpty,
             textWarning: AppStrings.noConnectionWarning,
             margin: EdgeInsets.only(top: 4.0.h),
             padding: EdgeInsets.all(2.0.h),
@@ -116,7 +109,7 @@ class TopBar extends StatelessWidget {
     String greeting = '';
 
     if (now.hour < 12) {
-      greeting = GreetingStrings.goodMonring;
+      greeting = GreetingStrings.goodMorning;
     } else if (now.hour < 18) {
       greeting = GreetingStrings.goodAfternoon;
     } else {
@@ -130,7 +123,16 @@ class TopBar extends StatelessWidget {
     final now = DateTime.now();
 
     if (now.hour < 12) {
-      return Transform.rotate(angle: 12, child: Icon(Icons.wb_sunny_rounded, color: Colors.amber));
+      return Stack(
+        children: [
+          Icon(Icons.sunny, color: Colors.yellow),
+          Positioned(
+            left: 6.5.w,
+            top: 6.5.h,
+            child: Icon(Icons.wb_cloudy_rounded, color: Colors.grey.withOpacity(.9), size: 13.0.h),
+          ),
+        ],
+      );
     } else if (now.hour < 18) {
       return Transform.rotate(angle: 12, child: Icon(Icons.wb_sunny_sharp, color: Colors.amberAccent));
     } else {

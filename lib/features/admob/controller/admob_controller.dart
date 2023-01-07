@@ -77,7 +77,7 @@ class AdMobController extends GetxController {
 
   Future<void> _loadRewardedAd(String adBlockName) async {
     await RewardedAd.load(
-      adUnitId: appController.getAdMobBlockID(
+      adUnitId: systemController.getAdMobBlockID(
         type: AdMobType.rewarded,
         blockName: adBlockName,
       ),

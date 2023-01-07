@@ -50,7 +50,7 @@ class _NewMessageState extends State<NewMessage> {
           ),
           color: AppColors.white,
         ),
-        visible: appController.properties.internetConnected,
+        visible: systemController.properties.internetConnected,
         child: Container(
           margin: EdgeInsets.only(
             bottom: Dimensions.getDimensBasedOnDeviceHeight(
