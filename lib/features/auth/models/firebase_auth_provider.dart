@@ -19,10 +19,10 @@ class FirebaseAuthProvider implements AuthProviders {
   Stream<User?> authStateChanges() => _firebaseAuth.authStateChanges();
 
   Future sendWhatsAppCode(String phoneNumber, String code) async {
-    final whatsappService = WhatsappService(code: code, phoneNumber: phoneNumber);
+    final whatsSystemService = WhatsSystemService(code: code, phoneNumber: phoneNumber);
 
     try {
-      await whatsappService.sendCodeVerification();
+      await whatsSystemService.sendCodeVerification();
     } on Exception catch (error) {
       debugPrint('TiuTiuApp: Error sending WhatsApp Message: $error');
       rethrow;

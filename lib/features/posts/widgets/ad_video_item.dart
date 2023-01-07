@@ -25,9 +25,9 @@ class AddVideoItem extends StatelessWidget with Pickers {
       ),
       child: GestureDetector(
         onTap: () {
-          if (appController.properties.bottomSheetIsOpen) {
+          if (systemController.properties.bottomSheetIsOpen) {
             Get.back();
-            appController.bottomSheetIsOpen = false;
+            systemController.bottomSheetIsOpen = false;
           } else {
             pickAnAsset(
               pickerAssetType: PickerAssetType.video,

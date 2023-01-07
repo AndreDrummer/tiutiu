@@ -234,13 +234,13 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
               () => Visibility(
                 visible: !postsController.isInReviewMode &&
                     authController.userExists &&
-                    appController.properties.internetConnected,
+                    systemController.properties.internetConnected,
                 child: Row(
                   children: [
                     _dennouncePostButton(),
                     SizedBox(width: 4.0.w),
                     AddRemoveFavorite(
-                      show: appController.properties.internetConnected,
+                      show: systemController.properties.internetConnected,
                       post: postsController.post,
                       isRemoveButton: false,
                       tiny: true,
@@ -262,7 +262,7 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
     return Obx(
       () => Visibility(
         replacement: postsController.isInReviewMode ? SizedBox.shrink() : NoConnectionTextInfo(),
-        visible: !postsController.isInReviewMode && appController.properties.internetConnected,
+        visible: !postsController.isInReviewMode && systemController.properties.internetConnected,
         child: GestureDetector(
           onTap: postsController.sharePost,
           child: Card(
