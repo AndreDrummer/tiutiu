@@ -298,7 +298,7 @@ class _VerifyPhoneState extends State<VerifyPhone> {
               onPressed: () {
                 authController.whatsAppCodeIsValid(codeController.text).then((valid) {
                   if (!valid) {
-                    appController.snackBarIsOpen = true;
+                    systemController.snackBarIsOpen = true;
                     ScaffoldMessenger.of(context)
                         .showSnackBar(
                           SnackBar(
@@ -308,7 +308,7 @@ class _VerifyPhoneState extends State<VerifyPhone> {
                           ),
                         )
                         .closed
-                        .then((value) => appController.snackBarIsOpen = false);
+                        .then((value) => systemController.snackBarIsOpen = false);
                     codeController.clear();
                   } else {
                     Future.delayed(Duration(seconds: 2)).then((value) => authController.continueAfterValidateNumber());

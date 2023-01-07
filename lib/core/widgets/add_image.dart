@@ -95,9 +95,9 @@ class _AddImageState extends State<AddImage> with Pickers {
               decreasePhotosQty();
             },
             onAddPicture: () {
-              if (appController.properties.bottomSheetIsOpen) {
+              if (systemController.properties.bottomSheetIsOpen) {
                 Get.back();
-                appController.bottomSheetIsOpen = false;
+                systemController.bottomSheetIsOpen = false;
               } else {
                 pickAnAsset(
                   context: context,

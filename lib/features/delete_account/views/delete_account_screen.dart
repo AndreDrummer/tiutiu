@@ -99,7 +99,7 @@ class DeleteAccountScreen extends StatelessWidget with TiuTiuPopUp {
       width: double.infinity,
       height: 112.0.h,
       child: ColumnButtonBar(
-        isConnected: appController.properties.internetConnected,
+        isConnected: systemController.properties.internetConnected,
         onPrimaryPressed: _onDeleteAccountButtonPressed,
         textPrimary: DeleteAccountStrings.deleteAccount,
         buttonPrimaryColor: AppColors.danger,
