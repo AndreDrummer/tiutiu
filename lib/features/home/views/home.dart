@@ -16,7 +16,6 @@ import 'package:tiutiu/core/constants/strings.dart';
 import 'package:tiutiu/core/utils/dimensions.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'dart:io';
 
 class Home extends StatefulWidget {
   @override
@@ -45,6 +44,8 @@ class _HomeState extends State<Home> with TiuTiuPopUp {
       child: Obx(
         () => WillPopScope(
           onWillPop: () async {
+            bool willClose = false;
+
             return showPopUp(
               backGroundColor: AppColors.warning,
               message: AppStrings.wannaLeave,
@@ -57,9 +58,10 @@ class _HomeState extends State<Home> with TiuTiuPopUp {
                 Get.back();
               },
               secondaryAction: () {
-                exit(0);
+                willClose = true;
+                Get.back();
               },
-            ).then((value) => false);
+            ).then((_) => willClose);
           },
           child: Scaffold(
             body: NestedScrollView(
