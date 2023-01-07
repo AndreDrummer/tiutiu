@@ -191,7 +191,7 @@ class _TalkWithUsState extends State<TalkWithUs> {
       () => Padding(
         padding: EdgeInsets.only(top: 24.0.h),
         child: Visibility(
-          visible: appController.properties.internetConnected,
+          visible: systemController.properties.internetConnected,
           child: ButtonWide(
             onPressed: feedbackController.submitForm,
             isLoading: feedbackController.isLoading,

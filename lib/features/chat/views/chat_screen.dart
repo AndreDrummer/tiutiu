@@ -134,7 +134,7 @@ class ChatScreen extends StatelessWidget with TiuTiuPopUp {
             ),
             Spacer(),
             Visibility(
-              visible: appController.properties.internetConnected,
+              visible: systemController.properties.internetConnected,
               child: PopupMenuButton<String>(
                 icon: Icon(
                   Platform.isIOS ? Icons.more_horiz_outlined : Icons.more_vert_outlined,
