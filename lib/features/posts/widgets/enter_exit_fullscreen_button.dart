@@ -6,27 +6,38 @@ class EnterExitFullScreenButton extends StatelessWidget {
   const EnterExitFullScreenButton({
     this.isFullscreen = false,
     this.onOpenFullscreen,
+    this.isMuted = false,
+    this.onMuteOrUnMute,
     super.key,
   });
 
   final Function()? onOpenFullscreen;
+  final Function()? onMuteOrUnMute;
   final bool isFullscreen;
+  final bool isMuted;
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onOpenFullscreen,
-      child: Container(
-        child: Icon(
-          isFullscreen ? Icons.fullscreen_exit : Icons.fullscreen,
-          color: AppColors.white,
+    return Row(
+      children: [
+        IconButton(
+          icon: Icon(
+            isMuted ? Icons.volume_off_sharp : Icons.volume_up_sharp,
+            size: isFullscreen ? 48.0.h : 22.0.h,
+            color: AppColors.white,
+          ),
+          onPressed: onMuteOrUnMute,
         ),
-        padding: EdgeInsets.all(4.0.h),
-        decoration: BoxDecoration(
-          color: AppColors.black,
-          shape: BoxShape.circle,
+        IconButton(
+          icon: Icon(
+            isFullscreen ? Icons.fullscreen_exit : Icons.fullscreen,
+            size: isFullscreen ? 48.0.h : 22.0.h,
+            color: AppColors.white,
+          ),
+          padding: EdgeInsets.all(4.0.h),
+          onPressed: onOpenFullscreen,
         ),
-      ),
+      ],
     );
   }
 }

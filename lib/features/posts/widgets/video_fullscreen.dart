@@ -20,6 +20,8 @@ class VideoFullScreen extends StatefulWidget {
 }
 
 class _VideoFullScreenState extends State<VideoFullScreen> {
+  bool isMuted = false;
+
   void setLandscapeLeft() {
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.landscapeLeft,
@@ -36,6 +38,7 @@ class _VideoFullScreenState extends State<VideoFullScreen> {
 
   @override
   void initState() {
+    isMuted = widget.chewieController.videoPlayerController.value.volume == 0;
     setLandscapeLeft();
     super.initState();
   }
@@ -50,7 +53,7 @@ class _VideoFullScreenState extends State<VideoFullScreen> {
       child: Scaffold(
         backgroundColor: AppColors.black,
         body: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          padding: const EdgeInsets.symmetric(horizontal: 8.0),
           child: Stack(
             children: [
               Chewie(controller: widget.chewieController),
@@ -59,6 +62,22 @@ class _VideoFullScreenState extends State<VideoFullScreen> {
                 right: 24.0.w,
                 child: EnterExitFullScreenButton(
                   isFullscreen: true,
+                  isMuted: isMuted,
+                  onMuteOrUnMute: () {
+                    if (isMuted) {
+                      widget.chewieController.setVolume(100);
+
+                      setState(() {
+                        isMuted = false;
+                      });
+                    } else {
+                      widget.chewieController.setVolume(0);
+
+                      setState(() {
+                        isMuted = true;
+                      });
+                    }
+                  },
                   onOpenFullscreen: () {
                     setPortraitUp().then((value) => Navigator.of(context).pop());
                   },
