@@ -18,7 +18,7 @@ class AdDistanceFromUser extends StatelessWidget {
       padding: EdgeInsets.only(bottom: 8.0.h),
       child: Row(
         children: [
-          AutoSizeTexts.autoSizeText12(
+          AutoSizeTexts.autoSizeText10(
             textOverflow: TextOverflow.fade,
             'Está a $distanceText de você',
             fontWeight: FontWeight.w700,
