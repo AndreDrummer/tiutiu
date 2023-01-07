@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/features/posts/model/post.dart';
 import 'package:tiutiu/core/utils/dimensions.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class CardAdList extends StatelessWidget {
   const CardAdList({
@@ -18,14 +19,15 @@ class CardAdList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      margin: EdgeInsets.zero,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12.0.h),
       ),
       height: Dimensions.getDimensBasedOnDeviceHeight(
-        xSmaller: 188.0.h,
-        smaller: 180.0.h,
-        bigger: 156.0.h,
-        medium: 164.0.h,
+        xSmaller: 144.0.h,
+        smaller: 136.0.h,
+        bigger: 122.0.h,
+        medium: 120.0.h,
       ),
       padding: EdgeInsets.zero,
       child: Card(
@@ -50,11 +52,10 @@ class CardAdList extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Container(
-                            margin: EdgeInsets.only(top: 7.0.h),
                             child: cardBuilder.adTitle(),
-                            width: 120.0.w,
+                            width: Get.width / 2.2,
                           ),
-                          cardBuilder.adDescription(),
+                          cardBuilder.adDescription(maxFontSize: 10),
                         ],
                       ),
                       Padding(
@@ -63,16 +64,11 @@ class CardAdList extends StatelessWidget {
                       ),
                     ],
                   ),
-                  Spacer(),
                   cardBuilder.adDistanceFromUser(),
                   cardBuilder.adViews(),
                   cardBuilder.adPostedAt(),
-                  Spacer(),
                   cardBuilder.divider(),
-                  Padding(
-                    padding: EdgeInsets.only(top: 5.0.h),
-                    child: cardBuilder.adCityState(),
-                  ),
+                  cardBuilder.adCityState(),
                 ],
               ),
             ),

@@ -69,6 +69,7 @@ class AdImages extends StatelessWidget {
     );
 
     return Container(
+      margin: EdgeInsets.only(right: 8.0.w),
       decoration: BoxDecoration(
         color: AppColors.white,
         borderRadius: BorderRadius.only(
@@ -96,8 +97,8 @@ class AdImages extends StatelessWidget {
           autoPlay: true,
         ),
       ),
-      width: Get.width * .48,
-      height: Get.height,
+      width: Get.width * .35,
+      height: Get.width * .35,
     );
   }
 }
