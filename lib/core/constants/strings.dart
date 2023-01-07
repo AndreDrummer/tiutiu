@@ -270,7 +270,7 @@ class PostFlowStrings {
     return 'Onde está o PET?';
   }
 
-  static const String stillSendingAd = 'Ainda publicando seu anúncio.\nDesculpe pela demora, por favor, aguarde!';
+  static const String stillSendingAd = 'Ainda publicando seu anúncio...\n\nDesculpe pela demora. Por favor, aguarde!';
   static const String videoSizeExceed = 'Tamanho máximo do vídeo excedido!\nO vídeo deve ter até 1:30 min';
   static const String postCancelMessage = 'Saindo agora todos os dados serão perdidos.\nContinuar?';
   static const String otherCaracteristicsOptional = 'Outras características (Opcional)';

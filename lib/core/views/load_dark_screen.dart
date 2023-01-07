@@ -37,6 +37,7 @@ class LoadDarkScreen extends StatelessWidget {
               children: [
                 LoadingFadingLine.circle(
                   backgroundColor: AppColors.secondary,
+                  size: 40.0.h,
                 ),
                 SizedBox(height: 15),
                 AutoSizeTexts.autoSizeText12(
