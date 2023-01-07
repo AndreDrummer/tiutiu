@@ -1,4 +1,7 @@
+import 'package:tiutiu/features/admob/constants/admob_block_names.dart';
 import 'package:tiutiu/core/location/models/states_and_cities.dart';
+import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
+import 'package:tiutiu/core/extensions/string_extension.dart';
 import 'package:tiutiu/core/system/model/app_properties.dart';
 import 'package:tiutiu/core/system/service/app_service.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
@@ -9,8 +12,6 @@ import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'dart:async';
 
-import 'package:tiutiu/features/admob/constants/admob_block_names.dart';
-
 class AppController extends GetxController {
   AppController({required AppService systemService}) : _systemService = systemService;
 
@@ -19,6 +20,9 @@ class AppController extends GetxController {
   final RxMap<String, dynamic> _adMobIDs = <String, dynamic>{}.obs;
   final Rx<AppProperties> _systemProperties = AppProperties().obs;
   final RxList<Endpoint> _endpoints = <Endpoint>[].obs;
+  String initialFDLink = '';
+
+  final _firebaseDynamicLinks = FirebaseDynamicLinks.instance;
 
   AppProperties get properties => _systemProperties.value;
   List<Endpoint> get endpoints => _endpoints;
@@ -46,7 +50,6 @@ class AppController extends GetxController {
       _systemProperties(properties.copyWith(isLoading: true));
 
       await getInitialEndpoints();
-      await _getAdMobIDs();
       await StatesAndCities.stateAndCities.getUFAndCities();
       await currentLocationController.updateGPSStatus();
       await currentLocationController.setUserLocation();
@@ -56,9 +59,13 @@ class AppController extends GetxController {
       PackageInfo packageInfo = await PackageInfo.fromPlatform();
       _systemProperties(properties.copyWith(runningVersion: packageInfo.version));
 
+      await _getAdMobIDs();
+      await handleFDLOpensApp();
+
       _systemProperties(properties.copyWith(isLoading: false));
 
-      appController.onAppPropertiesChange();
+      onAppPropertiesChange();
+      handleFDLOnForeground();
     } on Exception catch (exception) {
       debugPrint('TiuTiuApp: App Initialization Exception $exception');
     }
@@ -85,6 +92,33 @@ class AppController extends GetxController {
 
       debugPrint('TiuTiuApp: New Properties $properties');
     });
+  }
+
+  void handleFDLOnForeground() {
+    _firebaseDynamicLinks.onLink.listen((dynamicLinkData) {
+      debugPrint('TiuTiuApp: FDL Foreground Data: $dynamicLinkData');
+    }).onError((error) {
+      debugPrint('TiuTiuApp: FDL Foreground Error: $error');
+    });
+  }
+
+  Future handleFDLOpensApp() async {
+    final PendingDynamicLinkData? initialLink = await _firebaseDynamicLinks.getInitialLink();
+    debugPrint('TiuTiuApp: FDL Terminated InitialLink: $initialLink');
+    final String? fdLink = '${initialLink?.link}';
+
+    if (fdLink.isNotEmptyNeighterNull()) {
+      initialFDLink = fdLink!;
+      setPostDetail();
+    }
+  }
+
+  void setPostDetail() {
+    final allPosts = postsController.posts;
+    final sharedAdId = initialFDLink.split('?').last;
+
+    final postToOpenIn = allPosts.firstWhere((post) => post.uid == sharedAdId);
+    postsController.post = postToOpenIn;
   }
 
   String getAdMobBlockID({required String blockName, required String type}) {

@@ -356,7 +356,7 @@ class PostsController extends GetxController with TiuTiuPopUp {
     setLoading(true, loadingText: PostDetailsStrings.preparingPostToShare);
 
     String? postFirstImage = await OtherFunctions.getPostImageToShare(post);
-    String postText = OtherFunctions.getPostTextToShare(post);
+    String postText = await OtherFunctions.getPostTextToShare(post);
 
     setLoading(false);
 
