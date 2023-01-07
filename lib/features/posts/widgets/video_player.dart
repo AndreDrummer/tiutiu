@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:chewie/chewie.dart';
 import 'package:get/get.dart';
 
-class TiuTiuVideoPlayer extends StatelessWidget {
+class TiuTiuVideoPlayer extends StatefulWidget {
   const TiuTiuVideoPlayer({
     required this.chewieController,
     this.isInReviewMode = false,
@@ -19,10 +19,23 @@ class TiuTiuVideoPlayer extends StatelessWidget {
   final double aspectRatio;
 
   @override
+  State<TiuTiuVideoPlayer> createState() => _TiuTiuVideoPlayerState();
+}
+
+class _TiuTiuVideoPlayerState extends State<TiuTiuVideoPlayer> {
+  bool isMuted = false;
+
+  @override
+  void initState() {
+    isMuted = widget.chewieController.videoPlayerController.value.volume == 0;
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        Positioned.fill(
+        Positioned(
           child: Container(
             alignment: Alignment.center,
             decoration: BoxDecoration(
@@ -32,12 +45,12 @@ class TiuTiuVideoPlayer extends StatelessWidget {
             ),
             child: ClipRRect(
               borderRadius: BorderRadius.all(Radius.circular(16.0.h)),
-              child: Chewie(controller: chewieController),
+              child: Chewie(controller: widget.chewieController),
             ),
             height: Dimensions.getDimensBasedOnDeviceHeight(
-              smaller: isInReviewMode ? Get.height / 2.05 : Get.height / 1.5,
-              medium: isInReviewMode ? Get.height / 2.05 : Get.height,
-              bigger: isInReviewMode ? Get.height / 2.05 : Get.height,
+              smaller: widget.isInReviewMode ? Get.height / 2.05 : Get.height / 1.5,
+              medium: widget.isInReviewMode ? Get.height / 2.05 : Get.height,
+              bigger: widget.isInReviewMode ? Get.height / 2.05 : Get.height,
             ),
             margin: EdgeInsets.only(right: 8.0.w, left: 8.0.w),
           ),
@@ -46,9 +59,25 @@ class TiuTiuVideoPlayer extends StatelessWidget {
           bottom: 40.0.h,
           right: 16.0.w,
           child: EnterExitFullScreenButton(
+            isMuted: isMuted,
             onOpenFullscreen: () => openFullScreen(context),
+            onMuteOrUnMute: () {
+              if (isMuted) {
+                widget.chewieController.setVolume(100);
+
+                setState(() {
+                  isMuted = false;
+                });
+              } else {
+                widget.chewieController.setVolume(0);
+
+                setState(() {
+                  isMuted = true;
+                });
+              }
+            },
           ),
-        )
+        ),
       ],
     );
   }
@@ -56,8 +85,8 @@ class TiuTiuVideoPlayer extends StatelessWidget {
   void openFullScreen(BuildContext context) {
     Get.to(
       () => VideoFullScreen(
-        chewieController: chewieController,
-        isInReviewMode: isInReviewMode,
+        chewieController: widget.chewieController,
+        isInReviewMode: widget.isInReviewMode,
       ),
     );
   }

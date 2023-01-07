@@ -48,7 +48,7 @@ class VideoUtils {
         autoInitialize: true,
         showOptions: false,
         autoPlay: autoPlay,
-        allowMuting: true,
+        allowMuting: false,
         zoomAndPan: true,
       );
 
@@ -82,7 +82,7 @@ class VideoUtils {
         allowFullScreen: false,
         autoInitialize: true,
         autoPlay: autoPlay,
-        allowMuting: true,
+        allowMuting: false,
         zoomAndPan: true,
       );
 
