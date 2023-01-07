@@ -1,3 +1,4 @@
+import 'package:tiutiu/core/constants/images_assets.dart';
 import 'package:tiutiu/features/posts/model/filter_params.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/widgets/home_filter_item.dart';
@@ -11,7 +12,14 @@ class FiltersType extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final filtersTypeText = filterController.filterTypeText;
-    final filtersIcon = filterController.filterTypeIcon;
+
+    final petsTypeImage = [
+      StartScreenAssets.all,
+      StartScreenAssets.liu2,
+      StartScreenAssets.soraya,
+      StartScreenAssets.cockatiel,
+      StartScreenAssets.hamster,
+    ];
 
     return Obx(
       () {
@@ -34,7 +42,7 @@ class FiltersType extends StatelessWidget {
                   },
                   isActive: filterText == filtersTypeText[i],
                   type: filtersTypeText[i],
-                  icon: filtersIcon[i],
+                  image: petsTypeImage[i],
                 )
             ],
           ),
