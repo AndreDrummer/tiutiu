@@ -19,8 +19,8 @@ class _AuthOrHomeState extends State<AuthOrHome> {
 
   void setInitialScreen() {
     debugPrint('TiuTiuApp: Set Initial Screen...');
-    debugPrint('TiuTiuApp: Dynamic DeepLink ${appController.initialFDLink}');
-    if (appController.initialFDLink.isNotEmptyNeighterNull() && postsController.post.uid != null) {
+    debugPrint('TiuTiuApp: Dynamic DeepLink ${systemController.initialFDLink}');
+    if (systemController.initialFDLink.isNotEmptyNeighterNull() && postsController.post.uid != null) {
       initialScreen = PostDetails();
     } else {
       initialScreen = Home();

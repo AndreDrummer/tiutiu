@@ -143,8 +143,8 @@ class _TiuTiuAppState extends State<TiuTiuApp> {
       DeviceOrientation.portraitUp,
     ]);
 
-    appController.handleInternetConnectivityStatus();
-    appController.onAppEndpointsChange();
+    systemController.handleInternetConnectivityStatus();
+    systemController.onAppEndpointsChange();
     authController.userStateChanges();
     debugPrint('TiuTiuApp: Height ${Get.height}');
     debugPrint('TiuTiuApp: Device Aspect Ratio ${Get.width / Get.height}');

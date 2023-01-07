@@ -1,5 +1,5 @@
 enum EndpointNames {
-  pathToSystemProperties,
+  pathToAdminRemoteConfigs,
   userAvatarStoragePath,
   pathToUserDennounces,
   pathToPostDennounces,

@@ -13,7 +13,7 @@ class _LoadingStartScreenState extends State<LoadingStartScreen> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<void>(
-      future: appController.loadApp(),
+      future: systemController.loadApp(),
       builder: (context, snapshot) {
         switch (snapshot.connectionState) {
           case ConnectionState.waiting:

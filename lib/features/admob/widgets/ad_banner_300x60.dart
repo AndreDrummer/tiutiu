@@ -23,7 +23,7 @@ class AdBanner300x60 extends StatefulWidget {
 class _AdBanner300x60State extends State<AdBanner300x60> {
   @override
   void initState() {
-    final blockID = appController.getAdMobBlockID(blockName: widget.adBlockName, type: AdMobType.banner);
+    final blockID = systemController.getAdMobBlockID(blockName: widget.adBlockName, type: AdMobType.banner);
     adMobController.updateBannerAdId(blockID);
     adMobController.bannerAd.load();
 
