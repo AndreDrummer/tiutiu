@@ -93,12 +93,13 @@ class WarningBanner extends StatelessWidget {
         visible: showBannerCondition,
         replacement: replacement,
         child: Card(
+          margin: EdgeInsets.only(top: 4.0.h),
           elevation: 8.0,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4.0.h)),
           child: Container(
             height: tileSize ?? 24.0.h,
             padding: padding ?? EdgeInsets.symmetric(horizontal: 4.0.w, vertical: 2.0.h),
-            margin: margin ?? EdgeInsets.symmetric(vertical: 32.0.h, horizontal: 8.0.w),
+            margin: margin ?? EdgeInsets.symmetric(vertical: 32.0.h),
             alignment: Alignment.center,
             decoration: BoxDecoration(
               color: getBannerBackgroundcolor(),

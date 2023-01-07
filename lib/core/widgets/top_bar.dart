@@ -1,3 +1,4 @@
+import 'package:tiutiu/features/sponsored/views/sponsored.dart';
 import 'package:tiutiu/features/posts/model/filter_params.dart';
 import 'package:tiutiu/core/extensions/string_extension.dart';
 import 'package:tiutiu/core/widgets/input_close_button.dart';
@@ -20,57 +21,63 @@ class TopBar extends StatelessWidget {
       text: filterController.getParams.name,
     );
 
-    return Padding(
-      padding: EdgeInsets.fromLTRB(6.0.w, 6.0.h, 12.0.w, 4.0.h),
-      child: Column(
-        children: [
-          Obx(
-            () => Visibility(
-              replacement: _userGreeting(),
-              visible: filterController.filterParams.value.orderBy == FilterStrings.name,
-              child: TextFormField(
-                textInputAction: TextInputAction.search,
-                onChanged: (value) {
-                  filterController.updateParams(
-                    FilterParamsEnum.name,
-                    value.trim(),
-                  );
-                },
-                controller: _fieldController,
-                decoration: InputDecoration(
-                  constraints: BoxConstraints(maxHeight: 32.0.h),
-                  contentPadding: EdgeInsets.only(left: 8.0.w),
-                  fillColor: AppColors.primary.withAlpha(20),
-                  suffixIcon: Visibility(
-                    visible: filterController.getParams.name.isNotEmpty,
-                    child: InputCloseButton(
-                      onClose: () {
-                        filterController.clearName();
-                        FocusScope.of(context).unfocus();
-                      },
+    return Column(
+      children: [
+        Padding(
+          padding: EdgeInsets.fromLTRB(6.0.w, 2.0.h, 12.0.w, 4.0.h),
+          child: Column(
+            children: [
+              Obx(
+                () => Visibility(
+                  replacement: _userGreeting(),
+                  visible: filterController.filterParams.value.orderBy == FilterStrings.name,
+                  child: TextFormField(
+                    textInputAction: TextInputAction.search,
+                    onChanged: (value) {
+                      filterController.updateParams(
+                        FilterParamsEnum.name,
+                        value.trim(),
+                      );
+                    },
+                    controller: _fieldController,
+                    decoration: InputDecoration(
+                      constraints: BoxConstraints(maxHeight: 32.0.h),
+                      contentPadding: EdgeInsets.only(left: 8.0.w),
+                      fillColor: AppColors.primary.withAlpha(20),
+                      suffixIcon: Visibility(
+                        visible: filterController.getParams.name.isNotEmpty,
+                        child: InputCloseButton(
+                          onClose: () {
+                            filterController.clearName();
+                            FocusScope.of(context).unfocus();
+                          },
+                        ),
+                      ),
+                      hintText: HomeStrings.searchForName,
+                      enabledBorder: _inputBorder(),
+                      errorBorder: _inputBorder(),
+                      border: _inputBorder(),
+                      filled: true,
                     ),
                   ),
-                  hintText: HomeStrings.searchForName,
-                  enabledBorder: _inputBorder(),
-                  errorBorder: _inputBorder(),
-                  border: _inputBorder(),
-                  filled: true,
                 ),
               ),
-            ),
+              HighPriorityInfoBanner(),
+              Sponsored(),
+              WarningBanner(
+                showBannerCondition: !systemController.properties.internetConnected && postsController.posts.isNotEmpty,
+                textWarning: AppStrings.noConnectionWarning,
+                padding: EdgeInsets.all(2.0.h),
+                replacement: SizedBox.shrink(),
+                tileColor: AppColors.warning,
+                textColor: AppColors.black,
+                margin: EdgeInsets.zero,
+              ),
+            ],
           ),
-          HighPriorityInfoBanner(),
-          WarningBanner(
-            showBannerCondition: !systemController.properties.internetConnected && postsController.posts.isNotEmpty,
-            textWarning: AppStrings.noConnectionWarning,
-            margin: EdgeInsets.only(top: 4.0.h),
-            padding: EdgeInsets.all(2.0.h),
-            replacement: SizedBox.shrink(),
-            tileColor: AppColors.warning,
-            textColor: AppColors.black,
-          )
-        ],
-      ),
+        ),
+        Divider(color: Colors.blueGrey)
+      ],
     );
   }
 

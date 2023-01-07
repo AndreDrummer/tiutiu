@@ -142,9 +142,10 @@ class _HomeState extends State<Home> with TiuTiuPopUp {
 
   double expandedHeight() {
     final homeListPadding = Dimensions.getDimensBasedOnDeviceHeight(
-      smaller: Get.height / 3.7,
-      medium: Get.height / 4.6,
-      bigger: Get.height / 4.7,
+      xSmaller: adminRemoteConfigController.configs.showSponsoredAds ? Get.height / 2.5 : Get.height / 3.7,
+      smaller: adminRemoteConfigController.configs.showSponsoredAds ? Get.height / 2.6 : Get.height / 3.7,
+      medium: adminRemoteConfigController.configs.showSponsoredAds ? Get.height / 2.8 : Get.height / 4.6,
+      bigger: adminRemoteConfigController.configs.showSponsoredAds ? Get.height / 2.9 : Get.height / 4.7,
     );
 
     if (homeController.bottomBarIndex < 2) {
@@ -155,9 +156,10 @@ class _HomeState extends State<Home> with TiuTiuPopUp {
 
       if (thereIsDeveloperCommunication || showInfoBanner) {
         return Dimensions.getDimensBasedOnDeviceHeight(
-          smaller: Get.height / 3.0,
-          medium: Get.height / 3.6,
-          bigger: Get.height / 3.7,
+          xSmaller: adminRemoteConfigController.configs.showSponsoredAds ? Get.height / 2.20 : Get.height / 3.0,
+          smaller: adminRemoteConfigController.configs.showSponsoredAds ? Get.height / 2.30 : Get.height / 3.0,
+          medium: adminRemoteConfigController.configs.showSponsoredAds ? Get.height / 2.45 : Get.height / 3.6,
+          bigger: adminRemoteConfigController.configs.showSponsoredAds ? Get.height / 2.60 : Get.height / 3.7,
         );
       } else {
         return homeListPadding;
