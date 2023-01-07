@@ -215,7 +215,7 @@ class OtherFunctions {
     }
   }
 
-  static String getPostTextToShare(Post post) {
+  static Future<String> getPostTextToShare(Post post) async {
     String postTitle = Formatters.cuttedText(post.name ?? post.type, size: 20);
     String gender = (post as Pet).gender;
     int ageMonth = post.ageMonth;
@@ -242,17 +242,17 @@ class OtherFunctions {
     final dynamicLinkParams = DynamicLinkParameters(
       androidParameters: const AndroidParameters(packageName: Constants.APP_ANDROID_ID),
       iosParameters: const IOSParameters(bundleId: Constants.APP_IOS_BUNDLE_ID),
-      link: Uri.parse('${Constants.DYNAMIC_LINK_PREFIX}/jdF1?q=${post.uid!}'),
+      link: Uri.parse('${Constants.DYNAMIC_LINK_PREFIX}/share?${post.uid}'),
       uriPrefix: Constants.DYNAMIC_LINK_PREFIX,
     );
 
-    final dynamicLink = dynamicLinkParams.link;
+    final dynamicLink = await FirebaseDynamicLinks.instance.buildShortLink(dynamicLinkParams);
 
     String headerText = 'Olha esse ${post.type.toLowerCase()} $typeIcon que eu vi no app *Tiu, tiu*:';
 
     String bodyText = '*$postTitle*\n⚧️ $gender\n🎂 $age\n📐 $size\n🎨 $color';
 
-    String footerText = 'Tem mais detalhes dele nesse link: $dynamicLink.';
+    String footerText = 'Tem mais detalhes dele nesse link: ${dynamicLink.shortUrl}.';
 
     return '$headerText\n\n$bodyText\n\n$footerText';
   }
