@@ -261,7 +261,7 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
   Widget _shareButton() {
     return Obx(
       () => Visibility(
-        replacement: NoConnectionTextInfo(),
+        replacement: postsController.isInReviewMode ? SizedBox.shrink() : NoConnectionTextInfo(),
         visible: !postsController.isInReviewMode && appController.properties.internetConnected,
         child: GestureDetector(
           onTap: postsController.sharePost,
