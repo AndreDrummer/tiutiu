@@ -22,10 +22,13 @@ class StartScreenAssets {
   static String get pinscher => 'assets/startscreen/pinscher.webp';
   static String get greyCat => 'assets/startscreen/grey-cat.webp';
   static String get hamster => 'assets/startscreen/hamster.webp';
+  static String get soraya => 'assets/startscreen/soraya.webp';
   static String get munkun => 'assets/startscreen/munkun.webp';
   static String get hairy => 'assets/startscreen/hairy.webp';
   static String get oldMel => 'assets/startscreen/mel.webp';
+  static String get liu2 => 'assets/startscreen/liu2.webp';
   static String get liu => 'assets/startscreen/liu.webp';
+  static String get all => 'assets/startscreen/all.webp';
 }
 
 class DonateAssets {

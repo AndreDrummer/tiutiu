@@ -27,7 +27,7 @@ class AdViews extends StatelessWidget {
                 Icon(FontAwesomeIcons.eye, size: 10.0.h, color: Colors.grey[400]),
                 Padding(
                   padding: EdgeInsets.only(left: 4.0.w),
-                  child: AutoSizeTexts.autoSizeText12(
+                  child: AutoSizeTexts.autoSizeText10(
                     '${snapshot.data ?? post.views} ${AppStrings.views}',
                     fontWeight: FontWeight.w400,
                     color: Colors.grey,

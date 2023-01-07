@@ -24,12 +24,15 @@ class AdCityState extends StatelessWidget {
     String UF = statesInitials.elementAt(statesName.indexOf(state));
 
     return Container(
+      margin: EdgeInsets.only(bottom: rightSide ? 8.0.h : 0.0),
       width: rightSide ? 200.0.w : null,
-      margin: EdgeInsets.only(bottom: 8.0.h),
       child: Row(
         children: [
           if (rightSide) Spacer(),
-          Icon(Icons.pin_drop, size: 12.0.h, color: Colors.grey[400]),
+          Padding(
+            padding: EdgeInsets.only(bottom: 1.2),
+            child: Icon(Icons.pin_drop, size: 10.0.h, color: Colors.grey[400]),
+          ),
           AutoSizeTexts.autoSizeText10(
             textOverflow: TextOverflow.fade,
             fontWeight: FontWeight.w700,
