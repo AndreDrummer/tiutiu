@@ -1,13 +1,12 @@
 import 'package:tiutiu/core/extensions/string_extension.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:tiutiu/core/utils/formatter.dart';
 import 'package:tiutiu/core/utils/launcher_functions.dart';
 import 'package:tiutiu/core/utils/routes/routes_name.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/constants/text_styles.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/core/constants/strings.dart';
-import 'package:tiutiu/core/utils/constants.dart';
+import 'package:tiutiu/core/utils/formatter.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -86,7 +85,7 @@ class WarningBanner extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         if (adminLinkRedirection.isNotEmptyNeighterNull()) {
-          Launcher.openBrowser('${adminLinkRedirection ?? Constants.APP_INSTAGRAM_PAGE}');
+          Launcher.openBrowser('${adminLinkRedirection ?? adminRemoteConfigController.configs.appInstagramLink}');
         }
       },
       child: Visibility(
