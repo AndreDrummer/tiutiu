@@ -41,7 +41,7 @@ class RenderListItem extends StatelessWidget {
 
     if (showBackToStartButton)
       return Padding(
-        padding: EdgeInsets.only(bottom: 56.0.h),
+        padding: EdgeInsets.only(bottom: 48.0.h, top: 8.0.h),
         child: BackToStart(
           onPressed: onNavigateToTop,
         ),
@@ -60,6 +60,7 @@ class RenderListItem extends StatelessWidget {
         child: homeController.cardVisibilityKind == CardVisibilityKind.banner
             ? CardAdList(
                 showFavoriteButton: showFavoriteButton ?? authController.userExists,
+                key: Key(post.uid.toString()),
                 cardBuilder: cardBuilder,
                 post: post,
               )

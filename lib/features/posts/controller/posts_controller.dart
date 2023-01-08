@@ -278,6 +278,7 @@ class PostsController extends GetxController with TiuTiuPopUp {
   }
 
   Future<void> warningUserAboutRewarded(ContactType contactType, {bool noPreviousData = false}) async {
+    final allowGoogleAds = adminRemoteConfigController.configs.allowGoogleAds;
     final contactTypeIsWpp = contactType == ContactType.whatsapp;
 
     await LocalStorage.deleteDataUnderLocalStorageKey(
@@ -291,7 +292,7 @@ class PostsController extends GetxController with TiuTiuPopUp {
       mainAction: () async {
         Get.back();
         setLoading(false);
-        await adMobController.showRewardedAd(contactType);
+        await adMobController.showRewardedAd(contactType, allowGoogleAds);
       },
       secondaryAction: () {
         Get.back();
