@@ -1,12 +1,12 @@
 import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
 import 'package:tiutiu/core/widgets/default_basic_app_bar.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/utils/launcher_functions.dart';
 import 'package:tiutiu/core/constants/images_assets.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/widgets/warning_widget.dart';
 import 'package:tiutiu/core/widgets/avatar_profile.dart';
+import 'package:tiutiu/core/constants/contact_type.dart';
 import 'package:tiutiu/core/constants/text_styles.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/core/widgets/button_wide.dart';
@@ -192,29 +192,36 @@ class AnnouncerProfile extends StatelessWidget {
           children: [
             Expanded(
               child: ButtonWide(
+                fontSize: 12,
                 color: AppColors.secondary,
                 text: AppStrings.chatWithAnnouncer,
                 isToExpand: false,
-                icon: Icons.phone,
                 onPressed: () {
-                  chatController.startsChatWith(
-                    myUserId: tiutiuUserController.tiutiuUser.uid!,
-                    user: _user,
+                  chatController.handleContactTapped(
+                    contactType: ContactType.chat,
+                    onAdWatched: () async {
+                      chatController.startsChatWith(
+                        myUserId: tiutiuUserController.tiutiuUser.uid!,
+                        user: postsController.post.owner!,
+                      );
+                    },
                   );
                 },
               ),
             ),
             Expanded(
               child: ButtonWide(
-                icon: FontAwesomeIcons.whatsapp,
+                fontSize: 12,
                 text: AppStrings.callInWhatsapp,
                 color: AppColors.primary,
                 isToExpand: false,
                 onPressed: () {
-                  final number = Formatters.unmaskNumber(_user.phoneNumber);
-                  if (number != null) {
-                    Launcher.openWhatsApp(number: number);
-                  }
+                  chatController.handleContactTapped(
+                    contactType: ContactType.whatsapp,
+                    onAdWatched: () async {
+                      await Launcher.openWhatsApp(number: postsController.post.owner!.phoneNumber!);
+                    },
+                  );
                 },
               ),
             ),

@@ -1,18 +1,24 @@
-import 'package:tiutiu/features/chat/model/enums.dart';
 import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
+import 'package:tiutiu/core/local_storage/local_storage_keys.dart';
 import 'package:tiutiu/features/chat/services/chat_service.dart';
+import 'package:tiutiu/core/local_storage/local_storage.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:tiutiu/core/utils/routes/routes_name.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/features/chat/model/message.dart';
+import 'package:tiutiu/core/constants/contact_type.dart';
 import 'package:tiutiu/features/chat/model/contact.dart';
+import 'package:tiutiu/core/mixins/tiu_tiu_pop_up.dart';
+import 'package:tiutiu/core/constants/app_colors.dart';
+import 'package:tiutiu/features/chat/model/enums.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:tiutiu/core/utils/cesar_cripto.dart';
+import 'package:tiutiu/core/constants/strings.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'dart:convert';
 
-class ChatController extends GetxController {
+class ChatController extends GetxController with TiuTiuPopUp {
   ChatController({required ChatService chatService}) : _chatService = chatService;
 
   final ChatService _chatService;
@@ -124,10 +130,7 @@ class ChatController extends GetxController {
     );
   }
 
-  void startsChatWith({
-    TiutiuUser? user,
-    required String myUserId,
-  }) {
+  void startsChatWith({TiutiuUser? user, required String myUserId}) {
     userChatingWith = user ?? TiutiuUser();
 
     Get.toNamed(Routes.chat, arguments: myUserId);
@@ -135,5 +138,56 @@ class ChatController extends GetxController {
 
   void resetUserChatingWith() {
     userChatingWith = TiutiuUser();
+  }
+
+  Future<void> handleContactTapped({required ContactType contactType, required Function() onAdWatched}) async {
+    final lastTimeWatchedRewarded = await LocalStorage.getValueUnderLocalStorageKey(
+      contactType == ContactType.whatsapp
+          ? LocalStorageKey.lastTimeWatchedWhatsappRewarded
+          : LocalStorageKey.lastTimeWatchedChatRewarded,
+    );
+
+    debugPrint(
+      'TiuTiuApp: Last Time Watched a ${contactType == ContactType.whatsapp ? 'WhatsApp Rewarded' : 'Chat Rewarded'} $lastTimeWatchedRewarded',
+    );
+
+    if (lastTimeWatchedRewarded == null) {
+      warningUserAboutRewarded(contactType, noPreviousData: true);
+    } else {
+      final minutes = DateTime.now().difference(DateTime.parse(lastTimeWatchedRewarded)).inMinutes;
+
+      if (minutes >= adMobController.minutesFreeOfRewardedAd(contactType)) {
+        debugPrint('TiuTiuApp: Must Show Rewarded..');
+        warningUserAboutRewarded(contactType);
+      } else {
+        await onAdWatched();
+      }
+    }
+  }
+
+  Future<void> warningUserAboutRewarded(ContactType contactType, {bool noPreviousData = false}) async {
+    final allowGoogleAds = adminRemoteConfigController.configs.allowGoogleAds;
+    final contactTypeIsWpp = contactType == ContactType.whatsapp;
+
+    await LocalStorage.deleteDataUnderLocalStorageKey(
+      contactTypeIsWpp ? LocalStorageKey.lastTimeWatchedWhatsappRewarded : LocalStorageKey.lastTimeWatchedChatRewarded,
+    );
+
+    await showPopUp(
+      message: AppStrings.watchAnAd(contactType, noPreviousData),
+      confirmText: AppStrings.back,
+      textColor: AppColors.white,
+      mainAction: () async {
+        Get.back();
+        await adMobController.showRewardedAd(contactType, allowGoogleAds);
+      },
+      secondaryAction: () {
+        Get.back();
+      },
+      backGroundColor: contactTypeIsWpp ? AppColors.success : AppColors.secondary,
+      denyText: AppStrings.watch,
+      barrierDismissible: false,
+      title: AppStrings.warning,
+    );
   }
 }
