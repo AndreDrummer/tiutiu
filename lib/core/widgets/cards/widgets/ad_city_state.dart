@@ -25,21 +25,13 @@ class AdCityState extends StatelessWidget {
 
     return Container(
       margin: EdgeInsets.only(bottom: rightSide ? 8.0.h : 0.0),
+      alignment: rightSide ? Alignment.centerRight : null,
       width: rightSide ? 200.0.w : null,
-      child: Row(
-        children: [
-          if (rightSide) Spacer(),
-          Padding(
-            padding: EdgeInsets.only(bottom: 1.2),
-            child: Icon(Icons.pin_drop, size: 10.0.h, color: Colors.grey[400]),
-          ),
-          AutoSizeTexts.autoSizeText10(
-            textOverflow: TextOverflow.fade,
-            fontWeight: FontWeight.w700,
-            color: Colors.grey,
-            '$city - $UF',
-          ),
-        ],
+      child: AutoSizeTexts.autoSizeText10(
+        textOverflow: TextOverflow.fade,
+        fontWeight: FontWeight.w700,
+        color: Colors.grey,
+        '$city - $UF',
       ),
     );
   }

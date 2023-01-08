@@ -124,6 +124,7 @@ Future<void> main() async {
   FirebaseMessaging.onMessage.listen(_firebaseMessagingForegroundHandler);
 
   MobileAds.instance.initialize();
+
   initializeDateFormatting();
 
   runApp(TiuTiuApp());

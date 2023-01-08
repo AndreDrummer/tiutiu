@@ -12,6 +12,7 @@ class Sponsored extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final double sponsoredAdsTileSize = 68.0.h;
     final colors = [
       AppColors.black,
       AppColors.danger,
@@ -37,8 +38,8 @@ class Sponsored extends StatelessWidget {
                       borderRadius: BorderRadius.circular(4.0.h),
                       color: colors[index],
                     ),
+                    height: sponsoredAdsTileSize,
                     width: Get.width,
-                    height: 96.0.h,
                     child: Row(
                       children: [
                         Container(
@@ -115,7 +116,7 @@ class Sponsored extends StatelessWidget {
                     ),
                   ),
                   Positioned(
-                    bottom: 32.0.h,
+                    bottom: 16.0.h,
                     right: 32.0.w,
                     child: AutoSizeTexts.autoSizeText22(
                       fontStyle: FontStyle.italic,
@@ -131,10 +132,10 @@ class Sponsored extends StatelessWidget {
           options: CarouselOptions(
             enableInfiniteScroll: colors.length > 1,
             autoPlayCurve: Curves.easeIn,
+            height: sponsoredAdsTileSize,
             enlargeCenterPage: true,
             viewportFraction: 1,
             autoPlay: true,
-            height: 96.0.h,
           ),
         ),
       ),
