@@ -5,20 +5,20 @@ import 'package:tiutiu/features/admob/constants/admob_block_names.dart';
 import 'package:tiutiu/core/widgets/pet_other_caracteristics_card.dart';
 import 'package:tiutiu/core/pets/model/pet_caracteristics_model.dart';
 import 'package:tiutiu/features/dennounce/model/post_dennounce.dart';
-import 'package:tiutiu/features/admob/widgets/ad_banner_300x60.dart';
 import 'package:tiutiu/core/widgets/no_connection_text_info.dart';
 import 'package:tiutiu/features/posts/widgets/video_player.dart';
 import 'package:tiutiu/features/posts/widgets/card_content.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:tiutiu/core/views/loading_video_screen.dart';
+import 'package:tiutiu/features/admob/widgets/ad_banner.dart';
 import 'package:tiutiu/core/extensions/string_extension.dart';
 import 'package:tiutiu/core/widgets/simple_text_button.dart';
+import 'package:tiutiu/core/views/loading_video_screen.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/utils/routes/routes_name.dart';
 import 'package:tiutiu/core/utils/launcher_functions.dart';
-import 'package:tiutiu/core/views/load_dark_screen.dart';
 import 'package:tiutiu/core/constants/images_assets.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
+import 'package:tiutiu/core/views/load_dark_screen.dart';
 import 'package:tiutiu/core/widgets/dots_indicator.dart';
 import 'package:tiutiu/core/widgets/warning_widget.dart';
 import 'package:tiutiu/core/constants/contact_type.dart';
@@ -54,6 +54,7 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
   void initState() {
     initializeVideo();
     loadAdvertise();
+
     super.initState();
   }
 
@@ -138,51 +139,44 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
                   ),
                 ];
               },
-              body: FutureBuilder(
-                future: postsController.cacheVideos(),
-                builder: (context, snapshot) {
-                  return ListView(
-                    primary: false,
-                    physics: NeverScrollableScrollPhysics(),
-                    padding: EdgeInsets.only(
-                      right: Dimensions.getDimensBasedOnDeviceHeight(
-                        smaller: 0.0.w,
-                        medium: 4.0.w,
-                        bigger: 0.0.w,
-                      ),
+              body: ListView(
+                key: UniqueKey(),
+                primary: false,
+                physics: NeverScrollableScrollPhysics(),
+                padding: EdgeInsets.only(
+                  right: Dimensions.getDimensBasedOnDeviceHeight(
+                    smaller: 0.0.w,
+                    medium: 4.0.w,
+                    bigger: 0.0.w,
+                  ),
+                ),
+                children: [
+                  _postTitle(post.name!),
+                  AdBanner(
+                    margin: EdgeInsets.only(top: 4.0.h),
+                    adId: systemController.getAdMobBlockID(
+                      blockName: AdMobBlockName.postDetailScreenAdBlockId,
+                      type: AdMobType.banner,
                     ),
-                    children: [
-                      _postTitle(post.name!),
-                      Padding(
-                        padding: EdgeInsets.only(
-                          top: Dimensions.getDimensBasedOnDeviceHeight(
-                            smaller: 8.0.h,
-                            bigger: 4.0.h,
-                            medium: 0.0.h,
-                          ),
-                        ),
-                        child: AdBanner300x60(adBlockName: AdMobBlockName.postDetailScreenAdBlockId),
-                      ),
-                      Visibility(
-                        replacement: _petCaracteristicsGrid(petCaracteristics),
-                        child: _petCaracteristics(petCaracteristics),
-                        visible: authController.userExists,
-                      ),
-                      VerifyAccountWarningInterstitial(
-                        margin: EdgeInsets.symmetric(vertical: 8.0.h),
-                        isHiddingContactInfo: true,
-                        child: Column(
-                          children: [
-                            _description(description),
-                            _address(),
-                            postDetailBottomView(),
-                          ],
-                        ),
-                        action: onLeaveScreen,
-                      ),
-                    ],
-                  );
-                },
+                  ),
+                  Visibility(
+                    replacement: _petCaracteristicsGrid(petCaracteristics),
+                    child: _petCaracteristics(petCaracteristics),
+                    visible: authController.userExists,
+                  ),
+                  VerifyAccountWarningInterstitial(
+                    margin: EdgeInsets.symmetric(vertical: 8.0.h),
+                    isHiddingContactInfo: true,
+                    child: Column(
+                      children: [
+                        _description(description),
+                        _address(),
+                        postDetailBottomView(),
+                      ],
+                    ),
+                    action: onLeaveScreen,
+                  ),
+                ],
               ),
             ),
             Positioned(child: BackButton(color: AppColors.white), left: 8.0.w, top: 32.0.h),

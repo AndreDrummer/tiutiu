@@ -75,7 +75,7 @@ class CardAd extends StatelessWidget {
                         ),
                         Row(
                           children: [
-                            cardBuilder.adDescription(maxFontSize: 12),
+                            cardBuilder.adDescription(maxFontSize: 10),
                             Spacer(),
                             cardBuilder.adViews(),
                           ],
