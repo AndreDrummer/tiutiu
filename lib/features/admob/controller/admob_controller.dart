@@ -18,8 +18,8 @@ class AdMobController {
   bool _rewardedAdWasLoaded = false;
 
   int minutesFreeOfRewardedAd(ContactType contactType) {
-    if (contactType == ContactType.whatsapp) return 2;
-    return 10;
+    if (contactType == ContactType.whatsapp) return 7;
+    return 15;
   }
 
   Future<void> loadWhatsAppRewardedAd() async {
@@ -126,10 +126,12 @@ class AdMobController {
   }
 
   Future<void> showOpeningAd() async {
+    final allowGoogleAds = adminRemoteConfigController.configs.allowGoogleAds;
+
     if (!_interstitialAdWasLoaded) {
       debugPrint('Intertitial Ad NOT loaded.');
       await loadOpeningAd();
-    } else if (!kDebugMode && !_interstitialAdWasShown && adminRemoteConfigController.configs.allowGoogleAds) {
+    } else if (!kDebugMode && !_interstitialAdWasShown && allowGoogleAds) {
       debugPrint('Intertitial Ad loaded. $_interstitialAdWasShown');
       _interstitialAd.show();
       _interstitialAd.dispose();

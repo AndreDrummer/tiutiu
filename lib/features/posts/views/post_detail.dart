@@ -542,7 +542,7 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
           ButtonWide(
             padding: EdgeInsets.symmetric(vertical: 1.0.h, horizontal: 2.0.w),
             onPressed: () {
-              postsController.handleContactTapped(
+              chatController.handleContactTapped(
                 contactType: ContactType.chat,
                 onAdWatched: () async {
                   chatController.startsChatWith(
@@ -564,7 +564,7 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
             color: AppColors.primary,
             isToExpand: true,
             onPressed: () async {
-              postsController.handleContactTapped(
+              chatController.handleContactTapped(
                 contactType: ContactType.whatsapp,
                 onAdWatched: () async {
                   await Launcher.openWhatsApp(number: post.owner!.phoneNumber!);
