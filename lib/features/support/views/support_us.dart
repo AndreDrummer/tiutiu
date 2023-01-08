@@ -119,7 +119,7 @@ class SupportUs extends StatelessWidget {
 
   Padding _pixWarningMessage(String pixWarning) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 12.0.w),
+      padding: EdgeInsets.only(left: 12.0.w, right: 12.0.w, top: 4.0.h),
       child: AutoSizeTexts.autoSizeText12(
         pixWarning,
         color: AppColors.white,
