@@ -34,10 +34,7 @@ class _PostsList extends StatelessWidget with TiuTiuPopUp {
                   onRefresh: () async => postsController.getAllPosts(),
                   child: Padding(
                     padding: EdgeInsets.only(left: posts.isEmpty ? Get.width / 4.5 : 0.0),
-                    child: RenderPostList(
-                      itemCount: posts.length + 1,
-                      posts: posts,
-                    ),
+                    child: RenderPostList(itemCount: posts.length + 1, posts: posts),
                   ),
                 );
               },
