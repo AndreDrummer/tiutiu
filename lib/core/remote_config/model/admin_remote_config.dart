@@ -10,6 +10,7 @@ enum AdminRemoteConfigEnum {
   appInstagramLink,
   appFacebookLink,
   appleStoreLink,
+  allowGoogleAds,
   playStoreLink,
   appBirthday,
   appAdminID,
@@ -27,6 +28,7 @@ class AdminRemoteConfig {
       showSponsoredAds: map[AdminRemoteConfigEnum.showSponsoredAds.name],
       appInstagramLink: map[AdminRemoteConfigEnum.appInstagramLink.name],
       appFacebookLink: map[AdminRemoteConfigEnum.appFacebookLink.name],
+      allowGoogleAds: map[AdminRemoteConfigEnum.allowGoogleAds.name],
       appleStoreLink: map[AdminRemoteConfigEnum.appleStoreLink.name],
       playStoreLink: map[AdminRemoteConfigEnum.playStoreLink.name],
       appBirthday: map[AdminRemoteConfigEnum.appBirthday.name],
@@ -42,6 +44,7 @@ class AdminRemoteConfig {
     this.adminCommunication = '',
     this.showSponsoredAds = false,
     this.mostUpdatedVersion = '',
+    this.allowGoogleAds = true,
     this.appInstagramLink = '',
     this.appFacebookLink = '',
     this.playStoreLink = '',
@@ -62,6 +65,7 @@ class AdminRemoteConfig {
       appInstagramLink: snapshot.get(AdminRemoteConfigEnum.appInstagramLink.name),
       appFacebookLink: snapshot.get(AdminRemoteConfigEnum.appFacebookLink.name),
       appleStoreLink: snapshot.get(AdminRemoteConfigEnum.appleStoreLink.name),
+      allowGoogleAds: snapshot.get(AdminRemoteConfigEnum.allowGoogleAds.name),
       playStoreLink: snapshot.get(AdminRemoteConfigEnum.playStoreLink.name),
       appBirthday: snapshot.get(AdminRemoteConfigEnum.appBirthday.name),
       appAdminID: snapshot.get(AdminRemoteConfigEnum.appAdminID.name),
@@ -79,6 +83,7 @@ class AdminRemoteConfig {
   final String appleStoreLink;
   final bool showSponsoredAds;
   final String playStoreLink;
+  final bool allowGoogleAds;
   final String appBirthday;
   final String appAdminID;
   final bool allowPost;
@@ -94,6 +99,7 @@ class AdminRemoteConfig {
     String? appleStoreLink,
     bool? showSponsoredAds,
     String? playStoreLink,
+    bool? allowGoogleAds,
     String? appBirthday,
     String? appAdminID,
     bool? allowPost,
@@ -108,6 +114,7 @@ class AdminRemoteConfig {
       appInstagramLink: appInstagramLink ?? this.appInstagramLink,
       appFacebookLink: appFacebookLink ?? this.appFacebookLink,
       appleStoreLink: appleStoreLink ?? this.appleStoreLink,
+      allowGoogleAds: allowGoogleAds ?? this.allowGoogleAds,
       playStoreLink: playStoreLink ?? this.playStoreLink,
       appBirthday: appBirthday ?? this.appBirthday,
       appAdminID: appAdminID ?? this.appAdminID,
@@ -125,6 +132,7 @@ class AdminRemoteConfig {
       AdminRemoteConfigEnum.appInstagramLink.name: appInstagramLink,
       AdminRemoteConfigEnum.showSponsoredAds.name: showSponsoredAds,
       AdminRemoteConfigEnum.appFacebookLink.name: appFacebookLink,
+      AdminRemoteConfigEnum.allowGoogleAds.name: allowGoogleAds,
       AdminRemoteConfigEnum.appleStoreLink.name: appleStoreLink,
       AdminRemoteConfigEnum.playStoreLink.name: playStoreLink,
       AdminRemoteConfigEnum.appBirthday.name: appBirthday,
@@ -145,6 +153,7 @@ class AdminRemoteConfig {
       showSponsoredAds: $showSponsoredAds,      
       appFacebookLink: $appFacebookLink,      
       appleStoreLink: $appleStoreLink,      
+      allowGoogleAds: $allowGoogleAds,
       playStoreLink: $playStoreLink,      
       appBirthday: $appBirthday,
       appAdminID: $appAdminID,

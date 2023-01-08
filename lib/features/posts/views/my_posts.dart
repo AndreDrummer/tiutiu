@@ -25,7 +25,7 @@ class MyPosts extends StatelessWidget {
           ),
           body: RenderPostList(
             firstChild: FilterResultCount(postsCount: postsController.postsCount, isInMyPosts: true),
-            itemCount: postsController.filteredPosts.length + 1,
+            itemCount: postsController.filteredPosts.length,
             posts: postsController.filteredPosts,
             isInMyPosts: true,
           ),

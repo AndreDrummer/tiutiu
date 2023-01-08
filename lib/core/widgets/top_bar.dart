@@ -24,7 +24,7 @@ class TopBar extends StatelessWidget {
     return Column(
       children: [
         Padding(
-          padding: EdgeInsets.fromLTRB(6.0.w, 2.0.h, 12.0.w, 4.0.h),
+          padding: EdgeInsets.fromLTRB(6.0.w, 6.0.h, 12.0.w, 0.0.h),
           child: Column(
             children: [
               Obx(
