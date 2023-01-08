@@ -10,6 +10,7 @@ class CardAdList extends StatelessWidget {
     required this.showFavoriteButton,
     required this.cardBuilder,
     required this.post,
+    required super.key,
   });
 
   final CardBuilder cardBuilder;
@@ -40,7 +41,7 @@ class CardAdList extends StatelessWidget {
           children: [
             cardBuilder.adImages(),
             Container(
-              margin: EdgeInsets.only(left: 4.0.w),
+              margin: EdgeInsets.only(left: 2.0.w),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -59,16 +60,17 @@ class CardAdList extends StatelessWidget {
                         ],
                       ),
                       Padding(
+                        padding: EdgeInsets.only(left: 6.0.w, bottom: 4.0.h, top: 4.0.h),
                         child: cardBuilder.favoriteButton(showFavoriteButton),
-                        padding: EdgeInsets.only(left: 8.0.w, bottom: 4.0.h),
                       ),
                     ],
                   ),
-                  cardBuilder.adDistanceFromUser(),
                   cardBuilder.adViews(),
-                  cardBuilder.adPostedAt(),
-                  cardBuilder.divider(),
+                  SizedBox(height: 6.0.h),
                   cardBuilder.adCityState(),
+                  Divider(),
+                  cardBuilder.adPostedAt(),
+                  cardBuilder.adDistanceFromUser(),
                 ],
               ),
             ),

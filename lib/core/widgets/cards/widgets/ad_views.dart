@@ -24,7 +24,7 @@ class AdViews extends StatelessWidget {
             padding: EdgeInsets.only(bottom: 8.0.h),
             child: Row(
               children: [
-                Icon(FontAwesomeIcons.eye, size: 10.0.h, color: Colors.grey[400]),
+                Icon(FontAwesomeIcons.solidEye, size: 7.0.h, color: Colors.grey[400]),
                 Padding(
                   padding: EdgeInsets.only(left: 4.0.w),
                   child: AutoSizeTexts.autoSizeText10(

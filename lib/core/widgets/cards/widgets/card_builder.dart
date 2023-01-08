@@ -6,7 +6,6 @@ import 'package:tiutiu/core/widgets/cards/widgets/ad_posted_at.dart';
 import 'package:tiutiu/core/widgets/cards/widgets/ad_images.dart';
 import 'package:tiutiu/core/widgets/cards/widgets/ad_title.dart';
 import 'package:tiutiu/core/widgets/cards/widgets/ad_views.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/features/posts/model/post.dart';
 import 'package:tiutiu/core/pets/model/pet_model.dart';
 import 'package:flutter/material.dart';
@@ -36,8 +35,6 @@ class CardBuilder {
   Widget adImages() => AdImages(photos: (_post as Pet).photos);
 
   Widget adTitle() => AdTitle(title: (_post as Pet).name!);
-
-  Widget divider() => Divider(height: 8.0.h);
 
   Widget adViews() => AdViews(post: _post);
 }
