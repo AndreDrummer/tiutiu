@@ -1,9 +1,9 @@
 import 'package:tiutiu/features/admob/constants/admob_block_names.dart';
 import 'package:tiutiu/features/home/controller/home_controller.dart';
 import 'package:tiutiu/core/migration/service/migration_service.dart';
-import 'package:tiutiu/features/admob/widgets/ad_banner_300x60.dart';
 import 'package:tiutiu/features/posts/flow/init_post_flow.dart';
 import 'package:tiutiu/features/home/widgets/bottom_bar.dart';
+import 'package:tiutiu/features/admob/widgets/ad_banner.dart';
 import 'package:tiutiu/features/posts/views/posts_list.dart';
 import 'package:tiutiu/features/chat/views/my_contacts.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -26,7 +26,7 @@ class _HomeState extends State<Home> with TiuTiuPopUp {
   @override
   void initState() {
     MigrationService().migrate();
-    adMobController.loadOpeningAd();
+    adMobController.showOpeningAd();
     super.initState();
   }
 
@@ -93,25 +93,18 @@ class _HomeState extends State<Home> with TiuTiuPopUp {
               },
               body: Stack(
                 children: [
-                  Positioned.fill(
-                    child: screens.elementAt(homeController.bottomBarIndex),
-                  ),
-                  Obx(() {
-                    bool showAd = false;
-
-                    showAd = authController.userExists && homeController.bottomBarIndex != 2 ||
-                        !authController.userExists && homeController.bottomBarIndex < 2;
-
-                    return Visibility(
-                      visible: showAd,
-                      child: Positioned(
-                        child: AdBanner300x60(adBlockName: AdMobBlockName.homeFooterAdBlockId),
-                        bottom: 0,
-                        right: 0,
-                        left: 0,
+                  Positioned.fill(child: screens.elementAt(homeController.bottomBarIndex)),
+                  Positioned(
+                    child: AdBanner(
+                      adId: systemController.getAdMobBlockID(
+                        blockName: AdMobBlockName.homeFooterAdBlockId,
+                        type: AdMobType.banner,
                       ),
-                    );
-                  })
+                    ),
+                    bottom: 0,
+                    right: 0,
+                    left: 0,
+                  ),
                 ],
               ),
               controller: homeController.scrollController,
@@ -141,11 +134,13 @@ class _HomeState extends State<Home> with TiuTiuPopUp {
   }
 
   double expandedHeight() {
+    final showingSponsoredAds = adminRemoteConfigController.configs.showSponsoredAds;
+
     final homeListPadding = Dimensions.getDimensBasedOnDeviceHeight(
-      xSmaller: adminRemoteConfigController.configs.showSponsoredAds ? Get.height / 2.5 : Get.height / 3.7,
-      smaller: adminRemoteConfigController.configs.showSponsoredAds ? Get.height / 2.6 : Get.height / 3.7,
-      medium: adminRemoteConfigController.configs.showSponsoredAds ? Get.height / 2.8 : Get.height / 4.6,
-      bigger: adminRemoteConfigController.configs.showSponsoredAds ? Get.height / 2.9 : Get.height / 4.7,
+      xSmaller: showingSponsoredAds ? Get.height / 2.5 : Get.height / 3.5,
+      smaller: showingSponsoredAds ? Get.height / 2.6 : Get.height / 3.5,
+      medium: showingSponsoredAds ? Get.height / 2.8 : Get.height / 4.4,
+      bigger: showingSponsoredAds ? Get.height / 2.9 : Get.height / 4.5,
     );
 
     if (homeController.bottomBarIndex < 2) {
@@ -156,10 +151,17 @@ class _HomeState extends State<Home> with TiuTiuPopUp {
 
       if (thereIsDeveloperCommunication || showInfoBanner) {
         return Dimensions.getDimensBasedOnDeviceHeight(
-          xSmaller: adminRemoteConfigController.configs.showSponsoredAds ? Get.height / 2.20 : Get.height / 3.0,
-          smaller: adminRemoteConfigController.configs.showSponsoredAds ? Get.height / 2.30 : Get.height / 3.0,
-          medium: adminRemoteConfigController.configs.showSponsoredAds ? Get.height / 2.45 : Get.height / 3.6,
-          bigger: adminRemoteConfigController.configs.showSponsoredAds ? Get.height / 2.60 : Get.height / 3.7,
+          xSmaller: showingSponsoredAds ? Get.height / 2.45 : Get.height / 3.0,
+          smaller: showingSponsoredAds ? Get.height / 2.55 : Get.height / 3.0,
+          medium: showingSponsoredAds ? Get.height / 2.70 : Get.height / 3.6,
+          bigger: showingSponsoredAds ? Get.height / 2.85 : Get.height / 3.7,
+        );
+      } else if (showingSponsoredAds && !thereIsDeveloperCommunication) {
+        return Dimensions.getDimensBasedOnDeviceHeight(
+          xSmaller: Get.height / 2.85,
+          smaller: Get.height / 2.95,
+          medium: Get.height / 3.10,
+          bigger: Get.height / 3.25,
         );
       } else {
         return homeListPadding;

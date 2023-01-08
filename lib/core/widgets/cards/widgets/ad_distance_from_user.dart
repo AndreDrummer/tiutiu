@@ -15,7 +15,7 @@ class AdDistanceFromUser extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(bottom: 8.0.h),
+      padding: EdgeInsets.only(bottom: 0.0.h),
       child: Row(
         children: [
           AutoSizeTexts.autoSizeText10(
@@ -24,11 +24,14 @@ class AdDistanceFromUser extends StatelessWidget {
             fontWeight: FontWeight.w700,
             color: Colors.grey,
           ),
-          SizedBox(width: 8.0.w),
-          Icon(
-            FontAwesomeIcons.locationArrow,
-            color: Colors.grey,
-            size: 12.0.h,
+          SizedBox(width: 2.0.w),
+          Padding(
+            padding: EdgeInsets.only(bottom: 2.0.h),
+            child: Icon(
+              FontAwesomeIcons.locationDot,
+              color: Colors.grey,
+              size: 7.0.h,
+            ),
           )
         ],
       ),
