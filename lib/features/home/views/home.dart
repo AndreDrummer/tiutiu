@@ -1,6 +1,7 @@
 import 'package:tiutiu/features/admob/constants/admob_block_names.dart';
 import 'package:tiutiu/features/home/controller/home_controller.dart';
 import 'package:tiutiu/core/migration/service/migration_service.dart';
+import 'package:tiutiu/features/home/utils/expanded_home_height_size.dart';
 import 'package:tiutiu/features/posts/flow/init_post_flow.dart';
 import 'package:tiutiu/features/home/widgets/bottom_bar.dart';
 import 'package:tiutiu/features/admob/widgets/ad_banner.dart';
@@ -135,13 +136,7 @@ class _HomeState extends State<Home> with TiuTiuPopUp {
 
   double expandedHeight() {
     final showingSponsoredAds = adminRemoteConfigController.configs.showSponsoredAds;
-
-    final homeListPadding = Dimensions.getDimensBasedOnDeviceHeight(
-      xSmaller: showingSponsoredAds ? Get.height / 2.5 : Get.height / 3.5,
-      smaller: showingSponsoredAds ? Get.height / 2.6 : Get.height / 3.5,
-      medium: showingSponsoredAds ? Get.height / 2.8 : Get.height / 4.4,
-      bigger: showingSponsoredAds ? Get.height / 2.9 : Get.height / 4.5,
-    );
+    final defaultExpandedHeight = expandedHomeHeightDefault(showingSponsoredAds: showingSponsoredAds);
 
     if (homeController.bottomBarIndex < 2) {
       final thereIsDeveloperCommunication = adminRemoteConfigController.configs.thereIsAdminCommunication;
@@ -149,22 +144,12 @@ class _HomeState extends State<Home> with TiuTiuPopUp {
       final showInfoBanner = !systemController.properties.internetConnected ||
           (authController.userExists && !tiutiuUserController.tiutiuUser.emailVerified);
 
-      if (thereIsDeveloperCommunication || showInfoBanner) {
-        return Dimensions.getDimensBasedOnDeviceHeight(
-          xSmaller: showingSponsoredAds ? Get.height / 2.45 : Get.height / 3.0,
-          smaller: showingSponsoredAds ? Get.height / 2.55 : Get.height / 3.0,
-          medium: showingSponsoredAds ? Get.height / 2.70 : Get.height / 3.6,
-          bigger: showingSponsoredAds ? Get.height / 2.85 : Get.height / 3.7,
-        );
-      } else if (showingSponsoredAds && !thereIsDeveloperCommunication) {
-        return Dimensions.getDimensBasedOnDeviceHeight(
-          xSmaller: Get.height / 2.85,
-          smaller: Get.height / 2.95,
-          medium: Get.height / 3.10,
-          bigger: Get.height / 3.25,
-        );
+      if (thereIsDeveloperCommunication && systemController.properties.internetConnected) {
+        return expandedHomeHeightWithAdminInfoAndInternetConnection(showingSponsoredAds: showingSponsoredAds);
+      } else if (showInfoBanner) {
+        return expandedHomeHeightWithoutInternetConnection(showingSponsoredAds: showingSponsoredAds);
       } else {
-        return homeListPadding;
+        return defaultExpandedHeight;
       }
     }
 
