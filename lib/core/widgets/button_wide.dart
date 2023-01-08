@@ -13,6 +13,8 @@ class ButtonWide extends StatelessWidget {
     this.tiny = false,
     this.onPressed,
     this.textColor,
+    this.fontSize,
+    this.iconSize,
     this.padding,
     this.color,
     this.icon,
@@ -22,6 +24,8 @@ class ButtonWide extends StatelessWidget {
   final EdgeInsetsGeometry? padding;
   final Function? onPressed;
   final Color? textColor;
+  final double? iconSize;
+  final double? fontSize;
   final bool isToExpand;
   final bool isLoading;
   final IconData? icon;
@@ -60,16 +64,17 @@ class ButtonWide extends StatelessWidget {
           visible: hasIcon,
           child: Icon(
             color: textColor ?? AppColors.white,
-            size: 20.0.h,
+            size: iconSize ?? 20.0.h,
             icon,
           ),
         ),
         Spacer(),
-        AutoSizeTexts.autoSizeText16(
+        AutoSizeTexts.autoSizeText(
           color: textColor ?? AppColors.white,
           text ?? AppStrings.getStarted,
           fontWeight: FontWeight.w700,
           textAlign: TextAlign.center,
+          fontSize: fontSize ?? 16,
         ),
         Spacer(),
         Visibility(
