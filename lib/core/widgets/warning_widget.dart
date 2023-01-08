@@ -217,6 +217,7 @@ class HighPriorityInfoBanner extends StatelessWidget {
       final showInfoBanner = authController.userExists && !tiutiuUserController.tiutiuUser.emailVerified;
       final thereIsAdminCommunication = adminRemoteConfigController.configs.thereIsAdminCommunication;
       final adminLinkRedirection = adminRemoteConfigController.configs.adminLinkRedirectsTo;
+      final internetConnected = systemController.properties.internetConnected;
 
       final adminCommunication = Formatters.cuttedText(
         adminRemoteConfigController.configs.adminCommunication,
@@ -227,9 +228,9 @@ class HighPriorityInfoBanner extends StatelessWidget {
 
       return WarningBanner(
         adminCommunicationIsDanger: adminRemoteConfigController.configs.adminCommunicationIsDanger,
+        showBannerCondition: (thereIsAdminCommunication || showInfoBanner) && internetConnected,
         margin: EdgeInsets.only(top: thereIsAdminCommunication ? 0 : 4.0.h),
         padding: EdgeInsets.symmetric(horizontal: 4.0.w, vertical: 1.0.h),
-        showBannerCondition: thereIsAdminCommunication || showInfoBanner,
         tileSize: thereIsAdminCommunication ? tileSize : null,
         thereIsAdminCommunication: thereIsAdminCommunication,
         adminLinkRedirection: adminLinkRedirection,

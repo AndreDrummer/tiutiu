@@ -6,13 +6,19 @@ import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:tiutiu/core/utils/dimensions.dart';
 
 class Sponsored extends StatelessWidget {
   const Sponsored({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final double sponsoredAdsTileSize = 68.0.h;
+    final double sponsoredAdsTileSize = Dimensions.getDimensBasedOnDeviceHeight(
+      bigger: 68.0.h,
+      medium: 68.0.h,
+      smaller: 80.0.h,
+    );
+
     final colors = [
       AppColors.black,
       AppColors.danger,
@@ -24,7 +30,7 @@ class Sponsored extends StatelessWidget {
 
     return Obx(
       () => Visibility(
-        visible: adminRemoteConfigController.configs.showSponsoredAds,
+        visible: adminRemoteConfigController.configs.showSponsoredAds && systemController.properties.internetConnected,
         child: CarouselSlider.builder(
           itemCount: colors.length,
           itemBuilder: (context, index, realIndex) {
