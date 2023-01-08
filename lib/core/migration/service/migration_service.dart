@@ -1,17 +1,17 @@
-import 'package:flutter/foundation.dart';
-import 'package:tiutiu/core/system/model/endpoint.dart';
 import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
 import 'package:tiutiu/features/auth/service/auth_service.dart';
 import 'package:tiutiu/core/constants/firebase_env_path.dart';
 import 'package:tiutiu/core/constants/endpoints_name.dart';
 import 'package:tiutiu/core/utils/endpoint_resolver.dart';
 import 'package:tiutiu/core/location/models/latlng.dart';
-import 'package:tiutiu/features/posts/model/post.dart';
+import 'package:tiutiu/core/system/model/endpoint.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:tiutiu/features/posts/model/post.dart';
 import 'package:tiutiu/core/pets/model/pet_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:tiutiu/core/utils/formatter.dart';
 import 'package:geocoding/geocoding.dart';
+import 'package:flutter/foundation.dart';
 
 class MigrationService {
   FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -63,7 +63,7 @@ class MigrationService {
 
   void moveSomeDocumentDataToProd() async {
     debugPrint('|| MIGRATION Starting... ||');
-    final migratingDocument = 'adminRemoteConfigs';
+    final migratingDocument = 'admobids';
 
     final data = await _pathToDocumentData('debug', migratingDocument).get();
     debugPrint('|| MDATA ${data.data()} ||');
