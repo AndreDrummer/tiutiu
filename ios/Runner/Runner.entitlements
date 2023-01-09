@@ -11,6 +11,8 @@
 	<key>com.apple.developer.associated-domains</key>
 	<array>
 		<string>applinks:tiutiu.page.link</string>
+		<string>applinks:anjasolutions.com</string>
+		<string>applinks:www.anjasolutions.com</string>
 	</array>
 </dict>
 </plist>
