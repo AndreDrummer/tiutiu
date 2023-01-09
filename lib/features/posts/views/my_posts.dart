@@ -1,5 +1,5 @@
+import 'package:tiutiu/core/widgets/change_posts_visibility_floating_button.dart';
 import 'package:tiutiu/features/posts/widgets/filter_count_order_by.dart';
-import 'package:tiutiu/features/home/controller/home_controller.dart';
 import 'package:tiutiu/features/posts/widgets/render_post_list.dart';
 import 'package:tiutiu/core/widgets/default_basic_app_bar.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
@@ -28,17 +28,7 @@ class MyPosts extends StatelessWidget {
             isInMyPosts: true,
           ),
           floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-          floatingActionButton: FloatingActionButton(
-            child: Icon(
-              homeController.cardVisibilityKind == CardVisibilityKind.card
-                  ? Icons.view_list_outlined
-                  : Icons.view_agenda,
-            ),
-            tooltip: AppStrings.changeListVisual,
-            onPressed: () {
-              homeController.changeCardVisibilityKind();
-            },
-          ),
+          floatingActionButton: ChangePostsVisibilityFloatingButtom(),
         ),
       ),
     );
