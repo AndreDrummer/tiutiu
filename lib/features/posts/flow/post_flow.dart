@@ -29,7 +29,6 @@ class PostFlow extends StatelessWidget with TiuTiuPopUp {
       onWillPop: () async => false,
       child: Obx(
         () {
-          _setMockData();
           List<String> _screensTitle = [
             PostFlowStrings.petsData,
             PostFlowStrings.moreDetails,
@@ -75,7 +74,7 @@ class PostFlow extends StatelessWidget with TiuTiuPopUp {
                 resizeToAvoidBottomInset: true,
                 backgroundColor: AppColors.white,
                 body: SizedBox(
-                  height: postsController.flowIndex >= 6 ? Get.height / 1.24 : Get.height,
+                  height: postsController.flowIndex >= 6 ? Get.height : Get.height,
                   child: Column(
                     children: [
                       Padding(
@@ -211,16 +210,4 @@ class PostFlow extends StatelessWidget with TiuTiuPopUp {
   }
 
   Divider _divider() => Divider(height: 16.0.h, color: AppColors.secondary);
-}
-
-void _setMockData() {
-  // if (postsController.post.name == null) {
-  //   LocalStorage.getDataUnderKey(key: LocalStorageKey.mockedPost, mapper: Pet())
-  //       .then((value) {
-  //     if (value != null) {
-  //       postsController.post = value as Pet;
-  //       print(postsController.post.toMap());
-  //     }
-  //   });
-  // }
 }

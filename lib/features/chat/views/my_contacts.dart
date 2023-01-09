@@ -27,12 +27,12 @@ class _MyContactsState extends State<MyContacts> {
         appBar: DefaultBasicAppBar(text: ChatStrings.myContacts),
         body: StreamBuilder<List<Contact>>(
           stream: chatController.contacts(),
-          builder: (context, snapshot) {
+          builder: (context, contactsSnapshot) {
             return AsyncHandler<List<Contact>>(
               emptyWidget: VerifyAccountWarningInterstitial(
                 child: AutoSizeTexts.autoSizeText16(ChatStrings.noContact),
               ),
-              snapshot: snapshot,
+              snapshot: contactsSnapshot,
               buildWidget: (contacts) {
                 return ListView.builder(
                   itemCount: contacts.length,
@@ -45,10 +45,12 @@ class _MyContactsState extends State<MyContacts> {
                         return ContactTile(
                           onContactTap: (() {
                             chatController.markMessageAsRead(contact);
-                            chatController.startsChatWith(
-                              user: userSnapshot.data,
-                              myUserId: myUserId!,
-                            );
+                            if (!(userSnapshot.data?.userDeleted ?? true)) {
+                              chatController.startsChatWith(
+                                user: userSnapshot.data,
+                                myUserId: myUserId!,
+                              );
+                            }
                           }),
                           hasNewMessage: !contact.open && contact.userSenderId != myUserId,
                           userReceiver: userSnapshot.data,
