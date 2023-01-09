@@ -1,7 +1,7 @@
-import 'package:tiutiu/features/admob/constants/admob_block_names.dart';
-import 'package:tiutiu/features/home/controller/home_controller.dart';
-import 'package:tiutiu/core/migration/service/migration_service.dart';
+import 'package:tiutiu/core/widgets/change_posts_visibility_floating_button.dart';
 import 'package:tiutiu/features/home/utils/expanded_home_height_size.dart';
+import 'package:tiutiu/features/admob/constants/admob_block_names.dart';
+import 'package:tiutiu/core/migration/service/migration_service.dart';
 import 'package:tiutiu/features/posts/flow/init_post_flow.dart';
 import 'package:tiutiu/features/home/widgets/bottom_bar.dart';
 import 'package:tiutiu/features/admob/widgets/ad_banner.dart';
@@ -111,21 +111,8 @@ class _HomeState extends State<Home> with TiuTiuPopUp {
               controller: homeController.scrollController,
               floatHeaderSlivers: true,
             ),
+            floatingActionButton: ChangePostsVisibilityFloatingButtom(visibility: homeController.bottomBarIndex < 2),
             floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-            floatingActionButton: Visibility(
-              visible: homeController.bottomBarIndex < 2,
-              child: FloatingActionButton(
-                child: Icon(
-                  homeController.cardVisibilityKind == CardVisibilityKind.card
-                      ? Icons.view_list_outlined
-                      : Icons.view_agenda,
-                ),
-                tooltip: AppStrings.changeListVisual,
-                onPressed: () {
-                  homeController.changeCardVisibilityKind();
-                },
-              ),
-            ),
             bottomNavigationBar: BottomBar(),
             resizeToAvoidBottomInset: false,
           ),
