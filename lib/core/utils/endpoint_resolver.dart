@@ -13,7 +13,7 @@ class EndpointResolver {
   }
 
   static String formattedEndpoint(String endpointName, [List? params]) {
-    final endpoint = systemController.endpoints.where((endpoint) => endpoint.name == endpointName).first;
+    final endpoint = systemController.endpoints.firstWhere((endpoint) => endpoint.name == endpointName);
     final build = kDebugMode ? EnvironmentBuild.debug.name : EnvironmentBuild.prod.name;
     String endpointPath = endpoint.path;
 
