@@ -16,6 +16,16 @@ class Formatters {
     return number;
   }
 
+  static String? currencyFormmater(String? value) {
+    final currency = NumberFormat.currency(
+      decimalDigits: 2,
+      locale: 'pt_Br',
+      symbol: 'R\$',
+    );
+
+    return currency.format(double.tryParse(value ?? '0') ?? 0);
+  }
+
   static DateTime getDateTime(String createdAt) {
     final date = createdAt.split('T').first;
 
