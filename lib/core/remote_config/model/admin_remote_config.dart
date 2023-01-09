@@ -6,6 +6,7 @@ enum AdminRemoteConfigEnum {
   adminLinkRedirectsTo,
   mostUpdatedVersion,
   adminCommunication,
+  dynamicLinkPrefix,
   showSponsoredAds,
   appInstagramLink,
   appFacebookLink,
@@ -25,6 +26,7 @@ class AdminRemoteConfig {
       adminLinkRedirectsTo: map[AdminRemoteConfigEnum.adminLinkRedirectsTo.name],
       adminCommunication: map[AdminRemoteConfigEnum.adminCommunication.name],
       mostUpdatedVersion: map[AdminRemoteConfigEnum.mostUpdatedVersion.name],
+      dynamicLinkPrefix: map[AdminRemoteConfigEnum.dynamicLinkPrefix.name],
       showSponsoredAds: map[AdminRemoteConfigEnum.showSponsoredAds.name],
       appInstagramLink: map[AdminRemoteConfigEnum.appInstagramLink.name],
       appFacebookLink: map[AdminRemoteConfigEnum.appFacebookLink.name],
@@ -38,6 +40,7 @@ class AdminRemoteConfig {
   }
 
   AdminRemoteConfig({
+    this.dynamicLinkPrefix = 'https://tiutiu.page.link',
     this.adminCommunicationIsDanger = false,
     this.thereIsAdminCommunication = false,
     this.adminLinkRedirectsTo = '',
@@ -61,6 +64,7 @@ class AdminRemoteConfig {
       adminLinkRedirectsTo: snapshot.get(AdminRemoteConfigEnum.adminLinkRedirectsTo.name),
       adminCommunication: snapshot.get(AdminRemoteConfigEnum.adminCommunication.name),
       mostUpdatedVersion: snapshot.get(AdminRemoteConfigEnum.mostUpdatedVersion.name),
+      dynamicLinkPrefix: snapshot.get(AdminRemoteConfigEnum.dynamicLinkPrefix.name),
       showSponsoredAds: snapshot.get(AdminRemoteConfigEnum.showSponsoredAds.name),
       appInstagramLink: snapshot.get(AdminRemoteConfigEnum.appInstagramLink.name),
       appFacebookLink: snapshot.get(AdminRemoteConfigEnum.appFacebookLink.name),
@@ -78,6 +82,7 @@ class AdminRemoteConfig {
   final String adminLinkRedirectsTo;
   final String adminCommunication;
   final String mostUpdatedVersion;
+  final String dynamicLinkPrefix;
   final String appInstagramLink;
   final String appFacebookLink;
   final String appleStoreLink;
@@ -95,6 +100,7 @@ class AdminRemoteConfig {
     String? adminCommunication,
     String? mostUpdatedVersion,
     String? appInstagramLink,
+    String? dynamicLinkPrefix,
     String? appFacebookLink,
     String? appleStoreLink,
     bool? showSponsoredAds,
@@ -110,8 +116,9 @@ class AdminRemoteConfig {
       adminLinkRedirectsTo: adminLinkRedirectsTo ?? this.adminLinkRedirectsTo,
       adminCommunication: adminCommunication ?? this.adminCommunication,
       mostUpdatedVersion: mostUpdatedVersion ?? this.mostUpdatedVersion,
-      showSponsoredAds: showSponsoredAds ?? this.showSponsoredAds,
+      dynamicLinkPrefix: dynamicLinkPrefix ?? this.dynamicLinkPrefix,
       appInstagramLink: appInstagramLink ?? this.appInstagramLink,
+      showSponsoredAds: showSponsoredAds ?? this.showSponsoredAds,
       appFacebookLink: appFacebookLink ?? this.appFacebookLink,
       appleStoreLink: appleStoreLink ?? this.appleStoreLink,
       allowGoogleAds: allowGoogleAds ?? this.allowGoogleAds,
@@ -129,6 +136,7 @@ class AdminRemoteConfig {
       AdminRemoteConfigEnum.adminLinkRedirectsTo.name: adminLinkRedirectsTo,
       AdminRemoteConfigEnum.adminCommunication.name: adminCommunication,
       AdminRemoteConfigEnum.mostUpdatedVersion.name: mostUpdatedVersion,
+      AdminRemoteConfigEnum.dynamicLinkPrefix.name: dynamicLinkPrefix,
       AdminRemoteConfigEnum.appInstagramLink.name: appInstagramLink,
       AdminRemoteConfigEnum.showSponsoredAds.name: showSponsoredAds,
       AdminRemoteConfigEnum.appFacebookLink.name: appFacebookLink,
@@ -149,7 +157,8 @@ class AdminRemoteConfig {
       adminLinkRedirectsTo: $adminLinkRedirectsTo,
       mostUpdatedVersion: $mostUpdatedVersion,
       adminCommunication: $adminCommunication,
-      appInstagramLink: $appInstagramLink,      
+      dynamicLinkPrefix: $dynamicLinkPrefix,
+      appInstagramLink: $appInstagramLink,
       showSponsoredAds: $showSponsoredAds,      
       appFacebookLink: $appFacebookLink,      
       appleStoreLink: $appleStoreLink,      
