@@ -4,6 +4,7 @@ enum TiutiuUserEnum {
   timesDennounced,
   emailVerified,
   phoneVerified,
+  userDeleted,
   displayName,
   phoneNumber,
   createdAt,
@@ -20,6 +21,7 @@ class TiutiuUser {
     this.allowContactViaWhatsApp = false,
     this.emailVerified = false,
     this.phoneVerified = false,
+    this.userDeleted = true,
     this.timesDennounced = 0,
     this.notificationToken,
     this.isAnONG = false,
@@ -41,6 +43,7 @@ class TiutiuUser {
       phoneVerified: map[TiutiuUserEnum.phoneVerified.name] ?? false,
       timesDennounced: map[TiutiuUserEnum.timesDennounced.name] ?? 0,
       notificationToken: map[TiutiuUserEnum.notificationToken.name],
+      userDeleted: map[TiutiuUserEnum.userDeleted.name] ?? false,
       avatar: map[TiutiuUserEnum.avatar.name] ?? map['photoURL'],
       isAnONG: map[TiutiuUserEnum.isAnONG.name] ?? false,
       phoneNumber: map[TiutiuUserEnum.phoneNumber.name],
@@ -59,6 +62,7 @@ class TiutiuUser {
       timesDennounced: map[TiutiuUserEnum.timesDennounced.name],
       emailVerified: map[TiutiuUserEnum.emailVerified.name],
       phoneVerified: map[TiutiuUserEnum.phoneVerified.name],
+      userDeleted: map[TiutiuUserEnum.userDeleted.name],
       phoneNumber: map[TiutiuUserEnum.phoneNumber.name],
       displayName: map[TiutiuUserEnum.displayName.name],
       createdAt: map[TiutiuUserEnum.createdAt.name],
@@ -80,6 +84,7 @@ class TiutiuUser {
   String? createdAt;
   String? lastLogin;
   String? photoBACK;
+  bool userDeleted;
   dynamic avatar;
   String? email;
   bool isAnONG;
@@ -93,6 +98,7 @@ class TiutiuUser {
       TiutiuUserEnum.emailVerified.name: emailVerified,
       TiutiuUserEnum.phoneVerified.name: phoneVerified,
       TiutiuUserEnum.phoneNumber.name: phoneNumber,
+      TiutiuUserEnum.userDeleted.name: userDeleted,
       TiutiuUserEnum.displayName.name: displayName,
       TiutiuUserEnum.lastLogin.name: lastLogin,
       TiutiuUserEnum.photoBACK.name: photoBACK,

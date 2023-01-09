@@ -20,18 +20,21 @@ class StatesAndCities {
   }
 
   String getStateNameFromInitial(String ufInitial) {
-    return stateNames.elementAt(
-      StatesAndCities.stateAndCities.stateInitials.indexOf(ufInitial),
-    );
+    return stateNames.elementAt(StatesAndCities.stateAndCities.stateInitials.indexOf(ufInitial));
   }
 
   String get fisrtStateName => location.states.first.name;
   List<String> get stateNames => location.states.map((e) => e.name).toList();
 
   List<String> citiesOf({String stateName = 'Acre'}) {
-    return location.states
-        .where((state) => state.name == stateName)
-        .first
+    final states = location.states;
+    final statesName = states.map((e) => e.name).toList();
+    final stateNameExists = statesName.contains(stateName);
+
+    final stateNameToSearch = stateNameExists ? stateName : 'Acre';
+
+    return states
+        .firstWhere((state) => state.name == stateNameToSearch)
         .cities
         .map((citieName) => citieName.toString())
         .toList();
