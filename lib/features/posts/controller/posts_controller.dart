@@ -201,7 +201,7 @@ class PostsController extends GetxController with TiuTiuPopUp {
   }
 
   Future<bool> shwoDeletePostPopup() async {
-    bool postWasDeleted = false;
+    bool isTodelete = false;
 
     await showPopUp(
       message: PostFlowStrings.deleteForever,
@@ -211,9 +211,8 @@ class PostsController extends GetxController with TiuTiuPopUp {
         Get.back();
       },
       secondaryAction: () async {
+        isTodelete = true;
         Get.back();
-        await deletePost();
-        postWasDeleted = true;
       },
       backGroundColor: AppColors.warning,
       title: PostFlowStrings.deleteAd,
@@ -221,7 +220,7 @@ class PostsController extends GetxController with TiuTiuPopUp {
       denyText: AppStrings.no,
     );
 
-    return postWasDeleted;
+    return isTodelete;
   }
 
   Future<void> _uploadImages() async {
