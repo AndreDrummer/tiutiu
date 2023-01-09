@@ -215,7 +215,7 @@ class OtherFunctions {
     }
   }
 
-  static Future<String> getPostTextToShare(Post post) async {
+  static Future<String> getPostTextToShare(Post post, String dynamicLinkPrefix) async {
     String postTitle = Formatters.cuttedText(post.name ?? post.type, size: 20);
     String gender = (post as Pet).gender;
     int ageMonth = post.ageMonth;
@@ -242,8 +242,8 @@ class OtherFunctions {
     final dynamicLinkParams = DynamicLinkParameters(
       androidParameters: const AndroidParameters(packageName: Constants.APP_ANDROID_ID),
       iosParameters: const IOSParameters(bundleId: Constants.APP_IOS_BUNDLE_ID),
-      link: Uri.parse('${Constants.DYNAMIC_LINK_PREFIX}/share?${post.uid}'),
-      uriPrefix: Constants.DYNAMIC_LINK_PREFIX,
+      link: Uri.parse('$dynamicLinkPrefix/share?${post.uid}'),
+      uriPrefix: dynamicLinkPrefix,
     );
 
     final dynamicLink = await FirebaseDynamicLinks.instance.buildShortLink(dynamicLinkParams);

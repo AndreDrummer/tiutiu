@@ -112,7 +112,7 @@ class ChatController extends GetxController with TiuTiuPopUp {
     // If the message also contains a data property with a "type" of "chat",
     // navigate to a chat screen
     if (initialMessage != null) {
-      onNotificationMessageTapped(initialMessage);
+      await onNotificationMessageTapped(initialMessage);
     }
 
     // Also handle any interaction when the app is in the background via a
@@ -120,20 +120,30 @@ class ChatController extends GetxController with TiuTiuPopUp {
     FirebaseMessaging.onMessageOpenedApp.listen(onNotificationMessageTapped);
   }
 
-  void onNotificationMessageTapped(RemoteMessage message) {
+  Future<void> onNotificationMessageTapped(RemoteMessage message) async {
     TiutiuUser myUser = TiutiuUser.fromMap(jsonDecode(message.data['data'])[MessageEnum.receiver.name]);
     TiutiuUser sender = TiutiuUser.fromMap(jsonDecode(message.data['data'])[MessageEnum.sender.name]);
 
-    chatController.startsChatWith(
-      myUserId: myUser.uid!,
-      user: sender,
-    );
+    sender = await tiutiuUserController.getUserById(sender.uid!);
+
+    if (!sender.userDeleted) {
+      chatController.startsChatWith(
+        myUserId: myUser.uid!,
+        user: sender,
+      );
+    }
   }
 
   void startsChatWith({TiutiuUser? user, required String myUserId}) {
     userChatingWith = user ?? TiutiuUser();
 
-    Get.toNamed(Routes.chat, arguments: myUserId);
+    if (authController.userExists && tiutiuUserController.isAppropriatelyRegistered) {
+      Get.toNamed(Routes.chat, arguments: myUserId);
+    } else if (authController.userExists) {
+      Get.toNamed(Routes.settings);
+    } else {
+      Get.toNamed(Routes.authHosters);
+    }
   }
 
   void resetUserChatingWith() {

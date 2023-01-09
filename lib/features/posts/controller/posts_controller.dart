@@ -296,16 +296,22 @@ class PostsController extends GetxController with TiuTiuPopUp {
 
   Future sharePost() async {
     setLoading(true, loadingText: PostDetailsStrings.preparingPostToShare);
+    try {
+      final String dynamicLinkPrefix = adminRemoteConfigController.configs.dynamicLinkPrefix;
 
-    String? postFirstImage = await OtherFunctions.getPostImageToShare(post);
-    String postText = await OtherFunctions.getPostTextToShare(post);
+      String? postFirstImage = await OtherFunctions.getPostImageToShare(post);
+      String postText = await OtherFunctions.getPostTextToShare(post, dynamicLinkPrefix);
 
-    setLoading(false);
+      setLoading(false);
 
-    if (postFirstImage != null) {
-      Share.shareXFiles([XFile(postFirstImage)], text: postText);
-    } else {
-      Share.share(postText);
+      if (postFirstImage != null) {
+        Share.shareXFiles([XFile(postFirstImage)], text: postText);
+      } else {
+        Share.share(postText);
+      }
+    } catch (exception) {
+      setLoading(false);
+      debugPrint('TiuTiuApp: An error ocurred when generating share link: $exception');
     }
   }
 
@@ -351,12 +357,17 @@ class PostsController extends GetxController with TiuTiuPopUp {
     late String state;
     late String city;
 
-    if (Platform.isAndroid) {
-      city = placemark.subAdministrativeArea!;
-      state = placemark.administrativeArea!;
-    } else if (Platform.isIOS) {
-      state = StatesAndCities.stateAndCities.getStateNameFromInitial(placemark.administrativeArea!);
-      city = placemark.locality!;
+    if (placemark.isoCountryCode == 'BR') {
+      if (Platform.isAndroid) {
+        city = placemark.subAdministrativeArea!;
+        state = placemark.administrativeArea!;
+      } else if (Platform.isIOS) {
+        state = StatesAndCities.stateAndCities.getStateNameFromInitial(placemark.administrativeArea!);
+        city = placemark.locality!;
+      }
+    } else {
+      state = 'Acre';
+      city = 'Acrelândia';
     }
 
     postMap[PostEnum.state.name] = state;

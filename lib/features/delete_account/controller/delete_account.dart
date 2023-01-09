@@ -56,8 +56,10 @@ class DeleteAccountController extends GetxController with TiuTiuPopUp {
     final loggedUser = tiutiuUserController.tiutiuUser;
     final DeleteAccount deleteAccountData = DeleteAccount(
       descrivedMotive: deleteAccountMotiveDescribed,
+      displayName: 'Usuário Excluído',
       userEmail: loggedUser.email!,
       motive: deleteAccountMotive,
+      userDeleted: true,
     );
 
     await _deleteAccountService.deleteAccountForever(
