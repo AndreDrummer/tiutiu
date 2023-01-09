@@ -248,12 +248,30 @@ class OtherFunctions {
 
     final dynamicLink = await FirebaseDynamicLinks.instance.buildShortLink(dynamicLinkParams);
 
-    String headerText = 'Olha esse ${post.type.toLowerCase()} $typeIcon que eu vi no app *Tiu, tiu*:';
+    String headerText = 'Olha ${_getPetGender(post).trim()}  ${typeIcon.trim()} que eu vi no app *Tiu, tiu*:';
 
     String bodyText = '*$postTitle*\n⚧️ $gender\n🎂 $age\n📐 $size\n🎨 $color';
 
     String footerText = 'Tem mais detalhes dele nesse link: ${dynamicLink.shortUrl}.';
 
     return '$headerText\n\n$bodyText\n\n$footerText';
+  }
+
+  static String _getPetGender(Pet pet) {
+    if (pet.gender == PostDetailsStrings.female) {
+      if (pet.type == PetTypeStrings.dog) {
+        return 'essa cachorra';
+      } else if (pet.type == PetTypeStrings.cat) {
+        return 'essa gata';
+      }
+    } else if (pet.gender == PostDetailsStrings.male) {
+      if (pet.type == PetTypeStrings.dog) {
+        return 'esse cachorro';
+      } else if (pet.type == PetTypeStrings.cat) {
+        return 'esse gato';
+      }
+    }
+
+    return 'esse ${pet.type.toLowerCase()}';
   }
 }
