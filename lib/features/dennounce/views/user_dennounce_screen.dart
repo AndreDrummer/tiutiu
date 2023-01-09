@@ -44,8 +44,6 @@ class UserDennounceScreen extends StatelessWidget {
   void _onUpdateUserDennounceMotive(int? index) {
     int motiveIndex = index ?? 0;
 
-    print(index);
-
     final dennounceUserMotives = userDennounceController.dennounceUserMotives;
     userDennounceController.userDennounceGroupValue = motiveIndex;
     userDennounceController.hasError = false;

@@ -30,6 +30,8 @@ class ChatScreen extends StatelessWidget with TiuTiuPopUp {
 
   @override
   Widget build(BuildContext context) {
+    if (chatController.userChatingWith.uid == null) Get.back();
+
     return WillPopScope(
       onWillPop: () async {
         chatController.resetUserChatingWith();
