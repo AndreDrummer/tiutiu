@@ -212,6 +212,7 @@ class PostDetailsStrings {
   static String get caracteristics => 'Características';
   static String get hermaphrodite => 'Hermafrodita';
   static String get health => 'Estado de Saúde';
+  static String get reward => 'Recompensa';
   static String get description => 'Descrição';
   static String get detailsOf => 'Detalhes de';
   static String get announcer => 'Anunciante';

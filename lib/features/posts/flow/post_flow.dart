@@ -74,7 +74,7 @@ class PostFlow extends StatelessWidget with TiuTiuPopUp {
                 resizeToAvoidBottomInset: true,
                 backgroundColor: AppColors.white,
                 body: SizedBox(
-                  height: postsController.flowIndex >= 6 ? Get.height : Get.height,
+                  height: Get.height,
                   child: Column(
                     children: [
                       Padding(

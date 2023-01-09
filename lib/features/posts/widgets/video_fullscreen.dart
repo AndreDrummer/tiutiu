@@ -56,7 +56,19 @@ class _VideoFullScreenState extends State<VideoFullScreen> {
           padding: const EdgeInsets.symmetric(horizontal: 8.0),
           child: Stack(
             children: [
-              Chewie(controller: widget.chewieController),
+              SizedBox.expand(
+                child: FittedBox(
+                  fit: BoxFit.cover,
+                  child: SizedBox(
+                    height: widget.chewieController.videoPlayerController.value.size.height,
+                    width: widget.chewieController.videoPlayerController.value.size.width,
+                    child: AspectRatio(
+                      aspectRatio: widget.chewieController.videoPlayerController.value.aspectRatio,
+                      child: Chewie(controller: widget.chewieController),
+                    ),
+                  ),
+                ),
+              ),
               Positioned(
                 bottom: 112.0.h,
                 right: 24.0.w,

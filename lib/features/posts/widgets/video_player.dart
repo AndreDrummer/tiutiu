@@ -33,6 +33,13 @@ class _TiuTiuVideoPlayerState extends State<TiuTiuVideoPlayer> {
 
   @override
   Widget build(BuildContext context) {
+    final borderRadius = widget.isInReviewMode
+        ? BorderRadius.all(Radius.circular(16.0.h))
+        : BorderRadius.only(
+            topLeft: Radius.circular(16.0.h),
+            topRight: Radius.circular(16.0.h),
+          );
+
     return Stack(
       children: [
         Positioned(
@@ -40,11 +47,11 @@ class _TiuTiuVideoPlayerState extends State<TiuTiuVideoPlayer> {
             alignment: Alignment.center,
             decoration: BoxDecoration(
               border: Border.all(color: AppColors.black.withAlpha(25)),
-              borderRadius: BorderRadius.all(Radius.circular(16.0.h)),
+              borderRadius: borderRadius,
               color: AppColors.black,
             ),
             child: ClipRRect(
-              borderRadius: BorderRadius.all(Radius.circular(16.0.h)),
+              borderRadius: borderRadius,
               child: Chewie(controller: widget.chewieController),
             ),
             height: Dimensions.getDimensBasedOnDeviceHeight(
