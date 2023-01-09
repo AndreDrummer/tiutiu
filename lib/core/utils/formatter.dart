@@ -105,8 +105,8 @@ class Formatters {
     return message;
   }
 
-  static String formmatedExtendedDate() {
-    final formattedDate = DateFormat('EEEE, DD/MM/yyyy', 'pt_Br').format(DateTime.now().toLocal());
+  static String formmatedExtendedDate({DateTime? dateTime}) {
+    final formattedDate = DateFormat('EEEE, DD/MM/yyyy', 'pt_Br').format(dateTime ?? DateTime.now().toLocal());
     final weekday = OtherFunctions.firstCharacterUpper(formattedDate.split(',').first);
 
     return '${weekday.trim()}, ${getExtendedDate()}.';
