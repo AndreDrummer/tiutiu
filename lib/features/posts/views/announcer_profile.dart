@@ -153,8 +153,10 @@ class AnnouncerProfile extends StatelessWidget {
   }
 
   Widget _userSinceDate() {
+    final DateTime dateTime = DateTime.parse(_user.createdAt ?? DateTime.now().toIso8601String());
+
     return AutoSizeText(
-      '${UserStrings.userSince} ${Formatters.getFormattedDate(_user.createdAt ?? DateTime.now().toIso8601String())}',
+      '${UserStrings.userSince} ${Formatters.formmatedExtendedDate(dateTime: dateTime).split(',').last.trim()}',
     );
   }
 

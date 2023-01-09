@@ -623,16 +623,19 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
             text: PostFlowStrings.deleteAd,
             textColor: AppColors.danger,
             onPressed: () async {
-              final postWasDeleted = await postsController.shwoDeletePostPopup();
+              final isToDelete = await postsController.shwoDeletePostPopup();
 
-              if (postWasDeleted) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: AutoSizeTexts.autoSizeText14(PostFlowStrings.adDeleted),
-                    duration: Duration(milliseconds: 1500),
-                    backgroundColor: AppColors.info,
-                  ),
-                );
+              if (isToDelete) {
+                postsController.deletePost().then((_) {}).then((_) {
+                  Get.back();
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: AutoSizeTexts.autoSizeText14(PostFlowStrings.adDeleted),
+                      duration: Duration(milliseconds: 1500),
+                      backgroundColor: AppColors.info,
+                    ),
+                  );
+                });
               }
             },
           )
