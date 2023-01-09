@@ -107,6 +107,7 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
     final Post post = postsController.post;
     final petCaracteristics = PetCaracteristics.petCaracteristics((post as Pet));
     final description = post.description;
+    final reward = post.reward;
 
     return WillPopScope(
       onWillPop: () async {
@@ -170,6 +171,7 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
                     child: Column(
                       children: [
                         _description(description),
+                        _disappearedReward(reward),
                         _address(),
                         postDetailBottomView(),
                       ],
@@ -500,6 +502,16 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
       child: CardContent(
         title: PostDetailsStrings.description,
         content: OtherFunctions.replacePhoneNumberWithStars(description ?? ''),
+      ),
+    );
+  }
+
+  Widget _disappearedReward(String? reward) {
+    return Visibility(
+      visible: (postsController.post as Pet).disappeared,
+      child: CardContent(
+        title: PostDetailsStrings.reward,
+        content: Formatters.currencyFormmater(reward) ?? '',
       ),
     );
   }
