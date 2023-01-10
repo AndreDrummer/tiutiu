@@ -2,8 +2,7 @@ import 'package:tiutiu/features/dennounce/widgets/dennonuce_popup_content.dart';
 import 'package:tiutiu/features/dennounce/model/post_dennounce.dart';
 import 'package:tiutiu/core/extensions/string_extension.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
-import 'package:tiutiu/core/constants/text_styles.dart';
-import 'package:tiutiu/core/constants/app_colors.dart';
+import 'package:tiutiu/core/widgets/tiutiu_snackbar.dart';
 import 'package:tiutiu/core/constants/strings.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -63,13 +62,7 @@ class PostDennounceScreen extends StatelessWidget {
       postDennounceController.submit().then((_) {
         Get.back();
 
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: AutoSizeTexts.autoSizeText14(DennounceStrings.dennounceSentSuccessfully),
-            duration: Duration(milliseconds: 1500),
-            backgroundColor: AppColors.info,
-          ),
-        );
+        ScaffoldMessenger.of(context).showSnackBar(TiuTiuSnackBar(message: DennounceStrings.dennounceSentSuccessfully));
       });
     } else {
       postDennounceController.hasError = true;

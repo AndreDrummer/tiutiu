@@ -28,7 +28,9 @@ class MyPosts extends StatelessWidget {
             isInMyPosts: true,
           ),
           floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-          floatingActionButton: ChangePostsVisibilityFloatingButtom(),
+          floatingActionButton: ChangePostsVisibilityFloatingButtom(
+            visibility: postsController.filteredPosts.isNotEmpty,
+          ),
         ),
       ),
     );

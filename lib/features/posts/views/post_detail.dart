@@ -3,6 +3,7 @@ import 'package:tiutiu/features/dennounce/widgets/dennounce_button.dart';
 import 'package:tiutiu/features/favorites/widgets/favorite_button.dart';
 import 'package:tiutiu/features/admob/constants/admob_block_names.dart';
 import 'package:tiutiu/core/widgets/pet_other_caracteristics_card.dart';
+import 'package:tiutiu/features/posts/widgets/post_action_button.dart';
 import 'package:tiutiu/core/pets/model/pet_caracteristics_model.dart';
 import 'package:tiutiu/features/dennounce/model/post_dennounce.dart';
 import 'package:tiutiu/core/widgets/no_connection_text_info.dart';
@@ -15,6 +16,7 @@ import 'package:tiutiu/core/widgets/simple_text_button.dart';
 import 'package:tiutiu/core/views/loading_video_screen.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/utils/routes/routes_name.dart';
+import 'package:tiutiu/core/widgets/tiutiu_snackbar.dart';
 import 'package:tiutiu/core/utils/launcher_functions.dart';
 import 'package:tiutiu/core/constants/images_assets.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
@@ -260,18 +262,17 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
         replacement: postsController.isInReviewMode ? SizedBox.shrink() : NoConnectionTextInfo(),
         visible: !postsController.isInReviewMode && systemController.properties.internetConnected,
         child: GestureDetector(
-          onTap: postsController.sharePost,
+          onTap: () async {
+            final success = await postsController.sharePost();
+
+            if (!success) {
+              showPopUp(message: AppStrings.unableToGenerateSharebleFile, backGroundColor: AppColors.danger);
+            }
+          },
           child: Card(
             elevation: 8.0,
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24.0.h)),
-            child: Padding(
-              padding: EdgeInsets.all(8.0.h),
-              child: Icon(
-                color: AppColors.secondary,
-                Icons.share,
-                size: 16.0.h,
-              ),
-            ),
+            child: PostActionButton(icon: Icons.share),
           ),
         ),
       ),
@@ -626,15 +627,9 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
               final isToDelete = await postsController.shwoDeletePostPopup();
 
               if (isToDelete) {
-                postsController.deletePost().then((_) {}).then((_) {
+                postsController.deletePost().then((_) {}).then((_) async {
                   Get.back();
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: AutoSizeTexts.autoSizeText14(PostFlowStrings.adDeleted),
-                      duration: Duration(milliseconds: 1500),
-                      backgroundColor: AppColors.info,
-                    ),
-                  );
+                  ScaffoldMessenger.of(context).showSnackBar(TiuTiuSnackBar(message: PostFlowStrings.adDeleted));
                 });
               }
             },
