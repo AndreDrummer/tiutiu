@@ -3,6 +3,7 @@ import 'package:tiutiu/core/constants/contact_type.dart';
 class AppStrings {
   static String get noConnectionWarning => 'Estes anúncios podem estar desatualizados porque você está sem internet.';
   static String get authError => 'Ocorreu um erro com sua autenticação.\nTente sair e entrar novamente.';
+  static String get unableToGenerateSharebleFile => 'Não foi possível gerar arquivo compartilhável.';
   static String get headline2 => 'Muitos Pets Lindos\nEstão Aguardando Por Você';
   static String get verifyEmailToSeeContactInfo =>
       'Verifique seu email para ver as informações de contato deste anúncio!';
