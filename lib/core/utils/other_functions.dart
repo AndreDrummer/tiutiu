@@ -215,7 +215,11 @@ class OtherFunctions {
     }
   }
 
-  static Future<String> getPostTextToShare(Post post, String dynamicLinkPrefix) async {
+  static Future<String> getPostTextToShare({
+    required String dynamicLinkPrefix,
+    required String uriPrefix,
+    required Post post,
+  }) async {
     String postTitle = Formatters.cuttedText(post.name ?? post.type, size: 20);
     String gender = (post as Pet).gender;
     int ageMonth = post.ageMonth;
@@ -239,11 +243,14 @@ class OtherFunctions {
                 ? '🐧'
                 : '';
 
+    debugPrint('TiuTiuApp: DynamicLinkPrefix $dynamicLinkPrefix');
+    debugPrint('TiuTiuApp: UriPrefix $uriPrefix');
+
     final dynamicLinkParams = DynamicLinkParameters(
       androidParameters: const AndroidParameters(packageName: Constants.APP_ANDROID_ID),
       iosParameters: const IOSParameters(bundleId: Constants.APP_IOS_BUNDLE_ID),
-      link: Uri.parse('$dynamicLinkPrefix/share?${post.uid}'),
-      uriPrefix: dynamicLinkPrefix,
+      link: Uri.parse('$dynamicLinkPrefix?${post.uid}'),
+      uriPrefix: uriPrefix,
     );
 
     final dynamicLink = await FirebaseDynamicLinks.instance.buildShortLink(dynamicLinkParams);
@@ -275,3 +282,27 @@ class OtherFunctions {
     return 'esse ${pet.type.toLowerCase()}';
   }
 }
+
+
+// ^https{0,1}:\/\/cutt\.ly(\/.*){0,1}$|^https{0,1}:\/\/tiutiu-5cd14\.firebaseapp\.com(\/.*){0,1}$|^https{0,1}:\/\/tiutiu\.page\.link(\/.*){0,1}$
+
+// ^https://anjasolutions\.com/.*$
+
+// ^https{0,1}:\/\/anjasolutions\.com(\/.*){0,1}$|^https{0,1}:\/\/tiutiu-5cd14\.firebaseapp\.com(\/.*){0,1}$|^https{0,1}:\/\/tiutiu\.page\.link(\/.*){0,1}$
+
+// ^https{0,1}:\/\/cutt\.ly(\/.*){0,1}$|^https{0,1}:\/\/anjasolutions\.com(\/.*){0,1}$|^https{0,1}:\/\/anjasolutions\.com(\/.*){0,1}$
+
+
+
+
+// ^https{0,1}:\/\/cutt\.ly(\/.*){0,1}$|^https{0,1}:\/\/tiutiu-5cd14\.firebaseapp\.com(\/.*){0,1}$|^https{0,1}:\/\/anjasolutions\.com(\/.*){0,1}$
+
+
+
+
+
+
+
+// https://tiutiu.page.link/?link=https://cutt.ly/4gIMH8V&apn=com.anjasolutions.tiutiu&isi=1660325927&ibi=com.anjasolutions.tiutiuapp
+// https://anjasolutions.com/?link=https://cutt.ly/4gIMH8V&apn=com.anjasolutions.tiutiu&isi=1660325927&ibi=com.anjasolutions.tiutiuapp
+
