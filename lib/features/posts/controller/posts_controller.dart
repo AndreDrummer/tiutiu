@@ -167,6 +167,7 @@ class PostsController extends GetxController with TiuTiuPopUp {
 
     await _postsRepository.deletePost(post: post);
     await getAllPosts();
+
     clearForm();
     setLoading(false);
 
@@ -177,7 +178,7 @@ class PostsController extends GetxController with TiuTiuPopUp {
     final list = await _postsRepository.getPostList();
     _posts(list);
 
-    final filteredPosts = PostUtils.filterPosts(postsList: _posts);
+    final filteredPosts = PostUtils.filterPosts(postsList: isInMyPostsList ? loggedUserPosts() : _posts);
 
     _filteredPosts(filteredPosts);
     _postsCount(filteredPosts.length);
@@ -293,8 +294,9 @@ class PostsController extends GetxController with TiuTiuPopUp {
     return returnValue;
   }
 
-  Future sharePost() async {
+  Future<bool> sharePost() async {
     setLoading(true, loadingText: PostDetailsStrings.preparingPostToShare);
+
     try {
       final String dynamicLinkPrefix = adminRemoteConfigController.configs.dynamicLinkPrefix;
       final String uriPrefix = adminRemoteConfigController.configs.uriPrefix;
@@ -314,9 +316,13 @@ class PostsController extends GetxController with TiuTiuPopUp {
       } else {
         Share.share(postText);
       }
+
+      return true;
     } catch (exception) {
       setLoading(false);
       debugPrint('TiuTiuApp: An error ocurred when generating share link: $exception');
+
+      return false;
     }
   }
 

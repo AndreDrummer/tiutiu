@@ -1,3 +1,4 @@
+import 'package:tiutiu/core/widgets/tiutiu_snackbar.dart';
 import 'package:tiutiu/features/support/models/support_us.dart';
 import 'package:tiutiu/core/extensions/string_extension.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -101,13 +102,7 @@ class SupportUs extends StatelessWidget {
       onPressed: () async {
         await Clipboard.setData(ClipboardData(text: key)).then(
           (_) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: AutoSizeTexts.autoSizeText14(SupportUsStrings.keyPixCopied),
-                duration: Duration(milliseconds: 1500),
-                backgroundColor: AppColors.info,
-              ),
-            );
+            ScaffoldMessenger.of(context).showSnackBar(TiuTiuSnackBar(message: SupportUsStrings.keyPixCopied));
           },
         );
       },
