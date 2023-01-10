@@ -3,6 +3,7 @@ import 'package:tiutiu/core/widgets/button_wide_outlined.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/utils/routes/routes_name.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
+import 'package:tiutiu/core/widgets/tiutiu_snackbar.dart';
 import 'package:tiutiu/core/constants/text_styles.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
@@ -301,10 +302,9 @@ class _VerifyPhoneState extends State<VerifyPhone> {
                     systemController.snackBarIsOpen = true;
                     ScaffoldMessenger.of(context)
                         .showSnackBar(
-                          SnackBar(
-                            content: AutoSizeTexts.autoSizeText14(authController.feedbackText),
-                            backgroundColor: valid ? AppColors.success : AppColors.danger,
-                            duration: Duration(milliseconds: 1500),
+                          TiuTiuSnackBar(
+                            color: valid ? AppColors.success : AppColors.danger,
+                            message: authController.feedbackText,
                           ),
                         )
                         .closed

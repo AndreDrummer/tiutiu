@@ -1,5 +1,7 @@
+import 'package:tiutiu/features/home/controller/home_controller.dart';
 import 'package:tiutiu/core/widgets/simple_text_button.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:tiutiu/core/widgets/tiutiu_snackbar.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/constants/text_styles.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
@@ -7,7 +9,6 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:tiutiu/core/constants/strings.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:tiutiu/features/home/controller/home_controller.dart';
 
 class VerifyEmail extends StatefulWidget {
   const VerifyEmail({super.key});
@@ -197,19 +198,7 @@ class _VerifyEmailState extends State<VerifyEmail> {
 
     systemController.snackBarIsOpen = true;
     ScaffoldMessenger.of(context)
-        .showSnackBar(
-          SnackBar(
-            content: AutoSizeTexts.autoSizeText14(resultMessage),
-            duration: Duration(milliseconds: 1500),
-            backgroundColor: AppColors.info,
-            action: SnackBarAction(
-              label: 'OK',
-              onPressed: () {
-                Get.back();
-              },
-            ),
-          ),
-        )
+        .showSnackBar(TiuTiuSnackBar(message: resultMessage))
         .closed
         .then((value) => systemController.snackBarIsOpen = false);
 

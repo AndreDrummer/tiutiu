@@ -15,11 +15,14 @@ class DennounceButton extends StatelessWidget {
         elevation: 8.0,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24.0.h)),
         child: Padding(
-          padding: EdgeInsets.all(8.0.h),
-          child: Icon(
-            color: AppColors.warning,
-            Icons.warning_amber,
-            size: 16.0.h,
+          padding: EdgeInsets.all(4.0.h),
+          child: Transform.rotate(
+            angle: 12,
+            child: Icon(
+              color: AppColors.warning,
+              Icons.campaign_rounded,
+              size: 24.0.h,
+            ),
           ),
         ),
       ),

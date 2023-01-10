@@ -41,7 +41,9 @@ class _FavoritesState extends State<Favorites> {
           ),
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-        floatingActionButton: ChangePostsVisibilityFloatingButtom(),
+        floatingActionButton: Obx(
+          () => ChangePostsVisibilityFloatingButtom(visibility: favoritesController.favoritedPosts.isNotEmpty),
+        ),
       ),
     );
   }
