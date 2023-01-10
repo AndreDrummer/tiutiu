@@ -360,6 +360,7 @@ class DeleteAccountStrings {
 }
 
 class FeedbackStrings {
+  static const String partnershipWarning = 'Deixe informações corretas para entrarmos em contato com você!';
   static const String sendingYourMessage = 'Enviando sua mensagem para o administrador';
   static const String wannaAnnounceOnApp = 'Quero anunciar minha empresa no Tiu, tiu';
   static const String failureWarning = 'Algo deu errado ao enviar seu feedback.';
