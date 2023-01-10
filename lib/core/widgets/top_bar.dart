@@ -1,3 +1,4 @@
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiutiu/features/sponsored/views/sponsored.dart';
 import 'package:tiutiu/features/posts/model/filter_params.dart';
 import 'package:tiutiu/core/extensions/string_extension.dart';
@@ -130,20 +131,11 @@ class TopBar extends StatelessWidget {
     final now = DateTime.now();
 
     if (now.hour < 12) {
-      return Stack(
-        children: [
-          Icon(Icons.sunny, color: Colors.yellow),
-          Positioned(
-            left: 6.5.w,
-            top: 6.5.h,
-            child: Icon(Icons.wb_cloudy_rounded, color: Colors.grey.withOpacity(.9), size: 13.0.h),
-          ),
-        ],
-      );
+      return Icon(FontAwesomeIcons.cloudSun, color: Colors.amberAccent);
     } else if (now.hour < 18) {
-      return Transform.rotate(angle: 12, child: Icon(Icons.wb_sunny_sharp, color: Colors.amberAccent));
+      return Icon(FontAwesomeIcons.solidSun, color: Colors.yellow);
     } else {
-      return Transform.rotate(angle: 12, child: Icon(Icons.nightlight_round_outlined, color: Colors.grey[700]));
+      return Icon(FontAwesomeIcons.cloudMoon, color: Colors.grey[800]);
     }
   }
 

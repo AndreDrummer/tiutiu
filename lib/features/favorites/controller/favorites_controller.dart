@@ -10,6 +10,10 @@ import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 
 class FavoritesController extends GetxController {
+  final RxList<Post> _favoritedPosts = <Post>[].obs;
+
+  List<Post> get favoritedPosts => _favoritedPosts;
+
   void addFavorite(Post post) {
     debugPrint('TiuTiuApp: Add to favorites');
     _favoritesCollection().doc(post.uid).set(post.toMap());
@@ -22,17 +26,19 @@ class FavoritesController extends GetxController {
 
   Stream<List<Post>> favoritesList(FilterParams filters) {
     final queryMap = _favoritesCollection().where(FilterParamsEnum.disappeared.name, isEqualTo: false);
-    List<Post> favoritePosts = [];
+    List<Post> favoritedPosts = [];
 
     return queryMap.snapshots().asyncMap((event) {
-      favoritePosts.clear();
+      favoritedPosts.clear();
       event.docs.forEach((favorite) {
         if (favorite.data().isNotEmpty) {
-          favoritePosts.add(Pet().fromMap(favorite.data()));
+          favoritedPosts.add(Pet().fromMap(favorite.data()));
         }
       });
 
-      return PostUtils.filterPosts(postsList: favoritePosts);
+      _favoritedPosts(favoritedPosts);
+
+      return PostUtils.filterPosts(postsList: favoritedPosts);
     });
   }
 
