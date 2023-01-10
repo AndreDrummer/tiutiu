@@ -3,11 +3,11 @@ import 'package:tiutiu/core/widgets/default_basic_app_bar.dart';
 import 'package:tiutiu/core/widgets/column_button_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/constants/images_assets.dart';
+import 'package:tiutiu/core/widgets/tiutiu_snackbar.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/widgets/underline_text.dart';
 import 'package:tiutiu/core/views/load_dark_screen.dart';
 import 'package:tiutiu/core/widgets/avatar_profile.dart';
-import 'package:tiutiu/core/constants/text_styles.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/core/constants/strings.dart';
 import 'package:tiutiu/core/utils/validators.dart';
@@ -207,23 +207,12 @@ class _SettingsState extends State<Settings> {
 
             if (widget.isEditingProfile) Get.back();
 
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(MoreStrings.profileUpdated),
-                backgroundColor: AppColors.info,
-              ),
-            );
+            ScaffoldMessenger.of(context).showSnackBar(TiuTiuSnackBar(message: MoreStrings.profileUpdated));
           } else if (tiutiuUserController.tiutiuUser.avatar == null) {
             systemController.snackBarIsOpen = true;
 
             ScaffoldMessenger.of(context)
-                .showSnackBar(
-                  SnackBar(
-                    content: AutoSizeTexts.autoSizeText14(MoreStrings.insertAPicture),
-                    duration: Duration(milliseconds: 1500),
-                    backgroundColor: AppColors.danger,
-                  ),
-                )
+                .showSnackBar(TiuTiuSnackBar(message: MoreStrings.insertAPicture, color: AppColors.danger))
                 .closed
                 .then((value) => systemController.snackBarIsOpen = false);
           }
