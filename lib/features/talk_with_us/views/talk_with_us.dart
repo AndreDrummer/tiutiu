@@ -1,15 +1,15 @@
-import 'package:tiutiu/core/widgets/no_connection_text_info.dart';
 import 'package:tiutiu/features/talk_with_us/widgets/body_card.dart';
 import 'package:tiutiu/core/widgets/underline_input_dropdown.dart';
 import 'package:tiutiu/features/talk_with_us/model/feedback.dart';
+import 'package:tiutiu/core/widgets/no_connection_text_info.dart';
 import 'package:tiutiu/core/widgets/default_basic_app_bar.dart';
 import 'package:tiutiu/core/extensions/string_extension.dart';
 import 'package:tiutiu/features/posts/widgets/text_area.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/constants/images_assets.dart';
-import 'package:tiutiu/core/constants/text_styles.dart';
 import 'package:tiutiu/core/views/load_dark_screen.dart';
+import 'package:tiutiu/core/constants/text_styles.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/core/widgets/button_wide.dart';
 import 'package:tiutiu/core/utils/asset_handle.dart';
@@ -26,7 +26,7 @@ class TalkWithUs extends StatefulWidget {
 }
 
 class _TalkWithUsState extends State<TalkWithUs> {
-  final screenAnimationDuration = Duration(seconds: 1);
+  final screenAnimationDuration = Duration(milliseconds: 500);
   bool showAddImagesWidget = false;
 
   @override
@@ -44,37 +44,61 @@ class _TalkWithUsState extends State<TalkWithUs> {
             appBar: DefaultBasicAppBar(text: MyProfileOptionsTile.talkWithUs),
             resizeToAvoidBottomInset: false,
             body: Obx(
-              () => Container(
-                height: double.infinity,
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                  image: DecorationImage(image: AssetHandle.imageProvider(ImageAssets.bones2), fit: BoxFit.cover),
-                ),
-                child: Stack(
-                  children: [
-                    BodyCard(
-                      bodyHeight: feedbackController.insertImages ? Get.height : Get.width * 1.05,
-                      child: ListView(
-                        children: [
-                          _selectYourSubject(),
-                          _describeYourMessage(),
-                          _addImagesCheckbox(),
-                          _screenshots(),
-                          _submitButton(),
-                        ],
+              () {
+                bool isPartnership = feedbackController.feedback.contactSubject == FeedbackStrings.wannaAnnounceOnApp ||
+                    feedbackController.feedback.contactSubject == FeedbackStrings.partnership;
+
+                return Container(
+                  height: double.infinity,
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                    image: DecorationImage(image: AssetHandle.imageProvider(ImageAssets.bones2), fit: BoxFit.cover),
+                  ),
+                  child: Stack(
+                    children: [
+                      BodyCard(
+                        bodyHeight: feedbackController.insertImages
+                            ? Get.height
+                            : isPartnership
+                                ? Get.width * 1.1
+                                : Get.width * 1.05,
+                        child: ListView(
+                          children: [
+                            _selectYourSubject(),
+                            _partnershipWarning(visible: isPartnership),
+                            _describeYourMessage(),
+                            _addImagesCheckbox(),
+                            _screenshots(),
+                            _submitButton(),
+                          ],
+                        ),
                       ),
-                    ),
-                    LoadDarkScreen(
-                      message: feedbackController.loadingText,
-                      visible: feedbackController.isLoading,
-                    ),
-                  ],
-                ),
-              ),
+                      LoadDarkScreen(
+                        message: feedbackController.loadingText,
+                        visible: feedbackController.isLoading,
+                      ),
+                    ],
+                  ),
+                );
+              },
             ),
           ),
         );
       },
+    );
+  }
+
+  Widget _partnershipWarning({required bool visible}) {
+    return Visibility(
+      visible: visible,
+      child: Padding(
+        padding: EdgeInsets.only(bottom: 8.0.h),
+        child: AutoSizeTexts.autoSizeText14(
+          FeedbackStrings.partnershipWarning,
+          textAlign: TextAlign.center,
+          color: AppColors.secondary,
+        ),
+      ),
     );
   }
 
@@ -189,7 +213,7 @@ class _TalkWithUsState extends State<TalkWithUs> {
   Widget _submitButton() {
     return Obx(
       () => Padding(
-        padding: EdgeInsets.only(top: 24.0.h),
+        padding: EdgeInsets.only(top: 16.0.h),
         child: Visibility(
           visible: systemController.properties.internetConnected,
           child: ButtonWide(
