@@ -111,7 +111,9 @@ class _HomeState extends State<Home> with TiuTiuPopUp {
               controller: homeController.scrollController,
               floatHeaderSlivers: true,
             ),
-            floatingActionButton: ChangePostsVisibilityFloatingButtom(visibility: homeController.bottomBarIndex < 2),
+            floatingActionButton: ChangePostsVisibilityFloatingButtom(
+              visibility: homeController.bottomBarIndex < 2 && postsController.filteredPosts.isNotEmpty,
+            ),
             floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
             bottomNavigationBar: BottomBar(),
             resizeToAvoidBottomInset: false,
