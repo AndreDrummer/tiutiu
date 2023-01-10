@@ -18,7 +18,9 @@ class MigrationService {
   // final String petAdPurpose = FirebaseEnvPath.disappeared;
   final String petAdPurpose = FirebaseEnvPath.donate;
 
-  void migrate() async {}
+  void migrate() async {
+    // moveSomeDocumentDataToProd();
+  }
 
   void updateEndpointsSintaxe() async {
     try {
@@ -63,7 +65,7 @@ class MigrationService {
 
   void moveSomeDocumentDataToProd() async {
     debugPrint('|| MIGRATION Starting... ||');
-    final migratingDocument = 'admobids';
+    final migratingDocument = 'adminRemoteConfigs';
 
     final data = await _pathToDocumentData('debug', migratingDocument).get();
     debugPrint('|| MDATA ${data.data()} ||');
