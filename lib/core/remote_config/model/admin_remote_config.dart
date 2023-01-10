@@ -15,6 +15,7 @@ enum AdminRemoteConfigEnum {
   playStoreLink,
   appBirthday,
   appAdminID,
+  uriPrefix,
   allowPost,
 }
 
@@ -36,11 +37,12 @@ class AdminRemoteConfig {
       appBirthday: map[AdminRemoteConfigEnum.appBirthday.name],
       appAdminID: map[AdminRemoteConfigEnum.appAdminID.name],
       allowPost: map[AdminRemoteConfigEnum.allowPost.name],
+      uriPrefix: map[AdminRemoteConfigEnum.uriPrefix.name],
     );
   }
 
   AdminRemoteConfig({
-    this.dynamicLinkPrefix = 'https://tiutiu.page.link',
+    this.uriPrefix = 'https://tiutiu.page.link',
     this.adminCommunicationIsDanger = false,
     this.thereIsAdminCommunication = false,
     this.adminLinkRedirectsTo = '',
@@ -49,6 +51,7 @@ class AdminRemoteConfig {
     this.mostUpdatedVersion = '',
     this.allowGoogleAds = true,
     this.appInstagramLink = '',
+    this.dynamicLinkPrefix = '',
     this.appFacebookLink = '',
     this.playStoreLink = '',
     this.appleStoreLink = '',
@@ -74,6 +77,7 @@ class AdminRemoteConfig {
       appBirthday: snapshot.get(AdminRemoteConfigEnum.appBirthday.name),
       appAdminID: snapshot.get(AdminRemoteConfigEnum.appAdminID.name),
       allowPost: snapshot.get(AdminRemoteConfigEnum.allowPost.name),
+      uriPrefix: snapshot.get(AdminRemoteConfigEnum.uriPrefix.name),
     );
   }
 
@@ -91,6 +95,7 @@ class AdminRemoteConfig {
   final bool allowGoogleAds;
   final String appBirthday;
   final String appAdminID;
+  final String uriPrefix;
   final bool allowPost;
 
   AdminRemoteConfig copyWith({
@@ -108,6 +113,7 @@ class AdminRemoteConfig {
     bool? allowGoogleAds,
     String? appBirthday,
     String? appAdminID,
+    String? uriPrefix,
     bool? allowPost,
   }) {
     return AdminRemoteConfig(
@@ -126,6 +132,7 @@ class AdminRemoteConfig {
       appBirthday: appBirthday ?? this.appBirthday,
       appAdminID: appAdminID ?? this.appAdminID,
       allowPost: allowPost ?? this.allowPost,
+      uriPrefix: uriPrefix ?? this.uriPrefix,
     );
   }
 
@@ -145,6 +152,7 @@ class AdminRemoteConfig {
       AdminRemoteConfigEnum.playStoreLink.name: playStoreLink,
       AdminRemoteConfigEnum.appBirthday.name: appBirthday,
       AdminRemoteConfigEnum.appAdminID.name: appAdminID,
+      AdminRemoteConfigEnum.uriPrefix.name: uriPrefix,
       AdminRemoteConfigEnum.allowPost.name: allowPost,
     };
   }
@@ -157,7 +165,7 @@ class AdminRemoteConfig {
       adminLinkRedirectsTo: $adminLinkRedirectsTo,
       mostUpdatedVersion: $mostUpdatedVersion,
       adminCommunication: $adminCommunication,
-      dynamicLinkPrefix: $dynamicLinkPrefix,
+      dynamicLinkPrefix: $dynamicLinkPrefix,      
       appInstagramLink: $appInstagramLink,
       showSponsoredAds: $showSponsoredAds,      
       appFacebookLink: $appFacebookLink,      
@@ -166,6 +174,7 @@ class AdminRemoteConfig {
       playStoreLink: $playStoreLink,      
       appBirthday: $appBirthday,
       appAdminID: $appAdminID,
+      uriPrefix: $uriPrefix,
       allowPost: $allowPost,
     )''';
   }

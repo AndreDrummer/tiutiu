@@ -297,9 +297,15 @@ class PostsController extends GetxController with TiuTiuPopUp {
     setLoading(true, loadingText: PostDetailsStrings.preparingPostToShare);
     try {
       final String dynamicLinkPrefix = adminRemoteConfigController.configs.dynamicLinkPrefix;
+      final String uriPrefix = adminRemoteConfigController.configs.uriPrefix;
 
       String? postFirstImage = await OtherFunctions.getPostImageToShare(post);
-      String postText = await OtherFunctions.getPostTextToShare(post, dynamicLinkPrefix);
+
+      String postText = await OtherFunctions.getPostTextToShare(
+        dynamicLinkPrefix: dynamicLinkPrefix,
+        uriPrefix: uriPrefix,
+        post: post,
+      );
 
       setLoading(false);
 
