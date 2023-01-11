@@ -1,10 +1,14 @@
+import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:tiutiu/core/location/models/states_and_cities.dart';
+import 'package:tiutiu/core/models/dynamic_link_parameters.dart';
 import 'package:tiutiu/core/extensions/string_extension.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/pets/model/pet_model.dart';
 import 'package:tiutiu/features/posts/model/post.dart';
 import 'package:tiutiu/core/constants/strings.dart';
 import 'package:tiutiu/core/utils/ordenators.dart';
+import 'package:tiutiu/core/utils/constants.dart';
+import 'package:tiutiu/core/utils/formatter.dart';
 import 'package:flutter/foundation.dart';
 
 class PostUtils {
@@ -100,5 +104,27 @@ class PostUtils {
     }
 
     return list;
+  }
+
+  static TiuTiuDynamicLinkParameters generateParametersBasedOn({
+    required String dynamicLinkPrefix,
+    required String appStoreId,
+    required String uriPrefix,
+    required Post post,
+  }) {
+    return TiuTiuDynamicLinkParameters(
+      iosParameters: IOSParameters(bundleId: Constants.APP_IOS_BUNDLE_ID, appStoreId: appStoreId),
+      androidParameters: AndroidParameters(packageName: Constants.APP_ANDROID_ID),
+      postTitle: Formatters.cuttedText(post.name ?? post.type, size: 20),
+      link: Uri.parse('$dynamicLinkPrefix?${post.uid}'),
+      dynamicLinkPrefix: dynamicLinkPrefix,
+      gender: (post as Pet).gender,
+      ageMonth: post.ageMonth,
+      ageYear: post.ageYear,
+      uriPrefix: uriPrefix,
+      color: post.color,
+      type: post.type,
+      size: post.size,
+    );
   }
 }
