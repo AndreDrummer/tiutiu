@@ -66,7 +66,7 @@ class DefaultFirebaseOptions {
     databaseURL: 'https://tiutiu-5cd14.firebaseio.com',
     storageBucket: 'tiutiu-5cd14.appspot.com',
     androidClientId: '791022711249-4tcgfbn19l5k6cf8t2qblh0t66lon5d6.apps.googleusercontent.com',
-    iosClientId: '791022711249-kb8hft6pk0cahhub0cugbtrt473i94np.apps.googleusercontent.com',
+    iosClientId: '791022711249-e7i7f4re6hrg5hamqcqdebrsjmeqs2sa.apps.googleusercontent.com',
     iosBundleId: 'com.anjasolutions.tiutiuapp',
   );
 }
