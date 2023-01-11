@@ -5,6 +5,7 @@ enum LocalStorageKey {
   emailPasswordAuthData,
   lastSendEmailTime,
   whatsappTokenData,
+  enableCrashlytics,
   lastKnowLocation,
   facebookAuthData,
   sharedFilesMap,
