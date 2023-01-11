@@ -36,6 +36,7 @@ dependencies:
   sign_in_with_apple: ^4.1.0
   loading_animations: ^2.2.0  
   flutter_speed_dial: ^6.0.0  
+  move_to_background: ^1.0.2
   connectivity_plus: ^2.3.7    
   google_mobile_ads: ^2.3.0
   package_info_plus: ^1.0.0
@@ -64,6 +65,7 @@ dependencies:
 
   firebase_core_platform_interface: 4.5.2
   firebase_dynamic_links: ^5.0.8
+  firebase_crashlytics: ^3.0.9
   firebase_analytics: ^10.0.7
   firebase_messaging: ^14.1.4
   firebase_database: ^10.0.7

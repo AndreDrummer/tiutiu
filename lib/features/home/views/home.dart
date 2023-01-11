@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:tiutiu/core/widgets/change_posts_visibility_floating_button.dart';
 import 'package:tiutiu/features/home/utils/expanded_home_height_size.dart';
 import 'package:tiutiu/features/admob/constants/admob_block_names.dart';
@@ -7,6 +9,7 @@ import 'package:tiutiu/features/home/widgets/bottom_bar.dart';
 import 'package:tiutiu/features/admob/widgets/ad_banner.dart';
 import 'package:tiutiu/features/posts/views/posts_list.dart';
 import 'package:tiutiu/features/chat/views/my_contacts.dart';
+import 'package:move_to_background/move_to_background.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/features/home/widgets/header.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
@@ -59,7 +62,11 @@ class _HomeState extends State<Home> with TiuTiuPopUp {
                 Get.back();
               },
               secondaryAction: () {
-                willClose = true;
+                if (Platform.isIOS) {
+                  willClose = true;
+                } else {
+                  MoveToBackground.moveTaskToBack();
+                }
                 Get.back();
               },
             ).then((_) => willClose);
