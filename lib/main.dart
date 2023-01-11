@@ -127,8 +127,6 @@ Future<void> main() async {
 
     MobileAds.instance.initialize();
 
-    crashlyticsController.init();
-
     initializeDateFormatting();
 
     runApp(TiuTiuApp());
