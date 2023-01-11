@@ -3,6 +3,7 @@ import 'package:tiutiu/features/posts/validators/form_validators.dart';
 import 'package:tiutiu/core/location/models/states_and_cities.dart';
 import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
 import 'package:tiutiu/features/posts/services/post_service.dart';
+import 'package:tiutiu/core/models/dynamic_link_parameters.dart';
 import 'package:tiutiu/core/extensions/string_extension.dart';
 import 'package:tiutiu/features/posts/utils/post_utils.dart';
 import 'package:tiutiu/core/utils/routes/routes_name.dart';
@@ -299,15 +300,19 @@ class PostsController extends GetxController with TiuTiuPopUp {
 
     try {
       final String dynamicLinkPrefix = adminRemoteConfigController.configs.dynamicLinkPrefix;
+      final String appStoreId = adminRemoteConfigController.configs.appStoreId;
       final String uriPrefix = adminRemoteConfigController.configs.uriPrefix;
 
       String? postFirstImage = await OtherFunctions.getPostImageToShare(post);
 
-      String postText = await OtherFunctions.getPostTextToShare(
+      TiuTiuDynamicLinkParameters parameters = PostUtils.generateParametersBasedOn(
         dynamicLinkPrefix: dynamicLinkPrefix,
+        appStoreId: appStoreId,
         uriPrefix: uriPrefix,
         post: post,
       );
+
+      String postText = await OtherFunctions.getPostTextToShare(tiuTiuDynamicLinkParameters: parameters);
 
       setLoading(false);
 

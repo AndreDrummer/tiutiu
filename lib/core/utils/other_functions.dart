@@ -1,3 +1,4 @@
+import 'package:tiutiu/core/models/dynamic_link_parameters.dart';
 import 'package:tiutiu/features/posts/views/announcer_profile.dart';
 import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
@@ -11,11 +12,8 @@ import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/location/models/latlng.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:tiutiu/core/utils/math_functions.dart';
-import 'package:tiutiu/core/pets/model/pet_model.dart';
 import 'package:tiutiu/features/posts/model/post.dart';
 import 'package:tiutiu/core/constants/strings.dart';
-import 'package:tiutiu/core/utils/constants.dart';
-import 'package:tiutiu/core/utils/formatter.dart';
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 import 'package:get/get.dart';
@@ -215,17 +213,14 @@ class OtherFunctions {
     }
   }
 
-  static Future<String> getPostTextToShare({
-    required String dynamicLinkPrefix,
-    required String uriPrefix,
-    required Post post,
-  }) async {
-    String postTitle = Formatters.cuttedText(post.name ?? post.type, size: 20);
-    String gender = (post as Pet).gender;
-    int ageMonth = post.ageMonth;
-    int ageYear = post.ageYear;
-    String color = post.color;
-    String size = post.size;
+  static Future<String> getPostTextToShare({required TiuTiuDynamicLinkParameters tiuTiuDynamicLinkParameters}) async {
+    String postTitle = tiuTiuDynamicLinkParameters.postTitle;
+    int ageMonth = tiuTiuDynamicLinkParameters.ageMonth;
+    String gender = tiuTiuDynamicLinkParameters.gender;
+    int ageYear = tiuTiuDynamicLinkParameters.ageYear;
+    String color = tiuTiuDynamicLinkParameters.color;
+    String type = tiuTiuDynamicLinkParameters.type;
+    String size = tiuTiuDynamicLinkParameters.size;
 
     bool showNewBornText = ageYear == 0 && ageMonth == 0;
 
@@ -235,27 +230,28 @@ class OtherFunctions {
             ? '$ageMonth meses'
             : '$ageYear anos';
 
-    String typeIcon = post.type == PetTypeStrings.cat
+    String typeIcon = type == PetTypeStrings.cat
         ? '🐈'
-        : post.type == PetTypeStrings.dog
+        : type == PetTypeStrings.dog
             ? '🐶'
-            : post.type == PetTypeStrings.bird
+            : type == PetTypeStrings.bird
                 ? '🐧'
                 : '';
 
-    debugPrint('TiuTiuApp: DynamicLinkPrefix $dynamicLinkPrefix');
-    debugPrint('TiuTiuApp: UriPrefix $uriPrefix');
+    debugPrint('TiuTiuApp: DynamicLinkPrefix ${tiuTiuDynamicLinkParameters.dynamicLinkPrefix}');
+    debugPrint('TiuTiuApp: AppStoreId ${tiuTiuDynamicLinkParameters.iosParameters.appStoreId}');
+    debugPrint('TiuTiuApp: UriPrefix ${tiuTiuDynamicLinkParameters.uriPrefix}');
 
     final dynamicLinkParams = DynamicLinkParameters(
-      androidParameters: const AndroidParameters(packageName: Constants.APP_ANDROID_ID),
-      iosParameters: const IOSParameters(bundleId: Constants.APP_IOS_BUNDLE_ID),
-      link: Uri.parse('$dynamicLinkPrefix?${post.uid}'),
-      uriPrefix: uriPrefix,
+      androidParameters: tiuTiuDynamicLinkParameters.androidParameters,
+      iosParameters: tiuTiuDynamicLinkParameters.iosParameters,
+      uriPrefix: tiuTiuDynamicLinkParameters.uriPrefix,
+      link: tiuTiuDynamicLinkParameters.link,
     );
 
     final dynamicLink = await FirebaseDynamicLinks.instance.buildShortLink(dynamicLinkParams);
 
-    String headerText = 'Olha ${_getPetGender(post).trim()}  ${typeIcon.trim()} que eu vi no app *Tiu, tiu*:';
+    String headerText = 'Olha ${_getPetGender(type, gender).trim()}  ${typeIcon.trim()} que eu vi no app *Tiu, tiu*:';
 
     String bodyText = '*$postTitle*\n⚧️ $gender\n🎂 $age\n📐 $size\n🎨 $color';
 
@@ -264,45 +260,21 @@ class OtherFunctions {
     return '$headerText\n\n$bodyText\n\n$footerText';
   }
 
-  static String _getPetGender(Pet pet) {
-    if (pet.gender == PostDetailsStrings.female) {
-      if (pet.type == PetTypeStrings.dog) {
+  static String _getPetGender(String type, String gender) {
+    if (gender == PostDetailsStrings.female) {
+      if (type == PetTypeStrings.dog) {
         return 'essa cachorra';
-      } else if (pet.type == PetTypeStrings.cat) {
+      } else if (type == PetTypeStrings.cat) {
         return 'essa gata';
       }
-    } else if (pet.gender == PostDetailsStrings.male) {
-      if (pet.type == PetTypeStrings.dog) {
+    } else if (gender == PostDetailsStrings.male) {
+      if (type == PetTypeStrings.dog) {
         return 'esse cachorro';
-      } else if (pet.type == PetTypeStrings.cat) {
+      } else if (type == PetTypeStrings.cat) {
         return 'esse gato';
       }
     }
 
-    return 'esse ${pet.type.toLowerCase()}';
+    return 'esse ${type.toLowerCase()}';
   }
 }
-
-
-// ^https{0,1}:\/\/cutt\.ly(\/.*){0,1}$|^https{0,1}:\/\/tiutiu-5cd14\.firebaseapp\.com(\/.*){0,1}$|^https{0,1}:\/\/tiutiu\.page\.link(\/.*){0,1}$
-
-// ^https://anjasolutions\.com/.*$
-
-// ^https{0,1}:\/\/anjasolutions\.com(\/.*){0,1}$|^https{0,1}:\/\/tiutiu-5cd14\.firebaseapp\.com(\/.*){0,1}$|^https{0,1}:\/\/tiutiu\.page\.link(\/.*){0,1}$
-
-// ^https{0,1}:\/\/cutt\.ly(\/.*){0,1}$|^https{0,1}:\/\/anjasolutions\.com(\/.*){0,1}$|^https{0,1}:\/\/anjasolutions\.com(\/.*){0,1}$
-
-
-
-
-// ^https{0,1}:\/\/cutt\.ly(\/.*){0,1}$|^https{0,1}:\/\/tiutiu-5cd14\.firebaseapp\.com(\/.*){0,1}$|^https{0,1}:\/\/anjasolutions\.com(\/.*){0,1}$
-
-
-
-
-
-
-
-// https://tiutiu.page.link/?link=https://cutt.ly/4gIMH8V&apn=com.anjasolutions.tiutiu&isi=1660325927&ibi=com.anjasolutions.tiutiuapp
-// https://anjasolutions.com/?link=https://cutt.ly/4gIMH8V&apn=com.anjasolutions.tiutiu&isi=1660325927&ibi=com.anjasolutions.tiutiuapp
-
