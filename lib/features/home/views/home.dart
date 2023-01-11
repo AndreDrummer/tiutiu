@@ -30,8 +30,14 @@ class _HomeState extends State<Home> with TiuTiuPopUp {
   @override
   void initState() {
     MigrationService().migrate();
-    adMobController.showOpeningAd();
+    showAdAndRequestToTrack();
+
     super.initState();
+  }
+
+  Future<void> showAdAndRequestToTrack() async {
+    await adMobController.showOpeningAd();
+    await crashlyticsController.init();
   }
 
   @override
