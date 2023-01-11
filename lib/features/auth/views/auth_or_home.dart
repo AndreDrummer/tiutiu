@@ -1,5 +1,6 @@
 import 'package:tiutiu/features/auth/views/start_screen_or_home.dart';
 import 'package:tiutiu/core/extensions/string_extension.dart';
+import 'package:tiutiu/features/posts/views/post_detail.dart';
 import 'package:tiutiu/core/utils/routes/routes_name.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/widgets/async_handler.dart';
@@ -7,7 +8,6 @@ import 'package:tiutiu/features/home/views/home.dart';
 import 'package:tiutiu/core/constants/strings.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:tiutiu/features/posts/views/post_detail.dart';
 
 class AuthOrHome extends StatefulWidget {
   @override
