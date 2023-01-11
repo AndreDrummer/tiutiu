@@ -15,6 +15,7 @@ enum AdminRemoteConfigEnum {
   playStoreLink,
   appBirthday,
   appAdminID,
+  appStoreId,
   uriPrefix,
   allowPost,
 }
@@ -36,6 +37,7 @@ class AdminRemoteConfig {
       playStoreLink: map[AdminRemoteConfigEnum.playStoreLink.name],
       appBirthday: map[AdminRemoteConfigEnum.appBirthday.name],
       appAdminID: map[AdminRemoteConfigEnum.appAdminID.name],
+      appStoreId: map[AdminRemoteConfigEnum.appStoreId.name],
       allowPost: map[AdminRemoteConfigEnum.allowPost.name],
       uriPrefix: map[AdminRemoteConfigEnum.uriPrefix.name],
     );
@@ -57,6 +59,7 @@ class AdminRemoteConfig {
     this.appleStoreLink = '',
     this.allowPost = false,
     this.appBirthday = '',
+    this.appStoreId = '',
     this.appAdminID = '',
   });
 
@@ -76,6 +79,7 @@ class AdminRemoteConfig {
       playStoreLink: snapshot.get(AdminRemoteConfigEnum.playStoreLink.name),
       appBirthday: snapshot.get(AdminRemoteConfigEnum.appBirthday.name),
       appAdminID: snapshot.get(AdminRemoteConfigEnum.appAdminID.name),
+      appStoreId: snapshot.get(AdminRemoteConfigEnum.appStoreId.name),
       allowPost: snapshot.get(AdminRemoteConfigEnum.allowPost.name),
       uriPrefix: snapshot.get(AdminRemoteConfigEnum.uriPrefix.name),
     );
@@ -95,6 +99,7 @@ class AdminRemoteConfig {
   final bool allowGoogleAds;
   final String appBirthday;
   final String appAdminID;
+  final String appStoreId;
   final String uriPrefix;
   final bool allowPost;
 
@@ -113,6 +118,7 @@ class AdminRemoteConfig {
     bool? allowGoogleAds,
     String? appBirthday,
     String? appAdminID,
+    String? appStoreId,
     String? uriPrefix,
     bool? allowPost,
   }) {
@@ -131,8 +137,9 @@ class AdminRemoteConfig {
       playStoreLink: playStoreLink ?? this.playStoreLink,
       appBirthday: appBirthday ?? this.appBirthday,
       appAdminID: appAdminID ?? this.appAdminID,
-      allowPost: allowPost ?? this.allowPost,
+      appStoreId: appStoreId ?? this.appStoreId,
       uriPrefix: uriPrefix ?? this.uriPrefix,
+      allowPost: allowPost ?? this.allowPost,
     );
   }
 
@@ -152,6 +159,7 @@ class AdminRemoteConfig {
       AdminRemoteConfigEnum.playStoreLink.name: playStoreLink,
       AdminRemoteConfigEnum.appBirthday.name: appBirthday,
       AdminRemoteConfigEnum.appAdminID.name: appAdminID,
+      AdminRemoteConfigEnum.appStoreId.name: appStoreId,
       AdminRemoteConfigEnum.uriPrefix.name: uriPrefix,
       AdminRemoteConfigEnum.allowPost.name: allowPost,
     };
@@ -173,6 +181,7 @@ class AdminRemoteConfig {
       allowGoogleAds: $allowGoogleAds,
       playStoreLink: $playStoreLink,      
       appBirthday: $appBirthday,
+      appStoreId: $appStoreId,
       appAdminID: $appAdminID,
       uriPrefix: $uriPrefix,
       allowPost: $allowPost,
