@@ -4,8 +4,12 @@
 	<dict>
 		<key>FirebaseDynamicLinksCustomDomains</key>
 		<array>
+			<string>https://www.anjasolutions.com/tiutiu/share</string>
+			<string>https://anjasolutions.com/tiutiu/share</string>
 			<string>https://www.anjasolutions.com/tiutiu</string>
 			<string>https://anjasolutions.com/tiutiu</string>
+			<string>https://www.anjasolutions.com</string>
+			<string>https://anjasolutions.com</string>
 		</array>
 		<key>FirebaseCrashlyticsCollectionEnabled</key>
 		<false/>
