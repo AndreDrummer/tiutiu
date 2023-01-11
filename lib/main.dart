@@ -1,4 +1,5 @@
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
@@ -114,22 +115,24 @@ void _showFlutterNotification(RemoteMessage message) {
 }
 
 Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  runZonedGuarded<Future<void>>(() async {
+    WidgetsFlutterBinding.ensureInitialized();
+    await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
-  SystemInitializer.initDependencies();
+    SystemInitializer.initDependencies();
 
-  if (Platform.isIOS) await _requireNotificationPermission();
+    if (Platform.isIOS) await _requireNotificationPermission();
 
-  FirebaseMessaging.onMessage.listen(_firebaseMessagingForegroundHandler);
+    FirebaseMessaging.onMessage.listen(_firebaseMessagingForegroundHandler);
 
-  MobileAds.instance.initialize();
+    MobileAds.instance.initialize();
 
-  crashlyticsController.init();
+    crashlyticsController.init();
 
-  initializeDateFormatting();
+    initializeDateFormatting();
 
-  runApp(TiuTiuApp());
+    runApp(TiuTiuApp());
+  }, (error, stack) => FirebaseCrashlytics.instance.recordError(error, stack));
 }
 
 class TiuTiuApp extends StatefulWidget {
