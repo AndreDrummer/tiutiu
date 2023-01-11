@@ -1,6 +1,8 @@
 import 'package:tiutiu/core/constants/contact_type.dart';
 
 class AppStrings {
+  static String get crashlyticsInfo =>
+      'Para melhor resolver possíveis falhas no aplicativo gostaríamos de receber relatório de falhas automaticamente.\n\nDeseja enviar relatórios de falhas automaticamente para os desenvolvedores?';
   static String get noConnectionWarning => 'Estes anúncios podem estar desatualizados porque você está sem internet.';
   static String get authError => 'Ocorreu um erro com sua autenticação.\nTente sair e entrar novamente.';
   static String get unableToGenerateSharebleFile => 'Não foi possível gerar arquivo compartilhável.';
