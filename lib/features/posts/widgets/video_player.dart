@@ -31,6 +31,16 @@ class _TiuTiuVideoPlayerState extends State<TiuTiuVideoPlayer> {
     super.initState();
   }
 
+  Widget videoPlayerWidget() {
+    final chewieController = Chewie(
+      controller: widget.chewieController,
+    );
+    return widget.isInReviewMode
+        ? AspectRatio(
+            aspectRatio: widget.chewieController.videoPlayerController.value.aspectRatio * .45, child: chewieController)
+        : chewieController;
+  }
+
   @override
   Widget build(BuildContext context) {
     final borderRadius = widget.isInReviewMode
@@ -52,7 +62,7 @@ class _TiuTiuVideoPlayerState extends State<TiuTiuVideoPlayer> {
             ),
             child: ClipRRect(
               borderRadius: borderRadius,
-              child: Chewie(controller: widget.chewieController),
+              child: videoPlayerWidget(),
             ),
             height: Dimensions.getDimensBasedOnDeviceHeight(
               smaller: widget.isInReviewMode ? Get.height / 2.05 : Get.height / 1.5,

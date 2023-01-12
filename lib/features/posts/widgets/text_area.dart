@@ -1,8 +1,8 @@
-import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter/material.dart';
-import 'package:tiutiu/core/widgets/hint_error.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
+import 'package:tiutiu/core/widgets/hint_error.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter/material.dart';
 
 class TextArea extends StatelessWidget {
   const TextArea({
@@ -12,6 +12,7 @@ class TextArea extends StatelessWidget {
     this.textInputAction,
     this.maxLines = 3,
     this.initialValue,
+    this.keyboardType,
     this.prefix = '',
     this.validator,
     this.onChanged,
@@ -25,6 +26,7 @@ class TextArea extends StatelessWidget {
   final void Function(String)? onChanged;
   final TextInputAction? textInputAction;
   final void Function(String)? onSubmit;
+  final TextInputType? keyboardType;
   final String? initialValue;
   final bool isInErrorState;
   final String labelText;
@@ -41,6 +43,7 @@ class TextArea extends StatelessWidget {
           TextFormField(
             textInputAction: textInputAction ?? TextInputAction.done,
             textCapitalization: TextCapitalization.sentences,
+            keyboardType: keyboardType ?? TextInputType.text,
             inputFormatters: inputFormatters,
             onFieldSubmitted: onSubmit,
             initialValue: initialValue,
