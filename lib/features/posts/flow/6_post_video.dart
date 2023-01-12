@@ -6,7 +6,6 @@ import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/widgets/one_line_text.dart';
 import 'package:tiutiu/features/posts/model/post.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
-import 'package:tiutiu/core/utils/video_utils.dart';
 import 'package:tiutiu/core/constants/strings.dart';
 import 'package:video_player/video_player.dart';
 import 'package:flutter/material.dart';
@@ -16,12 +15,6 @@ import 'dart:io';
 final int VIDEO_SECS_LIMIT = 90;
 
 class PostVideo extends StatelessWidget {
-  void initializeChewiwController() {
-    if (postsController.post.video != null) {
-      postsController.chewieController = VideoUtils(post: postsController.post).getChewieController();
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -68,7 +61,7 @@ class PostVideo extends StatelessWidget {
 
   Widget _addVideo() {
     return AddVideoItem(
-      hasError: false,
+      hasError: postsController.flowErrorText.isNotEmpty,
       onVideoPicked: (file) {
         if (file != null) {
           File videoFile = File(file.path);
@@ -93,11 +86,7 @@ class PostVideo extends StatelessWidget {
     );
   }
 
-  Widget _playVideo() {
-    initializeChewiwController();
-
-    return VideoPlayerPicker(videoPath: postsController.post.video);
-  }
+  Widget _playVideo() => VideoPlayerPicker(videoPath: postsController.post.video);
 
   Widget _videoErrorLabel() {
     return Obx(
@@ -128,7 +117,6 @@ class PostVideo extends StatelessWidget {
             elementsColor: AppColors.danger,
             icon: Icons.remove,
             onPressed: () {
-              postsController.disposeVideoController();
               postsController.updatePost(PostEnum.video.name, null);
             },
           ),
