@@ -13,11 +13,9 @@ import 'package:tiutiu/core/mixins/tiu_tiu_pop_up.dart';
 import 'package:tiutiu/core/pets/model/pet_model.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/features/posts/model/post.dart';
-import 'package:tiutiu/core/utils/video_utils.dart';
 import 'package:tiutiu/core/constants/strings.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:flutter/foundation.dart';
-import 'package:chewie/chewie.dart';
 import 'package:get/get.dart';
 import 'dart:io';
 
@@ -66,7 +64,6 @@ class PostsController extends GetxController with TiuTiuPopUp {
   bool get isLoading => _isLoading.value;
   int get flowIndex => _flowIndex.value;
   bool get hasError => _hasError.value;
-  ChewieController? chewieController;
   List<Post> get posts => _posts;
   Post get post => _post.value;
 
@@ -137,16 +134,6 @@ class PostsController extends GetxController with TiuTiuPopUp {
 
   Stream<int> postViews(String postId) {
     return _postService.postViews(postId);
-  }
-
-  Future<void> cacheVideos() async {
-    await VideoUtils(post: post).cacheVideos(isInReviewMode: isInReviewMode);
-  }
-
-  Future<void> getCachedVideos() async {
-    _cachedVideos(await VideoUtils(post: post).cachedVideosMap());
-
-    debugPrint('TiuTiuApp: getCachedVideos Videos $cachedVideos');
   }
 
   Future<void> uploadPost() async {
@@ -441,13 +428,6 @@ class PostsController extends GetxController with TiuTiuPopUp {
     _formIsValid(true);
     _flowIndex(0);
     _post(Pet());
-    if (isInReviewMode) disposeVideoController();
-  }
-
-  void disposeVideoController() {
-    chewieController?.pause();
-    chewieController?.dispose();
-    chewieController == null;
   }
 
   void addPictureOnIndex(dynamic picture, int index) {
@@ -475,25 +455,17 @@ class PostsController extends GetxController with TiuTiuPopUp {
   }
 
   void _nextStep() {
-    _pauseVideo();
     if (flowIndex < _FLOW_STEPS_QTY) _flowIndex(flowIndex + 1);
   }
 
   void previousStepFlow() {
     _postReviewed(false);
     _formIsValid(true);
-    _pauseVideo();
 
     if (firstStep()) {
       Get.back();
     } else {
       _flowIndex(flowIndex - 1);
-    }
-  }
-
-  void _pauseVideo() {
-    if (chewieController != null) {
-      chewieController!.pause();
     }
   }
 
@@ -520,7 +492,6 @@ class PostsController extends GetxController with TiuTiuPopUp {
   }
 
   void backReviewAndPost() {
-    _pauseVideo();
     Get.back();
     uploadPost();
   }
