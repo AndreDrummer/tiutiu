@@ -1,7 +1,7 @@
+import 'package:tiutiu/core/utils/other_functions.dart';
+import 'package:tiutiu/core/data/dummy_data.dart';
 import 'package:flutter/foundation.dart';
 import 'package:intl/intl.dart';
-import 'package:tiutiu/core/data/dummy_data.dart';
-import 'package:tiutiu/core/utils/other_functions.dart';
 
 class Formatters {
   static String? unmaskNumber(String? number) {
@@ -12,6 +12,7 @@ class Formatters {
       number = number?.replaceAll(' ', '');
     } catch (error) {
       debugPrint('TiuTiuApp: Error when unmasking phoneNumber $number. $error');
+      rethrow;
     }
     return number;
   }

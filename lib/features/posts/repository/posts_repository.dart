@@ -58,8 +58,11 @@ class PostsRepository {
 
       debugPrint('TiuTiuApp: Posts List $postsList');
       return postsList;
-    } catch (any) {
-      debugPrint('TiuTiuApp: Something went wrong when trying loadPosts $any');
+    } catch (exception) {
+      crashlyticsController.reportAnError(
+        message: 'Something went wrong when trying loadPosts $exception',
+        exception: exception,
+      );
       return [];
     }
   }

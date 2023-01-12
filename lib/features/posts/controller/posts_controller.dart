@@ -325,7 +325,11 @@ class PostsController extends GetxController with TiuTiuPopUp {
       return true;
     } catch (exception) {
       setLoading(false);
-      debugPrint('TiuTiuApp: An error ocurred when generating share link: $exception');
+
+      crashlyticsController.reportAnError(
+        message: 'An error ocurred when generating share link: $exception',
+        exception: exception,
+      );
 
       return false;
     }
