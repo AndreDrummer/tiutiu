@@ -1,4 +1,3 @@
-import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/widgets/cards/widgets/card_builder.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
@@ -29,18 +28,15 @@ class CardAd extends StatelessWidget {
         children: [
           Stack(
             children: [
-              Obx(
-                () => Container(
-                  width: double.infinity,
-                  child: cardBuilder.adImages(),
-                  height: Dimensions.getDimensBasedOnDeviceHeight(
-                    xSmaller:
-                        adminRemoteConfigController.configs.showSponsoredAds ? Get.height / 3.5 : Get.height / 2.5,
-                    smaller: adminRemoteConfigController.configs.showSponsoredAds ? Get.height / 3.0 : Get.height / 2.5,
-                    bigger: adminRemoteConfigController.configs.showSponsoredAds ? Get.height / 3.5 : Get.height / 2.15,
-                    medium: adminRemoteConfigController.configs.showSponsoredAds ? Get.height / 2.60 : Get.height / 2.1,
-                  ),
+              Container(
+                height: Dimensions.getDimensBasedOnDeviceHeight(
+                  xSmaller: inReviewMode ? Get.height / 2.4 : Get.height / 2.0,
+                  smaller: inReviewMode ? Get.height / 2.2 : Get.height / 2.0,
+                  medium: Get.height / 2.0,
+                  bigger: Get.height / 2.0,
                 ),
+                child: cardBuilder.adImages(),
+                width: double.infinity,
               ),
               Positioned(
                 child: cardBuilder.favoriteButton(!inReviewMode && showFavoriteButton),

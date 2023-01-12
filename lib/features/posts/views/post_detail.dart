@@ -32,7 +32,6 @@ import 'package:tiutiu/features/posts/model/post.dart';
 import 'package:tiutiu/core/pets/model/pet_model.dart';
 import 'package:tiutiu/core/widgets/button_wide.dart';
 import 'package:tiutiu/core/utils/asset_handle.dart';
-import 'package:tiutiu/core/utils/video_utils.dart';
 import 'package:tiutiu/core/constants/strings.dart';
 import 'package:tiutiu/core/utils/dimensions.dart';
 import 'package:tiutiu/core/utils/formatter.dart';
@@ -47,7 +46,6 @@ class PostDetails extends StatefulWidget {
 
 class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
   bool isLoadingVideo = true;
-  late VideoUtils videoUtils;
   late Post post;
 
   @override
@@ -283,7 +281,7 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
         ),
         Positioned(
           bottom: Dimensions.getDimensBasedOnDeviceHeight(
-            smaller: 48.0.h,
+            smaller: 16.0.h,
             bigger: 56.0.h,
             medium: 16.0.h,
           ),

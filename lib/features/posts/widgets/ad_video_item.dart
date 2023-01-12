@@ -2,6 +2,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
+import 'package:tiutiu/core/utils/dimensions.dart';
 import 'package:tiutiu/core/utils/pickers.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -39,7 +40,12 @@ class AddVideoItem extends StatelessWidget with Pickers {
         },
         child: Container(
           alignment: Alignment.center,
-          height: Get.height / 2.2,
+          height: Dimensions.getDimensBasedOnDeviceHeight(
+            xSmaller: hasError ? Get.height / 2.8 : Get.height / 2.2,
+            smaller: hasError ? Get.height / 3 : Get.height / 2.2,
+            bigger: Get.height / 2.2,
+            medium: Get.height / 2.2,
+          ),
           child: Stack(
             children: [
               Icon(
