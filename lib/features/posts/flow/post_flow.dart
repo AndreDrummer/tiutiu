@@ -17,6 +17,7 @@ import 'package:tiutiu/core/mixins/tiu_tiu_pop_up.dart';
 import 'package:tiutiu/core/pets/model/pet_model.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/core/constants/strings.dart';
+import 'package:tiutiu/core/utils/dimensions.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -74,7 +75,11 @@ class PostFlow extends StatelessWidget with TiuTiuPopUp {
                 resizeToAvoidBottomInset: true,
                 backgroundColor: AppColors.white,
                 body: SizedBox(
-                  height: Get.height,
+                  height: Dimensions.getDimensBasedOnDeviceHeight(
+                    medium: postsController.flowIndex >= 6 ? Get.height / 1.5 : Get.height,
+                    smaller: Get.height,
+                    bigger: Get.height,
+                  ),
                   child: Column(
                     children: [
                       Padding(

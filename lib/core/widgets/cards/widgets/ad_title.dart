@@ -15,8 +15,8 @@ class AdTitle extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.only(bottom: 2.0.h),
-      child: AutoSizeTexts.autoSizeText16(
-        Formatters.cuttedText(title, size: 32),
+      child: AutoSizeTexts.autoSizeText14(
+        Formatters.cuttedText(title, size: 20),
         textOverflow: TextOverflow.fade,
         fontWeight: FontWeight.w700,
       ),
