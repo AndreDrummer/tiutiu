@@ -20,6 +20,7 @@ class DummyData {
 
   static Map<String, List<String>> breeds = {
     PetTypeStrings.dog: [
+      '',
       '-',
       'Akita',
       'Basset',
@@ -73,6 +74,7 @@ class DummyData {
       'Yorkshire'
     ],
     PetTypeStrings.cat: [
+      '',
       '-',
       'Abissínio',
       'Angorá',
@@ -127,6 +129,7 @@ class DummyData {
       'Sem raça definida',
     ],
     PetTypeStrings.bird: [
+      '',
       '-',
       'Abelharuco',
       'Agapornis',

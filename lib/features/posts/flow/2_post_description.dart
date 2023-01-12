@@ -49,7 +49,7 @@ class PostDescription extends StatelessWidget {
           postsController.updatePost(PetEnum.breed.name, breed);
         },
         items: postType == PetTypeStrings.exotic ? [] : DummyData.breeds[postsController.post.type]!,
-        labelText: PostDetailsStrings.breed,
+        labelText: PostDetailsStrings.selectBreed,
         fontSize: 14.0,
       ),
       replacement: Padding(
@@ -61,7 +61,7 @@ class PostDescription extends StatelessWidget {
             onChanged: (exoticBreed) {
               postsController.updatePost(PetEnum.breed.name, exoticBreed);
             },
-            labelText: PostDetailsStrings.breed,
+            labelText: PostDetailsStrings.describBreed,
             fontSizeLabelText: 12.0,
           ),
         ),
