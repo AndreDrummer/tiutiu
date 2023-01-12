@@ -317,6 +317,12 @@ class EmailAndPassword extends StatelessWidget with TiuTiuPopUp {
       );
     } catch (exception) {
       authController.isLoading = false;
+
+      crashlyticsController.reportAnError(
+        message: 'Error Creating an account with Email and Password: $exception',
+        exception: exception,
+      );
+
       showPopUp(
         title: AuthStrings.authFailure,
         message: exception.toString(),
@@ -337,6 +343,11 @@ class EmailAndPassword extends StatelessWidget with TiuTiuPopUp {
     } catch (exception) {
       authController.isLoading = false;
 
+      crashlyticsController.reportAnError(
+        message: 'Error Logining Email and passoword: $exception',
+        exception: exception,
+      );
+
       showPopUp(
         title: AuthStrings.authFailure,
         message: exception.toString(),
@@ -356,6 +367,12 @@ class EmailAndPassword extends StatelessWidget with TiuTiuPopUp {
       );
     } catch (exception) {
       authController.isLoading = false;
+
+      crashlyticsController.reportAnError(
+        message: 'Error Reseting password: $exception',
+        exception: exception,
+      );
+
       showPopUp(
         title: AuthStrings.authFailure,
         message: exception.toString(),

@@ -1,6 +1,7 @@
 import 'package:tiutiu/core/local_storage/local_storage_keys.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:tiutiu/core/local_storage/local_storage.dart';
+import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/mixins/tiu_tiu_pop_up.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/core/constants/strings.dart';
@@ -25,9 +26,20 @@ class CrashlyticsController extends GetxController with TiuTiuPopUp {
     }
   }
 
-  Future<void> reportAnError({required exception, StackTrace? stackTrace, required String message}) async {
-    debugPrint('TiuTiuApp: Reporting to firebase:\n\n$message\n\n$exception\n\n$stackTrace\n');
-    await FirebaseCrashlytics.instance.recordError(exception, stackTrace, reason: message);
+  Future<void> reportAnError({
+    required String message,
+    StackTrace? stackTrace,
+    required exception,
+  }) async {
+    debugPrint('TiuTiuApp: Reporting crash:\nMessage\n$message\nException\n$exception\nStackTrace\n$stackTrace\n');
+
+    await FirebaseCrashlytics.instance.setUserIdentifier('${tiutiuUserController.tiutiuUser.uid}');
+
+    await FirebaseCrashlytics.instance.recordError(
+      exception,
+      stackTrace,
+      reason: message,
+    );
   }
 
   Future<void> _setCrashlyticsCollectionEnabled({bool value = false}) async {

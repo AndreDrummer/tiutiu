@@ -1,3 +1,4 @@
+import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/features/dennounce/model/post_dennounce.dart';
 import 'package:tiutiu/core/constants/endpoints_name.dart';
 import 'package:tiutiu/core/utils/endpoint_resolver.dart';
@@ -14,7 +15,10 @@ class DennounceServices {
       debugPrint('TiuTiuApp: PostDennounce Data uploaded Successfully ${postDennounce.uid}');
       success = true;
     } on Exception catch (exception) {
-      debugPrint('TiuTiuApp: Erro when tryna to send PostDennounce data to Firestore: $exception');
+      crashlyticsController.reportAnError(
+        message: 'Erro when tryna to send PostDennounce data to Firestore: $exception',
+        exception: exception,
+      );
     }
 
     return success;
@@ -29,7 +33,10 @@ class DennounceServices {
       debugPrint('TiuTiuApp: UserDennounce Data uploaded Successfully ${userDennounce.uid}');
       success = true;
     } on Exception catch (exception) {
-      debugPrint('TiuTiuApp: Erro when tryna to send UserDennounce data to Firestore: $exception');
+      crashlyticsController.reportAnError(
+        message: ' Erro when tryna to send UserDennounce data to Firestore: $exception',
+        exception: exception,
+      );
     }
 
     return success;
