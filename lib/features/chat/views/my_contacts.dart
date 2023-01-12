@@ -45,7 +45,7 @@ class _MyContactsState extends State<MyContacts> {
                         return ContactTile(
                           onContactTap: (() {
                             chatController.markMessageAsRead(contact);
-                            if (!(userSnapshot.data?.userDeleted ?? true)) {
+                            if (userSnapshot.data != null && !userSnapshot.data!.userDeleted) {
                               chatController.startsChatWith(
                                 user: userSnapshot.data,
                                 myUserId: myUserId!,

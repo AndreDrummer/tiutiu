@@ -1,4 +1,3 @@
-import 'package:tiutiu/core/Exceptions/tiutiu_exceptions.dart';
 import 'package:tiutiu/features/dennounce/views/post_dennounce_screen.dart';
 import 'package:tiutiu/features/dennounce/widgets/dennounce_button.dart';
 import 'package:tiutiu/features/favorites/widgets/favorite_button.dart';
@@ -8,13 +7,12 @@ import 'package:tiutiu/features/posts/widgets/post_action_button.dart';
 import 'package:tiutiu/core/pets/model/pet_caracteristics_model.dart';
 import 'package:tiutiu/features/dennounce/model/post_dennounce.dart';
 import 'package:tiutiu/core/widgets/no_connection_text_info.dart';
-import 'package:tiutiu/features/posts/widgets/video_player.dart';
 import 'package:tiutiu/features/posts/widgets/card_content.dart';
+import 'package:tiutiu/core/Exceptions/tiutiu_exceptions.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiutiu/features/admob/widgets/ad_banner.dart';
 import 'package:tiutiu/core/extensions/string_extension.dart';
 import 'package:tiutiu/core/widgets/simple_text_button.dart';
-import 'package:tiutiu/core/views/loading_video_screen.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/utils/routes/routes_name.dart';
 import 'package:tiutiu/core/widgets/tiutiu_snackbar.dart';
@@ -38,9 +36,8 @@ import 'package:tiutiu/core/constants/strings.dart';
 import 'package:tiutiu/core/utils/dimensions.dart';
 import 'package:tiutiu/core/utils/formatter.dart';
 import 'package:maps_launcher/maps_launcher.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:chewie/chewie.dart';
+import 'package:tiutiu/video.dart';
 import 'package:get/get.dart';
 
 class PostDetails extends StatefulWidget {
@@ -49,36 +46,16 @@ class PostDetails extends StatefulWidget {
 }
 
 class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
-  ChewieController? chewieController;
   bool isLoadingVideo = true;
   late VideoUtils videoUtils;
+  late Post post;
 
   @override
   void initState() {
-    initializeVideo();
+    post = postsController.post;
     loadAdvertise();
 
     super.initState();
-  }
-
-  Future<void> initializeVideo() async {
-    final post = postsController.post;
-
-    videoUtils = VideoUtils(post: post);
-
-    await videoUtils.getChewieControllerAsync(autoPlay: !kDebugMode).then((value) {
-      chewieController = value;
-      setState(() {
-        isLoadingVideo = false;
-      });
-    });
-  }
-
-  void finishVideo() {
-    if (chewieController?.isPlaying ?? false) {
-      chewieController?.pause();
-      chewieController?.dispose();
-    }
   }
 
   Future<void> loadAdvertise() async {
@@ -89,7 +66,6 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
   bool postBelongsToMe() => postsController.postBelongsToMe();
 
   void onLeaveScreen() {
-    finishVideo();
     if (!postsController.isInReviewMode) {
       postsController.clearForm();
       Get.offAllNamed(Routes.home);
@@ -107,10 +83,9 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
 
   @override
   Widget build(BuildContext context) {
-    final Post post = postsController.post;
     final petCaracteristics = PetCaracteristics.petCaracteristics((post as Pet));
     final description = post.description;
-    final reward = post.reward;
+    final reward = (post as Pet).reward;
 
     return WillPopScope(
       onWillPop: () async {
@@ -175,7 +150,7 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
                       children: [
                         _description(description),
                         _disappearedReward(reward),
-                        _address(),
+                        _address(post),
                         postDetailBottomView(),
                       ],
                     ),
@@ -184,7 +159,7 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
                 ],
               ),
             ),
-            Positioned(child: BackButton(color: AppColors.white), left: 8.0.w, top: 32.0.h),
+            Positioned(child: BackButton(color: AppColors.white), left: 8.0.w, top: 24.0.h),
             _loadingBlur()
           ],
         ),
@@ -240,8 +215,8 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
                     SizedBox(width: 4.0.w),
                     AddRemoveFavorite(
                       show: systemController.properties.internetConnected,
-                      post: postsController.post,
                       isRemoveButton: false,
+                      post: post,
                       tiny: true,
                     ),
                     SizedBox(width: 4.0.w),
@@ -288,10 +263,7 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
   Widget _dennouncePostButton() {
     return DennounceButton(
       onTap: () {
-        postDennounceController.updatePostDennounce(
-          PostDennounceEnum.dennouncedPost,
-          postsController.post,
-        );
+        postDennounceController.updatePostDennounce(PostDennounceEnum.dennouncedPost, post);
 
         showsDennouncePopup(content: PostDennounceScreen());
       },
@@ -300,7 +272,6 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
 
   Widget _showImagesAndVideos({required BuildContext context, required double boxHeight}) {
     final PageController _pageController = PageController();
-    final post = postsController.post;
     final photosQty = post.photos.length;
     final hasVideo = post.video != null;
 
@@ -311,7 +282,11 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
           boxHeight: boxHeight,
         ),
         Positioned(
-          bottom: 0.0,
+          bottom: Dimensions.getDimensBasedOnDeviceHeight(
+            smaller: 48.0.h,
+            bigger: 56.0.h,
+            medium: 16.0.h,
+          ),
           right: 0.0,
           left: 0.0,
           child: _dotsIndicator(
@@ -323,15 +298,15 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
           bottom: Dimensions.getDimensBasedOnDeviceHeight(
             smaller: 48.0.h,
             bigger: 56.0.h,
-            medium: 64.0.h,
+            medium: 40.0.h,
           ),
-          left: 8.0.w,
+          left: Get.width / 2.8,
           child: InkWell(
             onTap: () {
               if (postBelongsToMe()) {
                 Get.toNamed(Routes.settings);
-              } else {
-                OtherFunctions.navigateToAnnouncerDetail(postsController.post.owner!);
+              } else if (authController.userExists) {
+                OtherFunctions.navigateToAnnouncerDetail(post.owner!);
               }
             },
             child: _announcerBadge(),
@@ -357,14 +332,9 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
       child: Row(
         children: [
           CircleAvatar(
-            radius: 10.0.h,
+            child: ClipOval(child: AssetHandle.getImage(post.owner!.avatar, isUserImage: true)),
             backgroundColor: Colors.transparent,
-            child: ClipOval(
-              child: AssetHandle.getImage(
-                postsController.post.owner!.avatar,
-                isUserImage: true,
-              ),
-            ),
+            radius: 10.0.h,
           ),
           Padding(
             padding: EdgeInsets.only(right: 18.0.h, left: 8.0.h),
@@ -380,15 +350,15 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
   }
 
   String announcerName() {
-    final owner = postsController.post.owner!;
+    final owner = post.owner!;
     late String userName = postBelongsToMe() ? 'Você' : owner.displayName ?? 'Usuário do Tiutiu';
 
     return userName;
   }
 
   Container _images({required PageController pageController, required double boxHeight}) {
-    final hasVideo = postsController.post.video != null;
-    final photos = postsController.post.photos;
+    final hasVideo = post.video != null;
+    final photos = post.photos;
 
     return Container(
       width: double.infinity,
@@ -399,12 +369,10 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
         itemCount: hasVideo ? photos.length + 1 : photos.length,
         itemBuilder: (BuildContext context, int index) {
           if (hasVideo && index == 0) {
-            return _video();
+            return PostDetailVideo(videoUrl: post.video);
           } else if (!hasVideo) {
-            chewieController?.pause();
             return _image(photos, index);
           }
-          chewieController?.pause();
           return _image(photos, index - 1);
         },
         controller: pageController,
@@ -412,27 +380,9 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
     );
   }
 
-  Widget _video() {
-    final thereIsVideo = chewieController != null;
-
-    if (thereIsVideo) {
-      return Visibility(
-        visible: !isLoadingVideo,
-        child: TiuTiuVideoPlayer(
-          aspectRatio: chewieController!.videoPlayerController.value.aspectRatio,
-          chewieController: chewieController!,
-        ),
-        replacement: Center(child: LoadingVideo()),
-      );
-    }
-
-    return SizedBox.shrink();
-  }
-
   Widget _image(List photos, int index) {
     return InkWell(
       onTap: () {
-        chewieController?.pause();
         fullscreenController.openFullScreenMode(photos);
       },
       child: Container(
@@ -515,7 +465,7 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
 
   Widget _disappearedReward(String? reward) {
     return Visibility(
-      visible: (postsController.post as Pet).disappeared,
+      visible: (post as Pet).disappeared,
       child: CardContent(
         title: PostDetailsStrings.reward,
         content: Formatters.currencyFormmater(reward) ?? '',
@@ -523,9 +473,7 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
     );
   }
 
-  CardContent _address() {
-    final post = postsController.post;
-
+  CardContent _address(Post post) {
     final describedAddress = post.describedAddress.isNotEmptyNeighterNull()
         ? '\n\n${OtherFunctions.replacePhoneNumberWithStars(post.describedAddress)}'
         : '';
@@ -551,8 +499,7 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
     );
   }
 
-  Widget ownerAdcontact() {
-    final Post post = postsController.post;
+  Widget ownerAdcontact(Post post) {
     return Container(
       margin: EdgeInsets.only(bottom: 8.0.h, right: 4.0.w, left: 4.0.w, top: 4.0.h),
       child: Column(
@@ -647,14 +594,14 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
 
   Widget editOrContact() {
     final myUserId = tiutiuUserController.tiutiuUser.uid;
-    final postOwnerId = postsController.post.ownerId;
+    final postOwnerId = post.ownerId;
 
     final showAdContact = !postsController.isEditingPost && !postsController.isInReviewMode && postOwnerId != myUserId;
 
     return Obx(
       () => Visibility(
         replacement: editPostButtons(),
-        child: ownerAdcontact(),
+        child: ownerAdcontact(post),
         visible: showAdContact,
       ),
     );
