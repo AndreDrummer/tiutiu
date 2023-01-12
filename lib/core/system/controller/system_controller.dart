@@ -54,7 +54,6 @@ class SystemController extends GetxController {
       await currentLocationController.updateGPSStatus();
       await currentLocationController.setUserLocation();
       await postsController.getAllPosts();
-      await postsController.getCachedVideos();
       await _getAdMobIDs();
 
       PackageInfo packageInfo = await PackageInfo.fromPlatform();
