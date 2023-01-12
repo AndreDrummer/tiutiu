@@ -76,7 +76,7 @@ class Pet extends Post {
     this.ageYear = 0,
     double? latitude,
     this.color = '-',
-    this.breed = '-',
+    this.breed = '',
     this.size = '-',
     String? ownerId,
     this.reward = '',
