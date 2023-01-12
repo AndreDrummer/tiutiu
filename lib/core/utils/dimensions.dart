@@ -33,8 +33,8 @@ class Dimensions {
   static bool isXSmallDevice() => Get.height <= _xSmallDeviceMaxSize;
   static bool isBigDevice() => Get.height > _bigDeviceMinimumSize;
 
-  static double _bigDeviceMinimumSize = 900;
+  static double _bigDeviceMinimumSize = 890;
   static double _xSmallDeviceMaxSize = 650;
-  static double _mediumDeviceMaxSize = 900;
+  static double _mediumDeviceMaxSize = 890;
   static double _smallDeviceMaxSize = 750;
 }

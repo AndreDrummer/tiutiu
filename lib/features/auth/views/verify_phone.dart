@@ -42,16 +42,20 @@ class _VerifyPhoneState extends State<VerifyPhone> {
 
     _timer = Timer.periodic(
       const Duration(seconds: 1),
-      (timer) => setState(
-        () {
-          if (_secondsToExpirate! < 1) {
-            _timer?.cancel();
-            enableResendButton = true;
-          } else {
-            _secondsToExpirate = _secondsToExpirate! - 1;
-          }
-        },
-      ),
+      (timer) {
+        if (mounted) {
+          setState(
+            () {
+              if (_secondsToExpirate! < 1) {
+                _timer?.cancel();
+                enableResendButton = true;
+              } else {
+                _secondsToExpirate = _secondsToExpirate! - 1;
+              }
+            },
+          );
+        }
+      },
     );
   }
 
