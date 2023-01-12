@@ -1,3 +1,4 @@
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
@@ -38,11 +39,24 @@ class AddVideoItem extends StatelessWidget with Pickers {
         },
         child: Container(
           alignment: Alignment.center,
-          height: Get.height / 3,
-          child: Icon(
-            color: hasError ? AppColors.danger : AppColors.white,
-            Icons.video_call_outlined,
-            size: 72.0.h,
+          height: Get.height / 2.2,
+          child: Stack(
+            children: [
+              Icon(
+                FontAwesomeIcons.video,
+                color: hasError ? AppColors.danger : AppColors.white,
+                size: 72.0.h,
+              ),
+              Positioned(
+                left: 16.0.h,
+                top: 24.0.h,
+                child: Icon(
+                  FontAwesomeIcons.plus,
+                  color: hasError ? AppColors.danger : Colors.blueGrey,
+                  size: 24.0.h,
+                ),
+              )
+            ],
           ),
           decoration: BoxDecoration(
             border: Border.all(color: AppColors.black.withAlpha(25)),

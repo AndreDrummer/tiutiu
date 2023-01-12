@@ -1,44 +1,21 @@
-import 'package:tiutiu/core/utils/video_utils.dart';
+import 'package:tiutiu/features/posts/widgets/video_player_picker.dart';
 import 'package:tiutiu/core/widgets/animated_text_icon_button.dart';
 import 'package:tiutiu/features/posts/widgets/ad_video_item.dart';
-import 'package:tiutiu/features/posts/widgets/video_player.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/widgets/one_line_text.dart';
 import 'package:tiutiu/features/posts/model/post.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
+import 'package:tiutiu/core/utils/video_utils.dart';
 import 'package:tiutiu/core/constants/strings.dart';
 import 'package:video_player/video_player.dart';
-import 'package:tiutiu/core/utils/pickers.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'dart:io';
 
 final int VIDEO_SECS_LIMIT = 90;
 
-class PostVideo extends StatefulWidget with Pickers {
-  const PostVideo({super.key});
-
-  @override
-  State<PostVideo> createState() => _PostVideoVideoState();
-}
-
-class _PostVideoVideoState extends State<PostVideo> {
-  VideoPlayerController? videoPlayerController;
-
-  @override
-  void initState() {
-    initializeChewiwController();
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    videoPlayerController?.dispose();
-
-    super.dispose();
-  }
-
+class PostVideo extends StatelessWidget {
   void initializeChewiwController() {
     if (postsController.post.video != null) {
       postsController.chewieController = VideoUtils(post: postsController.post).getChewieController();
@@ -56,13 +33,13 @@ class _PostVideoVideoState extends State<PostVideo> {
       },
       child: Column(
         children: [
-          _spacer(),
+          Spacer(),
           _insertVideoLabel(),
           _video(),
-          _spacer(),
+          Spacer(),
           _videoErrorLabel(),
           _removeVideoButton(),
-          _spacer(),
+          Spacer(),
         ],
       ),
     );
@@ -82,54 +59,51 @@ class _PostVideoVideoState extends State<PostVideo> {
   Widget _video() {
     return Obx(() {
       final videoPath = postsController.post.video;
-      return videoPath == null ? _addVideo() : _playVideo();
+      return Container(
+        margin: EdgeInsets.only(right: 8.0.w, left: 4.0.w),
+        child: videoPath == null ? _addVideo() : _playVideo(),
+      );
     });
   }
 
   Widget _addVideo() {
-    return Container(
-      margin: EdgeInsets.only(right: 8.0.w, left: 4.0.w),
-      child: AddVideoItem(
-        hasError: false,
-        onVideoPicked: (file) {
-          if (file != null) {
-            File videoFile = File(file.path);
-            videoPlayerController = VideoPlayerController.file(videoFile);
+    return AddVideoItem(
+      hasError: false,
+      onVideoPicked: (file) {
+        if (file != null) {
+          File videoFile = File(file.path);
+          VideoPlayerController videoPlayerController = VideoPlayerController.file(videoFile);
 
-            videoPlayerController!.initialize().then((value) {
-              videoPlayerController!.setVolume(0);
-              videoPlayerController!.play();
-              videoPlayerController!.pause();
-              final videoDuration = videoPlayerController!.value.duration;
-              if (videoDuration.inSeconds <= VIDEO_SECS_LIMIT) {
-                postsController.updatePost(PostEnum.video.name, videoFile);
-                postsController.clearError();
-              } else {
-                debugPrint('TiuTiuApp: Video Size Exceed ${videoDuration.inSeconds}');
-                postsController.setError(PostFlowStrings.videoSizeExceed);
-              }
-            });
-          }
-        },
-      ),
+          videoPlayerController.initialize().then((value) {
+            videoPlayerController.setVolume(0);
+            videoPlayerController.play();
+            videoPlayerController.pause();
+            final videoDuration = videoPlayerController.value.duration;
+            if (videoDuration.inSeconds <= VIDEO_SECS_LIMIT) {
+              postsController.updatePost(PostEnum.video.name, videoFile.path);
+              postsController.clearError();
+            } else {
+              debugPrint('TiuTiuApp: Video Size Exceed ${videoDuration.inSeconds}');
+              postsController.setError(PostFlowStrings.videoSizeExceed);
+            }
+            videoPlayerController.dispose();
+          });
+        }
+      },
     );
   }
 
   Widget _playVideo() {
     initializeChewiwController();
 
-    return TiuTiuVideoPlayer(
-      aspectRatio: postsController.chewieController!.videoPlayerController.value.aspectRatio,
-      chewieController: postsController.chewieController!,
-      isInReviewMode: true,
-    );
+    return VideoPlayerPicker(videoPath: postsController.post.video);
   }
 
   Widget _videoErrorLabel() {
-    return Visibility(
-      visible: postsController.flowErrorText.isNotEmpty,
-      child: Obx(
-        () => Padding(
+    return Obx(
+      () => Visibility(
+        visible: postsController.flowErrorText.isNotEmpty,
+        child: Padding(
           padding: EdgeInsets.only(bottom: 8.0.h),
           child: OneLineText(
             text: postsController.flowErrorText,
@@ -160,13 +134,6 @@ class _PostVideoVideoState extends State<PostVideo> {
           ),
         );
       },
-    );
-  }
-
-  Widget _spacer() {
-    return Visibility(
-      visible: postsController.post.video == null,
-      child: Spacer(),
     );
   }
 }

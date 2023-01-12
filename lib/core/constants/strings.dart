@@ -45,6 +45,7 @@ class AppStrings {
   static String get recordVideo => 'Gravar um vídeo';
   static String get endApp => 'Encerrar aplicação';
   static String get openGallery => 'Abrir galeria';
+  static const String tryAgain = 'Tentar novamente';
   static String get loadingDots => 'Carregando...';
   static String get noConnection => 'Sem internet';
   static String get provideInfo => 'Informar';
@@ -212,6 +213,7 @@ class PostDetailsStrings {
   }
 
   static String get preparingPostToShare => 'Preparando anúncio para compartilhar';
+  static String get videoPlayerError => 'Erro ao reproduzir o video';
   static String get describBreed => 'Escreva o nome da raça';
   static String get caracteristics => 'Características';
   static String get selectBreed => 'Selecione a raça';
@@ -375,7 +377,6 @@ class FeedbackStrings {
   static const String subject = 'Sobre o quê você quer falar';
   static const String tryingAgain = 'Tentando de novo';
   static const String addImages = 'Adicionar fotos';
-  static const String tryAgain = 'Tentar novamente';
   static const String partnership = 'Parceria';
   static const String dennounce = 'Denúncia';
   static const String failure = 'Falha';
