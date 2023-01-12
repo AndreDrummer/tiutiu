@@ -1,5 +1,6 @@
 import 'package:tiutiu/core/constants/firebase_env_path.dart';
 import 'package:tiutiu/core/constants/endpoints_name.dart';
+import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/utils/endpoint_resolver.dart';
 import 'package:tiutiu/core/utils/other_functions.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -48,7 +49,10 @@ class PostService extends GetxService {
 
       onVideoUploaded(videoUrlDownload);
     } on Exception catch (exception) {
-      debugPrint('Erro when tryna to get video url download: $exception');
+      crashlyticsController.reportAnError(
+        message: 'Erro when tryna to get video url download: $exception',
+        exception: exception,
+      );
     }
   }
 
@@ -79,7 +83,10 @@ class PostService extends GetxService {
 
       onImagesUploaded(imagesUrlDownloadList);
     } on Exception catch (exception) {
-      debugPrint('TiuTiuApp: Erro when tryna to get images url download list: $exception');
+      crashlyticsController.reportAnError(
+        message: 'Erro when tryna to get images url download list: $exception',
+        exception: exception,
+      );
       rethrow;
     }
   }
@@ -92,7 +99,10 @@ class PostService extends GetxService {
       debugPrint('TiuTiuApp: Posted Successfully ${post.uid}');
       success = true;
     } on Exception catch (exception) {
-      debugPrint('TiuTiuApp: Erro when tryna to send post data to Firestore: $exception');
+      crashlyticsController.reportAnError(
+        message: 'Erro when tryna to send post data to Firestore: $exception',
+        exception: exception,
+      );
     }
 
     return success;
@@ -114,7 +124,10 @@ class PostService extends GetxService {
       debugPrint('TiuTiuApp: Post deleted Successfully ${post.uid}');
       success = true;
     } on Exception catch (exception) {
-      debugPrint('TiuTiuApp: Erro when tryna to delete post with id ${post.uid}: $exception');
+      crashlyticsController.reportAnError(
+        message: 'Erro when tryna to delete post with id ${post.uid}: $exception',
+        exception: exception,
+      );
     }
 
     return success;
@@ -124,7 +137,10 @@ class PostService extends GetxService {
     try {
       await FirebaseStorage.instance.ref(videoPath).delete();
     } on Exception catch (exception) {
-      debugPrint('TiuTiuApp: Erro when tryna to delete video of post with id $postId: $exception');
+      crashlyticsController.reportAnError(
+        message: 'Erro when tryna to delete video of post with id $postId: $exception',
+        exception: exception,
+      );
     }
   }
 
@@ -139,7 +155,10 @@ class PostService extends GetxService {
         await FirebaseStorage.instance.ref(imagesStoragePath).child(currentImage).delete();
       }
     } on Exception catch (exception) {
-      debugPrint('TiuTiuApp: Erro when tryna to $currentImage of post with id ${post.uid}: $exception');
+      crashlyticsController.reportAnError(
+        message: 'Erro when tryna to $currentImage of post with id ${post.uid}: $exception',
+        exception: exception,
+      );
     }
   }
 
@@ -152,7 +171,10 @@ class PostService extends GetxService {
           .child(EndpointResolver.formattedEndpoint(EndpointNames.userAvatarStoragePath.name, [userId]))
           .delete();
     } on Exception catch (exception) {
-      debugPrint('TiuTiuApp: Erro when deleting user avatar: $exception');
+      crashlyticsController.reportAnError(
+        message: 'Erro when deleting user avatar: $exception',
+        exception: exception,
+      );
     }
   }
 

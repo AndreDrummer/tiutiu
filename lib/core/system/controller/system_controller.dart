@@ -67,7 +67,10 @@ class SystemController extends GetxController {
       adminRemoteConfigController.onAdminRemoteConfigsChange();
       handleFDLOnForeground();
     } on Exception catch (exception) {
-      debugPrint('TiuTiuApp: App Initialization Exception $exception');
+      crashlyticsController.reportAnError(
+        message: 'App Initialization Exception: $exception',
+        exception: exception,
+      );
     }
   }
 

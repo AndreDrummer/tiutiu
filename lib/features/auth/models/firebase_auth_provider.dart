@@ -3,6 +3,7 @@ import 'package:tiutiu/features/auth/service/whatsapp_service.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:tiutiu/core/Exceptions/tiutiu_exceptions.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
+import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
@@ -23,8 +24,11 @@ class FirebaseAuthProvider implements AuthProviders {
 
     try {
       await whatsSystemService.sendCodeVerification();
-    } on Exception catch (error) {
-      debugPrint('TiuTiuApp: Error sending WhatsApp Message: $error');
+    } on Exception catch (exception) {
+      crashlyticsController.reportAnError(
+        message: 'Error sending WhatsApp Message: $exception',
+        exception: exception,
+      );
       rethrow;
     }
   }
@@ -41,8 +45,8 @@ class FirebaseAuthProvider implements AuthProviders {
       );
 
       await _sendEmailVerification(_firebaseAuth.currentUser);
-    } on FirebaseAuthException catch (error) {
-      throw TiuTiuAuthException(error.code);
+    } on FirebaseAuthException catch (exception) {
+      throw TiuTiuAuthException(exception.code);
     }
   }
 
