@@ -193,6 +193,11 @@ class AuthHosters extends StatelessWidget with TiuTiuPopUp {
       );
     } catch (exception) {
       authController.isLoading = false;
+      crashlyticsController.reportAnError(
+        message: 'Error Logining with Google: $exception',
+        exception: exception,
+      );
+
       showPopUp(
         backGroundColor: AppColors.danger,
         title: AuthStrings.authFailure,
@@ -213,7 +218,12 @@ class AuthHosters extends StatelessWidget with TiuTiuPopUp {
       );
     } catch (exception) {
       authController.isLoading = false;
-      debugPrint('TiuTiuApp: Apple Auth Failed $exception');
+
+      crashlyticsController.reportAnError(
+        message: 'Error Logining with Apple: $exception',
+        exception: exception,
+      );
+
       showPopUp(
         message: AuthStrings.loginCouldNotProceed,
         title: AuthStrings.authFailure,
@@ -234,6 +244,12 @@ class AuthHosters extends StatelessWidget with TiuTiuPopUp {
       );
     } catch (exception) {
       authController.isLoading = false;
+
+      crashlyticsController.reportAnError(
+        message: 'Error Logining with Facebook: $exception',
+        exception: exception,
+      );
+
       showPopUp(
         title: AuthStrings.authFailure,
         message: exception.toString(),

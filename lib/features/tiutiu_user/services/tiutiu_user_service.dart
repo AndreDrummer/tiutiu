@@ -1,3 +1,4 @@
+import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
 import 'package:tiutiu/core/constants/endpoints_name.dart';
 import 'package:tiutiu/core/utils/endpoint_resolver.dart';
@@ -46,8 +47,11 @@ class TiutiuUserService {
       });
 
       avatarURL = await avatarRef.getDownloadURL();
-    } on FirebaseException catch (error) {
-      debugPrint('TiuTiuApp: Ocorreu um erro ao fazer upload do avatar: $error.');
+    } on FirebaseException catch (exception) {
+      crashlyticsController.reportAnError(
+        message: 'Ocorreu um erro ao fazer upload do avatar: $exception.',
+        exception: exception,
+      );
     }
 
     return avatarURL;

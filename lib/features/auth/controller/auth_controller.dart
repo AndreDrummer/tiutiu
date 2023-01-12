@@ -531,7 +531,10 @@ class AuthController extends GetxController {
         _isUpdatingUserDataOnServer(false);
       }
     } on FirebaseAuthException catch (exception) {
-      debugPrint('TiuTiuApp: An error ocurred when updating user info: ${exception.message}');
+      crashlyticsController.reportAnError(
+        message: 'An error ocurred when updating user info: ${exception.message}',
+        exception: exception,
+      );
       throw TiuTiuAuthException(exception.code);
     }
   }

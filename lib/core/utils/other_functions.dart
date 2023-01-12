@@ -68,6 +68,7 @@ class OtherFunctions {
       }
     } catch (err) {
       debugPrint('An error occurred when trying remove phone number');
+      rethrow;
     }
 
     return description;
@@ -164,6 +165,7 @@ class OtherFunctions {
       fileURL = await ref.getDownloadURL();
     } on FirebaseException catch (error) {
       debugPrint('TiuTiuApp: Ocorreu um erro ao fazer upload do arquivo $fileName: $error.');
+      rethrow;
     }
 
     return fileURL;

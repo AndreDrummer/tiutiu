@@ -1,6 +1,7 @@
 import 'package:tiutiu/features/talk_with_us/model/feedback.dart';
 import 'package:tiutiu/core/constants/firebase_env_path.dart';
 import 'package:tiutiu/core/constants/endpoints_name.dart';
+import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/utils/endpoint_resolver.dart';
 import 'package:tiutiu/core/utils/other_functions.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -16,7 +17,10 @@ class FeedbackService {
       debugPrint('TiuTiuApp: Feedback Posted Successfully ${feedback.uid}');
       success = true;
     } on FirebaseException catch (exception) {
-      debugPrint('TiuTiuApp: Erro when tryna to send Feedback data to Firestore: $exception');
+      crashlyticsController.reportAnError(
+        message: 'Erro when tryna to send Feedback data to Firestore: $exception',
+        exception: exception,
+      );
       rethrow;
     }
 
@@ -35,7 +39,10 @@ class FeedbackService {
 
       onPrintsUploaded(imagesUrlDownloadList);
     } on Exception catch (exception) {
-      debugPrint('TiuTiuApp: Erro when tryna to get prints url download list: $exception');
+      crashlyticsController.reportAnError(
+        message: 'Erro when tryna to get prints url download list: $exception',
+        exception: exception,
+      );
       rethrow;
     }
   }
