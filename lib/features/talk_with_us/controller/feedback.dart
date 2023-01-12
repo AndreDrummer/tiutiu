@@ -155,9 +155,9 @@ class FeedbackController extends GetxController with TiuTiuPopUp {
   Future<void> _showsErrorPopup() async {
     await showsOnRequestErrorPopup(
       message: FeedbackStrings.failureWarning,
-      denyText: FeedbackStrings.tryAgain,
-      confirmText: AppStrings.cancel,
       title: FeedbackStrings.failure,
+      confirmText: AppStrings.cancel,
+      denyText: AppStrings.tryAgain,
       onCancel: Get.back,
       onRetry: () {
         setLoading(true, FeedbackStrings.tryingAgain);
