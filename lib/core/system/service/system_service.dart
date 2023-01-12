@@ -1,9 +1,9 @@
 import 'package:tiutiu/core/constants/firebase_env_path.dart';
 import 'package:tiutiu/core/constants/endpoints_name.dart';
+import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/utils/endpoint_resolver.dart';
 import 'package:tiutiu/core/system/model/endpoint.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/foundation.dart';
 
 class SystemService {
   Stream<List<Endpoint>> appEndpoints() {
@@ -12,7 +12,10 @@ class SystemService {
         return querySnapshots.docs.map((snapshot) => Endpoint.fromSnapshot(snapshot)).toList();
       });
     } on FirebaseException catch (exception) {
-      debugPrint('TiuTiuApp: Error occured when streaming app endpoints: ${exception.message}');
+      crashlyticsController.reportAnError(
+        message: 'Error occured when streaming app endpoints: ${exception.message}',
+        exception: exception,
+      );
       rethrow;
     }
   }
@@ -23,7 +26,10 @@ class SystemService {
 
       return endpointsCollection.docs.map((snapshot) => Endpoint.fromSnapshot(snapshot)).toList();
     } on FirebaseException catch (exception) {
-      debugPrint('TiuTiuApp: Error occured when trying get app endpoints: ${exception.message}');
+      crashlyticsController.reportAnError(
+        message: 'Error occured when trying get app endpoints: ${exception.message}',
+        exception: exception,
+      );
       rethrow;
     }
   }
@@ -34,7 +40,10 @@ class SystemService {
 
       return (documentReferenceMap.data() as Map<String, dynamic>);
     } on FirebaseException catch (exception) {
-      debugPrint('TiuTiuApp: Error occured when trying get app endpoints: ${exception.message}');
+      crashlyticsController.reportAnError(
+        message: 'Error occured when trying get Ad Mob IDs: ${exception.message}',
+        exception: exception,
+      );
       rethrow;
     }
   }

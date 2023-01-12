@@ -1,6 +1,10 @@
-class TiuTiuAuthException {
-  TiuTiuAuthException(this.keyException);
+class TiuTiuException {
+  TiuTiuException(this.keyException);
   final String keyException;
+}
+
+class TiuTiuAuthException extends TiuTiuException {
+  TiuTiuAuthException(super.keyException);
 
   Map<String, String> authErrors = {
     ErrorCodes.invalidToken:

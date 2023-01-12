@@ -34,7 +34,10 @@ class DeleteAccountService {
       await authController.user?.reload();
       await authController.signOut();
     } on Exception catch (exception) {
-      debugPrint('Erro when tryna to delete user with id $userId: $exception');
+      crashlyticsController.reportAnError(
+        message: 'Erro when tryna to delete user with id $userId: $exception',
+        exception: exception,
+      );
     }
   }
 

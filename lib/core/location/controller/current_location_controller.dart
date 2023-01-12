@@ -1,3 +1,4 @@
+import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/location/extensions/service_location_status.dart';
 import 'package:tiutiu/core/local_storage/local_storage_keys.dart';
 import 'package:tiutiu/core/extensions/string_extension.dart';
@@ -118,7 +119,10 @@ class CurrentLocationController extends GetxController {
           value: placemark.toJson(),
         );
       } catch (e) {
-        debugPrint('TiuTiuApp: An failure occured when trying set up current placemark.\n');
+        crashlyticsController.reportAnError(
+          message: 'An failure occured when trying set up current placemark.\n',
+          exception: e,
+        );
         final storagePlacemark = await LocalStorage.getValueUnderLocalStorageKey(LocalStorageKey.lastKnowLocation);
         if (storagePlacemark != null) {
           placemark = Placemark.fromMap(storagePlacemark);
