@@ -1,3 +1,4 @@
+import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/features/auth/models/firebase_auth_provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -8,7 +9,11 @@ class AuthService {
   Future<void> sendWhatsAppCode(String phone, String code) async {
     try {
       await _firebaseAuthProvider.sendWhatsAppCode(phone, code);
-    } on Exception catch (_) {
+    } on Exception catch (exception) {
+      crashlyticsController.reportAnError(
+        message: 'Error sending WhatsApp Message: $exception',
+        exception: exception,
+      );
       rethrow;
     }
   }

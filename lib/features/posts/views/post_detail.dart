@@ -1,3 +1,4 @@
+import 'package:tiutiu/core/Exceptions/tiutiu_exceptions.dart';
 import 'package:tiutiu/features/dennounce/views/post_dennounce_screen.dart';
 import 'package:tiutiu/features/dennounce/widgets/dennounce_button.dart';
 import 'package:tiutiu/features/favorites/widgets/favorite_button.dart';
@@ -266,6 +267,11 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
             final success = await postsController.sharePost();
 
             if (!success) {
+              crashlyticsController.reportAnError(
+                message: AppStrings.unableToGenerateSharebleFile,
+                exception: TiuTiuException(''),
+              );
+
               showPopUp(message: AppStrings.unableToGenerateSharebleFile, backGroundColor: AppColors.danger);
             }
           },
