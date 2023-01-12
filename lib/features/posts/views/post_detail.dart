@@ -4,6 +4,7 @@ import 'package:tiutiu/features/favorites/widgets/favorite_button.dart';
 import 'package:tiutiu/features/admob/constants/admob_block_names.dart';
 import 'package:tiutiu/core/widgets/pet_other_caracteristics_card.dart';
 import 'package:tiutiu/features/posts/widgets/post_action_button.dart';
+import 'package:tiutiu/features/posts/widgets/post_detail_video.dart';
 import 'package:tiutiu/core/pets/model/pet_caracteristics_model.dart';
 import 'package:tiutiu/features/dennounce/model/post_dennounce.dart';
 import 'package:tiutiu/core/widgets/no_connection_text_info.dart';
@@ -37,7 +38,6 @@ import 'package:tiutiu/core/utils/dimensions.dart';
 import 'package:tiutiu/core/utils/formatter.dart';
 import 'package:maps_launcher/maps_launcher.dart';
 import 'package:flutter/material.dart';
-import 'package:tiutiu/video.dart';
 import 'package:get/get.dart';
 
 class PostDetails extends StatefulWidget {
@@ -596,14 +596,16 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
     final myUserId = tiutiuUserController.tiutiuUser.uid;
     final postOwnerId = post.ownerId;
 
-    final showAdContact = !postsController.isEditingPost && !postsController.isInReviewMode && postOwnerId != myUserId;
-
     return Obx(
-      () => Visibility(
-        replacement: editPostButtons(),
-        child: ownerAdcontact(post),
-        visible: showAdContact,
-      ),
+      () {
+        final showAdContact =
+            !postsController.isEditingPost && !postsController.isInReviewMode && postOwnerId != myUserId;
+        return Visibility(
+          replacement: editPostButtons(),
+          child: ownerAdcontact(post),
+          visible: showAdContact,
+        );
+      },
     );
   }
 
