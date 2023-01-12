@@ -3,6 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/constants/text_styles.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
+import 'package:tiutiu/core/constants/strings.dart';
 import 'package:better_player/better_player.dart';
 import 'package:flutter/material.dart';
 
@@ -46,14 +47,14 @@ class _PostDetailVideoState extends State<PostDetailVideo> {
               children: [
                 Icon(FontAwesomeIcons.triangleExclamation, color: AppColors.white),
                 SizedBox(height: 4.0.h),
-                AutoSizeTexts.autoSizeText14('Erro ao reproduzir o video', color: AppColors.white),
+                AutoSizeTexts.autoSizeText14(PostDetailsStrings.videoPlayerError, color: AppColors.white),
                 SizedBox(height: 16.0.h),
                 TextButton(
                   onPressed: () {
                     _betterPlayerController.retryDataSource();
                     setState(() {});
                   },
-                  child: AutoSizeTexts.autoSizeText12('Tentar novamente', color: AppColors.white),
+                  child: AutoSizeTexts.autoSizeText12(AppStrings.tryAgain, color: AppColors.white),
                 )
               ],
             ),
