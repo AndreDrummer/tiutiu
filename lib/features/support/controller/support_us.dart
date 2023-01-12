@@ -1,8 +1,8 @@
 import 'package:tiutiu/features/support/models/support_us.dart';
 import 'package:tiutiu/core/constants/endpoints_name.dart';
+import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/utils/endpoint_resolver.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 
 class SupportUsController extends GetxController {
@@ -19,7 +19,10 @@ class SupportUsController extends GetxController {
 
       return supportUsData;
     } on FirebaseException catch (exception) {
-      debugPrint('TiuTiuApp: Error occured when trying get Support Us Data: ${exception.message}');
+      crashlyticsController.reportAnError(
+        message: 'Error occured when trying get Support Us Data: ${exception.message}',
+        exception: exception,
+      );
       rethrow;
     }
   }

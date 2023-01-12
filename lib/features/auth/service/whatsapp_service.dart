@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:tiutiu/core/constants/firebase_env_path.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dio/dio.dart';
+import 'package:tiutiu/core/controllers/controllers.dart';
 
 class WhatsAppService {
   WhatsAppService({
@@ -61,7 +62,11 @@ class WhatsAppService {
           contentType: 'application/json',
         ),
       );
-    } on Exception catch (_) {
+    } on Exception catch (exception) {
+      crashlyticsController.reportAnError(
+        message: 'Error sending WhatsApp Message: $exception',
+        exception: exception,
+      );
       rethrow;
     }
   }
