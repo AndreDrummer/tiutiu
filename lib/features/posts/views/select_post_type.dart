@@ -15,8 +15,6 @@ import 'package:tiutiu/core/pets/model/pet_model.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/features/posts/model/post.dart';
 import 'package:tiutiu/core/constants/strings.dart';
-import 'package:brasil_fields/brasil_fields.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -46,7 +44,7 @@ class SelectPostType extends StatelessWidget with TiuTiuPopUp {
                   controller: _pageScroll,
                   children: [
                     _selectPostType(),
-                    _isDisappearedSelection(),
+                    _isDisappearedSelection(context),
                     _reward(),
                   ],
                 ),
@@ -109,7 +107,7 @@ class SelectPostType extends StatelessWidget with TiuTiuPopUp {
     });
   }
 
-  Widget _isDisappearedSelection() {
+  Widget _isDisappearedSelection(BuildContext context) {
     return Obx(
       () {
         double marginTop = (postsController.post as Pet).disappeared ? 16.0.h : 48.0.h;
@@ -147,6 +145,7 @@ class SelectPostType extends StatelessWidget with TiuTiuPopUp {
                         controlAffinity: ListTileControlAffinity.leading,
                         title: AutoSizeTexts.autoSizeText12(AppStrings.no),
                         onChanged: (_) {
+                          FocusScope.of(context).unfocus();
                           postsController.updatePost(PetEnum.disappeared.name, false);
                           postsController.updatePost(PetEnum.reward.name, '');
                           _pageScroll.animateTo(
@@ -192,11 +191,8 @@ class SelectPostType extends StatelessWidget with TiuTiuPopUp {
             children: [
               _rewardTitle(),
               TextArea(
+                keyboardType: TextInputType.numberWithOptions(decimal: true),
                 initialValue: (postsController.post as Pet).reward,
-                inputFormatters: [
-                  FilteringTextInputFormatter.digitsOnly,
-                  RealInputFormatter(),
-                ],
                 onChanged: (value) {
                   postsController.updatePost(PetEnum.reward.name, value);
                 },
