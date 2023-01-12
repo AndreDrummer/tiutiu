@@ -212,18 +212,20 @@ class PostDetailsStrings {
   }
 
   static String get preparingPostToShare => 'Preparando anúncio para compartilhar';
+  static String get describBreed => 'Escreva o nome da raça';
   static String get caracteristics => 'Características';
+  static String get selectBreed => 'Selecione a raça';
   static String get hermaphrodite => 'Hermafrodita';
   static String get health => 'Estado de Saúde';
-  static String get reward => 'Recompensa';
   static String get description => 'Descrição';
   static String get detailsOf => 'Detalhes de';
   static String get announcer => 'Anunciante';
+  static String get reward => 'Recompensa';
   static String get none => 'Não tem';
   static String get size => 'Tamanho';
   static String get female => 'Fêmea';
-  static String get male => 'Macho';
   static String get breed => 'Raça';
+  static String get male => 'Macho';
   static String get age => 'Idade';
   static String get color => 'Cor';
   static String get sex => 'Sexo';
@@ -274,7 +276,7 @@ class PostFlowStrings {
     return 'Onde está o PET?';
   }
 
-  static const String stillSendingAd = 'Ainda publicando seu anúncio...\n\nDesculpe pela demora. Por favor, aguarde!';
+  static const String stillSendingAd = 'Ainda publicando seu anúncio...\n\nPor favor, aguarde nesta tela!';
   static const String videoSizeExceed = 'Tamanho máximo do vídeo excedido!\nO vídeo deve ter até 1:30 min';
   static const String postCancelMessage = 'Saindo agora todos os dados serão perdidos.\nContinuar?';
   static const String otherCaracteristicsOptional = 'Outras características (Opcional)';
