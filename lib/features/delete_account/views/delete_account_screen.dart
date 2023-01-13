@@ -29,13 +29,14 @@ class DeleteAccountScreen extends StatelessWidget with TiuTiuPopUp {
                 text: DeleteAccountStrings.tellUsTheMotive,
                 backgroundColor: AppColors.danger,
               ),
-              body: ListView(
+              body: Column(
                 children: [
                   _deleteAccountOptions(),
                   _describedMotiveTextArea(),
+                  Spacer(),
+                  _submitButton(),
                 ],
               ),
-              bottomNavigationBar: _submitButton(),
             ),
             LoadDarkScreen(
               message: deleteAccountController.loadingText,
@@ -49,24 +50,30 @@ class DeleteAccountScreen extends StatelessWidget with TiuTiuPopUp {
 
   Widget _deleteAccountOptions() {
     final motives = deleteAccountController.deleteAccountMotives;
-    return SizedBox(
-      height: Get.height / 1.9,
-      child: ListView.builder(
-        itemCount: motives.length,
-        itemBuilder: (context, index) {
-          final motive = motives[index];
-
-          return RadioListTile(
-            value: deleteAccountController.deleteAccountMotives.indexOf(motive),
-            groupValue: deleteAccountController.deleteAccountGroupValue,
-            title: AutoSizeTexts.autoSizeText14(motive),
-            activeColor: AppColors.secondary,
-            onChanged: (int? value) {
-              deleteAccountController.deleteAccountMotive = motives[value!];
-              deleteAccountController.deleteAccountGroupValue = value;
-            },
+    return Container(
+      height: Get.height / 2.05,
+      child: GridView.count(
+        padding: EdgeInsets.only(top: 8.0.h),
+        physics: NeverScrollableScrollPhysics(),
+        childAspectRatio: 3.8,
+        crossAxisSpacing: 2.0.h,
+        mainAxisSpacing: 32.0.h,
+        crossAxisCount: 2,
+        children: motives.map((motive) {
+          return SizedBox(
+            height: 12.0.h,
+            child: RadioListTile(
+              value: deleteAccountController.deleteAccountMotives.indexOf(motive),
+              groupValue: deleteAccountController.deleteAccountGroupValue,
+              title: AutoSizeTexts.autoSizeText14(motive),
+              activeColor: AppColors.secondary,
+              onChanged: (int? value) {
+                deleteAccountController.deleteAccountMotive = motives[value!];
+                deleteAccountController.deleteAccountGroupValue = value;
+              },
+            ),
           );
-        },
+        }).toList(),
       ),
     );
   }
@@ -77,8 +84,9 @@ class DeleteAccountScreen extends StatelessWidget with TiuTiuPopUp {
     return Visibility(
       visible: deleteAccountController.deleteAccountMotive == DeleteAccountStrings.other || motiveIsBug,
       child: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(8.0),
         child: TextArea(
+          maxLines: 2,
           labelText: motiveIsBug ? DeleteAccountStrings.whichBugs : AppStrings.jotSomethingDown,
           initialValue: deleteAccountController.deleteAccountMotiveDescribed,
           isInErrorState: deleteAccountController.hasError,
@@ -95,9 +103,10 @@ class DeleteAccountScreen extends StatelessWidget with TiuTiuPopUp {
   }
 
   Widget _submitButton() {
-    return SizedBox(
+    return Container(
+      margin: EdgeInsets.zero,
       width: double.infinity,
-      height: 112.0.h,
+      height: 120.0.h,
       child: ColumnButtonBar(
         isConnected: systemController.properties.internetConnected,
         onPrimaryPressed: _onDeleteAccountButtonPressed,
