@@ -71,12 +71,19 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
   }
 
   double toolBarHeight(int descriptionLength) {
-    return Dimensions.getDimensBasedOnDeviceHeight(
-      smaller: (Get.height / 3.5) - (descriptionLength / 4) - 16.0.h,
-      xSmaller: (Get.height / 4.5) - (descriptionLength / 4),
-      bigger: (Get.height / 3.5) - (descriptionLength / 4),
-      medium: (Get.height / 3) - (descriptionLength / 4),
-    );
+    return (post as Pet).disappeared
+        ? Dimensions.getDimensBasedOnDeviceHeight(
+            smaller: (Get.height / 5.2) - (descriptionLength / 4) - 16.0.h,
+            xSmaller: (Get.height / 5.2) - (descriptionLength / 4),
+            bigger: (Get.height / 3.6) - (descriptionLength / 4),
+            medium: (Get.height / 3.3) - (descriptionLength / 4),
+          )
+        : Dimensions.getDimensBasedOnDeviceHeight(
+            smaller: (Get.height / 3.4) - (descriptionLength / 4) - 16.0.h,
+            xSmaller: (Get.height / 4.4) - (descriptionLength / 4),
+            bigger: (Get.height / 3.2) - (descriptionLength / 4),
+            medium: (Get.height / 2.9) - (descriptionLength / 4),
+          );
   }
 
   @override
@@ -281,8 +288,8 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
         ),
         Positioned(
           bottom: Dimensions.getDimensBasedOnDeviceHeight(
-            smaller: 16.0.h,
-            bigger: 56.0.h,
+            smaller: 36.0.h,
+            bigger: 24.0.h,
             medium: 16.0.h,
           ),
           right: 0.0,
@@ -294,8 +301,8 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
         ),
         Positioned(
           bottom: Dimensions.getDimensBasedOnDeviceHeight(
-            smaller: 48.0.h,
-            bigger: 56.0.h,
+            smaller: 64.0.h,
+            bigger: 40.0.h,
             medium: 40.0.h,
           ),
           left: Get.width / 2.8,
