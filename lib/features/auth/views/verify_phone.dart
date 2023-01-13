@@ -1,3 +1,4 @@
+import 'package:tiutiu/features/auth/widgets/insert_code_boxes.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiutiu/core/widgets/button_wide_outlined.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -6,12 +7,9 @@ import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/widgets/tiutiu_snackbar.dart';
 import 'package:tiutiu/core/constants/text_styles.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
-import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:tiutiu/core/widgets/button_wide.dart';
 import 'package:tiutiu/core/constants/strings.dart';
-import 'package:tiutiu/core/utils/dimensions.dart';
 import 'package:tiutiu/core/utils/formatter.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'dart:async';
@@ -69,6 +67,7 @@ class _VerifyPhoneState extends State<VerifyPhone> {
   @override
   void dispose() {
     _timer?.cancel();
+    codeController.dispose();
     super.dispose();
   }
 
@@ -77,24 +76,18 @@ class _VerifyPhoneState extends State<VerifyPhone> {
     final String? number = tiutiuUserController.tiutiuUser.phoneNumber;
 
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: FutureBuilder(
         future: authController.verifyIfWhatsappTokenIsStillValid(),
         builder: (context, snapshot) {
-          return ListView(
+          return Column(
             children: [
               _topBar(),
               _insertCodeSentToTheNumberText(number),
               _codeBoxes(context),
-              SizedBox(
-                height: Get.width /
-                    Dimensions.getDimensBasedOnDeviceHeight(
-                      bigger: 2.5,
-                      medium: 2.5,
-                      smaller: 8,
-                    ),
-              ),
-              _resendWithin(),
+              Spacer(),
               _confirmButton(),
+              _resendWithin(),
             ],
           );
         },
@@ -180,33 +173,12 @@ class _VerifyPhoneState extends State<VerifyPhone> {
     BuildContext context,
   ) {
     return AnimatedOpacity(
-      duration: Duration(milliseconds: 500),
       opacity: authController.numberVerified ? 0 : 1,
+      duration: Duration(milliseconds: 500),
       child: Visibility(
-        visible: !authController.numberVerified,
+        visible: !authController.numberVerified && authController.isWhatsappTokenValid,
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: PinCodeTextField(
-            inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-            keyboardType: TextInputType.number,
-            animationType: AnimationType.fade,
-            appContext: context,
-            obscureText: false,
-            length: 6,
-            pinTheme: PinTheme(
-              selectedFillColor: AppColors.primary.withAlpha(100),
-              inactiveFillColor: Colors.transparent,
-              borderRadius: BorderRadius.circular(5),
-              activeFillColor: AppColors.white,
-              selectedColor: AppColors.primary,
-              inactiveColor: AppColors.primary,
-              shape: PinCodeFieldShape.box,
-              fieldHeight: 50,
-              fieldWidth: 40,
-            ),
-            animationDuration: Duration(milliseconds: 300),
-            controller: codeController,
-            enableActiveFill: true,
+          child: InsertCodeBoxes(
             onCompleted: (v) {
               setState(() {
                 codeFilled = true;
@@ -219,16 +191,9 @@ class _VerifyPhoneState extends State<VerifyPhone> {
                 });
               }
             },
-            beforeTextPaste: (text) {
-              return GetUtils.isNum(text ?? "");
-            },
-            dialogConfig: DialogConfig(
-              dialogContent: AuthStrings.doYouWannaPasteCodeCopied,
-              dialogTitle: AuthStrings.pasteCode,
-              affirmativeText: AppStrings.yes,
-              negativeText: AppStrings.no,
-            ),
+            controller: codeController,
           ),
+          padding: const EdgeInsets.all(16.0),
         ),
       ),
     );
@@ -236,27 +201,30 @@ class _VerifyPhoneState extends State<VerifyPhone> {
 
   Widget _resendWithin() {
     return Visibility(
-      visible: !authController.numberVerified,
+      visible: !authController.numberVerified && !codeFilled,
       child: AnimatedOpacity(
         duration: Duration(milliseconds: 500),
         opacity: !codeFilled ? 1 : 0,
         child: Visibility(
           visible: authController.isWhatsappTokenValid,
           replacement: _resendButton(),
-          child: Column(
-            children: [
-              AutoSizeTexts.autoSizeText14(
-                AuthStrings.codeIsValidForMinutes,
-                fontWeight: FontWeight.w300,
-              ),
-              Padding(
-                padding: EdgeInsets.symmetric(vertical: 16.0.h),
-                child: AutoSizeTexts.autoSizeText14(
-                  '${AppStrings.wait} ${Formatters.timeSecondsFormmated(_secondsToExpirate ?? 0)} para receber outro código',
-                  fontWeight: FontWeight.w600,
+          child: SizedBox(
+            height: 64.0.h,
+            child: Column(
+              children: [
+                AutoSizeTexts.autoSizeText14(
+                  AuthStrings.codeIsValidForMinutes,
+                  fontWeight: FontWeight.w300,
                 ),
-              ),
-            ],
+                Padding(
+                  padding: EdgeInsets.symmetric(vertical: 16.0.h),
+                  child: AutoSizeTexts.autoSizeText14(
+                    '${AppStrings.wait} ${Formatters.timeSecondsFormmated(_secondsToExpirate ?? 0)} para receber outro código',
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -315,7 +283,9 @@ class _VerifyPhoneState extends State<VerifyPhone> {
                         .then((value) => systemController.snackBarIsOpen = false);
                     codeController.clear();
                   } else {
-                    Future.delayed(Duration(seconds: 2)).then((value) => authController.continueAfterValidateNumber());
+                    Future.delayed(Duration(seconds: 2)).then((_) {
+                      authController.continueAfterValidateNumber();
+                    });
                   }
                 });
               },

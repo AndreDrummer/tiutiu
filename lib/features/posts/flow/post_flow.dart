@@ -58,13 +58,13 @@ class PostFlow extends StatelessWidget with TiuTiuPopUp {
           ];
 
           List<Widget> _stepsScreens = [
-            ReviewPost(),
             PostInfo(),
             PostDescription(),
             PostCaracteristics(),
             PostLocation(),
             PostImages(),
             PostVideo(),
+            ReviewPost(),
           ];
 
           return Stack(
