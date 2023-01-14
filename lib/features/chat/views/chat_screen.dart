@@ -1,4 +1,5 @@
 import 'package:tiutiu/features/auth/widgets/image_carousel_background.dart';
+import 'package:tiutiu/features/chat/widgets/post_overlay.dart';
 import 'package:tiutiu/features/dennounce/model/user_dennounce.dart';
 import 'package:tiutiu/features/dennounce/views/user_dennounce_screen.dart';
 import 'package:tiutiu/features/chat/widgets/message_bubble.dart';
@@ -19,6 +20,8 @@ import 'package:tiutiu/core/utils/formatter.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'dart:io';
+
+import 'package:tiutiu/features/posts/model/post.dart';
 
 class ChatScreen extends StatelessWidget with TiuTiuPopUp {
   const ChatScreen({
@@ -104,70 +107,81 @@ class ChatScreen extends StatelessWidget with TiuTiuPopUp {
   }
 
   Widget _appBar() {
-    return Card(
-      margin: EdgeInsets.zero,
-      elevation: 8.0,
-      child: Container(
-        height: 56.0,
-        width: Get.width,
-        color: AppColors.primary,
-        child: Row(
-          children: [
-            BackButton(color: AppColors.white),
-            GestureDetector(
-              onTap: () => OtherFunctions.navigateToAnnouncerDetail(chatController.userChatingWith, popAndPush: true),
-              child: CircleAvatar(
-                backgroundColor: AppColors.secondary,
-                radius: 11.0.h,
-                child: CircleAvatar(
-                  radius: 10.0.h,
-                  child: ClipOval(
-                    child: AssetHandle.getImage(
-                      chatController.userChatingWith.avatar,
+    return Column(
+      children: [
+        Card(
+          margin: EdgeInsets.zero,
+          elevation: 8.0,
+          child: Container(
+            height: 56.0,
+            width: Get.width,
+            color: AppColors.primary,
+            child: Row(
+              children: [
+                BackButton(color: AppColors.white),
+                GestureDetector(
+                  onTap: () =>
+                      OtherFunctions.navigateToAnnouncerDetail(chatController.userChatingWith, popAndPush: true),
+                  child: CircleAvatar(
+                    backgroundColor: AppColors.secondary,
+                    radius: 11.0.h,
+                    child: CircleAvatar(
+                      radius: 10.0.h,
+                      child: ClipOval(
+                        child: AssetHandle.getImage(
+                          chatController.userChatingWith.avatar,
+                        ),
+                      ),
                     ),
                   ),
                 ),
-              ),
-            ),
-            SizedBox(width: 8.0.w),
-            AutoSizeTexts.autoSizeText16(
-              Formatters.cuttedText(chatController.userChatingWith.displayName!, size: 17),
-              color: AppColors.white,
-            ),
-            Spacer(),
-            Visibility(
-              visible: systemController.properties.internetConnected,
-              child: PopupMenuButton<String>(
-                icon: Icon(
-                  Platform.isIOS ? Icons.more_horiz_outlined : Icons.more_vert_outlined,
+                SizedBox(width: 8.0.w),
+                AutoSizeTexts.autoSizeText16(
+                  Formatters.cuttedText(chatController.userChatingWith.displayName!, size: 17),
                   color: AppColors.white,
                 ),
-                onSelected: (String item) {
-                  if (item == ChatActionsEnum.dennounceUser.name) {
-                    userDennounceController.updateUserDennounce(
-                      UserDennounceEnum.dennouncedUser,
-                      chatController.userChatingWith,
-                    );
+                Spacer(),
+                Visibility(
+                  visible: systemController.properties.internetConnected,
+                  child: PopupMenuButton<String>(
+                    icon: Icon(
+                      Platform.isIOS ? Icons.more_horiz_outlined : Icons.more_vert_outlined,
+                      color: AppColors.white,
+                    ),
+                    onSelected: (String item) {
+                      if (item == ChatActionsEnum.dennounceUser.name) {
+                        userDennounceController.updateUserDennounce(
+                          UserDennounceEnum.dennouncedUser,
+                          chatController.userChatingWith,
+                        );
 
-                    showsDennouncePopup(content: UserDennounceScreen());
-                  }
-                },
-                itemBuilder: (context) => <PopupMenuEntry<String>>[
-                  PopupMenuItem<String>(
-                    value: ChatActionsEnum.deleteChat.name,
-                    child: Text(ChatStrings.deleteChat),
+                        showsDennouncePopup(content: UserDennounceScreen());
+                      }
+                    },
+                    itemBuilder: (context) => <PopupMenuEntry<String>>[
+                      PopupMenuItem<String>(
+                        value: ChatActionsEnum.deleteChat.name,
+                        child: Text(ChatStrings.deleteChat),
+                      ),
+                      PopupMenuItem<String>(
+                        child: Text(
+                            ChatStrings.dennounceUser(chatController.userChatingWith.displayName!.split(' ').first)),
+                        value: ChatActionsEnum.dennounceUser.name,
+                      ),
+                    ],
                   ),
-                  PopupMenuItem<String>(
-                    child:
-                        Text(ChatStrings.dennounceUser(chatController.userChatingWith.displayName!.split(' ').first)),
-                    value: ChatActionsEnum.dennounceUser.name,
-                  ),
-                ],
-              ),
-            )
-          ],
+                )
+              ],
+            ),
+          ),
         ),
-      ),
+        StreamBuilder<Post>(
+          stream: chatController.postTalkingAboutData(),
+          builder: (context, snapshot) {
+            return snapshot.data != null ? PostOverlay(post: snapshot.data) : SizedBox.shrink();
+          },
+        )
+      ],
     );
   }
 }
