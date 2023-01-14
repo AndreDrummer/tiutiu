@@ -73,7 +73,7 @@ class PostVideo extends StatelessWidget {
             videoPlayerController.pause();
             final videoDuration = videoPlayerController.value.duration;
             if (videoDuration.inSeconds <= VIDEO_SECS_LIMIT) {
-              postsController.updatePost(PostEnum.video.name, videoFile.path);
+              postsController.updatePost(PostEnum.video.name, videoFile);
               postsController.clearError();
             } else {
               debugPrint('TiuTiuApp: Video Size Exceed ${videoDuration.inSeconds}');
@@ -86,7 +86,7 @@ class PostVideo extends StatelessWidget {
     );
   }
 
-  Widget _playVideo() => VideoPlayerPicker(videoPath: postsController.post.video);
+  Widget _playVideo() => VideoPlayerPicker(videoPath: postsController.post.video.path);
 
   Widget _videoErrorLabel() {
     return Obx(
