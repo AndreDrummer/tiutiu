@@ -7,7 +7,7 @@ import 'package:tiutiu/core/extensions/string_extension.dart';
 import 'package:tiutiu/features/posts/widgets/text_area.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
-import 'package:tiutiu/core/constants/images_assets.dart';
+import 'package:tiutiu/core/constants/assets_path.dart';
 import 'package:tiutiu/core/views/load_dark_screen.dart';
 import 'package:tiutiu/core/constants/text_styles.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';

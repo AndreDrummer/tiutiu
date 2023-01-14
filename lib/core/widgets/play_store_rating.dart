@@ -1,7 +1,7 @@
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/utils/launcher_functions.dart';
-import 'package:tiutiu/core/constants/images_assets.dart';
+import 'package:tiutiu/core/constants/assets_path.dart';
 import 'package:tiutiu/core/constants/text_styles.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/core/utils/dimensions.dart';

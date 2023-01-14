@@ -46,12 +46,12 @@ class AppStrings {
   static String get endApp => 'Encerrar aplicação';
   static String get openGallery => 'Abrir galeria';
   static const String tryAgain = 'Tentar novamente';
-  static String get loadingDots => 'Carregando...';
   static String get noConnection => 'Sem internet';
   static String get provideInfo => 'Informar';
   static String get views => 'visualizações';
   static String get favorites => 'Favoritos';
   static String get getStarted => 'Começar';
+  static String get loading => 'Carregando';
   static String get success => 'Sucesso!';
   static String get contines => 'Continuar';
   static String get infos => 'informações';
