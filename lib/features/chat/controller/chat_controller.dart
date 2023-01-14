@@ -40,7 +40,7 @@ class ChatController extends GetxController with TiuTiuPopUp {
   void set isSearching(bool value) => _isSearching(value);
 
   TiutiuUser userChatingWith = TiutiuUser();
-  late DocumentReference _postTalkingAbout;
+  DocumentReference? _postTalkingAbout;
 
   Stream<List<Message>> messages(String loggedUserId) {
     return _chatService.messages(
@@ -69,7 +69,13 @@ class ChatController extends GetxController with TiuTiuPopUp {
     );
   }
 
-  Stream<Pet> postTalkingAboutData() => _chatService.postTalkingAbout(_postTalkingAbout);
+  Stream<Pet> postTalkingAboutData() {
+    if (_postTalkingAbout != null) {
+      return _chatService.postTalkingAbout(_postTalkingAbout!);
+    } else {
+      return Stream.value(Pet());
+    }
+  }
 
   Stream<List<Contact>> contacts() => _chatService.contacts(tiutiuUserController.tiutiuUser.uid!);
 
