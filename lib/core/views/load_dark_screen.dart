@@ -1,5 +1,5 @@
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:loading_animations/loading_animations.dart';
+import 'package:tiutiu/core/widgets/lottie_animation.dart';
 import 'package:tiutiu/core/constants/text_styles.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:flutter/material.dart';
@@ -35,10 +35,7 @@ class LoadDarkScreen extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                LoadingFadingLine.circle(
-                  backgroundColor: AppColors.secondary,
-                  size: 40.0.h,
-                ),
+                LottieAnimation(),
                 SizedBox(height: 15),
                 AutoSizeTexts.autoSizeText12(
                   textAlign: TextAlign.center,

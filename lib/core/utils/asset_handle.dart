@@ -1,7 +1,7 @@
 import 'package:tiutiu/core/widgets/loading_image_animation.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:tiutiu/core/extensions/string_extension.dart';
-import 'package:tiutiu/core/constants/images_assets.dart';
+import 'package:tiutiu/core/constants/assets_path.dart';
 import 'package:flutter/material.dart';
 import 'dart:io';
 
