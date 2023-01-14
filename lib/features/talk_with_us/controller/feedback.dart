@@ -3,13 +3,11 @@ import 'package:tiutiu/features/talk_with_us/model/feedback.dart';
 import 'package:tiutiu/core/extensions/string_extension.dart';
 import 'package:tiutiu/core/utils/routes/routes_name.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
-import 'package:device_info_plus/device_info_plus.dart';
 import 'package:tiutiu/core/mixins/tiu_tiu_pop_up.dart';
 import 'package:tiutiu/core/constants/strings.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:uuid/uuid.dart';
 import 'package:get/get.dart';
-import 'dart:io';
 
 class FeedbackController extends GetxController with TiuTiuPopUp {
   FeedbackController({required FeedbackService feedbackService}) : _feedbackService = feedbackService;
@@ -92,7 +90,7 @@ class FeedbackController extends GetxController with TiuTiuPopUp {
     if (isFormValid) {
       setLoading(true, '');
 
-      updateFeedback(FeedbackEnum.deviceInfo, await getDeviceInfo());
+      updateFeedback(FeedbackEnum.deviceInfo, await systemController.getDeviceInfo());
 
       await _submit().then((_) async => _showsSuccessPopup(), onError: (error, stackTrace) {
         debugPrint('TiuTiuApp: Error when tryna upload feedback: $error, $stackTrace');
@@ -112,15 +110,6 @@ class FeedbackController extends GetxController with TiuTiuPopUp {
 
     await _uploadPrints();
     await _uploadFeedbackData();
-  }
-
-  Future<BaseDeviceInfo> getDeviceInfo() async {
-    DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
-    final info = Platform.isIOS ? await deviceInfo.iosInfo : await deviceInfo.androidInfo;
-
-    debugPrint('TiuTiuApp: Device Info: $info');
-
-    return info;
   }
 
   Future<void> _uploadPrints() async {
