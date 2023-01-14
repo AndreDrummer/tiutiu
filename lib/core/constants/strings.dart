@@ -47,6 +47,7 @@ class AppStrings {
   static String get openGallery => 'Abrir galeria';
   static const String tryAgain = 'Tentar novamente';
   static String get noConnection => 'Sem internet';
+  static const String commingSoon = 'Em breve';
   static String get provideInfo => 'Informar';
   static String get views => 'visualizações';
   static String get favorites => 'Favoritos';
@@ -61,8 +62,8 @@ class AppStrings {
   static String get password => 'Senha';
   static String get adopte => 'Adotar';
   static String get find => 'Encontrar';
-  static String get watch => 'Assistir';
   static String get warning => 'Aviso';
+  static String get watch => 'Assistir';
   static String get name => 'Tiu, tiu';
   static String get email => 'E-mail';
   static String get wait => 'Aguarde';
@@ -192,10 +193,16 @@ class LocalPermissionStrings {
 
 class UserStrings {
   static String get allowContactViaWhatsApp => 'Permitir contato via WhatsApp';
+  static const String completeProfile = 'Completar perfil';
   static String postsQty(int qty) => qty == 1 ? 'post' : 'posts';
   static String get userLastSeen => 'Visto por útlimo';
   static String get userSince => 'Usuário desde';
   static String get contact => 'Contato';
+}
+
+class SettingsStrings {
+  static String get setMyProfileAsONG => 'Configurar perfil como ONG';
+  static const String editProfile = 'Editar meu perfil';
 }
 
 class PostDetailsStrings {
@@ -236,13 +243,11 @@ class PostDetailsStrings {
 class MoreStrings {
   static const String allowContactViaWhatsApp = 'Permitir contato via WhatsApp';
   static const String updatingProfile = 'Atualizando perfil...';
-  static const String completeProfile = 'Completar perfil';
   static const String profileUpdated = 'Perfil atualizado';
   static const String deleteAccount = 'Apagar minha conta';
   static const String howCallYou = 'Como devo te chamar?';
   static const String whatsapp = 'Seu número de WhatsApp';
   static const String insertAPicture = 'Insira uma foto';
-  static const String editProfile = 'Editar perfil';
   static const String myProfile = 'Meu perfil';
   static const String myAds = 'Meus anúncios';
   static const String ads = 'Anúncios';
