@@ -53,7 +53,7 @@ class PostsRepository {
       final postData = await _postService.loadPosts();
 
       debugPrint('TiuTiuApp: Posts Loaded from Internet');
-      var postsList = List<Pet>.from(postData.map((post) => Pet().fromMap(post)));
+      var postsList = List<Pet>.from(postData.docs.map((post) => Pet.fromSnapshot(post)));
       _cachePosts(posts: postsList);
 
       debugPrint('TiuTiuApp: Posts List $postsList');

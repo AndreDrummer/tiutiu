@@ -32,7 +32,7 @@ class FavoritesController extends GetxController {
       favoritedPosts.clear();
       event.docs.forEach((favorite) {
         if (favorite.data().isNotEmpty) {
-          favoritedPosts.add(Pet().fromMap(favorite.data()));
+          favoritedPosts.add(Pet.fromSnapshot(favorite));
         }
       });
 

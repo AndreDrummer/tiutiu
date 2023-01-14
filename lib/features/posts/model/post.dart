@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
 import 'package:tiutiu/core/models/mapper.dart';
 import 'package:uuid/uuid.dart';
@@ -7,6 +8,7 @@ enum PostEnum {
   dennounceMotives,
   timesDennounced,
   description,
+  reference,
   createdAt,
   longitude,
   latitude,
@@ -37,6 +39,7 @@ class Post implements Mapper {
     this.done = false,
     this.type = '-',
     this.views = 0,
+    this.reference,
     this.longitude,
     this.createdAt,
     this.latitude,
@@ -59,6 +62,7 @@ class Post implements Mapper {
       description: map[PostEnum.description.name] ?? '',
       city: map[PostEnum.city.name] ?? 'Acrelândia',
       state: map[PostEnum.state.name] ?? 'Acre',
+      reference: map[PostEnum.reference.name],
       longitude: map[PostEnum.longitude.name],
       latitude: map[PostEnum.latitude.name],
       type: map[PostEnum.type.name] ?? '-',
@@ -72,6 +76,7 @@ class Post implements Mapper {
     );
   }
 
+  DocumentReference? reference;
   String describedAddress;
   List dennounceMotives;
   int timesDennounced;
@@ -103,6 +108,7 @@ class Post implements Mapper {
       PostEnum.description.name: description,
       PostEnum.owner.name: owner?.toMap(),
       PostEnum.longitude.name: longitude,
+      PostEnum.reference.name: reference,
       PostEnum.createdAt.name: createdAt,
       PostEnum.latitude.name: latitude,
       PostEnum.ownerId.name: ownerId,
@@ -119,7 +125,7 @@ class Post implements Mapper {
 
   @override
   String toString() {
-    return 'Post(createdAt: $createdAt, owner: $owner, longitude: $longitude, latitude: $latitude, ownerId: $ownerId, timesDennounced: $timesDennounced, description: $description, state: $state, photos: $photos, name: $name, type: $type, city: $city, uid: $uid, views: $views, video: $video, hidden: $hidden, done: $done, dennounceMotives: $dennounceMotives)';
+    return 'Post(createdAt: $createdAt, owner: $owner, reference: $reference, longitude: $longitude, latitude: $latitude, ownerId: $ownerId, timesDennounced: $timesDennounced, description: $description, state: $state, photos: $photos, name: $name, type: $type, city: $city, uid: $uid, views: $views, video: $video, hidden: $hidden, done: $done, dennounceMotives: $dennounceMotives)';
   }
 
   @override
@@ -131,6 +137,7 @@ class Post implements Mapper {
         other.timesDennounced == timesDennounced &&
         other.description == description &&
         other.createdAt == createdAt &&
+        other.reference == reference &&
         other.longitude == longitude &&
         other.latitude == latitude &&
         other.ownerId == ownerId &&
@@ -154,6 +161,7 @@ class Post implements Mapper {
         timesDennounced.hashCode ^
         description.hashCode ^
         createdAt.hashCode ^
+        reference.hashCode ^
         longitude.hashCode ^
         latitude.hashCode ^
         ownerId.hashCode ^
