@@ -46,6 +46,7 @@ class _MyContactsState extends State<MyContacts> {
                           onContactTap: (() {
                             chatController.markMessageAsRead(contact);
                             if (userSnapshot.data != null && !userSnapshot.data!.userDeleted) {
+                              chatController.setPostTalkingAbout(contact.postTalkingAbout!);
                               chatController.startsChatWith(
                                 user: userSnapshot.data,
                                 myUserId: myUserId!,

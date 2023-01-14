@@ -62,6 +62,7 @@ class ChatController extends GetxController with TiuTiuPopUp {
       userSenderReference: await tiutiuUserController.getUserReferenceById(message.sender.uid!),
       id: _getChatId(senderUserId: message.sender.uid!, receiverUserId: message.receiver.uid!),
       userReceiverId: message.receiver.uid!,
+      postTalkingAbout: _postTalkingAbout,
       lastMessageTime: message.createdAt,
       userSenderId: message.sender.uid,
       lastMessage: message.text,
