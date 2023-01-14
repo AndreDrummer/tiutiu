@@ -1,4 +1,4 @@
-import 'package:tiutiu/core/constants/images_assets.dart';
+import 'package:tiutiu/core/constants/assets_path.dart';
 import 'package:tiutiu/core/utils/asset_handle.dart';
 import 'package:flutter/material.dart';
 
