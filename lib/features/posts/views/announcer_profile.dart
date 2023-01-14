@@ -187,48 +187,46 @@ class AnnouncerProfile extends StatelessWidget {
       fontSize: 10,
       margin: EdgeInsets.only(left: 2.0.w, right: 16.0.w, top: 24.0.h),
       padding: EdgeInsets.all(4.0.h),
-      replacement: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 8.0.w),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Expanded(
-              child: ButtonWide(
-                fontSize: 12,
-                color: AppColors.secondary,
-                text: AppStrings.chatWithAnnouncer,
-                isToExpand: false,
-                onPressed: () {
-                  chatController.handleContactTapped(
-                    contactType: ContactType.chat,
-                    onAdWatched: () async {
-                      chatController.startsChatWith(
-                        myUserId: tiutiuUserController.tiutiuUser.uid!,
-                        user: postsController.post.owner!,
-                      );
-                    },
-                  );
-                },
-              ),
+      replacement: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Expanded(
+            child: ButtonWide(
+              fontSize: 12,
+              color: AppColors.secondary,
+              text: AppStrings.chatWithAnnouncer,
+              isToExpand: false,
+              onPressed: () {
+                chatController.handleContactTapped(
+                  contactType: ContactType.chat,
+                  onAdWatched: () async {
+                    chatController.startsChatWith(
+                      myUserId: tiutiuUserController.tiutiuUser.uid!,
+                      user: postsController.post.owner!,
+                    );
+                  },
+                );
+              },
             ),
-            Expanded(
-              child: ButtonWide(
-                fontSize: 12,
-                text: AppStrings.callInWhatsapp,
-                color: AppColors.primary,
-                isToExpand: false,
-                onPressed: () {
-                  chatController.handleContactTapped(
-                    contactType: ContactType.whatsapp,
-                    onAdWatched: () async {
-                      await Launcher.openWhatsApp(number: postsController.post.owner!.phoneNumber!);
-                    },
-                  );
-                },
-              ),
+          ),
+          Expanded(
+            child: ButtonWide(
+              fontSize: 12,
+              text: AppStrings.callInWhatsapp,
+              color: AppColors.primary,
+              isToExpand: false,
+              onPressed: () {
+                chatController.handleContactTapped(
+                  contactType: ContactType.whatsapp,
+                  onAdWatched: () async {
+                    await Launcher.openWhatsApp(number: postsController.post.owner!.phoneNumber!);
+                  },
+                );
+              },
             ),
-          ],
-        ),
+          ),
+          SizedBox(width: 8.0.w)
+        ],
       ),
     );
   }
