@@ -5,7 +5,7 @@ import 'package:tiutiu/features/auth/service/auth_service.dart';
 import 'package:tiutiu/core/Exceptions/tiutiu_exceptions.dart';
 import 'package:tiutiu/core/local_storage/local_storage.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:tiutiu/core/constants/images_assets.dart';
+import 'package:tiutiu/core/constants/assets_path.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/models/whatsapp_token.dart';
 import 'package:tiutiu/core/constants/strings.dart';

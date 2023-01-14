@@ -14,7 +14,7 @@ double expandedHomeHeightWithAdminInfoAndInternetConnection({required bool showi
     xSmaller: showingSponsoredAds ? Get.height / 2.25 : Get.height / 3.1,
     smaller: showingSponsoredAds ? Get.height / 2.35 : Get.height / 3.2,
     medium: showingSponsoredAds ? Get.height / 2.70 : Get.height / 3.70,
-    bigger: showingSponsoredAds ? Get.height / 2.80 : Get.height / 3.8,
+    bigger: showingSponsoredAds ? Get.height / 2.80 : Get.height / 3.80,
   );
 }
 

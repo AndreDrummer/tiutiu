@@ -1,7 +1,7 @@
 import 'package:tiutiu/core/location/controller/current_location_controller.dart';
 import 'package:tiutiu/core/widgets/default_basic_app_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:tiutiu/core/constants/images_assets.dart';
+import 'package:tiutiu/core/constants/assets_path.dart';
 import 'package:tiutiu/core/constants/text_styles.dart';
 import 'package:tiutiu/core/widgets/app_name_widget.dart';
 import 'package:tiutiu/core/constants/strings.dart';
