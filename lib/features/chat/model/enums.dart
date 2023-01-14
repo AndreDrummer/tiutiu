@@ -1,5 +1,4 @@
 enum MessageEnum {
-  lastBackgroundImage,
   createdAt,
   receiver,
   sender,
@@ -10,6 +9,7 @@ enum MessageEnum {
 enum ContactEnum {
   userReceiverReference,
   userSenderReference,
+  postTalkingAbout,
   lastMessageTime,
   userReceiverId,
   userSenderId,

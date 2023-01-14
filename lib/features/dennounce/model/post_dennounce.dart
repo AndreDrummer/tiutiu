@@ -15,7 +15,7 @@ enum PostDennounceEnum {
 class PostDennounce extends Dennounce {
   factory PostDennounce.fromSnapshot(DocumentSnapshot snapshot) {
     return PostDennounce(
-      dennouncedPost: Pet().fromMap(snapshot.get(PostDennounceEnum.dennouncedPost.name)),
+      dennouncedPost: Pet.fromSnapshot(snapshot.get(PostDennounceEnum.dennouncedPost.name)),
       dennouncer: TiutiuUser.fromMap(snapshot.get(PostDennounceEnum.dennouncer.name)),
       description: snapshot.get(PostDennounceEnum.description.name),
       motive: snapshot.get(PostDennounceEnum.motive.name),

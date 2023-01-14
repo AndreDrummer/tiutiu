@@ -16,6 +16,7 @@ class ImageAssets {
 }
 
 class StartScreenAssets {
+  static String get pinkHamster => 'assets/startscreen/hamster-rosa.webp';
   static String get husky => 'assets/startscreen/husky-filhote.webp';
   static String get whiteCat => 'assets/startscreen/branquinha.webp';
   static String get cockatiel => 'assets/startscreen/cockatiel.webp';
