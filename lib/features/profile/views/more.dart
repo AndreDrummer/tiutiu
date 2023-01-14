@@ -1,22 +1,21 @@
 import 'package:tiutiu/features/auth/views/authenticated_area.dart';
 import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:tiutiu/core/constants/assets_path.dart';
+import 'package:package_info_plus/package_info_plus.dart';
+import 'package:tiutiu/core/utils/routes/routes_name.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/widgets/my_account_card.dart';
-import 'package:tiutiu/core/widgets/avatar_profile.dart';
+import 'package:tiutiu/core/constants/assets_path.dart';
 import 'package:tiutiu/core/constants/text_styles.dart';
-import 'package:tiutiu/core/mixins/tiu_tiu_pop_up.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
-import 'package:tiutiu/core/constants/strings.dart';
-import 'package:tiutiu/core/utils/dimensions.dart';
+import 'package:tiutiu/core/utils/asset_handle.dart';
 import 'package:tiutiu/core/utils/formatter.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 late TiutiuUser _user;
 
-class More extends StatelessWidget with TiuTiuPopUp {
+class More extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     _user = tiutiuUserController.tiutiuUser;
@@ -24,11 +23,7 @@ class More extends StatelessWidget with TiuTiuPopUp {
     return AuthenticatedArea(
       child: SafeArea(
         child: Scaffold(
-          body: Container(
-            margin: EdgeInsets.all(4.0.h),
-            child: _cardContent(context),
-            height: Get.height,
-          ),
+          body: _cardContent(context),
         ),
       ),
     );
@@ -36,24 +31,44 @@ class More extends StatelessWidget with TiuTiuPopUp {
 
   Widget _cardContent(BuildContext context) {
     return Card(
-      margin: EdgeInsets.zero,
-      elevation: 8.0,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.all(Radius.circular(8.0.h)),
       ),
-      child: ListView(
-        padding: EdgeInsets.zero,
+      child: Column(
         children: [
           _cardHeader(),
           _cardBody(),
+          Spacer(),
+          Padding(
+            padding: EdgeInsets.all(48.0.h),
+            child: FutureBuilder<PackageInfo>(
+              future: systemController.getPackageInfo(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.done)
+                  return AutoSizeTexts.autoSizeText14(
+                    'Versão ${snapshot.data?.version}',
+                    fontWeight: FontWeight.w500,
+                    color: AppColors.black,
+                  );
+                return SizedBox.shrink();
+              },
+            ),
+          )
         ],
       ),
     );
   }
 
   Widget _cardHeader() {
-    return SizedBox(
-      height: Get.width / 3,
+    return Container(
+      decoration: BoxDecoration(
+        color: AppColors.primary,
+        borderRadius: BorderRadius.only(
+          topRight: Radius.circular(8.0.h),
+          topLeft: Radius.circular(8.0.h),
+        ),
+      ),
+      height: 56.0.h,
       child: Stack(
         children: [
           _backgroundImage(),
@@ -62,13 +77,12 @@ class More extends StatelessWidget with TiuTiuPopUp {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 _roundedPicture(),
-                Padding(
-                  padding: EdgeInsets.only(bottom: 6.0.h, left: 8.0.w),
-                  child: _userName(),
-                ),
+                SizedBox(width: 8.0.w),
+                _userName(),
               ],
             ),
-            left: 16.0,
+            bottom: 8.0.h,
+            left: 8.0,
           ),
         ],
       ),
@@ -78,18 +92,15 @@ class More extends StatelessWidget with TiuTiuPopUp {
   Widget _roundedPicture() {
     return GestureDetector(
       onTap: () {
-        fullscreenController.openFullScreenMode([_user.avatar]);
+        Get.toNamed(Routes.editProfile);
       },
       child: Container(
-        margin: EdgeInsets.symmetric(vertical: 12.0.h),
-        alignment: Alignment.center,
-        child: AvatarProfile(
-          onAssetPicked: (file) {},
-          avatarPath: _user.avatar,
-          onAssetRemoved: () {},
-          viewOnly: true,
-          radius: 32.0.h,
+        child: ClipOval(
+          child: CircleAvatar(
+            child: AssetHandle.getImage(_user.avatar),
+          ),
         ),
+        alignment: Alignment.center,
       ),
     );
   }
@@ -120,9 +131,10 @@ class More extends StatelessWidget with TiuTiuPopUp {
     return Container(
       width: 200.0.w,
       child: Obx(
-        () => AutoSizeTexts.autoSizeText24(
+        () => AutoSizeTexts.autoSizeText14(
           Formatters.cuttedText('${tiutiuUserController.tiutiuUser.displayName}', size: 32),
-          fontWeight: FontWeight.w700,
+          fontWeight: FontWeight.w600,
+          color: AppColors.white,
         ),
       ),
     );
@@ -134,16 +146,13 @@ class More extends StatelessWidget with TiuTiuPopUp {
     return Container(
       padding: EdgeInsets.zero,
       margin: EdgeInsets.zero,
-      height: Dimensions.getDimensBasedOnDeviceHeight(
-        smaller: Get.width * 1.09,
-        medium: Get.width * 1.4,
-        bigger: Get.width * 1.5,
-        xSmaller: Get.width,
-      ),
-      child: ListView(
-        padding: EdgeInsets.symmetric(horizontal: 1.0.w),
-        children: myProfileOptionsTile.map((title) {
-          final index = myProfileOptionsTile.indexOf(title);
+      height: Get.height / 2.5,
+      child: ListView.separated(
+        padding: EdgeInsets.zero,
+        separatorBuilder: (context, index) => Divider(),
+        itemCount: myProfileOptionsTile.length,
+        itemBuilder: (context, index) {
+          final title = myProfileOptionsTile.elementAt(index);
           final lastIndex = index == myProfileOptionsTile.length - 1;
 
           return Padding(
@@ -153,47 +162,13 @@ class More extends StatelessWidget with TiuTiuPopUp {
               isToCenterText: false,
               isToExpand: true,
               onPressed: () {
-                if (title == MyProfileOptionsTile.leave) {
-                  _exitApp(title);
-                } else if (title == MyProfileOptionsTile.deleteAccount) {
-                  _deleteAccount(title);
-                } else {
-                  moreController.handleOptionHitted(title);
-                }
+                moreController.handleOptionHitted(title);
               },
               text: title,
             ),
           );
-        }).toList(),
+        },
       ),
     );
-  }
-
-  Future<void> _exitApp(String title) async {
-    await showPopUp(
-      message: AppStrings.wannaLeave,
-      confirmText: AppStrings.yes,
-      textColor: AppColors.black,
-      mainAction: () {
-        Get.back();
-      },
-      secondaryAction: () {
-        Get.back();
-        moreController.handleOptionHitted(title);
-      },
-      backGroundColor: AppColors.warning,
-      barrierDismissible: false,
-      title: AppStrings.leave,
-      denyText: AppStrings.no,
-    );
-  }
-
-  Future<void> _deleteAccount(String title) async {
-    final canDeleteAccount = await deleteAccountController.canDeleteAccount();
-
-    if (!canDeleteAccount)
-      await deleteAccountController.showDeleteAccountLogoutWarningPopup();
-    else
-      moreController.handleOptionHitted(title);
   }
 }
