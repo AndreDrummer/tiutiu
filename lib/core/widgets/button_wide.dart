@@ -37,7 +37,7 @@ class ButtonWide extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: padding ?? EdgeInsets.symmetric(horizontal: 8.0.w, vertical: 4.0.h),
+      padding: padding ?? EdgeInsets.symmetric(horizontal: 4.0.w, vertical: 4.0.h),
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(rounded ? 24.0.h : 8.0.h)),

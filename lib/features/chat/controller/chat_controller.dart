@@ -52,6 +52,23 @@ class ChatController extends GetxController with TiuTiuPopUp {
     );
   }
 
+  Future<void> deleteChat(String loggedUserId) async {
+    final chatId = _getChatId(
+      receiverUserId: userChatingWith.uid!,
+      senderUserId: loggedUserId,
+    );
+
+    await _chatService.deleteChatMessages(
+      userId: loggedUserId,
+      contactId: chatId,
+    );
+
+    await _chatService.deleteChat(
+      userId: loggedUserId,
+      contactId: chatId,
+    );
+  }
+
   Stream<Pet> postTalkingAboutData() => _chatService.postTalkingAbout(_postTalkingAbout);
 
   Stream<List<Contact>> contacts() => _chatService.contacts(tiutiuUserController.tiutiuUser.uid!);

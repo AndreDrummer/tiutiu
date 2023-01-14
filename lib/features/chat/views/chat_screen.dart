@@ -1,8 +1,8 @@
 import 'package:tiutiu/features/auth/widgets/image_carousel_background.dart';
-import 'package:tiutiu/features/chat/widgets/post_overlay.dart';
-import 'package:tiutiu/features/dennounce/model/user_dennounce.dart';
 import 'package:tiutiu/features/dennounce/views/user_dennounce_screen.dart';
+import 'package:tiutiu/features/dennounce/model/user_dennounce.dart';
 import 'package:tiutiu/features/chat/widgets/message_bubble.dart';
+import 'package:tiutiu/features/chat/widgets/post_overlay.dart';
 import 'package:tiutiu/features/chat/widgets/new_message.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
@@ -11,6 +11,7 @@ import 'package:tiutiu/core/utils/other_functions.dart';
 import 'package:tiutiu/core/widgets/async_handler.dart';
 import 'package:tiutiu/core/mixins/tiu_tiu_pop_up.dart';
 import 'package:tiutiu/core/constants/text_styles.dart';
+import 'package:tiutiu/features/posts/model/post.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/features/chat/model/enums.dart';
 import 'package:tiutiu/core/utils/asset_handle.dart';
@@ -20,8 +21,6 @@ import 'package:tiutiu/core/utils/formatter.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'dart:io';
-
-import 'package:tiutiu/features/posts/model/post.dart';
 
 class ChatScreen extends StatelessWidget with TiuTiuPopUp {
   const ChatScreen({
@@ -156,6 +155,21 @@ class ChatScreen extends StatelessWidget with TiuTiuPopUp {
                         );
 
                         showsDennouncePopup(content: UserDennounceScreen());
+                      }
+
+                      if (item == ChatActionsEnum.deleteChat.name) {
+                        showPopUp(
+                          message: ChatStrings.deleteMessageQuestion,
+                          backGroundColor: AppColors.danger,
+                          title: ChatStrings.deleteChat,
+                          secondaryAction: () {
+                            Get.back();
+                            chatController.deleteChat(loggedUserId).then((_) => Get.back());
+                          },
+                          confirmText: AppStrings.yes,
+                          denyText: AppStrings.no,
+                          mainAction: Get.back,
+                        );
                       }
                     },
                     itemBuilder: (context) => <PopupMenuEntry<String>>[
