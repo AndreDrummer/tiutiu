@@ -54,24 +54,25 @@ class OtherFunctions {
   }
 
   static String replacePhoneNumberWithStars(String description) {
-    try {
-      String phoneNumber = description;
+    final anyNumberRegex = RegExp('[0-9]+');
 
-      if (phoneNumber.contains(RegExp(r"[0-9]"))) {
-        phoneNumber = phoneNumber.split(phoneNumber.split(RegExp(r"[0-9]")).first).last;
-
+    final list = description.split(' ').map((word) {
+      if (anyNumberRegex.hasMatch(word) && word.length > 3) {
         String stars = '';
-        final starList = List.generate(phoneNumber.length, ((index) => '*'));
-        starList.forEach((star) => stars += star);
-
-        description = description.replaceAll(phoneNumber, stars);
+        for (int i = 0; i < word.length; i++) {
+          stars += '*';
+        }
+        return stars;
       }
-    } catch (err) {
-      debugPrint('An error occurred when trying remove phone number');
-      rethrow;
-    }
+      return word;
+    }).toList();
 
-    return description;
+    String output = '';
+
+    for (int i = 0; i < list.length; i++) {
+      output += '${list[i]} ';
+    }
+    return output;
   }
 
   static String firstCharacterUpper(String text) {
