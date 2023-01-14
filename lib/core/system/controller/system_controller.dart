@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:tiutiu/features/admob/constants/admob_block_names.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:tiutiu/core/location/models/states_and_cities.dart';
@@ -6,6 +8,7 @@ import 'package:tiutiu/core/extensions/string_extension.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:tiutiu/core/system/model/endpoint.dart';
 import 'package:tiutiu/core/system/model/system.dart';
 import 'package:flutter/foundation.dart';
@@ -103,6 +106,22 @@ class SystemController extends GetxController {
       initialFDLink = fdLink!;
       setPostDetail();
     }
+  }
+
+  Future<BaseDeviceInfo> getDeviceInfo() async {
+    DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
+    final info = Platform.isIOS ? await deviceInfo.iosInfo : await deviceInfo.androidInfo;
+
+    debugPrint('TiuTiuApp: Device Info: $info');
+
+    return info;
+  }
+
+  Future<PackageInfo> getPackageInfo() async {
+    final info = await PackageInfo.fromPlatform();
+    debugPrint('TiuTiuApp: Package Info: $info');
+
+    return info;
   }
 
   void setPostDetail() {

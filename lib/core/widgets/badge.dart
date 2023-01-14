@@ -21,7 +21,7 @@ class Badge extends StatelessWidget {
       visible: show,
       child: Container(
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(24),
+          borderRadius: BorderRadius.circular(2.5),
           color: color,
         ),
         child: Padding(

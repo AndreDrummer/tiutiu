@@ -5,6 +5,7 @@ class Routes {
   static const initPostFlow = '/init-post-flow';
   static const verifyEmail = '/verify-email';
   static const verifyPhone = '/verify-phone';
+  static const editProfile = '/edit-profile';
   static const authHosters = '/auth-hosters';
   static const startScreen = '/start-screen';
   static const postDetails = '/pet-details';

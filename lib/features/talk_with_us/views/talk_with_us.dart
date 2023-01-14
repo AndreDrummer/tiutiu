@@ -32,7 +32,7 @@ class _TalkWithUsState extends State<TalkWithUs> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<void>(
-      future: feedbackController.getDeviceInfo(),
+      future: systemController.getDeviceInfo(),
       builder: (context, snapshot) {
         return WillPopScope(
           onWillPop: () async {
