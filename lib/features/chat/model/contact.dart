@@ -7,6 +7,7 @@ class Contact {
     return Contact(
       userReceiverReference: (snapshot.data() as Map<String, dynamic>)[ContactEnum.userReceiverReference.name],
       userSenderReference: (snapshot.data() as Map<String, dynamic>)[ContactEnum.userSenderReference.name],
+      postTalkingAbout: (snapshot.data() as Map<String, dynamic>)[ContactEnum.postTalkingAbout.name],
       lastMessageTime: (snapshot.data() as Map<String, dynamic>)[ContactEnum.lastMessageTime.name],
       userReceiverId: (snapshot.data() as Map<String, dynamic>)[ContactEnum.userReceiverId.name],
       userSenderId: (snapshot.data() as Map<String, dynamic>)[ContactEnum.userSenderId.name],
@@ -18,6 +19,7 @@ class Contact {
   Contact({
     this.userReceiverReference,
     this.userSenderReference,
+    this.postTalkingAbout,
     this.lastMessageTime,
     this.userReceiverId,
     this.open = false,
@@ -29,6 +31,7 @@ class Contact {
   Contact copyWith({
     DocumentReference? userReceiverReference,
     DocumentReference? userSenderReference,
+    DocumentReference? postTalkingAbout,
     dynamic lastMessageTime,
     String? userReceiverId,
     String? userSenderId,
@@ -37,8 +40,9 @@ class Contact {
     bool? open,
   }) {
     debugPrint('TiuTiuApp: Updating Contact userSenderReference... $userSenderReference');
+    debugPrint('TiuTiuApp: Updating Contact postTalkingAbout... $postTalkingAbout');
     debugPrint('TiuTiuApp: Updating Contact lastMessageTime... $lastMessageTime');
-    debugPrint('TiuTiuApp: Updating Contact userSenderId... $userSenderId');
+    debugPrint('TiuTiuApp: Updating Contact userReceiverId... $userReceiverId');
     debugPrint('TiuTiuApp: Updating Contact userSenderId... $userSenderId');
     debugPrint('TiuTiuApp: Updating Contact lastMessage... $lastMessage');
     debugPrint('TiuTiuApp: Updating Contact open... $open');
@@ -47,6 +51,7 @@ class Contact {
     return Contact(
       userReceiverReference: userReceiverReference ?? this.userReceiverReference,
       userSenderReference: userSenderReference ?? this.userSenderReference,
+      postTalkingAbout: postTalkingAbout ?? this.postTalkingAbout,
       lastMessageTime: lastMessageTime ?? this.lastMessageTime,
       userReceiverId: userReceiverId ?? this.userReceiverId,
       userSenderId: userSenderId ?? this.userSenderId,
@@ -61,6 +66,7 @@ class Contact {
       ContactEnum.userReceiverReference.name: userReceiverReference,
       ContactEnum.userSenderReference.name: userSenderReference,
       ContactEnum.userSenderReference.name: userSenderReference,
+      ContactEnum.postTalkingAbout.name: postTalkingAbout,
       ContactEnum.lastMessageTime.name: lastMessageTime,
       ContactEnum.userReceiverId.name: userReceiverId,
       ContactEnum.userSenderId.name: userSenderId,
@@ -72,6 +78,7 @@ class Contact {
 
   DocumentReference? userReceiverReference;
   DocumentReference? userSenderReference;
+  DocumentReference? postTalkingAbout;
   dynamic lastMessageTime;
   String? userReceiverId;
   String? userSenderId;
