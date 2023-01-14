@@ -31,12 +31,6 @@ class MoreController extends GetxController {
       case MyProfileOptionsTile.ourNet:
         Get.toNamed(Routes.followUs);
         break;
-      case MyProfileOptionsTile.deleteAccount:
-        Get.toNamed(Routes.deleteAccount);
-        break;
-      case MyProfileOptionsTile.leave:
-        authController.signOut();
-        break;
     }
   }
 
@@ -52,28 +46,24 @@ class MoreController extends GetxController {
   List<String> myProfileOptionsTile = _myProfileOptionsTile;
 
   static const List<String> _myProfileOptionsTile = [
-    MyProfileOptionsTile.myPosts,
-    MyProfileOptionsTile.favorites,
     MyProfileOptionsTile.settings,
-    MyProfileOptionsTile.about,
+    MyProfileOptionsTile.favorites,
+    MyProfileOptionsTile.myPosts,
+    MyProfileOptionsTile.support,
     MyProfileOptionsTile.talkWithUs,
     MyProfileOptionsTile.ourNet,
-    MyProfileOptionsTile.support,
-    MyProfileOptionsTile.deleteAccount,
-    MyProfileOptionsTile.leave,
+    MyProfileOptionsTile.about,
   ];
 
   List<IconData> get myProfileOptionsIcon => _myProfileOptionsIcon;
 
   final List<IconData> _myProfileOptionsIcon = [
-    Icons.view_agenda,
-    Icons.favorite,
     Icons.manage_accounts,
-    Icons.info,
+    Icons.favorite,
+    Icons.view_agenda,
+    Icons.volunteer_activism,
     Icons.headset_mic,
     Icons.groups,
-    Icons.volunteer_activism,
-    Icons.person_off,
-    Icons.exit_to_app,
+    Icons.info,
   ];
 }
