@@ -1,5 +1,5 @@
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:loading_animations/loading_animations.dart';
+import 'package:tiutiu/core/widgets/lottie_animation.dart';
 import 'package:tiutiu/core/constants/text_styles.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:flutter/material.dart';
@@ -22,10 +22,7 @@ class LoadingPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           mainAxisSize: MainAxisSize.min,
           children: [
-            LoadingFadingLine.circle(
-              backgroundColor: Theme.of(context).primaryColor,
-              size: 32.0.h,
-            ),
+            LottieAnimation(),
             SizedBox(height: 8.0.h),
             AutoSizeTexts.autoSizeText12(
               color: textColor ?? AppColors.white,

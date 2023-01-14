@@ -46,7 +46,7 @@ dependencies:
   cupertino_icons: ^1.0.5
   auto_size_text: ^3.0.0
   google_sign_in: ^5.4.2
-  image_picker: ^0.8.5+3      
+  image_picker: ^0.8.5+3
   better_player:
     git:
       url: https://github.com/matthewrice345/betterplayer.git
@@ -60,6 +60,7 @@ dependencies:
   geocoding: ^2.0.5  
   provider: ^6.0.3
   sqflite: ^2.0.3
+  lottie: ^2.2.0
   intl: ^0.17.0    
   uuid: ^3.0.6
   video_player:
@@ -96,6 +97,7 @@ flutter:
   uses-material-design: true  
   assets:    
     - assets/startscreen/
+    - assets/animations/
     - assets/images/
     - assets/json/
 
