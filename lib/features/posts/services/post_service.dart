@@ -10,10 +10,8 @@ import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 
 class PostService extends GetxService {
-  Future<List<Map<String, dynamic>>> loadPosts() async {
-    final posts = await EndpointResolver.getCollectionEndpoint(EndpointNames.pathToPosts.name).get();
-
-    return posts.docs.map((post) => post.data()).toList();
+  Future<QuerySnapshot<Map<String, dynamic>>> loadPosts() async {
+    return await EndpointResolver.getCollectionEndpoint(EndpointNames.pathToPosts.name).get();
   }
 
   CollectionReference<Map<String, dynamic>> pathToPostsStream() {

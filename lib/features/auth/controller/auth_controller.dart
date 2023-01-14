@@ -560,6 +560,8 @@ class AuthController extends GetxController {
 
   final _startScreenImages = [
     StartScreenAssets.munkun,
+    StartScreenAssets.hamster,
+    StartScreenAssets.pinkHamster,
     StartScreenAssets.greyCat,
     StartScreenAssets.whiteCat,
     StartScreenAssets.pinscher,

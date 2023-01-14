@@ -26,6 +26,7 @@ class _VerifyPhoneState extends State<VerifyPhone> {
   bool enableResendButton = false;
   bool codeFilled = false;
   int? _secondsToExpirate;
+  bool hasError = false;
   Timer? _timer;
 
   @override
@@ -85,6 +86,7 @@ class _VerifyPhoneState extends State<VerifyPhone> {
               _topBar(),
               _insertCodeSentToTheNumberText(number),
               _codeBoxes(context),
+              _incorretCodeText(),
               Spacer(),
               _confirmButton(),
               _resendWithin(),
@@ -187,6 +189,7 @@ class _VerifyPhoneState extends State<VerifyPhone> {
             onChanged: (value) {
               if (value.length < 6) {
                 setState(() {
+                  hasError = false;
                   codeFilled = false;
                 });
               }
@@ -195,6 +198,16 @@ class _VerifyPhoneState extends State<VerifyPhone> {
           ),
           padding: const EdgeInsets.all(16.0),
         ),
+      ),
+    );
+  }
+
+  Widget _incorretCodeText() {
+    return Visibility(
+      visible: hasError,
+      child: AutoSizeTexts.autoSizeText12(
+        AuthStrings.invalidCode,
+        color: AppColors.danger,
       ),
     );
   }
@@ -209,7 +222,7 @@ class _VerifyPhoneState extends State<VerifyPhone> {
           visible: authController.isWhatsappTokenValid,
           replacement: _resendButton(),
           child: SizedBox(
-            height: 64.0.h,
+            height: 72.0.h,
             child: Column(
               children: [
                 AutoSizeTexts.autoSizeText14(
@@ -282,6 +295,9 @@ class _VerifyPhoneState extends State<VerifyPhone> {
                         .closed
                         .then((value) => systemController.snackBarIsOpen = false);
                     codeController.clear();
+                    setState(() {
+                      hasError = true;
+                    });
                   } else {
                     Future.delayed(Duration(seconds: 2)).then((_) {
                       authController.continueAfterValidateNumber();

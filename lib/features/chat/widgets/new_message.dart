@@ -1,14 +1,14 @@
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get.dart';
 import 'package:tiutiu/core/widgets/no_connection_text_info.dart';
-import 'package:tiutiu/features/chat/model/message.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
+import 'package:tiutiu/features/chat/model/message.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:tiutiu/core/constants/strings.dart';
 import 'package:tiutiu/core/utils/dimensions.dart';
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
+import 'package:get/get.dart';
 
 FirebaseFirestore firestore = FirebaseFirestore.instance;
 
@@ -72,10 +72,10 @@ class _NewMessageState extends State<NewMessage> {
                   child: Padding(
                     padding: EdgeInsets.only(left: 8.0.w, right: 4.0.w),
                     child: TextField(
-                      controller: _controller,
-                      onSubmitted: (value) async => await _sendMessage(),
                       textCapitalization: TextCapitalization.sentences,
+                      onSubmitted: (_) async => await _sendMessage(),
                       style: TextStyle(color: Colors.black54),
+                      controller: _controller,
                       decoration: InputDecoration(
                         focusedBorder: UnderlineInputBorder(borderSide: BorderSide.none),
                         disabledBorder: UnderlineInputBorder(borderSide: BorderSide.none),

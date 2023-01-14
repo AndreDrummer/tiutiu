@@ -516,6 +516,7 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
               chatController.handleContactTapped(
                 contactType: ContactType.chat,
                 onAdWatched: () async {
+                  chatController.setPostTalkingAbout(post.reference!);
                   chatController.startsChatWith(
                     myUserId: tiutiuUserController.tiutiuUser.uid!,
                     user: post.owner!,
