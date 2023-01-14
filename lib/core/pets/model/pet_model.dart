@@ -1,6 +1,6 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
 import 'package:tiutiu/features/posts/model/post.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:uuid/uuid.dart';
 
 enum PetEnum {
@@ -112,11 +112,12 @@ class Pet extends Post {
   @override
   Pet fromMap(Map<String, dynamic> map) {
     return Pet(
+      reference:
+          map[PostEnum.reference.name] != null ? FirebaseFirestore.instance.doc((map[PostEnum.reference.name])) : null,
       dennounceMotives: map[PostEnum.dennounceMotives.name] ?? super.dennounceMotives,
       timesDennounced: map[PostEnum.timesDennounced.name] ?? super.timesDennounced,
       createdAt: map[PostEnum.createdAt.name] ?? DateTime.now().toIso8601String(),
       uid: map[PostEnum.uid.name] != null ? map[PostEnum.uid.name] : Uuid().v4(),
-      reference: (map[PostEnum.reference.name] ?? '') as DocumentReference,
       otherCaracteristics: map[PetEnum.otherCaracteristics.name] ?? [],
       chronicDiseaseInfo: map[PetEnum.chronicDiseaseInfo.name] ?? '',
       describedAddress: map[PostEnum.describedAddress.name] ?? '',
@@ -156,14 +157,15 @@ class Pet extends Post {
   String reward;
   int ageMonth;
   String breed;
-  int ageYear;
   String color;
   String size;
+  int ageYear;
 
   @override
   Map<String, dynamic> toMap({bool convertFileToVideoPath = false}) {
     return {
       PostEnum.photos.name: convertFileToVideoPath ? photos.map((e) => e.path).toList() : photos,
+      PostEnum.reference.name: reference != null ? reference.toString() : null,
       PostEnum.video.name: convertFileToVideoPath ? video.path : video,
       PetEnum.otherCaracteristics.name: otherCaracteristics,
       PetEnum.chronicDiseaseInfo.name: chronicDiseaseInfo,
@@ -171,7 +173,6 @@ class Pet extends Post {
       PostEnum.dennounceMotives.name: dennounceMotives,
       PostEnum.timesDennounced.name: timesDennounced,
       PetEnum.lastSeenDetails.name: lastSeenDetails,
-      PostEnum.reference.name: reference.toString(),
       PetEnum.donatedOrFound.name: donatedOrFound,
       PostEnum.description.name: description,
       PetEnum.disappeared.name: disappeared,
