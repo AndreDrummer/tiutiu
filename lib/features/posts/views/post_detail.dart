@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:tiutiu/features/dennounce/views/post_dennounce_screen.dart';
 import 'package:tiutiu/features/dennounce/widgets/dennounce_button.dart';
 import 'package:tiutiu/features/favorites/widgets/favorite_button.dart';
@@ -71,19 +73,23 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
   }
 
   double toolBarHeight(int descriptionLength) {
-    return (post as Pet).disappeared
-        ? Dimensions.getDimensBasedOnDeviceHeight(
-            smaller: (Get.height / 5.2) - (descriptionLength / 4) - 16.0.h,
-            xSmaller: (Get.height / 5.2) - (descriptionLength / 4),
-            bigger: (Get.height / 3.6) - (descriptionLength / 4),
-            medium: (Get.height / 3.3) - (descriptionLength / 4),
-          )
-        : Dimensions.getDimensBasedOnDeviceHeight(
-            smaller: (Get.height / 3.4) - (descriptionLength / 4) - 16.0.h,
-            xSmaller: (Get.height / 4.4) - (descriptionLength / 4),
-            bigger: (Get.height / 3.2) - (descriptionLength / 4),
-            medium: (Get.height / 2.9) - (descriptionLength / 4),
-          );
+    final isInReview = postsController.isInReviewMode;
+
+    if ((post as Pet).disappeared) {
+      return Dimensions.getDimensBasedOnDeviceHeight(
+        smaller: (Get.height / (isInReview ? 4.3 : 5.2)) - (descriptionLength / 4),
+        xSmaller: (Get.height / (isInReview ? 4.3 : 5.2)) - (descriptionLength / 4),
+        bigger: (Get.height / (isInReview ? 2.7 : 3.6)) - (descriptionLength / 4),
+        medium: (Get.height / (isInReview ? 2.4 : 3.3)) - (descriptionLength / 4),
+      );
+    } else {
+      return Dimensions.getDimensBasedOnDeviceHeight(
+        smaller: (Get.height / (isInReview ? 2.5 : 3.4)) - (descriptionLength / 4),
+        xSmaller: (Get.height / (isInReview ? 3.5 : 4.4)) - (descriptionLength / 4),
+        bigger: (Get.height / (isInReview ? 2.3 : 3.2)) - (descriptionLength / 4),
+        medium: (Get.height / (isInReview ? 2.0 : 2.9)) - (descriptionLength / 4),
+      );
+    }
   }
 
   @override
@@ -365,6 +371,9 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
     final hasVideo = post.video != null;
     final photos = post.photos;
 
+    final video = post.video;
+    final videoPath = video is File ? video.path : video;
+
     return Container(
       width: double.infinity,
       color: Colors.black,
@@ -374,7 +383,7 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
         itemCount: hasVideo ? photos.length + 1 : photos.length,
         itemBuilder: (BuildContext context, int index) {
           if (hasVideo && index == 0) {
-            return PostDetailVideo(videoUrl: post.video);
+            return PostDetailVideo(videoUrl: videoPath);
           } else if (!hasVideo) {
             return _image(photos, index);
           }
