@@ -337,6 +337,7 @@ class PostFlowStrings {
 }
 
 class ChatStrings {
+  static const String deleteMessageQuestion = 'Tem certeza que deseja deletar essa conversa?';
   static String dennounceUser(String username) => 'Denunciar $username';
   static const String writeYourMessage = 'Escreva sua mensagem...';
   static const String startConversation = 'Incie a conversa';
