@@ -41,3 +41,12 @@ class DonateAssets {
 class JsonAssets {
   static const ufAndCities = 'assets/json/estados-cidades.json';
 }
+
+class AnimationsAssets {
+  static const petLocationPin = 'assets/animations/pet_pin_location.json';
+  static const birdLoading = 'assets/animations/bird_loading.json';
+  static const catLoading = 'assets/animations/cat_loading.json';
+  static const dogLoading = 'assets/animations/dog_loading.json';
+  static const dogWalking = 'assets/animations/dog_walking.json';
+  static const pawLoading = 'assets/animations/paw_loading.json';
+}
