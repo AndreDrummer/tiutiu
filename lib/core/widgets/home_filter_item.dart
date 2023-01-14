@@ -39,7 +39,7 @@ class HomeFilterItem extends StatelessWidget {
             Container(
               height: Dimensions.getDimensBasedOnDeviceHeight(
                 smaller: 50.0.h,
-                bigger: 42.0.h,
+                bigger: 56.0.h,
                 medium: 42.0.h,
               ),
               child: ClipRRect(
@@ -53,7 +53,6 @@ class HomeFilterItem extends StatelessWidget {
                 ),
               ),
             ),
-            // SizedBox(height: 16.0.h),
             AutoSizeTexts.autoSizeText10(
               color: isActive ? AppColors.white : AppColors.primary,
               fontWeight: FontWeight.w600,

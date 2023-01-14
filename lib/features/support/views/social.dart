@@ -1,7 +1,7 @@
 import 'package:tiutiu/features/auth/widgets/image_carousel_background.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/widgets/play_store_rating.dart';
-import 'package:tiutiu/core/constants/images_assets.dart';
+import 'package:tiutiu/core/constants/assets_path.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/core/utils/asset_handle.dart';
 import 'package:flutter/material.dart';

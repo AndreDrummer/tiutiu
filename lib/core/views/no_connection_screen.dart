@@ -1,5 +1,5 @@
 import 'package:tiutiu/core/views/user_feedback_screen.dart';
-import 'package:tiutiu/core/constants/images_assets.dart';
+import 'package:tiutiu/core/constants/assets_path.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/core/constants/strings.dart';
 import 'package:flutter/material.dart';

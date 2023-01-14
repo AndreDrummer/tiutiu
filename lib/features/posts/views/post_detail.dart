@@ -1,5 +1,4 @@
-import 'dart:io';
-
+import 'package:tiutiu/core/widgets/lottie_animation.dart';
 import 'package:tiutiu/features/dennounce/views/post_dennounce_screen.dart';
 import 'package:tiutiu/features/dennounce/widgets/dennounce_button.dart';
 import 'package:tiutiu/features/favorites/widgets/favorite_button.dart';
@@ -20,7 +19,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/utils/routes/routes_name.dart';
 import 'package:tiutiu/core/widgets/tiutiu_snackbar.dart';
 import 'package:tiutiu/core/utils/launcher_functions.dart';
-import 'package:tiutiu/core/constants/images_assets.dart';
+import 'package:tiutiu/core/constants/assets_path.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/views/load_dark_screen.dart';
 import 'package:tiutiu/core/widgets/dots_indicator.dart';
@@ -40,6 +39,7 @@ import 'package:tiutiu/core/utils/formatter.dart';
 import 'package:maps_launcher/maps_launcher.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'dart:io';
 
 class PostDetails extends StatefulWidget {
   @override
@@ -487,29 +487,41 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
     );
   }
 
-  CardContent _address(Post post) {
+  Widget _address(Post post) {
     final describedAddress = post.describedAddress.isNotEmptyNeighterNull()
         ? '\n\n${OtherFunctions.replacePhoneNumberWithStars(post.describedAddress)}'
         : '';
 
     final showIcon = !post.describedAddress.isNotEmptyNeighterNull() && !(post as Pet).disappeared;
 
-    return CardContent(
-      icon: showIcon ? Icons.launch : null,
-      content: (post as Pet).disappeared ? (post).lastSeenDetails : '${post.city} - ${post.state} $describedAddress',
-      title: post.disappeared
-          ? PostDetailsStrings.lastSeen
-          : PostDetailsStrings.whereIsIt(
-              petGender: post.gender,
-              petName: '${post.name}',
-            ),
-      onAction: () {
-        MapsLauncher.launchCoordinates(
-          post.latitude ?? 0.0,
-          post.longitude ?? 0.0,
-          post.name,
-        );
-      },
+    return Stack(
+      children: [
+        CardContent(
+          icon: showIcon ? Icons.launch : null,
+          content:
+              (post as Pet).disappeared ? (post).lastSeenDetails : '${post.city} - ${post.state} $describedAddress',
+          title: post.disappeared
+              ? PostDetailsStrings.lastSeen
+              : PostDetailsStrings.whereIsIt(
+                  petGender: post.gender,
+                  petName: '${post.name}',
+                ),
+          onAction: () {
+            MapsLauncher.launchCoordinates(
+              post.latitude ?? 0.0,
+              post.longitude ?? 0.0,
+              post.name,
+            );
+          },
+        ),
+        Positioned(
+          child: LottieAnimation(
+            animationPath: AnimationsAssets.petLocationPin,
+            size: 32.0.h,
+          ),
+          left: Get.width / 4,
+        )
+      ],
     );
   }
 
