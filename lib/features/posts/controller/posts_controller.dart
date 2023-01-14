@@ -124,7 +124,7 @@ class PostsController extends GetxController with TiuTiuPopUp {
   Stream<List<Post>> postsStream() {
     return _postService.pathToPostsStream().snapshots().asyncMap((postSnapshot) {
       final postsList = postSnapshot.docs.map((post) {
-        return Pet().fromMap(post.data());
+        return Pet.fromSnapshot(post);
       }).toList();
 
       _posts(postsList);

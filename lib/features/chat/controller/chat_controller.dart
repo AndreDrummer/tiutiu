@@ -9,6 +9,7 @@ import 'package:tiutiu/features/chat/model/message.dart';
 import 'package:tiutiu/core/constants/contact_type.dart';
 import 'package:tiutiu/features/chat/model/contact.dart';
 import 'package:tiutiu/core/mixins/tiu_tiu_pop_up.dart';
+import 'package:tiutiu/core/pets/model/pet_model.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/features/chat/model/enums.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -39,6 +40,7 @@ class ChatController extends GetxController with TiuTiuPopUp {
   void set isSearching(bool value) => _isSearching(value);
 
   TiutiuUser userChatingWith = TiutiuUser();
+  late DocumentReference _postTalkingAbout;
 
   Stream<List<Message>> messages(String loggedUserId) {
     return _chatService.messages(
@@ -49,6 +51,8 @@ class ChatController extends GetxController with TiuTiuPopUp {
       ),
     );
   }
+
+  Stream<Pet> postTalkingAboutData() => _chatService.postTalkingAbout(_postTalkingAbout);
 
   Stream<List<Contact>> contacts() => _chatService.contacts(tiutiuUserController.tiutiuUser.uid!);
 
@@ -131,7 +135,13 @@ class ChatController extends GetxController with TiuTiuPopUp {
         myUserId: myUser.uid!,
         user: sender,
       );
+    } else {
+      Get.offAllNamed(Routes.home);
     }
+  }
+
+  void setPostTalkingAbout(DocumentReference reference) {
+    _postTalkingAbout = reference;
   }
 
   void startsChatWith({TiutiuUser? user, required String myUserId}) {
