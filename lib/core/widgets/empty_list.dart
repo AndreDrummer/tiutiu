@@ -70,6 +70,8 @@ class EmptyListScreen extends StatelessWidget {
             ? AnimationsAssets.dogWalking
             : filterParams.type == PetTypeStrings.all
                 ? AnimationsAssets.dogLoading
-                : AnimationsAssets.catLoading;
+                : filterParams.type == PetTypeStrings.exotic
+                    ? AnimationsAssets.catLookingAround
+                    : AnimationsAssets.catLoading;
   }
 }
