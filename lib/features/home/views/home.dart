@@ -1,10 +1,9 @@
-import 'dart:io';
-
 import 'package:tiutiu/core/widgets/change_posts_visibility_floating_button.dart';
 import 'package:tiutiu/features/home/utils/expanded_home_height_size.dart';
 import 'package:tiutiu/core/remote_config/model/admin_remote_config.dart';
 import 'package:tiutiu/features/admob/constants/admob_block_names.dart';
 import 'package:tiutiu/core/migration/service/migration_service.dart';
+import 'package:tiutiu/features/home/controller/home_controller.dart';
 import 'package:tiutiu/features/sponsored/model/sponsored.dart';
 import 'package:tiutiu/features/posts/flow/init_post_flow.dart';
 import 'package:tiutiu/features/home/widgets/bottom_bar.dart';
@@ -22,6 +21,7 @@ import 'package:tiutiu/core/constants/strings.dart';
 import 'package:tiutiu/core/utils/dimensions.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'dart:io';
 
 class Home extends StatefulWidget {
   @override
@@ -54,86 +54,100 @@ class _HomeState extends State<Home> with TiuTiuPopUp {
 
     return SafeArea(
       child: Obx(
-        () => WillPopScope(
-          onWillPop: () async {
-            bool willClose = false;
+        () {
+          final isCardVisibility = homeController.cardVisibilityKind == CardVisibilityKind.card;
 
-            return showPopUp(
-              backGroundColor: AppColors.warning,
-              message: AppStrings.wannaLeave,
-              confirmText: AppStrings.yes,
-              textColor: AppColors.black,
-              barrierDismissible: false,
-              title: AppStrings.endApp,
-              denyText: AppStrings.no,
-              mainAction: () {
-                Get.back();
-              },
-              secondaryAction: () {
-                if (Platform.isIOS) {
-                  willClose = true;
-                } else {
-                  MoveToBackground.moveTaskToBack();
-                }
-                Get.back();
-              },
-            ).then((_) => willClose);
-          },
-          child: Scaffold(
-            body: NestedScrollView(
-              headerSliverBuilder: (context, innerBoxIsScrolled) {
-                return [
-                  Obx(
-                    () {
-                      return SliverAppBar(
-                        toolbarHeight: homeController.bottomBarIndex < 2
-                            ? systemController.properties.internetConnected
-                                ? 48.0.h
-                                : Dimensions.getDimensBasedOnDeviceHeight(
-                                    smaller: 92.0.h,
-                                    medium: 84.0.h,
-                                    bigger: 76.0.h,
-                                  )
-                            : 0.0,
-                        backgroundColor: Colors.transparent,
-                        automaticallyImplyLeading: false,
-                        expandedHeight: expandedHeight(),
-                        shadowColor: AppColors.white,
-                        flexibleSpace: Header(),
-                        floating: true,
-                        pinned: true,
-                      );
-                    },
-                  ),
-                ];
-              },
-              body: Stack(
-                children: [
-                  Positioned.fill(child: screens.elementAt(homeController.bottomBarIndex)),
-                  Positioned(
-                    child: AdBanner(
-                      adId: systemController.getAdMobBlockID(
-                        blockName: AdMobBlockName.homeFooterAdBlockId,
-                        type: AdMobType.banner,
+          return WillPopScope(
+            onWillPop: () async {
+              bool willClose = false;
+
+              return showPopUp(
+                backGroundColor: AppColors.warning,
+                message: AppStrings.wannaLeave,
+                confirmText: AppStrings.yes,
+                textColor: AppColors.black,
+                barrierDismissible: false,
+                title: AppStrings.endApp,
+                denyText: AppStrings.no,
+                mainAction: () {
+                  Get.back();
+                },
+                secondaryAction: () {
+                  if (Platform.isIOS) {
+                    willClose = true;
+                  } else {
+                    MoveToBackground.moveTaskToBack();
+                  }
+                  Get.back();
+                },
+              ).then((_) => willClose);
+            },
+            child: Scaffold(
+              body: NestedScrollView(
+                headerSliverBuilder: (context, innerBoxIsScrolled) {
+                  return [
+                    Obx(
+                      () {
+                        return SliverAppBar(
+                          toolbarHeight:
+                              homeController.bottomBarIndex < 2 && !systemController.properties.internetConnected
+                                  ? Dimensions.getDimensBasedOnDeviceHeight(
+                                      smaller: 92.0.h,
+                                      medium: 84.0.h,
+                                      bigger: 76.0.h,
+                                    )
+                                  : 0.0,
+                          backgroundColor: Colors.transparent,
+                          automaticallyImplyLeading: false,
+                          expandedHeight: expandedHeight(),
+                          shadowColor: AppColors.white,
+                          flexibleSpace: Header(),
+                          floating: true,
+                          pinned: true,
+                        );
+                      },
+                    ),
+                  ];
+                },
+                body: Stack(
+                  children: [
+                    Positioned.fill(child: screens.elementAt(homeController.bottomBarIndex)),
+                    Visibility(
+                      visible: !isCardVisibility,
+                      child: Positioned(
+                        child: AdBanner(
+                          adId: systemController.getAdMobBlockID(
+                            blockName: AdMobBlockName.homeFooterAdBlockId,
+                            type: AdMobType.banner,
+                          ),
+                        ),
+                        bottom: 56,
+                        right: 0,
+                        left: 0,
                       ),
                     ),
-                    bottom: 0,
-                    right: 0,
-                    left: 0,
-                  ),
-                ],
+                    Positioned(
+                      child: BottomBar(),
+                      bottom: 0,
+                      right: 0,
+                      left: 0,
+                    ),
+                  ],
+                ),
+                controller: homeController.scrollController,
+                floatHeaderSlivers: true,
               ),
-              controller: homeController.scrollController,
-              floatHeaderSlivers: true,
+              floatingActionButton: Padding(
+                padding: EdgeInsets.only(bottom: 88.0.h),
+                child: ChangePostsVisibilityFloatingButtom(
+                  visibility: homeController.bottomBarIndex < 2 && postsController.filteredPosts.isNotEmpty,
+                ),
+              ),
+              floatingActionButtonLocation: FloatingActionButtonLocation.miniEndFloat,
+              resizeToAvoidBottomInset: false,
             ),
-            floatingActionButton: ChangePostsVisibilityFloatingButtom(
-              visibility: homeController.bottomBarIndex < 2 && postsController.filteredPosts.isNotEmpty,
-            ),
-            floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-            bottomNavigationBar: BottomBar(),
-            resizeToAvoidBottomInset: false,
-          ),
-        ),
+          );
+        },
       ),
     );
   }
