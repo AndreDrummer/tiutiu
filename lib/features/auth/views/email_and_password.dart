@@ -2,7 +2,7 @@ import 'package:tiutiu/features/auth/widgets/image_carousel_background.dart';
 import 'package:tiutiu/features/auth/models/email_password_auth.dart';
 import 'package:tiutiu/core/widgets/outline_input_text.dart';
 import 'package:tiutiu/core/widgets/simple_text_button.dart';
-import 'package:tiutiu/features/auth/widgets/dark_over.dart';
+import 'package:tiutiu/features/auth/widgets/blur.dart';
 import 'package:tiutiu/features/auth/widgets/headline.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/views/load_dark_screen.dart';
@@ -31,7 +31,7 @@ class EmailAndPassword extends StatelessWidget with TiuTiuPopUp {
       body: Stack(
         children: [
           ImageCarouselBackground(),
-          DarkOver(),
+          Blur(),
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Obx(

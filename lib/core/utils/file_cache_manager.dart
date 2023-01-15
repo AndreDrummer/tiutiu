@@ -3,7 +3,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:flutter/foundation.dart';
 import 'dart:io';
 
-class FileCacheManager {
+class FileDownloader {
   static Future<File> _downloadFile({
     required String filename,
     required String fileUrl,

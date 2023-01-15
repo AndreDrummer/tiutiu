@@ -3,20 +3,16 @@ import 'package:tiutiu/core/utils/asset_handle.dart';
 import 'package:flutter/material.dart';
 
 class Background extends StatelessWidget {
-  Background({this.dark = false, this.image});
-  final bool dark;
+  Background({this.image});
+
   final image;
 
   @override
   Widget build(BuildContext context) {
-    final urlImage = image == null
-        ? dark
-            ? ImageAssets.bones2
-            : ImageAssets.bones
-        : image;
+    final urlImage = image == null ? ImageAssets.bones2 : image;
     return Container(
       child: Opacity(
-        opacity: dark || image != null ? 0.3 : 0.03,
+        opacity: image != null ? 0.3 : 0.03,
         child: AssetHandle.getImage(urlImage, fit: BoxFit.contain),
       ),
     );

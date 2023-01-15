@@ -1,7 +1,7 @@
 import 'package:tiutiu/features/delete_account/controller/delete_account.dart';
 import 'package:tiutiu/features/tiutiu_user/services/tiutiu_user_service.dart';
 import 'package:tiutiu/features/tiutiu_user/controller/user_controller.dart';
-import 'package:tiutiu/features/profile/controller/more_controller.dart';
+import 'package:tiutiu/features/more/controller/more_controller.dart';
 import 'package:tiutiu/features/posts/services/post_service.dart';
 import '../delete_account/service/delete_account_service.dart';
 import 'package:tiutiu/core/models/dependency_injection.dart';

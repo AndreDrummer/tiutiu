@@ -1,12 +1,12 @@
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/constants/text_styles.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
+import 'package:tiutiu/core/widgets/badge.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:tiutiu/core/widgets/badge.dart';
 
-class MoreCardOption extends StatelessWidget {
-  MoreCardOption({
+class CustomListTile extends StatelessWidget {
+  CustomListTile({
     this.isToCenterText = false,
     this.isToExpand = false,
     this.showBadge = false,
