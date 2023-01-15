@@ -22,6 +22,7 @@ class _PostsList extends StatelessWidget with TiuTiuPopUp {
     return StreamBuilder<List<Post>>(
       stream: postsController.postsStream(),
       builder: (context, snapshot) {
+        print('Sponsored ${snapshot.data}');
         return AsyncHandler<List<Post>>(
           forcedDataReturned: snapshot.data ?? [],
           forceReturnBuildWidget: true,
