@@ -39,8 +39,9 @@ class HomeFilterItem extends StatelessWidget {
             Container(
               height: Dimensions.getDimensBasedOnDeviceHeight(
                 smaller: 50.0.h,
-                bigger: 56.0.h,
+                xBigger: 56.0.h,
                 medium: 42.0.h,
+                bigger: 42.0.h,
               ),
               child: ClipRRect(
                 borderRadius: BorderRadius.only(
