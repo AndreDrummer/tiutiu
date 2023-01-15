@@ -39,6 +39,7 @@ class AppStrings {
   static String get backToStart => 'Voltar ao início';
   static String get repeatPassword => 'Repita a senha';
   static String get genericError => 'Ocorreu um erro';
+  static String get loadingVideo => 'Carregando vídeo';
   static String get headline1 => 'Faça Um Novo Amigo';
   static String get takeApicture => 'Tirar uma foto';
   static String get cleanFilters => 'Limpar filtros';

@@ -11,10 +11,9 @@ class SponsoredController extends GetxController {
 
   List<Sponsored> get sponsoreds => _sponsoreds;
 
-  Stream<List<Sponsored>> sponsoredAds() {
-    return _sponsoredServices.pathToSponsoredAds().snapshots().asyncMap((querySnapshot) {
-      _sponsoreds(querySnapshot.docs.map((sponsored) => Sponsored.fromSnapshot(sponsored)).toList());
-      return sponsoreds;
-    });
+  Future<void> sponsoredAds() async {
+    final querySnapshot = await _sponsoredServices.pathToSponsoredAds().get();
+
+    _sponsoreds(querySnapshot.docs.map((sponsored) => Sponsored.fromSnapshot(sponsored)).toList());
   }
 }
