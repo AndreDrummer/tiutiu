@@ -61,7 +61,10 @@ class CardAdList extends StatelessWidget {
                       ),
                       Padding(
                         padding: EdgeInsets.only(left: 6.0.w, bottom: 4.0.h, top: 4.0.h),
-                        child: cardBuilder.favoriteButton(showFavoriteButton),
+                        child: cardBuilder.favoriteButton(
+                          showAlwaysAsFavorited: false,
+                          show: showFavoriteButton,
+                        ),
                       ),
                     ],
                   ),
