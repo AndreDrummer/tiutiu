@@ -1,4 +1,3 @@
-import 'package:tiutiu/features/sponsored/model/sponsored.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/utils/launcher_functions.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
@@ -17,51 +16,47 @@ class SponsoredList extends StatelessWidget {
       smaller: 80.0.h,
     );
 
-    return StreamBuilder<List<Sponsored>>(
-      stream: sponsoredController.sponsoredAds(),
-      builder: (context, snapshot) {
-        final sponsoreds = snapshot.data ?? [];
+    final sponsoreds = sponsoredController.sponsoreds;
 
-        final visible = adminRemoteConfigController.configs.showSponsoredAds &&
-            systemController.properties.internetConnected &&
-            sponsoreds.isNotEmpty;
+    final visible = adminRemoteConfigController.configs.showSponsoredAds &&
+        systemController.properties.internetConnected &&
+        sponsoreds.isNotEmpty;
 
-        return Visibility(
-          visible: visible,
-          child: CarouselSlider.builder(
-            itemCount: sponsoreds.length,
-            itemBuilder: (context, index, realIndex) {
-              final sponsored = sponsoreds[index];
-              return GestureDetector(
-                onTap: () {
-                  Launcher.openBrowser(sponsored.link!);
-                },
-                child: Card(
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0.h)),
-                  child: Container(
-                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(12.0.h)),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(12.0.h),
-                      child: AssetHandle.getImage(sponsored.imagePath),
-                    ),
-                    alignment: Alignment.center,
-                    width: Get.width,
-                  ),
-                  margin: EdgeInsets.only(top: 4.0.h),
-                ),
-              );
+    return Visibility(
+      visible: visible,
+      child: CarouselSlider.builder(
+        itemCount: sponsoreds.length,
+        itemBuilder: (context, index, realIndex) {
+          final sponsored = sponsoreds[index];
+
+          return GestureDetector(
+            onTap: () {
+              Launcher.openBrowser(sponsored.link!);
             },
-            options: CarouselOptions(
-              enableInfiniteScroll: sponsoreds.length > 1,
-              autoPlayCurve: Curves.easeIn,
-              height: sponsoredAdsTileSize,
-              enlargeCenterPage: true,
-              viewportFraction: 1,
-              autoPlay: true,
+            child: Card(
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0.h)),
+              child: Container(
+                decoration: BoxDecoration(borderRadius: BorderRadius.circular(12.0.h)),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(12.0.h),
+                  child: AssetHandle.getImage(sponsored.imagePath),
+                ),
+                alignment: Alignment.center,
+                width: Get.width,
+              ),
+              margin: EdgeInsets.only(top: 4.0.h),
             ),
-          ),
-        );
-      },
+          );
+        },
+        options: CarouselOptions(
+          enableInfiniteScroll: sponsoreds.length > 1,
+          autoPlayCurve: Curves.easeIn,
+          height: sponsoredAdsTileSize,
+          enlargeCenterPage: true,
+          viewportFraction: 1,
+          autoPlay: true,
+        ),
+      ),
     );
   }
 }

@@ -22,15 +22,19 @@ class LottieAnimation extends StatelessWidget {
       AnimationsAssets.birdLoading,
       AnimationsAssets.catLoading,
       AnimationsAssets.dogLoading,
+      AnimationsAssets.pawLoading2,
       AnimationsAssets.dogWalking,
     ];
 
+    final path = animationPath ?? loadingAnimationsOptions.elementAt(Random().nextInt(loadingAnimationsOptions.length));
+
     return Lottie.asset(
-      animationPath ?? loadingAnimationsOptions.elementAt(Random().nextInt(loadingAnimationsOptions.length)),
       height: size ?? 96.0.h,
+      width: size ?? 96.0.h,
+      key: Key(path),
       animate: true,
       repeat: true,
-      width: size,
+      path,
     );
   }
 }
