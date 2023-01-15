@@ -25,25 +25,16 @@ class EmptyListScreen extends StatelessWidget {
       () {
         final filterParams = filterController.getParams;
 
-        final filterParamsIsExotic = filterParams.type == PetTypeStrings.exotic;
-
         final animationEmpty = getAnimationBasedonFilter(filterParams);
 
         return Column(
           children: [
             Visibility(
               child: Container(
-                child: Image.asset(ImageAssets.notFoundET),
-                height: Get.width / 3,
-              ),
-              visible: isAPetScreenList && filterParamsIsExotic,
-            ),
-            Visibility(
-              child: Container(
                 child: LottieAnimation(animationPath: animationEmpty),
                 height: Get.width / 3,
               ),
-              visible: isAPetScreenList && !filterParamsIsExotic,
+              visible: isAPetScreenList,
             ),
             AutoSizeTexts.autoSizeText12(text ?? AppStrings.noPostFound),
             Visibility(
