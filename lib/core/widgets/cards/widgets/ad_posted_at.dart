@@ -1,5 +1,6 @@
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/constants/text_styles.dart';
+import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/core/constants/strings.dart';
 import 'package:tiutiu/core/utils/formatter.dart';
 import 'package:flutter/material.dart';
@@ -20,7 +21,7 @@ class AdPostedAt extends StatelessWidget {
         '${AppStrings.postedAt} ${Formatters.getFormattedDate(createdAt)}',
         fontWeight: FontWeight.w700,
         textAlign: TextAlign.left,
-        color: Colors.grey,
+        color: AppColors.white,
       ),
     );
   }
