@@ -1,5 +1,5 @@
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:tiutiu/features/sponsored/views/sponsored_screen.dart';
+import 'package:tiutiu/features/sponsored/views/sponsored_list.dart';
 import 'package:tiutiu/features/posts/model/filter_params.dart';
 import 'package:tiutiu/core/extensions/string_extension.dart';
 import 'package:tiutiu/core/widgets/input_close_button.dart';
@@ -64,7 +64,7 @@ class TopBar extends StatelessWidget {
                 ),
               ),
               HighPriorityInfoBanner(),
-              SponsoredScreen(),
+              SponsoredList(),
               WarningBanner(
                 showBannerCondition: !systemController.properties.internetConnected && postsController.posts.isNotEmpty,
                 textWarning: AppStrings.noConnectionWarning,
