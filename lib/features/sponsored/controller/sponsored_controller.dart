@@ -7,9 +7,14 @@ class SponsoredController extends GetxController {
 
   final SponsoredServices _sponsoredServices;
 
-  final RxList<Sponsored> _sponsored = <Sponsored>[].obs;
+  final RxList<Sponsored> _sponsoreds = <Sponsored>[].obs;
+
+  List<Sponsored> get sponsoreds => _sponsoreds;
 
   Stream<List<Sponsored>> sponsoredAds() {
-    return _sponsoredServices.sponsoredAds().asyncMap(_sponsored);
+    return _sponsoredServices.pathToSponsoredAds().snapshots().asyncMap((querySnapshot) {
+      _sponsoreds(querySnapshot.docs.map((sponsored) => Sponsored.fromSnapshot(sponsored)).toList());
+      return sponsoreds;
+    });
   }
 }

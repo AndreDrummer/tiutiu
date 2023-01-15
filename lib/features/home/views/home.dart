@@ -2,8 +2,10 @@ import 'dart:io';
 
 import 'package:tiutiu/core/widgets/change_posts_visibility_floating_button.dart';
 import 'package:tiutiu/features/home/utils/expanded_home_height_size.dart';
+import 'package:tiutiu/core/remote_config/model/admin_remote_config.dart';
 import 'package:tiutiu/features/admob/constants/admob_block_names.dart';
 import 'package:tiutiu/core/migration/service/migration_service.dart';
+import 'package:tiutiu/features/sponsored/model/sponsored.dart';
 import 'package:tiutiu/features/posts/flow/init_post_flow.dart';
 import 'package:tiutiu/features/home/widgets/bottom_bar.dart';
 import 'package:tiutiu/features/admob/widgets/ad_banner.dart';
@@ -94,8 +96,8 @@ class _HomeState extends State<Home> with TiuTiuPopUp {
                                   )
                             : 0.0,
                         backgroundColor: Colors.transparent,
-                        expandedHeight: expandedHeight(),
                         automaticallyImplyLeading: false,
+                        expandedHeight: expandedHeight(),
                         shadowColor: AppColors.white,
                         flexibleSpace: Header(),
                         floating: true,
@@ -137,8 +139,10 @@ class _HomeState extends State<Home> with TiuTiuPopUp {
   }
 
   double expandedHeight() {
-    final showingSponsoredAds = adminRemoteConfigController.configs.showSponsoredAds;
-    final defaultExpandedHeight = expandedHomeHeightDefault(showingSponsoredAds: showingSponsoredAds);
+    final AdminRemoteConfig configs = adminRemoteConfigController.configs;
+    final List<Sponsored> sponsoreds = sponsoredController.sponsoreds;
+
+    final showingSponsoredAds = configs.showSponsoredAds && sponsoreds.isNotEmpty;
 
     if (homeController.bottomBarIndex < 2) {
       final thereIsDeveloperCommunication = adminRemoteConfigController.configs.thereIsAdminCommunication;
@@ -151,7 +155,7 @@ class _HomeState extends State<Home> with TiuTiuPopUp {
       } else if (showInfoBanner) {
         return expandedHomeHeightWithoutInternetConnection(showingSponsoredAds: showingSponsoredAds);
       } else {
-        return defaultExpandedHeight;
+        return expandedHomeHeightDefault(showingSponsoredAds: showingSponsoredAds);
       }
     }
 
