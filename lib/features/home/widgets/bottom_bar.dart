@@ -1,3 +1,4 @@
+import 'package:tiutiu/features/home/controller/home_controller.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
@@ -11,26 +12,30 @@ class BottomBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Obx(
-      () => BottomNavigationBar(
-          onTap: (index) => homeController.setIndex(index),
-          currentIndex: homeController.bottomBarIndex,
-          selectedItemColor: AppColors.primary,
-          unselectedItemColor: AppColors.white,
-          type: BottomNavigationBarType.fixed,
-          backgroundColor: Colors.black,
-          showSelectedLabels: true,
-          items: getBottomBarLabelsVerified()
-              .map(
-                (label) => BottomNavigationBarItem(
-                  icon: Icon(
-                    getBottomBarIconsVerified().elementAt(
-                      getBottomBarLabelsVerified().indexOf(label),
+      () {
+        final isCardVisibility = homeController.cardVisibilityKind == CardVisibilityKind.card;
+
+        return BottomNavigationBar(
+            backgroundColor: isCardVisibility ? AppColors.black.withOpacity(.3) : AppColors.black,
+            onTap: (index) => homeController.setIndex(index),
+            currentIndex: homeController.bottomBarIndex,
+            selectedItemColor: AppColors.primary,
+            unselectedItemColor: AppColors.white,
+            type: BottomNavigationBarType.fixed,
+            showSelectedLabels: true,
+            items: getBottomBarLabelsVerified()
+                .map(
+                  (label) => BottomNavigationBarItem(
+                    icon: Icon(
+                      getBottomBarIconsVerified().elementAt(
+                        getBottomBarLabelsVerified().indexOf(label),
+                      ),
                     ),
+                    label: label,
                   ),
-                  label: label,
-                ),
-              )
-              .toList()),
+                )
+                .toList());
+      },
     );
   }
 
