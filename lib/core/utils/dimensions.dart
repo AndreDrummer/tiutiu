@@ -20,7 +20,9 @@ class Dimensions {
     required double bigger,
     required double medium,
     double? xSmaller,
+    double? xBigger,
   }) {
+    if (isXBigDevice()) return xBigger ?? bigger;
     if (isMediumDevice()) return medium;
     if (isSmallDevice()) return smaller;
     if (isBigDevice()) return bigger;
@@ -30,11 +32,12 @@ class Dimensions {
 
   static bool isSmallDevice() => Get.height > _xSmallDeviceMaxSize && Get.height <= _smallDeviceMaxSize;
   static bool isMediumDevice() => Get.height > _smallDeviceMaxSize && Get.height <= _mediumDeviceMaxSize;
+  static bool isBigDevice() => Get.height > _mediumDeviceMaxSize && Get.height <= _bigDeviceMaxSize;
   static bool isXSmallDevice() => Get.height <= _xSmallDeviceMaxSize;
-  static bool isBigDevice() => Get.height > _bigDeviceMinimumSize;
+  static bool isXBigDevice() => Get.height > _bigDeviceMaxSize;
 
-  static double _bigDeviceMinimumSize = 890;
   static double _xSmallDeviceMaxSize = 650;
   static double _mediumDeviceMaxSize = 890;
   static double _smallDeviceMaxSize = 750;
+  static double _bigDeviceMaxSize = 933;
 }
