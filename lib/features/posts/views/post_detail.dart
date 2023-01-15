@@ -120,7 +120,7 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
                         toolbarHeight: toolBarHeight(description.length),
                         backgroundColor: Colors.transparent,
                         automaticallyImplyLeading: false,
-                        expandedHeight: Get.height / 1.6,
+                        expandedHeight: Get.height / 1.5,
                         shadowColor: AppColors.white,
                         floating: true,
                         pinned: true,
@@ -515,11 +515,8 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
           },
         ),
         Positioned(
-          child: LottieAnimation(
-            animationPath: AnimationsAssets.petLocationPin,
-            size: 32.0.h,
-          ),
-          left: Get.width / 4,
+          child: LottieAnimation(animationPath: AnimationsAssets.petLocationPin, size: 32.0.h),
+          left: post.disappeared ? Get.width / 2.4 : Get.width / 4,
         )
       ],
     );
