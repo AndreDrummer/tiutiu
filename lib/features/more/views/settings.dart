@@ -1,9 +1,9 @@
 import 'package:tiutiu/core/widgets/default_basic_app_bar.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:tiutiu/core/widgets/custom_list_tile.dart';
 import 'package:tiutiu/core/utils/routes/routes_name.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
-import 'package:tiutiu/core/widgets/my_account_card.dart';
 import 'package:tiutiu/core/mixins/tiu_tiu_pop_up.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/core/constants/strings.dart';
@@ -25,7 +25,7 @@ class _SettingsState extends State<Settings> with TiuTiuPopUp {
           child: ListView(
             children: [
               SizedBox(height: 6.0.h),
-              MoreCardOption(
+              CustomListTile(
                 icon: FontAwesomeIcons.penToSquare,
                 onPressed: () {
                   Get.toNamed(Routes.editProfile);
@@ -33,7 +33,7 @@ class _SettingsState extends State<Settings> with TiuTiuPopUp {
                 text: SettingsStrings.editProfile,
               ),
               Divider(),
-              MoreCardOption(
+              CustomListTile(
                 icon: FontAwesomeIcons.earthAmericas,
                 text: SettingsStrings.setMyProfileAsONG,
                 badgeText: AppStrings.commingSoon,
@@ -41,7 +41,7 @@ class _SettingsState extends State<Settings> with TiuTiuPopUp {
                 showBadge: true,
               ),
               Divider(),
-              MoreCardOption(
+              CustomListTile(
                 icon: Icons.person_off,
                 onPressed: () {
                   _deleteAccount();
@@ -49,7 +49,7 @@ class _SettingsState extends State<Settings> with TiuTiuPopUp {
                 text: MyProfileOptionsTile.deleteAccount,
               ),
               Divider(),
-              MoreCardOption(
+              CustomListTile(
                 icon: FontAwesomeIcons.arrowRightFromBracket,
                 onPressed: () {
                   _exitApp();
