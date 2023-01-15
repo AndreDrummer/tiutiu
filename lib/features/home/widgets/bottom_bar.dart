@@ -16,7 +16,7 @@ class BottomBar extends StatelessWidget {
         final isCardVisibility = homeController.cardVisibilityKind == CardVisibilityKind.card;
 
         return BottomNavigationBar(
-            backgroundColor: isCardVisibility ? AppColors.black.withOpacity(.3) : AppColors.black,
+            backgroundColor: isCardVisibility ? AppColors.black.withOpacity(.2) : AppColors.black,
             onTap: (index) => homeController.setIndex(index),
             currentIndex: homeController.bottomBarIndex,
             selectedItemColor: AppColors.primary,
