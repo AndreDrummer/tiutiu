@@ -12,8 +12,7 @@ class LoadingImageAnimation extends StatefulWidget {
   State<LoadingImageAnimation> createState() => _LoadingImageAnimationState();
 }
 
-class _LoadingImageAnimationState extends State<LoadingImageAnimation>
-    with SingleTickerProviderStateMixin {
+class _LoadingImageAnimationState extends State<LoadingImageAnimation> with SingleTickerProviderStateMixin {
   static final valueAnimation = Tween<double>(begin: 0.1, end: 1);
   late AnimationController controller;
   late Animation<double> animation;
@@ -21,9 +20,7 @@ class _LoadingImageAnimationState extends State<LoadingImageAnimation>
   @override
   void initState() {
     super.initState();
-    controller =
-        AnimationController(duration: const Duration(seconds: 1), vsync: this)
-          ..repeat();
+    controller = AnimationController(duration: const Duration(seconds: 1), vsync: this)..repeat();
 
     animation = CurvedAnimation(parent: controller, curve: Curves.easeIn)
       ..addStatusListener((status) {

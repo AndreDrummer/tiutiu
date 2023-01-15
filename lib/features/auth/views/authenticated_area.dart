@@ -1,5 +1,5 @@
 import 'package:tiutiu/features/auth/views/start_screen_or_home.dart';
-import 'package:tiutiu/features/profile/views/edit_profile.dart';
+import 'package:tiutiu/features/more/views/edit_profile.dart';
 import 'package:tiutiu/features/auth/views/auth_hosters.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:tiutiu/core/views/load_dark_screen.dart';
