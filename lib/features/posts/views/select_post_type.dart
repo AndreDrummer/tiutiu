@@ -53,7 +53,10 @@ class SelectPostType extends StatelessWidget with TiuTiuPopUp {
             ],
           ),
         ),
-        bottomNavigationBar: _buttons(),
+        bottomNavigationBar: Padding(
+          padding: EdgeInsets.only(bottom: 40.h),
+          child: _buttons(),
+        ),
       ),
     );
   }

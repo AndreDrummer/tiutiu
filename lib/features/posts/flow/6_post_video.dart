@@ -86,7 +86,10 @@ class PostVideo extends StatelessWidget {
     );
   }
 
-  Widget _playVideo() => VideoPlayerPicker(videoPath: postsController.post.video.path);
+  Widget _playVideo() {
+    final videoUrl = postsController.post.video is File ? postsController.post.video.path : postsController.post.video;
+    return VideoPlayerPicker(videoPath: videoUrl);
+  }
 
   Widget _videoErrorLabel() {
     return Obx(

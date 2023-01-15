@@ -17,15 +17,16 @@ class LottieAnimation extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final loadingAnimationsOptions = [
+      AnimationsAssets.pawsLoading,
+      AnimationsAssets.walkWithDog,
       AnimationsAssets.birdLoading,
       AnimationsAssets.catLoading,
       AnimationsAssets.dogLoading,
       AnimationsAssets.dogWalking,
-      AnimationsAssets.pawLoading,
     ];
 
     return Lottie.asset(
-      animationPath ?? loadingAnimationsOptions.elementAt(Random().nextInt(4)),
+      animationPath ?? loadingAnimationsOptions.elementAt(Random().nextInt(loadingAnimationsOptions.length)),
       height: size ?? 96.0.h,
       animate: true,
       repeat: true,
