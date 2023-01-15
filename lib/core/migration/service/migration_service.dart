@@ -65,7 +65,7 @@ class MigrationService {
 
   void moveSomeDocumentDataToProd() async {
     debugPrint('|| MIGRATION Starting... ||');
-    final migratingDocument = 'adminRemoteConfigs';
+    final migratingDocument = 'sponsoreds';
 
     final data = await _pathToDocumentData('debug', migratingDocument).get();
     debugPrint('|| MDATA ${data.data()} ||');

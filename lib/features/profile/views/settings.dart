@@ -82,7 +82,7 @@ class _SettingsState extends State<Settings> with TiuTiuPopUp {
       },
       secondaryAction: () {
         Get.back();
-        authController.signOut();
+        authController.signOut().then((value) => Get.offAllNamed(Routes.startScreen));
       },
       backGroundColor: AppColors.warning,
       barrierDismissible: false,
