@@ -1,14 +1,14 @@
-import 'package:tiutiu/core/extensions/string_extension.dart';
-import 'package:tiutiu/core/pets/model/pet_model.dart';
-import 'package:tiutiu/features/posts/widgets/text_area.dart';
+import 'package:tiutiu/core/location/models/states_and_cities.dart';
 import 'package:tiutiu/core/widgets/underline_input_dropdown.dart';
+import 'package:tiutiu/core/extensions/string_extension.dart';
+import 'package:tiutiu/features/posts/widgets/text_area.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
-import 'package:tiutiu/core/location/models/states_and_cities.dart';
 import 'package:tiutiu/core/constants/text_styles.dart';
+import 'package:tiutiu/core/pets/model/pet_model.dart';
+import 'package:tiutiu/features/posts/model/post.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/core/constants/strings.dart';
-import 'package:tiutiu/features/posts/model/post.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

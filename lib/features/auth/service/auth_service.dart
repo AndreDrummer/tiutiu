@@ -1,5 +1,5 @@
-import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/features/auth/models/firebase_auth_provider.dart';
+import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class AuthService {

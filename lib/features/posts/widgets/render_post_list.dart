@@ -32,8 +32,8 @@ class RenderPostList extends StatelessWidget {
             padding: EdgeInsets.only(
               top: Dimensions.getDimensBasedOnDeviceHeight(
                 smaller: Get.width / 4,
-                bigger: Get.width / 2,
-                medium: Get.width / 2,
+                bigger: Get.width / 4,
+                medium: Get.width / 4,
               ),
             ),
             child: EmptyListScreen(),

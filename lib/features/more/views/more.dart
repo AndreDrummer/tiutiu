@@ -1,10 +1,10 @@
 import 'package:tiutiu/features/auth/views/authenticated_area.dart';
 import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:tiutiu/core/widgets/custom_list_tile.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:tiutiu/core/utils/routes/routes_name.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
-import 'package:tiutiu/core/widgets/my_account_card.dart';
 import 'package:tiutiu/core/constants/assets_path.dart';
 import 'package:tiutiu/core/constants/text_styles.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
@@ -157,7 +157,7 @@ class More extends StatelessWidget {
 
           return Padding(
             padding: EdgeInsets.only(bottom: lastIndex ? 1.0.h : 0.0.h),
-            child: MoreCardOption(
+            child: CustomListTile(
               icon: moreController.myProfileOptionsIcon.elementAt(index),
               isToCenterText: false,
               isToExpand: true,
