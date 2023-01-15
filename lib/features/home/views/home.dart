@@ -138,7 +138,7 @@ class _HomeState extends State<Home> with TiuTiuPopUp {
                 floatHeaderSlivers: true,
               ),
               floatingActionButton: Padding(
-                padding: EdgeInsets.only(bottom: 88.0.h),
+                padding: EdgeInsets.only(bottom: isCardVisibility ? 88.0.h : 80.0.h, right: 8.0.w),
                 child: ChangePostsVisibilityFloatingButtom(
                   visibility: homeController.bottomBarIndex < 2 && postsController.filteredPosts.isNotEmpty,
                 ),

@@ -100,7 +100,7 @@ class TopBar extends StatelessWidget {
           AutoSizeTexts.autoSizeText12(
             '${Formatters.formmatedExtendedDate()}',
             textAlign: TextAlign.left,
-            color: AppColors.secondary,
+            color: AppColors.primary,
           ),
         ],
       ),
