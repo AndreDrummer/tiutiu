@@ -2,11 +2,15 @@ import 'package:tiutiu/core/widgets/cards/widgets/card_builder.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
+import 'package:tiutiu/core/widgets/loading_video.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
+import 'package:tiutiu/core/widgets/video_error.dart';
 import 'package:tiutiu/features/posts/model/post.dart';
 import 'package:tiutiu/core/utils/dimensions.dart';
+import 'package:better_player/better_player.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'dart:io';
 
 class CardAd extends StatefulWidget {
   CardAd({
@@ -26,6 +30,10 @@ class CardAd extends StatefulWidget {
 }
 
 class _CardAdState extends State<CardAd> {
+  late Post post;
+
+  bool hasVideo() => widget.post.video != null;
+
   double favoriteAnimationOpcaity = 0;
 
   Widget favoritedAnimation() {
@@ -65,7 +73,7 @@ class _CardAdState extends State<CardAd> {
                     medium: widget.inReviewMode ? Get.height / 2.0 : Get.height / 1.5,
                     bigger: widget.inReviewMode ? Get.height / 2.0 : Get.height / 1.5,
                   ),
-                  child: widget.cardBuilder.adImages(),
+                  child: postImages(),
                   width: double.infinity,
                 ),
                 Positioned(
@@ -73,7 +81,10 @@ class _CardAdState extends State<CardAd> {
                   bottom: 0.0.h,
                 ),
                 Positioned(
-                  child: widget.cardBuilder.favoriteButton(!widget.inReviewMode && widget.showFavoriteButton),
+                  child: widget.cardBuilder.favoriteButton(
+                    show: !widget.inReviewMode && widget.showFavoriteButton,
+                    showAlwaysAsFavorited: true,
+                  ),
                   bottom: 16.0.h,
                   left: Get.width / 2.5,
                 ),
@@ -88,6 +99,10 @@ class _CardAdState extends State<CardAd> {
         ),
       ),
     );
+  }
+
+  Widget postImages() {
+    return hasVideo() ? _postVideo() : widget.cardBuilder.adImages();
   }
 
   Container _postTileInfo() {
@@ -134,6 +149,37 @@ class _CardAdState extends State<CardAd> {
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _postVideo() {
+    final post = widget.post;
+    final videoUrl = post.video is File ? post.video.path : post.video;
+    final betterPlayerControlsConfiguration = BetterPlayerControlsConfiguration(showControls: false);
+
+    return ClipRRect(
+      borderRadius: BorderRadius.only(
+        topRight: Radius.circular(8),
+        topLeft: Radius.circular(8),
+      ),
+      child: BetterPlayerListVideoPlayer(
+        BetterPlayerDataSource(BetterPlayerDataSourceType.network, videoUrl),
+        configuration: BetterPlayerConfiguration(
+          controlsConfiguration: betterPlayerControlsConfiguration,
+          placeholder: LoadingVideo(),
+          aspectRatio: .5,
+          errorBuilder: (context, errorMessage) {
+            return VideoError(
+              onRetry: () {
+                setState(() {});
+              },
+            );
+          },
+          fit: BoxFit.cover,
+        ),
+        key: Key(post.uid.toString()),
+        playFraction: 0.7,
       ),
     );
   }

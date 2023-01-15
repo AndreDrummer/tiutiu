@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:tiutiu/features/dennounce/views/post_dennounce_screen.dart';
 import 'package:tiutiu/features/dennounce/widgets/dennounce_button.dart';
 import 'package:tiutiu/features/favorites/widgets/favorite_button.dart';
@@ -8,7 +6,6 @@ import 'package:tiutiu/core/widgets/pet_other_caracteristics_card.dart';
 import 'package:tiutiu/features/posts/widgets/post_action_button.dart';
 import 'package:tiutiu/core/pets/model/pet_caracteristics_model.dart';
 import 'package:tiutiu/features/dennounce/model/post_dennounce.dart';
-import 'package:tiutiu/core/local_storage/local_storage_keys.dart';
 import 'package:tiutiu/core/widgets/no_connection_text_info.dart';
 import 'package:tiutiu/features/posts/widgets/card_content.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -30,9 +27,11 @@ import 'package:tiutiu/core/mixins/tiu_tiu_pop_up.dart';
 import 'package:tiutiu/core/constants/assets_path.dart';
 import 'package:tiutiu/core/constants/text_styles.dart';
 import 'package:tiutiu/core/utils/other_functions.dart';
+import 'package:tiutiu/core/widgets/loading_video.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/features/posts/model/post.dart';
 import 'package:tiutiu/core/pets/model/pet_model.dart';
+import 'package:tiutiu/core/widgets/video_error.dart';
 import 'package:tiutiu/core/widgets/button_wide.dart';
 import 'package:tiutiu/core/utils/asset_handle.dart';
 import 'package:tiutiu/core/constants/strings.dart';
@@ -42,6 +41,7 @@ import 'package:better_player/better_player.dart';
 import 'package:maps_launcher/maps_launcher.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'dart:io';
 
 class PostDetails extends StatefulWidget {
   @override
@@ -57,7 +57,6 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
   @override
   void initState() {
     post = postsController.post;
-    loadAdvertise();
     if (post.video != null) initializeVideoController();
 
     super.initState();
@@ -80,58 +79,32 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
     _betterPlayerDataSource = BetterPlayerDataSource(
       BetterPlayerDataSourceType.network,
       videoUrl,
-      cacheConfiguration: BetterPlayerCacheConfiguration(
-        key: LocalStorageKey.videosCached.name,
-        maxCacheFileSize: 10 * 1024 * 1024,
-        preCacheSize: 10 * 1024 * 1024,
-        maxCacheSize: 10 * 1024 * 1024,
-        useCache: true,
-      ),
+      cacheConfiguration: BetterPlayerCacheConfiguration(useCache: true, key: post.uid),
     );
 
     _betterPlayerController = BetterPlayerController(
       BetterPlayerConfiguration(
-        allowedScreenSleep: false,
-        autoDispose: false,
+        placeholder: LoadingVideo(),
         aspectRatio: .5,
         errorBuilder: (context, errorMessage) {
-          return Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(FontAwesomeIcons.triangleExclamation, color: AppColors.white),
-                SizedBox(height: 4.0.h),
-                AutoSizeTexts.autoSizeText14(PostDetailsStrings.videoPlayerError, color: AppColors.white),
-                SizedBox(height: 16.0.h),
-                TextButton(
-                  onPressed: () {
-                    _betterPlayerController.retryDataSource();
-                    setState(() {});
-                  },
-                  child: AutoSizeTexts.autoSizeText12(AppStrings.tryAgain, color: AppColors.white),
-                )
-              ],
-            ),
+          return VideoError(
+            onRetry: () {
+              _betterPlayerController.retryDataSource();
+              setState(() {});
+            },
           );
         },
-        expandToFill: true,
         fit: BoxFit.cover,
-        autoPlay: false,
       ),
       betterPlayerDataSource: _betterPlayerDataSource,
     );
-  }
-
-  Future<void> loadAdvertise() async {
-    await adMobController.loadWhatsAppRewardedAd();
-    await adMobController.loadChatRewardedAd();
   }
 
   bool postBelongsToMe() => postsController.postBelongsToMe();
 
   void onLeaveScreen() {
     if (!postsController.isInReviewMode) {
-      // postsController.clearForm();
+      postsController.clearForm();
       Get.offAllNamed(Routes.home);
     }
   }

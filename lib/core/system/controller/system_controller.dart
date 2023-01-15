@@ -56,6 +56,7 @@ class SystemController extends GetxController {
       await StatesAndCities.stateAndCities.getUFAndCities();
       await currentLocationController.updateGPSStatus();
       await currentLocationController.setUserLocation();
+      await sponsoredController.sponsoredAds();
       await postsController.getAllPosts();
       await _getAdMobIDs();
 

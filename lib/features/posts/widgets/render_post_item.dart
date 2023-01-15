@@ -16,8 +16,8 @@ class RenderListItem extends StatelessWidget {
     this.showBackToStartButton = false,
     this.showFavoriteButton = true,
     this.onNavigateToTop,
-    this.onItemTapped,
     required this.post,
+    this.onItemTapped,
     super.key,
   });
 
