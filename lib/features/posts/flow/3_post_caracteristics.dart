@@ -21,15 +21,12 @@ SizedBox _otherCaracteristicsGrid(List<String> caracs) {
   return SizedBox(
     height: Get.height / 2,
     child: GridView.count(
-      padding: EdgeInsets.only(top: 8.0.h),
-      physics: NeverScrollableScrollPhysics(),
-      childAspectRatio: 18 / 3,
+      childAspectRatio: 3,
       crossAxisSpacing: 2.0.h,
       mainAxisSpacing: 8.0.h,
       crossAxisCount: 2,
       children: caracs.map((carac) {
-        return SizedBox(
-          height: 12.0.h,
+        return Center(
           child: CheckboxListTile(
             controlAffinity: ListTileControlAffinity.leading,
             title: AutoSizeTexts.autoSizeText12(carac),
