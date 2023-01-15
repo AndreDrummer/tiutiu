@@ -2,19 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 	<dict>
-		<key>FirebaseDynamicLinksCustomDomains</key>
-		<array>
-			<string>https://www.anjasolutions.com/tiutiu/share</string>
-			<string>https://anjasolutions.com/tiutiu/share</string>
-			<string>https://www.anjasolutions.com/tiutiu</string>
-			<string>https://anjasolutions.com/tiutiu</string>
-			<string>https://www.anjasolutions.com</string>
-			<string>https://anjasolutions.com</string>
-		</array>
-		<key>FirebaseCrashlyticsCollectionEnabled</key>
-		<false/>
 		<key>CADisableMinimumFrameDurationOnPhone</key>
-		<true />
+		<true/>
 		<key>CFBundleDevelopmentRegion</key>
 		<string>$(DEVELOPMENT_LANGUAGE)</string>
 		<key>CFBundleDisplayName</key>
@@ -63,6 +52,17 @@
 		<string>1ea0f62bebebd8921b15b82af2c81a4a</string>
 		<key>FacebookDisplayName</key>
 		<string>Tiu, tiu</string>
+		<key>FirebaseCrashlyticsCollectionEnabled</key>
+		<false/>
+		<key>FirebaseDynamicLinksCustomDomains</key>
+		<array>
+			<string>https://www.anjasolutions.com/tiutiu/share</string>
+			<string>https://anjasolutions.com/tiutiu/share</string>
+			<string>https://www.anjasolutions.com/tiutiu</string>
+			<string>https://anjasolutions.com/tiutiu</string>
+			<string>https://www.anjasolutions.com</string>
+			<string>https://anjasolutions.com</string>
+		</array>
 		<key>GADApplicationIdentifier</key>
 		<string>ca-app-pub-2837828701670824~6305781256</string>
 		<key>LSApplicationQueriesSchemes</key>
@@ -73,7 +73,7 @@
 			<string>fbshareextension</string>
 		</array>
 		<key>LSRequiresIPhoneOS</key>
-		<true />
+		<true/>
 		<key>NSCameraUsageDescription</key>
 		<string>É necessário para que você consiga tirar uma foto.</string>
 		<key>NSLocationWhenInUseUsageDescription</key>
@@ -88,11 +88,11 @@
 			<string>remote-notification</string>
 		</array>
 		<key>UILaunchStoryboardName</key>
-		<string>LaunchScreen</string>
+		<string>LaunchScreen.storyboard</string>
 		<key>UIMainStoryboardFile</key>
 		<string>Main</string>
 		<key>UIStatusBarHidden</key>
-		<false />
+		<false/>
 		<key>UISupportedInterfaceOrientations</key>
 		<array>
 			<string>UIInterfaceOrientationPortrait</string>
@@ -107,6 +107,6 @@
 			<string>UIInterfaceOrientationLandscapeRight</string>
 		</array>
 		<key>UIViewControllerBasedStatusBarAppearance</key>
-		<false />
+		<false/>
 	</dict>
 </plist>
