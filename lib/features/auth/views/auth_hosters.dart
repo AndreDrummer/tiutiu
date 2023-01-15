@@ -29,7 +29,7 @@ class AuthHosters extends StatelessWidget with TiuTiuPopUp {
           _gradient(),
           _appLogo(),
           Positioned(
-            bottom: 8.0.h,
+            bottom: 48.0.h,
             left: 8.0,
             right: 8.0,
             child: Column(
