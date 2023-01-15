@@ -1,5 +1,5 @@
 import 'package:tiutiu/core/controllers/controllers.dart';
-import 'package:tiutiu/core/location/extensions/service_location_status.dart';
+import 'package:tiutiu/core/extensions/service_location_status.dart';
 import 'package:tiutiu/core/local_storage/local_storage_keys.dart';
 import 'package:tiutiu/core/extensions/string_extension.dart';
 import 'package:tiutiu/core/local_storage/local_storage.dart';

@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 enum SupportUsEnum {
-  warningMessage,
   backgroundImages,
+  warningMessage,
   keyType,
   pixKey,
 }

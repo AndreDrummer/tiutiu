@@ -3,7 +3,6 @@ class ImageAssets {
   static String get googlePlaces => 'assets/images/google-places.webp';
   static String get noConnection => 'assets/images/no-connection.webp';
   static String get profileEmpty => 'assets/images/profileEmpty.webp';
-  static String get notFoundET => 'assets/images/not-found-et.webp';
   static String get playstoreLogo => 'assets/images/playstore.webp';
   static String get applestoreLogo => 'assets/images/apple.webp';
   static String get instaLogo => 'assets/images/insta.webp';
@@ -11,7 +10,6 @@ class ImageAssets {
   static String get bones2 => 'assets/images/bones2.webp';
   static String get follow => 'assets/images/follow.webp';
   static String get tiutiu => 'assets/images/tiutiu.webp';
-  static String get bones => 'assets/images/bones.webp';
   static String get face => 'assets/images/face.webp';
 }
 
@@ -30,12 +28,6 @@ class StartScreenAssets {
   static String get liu2 => 'assets/startscreen/liu2.webp';
   static String get liu => 'assets/startscreen/liu.webp';
   static String get all => 'assets/startscreen/all.webp';
-}
-
-class DonateAssets {
-  static String get donate1 => 'assets/images/donate1.webp';
-  static String get donate2 => 'assets/images/donate2.webp';
-  static String get donate3 => 'assets/images/donate3.webp';
 }
 
 class JsonAssets {
