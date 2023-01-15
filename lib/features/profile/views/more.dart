@@ -97,7 +97,7 @@ class More extends StatelessWidget {
       child: Container(
         child: ClipOval(
           child: CircleAvatar(
-            child: AssetHandle.getImage(_user.avatar),
+            child: AssetHandle.getImage(_user.avatar, isUserImage: true),
           ),
         ),
         alignment: Alignment.center,
