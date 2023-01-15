@@ -27,6 +27,7 @@ class AdImages extends StatelessWidget {
     );
 
     return Container(
+      margin: EdgeInsets.zero,
       decoration: BoxDecoration(
         color: AppColors.white,
         borderRadius: BorderRadius.only(

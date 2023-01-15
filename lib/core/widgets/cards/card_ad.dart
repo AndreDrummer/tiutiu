@@ -1,7 +1,7 @@
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/widgets/cards/widgets/card_builder.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/features/posts/model/post.dart';
 import 'package:tiutiu/core/utils/dimensions.dart';
@@ -62,8 +62,8 @@ class _CardAdState extends State<CardAd> {
                   height: Dimensions.getDimensBasedOnDeviceHeight(
                     xSmaller: widget.inReviewMode ? Get.height / 2.4 : Get.height / 1.5,
                     smaller: widget.inReviewMode ? Get.height / 2.2 : Get.height / 1.5,
-                    medium: Get.height / 1.5,
-                    bigger: Get.height / 1.5,
+                    medium: widget.inReviewMode ? Get.height / 2.0 : Get.height / 1.5,
+                    bigger: widget.inReviewMode ? Get.height / 2.0 : Get.height / 1.5,
                   ),
                   child: widget.cardBuilder.adImages(),
                   width: double.infinity,
@@ -94,7 +94,7 @@ class _CardAdState extends State<CardAd> {
     return Container(
       width: Get.width,
       decoration: BoxDecoration(
-        color: AppColors.black.withOpacity(.3),
+        color: AppColors.black.withOpacity(.2),
       ),
       child: Container(
         margin: EdgeInsets.only(top: 8.0.h, left: 8.0.w),

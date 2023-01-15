@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:tiutiu/features/dennounce/views/post_dennounce_screen.dart';
 import 'package:tiutiu/features/dennounce/widgets/dennounce_button.dart';
 import 'package:tiutiu/features/favorites/widgets/favorite_button.dart';
@@ -74,9 +76,10 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
   }
 
   void initializeVideoController() {
+    final videoUrl = post.video is File ? post.video.path : post.video;
     _betterPlayerDataSource = BetterPlayerDataSource(
       BetterPlayerDataSourceType.network,
-      post.video,
+      videoUrl,
       cacheConfiguration: BetterPlayerCacheConfiguration(
         key: LocalStorageKey.videosCached.name,
         maxCacheFileSize: 10 * 1024 * 1024,
@@ -128,7 +131,7 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
 
   void onLeaveScreen() {
     if (!postsController.isInReviewMode) {
-      postsController.clearForm();
+      // postsController.clearForm();
       Get.offAllNamed(Routes.home);
     }
   }

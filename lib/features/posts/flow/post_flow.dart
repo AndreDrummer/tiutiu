@@ -1,17 +1,19 @@
+import 'package:tiutiu/core/widgets/change_posts_visibility_floating_button.dart';
+import 'package:tiutiu/features/home/controller/home_controller.dart';
 import 'package:tiutiu/features/posts/flow/3_post_caracteristics.dart';
 import 'package:tiutiu/features/posts/flow/2_post_description.dart';
-import 'package:tiutiu/core/widgets/default_basic_app_bar.dart';
 import 'package:tiutiu/features/posts/flow/4_post_location.dart';
+import 'package:tiutiu/core/widgets/default_basic_app_bar.dart';
 import 'package:tiutiu/features/posts/flow/5_post_images.dart';
 import 'package:tiutiu/features/posts/flow/7_review_post.dart';
-import 'package:tiutiu/core/widgets/simple_text_button.dart';
 import 'package:tiutiu/features/posts/flow/6_post_video.dart';
+import 'package:tiutiu/core/widgets/simple_text_button.dart';
 import 'package:tiutiu/features/posts/flow/1_post_info.dart';
 import 'package:tiutiu/features/posts/widgets/stepper.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:tiutiu/core/views/load_dark_screen.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/widgets/row_button_bar.dart';
+import 'package:tiutiu/core/views/load_dark_screen.dart';
 import 'package:tiutiu/core/widgets/one_line_text.dart';
 import 'package:tiutiu/core/mixins/tiu_tiu_pop_up.dart';
 import 'package:tiutiu/core/pets/model/pet_model.dart';
@@ -29,6 +31,8 @@ class PostFlow extends StatelessWidget with TiuTiuPopUp {
       onWillPop: () async => false,
       child: Obx(
         () {
+          final isCardVisibilityKind = homeController.cardVisibilityKind == CardVisibilityKind.card;
+
           List<String> _screensTitle = [
             PostFlowStrings.petsData,
             PostFlowStrings.moreDetails,
@@ -70,11 +74,14 @@ class PostFlow extends StatelessWidget with TiuTiuPopUp {
           return Stack(
             children: [
               Scaffold(
+                floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+                floatingActionButton: ChangePostsVisibilityFloatingButtom(),
                 appBar: _appBar(),
                 resizeToAvoidBottomInset: true,
                 backgroundColor: AppColors.white,
-                body: SizedBox(
-                  height: Get.height,
+                body: Container(
+                  alignment: Alignment.center,
+                  height: Get.height / (isCardVisibilityKind ? 1.45 : 2.9),
                   child: Column(
                     children: [
                       Padding(
