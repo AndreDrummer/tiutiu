@@ -7,7 +7,7 @@ import 'package:tiutiu/core/remote_config/controller/admin_remote_config.dart';
 import 'package:tiutiu/features/delete_account/controller/delete_account.dart';
 import 'package:tiutiu/features/tiutiu_user/controller/user_controller.dart';
 import 'package:tiutiu/features/posts/controller/filter_controller.dart';
-import 'package:tiutiu/features/profile/controller/more_controller.dart';
+import 'package:tiutiu/features/more/controller/more_controller.dart';
 import 'package:tiutiu/features/posts/controller/posts_controller.dart';
 import 'package:tiutiu/features/admob/controller/admob_controller.dart';
 import 'package:tiutiu/features/talk_with_us/controller/feedback.dart';

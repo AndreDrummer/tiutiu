@@ -1,9 +1,9 @@
-import 'package:tiutiu/core/utils/validators.dart';
 import 'package:tiutiu/features/tiutiu_user/services/tiutiu_user_service.dart';
 import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
 import 'package:tiutiu/core/extensions/string_extension.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:tiutiu/core/utils/validators.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 
@@ -42,8 +42,6 @@ class TiutiuUserController extends GetxController {
   void resetUserWithThisUser({TiutiuUser? user}) {
     _tiutiuUser(user ?? TiutiuUser());
   }
-
-  Future<void> handleNotifications(data) async {}
 
   Future<TiutiuUser> getUserById(String id) async {
     final TiutiuUser user = await _tiutiuUserService.getUserByID(id);

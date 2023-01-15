@@ -1,5 +1,5 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:tiutiu/core/models/mapper.dart';
 import 'package:uuid/uuid.dart';
 

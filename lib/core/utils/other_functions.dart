@@ -1,8 +1,8 @@
-import 'package:tiutiu/core/models/dynamic_link_parameters.dart';
 import 'package:tiutiu/features/posts/views/announcer_profile.dart';
 import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:tiutiu/core/local_storage/local_storage_keys.dart';
+import 'package:tiutiu/core/models/dynamic_link_parameters.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiutiu/core/extensions/string_extension.dart';
 import 'package:tiutiu/core/constants/firebase_env_path.dart';
@@ -187,7 +187,7 @@ class OtherFunctions {
         file = sharedFilesMap[post.uid];
       } else {
         debugPrint('TiuTiuApp: Shared Files Map is null $sharedFilesMap');
-        file = await FileCacheManager.save(
+        file = await FileDownloader.save(
           filename: post.name ?? '${post.type}',
           fileUrl: post.photos[0],
           type: FileType.images,

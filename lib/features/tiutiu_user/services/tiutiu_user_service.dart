@@ -1,6 +1,6 @@
-import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
 import 'package:tiutiu/core/constants/endpoints_name.dart';
+import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/utils/endpoint_resolver.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:tiutiu/features/posts/model/post.dart';
