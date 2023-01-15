@@ -4,9 +4,9 @@ import 'package:tiutiu/features/favorites/widgets/favorite_button.dart';
 import 'package:tiutiu/features/admob/constants/admob_block_names.dart';
 import 'package:tiutiu/core/widgets/pet_other_caracteristics_card.dart';
 import 'package:tiutiu/features/posts/widgets/post_action_button.dart';
-import 'package:tiutiu/features/posts/widgets/post_detail_video.dart';
 import 'package:tiutiu/core/pets/model/pet_caracteristics_model.dart';
 import 'package:tiutiu/features/dennounce/model/post_dennounce.dart';
+import 'package:tiutiu/core/local_storage/local_storage_keys.dart';
 import 'package:tiutiu/core/widgets/no_connection_text_info.dart';
 import 'package:tiutiu/features/posts/widgets/card_content.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -36,10 +36,10 @@ import 'package:tiutiu/core/utils/asset_handle.dart';
 import 'package:tiutiu/core/constants/strings.dart';
 import 'package:tiutiu/core/utils/dimensions.dart';
 import 'package:tiutiu/core/utils/formatter.dart';
+import 'package:better_player/better_player.dart';
 import 'package:maps_launcher/maps_launcher.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'dart:io';
 
 class PostDetails extends StatefulWidget {
   @override
@@ -47,6 +47,8 @@ class PostDetails extends StatefulWidget {
 }
 
 class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
+  late BetterPlayerController _betterPlayerController;
+  late BetterPlayerDataSource _betterPlayerDataSource;
   bool isLoadingVideo = true;
   late Post post;
 
@@ -54,8 +56,67 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
   void initState() {
     post = postsController.post;
     loadAdvertise();
+    if (post.video != null) initializeVideoController();
 
     super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    _betterPlayerController.preCache(_betterPlayerDataSource);
+    super.didChangeDependencies();
+  }
+
+  @override
+  void dispose() {
+    _betterPlayerController.dispose();
+    super.dispose();
+  }
+
+  void initializeVideoController() {
+    _betterPlayerDataSource = BetterPlayerDataSource(
+      BetterPlayerDataSourceType.network,
+      post.video,
+      cacheConfiguration: BetterPlayerCacheConfiguration(
+        key: LocalStorageKey.videosCached.name,
+        maxCacheFileSize: 10 * 1024 * 1024,
+        preCacheSize: 10 * 1024 * 1024,
+        maxCacheSize: 10 * 1024 * 1024,
+        useCache: true,
+      ),
+    );
+
+    _betterPlayerController = BetterPlayerController(
+      BetterPlayerConfiguration(
+        allowedScreenSleep: false,
+        autoDispose: false,
+        aspectRatio: .5,
+        errorBuilder: (context, errorMessage) {
+          return Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(FontAwesomeIcons.triangleExclamation, color: AppColors.white),
+                SizedBox(height: 4.0.h),
+                AutoSizeTexts.autoSizeText14(PostDetailsStrings.videoPlayerError, color: AppColors.white),
+                SizedBox(height: 16.0.h),
+                TextButton(
+                  onPressed: () {
+                    _betterPlayerController.retryDataSource();
+                    setState(() {});
+                  },
+                  child: AutoSizeTexts.autoSizeText12(AppStrings.tryAgain, color: AppColors.white),
+                )
+              ],
+            ),
+          );
+        },
+        expandToFill: true,
+        fit: BoxFit.cover,
+        autoPlay: false,
+      ),
+      betterPlayerDataSource: _betterPlayerDataSource,
+    );
   }
 
   Future<void> loadAdvertise() async {
@@ -371,9 +432,6 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
     final hasVideo = post.video != null;
     final photos = post.photos;
 
-    final video = post.video;
-    final videoPath = video is File ? video.path : video;
-
     return Container(
       width: double.infinity,
       color: Colors.black,
@@ -383,13 +441,24 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
         itemCount: hasVideo ? photos.length + 1 : photos.length,
         itemBuilder: (BuildContext context, int index) {
           if (hasVideo && index == 0) {
-            return PostDetailVideo(videoUrl: videoPath);
+            return _video();
           } else if (!hasVideo) {
             return _image(photos, index);
           }
           return _image(photos, index - 1);
         },
         controller: pageController,
+      ),
+    );
+  }
+
+  SafeArea _video() {
+    return SafeArea(
+      child: AspectRatio(
+        aspectRatio: _betterPlayerController.getAspectRatio() ?? 16 / 9,
+        child: BetterPlayer(
+          controller: _betterPlayerController,
+        ),
       ),
     );
   }
