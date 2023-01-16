@@ -1,5 +1,6 @@
 class ImageAssets {
   static String get googleMapsPin => 'assets/images/google-maps-pin.webp';
+  static String get whatsappShare => 'assets/images/whatsapp_share.webp';
   static String get googlePlaces => 'assets/images/google-places.webp';
   static String get noConnection => 'assets/images/no-connection.webp';
   static String get profileEmpty => 'assets/images/profileEmpty.webp';

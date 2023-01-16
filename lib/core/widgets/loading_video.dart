@@ -14,7 +14,7 @@ class LoadingVideo extends StatelessWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        LottieAnimation(animationPath: AnimationsAssets.pawLoading2, size: 64),
+        LottieAnimation(animationPath: AnimationsAssets.pawLoading2, size: 48),
         SizedBox(height: 8.0.h),
         AutoSizeTexts.autoSizeText14(
           AppStrings.loadingVideo,
