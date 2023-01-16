@@ -14,9 +14,8 @@ class BottomBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Obx(
       () {
-        final isInVideoPage = homeController.bottomBarIndex == BottomBarIndex.VIDEOS.indx;
         return BottomNavigationBar(
-            backgroundColor: isInVideoPage ? AppColors.black.withOpacity(.2) : AppColors.black,
+            backgroundColor: AppColors.black,
             onTap: (index) => homeController.setIndex(index),
             currentIndex: homeController.bottomBarIndex,
             selectedItemColor: AppColors.primary,

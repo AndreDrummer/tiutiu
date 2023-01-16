@@ -49,7 +49,9 @@ class Pet extends Post {
       type: snapshot.get(PostEnum.type.name) ?? '-',
       ownerId: snapshot.get(PostEnum.ownerId.name),
       photos: snapshot.get(PostEnum.photos.name),
+      shared: snapshot.get(PostEnum.shared.name),
       likes: snapshot.get(PostEnum.likes.name),
+      saved: snapshot.get(PostEnum.saved.name),
       video: snapshot.get(PostEnum.video.name),
       name: snapshot.get(PostEnum.name.name),
       reference: snapshot.reference,
@@ -84,6 +86,8 @@ class Pet extends Post {
     String? ownerId,
     this.reward = '',
     int likes = 0,
+    int saved = 0,
+    int shared = 0,
     int views = 0,
     dynamic video,
     String? name,
@@ -101,10 +105,12 @@ class Pet extends Post {
           latitude: latitude,
           ownerId: ownerId,
           photos: photos,
+          shared: shared,
           state: state,
           views: views,
           owner: owner,
           video: video,
+          saved: saved,
           likes: likes,
           city: city,
           type: type,
@@ -132,6 +138,8 @@ class Pet extends Post {
       city: map[PostEnum.city.name] ?? 'Acrelândia',
       state: map[PostEnum.state.name] ?? 'Acre',
       ageMonth: map[PetEnum.ageMonth.name] ?? 0,
+      saved: map[PostEnum.saved.name] ?? 0,
+      shared: map[PostEnum.shared.name] ?? 0,
       health: map[PetEnum.health.name] ?? '-',
       gender: map[PetEnum.gender.name] ?? '-',
       longitude: map[PostEnum.longitude.name],
@@ -187,13 +195,15 @@ class Pet extends Post {
       PetEnum.ageMonth.name: ageMonth,
       PostEnum.ownerId.name: ownerId,
       PetEnum.ageYear.name: ageYear,
+      PostEnum.shared.name: shared,
       PetEnum.health.name: health,
       PetEnum.gender.name: gender,
       PetEnum.reward.name: reward,
       PostEnum.state.name: state,
       PostEnum.views.name: views,
-      PetEnum.color.name: color,
+      PostEnum.saved.name: saved,
       PostEnum.likes.name: likes,
+      PetEnum.color.name: color,
       PetEnum.breed.name: breed,
       PostEnum.type.name: type,
       PostEnum.name.name: name,
@@ -205,7 +215,7 @@ class Pet extends Post {
 
   @override
   String toString() {
-    return 'Pet(otherCaracteristics: $otherCaracteristics, chronicDiseaseInfo: $chronicDiseaseInfo, lastSeenDetails: $lastSeenDetails, donatedOrFound: $donatedOrFound, createdAt: $createdAt, likes: $likes, owner: $owner, longitude: $longitude, disappeared: $disappeared, latitude: $latitude, ownerId: $ownerId, timesDennounced: $timesDennounced, description: $description, gender: $gender, health: $health, color: $color, ageMonth: $ageMonth, breed: $breed, ageYear: $ageYear, size: $size, state: $state, photos: $photos, name: $name, type: $type, city: $city, uid: $uid, views: $views, video: $video, reward: $reward, reference: $reference,dennounceMotives: $dennounceMotives)';
+    return 'Pet(otherCaracteristics: $otherCaracteristics, saved: $saved, shared: $shared, chronicDiseaseInfo: $chronicDiseaseInfo, lastSeenDetails: $lastSeenDetails, donatedOrFound: $donatedOrFound, createdAt: $createdAt, likes: $likes, owner: $owner, longitude: $longitude, disappeared: $disappeared, latitude: $latitude, ownerId: $ownerId, timesDennounced: $timesDennounced, description: $description, gender: $gender, health: $health, color: $color, ageMonth: $ageMonth, breed: $breed, ageYear: $ageYear, size: $size, state: $state, photos: $photos, name: $name, type: $type, city: $city, uid: $uid, views: $views, video: $video, reward: $reward, reference: $reference,dennounceMotives: $dennounceMotives)';
   }
 
   @override
@@ -230,6 +240,8 @@ class Pet extends Post {
         other.ageYear == ageYear &&
         other.gender == gender &&
         other.reward == reward &&
+        other.saved == saved &&
+        other.shared == shared &&
         other.health == health &&
         other.photos == photos &&
         other.owner == owner &&
@@ -265,6 +277,8 @@ class Pet extends Post {
         ownerId.hashCode ^
         ageYear.hashCode ^
         gender.hashCode ^
+        shared.hashCode ^
+        saved.hashCode ^
         photos.hashCode ^
         health.hashCode ^
         owner.hashCode ^

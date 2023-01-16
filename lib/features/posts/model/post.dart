@@ -22,6 +22,8 @@ enum PostEnum {
   views,
   name,
   likes,
+  shared,
+  saved,
   type,
   city,
   uid,
@@ -43,6 +45,8 @@ class Post implements Mapper {
     this.reference,
     this.longitude,
     this.createdAt,
+    this.shared = 0,
+    this.saved = 0,
     this.likes = 0,
     this.latitude,
     this.ownerId,
@@ -69,10 +73,12 @@ class Post implements Mapper {
       latitude: map[PostEnum.latitude.name],
       type: map[PostEnum.type.name] ?? '-',
       ownerId: map[PostEnum.ownerId.name],
+      shared: map[PostEnum.shared.name] ?? 0,
+      likes: map[PostEnum.likes.name] ?? 0,
+      saved: map[PostEnum.saved.name] ?? 0,
       views: map[PostEnum.views.name] ?? 0,
       photos: map[PostEnum.photos.name],
       hidden: map[PostEnum.hidden.name],
-      likes: map[PostEnum.likes.name],
       video: map[PostEnum.video.name],
       name: map[PostEnum.name.name],
       done: map[PostEnum.done.name],
@@ -98,6 +104,8 @@ class Post implements Mapper {
   String city;
   String? uid;
   bool done;
+  int shared;
+  int saved;
   int views;
   int likes;
 
@@ -116,10 +124,12 @@ class Post implements Mapper {
       PostEnum.createdAt.name: createdAt,
       PostEnum.latitude.name: latitude,
       PostEnum.ownerId.name: ownerId,
+      PostEnum.shared.name: shared,
       PostEnum.hidden.name: hidden,
       PostEnum.state.name: state,
       PostEnum.views.name: views,
       PostEnum.likes.name: likes,
+      PostEnum.saved.name: saved,
       PostEnum.type.name: type,
       PostEnum.name.name: name,
       PostEnum.city.name: city,
@@ -130,7 +140,7 @@ class Post implements Mapper {
 
   @override
   String toString() {
-    return 'Post(createdAt: $createdAt, owner: $owner, reference: $reference, longitude: $longitude, latitude: $latitude, ownerId: $ownerId, timesDennounced: $timesDennounced, description: $description, state: $state, photos: $photos, name: $name, type: $type, city: $city, uid: $uid, views: $views, video: $video, hidden: $hidden, likes: $likes, done: $done, dennounceMotives: $dennounceMotives)';
+    return 'Post(createdAt: $createdAt, saved: $saved, owner: $owner, shared: $shared, reference: $reference, longitude: $longitude, latitude: $latitude, ownerId: $ownerId, timesDennounced: $timesDennounced, description: $description, state: $state, photos: $photos, name: $name, type: $type, city: $city, uid: $uid, views: $views, video: $video, hidden: $hidden, likes: $likes, done: $done, dennounceMotives: $dennounceMotives)';
   }
 
   @override
@@ -148,12 +158,14 @@ class Post implements Mapper {
         other.ownerId == ownerId &&
         other.photos == photos &&
         other.hidden == hidden &&
+        other.shared == shared &&
+        other.saved == saved &&
         other.video == video &&
         other.state == state &&
         other.owner == owner &&
         other.views == views &&
-        other.name == name &&
         other.likes == likes &&
+        other.name == name &&
         other.done == done &&
         other.type == type &&
         other.city == city &&
@@ -173,8 +185,10 @@ class Post implements Mapper {
         ownerId.hashCode ^
         photos.hashCode ^
         hidden.hashCode ^
+        shared.hashCode ^
         owner.hashCode ^
         video.hashCode ^
+        saved.hashCode ^
         views.hashCode ^
         state.hashCode ^
         name.hashCode ^
