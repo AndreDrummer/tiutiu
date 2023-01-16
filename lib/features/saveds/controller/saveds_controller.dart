@@ -17,6 +17,8 @@ class SavedsController extends GetxController {
   void save(Post post) {
     debugPrint('TiuTiuApp: Add to saves');
     _savesCollection().doc(post.uid).set(post.toMap());
+
+    // TODO: INC POST SAVEDS
   }
 
   void unsave(Post post) {

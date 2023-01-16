@@ -6,7 +6,7 @@ import 'package:tiutiu/core/migration/service/migration_service.dart';
 import 'package:tiutiu/features/home/controller/home_controller.dart';
 import 'package:tiutiu/features/sponsored/model/sponsored.dart';
 import 'package:tiutiu/features/posts/flow/init_post_flow.dart';
-import 'package:tiutiu/features/videos/views/posts_videos.dart';
+import 'package:tiutiu/features/tiutiutok/views/tiutiutok.dart';
 import 'package:tiutiu/features/home/widgets/bottom_bar.dart';
 import 'package:tiutiu/features/admob/widgets/ad_banner.dart';
 import 'package:tiutiu/features/posts/views/posts_list.dart';
@@ -46,7 +46,7 @@ class _HomeState extends State<Home> with TiuTiuPopUp {
   Widget build(BuildContext context) {
     final screens = <Widget>[
       DonateList(),
-      PostsVideos(),
+      TiutiuTok(),
       InitPostFlow(),
       FinderList(),
       More(),
