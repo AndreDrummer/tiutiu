@@ -51,34 +51,36 @@ class AppStrings {
   static const String commingSoon = 'Em breve';
   static String get provideInfo => 'Informar';
   static String get views => 'visualizações';
-  static String get favorites => 'Favoritos';
+  static String get find => 'Ajude encontrar';
   static String get getStarted => 'Começar';
   static String get loading => 'Carregando';
   static String get success => 'Sucesso!';
+  static String get saveds => 'Salvos';
   static String get contines => 'Continuar';
   static String get infos => 'informações';
   static String get postedAt => 'Postado';
   static String get profile => 'Perfil';
   static String get cancel => 'Cancelar';
   static String get password => 'Senha';
-  static String get adopte => 'Adotar';
-  static String get find => 'Encontrar';
   static String get warning => 'Aviso';
   static String get watch => 'Assistir';
   static String get name => 'Tiu, tiu';
+  static String get adopte => 'Adote';
   static String get email => 'E-mail';
   static String get wait => 'Aguarde';
   static String get post => 'Postar';
-  static const String chat = 'Chat';
   static String get back => 'Voltar';
   static String get send => 'Enviar';
   static String get save => 'Salvar';
   static String get leave => 'Sair';
   static String get more => 'Mais';
+  static String videos = 'Videos';
+  static String tiutok = 'Tiu Tok';
   static String get type => 'Tipo';
   static String get yes => 'Sim';
   static String get no => 'Não';
   static String get ok => 'OK';
+  static String chat = 'Chat';
 }
 
 class AuthStrings {
@@ -259,9 +261,10 @@ class MyProfileOptionsTile {
   static const String about = 'Sobre o aplicativo';
   static const String talkWithUs = 'Fale conosco';
   static const String settings = 'Configurações';
-  static const String favorites = 'Favoritos';
   static const String ourNet = 'Nossa redes';
+  static const String messages = 'Mensagens';
   static const String myPosts = 'Meus Posts';
+  static const String saveds = 'Salvos';
   static const String support = 'Apoie';
   static const String leave = 'Sair';
 }
@@ -349,8 +352,8 @@ class ChatStrings {
   static const String startConversation = 'Incie a conversa';
   static const String noContact = 'Nenhum contato ainda';
   static const String deleteMessage = 'Apagar mensagem';
+  static const String myMessages = 'Minhas Mensagens';
   static const String deleteChat = 'Apagar conversa';
-  static const String myContacts = 'Meus Contatos';
   static const String news = 'Nova';
 }
 

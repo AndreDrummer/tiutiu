@@ -6,17 +6,17 @@ import 'package:tiutiu/core/migration/service/migration_service.dart';
 import 'package:tiutiu/features/home/controller/home_controller.dart';
 import 'package:tiutiu/features/sponsored/model/sponsored.dart';
 import 'package:tiutiu/features/posts/flow/init_post_flow.dart';
+import 'package:tiutiu/features/videos/views/posts_videos.dart';
 import 'package:tiutiu/features/home/widgets/bottom_bar.dart';
 import 'package:tiutiu/features/admob/widgets/ad_banner.dart';
 import 'package:tiutiu/features/posts/views/posts_list.dart';
-import 'package:tiutiu/features/chat/views/my_contacts.dart';
 import 'package:move_to_background/move_to_background.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/features/home/widgets/header.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
-import 'package:tiutiu/features/more/views/more.dart';
 import 'package:tiutiu/core/mixins/tiu_tiu_pop_up.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
+import 'package:tiutiu/features/more/views/more.dart';
 import 'package:tiutiu/core/constants/strings.dart';
 import 'package:tiutiu/core/utils/dimensions.dart';
 import 'package:flutter/material.dart';
@@ -46,16 +46,17 @@ class _HomeState extends State<Home> with TiuTiuPopUp {
   Widget build(BuildContext context) {
     final screens = <Widget>[
       DonateList(),
-      FinderList(),
+      PostsVideos(),
       InitPostFlow(),
-      Obx(() => tiutiuUserController.tiutiuUser.emailVerified ? MyContacts() : More()),
+      FinderList(),
       More(),
     ];
 
     return SafeArea(
       child: Obx(
         () {
-          final isCardVisibility = homeController.cardVisibilityKind == CardVisibilityKind.card;
+          final conditionToShowFloatingButton = homeController.bottomBarIndex == BottomBarIndex.DONATE.indx ||
+              homeController.bottomBarIndex == BottomBarIndex.FINDER.indx;
 
           return WillPopScope(
             onWillPop: () async {
@@ -89,14 +90,13 @@ class _HomeState extends State<Home> with TiuTiuPopUp {
                     Obx(
                       () {
                         return SliverAppBar(
-                          toolbarHeight:
-                              homeController.bottomBarIndex < 2 && !systemController.properties.internetConnected
-                                  ? Dimensions.getDimensBasedOnDeviceHeight(
-                                      smaller: 92.0.h,
-                                      medium: 84.0.h,
-                                      bigger: 76.0.h,
-                                    )
-                                  : 0.0,
+                          toolbarHeight: conditionToShowFloatingButton && !systemController.properties.internetConnected
+                              ? Dimensions.getDimensBasedOnDeviceHeight(
+                                  smaller: 92.0.h,
+                                  medium: 84.0.h,
+                                  bigger: 76.0.h,
+                                )
+                              : 0.0,
                           backgroundColor: Colors.transparent,
                           automaticallyImplyLeading: false,
                           expandedHeight: expandedHeight(),
@@ -113,7 +113,7 @@ class _HomeState extends State<Home> with TiuTiuPopUp {
                   children: [
                     Positioned.fill(child: screens.elementAt(homeController.bottomBarIndex)),
                     Visibility(
-                      visible: !isCardVisibility,
+                      visible: homeController.bottomBarIndex != BottomBarIndex.VIDEOS.indx,
                       child: Positioned(
                         child: AdBanner(
                           adId: systemController.getAdMobBlockID(
@@ -138,9 +138,9 @@ class _HomeState extends State<Home> with TiuTiuPopUp {
                 floatHeaderSlivers: true,
               ),
               floatingActionButton: Padding(
-                padding: EdgeInsets.only(bottom: isCardVisibility ? 40.0.h : 88.0.h, right: 8.0.w),
+                padding: EdgeInsets.only(bottom: 88.0.h),
                 child: ChangePostsVisibilityFloatingButtom(
-                  visibility: homeController.bottomBarIndex < 2 && postsController.filteredPosts.isNotEmpty,
+                  visibility: conditionToShowFloatingButton && postsController.filteredPosts.isNotEmpty,
                 ),
               ),
               floatingActionButtonLocation: FloatingActionButtonLocation.miniEndFloat,
@@ -158,7 +158,10 @@ class _HomeState extends State<Home> with TiuTiuPopUp {
 
     final showingSponsoredAds = configs.showSponsoredAds && sponsoreds.isNotEmpty;
 
-    if (homeController.bottomBarIndex < 2) {
+    final conditionToAddHeight = homeController.bottomBarIndex == BottomBarIndex.DONATE.indx ||
+        homeController.bottomBarIndex == BottomBarIndex.FINDER.indx;
+
+    if (conditionToAddHeight) {
       final thereIsDeveloperCommunication = adminRemoteConfigController.configs.thereIsAdminCommunication;
 
       final showInfoBanner = !systemController.properties.internetConnected ||

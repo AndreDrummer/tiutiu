@@ -1,5 +1,5 @@
 import 'package:tiutiu/core/widgets/cards/widgets/ad_distance_from_user.dart';
-import 'package:tiutiu/features/favorites/widgets/favorite_button.dart';
+import 'package:tiutiu/features/favorites/widgets/save_button.dart';
 import 'package:tiutiu/core/widgets/cards/widgets/ad_description.dart';
 import 'package:tiutiu/core/widgets/cards/widgets/ad_city_state.dart';
 import 'package:tiutiu/core/widgets/cards/widgets/ad_posted_at.dart';
@@ -21,15 +21,7 @@ class CardBuilder {
   final bool inReviewMode;
   final Post _post;
 
-  Widget favoriteButton({required bool show, required bool showAlwaysAsFavorited}) {
-    return AddRemoveFavorite(
-      showAlwaysAsFavorited: showAlwaysAsFavorited,
-      isRemoveButton: false,
-      post: _post,
-      tiny: true,
-      show: show,
-    );
-  }
+  Widget saveButton({required bool show}) => SaveOrUnsave(post: _post, tiny: true, show: show);
 
   Widget adCityState() => AdCityState(state: (_post as Pet).state, city: (_post as Pet).city);
 
