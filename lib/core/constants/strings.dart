@@ -3,17 +3,16 @@ import 'package:tiutiu/core/constants/contact_type.dart';
 class AppStrings {
   static String get crashlyticsInfo =>
       'Para melhor resolver possíveis falhas no aplicativo gostaríamos de receber relatório de falhas automaticamente.\n\nDeseja enviar relatórios de falhas automaticamente para os desenvolvedores?';
-  static String get noConnectionWarning => 'Estes anúncios podem estar desatualizados porque você está sem internet.';
+  static String get noConnectionWarning => 'Estes posts podem estar desatualizados porque você está sem internet.';
+  static String get verifyEmailToSeeContactInfo => 'Verifique seu email para ver as informações de contato!';
   static String get authError => 'Ocorreu um erro com sua autenticação.\nTente sair e entrar novamente.';
   static String get unableToGenerateSharebleFile => 'Não foi possível gerar arquivo compartilhável.';
-  static String get headline2 => 'Muitos Pets Lindos\nEstão Aguardando Por Você';
-  static String get verifyEmailToSeeContactInfo =>
-      'Verifique seu email para ver as informações de contato deste anúncio!';
   static String get doLoginWarning => 'Faça login para ter acesso a todas as funcionalidades.';
+  static String get headline2 => 'Muitos Pets Lindos\nEstão Aguardando Por Você';
   static String get verifyAccountWarning => 'Sua conta ainda não foi verificada!';
   static String get verifyFilters => 'Verifique seus filtros de busca.';
   static String get tryAgainInABrief =>
-      'Anúncios temporariamente indisponíveis.\nEntre novamente em alguns minutos.\n\nAgradecessemos a compreensão!';
+      'Postagens temporariamente indisponíveis.\nEntre novamente em alguns minutos.\n\nAgradecessemos a compreensão!';
   static String watchAnAd(ContactType contactType, bool noPreviousData) {
     if (noPreviousData) {
       if (contactType == ContactType.whatsapp) return 'Assista um vídeo para conversar via WhatsApp.';
@@ -87,7 +86,7 @@ class AuthStrings {
   static const String demandRecentLoginWarning = 'Está ação requer que você faça login novamente.\n\nDeseja deslogar?';
   static String passwordShouldBeAtLeast(String field, int length) => '$field deve ter no mínimo $length dígitos';
   static const String unableToResendEmail = 'Não foi possível reenviar o e-mail. Tente novamente mais tarde!';
-  static const String verifyEmailAdvice = 'Somente contas verificadas podem publicar um anúncio.';
+  static const String verifyEmailAdvice = 'Somente contas verificadas podem fazer uma publicação.';
   static const String tryVerifyCodeAgain = 'Não foi possível verificar o código.\nTente novamente.';
   static const String confirmeIfThisNumberIsCorrect = 'Confirme se o número está correto.';
   static const String weWilSendACodeToThisNumber = 'Vamos enviar um código para o número';
@@ -222,7 +221,7 @@ class PostDetailsStrings {
     return 'Onde está o PET';
   }
 
-  static String get preparingPostToShare => 'Preparando anúncio para compartilhar';
+  static String get preparingPostToShare => 'Preparando o post para compartilhar';
   static String get videoPlayerError => 'Erro ao reproduzir o video';
   static String get describBreed => 'Escreva o nome da raça';
   static String get caracteristics => 'Características';
@@ -251,9 +250,8 @@ class MoreStrings {
   static const String howCallYou = 'Como devo te chamar?';
   static const String whatsapp = 'Seu número de WhatsApp';
   static const String insertAPicture = 'Insira uma foto';
+  static const String myAds = 'Minhas postagens';
   static const String myProfile = 'Meu perfil';
-  static const String myAds = 'Meus anúncios';
-  static const String ads = 'Anúncios';
 }
 
 class MyProfileOptionsTile {
@@ -287,7 +285,7 @@ class PostFlowStrings {
     return 'Onde está o PET?';
   }
 
-  static const String stillSendingAd = 'Ainda publicando seu anúncio...\n\nPor favor, aguarde nesta tela!';
+  static const String stillSendingAd = 'Ainda fazendo seu publicação...\n\nPor favor, aguarde nesta tela!';
   static const String videoSizeExceed = 'Tamanho máximo do vídeo excedido!\nO vídeo deve ter até 1:30 min';
   static const String postCancelMessage = 'Saindo agora todos os dados serão perdidos.\nContinuar?';
   static const String otherCaracteristicsOptional = 'Outras características (Opcional)';
@@ -295,34 +293,34 @@ class PostFlowStrings {
   static const String reviewYourPost = 'Clique no card para revisar seu post';
   static const String describeDiseaseType = 'Descreva qual o tipo de doença';
   static const String insertAtLeastOnePicture = 'Insira pelo menos uma foto';
-  static const String deletingAd = 'Deletando anúncio...';
-  static const String adDeleted = 'Anúncio Excluído!';
+  static const String deletingAd = 'Deletando postagens...';
+  static const String adDeleted = 'Postagem Excluída!';
   static String imageQty(int imagesQty) {
     return imagesQty > 1 ? 'Enviando as fotos...' : 'Enviando a foto...';
   }
 
   static const String isThisPetDisappeared = 'Este PET está desaparecido?';
   static const String fillFullAddress = 'Preencher endereço completo?';
-  static const String deleteForever = 'Excluir anúncio em definitivo?';
   static const String otherCaracteristics = 'Outras caracteristicas';
   static const String provideMoreDetails = 'Fornecer mais detalhes';
   static const String selectPetType = 'Selecione o tipo de PET';
   static const String addVideo = 'Se quiser, adicione um vídeo.';
   static const String moreDetails = 'Mais detalhes e descrição';
   static const String addDescription = 'Adicione uma descrição';
-  static const String fillAdData = 'Preencher dados do anúncio';
+  static const String fillAdData = 'Preencher dados da postagem';
   static const String addMorePictures = 'Adicionar mais fotos';
   static const String postCancelTitle = 'Cancelar postagem?';
   static const String sendingVideo = 'Enviando o vídeo...';
   static const String typeAddress = 'Digite o endereço';
+  static const String deleteForever = 'Excluir post?';
   static const String sendingData = 'Enviando dados...';
-  static const String postUpdate = 'Atualizar anúncio';
+  static const String postUpdate = 'Atualizar post';
   static const String reward = 'Recompensa (Opcional)';
   static const String finalizing = 'Finalizando...';
   static const String removeVideo = 'Remover vídeo';
-  static const String deleteAd = 'Apagar Anúncio';
+  static const String deleteAd = 'Apagar post';
   static const String picTime = 'Hora das fotos!';
-  static const String editAd = 'Editar Anúncio';
+  static const String editAd = 'Editar post';
   static const String petsData = 'Dados do PET';
   static const String allDone = 'Tudo pronto!';
   static const String reviewButton = 'Revisar';
@@ -366,8 +364,8 @@ class DeleteAccountStrings {
   static const String whichBugs = 'Quais bugs aconteceram?';
   static const String cannotUse = 'Não consigo usar o app';
   static const String alreadyAdopted = 'Já adotei um PET';
+  static const String deletingAds = 'Excluíndo postagens';
   static const String alreadyDonated = 'Já doei meu PET';
-  static const String deletingAds = 'Excluíndo anúncios';
   static const String deleteAccount = 'Excluir conta';
   static const String muchAds = 'Muitos anúncios';
   static const String finishing = 'Finalizando';
@@ -400,8 +398,8 @@ class SupportUsStrings {
 
 class PostDennounceStrings {
   static const String announceNoAnswer = 'Anunciante não responde';
+  static const String fake = 'É uma publicação enganosa';
   static const String sexualContent = 'Conteúdo Sexual';
-  static const String fake = 'É um anúncio falso';
   static const String other = 'Outro';
 }
 

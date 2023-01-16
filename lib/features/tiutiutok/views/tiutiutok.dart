@@ -1,13 +1,12 @@
+import 'package:tiutiu/features/saveds/widgets/post_is_saved_stream.dart';
 import 'package:tiutiu/core/location/models/states_and_cities.dart';
-import 'package:tiutiu/core/utils/formatter.dart';
-import 'package:tiutiu/core/utils/other_functions.dart';
-import 'package:tiutiu/features/favorites/widgets/post_is_saved_stream.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/utils/routes/routes_name.dart';
 import 'package:tiutiu/core/widgets/lottie_animation.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/views/load_dark_screen.dart';
+import 'package:tiutiu/core/utils/other_functions.dart';
 import 'package:tiutiu/core/widgets/loading_video.dart';
 import 'package:tiutiu/core/constants/assets_path.dart';
 import 'package:tiutiu/core/constants/text_styles.dart';
@@ -17,13 +16,16 @@ import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:tiutiu/core/widgets/video_error.dart';
 import 'package:tiutiu/core/utils/asset_handle.dart';
+import 'package:tiutiu/core/utils/formatter.dart';
 import 'package:better_player/better_player.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class PostsVideos extends StatelessWidget {
+class TiutiuTok extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    late Post post;
+
     return Obx(() {
       final postsWithVideo = postsController.posts.where((post) => post.video != null).toList();
 
@@ -32,7 +34,7 @@ class PostsVideos extends StatelessWidget {
         child: CarouselSlider.builder(
           itemCount: postsWithVideo.length,
           itemBuilder: (context, index, realIndex) {
-            final post = postsWithVideo[index];
+            post = postsWithVideo[index];
 
             return Stack(
               children: [
@@ -44,9 +46,6 @@ class PostsVideos extends StatelessWidget {
             );
           },
           options: CarouselOptions(
-            onScrolled: (_) {
-              postsController.post;
-            },
             scrollDirection: Axis.vertical,
             autoPlayCurve: Curves.easeIn,
             enableInfiniteScroll: false,
@@ -130,9 +129,9 @@ class PostsVideos extends StatelessWidget {
         children: [
           _disappearedAlertAnimation(post),
           _viewsIcon(post.views),
-          _likeButton(post.likes),
+          _likeButton(post),
           _saveButton(post),
-          _whatsAppShareButton(post.shared),
+          _whatsAppShareButton(post),
           _goToPostButton(post),
         ],
       ),
@@ -164,7 +163,7 @@ class PostsVideos extends StatelessWidget {
       children: [
         CircleAvatar(
           backgroundColor: Colors.transparent,
-          child: Icon(FontAwesomeIcons.eye, size: 24.0.h, color: AppColors.whiteIce),
+          child: Icon(FontAwesomeIcons.eye, color: AppColors.whiteIce),
         ),
         _counterText(
           padding: EdgeInsets.only(left: 4.0.w, top: 2.0.h),
@@ -175,18 +174,20 @@ class PostsVideos extends StatelessWidget {
     );
   }
 
-  Widget _likeButton(int likes) {
+  Widget _likeButton(Post post) {
     return InkWell(
-      onTap: () {},
+      onTap: () {
+        likesController.like(post);
+      },
       child: Column(
         children: [
           CircleAvatar(
             backgroundColor: Colors.transparent,
-            child: Icon(FontAwesomeIcons.solidHeart, size: 24.0.h, color: AppColors.whiteIce),
+            child: Icon(FontAwesomeIcons.solidHeart, color: AppColors.whiteIce),
           ),
           _counterText(
             padding: EdgeInsets.only(left: 2.0.w, top: 2.0.h),
-            text: '$likes',
+            text: '${post.likes}',
           ),
           SizedBox(height: 8.0.h),
         ],
@@ -200,13 +201,17 @@ class PostsVideos extends StatelessWidget {
       builder: (icon, isActive) {
         return InkWell(
           onTap: () {
-            savedsController.save(post);
+            if (authController.userExists) {
+              savedsController.save(post);
+            } else {
+              homeController.setMoreIndex();
+            }
           },
           child: Column(
             children: [
               CircleAvatar(
                 backgroundColor: Colors.transparent,
-                child: Icon(Icons.bookmark, size: 28.0.h, color: isActive ? AppColors.white : AppColors.whiteIce),
+                child: Icon(Icons.bookmark, size: 24.0.h, color: isActive ? AppColors.white : AppColors.whiteIce),
               ),
               _counterText(
                 padding: EdgeInsets.only(left: 2.0.w, top: 2.0.h),
@@ -220,9 +225,10 @@ class PostsVideos extends StatelessWidget {
     );
   }
 
-  Widget _whatsAppShareButton(int timesSaved) {
+  Widget _whatsAppShareButton(Post post) {
     return InkWell(
       onTap: () {
+        postsController.post = post;
         postsController.sharePost();
       },
       child: Column(
@@ -236,7 +242,7 @@ class PostsVideos extends StatelessWidget {
           ),
           _counterText(
             padding: EdgeInsets.only(right: 2.0.w, top: 8.0.h),
-            text: '$timesSaved',
+            text: '${post.shared}',
           ),
           SizedBox(height: 8.0.h),
         ],
