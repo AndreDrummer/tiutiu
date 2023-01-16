@@ -23,6 +23,10 @@ class StatesAndCities {
     return stateNames.elementAt(StatesAndCities.stateAndCities.stateInitials.indexOf(ufInitial));
   }
 
+  String getInitialFromStateName(String stateName) {
+    return stateInitials.elementAt(StatesAndCities.stateAndCities.stateNames.indexOf(stateName));
+  }
+
   String get fisrtStateName => location.states.first.name;
   List<String> get stateNames => location.states.map((e) => e.name).toList();
 
