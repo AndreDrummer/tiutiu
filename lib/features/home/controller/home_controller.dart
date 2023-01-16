@@ -4,10 +4,10 @@ import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 
 enum BottomBarIndex {
-  CHAT(indx: 3),
   DONATE(indx: 0),
-  FINDER(indx: 1),
+  VIDEOS(indx: 1),
   POST(indx: 2),
+  FINDER(indx: 3),
   MORE(indx: 4);
 
   const BottomBarIndex({
@@ -78,8 +78,8 @@ class HomeController extends GetxController {
     _setbottomBarIndex(BottomBarIndex.DONATE);
   }
 
-  void setChatIndex() {
-    _setbottomBarIndex(BottomBarIndex.CHAT);
+  void setVideosIndex() {
+    _setbottomBarIndex(BottomBarIndex.VIDEOS);
   }
 
   void setPostIndex() {

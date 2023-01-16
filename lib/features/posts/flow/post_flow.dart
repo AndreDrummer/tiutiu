@@ -74,8 +74,8 @@ class PostFlow extends StatelessWidget with TiuTiuPopUp {
           return Stack(
             children: [
               Scaffold(
+                floatingActionButton: ChangePostsVisibilityFloatingButtom(visibility: postsController.flowIndex >= 6),
                 floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-                floatingActionButton: ChangePostsVisibilityFloatingButtom(),
                 appBar: _appBar(),
                 resizeToAvoidBottomInset: true,
                 backgroundColor: AppColors.white,

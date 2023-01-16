@@ -27,7 +27,7 @@ class ReviewPost extends StatelessWidget {
               post: post,
             ),
             replacement: CardAdList(
-              showFavoriteButton: false,
+              showSaveButton: false,
               cardBuilder: cardBuilder,
               post: post,
               key: key,

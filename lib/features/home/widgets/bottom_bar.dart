@@ -1,3 +1,4 @@
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/features/home/controller/home_controller.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
@@ -13,22 +14,27 @@ class BottomBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Obx(
       () {
-        final isCardVisibility = homeController.cardVisibilityKind == CardVisibilityKind.card;
-
+        final isInVideoPage = homeController.bottomBarIndex == BottomBarIndex.VIDEOS.indx;
         return BottomNavigationBar(
-            backgroundColor: isCardVisibility ? AppColors.black.withOpacity(.2) : AppColors.black,
+            backgroundColor: isInVideoPage ? AppColors.black.withOpacity(.2) : AppColors.black,
             onTap: (index) => homeController.setIndex(index),
             currentIndex: homeController.bottomBarIndex,
             selectedItemColor: AppColors.primary,
+            unselectedFontSize: 10.0,
+            selectedFontSize: 10,
             unselectedItemColor: AppColors.white,
             type: BottomNavigationBarType.fixed,
             showSelectedLabels: true,
             items: getBottomBarLabelsVerified()
                 .map(
                   (label) => BottomNavigationBarItem(
-                    icon: Icon(
-                      getBottomBarIconsVerified().elementAt(
-                        getBottomBarLabelsVerified().indexOf(label),
+                    icon: Padding(
+                      padding: EdgeInsets.only(bottom: 4.0.h),
+                      child: Icon(
+                        getBottomBarIconsVerified().elementAt(
+                          getBottomBarLabelsVerified().indexOf(label),
+                        ),
+                        size: 20.0.h,
                       ),
                     ),
                     label: label,
@@ -41,17 +47,17 @@ class BottomBar extends StatelessWidget {
 
   final List<String> _bottomBarLabels = [
     AppStrings.adopte,
-    AppStrings.find,
+    AppStrings.tiutok,
     AppStrings.post,
-    AppStrings.chat,
+    AppStrings.find,
     AppStrings.more,
   ];
 
   final List<IconData> _bottomBarIcons = [
     FontAwesomeIcons.paw,
-    FontAwesomeIcons.searchengin,
+    FontAwesomeIcons.play,
     FontAwesomeIcons.squarePlus,
-    Icons.forum,
+    FontAwesomeIcons.searchengin,
     Icons.menu,
   ];
 
