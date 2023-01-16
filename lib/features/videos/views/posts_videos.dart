@@ -1,3 +1,6 @@
+import 'package:tiutiu/core/location/models/states_and_cities.dart';
+import 'package:tiutiu/core/utils/formatter.dart';
+import 'package:tiutiu/core/utils/other_functions.dart';
 import 'package:tiutiu/features/favorites/widgets/post_is_saved_stream.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -5,11 +8,11 @@ import 'package:tiutiu/core/utils/routes/routes_name.dart';
 import 'package:tiutiu/core/widgets/lottie_animation.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/views/load_dark_screen.dart';
-import 'package:tiutiu/core/pets/model/pet_model.dart';
 import 'package:tiutiu/core/widgets/loading_video.dart';
 import 'package:tiutiu/core/constants/assets_path.dart';
 import 'package:tiutiu/core/constants/text_styles.dart';
 import 'package:tiutiu/features/posts/model/post.dart';
+import 'package:tiutiu/core/pets/model/pet_model.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:tiutiu/core/widgets/video_error.dart';
@@ -35,6 +38,7 @@ class PostsVideos extends StatelessWidget {
               children: [
                 _video(post),
                 _buttons(post),
+                _postDetails(post),
                 _loadingBlur(),
               ],
             );
@@ -89,6 +93,35 @@ class PostsVideos extends StatelessWidget {
     );
   }
 
+  Widget _postDetails(Post post) {
+    return Positioned(
+      bottom: 96.0.h,
+      left: 16.0.w,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          AutoSizeTexts.autoSizeText14(
+            fontWeight: FontWeight.w700,
+            color: AppColors.white,
+            '${Formatters.cuttedText(post.name!)} | ${(post as Pet).city} - ${StatesAndCities.stateAndCities.getInitialFromStateName(post.state)}',
+          ),
+          SizedBox(height: 4.0.h),
+          AutoSizeTexts.autoSizeText10(
+            fontWeight: FontWeight.w400,
+            color: AppColors.white,
+            '${post.breed} - ${post.gender} - ${post.color}',
+          ),
+          SizedBox(height: 8.0.h),
+          AutoSizeTexts.autoSizeText10(
+            fontWeight: FontWeight.w400,
+            color: AppColors.white,
+            '${Formatters.cuttedText(OtherFunctions.replacePhoneNumberWithStars(post.description), size: 170)}',
+          ),
+        ],
+      ),
+    );
+  }
+
   Widget _buttons(Post post) {
     return Positioned(
       bottom: 56.0.h,
@@ -113,7 +146,7 @@ class PostsVideos extends StatelessWidget {
         children: [
           LottieAnimation(
             animationPath: AnimationsAssets.disappearedAlert,
-            size: 48.0.h,
+            size: 40.0.h,
           ),
           _counterText(
             padding: EdgeInsets.only(top: 2.0.h),
