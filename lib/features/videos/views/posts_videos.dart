@@ -2,12 +2,14 @@ import 'package:tiutiu/features/favorites/widgets/post_is_saved_stream.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/utils/routes/routes_name.dart';
+import 'package:tiutiu/core/widgets/lottie_animation.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/views/load_dark_screen.dart';
-import 'package:tiutiu/features/posts/model/post.dart';
+import 'package:tiutiu/core/pets/model/pet_model.dart';
 import 'package:tiutiu/core/widgets/loading_video.dart';
 import 'package:tiutiu/core/constants/assets_path.dart';
 import 'package:tiutiu/core/constants/text_styles.dart';
+import 'package:tiutiu/features/posts/model/post.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:tiutiu/core/widgets/video_error.dart';
@@ -32,16 +34,15 @@ class PostsVideos extends StatelessWidget {
             return Stack(
               children: [
                 _video(post),
-                _viewsIcon(post.views),
-                _likeButton(post.likes),
-                _saveButton(post),
-                _whatsAppShareButton(post.shared),
-                _goToPostButton(post),
+                _buttons(post),
                 _loadingBlur(),
               ],
             );
           },
           options: CarouselOptions(
+            onScrolled: (_) {
+              postsController.post;
+            },
             scrollDirection: Axis.vertical,
             autoPlayCurve: Curves.easeIn,
             enableInfiniteScroll: false,
@@ -88,129 +89,150 @@ class PostsVideos extends StatelessWidget {
     );
   }
 
-  Widget _viewsIcon(int views) {
+  Widget _buttons(Post post) {
     return Positioned(
-      bottom: 312.0.h,
-      right: 20.0.h,
+      bottom: 56.0.h,
+      right: 0,
       child: Column(
         children: [
-          CircleAvatar(
-            backgroundColor: Colors.transparent,
-            child: Icon(FontAwesomeIcons.eye, size: 24.0.h, color: AppColors.whiteIce),
-          ),
-          _counterText(
-            padding: EdgeInsets.only(left: 4.0.w, top: 2.0.h),
-            text: '$views',
-          ),
+          _disappearedAlertAnimation(post),
+          _viewsIcon(post.views),
+          _likeButton(post.likes),
+          _saveButton(post),
+          _whatsAppShareButton(post.shared),
+          _goToPostButton(post),
         ],
       ),
     );
   }
 
-  Widget _likeButton(int likes) {
-    return Positioned(
-      bottom: 256.0.h,
-      right: 18.0.h,
-      child: InkWell(
-        onTap: () {},
-        child: Column(
-          children: [
-            CircleAvatar(
-              backgroundColor: Colors.transparent,
-              child: Icon(FontAwesomeIcons.solidHeart, size: 24.0.h, color: AppColors.whiteIce),
-            ),
-            _counterText(
-              padding: EdgeInsets.only(left: 2.0.w, top: 2.0.h),
-              text: '$likes',
-            ),
-          ],
+  Widget _disappearedAlertAnimation(Post post) {
+    return Visibility(
+      visible: (post as Pet).disappeared,
+      child: Column(
+        children: [
+          LottieAnimation(
+            animationPath: AnimationsAssets.disappearedAlert,
+            size: 48.0.h,
+          ),
+          _counterText(
+            padding: EdgeInsets.only(top: 2.0.h),
+            fontSize: 10,
+            text: 'PET\nDesaparecido',
+          ),
+          SizedBox(height: 8.0.h),
+        ],
+      ),
+    );
+  }
+
+  Widget _viewsIcon(int views) {
+    return Column(
+      children: [
+        CircleAvatar(
+          backgroundColor: Colors.transparent,
+          child: Icon(FontAwesomeIcons.eye, size: 24.0.h, color: AppColors.whiteIce),
         ),
+        _counterText(
+          padding: EdgeInsets.only(left: 4.0.w, top: 2.0.h),
+          text: '$views',
+        ),
+        SizedBox(height: 8.0.h),
+      ],
+    );
+  }
+
+  Widget _likeButton(int likes) {
+    return InkWell(
+      onTap: () {},
+      child: Column(
+        children: [
+          CircleAvatar(
+            backgroundColor: Colors.transparent,
+            child: Icon(FontAwesomeIcons.solidHeart, size: 24.0.h, color: AppColors.whiteIce),
+          ),
+          _counterText(
+            padding: EdgeInsets.only(left: 2.0.w, top: 2.0.h),
+            text: '$likes',
+          ),
+          SizedBox(height: 8.0.h),
+        ],
       ),
     );
   }
 
   Widget _saveButton(Post post) {
-    return Positioned(
-      bottom: 192.0.h,
-      right: 18.0.h,
-      child: PostIsSavedStream(
-        post: post,
-        builder: (icon, isActive) {
-          return InkWell(
-            onTap: () {
-              savedsController.save(post);
-            },
-            child: Column(
-              children: [
-                Obx(
-                  () => CircleAvatar(
-                    backgroundColor: Colors.transparent,
-                    child: Icon(Icons.bookmark, size: 28.0.h, color: isActive ? AppColors.white : AppColors.whiteIce),
-                  ),
-                ),
-                _counterText(
-                  padding: EdgeInsets.only(left: 2.0.w, top: 2.0.h),
-                  text: '${post.saved}',
-                ),
-              ],
-            ),
-          );
-        },
-      ),
+    return PostIsSavedStream(
+      post: post,
+      builder: (icon, isActive) {
+        return InkWell(
+          onTap: () {
+            savedsController.save(post);
+          },
+          child: Column(
+            children: [
+              CircleAvatar(
+                backgroundColor: Colors.transparent,
+                child: Icon(Icons.bookmark, size: 28.0.h, color: isActive ? AppColors.white : AppColors.whiteIce),
+              ),
+              _counterText(
+                padding: EdgeInsets.only(left: 2.0.w, top: 2.0.h),
+                text: '${post.saved}',
+              ),
+              SizedBox(height: 16.0.h),
+            ],
+          ),
+        );
+      },
     );
   }
 
   Widget _whatsAppShareButton(int timesSaved) {
-    return Positioned(
-      bottom: 128.0.h,
-      right: 20.0.h,
-      child: InkWell(
-        onTap: () {
-          postsController.sharePost();
-        },
-        child: Column(
-          children: [
-            CircleAvatar(
-              radius: 14.0.h,
-              backgroundColor: Colors.transparent,
-              child: AssetHandle.getImage(
-                ImageAssets.whatsappShare,
-              ),
+    return InkWell(
+      onTap: () {
+        postsController.sharePost();
+      },
+      child: Column(
+        children: [
+          CircleAvatar(
+            radius: 14.0.h,
+            backgroundColor: Colors.transparent,
+            child: AssetHandle.getImage(
+              ImageAssets.whatsappShare,
             ),
-            _counterText(
-              padding: EdgeInsets.only(right: 2.0.w, top: 8.0.h),
-              text: '$timesSaved',
-            ),
-          ],
-        ),
+          ),
+          _counterText(
+            padding: EdgeInsets.only(right: 2.0.w, top: 8.0.h),
+            text: '$timesSaved',
+          ),
+          SizedBox(height: 8.0.h),
+        ],
       ),
     );
   }
 
-  Widget _counterText({required EdgeInsetsGeometry padding, required String text}) {
+  Widget _counterText({required EdgeInsetsGeometry padding, required String text, double fontSize = 14}) {
     return Padding(
       padding: padding,
-      child: AutoSizeTexts.autoSizeText14(
-        text,
-        color: AppColors.whiteIce,
+      child: AutoSizeTexts.autoSizeText(
         textAlign: TextAlign.center,
+        color: AppColors.whiteIce,
+        fontSize: fontSize,
+        text,
       ),
     );
   }
 
   Widget _goToPostButton(Post post) {
-    return Positioned(
-      bottom: 72.0.h,
-      right: 16.0.h,
-      child: TextButton(
-        onPressed: () {
-          postsController.post = post;
-          Get.toNamed(Routes.postDetails);
-        },
-        child: AutoSizeTexts.autoSizeText14(
-          'Ir para post',
-          color: AppColors.white,
-        ),
+    return TextButton(
+      style: TextButton.styleFrom(padding: EdgeInsets.only(right: 16.0.w)),
+      onPressed: () {
+        postsController.post = post;
+        Get.toNamed(Routes.postDetails);
+      },
+      child: AutoSizeTexts.autoSizeText14(
+        'Ir para post',
+        color: AppColors.white,
       ),
     );
   }
