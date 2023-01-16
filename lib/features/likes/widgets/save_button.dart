@@ -1,4 +1,4 @@
-import 'package:tiutiu/features/favorites/widgets/post_is_saved_stream.dart';
+import 'package:tiutiu/features/likes/widgets/post_is_saved_stream.dart';
 import 'package:tiutiu/features/home/controller/home_controller.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
@@ -27,7 +27,7 @@ class SaveOrUnsave extends StatelessWidget {
 
         return Visibility(
           visible: visibile,
-          child: PostIsSavedStream(
+          child: PostIsLikedStream(
             post: post,
             builder: (icon, isActive) => GestureDetector(
               child: Padding(
@@ -46,6 +46,6 @@ class SaveOrUnsave extends StatelessWidget {
     );
   }
 
-  void unsave() => savedsController.unsave(post);
-  void save() => savedsController.save(post);
+  void unsave() => likesController.unlike(post);
+  void save() => likesController.like(post);
 }
