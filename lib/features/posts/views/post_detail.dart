@@ -1,15 +1,14 @@
 import 'package:tiutiu/features/dennounce/views/post_dennounce_screen.dart';
 import 'package:tiutiu/features/dennounce/widgets/dennounce_button.dart';
-import 'package:tiutiu/features/favorites/widgets/save_button.dart';
 import 'package:tiutiu/features/admob/constants/admob_block_names.dart';
 import 'package:tiutiu/core/widgets/pet_other_caracteristics_card.dart';
 import 'package:tiutiu/features/posts/widgets/post_action_button.dart';
 import 'package:tiutiu/core/pets/model/pet_caracteristics_model.dart';
 import 'package:tiutiu/features/dennounce/model/post_dennounce.dart';
+import 'package:tiutiu/features/favorites/widgets/save_button.dart';
 import 'package:tiutiu/core/widgets/no_connection_text_info.dart';
 import 'package:tiutiu/features/posts/widgets/card_content.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:tiutiu/core/Exceptions/tiutiu_exceptions.dart';
 import 'package:tiutiu/features/admob/widgets/ad_banner.dart';
 import 'package:tiutiu/core/extensions/string_extension.dart';
 import 'package:tiutiu/core/widgets/simple_text_button.dart';
@@ -63,12 +62,6 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
   }
 
   @override
-  void didChangeDependencies() {
-    _betterPlayerController.preCache(_betterPlayerDataSource);
-    super.didChangeDependencies();
-  }
-
-  @override
   void dispose() {
     _betterPlayerController.dispose();
     super.dispose();
@@ -84,7 +77,10 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
 
     _betterPlayerController = BetterPlayerController(
       BetterPlayerConfiguration(
-        placeholder: LoadingVideo(),
+        controlsConfiguration: BetterPlayerControlsConfiguration(
+          loadingWidget: LoadingVideo(),
+          enableSkips: false,
+        ),
         aspectRatio: .5,
         errorBuilder: (context, errorMessage) {
           return VideoError(
@@ -285,18 +281,7 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
         replacement: postsController.isInReviewMode ? SizedBox.shrink() : NoConnectionTextInfo(),
         visible: !postsController.isInReviewMode && systemController.properties.internetConnected,
         child: GestureDetector(
-          onTap: () async {
-            final success = await postsController.sharePost();
-
-            if (!success) {
-              crashlyticsController.reportAnError(
-                message: AppStrings.unableToGenerateSharebleFile,
-                exception: TiuTiuException(''),
-              );
-
-              showPopUp(message: AppStrings.unableToGenerateSharebleFile, backGroundColor: AppColors.danger);
-            }
-          },
+          onTap: postsController.sharePost,
           child: Card(
             elevation: 8.0,
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24.0.h)),

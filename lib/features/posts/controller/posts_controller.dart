@@ -1,3 +1,4 @@
+import 'package:tiutiu/core/Exceptions/tiutiu_exceptions.dart';
 import 'package:tiutiu/features/posts/repository/posts_repository.dart';
 import 'package:tiutiu/features/posts/validators/form_validators.dart';
 import 'package:tiutiu/core/location/models/states_and_cities.dart';
@@ -282,7 +283,20 @@ class PostsController extends GetxController with TiuTiuPopUp {
     return returnValue;
   }
 
-  Future<bool> sharePost() async {
+  Future<void> sharePost() async {
+    final success = await _share();
+
+    if (!success) {
+      crashlyticsController.reportAnError(
+        message: AppStrings.unableToGenerateSharebleFile,
+        exception: TiuTiuException(''),
+      );
+
+      showPopUp(message: AppStrings.unableToGenerateSharebleFile, backGroundColor: AppColors.danger);
+    }
+  }
+
+  Future<bool> _share() async {
     setLoading(true, loadingText: PostDetailsStrings.preparingPostToShare);
 
     try {
