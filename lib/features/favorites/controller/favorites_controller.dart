@@ -9,49 +9,49 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 
-class FavoritesController extends GetxController {
-  final RxList<Post> _favoritedPosts = <Post>[].obs;
+class SavedsController extends GetxController {
+  final RxList<Post> _savedPosts = <Post>[].obs;
 
-  List<Post> get favoritedPosts => _favoritedPosts;
+  List<Post> get savedPosts => _savedPosts;
 
-  void addFavorite(Post post) {
-    debugPrint('TiuTiuApp: Add to favorites');
-    _favoritesCollection().doc(post.uid).set(post.toMap());
+  void save(Post post) {
+    debugPrint('TiuTiuApp: Add to saves');
+    _savesCollection().doc(post.uid).set(post.toMap());
   }
 
-  void removeFavorite(Post post) {
-    debugPrint('TiuTiuApp: Remove from favorites');
-    _favoritesCollection().doc(post.uid).delete();
+  void unsave(Post post) {
+    debugPrint('TiuTiuApp: Remove from saves');
+    _savesCollection().doc(post.uid).delete();
   }
 
-  Stream<List<Post>> favoritesList(FilterParams filters) {
-    final queryMap = _favoritesCollection().where(FilterParamsEnum.disappeared.name, isEqualTo: false);
-    List<Post> favoritedPosts = [];
+  Stream<List<Post>> savedsList(FilterParams filters) {
+    final queryMap = _savesCollection().where(FilterParamsEnum.disappeared.name, isEqualTo: false);
+    List<Post> savedPosts = [];
 
     return queryMap.snapshots().asyncMap((event) {
-      favoritedPosts.clear();
-      event.docs.forEach((favorite) {
-        if (favorite.data().isNotEmpty) {
-          favoritedPosts.add(Pet.fromSnapshot(favorite));
+      savedPosts.clear();
+      event.docs.forEach((save) {
+        if (save.data().isNotEmpty) {
+          savedPosts.add(Pet.fromSnapshot(save));
         }
       });
 
-      _favoritedPosts(favoritedPosts);
+      _savedPosts(savedPosts);
 
-      return PostUtils.filterPosts(postsList: favoritedPosts);
+      return PostUtils.filterPosts(postsList: savedPosts);
     });
   }
 
-  Stream<bool> postIsFavorited(Post post) {
+  Stream<bool> postIsSaved(Post post) {
     if (tiutiuUserController.tiutiuUser.uid == null) return Stream.value(false);
-    return _favoritesCollection()
+    return _savesCollection()
         .snapshots()
         .asyncMap((event) => event.docs.firstWhereOrNull((e) => e.get(PostEnum.uid.name) == post.uid) != null);
   }
 
-  CollectionReference<Map<String, dynamic>> _favoritesCollection() {
+  CollectionReference<Map<String, dynamic>> _savesCollection() {
     return EndpointResolver.getCollectionEndpoint(
-      EndpointNames.pathToFavorites.name,
+      EndpointNames.pathToSaveds.name,
       [tiutiuUserController.tiutiuUser.uid],
     );
   }

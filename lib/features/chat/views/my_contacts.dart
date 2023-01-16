@@ -24,7 +24,7 @@ class _MyContactsState extends State<MyContacts> {
 
     return AuthenticatedArea(
       child: Scaffold(
-        appBar: DefaultBasicAppBar(text: ChatStrings.myContacts),
+        appBar: DefaultBasicAppBar(text: ChatStrings.myMessages),
         body: StreamBuilder<List<Contact>>(
           stream: chatController.contacts(),
           builder: (context, contactsSnapshot) {

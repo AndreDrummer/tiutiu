@@ -27,7 +27,7 @@ class _SettingsState extends State<Settings> with TiuTiuPopUp {
               SizedBox(height: 6.0.h),
               CustomListTile(
                 icon: FontAwesomeIcons.penToSquare,
-                onPressed: () {
+                onTap: () {
                   Get.toNamed(Routes.editProfile);
                 },
                 text: SettingsStrings.editProfile,
@@ -37,13 +37,13 @@ class _SettingsState extends State<Settings> with TiuTiuPopUp {
                 icon: FontAwesomeIcons.earthAmericas,
                 text: SettingsStrings.setMyProfileAsONG,
                 badgeText: AppStrings.commingSoon,
-                onPressed: () {},
+                onTap: () {},
                 showBadge: true,
               ),
               Divider(),
               CustomListTile(
                 icon: Icons.person_off,
-                onPressed: () {
+                onTap: () {
                   _deleteAccount();
                 },
                 text: MyProfileOptionsTile.deleteAccount,
@@ -51,7 +51,7 @@ class _SettingsState extends State<Settings> with TiuTiuPopUp {
               Divider(),
               CustomListTile(
                 icon: FontAwesomeIcons.arrowRightFromBracket,
-                onPressed: () {
+                onTap: () {
                   _exitApp();
                 },
                 text: MyProfileOptionsTile.leave,

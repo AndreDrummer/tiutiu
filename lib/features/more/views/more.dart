@@ -40,7 +40,7 @@ class More extends StatelessWidget {
           _cardBody(),
           Spacer(),
           Padding(
-            padding: EdgeInsets.all(48.0.h),
+            padding: EdgeInsets.only(bottom: 96.0.h),
             child: FutureBuilder<PackageInfo>(
               future: systemController.getPackageInfo(),
               builder: (context, snapshot) {
@@ -146,7 +146,7 @@ class More extends StatelessWidget {
     return Container(
       padding: EdgeInsets.zero,
       margin: EdgeInsets.zero,
-      height: Get.height / 2.5,
+      height: Get.height / 1.7,
       child: ListView.separated(
         padding: EdgeInsets.zero,
         separatorBuilder: (context, index) => Divider(),
@@ -161,7 +161,7 @@ class More extends StatelessWidget {
               icon: moreController.myProfileOptionsIcon.elementAt(index),
               isToCenterText: false,
               isToExpand: true,
-              onPressed: () {
+              onTap: () {
                 moreController.handleOptionHitted(title);
               },
               text: title,

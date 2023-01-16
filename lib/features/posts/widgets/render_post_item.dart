@@ -14,7 +14,7 @@ import 'package:get/get.dart';
 class RenderListItem extends StatelessWidget {
   const RenderListItem({
     this.showBackToStartButton = false,
-    this.showFavoriteButton = true,
+    this.showSaveButton = true,
     this.onNavigateToTop,
     required this.post,
     this.onItemTapped,
@@ -24,7 +24,7 @@ class RenderListItem extends StatelessWidget {
   final Function()? onNavigateToTop;
   final bool showBackToStartButton;
   final Function()? onItemTapped;
-  final bool? showFavoriteButton;
+  final bool? showSaveButton;
   final Post post;
 
   @override
@@ -59,13 +59,13 @@ class RenderListItem extends StatelessWidget {
         },
         child: homeController.cardVisibilityKind == CardVisibilityKind.banner
             ? CardAdList(
-                showFavoriteButton: showFavoriteButton ?? authController.userExists,
+                showSaveButton: showSaveButton ?? authController.userExists,
                 key: Key(post.uid.toString()),
                 cardBuilder: cardBuilder,
                 post: post,
               )
             : CardAd(
-                showFavoriteButton: showFavoriteButton ?? authController.userExists,
+                showSaveButton: showSaveButton ?? authController.userExists,
                 cardBuilder: cardBuilder,
                 post: post,
               ),

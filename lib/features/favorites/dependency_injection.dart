@@ -5,6 +5,6 @@ import 'package:get/instance_manager.dart';
 class FavoritesControllerDependency extends DependencyInjection {
   @override
   void init() {
-    Get.lazyPut(() => FavoritesController());
+    Get.lazyPut(() => SavedsController());
   }
 }
