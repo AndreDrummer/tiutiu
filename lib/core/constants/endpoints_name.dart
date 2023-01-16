@@ -18,6 +18,7 @@ enum EndpointNames {
   pathToMessage,
   pathToContact,
   pathToPosts,
+  pathToLikes,
   pathToUsers,
   pathToUser,
   pathToPost,

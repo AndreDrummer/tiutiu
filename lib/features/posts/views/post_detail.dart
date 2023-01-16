@@ -5,7 +5,7 @@ import 'package:tiutiu/core/widgets/pet_other_caracteristics_card.dart';
 import 'package:tiutiu/features/posts/widgets/post_action_button.dart';
 import 'package:tiutiu/core/pets/model/pet_caracteristics_model.dart';
 import 'package:tiutiu/features/dennounce/model/post_dennounce.dart';
-import 'package:tiutiu/features/favorites/widgets/save_button.dart';
+import 'package:tiutiu/features/saveds/widgets/save_button.dart';
 import 'package:tiutiu/core/widgets/no_connection_text_info.dart';
 import 'package:tiutiu/features/posts/widgets/card_content.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
