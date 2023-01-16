@@ -1,6 +1,6 @@
 import 'package:tiutiu/features/dennounce/views/post_dennounce_screen.dart';
 import 'package:tiutiu/features/dennounce/widgets/dennounce_button.dart';
-import 'package:tiutiu/features/favorites/widgets/favorite_button.dart';
+import 'package:tiutiu/features/favorites/widgets/save_button.dart';
 import 'package:tiutiu/features/admob/constants/admob_block_names.dart';
 import 'package:tiutiu/core/widgets/pet_other_caracteristics_card.dart';
 import 'package:tiutiu/features/posts/widgets/post_action_button.dart';
@@ -261,9 +261,8 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
                   children: [
                     _dennouncePostButton(),
                     SizedBox(width: 4.0.w),
-                    AddRemoveFavorite(
+                    SaveOrUnsave(
                       show: systemController.properties.internetConnected,
-                      isRemoveButton: false,
                       post: post,
                       tiny: true,
                     ),

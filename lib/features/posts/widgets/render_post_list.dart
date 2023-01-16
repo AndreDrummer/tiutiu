@@ -54,7 +54,7 @@ class RenderPostList extends StatelessWidget {
                   post: posts[index < posts.length ? index : posts.length - 1],
                   onNavigateToTop: () => homeController.onScrollUp(),
                   showBackToStartButton: index == posts.length,
-                  showFavoriteButton: !isInMyPosts,
+                  showSaveButton: !isInMyPosts,
                   key: UniqueKey(),
                 );
               },

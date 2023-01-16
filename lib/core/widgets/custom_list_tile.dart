@@ -10,13 +10,13 @@ class CustomListTile extends StatelessWidget {
     this.isToCenterText = false,
     this.isToExpand = false,
     this.showBadge = false,
-    this.onPressed,
+    this.onTap,
     this.badgeText,
     this.icon,
     this.text,
   });
 
-  final Function()? onPressed;
+  final Function()? onTap;
   final bool? isToCenterText;
   final String? badgeText;
   final bool? isToExpand;
@@ -33,10 +33,10 @@ class CustomListTile extends StatelessWidget {
           margin: EdgeInsets.zero,
           width: Get.width,
           child: ElevatedButton(
-            onPressed: onPressed,
+            onPressed: onTap,
             style: ElevatedButton.styleFrom(
-              foregroundColor: Colors.transparent,
-              backgroundColor: Colors.white,
+              foregroundColor: AppColors.white,
+              backgroundColor: AppColors.white,
               padding: EdgeInsets.zero,
               elevation: 0.0,
             ),

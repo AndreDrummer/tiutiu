@@ -3,7 +3,7 @@ import 'package:tiutiu/features/talk_with_us/views/talk_with_us.dart';
 import 'package:tiutiu/features/auth/views/email_and_password.dart';
 import 'package:tiutiu/core/system/views/loading_start_screen.dart';
 import 'package:tiutiu/features/more/views/edit_profile.dart';
-import 'package:tiutiu/features/favorites/screen/favorites.dart';
+import 'package:tiutiu/features/favorites/screen/saveds.dart';
 import 'package:tiutiu/features/posts/flow/init_post_flow.dart';
 import 'package:tiutiu/features/support/views/support_us.dart';
 import 'package:tiutiu/features/posts/views/post_detail.dart';
@@ -57,7 +57,7 @@ class RouterGenerator {
         );
       case Routes.favorites:
         return MaterialPageRoute(
-          builder: (_) => Favorites(),
+          builder: (_) => Saveds(),
         );
 
       case Routes.contacts:

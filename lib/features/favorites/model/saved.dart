@@ -1,21 +1,21 @@
 import 'package:tiutiu/core/pets/model/pet_model.dart';
 
-enum FavoriteEnum {
+enum SavedEnum {
   ownerId,
   post,
   uid,
 }
 
-class Favorite {
-  factory Favorite.fromMap(Map<String, dynamic> map) {
-    return Favorite(
-      ownerId: map[FavoriteEnum.ownerId.name] as String,
-      post: map[FavoriteEnum.post.name],
-      uid: map[FavoriteEnum.uid.name],
+class Saved {
+  factory Saved.fromMap(Map<String, dynamic> map) {
+    return Saved(
+      ownerId: map[SavedEnum.ownerId.name] as String,
+      post: map[SavedEnum.post.name],
+      uid: map[SavedEnum.uid.name],
     );
   }
 
-  Favorite({
+  Saved({
     required this.ownerId,
     required this.post,
     required this.uid,
@@ -26,17 +26,17 @@ class Favorite {
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
-      FavoriteEnum.uid.name: post.toMap(),
-      FavoriteEnum.ownerId.name: ownerId,
-      FavoriteEnum.post.name: uid,
+      SavedEnum.uid.name: post.toMap(),
+      SavedEnum.ownerId.name: ownerId,
+      SavedEnum.post.name: uid,
     };
   }
 
   @override
-  String toString() => 'Favorite(ownerId: $ownerId, uid: $uid, post: $post)';
+  String toString() => 'Saved(ownerId: $ownerId, uid: $uid, post: $post)';
 
   @override
-  bool operator ==(covariant Favorite other) {
+  bool operator ==(covariant Saved other) {
     if (identical(this, other)) return true;
 
     return other.ownerId == ownerId && other.uid == uid && other.post == post;
