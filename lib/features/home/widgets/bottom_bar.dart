@@ -1,6 +1,5 @@
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:tiutiu/features/home/controller/home_controller.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/core/constants/strings.dart';
