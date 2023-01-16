@@ -7,14 +7,14 @@ import 'package:get/get.dart';
 
 class CardAdList extends StatelessWidget {
   const CardAdList({
-    required this.showFavoriteButton,
+    required this.showSaveButton,
     required this.cardBuilder,
     required this.post,
     required super.key,
   });
 
   final CardBuilder cardBuilder;
-  final bool showFavoriteButton;
+  final bool showSaveButton;
   final Post post;
 
   @override
@@ -25,10 +25,10 @@ class CardAdList extends StatelessWidget {
         borderRadius: BorderRadius.circular(12.0.h),
       ),
       height: Dimensions.getDimensBasedOnDeviceHeight(
-        xSmaller: 144.0.h,
-        smaller: 136.0.h,
-        bigger: 117.0.h,
-        medium: 120.0.h,
+        xSmaller: 152.0.h,
+        smaller: 144.0.h,
+        bigger: 124.0.h,
+        medium: 128.0.h,
       ),
       padding: EdgeInsets.zero,
       child: Card(
@@ -61,10 +61,7 @@ class CardAdList extends StatelessWidget {
                       ),
                       Padding(
                         padding: EdgeInsets.only(left: 6.0.w, bottom: 4.0.h, top: 4.0.h),
-                        child: cardBuilder.favoriteButton(
-                          showAlwaysAsFavorited: false,
-                          show: showFavoriteButton,
-                        ),
+                        child: cardBuilder.saveButton(show: showSaveButton),
                       ),
                     ],
                   ),

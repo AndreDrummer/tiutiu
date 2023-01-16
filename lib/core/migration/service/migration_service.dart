@@ -19,7 +19,7 @@ class MigrationService {
   final String petAdPurpose = FirebaseEnvPath.donate;
 
   void migrate() async {
-    // moveSomeDocumentDataToProd();
+    // updateSomePostData();
   }
 
   void updateEndpointsSintaxe() async {
@@ -128,10 +128,10 @@ class MigrationService {
     // final list = await _firestore.collection(pathToPosts).get();
 
     list.docs.forEach((snapshot) async {
-      // final pet = Pet.fromMigrate(snapshot.data());
+      // final pet = Pet().fromMap(snapshot.data());
       // final owner = await tiutiuUserController.getUserById(pet.ownerId!);
 
-      // snapshot.reference.set({PetEnum.description.name: pet.description}, SetOptions(merge: true));
+      snapshot.reference.set({PostEnum.likes.name: 0}, SetOptions(merge: true));
     });
   }
 

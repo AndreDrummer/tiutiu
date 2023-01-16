@@ -22,7 +22,6 @@ class LottieAnimation extends StatelessWidget {
       AnimationsAssets.birdLoading,
       AnimationsAssets.catLoading,
       AnimationsAssets.dogLoading,
-      AnimationsAssets.pawLoading2,
       AnimationsAssets.dogWalking,
     ];
 
