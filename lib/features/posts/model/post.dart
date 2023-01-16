@@ -21,6 +21,7 @@ enum PostEnum {
   state,
   views,
   name,
+  likes,
   type,
   city,
   uid,
@@ -42,6 +43,7 @@ class Post implements Mapper {
     this.reference,
     this.longitude,
     this.createdAt,
+    this.likes = 0,
     this.latitude,
     this.ownerId,
     this.owner,
@@ -70,6 +72,7 @@ class Post implements Mapper {
       views: map[PostEnum.views.name] ?? 0,
       photos: map[PostEnum.photos.name],
       hidden: map[PostEnum.hidden.name],
+      likes: map[PostEnum.likes.name],
       video: map[PostEnum.video.name],
       name: map[PostEnum.name.name],
       done: map[PostEnum.done.name],
@@ -96,6 +99,7 @@ class Post implements Mapper {
   String? uid;
   bool done;
   int views;
+  int likes;
 
   @override
   Map<String, dynamic> toMap({bool convertFileToVideoPath = false}) {
@@ -115,6 +119,7 @@ class Post implements Mapper {
       PostEnum.hidden.name: hidden,
       PostEnum.state.name: state,
       PostEnum.views.name: views,
+      PostEnum.likes.name: likes,
       PostEnum.type.name: type,
       PostEnum.name.name: name,
       PostEnum.city.name: city,
@@ -125,7 +130,7 @@ class Post implements Mapper {
 
   @override
   String toString() {
-    return 'Post(createdAt: $createdAt, owner: $owner, reference: $reference, longitude: $longitude, latitude: $latitude, ownerId: $ownerId, timesDennounced: $timesDennounced, description: $description, state: $state, photos: $photos, name: $name, type: $type, city: $city, uid: $uid, views: $views, video: $video, hidden: $hidden, done: $done, dennounceMotives: $dennounceMotives)';
+    return 'Post(createdAt: $createdAt, owner: $owner, reference: $reference, longitude: $longitude, latitude: $latitude, ownerId: $ownerId, timesDennounced: $timesDennounced, description: $description, state: $state, photos: $photos, name: $name, type: $type, city: $city, uid: $uid, views: $views, video: $video, hidden: $hidden, likes: $likes, done: $done, dennounceMotives: $dennounceMotives)';
   }
 
   @override
@@ -148,6 +153,7 @@ class Post implements Mapper {
         other.owner == owner &&
         other.views == views &&
         other.name == name &&
+        other.likes == likes &&
         other.done == done &&
         other.type == type &&
         other.city == city &&
@@ -172,6 +178,7 @@ class Post implements Mapper {
         views.hashCode ^
         state.hashCode ^
         name.hashCode ^
+        likes.hashCode ^
         done.hashCode ^
         type.hashCode ^
         city.hashCode ^

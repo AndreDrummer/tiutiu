@@ -2,26 +2,22 @@ import 'package:tiutiu/core/widgets/cards/widgets/card_builder.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
-import 'package:tiutiu/core/widgets/loading_video.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
-import 'package:tiutiu/core/widgets/video_error.dart';
 import 'package:tiutiu/features/posts/model/post.dart';
 import 'package:tiutiu/core/utils/dimensions.dart';
-import 'package:better_player/better_player.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'dart:io';
 
 class CardAd extends StatefulWidget {
   CardAd({
-    this.showFavoriteButton = true,
+    this.showSaveButton = true,
     this.inReviewMode = false,
     required this.cardBuilder,
     required this.post,
   });
 
   final CardBuilder cardBuilder;
-  final bool showFavoriteButton;
+  final bool showSaveButton;
   final bool inReviewMode;
   final Post post;
 
@@ -30,17 +26,15 @@ class CardAd extends StatefulWidget {
 }
 
 class _CardAdState extends State<CardAd> {
-  late Post post;
-
   bool hasVideo() => widget.post.video != null;
 
-  double favoriteAnimationOpcaity = 0;
+  double likeAnimationOpcaity = 0;
 
-  Widget favoritedAnimation() {
+  Widget likeAnimation() {
     return AnimatedOpacity(
       child: Icon(FontAwesomeIcons.solidHeart, color: AppColors.white.withOpacity(.8), size: 64),
       duration: Duration(milliseconds: 250),
-      opacity: favoriteAnimationOpcaity,
+      opacity: likeAnimationOpcaity,
     );
   }
 
@@ -49,14 +43,14 @@ class _CardAdState extends State<CardAd> {
     return GestureDetector(
       onDoubleTap: () {
         setState(() {
-          favoriteAnimationOpcaity = 1;
+          likeAnimationOpcaity = 1;
         });
 
-        favoritesController.addFavorite(widget.post);
+        savedsController.save(widget.post);
 
         Future.delayed(Duration(seconds: 1), () {
           setState(() {
-            favoriteAnimationOpcaity = 0;
+            likeAnimationOpcaity = 0;
           });
         });
       },
@@ -73,7 +67,7 @@ class _CardAdState extends State<CardAd> {
                     medium: widget.inReviewMode ? Get.height / 2.0 : Get.height / 1.5,
                     bigger: widget.inReviewMode ? Get.height / 2.0 : Get.height / 1.5,
                   ),
-                  child: postImages(),
+                  child: widget.cardBuilder.adImages(),
                   width: double.infinity,
                 ),
                 Positioned(
@@ -81,15 +75,14 @@ class _CardAdState extends State<CardAd> {
                   bottom: 0.0.h,
                 ),
                 Positioned(
-                  child: widget.cardBuilder.favoriteButton(
-                    show: !widget.inReviewMode && widget.showFavoriteButton,
-                    showAlwaysAsFavorited: true,
+                  child: widget.cardBuilder.saveButton(
+                    show: !widget.inReviewMode && widget.showSaveButton,
                   ),
-                  bottom: 16.0.h,
+                  bottom: 8.0.h,
                   left: Get.width / 2.5,
                 ),
                 Positioned(
-                  child: favoritedAnimation(),
+                  child: likeAnimation(),
                   bottom: Get.height / 3.5,
                   left: Get.width / 2.5,
                 ),
@@ -99,10 +92,6 @@ class _CardAdState extends State<CardAd> {
         ),
       ),
     );
-  }
-
-  Widget postImages() {
-    return hasVideo() ? _postVideo() : widget.cardBuilder.adImages();
   }
 
   Container _postTileInfo() {
@@ -149,37 +138,6 @@ class _CardAdState extends State<CardAd> {
             ),
           ],
         ),
-      ),
-    );
-  }
-
-  Widget _postVideo() {
-    final post = widget.post;
-    final videoUrl = post.video is File ? post.video.path : post.video;
-    final betterPlayerControlsConfiguration = BetterPlayerControlsConfiguration(showControls: false);
-
-    return ClipRRect(
-      borderRadius: BorderRadius.only(
-        topRight: Radius.circular(8),
-        topLeft: Radius.circular(8),
-      ),
-      child: BetterPlayerListVideoPlayer(
-        BetterPlayerDataSource(BetterPlayerDataSourceType.network, videoUrl),
-        configuration: BetterPlayerConfiguration(
-          controlsConfiguration: betterPlayerControlsConfiguration,
-          placeholder: LoadingVideo(),
-          aspectRatio: .5,
-          errorBuilder: (context, errorMessage) {
-            return VideoError(
-              onRetry: () {
-                setState(() {});
-              },
-            );
-          },
-          fit: BoxFit.cover,
-        ),
-        key: Key(post.uid.toString()),
-        playFraction: 0.7,
       ),
     );
   }

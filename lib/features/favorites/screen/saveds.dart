@@ -8,12 +8,12 @@ import 'package:tiutiu/core/constants/strings.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class Favorites extends StatefulWidget {
+class Saveds extends StatefulWidget {
   @override
-  _FavoritesState createState() => _FavoritesState();
+  _SavedsState createState() => _SavedsState();
 }
 
-class _FavoritesState extends State<Favorites> {
+class _SavedsState extends State<Saveds> {
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -24,11 +24,11 @@ class _FavoritesState extends State<Favorites> {
       child: Scaffold(
         appBar: DefaultBasicAppBar(
           automaticallyImplyLeading: true,
-          text: AppStrings.favorites,
+          text: AppStrings.saveds,
         ),
         body: Obx(
           () => StreamBuilder<List<Post>>(
-            stream: favoritesController.favoritesList(filterController.getParams),
+            stream: savedsController.savedsList(filterController.getParams),
             builder: (context, snapshot) {
               final posts = snapshot.data ?? [];
 
@@ -42,7 +42,7 @@ class _FavoritesState extends State<Favorites> {
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
         floatingActionButton: Obx(
-          () => ChangePostsVisibilityFloatingButtom(visibility: favoritesController.favoritedPosts.isNotEmpty),
+          () => ChangePostsVisibilityFloatingButtom(visibility: savedsController.savedPosts.isNotEmpty),
         ),
       ),
     );
