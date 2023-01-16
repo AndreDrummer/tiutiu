@@ -131,7 +131,7 @@ class MigrationService {
       // final pet = Pet().fromMap(snapshot.data());
       // final owner = await tiutiuUserController.getUserById(pet.ownerId!);
 
-      snapshot.reference.set({PostEnum.likes.name: 0}, SetOptions(merge: true));
+      snapshot.reference.set({PostEnum.shared.name: 0}, SetOptions(merge: true));
     });
   }
 
