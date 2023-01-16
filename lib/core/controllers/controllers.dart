@@ -1,8 +1,9 @@
 import 'package:tiutiu/features/dennounce/controller/user_dennounce_controller.dart';
 import 'package:tiutiu/features/dennounce/controller/post_dennounce_controller.dart';
+import 'package:tiutiu/features/likes/controller/likes_controller.dart';
 import 'package:tiutiu/features/sponsored/controller/sponsored_controller.dart';
 import 'package:tiutiu/core/location/controller/current_location_controller.dart';
-import 'package:tiutiu/features/favorites/controller/favorites_controller.dart';
+import 'package:tiutiu/features/saveds/controller/saveds_controller.dart';
 import 'package:tiutiu/core/remote_config/controller/admin_remote_config.dart';
 import 'package:tiutiu/features/delete_account/controller/delete_account.dart';
 import 'package:tiutiu/features/tiutiu_user/controller/user_controller.dart';
@@ -34,6 +35,7 @@ final SavedsController savedsController = Get.find();
 final FeedbackController feedbackController = Get.find();
 final SystemController systemController = Get.find();
 final FilterController filterController = Get.find();
+final LikesController likesController = Get.find();
 final PostsController postsController = Get.find();
 final AdMobController adMobController = Get.find();
 final MoreController moreController = Get.find();
