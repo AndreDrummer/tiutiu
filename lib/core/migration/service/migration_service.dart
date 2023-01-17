@@ -19,7 +19,7 @@ class MigrationService {
   final String petAdPurpose = FirebaseEnvPath.donate;
 
   void migrate() async {
-    moveEndpointsToProd();
+    // updateSomePostData();
   }
 
   void updateEndpointsSintaxe() async {
@@ -131,7 +131,7 @@ class MigrationService {
       // final pet = Pet().fromMap(snapshot.data());
       // final owner = await tiutiuUserController.getUserById(pet.ownerId!);
 
-      snapshot.reference.set({PostEnum.shared.name: 0}, SetOptions(merge: true));
+      snapshot.reference.set({PostEnum.sharedTimes.name: 0}, SetOptions(merge: true));
     });
   }
 

@@ -1,4 +1,3 @@
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiutiu/core/utils/routes/routes_name.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/constants/strings.dart';
@@ -63,13 +62,13 @@ class MoreController extends GetxController {
   List<IconData> get myProfileOptionsIcon => _myProfileOptionsIcon;
 
   final List<IconData> _myProfileOptionsIcon = [
-    Icons.headset_mic,
-    Icons.groups,
-    FontAwesomeIcons.solidBookmark,
-    Icons.view_agenda,
-    Icons.forum,
-    Icons.volunteer_activism,
-    Icons.manage_accounts,
-    Icons.info,
+    Icons.headset_mic_outlined,
+    Icons.groups_outlined,
+    Icons.bookmark_border_rounded,
+    Icons.photo_outlined,
+    Icons.forum_outlined,
+    Icons.volunteer_activism_outlined,
+    Icons.manage_accounts_outlined,
+    Icons.info_outline,
   ];
 }
