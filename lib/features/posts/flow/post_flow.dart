@@ -1,5 +1,4 @@
 import 'package:tiutiu/core/widgets/change_posts_visibility_floating_button.dart';
-import 'package:tiutiu/features/home/controller/home_controller.dart';
 import 'package:tiutiu/features/posts/flow/3_post_caracteristics.dart';
 import 'package:tiutiu/features/posts/flow/2_post_description.dart';
 import 'package:tiutiu/features/posts/flow/4_post_location.dart';
@@ -31,7 +30,7 @@ class PostFlow extends StatelessWidget with TiuTiuPopUp {
       onWillPop: () async => false,
       child: Obx(
         () {
-          final isCardVisibilityKind = homeController.cardVisibilityKind == CardVisibilityKind.card;
+          double screenHeight = Get.height;
 
           List<String> _screensTitle = [
             PostFlowStrings.petsData,
@@ -81,7 +80,7 @@ class PostFlow extends StatelessWidget with TiuTiuPopUp {
                 backgroundColor: AppColors.white,
                 body: Container(
                   alignment: Alignment.center,
-                  height: Get.height / (isCardVisibilityKind ? 1.45 : 2.9),
+                  height: screenHeight,
                   child: Column(
                     children: [
                       Padding(

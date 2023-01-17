@@ -30,6 +30,7 @@ class AssetHandle {
     BorderRadius? borderRadius,
     bool isUserImage = false,
     Object? hero,
+    Color? color,
     BoxFit? fit,
   }) {
     if (imagePath == null || imagePath.toString().isEmpty) {
@@ -40,21 +41,30 @@ class AssetHandle {
         width: 1000,
       );
     } else if (imagePath.toString().isUrl()) {
-      return _networkImage(isUserImage: isUserImage, hero: hero, imagePath, fit: fit, borderRadius: borderRadius);
+      return _networkImage(
+        borderRadius: borderRadius,
+        isUserImage: isUserImage,
+        color: color,
+        hero: hero,
+        imagePath,
+        fit: fit,
+      );
     } else if (imagePath.toString().isAsset()) {
-      return _imageAsset(imagePath, fit: fit);
+      return _imageAsset(imagePath, fit: fit, color: color);
     } else {
-      return _localImage(imagePath, fit);
+      return _localImage(imagePath, fit, color: color);
     }
   }
 
   static Widget _imageAsset(
     String path, {
     BoxFit? fit,
+    Color? color,
   }) {
     return Image.asset(
       path,
       fit: fit ?? BoxFit.fill,
+      color: color,
       width: 1000,
     );
   }
@@ -64,11 +74,13 @@ class AssetHandle {
     BorderRadius? borderRadius,
     bool isUserImage = false,
     BoxFit? fit,
+    Color? color,
     Object? hero,
   }) {
     return Hero(
       tag: hero ?? imagePath,
       child: CachedNetworkImage(
+        color: color,
         errorWidget: (context, url, error) => Icon(Icons.error),
         imageBuilder: (context, imageProvider) => Container(
           decoration: BoxDecoration(
@@ -95,11 +107,12 @@ class AssetHandle {
   }
 }
 
-Widget _localImage(image, BoxFit? fit) {
+Widget _localImage(image, BoxFit? fit, {Color? color}) {
   return Image.file(
     image is String ? File(image) : image,
     height: double.infinity,
     fit: fit ?? BoxFit.fill,
+    color: color,
     width: double.infinity,
   );
 }

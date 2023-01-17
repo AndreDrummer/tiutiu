@@ -52,11 +52,9 @@ class _RequestPermissionsOrHome extends StatelessWidget {
 
         return Obx(
           () {
-            final accessDenied = isLocalAccessPermissionDenied(
-              currentLocationController.permission,
-            );
+            final accessDenied = isLocalAccessPermissionDenied(currentLocationController.permission.value);
 
-            if (accessDenied) {
+            if (accessDenied && !currentLocationController.canContinue) {
               return LocalizationServiceAccessPermissionAccess(
                 gpsIsActive: currentLocationController.gpsStatus.isActive,
                 localAccessDenied: accessDenied,
@@ -71,9 +69,10 @@ class _RequestPermissionsOrHome extends StatelessWidget {
   }
 
   bool isLocalAccessPermissionDenied(
-    LocationPermission currentLocationPermission,
+    LocationPermission? currentLocationPermission,
   ) {
-    return currentLocationPermission != LocationPermission.always &&
-        currentLocationPermission != LocationPermission.whileInUse;
+    return currentLocationPermission == null ||
+        currentLocationPermission != LocationPermission.always &&
+            currentLocationPermission != LocationPermission.whileInUse;
   }
 }
