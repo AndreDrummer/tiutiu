@@ -1,3 +1,4 @@
+import 'package:tiutiu/features/home/controller/home_controller.dart';
 import 'package:tiutiu/features/posts/model/filter_params.dart';
 import 'package:tiutiu/core/widgets/simple_text_button.dart';
 import 'package:tiutiu/core/widgets/lottie_animation.dart';
@@ -44,7 +45,7 @@ class EmptyListScreen extends StatelessWidget {
                 textColor: Colors.lightBlue,
                 fontSize: 12,
                 onPressed: () {
-                  filterController.reset(homeController.bottomBarIndex == 1);
+                  filterController.reset(homeController.bottomBarIndex == BottomBarIndex.FINDER.indx);
                 },
               ),
             ),

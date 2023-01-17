@@ -90,7 +90,9 @@ class FeedbackController extends GetxController with TiuTiuPopUp {
     if (isFormValid) {
       setLoading(true, '');
 
-      updateFeedback(FeedbackEnum.deviceInfo, await systemController.getDeviceInfo());
+      if (feedback.contactSubject == DeleteAccountStrings.bugs) {
+        updateFeedback(FeedbackEnum.deviceInfo, await systemController.getDeviceInfo());
+      }
 
       await _submit().then((_) async => _showsSuccessPopup(), onError: (error, stackTrace) {
         debugPrint('TiuTiuApp: Error when tryna upload feedback: $error, $stackTrace');

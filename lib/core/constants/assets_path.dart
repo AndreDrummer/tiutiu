@@ -1,14 +1,13 @@
 class ImageAssets {
+  static String get noTiutiutok => 'assets/images/no-tiutiu-tok-found.png';
   static String get googleMapsPin => 'assets/images/google-maps-pin.webp';
-  static String get whatsappShare => 'assets/images/whatsapp_share.webp';
-  static String get playPawGreen => 'assets/images/play_paw_green.webp';
-  static String get playPawWhite => 'assets/images/play_paw_white.webp';
   static String get googlePlaces => 'assets/images/google-places.webp';
   static String get noConnection => 'assets/images/no-connection.webp';
   static String get profileEmpty => 'assets/images/profileEmpty.webp';
   static String get playstoreLogo => 'assets/images/playstore.webp';
   static String get applestoreLogo => 'assets/images/apple.webp';
   static String get instaLogo => 'assets/images/insta.webp';
+  static String get playPaw => 'assets/images/play-paw.webp';
   static String get newLogo => 'assets/images/newLogo.png';
   static String get bones2 => 'assets/images/bones2.webp';
   static String get follow => 'assets/images/follow.webp';

@@ -1,5 +1,6 @@
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:tiutiu/core/constants/assets_path.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
@@ -7,21 +8,37 @@ import 'package:tiutiu/core/constants/strings.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tiutiu/core/utils/asset_handle.dart';
+import 'dart:math';
 
-class BottomBar extends StatelessWidget {
+class BottomBar extends StatefulWidget {
   BottomBar({super.key});
+
+  @override
+  State<BottomBar> createState() => _BottomBarState();
+}
+
+class _BottomBarState extends State<BottomBar> {
+  bool isTiuTokIndex = false;
 
   @override
   Widget build(BuildContext context) {
     return Obx(
       () {
         return BottomNavigationBar(
-            onTap: (index) => homeController.setIndex(index),
+            onTap: (index) {
+              if (index == 1) {
+                setState(() {
+                  isTiuTokIndex = true;
+                });
+              }
+              homeController.setIndex(index);
+            },
+            selectedLabelStyle: isTiuTokIndex ? GoogleFonts.miltonianTattoo() : null,
             currentIndex: homeController.bottomBarIndex,
             selectedItemColor: AppColors.primary,
-            backgroundColor: AppColors.black,
             unselectedItemColor: AppColors.white,
             type: BottomNavigationBarType.fixed,
+            backgroundColor: AppColors.black,
             showSelectedLabels: true,
             unselectedFontSize: 10.0,
             selectedFontSize: 10,
@@ -71,10 +88,11 @@ class BottomBar extends StatelessWidget {
       height: 20.0.h,
       width: 20.0.h,
       child: Padding(
-        padding: const EdgeInsets.all(1.0),
-        child: AssetHandle.getImage(
-          isActive ? ImageAssets.playPawGreen : ImageAssets.playPawWhite,
+        child: Transform.rotate(
+          child: AssetHandle.getImage(ImageAssets.playPaw, color: isActive ? AppColors.primary : AppColors.white),
+          angle: 19.5 / pi,
         ),
+        padding: const EdgeInsets.all(1.0),
       ),
     );
   }
