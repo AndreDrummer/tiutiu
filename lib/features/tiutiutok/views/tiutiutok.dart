@@ -1,3 +1,5 @@
+import 'package:auto_size_text/auto_size_text.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:tiutiu/features/saveds/widgets/post_is_saved_stream.dart';
 import 'package:tiutiu/core/location/models/states_and_cities.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -26,43 +28,84 @@ class TiutiuTok extends StatelessWidget {
   Widget build(BuildContext context) {
     late Post post;
 
-    return Obx(() {
-      final postsWithVideo = postsController.posts.where((post) => post.video != null).toList();
+    return Scaffold(
+      backgroundColor: AppColors.white,
+      body: Center(
+        child: Obx(() {
+          final postsWithVideo = [];
+          postsController.posts.where((post) => post.video != null).toList();
 
-      return Padding(
-        padding: EdgeInsets.only(bottom: 44.0.h),
-        child: CarouselSlider.builder(
-          itemCount: postsWithVideo.length,
-          itemBuilder: (context, index, realIndex) {
-            post = postsWithVideo[index];
-            postsController.increasePostViews(post.uid);
-
-            return Stack(
+          if (postsWithVideo.isEmpty) {
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                _video(post),
-                _buttons(post),
-                _postDetails(post),
-                _loadingBlur(),
+                Container(
+                  height: 96.0.h,
+                  width: 96.0.h,
+                  decoration: BoxDecoration(
+                    color: AppColors.black,
+                    shape: BoxShape.circle,
+                  ),
+                  child: Padding(
+                    padding: EdgeInsets.all(8.0.h),
+                    child: AssetHandle.getImage(ImageAssets.noTiutiutok),
+                  ),
+                ),
+                SizedBox(height: 32.0.h),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.only(top: 2.0),
+                      child: AutoSizeTexts.autoSizeText12('Nenhum ', color: AppColors.black),
+                    ),
+                    AutoSizeText('Tiutiu Tok', style: GoogleFonts.miltonianTattoo(color: AppColors.black)),
+                    Padding(
+                      padding: EdgeInsets.only(top: 2.0),
+                      child: AutoSizeTexts.autoSizeText12(' encontrado ', color: AppColors.black),
+                    ),
+                  ],
+                )
               ],
             );
-          },
-          options: CarouselOptions(
-            onPageChanged: (index, reason) async {
-              if (!authController.userExists) {
-                await likesController.getLikesSavedOnDevice();
-              }
-            },
-            scrollDirection: Axis.vertical,
-            autoPlayCurve: Curves.easeIn,
-            enableInfiniteScroll: false,
-            enlargeCenterPage: false,
-            disableCenter: true,
-            viewportFraction: 1,
-            autoPlay: false,
-          ),
-        ),
-      );
-    });
+          }
+
+          return Padding(
+            padding: EdgeInsets.only(bottom: 44.0.h),
+            child: CarouselSlider.builder(
+              itemCount: postsWithVideo.length,
+              itemBuilder: (context, index, realIndex) {
+                post = postsWithVideo[index];
+                postsController.increasePostViews(post.uid);
+
+                return Stack(
+                  children: [
+                    _video(post),
+                    _buttons(post),
+                    _postDetails(post),
+                    _loadingBlur(),
+                  ],
+                );
+              },
+              options: CarouselOptions(
+                onPageChanged: (index, reason) async {
+                  if (!authController.userExists) {
+                    await likesController.getLikesSavedOnDevice();
+                  }
+                },
+                scrollDirection: Axis.vertical,
+                autoPlayCurve: Curves.easeIn,
+                enableInfiniteScroll: false,
+                enlargeCenterPage: false,
+                disableCenter: true,
+                viewportFraction: 1,
+                autoPlay: false,
+              ),
+            ),
+          );
+        }),
+      ),
+    );
   }
 
   Widget _video(Post post) {
@@ -93,7 +136,7 @@ class TiutiuTok extends StatelessWidget {
         ),
         key: Key(post.uid.toString()),
         playFraction: 0.9,
-        autoPlay: false,
+        autoPlay: true,
       ),
     );
   }
@@ -261,11 +304,9 @@ class TiutiuTok extends StatelessWidget {
       child: Column(
         children: [
           CircleAvatar(
-            radius: 14.0.h,
-            backgroundColor: Colors.transparent,
-            child: AssetHandle.getImage(
-              ImageAssets.whatsappShare,
-            ),
+            radius: 12.0.h,
+            backgroundColor: AppColors.primary,
+            child: Center(child: Icon(FontAwesomeIcons.whatsapp, color: AppColors.white, size: 16.h)),
           ),
           StreamBuilder<int>(
             stream: postsController.postSharedTimes(post.uid!),
@@ -273,7 +314,7 @@ class TiutiuTok extends StatelessWidget {
               int sharedTimesNumber = snapshot.data ?? post.likes;
 
               return _counterText(
-                padding: EdgeInsets.only(left: 2.0.w, top: 2.0.h),
+                padding: EdgeInsets.only(right: 1.0.w, top: 5.0.h),
                 text: '$sharedTimesNumber',
               );
             },
