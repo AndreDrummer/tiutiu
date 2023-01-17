@@ -1,9 +1,9 @@
 import 'package:tiutiu/features/auth/views/authenticated_area.dart';
 import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:tiutiu/core/utils/routes/routes_name.dart';
 import 'package:tiutiu/core/widgets/custom_list_tile.dart';
 import 'package:package_info_plus/package_info_plus.dart';
-import 'package:tiutiu/core/utils/routes/routes_name.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/constants/assets_path.dart';
 import 'package:tiutiu/core/constants/text_styles.dart';
@@ -146,7 +146,7 @@ class More extends StatelessWidget {
     return Container(
       padding: EdgeInsets.zero,
       margin: EdgeInsets.zero,
-      height: Get.height / 1.7,
+      height: Get.height / 1.5,
       child: ListView.separated(
         padding: EdgeInsets.zero,
         separatorBuilder: (context, index) => Divider(),
