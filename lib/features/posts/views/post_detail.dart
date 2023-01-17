@@ -6,6 +6,7 @@ import 'package:tiutiu/features/posts/widgets/post_action_button.dart';
 import 'package:tiutiu/core/pets/model/pet_caracteristics_model.dart';
 import 'package:tiutiu/features/dennounce/model/post_dennounce.dart';
 import 'package:tiutiu/features/saveds/widgets/save_button.dart';
+import 'package:tiutiu/features/posts/widgets/loading_blur.dart';
 import 'package:tiutiu/core/widgets/no_connection_text_info.dart';
 import 'package:tiutiu/features/posts/widgets/card_content.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -18,7 +19,6 @@ import 'package:tiutiu/core/utils/launcher_functions.dart';
 import 'package:tiutiu/core/widgets/lottie_animation.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/widgets/tiutiu_snackbar.dart';
-import 'package:tiutiu/core/views/load_dark_screen.dart';
 import 'package:tiutiu/core/widgets/dots_indicator.dart';
 import 'package:tiutiu/core/widgets/warning_widget.dart';
 import 'package:tiutiu/core/constants/contact_type.dart';
@@ -204,7 +204,7 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
               ),
             ),
             Positioned(child: BackButton(color: AppColors.white), left: 8.0.w, top: 24.0.h),
-            _loadingBlur()
+            LoadingBlur()
           ],
         ),
       ),
@@ -668,15 +668,6 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
         visible: postsController.isInReviewMode,
         replacement: editOrContact(),
         child: backReviewAndUploadPost(),
-      ),
-    );
-  }
-
-  Obx _loadingBlur() {
-    return Obx(
-      () => LoadDarkScreen(
-        message: postsController.uploadingPostText,
-        visible: postsController.isLoading,
       ),
     );
   }
