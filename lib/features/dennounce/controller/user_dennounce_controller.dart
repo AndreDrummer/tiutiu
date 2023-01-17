@@ -6,6 +6,10 @@ import 'package:uuid/uuid.dart';
 import 'package:get/get.dart';
 
 class UserDennounceController extends GetxController {
+  UserDennounceController({required DennounceServices dennounceServices}) : _dennounceServices = dennounceServices;
+
+  final DennounceServices _dennounceServices;
+
   final Rx<UserDennounce> _userDennounce = _defaultUserDennounce().obs;
   final RxInt _userDennounceGroupValue = 2.obs;
   final RxBool _isLoading = false.obs;
@@ -44,7 +48,8 @@ class UserDennounceController extends GetxController {
     updateUserDennounce(UserDennounceEnum.dennouncer, tiutiuUserController.tiutiuUser);
     updateUserDennounce(UserDennounceEnum.uid, Uuid().v4());
 
-    DennounceServices().uploadUserDennounceData(userDennounce);
+    _dennounceServices.uploadUserDennounceData(userDennounce);
+    _dennounceServices.increaseUserDennounces(userDennounce.dennouncedUser!.uid!);
     resetForm();
     setLoading(false);
   }
