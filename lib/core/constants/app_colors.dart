@@ -17,6 +17,7 @@ class AppColors {
   static MaterialColor primary = MaterialColor(0XFF4CAF50, _primaryColorCodes);
   static MaterialColor white = MaterialColor(0XFFFFFFFF, _primaryColorCodes);
   static MaterialColor whiteIce = MaterialColor(0XFF9B9A98, _primaryColorCodes);
+  static MaterialColor pink = MaterialColor(0XFFD7326A, _primaryColorCodes);
   static MaterialColor black = MaterialColor(0XFF000000, _primaryColorCodes);
   static MaterialColor success = MaterialColor(0XFF4CAF50, _primaryColorCodes);
   static MaterialColor warning = MaterialColor(0XFFFFD740, _primaryColorCodes);

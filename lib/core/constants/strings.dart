@@ -257,11 +257,11 @@ class MoreStrings {
 class MyProfileOptionsTile {
   static const String deleteAccount = 'Deletar minha conta';
   static const String about = 'Sobre o aplicativo';
+  static const String myPosts = 'Minhas Postagens';
   static const String talkWithUs = 'Fale conosco';
   static const String settings = 'Configurações';
   static const String ourNet = 'Nossa redes';
   static const String messages = 'Mensagens';
-  static const String myPosts = 'Meus Posts';
   static const String saveds = 'Salvos';
   static const String support = 'Apoie';
   static const String leave = 'Sair';

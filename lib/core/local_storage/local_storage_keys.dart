@@ -7,6 +7,7 @@ enum LocalStorageKey {
   whatsappTokenData,
   enableCrashlytics,
   lastKnowLocation,
+  unloggedLikesMap,
   facebookAuthData,
   sharedFilesMap,
   googleAuthData,
