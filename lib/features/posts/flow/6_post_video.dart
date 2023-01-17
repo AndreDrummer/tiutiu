@@ -32,7 +32,6 @@ class PostVideo extends StatelessWidget {
           Spacer(),
           _videoErrorLabel(),
           _removeVideoButton(),
-          Spacer(),
         ],
       ),
     );

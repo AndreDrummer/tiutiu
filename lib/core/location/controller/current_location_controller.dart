@@ -1,8 +1,8 @@
-import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/extensions/service_location_status.dart';
 import 'package:tiutiu/core/local_storage/local_storage_keys.dart';
 import 'package:tiutiu/core/extensions/string_extension.dart';
 import 'package:tiutiu/core/local_storage/local_storage.dart';
+import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/location/models/latlng.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:geocoding/geocoding.dart';
@@ -11,7 +11,7 @@ import 'package:get/get.dart';
 import 'dart:io';
 
 class CurrentLocationController extends GetxController {
-  final Rx<LocationPermission> _permission = LocationPermission.denied.obs;
+  final Rx<LocationPermission> permission = LocationPermission.unableToDetermine.obs;
   final Rx<GPSStatus> _gpsStatus = GPSStatus.deactivated.obs;
   final Rx<Placemark> _currentPlacemark = Placemark().obs;
   final Rx<LatLng> _currentLocation = LatLng(0, 0).obs;
@@ -20,7 +20,6 @@ class CurrentLocationController extends GetxController {
 
   bool get isPermissionGranted => _isPermissionGranted.value;
   Placemark get currentPlacemark => _currentPlacemark.value;
-  LocationPermission get permission => _permission.value;
   LatLng get location => _currentLocation.value;
   GPSStatus get gpsStatus => _gpsStatus.value;
   bool get canContinue => _canContinue.value;
@@ -29,8 +28,8 @@ class CurrentLocationController extends GetxController {
     _currentPlacemark(placemark);
   }
 
-  void set permission(LocationPermission value) {
-    _permission(value);
+  void setPermission(LocationPermission value) {
+    permission(value);
   }
 
   void set locationServiceEnabled(GPSStatus status) {
@@ -62,21 +61,26 @@ class CurrentLocationController extends GetxController {
   }
 
   Future<void> checkPermission() async {
-    permission = await Geolocator.checkPermission();
+    setPermission(await Geolocator.checkPermission());
 
-    if (permission == LocationPermission.always || permission == LocationPermission.whileInUse) {
+    debugPrint('TiuTiuApp: checked permission ${await Geolocator.checkPermission()}');
+
+    if (permission() == LocationPermission.always || permission() == LocationPermission.whileInUse) {
       isPermissionGranted = true;
     }
   }
 
   Future<void> updatePermission() async {
-    permission = await Geolocator.requestPermission();
+    if (permission == LocationPermission.denied) {
+      setPermission(await Geolocator.requestPermission());
+    }
+    debugPrint('TiuTiuApp: local access permission ${permission()}');
+
     setUserLocation();
-    debugPrint('TiuTiuApp: local access permission $permission');
   }
 
   Future<void> handleLocationPermission() async {
-    final permissionDeniedForever = permission == LocationPermission.deniedForever;
+    final permissionDeniedForever = permission() == LocationPermission.deniedForever;
 
     if (permissionDeniedForever) {
       debugPrint('TiuTiuApp: local access denied forever? $permissionDeniedForever');
@@ -92,7 +96,6 @@ class CurrentLocationController extends GetxController {
   }
 
   Future<void> setUserLocation({LatLng? currentLocation}) async {
-    await checkPermission();
     if (isPermissionGranted) {
       if (currentLocation == null) {
         final position = await Geolocator.getCurrentPosition(

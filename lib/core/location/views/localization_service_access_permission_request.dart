@@ -1,26 +1,29 @@
-import 'package:tiutiu/core/location/controller/current_location_controller.dart';
+import 'package:get/get.dart';
+import 'package:tiutiu/core/widgets/button_wide_outlined.dart';
 import 'package:tiutiu/core/widgets/default_basic_app_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:tiutiu/core/widgets/lottie_animation.dart';
+import 'package:tiutiu/core/controllers/controllers.dart';
+import 'package:tiutiu/core/widgets/app_name_widget.dart';
 import 'package:tiutiu/core/constants/assets_path.dart';
 import 'package:tiutiu/core/constants/text_styles.dart';
-import 'package:tiutiu/core/widgets/app_name_widget.dart';
-import 'package:tiutiu/core/constants/strings.dart';
+import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/core/widgets/button_wide.dart';
 import 'package:tiutiu/core/widgets/background.dart';
+import 'package:tiutiu/core/constants/strings.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-
-final CurrentLocationController _currentLocationController = Get.find();
 
 class LocalizationServiceAccessPermissionAccess extends StatelessWidget {
   const LocalizationServiceAccessPermissionAccess({
     this.localAccessDenied = false,
+    this.showSpyButton = true,
     this.gpsIsActive = false,
     super.key,
   });
 
   final bool localAccessDenied;
+  final bool showSpyButton;
   final bool gpsIsActive;
 
   @override
@@ -28,36 +31,47 @@ class LocalizationServiceAccessPermissionAccess extends StatelessWidget {
     debugPrint('TiuTiuApp: local access denied? ${localAccessDenied ? 'Sim' : 'Não'}');
 
     return Scaffold(
-      appBar: DefaultBasicAppBar(text: LocalPermissionStrings.appBarTitle),
-      body: Column(
-        children: [
-          SizedBox(height: 16.0.h),
-          _googleMapsPin(),
-          Spacer(),
-          _googleRoutesImage(),
-          Spacer(),
-          AppNameWidget(),
-          SizedBox(height: 8.0.h),
-          _explainAccessPermissionText(),
-          Spacer(),
-          _primaryButton(),
-          Spacer(),
-        ],
-      ),
-    );
+        appBar: DefaultBasicAppBar(text: LocalPermissionStrings.appBarTitle),
+        body: Center(
+          child: Column(
+            children: [
+              _petPawPin(),
+              SizedBox(height: 32.0.h),
+              _googleRoutesImage(),
+              SizedBox(height: Get.width / 8),
+              AppNameWidget(),
+              SizedBox(height: 8.0.h),
+              _explainAccessPermissionText(),
+              SizedBox(height: 8.0.h),
+              _warningAboutConfigsSeetings(),
+              Spacer(),
+              _primaryButton(),
+              _secondaryButton(),
+              Spacer(),
+            ],
+          ),
+        ));
   }
 
-  CircleAvatar _googleMapsPin() {
-    return CircleAvatar(
-      radius: 70,
-      backgroundColor: Colors.transparent,
-      child: ClipOval(
-        child: Image.asset(ImageAssets.googleMapsPin),
-      ),
-    );
+  Widget _petPawPin() {
+    return LottieAnimation(animationPath: AnimationsAssets.petLocationPin, size: 120.0.h);
   }
 
   Background _googleRoutesImage() => Background(image: ImageAssets.googlePlaces);
+
+  Widget _warningAboutConfigsSeetings() {
+    return Visibility(
+      visible: currentLocationController.permission.value == LocationPermission.deniedForever,
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 8.0.w),
+        child: AutoSizeTexts.autoSizeText14(
+          LocalPermissionStrings.permissionDeniedForeverWarning,
+          textAlign: TextAlign.center,
+          color: AppColors.danger,
+        ),
+      ),
+    );
+  }
 
   Widget _explainAccessPermissionText() {
     return Padding(
@@ -76,27 +90,37 @@ class LocalizationServiceAccessPermissionAccess extends StatelessWidget {
     );
   }
 
+  Widget _secondaryButton() {
+    return Visibility(
+      visible: showSpyButton,
+      child: OutlinedButtonWide(
+        color: AppColors.secondary,
+        onPressed: () {
+          currentLocationController.canContinue = true;
+        },
+        text: LocalPermissionStrings.enterAsSpy,
+      ),
+    );
+  }
+
   void onPrimaryPressed() {
-    if (!gpsIsActive) {
-      _currentLocationController.openDeviceSettings();
+    if (!gpsIsActive || currentLocationController.permission.value == LocationPermission.deniedForever) {
+      currentLocationController.openDeviceSettings();
     } else {
-      _currentLocationController.handleLocationPermission();
+      currentLocationController.handleLocationPermission();
     }
   }
 
   String _getButtonText() {
-    final currentPermission = _currentLocationController.permission;
-
     if (!gpsIsActive) {
       return LocalPermissionStrings.turnOnLocalization;
     } else {
-      if (localAccessDenied) {
-        if (currentPermission == LocationPermission.deniedForever) {
-          return LocalPermissionStrings.openSettings;
-        } else if (currentPermission == LocationPermission.denied) {
-          return LocalPermissionStrings.grantAcess;
-        }
+      if (currentLocationController.permission.value == LocationPermission.deniedForever) {
+        return LocalPermissionStrings.openSettings;
+      } else if (currentLocationController.permission.value == LocationPermission.denied) {
+        return LocalPermissionStrings.grantAcess;
       }
+
       return LocalPermissionStrings.grantAcess;
     }
   }

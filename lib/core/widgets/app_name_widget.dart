@@ -19,6 +19,7 @@ class AppNameWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return AutoSizeText(
       AppStrings.name,
+      textAlign: TextAlign.center,
       style: GoogleFonts.miltonianTattoo(
         textStyle: TextStyle(
           fontWeight: fontWeight ?? FontWeight.bold,
