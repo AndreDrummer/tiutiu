@@ -35,6 +35,7 @@ class TiutiuTok extends StatelessWidget {
           itemCount: postsWithVideo.length,
           itemBuilder: (context, index, realIndex) {
             post = postsWithVideo[index];
+            postsController.increasePostViews(post.uid);
 
             return Stack(
               children: [
@@ -76,8 +77,8 @@ class TiutiuTok extends StatelessWidget {
             enableMute: false,
           ),
           aspectRatio: .4,
-          // autoPlay: true,
-          // looping: true,
+          autoPlay: true,
+          looping: true,
           errorBuilder: (context, errorMessage) {
             return VideoError(
               onRetry: () {},
@@ -128,7 +129,7 @@ class TiutiuTok extends StatelessWidget {
       child: Column(
         children: [
           _disappearedAlertAnimation(post),
-          _viewsIcon(post.views),
+          _viewsIcon(post),
           _likeButton(post),
           _saveButton(post),
           _whatsAppShareButton(post),
@@ -158,16 +159,23 @@ class TiutiuTok extends StatelessWidget {
     );
   }
 
-  Widget _viewsIcon(int views) {
+  Widget _viewsIcon(Post post) {
     return Column(
       children: [
         CircleAvatar(
           backgroundColor: Colors.transparent,
           child: Icon(FontAwesomeIcons.eye, color: AppColors.whiteIce),
         ),
-        _counterText(
-          padding: EdgeInsets.only(left: 4.0.w, top: 2.0.h),
-          text: '$views',
+        StreamBuilder<int>(
+          stream: postsController.postViews(post.uid!),
+          builder: (context, snapshot) {
+            int views = snapshot.data ?? post.likes;
+
+            return _counterText(
+              padding: EdgeInsets.only(left: 2.0.w, top: 2.0.h),
+              text: '$views',
+            );
+          },
         ),
         SizedBox(height: 8.0.h),
       ],
@@ -175,34 +183,48 @@ class TiutiuTok extends StatelessWidget {
   }
 
   Widget _likeButton(Post post) {
-    return InkWell(
-      onTap: () {
-        likesController.like(post);
+    return StreamBuilder<bool>(
+      stream: likesController.postIsLiked(post),
+      builder: (context, snapshot) {
+        final liked = snapshot.data ?? false;
+
+        return InkWell(
+          onTap: () {
+            likesController.like(post, wasLiked: liked);
+          },
+          child: Column(
+            children: [
+              CircleAvatar(
+                backgroundColor: Colors.transparent,
+                child: Icon(FontAwesomeIcons.solidHeart, color: liked ? AppColors.pink : AppColors.whiteIce),
+              ),
+              StreamBuilder<int>(
+                stream: likesController.postLikes(post.uid!),
+                builder: (context, snapshot) {
+                  int likesNumber = snapshot.data ?? post.likes;
+                  likesNumber = likesNumber > 0 ? likesNumber : 0;
+
+                  return _counterText(
+                    padding: EdgeInsets.only(left: 2.0.w, top: 2.0.h),
+                    text: '$likesNumber',
+                  );
+                },
+              ),
+            ],
+          ),
+        );
       },
-      child: Column(
-        children: [
-          CircleAvatar(
-            backgroundColor: Colors.transparent,
-            child: Icon(FontAwesomeIcons.solidHeart, color: AppColors.whiteIce),
-          ),
-          _counterText(
-            padding: EdgeInsets.only(left: 2.0.w, top: 2.0.h),
-            text: '${post.likes}',
-          ),
-          SizedBox(height: 8.0.h),
-        ],
-      ),
     );
   }
 
   Widget _saveButton(Post post) {
     return PostIsSavedStream(
       post: post,
-      builder: (icon, isActive) {
+      builder: (icon, isSaved) {
         return InkWell(
           onTap: () {
             if (authController.userExists) {
-              savedsController.save(post);
+              savedsController.save(post, wasSaved: isSaved);
             } else {
               homeController.setMoreIndex();
             }
@@ -211,7 +233,7 @@ class TiutiuTok extends StatelessWidget {
             children: [
               CircleAvatar(
                 backgroundColor: Colors.transparent,
-                child: Icon(Icons.bookmark, size: 24.0.h, color: isActive ? AppColors.white : AppColors.whiteIce),
+                child: Icon(Icons.bookmark, size: 24.0.h, color: isSaved ? AppColors.white : AppColors.whiteIce),
               ),
               _counterText(
                 padding: EdgeInsets.only(left: 2.0.w, top: 2.0.h),
@@ -240,9 +262,16 @@ class TiutiuTok extends StatelessWidget {
               ImageAssets.whatsappShare,
             ),
           ),
-          _counterText(
-            padding: EdgeInsets.only(right: 2.0.w, top: 8.0.h),
-            text: '${post.shared}',
+          StreamBuilder<int>(
+            stream: postsController.postSharedTimes(post.uid!),
+            builder: (context, snapshot) {
+              int sharedTimesNumber = snapshot.data ?? post.likes;
+
+              return _counterText(
+                padding: EdgeInsets.only(left: 2.0.w, top: 2.0.h),
+                text: '$sharedTimesNumber',
+              );
+            },
           ),
           SizedBox(height: 8.0.h),
         ],

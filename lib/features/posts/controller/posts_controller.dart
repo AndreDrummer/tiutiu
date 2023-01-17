@@ -137,6 +137,10 @@ class PostsController extends GetxController with TiuTiuPopUp {
     return _postService.postViews(postId);
   }
 
+  Stream<int> postSharedTimes(String postId) {
+    return _postService.postSharedTimes(postId);
+  }
+
   Future<void> uploadPost() async {
     if (post.createdAt == null) updatePost(PostEnum.createdAt.name, DateTime.now().toIso8601String());
 
@@ -235,9 +239,15 @@ class PostsController extends GetxController with TiuTiuPopUp {
     _uploadingPostText('');
   }
 
-  Future<void> increasePostViews() async {
+  Future<void> increasePostViews([String? postId]) async {
+    if (postId != null || (!isEditingPost && !isInReviewMode && !postBelongsToMe())) {
+      await _postService.increasePostViews(postId ?? post.uid!);
+    }
+  }
+
+  Future<void> increasePostSharedTimes() async {
     if (!isEditingPost && !isInReviewMode && !postBelongsToMe()) {
-      await _postService.increasePostViews(post.uid!, post.views);
+      await _postService.increasePostSharedTimes(post.uid!);
     }
   }
 
@@ -245,12 +255,10 @@ class PostsController extends GetxController with TiuTiuPopUp {
     if (!isEditingPost && !isInReviewMode && !postBelongsToMe()) {
       List currentDennounces = post.dennounceMotives;
       List dennounceMotives = [...currentDennounces];
-      int timesDennouncedQty = post.timesDennounced;
-      timesDennouncedQty++;
 
       dennounceMotives.add(dennounceMotive);
 
-      await _postService.increasePostDennounces(post.uid!, timesDennouncedQty, dennounceMotives);
+      await _postService.increasePostDennounces(post.uid!, dennounceMotives);
     }
   }
 
@@ -293,6 +301,8 @@ class PostsController extends GetxController with TiuTiuPopUp {
       );
 
       showPopUp(message: AppStrings.unableToGenerateSharebleFile, backGroundColor: AppColors.danger);
+    } else {
+      increasePostSharedTimes();
     }
   }
 

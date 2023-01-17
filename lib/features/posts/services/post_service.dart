@@ -18,15 +18,20 @@ class PostService extends GetxService {
     return EndpointResolver.getCollectionEndpoint(EndpointNames.pathToPosts.name);
   }
 
-  Future<void> increasePostViews(String postId, int currentViews) async {
+  Future<void> increasePostViews(String postId) async {
     await EndpointResolver.getDocumentEndpoint(EndpointNames.pathToPost.name, [postId])
-        .set({PostEnum.views.name: ++currentViews}, SetOptions(merge: true));
+        .set({PostEnum.views.name: FieldValue.increment(1)}, SetOptions(merge: true));
   }
 
-  Future<void> increasePostDennounces(String postId, int currentDennounces, List dennounceMotives) async {
+  Future<void> increasePostSharedTimes(String postId) async {
+    await EndpointResolver.getDocumentEndpoint(EndpointNames.pathToPost.name, [postId])
+        .set({PostEnum.sharedTimes.name: FieldValue.increment(1)}, SetOptions(merge: true));
+  }
+
+  Future<void> increasePostDennounces(String postId, List dennounceMotives) async {
     await EndpointResolver.getDocumentEndpoint(EndpointNames.pathToPost.name, [postId]).set({
       PostEnum.dennounceMotives.name: dennounceMotives,
-      PostEnum.timesDennounced.name: currentDennounces,
+      PostEnum.timesDennounced.name: FieldValue.increment(1),
     }, SetOptions(merge: true));
   }
 
@@ -34,6 +39,12 @@ class PostService extends GetxService {
     return EndpointResolver.getDocumentEndpoint(EndpointNames.pathToPost.name, [postId])
         .snapshots()
         .asyncMap((snp) => snp.get(PostEnum.views.name));
+  }
+
+  Stream<int> postSharedTimes(String postId) {
+    return EndpointResolver.getDocumentEndpoint(EndpointNames.pathToPost.name, [postId])
+        .snapshots()
+        .asyncMap((snp) => snp.get(PostEnum.sharedTimes.name));
   }
 
   Future<void> uploadVideo({required Function(String?) onVideoUploaded, required Post post}) async {
@@ -190,5 +201,12 @@ class PostService extends GetxService {
       post.uid,
       FileType.video.name,
     ]);
+  }
+
+  DocumentReference<Map<String, dynamic>> pathToPost(String postId) {
+    return EndpointResolver.getDocumentEndpoint(
+      EndpointNames.pathToPost.name,
+      [postId],
+    );
   }
 }
