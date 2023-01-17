@@ -185,9 +185,12 @@ class PetHealthString {
 }
 
 class LocalPermissionStrings {
+  static String get permissionDeniedForeverWarning =>
+      'Vá para a configuração de permissões no seu aparelho e permita que o Tiu, tiu acesse sua localização.\n\nAo finalizar, pode ser necessário fechar e abrir o app e abra novamente.';
   static String get needsAccess => 'precisa ter acesso total a sua localização para funcionar corretamente!';
   static String get needsGPS => 'precisa que o serviço de GPS / Localização esteja ativado!';
   static String get appBarTitle => 'Permissão para acessar sua localização';
+  static String get enterAsSpy => 'Entrar só pra dar uma olhada';
   static String get turnOnLocalization => 'ATIVAR LOCALIZAÇÃO';
   static String get openSettings => 'IR P/ CONFIGURAÇÕES';
   static String get grantAcess => 'CONCEDER ACESSO';
