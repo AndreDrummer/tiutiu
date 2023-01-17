@@ -43,8 +43,8 @@ class AddVideoItem extends StatelessWidget with Pickers {
           height: Dimensions.getDimensBasedOnDeviceHeight(
             xSmaller: hasError ? Get.height / 2.8 : Get.height / 2.2,
             smaller: hasError ? Get.height / 3 : Get.height / 2.2,
-            bigger: Get.height / 2.2,
-            medium: Get.height / 2.2,
+            bigger: hasError ? Get.height / 2.6 : Get.height / 2.2,
+            medium: hasError ? Get.height / 2.6 : Get.height / 2.2,
           ),
           child: Stack(
             children: [
