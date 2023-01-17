@@ -8,6 +8,7 @@ import 'package:tiutiu/core/pets/model/pet_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
+import 'dart:async';
 
 class LikesController extends GetxController {
   LikesController({
@@ -19,54 +20,77 @@ class LikesController extends GetxController {
   final LikesService _likesService;
   final PostService _postsService;
 
-  final RxList<Post> _LikedPosts = <Post>[].obs;
-  List<Post> get LikedPosts => _LikedPosts;
+  final RxList _likeSavedOnDevice = [].obs;
+
+  Stream<bool> likeSavedOnDevice(String postId) {
+    return _likeSavedOnDevice.stream.asyncMap((event) => event.contains(postId));
+  }
+
+  @override
+  void onInit() {
+    getLikesSavedOnDevice();
+    super.onInit();
+  }
+
+  Future getLikesSavedOnDevice() async {
+    final likesList = await LocalStorage.getValueUnderLocalStorageKey(LocalStorageKey.unloggedLikesMap);
+    _likeSavedOnDevice(likesList ?? []);
+  }
 
   Future<void> like(Post post, {bool wasLiked = false}) async {
     if (wasLiked) {
       await _unlike(post);
       await unSaveLikeOnLocal(post.uid!);
     } else {
-      if (authController.userExists) {
-        _likesService.likedsCollection().doc(post.uid).set(post.toMap());
-      }
-
-      _incrementLikes(post.uid!);
-
       debugPrint('TiuTiuApp: Post liked');
+      _incrementLikes(post.uid!);
+      saveLikeOnLocal(post.uid!);
+    }
+
+    if (authController.userExists) {
+      _likesService.likedsCollection().doc(post.uid).set(post.toMap());
     }
   }
 
   Future<void> _unlike(Post post) async {
     debugPrint('TiuTiuApp: Post unliked');
-    _likesService.likedsCollection().doc(post.uid).delete();
+    if (authController.userExists) {
+      _likesService.likedsCollection().doc(post.uid).delete();
+    }
+
     _decrementLikes(post.uid!);
+    unSaveLikeOnLocal(post.uid!);
   }
 
   Future<void> saveLikeOnLocal(String postId) async {
     final likesSavedOnLocal = await LocalStorage.getValueUnderLocalStorageKey(LocalStorageKey.unloggedLikesMap);
-    Map<String, dynamic> savedLikes = {};
+    List savedLikes = [];
 
     if (likesSavedOnLocal == null) {
-      savedLikes.putIfAbsent(postId, () => postId);
-    } else {
-      savedLikes.addAll(likesSavedOnLocal);
-      savedLikes.putIfAbsent(postId, () => postId);
-    }
+      savedLikes.add(postId);
 
-    await LocalStorage.setValueUnderLocalStorageKey(key: LocalStorageKey.unloggedLikesMap, value: savedLikes);
+      await LocalStorage.setValueUnderLocalStorageKey(key: LocalStorageKey.unloggedLikesMap, value: savedLikes);
+      _likeSavedOnDevice(savedLikes);
+    } else if (!likesSavedOnLocal.contains(postId)) {
+      savedLikes.addAll(likesSavedOnLocal);
+
+      savedLikes.add(postId);
+      await LocalStorage.setValueUnderLocalStorageKey(key: LocalStorageKey.unloggedLikesMap, value: savedLikes);
+      _likeSavedOnDevice(savedLikes);
+    }
   }
 
   Future<void> unSaveLikeOnLocal(String postId) async {
     final likesSavedOnLocal = await LocalStorage.getValueUnderLocalStorageKey(LocalStorageKey.unloggedLikesMap);
-    Map<String, dynamic> savedLikes = {};
+    List savedLikes = [];
 
     if (likesSavedOnLocal != null) {
       savedLikes.addAll(likesSavedOnLocal);
 
-      if (savedLikes.containsKey(postId)) {
+      if (savedLikes.contains(postId)) {
         savedLikes.remove(postId);
         await LocalStorage.setValueUnderLocalStorageKey(key: LocalStorageKey.unloggedLikesMap, value: savedLikes);
+        _likeSavedOnDevice(savedLikes);
       }
     }
   }
@@ -86,9 +110,7 @@ class LikesController extends GetxController {
           .snapshots()
           .asyncMap((event) => event.docs.firstWhereOrNull((e) => e.get(PostEnum.uid.name) == post.uid) != null);
     } else {
-      return LocalStorage.getValueUnderLocalStorageKey(LocalStorageKey.unloggedLikesMap)
-          .asStream()
-          .asyncMap((event) => (event as Map).containsKey(post.uid));
+      return _likeSavedOnDevice.stream.asyncMap((savedLikeList) => savedLikeList.contains(post.uid));
     }
   }
 
