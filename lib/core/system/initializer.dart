@@ -2,10 +2,11 @@ import 'package:tiutiu/features/talk_with_us/dependency_injection.dart';
 import 'package:tiutiu/features/tiutiu_user/dependency_injection.dart';
 import 'package:tiutiu/core/remote_config/dependency_injection.dart';
 import 'package:tiutiu/features/sponsored/dependency_injection.dart';
-import 'package:tiutiu/features/saveds/dependency_injection.dart';
 import 'package:tiutiu/features/dennounce/dependency_injection.dart';
 import 'package:tiutiu/features/support/dependency_injection.dart';
+import 'package:tiutiu/features/saveds/dependency_injection.dart';
 import 'package:tiutiu/features/posts/dependency_injection.dart';
+import 'package:tiutiu/features/likes/dependency_injection.dart';
 import 'package:tiutiu/features/admob/dependency_injection.dart';
 import 'package:tiutiu/features/home/dependency_injection.dart';
 import 'package:tiutiu/features/auth/dependency_injection.dart';
@@ -29,10 +30,11 @@ class SystemInitializer {
     AdminRemoteConfigControllerDependency(),
     CurrentLocationControllerDependency(),
     TiutiuUserControllerDependency(),
-    FavoritesControllerDependency(),
     SponsoredControllerDependency(),
     DennounceControllerDependency(),
+    SavedsControllerDependency(),
     SystemControllerDependency(),
+    LikesControllerDependency(),
     AdMobControllerDependency(),
     PostsControllerDependency(),
     HomeControllerDependency(),

@@ -34,6 +34,7 @@ class Pet extends Post {
       disappeared: snapshot.get(PetEnum.disappeared.name) ?? false,
       description: snapshot.get(PostEnum.description.name) ?? '',
       city: snapshot.get(PostEnum.city.name) ?? 'Acrelândia',
+      sharedTimes: snapshot.get(PostEnum.sharedTimes.name),
       state: snapshot.get(PostEnum.state.name) ?? 'Acre',
       ageMonth: snapshot.get(PetEnum.ageMonth.name) ?? 0,
       health: snapshot.get(PetEnum.health.name) ?? '-',
@@ -49,7 +50,6 @@ class Pet extends Post {
       type: snapshot.get(PostEnum.type.name) ?? '-',
       ownerId: snapshot.get(PostEnum.ownerId.name),
       photos: snapshot.get(PostEnum.photos.name),
-      shared: snapshot.get(PostEnum.shared.name),
       likes: snapshot.get(PostEnum.likes.name),
       saved: snapshot.get(PostEnum.saved.name),
       video: snapshot.get(PostEnum.video.name),
@@ -87,7 +87,7 @@ class Pet extends Post {
     this.reward = '',
     int likes = 0,
     int saved = 0,
-    int shared = 0,
+    int sharedTimes = 0,
     int views = 0,
     dynamic video,
     String? name,
@@ -96,6 +96,7 @@ class Pet extends Post {
           describedAddress: describedAddress,
           dennounceMotives: dennounceMotives,
           timesDennounced: timesDennounced,
+          sharedTimes: sharedTimes,
           description: description,
           hidden: donatedOrFound,
           longitude: longitude,
@@ -105,7 +106,6 @@ class Pet extends Post {
           latitude: latitude,
           ownerId: ownerId,
           photos: photos,
-          shared: shared,
           state: state,
           views: views,
           owner: owner,
@@ -135,11 +135,11 @@ class Pet extends Post {
       owner: TiutiuUser.fromMap(map[PostEnum.owner.name]),
       disappeared: map[PetEnum.disappeared.name] ?? false,
       description: map[PostEnum.description.name] ?? '',
+      sharedTimes: map[PostEnum.sharedTimes.name] ?? 0,
       city: map[PostEnum.city.name] ?? 'Acrelândia',
       state: map[PostEnum.state.name] ?? 'Acre',
       ageMonth: map[PetEnum.ageMonth.name] ?? 0,
       saved: map[PostEnum.saved.name] ?? 0,
-      shared: map[PostEnum.shared.name] ?? 0,
       health: map[PetEnum.health.name] ?? '-',
       gender: map[PetEnum.gender.name] ?? '-',
       longitude: map[PostEnum.longitude.name],
@@ -186,6 +186,7 @@ class Pet extends Post {
       PostEnum.timesDennounced.name: timesDennounced,
       PetEnum.lastSeenDetails.name: lastSeenDetails,
       PetEnum.donatedOrFound.name: donatedOrFound,
+      PostEnum.sharedTimes.name: sharedTimes,
       PostEnum.description.name: description,
       PetEnum.disappeared.name: disappeared,
       PostEnum.owner.name: owner?.toMap(),
@@ -195,7 +196,6 @@ class Pet extends Post {
       PetEnum.ageMonth.name: ageMonth,
       PostEnum.ownerId.name: ownerId,
       PetEnum.ageYear.name: ageYear,
-      PostEnum.shared.name: shared,
       PetEnum.health.name: health,
       PetEnum.gender.name: gender,
       PetEnum.reward.name: reward,
@@ -215,7 +215,7 @@ class Pet extends Post {
 
   @override
   String toString() {
-    return 'Pet(otherCaracteristics: $otherCaracteristics, saved: $saved, shared: $shared, chronicDiseaseInfo: $chronicDiseaseInfo, lastSeenDetails: $lastSeenDetails, donatedOrFound: $donatedOrFound, createdAt: $createdAt, likes: $likes, owner: $owner, longitude: $longitude, disappeared: $disappeared, latitude: $latitude, ownerId: $ownerId, timesDennounced: $timesDennounced, description: $description, gender: $gender, health: $health, color: $color, ageMonth: $ageMonth, breed: $breed, ageYear: $ageYear, size: $size, state: $state, photos: $photos, name: $name, type: $type, city: $city, uid: $uid, views: $views, video: $video, reward: $reward, reference: $reference,dennounceMotives: $dennounceMotives)';
+    return 'Pet(otherCaracteristics: $otherCaracteristics, saved: $saved, sharedTimes: $sharedTimes, chronicDiseaseInfo: $chronicDiseaseInfo, lastSeenDetails: $lastSeenDetails, donatedOrFound: $donatedOrFound, createdAt: $createdAt, likes: $likes, owner: $owner, longitude: $longitude, disappeared: $disappeared, latitude: $latitude, ownerId: $ownerId, timesDennounced: $timesDennounced, description: $description, gender: $gender, health: $health, color: $color, ageMonth: $ageMonth, breed: $breed, ageYear: $ageYear, size: $size, state: $state, photos: $photos, name: $name, type: $type, city: $city, uid: $uid, views: $views, video: $video, reward: $reward, reference: $reference,dennounceMotives: $dennounceMotives)';
   }
 
   @override
@@ -230,6 +230,7 @@ class Pet extends Post {
         other.timesDennounced == timesDennounced &&
         other.donatedOrFound == donatedOrFound &&
         other.disappeared == disappeared &&
+        other.sharedTimes == sharedTimes &&
         other.description == description &&
         other.longitude == longitude &&
         other.createdAt == createdAt &&
@@ -241,7 +242,6 @@ class Pet extends Post {
         other.gender == gender &&
         other.reward == reward &&
         other.saved == saved &&
-        other.shared == shared &&
         other.health == health &&
         other.photos == photos &&
         other.owner == owner &&
@@ -277,7 +277,7 @@ class Pet extends Post {
         ownerId.hashCode ^
         ageYear.hashCode ^
         gender.hashCode ^
-        shared.hashCode ^
+        sharedTimes.hashCode ^
         saved.hashCode ^
         photos.hashCode ^
         health.hashCode ^

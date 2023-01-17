@@ -1,3 +1,4 @@
+import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/widgets/cards/widgets/card_builder.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/features/posts/model/post.dart';
@@ -66,10 +67,11 @@ class CardAdList extends StatelessWidget {
                     ],
                   ),
                   cardBuilder.adViews(),
-                  SizedBox(height: 6.0.h),
+                  SizedBox(height: 8.0.h),
                   cardBuilder.adCityState(),
                   Divider(),
                   cardBuilder.adPostedAt(),
+                  Visibility(visible: !authController.userExists, child: SizedBox(height: 8.0.h)),
                   cardBuilder.adDistanceFromUser(),
                 ],
               ),
