@@ -68,8 +68,8 @@ class BottomBar extends StatelessWidget {
 
   Widget tiuTokIcon(bool isActive) {
     return SizedBox(
-      height: 21.0.h,
-      width: 21.0.h,
+      height: 20.0.h,
+      width: 20.0.h,
       child: Padding(
         padding: const EdgeInsets.all(1.0),
         child: AssetHandle.getImage(
