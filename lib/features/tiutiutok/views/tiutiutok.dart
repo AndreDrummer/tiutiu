@@ -47,6 +47,11 @@ class TiutiuTok extends StatelessWidget {
             );
           },
           options: CarouselOptions(
+            onPageChanged: (index, reason) async {
+              if (!authController.userExists) {
+                await likesController.getLikesSavedOnDevice();
+              }
+            },
             scrollDirection: Axis.vertical,
             autoPlayCurve: Curves.easeIn,
             enableInfiniteScroll: false,
