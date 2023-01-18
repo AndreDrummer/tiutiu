@@ -20,78 +20,61 @@ class LikesController extends GetxController {
   final LikesService _likesService;
   final PostService _postsService;
 
-  final RxList _likeSavedOnDevice = [].obs;
+  StreamController<List> _postLikedUnloggedIds = StreamController.broadcast();
 
-  Stream<bool> likeSavedOnDevice(String postId) {
-    return _likeSavedOnDevice.stream.asyncMap((event) => event.contains(postId));
-  }
+  List postLikedUnloggedIdsList = [];
+
+  Stream<List> get postLikedUnloggedIds => _postLikedUnloggedIds.stream;
 
   @override
-  void onInit() {
-    getLikesSavedOnDevice();
-    super.onInit();
+  void onClose() {
+    _syncUnloggedLikesStreamWithLocalStorage();
   }
 
-  Future getLikesSavedOnDevice() async {
-    final likesList = await LocalStorage.getValueUnderLocalStorageKey(LocalStorageKey.unloggedLikesMap);
-    _likeSavedOnDevice(likesList ?? []);
+  Future<void> getLikesSavedOnDevice() async {
+    postLikedUnloggedIdsList.clear();
+
+    postLikedUnloggedIdsList = await LocalStorage.getValueUnderLocalStorageKey(LocalStorageKey.unloggedLikesMap);
+    _postLikedUnloggedIds.sink.add(postLikedUnloggedIdsList);
   }
 
-  Future<void> like(Post post, {bool wasLiked = false}) async {
-    if (wasLiked) {
-      await _unlike(post);
-      await unSaveLikeOnLocal(post.uid!);
-    } else {
-      debugPrint('TiuTiuApp: Post liked');
-      _incrementLikes(post.uid!);
-      saveLikeOnLocal(post.uid!);
-    }
+  Future<void> _syncUnloggedLikesStreamWithLocalStorage() async {
+    final lastStreammeadList = await _postLikedUnloggedIds.stream.last;
+    await LocalStorage.setValueUnderLocalStorageKey(key: LocalStorageKey.unloggedLikesMap, value: lastStreammeadList);
+    _postLikedUnloggedIds.close();
+  }
+
+  Future<void> like(Post post) async {
+    debugPrint('TiuTiuApp: Post liked');
+    _incrementLikes(post.uid!);
+    _saveLikeOnLocal(post.uid!);
 
     if (authController.userExists) {
       _likesService.likedsCollection().doc(post.uid).set(post.toMap());
     }
   }
 
-  Future<void> _unlike(Post post) async {
+  Future<void> unlike(Post post) async {
     debugPrint('TiuTiuApp: Post unliked');
     if (authController.userExists) {
-      _likesService.likedsCollection().doc(post.uid).delete();
+      await _likesService.likedsCollection().doc(post.uid).delete();
     }
 
     _decrementLikes(post.uid!);
-    unSaveLikeOnLocal(post.uid!);
+    _unSaveLikeOnLocal(post.uid!);
   }
 
-  Future<void> saveLikeOnLocal(String postId) async {
-    final likesSavedOnLocal = await LocalStorage.getValueUnderLocalStorageKey(LocalStorageKey.unloggedLikesMap);
-    List savedLikes = [];
-
-    if (likesSavedOnLocal == null) {
-      savedLikes.add(postId);
-
-      await LocalStorage.setValueUnderLocalStorageKey(key: LocalStorageKey.unloggedLikesMap, value: savedLikes);
-      _likeSavedOnDevice(savedLikes);
-    } else if (!likesSavedOnLocal.contains(postId)) {
-      savedLikes.addAll(likesSavedOnLocal);
-
-      savedLikes.add(postId);
-      await LocalStorage.setValueUnderLocalStorageKey(key: LocalStorageKey.unloggedLikesMap, value: savedLikes);
-      _likeSavedOnDevice(savedLikes);
+  void _saveLikeOnLocal(String postId) {
+    if (!postLikedUnloggedIdsList.contains(postId)) {
+      postLikedUnloggedIdsList.add(postId);
+      _postLikedUnloggedIds.sink.add(postLikedUnloggedIdsList);
     }
   }
 
-  Future<void> unSaveLikeOnLocal(String postId) async {
-    final likesSavedOnLocal = await LocalStorage.getValueUnderLocalStorageKey(LocalStorageKey.unloggedLikesMap);
-    List savedLikes = [];
-
-    if (likesSavedOnLocal != null) {
-      savedLikes.addAll(likesSavedOnLocal);
-
-      if (savedLikes.contains(postId)) {
-        savedLikes.remove(postId);
-        await LocalStorage.setValueUnderLocalStorageKey(key: LocalStorageKey.unloggedLikesMap, value: savedLikes);
-        _likeSavedOnDevice(savedLikes);
-      }
+  Future<void> _unSaveLikeOnLocal(String postId) async {
+    if (postLikedUnloggedIdsList.contains(postId)) {
+      postLikedUnloggedIdsList.remove(postId);
+      _postLikedUnloggedIds.sink.add(postLikedUnloggedIdsList);
     }
   }
 
@@ -103,18 +86,14 @@ class LikesController extends GetxController {
     _postsService.pathToPost(postId).set({PostEnum.likes.name: FieldValue.increment(-1)}, SetOptions(merge: true));
   }
 
-  Stream<bool> postIsLiked(Post post) {
-    if (authController.userExists) {
-      return _likesService
-          .likedsCollection()
-          .snapshots()
-          .asyncMap((event) => event.docs.firstWhereOrNull((e) => e.get(PostEnum.uid.name) == post.uid) != null);
-    } else {
-      return _likeSavedOnDevice.stream.asyncMap((savedLikeList) => savedLikeList.contains(post.uid));
-    }
+  Stream<bool> postIsLikedStream(Post post) {
+    return _likesService
+        .likedsCollection()
+        .snapshots()
+        .asyncMap((event) => event.docs.firstWhereOrNull((e) => e.get(PostEnum.uid.name) == post.uid) != null);
   }
 
-  Stream<int> postLikes(String postId) {
+  Stream<int> postLikesCount(String postId) {
     return _postsService.pathToPost(postId).snapshots().asyncMap((snapshot) {
       return Pet.fromSnapshot(snapshot).likes;
     });

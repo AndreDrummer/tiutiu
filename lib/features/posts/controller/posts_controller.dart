@@ -93,7 +93,7 @@ class PostsController extends GetxController with TiuTiuPopUp {
   bool postBelongsToMe([Post? postToCompareWith]) {
     TiutiuUser myUser = tiutiuUserController.tiutiuUser;
     Post p = postToCompareWith ?? post;
-    TiutiuUser postOwner = p.owner!;
+    TiutiuUser postOwner = p.owner ?? TiutiuUser();
 
     return myUser.uid == postOwner.uid;
   }
@@ -133,13 +133,9 @@ class PostsController extends GetxController with TiuTiuPopUp {
     });
   }
 
-  Stream<int> postViews(String postId) {
-    return _postService.postViews(postId);
-  }
+  Stream<int> postViews(String postId) => _postService.postViews(postId);
 
-  Stream<int> postSharedTimes(String postId) {
-    return _postService.postSharedTimes(postId);
-  }
+  Stream<int> postSharedTimes(String postId) => _postService.postSharedTimes(postId);
 
   Future<void> uploadPost() async {
     if (post.createdAt == null) updatePost(PostEnum.createdAt.name, DateTime.now().toIso8601String());
