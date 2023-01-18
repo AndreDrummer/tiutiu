@@ -64,7 +64,6 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
   @override
   void dispose() {
     _betterPlayerController.videoPlayerController!.dispose();
-    print('Leave Dispose...');
     super.dispose();
   }
 
@@ -94,7 +93,6 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
   bool postBelongsToMe() => postsController.postBelongsToMe();
 
   void onLeaveScreen() {
-    print('Leave... ${_betterPlayerController.isPlaying()}');
     if (!postsController.isInReviewMode) {
       postsController.clearForm();
       _betterPlayerController.pause();
