@@ -14,7 +14,7 @@ exports.createNotificationChat = functions.firestore
         let senderParamsUid = context.params['userId']
         let senderDataUid = snap.data()['sender']['uid']
 
-        if(senderDataUid !== senderParamsUid) {
+        if (senderDataUid !== senderParamsUid) {
             admin.messaging().sendToDevice(`${snap.data()['receiver']['notificationToken']}`, {
                 notification: {
                     title: `Nova mensagem de ${snap.data()['sender']['displayName']}`,
@@ -25,11 +25,11 @@ exports.createNotificationChat = functions.firestore
                     data: JSON.stringify(snap.data())
                 }
             })
-        }        
+        }
     })
 
 
-    exports.deletePostOnDennouncesLimitAchived = functions.firestore
+exports.deletePostOnDennouncesLimitAchived = functions.firestore
     .document('tiutiu/env/{environment}/posts/posts/{postId}')
     .onUpdate((change, _) => {
         // Get an object representing the document

@@ -75,11 +75,14 @@ class _CardAdState extends State<CardAd> {
                   bottom: 0.0.h,
                 ),
                 Positioned(
-                  child: widget.cardBuilder.saveButton(
-                    show: !widget.inReviewMode && widget.showSaveButton,
+                  child: Container(
+                    decoration: BoxDecoration(shape: BoxShape.circle, color: AppColors.white),
+                    child: widget.cardBuilder.saveButton(
+                      show: !widget.inReviewMode && widget.showSaveButton,
+                    ),
                   ),
-                  bottom: 8.0.h,
-                  left: Get.width / 2.5,
+                  bottom: 72.0.h,
+                  right: 8.0.w,
                 ),
                 Positioned(
                   child: likeAnimation(),
@@ -102,41 +105,37 @@ class _CardAdState extends State<CardAd> {
       ),
       child: Container(
         margin: EdgeInsets.only(top: 8.0.h, left: 8.0.w),
-        child: Row(
-          children: [
-            Container(
-              width: Get.width * .91,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+        child: Container(
+          width: Get.width * .91,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      widget.cardBuilder.adTitle(),
-                      widget.cardBuilder.adDistanceFromUser(),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      widget.cardBuilder.adDescription(maxFontSize: 10),
-                      Spacer(),
-                      widget.cardBuilder.adViews(),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      widget.cardBuilder.adPostedAt(),
-                      Spacer(),
-                      Padding(
-                        padding: EdgeInsets.only(top: 2.0.h),
-                        child: widget.cardBuilder.adCityState(),
-                      )
-                    ],
-                  ),
+                  widget.cardBuilder.adTitle(),
+                  widget.cardBuilder.adDistanceFromUser(),
                 ],
               ),
-            ),
-          ],
+              Row(
+                children: [
+                  widget.cardBuilder.adDescription(maxFontSize: 10),
+                  Spacer(),
+                  widget.cardBuilder.adViews(),
+                ],
+              ),
+              Row(
+                children: [
+                  widget.cardBuilder.adPostedAt(),
+                  Spacer(),
+                  Padding(
+                    padding: EdgeInsets.only(top: 2.0.h),
+                    child: widget.cardBuilder.adCityState(),
+                  )
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );

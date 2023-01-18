@@ -32,18 +32,14 @@ class _VideoWidgetState extends State<VideoWidget> {
             enableMute: false,
           ),
           aspectRatio: .4,
-          autoPlay: true,
-          looping: true,
-          errorBuilder: (context, errorMessage) {
-            return VideoError(
-              onRetry: () {},
-            );
-          },
+          // autoPlay: true,
+          // looping: true,
+          errorBuilder: (context, errorMessage) => VideoError(),
           fit: BoxFit.cover,
         ),
         key: Key(widget.post.uid.toString()),
         playFraction: 0.9,
-        autoPlay: true,
+        autoPlay: false,
       ),
     );
   }

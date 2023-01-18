@@ -22,15 +22,11 @@ class SavedsController extends GetxController {
   final RxList<Post> _savedPosts = <Post>[].obs;
   List<Post> get savedPosts => _savedPosts;
 
-  void save(Post post, {bool wasSaved = false}) {
-    if (wasSaved) {
-      unsave(post);
-    } else {
-      debugPrint('TiuTiuApp: Add to saves');
-      _savedServices.savesCollection().doc(post.uid).set(post.toMap());
+  void save(Post post) {
+    debugPrint('TiuTiuApp: Add to saves');
+    _savedServices.savesCollection().doc(post.uid).set(post.toMap());
 
-      _incrementSavedTimes(post.uid!);
-    }
+    _incrementSavedTimes(post.uid!);
   }
 
   void unsave(Post post) {
@@ -71,5 +67,11 @@ class SavedsController extends GetxController {
 
   void _decrementSavedTimes(String postId) {
     _postsService.pathToPost(postId).set({PostEnum.saved.name: FieldValue.increment(-1)}, SetOptions(merge: true));
+  }
+
+  Stream<int> postSavedCount(String postId) {
+    return _postsService.pathToPost(postId).snapshots().asyncMap((snapshot) {
+      return Pet.fromSnapshot(snapshot).saved;
+    });
   }
 }

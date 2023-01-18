@@ -19,7 +19,11 @@ class SaveButton extends StatelessWidget {
         return InkWell(
           onTap: () {
             if (authController.userExists) {
-              savedsController.save(post, wasSaved: isSaved);
+              if (isSaved) {
+                savedsController.unsave(post);
+              } else {
+                savedsController.save(post);
+              }
             } else {
               homeController.setMoreIndex();
             }
@@ -28,11 +32,19 @@ class SaveButton extends StatelessWidget {
             children: [
               CircleAvatar(
                 backgroundColor: Colors.transparent,
-                child: Icon(Icons.bookmark, size: 24.0.h, color: isSaved ? AppColors.white : AppColors.whiteIce),
+                child: Icon(Icons.bookmark, size: 24.0.h, color: isSaved ? AppColors.pink : AppColors.whiteIce),
               ),
-              TextButtonCount(
-                padding: EdgeInsets.only(left: 2.0.w, top: 2.0.h),
-                text: '${post.saved}',
+              StreamBuilder<int>(
+                stream: savedsController.postSavedCount(post.uid!),
+                builder: (context, snapshot) {
+                  int savedNumber = snapshot.data ?? post.saved;
+                  savedNumber = savedNumber > 0 ? savedNumber : 0;
+
+                  return TextButtonCount(
+                    padding: EdgeInsets.only(left: 2.0.w, top: 2.0.h),
+                    text: '$savedNumber',
+                  );
+                },
               ),
               SizedBox(height: 16.0.h),
             ],
