@@ -5,10 +5,10 @@ import 'package:tiutiu/core/widgets/pet_other_caracteristics_card.dart';
 import 'package:tiutiu/features/posts/widgets/post_action_button.dart';
 import 'package:tiutiu/core/pets/model/pet_caracteristics_model.dart';
 import 'package:tiutiu/features/dennounce/model/post_dennounce.dart';
-import 'package:tiutiu/features/saveds/widgets/save_button.dart';
-import 'package:tiutiu/features/posts/widgets/loading_blur.dart';
 import 'package:tiutiu/core/widgets/no_connection_text_info.dart';
 import 'package:tiutiu/features/posts/widgets/card_content.dart';
+import 'package:tiutiu/features/posts/widgets/loading_blur.dart';
+import 'package:tiutiu/features/saveds/widgets/save_button.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiutiu/features/admob/widgets/ad_banner.dart';
 import 'package:tiutiu/core/extensions/string_extension.dart';
@@ -63,7 +63,8 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
 
   @override
   void dispose() {
-    _betterPlayerController.dispose();
+    _betterPlayerController.videoPlayerController!.dispose();
+    print('Leave Dispose...');
     super.dispose();
   }
 
@@ -77,19 +78,13 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
 
     _betterPlayerController = BetterPlayerController(
       BetterPlayerConfiguration(
+        autoDispose: false,
         controlsConfiguration: BetterPlayerControlsConfiguration(
           loadingWidget: LoadingVideo(),
           enableSkips: false,
         ),
+        errorBuilder: (context, errorMessage) => VideoError(),
         aspectRatio: .5,
-        errorBuilder: (context, errorMessage) {
-          return VideoError(
-            onRetry: () {
-              _betterPlayerController.retryDataSource();
-              setState(() {});
-            },
-          );
-        },
         fit: BoxFit.cover,
       ),
       betterPlayerDataSource: _betterPlayerDataSource,
@@ -99,8 +94,11 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
   bool postBelongsToMe() => postsController.postBelongsToMe();
 
   void onLeaveScreen() {
+    print('Leave... ${_betterPlayerController.isPlaying()}');
     if (!postsController.isInReviewMode) {
       postsController.clearForm();
+      _betterPlayerController.pause();
+      _betterPlayerController.dispose();
       Get.offAllNamed(Routes.home);
     }
   }
@@ -401,7 +399,10 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
         itemCount: hasVideo ? photos.length + 1 : photos.length,
         itemBuilder: (BuildContext context, int index) {
           if (hasVideo && index == 0) {
+            if (!(_betterPlayerController.isPlaying() ?? false)) _betterPlayerController.play();
             return _video();
+          } else if (hasVideo && index > 0) {
+            if (_betterPlayerController.isPlaying() ?? true) _betterPlayerController.pause();
           } else if (!hasVideo) {
             return _image(photos, index);
           }
@@ -416,9 +417,7 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
     return SafeArea(
       child: AspectRatio(
         aspectRatio: _betterPlayerController.getAspectRatio() ?? 16 / 9,
-        child: BetterPlayer(
-          controller: _betterPlayerController,
-        ),
+        child: BetterPlayer(controller: _betterPlayerController),
       ),
     );
   }

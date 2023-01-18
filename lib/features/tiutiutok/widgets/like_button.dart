@@ -13,14 +13,33 @@ class LikeButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return Visibility(
+      replacement: _UnloggedLikeButton(post: post),
+      child: _LoggedLikeButton(post: post),
+      visible: authController.userExists,
+    );
+  }
+}
+
+class _LoggedLikeButton extends StatelessWidget {
+  const _LoggedLikeButton({required this.post});
+
+  final Post post;
+
+  @override
+  Widget build(BuildContext context) {
     return StreamBuilder<bool>(
-      stream: likesController.postIsLiked(post),
+      stream: likesController.postIsLikedStream(post),
       builder: (context, snapshot) {
         final liked = snapshot.data ?? false;
 
         return InkWell(
           onTap: () {
-            likesController.like(post, wasLiked: liked);
+            if (liked) {
+              likesController.unlike(post);
+            } else {
+              likesController.like(post);
+            }
           },
           child: Column(
             children: [
@@ -29,7 +48,7 @@ class LikeButton extends StatelessWidget {
                 child: Icon(FontAwesomeIcons.solidHeart, color: liked ? AppColors.pink : AppColors.whiteIce),
               ),
               StreamBuilder<int>(
-                stream: likesController.postLikes(post.uid!),
+                stream: likesController.postLikesCount(post.uid!),
                 builder: (context, snapshot) {
                   int likesNumber = snapshot.data ?? post.likes;
                   likesNumber = likesNumber > 0 ? likesNumber : 0;
@@ -45,5 +64,57 @@ class LikeButton extends StatelessWidget {
         );
       },
     );
+  }
+}
+
+class _UnloggedLikeButton extends StatelessWidget {
+  const _UnloggedLikeButton({required this.post});
+
+  final Post post;
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder(
+        future: likesController.getLikesSavedOnDevice(),
+        builder: (context, snapshot) {
+          return StreamBuilder<List>(
+            initialData: [],
+            stream: likesController.postLikedUnloggedIds,
+            builder: (context, snapshot) {
+              final likedList = snapshot.data;
+              final liked = likedList!.contains(post.uid);
+
+              return InkWell(
+                onTap: () {
+                  if (liked) {
+                    likesController.unlike(post);
+                  } else {
+                    likesController.like(post);
+                  }
+                },
+                child: Column(
+                  children: [
+                    CircleAvatar(
+                      backgroundColor: Colors.transparent,
+                      child: Icon(FontAwesomeIcons.solidHeart, color: liked ? AppColors.pink : AppColors.whiteIce),
+                    ),
+                    StreamBuilder<int>(
+                      stream: likesController.postLikesCount(post.uid!),
+                      builder: (context, snapshot) {
+                        int likesNumber = snapshot.data ?? post.likes;
+                        likesNumber = likesNumber > 0 ? likesNumber : 0;
+
+                        return TextButtonCount(
+                          padding: EdgeInsets.only(left: 2.0.w, top: 2.0.h),
+                          text: '$likesNumber',
+                        );
+                      },
+                    ),
+                  ],
+                ),
+              );
+            },
+          );
+        });
   }
 }

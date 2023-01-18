@@ -1,3 +1,4 @@
+import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/constants/strings.dart';
 import 'package:flutter/material.dart';
@@ -12,6 +13,7 @@ class ChangePostsVisibilityFloatingButtom extends StatelessWidget {
     return Visibility(
       visible: visibility,
       child: FloatingActionButton(
+        backgroundColor: AppColors.secondary,
         child: Icon(Icons.flip_outlined),
         tooltip: AppStrings.changeListVisual,
         onPressed: () {

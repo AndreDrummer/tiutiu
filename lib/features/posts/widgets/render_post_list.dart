@@ -50,12 +50,13 @@ class RenderPostList extends StatelessWidget {
               ),
               key: UniqueKey(),
               itemBuilder: (_, index) {
+                int postIndex = index < posts.length ? index : posts.length - 1;
                 return RenderListItem(
-                  post: posts[index < posts.length ? index : posts.length - 1],
                   onNavigateToTop: () => homeController.onScrollUp(),
                   showBackToStartButton: index == posts.length,
+                  key: Key(posts[postIndex].uid.toString()),
                   showSaveButton: !isInMyPosts,
-                  key: UniqueKey(),
+                  post: posts[postIndex],
                 );
               },
             ),

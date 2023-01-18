@@ -1,4 +1,3 @@
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/features/posts/model/post.dart';
 import 'package:flutter/material.dart';
@@ -15,10 +14,9 @@ class PostIsSavedStream extends StatelessWidget {
       stream: savedsController.postIsSaved(post),
       builder: (context, snapshot) {
         final isActive = snapshot.data ?? false;
+        print('Post is saved $isActive');
 
-        final icon = isActive ? FontAwesomeIcons.solidBookmark : FontAwesomeIcons.bookmark;
-
-        return builder(icon, isActive);
+        return builder(Icons.bookmark, isActive);
       },
     );
   }
