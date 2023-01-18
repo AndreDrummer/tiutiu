@@ -6,10 +6,6 @@ import 'package:tiutiu/core/constants/strings.dart';
 import 'package:flutter/material.dart';
 
 class VideoError extends StatelessWidget {
-  const VideoError({super.key, this.onRetry});
-
-  final void Function()? onRetry;
-
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -19,11 +15,8 @@ class VideoError extends StatelessWidget {
           Icon(FontAwesomeIcons.triangleExclamation, color: AppColors.white),
           SizedBox(height: 4.0.h),
           AutoSizeTexts.autoSizeText14(PostDetailsStrings.videoPlayerError, color: AppColors.white),
-          SizedBox(height: 16.0.h),
-          TextButton(
-            child: AutoSizeTexts.autoSizeText12(AppStrings.tryAgain, color: AppColors.white),
-            onPressed: onRetry,
-          )
+          SizedBox(height: 8.0.h),
+          AutoSizeTexts.autoSizeText14(AppStrings.verifyInternetConnection, color: AppColors.white),
         ],
       ),
     );
