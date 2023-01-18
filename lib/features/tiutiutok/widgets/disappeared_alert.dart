@@ -1,3 +1,4 @@
+import 'package:tiutiu/core/constants/strings.dart';
 import 'package:tiutiu/features/tiutiutok/widgets/text_buttons.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/widgets/lottie_animation.dart';
@@ -27,9 +28,9 @@ class _DisappearedAlertAnimationState extends State<DisappearedAlertAnimation> {
             size: 40.0.h,
           ),
           TextButtonCount(
+            text: PostDetailsStrings.petDisappeared,
             padding: EdgeInsets.only(top: 2.0.h),
             fontSize: 10,
-            text: 'PET\nDesaparecido',
           ),
           SizedBox(height: 8.0.h),
         ],

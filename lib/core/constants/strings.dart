@@ -229,6 +229,7 @@ class PostDetailsStrings {
   static String get preparingPostToShare => 'Preparando o post para compartilhar';
   static String get videoPlayerError => 'Erro ao reproduzir o video';
   static String get describBreed => 'Escreva o nome da raça';
+  static String get petDisappeared => 'PET\nDesaparecido';
   static String get caracteristics => 'Características';
   static String get selectBreed => 'Selecione a raça';
   static String get hermaphrodite => 'Hermafrodita';
