@@ -56,7 +56,7 @@ class HomeController extends GetxController {
 
   void onScrollUp() {
     _scrollController.animateTo(
-      duration: new Duration(seconds: 3),
+      duration: new Duration(milliseconds: 1500),
       curve: Curves.ease,
       0,
     );
