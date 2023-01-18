@@ -37,7 +37,8 @@ class EmptyListScreen extends StatelessWidget {
             text: AppStrings.cleanFilters,
             textColor: Colors.lightBlue,
             fontSize: 12,
-            onPressed: () {
+            onPressed: () async {
+              await postsController.getAllPosts();
               filterController.reset(homeController.bottomBarIndex == BottomBarIndex.FINDER.indx);
             },
           ),
