@@ -24,7 +24,7 @@ class AppStrings {
     }
   }
 
-  static const String verifyInternetConnection = 'Tentar Verifique sua conexão com a internet';
+  static const String verifyInternetConnection = 'Verifique sua conexão com a internet';
 
   static String get changeListVisual => 'Mude a visualização da lista';
   static String get imagesWarning => 'Imagens meramente ilustrativas';
