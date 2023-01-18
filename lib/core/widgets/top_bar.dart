@@ -18,9 +18,7 @@ class TopBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _fieldController = TextEditingController(
-      text: filterController.getParams.name,
-    );
+    final _fieldController = TextEditingController(text: filterController.getParams.name);
 
     return Column(
       children: [
@@ -28,43 +26,15 @@ class TopBar extends StatelessWidget {
           padding: EdgeInsets.fromLTRB(6.0.w, 6.0.h, 12.0.w, 0.0.h),
           child: Column(
             children: [
+              _userGreeting(),
+              HighPriorityInfoBanner(),
               Obx(
                 () => Visibility(
-                  replacement: _userGreeting(),
+                  replacement: SponsoredList(),
                   visible: filterController.filterParams.value.orderBy == FilterStrings.name,
-                  child: TextFormField(
-                    textInputAction: TextInputAction.search,
-                    onChanged: (value) {
-                      filterController.updateParams(
-                        FilterParamsEnum.name,
-                        value.trim(),
-                      );
-                    },
-                    controller: _fieldController,
-                    decoration: InputDecoration(
-                      constraints: BoxConstraints(maxHeight: 32.0.h),
-                      contentPadding: EdgeInsets.only(left: 8.0.w),
-                      fillColor: AppColors.primary.withAlpha(20),
-                      suffixIcon: Visibility(
-                        visible: filterController.getParams.name.isNotEmpty,
-                        child: InputCloseButton(
-                          onClose: () {
-                            filterController.clearName();
-                            FocusScope.of(context).unfocus();
-                          },
-                        ),
-                      ),
-                      hintText: HomeStrings.searchForName,
-                      enabledBorder: _inputBorder(),
-                      errorBorder: _inputBorder(),
-                      border: _inputBorder(),
-                      filled: true,
-                    ),
-                  ),
+                  child: _userSearchInput(context, _fieldController),
                 ),
               ),
-              HighPriorityInfoBanner(),
-              SponsoredList(),
               WarningBanner(
                 showBannerCondition: !systemController.properties.internetConnected && postsController.posts.isNotEmpty,
                 textWarning: AppStrings.noConnectionWarning,
@@ -78,6 +48,43 @@ class TopBar extends StatelessWidget {
           ),
         ),
         Divider(color: Colors.blueGrey)
+      ],
+    );
+  }
+
+  Widget _userSearchInput(BuildContext context, TextEditingController fieldController) {
+    return Column(
+      children: [
+        Divider(),
+        TextFormField(
+          textInputAction: TextInputAction.search,
+          onChanged: (value) {
+            filterController.updateParams(
+              FilterParamsEnum.name,
+              value.trim(),
+            );
+          },
+          controller: fieldController,
+          decoration: InputDecoration(
+            constraints: BoxConstraints(maxHeight: 32.0.h),
+            contentPadding: EdgeInsets.only(left: 8.0.w),
+            fillColor: AppColors.primary.withAlpha(20),
+            suffixIcon: Visibility(
+              visible: filterController.getParams.name.isNotEmpty,
+              child: InputCloseButton(
+                onClose: () {
+                  filterController.clearName();
+                  FocusScope.of(context).unfocus();
+                },
+              ),
+            ),
+            hintText: HomeStrings.searchForName,
+            enabledBorder: _inputBorder(),
+            errorBorder: _inputBorder(),
+            border: _inputBorder(),
+            filled: true,
+          ),
+        ),
       ],
     );
   }

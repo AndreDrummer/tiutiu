@@ -14,7 +14,6 @@ class PostIsSavedStream extends StatelessWidget {
       stream: savedsController.postIsSaved(post),
       builder: (context, snapshot) {
         final isActive = snapshot.data ?? false;
-        print('Post is saved $isActive');
 
         return builder(Icons.bookmark, isActive);
       },
