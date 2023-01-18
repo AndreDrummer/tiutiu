@@ -20,7 +20,9 @@ class TiutiuTok extends StatelessWidget {
       backgroundColor: AppColors.white,
       body: SizedBox.expand(
         child: Obx(() {
-          final postsWithVideo = postsController.posts.where((post) => post.video != null).toList();
+          final postsWithVideo = [];
+
+          postsController.posts.where((post) => post.video != null).toList();
 
           if (postsWithVideo.isEmpty) return EmptyTiuTiuTokScreen();
 
