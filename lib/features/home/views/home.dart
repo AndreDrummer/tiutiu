@@ -113,7 +113,7 @@ class _HomeState extends State<Home> with TiuTiuPopUp {
                   children: [
                     Positioned.fill(child: screens.elementAt(homeController.bottomBarIndex)),
                     Visibility(
-                      visible: homeController.bottomBarIndex != BottomBarIndex.VIDEOS.indx,
+                      visible: homeController.bottomBarIndex != BottomBarIndex.TIUTIUTOK.indx,
                       child: Positioned(
                         child: AdBanner(
                           adId: systemController.getAdMobBlockID(

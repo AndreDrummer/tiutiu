@@ -1,4 +1,3 @@
-import 'package:get/get.dart';
 import 'package:tiutiu/core/widgets/button_wide_outlined.dart';
 import 'package:tiutiu/core/widgets/default_basic_app_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -13,6 +12,7 @@ import 'package:tiutiu/core/widgets/background.dart';
 import 'package:tiutiu/core/constants/strings.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class LocalizationServiceAccessPermissionAccess extends StatelessWidget {
   const LocalizationServiceAccessPermissionAccess({
@@ -61,7 +61,7 @@ class LocalizationServiceAccessPermissionAccess extends StatelessWidget {
 
   Widget _warningAboutConfigsSeetings() {
     return Visibility(
-      visible: currentLocationController.permission.value == LocationPermission.deniedForever,
+      visible: currentLocationController.permission == LocationPermission.deniedForever,
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 8.0.w),
         child: AutoSizeTexts.autoSizeText14(
@@ -98,13 +98,13 @@ class LocalizationServiceAccessPermissionAccess extends StatelessWidget {
         onPressed: () {
           currentLocationController.canContinue = true;
         },
-        text: LocalPermissionStrings.enterAsSpy,
+        text: LocalPermissionStrings.after,
       ),
     );
   }
 
   void onPrimaryPressed() {
-    if (!gpsIsActive || currentLocationController.permission.value == LocationPermission.deniedForever) {
+    if (!gpsIsActive || currentLocationController.permission == LocationPermission.deniedForever) {
       currentLocationController.openDeviceSettings();
     } else {
       currentLocationController.handleLocationPermission();
@@ -115,9 +115,9 @@ class LocalizationServiceAccessPermissionAccess extends StatelessWidget {
     if (!gpsIsActive) {
       return LocalPermissionStrings.turnOnLocalization;
     } else {
-      if (currentLocationController.permission.value == LocationPermission.deniedForever) {
+      if (currentLocationController.permission == LocationPermission.deniedForever) {
         return LocalPermissionStrings.openSettings;
-      } else if (currentLocationController.permission.value == LocationPermission.denied) {
+      } else if (currentLocationController.permission == LocationPermission.denied) {
         return LocalPermissionStrings.grantAcess;
       }
 
