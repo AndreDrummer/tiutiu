@@ -1,7 +1,9 @@
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/core/constants/assets_path.dart';
 import 'package:tiutiu/core/constants/text_styles.dart';
+import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/utils/asset_handle.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -27,21 +29,35 @@ class EmptyTiuTiuTokScreen extends StatelessWidget {
             child: AssetHandle.getImage(ImageAssets.noTiutiutok),
           ),
         ),
-        SizedBox(height: 32.0.h),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
+        SizedBox(height: 16.0.h),
+        Column(
           children: [
-            Padding(
-              padding: EdgeInsets.only(top: 2.0),
-              child: AutoSizeTexts.autoSizeText12('Nenhum ', color: AppColors.black),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Padding(
+                  padding: EdgeInsets.only(top: 2.0),
+                  child: AutoSizeTexts.autoSizeText12('Nenhum ', color: AppColors.black),
+                ),
+                AutoSizeText('Tiutiu Tok', style: GoogleFonts.miltonianTattoo(color: AppColors.black)),
+                Padding(
+                  padding: EdgeInsets.only(top: 2.0),
+                  child: AutoSizeTexts.autoSizeText12(' encontrado ', color: AppColors.black),
+                ),
+              ],
             ),
-            AutoSizeText('Tiutiu Tok', style: GoogleFonts.miltonianTattoo(color: AppColors.black)),
             Padding(
-              padding: EdgeInsets.only(top: 2.0),
-              child: AutoSizeTexts.autoSizeText12(' encontrado ', color: AppColors.black),
-            ),
+              padding: EdgeInsets.only(top: Get.width / 3),
+              child: TextButton(
+                child: AutoSizeTexts.autoSizeText12('Postar um agora', color: AppColors.white),
+                style: TextButton.styleFrom(backgroundColor: AppColors.primary),
+                onPressed: () {
+                  homeController.setPostIndex();
+                },
+              ),
+            )
           ],
-        )
+        ),
       ],
     );
   }

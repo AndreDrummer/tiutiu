@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 
 enum BottomBarIndex {
   DONATE(indx: 0),
-  VIDEOS(indx: 1),
+  TIUTIUTOK(indx: 1),
   POST(indx: 2),
   FINDER(indx: 3),
   MORE(indx: 4);
@@ -78,8 +78,8 @@ class HomeController extends GetxController {
     _setbottomBarIndex(BottomBarIndex.DONATE);
   }
 
-  void setVideosIndex() {
-    _setbottomBarIndex(BottomBarIndex.VIDEOS);
+  void setTiutiuTokIndex() {
+    _setbottomBarIndex(BottomBarIndex.TIUTIUTOK);
   }
 
   void setPostIndex() {

@@ -59,6 +59,7 @@ class _CardAdState extends State<CardAd> {
         });
       },
       child: Card(
+        color: AppColors.black,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
         child: Column(
           children: [
@@ -68,15 +69,11 @@ class _CardAdState extends State<CardAd> {
                   height: Dimensions.getDimensBasedOnDeviceHeight(
                     xSmaller: widget.inReviewMode ? Get.height / 2.4 : Get.height / 1.5,
                     smaller: widget.inReviewMode ? Get.height / 2.2 : Get.height / 1.5,
-                    medium: widget.inReviewMode ? Get.height / 2.0 : Get.height / 1.5,
-                    bigger: widget.inReviewMode ? Get.height / 2.0 : Get.height / 1.5,
+                    medium: widget.inReviewMode ? Get.height / 2.22 : Get.height / 1.5,
+                    bigger: widget.inReviewMode ? Get.height / 2.22 : Get.height / 1.5,
                   ),
                   child: widget.cardBuilder.adImages(),
                   width: double.infinity,
-                ),
-                Positioned(
-                  child: _postTileInfo(),
-                  bottom: 0.0.h,
                 ),
                 Positioned(
                   child: Container(
@@ -105,51 +102,44 @@ class _CardAdState extends State<CardAd> {
                 ),
               ],
             ),
+            Container(
+              width: Get.width,
+              child: Container(
+                padding: EdgeInsets.only(left: 4.0.w, right: 4.0.w, top: 2.5.h),
+                child: Container(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          widget.cardBuilder.adTitle(),
+                          widget.cardBuilder.adDistanceFromUser(),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          widget.cardBuilder.adDescription(maxFontSize: 10),
+                          Spacer(),
+                          widget.cardBuilder.adViews(),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          widget.cardBuilder.adPostedAt(),
+                          Spacer(),
+                          Padding(
+                            padding: EdgeInsets.only(top: 2.0.h),
+                            child: widget.cardBuilder.adCityState(),
+                          )
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            )
           ],
-        ),
-      ),
-    );
-  }
-
-  Container _postTileInfo() {
-    return Container(
-      width: Get.width,
-      decoration: BoxDecoration(
-        color: AppColors.black.withOpacity(.2),
-      ),
-      child: Container(
-        margin: EdgeInsets.only(top: 8.0.h, left: 8.0.w),
-        child: Container(
-          width: Get.width * .91,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  widget.cardBuilder.adTitle(),
-                  widget.cardBuilder.adDistanceFromUser(),
-                ],
-              ),
-              Row(
-                children: [
-                  widget.cardBuilder.adDescription(maxFontSize: 10),
-                  Spacer(),
-                  widget.cardBuilder.adViews(),
-                ],
-              ),
-              Row(
-                children: [
-                  widget.cardBuilder.adPostedAt(),
-                  Spacer(),
-                  Padding(
-                    padding: EdgeInsets.only(top: 2.0.h),
-                    child: widget.cardBuilder.adCityState(),
-                  )
-                ],
-              ),
-            ],
-          ),
         ),
       ),
     );
