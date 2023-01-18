@@ -1,3 +1,4 @@
+import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/core/widgets/loading_video.dart';
 import 'package:tiutiu/features/posts/model/post.dart';
 import 'package:tiutiu/core/widgets/video_error.dart';
@@ -25,6 +26,7 @@ class _VideoWidgetState extends State<VideoWidget> {
         ),
         configuration: BetterPlayerConfiguration(
           controlsConfiguration: BetterPlayerControlsConfiguration(
+            controlBarColor: AppColors.primary,
             loadingWidget: LoadingVideo(),
             enableProgressText: false,
             enableFullscreen: false,
@@ -32,14 +34,14 @@ class _VideoWidgetState extends State<VideoWidget> {
             enableMute: false,
           ),
           aspectRatio: .4,
-          // autoPlay: true,
-          // looping: true,
+          autoPlay: true,
+          looping: true,
           errorBuilder: (context, errorMessage) => VideoError(),
           fit: BoxFit.cover,
         ),
         key: Key(widget.post.uid.toString()),
         playFraction: 0.9,
-        autoPlay: false,
+        autoPlay: true,
       ),
     );
   }

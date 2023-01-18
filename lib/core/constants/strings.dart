@@ -192,10 +192,10 @@ class LocalPermissionStrings {
   static String get needsAccess => 'precisa ter acesso total a sua localização para funcionar corretamente!';
   static String get needsGPS => 'precisa que o serviço de GPS / Localização esteja ativado!';
   static String get appBarTitle => 'Permissão para acessar sua localização';
-  static String get enterAsSpy => 'Entrar só pra dar uma olhada';
   static String get turnOnLocalization => 'ATIVAR LOCALIZAÇÃO';
   static String get openSettings => 'IR P/ CONFIGURAÇÕES';
   static String get grantAcess => 'CONCEDER ACESSO';
+  static String get after => 'Depois';
 }
 
 class UserStrings {

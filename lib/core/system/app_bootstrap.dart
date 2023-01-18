@@ -52,7 +52,9 @@ class _RequestPermissionsOrHome extends StatelessWidget {
 
         return Obx(
           () {
-            final accessDenied = isLocalAccessPermissionDenied(currentLocationController.permission.value);
+            final accessDenied = isLocalAccessPermissionDenied(
+              currentLocationController.permission,
+            );
 
             if (accessDenied && !currentLocationController.canContinue) {
               return LocalizationServiceAccessPermissionAccess(
@@ -69,10 +71,9 @@ class _RequestPermissionsOrHome extends StatelessWidget {
   }
 
   bool isLocalAccessPermissionDenied(
-    LocationPermission? currentLocationPermission,
+    LocationPermission currentLocationPermission,
   ) {
-    return currentLocationPermission == null ||
-        currentLocationPermission != LocationPermission.always &&
-            currentLocationPermission != LocationPermission.whileInUse;
+    return currentLocationPermission != LocationPermission.always &&
+        currentLocationPermission != LocationPermission.whileInUse;
   }
 }
