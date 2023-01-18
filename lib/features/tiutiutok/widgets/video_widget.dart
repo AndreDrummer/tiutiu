@@ -1,4 +1,3 @@
-import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/core/widgets/loading_video.dart';
 import 'package:tiutiu/features/posts/model/post.dart';
 import 'package:tiutiu/core/widgets/video_error.dart';
@@ -26,7 +25,6 @@ class _VideoWidgetState extends State<VideoWidget> {
         ),
         configuration: BetterPlayerConfiguration(
           controlsConfiguration: BetterPlayerControlsConfiguration(
-            controlBarColor: AppColors.primary,
             loadingWidget: LoadingVideo(),
             enableProgressText: false,
             enableFullscreen: false,
