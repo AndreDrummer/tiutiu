@@ -24,6 +24,8 @@ class AppStrings {
     }
   }
 
+  static const String verifyInternetConnection = 'Tentar Verifique sua conexão com a internet';
+
   static String get changeListVisual => 'Mude a visualização da lista';
   static String get imagesWarning => 'Imagens meramente ilustrativas';
   static String get noPostFavorited => 'Nenhum PET foi favoritado.';

@@ -1,5 +1,3 @@
-import 'package:tiutiu/features/saveds/widgets/post_is_saved_stream.dart';
-import 'package:tiutiu/features/home/controller/home_controller.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
@@ -23,24 +21,26 @@ class SaveOrUnsave extends StatelessWidget {
     return Obx(
       () {
         final visibile = show && authController.userExists && systemController.properties.internetConnected;
-        final isCardVisibility = homeController.cardVisibilityKind == CardVisibilityKind.card;
 
         return Visibility(
           visible: visibile,
-          child: PostIsSavedStream(
-            post: post,
-            builder: (icon, isActive) => GestureDetector(
-              child: Padding(
-                child: Icon(
-                  color: isCardVisibility ? AppColors.white : AppColors.primary,
-                  size: isCardVisibility ? 32.0.h : 20.0.h,
-                  icon,
-                ),
-                padding: EdgeInsets.all(8.0.h),
-              ),
-              onTap: isActive ? unsave : save,
-            ),
-          ),
+          child: StreamBuilder<bool>(
+              stream: savedsController.postIsSaved(post),
+              builder: (context, snapshot) {
+                final isActive = snapshot.data ?? false;
+
+                return GestureDetector(
+                  child: Padding(
+                    child: Icon(
+                      color: isActive ? AppColors.secondary : Colors.grey[400],
+                      size: 21.0.h,
+                      Icons.bookmark,
+                    ),
+                    padding: EdgeInsets.all(8.0.h),
+                  ),
+                  onTap: isActive ? unsave : save,
+                );
+              }),
         );
       },
     );
