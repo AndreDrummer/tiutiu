@@ -12,17 +12,20 @@ class LoadingVideo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox.expand(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          LottieAnimation(animationPath: AnimationsAssets.pawLoading2, size: 48),
-          SizedBox(height: 8.0.h),
-          AutoSizeTexts.autoSizeText14(
-            AppStrings.loadingVideo,
-            color: AppColors.white,
-          ),
-        ],
+      child: Container(
+        color: AppColors.black,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            LottieAnimation(animationPath: AnimationsAssets.pawLoading2, size: 48),
+            SizedBox(height: 8.0.h),
+            AutoSizeTexts.autoSizeText14(
+              AppStrings.loadingVideo,
+              color: AppColors.white,
+            ),
+          ],
+        ),
       ),
     );
   }
