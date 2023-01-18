@@ -1,3 +1,4 @@
+import 'package:tiutiu/core/widgets/tiutiutok_icon.dart';
 import 'package:tiutiu/features/dennounce/views/post_dennounce_screen.dart';
 import 'package:tiutiu/features/dennounce/widgets/dennounce_button.dart';
 import 'package:tiutiu/features/admob/constants/admob_block_names.dart';
@@ -117,10 +118,10 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
       );
     } else {
       return Dimensions.getDimensBasedOnDeviceHeight(
-        smaller: (Get.height / (isInReview ? 2.5 : 3.4)) - (descriptionLength / 4),
-        xSmaller: (Get.height / (isInReview ? 3.5 : 4.4)) - (descriptionLength / 4),
-        bigger: (Get.height / (isInReview ? 2.3 : 3.2)) - (descriptionLength / 4),
-        medium: (Get.height / (isInReview ? 2.0 : 2.9)) - (descriptionLength / 4),
+        smaller: (Get.height / (isInReview ? 2.6 : 3.4)) - (descriptionLength / 4),
+        xSmaller: (Get.height / (isInReview ? 3.6 : 4.4)) - (descriptionLength / 4),
+        bigger: (Get.height / (isInReview ? 2.4 : 3.2)) - (descriptionLength / 4),
+        medium: (Get.height / (isInReview ? 2.1 : 2.9)) - (descriptionLength / 4),
       );
     }
   }
@@ -255,6 +256,8 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
                     systemController.properties.internetConnected,
                 child: Row(
                   children: [
+                    _seeOnTiutiutok(),
+                    SizedBox(width: 4.0.w),
                     _dennouncePostButton(),
                     SizedBox(width: 4.0.w),
                     _saveButton(),
@@ -264,7 +267,7 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
               ),
             ),
             _shareButton(),
-            SizedBox(width: 8.0.h)
+            SizedBox(width: 4.0.h)
           ],
         ),
       ),
@@ -300,6 +303,27 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
             show: systemController.properties.internetConnected,
             post: post,
             tiny: true,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _seeOnTiutiutok() {
+    return Visibility(
+      replacement: postsController.isInReviewMode ? SizedBox.shrink() : NoConnectionTextInfo(),
+      visible: !postsController.isInReviewMode && systemController.properties.internetConnected,
+      child: GestureDetector(
+        onTap: () {
+          homeController.setTiutiuTokIndex();
+          onLeaveScreen();
+        },
+        child: Card(
+          elevation: 8.0,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24.0.h)),
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: TiutiutokIcon(color: AppColors.primary),
           ),
         ),
       ),

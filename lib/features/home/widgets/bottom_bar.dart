@@ -1,14 +1,13 @@
+import 'package:tiutiu/features/home/controller/home_controller.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:tiutiu/core/constants/assets_path.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
+import 'package:tiutiu/core/widgets/tiutiutok_icon.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/core/constants/strings.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:tiutiu/core/utils/asset_handle.dart';
-import 'dart:math';
 
 class BottomBar extends StatefulWidget {
   BottomBar({super.key});
@@ -26,9 +25,13 @@ class _BottomBarState extends State<BottomBar> {
       () {
         return BottomNavigationBar(
             onTap: (index) {
-              if (index == 1) {
+              if (index == BottomBarIndex.TIUTIUTOK.indx) {
                 setState(() {
                   isTiuTokIndex = true;
+                });
+              } else {
+                setState(() {
+                  isTiuTokIndex = false;
                 });
               }
               homeController.setIndex(index);
@@ -83,17 +86,5 @@ class _BottomBarState extends State<BottomBar> {
     Icons.menu,
   ];
 
-  Widget tiuTokIcon(bool isActive) {
-    return SizedBox(
-      height: 20.0.h,
-      width: 20.0.h,
-      child: Padding(
-        child: Transform.rotate(
-          child: AssetHandle.getImage(ImageAssets.playPaw, color: isActive ? AppColors.primary : AppColors.white),
-          angle: 19.5 / pi,
-        ),
-        padding: const EdgeInsets.all(1.0),
-      ),
-    );
-  }
+  Widget tiuTokIcon(bool isActive) => TiutiutokIcon(color: isActive ? AppColors.primary : AppColors.white);
 }

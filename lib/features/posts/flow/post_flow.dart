@@ -30,7 +30,7 @@ class PostFlow extends StatelessWidget with TiuTiuPopUp {
       onWillPop: () async => false,
       child: Obx(
         () {
-          double screenHeight = Get.height;
+          double screenHeight = postsController.flowIndex >= 6 ? Get.height / 1.39 : Get.height;
 
           List<String> _screensTitle = [
             PostFlowStrings.petsData,
@@ -73,8 +73,6 @@ class PostFlow extends StatelessWidget with TiuTiuPopUp {
           return Stack(
             children: [
               Scaffold(
-                floatingActionButton: ChangePostsVisibilityFloatingButtom(visibility: postsController.flowIndex >= 6),
-                floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
                 appBar: _appBar(),
                 resizeToAvoidBottomInset: true,
                 backgroundColor: AppColors.white,
@@ -98,6 +96,11 @@ class PostFlow extends StatelessWidget with TiuTiuPopUp {
                   ),
                 ),
                 bottomNavigationBar: _flowBottom(),
+              ),
+              Positioned(
+                child: ChangePostsVisibilityFloatingButtom(visibility: postsController.flowIndex >= 6),
+                bottom: 76.0.h,
+                right: 16.0.w,
               ),
               LoadDarkScreen(
                 message: postsController.uploadingPostText,

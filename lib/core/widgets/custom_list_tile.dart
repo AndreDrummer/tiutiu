@@ -35,9 +35,11 @@ class CustomListTile extends StatelessWidget {
           child: ElevatedButton(
             onPressed: onTap,
             style: ElevatedButton.styleFrom(
+              splashFactory: NoSplash.splashFactory,
               foregroundColor: AppColors.white,
               backgroundColor: AppColors.white,
               padding: EdgeInsets.zero,
+              enableFeedback: false,
               elevation: 0.0,
             ),
             child: Padding(
