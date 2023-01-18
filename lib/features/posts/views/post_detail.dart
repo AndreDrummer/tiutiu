@@ -50,13 +50,15 @@ class PostDetails extends StatefulWidget {
 class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
   late BetterPlayerController _betterPlayerController;
   late BetterPlayerDataSource _betterPlayerDataSource;
-  bool isLoadingVideo = true;
+  bool hasVideo = false;
+
   late Post post;
 
   @override
   void initState() {
     post = postsController.post;
-    if (post.video != null) initializeVideoController();
+    hasVideo = post.video != null;
+    if (hasVideo) initializeVideoController();
 
     super.initState();
   }
@@ -95,8 +97,10 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
   void onLeaveScreen() {
     if (!postsController.isInReviewMode) {
       postsController.clearForm();
-      _betterPlayerController.pause();
-      _betterPlayerController.dispose();
+      if (hasVideo) {
+        _betterPlayerController.pause();
+        _betterPlayerController.dispose();
+      }
       Get.offAllNamed(Routes.home);
     }
   }
@@ -253,11 +257,7 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
                   children: [
                     _dennouncePostButton(),
                     SizedBox(width: 4.0.w),
-                    SaveOrUnsave(
-                      show: systemController.properties.internetConnected,
-                      post: post,
-                      tiny: true,
-                    ),
+                    _saveButton(),
                     SizedBox(width: 4.0.w),
                   ],
                 ),
@@ -282,6 +282,24 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
             elevation: 8.0,
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24.0.h)),
             child: PostActionButton(icon: Icons.share),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _saveButton() {
+    return Obx(
+      () => Visibility(
+        replacement: postsController.isInReviewMode ? SizedBox.shrink() : NoConnectionTextInfo(),
+        visible: !postsController.isInReviewMode && systemController.properties.internetConnected,
+        child: Card(
+          elevation: 8.0,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24.0.h)),
+          child: SaveOrUnsave(
+            show: systemController.properties.internetConnected,
+            post: post,
+            tiny: true,
           ),
         ),
       ),
@@ -385,7 +403,6 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
   }
 
   Container _images({required PageController pageController, required double boxHeight}) {
-    final hasVideo = post.video != null;
     final photos = post.photos;
 
     return Container(

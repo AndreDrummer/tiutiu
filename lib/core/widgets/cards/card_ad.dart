@@ -2,11 +2,15 @@ import 'package:tiutiu/core/widgets/cards/widgets/card_builder.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
+import 'package:tiutiu/core/constants/text_styles.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/features/posts/model/post.dart';
+import 'package:tiutiu/core/pets/model/pet_model.dart';
+import 'package:tiutiu/core/constants/strings.dart';
 import 'package:tiutiu/core/utils/dimensions.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'dart:math';
 
 class CardAd extends StatefulWidget {
   CardAd({
@@ -89,6 +93,16 @@ class _CardAdState extends State<CardAd> {
                   bottom: Get.height / 3.5,
                   left: Get.width / 2.5,
                 ),
+                Positioned(
+                  child: _tagIsDisappeared((widget.post as Pet).disappeared),
+                  right: 0,
+                  top: 0,
+                ),
+                Positioned(
+                  child: _tagIsDisappearedText((widget.post as Pet).disappeared),
+                  left: Get.width * .825,
+                  top: 10.0.h,
+                ),
               ],
             ),
           ],
@@ -136,6 +150,38 @@ class _CardAdState extends State<CardAd> {
               ),
             ],
           ),
+        ),
+      ),
+    );
+  }
+
+  Widget _tagIsDisappeared(bool visible) {
+    return Visibility(
+      visible: visible,
+      child: Container(
+        height: 52.0.h,
+        width: 52.0.w,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.only(
+            topRight: Radius.circular(8.0.h),
+            bottomLeft: Radius.circular(80.0.h),
+          ),
+          color: Colors.orange,
+        ),
+      ),
+    );
+  }
+
+  Widget _tagIsDisappearedText(bool visible) {
+    return Visibility(
+      visible: visible,
+      child: Transform.rotate(
+        angle: pi / 4,
+        child: AutoSizeTexts.autoSizeText10(
+          PostDetailsStrings.petDisappeared,
+          textAlign: TextAlign.center,
+          fontWeight: FontWeight.w600,
+          color: AppColors.white,
         ),
       ),
     );
