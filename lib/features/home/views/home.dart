@@ -96,7 +96,7 @@ class _HomeState extends State<Home> with TiuTiuPopUp {
                                   medium: 84.0.h,
                                   bigger: 76.0.h,
                                 )
-                              : 0.0,
+                              : toolbarHeight(),
                           backgroundColor: Colors.transparent,
                           automaticallyImplyLeading: false,
                           expandedHeight: expandedHeight(),
@@ -177,5 +177,18 @@ class _HomeState extends State<Home> with TiuTiuPopUp {
     }
 
     return 0.0.h;
+  }
+
+  double toolbarHeight() {
+    final posts = postsController.posts;
+    final cardVisibilityKind = homeController.cardVisibilityKind;
+
+    if (homeController.bottomBarIndex != BottomBarIndex.DONATE.indx &&
+        homeController.bottomBarIndex != BottomBarIndex.FINDER.indx) return 0.0;
+
+    if (cardVisibilityKind == CardVisibilityKind.banner && posts.length < 6) return 56.0;
+    if (cardVisibilityKind == CardVisibilityKind.card && posts.length < 3) return 56.0;
+
+    return 0.0;
   }
 }

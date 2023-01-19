@@ -30,7 +30,6 @@ class SystemController extends GetxController {
   System get properties => _systemProperties.value;
   List<Endpoint> get endpoints => _endpoints;
 
-  void set bottomSheetIsOpen(bool value) => _systemProperties(properties.copyWith(bottomSheetIsOpen: value));
   void set snackBarIsOpen(bool value) => _systemProperties(properties.copyWith(snackBarIsOpen: value));
 
   void setLoading(bool loadingValue, [String systemStateTextFeedback = '']) {
