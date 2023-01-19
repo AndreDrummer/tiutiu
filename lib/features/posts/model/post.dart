@@ -65,6 +65,7 @@ class Post implements Mapper {
       dennounceMotives: map[PostEnum.dennounceMotives.name] ?? [],
       timesDennounced: map[PostEnum.timesDennounced.name],
       owner: TiutiuUser.fromMap(map[PostEnum.owner.name]),
+      sharedTimes: map[PostEnum.sharedTimes.name] ?? 0,
       description: map[PostEnum.description.name] ?? '',
       city: map[PostEnum.city.name] ?? 'Acrelândia',
       state: map[PostEnum.state.name] ?? 'Acre',
@@ -73,7 +74,6 @@ class Post implements Mapper {
       latitude: map[PostEnum.latitude.name],
       type: map[PostEnum.type.name] ?? '-',
       ownerId: map[PostEnum.ownerId.name],
-      sharedTimes: map[PostEnum.sharedTimes.name] ?? 0,
       likes: map[PostEnum.likes.name] ?? 0,
       saved: map[PostEnum.saved.name] ?? 0,
       views: map[PostEnum.views.name] ?? 0,
@@ -151,6 +151,7 @@ class Post implements Mapper {
         other.dennounceMotives == dennounceMotives &&
         other.timesDennounced == timesDennounced &&
         other.description == description &&
+        other.sharedTimes == sharedTimes &&
         other.createdAt == createdAt &&
         other.reference == reference &&
         other.longitude == longitude &&
@@ -158,7 +159,6 @@ class Post implements Mapper {
         other.ownerId == ownerId &&
         other.photos == photos &&
         other.hidden == hidden &&
-        other.sharedTimes == sharedTimes &&
         other.saved == saved &&
         other.video == video &&
         other.state == state &&
