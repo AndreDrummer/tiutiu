@@ -100,7 +100,8 @@ class PostFlow extends StatelessWidget with TiuTiuPopUp {
               Positioned(
                 child: ChangePostsVisibilityFloatingButtom(visibility: postsController.flowIndex >= 6),
                 bottom: 76.0.h,
-                right: 16.0.w,
+                right: 0.0.w,
+                left: 0.0.w,
               ),
               LoadDarkScreen(
                 message: postsController.uploadingPostText,
