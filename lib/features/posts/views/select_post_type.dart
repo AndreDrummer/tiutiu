@@ -4,11 +4,11 @@ import 'package:tiutiu/features/posts/widgets/text_area.dart';
 import 'package:tiutiu/core/extensions/string_extension.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/features/posts/flow/post_flow.dart';
-import 'package:tiutiu/core/views/load_dark_screen.dart';
-import 'package:tiutiu/core/constants/assets_path.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
+import 'package:tiutiu/core/views/load_dark_screen.dart';
 import 'package:tiutiu/core/widgets/row_button_bar.dart';
 import 'package:tiutiu/core/widgets/one_line_text.dart';
+import 'package:tiutiu/core/constants/assets_path.dart';
 import 'package:tiutiu/core/mixins/tiu_tiu_pop_up.dart';
 import 'package:tiutiu/core/constants/text_styles.dart';
 import 'package:tiutiu/core/pets/model/pet_model.dart';
@@ -36,25 +36,28 @@ class SelectPostType extends StatelessWidget with TiuTiuPopUp {
       child: Scaffold(
         appBar: DefaultBasicAppBar(text: postsController.isEditingPost ? PostFlowStrings.editAd : PostFlowStrings.post),
         body: Obx(
-          () => Stack(
-            children: [
-              Container(
-                margin: EdgeInsets.symmetric(horizontal: 4.0.w),
-                child: ListView(
-                  controller: _pageScroll,
-                  children: [
-                    _selectPostType(),
-                    _isDisappearedSelection(context),
-                    _reward(),
-                  ],
+          () => GestureDetector(
+            onTap: () => FocusScope.of(context).unfocus(),
+            child: Stack(
+              children: [
+                Container(
+                  margin: EdgeInsets.symmetric(horizontal: 4.0.w),
+                  child: ListView(
+                    controller: _pageScroll,
+                    children: [
+                      _selectPostType(),
+                      _isDisappearedSelection(context),
+                      _reward(),
+                    ],
+                  ),
                 ),
-              ),
-              LoadDarkScreen(visible: postsController.isLoading)
-            ],
+                LoadDarkScreen(visible: postsController.isLoading)
+              ],
+            ),
           ),
         ),
         bottomNavigationBar: Padding(
-          padding: EdgeInsets.only(bottom: 40.h),
+          padding: EdgeInsets.only(bottom: Get.height < 700 ? 48.0.h : 40.h),
           child: _buttons(),
         ),
       ),
