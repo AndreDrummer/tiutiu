@@ -49,10 +49,10 @@ class AppStrings {
   static String get openGallery => 'Abrir galeria';
   static const String tryAgain = 'Tentar novamente';
   static String get noConnection => 'Sem internet';
+  static String get disappeared => 'Desaparecidos';
   static const String commingSoon = 'Em breve';
   static String get provideInfo => 'Informar';
   static String get views => 'visualizações';
-  static String get find => 'Ajude encontrar';
   static String get getStarted => 'Começar';
   static String get loading => 'Carregando';
   static String get contines => 'Continuar';
