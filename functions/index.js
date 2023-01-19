@@ -27,25 +27,3 @@ exports.createNotificationChat = functions.firestore
             })
         }
     })
-
-
-exports.deletePostOnDennouncesLimitAchived = functions.firestore
-    .document('tiutiu/env/{environment}/posts/posts/{postId}')
-    .onUpdate((change, context) => {
-        // Get an object representing the document
-        // e.g. {'name': 'Marie', 'age': 66}
-        const newValue = change.after.data();
-
-        // access a particular field as you would any JS property
-        const timesDennounced = newValue.timesDennounced;
-
-        if (timesDennounced > 3) {
-            change.after.ref.delete();
-        }
-    });
-
-exports.updatePostReferenceOnCreate = functions.firestore
-    .document('tiutiu/env/{environment}/posts/posts/{postId}')
-    .onWrite((snap, context) => {
-        snap.after.ref.update({ 'reference': snap.after.ref })
-    });
