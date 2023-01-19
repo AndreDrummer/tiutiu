@@ -1,3 +1,5 @@
+import 'package:tiutiu/core/constants/endpoints_name.dart';
+import 'package:tiutiu/core/utils/endpoint_resolver.dart';
 import 'package:tiutiu/features/tiutiu_user/services/tiutiu_user_service.dart';
 import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
 import 'package:tiutiu/core/extensions/string_extension.dart';
@@ -67,12 +69,33 @@ class TiutiuUserController extends GetxController {
       updateTiutiuUser(TiutiuUserEnum.avatar, urlAvatar);
     }
 
+    if (tiutiuUser.reference == null) updateUserReference();
+
     _tiutiuUserService.updateUser(userData: tiutiuUser);
     isLoading = false;
   }
 
   Future<void> updateLoggedUserData(String userId) async {
     _tiutiuUser(await getUserById(userId));
+  }
+
+  Future<bool> updateUserReference() async {
+    bool success = false;
+
+    try {
+      final docRef = EndpointResolver.getDocumentEndpoint(EndpointNames.pathToUser.name, [tiutiuUser.uid!]);
+      await docRef.set({TiutiuUserEnum.reference.name: docRef}, SetOptions(merge: true));
+
+      debugPrint('TiuTiuApp: User Reference Updated Successfully ${tiutiuUser.uid}');
+      success = true;
+    } on Exception catch (exception) {
+      crashlyticsController.reportAnError(
+        message: 'Erro when tryna to update user reference: $exception',
+        exception: exception,
+      );
+    }
+
+    return success;
   }
 
   Stream<QuerySnapshot<Map<String, dynamic>>> getUserPostsById(String userId) {

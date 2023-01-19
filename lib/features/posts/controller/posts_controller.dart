@@ -1,10 +1,10 @@
-import 'package:tiutiu/core/Exceptions/tiutiu_exceptions.dart';
 import 'package:tiutiu/features/posts/repository/posts_repository.dart';
 import 'package:tiutiu/features/posts/validators/form_validators.dart';
 import 'package:tiutiu/core/location/models/states_and_cities.dart';
 import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
 import 'package:tiutiu/features/posts/services/post_service.dart';
 import 'package:tiutiu/core/models/dynamic_link_parameters.dart';
+import 'package:tiutiu/core/Exceptions/tiutiu_exceptions.dart';
 import 'package:tiutiu/core/extensions/string_extension.dart';
 import 'package:tiutiu/features/posts/utils/post_utils.dart';
 import 'package:tiutiu/core/utils/routes/routes_name.dart';
@@ -141,10 +141,15 @@ class PostsController extends GetxController with TiuTiuPopUp {
     if (post.createdAt == null) updatePost(PostEnum.createdAt.name, DateTime.now().toIso8601String());
 
     setLoading(true);
-    await _uploadVideo();
-    await _uploadImages();
-    await _uploadPostData();
-    await getAllPosts();
+    try {
+      await _uploadVideo();
+      await _uploadImages();
+      await _uploadPostData();
+      await _updatePostReference();
+      await getAllPosts();
+    } catch (_) {
+      setLoading(false);
+    }
     setLoading(false);
     isEditingPost = false;
     clearForm();
@@ -163,7 +168,7 @@ class PostsController extends GetxController with TiuTiuPopUp {
     return loggedUserPosts().length;
   }
 
-  Future<void> getAllPosts() async {
+  Future<List<Post>> getAllPosts() async {
     final list = await _postsRepository.getPostList();
     _posts(list);
 
@@ -171,6 +176,8 @@ class PostsController extends GetxController with TiuTiuPopUp {
 
     _filteredPosts(filteredPosts);
     _postsCount(filteredPosts.length);
+
+    return filteredPosts;
   }
 
   Future<void> _uploadVideo() async {
@@ -234,6 +241,8 @@ class PostsController extends GetxController with TiuTiuPopUp {
 
     _uploadingPostText('');
   }
+
+  Future<void> _updatePostReference() async => await _postsRepository.updatePostReference(post: post);
 
   Future<void> increasePostViews([String? postId]) async {
     if (postId != null || (!isEditingPost && !isInReviewMode && !postBelongsToMe())) {

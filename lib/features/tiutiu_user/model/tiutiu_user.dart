@@ -1,7 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 enum TiutiuUserEnum {
   allowContactViaWhatsApp,
   notificationToken,
+  reference,
   timesDennounced,
+  timesOpenedTheApp,
   emailVerified,
   phoneVerified,
   userDeleted,
@@ -22,12 +26,14 @@ class TiutiuUser {
     this.emailVerified = false,
     this.phoneVerified = false,
     this.userDeleted = false,
+    this.timesOpenedTheApp = 0,
     this.timesDennounced = 0,
     this.notificationToken,
     this.isAnONG = false,
     this.displayName,
     this.phoneNumber,
     this.createdAt,
+    this.reference,
     this.photoBACK,
     this.lastLogin,
     this.avatar,
@@ -35,10 +41,38 @@ class TiutiuUser {
     this.uid,
   });
 
+  static TiutiuUser fromSnapshot(DocumentSnapshot snapshot) {
+    return TiutiuUser(
+      reference: snapshot.get(TiutiuUserEnum.reference.name) != null
+          ? FirebaseFirestore.instance.doc((snapshot.get(TiutiuUserEnum.reference.name)))
+          : null,
+      allowContactViaWhatsApp: snapshot.get(TiutiuUserEnum.allowContactViaWhatsApp.name) ?? false,
+      lastLogin: snapshot.get(TiutiuUserEnum.lastLogin.name) ?? snapshot.get(TiutiuUserEnum.createdAt.name),
+      timesOpenedTheApp: snapshot.get(TiutiuUserEnum.timesOpenedTheApp.name) ?? 0,
+      avatar: snapshot.get(TiutiuUserEnum.avatar.name) ?? snapshot.get('photoURL'),
+      emailVerified: snapshot.get(TiutiuUserEnum.emailVerified.name) ?? false,
+      phoneVerified: snapshot.get(TiutiuUserEnum.phoneVerified.name) ?? false,
+      timesDennounced: snapshot.get(TiutiuUserEnum.timesDennounced.name) ?? 0,
+      notificationToken: snapshot.get(TiutiuUserEnum.notificationToken.name),
+      userDeleted: snapshot.get(TiutiuUserEnum.userDeleted.name) ?? false,
+      isAnONG: snapshot.get(TiutiuUserEnum.isAnONG.name) ?? false,
+      phoneNumber: snapshot.get(TiutiuUserEnum.phoneNumber.name),
+      displayName: snapshot.get(TiutiuUserEnum.displayName.name),
+      createdAt: snapshot.get(TiutiuUserEnum.createdAt.name),
+      photoBACK: snapshot.get(TiutiuUserEnum.photoBACK.name),
+      email: snapshot.get(TiutiuUserEnum.email.name),
+      uid: snapshot.get(TiutiuUserEnum.uid.name),
+    );
+  }
+
   static TiutiuUser fromMap(Map<String, dynamic> map) {
     return TiutiuUser(
-      allowContactViaWhatsApp: map[TiutiuUserEnum.allowContactViaWhatsApp.name] ?? false,
+      reference: map[TiutiuUserEnum.reference.name] != null
+          ? FirebaseFirestore.instance.doc((map[TiutiuUserEnum.reference.name]))
+          : null,
       lastLogin: map[TiutiuUserEnum.lastLogin.name] ?? map[TiutiuUserEnum.createdAt.name],
+      allowContactViaWhatsApp: map[TiutiuUserEnum.allowContactViaWhatsApp.name] ?? false,
+      timesOpenedTheApp: map[TiutiuUserEnum.timesOpenedTheApp.name] ?? 0,
       emailVerified: map[TiutiuUserEnum.emailVerified.name] ?? false,
       phoneVerified: map[TiutiuUserEnum.phoneVerified.name] ?? false,
       timesDennounced: map[TiutiuUserEnum.timesDennounced.name] ?? 0,
@@ -58,6 +92,7 @@ class TiutiuUser {
   static TiutiuUser fromMapMigration(Map<String, dynamic> map) {
     return TiutiuUser(
       notificationToken: map[TiutiuUserEnum.notificationToken.name],
+      timesOpenedTheApp: map[TiutiuUserEnum.timesOpenedTheApp.name],
       avatar: map[TiutiuUserEnum.avatar.name] ?? map['photoURL'],
       timesDennounced: map[TiutiuUserEnum.timesDennounced.name],
       emailVerified: map[TiutiuUserEnum.emailVerified.name],
@@ -65,6 +100,7 @@ class TiutiuUser {
       userDeleted: map[TiutiuUserEnum.userDeleted.name],
       phoneNumber: map[TiutiuUserEnum.phoneNumber.name],
       displayName: map[TiutiuUserEnum.displayName.name],
+      reference: map[TiutiuUserEnum.reference.name],
       createdAt: map[TiutiuUserEnum.createdAt.name],
       photoBACK: map[TiutiuUserEnum.photoBACK.name],
       lastLogin: map[TiutiuUserEnum.lastLogin.name],
@@ -75,7 +111,9 @@ class TiutiuUser {
   }
 
   bool allowContactViaWhatsApp;
+  DocumentReference? reference;
   String? notificationToken;
+  int timesOpenedTheApp;
   String? phoneNumber;
   String? displayName;
   int timesDennounced;
@@ -92,8 +130,12 @@ class TiutiuUser {
 
   Map<String, dynamic> toMap() {
     return {
+      TiutiuUserEnum.reference.name: reference != null ? reference.toString() : null,
       TiutiuUserEnum.allowContactViaWhatsApp.name: allowContactViaWhatsApp,
       TiutiuUserEnum.notificationToken.name: notificationToken,
+      TiutiuUserEnum.notificationToken.name: notificationToken,
+      TiutiuUserEnum.timesOpenedTheApp.name: timesOpenedTheApp,
+      TiutiuUserEnum.timesDennounced.name: timesDennounced,
       TiutiuUserEnum.timesDennounced.name: timesDennounced,
       TiutiuUserEnum.emailVerified.name: emailVerified,
       TiutiuUserEnum.phoneVerified.name: phoneVerified,

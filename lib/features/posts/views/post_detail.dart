@@ -1,4 +1,3 @@
-import 'package:tiutiu/core/widgets/tiutiutok_icon.dart';
 import 'package:tiutiu/features/dennounce/views/post_dennounce_screen.dart';
 import 'package:tiutiu/features/dennounce/widgets/dennounce_button.dart';
 import 'package:tiutiu/features/admob/constants/admob_block_names.dart';
@@ -20,6 +19,7 @@ import 'package:tiutiu/core/utils/launcher_functions.dart';
 import 'package:tiutiu/core/widgets/lottie_animation.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/widgets/tiutiu_snackbar.dart';
+import 'package:tiutiu/core/widgets/tiutiutok_icon.dart';
 import 'package:tiutiu/core/widgets/dots_indicator.dart';
 import 'package:tiutiu/core/widgets/warning_widget.dart';
 import 'package:tiutiu/core/constants/contact_type.dart';
@@ -66,7 +66,7 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
 
   @override
   void dispose() {
-    _betterPlayerController.videoPlayerController!.dispose();
+    if (hasVideo) _betterPlayerController.videoPlayerController!.dispose();
     super.dispose();
   }
 
@@ -75,13 +75,14 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
     _betterPlayerDataSource = BetterPlayerDataSource(
       BetterPlayerDataSourceType.network,
       videoUrl,
-      cacheConfiguration: BetterPlayerCacheConfiguration(useCache: true, key: post.uid),
+      cacheConfiguration: BetterPlayerCacheConfiguration(useCache: Platform.isAndroid, key: post.uid),
     );
 
     _betterPlayerController = BetterPlayerController(
       BetterPlayerConfiguration(
         autoDispose: false,
         controlsConfiguration: BetterPlayerControlsConfiguration(
+          enableFullscreen: Platform.isAndroid,
           loadingWidget: LoadingVideo(),
           enableSkips: false,
         ),
@@ -204,7 +205,7 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
                 ],
               ),
             ),
-            Positioned(child: BackButton(color: AppColors.white), left: 8.0.w, top: 24.0.h),
+            Positioned(child: BackButton(color: AppColors.white), left: 4.0.w, top: 40.0.h),
             LoadingBlur()
           ],
         ),
@@ -438,7 +439,6 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
         itemCount: hasVideo ? photos.length + 1 : photos.length,
         itemBuilder: (BuildContext context, int index) {
           if (hasVideo && index == 0) {
-            if (!(_betterPlayerController.isPlaying() ?? false)) _betterPlayerController.play();
             return _video();
           } else if (hasVideo && index > 0) {
             if (_betterPlayerController.isPlaying() ?? true) _betterPlayerController.pause();
@@ -452,7 +452,7 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
     );
   }
 
-  SafeArea _video() {
+  Widget _video() {
     return SafeArea(
       child: AspectRatio(
         aspectRatio: _betterPlayerController.getAspectRatio() ?? 16 / 9,
