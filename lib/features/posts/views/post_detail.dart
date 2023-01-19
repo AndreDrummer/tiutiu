@@ -119,10 +119,10 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
       );
     } else {
       return Dimensions.getDimensBasedOnDeviceHeight(
-        smaller: (Get.height / (isInReview ? 2.6 : 3.4)) - (descriptionLength / 4),
-        xSmaller: (Get.height / (isInReview ? 3.6 : 4.4)) - (descriptionLength / 4),
-        bigger: (Get.height / (isInReview ? 2.4 : 3.2)) - (descriptionLength / 4),
-        medium: (Get.height / (isInReview ? 2.1 : 2.9)) - (descriptionLength / 4),
+        smaller: (Get.height / (isInReview ? 2.8 : 3.4)) - (descriptionLength / 4),
+        xSmaller: (Get.height / (isInReview ? 3.8 : 4.4)) - (descriptionLength / 4),
+        bigger: (Get.height / (isInReview ? 2.6 : 3.2)) - (descriptionLength / 4),
+        medium: (Get.height / (isInReview ? 2.3 : 2.9)) - (descriptionLength / 4),
       );
     }
   }
@@ -565,8 +565,9 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
       children: [
         CardContent(
           icon: showIcon ? Icons.launch : null,
-          content:
-              (post as Pet).disappeared ? (post).lastSeenDetails : '${post.city} - ${post.state} $describedAddress',
+          content: (post as Pet).disappeared
+              ? '${post.city} - ${post.state} ${(post).lastSeenDetails}'
+              : '${post.city} - ${post.state} $describedAddress',
           title: post.disappeared
               ? PostDetailsStrings.lastSeen
               : PostDetailsStrings.whereIsIt(

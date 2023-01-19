@@ -42,8 +42,11 @@ class RenderListItem extends StatelessWidget {
     if (showBackToStartButton)
       return Padding(
         padding: EdgeInsets.only(bottom: 96.0.h, top: 4.0.h),
-        child: BackToStart(
-          onPressed: onNavigateToTop,
+        child: Visibility(
+          visible: postsController.posts.length >= 10,
+          child: BackToStart(
+            onPressed: onNavigateToTop,
+          ),
         ),
       );
     return Obx(

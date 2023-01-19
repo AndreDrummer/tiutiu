@@ -66,7 +66,7 @@ class SelectPostType extends StatelessWidget with TiuTiuPopUp {
     final filtersTypeText = filterController.filterTypeText.sublist(1).reversed.toList();
 
     final petsTypeImage = [
-      StartScreenAssets.hamster,
+      ImageAssets.hamster,
       StartScreenAssets.cockatiel,
       StartScreenAssets.greyCat,
       StartScreenAssets.munkun,
@@ -79,6 +79,7 @@ class SelectPostType extends StatelessWidget with TiuTiuPopUp {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           _selectPostTypeTitle(),
+          SizedBox(height: 16.0.h),
           _gridView(filtersTypeText, petsTypeImage),
         ],
       ),
@@ -89,7 +90,7 @@ class SelectPostType extends StatelessWidget with TiuTiuPopUp {
     return OneLineText(
       text: PostFlowStrings.selectPetType,
       widgetAlignment: Alignment(-0.9, 1),
-      fontSize: 16,
+      fontSize: 24.0,
     );
   }
 

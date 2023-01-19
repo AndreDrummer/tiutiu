@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 enum SystemEnum {
   systemStateTextFeedback,
-  bottomSheetIsOpen,
   internetConnected,
   runningVersion,
   snackBarIsOpen,
@@ -14,7 +13,6 @@ class System {
     return System(
       systemStateTextFeedback: map[SystemEnum.systemStateTextFeedback.name],
       internetConnected: map[SystemEnum.internetConnected.name],
-      bottomSheetIsOpen: map[SystemEnum.bottomSheetIsOpen.name],
       runningVersion: map[SystemEnum.runningVersion.name],
       snackBarIsOpen: map[SystemEnum.snackBarIsOpen.name],
       isLoading: map[SystemEnum.isLoading.name],
@@ -24,7 +22,6 @@ class System {
   System({
     this.systemStateTextFeedback = '',
     this.internetConnected = false,
-    this.bottomSheetIsOpen = false,
     this.snackBarIsOpen = false,
     this.runningVersion = '',
     this.isLoading = false,
@@ -34,7 +31,6 @@ class System {
     return System(
       systemStateTextFeedback: this.systemStateTextFeedback,
       internetConnected: this.internetConnected,
-      bottomSheetIsOpen: this.bottomSheetIsOpen,
       runningVersion: this.runningVersion,
       snackBarIsOpen: this.snackBarIsOpen,
       isLoading: this.isLoading,
@@ -43,7 +39,6 @@ class System {
 
   final String systemStateTextFeedback;
   final bool internetConnected;
-  final bool bottomSheetIsOpen;
   final String runningVersion;
   final bool snackBarIsOpen;
   final bool isLoading;
@@ -51,7 +46,6 @@ class System {
   System copyWith({
     String? systemStateTextFeedback,
     bool? internetConnected,
-    bool? bottomSheetIsOpen,
     String? runningVersion,
     bool? snackBarIsOpen,
     bool? isLoading,
@@ -59,7 +53,6 @@ class System {
     return System(
       systemStateTextFeedback: systemStateTextFeedback ?? this.systemStateTextFeedback,
       internetConnected: internetConnected ?? this.internetConnected,
-      bottomSheetIsOpen: bottomSheetIsOpen ?? this.bottomSheetIsOpen,
       snackBarIsOpen: snackBarIsOpen ?? this.snackBarIsOpen,
       runningVersion: runningVersion ?? this.runningVersion,
       isLoading: isLoading ?? this.isLoading,
@@ -69,7 +62,6 @@ class System {
   Map<String, dynamic> toMap() {
     return {
       SystemEnum.systemStateTextFeedback.name: systemStateTextFeedback,
-      SystemEnum.bottomSheetIsOpen.name: bottomSheetIsOpen,
       SystemEnum.internetConnected.name: internetConnected,
       SystemEnum.runningVersion.name: runningVersion,
       SystemEnum.snackBarIsOpen.name: snackBarIsOpen,
@@ -81,8 +73,7 @@ class System {
   String toString() {
     return '''System(      
       systemStateTextFeedback: $systemStateTextFeedback,        
-      internetConnected: $internetConnected,
-      bottomSheetIsOpen: $bottomSheetIsOpen,      
+      internetConnected: $internetConnected,      
       runningVersion: $runningVersion,
       snackBarIsOpen: $snackBarIsOpen,      
       isLoading: $isLoading

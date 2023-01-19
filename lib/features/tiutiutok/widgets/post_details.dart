@@ -16,7 +16,7 @@ class PostDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Positioned(
-      bottom: 96.0.h,
+      bottom: 88.0.h,
       left: 16.0.w,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

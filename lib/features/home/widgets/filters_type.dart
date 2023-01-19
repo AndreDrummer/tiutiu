@@ -18,7 +18,7 @@ class FiltersType extends StatelessWidget {
       StartScreenAssets.liu2,
       StartScreenAssets.soraya,
       StartScreenAssets.cockatiel,
-      StartScreenAssets.hamster,
+      ImageAssets.hamster,
     ];
 
     return Obx(
