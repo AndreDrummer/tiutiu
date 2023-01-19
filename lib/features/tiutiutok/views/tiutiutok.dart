@@ -1,4 +1,3 @@
-import 'package:tiutiu/core/utils/dimensions.dart';
 import 'package:tiutiu/features/tiutiutok/widgets/empty_tiutiutok.dart';
 import 'package:tiutiu/features/tiutiutok/widgets/buttons_aside.dart';
 import 'package:tiutiu/features/tiutiutok/widgets/post_details.dart';
@@ -9,10 +8,18 @@ import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/features/posts/model/post.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:tiutiu/core/utils/dimensions.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class TiutiuTok extends StatelessWidget {
+class TiutiuTok extends StatefulWidget {
+  @override
+  State<TiutiuTok> createState() => _TiutiuTokState();
+}
+
+class _TiutiuTokState extends State<TiutiuTok> {
+  CarouselController carouselController = CarouselController();
+
   @override
   Widget build(BuildContext context) {
     late Post post;
@@ -34,8 +41,15 @@ class TiutiuTok extends StatelessWidget {
               ),
             ),
             child: CarouselSlider.builder(
-              itemCount: postsWithVideo.length,
+              carouselController: carouselController,
+              itemCount: postsWithVideo.length + 1,
               itemBuilder: (context, index, realIndex) {
+                if (index == postsWithVideo.length)
+                  return EmptyTiuTiuTokScreen(
+                    onEndOfPage: () => carouselController.animateToPage(0),
+                    endOfList: true,
+                  );
+
                 post = postsWithVideo[index];
                 postsController.increasePostViews(post.uid);
 

@@ -40,9 +40,9 @@ packages:
     dependency: "direct main"
     description:
       path: "."
-      ref: ios-simulator-blackscreen
-      resolved-ref: ab30133c7852861ababda9d6426d31cc0507c27c
-      url: "https://github.com/marioloko/betterplayer.git"
+      ref: fix-android-and-ios
+      resolved-ref: "077910ae1b54ec1d8658a5ecdd94db91f0bc0664"
+      url: "https://github.com/AndreDrummer/betterplayer.git"
     source: git
     version: "0.0.83"
   boolean_selector:

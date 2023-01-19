@@ -49,8 +49,8 @@ dependencies:
   image_picker: ^0.8.5+3
   better_player:
     git:
-      url: https://github.com/marioloko/betterplayer.git
-      ref: ios-simulator-blackscreen
+      url: https://github.com/AndreDrummer/betterplayer.git
+      ref: fix-android-and-ios
   maps_launcher: ^2.0.1
   brasil_fields: ^1.6.0  
   google_fonts: ^3.0.1
