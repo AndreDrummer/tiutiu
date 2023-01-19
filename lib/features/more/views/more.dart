@@ -41,7 +41,7 @@ class More extends StatelessWidget {
           _cardBody(),
           Container(
             alignment: Alignment.center,
-            padding: EdgeInsets.only(bottom: 96.0.h),
+            padding: EdgeInsets.only(top: 16.0.h),
             child: FutureBuilder<PackageInfo>(
               future: systemController.getPackageInfo(),
               builder: (context, snapshot) {
