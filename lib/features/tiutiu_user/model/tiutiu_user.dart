@@ -46,8 +46,8 @@ class TiutiuUser {
       reference: snapshot.get(TiutiuUserEnum.reference.name) != null
           ? FirebaseFirestore.instance.doc((snapshot.get(TiutiuUserEnum.reference.name)))
           : null,
-      allowContactViaWhatsApp: snapshot.get(TiutiuUserEnum.allowContactViaWhatsApp.name) ?? false,
       lastLogin: snapshot.get(TiutiuUserEnum.lastLogin.name) ?? snapshot.get(TiutiuUserEnum.createdAt.name),
+      allowContactViaWhatsApp: snapshot.get(TiutiuUserEnum.allowContactViaWhatsApp.name) ?? false,
       timesOpenedTheApp: snapshot.get(TiutiuUserEnum.timesOpenedTheApp.name) ?? 0,
       avatar: snapshot.get(TiutiuUserEnum.avatar.name) ?? snapshot.get('photoURL'),
       emailVerified: snapshot.get(TiutiuUserEnum.emailVerified.name) ?? false,
@@ -128,8 +128,8 @@ class TiutiuUser {
 
   Map<String, dynamic> toMap() {
     return {
-      TiutiuUserEnum.reference.name: reference != null ? reference : null,
       TiutiuUserEnum.allowContactViaWhatsApp.name: allowContactViaWhatsApp,
+      // TiutiuUserEnum.reference.name: reference != null ? reference : null,
       TiutiuUserEnum.notificationToken.name: notificationToken,
       TiutiuUserEnum.notificationToken.name: notificationToken,
       TiutiuUserEnum.timesOpenedTheApp.name: timesOpenedTheApp,

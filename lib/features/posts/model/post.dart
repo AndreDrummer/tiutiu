@@ -113,6 +113,7 @@ class Post implements Mapper {
   Map<String, dynamic> toMap({bool convertFileToVideoPath = false}) {
     return {
       PostEnum.photos.name: convertFileToVideoPath ? photos.map((e) => e.path).toList() : photos,
+      PostEnum.reference.name: reference != null ? reference.toString() : null,
       PostEnum.video.name: convertFileToVideoPath ? video.path : video,
       PostEnum.dennounceMotives.name: dennounceMotives,
       PostEnum.describedAddress.name: describedAddress,
@@ -121,7 +122,6 @@ class Post implements Mapper {
       PostEnum.sharedTimes.name: sharedTimes,
       PostEnum.owner.name: owner?.toMap(),
       PostEnum.longitude.name: longitude,
-      PostEnum.reference.name: reference,
       PostEnum.createdAt.name: createdAt,
       PostEnum.latitude.name: latitude,
       PostEnum.ownerId.name: ownerId,

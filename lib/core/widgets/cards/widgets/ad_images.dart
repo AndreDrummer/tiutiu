@@ -1,4 +1,4 @@
-import 'package:tiutiu/features/home/controller/home_controller.dart';
+import 'package:tiutiu/features/posts/controller/posts_controller.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
@@ -17,7 +17,7 @@ class AdImages extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return homeController.cardVisibilityKind == CardVisibilityKind.card ? _cardAdImage() : _cardAdListImage();
+    return postsController.cardVisibilityKind == CardVisibilityKind.card ? _cardAdImage() : _cardAdListImage();
   }
 
   Widget _cardAdImage() {
