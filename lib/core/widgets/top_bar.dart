@@ -1,5 +1,5 @@
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiutiu/features/sponsored/views/sponsored_list.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiutiu/features/posts/model/filter_params.dart';
 import 'package:tiutiu/core/extensions/string_extension.dart';
 import 'package:tiutiu/core/widgets/input_close_button.dart';
@@ -13,13 +13,18 @@ import 'package:tiutiu/core/utils/formatter.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class TopBar extends StatelessWidget {
+class TopBar extends StatefulWidget {
   const TopBar({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final _fieldController = TextEditingController(text: filterController.getParams.name);
+  State<TopBar> createState() => _TopBarState();
+}
 
+class _TopBarState extends State<TopBar> {
+  final _fieldController = TextEditingController(text: filterController.getParams.name);
+
+  @override
+  Widget build(BuildContext context) {
     return Column(
       children: [
         Padding(
@@ -74,6 +79,7 @@ class TopBar extends StatelessWidget {
               child: InputCloseButton(
                 onClose: () {
                   filterController.clearName();
+                  fieldController.clear();
                   FocusScope.of(context).unfocus();
                 },
               ),
@@ -107,7 +113,7 @@ class TopBar extends StatelessWidget {
           AutoSizeTexts.autoSizeText12(
             '${Formatters.formmatedExtendedDate()}',
             textAlign: TextAlign.left,
-            color: AppColors.primary,
+            color: AppColors.secondary,
           ),
         ],
       ),

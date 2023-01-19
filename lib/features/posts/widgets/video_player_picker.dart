@@ -8,8 +8,13 @@ import 'package:better_player/better_player.dart';
 import 'package:flutter/material.dart';
 
 class VideoPlayerPicker extends StatefulWidget {
-  const VideoPlayerPicker({super.key, required this.videoPath});
+  const VideoPlayerPicker({
+    required this.videoPath,
+    required this.type,
+    super.key,
+  });
 
+  final BetterPlayerDataSourceType type;
   final String videoPath;
 
   @override
@@ -25,7 +30,7 @@ class _VideoPlayerPickerState extends State<VideoPlayerPicker> {
     super.initState();
 
     _betterPlayerDataSource = BetterPlayerDataSource(
-      BetterPlayerDataSourceType.file,
+      widget.type,
       widget.videoPath,
     );
 
