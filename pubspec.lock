@@ -40,9 +40,9 @@ packages:
     dependency: "direct main"
     description:
       path: "."
-      ref: Issue1057
-      resolved-ref: e45f447b6d3ae6a3404ddfd9663f8aeae864ddec
-      url: "https://github.com/matthewrice345/betterplayer.git"
+      ref: ios-simulator-blackscreen
+      resolved-ref: ab30133c7852861ababda9d6426d31cc0507c27c
+      url: "https://github.com/marioloko/betterplayer.git"
     source: git
     version: "0.0.83"
   boolean_selector:
@@ -101,6 +101,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.1"
+  chewie:
+    dependency: "direct main"
+    description:
+      name: chewie
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.3.6"
   cli_util:
     dependency: transitive
     description:
