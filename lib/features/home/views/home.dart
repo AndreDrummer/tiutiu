@@ -1,6 +1,7 @@
 import 'package:tiutiu/core/widgets/change_posts_visibility_floating_button.dart';
 import 'package:tiutiu/features/home/utils/expanded_home_height_size.dart';
 import 'package:tiutiu/core/remote_config/model/admin_remote_config.dart';
+import 'package:tiutiu/features/posts/controller/posts_controller.dart';
 import 'package:tiutiu/features/admob/constants/admob_block_names.dart';
 import 'package:tiutiu/core/migration/service/migration_service.dart';
 import 'package:tiutiu/features/home/controller/home_controller.dart';
@@ -166,12 +167,11 @@ class _HomeState extends State<Home> with TiuTiuPopUp {
     if (conditionToAddHeight) {
       final thereIsDeveloperCommunication = adminRemoteConfigController.configs.thereIsAdminCommunication;
 
-      final showInfoBanner = !systemController.properties.internetConnected ||
-          (authController.userExists && !tiutiuUserController.tiutiuUser.emailVerified);
+      final showInfoBanner = (authController.userExists && !tiutiuUserController.tiutiuUser.emailVerified);
 
-      if (thereIsDeveloperCommunication && systemController.properties.internetConnected) {
+      if ((thereIsDeveloperCommunication || showInfoBanner) && systemController.properties.internetConnected) {
         return expandedHomeHeightWithAdminInfoAndInternetConnection(showingSponsoredAds: showingSponsoredAds);
-      } else if (showInfoBanner) {
+      } else if (!systemController.properties.internetConnected) {
         return expandedHomeHeightWithoutInternetConnection(showingSponsoredAds: showingSponsoredAds);
       } else {
         return expandedHomeHeightDefault(showingSponsoredAds: showingSponsoredAds);
@@ -183,7 +183,7 @@ class _HomeState extends State<Home> with TiuTiuPopUp {
 
   double toolbarHeight() {
     final posts = postsController.posts;
-    final cardVisibilityKind = homeController.cardVisibilityKind;
+    final cardVisibilityKind = postsController.cardVisibilityKind;
 
     if (homeController.bottomBarIndex != BottomBarIndex.DONATE.indx &&
         homeController.bottomBarIndex != BottomBarIndex.FINDER.indx) return 0.0;

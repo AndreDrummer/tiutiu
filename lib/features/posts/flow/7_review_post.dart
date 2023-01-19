@@ -1,4 +1,4 @@
-import 'package:tiutiu/features/home/controller/home_controller.dart';
+import 'package:tiutiu/features/posts/controller/posts_controller.dart';
 import 'package:tiutiu/core/widgets/cards/widgets/card_builder.dart';
 import 'package:tiutiu/core/widgets/cards/card_ad_list.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
@@ -20,7 +20,7 @@ class ReviewPost extends StatelessWidget {
       child: Container(
         child: Obx(
           () => Visibility(
-            visible: homeController.cardVisibilityKind == CardVisibilityKind.card,
+            visible: postsController.cardVisibilityKind == CardVisibilityKind.card,
             child: CardAd(
               cardBuilder: cardBuilder,
               inReviewMode: true,

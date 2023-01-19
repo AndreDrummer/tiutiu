@@ -72,9 +72,11 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
   }
 
   void initializeVideoController() {
-    final videoUrl = post.video is File ? post.video.path : post.video;
+    final isFile = postsController.post.video is File;
+    final videoUrl = isFile ? postsController.post.video.path : postsController.post.video;
+
     _betterPlayerDataSource = BetterPlayerDataSource(
-      BetterPlayerDataSourceType.network,
+      isFile ? BetterPlayerDataSourceType.file : BetterPlayerDataSourceType.network,
       videoUrl,
       cacheConfiguration: BetterPlayerCacheConfiguration(useCache: Platform.isAndroid, key: post.uid),
     );
@@ -83,6 +85,7 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
       BetterPlayerConfiguration(
         autoDispose: false,
         placeholder: VideoPlaceholder(),
+        showPlaceholderUntilPlay: false,
         controlsConfiguration: BetterPlayerControlsConfiguration(
           enableFullscreen: Platform.isAndroid,
           loadingWidget: LoadingVideo(),
@@ -101,11 +104,15 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
   void onLeaveScreen() {
     if (!postsController.isInReviewMode) {
       postsController.clearForm();
-      if (hasVideo) {
-        _betterPlayerController.pause();
-        _betterPlayerController.dispose();
-      }
+      stopVideo();
       Get.offAllNamed(Routes.home);
+    }
+  }
+
+  void stopVideo() {
+    if (hasVideo) {
+      _betterPlayerController.pause();
+      _betterPlayerController.dispose();
     }
   }
 
@@ -586,7 +593,7 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
         ),
         Positioned(
           child: LottieAnimation(animationPath: AnimationsAssets.petLocationPin, size: 32.0.h),
-          left: post.disappeared ? Get.width / 2.4 : Get.width / 4,
+          left: post.disappeared ? Get.width / 2.3 : Get.width / 3.9,
         )
       ],
     );
@@ -643,6 +650,7 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
       child: ButtonWide(
         text: postsController.isEditingPost ? PostFlowStrings.postUpdate : PostFlowStrings.post,
         onPressed: () {
+          stopVideo();
           postsController.backReviewAndPost();
         },
         isToExpand: true,
