@@ -129,6 +129,10 @@ class PostsRepository {
     await _postService.uploadPostData(post);
   }
 
+  Future<void> updatePostReference({required Post post}) async {
+    await _postService.updatePostReference(post);
+  }
+
   Future<void> deletePost({required Post post}) async {
     await _postService.deletePost(post);
   }
