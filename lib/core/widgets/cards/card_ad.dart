@@ -143,8 +143,8 @@ class _CardAdState extends State<CardAd> {
     return Visibility(
       visible: visible,
       child: Container(
-        height: 48.0.h,
-        width: 64.0.w,
+        height: 56.0.h,
+        width: 72.0.w,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.only(
             topRight: Radius.circular(8.0.h),
