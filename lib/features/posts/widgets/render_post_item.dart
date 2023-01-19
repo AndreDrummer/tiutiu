@@ -1,4 +1,4 @@
-import 'package:tiutiu/features/home/controller/home_controller.dart';
+import 'package:tiutiu/features/posts/controller/posts_controller.dart';
 import 'package:tiutiu/core/widgets/cards/widgets/card_builder.dart';
 import 'package:tiutiu/features/posts/widgets/back_to_start.dart';
 import 'package:tiutiu/core/widgets/cards/card_ad_list.dart';
@@ -60,7 +60,7 @@ class RenderListItem extends StatelessWidget {
             postsController.increasePostViews();
           }
         },
-        child: homeController.cardVisibilityKind == CardVisibilityKind.banner
+        child: postsController.cardVisibilityKind == CardVisibilityKind.banner
             ? CardAdList(
                 showSaveButton: showSaveButton ?? authController.userExists,
                 isInReviewMode: postsController.isInReviewMode,
