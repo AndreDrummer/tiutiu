@@ -107,6 +107,8 @@ class PostsController extends GetxController with TiuTiuPopUp {
     return postMap;
   }
 
+  bool get tiutiutokPostsListIsEmpty => _posts.where((post) => post.video != null).toList().isEmpty;
+
   List<Post> loggedUserPosts() => _posts.where(postBelongsToMe).toList();
 
   List _handlePetOtherCaracteristics(String incomingCaracteristic) {

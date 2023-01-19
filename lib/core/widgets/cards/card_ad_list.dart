@@ -36,7 +36,7 @@ class CardAdList extends StatelessWidget {
             xSmaller: isInReviewMode ? 136.0.h : 152.0.h,
             smaller: isInReviewMode ? 128.0.h : 144.0.h,
             bigger: isInReviewMode ? 104.0.h : 124.0.h,
-            medium: isInReviewMode ? 112.0.h : 128.0.h,
+            medium: isInReviewMode ? 112.0.h : 130.0.h,
           ),
           padding: EdgeInsets.zero,
           child: Card(

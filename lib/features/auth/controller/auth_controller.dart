@@ -523,7 +523,6 @@ class AuthController extends GetxController {
           );
         }
         debugPrint('TiuTiuApp: timesOpenedTheApp...');
-
         tiutiuUserController.updateTiutiuUser(
           TiutiuUserEnum.email,
           authController.user!.email,
