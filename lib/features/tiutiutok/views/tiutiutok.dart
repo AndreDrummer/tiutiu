@@ -1,3 +1,4 @@
+import 'package:tiutiu/core/utils/dimensions.dart';
 import 'package:tiutiu/features/tiutiutok/widgets/empty_tiutiutok.dart';
 import 'package:tiutiu/features/tiutiutok/widgets/buttons_aside.dart';
 import 'package:tiutiu/features/tiutiutok/widgets/post_details.dart';
@@ -25,7 +26,13 @@ class TiutiuTok extends StatelessWidget {
           if (postsWithVideo.isEmpty) return EmptyTiuTiuTokScreen();
 
           return Padding(
-            padding: EdgeInsets.only(bottom: 44.0.h),
+            padding: EdgeInsets.only(
+              bottom: Dimensions.getDimensBasedOnDeviceHeight(
+                smaller: 40.0.h,
+                bigger: 40.0.h,
+                medium: 44.0.h,
+              ),
+            ),
             child: CarouselSlider.builder(
               itemCount: postsWithVideo.length,
               itemBuilder: (context, index, realIndex) {
