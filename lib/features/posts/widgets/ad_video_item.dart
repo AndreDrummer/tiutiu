@@ -1,6 +1,5 @@
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/core/utils/dimensions.dart';
 import 'package:tiutiu/core/utils/pickers.dart';
@@ -27,16 +26,11 @@ class AddVideoItem extends StatelessWidget with Pickers {
       ),
       child: GestureDetector(
         onTap: () {
-          if (systemController.properties.bottomSheetIsOpen) {
-            Get.back();
-            systemController.bottomSheetIsOpen = false;
-          } else {
-            pickAnAsset(
-              pickerAssetType: PickerAssetType.video,
-              onAssetPicked: onVideoPicked,
-              context: context,
-            );
-          }
+          pickAnAsset(
+            pickerAssetType: PickerAssetType.video,
+            onAssetPicked: onVideoPicked,
+            context: context,
+          );
         },
         child: Container(
           alignment: Alignment.center,
