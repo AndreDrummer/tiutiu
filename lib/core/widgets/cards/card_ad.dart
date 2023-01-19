@@ -59,7 +59,6 @@ class _CardAdState extends State<CardAd> {
         });
       },
       child: Card(
-        color: AppColors.black,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
         child: Column(
           children: [

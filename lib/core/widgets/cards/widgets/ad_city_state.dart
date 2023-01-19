@@ -3,7 +3,6 @@ import 'package:tiutiu/core/location/models/states_and_cities.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/constants/text_styles.dart';
-import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:flutter/material.dart';
 
 class AdCityState extends StatelessWidget {
@@ -30,9 +29,9 @@ class AdCityState extends StatelessWidget {
       alignment: isCardVisibility ? Alignment.centerRight : null,
       width: isCardVisibility ? 200.0.w : null,
       child: AutoSizeTexts.autoSizeText10(
-        color: isCardVisibility ? AppColors.white : Colors.grey[700],
         textOverflow: TextOverflow.fade,
         fontWeight: FontWeight.w700,
+        color: Colors.grey[700],
         '$city - $UF',
       ),
     );
