@@ -74,7 +74,7 @@ class _BottomBarState extends State<BottomBar> {
     AppStrings.adopte,
     AppStrings.tiutok,
     AppStrings.post,
-    AppStrings.find,
+    AppStrings.disappeared,
     AppStrings.more,
   ];
 
