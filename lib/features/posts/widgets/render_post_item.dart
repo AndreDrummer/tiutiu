@@ -60,6 +60,7 @@ class RenderListItem extends StatelessWidget {
         child: homeController.cardVisibilityKind == CardVisibilityKind.banner
             ? CardAdList(
                 showSaveButton: showSaveButton ?? authController.userExists,
+                isInReviewMode: postsController.isInReviewMode,
                 key: Key(post.uid.toString()),
                 cardBuilder: cardBuilder,
                 post: post,
