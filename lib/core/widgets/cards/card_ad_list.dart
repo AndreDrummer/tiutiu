@@ -12,6 +12,7 @@ import 'package:get/get.dart';
 class CardAdList extends StatelessWidget {
   const CardAdList({
     required this.showSaveButton,
+    required this.isInReviewMode,
     required this.cardBuilder,
     required this.post,
     required super.key,
@@ -19,6 +20,7 @@ class CardAdList extends StatelessWidget {
 
   final CardBuilder cardBuilder;
   final bool showSaveButton;
+  final bool isInReviewMode;
   final Post post;
 
   @override
@@ -31,10 +33,10 @@ class CardAdList extends StatelessWidget {
             borderRadius: BorderRadius.circular(12.0.h),
           ),
           height: Dimensions.getDimensBasedOnDeviceHeight(
-            xSmaller: 152.0.h,
-            smaller: 144.0.h,
-            bigger: 124.0.h,
-            medium: 128.0.h,
+            xSmaller: isInReviewMode ? 136.0.h : 152.0.h,
+            smaller: isInReviewMode ? 128.0.h : 144.0.h,
+            bigger: isInReviewMode ? 104.0.h : 124.0.h,
+            medium: isInReviewMode ? 112.0.h : 128.0.h,
           ),
           padding: EdgeInsets.zero,
           child: Card(
@@ -55,6 +57,7 @@ class CardAdList extends StatelessWidget {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
+                          SizedBox(height: 2.0),
                           Container(
                             child: cardBuilder.adTitle(),
                             width: Get.width / 2.2,

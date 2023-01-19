@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:tiutiu/core/widgets/loading_video.dart';
 import 'package:tiutiu/features/posts/model/post.dart';
 import 'package:tiutiu/core/widgets/video_error.dart';
@@ -21,9 +23,11 @@ class _VideoWidgetState extends State<VideoWidget> {
         BetterPlayerDataSource(
           BetterPlayerDataSourceType.network,
           widget.post.video,
-          cacheConfiguration: BetterPlayerCacheConfiguration(useCache: true),
+          videoExtension: '.mp4',
+          cacheConfiguration: BetterPlayerCacheConfiguration(useCache: Platform.isAndroid),
         ),
         configuration: BetterPlayerConfiguration(
+          errorBuilder: (context, errorMessage) => VideoError(),
           controlsConfiguration: BetterPlayerControlsConfiguration(
             loadingWidget: LoadingVideo(),
             enableProgressText: false,
@@ -34,7 +38,6 @@ class _VideoWidgetState extends State<VideoWidget> {
           aspectRatio: .4,
           autoPlay: true,
           looping: true,
-          errorBuilder: (context, errorMessage) => VideoError(),
           fit: BoxFit.cover,
         ),
         key: Key(widget.post.uid.toString()),
