@@ -19,17 +19,25 @@ class FinderList extends StatelessWidget {
 class _PostsList extends StatelessWidget with TiuTiuPopUp {
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<List<Post>>(
-      future: postsController.getAllPosts(),
+    return StreamBuilder<List<Post>>(
+      stream: postsController.postsStream(),
       builder: (context, snapshot) {
         return AsyncHandler<List<Post>>(
-          buildWidget: (posts) {
-            return RefreshIndicator(
-              onRefresh: () async => postsController.getAllPosts(),
-              child: Padding(
-                padding: EdgeInsets.only(left: posts.isEmpty ? Get.width / 4.5 : 0.0),
-                child: RenderPostList(itemCount: posts.length + 1, posts: posts),
-              ),
+          forcedDataReturned: snapshot.data ?? [],
+          forceReturnBuildWidget: true,
+          buildWidget: (_) {
+            return Obx(
+              () {
+                final posts = postsController.filteredPosts;
+
+                return RefreshIndicator(
+                  onRefresh: () async => postsController.getAllPosts(),
+                  child: Padding(
+                    padding: EdgeInsets.only(left: posts.isEmpty ? Get.width / 4.5 : 0.0),
+                    child: RenderPostList(itemCount: posts.length + 1, posts: posts),
+                  ),
+                );
+              },
             );
           },
           snapshot: snapshot,
