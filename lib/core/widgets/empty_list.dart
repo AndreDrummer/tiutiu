@@ -25,7 +25,7 @@ class EmptyListScreen extends StatelessWidget {
       children: [
         Visibility(
           child: Container(
-            child: LottieAnimation(animationPath: AnimationsAssets.catLoading),
+            child: LottieAnimation(animationPath: AnimationsAssets.catLookingAround),
             height: Get.width / 3,
           ),
           visible: isAPetScreenList,
