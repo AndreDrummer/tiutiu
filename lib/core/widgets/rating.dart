@@ -1,7 +1,7 @@
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/utils/launcher_functions.dart';
-import 'package:tiutiu/core/constants/assets_path.dart';
+import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/constants/text_styles.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/core/utils/dimensions.dart';
@@ -27,23 +27,26 @@ class RatingUs extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             buttons(
-              imagePath: Platform.isAndroid ? ImageAssets.playstoreLogo : ImageAssets.applestoreLogo,
-              text: 'Avalie na\n${Platform.isAndroid ? 'PlayStore' : 'Apple Store'}',
+              icon: Platform.isAndroid ? FontAwesomeIcons.googlePay : FontAwesomeIcons.apple,
+              text: 'Avalie-nos\n${Platform.isAndroid ? 'PlayStore' : 'Apple Store'}',
               urlToOpen: Platform.isAndroid
                   ? adminRemoteConfigController.configs.playStoreLink
                   : adminRemoteConfigController.configs.appleStoreLink,
+              color: Colors.black,
               context: context,
             ),
             buttons(
               urlToOpen: adminRemoteConfigController.configs.appInstagramLink,
-              imagePath: ImageAssets.instaLogo,
+              icon: FontAwesomeIcons.instagram,
+              color: Color(0XFFE41F30),
               text: '@tiutiuapp',
               context: context,
               bigger: true,
             ),
             buttons(
               urlToOpen: adminRemoteConfigController.configs.appFacebookLink,
-              imagePath: ImageAssets.face,
+              icon: FontAwesomeIcons.facebook,
+              color: Colors.blue,
               text: 'Tiu, Tiu App',
               context: context,
             ),
@@ -57,7 +60,8 @@ class RatingUs extends StatelessWidget {
     required BuildContext context,
     bool bigger = false,
     String? urlToOpen,
-    String? imagePath,
+    Color? color,
+    IconData? icon,
     String? text,
   }) {
     return InkWell(
@@ -68,21 +72,26 @@ class RatingUs extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
+            padding: const EdgeInsets.all(16.0),
+            margin: const EdgeInsets.all(16.0),
             decoration: BoxDecoration(
-              color: AppColors.white,
               shape: BoxShape.circle,
+              color: color,
             ),
-            height: bigger ? 96 : 64.0.h,
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Image.asset(imagePath!),
+            child: Icon(
+              size: bigger ? 40 : 24,
+              icon,
+              color: AppColors.white,
             ),
           ),
-          AutoSizeTexts.autoSizeText8(
-            fontWeight: FontWeight.w300,
-            textAlign: TextAlign.center,
-            fontSize: bigger ? 16 : 14,
-            text,
+          Container(
+            height: 32.0.h,
+            child: AutoSizeTexts.autoSizeText8(
+              fontWeight: FontWeight.w300,
+              textAlign: TextAlign.center,
+              fontSize: bigger ? 16 : 14,
+              text,
+            ),
           ),
         ],
       ),

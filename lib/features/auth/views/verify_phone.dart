@@ -90,6 +90,7 @@ class _VerifyPhoneState extends State<VerifyPhone> {
               Spacer(),
               _confirmButton(),
               _resendWithin(),
+              SizedBox(height: 40.0.h)
             ],
           );
         },
@@ -262,7 +263,7 @@ class _VerifyPhoneState extends State<VerifyPhone> {
           visible: !codeFilled,
           child: OutlinedButtonWide(
             onPressed: () async {
-              Get.toNamed(Routes.settings);
+              Get.toNamed(Routes.editProfile);
             },
             text: AuthStrings.editPhoneNumber,
           ),

@@ -94,11 +94,6 @@ class _CardAdState extends State<CardAd> {
                   right: 0,
                   top: 0,
                 ),
-                Positioned(
-                  child: _tagIsDisappearedText((widget.post as Pet).disappeared),
-                  left: Get.width * .825,
-                  top: 10.0.h,
-                ),
               ],
             ),
             Container(
@@ -148,29 +143,26 @@ class _CardAdState extends State<CardAd> {
     return Visibility(
       visible: visible,
       child: Container(
-        height: 52.0.h,
-        width: 52.0.w,
+        height: 48.0.h,
+        width: 64.0.w,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.only(
             topRight: Radius.circular(8.0.h),
-            bottomLeft: Radius.circular(80.0.h),
+            bottomLeft: Radius.circular(88.0.h),
           ),
           color: Colors.orange,
         ),
-      ),
-    );
-  }
-
-  Widget _tagIsDisappearedText(bool visible) {
-    return Visibility(
-      visible: visible,
-      child: Transform.rotate(
-        angle: pi / 4,
-        child: AutoSizeTexts.autoSizeText10(
-          PostDetailsStrings.petDisappeared,
-          textAlign: TextAlign.center,
-          fontWeight: FontWeight.w600,
-          color: AppColors.white,
+        child: Padding(
+          padding: const EdgeInsets.only(top: 6.0),
+          child: Transform.rotate(
+            angle: pi / 4,
+            child: AutoSizeTexts.autoSizeText10(
+              PostDetailsStrings.petDisappeared,
+              textAlign: TextAlign.center,
+              fontWeight: FontWeight.w600,
+              color: AppColors.white,
+            ),
+          ),
         ),
       ),
     );

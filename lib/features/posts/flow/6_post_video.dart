@@ -1,3 +1,4 @@
+import 'package:better_player/better_player.dart';
 import 'package:tiutiu/features/posts/widgets/video_player_picker.dart';
 import 'package:tiutiu/core/widgets/animated_text_icon_button.dart';
 import 'package:tiutiu/features/posts/widgets/ad_video_item.dart';
@@ -17,23 +18,15 @@ final int VIDEO_SECS_LIMIT = 90;
 class PostVideo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        if (systemController.properties.bottomSheetIsOpen) {
-          Get.back();
-          systemController.bottomSheetIsOpen = false;
-        }
-      },
-      child: Column(
-        children: [
-          Spacer(),
-          _insertVideoLabel(),
-          _video(),
-          Spacer(),
-          _videoErrorLabel(),
-          _removeVideoButton(),
-        ],
-      ),
+    return Column(
+      children: [
+        Spacer(),
+        _insertVideoLabel(),
+        _video(),
+        Spacer(),
+        _videoErrorLabel(),
+        _removeVideoButton(),
+      ],
     );
   }
 
@@ -86,8 +79,13 @@ class PostVideo extends StatelessWidget {
   }
 
   Widget _playVideo() {
-    final videoUrl = postsController.post.video is File ? postsController.post.video.path : postsController.post.video;
-    return VideoPlayerPicker(videoPath: videoUrl);
+    final isFile = postsController.post.video is File;
+    final videoUrl = isFile ? postsController.post.video.path : postsController.post.video;
+
+    return VideoPlayerPicker(
+      type: isFile ? BetterPlayerDataSourceType.file : BetterPlayerDataSourceType.network,
+      videoPath: videoUrl,
+    );
   }
 
   Widget _videoErrorLabel() {
