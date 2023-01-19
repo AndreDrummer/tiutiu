@@ -34,12 +34,13 @@ class More extends StatelessWidget {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.all(Radius.circular(8.0.h)),
       ),
-      child: Column(
+      child: ListView(
+        physics: NeverScrollableScrollPhysics(),
         children: [
           _cardHeader(),
           _cardBody(),
-          Spacer(),
-          Padding(
+          Container(
+            alignment: Alignment.center,
             padding: EdgeInsets.only(bottom: 96.0.h),
             child: FutureBuilder<PackageInfo>(
               future: systemController.getPackageInfo(),
