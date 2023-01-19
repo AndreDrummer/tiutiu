@@ -19,7 +19,7 @@ class MigrationService {
   final String petAdPurpose = FirebaseEnvPath.donate;
 
   void migrate() async {
-    // moveSomeDocumentDataToProd();
+    updateSomeUserData();
   }
 
   void updateEndpointsSintaxe() async {
@@ -139,9 +139,9 @@ class MigrationService {
     final list = await EndpointResolver.getCollectionEndpoint(EndpointNames.pathToUsers.name).get();
 
     list.docs.forEach((snapshot) async {
-      final user = TiutiuUser.fromMap(snapshot.data());
+      // final user = TiutiuUser.fromMap(snapshot.data());
 
-      snapshot.reference.set({TiutiuUserEnum.lastLogin.name: user.createdAt}, SetOptions(merge: true));
+      snapshot.reference.set({TiutiuUserEnum.timesOpenedTheApp.name: 0}, SetOptions(merge: true));
     });
   }
 

@@ -522,6 +522,12 @@ class AuthController extends GetxController {
             authController.user!.email,
           );
         }
+        debugPrint('TiuTiuApp: timesOpenedTheApp...');
+
+        tiutiuUserController.updateTiutiuUser(
+          TiutiuUserEnum.email,
+          authController.user!.email,
+        );
 
         if (!isAppleUser && !user!.emailVerified && allowResendEmail) {
           sendEmail();
