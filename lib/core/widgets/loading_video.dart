@@ -1,9 +1,5 @@
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/widgets/lottie_animation.dart';
-import 'package:tiutiu/core/constants/text_styles.dart';
 import 'package:tiutiu/core/constants/assets_path.dart';
-import 'package:tiutiu/core/constants/app_colors.dart';
-import 'package:tiutiu/core/constants/strings.dart';
 import 'package:flutter/material.dart';
 
 class LoadingVideo extends StatelessWidget {
@@ -11,22 +7,12 @@ class LoadingVideo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox.expand(
-      child: Container(
-        color: AppColors.black,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            LottieAnimation(animationPath: AnimationsAssets.pawLoading2, size: 48),
-            SizedBox(height: 8.0.h),
-            AutoSizeTexts.autoSizeText14(
-              AppStrings.loadingVideo,
-              color: AppColors.white,
-            ),
-          ],
-        ),
+    return Opacity(
+      child: LottieAnimation(
+        animationPath: AnimationsAssets.loadingWifi,
+        size: 32,
       ),
+      opacity: .6,
     );
   }
 }
