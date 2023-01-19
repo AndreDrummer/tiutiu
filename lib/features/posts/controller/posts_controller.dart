@@ -22,6 +22,11 @@ import 'dart:io';
 
 const int _FLOW_STEPS_QTY = 7;
 
+enum CardVisibilityKind {
+  banner,
+  card,
+}
+
 class PostsController extends GetxController with TiuTiuPopUp {
   PostsController({
     required PostsRepository postsRepository,
@@ -32,6 +37,7 @@ class PostsController extends GetxController with TiuTiuPopUp {
   final PostsRepository _postsRepository;
   final PostService _postService;
 
+  final Rx<CardVisibilityKind> _cardVisibilityKind = CardVisibilityKind.banner.obs;
   final RxMap<String, dynamic> _cachedVideos = <String, dynamic>{}.obs;
   final RxBool _addressIsWithCompliment = false.obs;
   final RxList<Post> _filteredPosts = <Post>[].obs;
@@ -50,6 +56,7 @@ class PostsController extends GetxController with TiuTiuPopUp {
   final RxInt _flowIndex = 0.obs;
 
   bool get existChronicDisease => (post as Pet).health == PetHealthString.chronicDisease;
+  CardVisibilityKind get cardVisibilityKind => _cardVisibilityKind.value;
   bool get addressIsWithCompliment => _addressIsWithCompliment.value;
   String get uploadingPostText => _uploadingPostText.value;
   Map<String, dynamic> get cachedVideos => _cachedVideos;
@@ -351,6 +358,18 @@ class PostsController extends GetxController with TiuTiuPopUp {
 
       return false;
     }
+  }
+
+  void changeCardVisibilityKind() {
+    if (cardVisibilityKind == CardVisibilityKind.card) {
+      setCardVisibilityToDefaut();
+    } else {
+      _cardVisibilityKind(CardVisibilityKind.card);
+    }
+  }
+
+  void setCardVisibilityToDefaut() {
+    _cardVisibilityKind(CardVisibilityKind.banner);
   }
 
   void setLoading(bool loadingValue, {String loadingText = ''}) {

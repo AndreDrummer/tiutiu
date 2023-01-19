@@ -1,4 +1,4 @@
-import 'package:tiutiu/features/home/controller/home_controller.dart';
+import 'package:tiutiu/features/posts/controller/posts_controller.dart';
 import 'package:tiutiu/core/location/models/states_and_cities.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
@@ -17,7 +17,7 @@ class AdCityState extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isCardVisibility = homeController.cardVisibilityKind == CardVisibilityKind.card;
+    final isCardVisibility = postsController.cardVisibilityKind == CardVisibilityKind.card;
 
     final statesInitials = StatesAndCities.stateAndCities.stateInitials;
     final statesName = StatesAndCities.stateAndCities.stateNames;

@@ -67,7 +67,7 @@ class _CardAdState extends State<CardAd> {
                 Container(
                   height: Dimensions.getDimensBasedOnDeviceHeight(
                     xSmaller: widget.inReviewMode ? Get.height / 2.4 : Get.height / 1.5,
-                    smaller: widget.inReviewMode ? Get.height / 2.2 : Get.height / 1.5,
+                    smaller: widget.inReviewMode ? Get.height / 2.5 : Get.height / 1.5,
                     medium: widget.inReviewMode ? Get.height / 2.22 : Get.height / 1.5,
                     bigger: widget.inReviewMode ? Get.height / 2.22 : Get.height / 1.5,
                   ),
