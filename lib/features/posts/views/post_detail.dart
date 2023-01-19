@@ -14,6 +14,7 @@ import 'package:tiutiu/features/admob/widgets/ad_banner.dart';
 import 'package:tiutiu/core/extensions/string_extension.dart';
 import 'package:tiutiu/core/widgets/simple_text_button.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:tiutiu/core/widgets/video_placeholder.dart';
 import 'package:tiutiu/core/utils/routes/routes_name.dart';
 import 'package:tiutiu/core/utils/launcher_functions.dart';
 import 'package:tiutiu/core/widgets/lottie_animation.dart';
@@ -81,6 +82,7 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
     _betterPlayerController = BetterPlayerController(
       BetterPlayerConfiguration(
         autoDispose: false,
+        placeholder: VideoPlaceholder(),
         controlsConfiguration: BetterPlayerControlsConfiguration(
           enableFullscreen: Platform.isAndroid,
           loadingWidget: LoadingVideo(),

@@ -89,8 +89,8 @@ class SelectPostType extends StatelessWidget with TiuTiuPopUp {
   OneLineText _selectPostTypeTitle() {
     return OneLineText(
       text: PostFlowStrings.selectPetType,
+      fontSize: Get.height > 700 ? 24.0 : 16.0,
       widgetAlignment: Alignment(-0.9, 1),
-      fontSize: 24.0,
     );
   }
 
