@@ -117,6 +117,25 @@ class PostService extends GetxService {
     return success;
   }
 
+  Future<bool> updatePostReference(Post post) async {
+    bool success = false;
+
+    try {
+      final docRef = EndpointResolver.getDocumentEndpoint(EndpointNames.pathToPost.name, [post.uid!]);
+      await docRef.set({PostEnum.reference.name: docRef}, SetOptions(merge: true));
+
+      debugPrint('TiuTiuApp: Post Reference Updated Successfully ${post.uid}');
+      success = true;
+    } on Exception catch (exception) {
+      crashlyticsController.reportAnError(
+        message: 'Erro when tryna to update post reference: $exception',
+        exception: exception,
+      );
+    }
+
+    return success;
+  }
+
   Future<bool> deletePost(Post post) async {
     bool success = false;
 
