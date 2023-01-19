@@ -103,7 +103,13 @@ class _EditProfileState extends State<EditProfile> {
                 SizedBox(height: 16.0.h),
                 Spacer(),
                 _buttons(context),
-                SizedBox(height: widget.isEditingProfile ? 0.0 : 48.0.h),
+                SizedBox(
+                  height: widget.isEditingProfile
+                      ? 0.0
+                      : Get.height < 700
+                          ? 80.0.h
+                          : 48.0.h,
+                ),
               ],
             ),
           )

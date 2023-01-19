@@ -181,6 +181,7 @@ class Pet extends Post {
       PostEnum.video.name: convertFileToVideoPath ? video.path : video,
       PetEnum.otherCaracteristics.name: otherCaracteristics,
       PetEnum.chronicDiseaseInfo.name: chronicDiseaseInfo,
+      PostEnum.owner.name: adequatedMap(owner?.toMap()),
       PostEnum.describedAddress.name: describedAddress,
       PostEnum.dennounceMotives.name: dennounceMotives,
       PostEnum.timesDennounced.name: timesDennounced,
@@ -189,7 +190,6 @@ class Pet extends Post {
       PostEnum.sharedTimes.name: sharedTimes,
       PostEnum.description.name: description,
       PetEnum.disappeared.name: disappeared,
-      PostEnum.owner.name: owner?.toMap(),
       PostEnum.longitude.name: longitude,
       PostEnum.createdAt.name: createdAt,
       PostEnum.latitude.name: latitude,
@@ -211,6 +211,16 @@ class Pet extends Post {
       PetEnum.size.name: size,
       PostEnum.uid.name: uid,
     };
+  }
+
+  Map<String, dynamic>? adequatedMap(Map<String, dynamic>? map) {
+    if (map?.containsKey(PostEnum.reference.name) ?? false) {
+      print('Consta que tem a chave ${PostEnum.reference.name}');
+
+      map![PostEnum.reference.name] = (map[PostEnum.reference.name] as DocumentReference).path;
+    }
+
+    return map;
   }
 
   @override
