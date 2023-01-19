@@ -3,6 +3,7 @@ import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/features/admob/admob_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:tiutiu/features/home/controller/home_controller.dart';
 
 class AdBanner extends StatefulWidget {
   const AdBanner({
@@ -52,12 +53,14 @@ class _AdBanner300x60State extends State<AdBanner> {
     return Obx(() {
       bool allowGoogleAds = adminRemoteConfigController.configs.allowGoogleAds;
 
-      bool isInAdoptOrFindBottomIndex = homeController.bottomBarIndex < 2;
-      bool isInPostBottomIndex = homeController.bottomBarIndex == 2;
+      bool isInAdoptBottomIndex = homeController.bottomBarIndex < BottomBarIndex.DONATE.index;
+      bool isInFindBottomIndex = homeController.bottomBarIndex < BottomBarIndex.FINDER.index;
+      bool isInPostBottomIndex = homeController.bottomBarIndex == BottomBarIndex.POST.indx;
       bool userExists = authController.userExists;
 
-      bool showAd = (userExists && !isInPostBottomIndex || (!userExists && isInAdoptOrFindBottomIndex)) &&
-          (!_bannerAdFailedToLoad && allowGoogleAds);
+      bool showAd =
+          (userExists && !isInPostBottomIndex || (!userExists && (isInAdoptBottomIndex || isInFindBottomIndex))) &&
+              (!_bannerAdFailedToLoad && allowGoogleAds);
 
       return Visibility(
         child: Container(

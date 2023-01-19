@@ -67,9 +67,7 @@ class TiutiuUser {
 
   static TiutiuUser fromMap(Map<String, dynamic> map) {
     return TiutiuUser(
-      reference: map[TiutiuUserEnum.reference.name] != null
-          ? FirebaseFirestore.instance.doc((map[TiutiuUserEnum.reference.name]))
-          : null,
+      reference: map[TiutiuUserEnum.reference.name] != null ? map[TiutiuUserEnum.reference.name] : null,
       lastLogin: map[TiutiuUserEnum.lastLogin.name] ?? map[TiutiuUserEnum.createdAt.name],
       allowContactViaWhatsApp: map[TiutiuUserEnum.allowContactViaWhatsApp.name] ?? false,
       timesOpenedTheApp: map[TiutiuUserEnum.timesOpenedTheApp.name] ?? 0,
@@ -130,7 +128,7 @@ class TiutiuUser {
 
   Map<String, dynamic> toMap() {
     return {
-      TiutiuUserEnum.reference.name: reference != null ? reference.toString() : null,
+      TiutiuUserEnum.reference.name: reference != null ? reference : null,
       TiutiuUserEnum.allowContactViaWhatsApp.name: allowContactViaWhatsApp,
       TiutiuUserEnum.notificationToken.name: notificationToken,
       TiutiuUserEnum.notificationToken.name: notificationToken,
