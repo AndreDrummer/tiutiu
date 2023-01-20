@@ -1,5 +1,5 @@
-import 'package:tiutiu/core/widgets/loading_page.dart';
 import 'package:tiutiu/core/views/user_feedback_screen.dart';
+import 'package:tiutiu/core/widgets/loading_page.dart';
 import 'package:tiutiu/core/widgets/empty_list.dart';
 import 'package:flutter/material.dart';
 
