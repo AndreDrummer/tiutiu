@@ -69,7 +69,7 @@ class SelectPostType extends StatelessWidget with TiuTiuPopUp {
     final filtersTypeText = filterController.filterTypeText.sublist(1).reversed.toList();
 
     final petsTypeImage = [
-      ImageAssets.hamster,
+      ImageAssets.questionMark,
       StartScreenAssets.cockatiel,
       StartScreenAssets.greyCat,
       StartScreenAssets.munkun,
