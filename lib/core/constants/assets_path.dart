@@ -1,5 +1,6 @@
 class ImageAssets {
   static String get noTiutiutok => 'assets/images/no-tiutiu-tok-found.png';
+  static String get questionMark => 'assets/images/question_mark.webp';
   static String get googlePlaces => 'assets/images/google-places.webp';
   static String get profileEmpty => 'assets/images/profileEmpty.webp';
   static String get playPaw => 'assets/images/play-paw.webp';
@@ -7,7 +8,6 @@ class ImageAssets {
   static String get bones2 => 'assets/images/bones2.webp';
   static String get follow => 'assets/images/follow.webp';
   static String get tiutiu => 'assets/images/tiutiu.webp';
-  static String get hamster => 'assets/images/hamster.png';
 }
 
 class StartScreenAssets {
