@@ -33,7 +33,7 @@ class CardAdList extends StatelessWidget {
             borderRadius: BorderRadius.circular(12.0.h),
           ),
           height: Dimensions.getDimensBasedOnDeviceHeight(
-            xSmaller: isInReviewMode ? 136.0.h : 152.0.h,
+            xSmaller: isInReviewMode ? 136.0.h : 160.0.h,
             smaller: isInReviewMode ? 136.0.h : 152.0.h,
             bigger: isInReviewMode ? 104.0.h : 124.0.h,
             medium: isInReviewMode ? 112.0.h : 136.0.h,
@@ -103,9 +103,9 @@ class CardAdList extends StatelessWidget {
         width: 72.0.w,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.only(
-            topRight: Radius.circular(12.0.h),
             bottomRight: Radius.circular(8.0.h),
             bottomLeft: Radius.circular(8.0.h),
+            topRight: Radius.circular(12.0.h),
           ),
           color: Colors.orange,
         ),
