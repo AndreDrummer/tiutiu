@@ -19,8 +19,8 @@ class FinderList extends StatelessWidget {
 class _PostsList extends StatelessWidget with TiuTiuPopUp {
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<List<Post>>(
-      stream: postsController.postsStream(),
+    return FutureBuilder<List<Post>>(
+      future: postsController.getAllPosts(),
       builder: (context, snapshot) {
         return AsyncHandler<List<Post>>(
           forcedDataReturned: snapshot.data ?? [],
