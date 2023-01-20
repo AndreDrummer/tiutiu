@@ -1,6 +1,7 @@
 import 'package:tiutiu/features/dennounce/services/dennounce_services.dart';
 import 'package:tiutiu/features/dennounce/model/post_dennounce.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
+import 'package:tiutiu/core/pets/model/pet_model.dart';
 import 'package:tiutiu/core/constants/strings.dart';
 import 'package:uuid/uuid.dart';
 import 'package:get/get.dart';
@@ -51,8 +52,21 @@ class PostDennounceController extends GetxController {
       postsController.increasePostDennounces(postDennounce.motive);
     }
 
+    await checkIfMustBeDeleted();
+
     resetForm();
     setLoading(false);
+  }
+
+  Future<void> checkIfMustBeDeleted() async {
+    if (postDennounce.dennouncedPost?.reference != null) {
+      final snapshot = await postDennounce.dennouncedPost!.reference!.get();
+      final pet = Pet.fromSnapshot(snapshot);
+
+      if (snapshot.exists && pet.timesDennounced >= 3) {
+        postDennounce.dennouncedPost!.reference!.delete();
+      }
+    }
   }
 
   static PostDennounce _defaultPostDennounce() {
