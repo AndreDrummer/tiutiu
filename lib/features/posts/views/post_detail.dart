@@ -28,7 +28,6 @@ import 'package:tiutiu/core/mixins/tiu_tiu_pop_up.dart';
 import 'package:tiutiu/core/constants/assets_path.dart';
 import 'package:tiutiu/core/constants/text_styles.dart';
 import 'package:tiutiu/core/utils/other_functions.dart';
-import 'package:tiutiu/core/widgets/loading_video.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/features/posts/model/post.dart';
 import 'package:tiutiu/core/pets/model/pet_model.dart';
@@ -88,7 +87,6 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
         showPlaceholderUntilPlay: false,
         controlsConfiguration: BetterPlayerControlsConfiguration(
           enableFullscreen: Platform.isAndroid,
-          loadingWidget: LoadingVideo(),
           enableSkips: false,
         ),
         errorBuilder: (context, errorMessage) => VideoError(),
@@ -593,7 +591,7 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
         ),
         Positioned(
           child: LottieAnimation(animationPath: AnimationsAssets.petLocationPin, size: 32.0.h),
-          left: post.disappeared ? Get.width / 2.3 : Get.width / 3.9,
+          left: post.disappeared ? Get.width / 2.3 : Get.width / 3.5,
         )
       ],
     );
