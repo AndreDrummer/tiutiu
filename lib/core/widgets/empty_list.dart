@@ -34,7 +34,7 @@ class EmptyListScreen extends StatelessWidget {
         Visibility(
           visible: showClearFiltersButton,
           child: SimpleTextButton(
-            text: AppStrings.cleanFilters,
+            text: AppStrings.reload,
             textColor: Colors.lightBlue,
             fontSize: 12,
             onPressed: () async {

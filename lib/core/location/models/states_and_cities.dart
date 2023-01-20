@@ -38,7 +38,8 @@ class StatesAndCities {
     final stateNameToSearch = stateNameExists ? stateName : 'Acre';
 
     return states
-        .firstWhere((state) => state.name == stateNameToSearch)
+        .where((state) => state.name == stateNameToSearch)
+        .toList()[0]
         .cities
         .map((citieName) => citieName.toString())
         .toList();
