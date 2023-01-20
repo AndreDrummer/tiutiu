@@ -29,7 +29,7 @@ dependencies:
   flutter_facebook_auth: ^5.0.6
   font_awesome_flutter: ^10.2.1
   flutter_screenutil: ^5.5.3+2
-  cached_network_image: ^3.2.1    
+  cached_network_image: ^3.2.1
   flutter_chat_bubble: ^2.0.0
   shared_preferences: ^2.0.15
   permission_handler: ^10.0.0
@@ -47,6 +47,7 @@ dependencies:
   auto_size_text: ^3.0.0
   google_sign_in: ^5.4.2
   image_picker: ^0.8.5+3
+  open_settings: ^2.0.2
   better_player:
     git:
       url: https://github.com/AndreDrummer/betterplayer.git

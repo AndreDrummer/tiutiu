@@ -52,6 +52,7 @@ class ColumnButtonBar extends StatelessWidget {
             child: SimpleTextButton(
               textColor: buttonSecondaryColor ?? AppColors.secondary,
               onPressed: () => onSecondaryPressed?.call(),
+              text: textSecond,
             ),
           ),
         ),

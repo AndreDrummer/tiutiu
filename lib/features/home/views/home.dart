@@ -34,7 +34,6 @@ class _HomeState extends State<Home> with TiuTiuPopUp {
   void initState() {
     MigrationService().migrate();
     showAdAndRequestToTrack();
-
     super.initState();
   }
 

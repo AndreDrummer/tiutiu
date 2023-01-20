@@ -1,6 +1,7 @@
 import 'package:tiutiu/features/auth/views/start_screen_or_home.dart';
 import 'package:tiutiu/core/extensions/string_extension.dart';
 import 'package:tiutiu/features/posts/views/post_detail.dart';
+import 'package:tiutiu/core/widgets/connection_handler.dart';
 import 'package:tiutiu/core/utils/routes/routes_name.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/widgets/async_handler.dart';
@@ -23,7 +24,7 @@ class _AuthOrHomeState extends State<AuthOrHome> {
     if (systemController.initialFDLink.isNotEmptyNeighterNull() && postsController.post.uid != null) {
       initialScreen = PostDetails();
     } else {
-      initialScreen = Home();
+      initialScreen = ConnectionScreenHandler(child: Home());
     }
   }
 
