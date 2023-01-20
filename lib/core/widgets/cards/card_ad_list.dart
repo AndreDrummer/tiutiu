@@ -2,6 +2,7 @@ import 'package:tiutiu/core/widgets/cards/widgets/disappeared_tag.dart';
 import 'package:tiutiu/core/widgets/cards/widgets/card_builder.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/pets/model/pet_model.dart';
+import 'package:tiutiu/core/widgets/cards/widgets/mark_as_done.dart';
 import 'package:tiutiu/features/posts/model/post.dart';
 import 'package:tiutiu/core/utils/dimensions.dart';
 import 'package:flutter/material.dart';
@@ -87,8 +88,13 @@ class CardAdList extends StatelessWidget {
         ),
         Positioned(
           child: cardBuilder.saveButton(show: showSaveButton),
-          bottom: 3.5.h,
-          right: 4.0.w,
+          bottom: 16.0.h,
+          right: 16.0.w,
+        ),
+        Positioned(
+          child: MarkAsDone(pet: (post as Pet)),
+          bottom: 0.0.h,
+          right: 8.0.w,
         ),
       ],
     );

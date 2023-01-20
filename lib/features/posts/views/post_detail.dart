@@ -245,12 +245,12 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
         child: Row(
           children: [
             Padding(
-              padding: EdgeInsets.all(16.0.h),
+              padding: EdgeInsets.symmetric(vertical: 16.0.h, horizontal: 4.0.w),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   AutoSizeTexts.autoSizeText18(
-                    '${Formatters.cuttedText(OtherFunctions.replacePhoneNumberWithStars('$petName'), size: 18)}',
+                    '${Formatters.cuttedText(OtherFunctions.replacePhoneNumberWithStars('$petName'), showElipses: false)}',
                     fontWeight: FontWeight.w600,
                   ),
                 ],
@@ -265,17 +265,13 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
                 child: Row(
                   children: [
                     _seeOnTiutiutok(),
-                    SizedBox(width: 4.0.w),
                     _dennouncePostButton(),
-                    SizedBox(width: 4.0.w),
                     _saveButton(),
-                    SizedBox(width: 4.0.w),
                   ],
                 ),
               ),
             ),
             _shareButton(),
-            SizedBox(width: 4.0.h)
           ],
         ),
       ),
@@ -307,10 +303,13 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
         child: Card(
           elevation: 8.0,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24.0.h)),
-          child: SaveOrUnsave(
-            show: systemController.properties.internetConnected,
-            post: post,
-            tiny: true,
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: SaveOrUnsave(
+              show: systemController.properties.internetConnected,
+              post: post,
+              tiny: true,
+            ),
           ),
         ),
       ),

@@ -170,7 +170,7 @@ class FilterStrings {
 }
 
 class PetTypeStrings {
-  static const String exotic = 'Exótico';
+  static const String other = 'Outro';
   static const String dog = 'Cachorro';
   static const String bird = 'Pássaro';
   static const String all = 'Todos';
