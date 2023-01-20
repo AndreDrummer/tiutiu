@@ -28,7 +28,7 @@ class _SavedsState extends State<Saveds> {
         ),
         body: Obx(
           () => StreamBuilder<List<Post>>(
-            stream: savedsController.savedsList(filterController.getParams),
+            stream: savedsController.savedsList(),
             builder: (context, snapshot) {
               final posts = snapshot.data ?? [];
 

@@ -21,17 +21,14 @@ class PostInfo extends StatelessWidget {
         padding: EdgeInsets.only(top: 8.0.h),
         children: [
           _petName(),
-          _divider(),
           _gender(),
           _petSize(),
-          SizedBox(height: 32.0.h),
+          SizedBox(height: 24.0.h),
           _health(),
         ],
       ),
     );
   }
-
-  SizedBox _divider() => SizedBox(height: 8.0.h);
 
   Padding _petName() {
     return Padding(
@@ -42,6 +39,7 @@ class PostInfo extends StatelessWidget {
           () => UnderlineInputText(
             initialValue: postsController.post.name,
             validator: Validators.verifyEmpty,
+            maxLength: 20,
             onChanged: (name) {
               nameKeyForm.currentState!.validate();
               postsController.updatePost(PostEnum.name.name, name.trim());
@@ -80,7 +78,7 @@ class PostInfo extends StatelessWidget {
       },
       labelText: PostDetailsStrings.sex,
       items: items,
-      fontSize: 12.0,
+      fontSize: 10,
     );
   }
 
@@ -95,7 +93,7 @@ class PostInfo extends StatelessWidget {
         },
         labelText: PostFlowStrings.size,
         items: DummyData.size,
-        fontSize: 12.0,
+        fontSize: 10,
       ),
     );
   }
@@ -125,7 +123,7 @@ class PostInfo extends StatelessWidget {
             },
             labelText: PostDetailsStrings.health,
             items: healthState,
-            fontSize: 12.0,
+            fontSize: 10,
           ),
           _chronicDiseaseInfo(),
         ],

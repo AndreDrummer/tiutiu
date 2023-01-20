@@ -1,9 +1,7 @@
+import 'package:tiutiu/core/widgets/cards/widgets/disappeared_tag.dart';
 import 'package:tiutiu/core/widgets/cards/widgets/card_builder.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:tiutiu/core/controllers/controllers.dart';
-import 'package:tiutiu/core/constants/text_styles.dart';
 import 'package:tiutiu/core/pets/model/pet_model.dart';
-import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/features/posts/model/post.dart';
 import 'package:tiutiu/core/utils/dimensions.dart';
 import 'package:flutter/material.dart';
@@ -54,6 +52,7 @@ class CardAdList extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
+                      SizedBox(height: 4.0),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -66,18 +65,14 @@ class CardAdList extends StatelessWidget {
                         ],
                       ),
                       cardBuilder.adViews(),
+                      Spacer(),
                       cardBuilder.adCityState(),
                       Divider(),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          cardBuilder.adPostedAt(),
-                          SizedBox(width: 80.0.w),
-                          cardBuilder.saveButton(show: showSaveButton),
-                        ],
-                      ),
-                      Visibility(visible: !authController.userExists, child: SizedBox(height: 8.0.h)),
+                      Spacer(),
+                      cardBuilder.adPostedAt(),
+                      Spacer(),
                       cardBuilder.adDistanceFromUser(),
+                      Spacer(),
                     ],
                   ),
                 ),
@@ -90,33 +85,14 @@ class CardAdList extends StatelessWidget {
           right: 4.0.w,
           top: 3.5.h,
         ),
+        Positioned(
+          child: cardBuilder.saveButton(show: showSaveButton),
+          bottom: 3.5.h,
+          right: 4.0.w,
+        ),
       ],
     );
   }
 
-  Widget _tagIsDisappeared(bool visible) {
-    return Visibility(
-      visible: visible,
-      child: Container(
-        alignment: Alignment.center,
-        height: 16.0.h,
-        width: 72.0.w,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.only(
-            bottomRight: Radius.circular(8.0.h),
-            bottomLeft: Radius.circular(8.0.h),
-            topRight: Radius.circular(12.0.h),
-          ),
-          color: Colors.orange,
-        ),
-        child: AutoSizeTexts.autoSizeText(
-          'PET Desaparecido',
-          textAlign: TextAlign.center,
-          fontWeight: FontWeight.w600,
-          color: AppColors.white,
-          fontSize: 8,
-        ),
-      ),
-    );
-  }
+  Widget _tagIsDisappeared(bool visible) => Visibility(child: DisappearedTag(), visible: visible);
 }

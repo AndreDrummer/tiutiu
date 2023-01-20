@@ -45,11 +45,12 @@ class TextArea extends StatelessWidget {
             textCapitalization: TextCapitalization.sentences,
             keyboardType: keyboardType ?? TextInputType.text,
             inputFormatters: inputFormatters,
-            onFieldSubmitted: onSubmit,
             initialValue: initialValue,
+            onFieldSubmitted: onSubmit,
             onChanged: onChanged,
             validator: validator,
             maxLines: maxLines,
+            maxLength: 200,
             decoration: InputDecoration(
               prefix: Text(prefix),
               labelText: labelText,
