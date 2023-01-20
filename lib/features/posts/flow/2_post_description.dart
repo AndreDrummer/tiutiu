@@ -30,7 +30,6 @@ class PostDescription extends StatelessWidget {
           _spacer(),
           _petAge(yearsList, monthsList),
           _spacer(),
-          _descriptionLabel(),
           _descriptionInputText(),
         ],
       ),
@@ -50,7 +49,7 @@ class PostDescription extends StatelessWidget {
         },
         items: postType == PetTypeStrings.exotic ? [] : DummyData.breeds[postsController.post.type]!,
         labelText: PostDetailsStrings.selectBreed,
-        fontSize: 14.0,
+        fontSize: 12.0,
       ),
       replacement: Padding(
         padding: EdgeInsets.fromLTRB(3.0.w, 0.0.h, 3.0.w, 16.0.h),
@@ -94,7 +93,7 @@ class PostDescription extends StatelessWidget {
       },
       labelText: PostDetailsStrings.color,
       items: items,
-      fontSize: 14.0,
+      fontSize: 12.0,
     );
   }
 
@@ -106,7 +105,7 @@ class PostDescription extends StatelessWidget {
           fontWeight: FontWeight.w500,
           color: AppColors.secondary,
           text: PostFlowStrings.age,
-          fontSize: 14,
+          fontSize: 12,
         ),
         Row(
           children: [
@@ -120,7 +119,7 @@ class PostDescription extends StatelessWidget {
                   );
                 },
                 labelText: PostFlowStrings.years,
-                fontSize: 14.0,
+                fontSize: 12.0,
                 items: yearsList,
               ),
             ),
@@ -134,7 +133,7 @@ class PostDescription extends StatelessWidget {
                   );
                 },
                 labelText: PostFlowStrings.months,
-                fontSize: 14.0,
+                fontSize: 12.0,
                 items: monthsList,
               ),
             ),
@@ -144,22 +143,14 @@ class PostDescription extends StatelessWidget {
     );
   }
 
-  OneLineText _descriptionLabel() {
-    return OneLineText(
-      text: PostFlowStrings.addDescription,
-      widgetAlignment: Alignment(-0.87, 1),
-      fontWeight: FontWeight.w500,
-      color: AppColors.secondary,
-    );
-  }
-
   Padding _descriptionInputText() {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 12.0.w),
       child: TextArea(
+        hintText: AppStrings.jotSomethingDown,
         isInErrorState: !postsController.post.description.isNotEmptyNeighterNull() && !postsController.formIsValid,
         initialValue: postsController.post.description,
-        labelText: AppStrings.jotSomethingDown,
+        labelText: PostFlowStrings.addDescription,
         maxLines: 4,
         onChanged: (description) {
           postsController.updatePost(PostEnum.description.name, description);

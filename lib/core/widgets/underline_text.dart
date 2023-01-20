@@ -15,6 +15,7 @@ class UnderlineInputText extends StatelessWidget {
     this.controller,
     this.validator,
     this.onChanged,
+    this.maxLength,
     this.labelText,
     this.maxLines,
     this.hintText,
@@ -35,6 +36,7 @@ class UnderlineInputText extends StatelessWidget {
   final String? hintText;
   final Widget? prefix;
   final Widget? suffix;
+  final int? maxLength;
   final int? maxLines;
   final bool readOnly;
 
@@ -72,6 +74,7 @@ class UnderlineInputText extends StatelessWidget {
             controller: getController(),
             onChanged: onChanged,
             validator: validator,
+            maxLength: maxLength,
             readOnly: readOnly,
             style: TextStyle(
               color: Colors.black,
@@ -84,7 +87,7 @@ class UnderlineInputText extends StatelessWidget {
             inputFormatters: inputFormatters,
             keyboardType: keyboardType,
             decoration: InputDecoration(
-              hintText: hintText,
+              contentPadding: EdgeInsets.symmetric(horizontal: 8.0.w, vertical: 12.0.h),
               errorStyle: TextStyle(color: AppColors.danger),
               disabledBorder: _underlineInputBorder(),
               enabledBorder: _underlineInputBorder(),
@@ -94,6 +97,7 @@ class UnderlineInputText extends StatelessWidget {
                 fontSize: fontSizeLabelText != null ? fontSizeLabelText! * .85 : 18.0,
                 color: Colors.grey,
               ),
+              hintText: hintText,
               isCollapsed: true,
               prefix: prefix,
               suffix: suffix,
