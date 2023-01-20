@@ -43,7 +43,6 @@ class AppStrings {
   static String get loadingVideo => 'Carregando vídeo';
   static String get headline1 => 'Faça Um Novo Amigo';
   static String get takeApicture => 'Tirar uma foto';
-  static String get cleanFilters => 'Limpar filtros';
   static String get recordVideo => 'Gravar um vídeo';
   static String get endApp => 'Encerrar aplicação';
   static String get openGallery => 'Abrir galeria';
@@ -55,6 +54,7 @@ class AppStrings {
   static String get views => 'visualizações';
   static String get getStarted => 'Começar';
   static String get loading => 'Carregando';
+  static String get reload => 'Recarregar';
   static String get contines => 'Continuar';
   static String get success => 'Sucesso!';
   static String get infos => 'informações';
