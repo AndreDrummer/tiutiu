@@ -29,14 +29,13 @@ class SaveOrUnsave extends StatelessWidget {
               builder: (context, snapshot) {
                 final isActive = snapshot.data ?? false;
 
-                return IconButton(
-                  splashRadius: 48.0.h,
-                  icon: Icon(
+                return InkWell(
+                  child: Icon(
                     color: isActive ? AppColors.secondary : Colors.grey[400],
                     size: 21.0.h,
                     Icons.bookmark,
                   ),
-                  onPressed: isActive ? unsave : save,
+                  onTap: isActive ? unsave : save,
                 );
               }),
         );

@@ -94,7 +94,7 @@ class OtherFunctions {
   static IconData getIconFromPetType(String type) {
     final Map<String, dynamic> petIconType = {
       PetTypeStrings.bird: FontAwesomeIcons.b,
-      PetTypeStrings.exotic: FontAwesomeIcons.staffSnake,
+      PetTypeStrings.other: FontAwesomeIcons.staffSnake,
       PetTypeStrings.dog: FontAwesomeIcons.dog,
       PetTypeStrings.cat: FontAwesomeIcons.cat,
     };

@@ -1,5 +1,6 @@
 import 'package:tiutiu/features/saveds/services/saved_services.dart';
 import 'package:tiutiu/features/posts/services/post_service.dart';
+import 'package:tiutiu/features/posts/utils/post_utils.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/features/posts/model/post.dart';
 import 'package:tiutiu/core/pets/model/pet_model.dart';
@@ -47,7 +48,7 @@ class SavedsController extends GetxController {
 
       _savedPosts(savedPosts);
 
-      return savedPosts;
+      return PostUtils.filteredByRules(savedPosts);
     });
   }
 
