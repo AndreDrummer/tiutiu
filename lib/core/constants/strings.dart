@@ -233,6 +233,7 @@ class PostDetailsStrings {
   static String get caracteristics => 'Características';
   static String get selectBreed => 'Selecione a raça';
   static String get hermaphrodite => 'Hermafrodita';
+  static String get disappeared => 'Desaparecido';
   static String get health => 'Estado de Saúde';
   static String get description => 'Descrição';
   static String get detailsOf => 'Detalhes de';
@@ -309,6 +310,7 @@ class PostFlowStrings {
   static const String fillFullAddress = 'Preencher endereço completo?';
   static const String otherCaracteristics = 'Outras caracteristicas';
   static const String provideMoreDetails = 'Fornecer mais detalhes';
+  static const String allDone = 'Tudo pronto, olha como vai ficar!';
   static const String selectPetType = 'Selecione o tipo de PET';
   static const String addVideo = 'Se quiser, adicione um vídeo.';
   static const String moreDetails = 'Mais detalhes e descrição';
@@ -328,7 +330,6 @@ class PostFlowStrings {
   static const String picTime = 'Hora das fotos!';
   static const String editAd = 'Editar post';
   static const String petsData = 'Dados do PET';
-  static const String allDone = 'Tudo pronto!';
   static const String reviewButton = 'Revisar';
   static const String size = 'Tamanho do PET';
   static const String petType = 'Tipo de PET';

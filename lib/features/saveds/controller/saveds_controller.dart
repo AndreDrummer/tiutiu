@@ -1,7 +1,5 @@
 import 'package:tiutiu/features/saveds/services/saved_services.dart';
 import 'package:tiutiu/features/posts/services/post_service.dart';
-import 'package:tiutiu/features/posts/model/filter_params.dart';
-import 'package:tiutiu/features/posts/utils/post_utils.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/features/posts/model/post.dart';
 import 'package:tiutiu/core/pets/model/pet_model.dart';
@@ -35,8 +33,8 @@ class SavedsController extends GetxController {
     _decrementSavedTimes(post.uid!);
   }
 
-  Stream<List<Post>> savedsList(FilterParams filters) {
-    final queryMap = _savedServices.savesCollection().where(FilterParamsEnum.disappeared.name, isEqualTo: false);
+  Stream<List<Post>> savedsList() {
+    final queryMap = _savedServices.savesCollection();
     List<Post> savedPosts = [];
 
     return queryMap.snapshots().asyncMap((event) {
@@ -49,7 +47,7 @@ class SavedsController extends GetxController {
 
       _savedPosts(savedPosts);
 
-      return PostUtils.filterPosts(postsList: savedPosts);
+      return savedPosts;
     });
   }
 
