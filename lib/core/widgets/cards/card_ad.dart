@@ -4,6 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
+import 'package:tiutiu/core/widgets/cards/widgets/mark_as_done.dart';
 import 'package:tiutiu/features/posts/model/post.dart';
 import 'package:tiutiu/core/pets/model/pet_model.dart';
 import 'package:tiutiu/core/utils/dimensions.dart';
@@ -34,7 +35,7 @@ class _CardAdState extends State<CardAd> {
 
   Widget likeAnimation() {
     return AnimatedOpacity(
-      child: Icon(FontAwesomeIcons.solidHeart, color: AppColors.white.withOpacity(.8), size: 64),
+      child: Icon(FontAwesomeIcons.solidHeart, color: AppColors.white.withOpacity(.9), size: 72),
       duration: Duration(milliseconds: 250),
       opacity: likeAnimationOpcaity,
     );
@@ -75,11 +76,14 @@ class _CardAdState extends State<CardAd> {
                 Positioned(
                   child: Container(
                     decoration: BoxDecoration(shape: BoxShape.circle, color: AppColors.white),
-                    child: widget.cardBuilder.saveButton(
-                      show: !widget.inReviewMode && widget.showSaveButton,
+                    child: Padding(
+                      padding: EdgeInsets.all(8.0.h),
+                      child: widget.cardBuilder.saveButton(
+                        show: !widget.inReviewMode && widget.showSaveButton,
+                      ),
                     ),
                   ),
-                  bottom: 72.0.h,
+                  bottom: 32.0.h,
                   right: 8.0.w,
                 ),
                 Positioned(
@@ -91,6 +95,11 @@ class _CardAdState extends State<CardAd> {
                   child: _tagIsDisappeared((widget.post as Pet).disappeared),
                   right: 0,
                   top: 0,
+                ),
+                Positioned(
+                  child: _markAsDone(),
+                  bottom: 16.0.h,
+                  right: 8.0.w,
                 ),
               ],
             ),
@@ -138,4 +147,19 @@ class _CardAdState extends State<CardAd> {
   }
 
   Widget _tagIsDisappeared(bool visible) => Visibility(child: DisappearedTag(), visible: visible);
+
+  Widget _markAsDone() {
+    return Visibility(
+      visible: postsController.isInMyPostsList,
+      child: Container(
+        alignment: Alignment.center,
+        padding: EdgeInsets.only(left: 16.0.w, top: 12.0.h, right: 16.0.w),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(12.0.h),
+          color: AppColors.white,
+        ),
+        child: MarkAsDone(pet: (widget.post as Pet)),
+      ),
+    );
+  }
 }

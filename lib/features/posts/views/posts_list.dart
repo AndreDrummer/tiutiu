@@ -1,4 +1,5 @@
 import 'package:tiutiu/features/posts/widgets/render_post_list.dart';
+import 'package:tiutiu/features/posts/utils/post_utils.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/widgets/async_handler.dart';
 import 'package:tiutiu/core/mixins/tiu_tiu_pop_up.dart';
@@ -28,7 +29,7 @@ class _PostsList extends StatelessWidget with TiuTiuPopUp {
           buildWidget: (_) {
             return Obx(
               () {
-                final posts = postsController.filteredPosts;
+                final posts = PostUtils.filteredByRules(postsController.filteredPosts);
 
                 return RefreshIndicator(
                   onRefresh: () async => postsController.getAllPosts(),
