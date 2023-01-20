@@ -101,8 +101,8 @@ class Formatters {
     }
   }
 
-  static String cuttedText(String message, {int size = 32}) {
-    if (message.length > size) return message.substring(0, size) + '...';
+  static String cuttedText(String message, {int size = 20, bool showElipses = true}) {
+    if (message.length > size) return message.substring(0, size) + '${showElipses ? '...' : ''}';
     return message;
   }
 

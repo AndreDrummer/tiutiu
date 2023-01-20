@@ -16,16 +16,12 @@ class PostsRepository {
     debugPrint('TiuTiuApp: Cache getPostList');
     List<Pet> petsList = [];
 
-    var yesterday = DateTime.now().subtract(Duration(days: 1)).toIso8601String();
     var today = DateTime.now().toIso8601String();
-
-    yesterday = yesterday.split('T').first;
     today = today.split('T').first;
 
     final todaysCache = await LocalStorage.getValueUnderStringKey(today);
 
     if (todaysCache != null && !systemController.properties.internetConnected) {
-      await LocalStorage.deleteValueUnderStringKey(yesterday);
       debugPrint('TiuTiuApp: Cache exists');
       petsList = await _getPostsFromCache();
     } else {

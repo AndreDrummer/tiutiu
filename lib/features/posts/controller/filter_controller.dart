@@ -42,7 +42,7 @@ class FilterController extends GetxController {
     PetTypeStrings.dog,
     PetTypeStrings.cat,
     PetTypeStrings.bird,
-    PetTypeStrings.exotic,
+    PetTypeStrings.other,
   ];
 
   final List<IconData> filterTypeIcon = [
