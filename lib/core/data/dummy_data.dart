@@ -22,6 +22,7 @@ class DummyData {
     PetTypeStrings.dog: [
       '',
       '-',
+      'SRD - Sem Raça Definida',
       'Akita',
       'Basset',
       'Beagle',
@@ -45,7 +46,6 @@ class DummyData {
       'Dogue',
       'Fila',
       'Golden',
-      'Raça Indefinida',
       'Husky',
       'Jack',
       'Labrador',
@@ -76,6 +76,7 @@ class DummyData {
     PetTypeStrings.cat: [
       '',
       '-',
+      'SRD - Sem Raça Definida',
       'Abissínio',
       'Angorá',
       'Ashera',
@@ -91,7 +92,6 @@ class DummyData {
       'Cornish Rex.',
       'Curl Americano (sem informação)',
       'Devon Rex',
-      'Raça Indefinida',
       'Himalaio',
       'Jaguatirica',
       'Javanês',
@@ -131,6 +131,7 @@ class DummyData {
     PetTypeStrings.bird: [
       '',
       '-',
+      'SRD - Sem Raça Definida',
       'Abelharuco',
       'Agapornis',
       'Agapornis canus',
@@ -198,7 +199,6 @@ class DummyData {
       'Granatina',
       'Guaruba',
       'Harpia',
-      'Raça Indefinida',
       'Inhambu-galinha',
       'Jandaia coquinho',
       'Ja&oacute',

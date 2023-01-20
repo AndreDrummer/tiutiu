@@ -29,16 +29,14 @@ class SaveOrUnsave extends StatelessWidget {
               builder: (context, snapshot) {
                 final isActive = snapshot.data ?? false;
 
-                return GestureDetector(
-                  child: Padding(
-                    child: Icon(
-                      color: isActive ? AppColors.secondary : Colors.grey[400],
-                      size: 21.0.h,
-                      Icons.bookmark,
-                    ),
-                    padding: EdgeInsets.all(8.0.h),
+                return IconButton(
+                  splashRadius: 48.0.h,
+                  icon: Icon(
+                    color: isActive ? AppColors.secondary : Colors.grey[400],
+                    size: 21.0.h,
+                    Icons.bookmark,
                   ),
-                  onTap: isActive ? unsave : save,
+                  onPressed: isActive ? unsave : save,
                 );
               }),
         );

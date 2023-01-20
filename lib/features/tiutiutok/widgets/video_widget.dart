@@ -1,5 +1,4 @@
 import 'package:tiutiu/core/widgets/video_placeholder.dart';
-import 'package:tiutiu/core/widgets/loading_video.dart';
 import 'package:tiutiu/features/posts/model/post.dart';
 import 'package:tiutiu/core/widgets/video_error.dart';
 import 'package:better_player/better_player.dart';
@@ -30,7 +29,6 @@ class _VideoWidgetState extends State<VideoWidget> {
           errorBuilder: (context, errorMessage) => VideoError(),
           placeholder: VideoPlaceholder(),
           controlsConfiguration: BetterPlayerControlsConfiguration(
-            loadingWidget: LoadingVideo(),
             enableProgressText: false,
             enableFullscreen: false,
             enableSkips: false,
