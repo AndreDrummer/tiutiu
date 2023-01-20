@@ -33,9 +33,7 @@ class UnderlineInputDropdown extends StatelessWidget {
             color: AppColors.black,
             labelText,
           ),
-          SizedBox(height: 14.0),
           DropdownButton<String>(
-            isDense: true,
             underline: Container(
               color: isInErrorState ? AppColors.danger : AppColors.black,
               height: 0.5,

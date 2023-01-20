@@ -90,7 +90,7 @@ class _VerifyPhoneState extends State<VerifyPhone> {
               Spacer(),
               _confirmButton(),
               _resendWithin(),
-              SizedBox(height: Get.height < 700 ? 56.0.h : 40.0.h)
+              SizedBox(height: Get.height < 700 ? 56.0.h : 48.0.h)
             ],
           );
         },
