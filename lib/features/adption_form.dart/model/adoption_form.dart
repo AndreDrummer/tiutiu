@@ -38,14 +38,14 @@ class AdoptionForm {
     this.haveTimeFreeToCare = false,
     this.liveInAnApartment = false,
     this.maritalStatus = '-',
+    this.interestedBreed = '-',
     this.haveChildren = false,
     this.liveInHouse = false,
+    this.interestedType = '-',
     this.referencesContacts,
-    this.interestedBreed,
     this.haveYard = false,
     this.howManyChildren,
     this.howManyAnimals,
-    this.interestedType,
     this.profission,
     this.age = '-',
     this.fullName,
@@ -203,10 +203,10 @@ class AdoptionForm {
   bool haveMoneyEnoughToCare;
   List? referencesContacts;
   bool haveTimeFreeToCare;
-  String? interestedBreed;
-  String? interestedType;
+  String interestedBreed;
+  String interestedType;
   bool liveInAnApartment;
-  String? maritalStatus;
+  String maritalStatus;
   int? howManyChildren;
   int? howManyAnimals;
   String? profission;
@@ -218,6 +218,6 @@ class AdoptionForm {
   bool haveYard;
   String? phone;
   String? email;
-  String? age;
+  String age;
   String? uid;
 }
