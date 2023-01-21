@@ -3,6 +3,7 @@ class Routes {
   static const emailAndPassword = '/email-password';
   static const deleteAccount = '/delete-account';
   static const initPostFlow = '/init-post-flow';
+  static const adoptionForm = '/adoption-form';
   static const verifyEmail = '/verify-email';
   static const verifyPhone = '/verify-phone';
   static const editProfile = '/edit-profile';
