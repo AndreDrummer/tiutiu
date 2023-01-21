@@ -1,3 +1,4 @@
+import 'package:tiutiu/features/adption_form.dart/controller/adoption_form_controller.dart';
 import 'package:tiutiu/features/dennounce/controller/user_dennounce_controller.dart';
 import 'package:tiutiu/features/dennounce/controller/post_dennounce_controller.dart';
 import 'package:tiutiu/core/location/controller/current_location_controller.dart';
@@ -26,6 +27,7 @@ final CurrentLocationController currentLocationController = Get.find();
 final DeleteAccountController deleteAccountController = Get.find();
 final PostDennounceController postDennounceController = Get.find();
 final UserDennounceController userDennounceController = Get.find();
+final AdoptionFormController adoptionFormController = Get.find();
 final CrashlyticsController crashlyticsController = Get.find();
 final TiutiuUserController tiutiuUserController = Get.find();
 final FullscreenController fullscreenController = Get.find();
