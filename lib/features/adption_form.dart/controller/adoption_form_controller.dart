@@ -13,6 +13,12 @@ class AdoptionFormController extends GetxController {
 
   AdoptionForm get adoptionForm => _adoptionForm.value;
 
+  void setAdoptionForm(AdoptionForm adoptionForm) {
+    _adoptionForm(adoptionForm);
+
+    print('New Form ${adoptionForm.toMap()}');
+  }
+
   Future<void> submitForm() async {
     return await _adoptionFormServices.submitForm(
       userId: tiutiuUserController.tiutiuUser.uid!,
