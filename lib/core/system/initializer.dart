@@ -1,3 +1,4 @@
+import 'package:tiutiu/features/adption_form.dart/dependency_injection.dart';
 import 'package:tiutiu/features/talk_with_us/dependency_injection.dart';
 import 'package:tiutiu/features/tiutiu_user/dependency_injection.dart';
 import 'package:tiutiu/core/remote_config/dependency_injection.dart';
@@ -29,6 +30,7 @@ class SystemInitializer {
   static List<DependencyInjection> _dependencies = [
     AdminRemoteConfigControllerDependency(),
     CurrentLocationControllerDependency(),
+    AdoptionFormControllerDependency(),
     TiutiuUserControllerDependency(),
     SponsoredControllerDependency(),
     DennounceControllerDependency(),
