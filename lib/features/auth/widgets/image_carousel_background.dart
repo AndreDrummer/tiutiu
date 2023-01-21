@@ -1,16 +1,12 @@
-import 'dart:math';
-
 import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:tiutiu/core/utils/asset_handle.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'dart:math';
 
 class ImageCarouselBackground extends StatelessWidget {
-  const ImageCarouselBackground({
-    this.autoPlay = true,
-    super.key,
-  });
+  const ImageCarouselBackground({this.autoPlay = true, super.key});
 
   final bool autoPlay;
 
