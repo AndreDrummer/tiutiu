@@ -1,7 +1,13 @@
 import 'package:tiutiu/features/adption_form.dart/views/flow/1_personal_info.dart';
+import 'package:tiutiu/features/adption_form.dart/views/flow/2_pet_info.dart';
 import 'package:tiutiu/core/widgets/default_basic_app_bar.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
+import 'package:tiutiu/core/widgets/row_button_bar.dart';
+import 'package:tiutiu/core/constants/app_colors.dart';
+import 'package:tiutiu/core/constants/strings.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class AdoptionFormFlow extends StatelessWidget {
   const AdoptionFormFlow({super.key});
@@ -10,6 +16,7 @@ class AdoptionFormFlow extends StatelessWidget {
   Widget build(BuildContext context) {
     final steps = [
       PersonalInfo(),
+      PetInfo(),
     ];
 
     return WillPopScope(
@@ -17,10 +24,44 @@ class AdoptionFormFlow extends StatelessWidget {
         adoptionFormController.previousStep();
         return false;
       },
-      child: Scaffold(
-        appBar: DefaultBasicAppBar(text: 'Formulário de adoção', automaticallyImplyLeading: true),
-        body: steps.elementAt(adoptionFormController.formStep),
+      child: Obx(
+        () {
+          final title = adoptionFormController.formStepsTitle.elementAt(adoptionFormController.formStep);
+
+          return Scaffold(
+            appBar: DefaultBasicAppBar(text: title, automaticallyImplyLeading: true),
+            body: steps.elementAt(adoptionFormController.formStep),
+            bottomNavigationBar: _flowBottom(),
+          );
+        },
       ),
+    );
+  }
+
+  Widget _flowBottom() {
+    return Obx(
+      () {
+        return Container(
+          color: AppColors.white,
+          margin: EdgeInsets.only(bottom: 8.0.h),
+          child: RowButtonBar(
+            isLoading: adoptionFormController.isLoading,
+            buttonSecondaryColor: Colors.grey,
+            onPrimaryPressed: () {
+              adoptionFormController.nextStep();
+            },
+            onSecondaryPressed: () {
+              adoptionFormController.previousStep();
+            },
+            textPrimary: adoptionFormController.lastStep()
+                ? adoptionFormController.isEditing
+                    ? AdoptionFormStrings.update
+                    : AppStrings.save
+                : AppStrings.contines,
+            textSecond: AppStrings.back,
+          ),
+        );
+      },
     );
   }
 }
