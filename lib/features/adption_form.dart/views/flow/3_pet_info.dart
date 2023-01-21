@@ -67,7 +67,7 @@ class _PetInfoState extends State<PetInfo> {
         );
       },
       items: DummyData.breeds[adoptionFormController.adoptionForm.interestedType]!,
-      labelText: PostDetailsStrings.selectBreed,
+      labelText: AdoptionFormQuestionsStrings.petBreed,
       fontSize: 12.0,
     );
   }

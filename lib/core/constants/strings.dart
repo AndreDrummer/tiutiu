@@ -434,8 +434,8 @@ class GreetingStrings {
 class AdoptionFormStrings {
   static const String onlyAnwerWhatYouWant = 'Só responda às perguntas que se sentir confortável em responder.';
   static const String allQuestionsAreOptionals = 'Todas as questões são opcionais.';
+  static const String backgroundInfo = 'Verificação de antecedentes e contatos';
   static const String financialInfo = 'Tempo e recursos financeiros';
-  static const String backgroundInfo = 'Verificação de antecedentes';
   static const String referenceContacts = 'Contatos de referência';
   static const String personalInfo = 'Informações Pessoais';
   static const String adoptionForm = 'Formulário de adoção';
@@ -443,6 +443,31 @@ class AdoptionFormStrings {
   static const String petInfo = 'Sobre o animal';
   static const String update = 'Atualizar';
   static const String start = 'Iniciar';
+}
+
+class AdoptionFormQuestionsStrings {
+  static const String allowCheckBackground = 'Você está disposto a passar por uma verificação de antecedentes?';
+  static const String haveMoneyEnough =
+      'Você tem recursos financeiros para cuidar de um animal? (ração, vacinação, consultas veterinárias)';
+  static const String haveAnimals = 'Você tem outros animais em casa? Se sim, quais e quantos?';
+  static const String haveTimeEnough = 'Você tem tempo suficiente para cuidar de um animal?';
+  static const String haveChildren = 'Você tem crianças? Se sim, quantas e que idades têm?';
+  static const String petExperience = 'Você tem experiência com esse tipo de animal?';
+  static const String reason = 'Por quê você quer adotar esse animal em particular?';
+  static const String allowGetInContatactWithReferences =
+      'Você autoriza que entre em contato com seus contatos de referências?';
+  static const String petType = 'Que tipo de animal está interessado';
+  static const String houseTypeOptions = 'Casa, apartamento, sítio...';
+  static const String petBreed = 'Qual a raça que está interessado';
+  static const String houseType = 'Qual é o seu tipo de imóvel?';
+  static const String maritalStatus = 'Estado Civil';
+  static const String haveYard = 'Você tem quintal?';
+  static const String fullname = 'Nome Completo';
+  static const String profession = 'Profissão';
+  static const String address = 'Endereço';
+  static const String phone = 'Telefone';
+  static const String email = 'E-mail';
+  static const String age = 'Idade';
 }
 
 class MaritalStatusStrings {

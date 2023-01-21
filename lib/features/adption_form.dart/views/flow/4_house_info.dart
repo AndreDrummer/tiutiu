@@ -41,11 +41,11 @@ class _HouseInfoState extends State<HouseInfo> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        AutoSizeTexts.autoSizeText14('Qual é o seu tipo de imóvel?', fontWeight: FontWeight.w600),
+        AutoSizeTexts.autoSizeText14(AdoptionFormQuestionsStrings.houseType, fontWeight: FontWeight.w600),
         SizedBox(height: 8.0.h),
         OutlinedInputText(
           textColor: AppColors.black.withOpacity(.5),
-          labelText: 'Casa, apartamento',
+          labelText: AdoptionFormQuestionsStrings.houseTypeOptions,
           initialValue: adoptionFormController.adoptionForm.houseType,
           onChanged: (value) {
             adoptionFormController.setAdoptionForm(
@@ -65,7 +65,7 @@ class _HouseInfoState extends State<HouseInfo> {
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 0.0.h),
           child: AutoSizeTexts.autoSizeText16(
-            'Você tem quintal?',
+            AdoptionFormQuestionsStrings.haveYard,
             fontWeight: FontWeight.w600,
           ),
         ),
@@ -108,7 +108,7 @@ class _HouseInfoState extends State<HouseInfo> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        AutoSizeTexts.autoSizeText14('Você tem crianças? Se sim, quantas e idades', fontWeight: FontWeight.w600),
+        AutoSizeTexts.autoSizeText14(AdoptionFormQuestionsStrings.haveChildren, fontWeight: FontWeight.w600),
         SizedBox(height: 8.0.h),
         TextArea(
           labelText: '',
@@ -128,8 +128,7 @@ class _HouseInfoState extends State<HouseInfo> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        AutoSizeTexts.autoSizeText14('Você tem outros animais em casa? Se sim, quais e quantos',
-            fontWeight: FontWeight.w600),
+        AutoSizeTexts.autoSizeText14(AdoptionFormQuestionsStrings.haveAnimals, fontWeight: FontWeight.w600),
         SizedBox(height: 8.0.h),
         TextArea(
           maxLines: 2,
