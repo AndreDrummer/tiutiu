@@ -430,3 +430,10 @@ class GreetingStrings {
   static const String goodMorning = 'Bom dia';
   static const String goodNight = 'Boa noite';
 }
+
+class AdoptionFormStrings {
+  static const String onlyAnwerWhatYouWant = 'Só responda às perguntas que se sentir confortável em responder.';
+  static const String allQuestionsAreOptionals = 'Todas as questões são opcionais.';
+  static const String adoptionForm = 'Formulário de adoção';
+  static const String start = 'Iniciar';
+}

@@ -24,7 +24,7 @@ class _DisappearedAlertAnimationState extends State<DisappearedAlertAnimation> {
       child: Column(
         children: [
           LottieAnimation(
-            animationPath: AnimationsAssets.disappearedAlert,
+            animationPath: AnimationsAssets.alert,
             size: 40.0.h,
           ),
           TextButtonCount(
