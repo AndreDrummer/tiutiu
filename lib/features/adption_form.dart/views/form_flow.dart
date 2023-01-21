@@ -4,7 +4,6 @@ import 'package:tiutiu/core/widgets/default_basic_app_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/widgets/row_button_bar.dart';
-import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/core/constants/strings.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -15,8 +14,8 @@ class AdoptionFormFlow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final steps = [
-      PersonalInfo(),
       PetInfo(),
+      PersonalInfo(),
     ];
 
     return WillPopScope(
@@ -42,7 +41,6 @@ class AdoptionFormFlow extends StatelessWidget {
     return Obx(
       () {
         return Container(
-          color: AppColors.white,
           margin: EdgeInsets.only(bottom: 8.0.h),
           child: RowButtonBar(
             isLoading: adoptionFormController.isLoading,
