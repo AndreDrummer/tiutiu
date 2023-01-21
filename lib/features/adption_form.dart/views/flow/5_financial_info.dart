@@ -42,7 +42,7 @@ class _FinancialInfoState extends State<FinancialInfo> {
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 0.0.h),
           child: AutoSizeTexts.autoSizeText16(
-            'Você tem tempo suficiente para cuidar de um animal?',
+            AdoptionFormQuestionsStrings.haveTimeEnough,
             fontWeight: FontWeight.w600,
           ),
         ),
@@ -88,7 +88,7 @@ class _FinancialInfoState extends State<FinancialInfo> {
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 0.0.h),
           child: AutoSizeTexts.autoSizeText16(
-            'Você tem recursos financeiros para cuidar de um animal? (ração, vacinação, consultas veterinárias)',
+            AdoptionFormQuestionsStrings.haveMoneyEnough,
             fontWeight: FontWeight.w600,
           ),
         ),
