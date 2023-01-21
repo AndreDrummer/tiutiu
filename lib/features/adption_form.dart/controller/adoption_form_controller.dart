@@ -46,9 +46,7 @@ class AdoptionFormController extends GetxController {
     );
   }
 
-  List<String> get formStepsTitle => _formStepsTitle;
-
-  List<String> _formStepsTitle = [
+  final List<String> formStepsTitle = [
     AdoptionFormStrings.personalInfo,
     AdoptionFormStrings.petInfo,
     AdoptionFormStrings.houseInfo,
@@ -56,9 +54,7 @@ class AdoptionFormController extends GetxController {
     AdoptionFormStrings.backgroundInfo,
   ];
 
-  List<String> get maritalStatus => _maritalStatus;
-
-  List<String> _maritalStatus = [
+  final List<String> maritalStatus = [
     '-',
     MaritalStatusStrings.marriedSeparated,
     MaritalStatusStrings.stableUnion,
@@ -67,5 +63,12 @@ class AdoptionFormController extends GetxController {
     MaritalStatusStrings.single,
     MaritalStatusStrings.married,
     MaritalStatusStrings.widower,
+  ];
+
+  final List<String> petsType = [
+    '-',
+    PetTypeStrings.dog,
+    PetTypeStrings.cat,
+    PetTypeStrings.bird,
   ];
 }
