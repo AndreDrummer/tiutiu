@@ -31,7 +31,7 @@ class _PetInfoState extends State<PetInfo> {
                 padding: const EdgeInsets.all(8.0),
                 child: OneLineText(
                   text: '2. Informações sobre o animal',
-                  fontSize: 18,
+                  fontSize: 14,
                 ),
               ),
               Divider(height: 8.0.h),
@@ -43,7 +43,7 @@ class _PetInfoState extends State<PetInfo> {
                   );
                 },
                 labelText: 'Qual tipo de animal está interessado?',
-                fontSize: 18,
+                fontSize: 14,
                 items: List.generate(99, (index) => '$index'),
               ),
               SizedBox(height: 8.0.h),
