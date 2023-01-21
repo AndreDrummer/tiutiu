@@ -14,7 +14,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
-import 'package:tiutiu/features/adption_form.dart/views/flow/2_pet_info.dart';
+import 'package:tiutiu/features/adption_form.dart/views/flow/3_pet_info.dart';
 import 'package:tiutiu/features/adption_form.dart/views/form_flow.dart';
 import 'package:tiutiu/features/adption_form.dart/views/info_about_form.dart';
 import 'firebase_options.dart';
