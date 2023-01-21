@@ -110,6 +110,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
         children: [
           Expanded(
             child: UnderlineInputDropdown(
+              labelBold: true,
               initialValue: adoptionFormController.adoptionForm.age,
               onChanged: (anos) {
                 adoptionFormController.setAdoptionForm(
@@ -123,6 +124,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
           ),
           Expanded(
             child: UnderlineInputDropdown(
+              labelBold: true,
               initialValue: adoptionFormController.adoptionForm.maritalStatus,
               onChanged: (maritalStatus) {
                 adoptionFormController.setAdoptionForm(
