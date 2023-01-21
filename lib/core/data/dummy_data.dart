@@ -19,6 +19,7 @@ class DummyData {
   ];
 
   static Map<String, List<String>> breeds = {
+    '-': ['-'],
     PetTypeStrings.dog: [
       '',
       '-',
