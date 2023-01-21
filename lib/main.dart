@@ -13,6 +13,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
+import 'package:tiutiu/features/adption_form.dart/views/flow/2_pet_info.dart';
+import 'package:tiutiu/features/adption_form.dart/views/init_form_flow.dart';
 import 'firebase_options.dart';
 import 'package:get/get.dart';
 import 'dart:async';
@@ -171,9 +173,10 @@ class _TiuTiuAppState extends State<TiuTiuApp> {
           primarySwatch: AppColors.secondary,
           primaryColor: AppColors.primary,
         ),
-        onGenerateRoute: RouterGenerator.onGenerateRoute,
+        // onGenerateRoute: RouterGenerator.onGenerateRoute,
+        home: PetInfo(),
         debugShowCheckedModeBanner: false,
-        initialRoute: Routes.root,
+        // initialRoute: Routes.root,
       ),
     );
   }

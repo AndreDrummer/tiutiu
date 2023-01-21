@@ -13,6 +13,7 @@ enum AdoptionFormEnum {
   interestedBreed,
   howManyChildren,
   howManyAnimals,
+  interestedType,
   maritalStatus,
   haveChildren,
   liveInHouse,
@@ -43,14 +44,15 @@ class AdoptionForm {
     this.haveYard = false,
     this.howManyChildren,
     this.howManyAnimals,
+    this.interestedType,
     this.maritalStatus,
     this.profission,
+    this.age = '0',
     this.fullName,
     this.address,
     this.reason,
     this.phone,
     this.email,
-    this.age,
     this.uid,
   });
 
@@ -66,6 +68,7 @@ class AdoptionForm {
       liveInAnApartment: snapshot.get(AdoptionFormEnum.liveInAnApartment.name),
       howManyChildren: snapshot.get(AdoptionFormEnum.howManyChildren.name),
       interestedBreed: snapshot.get(AdoptionFormEnum.interestedBreed.name),
+      interestedType: snapshot.get(AdoptionFormEnum.interestedType.name),
       howManyAnimals: snapshot.get(AdoptionFormEnum.howManyAnimals.name),
       maritalStatus: snapshot.get(AdoptionFormEnum.maritalStatus.name),
       haveChildren: snapshot.get(AdoptionFormEnum.haveChildren.name),
@@ -94,6 +97,7 @@ class AdoptionForm {
       liveInAnApartment: map[AdoptionFormEnum.liveInAnApartment.name],
       howManyChildren: map[AdoptionFormEnum.howManyChildren.name],
       interestedBreed: map[AdoptionFormEnum.interestedBreed.name],
+      interestedType: map[AdoptionFormEnum.interestedType.name],
       howManyAnimals: map[AdoptionFormEnum.howManyAnimals.name],
       maritalStatus: map[AdoptionFormEnum.maritalStatus.name],
       haveChildren: map[AdoptionFormEnum.haveChildren.name],
@@ -118,6 +122,7 @@ class AdoptionForm {
     List? referencesContacts,
     bool? haveTimeFreeToCare,
     String? interestedBreed,
+    String? interestedType,
     bool? liveInAnApartment,
     String? maritalStatus,
     int? howManyChildren,
@@ -146,6 +151,7 @@ class AdoptionForm {
       interestedBreed: interestedBreed ?? this.interestedBreed,
       howManyChildren: howManyChildren ?? this.howManyChildren,
       howManyAnimals: howManyAnimals ?? this.howManyAnimals,
+      interestedType: interestedType ?? this.interestedType,
       maritalStatus: maritalStatus ?? this.maritalStatus,
       haveChildren: haveChildren ?? this.haveChildren,
       liveInHouse: liveInHouse ?? this.liveInHouse,
@@ -173,6 +179,7 @@ class AdoptionForm {
       AdoptionFormEnum.liveInAnApartment.name: liveInAnApartment,
       AdoptionFormEnum.howManyChildren.name: howManyChildren,
       AdoptionFormEnum.interestedBreed.name: interestedBreed,
+      AdoptionFormEnum.interestedType.name: interestedType,
       AdoptionFormEnum.howManyAnimals.name: howManyAnimals,
       AdoptionFormEnum.maritalStatus.name: maritalStatus,
       AdoptionFormEnum.haveChildren.name: haveChildren,
@@ -197,6 +204,7 @@ class AdoptionForm {
   List? referencesContacts;
   bool haveTimeFreeToCare;
   String? interestedBreed;
+  String? interestedType;
   bool liveInAnApartment;
   String? maritalStatus;
   int? howManyChildren;
