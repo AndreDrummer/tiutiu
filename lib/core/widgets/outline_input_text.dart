@@ -16,6 +16,7 @@ class OutlinedInputText extends StatelessWidget {
     this.initialValue,
     this.controller,
     this.textColor,
+    this.fontSize,
     this.onChanged,
     this.hintText,
     this.validator,
@@ -36,6 +37,7 @@ class OutlinedInputText extends StatelessWidget {
   final String? initialValue;
   final bool showPassword;
   final Color? textColor;
+  final double? fontSize;
   final String? hintText;
   final String labelText;
   final bool isPassword;
@@ -63,7 +65,7 @@ class OutlinedInputText extends StatelessWidget {
         style: TextStyle(
           color: textColor ?? AppColors.white,
           fontWeight: FontWeight.w600,
-          fontSize: 18.0,
+          fontSize: fontSize ?? 18.0,
         ),
         cursorColor: textColor ?? AppColors.white,
         decoration: InputDecoration(
@@ -84,7 +86,7 @@ class OutlinedInputText extends StatelessWidget {
           hintStyle: TextStyle(
             color: textColor != null ? textColor!.withOpacity(.7) : AppColors.white,
             fontWeight: FontWeight.w600,
-            fontSize: 18.0,
+            fontSize: fontSize ?? 18.0,
           ),
           errorStyle: TextStyle(
             color: AppColors.danger,
@@ -93,7 +95,7 @@ class OutlinedInputText extends StatelessWidget {
           ),
           labelStyle: TextStyle(
             color: textColor ?? AppColors.white,
-            fontSize: 21.0,
+            fontSize: 18.0,
           ),
           errorBorder: _outlineInputBorder(isError: true),
           disabledBorder: _outlineInputBorder(),
