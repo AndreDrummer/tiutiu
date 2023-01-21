@@ -433,13 +433,14 @@ class GreetingStrings {
 
 class AdoptionFormStrings {
   static const String onlyAnwerWhatYouWant = 'Só responda às perguntas que se sentir confortável em responder.';
-  static const String financialInfo = 'Informações sobre seu tempo e recursos financeiros';
-  static const String backgroundInfo = 'Informações sobre verificação de antecedentes';
   static const String allQuestionsAreOptionals = 'Todas as questões são opcionais.';
-  static const String houseInfo = 'Informações sobre sua residência';
-  static const String petInfo = 'Informações sobre o animal';
+  static const String financialInfo = 'Tempo e recursos financeiros';
+  static const String backgroundInfo = 'Verificação de antecedentes';
+  static const String referenceContacts = 'Contatos de referência';
   static const String personalInfo = 'Informações Pessoais';
   static const String adoptionForm = 'Formulário de adoção';
+  static const String houseInfo = 'Sobre sua residência';
+  static const String petInfo = 'Sobre o animal';
   static const String update = 'Atualizar';
   static const String start = 'Iniciar';
 }
