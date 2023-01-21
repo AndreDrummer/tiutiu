@@ -2,6 +2,7 @@ import 'package:tiutiu/core/widgets/outline_input_text.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
+import 'package:tiutiu/core/constants/strings.dart';
 import 'package:brasil_fields/brasil_fields.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
@@ -22,11 +23,7 @@ class _ReferenceContactsState extends State<ReferenceContacts> {
         () {
           return ListView(
             padding: EdgeInsets.symmetric(horizontal: 8.0.h),
-            children: [
-              phone1(),
-              phone2(),
-              phone3(),
-            ],
+            children: [phone1(), phone2(), phone3()],
           );
         },
       ),
@@ -37,8 +34,8 @@ class _ReferenceContactsState extends State<ReferenceContacts> {
     return OutlinedInputText(
       keyboardType: TextInputType.phone,
       textColor: AppColors.black.withOpacity(.5),
-      labelText: 'Telefone 1',
-      hintText: 'Telefone 1',
+      labelText: '${AdoptionFormQuestionsStrings.phone} 1',
+      hintText: '${AdoptionFormQuestionsStrings.phone} 1',
       inputFormatters: [
         FilteringTextInputFormatter.digitsOnly,
         TelefoneInputFormatter(),
@@ -57,8 +54,8 @@ class _ReferenceContactsState extends State<ReferenceContacts> {
     return OutlinedInputText(
       keyboardType: TextInputType.phone,
       textColor: AppColors.black.withOpacity(.5),
-      labelText: 'Telefone 2',
-      hintText: 'Telefone 2',
+      labelText: '${AdoptionFormQuestionsStrings.phone} 2',
+      hintText: '${AdoptionFormQuestionsStrings.phone} 2',
       inputFormatters: [
         FilteringTextInputFormatter.digitsOnly,
         TelefoneInputFormatter(),
@@ -77,8 +74,8 @@ class _ReferenceContactsState extends State<ReferenceContacts> {
     return OutlinedInputText(
       keyboardType: TextInputType.phone,
       textColor: AppColors.black.withOpacity(.5),
-      labelText: 'Telefone 3',
-      hintText: 'Telefone 3',
+      labelText: '${AdoptionFormQuestionsStrings.phone} 3',
+      hintText: '${AdoptionFormQuestionsStrings.phone} 3',
       inputFormatters: [
         FilteringTextInputFormatter.digitsOnly,
         TelefoneInputFormatter(),

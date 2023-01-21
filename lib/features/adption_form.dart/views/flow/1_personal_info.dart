@@ -3,6 +3,7 @@ import 'package:tiutiu/core/widgets/outline_input_text.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
+import 'package:tiutiu/core/constants/strings.dart';
 import 'package:brasil_fields/brasil_fields.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
@@ -39,10 +40,10 @@ class _PersonalInfoState extends State<PersonalInfo> {
 
   OutlinedInputText _fullname() {
     return OutlinedInputText(
-      textColor: AppColors.black.withOpacity(.5),
-      labelText: 'Nome Completo',
-      hintText: 'Nome Completo',
       initialValue: adoptionFormController.adoptionForm.fullName,
+      labelText: AdoptionFormQuestionsStrings.fullname,
+      hintText: AdoptionFormQuestionsStrings.fullname,
+      textColor: AppColors.black.withOpacity(.5),
       onChanged: (value) {
         adoptionFormController.setAdoptionForm(
           adoptionFormController.adoptionForm.copyWith(fullName: value),
@@ -54,10 +55,10 @@ class _PersonalInfoState extends State<PersonalInfo> {
 
   OutlinedInputText _address() {
     return OutlinedInputText(
-      textColor: AppColors.black.withOpacity(.5),
-      labelText: 'Endereço',
-      hintText: 'Endereço',
       initialValue: adoptionFormController.adoptionForm.address,
+      labelText: AdoptionFormQuestionsStrings.address,
+      hintText: AdoptionFormQuestionsStrings.address,
+      textColor: AppColors.black.withOpacity(.5),
       onChanged: (value) {
         adoptionFormController.setAdoptionForm(
           adoptionFormController.adoptionForm.copyWith(address: value),
@@ -69,15 +70,15 @@ class _PersonalInfoState extends State<PersonalInfo> {
 
   OutlinedInputText phone() {
     return OutlinedInputText(
-      keyboardType: TextInputType.phone,
+      initialValue: adoptionFormController.adoptionForm.phone,
+      labelText: AdoptionFormQuestionsStrings.phone,
+      hintText: AdoptionFormQuestionsStrings.phone,
       textColor: AppColors.black.withOpacity(.5),
-      labelText: 'Telefone',
-      hintText: 'Telefone',
+      keyboardType: TextInputType.phone,
       inputFormatters: [
         FilteringTextInputFormatter.digitsOnly,
         TelefoneInputFormatter(),
       ],
-      initialValue: adoptionFormController.adoptionForm.phone,
       onChanged: (value) {
         adoptionFormController.setAdoptionForm(
           adoptionFormController.adoptionForm.copyWith(phone: value),
@@ -89,11 +90,11 @@ class _PersonalInfoState extends State<PersonalInfo> {
 
   OutlinedInputText email() {
     return OutlinedInputText(
-      keyboardType: TextInputType.emailAddress,
-      textColor: AppColors.black.withOpacity(.5),
-      labelText: 'E-mail',
-      hintText: 'E-mail',
       initialValue: adoptionFormController.adoptionForm.email,
+      labelText: AdoptionFormQuestionsStrings.email,
+      hintText: AdoptionFormQuestionsStrings.email,
+      textColor: AppColors.black.withOpacity(.5),
+      keyboardType: TextInputType.emailAddress,
       onChanged: (value) {
         adoptionFormController.setAdoptionForm(
           adoptionFormController.adoptionForm.copyWith(email: value),
@@ -110,29 +111,29 @@ class _PersonalInfoState extends State<PersonalInfo> {
         children: [
           Expanded(
             child: UnderlineInputDropdown(
-              labelBold: true,
-              initialValue: adoptionFormController.adoptionForm.age,
               onChanged: (anos) {
                 adoptionFormController.setAdoptionForm(
                   adoptionFormController.adoptionForm.copyWith(age: anos),
                 );
               },
               items: List.generate(99, (index) => '${index == 0 ? '-' : index}'),
-              labelText: 'Idade',
+              initialValue: adoptionFormController.adoptionForm.age,
+              labelText: AdoptionFormQuestionsStrings.age,
+              labelBold: true,
               fontSize: 12.0,
             ),
           ),
           Expanded(
             child: UnderlineInputDropdown(
-              labelBold: true,
-              initialValue: adoptionFormController.adoptionForm.maritalStatus,
               onChanged: (maritalStatus) {
                 adoptionFormController.setAdoptionForm(
                   adoptionFormController.adoptionForm.copyWith(maritalStatus: maritalStatus),
                 );
               },
+              initialValue: adoptionFormController.adoptionForm.maritalStatus,
+              labelText: AdoptionFormQuestionsStrings.maritalStatus,
               items: adoptionFormController.maritalStatus,
-              labelText: 'Estado Civil',
+              labelBold: true,
               fontSize: 12.0,
             ),
           )
@@ -144,9 +145,9 @@ class _PersonalInfoState extends State<PersonalInfo> {
   OutlinedInputText _profission() {
     return OutlinedInputText(
       textColor: AppColors.black.withOpacity(.5),
-      labelText: 'Profissão',
-      hintText: 'Profissão',
       initialValue: adoptionFormController.adoptionForm.profission,
+      labelText: AdoptionFormQuestionsStrings.profession,
+      hintText: AdoptionFormQuestionsStrings.profession,
       onChanged: (value) {
         adoptionFormController.setAdoptionForm(
           adoptionFormController.adoptionForm.copyWith(profission: value),
