@@ -3,7 +3,6 @@ import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/utils/routes/routes_name.dart';
 import 'package:tiutiu/core/widgets/custom_list_tile.dart';
-import 'package:package_info_plus/package_info_plus.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/constants/assets_path.dart';
 import 'package:tiutiu/core/constants/text_styles.dart';
@@ -39,22 +38,6 @@ class More extends StatelessWidget {
         children: [
           _cardHeader(),
           _cardBody(),
-          Container(
-            alignment: Alignment.center,
-            padding: EdgeInsets.only(top: 16.0.h),
-            child: FutureBuilder<PackageInfo>(
-              future: systemController.getPackageInfo(),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.done)
-                  return AutoSizeTexts.autoSizeText14(
-                    'Versão ${snapshot.data?.version}',
-                    fontWeight: FontWeight.w500,
-                    color: AppColors.black,
-                  );
-                return SizedBox.shrink();
-              },
-            ),
-          )
         ],
       ),
     );

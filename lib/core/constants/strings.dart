@@ -263,6 +263,7 @@ class MoreStrings {
 }
 
 class MyProfileOptionsTile {
+  static const String fillAdoptioinForm = 'Preencher Formulário de adoção';
   static const String deleteAccount = 'Deletar minha conta';
   static const String about = 'Sobre o aplicativo';
   static const String myPosts = 'Minhas Postagens';
