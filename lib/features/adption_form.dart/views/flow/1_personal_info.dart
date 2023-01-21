@@ -21,30 +21,11 @@ class _PersonalInfoState extends State<PersonalInfo> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: DefaultBasicAppBar(text: 'Formulário de adoção'),
       body: Obx(
         () {
           return ListView(
             children: [
               SizedBox(height: 8.0.h),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 8.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    AutoSizeTexts.autoSizeText12(
-                      'Importante!',
-                      textAlign: TextAlign.center,
-                      fontWeight: FontWeight.w600,
-                      color: AppColors.danger,
-                    ),
-                    SizedBox(height: 8.0.h),
-                    AutoSizeTexts.autoSizeText12(
-                      'Todas as questões são opcionais. Vai de cada adotante responder às que estiver confortável.',
-                    ),
-                  ],
-                ),
-              ),
               Divider(height: 8.0.h),
               Padding(
                 padding: const EdgeInsets.all(8.0),
