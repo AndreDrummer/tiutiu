@@ -19,7 +19,7 @@ class MigrationService {
   final String petAdPurpose = FirebaseEnvPath.donate;
 
   void migrate() async {
-    // updateSomeUserData();
+    // moveEndpointsToProd();
   }
 
   void updateEndpointsSintaxe() async {

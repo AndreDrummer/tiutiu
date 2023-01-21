@@ -31,6 +31,9 @@ class MoreController extends GetxController {
       case MyProfileOptionsTile.support:
         Get.toNamed(Routes.suportUs);
         break;
+      case MyProfileOptionsTile.fillAdoptioinForm:
+        Get.toNamed(Routes.adoptionForm);
+        break;
       case MyProfileOptionsTile.ourNet:
         Get.toNamed(Routes.followUs);
         break;
@@ -55,6 +58,7 @@ class MoreController extends GetxController {
     MyProfileOptionsTile.myPosts,
     MyProfileOptionsTile.messages,
     MyProfileOptionsTile.support,
+    MyProfileOptionsTile.fillAdoptioinForm,
     MyProfileOptionsTile.settings,
     MyProfileOptionsTile.about,
   ];
@@ -68,6 +72,7 @@ class MoreController extends GetxController {
     Icons.photo_outlined,
     Icons.forum_outlined,
     Icons.volunteer_activism_outlined,
+    Icons.list_alt_rounded,
     Icons.manage_accounts_outlined,
     Icons.info_outline,
   ];

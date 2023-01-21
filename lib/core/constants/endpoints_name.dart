@@ -8,6 +8,7 @@ enum EndpointNames {
   pathToSupportUsData,
   feedbackStoragePath,
   pathToSponsoredAds,
+  pathToAdoptionForm,
   postsStoragePath,
   pathToFeedbacks,
   pathToFeedback,
