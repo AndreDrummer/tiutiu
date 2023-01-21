@@ -1,5 +1,6 @@
 import 'package:tiutiu/core/local_storage/local_storage_keys.dart';
 import 'package:tiutiu/core/local_storage/local_storage.dart';
+import 'package:tiutiu/core/system/views/loading_start_screen.dart';
 import 'package:tiutiu/features/auth/views/start_screen.dart';
 import 'package:tiutiu/core/widgets/async_handler.dart';
 import 'package:flutter/material.dart';
@@ -25,6 +26,7 @@ class _StartScreenOrSomeScreenState extends State<StartScreenOrSomeScreen> {
       ),
       builder: (_, AsyncSnapshot<bool> snapshot) {
         return AsyncHandler<bool>(
+          loadingWidget: SplashScreenLoading(),
           snapshot: snapshot,
           buildWidget: (firstOpen) {
             LocalStorage.setBooleanUnderKey(
