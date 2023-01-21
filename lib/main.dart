@@ -176,7 +176,7 @@ class _TiuTiuAppState extends State<TiuTiuApp> {
           primaryColor: AppColors.primary,
         ),
         // onGenerateRoute: RouterGenerator.onGenerateRoute,
-        home: InfoAboutForm(),
+        home: AdoptionFormFlow(),
         debugShowCheckedModeBanner: false,
         // initialRoute: Routes.root,
       ),
