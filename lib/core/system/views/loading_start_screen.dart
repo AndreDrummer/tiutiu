@@ -1,9 +1,7 @@
-import 'package:tiutiu/features/auth/widgets/image_carousel_background.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:tiutiu/core/constants/text_styles.dart';
-import 'package:tiutiu/features/auth/widgets/blur.dart';
 import 'package:tiutiu/core/system/app_bootstrap.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/core/widgets/tiutiu_logo.dart';
@@ -46,27 +44,27 @@ class _SplashScreenLoading extends StatelessWidget {
         final packageInfo = snapshot.data;
 
         return Scaffold(
-          body: Stack(
-            children: [
-              ImageCarouselBackground(),
-              Blur(darker: true),
-              Container(
-                alignment: Alignment.center,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
+          body: Container(
+            color: AppColors.primary,
+            alignment: Alignment.center,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Stack(
                   children: [
-                    TiutiuLogo(imageHeight: 32.0.h, spaceBetween: 16.0.h),
-                    SizedBox(height: 8.0.h),
-                    _versionInfo(packageInfo),
-                    SizedBox(height: 24.0.h),
-                    _loadingIndicator(),
-                    SizedBox(height: 8.0.h),
-                    _feedbackText(),
+                    TiutiuLogo(spaceBetween: 16.0.h, textHeight: 20),
+                    Positioned(
+                      bottom: 24.0.h,
+                      right: 0.0.w,
+                      child: _versionInfo(packageInfo),
+                    )
                   ],
                 ),
-              ),
-            ],
+                _loadingIndicator(),
+                _feedbackText(),
+              ],
+            ),
           ),
         );
       },
@@ -74,18 +72,18 @@ class _SplashScreenLoading extends StatelessWidget {
   }
 
   AutoSizeText _feedbackText() {
-    return AutoSizeTexts.autoSizeText12(
+    return AutoSizeTexts.autoSizeText10(
       AppStrings.weAreGettingAllReady,
       color: Colors.white,
     );
   }
 
-  SizedBox _loadingIndicator() {
-    return SizedBox(
-      height: 16.0.h,
-      width: 16.0.h,
-      child: CircularProgressIndicator(
-        strokeWidth: 1.0.h,
+  Widget _loadingIndicator() {
+    return Container(
+      margin: EdgeInsets.only(top: 16.0.h, bottom: 8.0.h),
+      height: 1.0.h,
+      width: 56.0.w,
+      child: LinearProgressIndicator(
         backgroundColor: Colors.white,
         color: AppColors.primary,
       ),
@@ -95,10 +93,7 @@ class _SplashScreenLoading extends StatelessWidget {
   Visibility _versionInfo(PackageInfo? packageInfo) {
     return Visibility(
       visible: packageInfo != null,
-      child: AutoSizeTexts.autoSizeText10(
-        'v${packageInfo?.version}',
-        color: Colors.white,
-      ),
+      child: AutoSizeTexts.autoSizeText('v${packageInfo?.version}', color: Colors.white, fontSize: 8),
     );
   }
 }
