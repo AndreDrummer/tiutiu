@@ -1,6 +1,5 @@
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
-import 'package:package_info_plus/package_info_plus.dart';
 import 'package:tiutiu/core/constants/text_styles.dart';
 import 'package:tiutiu/core/system/app_bootstrap.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
@@ -26,48 +25,41 @@ class _LoadingStartScreenState extends State<LoadingStartScreen> {
           case ConnectionState.waiting:
           case ConnectionState.active:
           case ConnectionState.none:
-            return _SplashScreenLoading();
+            return SplashScreenLoading();
           case ConnectionState.done:
-            return AppBootstrap();
+            return systemController.properties.isLoading ? SplashScreenLoading() : AppBootstrap();
         }
       },
     );
   }
 }
 
-class _SplashScreenLoading extends StatelessWidget {
+class SplashScreenLoading extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<PackageInfo>(
-      future: systemController.getPackageInfo(),
-      builder: (context, snapshot) {
-        final packageInfo = snapshot.data;
-
-        return Scaffold(
-          body: Container(
-            color: AppColors.primary,
-            alignment: Alignment.center,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
+    return Scaffold(
+      body: Container(
+        color: AppColors.primary,
+        alignment: Alignment.center,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Stack(
               children: [
-                Stack(
-                  children: [
-                    TiutiuLogo(spaceBetween: 16.0.h, textHeight: 20),
-                    Positioned(
-                      bottom: 24.0.h,
-                      right: 0.0.w,
-                      child: _versionInfo(packageInfo),
-                    )
-                  ],
-                ),
-                _loadingIndicator(),
-                _feedbackText(),
+                TiutiuLogo(spaceBetween: 16.0.h, textHeight: 20),
+                Positioned(
+                  bottom: 24.0.h,
+                  right: 0.0.w,
+                  child: _versionInfo(),
+                )
               ],
             ),
-          ),
-        );
-      },
+            _loadingIndicator(),
+            _feedbackText(),
+          ],
+        ),
+      ),
     );
   }
 
@@ -90,10 +82,11 @@ class _SplashScreenLoading extends StatelessWidget {
     );
   }
 
-  Visibility _versionInfo(PackageInfo? packageInfo) {
+  Widget _versionInfo() {
+    final runningVersions = systemController.properties.runningVersion;
     return Visibility(
-      visible: packageInfo != null,
-      child: AutoSizeTexts.autoSizeText('v${packageInfo?.version}', color: Colors.white, fontSize: 8),
+      visible: systemController.properties.runningVersion.isNotEmpty,
+      child: AutoSizeTexts.autoSizeText('v$runningVersions', color: Colors.white, fontSize: 8),
     );
   }
 }
