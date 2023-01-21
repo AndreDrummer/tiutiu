@@ -1,6 +1,11 @@
+import 'package:tiutiu/core/constants/app_colors.dart';
+import 'package:tiutiu/core/widgets/one_line_text.dart';
+import 'package:tiutiu/features/adption_form.dart/views/flow/2_references_contacts.dart';
+import 'package:tiutiu/features/adption_form.dart/views/flow/6_background_info.dart';
+import 'package:tiutiu/features/adption_form.dart/views/flow/5_financial_info.dart';
 import 'package:tiutiu/features/adption_form.dart/views/flow/1_personal_info.dart';
-import 'package:tiutiu/features/adption_form.dart/views/flow/3_house_info.dart';
-import 'package:tiutiu/features/adption_form.dart/views/flow/2_pet_info.dart';
+import 'package:tiutiu/features/adption_form.dart/views/flow/4_house_info.dart';
+import 'package:tiutiu/features/adption_form.dart/views/flow/3_pet_info.dart';
 import 'package:tiutiu/core/widgets/default_basic_app_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
@@ -15,9 +20,12 @@ class AdoptionFormFlow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final steps = [
-      HouseInfo(),
-      PetInfo(),
       PersonalInfo(),
+      ReferenceContacts(),
+      PetInfo(),
+      HouseInfo(),
+      FinancialInfo(),
+      BackgroundInfo(),
     ];
 
     return WillPopScope(
@@ -30,9 +38,25 @@ class AdoptionFormFlow extends StatelessWidget {
           final title = adoptionFormController.formStepsTitle.elementAt(adoptionFormController.formStep);
 
           return Scaffold(
-            appBar: DefaultBasicAppBar(text: title, automaticallyImplyLeading: true),
-            body: steps.elementAt(adoptionFormController.formStep),
-            bottomNavigationBar: _flowBottom(),
+            body: Stack(
+              children: [
+                Scaffold(
+                  appBar: DefaultBasicAppBar(text: title, automaticallyImplyLeading: true),
+                  body: steps.elementAt(adoptionFormController.formStep),
+                  bottomNavigationBar: _flowBottom(),
+                ),
+                Positioned(
+                  top: 26.0.h,
+                  left: Get.width / 2.5,
+                  child: OneLineText(
+                    textAlign: TextAlign.center,
+                    text: 'Passo ${adoptionFormController.formStep + 1}',
+                    color: AppColors.white,
+                    fontSize: 12.0,
+                  ),
+                ),
+              ],
+            ),
           );
         },
       ),
