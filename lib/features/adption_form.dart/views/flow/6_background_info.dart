@@ -39,7 +39,7 @@ class _BackgroundInfoState extends State<BackgroundInfo> {
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 0.0.h),
           child: AutoSizeTexts.autoSizeText16(
-            'Você está disposto a passar por uma verificação de antecedentes?',
+            AdoptionFormQuestionsStrings.allowCheckBackground,
             fontWeight: FontWeight.w600,
           ),
         ),
@@ -85,7 +85,7 @@ class _BackgroundInfoState extends State<BackgroundInfo> {
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 0.0.h),
           child: AutoSizeTexts.autoSizeText16(
-            'Você autoriza que entre em contato com seus contatos de referências?',
+            AdoptionFormQuestionsStrings.allowGetInContatactWithReferences,
             fontWeight: FontWeight.w600,
           ),
         ),
