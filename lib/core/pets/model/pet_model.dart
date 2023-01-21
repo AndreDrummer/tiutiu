@@ -215,8 +215,6 @@ class Pet extends Post {
 
   Map<String, dynamic>? adequatedMap(Map<String, dynamic>? map) {
     if (map?.containsKey(PostEnum.reference.name) ?? false) {
-      print('Consta que tem a chave ${PostEnum.reference.name}');
-
       map![PostEnum.reference.name] = (map[PostEnum.reference.name] as DocumentReference).path;
     }
 

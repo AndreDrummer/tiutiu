@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 
 class LoadingPage extends StatelessWidget {
   LoadingPage({
-    this.messageLoading = 'Carregando',
+    this.messageLoading = 'Aguarde',
     this.textColor,
   });
 
