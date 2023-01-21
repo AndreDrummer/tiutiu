@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class Blur extends StatelessWidget {
-  const Blur({super.key});
+  const Blur({this.darker = false});
+
+  final bool darker;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.black45,
+      color: darker ? Colors.black87 : Colors.black45,
       height: Get.height,
     );
   }
