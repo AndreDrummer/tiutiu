@@ -30,6 +30,7 @@ class _PetInfoState extends State<PetInfo> {
               _petBreed(),
               SizedBox(height: 16.0.w),
               _petExperience(),
+              SizedBox(height: 8.0.h),
               _reason(),
             ],
           );
@@ -40,6 +41,7 @@ class _PetInfoState extends State<PetInfo> {
 
   UnderlineInputDropdown petType() {
     return UnderlineInputDropdown(
+      labelBold: true,
       initialValue: adoptionFormController.adoptionForm.interestedType,
       onChanged: (type) {
         adoptionFormController.setAdoptionForm(
@@ -57,6 +59,7 @@ class _PetInfoState extends State<PetInfo> {
 
   UnderlineInputDropdown _petBreed() {
     return UnderlineInputDropdown(
+      labelBold: true,
       initialValue: adoptionFormController.adoptionForm.interestedBreed,
       onChanged: (breed) {
         adoptionFormController.setAdoptionForm(
@@ -73,7 +76,7 @@ class _PetInfoState extends State<PetInfo> {
     return Column(
       children: [
         Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16.0.h),
+          padding: EdgeInsets.symmetric(horizontal: 8.0.h),
           child: AutoSizeTexts.autoSizeText16(
             'Você tem experiência com esse tipo de animal?',
             fontWeight: FontWeight.w600,
@@ -81,7 +84,6 @@ class _PetInfoState extends State<PetInfo> {
         ),
         Row(
           children: [
-            SizedBox(width: 8.0.w),
             Expanded(
               child: CheckboxListTile(
                 contentPadding: EdgeInsets.zero,
@@ -117,7 +119,7 @@ class _PetInfoState extends State<PetInfo> {
 
   Padding _reason() {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 16.0.h, vertical: 4.0.h),
+      padding: EdgeInsets.symmetric(horizontal: 8.0.h, vertical: 4.0.h),
       child: Column(
         children: [
           AutoSizeTexts.autoSizeText16(
@@ -126,6 +128,7 @@ class _PetInfoState extends State<PetInfo> {
           ),
           SizedBox(height: 8.0.h),
           TextArea(
+            maxLines: 2,
             labelText: 'Por que você quer adotar esse animal em particular?',
             hintText: 'Por que você quer adotar esse animal em particular?',
             initialValue: adoptionFormController.adoptionForm.reason,

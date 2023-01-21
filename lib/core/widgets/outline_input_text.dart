@@ -114,6 +114,7 @@ class OutlinedInputText extends StatelessWidget {
       ),
       borderSide: BorderSide(
         color: isError ? AppColors.danger : textColor ?? AppColors.white,
+        width: .6,
       ),
     );
   }

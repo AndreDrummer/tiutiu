@@ -1,4 +1,5 @@
 import 'package:tiutiu/features/adption_form.dart/views/flow/1_personal_info.dart';
+import 'package:tiutiu/features/adption_form.dart/views/flow/3_house_info.dart';
 import 'package:tiutiu/features/adption_form.dart/views/flow/2_pet_info.dart';
 import 'package:tiutiu/core/widgets/default_basic_app_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -14,6 +15,7 @@ class AdoptionFormFlow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final steps = [
+      HouseInfo(),
       PetInfo(),
       PersonalInfo(),
     ];

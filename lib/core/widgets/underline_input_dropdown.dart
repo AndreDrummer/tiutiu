@@ -9,6 +9,7 @@ class UnderlineInputDropdown extends StatelessWidget {
     required this.initialValue,
     required this.onChanged,
     required this.labelText,
+    this.labelBold = false,
     required this.items,
     this.fontSize,
     super.key,
@@ -20,15 +21,17 @@ class UnderlineInputDropdown extends StatelessWidget {
   final List<String> items;
   final double? fontSize;
   final String labelText;
+  final bool labelBold;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+      padding: const EdgeInsets.symmetric(horizontal: 8.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           AutoSizeTexts.autoSizeText26(
+            fontWeight: labelBold ? FontWeight.w600 : null,
             fontSize: fontSize ?? 24.0,
             color: AppColors.black,
             labelText,

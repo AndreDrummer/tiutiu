@@ -12,11 +12,10 @@ enum AdoptionFormEnum {
   liveInAnApartment,
   interestedBreed,
   howManyChildren,
-  howManyAnimals,
   interestedType,
   maritalStatus,
   haveChildren,
-  liveInHouse,
+  houseType,
   profission,
   fullName,
   haveYard,
@@ -32,21 +31,19 @@ class AdoptionForm {
   AdoptionForm({
     this.allowContactWithYourReferences = false,
     this.availableForBackgroundCheck = false,
-    this.thereIsOtherAnimalsInHouse = false,
     this.alreadyHadAnimalsLikeThat = false,
+    this.thereIsOtherAnimalsInHouse = '',
     this.haveMoneyEnoughToCare = false,
     this.haveTimeFreeToCare = false,
     this.liveInAnApartment = false,
     this.maritalStatus = '-',
     this.interestedBreed = '-',
-    this.haveChildren = false,
-    this.liveInHouse = false,
     this.interestedType = '-',
     this.referencesContacts,
     this.haveYard = false,
-    this.howManyChildren,
-    this.howManyAnimals,
+    this.haveChildren,
     this.profission,
+    this.houseType,
     this.age = '-',
     this.fullName,
     this.address,
@@ -66,15 +63,13 @@ class AdoptionForm {
       referencesContacts: snapshot.get(AdoptionFormEnum.referencesContacts.name),
       haveTimeFreeToCare: snapshot.get(AdoptionFormEnum.haveTimeFreeToCare.name),
       liveInAnApartment: snapshot.get(AdoptionFormEnum.liveInAnApartment.name),
-      howManyChildren: snapshot.get(AdoptionFormEnum.howManyChildren.name),
       interestedBreed: snapshot.get(AdoptionFormEnum.interestedBreed.name),
       interestedType: snapshot.get(AdoptionFormEnum.interestedType.name),
-      howManyAnimals: snapshot.get(AdoptionFormEnum.howManyAnimals.name),
       maritalStatus: snapshot.get(AdoptionFormEnum.maritalStatus.name),
       haveChildren: snapshot.get(AdoptionFormEnum.haveChildren.name),
-      liveInHouse: snapshot.get(AdoptionFormEnum.liveInHouse.name),
       uid: snapshot.get(AdoptionFormEnum.uid.name) ?? Uuid().v4(),
       profission: snapshot.get(AdoptionFormEnum.profission.name),
+      houseType: snapshot.get(AdoptionFormEnum.houseType.name),
       fullName: snapshot.get(AdoptionFormEnum.fullName.name),
       haveYard: snapshot.get(AdoptionFormEnum.haveYard.name),
       address: snapshot.get(AdoptionFormEnum.address.name),
@@ -95,15 +90,13 @@ class AdoptionForm {
       referencesContacts: map[AdoptionFormEnum.referencesContacts.name],
       haveTimeFreeToCare: map[AdoptionFormEnum.haveTimeFreeToCare.name],
       liveInAnApartment: map[AdoptionFormEnum.liveInAnApartment.name],
-      howManyChildren: map[AdoptionFormEnum.howManyChildren.name],
       interestedBreed: map[AdoptionFormEnum.interestedBreed.name],
       interestedType: map[AdoptionFormEnum.interestedType.name],
-      howManyAnimals: map[AdoptionFormEnum.howManyAnimals.name],
       maritalStatus: map[AdoptionFormEnum.maritalStatus.name],
       haveChildren: map[AdoptionFormEnum.haveChildren.name],
-      liveInHouse: map[AdoptionFormEnum.liveInHouse.name],
       uid: map[AdoptionFormEnum.uid.name] ?? Uuid().v4(),
       profission: map[AdoptionFormEnum.profission.name],
+      houseType: map[AdoptionFormEnum.houseType.name],
       fullName: map[AdoptionFormEnum.fullName.name],
       haveYard: map[AdoptionFormEnum.haveYard.name],
       address: map[AdoptionFormEnum.address.name],
@@ -115,8 +108,8 @@ class AdoptionForm {
   }
   AdoptionForm copyWith({
     bool? allowContactWithYourReferences,
+    String? thereIsOtherAnimalsInHouse,
     bool? availableForBackgroundCheck,
-    bool? thereIsOtherAnimalsInHouse,
     bool? alreadyHadAnimalsLikeThat,
     bool? haveMoneyEnoughToCare,
     List? referencesContacts,
@@ -126,10 +119,9 @@ class AdoptionForm {
     bool? liveInAnApartment,
     String? maritalStatus,
     int? howManyChildren,
-    int? howManyAnimals,
+    String? haveChildren,
     String? profission,
-    bool? haveChildren,
-    bool? liveInHouse,
+    String? houseType,
     String? fullName,
     String? address,
     String? reason,
@@ -149,12 +141,10 @@ class AdoptionForm {
       haveTimeFreeToCare: haveTimeFreeToCare ?? this.haveTimeFreeToCare,
       liveInAnApartment: liveInAnApartment ?? this.liveInAnApartment,
       interestedBreed: interestedBreed ?? this.interestedBreed,
-      howManyChildren: howManyChildren ?? this.howManyChildren,
-      howManyAnimals: howManyAnimals ?? this.howManyAnimals,
       interestedType: interestedType ?? this.interestedType,
       maritalStatus: maritalStatus ?? this.maritalStatus,
       haveChildren: haveChildren ?? this.haveChildren,
-      liveInHouse: liveInHouse ?? this.liveInHouse,
+      houseType: houseType ?? this.houseType,
       profission: profission ?? this.profission,
       haveYard: haveYard ?? this.haveYard,
       fullName: fullName ?? this.fullName,
@@ -177,14 +167,12 @@ class AdoptionForm {
       AdoptionFormEnum.referencesContacts.name: referencesContacts,
       AdoptionFormEnum.haveTimeFreeToCare.name: haveTimeFreeToCare,
       AdoptionFormEnum.liveInAnApartment.name: liveInAnApartment,
-      AdoptionFormEnum.howManyChildren.name: howManyChildren,
       AdoptionFormEnum.interestedBreed.name: interestedBreed,
       AdoptionFormEnum.interestedType.name: interestedType,
-      AdoptionFormEnum.howManyAnimals.name: howManyAnimals,
       AdoptionFormEnum.maritalStatus.name: maritalStatus,
       AdoptionFormEnum.haveChildren.name: haveChildren,
       AdoptionFormEnum.uid.name: uid ?? Uuid().v4(),
-      AdoptionFormEnum.liveInHouse.name: liveInHouse,
+      AdoptionFormEnum.houseType.name: houseType,
       AdoptionFormEnum.profission.name: profission,
       AdoptionFormEnum.fullName.name: fullName,
       AdoptionFormEnum.haveYard.name: haveYard,
@@ -197,27 +185,25 @@ class AdoptionForm {
   }
 
   bool allowContactWithYourReferences;
+  String thereIsOtherAnimalsInHouse;
   bool availableForBackgroundCheck;
-  bool thereIsOtherAnimalsInHouse;
   bool alreadyHadAnimalsLikeThat;
   bool haveMoneyEnoughToCare;
   List? referencesContacts;
   bool haveTimeFreeToCare;
+  bool liveInAnApartment;
   String interestedBreed;
   String interestedType;
-  bool liveInAnApartment;
+  String? haveChildren;
   String maritalStatus;
-  int? howManyChildren;
-  int? howManyAnimals;
   String? profission;
-  bool haveChildren;
-  bool liveInHouse;
+  String? houseType;
   String? fullName;
   String? address;
   String? reason;
   bool haveYard;
   String? phone;
   String? email;
-  String age;
   String? uid;
+  String age;
 }
