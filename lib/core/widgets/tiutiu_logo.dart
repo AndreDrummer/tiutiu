@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 class TiutiuLogo extends StatelessWidget {
   const TiutiuLogo({
     this.horizontal = false,
+    this.spaceBetween,
     this.imageHeight,
     this.imageWidth,
     this.textHeight,
@@ -14,6 +15,7 @@ class TiutiuLogo extends StatelessWidget {
     super.key,
   });
 
+  final double? spaceBetween;
   final double? imageHeight;
   final double? textHeight;
   final double? imageWidth;
@@ -34,8 +36,8 @@ class TiutiuLogo extends StatelessWidget {
         ),
       ),
       SizedBox(
-        height: horizontal ? 0.0 : 8.0.h,
-        width: horizontal ? 8.0.w : 0.0,
+        height: horizontal ? 0.0 : spaceBetween ?? 8.0.h,
+        width: horizontal ? spaceBetween ?? 8.0.w : 0.0,
       ),
       SizedBox(
         height: textHeight ?? 16.0.h,
