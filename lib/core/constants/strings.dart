@@ -432,6 +432,8 @@ class GreetingStrings {
 }
 
 class AdoptionFormStrings {
+  static const String aboutForm =
+      'Gere ou compartilhe um formulário de adoção em formato PDF ou em formato de mensagens no WhatsApp em poucos segundos.';
   static const String onlyAnwerWhatYouWant = 'Só responda às perguntas que se sentir confortável em responder.';
   static const String allQuestionsAreOptionals = 'Todas as questões são opcionais.';
   static const String backgroundInfo = 'Verificação de antecedentes e contatos';
