@@ -50,6 +50,8 @@ class SystemController extends GetxController {
   Future<void> loadApp() async {
     try {
       _systemProperties(properties.copyWith(isLoading: true));
+      PackageInfo packageInfo = await PackageInfo.fromPlatform();
+      _systemProperties(properties.copyWith(runningVersion: packageInfo.version));
 
       await getInitialEndpoints();
       await StatesAndCities.stateAndCities.getUFAndCities();
@@ -59,15 +61,11 @@ class SystemController extends GetxController {
       await postsController.getAllPosts();
       await _getAdMobIDs();
 
-      PackageInfo packageInfo = await PackageInfo.fromPlatform();
-      _systemProperties(properties.copyWith(runningVersion: packageInfo.version));
-
       await handleFDLOpensApp();
-
-      _systemProperties(properties.copyWith(isLoading: false));
 
       adminRemoteConfigController.onAdminRemoteConfigsChange();
       handleFDLOnForeground();
+      _systemProperties(properties.copyWith(isLoading: false));
     } on Exception catch (exception) {
       crashlyticsController.reportAnError(
         message: 'App Initialization Exception: $exception',

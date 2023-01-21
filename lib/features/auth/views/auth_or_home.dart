@@ -1,3 +1,4 @@
+import 'package:tiutiu/core/system/views/loading_start_screen.dart';
 import 'package:tiutiu/features/auth/views/start_screen_or_home.dart';
 import 'package:tiutiu/core/extensions/string_extension.dart';
 import 'package:tiutiu/features/posts/views/post_detail.dart';
@@ -42,6 +43,7 @@ class _AuthOrHomeState extends State<AuthOrHome> {
       builder: (_, AsyncSnapshot snapshot) {
         return AsyncHandler(
           errorMessage: AppStrings.authError,
+          loadingWidget: SplashScreenLoading(),
           onErrorCallback: () async {
             await authController.signOut().then((_) {
               Get.offAllNamed(Routes.home);
