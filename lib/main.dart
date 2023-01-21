@@ -3,7 +3,6 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
-import 'package:tiutiu/core/system/views/loading_start_screen.dart';
 import 'package:tiutiu/core/utils/routes/routes_name.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
@@ -14,9 +13,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
-import 'package:tiutiu/features/adption_form.dart/views/flow/3_pet_info.dart';
-import 'package:tiutiu/features/adption_form.dart/views/form_flow.dart';
-import 'package:tiutiu/features/adption_form.dart/views/info_about_form.dart';
 import 'firebase_options.dart';
 import 'package:get/get.dart';
 import 'dart:async';
@@ -175,10 +171,9 @@ class _TiuTiuAppState extends State<TiuTiuApp> {
           primarySwatch: AppColors.secondary,
           primaryColor: AppColors.primary,
         ),
-        // onGenerateRoute: RouterGenerator.onGenerateRoute,
-        home: AdoptionFormFlow(),
+        onGenerateRoute: RouterGenerator.onGenerateRoute,
         debugShowCheckedModeBanner: false,
-        // initialRoute: Routes.root,
+        initialRoute: Routes.root,
       ),
     );
   }
