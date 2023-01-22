@@ -18,22 +18,20 @@ class HouseInfo extends StatefulWidget {
 class _HouseInfoState extends State<HouseInfo> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Obx(
-        () {
-          return ListView(
-            padding: EdgeInsets.symmetric(horizontal: 8.0.h),
-            children: [
-              SizedBox(height: 16.0.h),
-              _houseType(),
-              SizedBox(height: 8.0.w),
-              _haveYard(),
-              _haveChildren(),
-              _haveOthersAnaimals(),
-            ],
-          );
-        },
-      ),
+    return Obx(
+      () {
+        return ListView(
+          padding: EdgeInsets.symmetric(horizontal: 8.0.h),
+          children: [
+            SizedBox(height: 16.0.h),
+            _houseType(),
+            SizedBox(height: 8.0.w),
+            _haveYard(),
+            _haveChildren(),
+            _haveOthersAnaimals(),
+          ],
+        );
+      },
     );
   }
 
@@ -41,7 +39,11 @@ class _HouseInfoState extends State<HouseInfo> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        AutoSizeTexts.autoSizeText14(AdoptionFormQuestionsStrings.houseType, fontWeight: FontWeight.w600),
+        AutoSizeTexts.autoSizeText14(
+          AdoptionFormQuestionsStrings.houseType,
+          color: AppColors.black.withOpacity(.5),
+          fontWeight: FontWeight.w600,
+        ),
         SizedBox(height: 8.0.h),
         OutlinedInputText(
           textColor: AppColors.black.withOpacity(.5),
@@ -65,6 +67,7 @@ class _HouseInfoState extends State<HouseInfo> {
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 0.0.h),
           child: AutoSizeTexts.autoSizeText16(
+            color: AppColors.black.withOpacity(.5),
             AdoptionFormQuestionsStrings.haveYard,
             fontWeight: FontWeight.w600,
           ),
@@ -108,7 +111,11 @@ class _HouseInfoState extends State<HouseInfo> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        AutoSizeTexts.autoSizeText14(AdoptionFormQuestionsStrings.haveChildren, fontWeight: FontWeight.w600),
+        AutoSizeTexts.autoSizeText14(
+          AdoptionFormQuestionsStrings.haveChildren,
+          color: AppColors.black.withOpacity(.5),
+          fontWeight: FontWeight.w600,
+        ),
         SizedBox(height: 8.0.h),
         TextArea(
           labelText: '',
@@ -128,7 +135,11 @@ class _HouseInfoState extends State<HouseInfo> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        AutoSizeTexts.autoSizeText14(AdoptionFormQuestionsStrings.haveAnimals, fontWeight: FontWeight.w600),
+        AutoSizeTexts.autoSizeText14(
+          AdoptionFormQuestionsStrings.haveAnimals,
+          color: AppColors.black.withOpacity(.5),
+          fontWeight: FontWeight.w600,
+        ),
         SizedBox(height: 8.0.h),
         TextArea(
           maxLines: 2,

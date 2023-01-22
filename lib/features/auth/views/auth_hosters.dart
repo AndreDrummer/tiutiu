@@ -1,6 +1,6 @@
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/features/auth/widgets/headline.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/utils/routes/routes_name.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/views/load_dark_screen.dart';
@@ -27,6 +27,7 @@ class AuthHosters extends StatelessWidget with TiuTiuPopUp {
           _backgroundImage(),
           _gradient(),
           _appLogo(),
+          _adoptionForm(),
           Positioned(
             bottom: 48.0.h,
             left: 8.0,
@@ -87,6 +88,34 @@ class AuthHosters extends StatelessWidget with TiuTiuPopUp {
       child: SizedBox(
         child: TiutiuLogo(),
         width: Get.width,
+      ),
+    );
+  }
+
+  Positioned _adoptionForm() {
+    return Positioned(
+      top: 168.0.h,
+      right: 10,
+      child: TextButton(
+        style: TextButton.styleFrom(
+          foregroundColor: AppColors.white,
+          disabledForegroundColor: Colors.grey,
+          padding: EdgeInsets.zero,
+        ),
+        onPressed: () {
+          Get.toNamed(Routes.infoAdoptionForm);
+        },
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Icon(Icons.list_alt_outlined, color: AppColors.white, size: 16.0.h),
+            SizedBox(width: 8.0.w),
+            AutoSizeTexts.autoSizeText12(
+              AdoptionFormStrings.adoptionForm,
+              color: AppColors.white,
+            ),
+          ],
+        ),
       ),
     );
   }
