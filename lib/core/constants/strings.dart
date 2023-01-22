@@ -443,6 +443,7 @@ class AdoptionFormStrings {
   static const String referenceContacts = 'Contatos de referência';
   static const String personalInfo = 'Informações Pessoais';
   static const String adoptionForm = 'Formulário de adoção';
+  static const String formPdfName = 'Formulário de Adoção';
   static const String houseInfo = 'Sobre sua residência';
   static const String petInfo = 'Sobre o animal';
   static const String update = 'Atualizar';

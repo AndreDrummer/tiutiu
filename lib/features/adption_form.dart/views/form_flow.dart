@@ -88,7 +88,7 @@ class AdoptionFormFlow extends StatelessWidget with TiuTiuPopUp {
                     confirmText: 'Compartilhar',
                     secondaryAction: () {
                       Get.back();
-                      adoptionFormController.shareForm();
+                      // adoptionFormController.shareForm();
                     },
                     mainAction: () {
                       Get.back();
