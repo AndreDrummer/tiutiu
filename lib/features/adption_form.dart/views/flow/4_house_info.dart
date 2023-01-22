@@ -55,6 +55,7 @@ class _HouseInfoState extends State<HouseInfo> {
             );
           },
           fontSize: 14,
+          maxLength: 76,
         ),
       ],
     );
@@ -119,6 +120,7 @@ class _HouseInfoState extends State<HouseInfo> {
         SizedBox(height: 8.0.h),
         TextArea(
           labelText: '',
+          maxLength: 76,
           maxLines: 2,
           initialValue: adoptionFormController.adoptionForm.haveChildren,
           onChanged: (value) {
@@ -143,6 +145,7 @@ class _HouseInfoState extends State<HouseInfo> {
         SizedBox(height: 8.0.h),
         TextArea(
           maxLines: 2,
+          maxLength: 76,
           labelText: '',
           initialValue: adoptionFormController.adoptionForm.thereIsOtherAnimalsInHouse,
           onChanged: (value) {
