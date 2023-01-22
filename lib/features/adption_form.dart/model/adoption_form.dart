@@ -1,3 +1,5 @@
+import 'package:tiutiu/core/constants/strings.dart';
+import 'package:tiutiu/core/extensions/string_extension.dart';
 import 'package:uuid/uuid.dart';
 
 enum AdoptionFormEnum {
@@ -166,6 +168,11 @@ class AdoptionForm {
       AdoptionFormEnum.email.name: email,
       AdoptionFormEnum.age.name: age,
     };
+  }
+
+  @override
+  String toString() {
+    return '*FORMULÁRIO DE ADOÇÃO*\n\nGerado com ❤️ por Anja Solutions\nAcesse: https://anjasolutions.com/tiutiu\n\n*Informações pessoais*\n\nNome completo: ${fullName.isNotEmptyNeighterNull() ? fullName : 'Não Informado'}\n\nEndereço:\nR: ${address.isNotEmptyNeighterNull() ? address : 'Não Informado'}\n\nTelefone: ${phone.isNotEmptyNeighterNull() ? phone : 'Não Informado'}\n\nEmail: ${email.isNotEmptyNeighterNull() ? email : 'Não Informado'}\n\nIdade: ${age.isNotEmptyNeighterNull() ? age : 'Não Informado'}\n\nEstado Civil: ${maritalStatus.isNotEmptyNeighterNull() ? maritalStatus : 'Não Informado'}\n\nProfissão: ${profission.isNotEmptyNeighterNull() ? profission : 'Não Informado'}\n\n*Informações sobre o animal*\n\nQual tipo de animal você está interessado em adotar?\nR: ${interestedType.isNotEmptyNeighterNull() ? interestedType : 'Não Informado'}\n\nDe qual ${interestedType == PetTypeStrings.bird ? 'espécie' : 'raça'}?\nR: ${interestedBreed.isNotEmptyNeighterNull() ? interestedBreed : 'Não Informado'}\n\nPor que você quer adotar esse animal em particular?\nR: ${reason.isNotEmptyNeighterNull() ? reason : 'Não Informado'}\n\nVocê tem experiência com animais desse tipo?\nR: ${alreadyHadAnimalsLikeThat.isNotEmptyNeighterNull() ? alreadyHadAnimalsLikeThat : 'Não Informado'}\n\n*Informações sobre sua residência*\n\nQual é o seu tipo de imóvel? (casa, apartamento)\nR: ${houseType.isNotEmptyNeighterNull() ? houseType : 'Não Informado'}\n\nVocê tem quintal?\nR: ${haveYard ? 'Sim' : 'Não'}\n\nVocê tem crianças? Se sim, quantas e idades\nR: ${haveChildren.isNotEmptyNeighterNull() ? haveChildren : 'Não Informado'}\n\nVocê tem outros animais em casa? Se sim, quais e quantos\nR: ${thereIsOtherAnimalsInHouse.isNotEmptyNeighterNull() ? thereIsOtherAnimalsInHouse : 'Não Informado'}\n\n*Informações sobre seu tempo e recursos financeiros*\n\nVocê tem tempo suficiente para cuidar de um animal?\nR: ${haveTimeFreeToCare ? 'Sim' : 'Não'}\n\nVocê tem recursos financeiros para cuidar de um animal? (ração, vacinação, consultas veterinárias)\nR: ${haveMoneyEnoughToCare ? 'Sim' : 'Não'}\n\n*Informações sobre verificação de antecedentes*\n\nAceita passar por uma verificação de antecedentes?\nR: ${availableForBackgroundCheck ? 'Sim' : 'Não'}\n\nPermite entrar em contato com contato  de referências?\nR: ${allowContactWithYourReferences ? 'Sim' : 'Não'}\n\n';
   }
 
   bool allowContactWithYourReferences;

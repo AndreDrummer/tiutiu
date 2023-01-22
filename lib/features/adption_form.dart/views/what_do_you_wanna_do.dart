@@ -33,7 +33,7 @@ class WhatDoYouWannaDo extends StatelessWidget {
               text: 'Editar',
               icon: Icons.edit,
               onTap: () async {
-                await adoptionFormController.loadFormToUpdate();
+                await adoptionFormController.loadForm();
                 Get.toNamed(Routes.adoptionForm);
               },
             ),
@@ -41,7 +41,9 @@ class WhatDoYouWannaDo extends StatelessWidget {
             CustomListTile(
               text: 'Compartilhar',
               icon: Icons.share,
-              onTap: () {},
+              onTap: () {
+                adoptionFormController.shareForm();
+              },
             ),
           ],
         ),
