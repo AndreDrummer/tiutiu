@@ -231,6 +231,7 @@ class PostDetailsStrings {
   static String get videoPlayerError => 'Erro ao reproduzir o video';
   static String get describBreed => 'Escreva o nome da raça';
   static String get petDisappeared => 'PET\nDesaparecido';
+  static String get selectSpecie => 'Selecione a espécie';
   static String get caracteristics => 'Características';
   static String get selectBreed => 'Selecione a raça';
   static String get hermaphrodite => 'Hermafrodita';
