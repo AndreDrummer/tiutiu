@@ -1,9 +1,16 @@
-import 'package:tiutiu/core/utils/routes/routes_name.dart';
+import 'package:tiutiu/core/constants/assets_path.dart';
 import 'package:tiutiu/features/adption_form.dart/repository/adoption_form_repository.dart';
 import 'package:tiutiu/features/adption_form.dart/model/adoption_form.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:tiutiu/core/utils/routes/routes_name.dart';
 import 'package:tiutiu/core/constants/strings.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:pdf/widgets.dart' as pw;
+import 'package:flutter/services.dart';
+import 'package:pdf/pdf.dart';
 import 'package:get/get.dart';
+import 'dart:io';
 
 const int _STEPS_QTY = 5;
 
@@ -67,22 +74,115 @@ class AdoptionFormController extends GetxController {
     return form != null;
   }
 
-  Future<void> shareForm() async {
+  Future<void> loadForm() async {
+    final form = await _adoptionFormRepository.getForm();
+    _adoptionForm(form);
+    _isEditing(true);
+  }
+
+  Future<void> shareFormText() async {
     await loadForm();
     await Share.share(adoptionForm.toString());
     Get.offNamedUntil(Routes.home, (route) => route.settings.name == Routes.home);
     resetForm();
   }
 
-  Future<void> shareEmptyForm() async {
-    await Share.share(adoptionForm.toEmpty());
+  Future<void> shareEmptyFormText() async {
+    await Share.share(adoptionForm.toStringEmpty());
     Get.offNamedUntil(Routes.home, (route) => route.settings.name == Routes.home);
   }
 
-  Future<void> loadForm() async {
-    final form = await _adoptionFormRepository.getForm();
-    _adoptionForm(form);
-    _isEditing(true);
+  Future<void> shareFormPDF() async {
+    await loadForm();
+    await _generateFormPDF(part1: adoptionForm.toPDFPart1(), part2: adoptionForm.toPDFPart2());
+    resetForm();
+    Get.offNamedUntil(Routes.home, (route) => route.settings.name == Routes.home);
+  }
+
+  Future<void> shareEmptyFormPDF() async {
+    await _generateFormPDF(
+      part1: adoptionForm.toPDFPart1Empty(),
+      part2: adoptionForm.toPDFPart2Empty(),
+      isEmptyForm: true,
+    );
+  }
+
+  Future<void> _generateFormPDF({required String part1, required String part2, bool isEmptyForm = false}) async {
+    final pdf = pw.Document();
+
+    final image = pw.MemoryImage(
+      (await rootBundle.load(ImageAssets.pdfWaterMark)).buffer.asUint8List(),
+    );
+
+    pdf.addPage(
+      pw.Page(
+        pageFormat: PdfPageFormat.a4,
+        build: (pw.Context context) {
+          return pw.Transform.scale(
+            scale: 1.1,
+            child: pw.Stack(
+              children: [
+                pw.Positioned(
+                  bottom: Get.height * (isEmptyForm ? .80 : .65),
+                  right: 0,
+                  child: pw.Opacity(
+                    opacity: .5,
+                    child: pw.Container(
+                      height: 48.0.h,
+                      width: 48.0.h,
+                      child: pw.Image(
+                        image,
+                        fit: pw.BoxFit.contain,
+                      ),
+                    ),
+                  ),
+                ),
+                pw.Text(part1),
+              ],
+            ),
+          );
+        },
+      ),
+    );
+
+    pdf.addPage(
+      pw.Page(
+        pageFormat: PdfPageFormat.a4,
+        build: (pw.Context context) {
+          return pw.Transform.scale(
+            scale: 1.1,
+            child: pw.Stack(
+              children: [
+                pw.Positioned(
+                  bottom: Get.width / (isEmptyForm ? 1.6 : 1.75),
+                  right: isEmptyForm ? 136.0.w : 32.0.w,
+                  child: pw.Opacity(
+                    opacity: .5,
+                    child: pw.Container(
+                      height: 48.0.h,
+                      width: 48.0.h,
+                      child: pw.Image(
+                        image,
+                        fit: pw.BoxFit.contain,
+                      ),
+                    ),
+                  ),
+                ),
+                pw.Text(part2),
+              ],
+            ),
+          );
+        },
+      ),
+    );
+
+    String dir = (await getTemporaryDirectory()).path;
+
+    File pdfFile = File('$dir/${AdoptionFormStrings.formPdfName}${isEmptyForm ? ' (Vazio)' : ''}.pdf');
+
+    await pdfFile.writeAsBytes(await pdf.save());
+
+    await Share.shareXFiles([XFile(pdfFile.path)]);
   }
 
   final List<String> formStepsTitle = [
