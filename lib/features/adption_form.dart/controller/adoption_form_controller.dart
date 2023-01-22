@@ -1,6 +1,8 @@
+import 'package:tiutiu/core/utils/routes/routes_name.dart';
 import 'package:tiutiu/features/adption_form.dart/repository/adoption_form_repository.dart';
 import 'package:tiutiu/features/adption_form.dart/model/adoption_form.dart';
 import 'package:tiutiu/core/constants/strings.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:get/get.dart';
 
 const int _STEPS_QTY = 5;
@@ -65,7 +67,14 @@ class AdoptionFormController extends GetxController {
     return form != null;
   }
 
-  Future<void> loadFormToUpdate() async {
+  Future<void> shareForm() async {
+    await loadForm();
+    await Share.share(adoptionForm.toString());
+    Get.offNamedUntil(Routes.home, (route) => route.settings.name == Routes.home);
+    resetForm();
+  }
+
+  Future<void> loadForm() async {
     final form = await _adoptionFormRepository.getForm();
     _adoptionForm(form);
     _isEditing(true);
