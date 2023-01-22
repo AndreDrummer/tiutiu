@@ -1,12 +1,12 @@
-import 'package:get/get.dart';
-import 'package:tiutiu/core/utils/routes/routes_name.dart';
 import 'package:tiutiu/features/admob/constants/admob_block_names.dart';
 import 'package:tiutiu/core/widgets/default_basic_app_bar.dart';
 import 'package:tiutiu/features/admob/widgets/ad_banner.dart';
+import 'package:tiutiu/core/utils/routes/routes_name.dart';
 import 'package:tiutiu/core/widgets/custom_list_tile.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/widgets/one_line_text.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class WhatDoYouWannaDo extends StatelessWidget {
   const WhatDoYouWannaDo({super.key});
@@ -32,10 +32,17 @@ class WhatDoYouWannaDo extends StatelessWidget {
             _myForm(),
             Divider(),
             CustomListTile(
-              text: 'Gerar e compartilhar um formulário vazio',
-              icon: Icons.share_outlined,
-              onTap: () {
-                adoptionFormController.shareEmptyForm();
+              text: 'Gerar e compartilhar um formulário vazio (Texto)',
+              icon: Icons.file_open_outlined,
+              onTap: () async {
+                await adoptionFormController.shareEmptyFormText();
+              },
+            ),
+            CustomListTile(
+              text: 'Gerar e compartilhar um formulário vazio (PDF)',
+              icon: Icons.picture_as_pdf_outlined,
+              onTap: () async {
+                await adoptionFormController.shareEmptyFormPDF();
               },
             ),
           ],
@@ -53,10 +60,17 @@ class WhatDoYouWannaDo extends StatelessWidget {
           child: Column(
             children: [
               CustomListTile(
-                text: 'Compartilhar meu formulário',
+                text: 'Compartilhar meu formulário (Texto)',
+                icon: Icons.text_snippet_outlined,
+                onTap: () async {
+                  await adoptionFormController.shareFormText();
+                },
+              ),
+              CustomListTile(
+                text: 'Compartilhar meu formulário (PDF)',
                 icon: Icons.share,
-                onTap: () {
-                  adoptionFormController.shareForm();
+                onTap: () async {
+                  await adoptionFormController.shareFormPDF();
                 },
               ),
               Divider(),
