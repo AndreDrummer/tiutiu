@@ -31,7 +31,6 @@ class JsonAssets {
 
 class AnimationsAssets {
   static const catLookingAround = 'assets/animations/cat_looking_around.json';
-  static const alert = 'assets/animations/disappeared_pet.json';
   static const petLocationPin = 'assets/animations/pet_pin_location.json';
   static const walkWithDog = 'assets/animations/walk_with_dog.json';
   static const pawLoading2 = 'assets/animations/paw_loading_2.json';
@@ -43,4 +42,5 @@ class AnimationsAssets {
   static const dogLoading = 'assets/animations/dog_loading.json';
   static const dogWalking = 'assets/animations/dog_walking.json';
   static const pawLoading = 'assets/animations/paw_loading.json';
+  static const alert = 'assets/animations/disappeared_pet.json';
 }

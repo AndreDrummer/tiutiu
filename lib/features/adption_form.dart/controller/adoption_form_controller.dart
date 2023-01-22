@@ -74,6 +74,11 @@ class AdoptionFormController extends GetxController {
     resetForm();
   }
 
+  Future<void> shareEmptyForm() async {
+    await Share.share(adoptionForm.toEmpty());
+    Get.offNamedUntil(Routes.home, (route) => route.settings.name == Routes.home);
+  }
+
   Future<void> loadForm() async {
     final form = await _adoptionFormRepository.getForm();
     _adoptionForm(form);
