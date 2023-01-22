@@ -3,6 +3,7 @@ import 'package:tiutiu/features/posts/widgets/text_area.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/constants/text_styles.dart';
+import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/core/constants/strings.dart';
 import 'package:tiutiu/core/data/dummy_data.dart';
 import 'package:flutter/material.dart';
@@ -18,29 +19,28 @@ class PetInfo extends StatefulWidget {
 class _PetInfoState extends State<PetInfo> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Obx(
-        () {
-          return ListView(
-            padding: EdgeInsets.symmetric(horizontal: 8.0.h),
-            children: [
-              SizedBox(height: 16.0.h),
-              petType(),
-              SizedBox(height: 8.0.h),
-              _petBreed(),
-              SizedBox(height: 16.0.w),
-              _petExperience(),
-              SizedBox(height: 8.0.h),
-              _reason(),
-            ],
-          );
-        },
-      ),
+    return Obx(
+      () {
+        return ListView(
+          padding: EdgeInsets.symmetric(horizontal: 8.0.h),
+          children: [
+            SizedBox(height: 16.0.h),
+            petType(),
+            SizedBox(height: 8.0.h),
+            _petBreed(),
+            SizedBox(height: 16.0.w),
+            _petExperience(),
+            SizedBox(height: 8.0.h),
+            _reason(),
+          ],
+        );
+      },
     );
   }
 
   UnderlineInputDropdown petType() {
     return UnderlineInputDropdown(
+      color: AppColors.black.withOpacity(.5),
       labelBold: true,
       initialValue: adoptionFormController.adoptionForm.interestedType,
       onChanged: (type) {
@@ -59,6 +59,7 @@ class _PetInfoState extends State<PetInfo> {
 
   UnderlineInputDropdown _petBreed() {
     return UnderlineInputDropdown(
+      color: AppColors.black.withOpacity(.5),
       labelBold: true,
       initialValue: adoptionFormController.adoptionForm.interestedBreed,
       onChanged: (breed) {
@@ -79,6 +80,7 @@ class _PetInfoState extends State<PetInfo> {
           padding: EdgeInsets.symmetric(horizontal: 8.0.h),
           child: AutoSizeTexts.autoSizeText16(
             'Você tem experiência com esse tipo de animal?',
+            color: AppColors.black.withOpacity(.5),
             fontWeight: FontWeight.w600,
           ),
         ),
@@ -124,6 +126,7 @@ class _PetInfoState extends State<PetInfo> {
         children: [
           AutoSizeTexts.autoSizeText16(
             'Por que você quer adotar esse animal em particular?',
+            color: AppColors.black.withOpacity(.5),
             fontWeight: FontWeight.w600,
           ),
           SizedBox(height: 8.0.h),

@@ -263,7 +263,7 @@ class MoreStrings {
 }
 
 class MyProfileOptionsTile {
-  static const String fillAdoptioinForm = 'Preencher Formulário de adoção';
+  static const String fillAdoptioinForm = 'Preencher Formulário de Adoção';
   static const String deleteAccount = 'Deletar minha conta';
   static const String about = 'Sobre o aplicativo';
   static const String myPosts = 'Minhas Postagens';
@@ -433,7 +433,8 @@ class GreetingStrings {
 
 class AdoptionFormStrings {
   static const String aboutForm =
-      'Gere ou compartilhe um formulário de adoção em formato PDF ou em formato de mensagens no WhatsApp em poucos segundos.';
+      'Gere e compartilhe um formulário de adoção em formato PDF ou em formato de mensagens do WhatsApp em poucos segundos.';
+  static const String youDontNeedAnAccount = 'Você não precisa de ter uma conta e pode acessar sempre que quiser.';
   static const String onlyAnwerWhatYouWant = 'Só responda às perguntas que se sentir confortável em responder.';
   static const String allQuestionsAreOptionals = 'Todas as questões são opcionais.';
   static const String backgroundInfo = 'Verificação de antecedentes e contatos';
@@ -445,6 +446,7 @@ class AdoptionFormStrings {
   static const String petInfo = 'Sobre o animal';
   static const String update = 'Atualizar';
   static const String start = 'Iniciar';
+  static const String note = 'Nota';
 }
 
 class AdoptionFormQuestionsStrings {

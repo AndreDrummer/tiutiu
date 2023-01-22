@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:uuid/uuid.dart';
 
 enum AdoptionFormEnum {
@@ -56,35 +55,6 @@ class AdoptionForm {
     this.email,
     this.uid,
   });
-
-  factory AdoptionForm.fromSnapshot(DocumentSnapshot snapshot) {
-    return AdoptionForm(
-      allowContactWithYourReferences: snapshot.get(AdoptionFormEnum.allowContactWithYourReferences.name),
-      availableForBackgroundCheck: snapshot.get(AdoptionFormEnum.availableForBackgroundCheck.name),
-      thereIsOtherAnimalsInHouse: snapshot.get(AdoptionFormEnum.thereIsOtherAnimalsInHouse.name),
-      alreadyHadAnimalsLikeThat: snapshot.get(AdoptionFormEnum.alreadyHadAnimalsLikeThat.name),
-      haveMoneyEnoughToCare: snapshot.get(AdoptionFormEnum.haveMoneyEnoughToCare.name),
-      haveTimeFreeToCare: snapshot.get(AdoptionFormEnum.haveTimeFreeToCare.name),
-      referenceContact1: snapshot.get(AdoptionFormEnum.referenceContact1.name),
-      referenceContact2: snapshot.get(AdoptionFormEnum.referenceContact2.name),
-      referenceContact3: snapshot.get(AdoptionFormEnum.referenceContact3.name),
-      liveInAnApartment: snapshot.get(AdoptionFormEnum.liveInAnApartment.name),
-      interestedBreed: snapshot.get(AdoptionFormEnum.interestedBreed.name),
-      interestedType: snapshot.get(AdoptionFormEnum.interestedType.name),
-      maritalStatus: snapshot.get(AdoptionFormEnum.maritalStatus.name),
-      haveChildren: snapshot.get(AdoptionFormEnum.haveChildren.name),
-      uid: snapshot.get(AdoptionFormEnum.uid.name) ?? Uuid().v4(),
-      profission: snapshot.get(AdoptionFormEnum.profission.name),
-      houseType: snapshot.get(AdoptionFormEnum.houseType.name),
-      fullName: snapshot.get(AdoptionFormEnum.fullName.name),
-      haveYard: snapshot.get(AdoptionFormEnum.haveYard.name),
-      address: snapshot.get(AdoptionFormEnum.address.name),
-      reason: snapshot.get(AdoptionFormEnum.reason.name),
-      email: snapshot.get(AdoptionFormEnum.email.name),
-      phone: snapshot.get(AdoptionFormEnum.phone.name),
-      age: snapshot.get(AdoptionFormEnum.age.name),
-    );
-  }
 
   factory AdoptionForm.fromMap(Map<String, dynamic> map) {
     return AdoptionForm(
