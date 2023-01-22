@@ -19,22 +19,20 @@ class PersonalInfo extends StatefulWidget {
 class _PersonalInfoState extends State<PersonalInfo> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Obx(
-        () {
-          return ListView(
-            padding: EdgeInsets.symmetric(horizontal: 8.0.h),
-            children: [
-              _fullname(),
-              _address(),
-              phone(),
-              email(),
-              _ageAndMaritalStatus(),
-              _profission(),
-            ],
-          );
-        },
-      ),
+    return Obx(
+      () {
+        return ListView(
+          padding: EdgeInsets.symmetric(horizontal: 8.0.h),
+          children: [
+            _fullname(),
+            _address(),
+            phone(),
+            email(),
+            _ageAndMaritalStatus(),
+            _profission(),
+          ],
+        );
+      },
     );
   }
 
@@ -111,6 +109,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
         children: [
           Expanded(
             child: UnderlineInputDropdown(
+              color: AppColors.black.withOpacity(.5),
               onChanged: (anos) {
                 adoptionFormController.setAdoptionForm(
                   adoptionFormController.adoptionForm.copyWith(age: anos),
@@ -125,6 +124,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
           ),
           Expanded(
             child: UnderlineInputDropdown(
+              color: AppColors.black.withOpacity(.5),
               onChanged: (maritalStatus) {
                 adoptionFormController.setAdoptionForm(
                   adoptionFormController.adoptionForm.copyWith(maritalStatus: maritalStatus),

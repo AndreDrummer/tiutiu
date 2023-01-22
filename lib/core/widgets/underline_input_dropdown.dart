@@ -12,6 +12,7 @@ class UnderlineInputDropdown extends StatelessWidget {
     this.labelBold = false,
     required this.items,
     this.fontSize,
+    this.color,
     super.key,
   });
 
@@ -22,6 +23,7 @@ class UnderlineInputDropdown extends StatelessWidget {
   final double? fontSize;
   final String labelText;
   final bool labelBold;
+  final Color? color;
 
   @override
   Widget build(BuildContext context) {
@@ -33,28 +35,28 @@ class UnderlineInputDropdown extends StatelessWidget {
           AutoSizeTexts.autoSizeText26(
             fontWeight: labelBold ? FontWeight.w600 : null,
             fontSize: fontSize ?? 24.0,
-            color: AppColors.black,
+            color: color ?? AppColors.black,
             labelText,
           ),
           DropdownButton<String>(
             underline: Container(
-              color: isInErrorState ? AppColors.danger : AppColors.black,
+              color: isInErrorState ? AppColors.danger : color ?? AppColors.black,
               height: 0.5,
             ),
             onChanged: onChanged,
             icon: Icon(
               Icons.keyboard_arrow_down,
-              color: isInErrorState ? AppColors.danger : AppColors.black,
+              color: isInErrorState ? AppColors.danger : color ?? AppColors.black,
             ),
             isExpanded: true,
             value: initialValue,
-            iconEnabledColor: AppColors.black,
+            iconEnabledColor: color ?? AppColors.black,
             selectedItemBuilder: (_) => items
                 .map<DropdownMenuItem<String>>(
                   (e) => DropdownMenuItem<String>(
                     child: AutoSizeTexts.autoSizeText18(
                       e,
-                      color: AppColors.black,
+                      color: color ?? AppColors.black,
                     ),
                     value: e,
                   ),
@@ -63,7 +65,7 @@ class UnderlineInputDropdown extends StatelessWidget {
             items: items
                 .map<DropdownMenuItem<String>>(
                   (e) => DropdownMenuItem<String>(
-                    child: AutoSizeTexts.autoSizeText18(e, color: AppColors.black),
+                    child: AutoSizeTexts.autoSizeText18(e, color: color ?? AppColors.black),
                     value: e,
                   ),
                 )

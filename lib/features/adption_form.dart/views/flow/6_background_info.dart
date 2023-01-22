@@ -1,6 +1,7 @@
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/constants/text_styles.dart';
+import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/core/constants/strings.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -15,20 +16,18 @@ class BackgroundInfo extends StatefulWidget {
 class _BackgroundInfoState extends State<BackgroundInfo> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Obx(
-        () {
-          return ListView(
-            padding: EdgeInsets.symmetric(horizontal: 8.0.h),
-            children: [
-              SizedBox(height: 16.0.h),
-              _availabletoAnswerAboutBackground(),
-              SizedBox(height: 8.0.w),
-              _allowEnterInContact(),
-            ],
-          );
-        },
-      ),
+    return Obx(
+      () {
+        return ListView(
+          padding: EdgeInsets.symmetric(horizontal: 8.0.h),
+          children: [
+            SizedBox(height: 16.0.h),
+            _availabletoAnswerAboutBackground(),
+            SizedBox(height: 8.0.w),
+            _allowEnterInContact(),
+          ],
+        );
+      },
     );
   }
 
@@ -40,6 +39,7 @@ class _BackgroundInfoState extends State<BackgroundInfo> {
           padding: EdgeInsets.symmetric(horizontal: 0.0.h),
           child: AutoSizeTexts.autoSizeText16(
             AdoptionFormQuestionsStrings.allowCheckBackground,
+            color: AppColors.black.withOpacity(.5),
             fontWeight: FontWeight.w600,
           ),
         ),
@@ -86,6 +86,7 @@ class _BackgroundInfoState extends State<BackgroundInfo> {
           padding: EdgeInsets.symmetric(horizontal: 0.0.h),
           child: AutoSizeTexts.autoSizeText16(
             AdoptionFormQuestionsStrings.allowGetInContatactWithReferences,
+            color: AppColors.black.withOpacity(.5),
             fontWeight: FontWeight.w600,
           ),
         ),
