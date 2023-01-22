@@ -18,15 +18,13 @@ class ReferenceContacts extends StatefulWidget {
 class _ReferenceContactsState extends State<ReferenceContacts> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Obx(
-        () {
-          return ListView(
-            padding: EdgeInsets.symmetric(horizontal: 8.0.h),
-            children: [phone1(), phone2(), phone3()],
-          );
-        },
-      ),
+    return Obx(
+      () {
+        return ListView(
+          padding: EdgeInsets.symmetric(horizontal: 8.0.h),
+          children: [phone1(), phone2(), phone3()],
+        );
+      },
     );
   }
 
@@ -40,10 +38,10 @@ class _ReferenceContactsState extends State<ReferenceContacts> {
         FilteringTextInputFormatter.digitsOnly,
         TelefoneInputFormatter(),
       ],
-      initialValue: adoptionFormController.adoptionForm.phone,
+      initialValue: adoptionFormController.adoptionForm.referenceContact1,
       onChanged: (value) {
         adoptionFormController.setAdoptionForm(
-          adoptionFormController.adoptionForm.copyWith(phone: value),
+          adoptionFormController.adoptionForm.copyWith(referenceContact1: value),
         );
       },
       fontSize: 14,
@@ -60,10 +58,10 @@ class _ReferenceContactsState extends State<ReferenceContacts> {
         FilteringTextInputFormatter.digitsOnly,
         TelefoneInputFormatter(),
       ],
-      initialValue: adoptionFormController.adoptionForm.phone,
+      initialValue: adoptionFormController.adoptionForm.referenceContact2,
       onChanged: (value) {
         adoptionFormController.setAdoptionForm(
-          adoptionFormController.adoptionForm.copyWith(phone: value),
+          adoptionFormController.adoptionForm.copyWith(referenceContact2: value),
         );
       },
       fontSize: 14,
@@ -80,10 +78,10 @@ class _ReferenceContactsState extends State<ReferenceContacts> {
         FilteringTextInputFormatter.digitsOnly,
         TelefoneInputFormatter(),
       ],
-      initialValue: adoptionFormController.adoptionForm.phone,
+      initialValue: adoptionFormController.adoptionForm.referenceContact3,
       onChanged: (value) {
         adoptionFormController.setAdoptionForm(
-          adoptionFormController.adoptionForm.copyWith(phone: value),
+          adoptionFormController.adoptionForm.copyWith(referenceContact3: value),
         );
       },
       fontSize: 14,

@@ -32,7 +32,7 @@ class MoreController extends GetxController {
         Get.toNamed(Routes.suportUs);
         break;
       case MyProfileOptionsTile.fillAdoptioinForm:
-        Get.toNamed(Routes.adoptionForm);
+        Get.toNamed(Routes.infoAdoptionForm);
         break;
       case MyProfileOptionsTile.ourNet:
         Get.toNamed(Routes.followUs);
