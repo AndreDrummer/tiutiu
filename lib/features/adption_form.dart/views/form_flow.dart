@@ -1,5 +1,3 @@
-import 'package:tiutiu/core/constants/app_colors.dart';
-import 'package:tiutiu/core/widgets/one_line_text.dart';
 import 'package:tiutiu/features/adption_form.dart/views/flow/2_references_contacts.dart';
 import 'package:tiutiu/features/adption_form.dart/views/flow/6_background_info.dart';
 import 'package:tiutiu/features/adption_form.dart/views/flow/5_financial_info.dart';
@@ -8,13 +6,18 @@ import 'package:tiutiu/features/adption_form.dart/views/flow/4_house_info.dart';
 import 'package:tiutiu/features/adption_form.dart/views/flow/3_pet_info.dart';
 import 'package:tiutiu/core/widgets/default_basic_app_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:tiutiu/core/utils/routes/routes_name.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/widgets/row_button_bar.dart';
+import 'package:tiutiu/core/views/load_dark_screen.dart';
+import 'package:tiutiu/core/widgets/one_line_text.dart';
+import 'package:tiutiu/core/mixins/tiu_tiu_pop_up.dart';
+import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/core/constants/strings.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class AdoptionFormFlow extends StatelessWidget {
+class AdoptionFormFlow extends StatelessWidget with TiuTiuPopUp {
   const AdoptionFormFlow({super.key});
 
   @override
@@ -46,8 +49,9 @@ class AdoptionFormFlow extends StatelessWidget {
                   bottomNavigationBar: _flowBottom(),
                 ),
                 Positioned(
-                  top: 26.0.h,
-                  left: Get.width / 2.5,
+                  right: Get.width / 2.25,
+                  left: Get.width / 2.25,
+                  top: 70.0.h,
                   child: OneLineText(
                     textAlign: TextAlign.center,
                     text: 'Passo ${adoptionFormController.formStep + 1}',
@@ -55,6 +59,9 @@ class AdoptionFormFlow extends StatelessWidget {
                     fontSize: 12.0,
                   ),
                 ),
+                Obx(() {
+                  return LoadDarkScreen(message: 'Salvando formulário', visible: adoptionFormController.isLoading);
+                }),
               ],
             ),
           );
@@ -72,7 +79,27 @@ class AdoptionFormFlow extends StatelessWidget {
             isLoading: adoptionFormController.isLoading,
             buttonSecondaryColor: Colors.grey,
             onPrimaryPressed: () {
-              adoptionFormController.nextStep();
+              if (adoptionFormController.lastStep()) {
+                adoptionFormController.saveForm().then((_) {
+                  showPopUp(
+                    title: AppStrings.success,
+                    message: 'Prontinho, formulário salvo com sucesso! O que deseja fazer?',
+                    denyText: 'Por enquanto é só',
+                    confirmText: 'Compartilhar',
+                    secondaryAction: () {
+                      Get.back();
+                      adoptionFormController.resetForm();
+                    },
+                    mainAction: () {
+                      Get.back();
+                      adoptionFormController.resetForm();
+                      Get.offNamedUntil(Routes.home, (route) => route.settings.name == Routes.home);
+                    },
+                  );
+                });
+              } else {
+                adoptionFormController.nextStep();
+              }
             },
             onSecondaryPressed: () {
               adoptionFormController.previousStep();
