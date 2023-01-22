@@ -47,8 +47,9 @@ class PostDescription extends StatelessWidget {
         onChanged: (breed) {
           postsController.updatePost(PetEnum.breed.name, breed);
         },
+        labelText:
+            '${postsController.post.type == PetTypeStrings.bird ? PostDetailsStrings.selectSpecie : PostDetailsStrings.selectBreed}',
         items: postType == PetTypeStrings.other ? [] : DummyData.breeds[postsController.post.type]!,
-        labelText: PostDetailsStrings.selectBreed,
         fontSize: 12.0,
       ),
       replacement: Padding(
