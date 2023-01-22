@@ -132,7 +132,6 @@ class DummyData {
     PetTypeStrings.bird: [
       '',
       '-',
-      'SRD - Sem Raça Definida',
       'Abelharuco',
       'Agapornis',
       'Agapornis canus',
@@ -200,6 +199,7 @@ class DummyData {
       'Granatina',
       'Guaruba',
       'Harpia',
+      'Indefinida',
       'Inhambu-galinha',
       'Jandaia coquinho',
       'Ja&oacute',
