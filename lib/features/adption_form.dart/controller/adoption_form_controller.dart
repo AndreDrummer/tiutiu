@@ -1,16 +1,15 @@
-import 'package:tiutiu/features/adption_form.dart/services/adoption_form_service.dart';
+import 'package:tiutiu/features/adption_form.dart/repository/adoption_form_repository.dart';
 import 'package:tiutiu/features/adption_form.dart/model/adoption_form.dart';
-import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/constants/strings.dart';
 import 'package:get/get.dart';
 
 const int _STEPS_QTY = 5;
 
 class AdoptionFormController extends GetxController {
-  AdoptionFormController({required AdoptionFormServices adoptionFormServices})
-      : _adoptionFormServices = adoptionFormServices;
+  AdoptionFormController({required AdoptionFormRepository adoptionFormRepository})
+      : _adoptionFormRepository = adoptionFormRepository;
 
-  final AdoptionFormServices _adoptionFormServices;
+  final AdoptionFormRepository _adoptionFormRepository;
 
   final Rx<AdoptionForm> _adoptionForm = AdoptionForm().obs;
   final RxBool _isEditing = false.obs;
@@ -27,8 +26,11 @@ class AdoptionFormController extends GetxController {
   }
 
   void previousStep() {
-    if (formStep > 0) _formStep(formStep - 1);
-    if (formStep == 0) Get.back();
+    if (formStep > 0) {
+      _formStep(formStep - 1);
+    } else if (formStep == 0) {
+      Get.back();
+    }
   }
 
   void setAdoptionForm(AdoptionForm adoptionForm) {
@@ -39,11 +41,14 @@ class AdoptionFormController extends GetxController {
 
   bool lastStep() => _formStep == _STEPS_QTY;
 
-  Future<void> submitForm() async {
-    return await _adoptionFormServices.submitForm(
-      userId: tiutiuUserController.tiutiuUser.uid!,
-      adoptionForm: adoptionForm,
-    );
+  Future<void> saveForm() async {
+    await _adoptionFormRepository.saveForm(adoptionForm: adoptionForm);
+    _adoptionForm(AdoptionForm());
+  }
+
+  Future<bool> formExists() async {
+    final form = await _adoptionFormRepository.getForm();
+    return form != null;
   }
 
   final List<String> formStepsTitle = [
