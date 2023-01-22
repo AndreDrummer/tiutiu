@@ -1,6 +1,7 @@
 import 'package:tiutiu/features/auth/widgets/image_carousel_background.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/utils/routes/routes_name.dart';
+import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/constants/text_styles.dart';
 import 'package:tiutiu/features/auth/widgets/blur.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
@@ -15,7 +16,13 @@ class InfoAboutForm extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButtonLocation: FloatingActionButtonLocation.miniEndFloat,
-      floatingActionButton: _startButton(),
+      floatingActionButton: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          _backButton(),
+          _startButton(),
+        ],
+      ),
       body: Stack(
         children: [
           ImageCarouselBackground(autoPlay: false),
@@ -54,7 +61,7 @@ class InfoAboutForm extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              AutoSizeTexts.autoSizeText24(
+              AutoSizeTexts.autoSizeText32(
                 AdoptionFormStrings.adoptionForm,
                 fontWeight: FontWeight.w700,
                 textAlign: TextAlign.left,
@@ -63,7 +70,7 @@ class InfoAboutForm extends StatelessWidget {
               SizedBox(height: 8.0.h),
               SizedBox(
                 width: Get.width * .85,
-                child: AutoSizeTexts.autoSizeText12(
+                child: AutoSizeTexts.autoSizeText16(
                   AdoptionFormStrings.aboutForm,
                   fontWeight: FontWeight.w300,
                   color: AppColors.white,
@@ -73,7 +80,7 @@ class InfoAboutForm extends StatelessWidget {
               SizedBox(height: 4.0.h),
               SizedBox(
                 width: Get.width * .85,
-                child: AutoSizeTexts.autoSizeText12(
+                child: AutoSizeTexts.autoSizeText16(
                   AdoptionFormStrings.youDontNeedAnAccount,
                   fontWeight: FontWeight.w300,
                   color: AppColors.white,
@@ -106,12 +113,12 @@ class InfoAboutForm extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          AutoSizeTexts.autoSizeText12(
+          AutoSizeTexts.autoSizeText16(
             AdoptionFormStrings.allQuestionsAreOptionals,
             color: AppColors.primary,
           ),
           SizedBox(height: 2.0.h),
-          AutoSizeTexts.autoSizeText12(
+          AutoSizeTexts.autoSizeText16(
             AdoptionFormStrings.onlyAnwerWhatYouWant,
             fontWeight: FontWeight.w300,
             color: AppColors.white,
@@ -121,7 +128,36 @@ class InfoAboutForm extends StatelessWidget {
     );
   }
 
-  TextButton _startButton() {
+  Widget _startButton() {
+    return _buttonButton(
+      onPressed: () async {
+        final formExists = await adoptionFormController.formExists();
+
+        Get.toNamed(formExists ? Routes.whatToDoForm : Routes.adoptionForm);
+      },
+      icon: Icons.keyboard_arrow_right_rounded,
+      text: AdoptionFormStrings.start,
+    );
+  }
+
+  Widget _backButton() {
+    return Padding(
+      padding: EdgeInsets.only(left: 16.0.w),
+      child: _buttonButton(
+        icon: Icons.keyboard_arrow_left_rounded,
+        text: AppStrings.back,
+        onPressed: Get.back,
+        iconOnRight: false,
+      ),
+    );
+  }
+
+  TextButton _buttonButton({
+    required Function()? onPressed,
+    bool iconOnRight = true,
+    required IconData icon,
+    required String text,
+  }) {
     return TextButton(
       style: TextButton.styleFrom(
         splashFactory: InkRipple.splashFactory,
@@ -133,19 +169,12 @@ class InfoAboutForm extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          AutoSizeTexts.autoSizeText14(
-            AdoptionFormStrings.start,
-            color: AppColors.white,
-          ),
-          Icon(
-            Icons.keyboard_arrow_right_rounded,
-            color: AppColors.white,
-          ),
+          Visibility(visible: !iconOnRight, child: Icon(icon, color: AppColors.white)),
+          AutoSizeTexts.autoSizeText16(text, color: AppColors.white),
+          Visibility(visible: iconOnRight, child: Icon(icon, color: AppColors.white)),
         ],
       ),
-      onPressed: () {
-        Get.toNamed(Routes.adoptionForm);
-      },
+      onPressed: onPressed,
     );
   }
 }

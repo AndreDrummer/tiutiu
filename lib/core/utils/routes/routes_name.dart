@@ -1,6 +1,7 @@
 class Routes {
   static const infoAdoptionForm = '/info-about-adoption-form';
   static const announcerDetails = '/announcer-details';
+  static const whatToDoForm = '/what-do-you-wanna-do';
   static const emailAndPassword = '/email-password';
   static const deleteAccount = '/delete-account';
   static const initPostFlow = '/init-post-flow';
