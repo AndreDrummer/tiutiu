@@ -159,6 +159,7 @@ class PostsController extends GetxController with TiuTiuPopUp {
     } catch (_) {
       setLoading(false);
     }
+
     setLoading(false);
     isEditingPost = false;
     clearForm();
