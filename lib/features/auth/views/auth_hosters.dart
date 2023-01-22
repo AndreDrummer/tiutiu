@@ -82,8 +82,7 @@ class AuthHosters extends StatelessWidget with TiuTiuPopUp {
 
   Positioned _appLogo() {
     return Positioned(
-      left: Get.width * .7,
-      right: 10.0.w,
+      left: Get.width * .325,
       top: 40.0.h,
       child: SizedBox(
         child: TiutiuLogo(),
@@ -94,8 +93,8 @@ class AuthHosters extends StatelessWidget with TiuTiuPopUp {
 
   Positioned _adoptionForm() {
     return Positioned(
-      top: 168.0.h,
-      right: 10,
+      top: 136.0.h,
+      right: 16,
       child: TextButton(
         style: TextButton.styleFrom(
           foregroundColor: AppColors.white,
@@ -109,7 +108,7 @@ class AuthHosters extends StatelessWidget with TiuTiuPopUp {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Icon(Icons.list_alt_outlined, color: AppColors.white, size: 16.0.h),
-            SizedBox(width: 8.0.w),
+            SizedBox(width: 4.0.w),
             AutoSizeTexts.autoSizeText12(
               AdoptionFormStrings.adoptionForm,
               color: AppColors.white,

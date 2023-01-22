@@ -112,8 +112,10 @@ class LocalStorage {
     return _prefs.getString(key);
   }
 
-  static Future<bool?> clearStorage() async {
+  static Future<void> clearStorage() async {
     final _prefs = await SharedPreferences.getInstance();
-    return _prefs.clear();
+    LocalStorageKey.values.forEach((key) {
+      _prefs.remove(key.name);
+    });
   }
 }
