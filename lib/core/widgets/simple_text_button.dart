@@ -8,6 +8,7 @@ class SimpleTextButton extends StatelessWidget {
   const SimpleTextButton({
     required this.onPressed,
     this.backgroundColor,
+    this.fontWeight,
     this.textColor,
     this.fontSize,
     this.text,
@@ -15,8 +16,9 @@ class SimpleTextButton extends StatelessWidget {
     super.key,
   });
 
-  final Function()? onPressed;
+  final FontWeight? fontWeight;
   final Color? backgroundColor;
+  final Function()? onPressed;
   final Color? textColor;
   final double? fontSize;
   final IconData? icon;
@@ -46,9 +48,9 @@ class SimpleTextButton extends StatelessWidget {
               ),
             ),
             OneLineText(
+              fontWeight: fontWeight ?? FontWeight.bold,
               widgetAlignment: Alignment.center,
               text: text ?? AppStrings.cancel,
-              fontWeight: FontWeight.bold,
               fontSize: fontSize ?? 16.0,
             ),
           ],

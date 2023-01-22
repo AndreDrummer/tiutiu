@@ -18,3 +18,7 @@ enum LocalStorageKey {
   firstOpen,
   adsData,
 }
+
+enum AdoptionFormStorage {
+  form,
+}
