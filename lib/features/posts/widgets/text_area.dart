@@ -15,6 +15,7 @@ class TextArea extends StatelessWidget {
     this.keyboardType,
     this.prefix = '',
     this.validator,
+    this.maxLength,
     this.onChanged,
     this.onSubmit,
     this.hintText,
@@ -31,6 +32,7 @@ class TextArea extends StatelessWidget {
   final bool isInErrorState;
   final String labelText;
   final String? hintText;
+  final int? maxLength;
   final String prefix;
   final int maxLines;
 
@@ -45,12 +47,12 @@ class TextArea extends StatelessWidget {
             textCapitalization: TextCapitalization.sentences,
             keyboardType: keyboardType ?? TextInputType.text,
             inputFormatters: inputFormatters,
+            maxLength: maxLength ?? 200,
             initialValue: initialValue,
             onFieldSubmitted: onSubmit,
             onChanged: onChanged,
             validator: validator,
             maxLines: maxLines,
-            maxLength: 200,
             decoration: InputDecoration(
               prefix: Text(prefix),
               labelText: labelText,
