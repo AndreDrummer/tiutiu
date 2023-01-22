@@ -5,7 +5,10 @@ import 'package:tiutiu/core/system/app_bootstrap.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/core/widgets/tiutiu_logo.dart';
 import 'package:tiutiu/core/constants/strings.dart';
+import 'package:auto_size_text/auto_size_text.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class LoadingStartScreen extends StatefulWidget {
   const LoadingStartScreen({super.key});
@@ -44,6 +47,7 @@ class SplashScreenLoading extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            Spacer(),
             Stack(
               children: [
                 TiutiuLogo(spaceBetween: 16.0.h, textHeight: 20),
@@ -56,6 +60,8 @@ class SplashScreenLoading extends StatelessWidget {
             ),
             _feedbackText(),
             _loadingIndicator(),
+            Spacer(),
+            _madeBy()
           ],
         ),
       ),
@@ -81,6 +87,49 @@ class SplashScreenLoading extends StatelessWidget {
         backgroundColor: Colors.white,
         color: AppColors.primary,
       ),
+    );
+  }
+
+  Stack _madeBy() {
+    return Stack(
+      children: [
+        Container(
+          margin: EdgeInsets.only(bottom: 16.0.h),
+          height: 120.0.h,
+          width: Get.width,
+        ),
+        Positioned(
+          bottom: 16.0.h,
+          left: Get.width / 2.5,
+          child: Row(
+            children: [
+              AutoSizeText(
+                'feito por',
+                minFontSize: 10,
+                maxFontSize: 12,
+                style: GoogleFonts.inter(
+                  fontStyle: FontStyle.italic,
+                  color: AppColors.white,
+                ),
+              ),
+              SizedBox(width: 4.0.w),
+              Padding(
+                padding: EdgeInsets.only(bottom: 4.0.h),
+                child: AutoSizeText(
+                  'Anja',
+                  minFontSize: 14,
+                  maxFontSize: 16,
+                  style: GoogleFonts.krub(
+                    fontStyle: FontStyle.italic,
+                    fontWeight: FontWeight.bold,
+                    color: AppColors.white,
+                  ),
+                ),
+              )
+            ],
+          ),
+        ),
+      ],
     );
   }
 

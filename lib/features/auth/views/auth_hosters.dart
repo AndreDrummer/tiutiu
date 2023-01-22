@@ -38,10 +38,7 @@ class AuthHosters extends StatelessWidget with TiuTiuPopUp {
                 SizedBox(height: 16.0.h),
                 _authButtons(),
                 _continueAnonButton(),
-                Visibility(
-                  child: SizedBox(height: 8.0.h),
-                  visible: Platform.isIOS,
-                )
+                SizedBox(height: 8.0.h)
               ],
             ),
           ),
@@ -133,6 +130,7 @@ class AuthHosters extends StatelessWidget with TiuTiuPopUp {
     return Container(
       height: Get.height /
           Dimensions.getDimensBasedOnDeviceHeight(
+            xSmaller: Platform.isIOS ? 2.75 : 3.7,
             smaller: Platform.isIOS ? 2.75 : 3.7,
             medium: Platform.isIOS ? 2.9 : 4.0,
             bigger: Platform.isIOS ? 3.0 : 4.0,
