@@ -29,25 +29,56 @@ class WhatDoYouWannaDo extends StatelessWidget {
               padding: const EdgeInsets.all(8.0),
               child: OneLineText(text: 'O que você quer fazer?'),
             ),
-            CustomListTile(
-              text: 'Editar',
-              icon: Icons.edit,
-              onTap: () async {
-                await adoptionFormController.loadForm();
-                Get.toNamed(Routes.adoptionForm);
-              },
-            ),
+            _myForm(),
             Divider(),
             CustomListTile(
-              text: 'Compartilhar',
-              icon: Icons.share,
+              text: 'Gerar e compartilhar um formulário vazio',
+              icon: Icons.share_outlined,
               onTap: () {
-                adoptionFormController.shareForm();
+                adoptionFormController.shareEmptyForm();
               },
             ),
           ],
         ),
       ),
+    );
+  }
+
+  Widget _myForm() {
+    return FutureBuilder(
+      future: adoptionFormController.formExists(),
+      builder: (context, snapshot) {
+        return Visibility(
+          visible: snapshot.data ?? true,
+          child: Column(
+            children: [
+              CustomListTile(
+                text: 'Compartilhar meu formulário',
+                icon: Icons.share,
+                onTap: () {
+                  adoptionFormController.shareForm();
+                },
+              ),
+              Divider(),
+              CustomListTile(
+                text: 'Editar meu formulário',
+                icon: Icons.edit_outlined,
+                onTap: () async {
+                  await adoptionFormController.loadForm();
+                  Get.toNamed(Routes.adoptionForm);
+                },
+              ),
+            ],
+          ),
+          replacement: CustomListTile(
+            text: 'Preencher formulário de adoção',
+            icon: Icons.edit_note_outlined,
+            onTap: () {
+              Get.toNamed(Routes.adoptionForm);
+            },
+          ),
+        );
+      },
     );
   }
 }
