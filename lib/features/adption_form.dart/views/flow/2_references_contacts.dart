@@ -22,7 +22,7 @@ class _ReferenceContactsState extends State<ReferenceContacts> {
       () {
         return ListView(
           padding: EdgeInsets.symmetric(horizontal: 8.0.h),
-          children: [phone1(), phone2(), phone3()],
+          children: [SizedBox(height: 8.0.h), phone1(), phone2(), phone3()],
         );
       },
     );

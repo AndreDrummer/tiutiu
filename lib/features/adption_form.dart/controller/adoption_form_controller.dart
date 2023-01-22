@@ -21,8 +21,14 @@ class AdoptionFormController extends GetxController {
   bool get isLoading => _isLoading.value;
   int get formStep => _formStep.value;
 
+  void setLoading(bool loadingValue, {String loadingText = ''}) {
+    _isLoading(loadingValue);
+  }
+
   void nextStep() {
-    if (formStep < _STEPS_QTY) _formStep(formStep + 1);
+    if (formStep < _STEPS_QTY) {
+      _formStep(formStep + 1);
+    }
   }
 
   void previousStep() {
@@ -42,13 +48,27 @@ class AdoptionFormController extends GetxController {
   bool lastStep() => _formStep == _STEPS_QTY;
 
   Future<void> saveForm() async {
+    setLoading(true);
     await _adoptionFormRepository.saveForm(adoptionForm: adoptionForm);
+    await Future.delayed(Duration(seconds: 1));
+    setLoading(false);
+  }
+
+  void resetForm() {
     _adoptionForm(AdoptionForm());
+    _formStep(0);
+    _isEditing(false);
   }
 
   Future<bool> formExists() async {
     final form = await _adoptionFormRepository.getForm();
     return form != null;
+  }
+
+  Future<void> loadFormToUpdate() async {
+    final form = await _adoptionFormRepository.getForm();
+    _adoptionForm(form);
+    _isEditing(true);
   }
 
   final List<String> formStepsTitle = [

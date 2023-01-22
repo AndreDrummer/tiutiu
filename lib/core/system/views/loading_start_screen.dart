@@ -5,7 +5,6 @@ import 'package:tiutiu/core/system/app_bootstrap.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/core/widgets/tiutiu_logo.dart';
 import 'package:tiutiu/core/constants/strings.dart';
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 
 class LoadingStartScreen extends StatefulWidget {
@@ -55,26 +54,29 @@ class SplashScreenLoading extends StatelessWidget {
                 )
               ],
             ),
-            _loadingIndicator(),
             _feedbackText(),
+            _loadingIndicator(),
           ],
         ),
       ),
     );
   }
 
-  AutoSizeText _feedbackText() {
-    return AutoSizeTexts.autoSizeText10(
-      AppStrings.weAreGettingAllReady,
-      color: Colors.white,
+  Widget _feedbackText() {
+    return Padding(
+      padding: EdgeInsets.only(top: 16.0.h, bottom: 8.0.h),
+      child: AutoSizeTexts.autoSizeText10(
+        AppStrings.weAreGettingAllReady,
+        color: Colors.white,
+      ),
     );
   }
 
   Widget _loadingIndicator() {
     return Container(
-      margin: EdgeInsets.only(top: 16.0.h, bottom: 8.0.h),
+      margin: EdgeInsets.only(bottom: 8.0.h),
       height: 1.0.h,
-      width: 56.0.w,
+      width: 104.0.w,
       child: LinearProgressIndicator(
         backgroundColor: Colors.white,
         color: AppColors.primary,
