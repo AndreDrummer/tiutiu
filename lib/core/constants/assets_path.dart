@@ -1,5 +1,6 @@
 class ImageAssets {
   static String get noTiutiutok => 'assets/images/no-tiutiu-tok-found.png';
+  static String get pdfWaterMark => 'assets/images/pdf_background.webp';
   static String get questionMark => 'assets/images/question_mark.webp';
   static String get googlePlaces => 'assets/images/google-places.webp';
   static String get profileEmpty => 'assets/images/profileEmpty.webp';

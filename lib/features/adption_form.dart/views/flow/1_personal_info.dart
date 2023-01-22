@@ -47,6 +47,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
           adoptionFormController.adoptionForm.copyWith(fullName: value),
         );
       },
+      maxLength: 76,
       fontSize: 14,
     );
   }
@@ -63,6 +64,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
         );
       },
       fontSize: 14,
+      maxLength: 76,
     );
   }
 
@@ -83,6 +85,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
         );
       },
       fontSize: 14,
+      maxLength: 76,
     );
   }
 
@@ -99,6 +102,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
         );
       },
       fontSize: 14,
+      maxLength: 76,
     );
   }
 
@@ -154,6 +158,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
         );
       },
       fontSize: 14,
+      maxLength: 76,
     );
   }
 }
