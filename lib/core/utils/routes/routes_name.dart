@@ -1,4 +1,5 @@
 class Routes {
+  static const infoAdoptionForm = '/info-about-adoption-form';
   static const announcerDetails = '/announcer-details';
   static const emailAndPassword = '/email-password';
   static const deleteAccount = '/delete-account';
