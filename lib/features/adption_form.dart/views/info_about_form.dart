@@ -1,7 +1,6 @@
 import 'package:tiutiu/features/auth/widgets/image_carousel_background.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/utils/routes/routes_name.dart';
-import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/constants/text_styles.dart';
 import 'package:tiutiu/features/auth/widgets/blur.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
@@ -130,10 +129,8 @@ class InfoAboutForm extends StatelessWidget {
 
   Widget _startButton() {
     return _buttonButton(
-      onPressed: () async {
-        final formExists = await adoptionFormController.formExists();
-
-        Get.toNamed(formExists ? Routes.whatToDoForm : Routes.adoptionForm);
+      onPressed: () {
+        Get.toNamed(Routes.whatToDoForm);
       },
       icon: Icons.keyboard_arrow_right_rounded,
       text: AdoptionFormStrings.start,
@@ -145,7 +142,7 @@ class InfoAboutForm extends StatelessWidget {
       padding: EdgeInsets.only(left: 16.0.w),
       child: _buttonButton(
         icon: Icons.keyboard_arrow_left_rounded,
-        text: AppStrings.back,
+        text: AppStrings.leave,
         onPressed: Get.back,
         iconOnRight: false,
       ),
