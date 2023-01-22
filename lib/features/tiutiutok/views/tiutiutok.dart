@@ -65,7 +65,7 @@ class _TiutiuTokState extends State<TiutiuTok> {
               options: CarouselOptions(
                 scrollDirection: Axis.vertical,
                 autoPlayCurve: Curves.easeIn,
-                enableInfiniteScroll: false,
+                enableInfiniteScroll: true,
                 enlargeCenterPage: false,
                 disableCenter: true,
                 viewportFraction: 1,

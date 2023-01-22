@@ -1,6 +1,5 @@
 import 'package:tiutiu/features/admob/constants/admob_block_names.dart';
 import 'package:tiutiu/features/admob/widgets/ad_banner.dart';
-import 'package:tiutiu/core/widgets/simple_text_button.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/constants/assets_path.dart';
@@ -54,17 +53,6 @@ class EmptyTiuTiuTokScreen extends StatelessWidget {
                 },
               ),
             ),
-            Visibility(
-              visible: endOfList,
-              child: SimpleTextButton(
-                fontSize: 12,
-                text: 'Voltar ao início',
-                textColor: AppColors.secondary,
-                onPressed: () {
-                  onEndOfPage?.call();
-                },
-              ),
-            )
           ],
         ),
         Spacer(),
