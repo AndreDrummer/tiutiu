@@ -63,10 +63,12 @@ class AdoptionFormController extends GetxController {
     setLoading(false);
   }
 
+  void set isEditing(bool value) => _isEditing(value);
+
   void resetForm() {
     _adoptionForm(AdoptionForm());
     _formStep(0);
-    _isEditing(false);
+    isEditing = false;
   }
 
   Future<bool> formExists() async {
@@ -77,7 +79,6 @@ class AdoptionFormController extends GetxController {
   Future<void> loadForm() async {
     final form = await _adoptionFormRepository.getForm();
     _adoptionForm(form);
-    _isEditing(true);
   }
 
   Future<void> shareFormText() async {
