@@ -133,7 +133,7 @@ class _PetInfoState extends State<PetInfo> {
           SizedBox(height: 8.0.h),
           TextArea(
             maxLines: 2,
-            maxLength: 76,
+            maxLength: 70,
             labelText: 'Por que você quer adotar esse animal em particular?',
             hintText: 'Por que você quer adotar esse animal em particular?',
             initialValue: adoptionFormController.adoptionForm.reason,

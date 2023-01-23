@@ -8,6 +8,7 @@ class OutlinedInputText extends StatelessWidget {
   const OutlinedInputText({
     this.textCapitalization = TextCapitalization.none,
     this.onPasswordVisibilityChange,
+    this.showCounterText = false,
     this.labelText = 'E-mail',
     this.showPassword = false,
     this.isPassword = false,
@@ -35,6 +36,7 @@ class OutlinedInputText extends StatelessWidget {
   final void Function(String)? onChanged;
   final TextInputType? keyboardType;
   final String? initialValue;
+  final bool showCounterText;
   final bool showPassword;
   final Color? textColor;
   final double? fontSize;
@@ -81,7 +83,7 @@ class OutlinedInputText extends StatelessWidget {
                 )
               : null,
           hintText: hintText,
-          counterText: '',
+          counterText: showCounterText ? null : '',
           labelText: labelText,
           hintStyle: TextStyle(
             color: textColor != null ? textColor!.withOpacity(.7) : AppColors.white,
