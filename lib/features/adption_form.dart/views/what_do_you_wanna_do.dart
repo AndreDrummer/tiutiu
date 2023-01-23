@@ -5,6 +5,7 @@ import 'package:tiutiu/core/utils/routes/routes_name.dart';
 import 'package:tiutiu/core/widgets/custom_list_tile.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/widgets/one_line_text.dart';
+import 'package:tiutiu/core/constants/strings.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -14,7 +15,7 @@ class WhatDoYouWannaDo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: DefaultBasicAppBar(text: 'Formulário de adoção'),
+      appBar: DefaultBasicAppBar(text: MyProfileOptionsTile.adoptioinForm),
       body: Card(
         child: ListView(
           children: [
@@ -27,19 +28,19 @@ class WhatDoYouWannaDo extends StatelessWidget {
             Divider(),
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: OneLineText(text: 'O que você quer fazer?'),
+              child: OneLineText(text: AdoptionFormStrings.whatYouWannaDo),
             ),
             _myForm(),
             Divider(),
             CustomListTile(
-              text: 'Gerar e compartilhar um formulário vazio (Texto)',
-              icon: Icons.file_open_outlined,
+              text: AdoptionFormStrings.generateAndShareEmptyFormTXT,
+              icon: Icons.text_snippet_outlined,
               onTap: () async {
                 await adoptionFormController.shareEmptyFormText();
               },
             ),
             CustomListTile(
-              text: 'Gerar e compartilhar um formulário vazio (PDF)',
+              text: AdoptionFormStrings.generateAndShareEmptyFormPDF,
               icon: Icons.picture_as_pdf_outlined,
               onTap: () async {
                 await adoptionFormController.shareEmptyFormPDF();
@@ -60,24 +61,25 @@ class WhatDoYouWannaDo extends StatelessWidget {
           child: Column(
             children: [
               CustomListTile(
-                text: 'Compartilhar meu formulário (Texto)',
+                text: AdoptionFormStrings.shareMyFormTXT,
                 icon: Icons.text_snippet_outlined,
                 onTap: () async {
                   await adoptionFormController.shareFormText();
                 },
               ),
               CustomListTile(
-                text: 'Compartilhar meu formulário (PDF)',
-                icon: Icons.share,
+                text: AdoptionFormStrings.shareMyFormPDF,
+                icon: Icons.picture_as_pdf_outlined,
                 onTap: () async {
                   await adoptionFormController.shareFormPDF();
                 },
               ),
               Divider(),
               CustomListTile(
-                text: 'Editar meu formulário',
+                text: AdoptionFormStrings.editMyForm,
                 icon: Icons.edit_outlined,
                 onTap: () async {
+                  adoptionFormController.isEditing = true;
                   await adoptionFormController.loadForm();
                   Get.toNamed(Routes.adoptionForm);
                 },
@@ -85,7 +87,7 @@ class WhatDoYouWannaDo extends StatelessWidget {
             ],
           ),
           replacement: CustomListTile(
-            text: 'Preencher formulário de adoção',
+            text: AdoptionFormStrings.fillForm,
             icon: Icons.edit_note_outlined,
             onTap: () {
               Get.toNamed(Routes.adoptionForm);

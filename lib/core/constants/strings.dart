@@ -67,6 +67,7 @@ class AppStrings {
   static String get warning => 'Aviso';
   static String get watch => 'Assistir';
   static String get name => 'Tiu, tiu';
+  static String share = 'Compartilhar';
   static String get adopte => 'Adote';
   static String tiutok = 'Tiutiu Tok';
   static String get email => 'E-mail';
@@ -82,7 +83,9 @@ class AppStrings {
   static String get yes => 'Sim';
   static String get no => 'Não';
   static String get ok => 'OK';
+  static String txt = 'Texto';
   static String chat = 'Chat';
+  static String pdf = 'PDF';
 }
 
 class AuthStrings {
@@ -264,7 +267,7 @@ class MoreStrings {
 }
 
 class MyProfileOptionsTile {
-  static const String fillAdoptioinForm = 'Preencher Formulário de Adoção';
+  static const String adoptioinForm = 'Formulário de Adoção';
   static const String deleteAccount = 'Deletar minha conta';
   static const String about = 'Sobre o aplicativo';
   static const String myPosts = 'Minhas Postagens';
@@ -437,14 +440,24 @@ class AdoptionFormStrings {
       'Gere e compartilhe um formulário de adoção em formato PDF ou em formato de mensagens do WhatsApp em poucos segundos.';
   static const String youDontNeedAnAccount = 'Você não precisa de ter uma conta e pode acessar sempre que quiser.';
   static const String onlyAnwerWhatYouWant = 'Só responda às perguntas que se sentir confortável em responder.';
+  static const String formFilledSuccess = 'Prontinho, formulário salvo com sucesso! O que deseja fazer?';
+  static const String generateAndShareEmptyFormTXT = 'Gerar e compartilhar um formulário vazio (Texto)';
+  static const String generateAndShareEmptyFormPDF = 'Gerar e compartilhar um formulário vazio (PDF)';
   static const String allQuestionsAreOptionals = 'Todas as questões são opcionais.';
   static const String backgroundInfo = 'Verificação de antecedentes e contatos';
+  static const String chooseFormFormat = 'Escolha o formato que deseja enviar';
+  static const String shareMyFormTXT = 'Compartilhar meu formulário (Texto)';
+  static const String shareMyFormPDF = 'Compartilhar meu formulário (PDF)';
   static const String financialInfo = 'Tempo e recursos financeiros';
   static const String referenceContacts = 'Contatos de referência';
+  static const String whatYouWannaDo = 'O que deseja fazer?';
   static const String personalInfo = 'Informações Pessoais';
   static const String adoptionForm = 'Formulário de adoção';
+  static const String editMyForm = 'Editar meu formulário';
   static const String formPdfName = 'Formulário de Adoção';
   static const String houseInfo = 'Sobre sua residência';
+  static const String fillForm = 'Preencher formulário';
+  static const String justThis = 'Por enquanto é só';
   static const String petInfo = 'Sobre o animal';
   static const String update = 'Atualizar';
   static const String start = 'Iniciar';
