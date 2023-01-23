@@ -60,7 +60,10 @@ class AdoptionFormFlow extends StatelessWidget with TiuTiuPopUp {
                   ),
                 ),
                 Obx(() {
-                  return LoadDarkScreen(message: 'Salvando formulário', visible: adoptionFormController.isLoading);
+                  return LoadDarkScreen(
+                    message: '${adoptionFormController.isEditing ? 'Atualizando' : 'Salvando'} formulário',
+                    visible: adoptionFormController.isLoading,
+                  );
                 }),
               ],
             ),
@@ -81,21 +84,7 @@ class AdoptionFormFlow extends StatelessWidget with TiuTiuPopUp {
             onPrimaryPressed: () {
               if (adoptionFormController.lastStep()) {
                 adoptionFormController.saveForm().then((_) {
-                  showPopUp(
-                    title: AppStrings.success,
-                    message: 'Prontinho, formulário salvo com sucesso! O que deseja fazer?',
-                    denyText: 'Por enquanto é só',
-                    confirmText: 'Compartilhar',
-                    secondaryAction: () {
-                      Get.back();
-                      // adoptionFormController.shareForm();
-                    },
-                    mainAction: () {
-                      Get.back();
-                      adoptionFormController.resetForm();
-                      Get.offNamedUntil(Routes.home, (route) => route.settings.name == Routes.home);
-                    },
-                  );
+                  showSuccessPopup();
                 });
               } else {
                 adoptionFormController.nextStep();
@@ -112,6 +101,41 @@ class AdoptionFormFlow extends StatelessWidget with TiuTiuPopUp {
             textSecond: AppStrings.back,
           ),
         );
+      },
+    );
+  }
+
+  void showSuccessPopup() {
+    showPopUp(
+      title: AppStrings.success,
+      message: AdoptionFormStrings.formFilledSuccess,
+      denyText: AdoptionFormStrings.justThis,
+      confirmText: AppStrings.share,
+      secondaryAction: () {
+        Get.back();
+        showSharePopup();
+      },
+      mainAction: () {
+        Get.back();
+        adoptionFormController.resetForm();
+        Get.offNamedUntil(Routes.home, (route) => route.settings.name == Routes.home);
+      },
+    );
+  }
+
+  void showSharePopup() {
+    showPopUp(
+      title: AppStrings.share,
+      message: AdoptionFormStrings.chooseFormFormat,
+      denyText: AppStrings.txt,
+      confirmText: AppStrings.pdf,
+      secondaryAction: () {
+        Get.back();
+        adoptionFormController.shareFormPDF();
+      },
+      mainAction: () {
+        Get.back();
+        adoptionFormController.shareFormText();
       },
     );
   }
