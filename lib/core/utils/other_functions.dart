@@ -94,12 +94,12 @@ class OtherFunctions {
   static IconData getIconFromPetType(String type) {
     final Map<String, dynamic> petIconType = {
       PetTypeStrings.bird: FontAwesomeIcons.b,
-      PetTypeStrings.other: FontAwesomeIcons.staffSnake,
+      PetTypeStrings.other: FontAwesomeIcons.question,
       PetTypeStrings.dog: FontAwesomeIcons.dog,
       PetTypeStrings.cat: FontAwesomeIcons.cat,
     };
 
-    return petIconType[type];
+    return petIconType.containsKey(type) ? petIconType[type] : FontAwesomeIcons.dog;
   }
 
   static Future<String?> getVideoUrlDownload({
