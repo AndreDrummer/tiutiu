@@ -60,7 +60,7 @@ class LikesController extends GetxController {
       await _likesService.likedsCollection().doc(post.uid).delete();
     }
 
-    _decrementLikes(post.uid!);
+    if (post.likes > 0) _decrementLikes(post.uid!);
     _unSaveLikeOnLocal(post.uid!);
   }
 
