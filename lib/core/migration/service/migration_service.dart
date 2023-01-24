@@ -19,7 +19,7 @@ class MigrationService {
   final String petAdPurpose = FirebaseEnvPath.donate;
 
   void migrate() async {
-    // moveEndpointsToProd();
+    // moveSomeDocumentDataToProd();
   }
 
   void updateEndpointsSintaxe() async {
@@ -65,7 +65,7 @@ class MigrationService {
 
   void moveSomeDocumentDataToProd() async {
     debugPrint('|| MIGRATION Starting... ||');
-    final migratingDocument = 'supportUsData';
+    final migratingDocument = 'adminRemoteConfigs';
 
     final data = await _pathToDocumentData('debug', migratingDocument).get();
     debugPrint('|| MDATA ${data.data()} ||');
