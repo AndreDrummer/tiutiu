@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:tiutiu/features/auth/interface/auth_providers.dart';
 import 'package:tiutiu/features/auth/service/whatsapp_service.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
@@ -11,7 +13,10 @@ import 'package:flutter/foundation.dart';
 class FirebaseAuthProvider implements AuthProviders {
   FirebaseAuthProvider._();
 
-  final GoogleSignIn _googleSignIn = GoogleSignIn();
+  final GoogleSignIn _googleSignIn = GoogleSignIn(
+    clientId: Platform.isIOS ? '791022711249-e7i7f4re6hrg5hamqcqdebrsjmeqs2sa.apps.googleusercontent.com' : null,
+  );
+
   static FirebaseAuthProvider instance = FirebaseAuthProvider._();
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   User? get firebaseAuthUser => _firebaseAuth.currentUser;
