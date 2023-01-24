@@ -174,7 +174,7 @@ class ChatController extends GetxController with TiuTiuPopUp {
     if (authController.userExists && tiutiuUserController.isAppropriatelyRegistered) {
       Get.toNamed(Routes.chat, arguments: myUserId);
     } else if (authController.userExists) {
-      Get.toNamed(Routes.settings);
+      Get.toNamed(Routes.editProfile);
     } else {
       Get.toNamed(Routes.authHosters);
     }
@@ -184,18 +184,22 @@ class ChatController extends GetxController with TiuTiuPopUp {
     userChatingWith = TiutiuUser();
   }
 
-  Future<void> handleContactTapped({required ContactType contactType, required Function() onAdWatched}) async {
+  Future<void> handleContactTapped({required ContactType contactType, required Function() openDesiredChat}) async {
     final lastTimeWatchedRewarded = await LocalStorage.getValueUnderLocalStorageKey(
       contactType == ContactType.whatsapp
           ? LocalStorageKey.lastTimeWatchedWhatsappRewarded
           : LocalStorageKey.lastTimeWatchedChatRewarded,
     );
 
+    final allowGoogleAds = adminRemoteConfigController.configs.allowGoogleAds;
+
     debugPrint(
       'TiuTiuApp: Last Time Watched a ${contactType == ContactType.whatsapp ? 'WhatsApp Rewarded' : 'Chat Rewarded'} $lastTimeWatchedRewarded',
     );
 
-    if (lastTimeWatchedRewarded == null) {
+    if (!allowGoogleAds) {
+      await openDesiredChat();
+    } else if (lastTimeWatchedRewarded == null) {
       warningUserAboutRewarded(contactType, noPreviousData: true);
     } else {
       final minutes = DateTime.now().difference(DateTime.parse(lastTimeWatchedRewarded)).inMinutes;
@@ -204,7 +208,7 @@ class ChatController extends GetxController with TiuTiuPopUp {
         debugPrint('TiuTiuApp: Must Show Rewarded..');
         warningUserAboutRewarded(contactType);
       } else {
-        await onAdWatched();
+        await openDesiredChat();
       }
     }
   }

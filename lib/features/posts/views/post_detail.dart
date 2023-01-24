@@ -607,7 +607,7 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
             onPressed: () {
               chatController.handleContactTapped(
                 contactType: ContactType.chat,
-                onAdWatched: () async {
+                openDesiredChat: () async {
                   chatController.setPostTalkingAbout(post.reference!);
                   chatController.startsChatWith(
                     myUserId: tiutiuUserController.tiutiuUser.uid!,
@@ -630,7 +630,7 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
             onPressed: () async {
               chatController.handleContactTapped(
                 contactType: ContactType.whatsapp,
-                onAdWatched: () async {
+                openDesiredChat: () async {
                   await Launcher.openWhatsApp(number: post.owner!.phoneNumber!);
                 },
               );

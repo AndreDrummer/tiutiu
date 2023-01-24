@@ -199,7 +199,7 @@ class AnnouncerProfile extends StatelessWidget {
               onPressed: () {
                 chatController.handleContactTapped(
                   contactType: ContactType.chat,
-                  onAdWatched: () async {
+                  openDesiredChat: () async {
                     chatController.startsChatWith(
                       myUserId: tiutiuUserController.tiutiuUser.uid!,
                       user: postsController.post.owner!,
@@ -218,7 +218,7 @@ class AnnouncerProfile extends StatelessWidget {
               onPressed: () {
                 chatController.handleContactTapped(
                   contactType: ContactType.whatsapp,
-                  onAdWatched: () async {
+                  openDesiredChat: () async {
                     await Launcher.openWhatsApp(number: postsController.post.owner!.phoneNumber!);
                   },
                 );
