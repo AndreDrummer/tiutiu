@@ -1,3 +1,5 @@
+import 'package:tiutiu/features/admob/constants/admob_block_names.dart';
+import 'package:tiutiu/features/admob/widgets/ad_banner.dart';
 import 'package:tiutiu/features/adption_form.dart/views/flow/2_references_contacts.dart';
 import 'package:tiutiu/features/adption_form.dart/views/flow/6_background_info.dart';
 import 'package:tiutiu/features/adption_form.dart/views/flow/5_financial_info.dart';
@@ -76,29 +78,42 @@ class AdoptionFormFlow extends StatelessWidget with TiuTiuPopUp {
   Widget _flowBottom() {
     return Obx(
       () {
-        return Container(
-          margin: EdgeInsets.only(bottom: 8.0.h),
-          child: RowButtonBar(
-            isLoading: adoptionFormController.isLoading,
-            buttonSecondaryColor: Colors.grey,
-            onPrimaryPressed: () {
-              if (adoptionFormController.lastStep()) {
-                adoptionFormController.saveForm().then((_) {
-                  showSuccessPopup();
-                });
-              } else {
-                adoptionFormController.nextStep();
-              }
-            },
-            onSecondaryPressed: () {
-              adoptionFormController.previousStep();
-            },
-            textPrimary: adoptionFormController.lastStep()
-                ? adoptionFormController.isEditing
-                    ? AdoptionFormStrings.update
-                    : AppStrings.save
-                : AppStrings.contines,
-            textSecond: AppStrings.back,
+        return SizedBox(
+          height: 128.0.h,
+          child: Column(
+            children: [
+              AdBanner(
+                adId: systemController.getAdMobBlockID(
+                  blockName: AdMobBlockName.postDetailScreenAdBlockId,
+                  type: AdMobType.banner,
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.only(bottom: 8.0.h),
+                child: RowButtonBar(
+                  isLoading: adoptionFormController.isLoading,
+                  buttonSecondaryColor: Colors.grey,
+                  onPrimaryPressed: () {
+                    if (adoptionFormController.lastStep()) {
+                      adoptionFormController.saveForm().then((_) {
+                        showSuccessPopup();
+                      });
+                    } else {
+                      adoptionFormController.nextStep();
+                    }
+                  },
+                  onSecondaryPressed: () {
+                    adoptionFormController.previousStep();
+                  },
+                  textPrimary: adoptionFormController.lastStep()
+                      ? adoptionFormController.isEditing
+                          ? AdoptionFormStrings.update
+                          : AppStrings.save
+                      : AppStrings.contines,
+                  textSecond: AppStrings.back,
+                ),
+              ),
+            ],
           ),
         );
       },
