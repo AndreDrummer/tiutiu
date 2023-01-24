@@ -9,6 +9,7 @@ enum AdminRemoteConfigEnum {
   dynamicLinkPrefix,
   showSponsoredAds,
   appInstagramLink,
+  allowAdOnOpening,
   appFacebookLink,
   appleStoreLink,
   allowGoogleAds,
@@ -30,6 +31,7 @@ class AdminRemoteConfig {
       mostUpdatedVersion: map[AdminRemoteConfigEnum.mostUpdatedVersion.name],
       dynamicLinkPrefix: map[AdminRemoteConfigEnum.dynamicLinkPrefix.name],
       showSponsoredAds: map[AdminRemoteConfigEnum.showSponsoredAds.name],
+      allowAdOnOpening: map[AdminRemoteConfigEnum.allowAdOnOpening.name],
       appInstagramLink: map[AdminRemoteConfigEnum.appInstagramLink.name],
       appFacebookLink: map[AdminRemoteConfigEnum.appFacebookLink.name],
       allowGoogleAds: map[AdminRemoteConfigEnum.allowGoogleAds.name],
@@ -51,6 +53,7 @@ class AdminRemoteConfig {
     this.adminCommunication = '',
     this.showSponsoredAds = false,
     this.mostUpdatedVersion = '',
+    this.allowAdOnOpening = false,
     this.allowGoogleAds = true,
     this.appInstagramLink = '',
     this.dynamicLinkPrefix = '',
@@ -73,6 +76,7 @@ class AdminRemoteConfig {
       dynamicLinkPrefix: snapshot.get(AdminRemoteConfigEnum.dynamicLinkPrefix.name),
       showSponsoredAds: snapshot.get(AdminRemoteConfigEnum.showSponsoredAds.name),
       appInstagramLink: snapshot.get(AdminRemoteConfigEnum.appInstagramLink.name),
+      allowAdOnOpening: snapshot.get(AdminRemoteConfigEnum.allowAdOnOpening.name),
       appFacebookLink: snapshot.get(AdminRemoteConfigEnum.appFacebookLink.name),
       appleStoreLink: snapshot.get(AdminRemoteConfigEnum.appleStoreLink.name),
       allowGoogleAds: snapshot.get(AdminRemoteConfigEnum.allowGoogleAds.name),
@@ -94,6 +98,7 @@ class AdminRemoteConfig {
   final String appInstagramLink;
   final String appFacebookLink;
   final String appleStoreLink;
+  final bool allowAdOnOpening;
   final bool showSponsoredAds;
   final String playStoreLink;
   final bool allowGoogleAds;
@@ -114,6 +119,7 @@ class AdminRemoteConfig {
     String? appFacebookLink,
     String? appleStoreLink,
     bool? showSponsoredAds,
+    bool? allowAdOnOpening,
     String? playStoreLink,
     bool? allowGoogleAds,
     String? appBirthday,
@@ -131,6 +137,7 @@ class AdminRemoteConfig {
       dynamicLinkPrefix: dynamicLinkPrefix ?? this.dynamicLinkPrefix,
       appInstagramLink: appInstagramLink ?? this.appInstagramLink,
       showSponsoredAds: showSponsoredAds ?? this.showSponsoredAds,
+      allowAdOnOpening: allowAdOnOpening ?? this.allowAdOnOpening,
       appFacebookLink: appFacebookLink ?? this.appFacebookLink,
       appleStoreLink: appleStoreLink ?? this.appleStoreLink,
       allowGoogleAds: allowGoogleAds ?? this.allowGoogleAds,
@@ -153,6 +160,7 @@ class AdminRemoteConfig {
       AdminRemoteConfigEnum.dynamicLinkPrefix.name: dynamicLinkPrefix,
       AdminRemoteConfigEnum.appInstagramLink.name: appInstagramLink,
       AdminRemoteConfigEnum.showSponsoredAds.name: showSponsoredAds,
+      AdminRemoteConfigEnum.allowAdOnOpening.name: allowAdOnOpening,
       AdminRemoteConfigEnum.appFacebookLink.name: appFacebookLink,
       AdminRemoteConfigEnum.allowGoogleAds.name: allowGoogleAds,
       AdminRemoteConfigEnum.appleStoreLink.name: appleStoreLink,
@@ -175,9 +183,10 @@ class AdminRemoteConfig {
       adminCommunication: $adminCommunication,
       dynamicLinkPrefix: $dynamicLinkPrefix,      
       appInstagramLink: $appInstagramLink,
+      allowAdOnOpening: $allowAdOnOpening,
       showSponsoredAds: $showSponsoredAds,      
       appFacebookLink: $appFacebookLink,      
-      appleStoreLink: $appleStoreLink,      
+      appleStoreLink: $appleStoreLink,            
       allowGoogleAds: $allowGoogleAds,
       playStoreLink: $playStoreLink,      
       appBirthday: $appBirthday,
