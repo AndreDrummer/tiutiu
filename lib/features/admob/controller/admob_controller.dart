@@ -126,12 +126,13 @@ class AdMobController {
   }
 
   Future<void> showOpeningAd() async {
+    final allowAdOnOpening = adminRemoteConfigController.configs.allowAdOnOpening;
     final allowGoogleAds = adminRemoteConfigController.configs.allowGoogleAds;
 
     if (!_interstitialAdWasLoaded) {
       debugPrint('Intertitial Ad NOT loaded.');
       await loadOpeningAd();
-    } else if (!kDebugMode && !_interstitialAdWasShown && allowGoogleAds) {
+    } else if (allowAdOnOpening && !_interstitialAdWasShown && allowGoogleAds) {
       debugPrint('Intertitial Ad loaded. $_interstitialAdWasShown');
       _interstitialAd.show();
       _interstitialAd.dispose();
