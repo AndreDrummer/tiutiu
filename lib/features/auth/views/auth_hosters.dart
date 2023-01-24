@@ -10,7 +10,6 @@ import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/core/widgets/tiutiu_logo.dart';
 import 'package:tiutiu/core/widgets/button_wide.dart';
 import 'package:tiutiu/core/constants/strings.dart';
-import 'package:tiutiu/core/utils/dimensions.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'dart:math';
@@ -29,7 +28,7 @@ class AuthHosters extends StatelessWidget with TiuTiuPopUp {
           _appLogo(),
           _adoptionForm(),
           Positioned(
-            bottom: 48.0.h,
+            bottom: 64.0.h,
             left: 8.0,
             right: 8.0,
             child: Column(
@@ -37,8 +36,6 @@ class AuthHosters extends StatelessWidget with TiuTiuPopUp {
                 _headline(),
                 SizedBox(height: 16.0.h),
                 _authButtons(),
-                _continueAnonButton(),
-                SizedBox(height: 8.0.h)
               ],
             ),
           ),
@@ -128,15 +125,9 @@ class AuthHosters extends StatelessWidget with TiuTiuPopUp {
 
   Widget _authButtons() {
     return Container(
-      height: Get.height /
-          Dimensions.getDimensBasedOnDeviceHeight(
-            xSmaller: Platform.isIOS ? 2.75 : 3.7,
-            smaller: Platform.isIOS ? 2.75 : 3.7,
-            medium: Platform.isIOS ? 2.9 : 4.0,
-            bigger: Platform.isIOS ? 3.0 : 4.0,
-          ),
+      height: Get.height / 2.6,
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Visibility(
             visible: Platform.isIOS,
@@ -172,6 +163,7 @@ class AuthHosters extends StatelessWidget with TiuTiuPopUp {
             color: AppColors.info,
             isToExpand: true,
           ),
+          _continueAnonButton()
         ],
       ),
     );
