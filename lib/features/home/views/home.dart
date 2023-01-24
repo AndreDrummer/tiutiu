@@ -140,7 +140,7 @@ class _HomeState extends State<Home> with TiuTiuPopUp {
                 floatHeaderSlivers: true,
               ),
               floatingActionButton: Padding(
-                padding: EdgeInsets.only(bottom: 88.0.h),
+                padding: EdgeInsets.only(bottom: adminRemoteConfigController.configs.allowGoogleAds ? 88.0.h : 0.0.h),
                 child: ChangePostsVisibilityFloatingButtom(
                   visibility: conditionToShowFloatingButton && postsController.filteredPosts.isNotEmpty,
                 ),

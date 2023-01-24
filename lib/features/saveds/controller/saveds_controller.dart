@@ -31,7 +31,7 @@ class SavedsController extends GetxController {
   void unsave(Post post) {
     debugPrint('TiuTiuApp: Remove from saves');
     _savedServices.savesCollection().doc(post.uid).delete();
-    _decrementSavedTimes(post.uid!);
+    if (post.saved > 0) _decrementSavedTimes(post.uid!);
   }
 
   Stream<List<Post>> savedsList() {
