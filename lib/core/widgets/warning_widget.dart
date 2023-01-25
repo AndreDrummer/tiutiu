@@ -114,7 +114,7 @@ class WarningBanner extends StatelessWidget {
                     color: getBannerTextColor(),
                     textOverflow: TextOverflow.fade,
                     textAlign: TextAlign.left,
-                    fontSize: fontSize,
+                    fontSize: fontSize ?? 12,
                   ),
                 ),
                 Visibility(
@@ -200,7 +200,7 @@ class VerifyAccountWarningInterstitial extends StatelessWidget {
                 color: isHiddingContactInfo ? AppColors.black : AppColors.white,
                 textOverflow: TextOverflow.fade,
                 textAlign: TextAlign.center,
-                fontSize: fontSize,
+                fontSize: fontSize ?? 24,
               ),
             ],
           ),

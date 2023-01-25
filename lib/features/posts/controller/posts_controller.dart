@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:tiutiu/features/posts/repository/posts_repository.dart';
 import 'package:tiutiu/features/posts/validators/form_validators.dart';
 import 'package:tiutiu/core/location/models/states_and_cities.dart';
@@ -346,9 +348,10 @@ class PostsController extends GetxController with TiuTiuPopUp {
       setLoading(false);
 
       if (postFirstImage != null) {
-        Share.shareXFiles([XFile(postFirstImage)], text: postText);
+        Share.shareXFiles([XFile(postFirstImage)],
+            text: postText, sharePositionOrigin: Rect.fromLTWH(0, 0, Get.width, Get.height / 2));
       } else {
-        Share.share(postText);
+        Share.share(postText, sharePositionOrigin: Rect.fromLTWH(0, 0, Get.width, Get.height / 2));
       }
 
       return true;

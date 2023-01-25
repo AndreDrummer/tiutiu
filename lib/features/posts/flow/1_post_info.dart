@@ -32,7 +32,7 @@ class PostInfo extends StatelessWidget {
 
   Padding _petName() {
     return Padding(
-      padding: EdgeInsets.fromLTRB(3.0.w, 0.0.h, 3.0.w, 16.0.h),
+      padding: EdgeInsets.only(top: 3.0.w, bottom: 16.0.h),
       child: Form(
         key: nameKeyForm,
         child: Obx(
