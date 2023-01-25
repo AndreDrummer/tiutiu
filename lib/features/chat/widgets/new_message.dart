@@ -107,7 +107,7 @@ class _NewMessageState extends State<NewMessage> {
                     ),
                     child: Container(
                       decoration: BoxDecoration(shape: BoxShape.circle),
-                      margin: EdgeInsets.only(left: 8.0.w),
+                      margin: EdgeInsets.only(left: Get.height > 999 ? 4.0.w : 8.0.w),
                       child: Padding(
                         child: Icon(Icons.send_rounded, color: whiteColor),
                         padding: EdgeInsets.only(right: 4.0.w),

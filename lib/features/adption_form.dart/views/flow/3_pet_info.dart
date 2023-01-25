@@ -76,6 +76,7 @@ class _PetInfoState extends State<PetInfo> {
 
   Column _petExperience() {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 8.0.h),
@@ -124,6 +125,7 @@ class _PetInfoState extends State<PetInfo> {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 8.0.h, vertical: 4.0.h),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           AutoSizeTexts.autoSizeText16(
             'Por que você quer adotar esse animal em particular?',
