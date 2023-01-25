@@ -1,18 +1,20 @@
+import 'package:tiutiu/features/home/controller/home_controller.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/features/admob/admob_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:tiutiu/features/home/controller/home_controller.dart';
 
 class AdBanner extends StatefulWidget {
   const AdBanner({
     required this.adId,
+    this.height,
     this.margin,
     super.key,
   });
 
   final EdgeInsetsGeometry? margin;
+  final int? height;
   final String adId;
 
   @override
@@ -26,9 +28,9 @@ class _AdBanner300x60State extends State<AdBanner> {
   @override
   void initState() {
     final size = AnchoredAdaptiveBannerAdSize(
-      Orientation.landscape,
+      height: widget.height ?? 56,
       width: Get.width.toInt(),
-      height: 56,
+      Orientation.landscape,
     );
 
     _bannerAd = BannerAd(

@@ -63,6 +63,9 @@ class SystemController extends GetxController {
 
       await handleFDLOpensApp();
 
+      adMobController.loadWhatsAppRewardedAd();
+      adMobController.loadChatRewardedAd();
+
       adminRemoteConfigController.onAdminRemoteConfigsChange();
       handleFDLOnForeground();
       _systemProperties(properties.copyWith(isLoading: false));
