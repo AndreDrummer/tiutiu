@@ -5,11 +5,11 @@ import 'package:tiutiu/features/chat/model/contact.dart';
 import 'package:tiutiu/core/utils/other_functions.dart';
 import 'package:tiutiu/core/constants/text_styles.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
+import 'package:tiutiu/core/widgets/custom_badge.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:tiutiu/core/utils/asset_handle.dart';
 import 'package:tiutiu/core/constants/strings.dart';
 import 'package:tiutiu/core/utils/formatter.dart';
-import 'package:tiutiu/core/widgets/badge.dart';
 import 'package:flutter/material.dart';
 
 class ContactTile extends StatelessWidget {
@@ -60,7 +60,7 @@ class ContactTile extends StatelessWidget {
                 Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    Badge(color: AppColors.primary, text: ChatStrings.news, show: hasNewMessage),
+                    CustomBadge(color: AppColors.primary, text: ChatStrings.news, show: hasNewMessage),
                     Padding(
                       child: AutoSizeTexts.autoSizeText10(Formatters.getFormattedTime(date.toIso8601String())),
                       padding: EdgeInsets.symmetric(vertical: 2.0.h),
