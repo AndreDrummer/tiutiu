@@ -567,6 +567,7 @@ class AuthController extends GetxController {
     StartScreenAssets.munkun,
     StartScreenAssets.greyCat,
     StartScreenAssets.whiteCat,
+    StartScreenAssets.hairy2,
     StartScreenAssets.pinscher,
     StartScreenAssets.oldMel,
     StartScreenAssets.liu,
