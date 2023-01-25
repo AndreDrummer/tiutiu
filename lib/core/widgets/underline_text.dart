@@ -67,7 +67,6 @@ class UnderlineInputText extends StatelessWidget {
               '$labelText',
             ),
           ),
-          // SizedBox(height: 14.0.h),
           TextFormField(
             textCapitalization: capitalize ?? TextCapitalization.sentences,
             initialValue: getInitialValue(),
