@@ -6,7 +6,7 @@ workflows:
       app_store_connect: App Store Connect API KEY (Anja Solutions - Tiu, tiu)
     environment:
       ios_signing:
-        distribution_type: app_store
+        distribution_type: provisioning profile codemagic
         bundle_identifier: com.anjasolutions.tiutiuapp
       vars:
         APP_ID: 1660325927
