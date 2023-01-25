@@ -44,6 +44,7 @@ class DocScreen extends StatelessWidget {
                         children: [
                           ListView(
                             children: [
+                              SizedBox(height: 8.0.h),
                               TiutiuLogo(),
                               SizedBox(height: 8.0.h),
                               AutoSizeTexts.autoSizeText24(
