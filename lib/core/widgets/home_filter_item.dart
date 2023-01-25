@@ -1,4 +1,5 @@
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:tiutiu/core/constants/text_styles.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/core/utils/asset_handle.dart';
@@ -31,15 +32,14 @@ class HomeFilterItem extends StatelessWidget {
           color: isActive ? AppColors.primary : AppColors.white,
           borderRadius: BorderRadius.circular(12),
         ),
-        height: 64.0.h,
         width: 64.0.w,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Container(
               height: Dimensions.getDimensBasedOnDeviceHeight(
+                xBigger: Get.width / 7,
                 smaller: 50.0.h,
-                xBigger: 56.0.h,
                 medium: 42.0.h,
                 bigger: 42.0.h,
               ),

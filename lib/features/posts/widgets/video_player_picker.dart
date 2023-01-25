@@ -1,5 +1,6 @@
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:tiutiu/core/constants/text_styles.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/core/constants/strings.dart';
@@ -36,7 +37,7 @@ class _VideoPlayerPickerState extends State<VideoPlayerPicker> {
 
     _betterPlayerController = BetterPlayerController(
       BetterPlayerConfiguration(
-        aspectRatio: (Dimensions.isSmallDevice() || Dimensions.isXSmallDevice()) ? 1.3 : 1,
+        aspectRatio: Get.height > 999 || (Dimensions.isSmallDevice() || Dimensions.isXSmallDevice()) ? 1.3 : 1.0,
         allowedScreenSleep: false,
         errorBuilder: (context, errorMessage) {
           return Center(

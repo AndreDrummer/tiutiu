@@ -75,7 +75,7 @@ class _AddImageState extends State<AddImage> with Pickers {
   Widget _picturesList(BuildContext context) {
     return Container(
       margin: EdgeInsets.only(right: 8.0.w),
-      height: 220.0.h,
+      height: Get.height > 999 ? 400.0.h : 220.0.h,
       child: ListView.builder(
         controller: _picturesListController,
         scrollDirection: Axis.horizontal,

@@ -41,7 +41,11 @@ class LocationSelecter extends StatelessWidget {
           _citySelector(),
           AnimatedContainer(
             margin: EdgeInsets.symmetric(horizontal: 16.0.w),
-            height: fillFullAddress ? 172.0.h : 52.0.h,
+            height: fillFullAddress
+                ? 172.0.h
+                : Get.height > 999
+                    ? 32.0.h
+                    : 52.0.h,
             duration: Duration(milliseconds: 500),
             child: ListView(
               padding: EdgeInsets.only(top: 8.0.h),
