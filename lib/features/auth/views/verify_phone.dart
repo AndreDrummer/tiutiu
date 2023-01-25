@@ -131,7 +131,20 @@ class _VerifyPhoneState extends State<VerifyPhone> {
       visible: !authController.numberVerified,
       child: Column(
         children: [
-          SizedBox(height: 32.0.h),
+          SizedBox(height: 8.0.h),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(Icons.tips_and_updates, size: 10.0.h, color: AppColors.secondary),
+              SizedBox(width: 4.0.w),
+              AutoSizeTexts.autoSizeText14(
+                AuthStrings.friendlyReminderToAdd9Digit,
+                textAlign: TextAlign.center,
+                color: AppColors.secondary,
+              ),
+            ],
+          ),
+          SizedBox(height: 8.0.h),
           AutoSizeTexts.autoSizeText18(
             authController.isWhatsappTokenValid
                 ? AuthStrings.insertCodeSentToNumber

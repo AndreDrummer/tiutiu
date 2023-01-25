@@ -29,6 +29,13 @@ class _TiutiuTokState extends State<TiutiuTok> {
       body: SizedBox.expand(
         child: Obx(() {
           final postsWithVideo = postsController.posts.where((post) => post.video != null).toList();
+          final startingPostId = postsController.tiutiuTokStartingVideoPostId;
+          int startingIndex = 0;
+
+          if (startingPostId.isNotEmpty) {
+            final startingPost = postsWithVideo.firstWhere((post) => post.uid == startingPostId);
+            startingIndex = postsWithVideo.indexOf(startingPost);
+          }
 
           if (postsWithVideo.isEmpty) return EmptyTiuTiuTokScreen();
 
@@ -66,6 +73,7 @@ class _TiutiuTokState extends State<TiutiuTok> {
                 scrollDirection: Axis.vertical,
                 autoPlayCurve: Curves.easeIn,
                 enableInfiniteScroll: true,
+                initialPage: startingIndex,
                 enlargeCenterPage: false,
                 disableCenter: true,
                 viewportFraction: 1,
