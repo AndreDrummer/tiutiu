@@ -83,13 +83,14 @@ class AdoptionFormController extends GetxController {
 
   Future<void> shareFormText() async {
     await loadForm();
-    await Share.share(adoptionForm.toString());
+    await Share.share(adoptionForm.toString(), sharePositionOrigin: Rect.fromLTWH(0, 0, Get.width, Get.height / 2));
     Get.offNamedUntil(Routes.home, (route) => route.settings.name == Routes.home);
     resetForm();
   }
 
   Future<void> shareEmptyFormText() async {
-    await Share.share(adoptionForm.toStringEmpty());
+    await Share.share(adoptionForm.toStringEmpty(),
+        sharePositionOrigin: Rect.fromLTWH(0, 0, Get.width, Get.height / 2));
     Get.offNamedUntil(Routes.home, (route) => route.settings.name == Routes.home);
   }
 
@@ -183,7 +184,7 @@ class AdoptionFormController extends GetxController {
 
     await pdfFile.writeAsBytes(await pdf.save());
 
-    await Share.shareXFiles([XFile(pdfFile.path)]);
+    await Share.shareXFiles([XFile(pdfFile.path)], sharePositionOrigin: Rect.fromLTWH(0, 0, Get.width, Get.height / 2));
   }
 
   final List<String> formStepsTitle = [

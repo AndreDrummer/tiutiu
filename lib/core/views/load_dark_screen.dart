@@ -3,6 +3,7 @@ import 'package:tiutiu/core/widgets/lottie_animation.dart';
 import 'package:tiutiu/core/constants/text_styles.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class LoadDarkScreen extends StatelessWidget {
   LoadDarkScreen({
@@ -29,8 +30,8 @@ class LoadDarkScreen extends StatelessWidget {
             ),
             color: Colors.black87,
           ),
-          height: MediaQuery.of(context).size.height,
-          width: MediaQuery.of(context).size.width,
+          height: Get.height,
+          width: Get.width,
           child: Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
