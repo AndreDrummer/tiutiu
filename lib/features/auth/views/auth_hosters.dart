@@ -1,4 +1,6 @@
+import 'package:tiutiu/features/auth/views/terms_and_conditions.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:tiutiu/features/auth/views/privacy_policy.dart';
 import 'package:tiutiu/features/auth/widgets/headline.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/utils/routes/routes_name.dart';
@@ -35,7 +37,8 @@ class AuthHosters extends StatelessWidget with TiuTiuPopUp {
               children: [
                 _headline(),
                 SizedBox(height: 16.0.h),
-                _authButtons(),
+                _authButtons(context),
+                _docButtons(context),
               ],
             ),
           ),
@@ -68,7 +71,10 @@ class AuthHosters extends StatelessWidget with TiuTiuPopUp {
         gradient: LinearGradient(
           begin: Alignment.bottomRight,
           end: Alignment.topLeft,
-          colors: [AppColors.black.withOpacity(.9), AppColors.black.withOpacity(.4)],
+          colors: [
+            AppColors.black.withOpacity(.9),
+            AppColors.black.withOpacity(.4),
+          ],
         ),
       ),
     );
@@ -87,7 +93,7 @@ class AuthHosters extends StatelessWidget with TiuTiuPopUp {
 
   Positioned _adoptionForm() {
     return Positioned(
-      top: 136.0.h,
+      top: 124.0.h,
       right: 16,
       child: TextButton(
         style: TextButton.styleFrom(
@@ -123,7 +129,7 @@ class AuthHosters extends StatelessWidget with TiuTiuPopUp {
     );
   }
 
-  Widget _authButtons() {
+  Widget _authButtons(BuildContext context) {
     return Container(
       height: Get.height / 2.6,
       child: Column(
@@ -163,9 +169,39 @@ class AuthHosters extends StatelessWidget with TiuTiuPopUp {
             color: AppColors.info,
             isToExpand: true,
           ),
-          _continueAnonButton()
+          _continueAnonButton(),
         ],
       ),
+    );
+  }
+
+  Widget _docButtons(BuildContext context) {
+    return Column(
+      children: [
+        SizedBox(height: 8.0.h),
+        AutoSizeTexts.autoSizeText12(
+          AuthStrings.whenContinue,
+          textAlign: TextAlign.center,
+          color: AppColors.white,
+        ),
+        SizedBox(height: 4.0.h),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            termsAndConditions(context),
+            AutoSizeTexts.autoSizeText14(
+              textAlign: TextAlign.center,
+              'e a ',
+              color: AppColors.white,
+            ),
+            privacyPolicy(context),
+          ],
+        ),
+        Visibility(
+          visible: Get.height < 700,
+          child: SizedBox(height: 16.0.h),
+        )
+      ],
     );
   }
 
@@ -186,6 +222,34 @@ class AuthHosters extends StatelessWidget with TiuTiuPopUp {
         filterController.reset();
         goToHome();
       },
+    );
+  }
+
+  Widget termsAndConditions(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        Get.to(TermsAndConditions());
+      },
+      child: AutoSizeTexts.autoSizeText14(
+        AuthStrings.termsAndConditions,
+        fontWeight: FontWeight.bold,
+        textAlign: TextAlign.center,
+        color: AppColors.white,
+      ),
+    );
+  }
+
+  Widget privacyPolicy(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        Get.to(PrivacyPolicy());
+      },
+      child: AutoSizeTexts.autoSizeText14(
+        AuthStrings.privacyPolicy,
+        fontWeight: FontWeight.bold,
+        textAlign: TextAlign.center,
+        color: AppColors.white,
+      ),
     );
   }
 

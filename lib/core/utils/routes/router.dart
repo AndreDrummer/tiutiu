@@ -1,20 +1,21 @@
-import 'package:tiutiu/features/adption_form.dart/views/form_flow.dart';
-import 'package:tiutiu/features/adption_form.dart/views/info_about_form.dart';
 import 'package:tiutiu/features/adption_form.dart/views/what_do_you_wanna_do.dart';
 import 'package:tiutiu/features/delete_account/views/delete_account_screen.dart';
+import 'package:tiutiu/features/adption_form.dart/views/info_about_form.dart';
+import 'package:tiutiu/features/adption_form.dart/views/form_flow.dart';
+import 'package:tiutiu/features/more/views/about.dart';
 import 'package:tiutiu/features/talk_with_us/views/talk_with_us.dart';
 import 'package:tiutiu/features/auth/views/email_and_password.dart';
 import 'package:tiutiu/core/system/views/loading_start_screen.dart';
 import 'package:tiutiu/features/posts/flow/init_post_flow.dart';
-import 'package:tiutiu/features/more/views/edit_profile.dart';
 import 'package:tiutiu/features/support/views/support_us.dart';
+import 'package:tiutiu/features/more/views/edit_profile.dart';
 import 'package:tiutiu/features/posts/views/post_detail.dart';
 import 'package:tiutiu/features/auth/views/start_screen.dart';
-import 'package:tiutiu/core/widgets/connection_handler.dart';
 import 'package:tiutiu/features/auth/views/verify_email.dart';
 import 'package:tiutiu/features/auth/views/verify_phone.dart';
 import 'package:tiutiu/features/auth/views/auth_hosters.dart';
 import 'package:tiutiu/features/chat/views/chat_screen.dart';
+import 'package:tiutiu/core/widgets/connection_handler.dart';
 import 'package:tiutiu/features/chat/views/my_contacts.dart';
 import 'package:tiutiu/features/saveds/screen/saveds.dart';
 import 'package:tiutiu/features/support/views/social.dart';
@@ -84,6 +85,10 @@ class RouterGenerator {
       case Routes.settings:
         return MaterialPageRoute(
           builder: (_) => Settings(),
+        );
+      case Routes.about:
+        return MaterialPageRoute(
+          builder: (_) => About(),
         );
       case Routes.editProfile:
         return MaterialPageRoute(

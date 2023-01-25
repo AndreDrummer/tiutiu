@@ -9,12 +9,16 @@ class FirebaseEnvPath {
   static const String whatsappTemplateProd = 'WHATSAPP_TEMPLATE_PROD';
   static const String whatsappTokenDebug = 'WHATSAPP_TOKEN_DEBUG';
   static const String whatsappTokenProd = 'WHATSAPP_TOKEN_PROD';
+  static const String termsandconditions = 'termsandconditions';
+  static const String privacypolicy = 'privacypolicy';
   static const String disappeared = 'Disappeared';
+  static const String documents = 'documents';
   static const String endpoints = 'endpoints';
   static const String projectName = 'tiutiu';
   static const String donate = 'Donate';
   static const String users = 'Users';
   static const String posts = 'posts';
+  static const String about = 'about';
   static const String keys = 'KEYS';
   static const String env = 'env';
 }
