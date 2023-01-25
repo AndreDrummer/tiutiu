@@ -1,12 +1,12 @@
-import 'package:tiutiu/features/admob/constants/admob_block_names.dart';
-import 'package:tiutiu/features/admob/widgets/ad_banner.dart';
 import 'package:tiutiu/features/adption_form.dart/views/flow/2_references_contacts.dart';
 import 'package:tiutiu/features/adption_form.dart/views/flow/6_background_info.dart';
 import 'package:tiutiu/features/adption_form.dart/views/flow/5_financial_info.dart';
 import 'package:tiutiu/features/adption_form.dart/views/flow/1_personal_info.dart';
 import 'package:tiutiu/features/adption_form.dart/views/flow/4_house_info.dart';
 import 'package:tiutiu/features/adption_form.dart/views/flow/3_pet_info.dart';
+import 'package:tiutiu/features/admob/constants/admob_block_names.dart';
 import 'package:tiutiu/core/widgets/default_basic_app_bar.dart';
+import 'package:tiutiu/features/admob/widgets/ad_banner.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/utils/routes/routes_name.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
@@ -79,7 +79,7 @@ class AdoptionFormFlow extends StatelessWidget with TiuTiuPopUp {
     return Obx(
       () {
         return SizedBox(
-          height: 128.0.h,
+          height: Get.height < 700 ? 160.0.h : 128.0.h,
           child: Column(
             children: [
               AdBanner(
