@@ -86,7 +86,7 @@ class UnderlineInputText extends StatelessWidget {
             inputFormatters: inputFormatters,
             keyboardType: keyboardType,
             decoration: InputDecoration(
-              contentPadding: EdgeInsets.symmetric(horizontal: 8.0.w, vertical: 12.0.h),
+              contentPadding: EdgeInsets.symmetric(vertical: 12.0.h),
               errorStyle: TextStyle(color: AppColors.danger),
               disabledBorder: _underlineInputBorder(),
               enabledBorder: _underlineInputBorder(),

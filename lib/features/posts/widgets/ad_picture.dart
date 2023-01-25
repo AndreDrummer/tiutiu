@@ -1,3 +1,4 @@
+import 'package:get/get.dart';
 import 'package:tiutiu/features/posts/widgets/remove_asset_blur.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
@@ -46,7 +47,7 @@ class _AdPictureState extends State<AdPicture> {
               borderRadius: BorderRadius.circular(8.0.h),
             ),
             child: Container(
-              height: 200.0.h,
+              height: Get.height > 999 ? 512.0.h : 200.0.h,
               width: 320.0.w,
               decoration: BoxDecoration(
                 border: Border.all(
@@ -64,6 +65,7 @@ class _AdPictureState extends State<AdPicture> {
           Visibility(
             visible: isEditingImage,
             child: RemoveAssetBlur(
+              boxHeight: Get.height > 999 ? 512.0.h : null,
               onClose: () {
                 setState(() {
                   isEditingImage = false;
