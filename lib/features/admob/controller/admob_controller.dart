@@ -22,13 +22,9 @@ class AdMobController {
     return 15;
   }
 
-  Future<void> loadWhatsAppRewardedAd() async {
-    await _loadRewardedAd(AdMobBlockName.whatsappQuoteAdBlockId);
-  }
+  Future<void> loadWhatsAppRewardedAd() async => await _loadRewardedAd(AdMobBlockName.whatsappQuoteAdBlockId);
 
-  Future<void> loadChatRewardedAd() async {
-    await _loadRewardedAd(AdMobBlockName.chatQuoteAdBlockId);
-  }
+  Future<void> loadChatRewardedAd() async => await _loadRewardedAd(AdMobBlockName.chatQuoteAdBlockId);
 
   Future<void> _loadRewardedAd(String adBlockName) async {
     await RewardedAd.load(

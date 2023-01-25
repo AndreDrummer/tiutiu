@@ -27,7 +27,7 @@ class RatingUs extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             buttons(
-              icon: Platform.isAndroid ? FontAwesomeIcons.googlePay : FontAwesomeIcons.apple,
+              icon: Platform.isAndroid ? FontAwesomeIcons.googlePlay : FontAwesomeIcons.apple,
               text: 'Avalie-nos\n${Platform.isAndroid ? 'PlayStore' : 'Apple Store'}',
               urlToOpen: Platform.isAndroid
                   ? adminRemoteConfigController.configs.playStoreLink

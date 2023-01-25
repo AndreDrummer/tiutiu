@@ -60,8 +60,8 @@ class _TalkWithUsState extends State<TalkWithUs> {
                         bodyHeight: feedbackController.insertImages
                             ? Get.height
                             : isPartnership
-                                ? Get.width * 1.1
-                                : Get.width * 1.05,
+                                ? Get.width * 1.2
+                                : Get.width * 1.1,
                         child: ListView(
                           children: [
                             _selectYourSubject(),
@@ -92,7 +92,7 @@ class _TalkWithUsState extends State<TalkWithUs> {
     return Visibility(
       visible: visible,
       child: Padding(
-        padding: EdgeInsets.only(bottom: 8.0.h),
+        padding: EdgeInsets.only(bottom: 8.0.h, left: 8.0.w, right: 8.0.w),
         child: AutoSizeTexts.autoSizeText14(
           FeedbackStrings.partnershipWarning,
           textAlign: TextAlign.center,
@@ -125,7 +125,7 @@ class _TalkWithUsState extends State<TalkWithUs> {
             feedbackController.updateFeedback(FeedbackEnum.contactSubject, value);
           },
           initialValue: feedbackController.feedback.contactSubject,
-          fontSize: 18,
+          fontSize: 16,
         ),
       ),
     );

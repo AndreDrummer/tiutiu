@@ -92,8 +92,9 @@ class AuthStrings {
   static const String demandRecentLoginWarning = 'Está ação requer que você faça login novamente.\n\nDeseja deslogar?';
   static String passwordShouldBeAtLeast(String field, int length) => '$field deve ter no mínimo $length dígitos';
   static const String unableToResendEmail = 'Não foi possível reenviar o e-mail. Tente novamente mais tarde!';
-  static const String verifyEmailAdvice = 'Somente contas verificadas podem fazer uma publicação.';
+  static const String friendlyReminderToAdd9Digit = 'Lembre-se de acrescentar o 9 à frente do número.';
   static const String tryVerifyCodeAgain = 'Não foi possível verificar o código.\nTente novamente.';
+  static const String verifyEmailAdvice = 'Somente contas verificadas podem fazer uma publicação.';
   static const String confirmeIfThisNumberIsCorrect = 'Confirme se o número está correto.';
   static const String weWilSendACodeToThisNumber = 'Vamos enviar um código para o número';
   static const String insertCodeSentToNumber = 'Insira o código enviado para o número';
