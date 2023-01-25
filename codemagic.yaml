@@ -65,8 +65,8 @@ workflows:
         script: | 
           BUILD_NUMBER=$(($(google-play get-latest-build-number --package-name "$PACKAGE_NAME" --tracks="$GOOGLE_PLAY_TRACK") + 1))      
           flutter build appbundle --release \
-            --build-name=1.0.$BUILD_NUMBER \
-            --build-number=$BUILD_NUMBER
+            --build-name=$((1.0.$BUILD_NUMBER)) \
+            --build-number=$((1.0.$BUILD_NUMBER))
     artifacts:
       - build/**/outputs/**/*.aab
       - build/**/outputs/**/mapping.txt
