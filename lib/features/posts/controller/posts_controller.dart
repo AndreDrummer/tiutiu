@@ -39,6 +39,7 @@ class PostsController extends GetxController with TiuTiuPopUp {
 
   final Rx<CardVisibilityKind> _cardVisibilityKind = CardVisibilityKind.banner.obs;
   final RxMap<String, dynamic> _cachedVideos = <String, dynamic>{}.obs;
+  final RxString _tiutiuTokStartingVideoPostId = ''.obs;
   final RxBool _addressIsWithCompliment = false.obs;
   final RxList<Post> _filteredPosts = <Post>[].obs;
   final RxString _uploadingPostText = ''.obs;
@@ -56,6 +57,7 @@ class PostsController extends GetxController with TiuTiuPopUp {
   final RxInt _flowIndex = 0.obs;
 
   bool get existChronicDisease => (post as Pet).health == PetHealthString.chronicDisease;
+  String get tiutiuTokStartingVideoPostId => _tiutiuTokStartingVideoPostId.value;
   CardVisibilityKind get cardVisibilityKind => _cardVisibilityKind.value;
   bool get addressIsWithCompliment => _addressIsWithCompliment.value;
   String get uploadingPostText => _uploadingPostText.value;
@@ -75,6 +77,7 @@ class PostsController extends GetxController with TiuTiuPopUp {
   List<Post> get posts => _posts;
   Post get post => _post.value;
 
+  void set tiutiuTokStartingVideoPostId(String value) => _tiutiuTokStartingVideoPostId(value);
   void set isInMyPostsList(bool value) => _isInMyPostsList(value);
   void set isInReviewMode(bool value) => _isInReviewMode(value);
   void set isEditingPost(bool value) => _isEditingPost(value);

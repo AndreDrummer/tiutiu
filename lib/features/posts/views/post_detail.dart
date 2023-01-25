@@ -318,10 +318,13 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
 
   Widget _seeOnTiutiutok() {
     return Visibility(
-      replacement: postsController.isInReviewMode ? SizedBox.shrink() : NoConnectionTextInfo(),
-      visible: !postsController.isInReviewMode && systemController.properties.internetConnected,
+      visible: !postsController.isInReviewMode && systemController.properties.internetConnected && hasVideo,
+      replacement: postsController.isInReviewMode || systemController.properties.internetConnected
+          ? SizedBox.shrink()
+          : NoConnectionTextInfo(),
       child: GestureDetector(
         onTap: () {
+          postsController.tiutiuTokStartingVideoPostId = post.uid!;
           homeController.setTiutiuTokIndex();
           onLeaveScreen();
         },
