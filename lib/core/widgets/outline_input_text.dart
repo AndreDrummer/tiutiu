@@ -56,8 +56,8 @@ class OutlinedInputText extends StatelessWidget {
       child: TextFormField(
         obscureText: isPassword && !showPassword,
         textCapitalization: textCapitalization,
+        maxLength: isPassword ? 16 : maxLength,
         textInputAction: TextInputAction.done,
-        maxLength: isPassword ? 6 : maxLength,
         inputFormatters: inputFormatters,
         initialValue: initialValue,
         keyboardType: keyboardType,

@@ -5,10 +5,12 @@ class BodyCard extends StatelessWidget {
   const BodyCard({
     required this.bodyHeight,
     required this.child,
+    this.color,
     super.key,
   });
 
   final double bodyHeight;
+  final Color? color;
   final Widget child;
 
   @override
@@ -23,6 +25,7 @@ class BodyCard extends StatelessWidget {
         top: 4.0.h,
       ),
       child: Card(
+        color: color,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12.0.h),
         ),
