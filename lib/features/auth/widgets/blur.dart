@@ -9,7 +9,7 @@ class Blur extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: darker ? Colors.black.withOpacity(.7) : Colors.black45,
+      color: darker ? Colors.black.withOpacity(.8) : Colors.black45,
       height: Get.height,
     );
   }

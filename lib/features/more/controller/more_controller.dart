@@ -23,8 +23,6 @@ class MoreController extends GetxController {
       case MyProfileOptionsTile.settings:
         Get.toNamed(Routes.settings);
         break;
-      case MyProfileOptionsTile.about:
-        break;
       case MyProfileOptionsTile.talkWithUs:
         Get.toNamed(Routes.talkWithUs);
         break;
@@ -36,6 +34,9 @@ class MoreController extends GetxController {
         break;
       case MyProfileOptionsTile.ourNet:
         Get.toNamed(Routes.followUs);
+        break;
+      case MyProfileOptionsTile.about:
+        Get.toNamed(Routes.about);
         break;
     }
   }
