@@ -12,6 +12,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class NoConnectionScreen extends StatelessWidget {
+  const NoConnectionScreen({
+    this.onLeave,
+    super.key,
+  });
+
+  final Function()? onLeave;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,7 +52,13 @@ class NoConnectionScreen extends StatelessWidget {
               isConnected: true,
             ),
             SimpleTextButton(
-              onPressed: () => Get.offAllNamed(Routes.startScreen),
+              onPressed: () {
+                if (onLeave != null) {
+                  onLeave?.call();
+                } else {
+                  Get.offAllNamed(Routes.startScreen);
+                }
+              },
               textColor: AppColors.secondary,
               text: AppStrings.leave,
             )

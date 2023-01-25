@@ -99,6 +99,7 @@ class AuthStrings {
   static const String weWilSendACodeToThisNumber = 'Vamos enviar um código para o número';
   static const String insertCodeSentToNumber = 'Insira o código enviado para o número';
   static const String linkWasSent = 'Um link de verificação foi enviado para o email';
+  static const String whenContinue = 'Ao continuar, você concorda com nossos';
   static const String successfullyVerifiedCode = 'Código verificado com sucesso!';
   static const String doYouWannaPasteCodeCopied = 'Deseja colar o código copiado';
   static const String resetPasswordInstructionsSent =
@@ -112,12 +113,14 @@ class AuthStrings {
   static const String typePasswordAgain = 'Digite a senha novamente';
   static String get editPhoneNumber => 'Editar número de telefone';
   static String get authentique => 'Autentique-se para continuar.';
+  static String get privacyPolicy => 'Política de privacidade';
   static const String verifyYourNumber = 'Verifique seu número';
   static const String dontReceiveEmail = 'Não recebeu um email?';
   static const String verifyYourEmail = 'Verifique seu email';
   static String get createNewAccount => 'Crie uma nova conta.';
   static const String passwordNotMatch = 'Senhas não conferem';
   static String get doNotHaveAnAccount => 'Não tem uma conta?';
+  static String get termsAndConditions => 'Termos e condições';
   static String get continueAnon => 'Continuar anônimamente';
   static const String numberVerified = 'Número verificado';
   static const String loginInProgress = 'Realizando Login';
@@ -136,8 +139,8 @@ class AuthStrings {
   static const String emailSent = 'E-mail enviado!';
   static String get createAccount => 'Criar conta';
   static const String pasteCode = 'Colar código';
-  static const String clickHere = 'Clique aqui';
   static String get createYours => 'Crie a sua.';
+  static const String clickHere = 'Clique aqui';
   static const String doLogin = 'Faça login';
   static String get facebook => 'Facebook';
   static const String resend = 'Reenviar';

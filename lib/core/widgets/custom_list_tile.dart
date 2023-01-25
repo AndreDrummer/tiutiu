@@ -1,7 +1,7 @@
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/constants/text_styles.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
-import 'package:tiutiu/core/widgets/badge.dart';
+import 'package:tiutiu/core/widgets/custom_badge.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -59,7 +59,7 @@ class CustomListTile extends StatelessWidget {
         Positioned(
           right: 40.0.w,
           top: 16.0.w,
-          child: Badge(
+          child: CustomBadge(
             color: AppColors.secondary,
             text: badgeText,
             show: showBadge,
