@@ -1,7 +1,7 @@
 import 'package:tiutiu/features/tiutiutok/widgets/empty_tiutiutok.dart';
 import 'package:tiutiu/features/tiutiutok/widgets/buttons_aside.dart';
-import 'package:tiutiu/features/tiutiutok/widgets/post_details.dart';
 import 'package:tiutiu/features/tiutiutok/widgets/video_widget.dart';
+import 'package:tiutiu/features/tiutiutok/widgets/post_details.dart';
 import 'package:tiutiu/features/posts/widgets/loading_blur.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
@@ -62,7 +62,7 @@ class _TiutiuTokState extends State<TiutiuTok> {
 
                 return Stack(
                   children: [
-                    VideoWidget(post: post),
+                    Positioned.fill(child: VideoWidget(post: post)),
                     ButtonsAside(post: post),
                     PostDetails(post: post),
                     LoadingBlur(),
@@ -75,8 +75,8 @@ class _TiutiuTokState extends State<TiutiuTok> {
                 enableInfiniteScroll: true,
                 initialPage: startingIndex,
                 enlargeCenterPage: false,
+                viewportFraction: 1.1,
                 disableCenter: true,
-                viewportFraction: 1,
                 autoPlay: false,
               ),
             ),
