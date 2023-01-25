@@ -10,7 +10,7 @@ workflows:
         bundle_identifier: com.anjasolutions.tiutiuapp
       vars:
         APP_ID: 1660325927
-      flutter: 3.7.0
+      flutter: stable
     scripts:
       - name: Set up code signing settings on Xcode project
         script: | 
@@ -53,7 +53,7 @@ workflows:
       vars:
         PACKAGE_NAME: "com.anjasolutions.tiutiu"
         GOOGLE_PLAY_TRACK: internal
-      flutter: 3.7.0
+      flutter: stable
     scripts:
       - name: Set up local.properties
         script: | 
