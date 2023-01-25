@@ -159,6 +159,7 @@ class _HomeState extends State<Home> with TiuTiuPopUp {
     final List<Sponsored> sponsoreds = sponsoredController.sponsoreds;
 
     final showingSponsoredAds = configs.showSponsoredAds && sponsoreds.isNotEmpty;
+    final isFilteringByName = filterController.filterParams.value.orderBy == FilterStrings.name;
 
     final conditionToAddHeight = homeController.bottomBarIndex == BottomBarIndex.DONATE.indx ||
         homeController.bottomBarIndex == BottomBarIndex.FINDER.indx;
@@ -169,11 +170,15 @@ class _HomeState extends State<Home> with TiuTiuPopUp {
       final showInfoBanner = (authController.userExists && !tiutiuUserController.tiutiuUser.emailVerified);
 
       if ((thereIsDeveloperCommunication || showInfoBanner) && systemController.properties.internetConnected) {
-        return expandedHomeHeightWithAdminInfoAndInternetConnection(showingSponsoredAds: showingSponsoredAds);
+        return expandedHomeHeightWithAdminInfoAndInternetConnection(
+          showingSponsoredAds: showingSponsoredAds || isFilteringByName,
+        );
       } else if (!systemController.properties.internetConnected) {
-        return expandedHomeHeightWithoutInternetConnection(showingSponsoredAds: showingSponsoredAds);
+        return expandedHomeHeightWithoutInternetConnection(
+          showingSponsoredAds: showingSponsoredAds || isFilteringByName,
+        );
       } else {
-        return expandedHomeHeightDefault(showingSponsoredAds: showingSponsoredAds);
+        return expandedHomeHeightDefault(showingSponsoredAds: showingSponsoredAds || isFilteringByName);
       }
     }
 

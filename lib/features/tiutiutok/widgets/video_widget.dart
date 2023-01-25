@@ -1,48 +1,20 @@
-import 'package:tiutiu/core/widgets/video_placeholder.dart';
+import 'package:tiutiu/features/tiutiutok/widgets/android_tiutiutok_video.dart';
+import 'package:tiutiu/features/tiutiutok/widgets/ios_tiutiutok_video.dart';
 import 'package:tiutiu/features/posts/model/post.dart';
-import 'package:tiutiu/core/widgets/video_error.dart';
-import 'package:better_player/better_player.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'dart:io';
 
-class VideoWidget extends StatefulWidget {
+class VideoWidget extends StatelessWidget {
   const VideoWidget({super.key, required this.post});
 
   final Post post;
 
   @override
-  State<VideoWidget> createState() => _VideoWidgetState();
-}
-
-class _VideoWidgetState extends State<VideoWidget> {
-  @override
   Widget build(BuildContext context) {
-    return Positioned.fill(
-      child: BetterPlayerListVideoPlayer(
-        BetterPlayerDataSource(
-          BetterPlayerDataSourceType.network,
-          widget.post.video,
-          videoExtension: '.mp4',
-          cacheConfiguration: BetterPlayerCacheConfiguration(useCache: Platform.isAndroid),
-        ),
-        configuration: BetterPlayerConfiguration(
-          errorBuilder: (context, errorMessage) => VideoError(),
-          placeholder: VideoPlaceholder(),
-          controlsConfiguration: BetterPlayerControlsConfiguration(
-            enableProgressText: false,
-            enableFullscreen: false,
-            enableSkips: false,
-            enableMute: false,
-          ),
-          aspectRatio: .4,
-          autoPlay: true,
-          looping: true,
-          fit: BoxFit.cover,
-        ),
-        key: Key(widget.post.uid.toString()),
-        playFraction: 0.9,
-        autoPlay: true,
-      ),
+    return Visibility(
+      replacement: AndroidTiutiuTokVideo(post: post),
+      child: IOSTiutiuTokVideo(post: post),
+      visible: Platform.isIOS,
     );
   }
 }
