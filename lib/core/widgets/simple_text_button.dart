@@ -1,4 +1,5 @@
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:tiutiu/core/widgets/one_line_text.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/core/constants/strings.dart';
@@ -43,7 +44,7 @@ class SimpleTextButton extends StatelessWidget {
             Visibility(
               visible: hasIcon,
               child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20.0.w),
+                padding: EdgeInsets.symmetric(horizontal: Get.height > 999 ? 6.0.w : 20.0.w),
                 child: Icon(Icons.edit, size: 14.0.h),
               ),
             ),

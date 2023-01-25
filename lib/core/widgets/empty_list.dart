@@ -1,5 +1,6 @@
 import 'package:tiutiu/features/home/controller/home_controller.dart';
 import 'package:tiutiu/core/widgets/simple_text_button.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/widgets/lottie_animation.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/constants/assets_path.dart';
@@ -21,29 +22,32 @@ class EmptyListScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Visibility(
-          child: Container(
-            child: LottieAnimation(animationPath: AnimationsAssets.catLookingAround),
-            height: Get.width / 3,
+    return Padding(
+      padding: EdgeInsets.only(left: Get.height > 999 ? 56.0.h : 0.0.w),
+      child: Column(
+        children: [
+          Visibility(
+            child: Container(
+              child: LottieAnimation(animationPath: AnimationsAssets.catLookingAround),
+              height: Get.height > 999 ? Get.width / 4 : Get.width / 3,
+            ),
+            visible: isAPetScreenList,
           ),
-          visible: isAPetScreenList,
-        ),
-        AutoSizeTexts.autoSizeText12(text ?? AppStrings.noPostFound),
-        Visibility(
-          visible: showClearFiltersButton,
-          child: SimpleTextButton(
-            text: AppStrings.reload,
-            textColor: Colors.lightBlue,
-            fontSize: 12,
-            onPressed: () async {
-              await postsController.getAllPosts();
-              filterController.reset(homeController.bottomBarIndex == BottomBarIndex.FINDER.indx);
-            },
+          AutoSizeTexts.autoSizeText12(text ?? AppStrings.noPostFound),
+          Visibility(
+            visible: showClearFiltersButton,
+            child: SimpleTextButton(
+              text: AppStrings.reload,
+              textColor: Colors.lightBlue,
+              fontSize: 12,
+              onPressed: () async {
+                await postsController.getAllPosts();
+                filterController.reset(homeController.bottomBarIndex == BottomBarIndex.FINDER.indx);
+              },
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

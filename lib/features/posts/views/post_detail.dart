@@ -117,7 +117,9 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
   double toolBarHeight(int descriptionLength) {
     final isInReview = postsController.isInReviewMode;
 
-    if ((post as Pet).disappeared) {
+    if (Get.height > 999) {
+      return (Get.height / (isInReview ? 4.5 : 3.0));
+    } else if ((post as Pet).disappeared) {
       return Dimensions.getDimensBasedOnDeviceHeight(
         smaller: (Get.height / (isInReview ? 4.3 : 5.2)) - (descriptionLength / 4),
         xSmaller: (Get.height / (isInReview ? 4.3 : 5.2)) - (descriptionLength / 4),
