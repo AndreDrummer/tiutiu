@@ -32,7 +32,7 @@ class SaveButton extends StatelessWidget {
             children: [
               CircleAvatar(
                 backgroundColor: Colors.transparent,
-                child: Icon(Icons.bookmark, size: 24.0.h, color: isSaved ? AppColors.pink : AppColors.whiteIce),
+                child: Icon(Icons.bookmark, size: 20.0.h, color: isSaved ? AppColors.pink : AppColors.whiteIce),
               ),
               StreamBuilder<int>(
                 stream: savedsController.postSavedCount(post.uid!),
@@ -41,12 +41,12 @@ class SaveButton extends StatelessWidget {
                   savedNumber = savedNumber > 0 ? savedNumber : 0;
 
                   return TextButtonCount(
-                    padding: EdgeInsets.only(left: 2.0.w, top: 2.0.h),
+                    padding: EdgeInsets.only(left: 1.0.w, top: 2.0.h),
                     text: '$savedNumber',
                   );
                 },
               ),
-              SizedBox(height: 16.0.h),
+              SizedBox(height: 6.0.h),
             ],
           ),
         );
