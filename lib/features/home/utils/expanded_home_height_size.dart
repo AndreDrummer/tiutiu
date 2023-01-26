@@ -11,6 +11,7 @@ double expandedHomeHeightDefault({required bool showingSponsoredAds}) {
 
 double expandedHomeHeightWithAdminInfoAndInternetConnection({required bool showingSponsoredAds}) {
   return Dimensions.getDimensBasedOnDeviceHeight(
+    xBigger: showingSponsoredAds ? Get.height / 2.40 : Get.height / 3.40,
     xSmaller: showingSponsoredAds ? Get.height / 2.25 : Get.height / 3.1,
     smaller: showingSponsoredAds ? Get.height / 2.35 : Get.height / 3.2,
     medium: showingSponsoredAds ? Get.height / 2.70 : Get.height / 3.70,
