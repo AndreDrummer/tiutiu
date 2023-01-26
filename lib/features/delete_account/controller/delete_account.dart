@@ -81,7 +81,7 @@ class DeleteAccountController extends GetxController with TiuTiuPopUp {
     await showPopUp(
       secondaryAction: () {
         Get.back();
-        authController.signOut();
+        authController.signOut().then((value) => Get.offAllNamed(Routes.startScreen));
       },
       message: AuthStrings.demandRecentLoginWarning,
       backGroundColor: AppColors.warning,

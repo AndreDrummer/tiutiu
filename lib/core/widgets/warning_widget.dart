@@ -84,7 +84,7 @@ class WarningBanner extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        if (adminLinkRedirection.isNotEmptyNeighterNull()) {
+        if (adminLinkRedirection.isNotEmptyNeighterNull() && thereIsAdminCommunication) {
           Launcher.openBrowser('${adminLinkRedirection ?? adminRemoteConfigController.configs.appInstagramLink}');
         }
       },

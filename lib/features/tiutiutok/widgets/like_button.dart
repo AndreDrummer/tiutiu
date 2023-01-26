@@ -45,7 +45,11 @@ class _LoggedLikeButton extends StatelessWidget {
             children: [
               CircleAvatar(
                 backgroundColor: Colors.transparent,
-                child: Icon(FontAwesomeIcons.solidHeart, color: liked ? AppColors.pink : AppColors.whiteIce),
+                child: Icon(
+                  FontAwesomeIcons.solidHeart,
+                  size: 16.0.h,
+                  color: liked ? AppColors.pink : AppColors.whiteIce,
+                ),
               ),
               StreamBuilder<int>(
                 stream: likesController.postLikesCount(post.uid!),
@@ -54,11 +58,12 @@ class _LoggedLikeButton extends StatelessWidget {
                   likesNumber = likesNumber > 0 ? likesNumber : 0;
 
                   return TextButtonCount(
-                    padding: EdgeInsets.only(left: 2.0.w, top: 2.0.h),
+                    padding: EdgeInsets.only(left: 1.0.w, top: 2.0.h),
                     text: '$likesNumber',
                   );
                 },
               ),
+              SizedBox(height: 4.0.h)
             ],
           ),
         );

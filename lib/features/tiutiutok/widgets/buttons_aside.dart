@@ -1,3 +1,4 @@
+import 'package:get/get.dart';
 import 'package:tiutiu/features/tiutiutok/widgets/whatsapp_share_button.dart';
 import 'package:tiutiu/features/tiutiutok/widgets/disappeared_alert.dart';
 import 'package:tiutiu/features/tiutiutok/widgets/go_to_post_button.dart';
@@ -21,8 +22,8 @@ class _ButtonsAsideState extends State<ButtonsAside> {
   @override
   Widget build(BuildContext context) {
     return Positioned(
-      bottom: 56.0.h,
-      right: 0,
+      bottom: 64.0.h,
+      left: Get.width * .9,
       child: Column(
         children: [
           DisappearedAlertAnimation(post: widget.post),
