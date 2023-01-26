@@ -17,7 +17,7 @@ class ViewsCountWidget extends StatelessWidget {
       children: [
         CircleAvatar(
           backgroundColor: Colors.transparent,
-          child: Icon(FontAwesomeIcons.eye, color: AppColors.whiteIce),
+          child: Icon(FontAwesomeIcons.eye, size: 16.0.h, color: AppColors.whiteIce),
         ),
         StreamBuilder<int>(
           stream: postsController.postViews(post.uid!),
