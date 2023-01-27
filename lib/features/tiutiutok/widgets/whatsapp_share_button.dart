@@ -21,11 +21,11 @@ class WhatsAppShareButton extends StatelessWidget {
       child: Column(
         children: [
           CircleAvatar(
-            radius: 8.5.h,
+            radius: 13.0.h,
             backgroundColor: AppColors.primary,
             child: Padding(
               padding: EdgeInsets.only(left: 1.0.w, bottom: 0.5.h),
-              child: Icon(FontAwesomeIcons.whatsapp, color: AppColors.white, size: 11.h),
+              child: Icon(FontAwesomeIcons.whatsapp, color: AppColors.white, size: 16.h),
             ),
           ),
           StreamBuilder<int>(
@@ -34,7 +34,7 @@ class WhatsAppShareButton extends StatelessWidget {
               int sharedTimesNumber = snapshot.data ?? post.likes;
 
               return TextButtonCount(
-                padding: EdgeInsets.only(left: 0.5.w, top: 4.0.h),
+                padding: EdgeInsets.only(left: 0.5.w, top: 6.0.h),
                 text: '$sharedTimesNumber',
               );
             },

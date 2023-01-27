@@ -79,7 +79,7 @@
 		<key>NSCameraUsageDescription</key>
 		<string>É necessário para que você consiga tirar uma foto.</string>
 		<key>NSLocationWhenInUseUsageDescription</key>
-		<string>This app needs access to location when open.</string>
+		<string>Precisamos de ter acesso a sua localização para que consigamos mostrar os animais mais próximos do seu local.</string>
 		<key>NSMicrophoneUsageDescription</key>
 		<string>É necessário para que você consiga gravar um video.</string>
 		<key>NSPhotoLibraryUsageDescription</key>
