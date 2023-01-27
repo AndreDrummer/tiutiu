@@ -197,7 +197,8 @@ class PetHealthString {
 class LocalPermissionStrings {
   static String get permissionDeniedForeverWarning =>
       'Vá para a configuração de permissões no seu aparelho e permita que o Tiu, tiu acesse sua localização.\n\nAo finalizar, pode ser necessário fechar e abrir o app e abra novamente.';
-  static String get needsAccess => 'precisa ter acesso total a sua localização para funcionar corretamente!';
+  static String get needsAccess =>
+      'precisa de ter acesso a sua localização para mostrar os animais mais próximos do seu local.';
   static String get needsGPS => 'precisa que o serviço de GPS / Localização esteja ativado!';
   static String get appBarTitle => 'Permissão para acessar sua localização';
   static String get turnOnLocalization => 'ATIVAR LOCALIZAÇÃO';
@@ -237,7 +238,7 @@ class PostDetailsStrings {
   static String get preparingPostToShare => 'Preparando o post para compartilhar';
   static String get videoPlayerError => 'Erro ao reproduzir o video';
   static String get describBreed => 'Escreva o nome da raça';
-  static String get petDisappeared => 'PET\nDesaparecido';
+  static String get petDisappeared => 'Desaparecido';
   static String get selectSpecie => 'Selecione a espécie';
   static String get caracteristics => 'Características';
   static String get selectBreed => 'Selecione a raça';

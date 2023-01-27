@@ -43,6 +43,7 @@ class DocScreen extends StatelessWidget {
                       child: Stack(
                         children: [
                           ListView(
+                            padding: EdgeInsets.symmetric(horizontal: 8.0.w),
                             children: [
                               SizedBox(height: 8.0.h),
                               TiutiuLogo(),
