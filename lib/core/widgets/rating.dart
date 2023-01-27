@@ -29,10 +29,10 @@ class RatingUs extends StatelessWidget {
             buttons(
               icon: Platform.isAndroid ? FontAwesomeIcons.googlePlay : FontAwesomeIcons.apple,
               text: 'Avalie-nos\n${Platform.isAndroid ? 'PlayStore' : 'Apple Store'}',
+              color: Platform.isAndroid ? Colors.green : Colors.black,
               urlToOpen: Platform.isAndroid
                   ? adminRemoteConfigController.configs.playStoreLink
                   : adminRemoteConfigController.configs.appleStoreLink,
-              color: Colors.black,
               context: context,
             ),
             buttons(
