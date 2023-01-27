@@ -11,21 +11,22 @@ class ChangePostsVisibilityFloatingButtom extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Visibility(
-      visible: visibility,
-      child: Obx(
-        () {
-          final isCardVisibility = postsController.cardVisibilityKind == CardVisibilityKind.card;
+    return Obx(
+      () {
+        final isCardVisibility = postsController.cardVisibilityKind == CardVisibilityKind.card;
+        final isToCloseApp = systemController.isToCloseApp;
 
-          return FloatingActionButton(
+        return Visibility(
+          visible: !isToCloseApp && visibility,
+          child: FloatingActionButton(
             child: Icon(isCardVisibility ? Icons.list_outlined : Icons.photo_outlined),
             tooltip: AppStrings.changeListVisual,
             onPressed: () {
               postsController.changeCardVisibilityKind();
             },
-          );
-        },
-      ),
+          ),
+        );
+      },
     );
   }
 }
