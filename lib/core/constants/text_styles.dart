@@ -1,5 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class AutoSizeTexts {
   static AutoSizeText autoSizeText(
@@ -15,7 +16,7 @@ class AutoSizeTexts {
     Color? color,
   }) {
     return AutoSizeText(
-      maxFontSize: fontSize,
+      maxFontSize: (fontSize).toPrecision(0),
       overflow: textOverflow,
       textAlign: textAlign,
       maxLines: maxLines,
@@ -39,13 +40,13 @@ class AutoSizeTexts {
     FontWeight? fontWeight,
     FontStyle? fontStyle,
     double? fontSize = 8,
-    double? height,
     TextAlign? textAlign,
+    double? height,
     int? maxLines,
     Color? color,
   }) {
     return AutoSizeText(
-      maxFontSize: fontSize ?? 8,
+      maxFontSize: (fontSize ?? 8).toPrecision(0),
       overflow: textOverflow,
       textAlign: textAlign,
       maxLines: maxLines,
@@ -75,7 +76,7 @@ class AutoSizeTexts {
     Color? color,
   }) {
     return AutoSizeText(
-      maxFontSize: fontSize ?? 10,
+      maxFontSize: (fontSize ?? 10).toPrecision(0),
       overflow: textOverflow,
       textAlign: textAlign,
       maxLines: maxLines,
@@ -105,7 +106,7 @@ class AutoSizeTexts {
     Color? color,
   }) {
     return AutoSizeText(
-      maxFontSize: fontSize ?? 12,
+      maxFontSize: (fontSize ?? 12).toPrecision(0),
       overflow: textOverflow,
       textAlign: textAlign,
       maxLines: maxLines,
@@ -135,7 +136,7 @@ class AutoSizeTexts {
     Color? color,
   }) {
     return AutoSizeText(
-      maxFontSize: fontSize ?? 14,
+      maxFontSize: (fontSize ?? 14).toPrecision(0),
       overflow: textOverflow,
       textAlign: textAlign,
       maxLines: maxLines,
@@ -165,7 +166,7 @@ class AutoSizeTexts {
     Color? color,
   }) {
     return AutoSizeText(
-      maxFontSize: fontSize ?? 16,
+      maxFontSize: (fontSize ?? 16).toPrecision(0),
       overflow: textOverflow,
       textAlign: textAlign,
       maxLines: maxLines,
@@ -195,7 +196,7 @@ class AutoSizeTexts {
     Color? color,
   }) {
     return AutoSizeText(
-      maxFontSize: fontSize ?? 18,
+      maxFontSize: (fontSize ?? 18).toPrecision(0),
       overflow: textOverflow,
       textAlign: textAlign,
       maxLines: maxLines,
@@ -225,7 +226,7 @@ class AutoSizeTexts {
     Color? color,
   }) {
     return AutoSizeText(
-      maxFontSize: fontSize ?? 20,
+      maxFontSize: (fontSize ?? 20).toPrecision(0),
       overflow: textOverflow,
       textAlign: textAlign,
       maxLines: maxLines,
@@ -255,7 +256,7 @@ class AutoSizeTexts {
     Color? color,
   }) {
     return AutoSizeText(
-      maxFontSize: fontSize ?? 22,
+      maxFontSize: (fontSize ?? 22).toPrecision(0),
       overflow: textOverflow,
       textAlign: textAlign,
       maxLines: maxLines,
@@ -285,7 +286,7 @@ class AutoSizeTexts {
     Color? color,
   }) {
     return AutoSizeText(
-      maxFontSize: fontSize ?? 24,
+      maxFontSize: (fontSize ?? 24).toPrecision(0),
       overflow: textOverflow,
       textAlign: textAlign,
       maxLines: maxLines,
@@ -315,7 +316,7 @@ class AutoSizeTexts {
     Color? color,
   }) {
     return AutoSizeText(
-      maxFontSize: fontSize ?? 26,
+      maxFontSize: (fontSize ?? 26).toPrecision(0),
       overflow: textOverflow,
       textAlign: textAlign,
       maxLines: maxLines,
@@ -345,7 +346,7 @@ class AutoSizeTexts {
     Color? color,
   }) {
     return AutoSizeText(
-      maxFontSize: fontSize ?? 28,
+      maxFontSize: (fontSize ?? 28).toPrecision(0),
       overflow: textOverflow,
       textAlign: textAlign,
       maxLines: maxLines,
@@ -375,7 +376,7 @@ class AutoSizeTexts {
     Color? color,
   }) {
     return AutoSizeText(
-      maxFontSize: fontSize ?? 32,
+      maxFontSize: (fontSize ?? 32).toPrecision(0),
       overflow: textOverflow,
       textAlign: textAlign,
       maxLines: maxLines,

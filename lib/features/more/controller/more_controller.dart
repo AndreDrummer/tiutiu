@@ -50,7 +50,12 @@ class MoreController extends GetxController {
     _isLoading(false);
   }
 
-  List<String> myProfileOptionsTile = _myProfileOptionsTile;
+  List<String> get myProfileOptionsTile {
+    final bool enableDonateTile = adminRemoteConfigController.configs.enableDonateTile;
+    List<String> list = [..._myProfileOptionsTile];
+    if (!enableDonateTile) list.remove(MyProfileOptionsTile.support);
+    return list;
+  }
 
   static const List<String> _myProfileOptionsTile = [
     MyProfileOptionsTile.talkWithUs,
@@ -64,7 +69,12 @@ class MoreController extends GetxController {
     MyProfileOptionsTile.about,
   ];
 
-  List<IconData> get myProfileOptionsIcon => _myProfileOptionsIcon;
+  List<IconData> get myProfileOptionsIcon {
+    final bool enableDonateTile = adminRemoteConfigController.configs.enableDonateTile;
+    List<IconData> list = [..._myProfileOptionsIcon];
+    if (!enableDonateTile) list.remove(Icons.volunteer_activism_outlined);
+    return list;
+  }
 
   final List<IconData> _myProfileOptionsIcon = [
     Icons.headset_mic_outlined,
