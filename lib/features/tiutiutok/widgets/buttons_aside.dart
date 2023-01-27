@@ -1,6 +1,6 @@
 import 'package:tiutiu/features/tiutiutok/widgets/whatsapp_share_button.dart';
-import 'package:tiutiu/features/tiutiutok/widgets/disappeared_alert.dart';
 import 'package:tiutiu/features/tiutiutok/widgets/views_count_widget.dart';
+import 'package:tiutiu/features/tiutiutok/widgets/disappeared_alert.dart';
 import 'package:tiutiu/features/tiutiutok/widgets/save_button.dart';
 import 'package:tiutiu/features/tiutiutok/widgets/like_button.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -23,13 +23,7 @@ class _ButtonsAsideState extends State<ButtonsAside> {
   Widget build(BuildContext context) {
     return Positioned(
       bottom: 96.0.h,
-      left: (widget.post as Pet).disappeared
-          ? Get.height > 999
-              ? Get.width * .9
-              : Get.width * .8
-          : Get.height > 999
-              ? Get.width * .95
-              : Get.width * .85,
+      left: distanceFromBorderRight((widget.post as Pet).disappeared),
       child: Column(
         children: [
           DisappearedAlertAnimation(post: widget.post),
@@ -40,5 +34,20 @@ class _ButtonsAsideState extends State<ButtonsAside> {
         ],
       ),
     );
+  }
+
+  double distanceFromBorderRight(bool isDisappeared) {
+    final deviceHeight = Get.height;
+    if (isDisappeared) {
+      if (deviceHeight > 999)
+        return Get.width * .9;
+      else if (deviceHeight < 700) return Get.width * .85;
+      return Get.width * .8;
+    } else {
+      if (deviceHeight > 999)
+        return Get.width * .95;
+      else if (deviceHeight < 700) return Get.width * .86;
+      return Get.width * .85;
+    }
   }
 }

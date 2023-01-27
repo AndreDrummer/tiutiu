@@ -1,6 +1,9 @@
+import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/features/posts/model/post.dart';
+import 'package:tiutiu/core/widgets/video_error.dart';
 import 'package:better_player/better_player.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class AndroidTiutiuTokVideo extends StatefulWidget {
   const AndroidTiutiuTokVideo({Key? key, required this.post}) : super(key: key);
@@ -21,11 +24,17 @@ class _MyHomePageState extends State<AndroidTiutiuTokVideo> {
 
     _betterController = BetterPlayerController(
       BetterPlayerConfiguration(
+        errorBuilder: (context, errorMessage) => VideoError(),
         controlsConfiguration: BetterPlayerControlsConfiguration(
+          showControlsOnInitialize: false,
+          enableOverflowMenu: false,
+          enableProgressText: false,
           enableFullscreen: false,
+          enablePlayPause: false,
           enableSkips: false,
+          enableMute: false,
         ),
-        aspectRatio: .5,
+        aspectRatio: getAspectRatio(),
         autoPlay: true,
         looping: true,
       ),
@@ -43,6 +52,11 @@ class _MyHomePageState extends State<AndroidTiutiuTokVideo> {
     );
   }
 
+  double getAspectRatio() {
+    if (Get.height < 700) return .645;
+    return .52;
+  }
+
   @override
   void dispose() {
     _betterController.dispose();
@@ -50,5 +64,9 @@ class _MyHomePageState extends State<AndroidTiutiuTokVideo> {
   }
 
   @override
-  Widget build(BuildContext context) => BetterPlayer(controller: _betterController);
+  Widget build(BuildContext context) => Container(
+        margin: EdgeInsets.only(bottom: Get.height < 700 ? 36.0 : 0.0),
+        child: BetterPlayer(controller: _betterController),
+        color: AppColors.black,
+      );
 }
