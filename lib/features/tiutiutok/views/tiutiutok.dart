@@ -1,3 +1,4 @@
+import 'package:tiutiu/features/tiutiutok/widgets/go_to_post_button.dart';
 import 'package:tiutiu/features/tiutiutok/widgets/empty_tiutiutok.dart';
 import 'package:tiutiu/features/tiutiutok/widgets/buttons_aside.dart';
 import 'package:tiutiu/features/tiutiutok/widgets/video_widget.dart';
@@ -25,7 +26,7 @@ class _TiutiuTokState extends State<TiutiuTok> {
     late Post post;
 
     return Scaffold(
-      backgroundColor: AppColors.white,
+      backgroundColor: AppColors.black,
       body: SizedBox.expand(
         child: Obx(() {
           final postsWithVideo = postsController.posts.where((post) => post.video != null).toList();
@@ -65,6 +66,7 @@ class _TiutiuTokState extends State<TiutiuTok> {
                     Positioned.fill(child: VideoWidget(post: post)),
                     ButtonsAside(post: post),
                     PostDetails(post: post),
+                    GoToPostButton(post: post),
                     LoadingBlur(),
                   ],
                 );
