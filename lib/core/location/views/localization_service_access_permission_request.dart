@@ -13,6 +13,7 @@ import 'package:tiutiu/core/constants/strings.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'dart:io';
 
 class LocalizationServiceAccessPermissionAccess extends StatelessWidget {
   const LocalizationServiceAccessPermissionAccess({
@@ -61,7 +62,7 @@ class LocalizationServiceAccessPermissionAccess extends StatelessWidget {
 
   Widget _warningAboutConfigsSeetings() {
     return Visibility(
-      visible: currentLocationController.permission == LocationPermission.deniedForever,
+      visible: currentLocationController.permission == LocationPermission.deniedForever && Platform.isAndroid,
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 8.0.w),
         child: AutoSizeTexts.autoSizeText14(

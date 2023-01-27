@@ -47,7 +47,7 @@ class _LoggedLikeButton extends StatelessWidget {
                 backgroundColor: Colors.transparent,
                 child: Icon(
                   FontAwesomeIcons.solidHeart,
-                  size: 16.0.h,
+                  size: 32.0,
                   color: liked ? AppColors.pink : AppColors.whiteIce,
                 ),
               ),
@@ -58,12 +58,13 @@ class _LoggedLikeButton extends StatelessWidget {
                   likesNumber = likesNumber > 0 ? likesNumber : 0;
 
                   return TextButtonCount(
-                    padding: EdgeInsets.only(left: 1.0.w, top: 2.0.h),
+                    padding: EdgeInsets.only(left: 2.0.w, top: 2.0.h),
+                    fontSize: 12.0.sp,
                     text: '$likesNumber',
                   );
                 },
               ),
-              SizedBox(height: 4.0.h)
+              SizedBox(height: 8.0.h)
             ],
           ),
         );
@@ -80,46 +81,53 @@ class _UnloggedLikeButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-        future: likesController.getLikesSavedOnDevice(),
-        builder: (context, snapshot) {
-          return StreamBuilder<List>(
-            initialData: [],
-            stream: likesController.postLikedUnloggedIds,
-            builder: (context, snapshot) {
-              final likedList = snapshot.data;
-              final liked = likedList!.contains(post.uid);
+      future: likesController.getLikesSavedOnDevice(),
+      builder: (context, snapshot) {
+        return StreamBuilder<List>(
+          initialData: [],
+          stream: likesController.postLikedUnloggedIds,
+          builder: (context, snapshot) {
+            final likedList = snapshot.data;
+            final liked = likedList!.contains(post.uid);
 
-              return InkWell(
-                onTap: () {
-                  if (liked) {
-                    likesController.unlike(post);
-                  } else {
-                    likesController.like(post);
-                  }
-                },
-                child: Column(
-                  children: [
-                    CircleAvatar(
-                      backgroundColor: Colors.transparent,
-                      child: Icon(FontAwesomeIcons.solidHeart, color: liked ? AppColors.pink : AppColors.whiteIce),
+            return InkWell(
+              onTap: () {
+                if (liked) {
+                  likesController.unlike(post);
+                } else {
+                  likesController.like(post);
+                }
+              },
+              child: Column(
+                children: [
+                  CircleAvatar(
+                    backgroundColor: Colors.transparent,
+                    child: Icon(
+                      FontAwesomeIcons.solidHeart,
+                      size: 32.0,
+                      color: liked ? AppColors.pink : AppColors.whiteIce,
                     ),
-                    StreamBuilder<int>(
-                      stream: likesController.postLikesCount(post.uid!),
-                      builder: (context, snapshot) {
-                        int likesNumber = snapshot.data ?? post.likes;
-                        likesNumber = likesNumber > 0 ? likesNumber : 0;
+                  ),
+                  StreamBuilder<int>(
+                    stream: likesController.postLikesCount(post.uid!),
+                    builder: (context, snapshot) {
+                      int likesNumber = snapshot.data ?? post.likes;
+                      likesNumber = likesNumber > 0 ? likesNumber : 0;
 
-                        return TextButtonCount(
-                          padding: EdgeInsets.only(left: 2.0.w, top: 2.0.h),
-                          text: '$likesNumber',
-                        );
-                      },
-                    ),
-                  ],
-                ),
-              );
-            },
-          );
-        });
+                      return TextButtonCount(
+                        padding: EdgeInsets.only(left: 2.0.w, top: 2.0.h),
+                        fontSize: 12.0.sp,
+                        text: '$likesNumber',
+                      );
+                    },
+                  ),
+                  SizedBox(height: 8.0.h)
+                ],
+              ),
+            );
+          },
+        );
+      },
+    );
   }
 }
