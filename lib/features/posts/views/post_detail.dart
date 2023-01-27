@@ -86,7 +86,7 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
         placeholder: VideoPlaceholder(),
         showPlaceholderUntilPlay: false,
         controlsConfiguration: BetterPlayerControlsConfiguration(
-          enableFullscreen: Platform.isAndroid,
+          enableFullscreen: false,
           enableSkips: false,
         ),
         errorBuilder: (context, errorMessage) => VideoError(),
