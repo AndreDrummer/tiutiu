@@ -23,49 +23,54 @@ class _BottomBarState extends State<BottomBar> {
   Widget build(BuildContext context) {
     return Obx(
       () {
-        return BottomNavigationBar(
-            onTap: (index) {
-              if (index == BottomBarIndex.TIUTIUTOK.indx) {
-                setState(() {
-                  isTiuTokIndex = true;
-                });
-              } else {
-                setState(() {
-                  isTiuTokIndex = false;
-                });
-              }
-              homeController.setIndex(index);
-            },
-            selectedLabelStyle: isTiuTokIndex ? GoogleFonts.miltonianTattoo() : null,
-            currentIndex: homeController.bottomBarIndex,
-            selectedItemColor: AppColors.primary,
-            unselectedItemColor: AppColors.white,
-            type: BottomNavigationBarType.fixed,
-            backgroundColor: AppColors.black,
-            showSelectedLabels: true,
-            unselectedFontSize: 10.0,
-            selectedFontSize: 10,
-            items: _bottomBarLabels.map(
-              (label) {
-                final index = _bottomBarLabels.indexOf(label);
-                return BottomNavigationBarItem(
-                  icon: Padding(
-                    padding: EdgeInsets.only(bottom: 4.0.h),
-                    child: Stack(
-                      children: [
-                        index == 1
-                            ? tiuTokIcon(homeController.bottomBarIndex == index)
-                            : Icon(
-                                _bottomBarIcons.elementAt(index),
-                                size: 20.0.h,
-                              ),
-                      ],
-                    ),
-                  ),
-                  label: label,
-                );
+        final isToCloseApp = systemController.isToCloseApp;
+
+        return Visibility(
+          visible: !isToCloseApp,
+          child: BottomNavigationBar(
+              onTap: (index) {
+                if (index == BottomBarIndex.TIUTIUTOK.indx) {
+                  setState(() {
+                    isTiuTokIndex = true;
+                  });
+                } else {
+                  setState(() {
+                    isTiuTokIndex = false;
+                  });
+                }
+                homeController.setIndex(index);
               },
-            ).toList());
+              selectedLabelStyle: isTiuTokIndex ? GoogleFonts.miltonianTattoo() : null,
+              currentIndex: homeController.bottomBarIndex,
+              selectedItemColor: AppColors.primary,
+              unselectedItemColor: AppColors.white,
+              type: BottomNavigationBarType.fixed,
+              backgroundColor: AppColors.black,
+              showSelectedLabels: true,
+              unselectedFontSize: 10.0,
+              selectedFontSize: 10,
+              items: _bottomBarLabels.map(
+                (label) {
+                  final index = _bottomBarLabels.indexOf(label);
+                  return BottomNavigationBarItem(
+                    icon: Padding(
+                      padding: EdgeInsets.only(bottom: 4.0.h),
+                      child: Stack(
+                        children: [
+                          index == 1
+                              ? tiuTokIcon(homeController.bottomBarIndex == index)
+                              : Icon(
+                                  _bottomBarIcons.elementAt(index),
+                                  size: 20.0.h,
+                                ),
+                        ],
+                      ),
+                    ),
+                    label: label,
+                  );
+                },
+              ).toList()),
+        );
       },
     );
   }
