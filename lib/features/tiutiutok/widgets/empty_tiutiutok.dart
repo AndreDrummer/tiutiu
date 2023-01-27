@@ -27,7 +27,7 @@ class EmptyTiuTiuTokScreen extends StatelessWidget {
           height: 96.0.h,
           width: 96.0.h,
           decoration: BoxDecoration(
-            color: AppColors.black,
+            color: Colors.black,
             shape: BoxShape.circle,
           ),
           child: Padding(
@@ -46,7 +46,7 @@ class EmptyTiuTiuTokScreen extends StatelessWidget {
             Padding(
               padding: EdgeInsets.only(top: Get.width / 4),
               child: TextButton(
-                child: AutoSizeTexts.autoSizeText12('Postar ${!endOfList ? 'um ' : ''}agora', color: AppColors.white),
+                child: AutoSizeTexts.autoSizeText12('Postar ${!endOfList ? 'um ' : ''}agora', color: Colors.white),
                 style: TextButton.styleFrom(backgroundColor: AppColors.primary),
                 onPressed: () {
                   homeController.setPostIndex();
@@ -61,7 +61,8 @@ class EmptyTiuTiuTokScreen extends StatelessWidget {
             blockName: AdMobBlockName.homeFooterAdBlockId,
             type: AdMobType.banner,
           ),
-        )
+        ),
+        SizedBox(height: 32.0.h)
       ],
     );
   }
@@ -72,12 +73,12 @@ class EmptyTiuTiuTokScreen extends StatelessWidget {
       children: [
         Padding(
           padding: EdgeInsets.only(top: 2.0),
-          child: AutoSizeTexts.autoSizeText12('Nenhum ', color: AppColors.black),
+          child: AutoSizeTexts.autoSizeText12('Nenhum ', color: Colors.white),
         ),
-        AutoSizeText('Tiutiu Tok', style: GoogleFonts.miltonianTattoo(color: AppColors.black)),
+        AutoSizeText('Tiutiu Tok', style: GoogleFonts.miltonianTattoo(color: Colors.white)),
         Padding(
           padding: EdgeInsets.only(top: 2.0),
-          child: AutoSizeTexts.autoSizeText12(' encontrado ', color: AppColors.black),
+          child: AutoSizeTexts.autoSizeText12(' encontrado ', color: Colors.white),
         ),
       ],
     );
@@ -89,21 +90,21 @@ class EmptyTiuTiuTokScreen extends StatelessWidget {
       children: [
         Padding(
           padding: EdgeInsets.only(top: 8.0),
-          child: AutoSizeTexts.autoSizeText12('Isso é tudo! Quer adicionar mais ', color: AppColors.black),
+          child: AutoSizeTexts.autoSizeText12('Isso é tudo! Quer adicionar mais ', color: Colors.white),
         ),
         Padding(
           padding: EdgeInsets.only(top: 4.0),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              AutoSizeText('Tiutiu Tok', style: GoogleFonts.miltonianTattoo(color: AppColors.black)),
-              AutoSizeTexts.autoSizeText12('\'s ?', color: AppColors.black),
+              AutoSizeText('Tiutiu Tok', style: GoogleFonts.miltonianTattoo(color: Colors.white)),
+              AutoSizeTexts.autoSizeText12('\'s ?', color: Colors.white),
             ],
           ),
         ),
         Padding(
           padding: EdgeInsets.only(top: 16.0),
-          child: AutoSizeTexts.autoSizeText12('Clique no botão abaixo.', color: AppColors.black),
+          child: AutoSizeTexts.autoSizeText12('Clique no botão abaixo.', color: Colors.white),
         ),
       ],
     );
