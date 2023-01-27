@@ -39,6 +39,7 @@ class AnimationsAssets {
   static const pawsLoading = 'assets/animations/paws_loading.json';
   static const loadingWifi = 'assets/animations/loading_wifi.json';
   static const birdLoading = 'assets/animations/bird_loading.json';
+  static const maintenance = 'assets/animations/maintenance.json';
   static const noInternet = 'assets/animations/no_internet.json';
   static const catLoading = 'assets/animations/cat_loading.json';
   static const dogLoading = 'assets/animations/dog_loading.json';

@@ -1,6 +1,7 @@
 import 'package:tiutiu/core/widgets/change_posts_visibility_floating_button.dart';
 import 'package:tiutiu/features/home/utils/expanded_home_height_size.dart';
 import 'package:tiutiu/core/remote_config/model/admin_remote_config.dart';
+import 'package:tiutiu/features/home/widgets/closed_for_maintenance.dart';
 import 'package:tiutiu/features/posts/controller/posts_controller.dart';
 import 'package:tiutiu/features/admob/constants/admob_block_names.dart';
 import 'package:tiutiu/core/migration/service/migration_service.dart';
@@ -45,11 +46,11 @@ class _HomeState extends State<Home> with TiuTiuPopUp {
   @override
   Widget build(BuildContext context) {
     final screens = <Widget>[
-      DonateList(),
-      TiutiuTok(),
-      InitPostFlow(),
-      FinderList(),
-      More(),
+      ClosedForMaintenance(child: DonateList()),
+      ClosedForMaintenance(child: TiutiuTok()),
+      ClosedForMaintenance(child: InitPostFlow()),
+      ClosedForMaintenance(child: FinderList()),
+      ClosedForMaintenance(child: More()),
     ];
 
     return SafeArea(
@@ -160,9 +161,11 @@ class _HomeState extends State<Home> with TiuTiuPopUp {
 
     final showingSponsoredAds = configs.showSponsoredAds && sponsoreds.isNotEmpty;
     final isFilteringByName = filterController.filterParams.value.orderBy == FilterStrings.name;
+    final appIsClosed = adminRemoteConfigController.configs.appIsClosed;
 
-    final conditionToAddHeight = homeController.bottomBarIndex == BottomBarIndex.DONATE.indx ||
-        homeController.bottomBarIndex == BottomBarIndex.FINDER.indx;
+    final conditionToAddHeight = !appIsClosed &&
+        (homeController.bottomBarIndex == BottomBarIndex.DONATE.indx ||
+            homeController.bottomBarIndex == BottomBarIndex.FINDER.indx);
 
     if (conditionToAddHeight) {
       final thereIsDeveloperCommunication = adminRemoteConfigController.configs.thereIsAdminCommunication;

@@ -280,4 +280,22 @@ class OtherFunctions {
 
     return 'esse ${type.toLowerCase()}';
   }
+
+  static bool isSmallerThan(String version1, String version2) {
+    debugPrint('TiuTiuApp: Is to close app? v1: $version1 <--> v2: $version2');
+
+    final int v1Major = int.tryParse(version1.split('.').first) ?? 0;
+    final int v1Minor = int.tryParse(version1.split('.')[1]) ?? 0;
+    final int v1Patch = int.tryParse(version1.split('.').last) ?? 0;
+
+    final int v2Major = int.tryParse(version2.split('.').first) ?? 0;
+    final int v2Minor = int.tryParse(version2.split('.')[1]) ?? 0;
+    final int v2Patch = int.tryParse(version2.split('.').last) ?? 0;
+
+    if (v1Major < v2Major) return true;
+    if (v1Minor < v2Minor) return true;
+    if (v1Patch < v2Patch) return true;
+
+    return false;
+  }
 }
