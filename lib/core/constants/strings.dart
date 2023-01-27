@@ -503,3 +503,8 @@ class MaritalStatusStrings {
   static const String married = 'Casado';
   static const String widower = 'Viúvo';
 }
+
+class AppClosedStrings {
+  static const String willNotLate = 'Vai ser rápido, entre novamente em alguns minutinhos!';
+  static const String closedForMaintenance = 'Fechado para manutenção';
+}
