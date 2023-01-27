@@ -1,3 +1,4 @@
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiutiu/features/saveds/widgets/post_is_saved_stream.dart';
 import 'package:tiutiu/features/tiutiutok/widgets/text_buttons.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -32,7 +33,11 @@ class SaveButton extends StatelessWidget {
             children: [
               CircleAvatar(
                 backgroundColor: Colors.transparent,
-                child: Icon(Icons.bookmark, size: 20.0.h, color: isSaved ? AppColors.pink : AppColors.whiteIce),
+                child: Icon(
+                  FontAwesomeIcons.solidBookmark,
+                  size: 32.0,
+                  color: isSaved ? AppColors.pink : AppColors.whiteIce,
+                ),
               ),
               StreamBuilder<int>(
                 stream: savedsController.postSavedCount(post.uid!),
@@ -41,12 +46,13 @@ class SaveButton extends StatelessWidget {
                   savedNumber = savedNumber > 0 ? savedNumber : 0;
 
                   return TextButtonCount(
-                    padding: EdgeInsets.only(left: 1.0.w, top: 2.0.h),
+                    padding: EdgeInsets.only(left: 2.0.w, top: 2.0.h),
+                    fontSize: 12.0.sp,
                     text: '$savedNumber',
                   );
                 },
               ),
-              SizedBox(height: 6.0.h),
+              SizedBox(height: 8.0.h),
             ],
           ),
         );
