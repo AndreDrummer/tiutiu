@@ -42,7 +42,10 @@ class SavedsController extends GetxController {
       savedPosts.clear();
       event.docs.forEach((save) {
         if (save.data().isNotEmpty) {
-          savedPosts.add(Pet.fromSnapshot(save));
+          final map = save.data();
+          final pet = Pet().fromMap(map);
+
+          savedPosts.add(pet);
         }
       });
 
@@ -70,7 +73,8 @@ class SavedsController extends GetxController {
 
   Stream<int> postSavedCount(String postId) {
     return _postsService.pathToPost(postId).snapshots().asyncMap((snapshot) {
-      return Pet.fromSnapshot(snapshot).saved;
+      final map = snapshot.data() as Map<String, dynamic>;
+      return Pet().fromMap(map).saved;
     });
   }
 }
