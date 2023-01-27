@@ -42,7 +42,7 @@ class LocationSelecter extends StatelessWidget {
           AnimatedContainer(
             margin: EdgeInsets.symmetric(horizontal: 16.0.w),
             height: fillFullAddress
-                ? 172.0.h
+                ? 180.0.h
                 : Get.height > 999
                     ? 32.0.h
                     : 52.0.h,
