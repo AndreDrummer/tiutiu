@@ -30,7 +30,8 @@ class ChatService extends GetxController {
 
   Stream<Pet> postTalkingAbout(DocumentReference reference) {
     return reference.snapshots().asyncMap((snapshot) {
-      return Pet.fromSnapshot(snapshot);
+      final map = snapshot.data() as Map<String, dynamic>;
+      return Pet().fromMap(map);
     });
   }
 

@@ -14,11 +14,14 @@ enum PostDennounceEnum {
 
 class PostDennounce extends Dennounce {
   factory PostDennounce.fromSnapshot(DocumentSnapshot snapshot) {
+    final map = snapshot.data() as Map<String, dynamic>;
+    final post = Pet().fromMap(map);
+
     return PostDennounce(
-      dennouncedPost: Pet.fromSnapshot(snapshot.get(PostDennounceEnum.dennouncedPost.name)),
       dennouncer: TiutiuUser.fromMap(snapshot.get(PostDennounceEnum.dennouncer.name)),
       description: snapshot.get(PostDennounceEnum.description.name),
       motive: snapshot.get(PostDennounceEnum.motive.name),
+      dennouncedPost: post,
       uid: snapshot.id,
     );
   }
