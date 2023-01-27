@@ -1,7 +1,9 @@
+import 'package:tiutiu/features/admob/constants/admob_block_names.dart';
 import 'package:tiutiu/features/auth/views/authenticated_area.dart';
 import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
 import 'package:tiutiu/features/chat/widgets/contact_tile.dart';
 import 'package:tiutiu/core/widgets/default_basic_app_bar.dart';
+import 'package:tiutiu/features/admob/widgets/ad_banner.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/features/chat/model/contact.dart';
 import 'package:tiutiu/core/widgets/warning_widget.dart';
@@ -34,32 +36,45 @@ class _MyContactsState extends State<MyContacts> {
               ),
               snapshot: contactsSnapshot,
               buildWidget: (contacts) {
-                return ListView.builder(
-                  itemCount: contacts.length,
-                  itemBuilder: ((context, index) {
-                    final contact = contacts[index];
+                return Column(
+                  children: [
+                    Expanded(
+                      child: ListView.builder(
+                        itemCount: contacts.length,
+                        itemBuilder: ((context, index) {
+                          final contact = contacts[index];
 
-                    return StreamBuilder<TiutiuUser>(
-                      stream: chatController.receiverUser(contact),
-                      builder: (context, userSnapshot) {
-                        return ContactTile(
-                          onContactTap: (() {
-                            chatController.markMessageAsRead(contact);
-                            if (userSnapshot.data != null && !userSnapshot.data!.userDeleted) {
-                              chatController.setPostTalkingAbout(contact.postTalkingAbout!);
-                              chatController.startsChatWith(
-                                user: userSnapshot.data,
-                                myUserId: myUserId!,
+                          return StreamBuilder<TiutiuUser>(
+                            stream: chatController.receiverUser(contact),
+                            builder: (context, userSnapshot) {
+                              return ContactTile(
+                                onContactTap: (() {
+                                  chatController.markMessageAsRead(contact);
+                                  if (userSnapshot.data != null && !userSnapshot.data!.userDeleted) {
+                                    chatController.setPostTalkingAbout(contact.postTalkingAbout!);
+                                    chatController.startsChatWith(
+                                      user: userSnapshot.data,
+                                      myUserId: myUserId!,
+                                    );
+                                  }
+                                }),
+                                hasNewMessage: !contact.open && contact.userSenderId != myUserId,
+                                userReceiver: userSnapshot.data,
+                                contact: contact,
                               );
-                            }
-                          }),
-                          hasNewMessage: !contact.open && contact.userSenderId != myUserId,
-                          userReceiver: userSnapshot.data,
-                          contact: contact,
-                        );
-                      },
-                    );
-                  }),
+                            },
+                          );
+                        }),
+                      ),
+                    ),
+                    Spacer(),
+                    AdBanner(
+                      adId: systemController.getAdMobBlockID(
+                        blockName: AdMobBlockName.homeFooterAdBlockId,
+                        type: AdMobType.banner,
+                      ),
+                    ),
+                  ],
                 );
               },
             );
