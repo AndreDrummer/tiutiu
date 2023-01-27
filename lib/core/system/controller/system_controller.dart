@@ -23,14 +23,18 @@ class SystemController extends GetxController {
   final RxMap<String, dynamic> _adMobIDs = <String, dynamic>{}.obs;
   final Rx<System> _systemProperties = System().obs;
   final RxList<Endpoint> _endpoints = <Endpoint>[].obs;
+  final RxBool _isToCloseApp = false.obs;
   String initialFDLink = '';
 
   final _firebaseDynamicLinks = FirebaseDynamicLinks.instance;
 
   System get properties => _systemProperties.value;
+  bool get isToCloseApp => _isToCloseApp.value;
+
   List<Endpoint> get endpoints => _endpoints;
 
   void set snackBarIsOpen(bool value) => _systemProperties(properties.copyWith(snackBarIsOpen: value));
+  void set isToCloseApp(bool value) => _isToCloseApp(value);
 
   void setLoading(bool loadingValue, [String systemStateTextFeedback = '']) {
     _systemProperties(properties.copyWith(systemStateTextFeedback: systemStateTextFeedback));
