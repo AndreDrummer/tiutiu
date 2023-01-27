@@ -95,7 +95,8 @@ class LikesController extends GetxController {
 
   Stream<int> postLikesCount(String postId) {
     return _postsService.pathToPost(postId).snapshots().asyncMap((snapshot) {
-      return Pet.fromSnapshot(snapshot).likes;
+      final map = snapshot.data() as Map<String, dynamic>;
+      return Pet().fromMap(map).likes;
     });
   }
 }
