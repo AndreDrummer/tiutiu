@@ -32,6 +32,7 @@ class WhatsAppShareButton extends StatelessWidget {
             stream: postsController.postSharedTimes(post.uid!),
             builder: (context, snapshot) {
               int sharedTimesNumber = snapshot.data ?? post.likes;
+              sharedTimesNumber = sharedTimesNumber > 0 ? sharedTimesNumber : 0;
 
               return TextButtonCount(
                 padding: EdgeInsets.only(left: 0.5.w, top: 6.0.h),

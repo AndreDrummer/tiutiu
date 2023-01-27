@@ -61,7 +61,9 @@ class PostDennounceController extends GetxController {
   Future<void> checkIfMustBeDeleted() async {
     if (postDennounce.dennouncedPost?.reference != null) {
       final snapshot = await postDennounce.dennouncedPost!.reference!.get();
-      final pet = Pet.fromSnapshot(snapshot);
+
+      final map = snapshot.data() as Map<String, dynamic>;
+      final pet = Pet().fromMap(map);
 
       if (snapshot.exists && pet.timesDennounced >= 3) {
         postDennounce.dennouncedPost!.reference!.delete();

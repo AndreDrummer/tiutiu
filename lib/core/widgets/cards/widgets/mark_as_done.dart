@@ -19,7 +19,10 @@ class MarkAsDone extends StatelessWidget {
       return Visibility(
         visible: postsController.isInMyPostsList,
         child: StreamBuilder<Pet>(
-          stream: pet.reference?.snapshots().asyncMap((snapshot) => Pet.fromSnapshot(snapshot)),
+          stream: pet.reference?.snapshots().asyncMap((snapshot) {
+            final map = snapshot.data() as Map<String, dynamic>;
+            return Pet().fromMap(map);
+          }),
           builder: (context, snapshot) {
             final pet = (snapshot.data) ?? Pet();
             final donatedOrFound = pet.donatedOrFound;

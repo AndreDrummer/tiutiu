@@ -20,43 +20,44 @@ enum PetEnum {
 }
 
 class Pet extends Post {
-  factory Pet.fromSnapshot(DocumentSnapshot snapshot) {
-    return Pet(
-      uid: snapshot.get(PostEnum.uid.name) != null ? snapshot.get(PostEnum.uid.name) : Uuid().v4(),
-      createdAt: snapshot.get(PostEnum.createdAt.name) ?? DateTime.now().toIso8601String(),
-      otherCaracteristics: snapshot.get(PetEnum.otherCaracteristics.name) ?? [],
-      chronicDiseaseInfo: snapshot.get(PetEnum.chronicDiseaseInfo.name) ?? '',
-      describedAddress: snapshot.get(PostEnum.describedAddress.name) ?? '',
-      donatedOrFound: snapshot.get(PetEnum.donatedOrFound.name) ?? false,
-      lastSeenDetails: snapshot.get(PetEnum.lastSeenDetails.name) ?? '',
-      timesDennounced: snapshot.get(PostEnum.timesDennounced.name),
-      owner: TiutiuUser.fromMap(snapshot.get(PostEnum.owner.name)),
-      disappeared: snapshot.get(PetEnum.disappeared.name) ?? false,
-      description: snapshot.get(PostEnum.description.name) ?? '',
-      city: snapshot.get(PostEnum.city.name) ?? 'Acrelândia',
-      sharedTimes: snapshot.get(PostEnum.sharedTimes.name),
-      state: snapshot.get(PostEnum.state.name) ?? 'Acre',
-      ageMonth: snapshot.get(PetEnum.ageMonth.name) ?? 0,
-      health: snapshot.get(PetEnum.health.name) ?? '-',
-      gender: snapshot.get(PetEnum.gender.name) ?? '-',
-      longitude: snapshot.get(PostEnum.longitude.name),
-      ageYear: snapshot.get(PetEnum.ageYear.name) ?? 0,
-      color: snapshot.get(PetEnum.color.name) ?? '-',
-      breed: snapshot.get(PetEnum.breed.name) ?? '-',
-      reward: snapshot.get(PetEnum.reward.name) ?? '',
-      latitude: snapshot.get(PostEnum.latitude.name),
-      views: snapshot.get(PostEnum.views.name) ?? 0,
-      size: snapshot.get(PetEnum.size.name) ?? '-',
-      type: snapshot.get(PostEnum.type.name) ?? '-',
-      ownerId: snapshot.get(PostEnum.ownerId.name),
-      photos: snapshot.get(PostEnum.photos.name),
-      likes: snapshot.get(PostEnum.likes.name),
-      saved: snapshot.get(PostEnum.saved.name),
-      video: snapshot.get(PostEnum.video.name),
-      name: snapshot.get(PostEnum.name.name),
-      reference: snapshot.reference,
-    );
-  }
+  // factory Pet.fromSnapshot(DocumentSnapshot snapshot) {
+  //   return Pet(
+  //     uid: snapshot.get(PostEnum.uid.name) != null ? snapshot.get(PostEnum.uid.name) : Uuid().v4(),
+  //     createdAt: snapshot.get(PostEnum.createdAt.name) ?? DateTime.now().toIso8601String(),
+  //     otherCaracteristics: snapshot.get(PetEnum.otherCaracteristics.name) ?? [],
+  //     chronicDiseaseInfo: snapshot.get(PetEnum.chronicDiseaseInfo.name) ?? '',
+  //     describedAddress: snapshot.get(PostEnum.describedAddress.name) ?? '',
+  //     donatedOrFound: snapshot.get(PetEnum.donatedOrFound.name) ?? false,
+  //     lastSeenDetails: snapshot.get(PetEnum.lastSeenDetails.name) ?? '',
+  //     timesDennounced: snapshot.get(PostEnum.timesDennounced.name),
+  //     owner: TiutiuUser.fromMap(snapshot.get(PostEnum.owner.name)),
+  //     disappeared: snapshot.get(PetEnum.disappeared.name) ?? false,
+  //     description: snapshot.get(PostEnum.description.name) ?? '',
+  //     city: snapshot.get(PostEnum.city.name) ?? 'Acrelândia',
+  //     sharedTimes: snapshot.get(PostEnum.sharedTimes.name),
+  //     state: snapshot.get(PostEnum.state.name) ?? 'Acre',
+  //     ageMonth: snapshot.get(PetEnum.ageMonth.name) ?? 0,
+  //     health: snapshot.get(PetEnum.health.name) ?? '-',
+  //     gender: snapshot.get(PetEnum.gender.name) ?? '-',
+  //     longitude: snapshot.get(PostEnum.longitude.name),
+  //     ageYear: snapshot.get(PetEnum.ageYear.name) ?? 0,
+  //     color: snapshot.get(PetEnum.color.name) ?? '-',
+  //     breed: snapshot.get(PetEnum.breed.name) ?? '-',
+  //     reward: snapshot.get(PetEnum.reward.name) ?? '',
+  //     latitude: snapshot.get(PostEnum.latitude.name),
+  //     views: snapshot.get(PostEnum.views.name) ?? 0,
+  //     size: snapshot.get(PetEnum.size.name) ?? '-',
+  //     type: snapshot.get(PostEnum.type.name) ?? '-',
+  //     ownerId: snapshot.get(PostEnum.ownerId.name),
+  //     photos: snapshot.get(PostEnum.photos.name),
+  //     likes: snapshot.get(PostEnum.likes.name),
+  //     saved: snapshot.get(PostEnum.saved.name),
+  //     video: snapshot.get(PostEnum.video.name),
+  //     name: snapshot.get(PostEnum.name.name),
+  //     reference: snapshot.reference,
+  //   );
+  // }
+
   Pet({
     this.otherCaracteristics = const [],
     List dennounceMotives = const [],
@@ -121,8 +122,6 @@ class Pet extends Post {
   @override
   Pet fromMap(Map<String, dynamic> map) {
     return Pet(
-      reference:
-          map[PostEnum.reference.name] != null ? FirebaseFirestore.instance.doc((map[PostEnum.reference.name])) : null,
       dennounceMotives: map[PostEnum.dennounceMotives.name] ?? super.dennounceMotives,
       timesDennounced: map[PostEnum.timesDennounced.name] ?? super.timesDennounced,
       createdAt: map[PostEnum.createdAt.name] ?? DateTime.now().toIso8601String(),
@@ -132,6 +131,7 @@ class Pet extends Post {
       describedAddress: map[PostEnum.describedAddress.name] ?? '',
       donatedOrFound: map[PetEnum.donatedOrFound.name] ?? false,
       lastSeenDetails: map[PetEnum.lastSeenDetails.name] ?? '',
+      reference: getReference(map[PostEnum.reference.name]),
       owner: TiutiuUser.fromMap(map[PostEnum.owner.name]),
       disappeared: map[PetEnum.disappeared.name] ?? false,
       description: map[PostEnum.description.name] ?? '',
@@ -219,6 +219,18 @@ class Pet extends Post {
     }
 
     return map;
+  }
+
+  DocumentReference? getReference(dynamic ref) {
+    if (ref != null) {
+      if (ref is String) {
+        return FirebaseFirestore.instance.doc(ref);
+      } else {
+        return ref;
+      }
+    } else {
+      return null;
+    }
   }
 
   @override
