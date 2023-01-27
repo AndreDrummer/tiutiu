@@ -24,6 +24,8 @@ class ViewsCountWidget extends StatelessWidget {
           builder: (context, snapshot) {
             int views = snapshot.data ?? post.likes;
 
+            views = views > 0 ? views : 0;
+
             return TextButtonCount(
               padding: EdgeInsets.only(left: 2.0.w, top: 2.0.h),
               fontSize: 12.0.sp,
