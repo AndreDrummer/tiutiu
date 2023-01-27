@@ -25,12 +25,12 @@ class _DisappearedAlertAnimationState extends State<DisappearedAlertAnimation> {
         children: [
           LottieAnimation(
             animationPath: AnimationsAssets.alert,
-            size: 40.0.h,
+            size: 48.0.h,
           ),
           TextButtonCount(
             text: PostDetailsStrings.petDisappeared,
             padding: EdgeInsets.only(top: 2.0.h),
-            fontSize: 10,
+            fontSize: 8.0.sp,
           ),
           SizedBox(height: 8.0.h),
         ],
