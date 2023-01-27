@@ -14,15 +14,19 @@ class GoToPostButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextButton(
-      style: TextButton.styleFrom(padding: EdgeInsets.only(right: 16.0.w)),
-      onPressed: () {
-        postsController.post = post;
-        Get.toNamed(Routes.postDetails);
-      },
-      child: AutoSizeTexts.autoSizeText14(
-        'Ir para post',
-        color: AppColors.white,
+    return Positioned(
+      bottom: 56.0.h,
+      right: 8.0.w,
+      child: TextButton(
+        style: TextButton.styleFrom(padding: EdgeInsets.only(right: 16.0.w)),
+        onPressed: () {
+          postsController.post = post;
+          Get.toNamed(Routes.postDetails);
+        },
+        child: AutoSizeTexts.autoSizeText14(
+          'Ir para post',
+          color: AppColors.white,
+        ),
       ),
     );
   }

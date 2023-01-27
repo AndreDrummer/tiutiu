@@ -20,7 +20,7 @@ class PostDetails extends StatelessWidget {
       bottom: 88.0.h,
       left: 8.0.w,
       child: SizedBox(
-        width: Get.width * .75,
+        width: Get.width * .8,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
