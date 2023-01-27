@@ -1,4 +1,4 @@
-import 'package:tiutiu/features/sponsored/views/sponsored_list.dart';
+import 'package:tiutiu/features/sponsored/views/sponsored_horizontal_list.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiutiu/features/posts/model/filter_params.dart';
 import 'package:tiutiu/core/extensions/string_extension.dart';
@@ -35,7 +35,7 @@ class _TopBarState extends State<TopBar> {
               HighPriorityInfoBanner(),
               Obx(
                 () => Visibility(
-                  replacement: SponsoredList(),
+                  replacement: SponsoredHorizontalList(),
                   visible: filterController.filterParams.value.orderBy == FilterStrings.name,
                   child: _userSearchInput(context, _fieldController),
                 ),

@@ -35,6 +35,9 @@ class MoreController extends GetxController {
       case MyProfileOptionsTile.ourNet:
         Get.toNamed(Routes.followUs);
         break;
+      case MyProfileOptionsTile.partners:
+        Get.toNamed(Routes.partners);
+        break;
       case MyProfileOptionsTile.about:
         Get.toNamed(Routes.about);
         break;
@@ -66,6 +69,7 @@ class MoreController extends GetxController {
     MyProfileOptionsTile.support,
     MyProfileOptionsTile.adoptioinForm,
     MyProfileOptionsTile.settings,
+    MyProfileOptionsTile.partners,
     MyProfileOptionsTile.about,
   ];
 
@@ -85,6 +89,7 @@ class MoreController extends GetxController {
     Icons.volunteer_activism_outlined,
     Icons.list_alt_rounded,
     Icons.manage_accounts_outlined,
+    Icons.handshake_outlined,
     Icons.info_outline,
   ];
 }
