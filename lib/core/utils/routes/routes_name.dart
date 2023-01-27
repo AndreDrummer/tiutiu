@@ -18,6 +18,7 @@ class Routes {
   static const settings = '/settings';
   static const followUs = '/follow-us';
   static const contacts = '/contacts';
+  static const partners = '/partners';
   static const myPosts = '/my-posts';
   static const about = '/about';
   static const info = '/info';
