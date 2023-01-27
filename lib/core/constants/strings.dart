@@ -278,6 +278,7 @@ class MyProfileOptionsTile {
   static const String myPosts = 'Minhas Postagens';
   static const String talkWithUs = 'Fale conosco';
   static const String settings = 'Configurações';
+  static const String partners = 'Parceiros';
   static const String ourNet = 'Nossa redes';
   static const String messages = 'Mensagens';
   static const String saveds = 'Salvos';
