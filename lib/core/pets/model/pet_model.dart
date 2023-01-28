@@ -288,7 +288,7 @@ class Pet extends Post {
   }
 
   Map<String, dynamic>? adequatedMap(Map<String, dynamic>? map) {
-    if (map?.containsKey(PostEnum.reference.name) ?? false) {
+    if ((map?.containsKey(PostEnum.reference.name) ?? false) && map?[PostEnum.reference.name] != null) {
       map![PostEnum.reference.name] = (map[PostEnum.reference.name] as DocumentReference).path;
     }
 

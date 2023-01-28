@@ -6,6 +6,7 @@ import 'package:tiutiu/features/tiutiutok/widgets/like_button.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/pets/model/pet_model.dart';
 import 'package:tiutiu/features/posts/model/post.dart';
+import 'package:tiutiu/core/utils/dimensions.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -22,7 +23,7 @@ class _ButtonsAsideState extends State<ButtonsAside> {
   @override
   Widget build(BuildContext context) {
     return Positioned(
-      bottom: 96.0.h,
+      bottom: Get.height < 700 ? 96.0.h : 64.0.h,
       left: distanceFromBorderRight((widget.post as Pet).disappeared),
       child: Column(
         children: [
@@ -37,17 +38,20 @@ class _ButtonsAsideState extends State<ButtonsAside> {
   }
 
   double distanceFromBorderRight(bool isDisappeared) {
-    final deviceHeight = Get.height;
     if (isDisappeared) {
-      if (deviceHeight > 999)
-        return Get.width * .9;
-      else if (deviceHeight < 700) return Get.width * .85;
-      return Get.width * .8;
+      return Dimensions.getDimensBasedOnDeviceHeight(
+        smaller: Get.width * .85,
+        bigger: Get.width * .88,
+        xBigger: Get.width * .9,
+        medium: Get.width * .8,
+      );
     } else {
-      if (deviceHeight > 999)
-        return Get.width * .95;
-      else if (deviceHeight < 700) return Get.width * .86;
-      return Get.width * .85;
+      return Dimensions.getDimensBasedOnDeviceHeight(
+        smaller: Get.width * .86,
+        bigger: Get.width * .88,
+        xBigger: Get.width * .95,
+        medium: Get.width * .85,
+      );
     }
   }
 }

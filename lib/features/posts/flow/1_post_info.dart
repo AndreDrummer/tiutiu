@@ -136,29 +136,25 @@ class PostInfo extends StatelessWidget {
       visible: postsController.existChronicDisease,
       child: Container(
         margin: EdgeInsets.symmetric(vertical: 8.0.h),
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: Form(
-                key: diaseaseForm,
-                child: TextArea(
-                  isInErrorState: !(postsController.post as Pet).chronicDiseaseInfo.isNotEmptyNeighterNull() &&
-                      !postsController.formIsValid,
-                  maxLines: 1,
-                  onChanged: (chronicDiseaseInfo) {
-                    postsController.updatePost(
-                      PetEnum.chronicDiseaseInfo.name,
-                      chronicDiseaseInfo,
-                    );
-                  },
-                  initialValue: (postsController.post as Pet).chronicDiseaseInfo,
-                  validator: postsController.existChronicDisease ? Validators.verifyEmpty : null,
-                  labelText: PostFlowStrings.describeDiseaseType,
-                ),
-              ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          child: Form(
+            key: diaseaseForm,
+            child: TextArea(
+              isInErrorState: !(postsController.post as Pet).chronicDiseaseInfo.isNotEmptyNeighterNull() &&
+                  !postsController.formIsValid,
+              maxLines: 1,
+              onChanged: (chronicDiseaseInfo) {
+                postsController.updatePost(
+                  PetEnum.chronicDiseaseInfo.name,
+                  chronicDiseaseInfo,
+                );
+              },
+              initialValue: (postsController.post as Pet).chronicDiseaseInfo,
+              validator: postsController.existChronicDisease ? Validators.verifyEmpty : null,
+              labelText: PostFlowStrings.describeDiseaseType,
             ),
-          ],
+          ),
         ),
       ),
     );
