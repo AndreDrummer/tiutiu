@@ -4,7 +4,6 @@ import 'package:tiutiu/core/remote_config/model/admin_remote_config.dart';
 import 'package:tiutiu/features/home/widgets/closed_for_maintenance.dart';
 import 'package:tiutiu/features/posts/controller/posts_controller.dart';
 import 'package:tiutiu/features/admob/constants/admob_block_names.dart';
-import 'package:tiutiu/core/migration/service/migration_service.dart';
 import 'package:tiutiu/features/home/controller/home_controller.dart';
 import 'package:tiutiu/features/sponsored/model/sponsored.dart';
 import 'package:tiutiu/features/posts/flow/init_post_flow.dart';
@@ -33,7 +32,6 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> with TiuTiuPopUp {
   @override
   void initState() {
-    MigrationService().migrate();
     showAdAndRequestToTrack();
     super.initState();
   }

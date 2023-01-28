@@ -178,7 +178,7 @@ class VerifyAccountWarningInterstitial extends StatelessWidget {
         visible: tiutiuUserController.tiutiuUser.emailVerified,
         child: child,
         replacement: Container(
-          height: Get.width / 4,
+          height: Get.width / 3.5,
           padding: padding ?? EdgeInsets.symmetric(horizontal: 4.0.w, vertical: 2.0.h),
           margin: margin ?? EdgeInsets.symmetric(vertical: 32.0.h, horizontal: 6.0.w),
           alignment: Alignment.center,
@@ -189,8 +189,11 @@ class VerifyAccountWarningInterstitial extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              Icon(!isLoggedIn ? Icons.login : Icons.warning,
-                  size: 32.0.h, color: isHiddingContactInfo ? AppColors.black : AppColors.white),
+              Icon(
+                color: isHiddingContactInfo ? AppColors.black : AppColors.white,
+                !isLoggedIn ? Icons.login : Icons.warning,
+                size: 24.0.h,
+              ),
               AutoSizeTexts.autoSizeText24(
                 isHiddingContactInfo
                     ? !isLoggedIn
