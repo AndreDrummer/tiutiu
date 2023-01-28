@@ -1,12 +1,13 @@
-import 'package:tiutiu/core/constants/assets_path.dart';
 import 'package:tiutiu/features/adption_form.dart/repository/adoption_form_repository.dart';
 import 'package:tiutiu/features/adption_form.dart/model/adoption_form.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/utils/routes/routes_name.dart';
+import 'package:tiutiu/core/constants/assets_path.dart';
 import 'package:tiutiu/core/constants/strings.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:pdf/widgets.dart' as pw;
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:pdf/pdf.dart';
 import 'package:get/get.dart';
@@ -51,7 +52,7 @@ class AdoptionFormController extends GetxController {
   void setAdoptionForm(AdoptionForm adoptionForm) {
     _adoptionForm(adoptionForm);
 
-    print('New Form ${adoptionForm.toMap()}');
+    debugPrint('New Form ${adoptionForm.toMap()}');
   }
 
   bool lastStep() => _formStep == _STEPS_QTY;

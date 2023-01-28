@@ -1,6 +1,5 @@
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
-import 'package:tiutiu/core/widgets/hint_error.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 
@@ -67,10 +66,6 @@ class TextArea extends StatelessWidget {
               border: _outlineInputBorder(),
             ),
           ),
-          Visibility(
-            visible: isInErrorState,
-            child: HintError(),
-          )
         ],
       ),
     );
