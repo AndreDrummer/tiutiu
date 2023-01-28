@@ -17,7 +17,7 @@ class EndpointResolver {
     final build = kDebugMode ? EnvironmentBuild.debug.name : EnvironmentBuild.prod.name;
     String endpointPath = endpoint.path;
 
-    endpointPath = endpointPath.replaceAll('%build', 'prod');
+    endpointPath = endpointPath.replaceAll('%build', build);
 
     if (params != null && params.isNotEmpty) {
       for (int i = 0; i < params.length; i++) {
