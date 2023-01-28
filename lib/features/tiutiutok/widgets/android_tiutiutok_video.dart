@@ -26,6 +26,8 @@ class _MyHomePageState extends State<AndroidTiutiuTokVideo> {
       BetterPlayerConfiguration(
         errorBuilder: (context, errorMessage) => VideoError(),
         controlsConfiguration: BetterPlayerControlsConfiguration(
+          progressBarHandleColor: AppColors.primary,
+          loadingColor: AppColors.primary,
           showControlsOnInitialize: false,
           enableOverflowMenu: false,
           enableProgressText: false,
