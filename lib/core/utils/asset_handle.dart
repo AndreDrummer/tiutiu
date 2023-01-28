@@ -81,7 +81,7 @@ class AssetHandle {
       tag: hero ?? imagePath,
       child: CachedNetworkImage(
         color: color,
-        errorWidget: (context, url, error) => Icon(Icons.error),
+        errorWidget: (context, url, error) => _imageAsset(ImageAssets.profileEmpty),
         imageBuilder: (context, imageProvider) => Container(
           decoration: BoxDecoration(
             borderRadius: borderRadius,
