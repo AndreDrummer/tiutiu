@@ -60,14 +60,14 @@ class MigrationService {
   }
 
   Future migrate() async {
-    await _loginWithEmailAndPassword('admin@example.com', '111111');
-    await StatesAndCities.stateAndCities.getUFAndCities();
+    // await _loginWithEmailAndPassword('admin@example.com', '111111');
+    // await StatesAndCities.stateAndCities.getUFAndCities();
 
     // await deleteAllExceptForThisUserId('B5dcFay3bXPkhm7elITxmL7zt3T2');
 
-    for (int i = 0; i < _usersWhoHasPostedInLastMonth.length; i++) {
-      // await _migrateAllData(_usersWhoHasPostedInLastMonth[i]);
-    }
+    // for (int i = 0; i < _usersWhoHasPostedInLastMonth.length; i++) {
+    // await _migrateAllData(_usersWhoHasPostedInLastMonth[i]);
+    // }
   }
 
   Future<String?> _migrateAllData(String userId) async {

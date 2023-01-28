@@ -17,10 +17,10 @@ class PostDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Positioned(
-      bottom: 88.0.h,
+      bottom: Get.height < 700 ? 72.0.h : 40.0.h,
       left: 8.0.w,
       child: SizedBox(
-        width: Get.width * .8,
+        width: Get.width * .75,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -39,7 +39,7 @@ class PostDetails extends StatelessWidget {
             AutoSizeTexts.autoSizeText12(
               fontWeight: FontWeight.w400,
               color: AppColors.white,
-              '${Formatters.cuttedText(OtherFunctions.replacePhoneNumberWithStars(post.description), size: 200)}',
+              '${Formatters.cuttedText(OtherFunctions.replacePhoneNumberWithStars(post.description), size: 112)}',
             ),
           ],
         ),
