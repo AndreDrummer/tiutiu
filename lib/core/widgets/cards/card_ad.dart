@@ -73,18 +73,21 @@ class _CardAdState extends State<CardAd> {
                   child: widget.cardBuilder.adImages(),
                   width: double.infinity,
                 ),
-                Positioned(
-                  child: Container(
-                    decoration: BoxDecoration(shape: BoxShape.circle, color: AppColors.white),
-                    child: Padding(
-                      padding: EdgeInsets.all(8.0.h),
-                      child: widget.cardBuilder.saveButton(
-                        show: !widget.inReviewMode && widget.showSaveButton,
+                Visibility(
+                  visible: !widget.inReviewMode && widget.showSaveButton,
+                  child: Positioned(
+                    child: Container(
+                      decoration: BoxDecoration(shape: BoxShape.circle, color: AppColors.white),
+                      child: Padding(
+                        padding: EdgeInsets.all(8.0.h),
+                        child: widget.cardBuilder.saveButton(
+                          show: !widget.inReviewMode && widget.showSaveButton,
+                        ),
                       ),
                     ),
+                    bottom: 32.0.h,
+                    right: 8.0.w,
                   ),
-                  bottom: 32.0.h,
-                  right: 8.0.w,
                 ),
                 Positioned(
                   child: likeAnimation(),

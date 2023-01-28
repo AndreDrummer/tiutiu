@@ -1,4 +1,4 @@
-import 'package:tiutiu/core/widgets/video_placeholder.dart';
+import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/features/posts/model/post.dart';
 import 'package:tiutiu/core/widgets/video_error.dart';
 import 'package:better_player/better_player.dart';
@@ -26,14 +26,19 @@ class _VideoWidgetState extends State<IOSTiutiuTokVideo> {
       ),
       configuration: BetterPlayerConfiguration(
         errorBuilder: (context, errorMessage) => VideoError(),
-        placeholder: VideoPlaceholder(),
         controlsConfiguration: BetterPlayerControlsConfiguration(
+          progressBarHandleColor: AppColors.primary,
+          controlBarColor: Colors.transparent,
+          showControlsOnInitialize: false,
+          loadingColor: AppColors.primary,
+          enableOverflowMenu: false,
           enableProgressText: false,
           enableFullscreen: false,
+          enablePlayPause: false,
           enableSkips: false,
           enableMute: false,
         ),
-        aspectRatio: .4,
+        aspectRatio: .52,
         autoPlay: true,
         looping: true,
         fit: BoxFit.cover,
