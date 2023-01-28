@@ -89,13 +89,13 @@ class TiutiuUser {
 
   static TiutiuUser fromMapMigration(Map<String, dynamic> map) {
     return TiutiuUser(
+      timesOpenedTheApp: map[TiutiuUserEnum.timesOpenedTheApp.name] ?? 0,
       notificationToken: map[TiutiuUserEnum.notificationToken.name],
-      timesOpenedTheApp: map[TiutiuUserEnum.timesOpenedTheApp.name],
+      emailVerified: map[TiutiuUserEnum.emailVerified.name] ?? false,
       avatar: map[TiutiuUserEnum.avatar.name] ?? map['photoURL'],
-      timesDennounced: map[TiutiuUserEnum.timesDennounced.name],
-      emailVerified: map[TiutiuUserEnum.emailVerified.name],
-      phoneVerified: map[TiutiuUserEnum.phoneVerified.name],
-      userDeleted: map[TiutiuUserEnum.userDeleted.name],
+      timesDennounced: map[TiutiuUserEnum.timesDennounced.name] ?? 0,
+      phoneVerified: map[TiutiuUserEnum.phoneVerified.name] ?? false,
+      userDeleted: map[TiutiuUserEnum.userDeleted.name] ?? false,
       phoneNumber: map[TiutiuUserEnum.phoneNumber.name],
       displayName: map[TiutiuUserEnum.displayName.name],
       reference: map[TiutiuUserEnum.reference.name],
@@ -128,8 +128,8 @@ class TiutiuUser {
 
   Map<String, dynamic> toMap() {
     return {
+      TiutiuUserEnum.reference.name: reference != null ? reference : null,
       TiutiuUserEnum.allowContactViaWhatsApp.name: allowContactViaWhatsApp,
-      // TiutiuUserEnum.reference.name: reference != null ? reference : null,
       TiutiuUserEnum.notificationToken.name: notificationToken,
       TiutiuUserEnum.notificationToken.name: notificationToken,
       TiutiuUserEnum.timesOpenedTheApp.name: timesOpenedTheApp,
