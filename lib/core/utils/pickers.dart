@@ -1,6 +1,9 @@
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:tiutiu/core/widgets/popup_message.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/core/constants/strings.dart';
+import 'package:open_settings/open_settings.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -31,16 +34,22 @@ mixin Pickers {
                   color: AppColors.primary,
                   onTap: () async {
                     Get.back();
-                    var pic;
-                    switch (pickerAssetType) {
-                      case PickerAssetType.photo:
-                        pic = await _picker.pickImage(source: ImageSource.camera);
-                        break;
-                      case PickerAssetType.video:
-                        pic = await _picker.pickVideo(source: ImageSource.camera);
-                    }
+                    final cameraAccessPermission = await Permission.camera.request();
 
-                    if (pic != null) onAssetPicked(File(pic.path));
+                    if (cameraAccessPermission.isPermanentlyDenied) {
+                      requestAccessPopup(context, _RequestAccess.camera);
+                    } else {
+                      var pic;
+                      switch (pickerAssetType) {
+                        case PickerAssetType.photo:
+                          pic = await _picker.pickImage(source: ImageSource.camera);
+                          break;
+                        case PickerAssetType.video:
+                          pic = await _picker.pickVideo(source: ImageSource.camera);
+                      }
+
+                      if (pic != null) onAssetPicked(File(pic.path));
+                    }
                   },
                 ),
                 Divider(height: 32.0.h),
@@ -49,16 +58,22 @@ mixin Pickers {
                   color: AppColors.secondary,
                   onTap: () async {
                     Get.back();
-                    var pic;
-                    switch (pickerAssetType) {
-                      case PickerAssetType.photo:
-                        pic = await _picker.pickImage(source: ImageSource.gallery);
-                        break;
-                      case PickerAssetType.video:
-                        pic = await _picker.pickVideo(source: ImageSource.gallery);
-                    }
+                    final photosAccessPermission = await Permission.photos.request();
 
-                    if (pic != null) onAssetPicked(File(pic.path));
+                    if (photosAccessPermission.isPermanentlyDenied) {
+                      requestAccessPopup(context, _RequestAccess.galery);
+                    } else {
+                      var pic;
+                      switch (pickerAssetType) {
+                        case PickerAssetType.photo:
+                          pic = await _picker.pickImage(source: ImageSource.gallery);
+                          break;
+                        case PickerAssetType.video:
+                          pic = await _picker.pickVideo(source: ImageSource.gallery);
+                      }
+
+                      if (pic != null) onAssetPicked(File(pic.path));
+                    }
                   },
                 )
               ],
@@ -86,4 +101,33 @@ mixin Pickers {
       onTap: onTap,
     );
   }
+
+  void requestAccessPopup(BuildContext context, _RequestAccess requestAccess) async {
+    return await showDialog(
+      context: context,
+      builder: (ctx) {
+        final message = requestAccess == _RequestAccess.camera
+            ? 'É necessário acesso a sua câmera para tirar uma foto.\n\nDeseja ir para configurações agora?'
+            : 'É necessário acesso a sua galeria para selecionar uma foto.\n\nDeseja ir para configurações agora?';
+
+        return PopUpMessage(
+          confirmAction: () {
+            OpenSettings.openAppSetting();
+            Get.back();
+          },
+          backGroundColor: AppColors.info,
+          title: 'Solicitação de acesso',
+          denyAction: () => Get.back(),
+          confirmText: AppStrings.yes,
+          denyText: AppStrings.no,
+          message: message,
+        );
+      },
+    );
+  }
+}
+
+enum _RequestAccess {
+  galery,
+  camera,
 }
