@@ -1,4 +1,3 @@
-import 'package:tiutiu/core/widgets/button_wide_outlined.dart';
 import 'package:tiutiu/core/widgets/default_basic_app_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/widgets/lottie_animation.dart';
@@ -47,7 +46,6 @@ class LocalizationServiceAccessPermissionAccess extends StatelessWidget {
               _warningAboutConfigsSeetings(),
               Spacer(),
               _primaryButton(),
-              _secondaryButton(),
               Spacer(),
             ],
           ),
@@ -88,19 +86,6 @@ class LocalizationServiceAccessPermissionAccess extends StatelessWidget {
     return ButtonWide(
       onPressed: onPrimaryPressed,
       text: _getButtonText(),
-    );
-  }
-
-  Widget _secondaryButton() {
-    return Visibility(
-      visible: showSpyButton,
-      child: OutlinedButtonWide(
-        color: AppColors.secondary,
-        onPressed: () {
-          currentLocationController.canContinue = true;
-        },
-        text: LocalPermissionStrings.after,
-      ),
     );
   }
 
