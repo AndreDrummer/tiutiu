@@ -66,6 +66,7 @@ class MigrationService {
     // await deleteAllExceptForThisUserId('B5dcFay3bXPkhm7elITxmL7zt3T2');
 
     // for (int i = 0; i < _usersWhoHasPostedInLastMonth.length; i++) {
+    // await _migrateAllData('lH4d3t0NCNTL0Ahd2ZU4S4ycTL03'); // Fazer uma migração antes de tentar tudo...
     // await _migrateAllData(_usersWhoHasPostedInLastMonth[i]);
     // }
   }
