@@ -2,14 +2,14 @@ import 'package:tiutiu/features/auth/widgets/image_carousel_background.dart';
 import 'package:tiutiu/features/auth/models/email_password_auth.dart';
 import 'package:tiutiu/core/widgets/outline_input_text.dart';
 import 'package:tiutiu/core/widgets/simple_text_button.dart';
-import 'package:tiutiu/features/auth/widgets/blur.dart';
 import 'package:tiutiu/features/auth/widgets/headline.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:tiutiu/core/views/load_dark_screen.dart';
 import 'package:tiutiu/core/utils/routes/routes_name.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
+import 'package:tiutiu/core/views/load_dark_screen.dart';
 import 'package:tiutiu/core/mixins/tiu_tiu_pop_up.dart';
 import 'package:tiutiu/core/widgets/one_line_text.dart';
+import 'package:tiutiu/features/auth/widgets/blur.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/core/widgets/tiutiu_logo.dart';
 import 'package:tiutiu/core/widgets/button_wide.dart';
@@ -18,10 +18,23 @@ import 'package:tiutiu/core/utils/validators.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class EmailAndPassword extends StatelessWidget with TiuTiuPopUp {
+class EmailAndPassword extends StatefulWidget {
   EmailAndPassword({super.key});
 
+  @override
+  State<EmailAndPassword> createState() => _EmailAndPasswordState();
+}
+
+class _EmailAndPasswordState extends State<EmailAndPassword> with TiuTiuPopUp {
+  late TextEditingController _emailInputControlller;
+
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  @override
+  void initState() {
+    _emailInputControlller = TextEditingController(text: authController.emailAndPasswordAuth.email);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -121,7 +134,7 @@ class EmailAndPassword extends StatelessWidget with TiuTiuPopUp {
   OutlinedInputText _emailInput() {
     return OutlinedInputText(
       labelText: authController.isResetingPassword ? AuthStrings.typeYourEmail : AuthStrings.email,
-      initialValue: authController.emailAndPasswordAuth.email,
+      controller: _emailInputControlller,
       keyboardType: TextInputType.emailAddress,
       onChanged: (email) {
         authController.updateEmailAndPasswordAuth(
@@ -362,6 +375,7 @@ class EmailAndPassword extends StatelessWidget with TiuTiuPopUp {
     try {
       await authController.passwordReset().then(
         (_) {
+          _emailInputControlller.clear();
           showsOnRequestSuccessPopup(message: AuthStrings.resetPasswordInstructionsSent);
         },
       );
