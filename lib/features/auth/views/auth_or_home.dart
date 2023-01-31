@@ -1,5 +1,5 @@
-import 'package:tiutiu/core/system/views/loading_start_screen.dart';
 import 'package:tiutiu/features/auth/views/start_screen_or_home.dart';
+import 'package:tiutiu/core/system/views/loading_start_screen.dart';
 import 'package:tiutiu/core/extensions/string_extension.dart';
 import 'package:tiutiu/features/posts/views/post_detail.dart';
 import 'package:tiutiu/core/widgets/connection_handler.dart';
@@ -8,6 +8,7 @@ import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/widgets/async_handler.dart';
 import 'package:tiutiu/features/home/views/home.dart';
 import 'package:tiutiu/core/constants/strings.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -20,8 +21,8 @@ class _AuthOrHomeState extends State<AuthOrHome> {
   late Widget initialScreen;
 
   void setInitialScreen() {
-    debugPrint('TiuTiuApp: Set Initial Screen...');
-    debugPrint('TiuTiuApp: Dynamic DeepLink ${systemController.initialFDLink}');
+    if (kDebugMode) debugPrint('TiuTiuApp: Set Initial Screen...');
+    if (kDebugMode) debugPrint('TiuTiuApp: Dynamic DeepLink ${systemController.initialFDLink}');
     if (systemController.initialFDLink.isNotEmptyNeighterNull() && postsController.post.uid != null) {
       initialScreen = PostDetails();
     } else {
@@ -37,7 +38,7 @@ class _AuthOrHomeState extends State<AuthOrHome> {
 
   @override
   Widget build(BuildContext context) {
-    debugPrint('TiuTiuApp: Loading AuthOrHome... >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
+    if (kDebugMode) debugPrint('TiuTiuApp: Loading AuthOrHome... >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
     return FutureBuilder(
       future: authController.tryAutoLoginIn(),
       builder: (_, AsyncSnapshot snapshot) {

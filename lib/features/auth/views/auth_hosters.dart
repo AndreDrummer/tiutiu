@@ -12,6 +12,7 @@ import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/core/widgets/tiutiu_logo.dart';
 import 'package:tiutiu/core/widgets/button_wide.dart';
 import 'package:tiutiu/core/constants/strings.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'dart:math';
@@ -341,7 +342,7 @@ class AuthHosters extends StatelessWidget with TiuTiuPopUp {
 
   void goToHome() {
     final bottomIndex = homeController.bottomBarIndex;
-    debugPrint('TiuTiuApp: Bottom Index == 0? ${bottomIndex == 0}');
+    if (kDebugMode) debugPrint('TiuTiuApp: Bottom Index == 0? ${bottomIndex == 0}');
 
     if (systemController.properties.internetConnected) {
       Get.offAndToNamed(Routes.home);

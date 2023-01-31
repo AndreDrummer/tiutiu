@@ -54,10 +54,10 @@ class CurrentLocationController extends GetxController {
 
     if (isLocationServiceEnabled) {
       _gpsStatus(GPSStatus.active);
-      debugPrint('TiuTiuApp: GPS was activated');
+      if (kDebugMode) debugPrint('TiuTiuApp: GPS was activated');
     } else {
       _gpsStatus(GPSStatus.deactivated);
-      debugPrint('TiuTiuApp: GPS was NOT activated');
+      if (kDebugMode) debugPrint('TiuTiuApp: GPS was NOT activated');
     }
   }
 
@@ -72,14 +72,14 @@ class CurrentLocationController extends GetxController {
   Future<void> updatePermission() async {
     permission = await Geolocator.requestPermission();
     setUserLocation();
-    debugPrint('TiuTiuApp: local access permission $permission');
+    if (kDebugMode) debugPrint('TiuTiuApp: local access permission $permission');
   }
 
   Future<void> handleLocationPermission() async {
     final permissionDeniedForever = permission == LocationPermission.deniedForever;
 
     if (permissionDeniedForever) {
-      debugPrint('TiuTiuApp: local access denied forever? $permissionDeniedForever');
+      if (kDebugMode) debugPrint('TiuTiuApp: local access denied forever? $permissionDeniedForever');
       await Geolocator.openAppSettings();
     } else {
       updatePermission();
@@ -126,7 +126,7 @@ class CurrentLocationController extends GetxController {
         final storagePlacemark = await LocalStorage.getValueUnderLocalStorageKey(LocalStorageKey.lastKnowLocation);
         if (storagePlacemark != null) {
           placemark = Placemark.fromMap(storagePlacemark);
-          debugPrint('TiuTiuApp: A storaged placemark is being used instead.');
+          if (kDebugMode) debugPrint('TiuTiuApp: A storaged placemark is being used instead.');
         }
       }
 

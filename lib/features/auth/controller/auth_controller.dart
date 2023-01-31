@@ -107,7 +107,7 @@ class AuthController extends GetxController {
       final phoneNumber = Formatters.unmaskNumber(tiutiuUserController.tiutiuUser.phoneNumber);
 
       if (phoneNumber != null) {
-        debugPrint('TiuTiuApp: sending Whatsapp token...');
+        if (kDebugMode) debugPrint('TiuTiuApp: sending Whatsapp token...');
         _authService.sendWhatsAppCode(phoneNumber, code);
         tiutiuUserController.whatsappNumberHasBeenUpdated = false;
       }
@@ -115,21 +115,21 @@ class AuthController extends GetxController {
   }
 
   String _generateCode() {
-    debugPrint('TiuTiuApp: Generating code..');
+    if (kDebugMode) debugPrint('TiuTiuApp: Generating code..');
     String code = '';
     for (int i = 0; i < 6; i++) {
       final digit = Random().nextInt(9);
       code += '$digit';
     }
 
-    debugPrint('TiuTiuApp: Code generated $code..');
+    if (kDebugMode) debugPrint('TiuTiuApp: Code generated $code..');
     return code;
   }
 
   Future<bool> whatsAppCodeIsValid(String insertedCode) async {
     bool success = false;
     final whatsAppTokenData = await _getWhatsappStorageToken();
-    debugPrint('TiuTiuApp: Whatsapp tokenData ${whatsAppTokenData?.toMap()}..');
+    if (kDebugMode) debugPrint('TiuTiuApp: Whatsapp tokenData ${whatsAppTokenData?.toMap()}..');
 
     if (whatsAppTokenData != null) {
       final codeSent = (whatsAppTokenData as WhatsAppToken).code;
@@ -137,9 +137,9 @@ class AuthController extends GetxController {
         success = codeSent == insertedCode;
         _numberVerified(success);
 
-        debugPrint('TiuTiuApp: Valid inserted code $codeSent == $insertedCode');
+        if (kDebugMode) debugPrint('TiuTiuApp: Valid inserted code $codeSent == $insertedCode');
       } else {
-        debugPrint('TiuTiuApp: INVALID CODE $codeSent != $insertedCode');
+        if (kDebugMode) debugPrint('TiuTiuApp: INVALID CODE $codeSent != $insertedCode');
         _feedbackText(AuthStrings.invalidCode);
       }
     } else {
@@ -164,13 +164,13 @@ class AuthController extends GetxController {
     final whatsAppTokenData = await _getWhatsappStorageToken();
 
     if (whatsAppTokenData == null) {
-      debugPrint('TiuTiuApp: Token expired: No data');
+      if (kDebugMode) debugPrint('TiuTiuApp: Token expired: No data');
       _isWhatsappTokenValid(false);
     } else if (tiutiuUserController.whatsappNumberHasBeenUpdated) {
-      debugPrint('TiuTiuApp: Token expired: Number has been updated');
+      if (kDebugMode) debugPrint('TiuTiuApp: Token expired: Number has been updated');
       _isWhatsappTokenValid(false);
     } else {
-      debugPrint('TiuTiuApp: Whatsapp tokenData ${whatsAppTokenData?.toMap()}..');
+      if (kDebugMode) debugPrint('TiuTiuApp: Whatsapp tokenData ${whatsAppTokenData?.toMap()}..');
       final expirationDate = (whatsAppTokenData as WhatsAppToken).expirationDate!;
       final isTokenExpired = DateTime.now().isAfter(DateTime.parse(expirationDate));
 
@@ -183,7 +183,7 @@ class AuthController extends GetxController {
         LocalStorage.deleteDataUnderLocalStorageKey(LocalStorageKey.whatsappTokenData);
       }
 
-      debugPrint('TiuTiuApp: Token still valid $isWhatsappTokenValid');
+      if (kDebugMode) debugPrint('TiuTiuApp: Token still valid $isWhatsappTokenValid');
     }
   }
 
@@ -192,13 +192,13 @@ class AuthController extends GetxController {
 
     if (!tiutiuUserController.tiutiuUser.emailVerified) {
       final lastSendEmailTime = await LocalStorage.getValueUnderLocalStorageKey(LocalStorageKey.lastSendEmailTime);
-      debugPrint('TiuTiuApp: verify should resend email storage data $lastSendEmailTime');
+      if (kDebugMode) debugPrint('TiuTiuApp: verify should resend email storage data $lastSendEmailTime');
 
       if (lastSendEmailTime != null) {
         final minutes = DateTime.now().difference(DateTime.parse(lastSendEmailTime)).inMinutes;
 
         if (minutes >= 2) {
-          debugPrint('TiuTiuApp: last sent email is expired...');
+          if (kDebugMode) debugPrint('TiuTiuApp: last sent email is expired...');
           await LocalStorage.deleteDataUnderLocalStorageKey(LocalStorageKey.lastSendEmailTime);
           _allowResendEmail(true);
         } else {
@@ -223,7 +223,7 @@ class AuthController extends GetxController {
   Future<void> sendEmail() async {
     if (user != null && !user!.emailVerified) {
       _allowResendEmail(false);
-      debugPrint('TiuTiuApp: resending Email verification...');
+      if (kDebugMode) debugPrint('TiuTiuApp: resending Email verification...');
 
       await user?.sendEmailVerification();
       await LocalStorage.setValueUnderLocalStorageKey(
@@ -281,7 +281,7 @@ class AuthController extends GetxController {
     isShowingPassword = false;
     setLoading(false, '');
 
-    debugPrint('TiuTiuApp: ${success ? 'Successfully' : 'Not'} authenticated');
+    if (kDebugMode) debugPrint('TiuTiuApp: ${success ? 'Successfully' : 'Not'} authenticated');
 
     return success;
   }
@@ -346,7 +346,7 @@ class AuthController extends GetxController {
 
   Future<bool> tryAutoLoginIn() async {
     bool success = user != null;
-    debugPrint('TiuTiuApp: trying automatically login...');
+    if (kDebugMode) debugPrint('TiuTiuApp: trying automatically login...');
 
     if (user == null) {
       final hosters = [
@@ -363,7 +363,7 @@ class AuthController extends GetxController {
       await loadUserData();
     }
 
-    debugPrint('TiuTiuApp: Successfull login? $success');
+    if (kDebugMode) debugPrint('TiuTiuApp: Successfull login? $success');
     return success;
   }
 
@@ -376,7 +376,7 @@ class AuthController extends GetxController {
   }
 
   Future<bool> trySignInWithEmailAndPassword() async {
-    debugPrint('TiuTiuApp: trying log in using email and password');
+    if (kDebugMode) debugPrint('TiuTiuApp: trying log in using email and password');
     final emailPasswordAuthData = await LocalStorage.getDataUnderKey(
       key: LocalStorageKey.emailPasswordAuthData,
       mapper: EmailAndPasswordAuth(),
@@ -391,25 +391,25 @@ class AuthController extends GetxController {
       return loginWithEmailAndPassword();
     }
 
-    debugPrint('TiuTiuApp: trying log in using email and password failed');
+    if (kDebugMode) debugPrint('TiuTiuApp: trying log in using email and password failed');
     return false;
   }
 
   Future<bool> tryLoginWithFacebook() async {
-    debugPrint('TiuTiuApp: trying log in with facebook');
+    if (kDebugMode) debugPrint('TiuTiuApp: trying log in with facebook');
 
     final firstLogin = await LocalStorage.getBooleanKey(
       key: LocalStorageKey.facebookAuthData,
       standardValue: true,
     );
 
-    debugPrint('TiuTiuApp: First Login? $firstLogin');
+    if (kDebugMode) debugPrint('TiuTiuApp: First Login? $firstLogin');
 
     if (!firstLogin) {
       return loginWithFacebook(firstLogin: firstLogin);
     }
 
-    debugPrint('TiuTiuApp: trying log in with facebook failed');
+    if (kDebugMode) debugPrint('TiuTiuApp: trying log in with facebook failed');
     return false;
   }
 
@@ -450,14 +450,14 @@ class AuthController extends GetxController {
         await user?.reload();
 
         final fcmToken = await FirebaseMessaging.instance.getToken();
-        debugPrint('TiuTiuApp: Updating FCM Token $fcmToken');
+        if (kDebugMode) debugPrint('TiuTiuApp: Updating FCM Token $fcmToken');
         tiutiuUserController.updateTiutiuUser(
           TiutiuUserEnum.notificationToken,
           fcmToken,
         );
 
         if (creationTime != null) {
-          debugPrint('TiuTiuApp: Updating createAt...');
+          if (kDebugMode) debugPrint('TiuTiuApp: Updating createAt...');
           tiutiuUserController.updateTiutiuUser(
             TiutiuUserEnum.createdAt,
             creationTime.toIso8601String(),
@@ -465,7 +465,7 @@ class AuthController extends GetxController {
         }
 
         if (lastSignInTime != null) {
-          debugPrint('TiuTiuApp: Updating lastSeen...');
+          if (kDebugMode) debugPrint('TiuTiuApp: Updating lastSeen...');
           tiutiuUserController.updateTiutiuUser(
             TiutiuUserEnum.lastLogin,
             lastSignInTime.toIso8601String(),
@@ -476,7 +476,7 @@ class AuthController extends GetxController {
           tiutiuUserController.updateTiutiuUser(TiutiuUserEnum.email, user?.providerData.first.email);
           tiutiuUserController.updateTiutiuUser(TiutiuUserEnum.emailVerified, true);
         } else {
-          debugPrint('TiuTiuApp: Updating emailVerified... ${user?.emailVerified}');
+          if (kDebugMode) debugPrint('TiuTiuApp: Updating emailVerified... ${user?.emailVerified}');
           tiutiuUserController.updateTiutiuUser(
             TiutiuUserEnum.emailVerified,
             user?.emailVerified ?? false,
@@ -484,7 +484,7 @@ class AuthController extends GetxController {
         }
 
         if (loggedUser.displayName == null) {
-          debugPrint('TiuTiuApp: Updating displayName...');
+          if (kDebugMode) debugPrint('TiuTiuApp: Updating displayName...');
           tiutiuUserController.updateTiutiuUser(
             TiutiuUserEnum.displayName,
             user?.displayName,
@@ -492,7 +492,7 @@ class AuthController extends GetxController {
         }
 
         if (loggedUser.avatar == null) {
-          debugPrint('TiuTiuApp: Updating avatar...');
+          if (kDebugMode) debugPrint('TiuTiuApp: Updating avatar...');
           tiutiuUserController.updateTiutiuUser(
             TiutiuUserEnum.avatar,
             user?.photoURL,
@@ -500,7 +500,7 @@ class AuthController extends GetxController {
         }
 
         if (loggedUser.phoneNumber == null) {
-          debugPrint('TiuTiuApp: Updating phoneNumber...');
+          if (kDebugMode) debugPrint('TiuTiuApp: Updating phoneNumber...');
           tiutiuUserController.updateTiutiuUser(
             TiutiuUserEnum.phoneNumber,
             user?.phoneNumber,
@@ -508,7 +508,7 @@ class AuthController extends GetxController {
         }
 
         if (loggedUser.uid == null) {
-          debugPrint('TiuTiuApp: Updating uid...');
+          if (kDebugMode) debugPrint('TiuTiuApp: Updating uid...');
           tiutiuUserController.updateTiutiuUser(
             TiutiuUserEnum.uid,
             loggedUser.uid ?? user!.uid,
@@ -516,13 +516,13 @@ class AuthController extends GetxController {
         }
 
         if (loggedUser.email == null) {
-          debugPrint('TiuTiuApp: Updating email...');
+          if (kDebugMode) debugPrint('TiuTiuApp: Updating email...');
           tiutiuUserController.updateTiutiuUser(
             TiutiuUserEnum.email,
             authController.user!.email,
           );
         }
-        debugPrint('TiuTiuApp: timesOpenedTheApp...');
+        if (kDebugMode) debugPrint('TiuTiuApp: timesOpenedTheApp...');
         tiutiuUserController.updateTiutiuUser(
           TiutiuUserEnum.email,
           authController.user!.email,
@@ -545,17 +545,17 @@ class AuthController extends GetxController {
   }
 
   Future<void> signOut() async {
-    debugPrint('TiuTiuApp: Login out...');
+    if (kDebugMode) debugPrint('TiuTiuApp: Login out...');
     await _authService.logOut();
-    debugPrint('TiuTiuApp: User $user');
+    if (kDebugMode) debugPrint('TiuTiuApp: User $user');
     clearAllAuthData();
     clearEmailAndPassword();
-    debugPrint('TiuTiuApp: Cleaning cache...');
+    if (kDebugMode) debugPrint('TiuTiuApp: Cleaning cache...');
     tiutiuUserController.checkUserRegistered();
-    debugPrint('TiuTiuApp: Logout done!');
+    if (kDebugMode) debugPrint('TiuTiuApp: Logout done!');
     recordLogoutTimeNow();
     setLoading(false, '');
-    debugPrint('TiuTiuApp: User still exists? $userExists');
+    if (kDebugMode) debugPrint('TiuTiuApp: User still exists? $userExists');
   }
 
   void clearAllAuthData() {

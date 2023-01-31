@@ -36,7 +36,7 @@ class FileDownloader {
       type: type,
     );
 
-    debugPrint('TiuTiuApp: Cache $fileSavedType saved!');
+    if (kDebugMode) debugPrint('TiuTiuApp: Cache $fileSavedType saved!');
 
     return fileSavedPath.path;
   }

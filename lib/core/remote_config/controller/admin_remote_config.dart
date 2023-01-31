@@ -18,7 +18,7 @@ class AdminRemoteConfigController extends GetxController {
 
   void onAdminRemoteConfigsChange() {
     _adminRemoteConfigServices.getAdminRemoteConfig(configs).listen((realTimeConfigs) {
-      debugPrint('TiuTiuApp: Current Remote Configs $configs');
+      if (kDebugMode) debugPrint('TiuTiuApp: Current Remote Configs $configs');
 
       _adminRemoteConfig(realTimeConfigs);
 
@@ -29,7 +29,7 @@ class AdminRemoteConfigController extends GetxController {
       systemController.isToCloseApp =
           OtherFunctions.isSmallerThan(runningVersion, closeInVersionsSmallerThan) && appIsClosed;
 
-      debugPrint('TiuTiuApp: New Remote Configs $configs');
+      if (kDebugMode) debugPrint('TiuTiuApp: New Remote Configs $configs');
     });
   }
 }
