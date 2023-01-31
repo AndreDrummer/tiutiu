@@ -5,7 +5,7 @@ import 'package:tiutiu/core/utils/routes/routes_name.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/mixins/tiu_tiu_pop_up.dart';
 import 'package:tiutiu/core/constants/strings.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:uuid/uuid.dart';
 import 'package:get/get.dart';
 
@@ -35,7 +35,7 @@ class FeedbackController extends GetxController with TiuTiuPopUp {
     final map = feedback.toMap();
     map[property.name] = data;
 
-    debugPrint('TiuTiuApp: Updating talk with us data $map');
+    if (kDebugMode) debugPrint('TiuTiuApp: Updating talk with us data $map');
 
     _feedback(Feedback.fromMap(map));
   }
@@ -95,7 +95,7 @@ class FeedbackController extends GetxController with TiuTiuPopUp {
       }
 
       await _submit().then((_) async => _showsSuccessPopup(), onError: (error, stackTrace) {
-        debugPrint('TiuTiuApp: Error when tryna upload feedback: $error, $stackTrace');
+        if (kDebugMode) debugPrint('TiuTiuApp: Error when tryna upload feedback: $error, $stackTrace');
         setLoading(false, '');
         _showsErrorPopup();
       });

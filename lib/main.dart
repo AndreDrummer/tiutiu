@@ -41,7 +41,7 @@ Future<void> _firebaseMessagingForegroundHandler(RemoteMessage message) async {
 
   _showFlutterNotification(message);
 
-  debugPrint('TiuTiuApp: Handling a foreground message ${message.messageId}');
+  if (kDebugMode) if (kDebugMode) debugPrint('TiuTiuApp: Handling a foreground message ${message.messageId}');
 }
 
 Future<void> _setupFlutterNotifications() async {
@@ -88,7 +88,7 @@ Future<void> _requireNotificationPermission() async {
     sound: true,
   );
 
-  debugPrint('TiuTiuApp: User granted permission: ${notificationSettings.authorizationStatus}');
+  if (kDebugMode) debugPrint('TiuTiuApp: User granted permission: ${notificationSettings.authorizationStatus}');
 }
 
 void _showFlutterNotification(RemoteMessage message) {
@@ -150,8 +150,8 @@ class _TiuTiuAppState extends State<TiuTiuApp> {
     systemController.handleInternetConnectivityStatus();
     systemController.onAppEndpointsChange();
     authController.userStateChanges();
-    debugPrint('TiuTiuApp: Height ${Get.height}');
-    debugPrint('TiuTiuApp: Device Aspect Ratio ${Get.width / Get.height}');
+    if (kDebugMode) debugPrint('TiuTiuApp: Height ${Get.height}');
+    if (kDebugMode) debugPrint('TiuTiuApp: Device Aspect Ratio ${Get.width / Get.height}');
 
     // Run code required to handle interacted messages in an async function
     // as initState() must not be async

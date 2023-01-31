@@ -2,6 +2,7 @@ import 'package:tiutiu/features/home/controller/home_controller.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/features/admob/admob_utils.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -35,10 +36,10 @@ class _AdBanner300x60State extends State<AdBanner> {
 
     _bannerAd = BannerAd(
       listener: AdMobUtils.bannerAdListener(onAdLoaded: (ad) {
-        debugPrint('TiuTiuApp: Banner Ad ${ad.adUnitId} Load.');
+        if (kDebugMode) debugPrint('TiuTiuApp: Banner Ad ${ad.adUnitId} Load.');
         _bannerAdFailedToLoad = false;
       }, onAdFailedToLoad: (ad, error) {
-        debugPrint('TiuTiuApp: Banner Ad ${ad.adUnitId} Failed to load: $error');
+        if (kDebugMode) debugPrint('TiuTiuApp: Banner Ad ${ad.adUnitId} Failed to load: $error');
         _bannerAdFailedToLoad = true;
       }),
       request: AdRequest(),
