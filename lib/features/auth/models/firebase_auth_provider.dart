@@ -131,7 +131,7 @@ class FirebaseAuthProvider implements AuthProviders {
         await _firebaseAuth.signInWithCredential(credential);
       }
     } on Exception catch (error) {
-      debugPrint('TiuTiuApp: Erro ao realizar login com Google: $error');
+      if (kDebugMode) debugPrint('TiuTiuApp: Erro ao realizar login com Google: $error');
       throw TiuTiuAuthException('$error');
     }
 
@@ -143,7 +143,7 @@ class FirebaseAuthProvider implements AuthProviders {
     try {
       await _firebaseAuth.sendPasswordResetEmail(email: email);
     } on FirebaseException catch (exception) {
-      debugPrint('TiuTiuApp: An error ocurred when tryna reset Password: $exception');
+      if (kDebugMode) debugPrint('TiuTiuApp: An error ocurred when tryna reset Password: $exception');
       throw TiuTiuAuthException(exception.code);
     }
   }
@@ -151,11 +151,11 @@ class FirebaseAuthProvider implements AuthProviders {
   @override
   Future<bool> loginWithFacebook({bool firstLogin = true}) async {
     try {
-      debugPrint('TiuTiuApp: Fisrt Login? $firstLogin');
+      if (kDebugMode) debugPrint('TiuTiuApp: Fisrt Login? $firstLogin');
 
       final LoginResult result = await _facebookSignIn.login(loginBehavior: LoginBehavior.webOnly);
 
-      debugPrint('TiuTiuApp: Facebook LoginResult ${result.status}');
+      if (kDebugMode) debugPrint('TiuTiuApp: Facebook LoginResult ${result.status}');
 
       if (result.status == LoginStatus.success) {
         final userData = await FacebookAuth.i.getUserData(
@@ -164,7 +164,7 @@ class FirebaseAuthProvider implements AuthProviders {
 
         AuthCredential credential = FacebookAuthProvider.credential(result.accessToken!.token);
 
-        debugPrint('TiuTiuApp: Facebook Login Data $userData');
+        if (kDebugMode) debugPrint('TiuTiuApp: Facebook Login Data $userData');
 
         await FirebaseAuth.instance.signInWithCredential(credential);
       } else {
@@ -173,7 +173,7 @@ class FirebaseAuthProvider implements AuthProviders {
 
       return _firebaseAuth.currentUser != null;
     } on FirebaseException catch (exception) {
-      debugPrint('TiuTiuApp: An error ocurred when tryna to login with Facebook: $exception');
+      if (kDebugMode) debugPrint('TiuTiuApp: An error ocurred when tryna to login with Facebook: $exception');
       throw TiuTiuAuthException(exception.code);
     }
   }
@@ -195,22 +195,22 @@ class FirebaseAuthProvider implements AuthProviders {
         idToken: appleIDcredential.identityToken,
       );
 
-      debugPrint('TiuTiuApp: Dados Apple\n');
-      debugPrint('TiuTiuApp: $appleIDcredential\n');
-      debugPrint('TiuTiuApp: ${appleIDcredential.email}\n');
-      debugPrint('TiuTiuApp: ${appleIDcredential.familyName}\n');
-      debugPrint('TiuTiuApp: ${appleIDcredential.givenName}\n');
+      if (kDebugMode) debugPrint('TiuTiuApp: Dados Apple\n');
+      if (kDebugMode) debugPrint('TiuTiuApp: $appleIDcredential\n');
+      if (kDebugMode) debugPrint('TiuTiuApp: ${appleIDcredential.email}\n');
+      if (kDebugMode) debugPrint('TiuTiuApp: ${appleIDcredential.familyName}\n');
+      if (kDebugMode) debugPrint('TiuTiuApp: ${appleIDcredential.givenName}\n');
 
       final appleUserName = '${appleIDcredential.givenName} ${appleIDcredential.familyName ?? ''}';
 
-      debugPrint('TiuTiuApp: $appleUserName');
+      if (kDebugMode) debugPrint('TiuTiuApp: $appleUserName');
 
       await _firebaseAuth.signInWithCredential(firebaseCredential);
-      debugPrint('TiuTiuApp: Firebase Auth ${_firebaseAuth.currentUser}');
+      if (kDebugMode) debugPrint('TiuTiuApp: Firebase Auth ${_firebaseAuth.currentUser}');
 
       return _firebaseAuth.currentUser != null;
     } on FirebaseException catch (exception) {
-      debugPrint('TiuTiuApp: An error ocurred when tryna to login with Apple: $exception');
+      if (kDebugMode) debugPrint('TiuTiuApp: An error ocurred when tryna to login with Apple: $exception');
       throw TiuTiuAuthException(exception.code);
     }
   }

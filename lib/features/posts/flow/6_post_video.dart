@@ -1,4 +1,3 @@
-import 'package:better_player/better_player.dart';
 import 'package:tiutiu/features/posts/widgets/video_player_picker.dart';
 import 'package:tiutiu/core/widgets/animated_text_icon_button.dart';
 import 'package:tiutiu/features/posts/widgets/ad_video_item.dart';
@@ -8,7 +7,9 @@ import 'package:tiutiu/core/widgets/one_line_text.dart';
 import 'package:tiutiu/features/posts/model/post.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/core/constants/strings.dart';
+import 'package:better_player/better_player.dart';
 import 'package:video_player/video_player.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'dart:io';
@@ -68,7 +69,7 @@ class PostVideo extends StatelessWidget {
               postsController.updatePost(PostEnum.video.name, videoFile);
               postsController.clearError();
             } else {
-              debugPrint('TiuTiuApp: Video Size Exceed ${videoDuration.inSeconds}');
+              if (kDebugMode) debugPrint('TiuTiuApp: Video Size Exceed ${videoDuration.inSeconds}');
               postsController.setError(PostFlowStrings.videoSizeExceed);
             }
             videoPlayerController.dispose();

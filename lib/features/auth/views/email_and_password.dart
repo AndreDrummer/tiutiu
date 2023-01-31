@@ -15,6 +15,7 @@ import 'package:tiutiu/core/widgets/tiutiu_logo.dart';
 import 'package:tiutiu/core/widgets/button_wide.dart';
 import 'package:tiutiu/core/constants/strings.dart';
 import 'package:tiutiu/core/utils/validators.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -367,7 +368,7 @@ class _EmailAndPasswordState extends State<EmailAndPassword> with TiuTiuPopUp {
         backGroundColor: AppColors.danger,
       );
 
-      debugPrint('TiuTiuApp: Authentication Failed ${exception.toString()}');
+      if (kDebugMode) debugPrint('TiuTiuApp: Authentication Failed ${exception.toString()}');
     }
   }
 

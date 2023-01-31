@@ -12,6 +12,7 @@ import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/core/constants/strings.dart';
 import 'package:tiutiu/core/utils/validators.dart';
 import 'package:brasil_fields/brasil_fields.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -203,7 +204,7 @@ class _EditProfileState extends State<EditProfile> {
         showSimpleTextButton: widget.isEditingProfile,
         onPrimaryPressed: () async {
           if (_formIsValid()) {
-            debugPrint('TiuTiuApp: Updating profile...');
+            if (kDebugMode) debugPrint('TiuTiuApp: Updating profile...');
             FocusScope.of(context).unfocus();
 
             _setDataToUser();

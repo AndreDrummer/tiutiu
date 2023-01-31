@@ -14,6 +14,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:tiutiu/core/utils/math_functions.dart';
 import 'package:tiutiu/features/posts/model/post.dart';
 import 'package:tiutiu/core/constants/strings.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 import 'package:get/get.dart';
@@ -160,12 +161,12 @@ class OtherFunctions {
     try {
       var uploadTask = ref.putFile(file);
       await uploadTask.whenComplete(() {
-        debugPrint('TiuTiuApp: File $fileName Successfully Uploaded');
+        if (kDebugMode) debugPrint('TiuTiuApp: File $fileName Successfully Uploaded');
       });
 
       fileURL = await ref.getDownloadURL();
     } on FirebaseException catch (error) {
-      debugPrint('TiuTiuApp: Ocorreu um erro ao fazer upload do arquivo $fileName: $error.');
+      if (kDebugMode) debugPrint('TiuTiuApp: Ocorreu um erro ao fazer upload do arquivo $fileName: $error.');
       rethrow;
     }
 
@@ -173,45 +174,45 @@ class OtherFunctions {
   }
 
   static Future<String?> getPostImageToShare(Post post) async {
-    debugPrint('TiuTiuApp: Sharing Post...');
+    if (kDebugMode) debugPrint('TiuTiuApp: Sharing Post...');
     try {
       String file;
       final sharedFilesMap = await LocalStorage.getValueUnderLocalStorageKey(
         LocalStorageKey.sharedFilesMap,
       );
 
-      debugPrint('TiuTiuApp: Shared Files Map $sharedFilesMap');
+      if (kDebugMode) debugPrint('TiuTiuApp: Shared Files Map $sharedFilesMap');
 
       if (sharedFilesMap != null && (sharedFilesMap as Map).containsKey(post.uid)) {
-        debugPrint('TiuTiuApp: Shared Files Map was NOT null $sharedFilesMap');
+        if (kDebugMode) debugPrint('TiuTiuApp: Shared Files Map was NOT null $sharedFilesMap');
         file = sharedFilesMap[post.uid];
       } else {
-        debugPrint('TiuTiuApp: Shared Files Map is null $sharedFilesMap');
+        if (kDebugMode) debugPrint('TiuTiuApp: Shared Files Map is null $sharedFilesMap');
         file = await FileDownloader.save(
           filename: post.name ?? '${post.type}',
           fileUrl: post.photos[0],
           type: FileType.images,
         );
 
-        debugPrint('TiuTiuApp: Post First Image downloaded $file');
+        if (kDebugMode) debugPrint('TiuTiuApp: Post First Image downloaded $file');
 
         Map<String, dynamic> map = {};
         if (sharedFilesMap != null) map.addAll(sharedFilesMap);
 
         map.putIfAbsent(post.uid!, () => file);
-        debugPrint('TiuTiuApp: Post First Image will be cached $map');
+        if (kDebugMode) debugPrint('TiuTiuApp: Post First Image will be cached $map');
 
         await LocalStorage.setValueUnderLocalStorageKey(
           key: LocalStorageKey.sharedFilesMap,
           value: map,
         );
 
-        debugPrint('TiuTiuApp: Post First Image cached $map');
+        if (kDebugMode) debugPrint('TiuTiuApp: Post First Image cached $map');
       }
 
       return file;
     } catch (exception) {
-      debugPrint('TiuTiuApp: An error occured when trying get post image to share: $exception.');
+      if (kDebugMode) debugPrint('TiuTiuApp: An error occured when trying get post image to share: $exception.');
       rethrow;
     }
   }
@@ -241,9 +242,9 @@ class OtherFunctions {
                 ? '🐧'
                 : '';
 
-    debugPrint('TiuTiuApp: DynamicLinkPrefix ${tiuTiuDynamicLinkParameters.dynamicLinkPrefix}');
-    debugPrint('TiuTiuApp: AppStoreId ${tiuTiuDynamicLinkParameters.iosParameters.appStoreId}');
-    debugPrint('TiuTiuApp: UriPrefix ${tiuTiuDynamicLinkParameters.uriPrefix}');
+    if (kDebugMode) debugPrint('TiuTiuApp: DynamicLinkPrefix ${tiuTiuDynamicLinkParameters.dynamicLinkPrefix}');
+    if (kDebugMode) debugPrint('TiuTiuApp: AppStoreId ${tiuTiuDynamicLinkParameters.iosParameters.appStoreId}');
+    if (kDebugMode) debugPrint('TiuTiuApp: UriPrefix ${tiuTiuDynamicLinkParameters.uriPrefix}');
 
     final dynamicLinkParams = DynamicLinkParameters(
       androidParameters: tiuTiuDynamicLinkParameters.androidParameters,
@@ -282,7 +283,7 @@ class OtherFunctions {
   }
 
   static bool isSmallerThan(String version1, String version2) {
-    debugPrint('TiuTiuApp: Is to close app? v1: $version1 <--> v2: $version2');
+    if (kDebugMode) debugPrint('TiuTiuApp: Is to close app? v1: $version1 <--> v2: $version2');
 
     final int v1Major = int.tryParse(version1.split('.').first) ?? 0;
     final int v1Minor = int.tryParse(version1.split('.')[1]) ?? 0;

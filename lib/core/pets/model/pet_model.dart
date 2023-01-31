@@ -132,18 +132,18 @@ class Pet extends Post {
       donatedOrFound: map[PetEnum.donatedOrFound.name] ?? false,
       lastSeenDetails: map[PetEnum.lastSeenDetails.name] ?? '',
       reference: getReference(map[PostEnum.reference.name]),
-      owner: TiutiuUser.fromMap(map[PostEnum.owner.name]),
       disappeared: map[PetEnum.disappeared.name] ?? false,
+      owner: TiutiuUser.fromMap(map[PostEnum.owner.name]),
       description: map[PostEnum.description.name] ?? '',
       sharedTimes: map[PostEnum.sharedTimes.name] ?? 0,
       city: map[PostEnum.city.name] ?? 'Acrelândia',
       state: map[PostEnum.state.name] ?? 'Acre',
       ageMonth: map[PetEnum.ageMonth.name] ?? 0,
-      saved: map[PostEnum.saved.name] ?? 0,
       health: map[PetEnum.health.name] ?? '-',
       gender: map[PetEnum.gender.name] ?? '-',
       longitude: map[PostEnum.longitude.name],
       ageYear: map[PetEnum.ageYear.name] ?? 0,
+      saved: map[PostEnum.saved.name] ?? 0,
       color: map[PetEnum.color.name] ?? '-',
       breed: map[PetEnum.breed.name] ?? '-',
       reward: map[PetEnum.reward.name] ?? '',
@@ -255,7 +255,7 @@ class Pet extends Post {
       PostEnum.video.name: convertFileToVideoPath ? video.path : video,
       PetEnum.otherCaracteristics.name: otherCaracteristics,
       PetEnum.chronicDiseaseInfo.name: chronicDiseaseInfo,
-      PostEnum.owner.name: adequatedMap(owner?.toMap()),
+      PostEnum.owner.name: _adequatedMap(owner?.toMap()),
       PostEnum.describedAddress.name: describedAddress,
       PostEnum.dennounceMotives.name: dennounceMotives,
       PostEnum.timesDennounced.name: timesDennounced,
@@ -287,7 +287,7 @@ class Pet extends Post {
     };
   }
 
-  Map<String, dynamic>? adequatedMap(Map<String, dynamic>? map) {
+  Map<String, dynamic>? _adequatedMap(Map<String, dynamic>? map) {
     if ((map?.containsKey(PostEnum.reference.name) ?? false) && map?[PostEnum.reference.name] != null) {
       map![PostEnum.reference.name] = (map[PostEnum.reference.name] as DocumentReference).path;
     }
