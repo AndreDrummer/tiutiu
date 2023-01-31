@@ -15,7 +15,7 @@ import 'package:tiutiu/features/chat/model/enums.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:tiutiu/core/utils/cesar_cripto.dart';
 import 'package:tiutiu/core/constants/strings.dart';
-import 'package:flutter/widgets.dart';
+import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'dart:convert';
 
@@ -127,7 +127,7 @@ class ChatController extends GetxController with TiuTiuPopUp {
   String _getChatId({required String senderUserId, required String receiverUserId}) {
     final hash = GenerateHashKey.generateUniqueChatHash(senderUserId, receiverUserId);
 
-    debugPrint('TiuTiuApp: Generated Hash $hash');
+    if (kDebugMode) debugPrint('TiuTiuApp: Generated Hash $hash');
 
     return hash;
   }
@@ -205,7 +205,7 @@ class ChatController extends GetxController with TiuTiuPopUp {
       final minutes = DateTime.now().difference(DateTime.parse(lastTimeWatchedRewarded)).inMinutes;
 
       if (minutes >= adMobController.minutesFreeOfRewardedAd(contactType)) {
-        debugPrint('TiuTiuApp: Must Show Rewarded..');
+        if (kDebugMode) debugPrint('TiuTiuApp: Must Show Rewarded..');
         warningUserAboutRewarded(contactType);
       } else {
         await openDesiredChat();

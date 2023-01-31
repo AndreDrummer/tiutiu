@@ -10,6 +10,7 @@ import 'package:tiutiu/core/widgets/button_wide.dart';
 import 'package:tiutiu/core/widgets/background.dart';
 import 'package:tiutiu/core/constants/strings.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'dart:io';
@@ -28,7 +29,7 @@ class LocalizationServiceAccessPermissionAccess extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    debugPrint('TiuTiuApp: local access denied? ${localAccessDenied ? 'Sim' : 'Não'}');
+    if (kDebugMode) debugPrint('TiuTiuApp: local access denied? ${localAccessDenied ? 'Sim' : 'Não'}');
 
     return Scaffold(
         appBar: DefaultBasicAppBar(text: LocalPermissionStrings.appBarTitle),

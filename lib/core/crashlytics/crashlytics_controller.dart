@@ -15,13 +15,13 @@ class CrashlyticsController extends GetxController with TiuTiuPopUp {
     final userAllowsTrackFailures = await LocalStorage.getValueUnderLocalStorageKey(LocalStorageKey.enableCrashlytics);
 
     if (userAllowsTrackFailures == null) {
-      debugPrint('TiuTiuApp: User TrackFailures Decision is NULL');
+      if (kDebugMode) debugPrint('TiuTiuApp: User TrackFailures Decision is NULL');
       _promptRequestToTrack();
     } else {
       final realUserTrackFailuresDecision = FirebaseCrashlytics.instance.isCrashlyticsCollectionEnabled;
 
-      debugPrint('TiuTiuApp: Current User TrackFailures Decision is $realUserTrackFailuresDecision');
-      debugPrint('TiuTiuApp: Cashed User TrackFailures Decision is $userAllowsTrackFailures');
+      if (kDebugMode) debugPrint('TiuTiuApp: Current User TrackFailures Decision is $realUserTrackFailuresDecision');
+      if (kDebugMode) debugPrint('TiuTiuApp: Cashed User TrackFailures Decision is $userAllowsTrackFailures');
       _setCrashlyticsCollectionEnabled(value: userAllowsTrackFailures);
     }
   }
@@ -31,7 +31,8 @@ class CrashlyticsController extends GetxController with TiuTiuPopUp {
     StackTrace? stackTrace,
     required exception,
   }) async {
-    debugPrint('TiuTiuApp: Reporting crash:\nMessage\n$message\nException\n$exception\nStackTrace\n$stackTrace\n');
+    if (kDebugMode)
+      debugPrint('TiuTiuApp: Reporting crash:\nMessage\n$message\nException\n$exception\nStackTrace\n$stackTrace\n');
 
     await FirebaseCrashlytics.instance.setUserIdentifier('${tiutiuUserController.tiutiuUser.uid}');
 

@@ -14,7 +14,7 @@ class FeedbackService {
     try {
       await EndpointResolver.getDocumentEndpoint(EndpointNames.pathToFeedback.name, [feedback.uid!])
           .set(feedback.toMap());
-      debugPrint('TiuTiuApp: Feedback Posted Successfully ${feedback.uid}');
+      if (kDebugMode) debugPrint('TiuTiuApp: Feedback Posted Successfully ${feedback.uid}');
       success = true;
     } on FirebaseException catch (exception) {
       crashlyticsController.reportAnError(
@@ -31,7 +31,7 @@ class FeedbackService {
     try {
       final imagesStoragePath = _feedbackStoragePathToImages(feedback);
 
-      debugPrint('TiuTiuApp: Uploading feedback prints...');
+      if (kDebugMode) debugPrint('TiuTiuApp: Uploading feedback prints...');
       final imagesUrlDownloadList = await OtherFunctions.getImageListUrlDownload(
         imagesPathList: feedback.screenshots,
         storagePath: imagesStoragePath,
