@@ -43,10 +43,10 @@ class DeleteAccountService {
 
   Future<void> deleteUserPosts(String userId) async {
     final List<Post> userPosts = postsController.loggedUserPosts();
-    debugPrint('TiuTiuApp: Delete ${userPosts.length} user posts');
+    if (kDebugMode) debugPrint('TiuTiuApp: Delete ${userPosts.length} user posts');
 
     for (int i = 0; i < userPosts.length; i++) {
-      debugPrint('TiuTiuApp: Deleting user post ${userPosts[i].uid}');
+      if (kDebugMode) debugPrint('TiuTiuApp: Deleting user post ${userPosts[i].uid}');
       await _postService.deletePost(userPosts[i]);
     }
   }

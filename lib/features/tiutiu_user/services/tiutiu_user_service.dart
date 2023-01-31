@@ -43,7 +43,7 @@ class TiutiuUserService {
     try {
       var uploadTask = avatarRef.putFile(file);
       await uploadTask.whenComplete(() {
-        debugPrint('TiuTiuApp: Success Upload Avatar');
+        if (kDebugMode) debugPrint('TiuTiuApp: Success Upload Avatar');
       });
 
       avatarURL = await avatarRef.getDownloadURL();

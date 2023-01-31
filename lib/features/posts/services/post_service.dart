@@ -74,17 +74,17 @@ class PostService extends GetxService {
       final imagesStoragePath = postStoragePathToImages(post);
 
       if (imagesToDelete.isNotEmpty) {
-        debugPrint('TiuTiuApp: Deleting images removed...');
+        if (kDebugMode) debugPrint('TiuTiuApp: Deleting images removed...');
         final FirebaseStorage _storage = FirebaseStorage.instance;
         for (int index = 0; index < imagesToDelete.length; index++) {
-          debugPrint('TiuTiuApp: Deleting ${OtherFunctions.getPhotoName(imagesToDelete[index])}');
+          if (kDebugMode) debugPrint('TiuTiuApp: Deleting ${OtherFunctions.getPhotoName(imagesToDelete[index])}');
           await _storage.refFromURL(imagesToDelete[index]).delete().onError((error, stackTrace) => null);
         }
 
-        debugPrint('TiuTiuApp: Images deleted!');
+        if (kDebugMode) debugPrint('TiuTiuApp: Images deleted!');
       }
 
-      debugPrint('TiuTiuApp: Uploading images...');
+      if (kDebugMode) debugPrint('TiuTiuApp: Uploading images...');
       final imagesUrlDownloadList = await OtherFunctions.getImageListUrlDownload(
         storagePath: imagesStoragePath,
         imagesPathList: post.photos,
@@ -105,7 +105,7 @@ class PostService extends GetxService {
 
     try {
       await EndpointResolver.getDocumentEndpoint(EndpointNames.pathToPost.name, [post.uid!]).set(post.toMap());
-      debugPrint('TiuTiuApp: Posted Successfully ${post.uid}');
+      if (kDebugMode) debugPrint('TiuTiuApp: Posted Successfully ${post.uid}');
       success = true;
     } on Exception catch (exception) {
       crashlyticsController.reportAnError(
@@ -124,7 +124,7 @@ class PostService extends GetxService {
       final docRef = EndpointResolver.getDocumentEndpoint(EndpointNames.pathToPost.name, [post.uid!]);
       await docRef.set({PostEnum.reference.name: docRef}, SetOptions(merge: true));
 
-      debugPrint('TiuTiuApp: Post Reference Updated Successfully ${post.uid}');
+      if (kDebugMode) debugPrint('TiuTiuApp: Post Reference Updated Successfully ${post.uid}');
       success = true;
     } on Exception catch (exception) {
       crashlyticsController.reportAnError(
@@ -149,7 +149,7 @@ class PostService extends GetxService {
 
       await EndpointResolver.getDocumentEndpoint(EndpointNames.pathToPost.name, [post.uid]).delete();
 
-      debugPrint('TiuTiuApp: Post deleted Successfully ${post.uid}');
+      if (kDebugMode) debugPrint('TiuTiuApp: Post deleted Successfully ${post.uid}');
       success = true;
     } on Exception catch (exception) {
       crashlyticsController.reportAnError(
@@ -192,7 +192,7 @@ class PostService extends GetxService {
 
   Future<void> deleteUserAvatar(String userId) async {
     try {
-      debugPrint('TiuTiuApp: Deleting user avatar...');
+      if (kDebugMode) debugPrint('TiuTiuApp: Deleting user avatar...');
 
       await FirebaseStorage.instance
           .ref()
