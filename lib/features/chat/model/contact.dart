@@ -1,6 +1,6 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/widgets.dart';
 import 'package:tiutiu/features/chat/model/enums.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 
 class Contact {
   factory Contact.fromSnapshot(DocumentSnapshot snapshot) {
@@ -39,14 +39,14 @@ class Contact {
     String? id,
     bool? open,
   }) {
-    debugPrint('TiuTiuApp: Updating Contact userSenderReference... $userSenderReference');
-    debugPrint('TiuTiuApp: Updating Contact postTalkingAbout... $postTalkingAbout');
-    debugPrint('TiuTiuApp: Updating Contact lastMessageTime... $lastMessageTime');
-    debugPrint('TiuTiuApp: Updating Contact userReceiverId... $userReceiverId');
-    debugPrint('TiuTiuApp: Updating Contact userSenderId... $userSenderId');
-    debugPrint('TiuTiuApp: Updating Contact lastMessage... $lastMessage');
-    debugPrint('TiuTiuApp: Updating Contact open... $open');
-    debugPrint('TiuTiuApp: Updating Contact id... $id');
+    if (kDebugMode) debugPrint('TiuTiuApp: Updating Contact userSenderReference... $userSenderReference');
+    if (kDebugMode) debugPrint('TiuTiuApp: Updating Contact postTalkingAbout... $postTalkingAbout');
+    if (kDebugMode) debugPrint('TiuTiuApp: Updating Contact lastMessageTime... $lastMessageTime');
+    if (kDebugMode) debugPrint('TiuTiuApp: Updating Contact userReceiverId... $userReceiverId');
+    if (kDebugMode) debugPrint('TiuTiuApp: Updating Contact userSenderId... $userSenderId');
+    if (kDebugMode) debugPrint('TiuTiuApp: Updating Contact lastMessage... $lastMessage');
+    if (kDebugMode) debugPrint('TiuTiuApp: Updating Contact open... $open');
+    if (kDebugMode) debugPrint('TiuTiuApp: Updating Contact id... $id');
 
     return Contact(
       userReceiverReference: userReceiverReference ?? this.userReceiverReference,

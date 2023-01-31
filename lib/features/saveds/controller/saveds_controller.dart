@@ -22,14 +22,14 @@ class SavedsController extends GetxController {
   List<Post> get savedPosts => _savedPosts;
 
   void save(Post post) {
-    debugPrint('TiuTiuApp: Add to saves');
+    if (kDebugMode) debugPrint('TiuTiuApp: Add to saves');
     _savedServices.savesCollection().doc(post.uid).set(post.toMap());
 
     _incrementSavedTimes(post.uid!);
   }
 
   void unsave(Post post) {
-    debugPrint('TiuTiuApp: Remove from saves');
+    if (kDebugMode) debugPrint('TiuTiuApp: Remove from saves');
     _savedServices.savesCollection().doc(post.uid).delete();
     if (post.saved > 0) _decrementSavedTimes(post.uid!);
   }

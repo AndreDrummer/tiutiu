@@ -11,7 +11,7 @@ class Formatters {
       number = number?.replaceAll('-', '');
       number = number?.replaceAll(' ', '');
     } catch (error) {
-      debugPrint('TiuTiuApp: Error when unmasking phoneNumber $number. $error');
+      if (kDebugMode) debugPrint('TiuTiuApp: Error when unmasking phoneNumber $number. $error');
       rethrow;
     }
     return number;

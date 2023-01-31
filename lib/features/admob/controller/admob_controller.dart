@@ -65,7 +65,7 @@ class AdMobController {
       _rewardedAd.show(
         onUserEarnedReward: (AdWithoutView ad, RewardItem rewardItem) async {
           ad.dispose();
-          debugPrint('TiuTiuApp: Usuário assistiu certinho ${ad.adUnitId} ${rewardItem.amount}');
+          if (kDebugMode) debugPrint('TiuTiuApp: Usuário assistiu certinho ${ad.adUnitId} ${rewardItem.amount}');
 
           await LocalStorage.setValueUnderLocalStorageKey(
             key: contactType == ContactType.whatsapp

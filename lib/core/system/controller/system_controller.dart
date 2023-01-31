@@ -96,15 +96,15 @@ class SystemController extends GetxController {
 
   void handleFDLOnForeground() {
     _firebaseDynamicLinks.onLink.listen((dynamicLinkData) {
-      debugPrint('TiuTiuApp: FDL Foreground Data: $dynamicLinkData');
+      if (kDebugMode) debugPrint('TiuTiuApp: FDL Foreground Data: $dynamicLinkData');
     }).onError((error) {
-      debugPrint('TiuTiuApp: FDL Foreground Error: $error');
+      if (kDebugMode) debugPrint('TiuTiuApp: FDL Foreground Error: $error');
     });
   }
 
   Future handleFDLOpensApp() async {
     final PendingDynamicLinkData? initialLink = await _firebaseDynamicLinks.getInitialLink();
-    debugPrint('TiuTiuApp: FDL Terminated InitialLink: $initialLink');
+    if (kDebugMode) debugPrint('TiuTiuApp: FDL Terminated InitialLink: $initialLink');
     final String? fdLink = '${initialLink?.link}';
 
     if (fdLink.isNotEmptyNeighterNull()) {
@@ -117,14 +117,14 @@ class SystemController extends GetxController {
     DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
     final info = Platform.isIOS ? await deviceInfo.iosInfo : await deviceInfo.androidInfo;
 
-    debugPrint('TiuTiuApp: Device Info: $info');
+    if (kDebugMode) debugPrint('TiuTiuApp: Device Info: $info');
 
     return info;
   }
 
   Future<PackageInfo> getPackageInfo() async {
     final info = await PackageInfo.fromPlatform();
-    debugPrint('TiuTiuApp: Package Info: $info');
+    if (kDebugMode) debugPrint('TiuTiuApp: Package Info: $info');
 
     return info;
   }
@@ -145,7 +145,7 @@ class SystemController extends GetxController {
 
     String defaultID = '';
 
-    debugPrint('TiuTiuApp: ADMOBBlock -> Name: $blockName ID: $adMobID');
+    if (kDebugMode) debugPrint('TiuTiuApp: ADMOBBlock -> Name: $blockName ID: $adMobID');
 
     switch (type) {
       case AdMobType.banner:

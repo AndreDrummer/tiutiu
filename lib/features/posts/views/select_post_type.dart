@@ -15,6 +15,7 @@ import 'package:tiutiu/core/pets/model/pet_model.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/features/posts/model/post.dart';
 import 'package:tiutiu/core/constants/strings.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -25,7 +26,7 @@ class SelectPostType extends StatelessWidget with TiuTiuPopUp {
 
   @override
   Widget build(BuildContext context) {
-    debugPrint('TiuTiuApp: Post Type Screen Opened...');
+    if (kDebugMode) debugPrint('TiuTiuApp: Post Type Screen Opened...');
 
     return WillPopScope(
       onWillPop: () async {
@@ -245,7 +246,7 @@ class SelectPostType extends StatelessWidget with TiuTiuPopUp {
   Future<void> _setLocation() async {
     final hasAValidPlacemark = currentLocationController.hasAValidPlacemark();
 
-    debugPrint('TiuTiuApp: Placemark is valid $hasAValidPlacemark');
+    if (kDebugMode) debugPrint('TiuTiuApp: Placemark is valid $hasAValidPlacemark');
 
     if (!hasAValidPlacemark) {
       postsController.isLoading = true;
