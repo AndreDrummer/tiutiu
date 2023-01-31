@@ -15,8 +15,8 @@ class PostUtils {
   static List<Post> filterPosts({required List<Post> postsList}) {
     final filterParams = filterController.getParams;
 
-    debugPrint('TiuTiuApp: filteredPosts');
-    debugPrint('TiuTiuApp: filters $filterParams');
+    if (kDebugMode) debugPrint('TiuTiuApp: filteredPosts');
+    if (kDebugMode) debugPrint('TiuTiuApp: filters $filterParams');
 
     final filteredByType = _filterByType(postsList, filterParams.type);
     final filteredByState = _filterByState(filteredByType, filterParams.state);
@@ -63,7 +63,7 @@ class PostUtils {
   }
 
   static List<Post> _filterByType(List<Post> list, String type) {
-    debugPrint('TiuTiuApp: _filterByType');
+    if (kDebugMode) debugPrint('TiuTiuApp: _filterByType');
 
     if (type != PetTypeStrings.all) {
       return list.where((post) {
@@ -75,7 +75,7 @@ class PostUtils {
   }
 
   static List<Post> _filterByState(List<Post> list, String state) {
-    debugPrint('TiuTiuApp: _filterByState');
+    if (kDebugMode) debugPrint('TiuTiuApp: _filterByState');
 
     final isBr = state == StatesAndCities.stateAndCities.stateInitials.first;
 
@@ -91,7 +91,7 @@ class PostUtils {
   }
 
   static List<Post> _filterByDisappeared(List<Post> list, bool disappeared) {
-    debugPrint('TiuTiuApp: _filterByDisappeared');
+    if (kDebugMode) debugPrint('TiuTiuApp: _filterByDisappeared');
     return list.where((post) {
       return (post as Pet).disappeared == disappeared;
     }).toList();

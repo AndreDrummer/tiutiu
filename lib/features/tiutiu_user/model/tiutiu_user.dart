@@ -2,16 +2,16 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 enum TiutiuUserEnum {
   allowContactViaWhatsApp,
-  notificationToken,
-  reference,
-  timesDennounced,
   timesOpenedTheApp,
+  notificationToken,
+  timesDennounced,
   emailVerified,
   phoneVerified,
   userDeleted,
   displayName,
   phoneNumber,
   lastLogin,
+  reference,
   photoBACK,
   createdAt,
   isAnONG,
@@ -67,7 +67,6 @@ class TiutiuUser {
 
   static TiutiuUser fromMap(Map<String, dynamic> map) {
     return TiutiuUser(
-      reference: map[TiutiuUserEnum.reference.name] != null ? map[TiutiuUserEnum.reference.name] : null,
       lastLogin: map[TiutiuUserEnum.lastLogin.name] ?? map[TiutiuUserEnum.createdAt.name],
       allowContactViaWhatsApp: map[TiutiuUserEnum.allowContactViaWhatsApp.name] ?? false,
       timesOpenedTheApp: map[TiutiuUserEnum.timesOpenedTheApp.name] ?? 0,
@@ -76,6 +75,7 @@ class TiutiuUser {
       timesDennounced: map[TiutiuUserEnum.timesDennounced.name] ?? 0,
       notificationToken: map[TiutiuUserEnum.notificationToken.name],
       userDeleted: map[TiutiuUserEnum.userDeleted.name] ?? false,
+      reference: getReference(map[TiutiuUserEnum.reference.name]),
       avatar: map[TiutiuUserEnum.avatar.name] ?? map['photoURL'],
       isAnONG: map[TiutiuUserEnum.isAnONG.name] ?? false,
       phoneNumber: map[TiutiuUserEnum.phoneNumber.name],
@@ -106,6 +106,18 @@ class TiutiuUser {
       uid: map[TiutiuUserEnum.uid.name],
       allowContactViaWhatsApp: false,
     );
+  }
+
+  static DocumentReference? getReference(dynamic ref) {
+    if (ref != null) {
+      if (ref is String) {
+        return FirebaseFirestore.instance.doc(ref);
+      } else {
+        return ref;
+      }
+    } else {
+      return null;
+    }
   }
 
   bool allowContactViaWhatsApp;

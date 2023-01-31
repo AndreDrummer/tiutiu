@@ -14,7 +14,7 @@ class DennounceServices {
     try {
       await EndpointResolver.getDocumentEndpoint(EndpointNames.pathToPostDennounce.name, [postDennounce.uid])
           .set(postDennounce.toMap());
-      debugPrint('TiuTiuApp: PostDennounce Data uploaded Successfully ${postDennounce.uid}');
+      if (kDebugMode) debugPrint('TiuTiuApp: PostDennounce Data uploaded Successfully ${postDennounce.uid}');
       success = true;
     } on Exception catch (exception) {
       crashlyticsController.reportAnError(
@@ -38,7 +38,7 @@ class DennounceServices {
     try {
       await EndpointResolver.getDocumentEndpoint(EndpointNames.pathToUserDennounce.name, [userDennounce.uid])
           .set(userDennounce.toMap());
-      debugPrint('TiuTiuApp: UserDennounce Data uploaded Successfully ${userDennounce.uid}');
+      if (kDebugMode) debugPrint('TiuTiuApp: UserDennounce Data uploaded Successfully ${userDennounce.uid}');
       success = true;
     } on Exception catch (exception) {
       crashlyticsController.reportAnError(

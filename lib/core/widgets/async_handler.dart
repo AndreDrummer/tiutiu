@@ -3,6 +3,7 @@ import 'package:tiutiu/core/views/no_connection_screen.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/widgets/loading_page.dart';
 import 'package:tiutiu/core/widgets/empty_list.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -46,7 +47,8 @@ class AsyncHandler<T> extends StatelessWidget {
     if (!systemController.properties.internetConnected) return NoConnectionScreen(onLeave: () => Get.back());
 
     if (snapshot.hasError) {
-      debugPrint('TiuTiuApp: Error ao carregar dados do tipo $T. Message: ${snapshot.error} ${snapshot.stackTrace}');
+      if (kDebugMode)
+        debugPrint('TiuTiuApp: Error ao carregar dados do tipo $T. Message: ${snapshot.error} ${snapshot.stackTrace}');
       return errorWidget ??
           UserFeedbackScreen(
             onErrorCallback: onErrorCallback,

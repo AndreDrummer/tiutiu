@@ -396,7 +396,7 @@ class PostsController extends GetxController with TiuTiuPopUp {
     final postMap = _insertOwnerData(post.toMap());
     postMap[property] = data;
 
-    debugPrint('TiuTiuApp: updating post... $postMap');
+    if (kDebugMode) debugPrint('TiuTiuApp: updating post... $postMap');
 
     if (property == PetEnum.otherCaracteristics.name) {
       postMap[property] = _handlePetOtherCaracteristics(data);
@@ -408,7 +408,7 @@ class PostsController extends GetxController with TiuTiuPopUp {
     }
 
     final newPost = Pet().fromMap(postMap);
-    debugPrint('TiuTiuApp: post updated $newPost');
+    if (kDebugMode) debugPrint('TiuTiuApp: post updated $newPost');
 
     _post(newPost);
   }

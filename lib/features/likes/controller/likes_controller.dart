@@ -45,7 +45,7 @@ class LikesController extends GetxController {
   }
 
   Future<void> like(Post post) async {
-    debugPrint('TiuTiuApp: Post liked');
+    if (kDebugMode) debugPrint('TiuTiuApp: Post liked');
     _incrementLikes(post.uid!);
     _saveLikeOnLocal(post.uid!);
 
@@ -55,7 +55,7 @@ class LikesController extends GetxController {
   }
 
   Future<void> unlike(Post post) async {
-    debugPrint('TiuTiuApp: Post unliked');
+    if (kDebugMode) debugPrint('TiuTiuApp: Post unliked');
     if (authController.userExists) {
       await _likesService.likedsCollection().doc(post.uid).delete();
     }

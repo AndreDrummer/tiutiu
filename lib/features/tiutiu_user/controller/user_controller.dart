@@ -60,7 +60,7 @@ class TiutiuUserController extends GetxController {
 
     isLoading = true;
     if (avatarPath != null && !avatarPath.toString().isUrl()) {
-      debugPrint('TiuTiuApp: Updating Avatar...');
+      if (kDebugMode) debugPrint('TiuTiuApp: Updating Avatar...');
       var urlAvatar = await _tiutiuUserService.uploadAvatar(
         tiutiuUser.uid ?? authController.user!.uid,
         avatarPath,
@@ -86,7 +86,7 @@ class TiutiuUserController extends GetxController {
       final docRef = EndpointResolver.getDocumentEndpoint(EndpointNames.pathToUser.name, [tiutiuUser.uid!]);
       await docRef.set({TiutiuUserEnum.reference.name: docRef}, SetOptions(merge: true));
 
-      debugPrint('TiuTiuApp: User Reference Updated Successfully ${tiutiuUser.uid}');
+      if (kDebugMode) debugPrint('TiuTiuApp: User Reference Updated Successfully ${tiutiuUser.uid}');
       success = true;
     } on Exception catch (exception) {
       crashlyticsController.reportAnError(
