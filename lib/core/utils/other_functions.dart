@@ -1,3 +1,4 @@
+import 'package:tiutiu/core/pets/model/pet_model.dart';
 import 'package:tiutiu/features/posts/views/announcer_profile.dart';
 import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
@@ -234,13 +235,7 @@ class OtherFunctions {
             ? '$ageMonth meses'
             : '$ageYear anos';
 
-    String typeIcon = type == PetTypeStrings.cat
-        ? '🐈'
-        : type == PetTypeStrings.dog
-            ? '🐶'
-            : type == PetTypeStrings.bird
-                ? '🐧'
-                : '';
+    String typeIcon = _getPetTypeIcon(type);
 
     if (kDebugMode) debugPrint('TiuTiuApp: DynamicLinkPrefix ${tiuTiuDynamicLinkParameters.dynamicLinkPrefix}');
     if (kDebugMode) debugPrint('TiuTiuApp: AppStoreId ${tiuTiuDynamicLinkParameters.iosParameters.appStoreId}');
@@ -279,7 +274,40 @@ class OtherFunctions {
       }
     }
 
-    return 'esse ${type.toLowerCase()}';
+    return 'esse pet';
+  }
+
+  static String _getPetTypeIcon(String type) {
+    return type == PetTypeStrings.cat
+        ? '🐈'
+        : type == PetTypeStrings.dog
+            ? '🐶'
+            : type == PetTypeStrings.bird
+                ? '🐧'
+                : '';
+  }
+
+  static String getGreetingBasedOnTime() {
+    final now = DateTime.now();
+    String greeting = '';
+
+    if (now.hour < 12) {
+      greeting = GreetingStrings.goodMorning;
+    } else if (now.hour < 18) {
+      greeting = GreetingStrings.goodAfternoon;
+    } else {
+      greeting = GreetingStrings.goodNight;
+    }
+
+    return greeting;
+  }
+
+  static String getWhatsAppInitialMessage(Post post) {
+    String petType = (post as Pet).type;
+    String greeting = 'Olá, ${getGreetingBasedOnTime().toLowerCase()}! Tudo bem?\n\n';
+    String message =
+        'Eu gostaria de ter mais informações sobre ${post.name}, ${_getPetGender(petType, post.gender)} ${_getPetTypeIcon(petType)} que você postou no app *Tiu, tiu*!';
+    return '$greeting$message';
   }
 
   static bool isSmallerThan(String version1, String version2) {

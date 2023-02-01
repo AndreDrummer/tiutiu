@@ -49,7 +49,7 @@ class _CardAdState extends State<CardAd> {
           likeAnimationOpcaity = 1;
         });
 
-        savedsController.save(widget.post);
+        likesController.like(widget.post);
 
         Future.delayed(Duration(seconds: 1), () {
           setState(() {

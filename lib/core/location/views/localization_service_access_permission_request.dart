@@ -120,6 +120,8 @@ class _LocalizationServiceAccessPermissionAccessState extends State<Localization
       await showWarningPopup();
     } else {
       locationAccessStatus.value = await Permission.location.request();
+      currentLocationController.permission = locationAccessStatus.value;
+
       if (locationAccessStatus.value == PermissionStatus.permanentlyDenied) {
         await showWarningPopup();
       }
