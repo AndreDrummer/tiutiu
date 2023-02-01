@@ -56,7 +56,8 @@ class AsyncHandler<T> extends StatelessWidget {
             error: snapshot.error,
           );
     }
-    if (connectionState == ConnectionState.waiting && showLoadingScreen) return loadingWidget ?? LoadingPage();
+    if (connectionState == ConnectionState.waiting && showLoadingScreen)
+      return Center(child: loadingWidget ?? LoadingPage());
 
     if (forceReturnBuildWidget) return buildWidget(forcedDataReturned!);
 
