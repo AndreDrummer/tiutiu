@@ -641,7 +641,9 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
               chatController.handleContactTapped(
                 contactType: ContactType.whatsapp,
                 openDesiredChat: () async {
-                  await Launcher.openWhatsApp(number: post.owner!.phoneNumber!);
+                  final initialMessage = OtherFunctions.getWhatsAppInitialMessage(post);
+
+                  await Launcher.openWhatsApp(number: post.owner!.phoneNumber!, text: initialMessage);
                 },
               );
             },
