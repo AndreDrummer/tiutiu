@@ -1,6 +1,7 @@
 import 'package:tiutiu/core/local_storage/local_storage_keys.dart';
 import 'package:tiutiu/core/extensions/string_extension.dart';
 import 'package:tiutiu/core/local_storage/local_storage.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/location/models/latlng.dart';
 import 'package:geolocator/geolocator.dart';
@@ -10,7 +11,7 @@ import 'package:get/get.dart';
 import 'dart:io';
 
 class CurrentLocationController extends GetxController {
-  final Rx<LocationPermission> _permission = LocationPermission.unableToDetermine.obs;
+  final Rx<PermissionStatus> _permission = PermissionStatus.denied.obs;
   final Rx<Placemark> _currentPlacemark = Placemark().obs;
   final Rx<LatLng> _currentLocation = LatLng(0, 0).obs;
   final RxBool _isPermissionGranted = false.obs;
@@ -18,7 +19,7 @@ class CurrentLocationController extends GetxController {
 
   bool get isPermissionGranted => _isPermissionGranted.value;
   Placemark get currentPlacemark => _currentPlacemark.value;
-  LocationPermission get permission => _permission.value;
+  PermissionStatus get permission => _permission.value;
   LatLng get location => _currentLocation.value;
   bool get canContinue => _canContinue.value;
 
@@ -26,7 +27,7 @@ class CurrentLocationController extends GetxController {
     _currentPlacemark(placemark);
   }
 
-  void set permission(LocationPermission value) {
+  void set permission(PermissionStatus value) {
     _permission(value);
   }
 
@@ -43,15 +44,13 @@ class CurrentLocationController extends GetxController {
   }
 
   Future<void> checkPermission() async {
-    permission = await Geolocator.checkPermission();
+    permission = await Permission.location.status;
 
-    if (permission == LocationPermission.always || permission == LocationPermission.whileInUse) {
-      isPermissionGranted = true;
-    }
+    isPermissionGranted = permission == PermissionStatus.granted;
   }
 
   Future<void> updatePermission() async {
-    permission = await Geolocator.requestPermission();
+    permission = await Permission.location.request();
     setUserLocation();
 
     if (kDebugMode) debugPrint('TiuTiuApp: local access permission $permission');
