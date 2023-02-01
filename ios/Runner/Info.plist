@@ -77,13 +77,15 @@
 		<key>LSRequiresIPhoneOS</key>
 		<true />
 		<key>NSCameraUsageDescription</key>
-		<string>É necessário para que você consiga tirar uma foto.</string>
+		<string>Precisamos ligar sua câmera para você tirar uma foto para o seu perfil ou do PET que está postando.</string>
 		<key>NSLocationWhenInUseUsageDescription</key>
 		<string>Precisamos de ter acesso a sua localização para que consigamos mostrar os animais mais próximos do seu local.</string>
+		<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+		<string>Precisamos de ter acesso a sua localização para que consigamos mostrar os animais mais próximos do seu local.</string>
 		<key>NSMicrophoneUsageDescription</key>
-		<string>É necessário para que você consiga gravar um video.</string>
+		<string>Precisamos ligar seu microfone para você gravar um vídeo do PET que está postando.</string>
 		<key>NSPhotoLibraryUsageDescription</key>
-		<string>É necessário para que você consiga pegar uma foto da galeria.</string>
+		<string>Precisamos acessar sua galeria para você pegar uma foto para o seu perfil ou do PET que está postando.</string>
 		<key>UIBackgroundModes</key>
 		<array>
 			<string>fetch</string>
