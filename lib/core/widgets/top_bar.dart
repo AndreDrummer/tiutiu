@@ -1,3 +1,4 @@
+import 'package:tiutiu/core/utils/other_functions.dart';
 import 'package:tiutiu/features/sponsored/views/sponsored_horizontal_list.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiutiu/features/posts/model/filter_params.dart';
@@ -126,16 +127,7 @@ class _TopBarState extends State<TopBar> {
         ? tiutiuUserController.tiutiuUser.displayName?.replaceAll(',', ' ').replaceAll('.', ' ').split(' ').first
         : null;
 
-    final now = DateTime.now();
-    String greeting = '';
-
-    if (now.hour < 12) {
-      greeting = GreetingStrings.goodMorning;
-    } else if (now.hour < 18) {
-      greeting = GreetingStrings.goodAfternoon;
-    } else {
-      greeting = GreetingStrings.goodNight;
-    }
+    String greeting = OtherFunctions.getGreetingBasedOnTime();
 
     return '${userName.isNotEmptyNeighterNull() ? greeting + ', $userName' : greeting}' + '!';
   }

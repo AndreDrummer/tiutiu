@@ -35,8 +35,9 @@ class Launcher {
     }
   }
 
-  static Future<void> openWhatsApp({required String number}) async {
-    final uri = Uri.parse('https://api.whatsapp.com/send/?phone=55${Formatters.unmaskNumber(number)}');
+  static Future<void> openWhatsApp({required String number, String? text}) async {
+    final uri =
+        Uri.parse('https://api.whatsapp.com/send/?phone=55${Formatters.unmaskNumber(number)}&text=${text ?? ''}');
 
     if (!await launchUrl(
       uri,
