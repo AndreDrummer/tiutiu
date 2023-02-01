@@ -66,7 +66,7 @@ class UserFeedbackScreen extends StatelessWidget {
                     onErrorCallback?.call();
                   } else {
                     await authController.signOut().then((_) {
-                      Get.offAllNamed(Routes.home);
+                      Get.offAllNamed(Routes.startScreen);
                       homeController.setMoreIndex();
                     });
                   }
