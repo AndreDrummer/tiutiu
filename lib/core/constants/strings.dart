@@ -133,22 +133,22 @@ class AuthStrings {
   static String get resetPassword => 'Resetar a senha.';
   static const String registeringUser = 'Criando conta';
   static const String invalidCode = 'Código inválido!';
+  static String get facebook => 'Entrar com o Facebook';
   static const String invalidEmail = 'E-mail inválido';
   static const String deleteAccount = 'Excluir conta';
   static const String receiveEmail = 'Receber email';
   static const String emailSent = 'E-mail enviado!';
+  static String get google => 'Entrar com o Google';
+  static String get apple => 'Entrar com a Apple';
   static String get createAccount => 'Criar conta';
   static const String pasteCode = 'Colar código';
   static String get createYours => 'Crie a sua.';
+  static String get email => 'Entrar com E-mail';
   static const String clickHere = 'Clique aqui';
   static const String doLogin = 'Faça login';
-  static String get facebook => 'Facebook';
   static const String resend = 'Reenviar';
   static String get validate => 'Validar';
-  static String get google => 'Google';
   static String get enter => 'Entrar';
-  static String get email => 'E-mail';
-  static String get apple => 'Apple';
 }
 
 class ValidatorsStrings {
@@ -204,7 +204,7 @@ class LocalPermissionStrings {
   static String get turnOnLocalization => 'ATIVAR LOCALIZAÇÃO';
   static String get openSettings => 'IR P/ CONFIGURAÇÕES';
   static String get grantAcess => 'CONCEDER ACESSO';
-  static String get after => 'Depois';
+  static String get localization => 'Localização';
 }
 
 class UserStrings {
