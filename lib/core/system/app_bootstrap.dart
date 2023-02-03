@@ -1,6 +1,4 @@
 import 'package:tiutiu/core/location/views/localization_service_access_permission_request.dart';
-import 'package:tiutiu/core/local_storage/local_storage_keys.dart';
-import 'package:tiutiu/core/local_storage/local_storage.dart';
 import 'package:tiutiu/core/system/views/loading_start_screen.dart';
 import 'package:tiutiu/features/auth/views/auth_or_home.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -16,16 +14,16 @@ class AppBootstrap extends StatefulWidget {
 class _BootstrapState extends State<AppBootstrap> {
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: LocalStorage.getValueUnderLocalStorageKey(LocalStorageKey.userLocationDecision),
+    return FutureBuilder<PermissionStatus?>(
+      future: currentLocationController.getLastLocationPermission(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) return LoadingStartScreen();
 
-        final shouldRequestPermission = snapshot.hasData && snapshot.data == null;
+        final shouldRequestPermission = snapshot.data == null;
 
         return Obx(
           () {
-            final accessDenied = isLocalAccessPermissionDenied(currentLocationController.permission);
+            final accessDenied = isLocalAccessPermissionDenied(currentLocationController.permissionStatus);
 
             if (shouldRequestPermission && accessDenied && !currentLocationController.canContinue) {
               return LocalizationServiceAccessPermissionAccess(localAccessDenied: accessDenied);

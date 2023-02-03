@@ -132,7 +132,7 @@ class AuthHosters extends StatelessWidget with TiuTiuPopUp {
 
   Widget _authButtons(BuildContext context) {
     return Container(
-      height: Get.height / 2.6,
+      height: Get.height / 2.4,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
