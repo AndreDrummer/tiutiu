@@ -247,6 +247,7 @@ class SelectPostType extends StatelessWidget with TiuTiuPopUp {
 
   Future<void> _setLocation() async {
     postsController.isLoading = true;
+    await currentLocationController.checkPermission();
     await currentLocationController.setUserLocation();
     postsController.isLoading = false;
   }
