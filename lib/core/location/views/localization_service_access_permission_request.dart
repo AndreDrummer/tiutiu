@@ -18,13 +18,11 @@ import 'package:get/get.dart';
 
 class LocalizationServiceAccessPermissionAccess extends StatefulWidget {
   const LocalizationServiceAccessPermissionAccess({
-    this.requestPermissionOnInit = false,
     this.localAccessDenied = false,
     this.isInPostScreen = false,
     super.key,
   });
 
-  final bool requestPermissionOnInit;
   final bool localAccessDenied;
   final bool isInPostScreen;
 
@@ -36,15 +34,9 @@ class _LocalizationServiceAccessPermissionAccessState extends State<Localization
     with TiuTiuPopUp {
   final ValueNotifier<PermissionStatus> locationAccessStatus =
       ValueNotifier<PermissionStatus>(PermissionStatus.limited);
-  bool get requestPermissionOnInit => widget.requestPermissionOnInit;
   bool get isInPostScreen => widget.isInPostScreen;
 
-  Future<PermissionStatus> getPermissionStatus() async {
-    if (requestPermissionOnInit) {
-      return Permission.location.request();
-    }
-    return Permission.location.status;
-  }
+  Future<PermissionStatus> getPermissionStatus() async => Permission.location.status;
 
   @override
   Widget build(BuildContext context) {
@@ -115,12 +107,10 @@ class _LocalizationServiceAccessPermissionAccessState extends State<Localization
   }
 
   Future<void> onPrimaryPressed() async {
-    print(locationAccessStatus.value);
     if (locationAccessStatus.value == PermissionStatus.permanentlyDenied) {
       await Permission.location.request().then((permission) async {
         locationAccessStatus.value = permission;
         await currentLocationController.setPermission(locationAccessStatus.value);
-        print(permission);
         if (permission == PermissionStatus.permanentlyDenied) await showWarningPopup();
       });
     } else {

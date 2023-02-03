@@ -22,7 +22,7 @@ class InitPostFlow extends StatelessWidget {
             () {
               return currentLocationController.permission == PermissionStatus.granted
                   ? SelectPostType()
-                  : LocalizationServiceAccessPermissionAccess(requestPermissionOnInit: true, isInPostScreen: true);
+                  : LocalizationServiceAccessPermissionAccess(isInPostScreen: true);
             },
           ),
           fallbackChild: !tiutiuUserController.tiutiuUser.emailVerified ? VerifyEmail() : VerifyPhone(),
