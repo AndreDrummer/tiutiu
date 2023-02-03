@@ -32,10 +32,10 @@ class CardAdList extends StatelessWidget {
             borderRadius: BorderRadius.circular(12.0.h),
           ),
           height: Dimensions.getDimensBasedOnDeviceHeight(
-            xSmaller: isInReviewMode ? 136.0.h : 160.0.h,
-            smaller: isInReviewMode ? 136.0.h : 152.0.h,
+            xSmaller: isInReviewMode ? 144.0.h : 160.0.h,
+            smaller: isInReviewMode ? 144.0.h : 152.0.h,
             bigger: isInReviewMode ? 120.0.h : 124.0.h,
-            medium: isInReviewMode ? 112.0.h : 128.0.h,
+            medium: isInReviewMode ? 120.0.h : 128.0.h,
           ),
           padding: EdgeInsets.zero,
           child: Card(
@@ -53,7 +53,7 @@ class CardAdList extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      SizedBox(height: 4.0),
+                      SizedBox(height: 2.0),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -69,10 +69,9 @@ class CardAdList extends StatelessWidget {
                       Spacer(),
                       cardBuilder.adCityState(),
                       Divider(),
-                      Spacer(),
                       cardBuilder.adPostedAt(),
                       cardBuilder.adDistanceFromUser(),
-                      SizedBox(height: 4.0),
+                      SizedBox(height: 2.0),
                     ],
                   ),
                 ),
