@@ -60,7 +60,7 @@ class CurrentLocationController extends GetxController {
   Future<void> openDeviceSettings() async => await Geolocator.openLocationSettings();
 
   Future<void> setUserLocation({LatLng? currentLocation}) async {
-    if (permission == PermissionStatus.granted) {
+    if (isPermissionGranted) {
       if (currentLocation == null) {
         final position = await Geolocator.getCurrentPosition(
           desiredAccuracy: LocationAccuracy.high,
