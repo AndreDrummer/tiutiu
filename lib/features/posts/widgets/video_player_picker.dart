@@ -1,12 +1,12 @@
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get.dart';
 import 'package:tiutiu/core/constants/text_styles.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/core/constants/strings.dart';
 import 'package:tiutiu/core/utils/dimensions.dart';
 import 'package:better_player/better_player.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class VideoPlayerPicker extends StatefulWidget {
   const VideoPlayerPicker({
@@ -39,6 +39,16 @@ class _VideoPlayerPickerState extends State<VideoPlayerPicker> {
       BetterPlayerConfiguration(
         aspectRatio: Get.height > 999 || (Dimensions.isSmallDevice() || Dimensions.isXSmallDevice()) ? 1.3 : 1.0,
         allowedScreenSleep: false,
+        controlsConfiguration: BetterPlayerControlsConfiguration(
+          progressBarHandleColor: AppColors.primary,
+          loadingColor: AppColors.primary,
+          showControlsOnInitialize: false,
+          enableOverflowMenu: false,
+          enableProgressText: false,
+          enableFullscreen: false,
+          enableSkips: false,
+          enableMute: false,
+        ),
         errorBuilder: (context, errorMessage) {
           return Center(
             child: Column(

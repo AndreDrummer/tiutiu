@@ -98,7 +98,7 @@ class _LocalizationServiceAccessPermissionAccessState extends State<Localization
         if (locationAccessStatus.value == PermissionStatus.permanentlyDenied) {
           buttonText = AppStrings.contines;
         } else if (locationAccessStatus.value == PermissionStatus.denied) {
-          buttonText = LocalPermissionStrings.grantAcess;
+          buttonText = AppStrings.ok;
         }
 
         return ButtonWide(onPressed: () async => onPrimaryPressed(), text: buttonText);

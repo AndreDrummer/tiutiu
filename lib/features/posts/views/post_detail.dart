@@ -126,14 +126,14 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
       return (Get.height / (isInReview ? 4.5 : 3.0));
     } else if ((post as Pet).disappeared) {
       return Dimensions.getDimensBasedOnDeviceHeight(
-        smaller: (Get.height / (isInReview ? 4.3 : 5.2)) - (descriptionLength / 4),
+        smaller: (Get.height / (isInReview ? 4.4 : 5.2)) - (descriptionLength / 4),
         xSmaller: (Get.height / (isInReview ? 4.3 : 5.2)) - (descriptionLength / 4),
         bigger: (Get.height / (isInReview ? 2.7 : 3.6)) - (descriptionLength / 4),
         medium: (Get.height / (isInReview ? 2.4 : 3.3)) - (descriptionLength / 4),
       );
     } else {
       return Dimensions.getDimensBasedOnDeviceHeight(
-        smaller: (Get.height / (isInReview ? 2.8 : 3.4)) - (descriptionLength / 4),
+        smaller: (Get.height / (isInReview ? 2.9 : 3.4)) - (descriptionLength / 4),
         xSmaller: (Get.height / (isInReview ? 3.8 : 4.4)) - (descriptionLength / 4),
         bigger: (Get.height / (isInReview ? 2.6 : 3.2)) - (descriptionLength / 4),
         medium: (Get.height / (isInReview ? 2.3 : 2.9)) - (descriptionLength / 4),
