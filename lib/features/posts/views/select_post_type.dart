@@ -3,6 +3,7 @@ import 'package:tiutiu/core/widgets/default_basic_app_bar.dart';
 import 'package:tiutiu/features/posts/widgets/text_area.dart';
 import 'package:tiutiu/core/extensions/string_extension.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:tiutiu/features/posts/flow/post_flow.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/views/load_dark_screen.dart';
@@ -34,14 +35,15 @@ class SelectPostType extends StatelessWidget with TiuTiuPopUp {
         if (postsController.isEditingPost) postsController.isEditingPost = false;
         return true;
       },
-      child: Scaffold(
-        appBar: DefaultBasicAppBar(text: postsController.isEditingPost ? PostFlowStrings.editAd : PostFlowStrings.post),
-        body: Obx(
-          () => GestureDetector(
-            onTap: () => FocusScope.of(context).unfocus(),
-            child: Stack(
-              children: [
-                Container(
+      child: Obx(
+        () => Stack(
+          children: [
+            Scaffold(
+              appBar: DefaultBasicAppBar(
+                  text: postsController.isEditingPost ? PostFlowStrings.editAd : PostFlowStrings.post),
+              body: GestureDetector(
+                onTap: () => FocusScope.of(context).unfocus(),
+                child: Container(
                   margin: EdgeInsets.symmetric(horizontal: 4.0.w),
                   child: ListView(
                     controller: _pageScroll,
@@ -52,14 +54,14 @@ class SelectPostType extends StatelessWidget with TiuTiuPopUp {
                     ],
                   ),
                 ),
-                LoadDarkScreen(visible: postsController.isLoading)
-              ],
+              ),
+              bottomNavigationBar: Padding(
+                padding: EdgeInsets.only(bottom: Get.height < 700 ? 48.0.h : 40.h),
+                child: _buttons(),
+              ),
             ),
-          ),
-        ),
-        bottomNavigationBar: Padding(
-          padding: EdgeInsets.only(bottom: Get.height < 700 ? 48.0.h : 40.h),
-          child: _buttons(),
+            LoadDarkScreen(visible: postsController.isLoading)
+          ],
         ),
       ),
     );
@@ -232,7 +234,7 @@ class SelectPostType extends StatelessWidget with TiuTiuPopUp {
         child: RowButtonBar(
           onPrimaryPressed: () async {
             await _setLocation();
-            Get.to(() => PostFlow());
+            if (currentLocationController.permission == PermissionStatus.granted) Get.to(() => PostFlow());
           },
           onSecondaryPressed: postsController.showsCancelPostPopUp,
           buttonSecondaryColor: AppColors.danger,
@@ -244,14 +246,8 @@ class SelectPostType extends StatelessWidget with TiuTiuPopUp {
   }
 
   Future<void> _setLocation() async {
-    final hasAValidPlacemark = currentLocationController.hasAValidPlacemark();
-
-    if (kDebugMode) debugPrint('TiuTiuApp: Placemark is valid $hasAValidPlacemark');
-
-    if (!hasAValidPlacemark) {
-      postsController.isLoading = true;
-      await currentLocationController.setUserLocation();
-      postsController.isLoading = false;
-    }
+    postsController.isLoading = true;
+    await currentLocationController.setUserLocation();
+    postsController.isLoading = false;
   }
 }

@@ -575,7 +575,7 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
         ? '\n\n${OtherFunctions.replacePhoneNumberWithStars(post.describedAddress)}'
         : '';
 
-    final showIcon = !post.describedAddress.isNotEmptyNeighterNull() && !(post as Pet).disappeared;
+    final showIcon = post.describedAddress.isNotEmptyNeighterNull() && !(post as Pet).disappeared;
 
     return Stack(
       children: [
