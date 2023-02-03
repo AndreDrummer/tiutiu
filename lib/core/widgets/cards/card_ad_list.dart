@@ -1,8 +1,8 @@
 import 'package:tiutiu/core/widgets/cards/widgets/disappeared_tag.dart';
 import 'package:tiutiu/core/widgets/cards/widgets/card_builder.dart';
+import 'package:tiutiu/core/widgets/cards/widgets/mark_as_done.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/pets/model/pet_model.dart';
-import 'package:tiutiu/core/widgets/cards/widgets/mark_as_done.dart';
 import 'package:tiutiu/features/posts/model/post.dart';
 import 'package:tiutiu/core/utils/dimensions.dart';
 import 'package:flutter/material.dart';
@@ -34,7 +34,7 @@ class CardAdList extends StatelessWidget {
           height: Dimensions.getDimensBasedOnDeviceHeight(
             xSmaller: isInReviewMode ? 136.0.h : 160.0.h,
             smaller: isInReviewMode ? 136.0.h : 152.0.h,
-            bigger: isInReviewMode ? 112.0.h : 124.0.h,
+            bigger: isInReviewMode ? 120.0.h : 124.0.h,
             medium: isInReviewMode ? 112.0.h : 128.0.h,
           ),
           padding: EdgeInsets.zero,
@@ -71,9 +71,8 @@ class CardAdList extends StatelessWidget {
                       Divider(),
                       Spacer(),
                       cardBuilder.adPostedAt(),
-                      Spacer(),
                       cardBuilder.adDistanceFromUser(),
-                      Spacer(),
+                      SizedBox(height: 4.0),
                     ],
                   ),
                 ),

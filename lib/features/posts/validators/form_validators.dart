@@ -25,23 +25,15 @@ class PostFormValidator {
   }
 
   bool isStep2Valid() {
-    bool isValid = (post as Pet).breed.isNotEmptyNeighterNull() &&
-        (post as Pet).color.isNotEmptyNeighterNull() &&
-        post.description.isNotEmptyNeighterNull();
+    bool isValid = (post as Pet).breed.isNotEmptyNeighterNull() && (post as Pet).color.isNotEmptyNeighterNull();
 
     return isValid;
   }
 
   bool isStep3Valid() => true;
 
-  bool isStep4Valid(bool addressIsWithCompliment) {
-    bool isValid = post.state.isNotEmptyNeighterNull() && post.city.isNotEmptyNeighterNull();
-
-    if (addressIsWithCompliment && !(post as Pet).disappeared) {
-      isValid = isValid && post.describedAddress.isNotEmptyNeighterNull();
-    } else if (addressIsWithCompliment && (post as Pet).disappeared) {
-      isValid = isValid && (post as Pet).lastSeenDetails.isNotEmptyNeighterNull();
-    }
+  bool isStep4Valid() {
+    bool isValid = post.description.isNotEmptyNeighterNull();
 
     return isValid;
   }

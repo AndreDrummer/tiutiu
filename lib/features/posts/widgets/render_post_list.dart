@@ -46,8 +46,8 @@ class RenderPostList extends StatelessWidget {
               itemBuilder: (_, index) {
                 int postIndex = index < posts.length ? index : posts.length - 1;
                 return RenderListItem(
+                  showBackToStartButton: index == posts.length && !isInMyPosts,
                   onNavigateToTop: () => homeController.onScrollUp(),
-                  showBackToStartButton: index == posts.length,
                   key: Key(posts[postIndex].uid.toString()),
                   showSaveButton: !isInMyPosts,
                   post: posts[postIndex],
