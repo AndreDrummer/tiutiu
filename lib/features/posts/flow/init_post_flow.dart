@@ -20,7 +20,7 @@ class InitPostFlow extends StatelessWidget {
           isValid: tiutiuUserController.tiutiuUser.emailVerified && tiutiuUserController.tiutiuUser.phoneVerified,
           validChild: Obx(
             () {
-              return currentLocationController.permission == PermissionStatus.granted
+              return currentLocationController.permissionStatus == PermissionStatus.granted
                   ? SelectPostType()
                   : LocalizationServiceAccessPermissionAccess(isInPostScreen: true);
             },

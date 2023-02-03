@@ -203,7 +203,6 @@ class LocalPermissionStrings {
   static String get turnOnLocalization => 'ATIVAR LOCALIZAÇÃO';
   static String get openSettings => 'IR P/ CONFIGURAÇÕES';
   static String get appBarTitle => 'Onde você está?';
-  static String get grantAcess => 'CONCEDER ACESSO';
   static String get localization => 'Localização';
 }
 

@@ -234,7 +234,7 @@ class SelectPostType extends StatelessWidget with TiuTiuPopUp {
         child: RowButtonBar(
           onPrimaryPressed: () async {
             await _setLocation();
-            if (currentLocationController.permission == PermissionStatus.granted) Get.to(() => PostFlow());
+            if (currentLocationController.permissionStatus == PermissionStatus.granted) Get.to(() => PostFlow());
           },
           onSecondaryPressed: postsController.showsCancelPostPopUp,
           buttonSecondaryColor: AppColors.danger,

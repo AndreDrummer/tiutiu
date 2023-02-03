@@ -402,10 +402,8 @@ class PostsController extends GetxController with TiuTiuPopUp {
       postMap[property] = _handlePetOtherCaracteristics(data);
     }
 
-    if ((post.latitude == null || post.longitude == null)) {
-      _setPostStateAndCity(postMap);
-      _insertLatLng(postMap);
-    }
+    _setPostStateAndCity(postMap);
+    _insertLatLng(postMap);
 
     final newPost = Pet().fromMap(postMap);
     if (kDebugMode) debugPrint('TiuTiuApp: post updated $newPost');

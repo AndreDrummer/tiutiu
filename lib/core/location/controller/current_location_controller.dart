@@ -11,15 +11,15 @@ import 'package:get/get.dart';
 import 'dart:io';
 
 class CurrentLocationController extends GetxController {
-  final Rx<PermissionStatus> _permission = PermissionStatus.denied.obs;
+  final Rx<PermissionStatus> _permissionStatus = PermissionStatus.denied.obs;
   final Rx<Placemark> _currentPlacemark = Placemark().obs;
   final Rx<LatLng> _currentLocation = LatLng(0, 0).obs;
   final RxBool _isPermissionGranted = false.obs;
   final RxBool _canContinue = false.obs;
 
+  PermissionStatus get permissionStatus => _permissionStatus.value;
   bool get isPermissionGranted => _isPermissionGranted.value;
   Placemark get currentPlacemark => _currentPlacemark.value;
-  PermissionStatus get permission => _permission.value;
   LatLng get location => _currentLocation.value;
   bool get canContinue => _canContinue.value;
 
@@ -28,7 +28,7 @@ class CurrentLocationController extends GetxController {
   }
 
   Future<void> setPermission(PermissionStatus value) async {
-    _permission(value);
+    _permissionStatus(value);
     await LocalStorage.setValueUnderLocalStorageKey(key: LocalStorageKey.userLocationDecision, value: value.name);
   }
 
@@ -36,7 +36,7 @@ class CurrentLocationController extends GetxController {
     _currentLocation(value);
   }
 
-  void set isPermissionGranted(bool value) {
+  void setPermissionGranted(bool value) {
     _isPermissionGranted(value);
   }
 
@@ -44,17 +44,35 @@ class CurrentLocationController extends GetxController {
     _canContinue(value);
   }
 
+  PermissionStatus? _getPermissionStatusFromString(String? permissionStatusString) {
+    if (permissionStatusString != null)
+      return PermissionStatus.values.where((permission) => permission.name == permissionStatusString).first;
+    return null;
+  }
+
+  Future<PermissionStatus?> getLastLocationPermission() async {
+    final cachedPermissionString = await LocalStorage.getValueUnderLocalStorageKey(
+      LocalStorageKey.userLocationDecision,
+    );
+
+    final PermissionStatus? cachedPermissionStatus = _getPermissionStatusFromString(cachedPermissionString);
+    setPermissionGranted(cachedPermissionStatus == PermissionStatus.granted);
+    setPermission(cachedPermissionStatus ?? PermissionStatus.denied);
+
+    return cachedPermissionStatus;
+  }
+
   Future<void> checkPermission() async {
     setPermission(await Permission.location.request());
 
-    isPermissionGranted = permission == PermissionStatus.granted;
+    setPermissionGranted(permissionStatus == PermissionStatus.granted);
   }
 
   Future<void> updatePermission() async {
     setPermission(await Permission.location.request());
     setUserLocation();
 
-    if (kDebugMode) debugPrint('TiuTiuApp: local access permission $permission');
+    if (kDebugMode) debugPrint('TiuTiuApp: local access permission $permissionStatus');
   }
 
   Future<void> openDeviceSettings() async => await Geolocator.openLocationSettings();
