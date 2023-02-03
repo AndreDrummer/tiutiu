@@ -388,7 +388,7 @@ class PostsController extends GetxController with TiuTiuPopUp {
 
   void _filterPosts() {
     final postsTofilter = isInMyPostsList ? loggedUserPosts() : _posts;
-    _filteredPosts(PostUtils.filterPosts(postsList: postsTofilter));
+    _filteredPosts(PostUtils.filterPosts(postsList: postsTofilter, isInMyPostsList: isInMyPostsList));
     _postsCount(filteredPosts.length);
   }
 
@@ -455,7 +455,7 @@ class PostsController extends GetxController with TiuTiuPopUp {
         _formIsValid(validator.isStep3Valid());
         break;
       case 3:
-        _formIsValid(validator.isStep4Valid(addressIsWithCompliment));
+        _formIsValid(validator.isStep4Valid());
         break;
       case 4:
         _formIsValid(validator.isStep5Valid());

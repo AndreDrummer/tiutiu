@@ -1,13 +1,9 @@
-import 'package:tiutiu/core/location/models/states_and_cities.dart';
-import 'package:tiutiu/core/widgets/underline_input_dropdown.dart';
 import 'package:tiutiu/core/extensions/string_extension.dart';
 import 'package:tiutiu/features/posts/widgets/text_area.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
-import 'package:tiutiu/core/constants/text_styles.dart';
 import 'package:tiutiu/core/pets/model/pet_model.dart';
 import 'package:tiutiu/features/posts/model/post.dart';
-import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/core/constants/strings.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -34,65 +30,22 @@ class LocationSelecter extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       child: ListView(
-        padding: EdgeInsets.only(top: 16.0.h),
+        padding: EdgeInsets.all(8.0.h),
+        physics: NeverScrollableScrollPhysics(),
         children: [
-          _stateSelector(),
-          _divider(),
-          _citySelector(),
-          AnimatedContainer(
-            margin: EdgeInsets.symmetric(horizontal: 16.0.w),
-            height: fillFullAddress
-                ? 180.0.h
-                : Get.height > 999
-                    ? 32.0.h
-                    : 52.0.h,
-            duration: Duration(milliseconds: 500),
-            child: ListView(
-              padding: EdgeInsets.only(top: 8.0.h),
-              physics: NeverScrollableScrollPhysics(),
-              children: [
-                _fillAddressComplimentCheckbox(),
-                _fillAddressComplimentTextArea(),
-              ],
-            ),
+          Visibility(
+            visible: (postsController.post as Pet).disappeared,
+            child: _fillAddressComplimentTextArea(),
+            replacement: _descriptionInputText(),
+          ),
+          Divider(),
+          Visibility(
+            visible: (postsController.post as Pet).disappeared,
+            replacement: _fillAddressComplimentTextArea(),
+            child: _descriptionInputText(),
           ),
         ],
       ),
-    );
-  }
-
-  UnderlineInputDropdown _stateSelector() {
-    return UnderlineInputDropdown(
-      items: StatesAndCities.stateAndCities.stateNames,
-      labelText: PostFlowStrings.state,
-      initialValue: initialState,
-      onChanged: onStateChanged,
-      fontSize: 12.0,
-    );
-  }
-
-  UnderlineInputDropdown _citySelector() {
-    return UnderlineInputDropdown(
-      items: StatesAndCities.stateAndCities.citiesOf(stateName: initialState),
-      labelText: PostFlowStrings.city,
-      initialValue: initialCity,
-      onChanged: onCityChanged,
-      fontSize: 12.0,
-    );
-  }
-
-  CheckboxListTile _fillAddressComplimentCheckbox() {
-    return CheckboxListTile(
-      contentPadding: EdgeInsets.zero,
-      title: AutoSizeTexts.autoSizeText16(
-        (postsController.post as Pet).disappeared
-            ? PostFlowStrings.provideMoreDetails
-            : PostFlowStrings.fillFullAddress,
-        fontWeight: FontWeight.w500,
-        color: AppColors.secondary,
-      ),
-      onChanged: onFullAddressSelected,
-      value: fillFullAddress,
     );
   }
 
@@ -110,6 +63,7 @@ class LocationSelecter extends StatelessWidget {
         return Padding(
           padding: EdgeInsets.zero,
           child: TextArea(
+            maxLines: 4,
             onChanged: (address) {
               if ((postsController.post as Pet).disappeared) {
                 postsController.updatePost(
@@ -134,5 +88,22 @@ class LocationSelecter extends StatelessWidget {
     );
   }
 
-  SizedBox _divider() => SizedBox(height: 32.0.h);
+  Widget _descriptionInputText() {
+    return Obx(
+      () => Padding(
+        padding: EdgeInsets.symmetric(horizontal: 2.0.w),
+        child: TextArea(
+          isInErrorState: !postsController.post.description.isNotEmptyNeighterNull() && !postsController.formIsValid,
+          initialValue: postsController.post.description,
+          labelText: (postsController.post as Pet).disappeared
+              ? PostFlowStrings.talkAboutThisPet
+              : AppStrings.jotSomethingDown,
+          maxLines: 4,
+          onChanged: (description) {
+            postsController.updatePost(PostEnum.description.name, description);
+          },
+        ),
+      ),
+    );
+  }
 }
