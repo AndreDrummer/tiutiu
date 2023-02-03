@@ -21,7 +21,7 @@ class AdDistanceFromUser extends StatelessWidget {
       return Visibility(
         visible: !systemController.properties.accessLocationPermanentlyDenied,
         child: Padding(
-          padding: EdgeInsets.only(top: isBannerCardVisibilityKind ? 8.0.h : 0.0.h),
+          padding: EdgeInsets.only(top: isBannerCardVisibilityKind ? 4.0.h : 0.0.h),
           child: Row(
             children: [
               AutoSizeTexts.autoSizeText10(
