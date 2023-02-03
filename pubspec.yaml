@@ -84,12 +84,9 @@ dependencies:
   firebase_auth: ^4.2.0
 
 flutter_icons:
-  image_path: "assets/images/ios_icon.png"
-  android: false
-  ios: true
-
-flutter_native_splash:
-  background_image: "assets/images/splash.png"
+  image_path: "assets/images/android_icon_dark.png"
+  android: true
+  ios: false
 
 dev_dependencies:
   flutter_test:
