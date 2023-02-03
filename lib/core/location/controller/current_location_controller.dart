@@ -27,8 +27,9 @@ class CurrentLocationController extends GetxController {
     _currentPlacemark(placemark);
   }
 
-  void set permission(PermissionStatus value) {
+  Future<void> setPermission(PermissionStatus value) async {
     _permission(value);
+    await LocalStorage.setValueUnderLocalStorageKey(key: LocalStorageKey.userLocationDecision, value: value.name);
   }
 
   void set location(LatLng value) {
@@ -44,13 +45,13 @@ class CurrentLocationController extends GetxController {
   }
 
   Future<void> checkPermission() async {
-    permission = await Permission.location.status;
+    setPermission(await Permission.location.request());
 
     isPermissionGranted = permission == PermissionStatus.granted;
   }
 
   Future<void> updatePermission() async {
-    permission = await Permission.location.request();
+    setPermission(await Permission.location.request());
     setUserLocation();
 
     if (kDebugMode) debugPrint('TiuTiuApp: local access permission $permission');
@@ -59,8 +60,7 @@ class CurrentLocationController extends GetxController {
   Future<void> openDeviceSettings() async => await Geolocator.openLocationSettings();
 
   Future<void> setUserLocation({LatLng? currentLocation}) async {
-    await checkPermission();
-    if (isPermissionGranted) {
+    if (permission == PermissionStatus.granted) {
       if (currentLocation == null) {
         final position = await Geolocator.getCurrentPosition(
           desiredAccuracy: LocationAccuracy.high,

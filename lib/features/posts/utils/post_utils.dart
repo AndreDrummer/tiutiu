@@ -12,7 +12,7 @@ import 'package:tiutiu/core/utils/formatter.dart';
 import 'package:flutter/foundation.dart';
 
 class PostUtils {
-  static List<Post> filterPosts({required List<Post> postsList}) {
+  static List<Post> filterPosts({required List<Post> postsList, bool isInMyPostsList = false}) {
     final filterParams = filterController.getParams;
 
     if (kDebugMode) debugPrint('TiuTiuApp: filteredPosts');
@@ -34,12 +34,11 @@ class PostUtils {
       filterParams.orderBy,
     );
 
-    return returnedList;
+    return isInMyPostsList ? returnedList : filteredByRules(returnedList);
   }
 
   static List<Post> filteredByRules(List<Post> postsList) {
-    return postsList
-      ..where((post) => !(post as Pet).donatedOrFound).where((post) => post.timesDennounced <= 3).toList();
+    return postsList.where((post) => !(post as Pet).donatedOrFound).where((post) => post.timesDennounced <= 3).toList();
   }
 
   static List<Post> _filterByName(List<Post> postsList, String filterName) {

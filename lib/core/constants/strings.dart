@@ -197,12 +197,12 @@ class PetHealthString {
 class LocalPermissionStrings {
   static String get permissionDeniedForeverWarning =>
       'Vá para a configuração de permissões no seu aparelho e permita que o Tiu, tiu acesse sua localização.\n\nAo finalizar, pode ser necessário fechar e abrir o app e abra novamente.';
-  static String get needsAccess =>
-      'precisa de ter acesso a sua localização para mostrar os animais mais próximos do seu local.';
+  static String get needsAccess => 'precisa saber onde você está para mostrar os animais mais próximos do seu local.';
   static String get needsGPS => 'precisa que o serviço de GPS / Localização esteja ativado!';
-  static String get appBarTitle => 'Permissão para acessar sua localização';
+  static String get needsAccessToPost => 'precisa saber a localização atual do PET.';
   static String get turnOnLocalization => 'ATIVAR LOCALIZAÇÃO';
   static String get openSettings => 'IR P/ CONFIGURAÇÕES';
+  static String get appBarTitle => 'Onde você está?';
   static String get grantAcess => 'CONCEDER ACESSO';
   static String get localization => 'Localização';
 }
@@ -296,9 +296,9 @@ class PostFlowStrings {
     if (isDisappeared) return 'Onde foi visto pela última vez?';
 
     if (petGender == PostDetailsStrings.male) {
-      return 'Onde está o $cuttedName?';
+      return 'Fale sobre o $cuttedName';
     } else if (petGender == PostDetailsStrings.female) {
-      return 'Onde está a $cuttedName?';
+      return 'Fale sobre a $cuttedName';
     }
 
     return 'Onde está o PET?';
@@ -319,19 +319,19 @@ class PostFlowStrings {
   }
 
   static const String isThisPetDisappeared = 'Este PET está desaparecido?';
+  static const String typeAddress = 'Complemente o endereço (Opcional)';
   static const String fillFullAddress = 'Preencher endereço completo?';
-  static const String otherCaracteristics = 'Outras caracteristicas';
   static const String provideMoreDetails = 'Fornecer mais detalhes';
   static const String allDone = 'Tudo pronto, olha como vai ficar!';
   static const String selectPetType = 'Selecione o tipo de PET';
   static const String addVideo = 'Se quiser, adicione um vídeo.';
   static const String moreDetails = 'Mais detalhes e descrição';
-  static const String addDescription = 'Adicione uma descrição';
   static const String fillAdData = 'Preencher dados da postagem';
   static const String addMorePictures = 'Adicionar mais fotos';
+  static const String talkAboutThisPet = 'Fale sobre esse PET';
   static const String postCancelTitle = 'Cancelar postagem?';
   static const String sendingVideo = 'Enviando o vídeo...';
-  static const String typeAddress = 'Digite o endereço';
+  static const String otherCaracteristics = 'Opcionais';
   static const String deleteForever = 'Excluir post?';
   static const String sendingData = 'Enviando dados...';
   static const String postUpdate = 'Atualizar post';

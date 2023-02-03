@@ -91,7 +91,7 @@ class OutlinedInputText extends StatelessWidget {
             fontSize: fontSize ?? 18.0,
           ),
           errorStyle: TextStyle(
-            color: AppColors.danger,
+            color: Colors.amber,
             fontWeight: FontWeight.w600,
             fontSize: 10.0,
           ),
@@ -115,7 +115,7 @@ class OutlinedInputText extends StatelessWidget {
         Radius.circular(8.0.h),
       ),
       borderSide: BorderSide(
-        color: isError ? AppColors.danger : textColor ?? AppColors.white,
+        color: isError ? Colors.amber : textColor ?? AppColors.white,
         width: .6,
       ),
     );

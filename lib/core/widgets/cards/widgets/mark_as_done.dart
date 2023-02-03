@@ -36,8 +36,10 @@ class MarkAsDone extends StatelessWidget {
                 ),
                 Switch(
                   value: pet.donatedOrFound,
-                  onChanged: (value) {
+                  onChanged: (value) async {
                     pet.reference?.set({PetEnum.donatedOrFound.name: value}, SetOptions(merge: true));
+                    await postsController.getAllPosts();
+                    filterController.reset();
                   },
                 ),
               ],

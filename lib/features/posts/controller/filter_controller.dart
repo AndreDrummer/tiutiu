@@ -53,10 +53,15 @@ class FilterController extends GetxController {
     FontAwesomeIcons.staffSnake,
   ];
 
-  final List<String> orderTypeList = [
-    'Distância',
-    'Data',
-    'Idade',
-    'Nome',
-  ];
+  List<String> orderTypeList(bool hasAccessToLocal) {
+    final orderByOptions = [
+      'Distância',
+      'Data',
+      'Idade',
+      'Nome',
+    ];
+    if (!hasAccessToLocal) orderByOptions.remove('Distância');
+
+    return orderByOptions;
+  }
 }

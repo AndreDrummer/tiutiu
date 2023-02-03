@@ -1,10 +1,11 @@
-import 'dart:io';
-
 import 'package:tiutiu/features/admob/constants/admob_block_names.dart';
-import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:tiutiu/core/location/models/states_and_cities.dart';
+import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
+import 'package:tiutiu/core/local_storage/local_storage_keys.dart';
 import 'package:tiutiu/core/system/service/system_service.dart';
+import 'package:tiutiu/core/local_storage/local_storage.dart';
 import 'package:tiutiu/core/extensions/string_extension.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:package_info_plus/package_info_plus.dart';
@@ -14,6 +15,7 @@ import 'package:tiutiu/core/system/model/system.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'dart:async';
+import 'dart:io';
 
 class SystemController extends GetxController {
   SystemController({required SystemService systemService}) : _systemService = systemService;
@@ -71,6 +73,13 @@ class SystemController extends GetxController {
 
       adminRemoteConfigController.onAdminRemoteConfigsChange();
       handleFDLOnForeground();
+
+      _systemProperties(
+        properties.copyWith(
+          accessLocationPermanentlyDenied: await _accessToLocationWasPermanentlyDenied(),
+        ),
+      );
+
       _systemProperties(properties.copyWith(isLoading: false));
     } on Exception catch (exception) {
       crashlyticsController.reportAnError(
@@ -78,6 +87,13 @@ class SystemController extends GetxController {
         exception: exception,
       );
     }
+  }
+
+  Future<bool> _accessToLocationWasPermanentlyDenied() async {
+    final permissionStatus = await LocalStorage.getValueUnderLocalStorageKey(LocalStorageKey.userLocationDecision);
+    if (kDebugMode) debugPrint('TiuTiuApp: LocationAccess: $permissionStatus');
+
+    return permissionStatus == PermissionStatus.permanentlyDenied.name;
   }
 
   Future<void> getInitialEndpoints() async {
