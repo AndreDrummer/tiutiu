@@ -46,7 +46,7 @@ class More extends StatelessWidget {
   Widget _cardHeader() {
     return Container(
       decoration: BoxDecoration(
-        color: AppColors.primary,
+        color: AppColors.primaryDark,
         borderRadius: BorderRadius.only(
           topRight: Radius.circular(8.0.h),
           topLeft: Radius.circular(8.0.h),
