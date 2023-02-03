@@ -29,7 +29,6 @@ class _LoadingStartScreenState extends State<LoadingStartScreen> {
           case ConnectionState.none:
             return SplashScreenLoading();
           case ConnectionState.done:
-            print('HEIN ${systemController.properties.isLoading}');
             return systemController.properties.isLoading ? SplashScreenLoading() : AppBootstrap();
         }
       },
