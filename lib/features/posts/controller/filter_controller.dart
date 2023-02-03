@@ -24,7 +24,7 @@ class FilterController extends GetxController {
   void reset([bool disappeared = false]) {
     filterParams(FilterParams(
       state: StatesAndCities.stateAndCities.stateInitials.first,
-      orderBy: FilterStrings.distance,
+      orderBy: FilterStrings.date,
       type: PetTypeStrings.all,
       disappeared: disappeared,
       name: '',
