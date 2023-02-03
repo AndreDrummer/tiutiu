@@ -88,7 +88,9 @@ class FilterResultCount extends StatelessWidget {
                     AutoSizeTexts.autoSizeText12(FilterStrings.orderedBy),
                     CustomDropdownButtonSearch(
                       initialValue: filterController.getParams.orderBy,
-                      itemList: filterController.orderTypeList,
+                      itemList: filterController.orderTypeList(
+                        !systemController.properties.accessLocationPermanentlyDenied,
+                      ),
                       onChange: (String value) {
                         filterController.updateParams(
                           FilterParamsEnum.orderBy,

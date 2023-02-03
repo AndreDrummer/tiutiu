@@ -1,13 +1,11 @@
 import 'package:tiutiu/core/widgets/underline_input_dropdown.dart';
 import 'package:tiutiu/core/extensions/string_extension.dart';
-import 'package:tiutiu/features/posts/widgets/text_area.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/widgets/underline_text.dart';
 import 'package:tiutiu/core/widgets/one_line_text.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/core/pets/model/pet_model.dart';
-import 'package:tiutiu/features/posts/model/post.dart';
 import 'package:tiutiu/core/constants/strings.dart';
 import 'package:tiutiu/core/utils/validators.dart';
 import 'package:tiutiu/core/data/dummy_data.dart';
@@ -30,7 +28,6 @@ class PostDescription extends StatelessWidget {
           _spacer(),
           _petAge(yearsList, monthsList),
           _spacer(),
-          _descriptionInputText(),
         ],
       ),
     );
@@ -141,22 +138,6 @@ class PostDescription extends StatelessWidget {
           ],
         ),
       ],
-    );
-  }
-
-  Padding _descriptionInputText() {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 12.0.w),
-      child: TextArea(
-        hintText: AppStrings.jotSomethingDown,
-        isInErrorState: !postsController.post.description.isNotEmptyNeighterNull() && !postsController.formIsValid,
-        initialValue: postsController.post.description,
-        labelText: PostFlowStrings.addDescription,
-        maxLines: 4,
-        onChanged: (description) {
-          postsController.updatePost(PostEnum.description.name, description);
-        },
-      ),
     );
   }
 
