@@ -85,7 +85,7 @@ dependencies:
 
 flutter_icons:
   image_path: "assets/images/android_icon_dark.png"
-  android: true
+  android: "launcher_icon"
   ios: false
 
 dev_dependencies:
