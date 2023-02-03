@@ -29,6 +29,7 @@ class _LoadingStartScreenState extends State<LoadingStartScreen> {
           case ConnectionState.none:
             return SplashScreenLoading();
           case ConnectionState.done:
+            print('HEIN ${systemController.properties.isLoading}');
             return systemController.properties.isLoading ? SplashScreenLoading() : AppBootstrap();
         }
       },
@@ -41,7 +42,7 @@ class SplashScreenLoading extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        color: AppColors.primary,
+        color: AppColors.primaryDark,
         alignment: Alignment.center,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,

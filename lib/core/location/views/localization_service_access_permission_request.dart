@@ -68,7 +68,7 @@ class _LocalizationServiceAccessPermissionAccessState extends State<Localization
                     _googleRoutesImage(),
                     SizedBox(height: Get.width / 8),
                     AppNameWidget(),
-                    SizedBox(height: 8.0.h),
+                    SizedBox(height: 16.0.h),
                     _explainAccessPermissionText(),
                     Spacer(),
                     _primaryButton(),
@@ -91,7 +91,7 @@ class _LocalizationServiceAccessPermissionAccessState extends State<Localization
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 8.0.w),
       child: AutoSizeTexts.autoSizeText16(
-        LocalPermissionStrings.needsAccess,
+        isInPostScreen ? LocalPermissionStrings.needsAccessToPost : LocalPermissionStrings.needsAccess,
         textAlign: TextAlign.center,
       ),
     );
@@ -117,10 +117,15 @@ class _LocalizationServiceAccessPermissionAccessState extends State<Localization
   Future<void> onPrimaryPressed() async {
     print(locationAccessStatus.value);
     if (locationAccessStatus.value == PermissionStatus.permanentlyDenied) {
-      await showWarningPopup();
+      await Permission.location.request().then((permission) async {
+        locationAccessStatus.value = permission;
+        await currentLocationController.setPermission(locationAccessStatus.value);
+        print(permission);
+        if (permission == PermissionStatus.permanentlyDenied) await showWarningPopup();
+      });
     } else {
       locationAccessStatus.value = await Permission.location.request();
-      currentLocationController.permission = locationAccessStatus.value;
+      await currentLocationController.setPermission(locationAccessStatus.value);
 
       if (locationAccessStatus.value == PermissionStatus.permanentlyDenied) {
         await showWarningPopup();
@@ -129,12 +134,16 @@ class _LocalizationServiceAccessPermissionAccessState extends State<Localization
   }
 
   Future<void> showWarningPopup() async {
+    final message = isInPostScreen
+        ? 'O Tiutiu precisa saber onde está o PET que você vai postar.'
+        : 'O Tiutiu precisa saber onde você está para te mostrar os PETs mais próximos de você neste momento. Você até pode entrar e ver os PETs, mas se for fazer uma publicação, vai precisar informar a sua localização!';
+
     return await showPopUp(
-      message:
-          'O Tiutiu funciona melhor com o acesso a localização. Você até pode entrar e ver a lista de PETS, mas se for fazer uma publicação, vai precisar autorizar o acesso a sua localização!\n\nO que você quer fazer?',
-      confirmText: 'Abrir configurações e conceder o acesso',
+      message: message,
+      confirmText: 'Abrir configurações',
       title: LocalPermissionStrings.localization,
-      denyText: isInPostScreen ? 'Não quero postar agora' : 'Continuar sem dar acesso',
+      denyText: isInPostScreen ? 'Não quero postar agora' : 'Somente ver os PETs',
+      barrierDismissible: false,
       secondaryAction: () {
         Get.back();
         currentLocationController.openDeviceSettings();

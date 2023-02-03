@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 enum SystemEnum {
+  accessLocationPermanentlyDenied,
   systemStateTextFeedback,
   internetConnected,
   runningVersion,
@@ -11,6 +12,7 @@ enum SystemEnum {
 class System {
   factory System.fromMap(Map<String, dynamic> map) {
     return System(
+      accessLocationPermanentlyDenied: map[SystemEnum.accessLocationPermanentlyDenied.name],
       systemStateTextFeedback: map[SystemEnum.systemStateTextFeedback.name],
       internetConnected: map[SystemEnum.internetConnected.name],
       runningVersion: map[SystemEnum.runningVersion.name],
@@ -20,6 +22,7 @@ class System {
   }
 
   System({
+    this.accessLocationPermanentlyDenied = false,
     this.systemStateTextFeedback = '',
     this.internetConnected = false,
     this.snackBarIsOpen = false,
@@ -29,6 +32,7 @@ class System {
 
   System fromSnapshot(DocumentSnapshot snapshot) {
     return System(
+      accessLocationPermanentlyDenied: this.accessLocationPermanentlyDenied,
       systemStateTextFeedback: this.systemStateTextFeedback,
       internetConnected: this.internetConnected,
       runningVersion: this.runningVersion,
@@ -37,6 +41,7 @@ class System {
     );
   }
 
+  final bool accessLocationPermanentlyDenied;
   final String systemStateTextFeedback;
   final bool internetConnected;
   final String runningVersion;
@@ -44,6 +49,7 @@ class System {
   final bool isLoading;
 
   System copyWith({
+    bool? accessLocationPermanentlyDenied,
     String? systemStateTextFeedback,
     bool? internetConnected,
     String? runningVersion,
@@ -51,6 +57,7 @@ class System {
     bool? isLoading,
   }) {
     return System(
+      accessLocationPermanentlyDenied: accessLocationPermanentlyDenied ?? this.accessLocationPermanentlyDenied,
       systemStateTextFeedback: systemStateTextFeedback ?? this.systemStateTextFeedback,
       internetConnected: internetConnected ?? this.internetConnected,
       snackBarIsOpen: snackBarIsOpen ?? this.snackBarIsOpen,
@@ -61,6 +68,7 @@ class System {
 
   Map<String, dynamic> toMap() {
     return {
+      SystemEnum.accessLocationPermanentlyDenied.name: accessLocationPermanentlyDenied,
       SystemEnum.systemStateTextFeedback.name: systemStateTextFeedback,
       SystemEnum.internetConnected.name: internetConnected,
       SystemEnum.runningVersion.name: runningVersion,
@@ -72,6 +80,7 @@ class System {
   @override
   String toString() {
     return '''System(      
+      accessLocationPermanentlyDenied: $accessLocationPermanentlyDenied,        
       systemStateTextFeedback: $systemStateTextFeedback,        
       internetConnected: $internetConnected,      
       runningVersion: $runningVersion,

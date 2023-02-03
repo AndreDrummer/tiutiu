@@ -8,8 +8,6 @@ import 'package:tiutiu/core/utils/pickers.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-ScrollController _picturesListController = ScrollController();
-
 class AddImage extends StatefulWidget {
   const AddImage({
     super.key,
@@ -33,7 +31,23 @@ class AddImage extends StatefulWidget {
 }
 
 class _AddImageState extends State<AddImage> with Pickers {
-  int photosFrameQty = 1;
+  late ScrollController _picturesListController;
+  late int photosFrameQty;
+
+  @override
+  void initState() {
+    photosFrameQty = widget.images.isEmpty ? 1 : widget.images.length;
+    _picturesListController = ScrollController();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _picturesListController.dispose();
+
+    super.dispose();
+  }
+
   void increasePhotosQty() {
     if (photosFrameQty < widget.maxImagesQty) {
       setState(() {
@@ -77,6 +91,7 @@ class _AddImageState extends State<AddImage> with Pickers {
       margin: EdgeInsets.only(right: 8.0.w),
       height: Get.height > 999 ? 400.0.h : 220.0.h,
       child: ListView.builder(
+        // physics: const AlwaysScrollableScrollPhysics(),
         controller: _picturesListController,
         scrollDirection: Axis.horizontal,
         itemCount: photosFrameQty,
