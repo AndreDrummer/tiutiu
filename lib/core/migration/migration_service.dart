@@ -61,14 +61,10 @@ class MigrationService {
 
   Future migrate() async {
     // await _loginWithEmailAndPassword('admin@example.com', '111111');
+
     // await StatesAndCities.stateAndCities.getUFAndCities();
 
     // await deleteAllExceptForThisUserId('B5dcFay3bXPkhm7elITxmL7zt3T2');
-
-    // for (int i = 0; i < _usersWhoHasPostedInLastMonth.length; i++) {
-    // await _migrateAllData('lH4d3t0NCNTL0Ahd2ZU4S4ycTL03'); // Fazer uma migração antes de tentar tudo...
-    // await _migrateAllData(_usersWhoHasPostedInLastMonth[i]);
-    // }
   }
 
   Future<String?> _migrateAllData(String userId) async {
@@ -259,8 +255,9 @@ class MigrationService {
         );
 
         if (includedAfterJanuary2023) {
-          final tiutiuUser = await _getUserIntoNewModel(petAd.data()['ownerReference']);
-          _insertUserDataInNewPath(tiutiuUser);
+          // final tiutiuUser = await _getUserIntoNewModel(petAd.data()['ownerReference']);
+
+          // _insertUserDataInNewPath(tiutiuUser);
         } else {
           // deleteUserData
         }
@@ -364,29 +361,3 @@ class MigrationService {
     _newPathToPosts().doc(pet.uid).set(pet.toMap());
   }
 }
-
-final _usersWhoHasPostedInLastMonth = [
-  'lH4d3t0NCNTL0Ahd2ZU4S4ycTL03',
-  'Hdq1I0GNJOOz6kSOhfQQAiEQy7N2',
-  'JcQRcLufR1hfaB1w3wNIsBtZ1042',
-  'UtKfeo4TcRSbvR7G1P4Non0FBJv2',
-  'AK5sWdDrI1hAG0AyrRqjcOzvju32',
-  'vxohEnMGo7hZ7A5xfvpG99veWmq2',
-  'TH40DQNZyefTvVX0bQklNGvymF82',
-  'y9mhFeTm15Uq2vM5aw6y9pijqCi2',
-  'ef87W1f1dic2OAbY6smrbu5MXE93',
-  'uNsUUcmTDrNsl4ri23q1F9GDC8e2',
-  'rlbnx4n0O5YnBwuyhiiQdJbVPZI2',
-  'EIn9XAD53vVixD0GFB28dVVoYaR2',
-  'TdshYup2tteQ522Sm1zLMNykwzu2',
-  'AuvoGULf05WDYR5p7VCvL5Okzqt1',
-  'xNkP5cSjZfSwdlipCH2jR8ZerQn1',
-  'T8rDQHAJTSRwTzc4W5LTVdgKl3Z2',
-  'YB5VdfBBzXNyU1JTmlCoYkggqj33',
-  'zYE614gi7SQTonWCij7gtHLBxc33',
-  'lZ3oJmKQMqTCwiiz5qy8ZokO4HE3',
-  '8xn6PjRXtmYO2hKtdaarK7kyeVU2',
-  'O8p64I79QbcR227sYVOJBNe7ncC2',
-  'rlbnx4n0O5YnBwuyhiiQdJbVPZI2',
-  '9huUH39p5DR4jHMnRNJhLqsUwJS2'
-];
