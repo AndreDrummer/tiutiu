@@ -60,8 +60,8 @@ class _TalkWithUsState extends State<TalkWithUs> {
                         bodyHeight: feedbackController.insertImages
                             ? Get.height
                             : isPartnership
-                                ? Get.width * 1.2
-                                : Get.width * 1.1,
+                                ? Get.width * 1.20
+                                : Get.width * 1.10,
                         child: ListView(
                           children: [
                             _selectYourSubject(),
@@ -143,7 +143,7 @@ class _TalkWithUsState extends State<TalkWithUs> {
           isInErrorState:
               !feedbackController.feedback.contactMessage.isNotEmptyNeighterNull() && !feedbackController.isFormValid,
           labelText: FeedbackStrings.writeYourMessage,
-          maxLines: 5,
+          maxLines: 4,
         ),
       ),
     );
@@ -153,6 +153,10 @@ class _TalkWithUsState extends State<TalkWithUs> {
     return Obx(
       () => GestureDetector(
         onTap: () {
+          if (feedbackController.insertImages) {
+            feedbackController.updateFeedback(FeedbackEnum.screenshots, []);
+          }
+
           feedbackController.insertImages = !feedbackController.insertImages;
         },
         child: AnimatedContainer(
@@ -163,6 +167,10 @@ class _TalkWithUsState extends State<TalkWithUs> {
               Checkbox(
                 value: feedbackController.insertImages,
                 onChanged: (_) {
+                  if (feedbackController.insertImages) {
+                    feedbackController.updateFeedback(FeedbackEnum.screenshots, []);
+                  }
+
                   feedbackController.insertImages = !feedbackController.insertImages;
                 },
               ),
@@ -213,7 +221,7 @@ class _TalkWithUsState extends State<TalkWithUs> {
   Widget _submitButton() {
     return Obx(
       () => Padding(
-        padding: EdgeInsets.only(top: 16.0.h),
+        padding: EdgeInsets.only(top: 8.0.h),
         child: Visibility(
           visible: systemController.properties.internetConnected,
           child: ButtonWide(
