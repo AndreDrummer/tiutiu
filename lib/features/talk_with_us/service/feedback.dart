@@ -49,7 +49,6 @@ class FeedbackService {
 
   String _feedbackStoragePathToImages(Feedback feedback) {
     return EndpointResolver.formattedEndpoint(EndpointNames.feedbackStoragePath.name, [
-      feedback.ownerId,
       feedback.uid,
       FileType.images.name,
     ]);
