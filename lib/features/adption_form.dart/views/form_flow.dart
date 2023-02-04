@@ -79,7 +79,7 @@ class AdoptionFormFlow extends StatelessWidget with TiuTiuPopUp {
     return Obx(
       () {
         return SizedBox(
-          height: Get.height < 700 ? 160.0.h : 128.0.h,
+          height: Get.height < 700 ? 160.0.h : 124.0.h,
           child: Column(
             children: [
               AdBanner(
@@ -88,30 +88,27 @@ class AdoptionFormFlow extends StatelessWidget with TiuTiuPopUp {
                   type: AdMobType.banner,
                 ),
               ),
-              Container(
-                margin: EdgeInsets.only(bottom: 8.0.h),
-                child: RowButtonBar(
-                  isLoading: adoptionFormController.isLoading,
-                  buttonSecondaryColor: Colors.grey,
-                  onPrimaryPressed: () {
-                    if (adoptionFormController.lastStep()) {
-                      adoptionFormController.saveForm().then((_) {
-                        showSuccessPopup();
-                      });
-                    } else {
-                      adoptionFormController.nextStep();
-                    }
-                  },
-                  onSecondaryPressed: () {
-                    adoptionFormController.previousStep();
-                  },
-                  textPrimary: adoptionFormController.lastStep()
-                      ? adoptionFormController.isEditing
-                          ? AdoptionFormStrings.update
-                          : AppStrings.save
-                      : AppStrings.contines,
-                  textSecond: AppStrings.back,
-                ),
+              RowButtonBar(
+                isLoading: adoptionFormController.isLoading,
+                buttonSecondaryColor: Colors.grey,
+                onPrimaryPressed: () {
+                  if (adoptionFormController.lastStep()) {
+                    adoptionFormController.saveForm().then((_) {
+                      showSuccessPopup();
+                    });
+                  } else {
+                    adoptionFormController.nextStep();
+                  }
+                },
+                onSecondaryPressed: () {
+                  adoptionFormController.previousStep();
+                },
+                textPrimary: adoptionFormController.lastStep()
+                    ? adoptionFormController.isEditing
+                        ? AdoptionFormStrings.update
+                        : AppStrings.save
+                    : AppStrings.contines,
+                textSecond: AppStrings.back,
               ),
             ],
           ),
