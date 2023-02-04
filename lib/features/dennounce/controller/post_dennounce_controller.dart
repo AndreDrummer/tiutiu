@@ -3,6 +3,7 @@ import 'package:tiutiu/features/dennounce/model/post_dennounce.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/pets/model/pet_model.dart';
 import 'package:tiutiu/core/constants/strings.dart';
+import 'package:tiutiu/features/posts/utils/post_utils.dart';
 import 'package:uuid/uuid.dart';
 import 'package:get/get.dart';
 
@@ -59,15 +60,17 @@ class PostDennounceController extends GetxController {
   }
 
   Future<void> checkIfMustBeDeleted() async {
-    if (postDennounce.dennouncedPost?.reference != null) {
-      final snapshot = await postDennounce.dennouncedPost!.reference!.get();
+    final post = postDennounce.dennouncedPost;
 
-      final map = snapshot.data() as Map<String, dynamic>;
-      final pet = Pet().fromMap(map);
+    final postReference = PostUtils.updatePostReferenceAndReturn(post!.uid!);
+    final snapshot = await postReference.get();
 
-      if (snapshot.exists && pet.timesDennounced >= 3) {
-        postDennounce.dennouncedPost!.reference!.delete();
-      }
+    final map = snapshot.data() as Map<String, dynamic>;
+    final pet = Pet().fromMap(map);
+
+    if (snapshot.exists && pet.timesDennounced > 3) {
+      PostUtils.deletePostDataOnStorage(post);
+      postReference.delete();
     }
   }
 

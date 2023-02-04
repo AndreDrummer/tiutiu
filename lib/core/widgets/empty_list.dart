@@ -1,6 +1,4 @@
 import 'package:tiutiu/features/home/controller/home_controller.dart';
-import 'package:tiutiu/core/widgets/simple_text_button.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/widgets/lottie_animation.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/constants/assets_path.dart';
@@ -22,9 +20,10 @@ class EmptyListScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.only(left: Get.height > 999 ? 56.0.h : 0.0.w),
+    return Center(
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Visibility(
             child: Container(
@@ -36,10 +35,9 @@ class EmptyListScreen extends StatelessWidget {
           AutoSizeTexts.autoSizeText12(text ?? AppStrings.noPostFound),
           Visibility(
             visible: showClearFiltersButton,
-            child: SimpleTextButton(
-              text: AppStrings.reload,
-              textColor: Colors.lightBlue,
-              fontSize: 12,
+            child: IconButton(
+              icon: Icon(Icons.refresh),
+              color: Colors.lightBlue,
               onPressed: () async {
                 await postsController.getAllPosts();
                 filterController.reset(homeController.bottomBarIndex == BottomBarIndex.FINDER.indx);
