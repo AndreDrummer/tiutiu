@@ -30,7 +30,7 @@ class AsyncHandler<T> extends StatelessWidget {
   final void Function()? onErrorCallback;
   final bool showClearFiltersButton;
   final bool forceReturnBuildWidget;
-  final AsyncSnapshot<T> snapshot;
+  final AsyncSnapshot<T?> snapshot;
   final Widget? noResultScreen;
   final String? loadingMessage;
   final bool showLoadingScreen;
