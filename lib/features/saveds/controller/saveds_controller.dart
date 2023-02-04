@@ -1,6 +1,6 @@
 import 'package:tiutiu/features/saveds/services/saved_services.dart';
 import 'package:tiutiu/features/posts/services/post_service.dart';
-import 'package:tiutiu/features/posts/utils/post_utils.dart';
+import 'package:tiutiu/features/posts/model/saved_post.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/features/posts/model/post.dart';
 import 'package:tiutiu/core/pets/model/pet_model.dart';
@@ -18,12 +18,12 @@ class SavedsController extends GetxController {
   final SavedServices _savedServices;
   final PostService _postsService;
 
-  final RxList<Post> _savedPosts = <Post>[].obs;
-  List<Post> get savedPosts => _savedPosts;
+  final RxList<SavedPost> _savedPosts = <SavedPost>[].obs;
+  List<SavedPost> get savedPosts => _savedPosts;
 
   void save(Post post) {
     if (kDebugMode) debugPrint('TiuTiuApp: Add to saves');
-    _savedServices.savesCollection().doc(post.uid).set(post.toMap());
+    _savedServices.savesCollection().doc(post.uid).set(SavedPost.fromPost(post).toMap());
 
     _incrementSavedTimes(post.uid!);
   }
@@ -34,25 +34,34 @@ class SavedsController extends GetxController {
     if (post.saved > 0) _decrementSavedTimes(post.uid!);
   }
 
-  Stream<List<Post>> savedsList() {
+  Stream<List<SavedPost>> savedsList() {
     final queryMap = _savedServices.savesCollection();
-    List<Post> savedPosts = [];
+    List<SavedPost> savedPosts = [];
 
     return queryMap.snapshots().asyncMap((event) {
       savedPosts.clear();
       event.docs.forEach((save) {
         if (save.data().isNotEmpty) {
           final map = save.data();
-          final pet = Pet().fromMap(map);
+          final savedPost = SavedPost.fromMap(map);
 
-          savedPosts.add(pet);
+          savedPosts.add(savedPost);
         }
       });
 
       _savedPosts(savedPosts);
 
-      return PostUtils.filteredByRules(savedPosts);
+      return savedPosts;
     });
+  }
+
+  Stream<Post?> postFromReference(DocumentReference reference) {
+    return reference.snapshots().asyncMap(
+      (snapshot) {
+        if (snapshot.exists) return Pet().fromMap(snapshot.data() as Map<String, dynamic>);
+        return null;
+      },
+    );
   }
 
   Stream<bool> postIsSaved(Post post) {

@@ -1,9 +1,11 @@
 import 'package:tiutiu/core/widgets/change_posts_visibility_floating_button.dart';
-import 'package:tiutiu/features/posts/widgets/filter_count_order_by.dart';
-import 'package:tiutiu/features/posts/widgets/render_post_list.dart';
+import 'package:tiutiu/features/posts/widgets/render_post_item.dart';
 import 'package:tiutiu/core/widgets/default_basic_app_bar.dart';
+import 'package:tiutiu/features/posts/model/saved_post.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
+import 'package:tiutiu/core/widgets/async_handler.dart';
 import 'package:tiutiu/features/posts/model/post.dart';
+import 'package:tiutiu/core/widgets/empty_list.dart';
 import 'package:tiutiu/core/constants/strings.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -27,15 +29,36 @@ class _SavedsState extends State<Saveds> {
           text: AppStrings.saveds,
         ),
         body: Obx(
-          () => StreamBuilder<List<Post>>(
+          () => StreamBuilder<List<SavedPost>>(
             stream: savedsController.savedsList(),
             builder: (context, snapshot) {
-              final posts = snapshot.data ?? [];
+              final savedPosts = snapshot.data ?? [];
 
-              return RenderPostList(
-                firstChild: FilterResultCount(postsCount: posts.length),
-                itemCount: posts.length,
-                posts: posts,
+              if (savedPosts.isEmpty) return EmptyListScreen(showClearFiltersButton: false);
+
+              return ListView.builder(
+                itemCount: savedPosts.length,
+                itemBuilder: (context, index) {
+                  return StreamBuilder<Post?>(
+                    stream: savedsController.postFromReference(savedPosts[index].reference),
+                    builder: (context, snapshot) {
+                      return AsyncHandler<Post>(
+                        loadingWidget: Center(child: LinearProgressIndicator()),
+                        emptyWidget: SizedBox.shrink(),
+                        buildWidget: (post) {
+                          return RenderListItem(
+                            onNavigateToTop: () => homeController.onScrollUp(),
+                            showBackToStartButton: false,
+                            showSaveButton: true,
+                            key: Key(post.uid!),
+                            post: post,
+                          );
+                        },
+                        snapshot: snapshot,
+                      );
+                    },
+                  );
+                },
               );
             },
           ),
