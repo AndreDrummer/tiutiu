@@ -1,10 +1,13 @@
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:tiutiu/core/location/models/states_and_cities.dart';
+import 'package:tiutiu/features/posts/services/post_service.dart';
 import 'package:tiutiu/core/models/dynamic_link_parameters.dart';
 import 'package:tiutiu/core/extensions/string_extension.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:tiutiu/core/pets/model/pet_model.dart';
 import 'package:tiutiu/features/posts/model/post.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:tiutiu/core/constants/strings.dart';
 import 'package:tiutiu/core/utils/ordenators.dart';
 import 'package:tiutiu/core/utils/constants.dart';
@@ -87,6 +90,30 @@ class PostUtils {
     }
 
     return list;
+  }
+
+  static DocumentReference updatePostReferenceAndReturn(String postId) {
+    final postPath = PostService().pathToPost(postId);
+    postPath.set({PostEnum.reference.name: postPath}, SetOptions(merge: true));
+    return postPath;
+  }
+
+  static Future deletePostDataOnStorage(Post post) async {
+    final PostService postService = PostService();
+
+    final storageImagePath = postService.postStoragePathToImages(post);
+    final storageVideoPath = postService.postStoragePathToVideo(post);
+
+    final imageList = await FirebaseStorage.instance.ref(storageImagePath).listAll();
+    final videoItem = await FirebaseStorage.instance.ref(storageVideoPath).listAll();
+
+    for (int i = 0; i < imageList.items.length; i++) {
+      imageList.items[i].delete();
+    }
+
+    for (int i = 0; i < videoItem.items.length; i++) {
+      videoItem.items[i].delete();
+    }
   }
 
   static List<Post> _filterByDisappeared(List<Post> list, bool disappeared) {

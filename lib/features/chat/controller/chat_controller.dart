@@ -2,6 +2,7 @@ import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
 import 'package:tiutiu/core/local_storage/local_storage_keys.dart';
 import 'package:tiutiu/features/chat/services/chat_service.dart';
 import 'package:tiutiu/core/local_storage/local_storage.dart';
+import 'package:tiutiu/features/posts/utils/post_utils.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:tiutiu/core/utils/routes/routes_name.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
@@ -164,8 +165,12 @@ class ChatController extends GetxController with TiuTiuPopUp {
     }
   }
 
-  void setPostTalkingAbout(DocumentReference reference) {
-    _postTalkingAbout = reference;
+  void setPostTalkingAbout(DocumentReference? reference, [String? postId]) {
+    if (reference == null) {
+      if (postId != null) _postTalkingAbout = PostUtils.updatePostReferenceAndReturn(postId);
+    } else {
+      _postTalkingAbout = reference;
+    }
   }
 
   void startsChatWith({TiutiuUser? user, required String myUserId}) {
