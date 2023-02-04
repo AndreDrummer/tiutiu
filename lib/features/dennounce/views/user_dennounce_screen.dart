@@ -33,6 +33,7 @@ class UserDennounceScreen extends StatelessWidget {
         },
         cancel: () {
           userDennounceController.resetForm();
+          userDennounceController.setLoading(false);
         },
         motiveIsOther: motiveIsOther,
         dennounceMotives: motives,
