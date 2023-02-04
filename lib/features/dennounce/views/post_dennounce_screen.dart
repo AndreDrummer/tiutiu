@@ -36,6 +36,7 @@ class PostDennounceScreen extends StatelessWidget {
         },
         cancel: () {
           postDennounceController.resetForm();
+          postDennounceController.setLoading(false);
         },
         motiveIsOther: motiveIsOther,
       );

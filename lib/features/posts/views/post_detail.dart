@@ -76,7 +76,7 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
     _betterPlayerDataSource = BetterPlayerDataSource(
       isFile ? BetterPlayerDataSourceType.file : BetterPlayerDataSourceType.network,
       videoUrl,
-      cacheConfiguration: BetterPlayerCacheConfiguration(useCache: Platform.isAndroid, key: post.uid),
+      cacheConfiguration: BetterPlayerCacheConfiguration(useCache: Platform.isAndroid, key: post.video),
     );
 
     _betterPlayerController = BetterPlayerController(
@@ -120,23 +120,23 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
   }
 
   double toolBarHeight(int descriptionLength) {
-    final isInReview = postsController.isInReviewMode;
+    final isEditingOrReviewing = postsController.isInReviewMode || postsController.isInReviewMode;
 
     if (Get.height > 999) {
-      return (Get.height / (isInReview ? 4.5 : 3.0));
+      return (Get.height / (isEditingOrReviewing ? 4.5 : 3.0));
     } else if ((post as Pet).disappeared) {
       return Dimensions.getDimensBasedOnDeviceHeight(
-        smaller: (Get.height / (isInReview ? 4.4 : 5.2)) - (descriptionLength / 4),
-        xSmaller: (Get.height / (isInReview ? 4.3 : 5.2)) - (descriptionLength / 4),
-        bigger: (Get.height / (isInReview ? 2.7 : 3.6)) - (descriptionLength / 4),
-        medium: (Get.height / (isInReview ? 2.4 : 3.3)) - (descriptionLength / 4),
+        smaller: (Get.height / (isEditingOrReviewing ? 4.9 : 5.2)) - (descriptionLength / 2),
+        xSmaller: (Get.height / (isEditingOrReviewing ? 4.8 : 5.2)) - (descriptionLength / 2),
+        bigger: (Get.height / (isEditingOrReviewing ? 3.2 : 3.6)) - (descriptionLength / 2),
+        medium: (Get.height / (isEditingOrReviewing ? 2.9 : 3.3)) - (descriptionLength / 2),
       );
     } else {
       return Dimensions.getDimensBasedOnDeviceHeight(
-        smaller: (Get.height / (isInReview ? 2.9 : 3.4)) - (descriptionLength / 4),
-        xSmaller: (Get.height / (isInReview ? 3.8 : 4.4)) - (descriptionLength / 4),
-        bigger: (Get.height / (isInReview ? 2.6 : 3.2)) - (descriptionLength / 4),
-        medium: (Get.height / (isInReview ? 2.3 : 2.9)) - (descriptionLength / 4),
+        smaller: (Get.height / (isEditingOrReviewing ? 2.9 : 3.4)) - (descriptionLength / 2),
+        xSmaller: (Get.height / (isEditingOrReviewing ? 3.8 : 4.4)) - (descriptionLength / 2),
+        bigger: (Get.height / (isEditingOrReviewing ? 2.6 : 3.2)) - (descriptionLength / 2),
+        medium: (Get.height / (isEditingOrReviewing ? 2.3 : 2.9)) - (descriptionLength / 2),
       );
     }
   }
@@ -144,6 +144,7 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
   @override
   Widget build(BuildContext context) {
     final petCaracteristics = PetCaracteristics.petCaracteristics((post as Pet));
+    final address = post.describedAddress;
     final description = post.description;
     final reward = (post as Pet).reward;
 
@@ -166,7 +167,7 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
                       bottom: false,
                       sliver: SliverAppBar(
                         flexibleSpace: _showImagesAndVideos(boxHeight: Get.height, context: context),
-                        toolbarHeight: toolBarHeight(description.length),
+                        toolbarHeight: toolBarHeight(description.length + address.length),
                         backgroundColor: Colors.transparent,
                         automaticallyImplyLeading: false,
                         expandedHeight: Get.height / 1.5,
@@ -618,7 +619,7 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
               chatController.handleContactTapped(
                 contactType: ContactType.chat,
                 openDesiredChat: () async {
-                  chatController.setPostTalkingAbout(post.reference!);
+                  chatController.setPostTalkingAbout(post.reference, post.uid);
                   chatController.startsChatWith(
                     myUserId: tiutiuUserController.tiutiuUser.uid!,
                     user: post.owner!,

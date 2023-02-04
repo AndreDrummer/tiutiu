@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:tiutiu/core/utils/asset_handle.dart';
 import 'package:tiutiu/features/posts/widgets/remove_asset_blur.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
@@ -83,21 +84,9 @@ class _AdPictureState extends State<AdPicture> {
 
   Widget image() {
     var imagePath = widget.imagePath;
+
     if (imagePath != null) {
-      return imagePath.toString().contains('http')
-          ? Image.network(
-              imagePath,
-              fit: BoxFit.cover,
-            )
-          : imagePath.runtimeType == String
-              ? Image.asset(
-                  imagePath,
-                  fit: BoxFit.cover,
-                )
-              : Image.file(
-                  imagePath,
-                  fit: BoxFit.cover,
-                );
+      return AssetHandle.getImage(imagePath);
     }
     return Padding(
       padding: EdgeInsets.all(32.0.h),

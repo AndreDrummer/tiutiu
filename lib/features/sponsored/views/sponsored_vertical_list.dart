@@ -20,7 +20,7 @@ class SponsoredVerticalList extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: OneLineText(
-              text: 'Estes são os empreendedores que apoiam e mantêm o Tiu, tiu. Faça parte dessa lista de sucesso!',
+              text: 'Junte-se à nossa rede de empresas apoiadoras e ajude a fazer a diferença na vida dos animais.',
               fontWeight: FontWeight.normal,
             ),
           ),

@@ -91,7 +91,6 @@ class _AddImageState extends State<AddImage> with Pickers {
       margin: EdgeInsets.only(right: 8.0.w),
       height: Get.height > 999 ? 400.0.h : 220.0.h,
       child: ListView.builder(
-        // physics: const AlwaysScrollableScrollPhysics(),
         controller: _picturesListController,
         scrollDirection: Axis.horizontal,
         itemCount: photosFrameQty,
