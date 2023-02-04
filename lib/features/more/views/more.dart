@@ -130,7 +130,7 @@ class More extends StatelessWidget {
     return Container(
       padding: EdgeInsets.zero,
       margin: EdgeInsets.zero,
-      height: Get.height / 1.4,
+      height: Get.height / 1.35,
       child: ListView.separated(
         padding: EdgeInsets.zero,
         separatorBuilder: (context, index) => Divider(),

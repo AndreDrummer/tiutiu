@@ -29,8 +29,8 @@ class RenderPostList extends StatelessWidget {
         Visibility(
           visible: posts.isNotEmpty,
           replacement: Padding(
-            padding: EdgeInsets.only(top: Get.width / 4, left: 24.0.w),
-            child: EmptyListScreen(),
+            child: EmptyListScreen(showClearFiltersButton: !isInMyPosts),
+            padding: EdgeInsets.only(top: Get.width / 4),
           ),
           child: Expanded(
             child: ListView.builder(
