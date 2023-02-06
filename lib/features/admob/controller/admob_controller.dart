@@ -27,20 +27,27 @@ class AdMobController {
   Future<void> loadChatRewardedAd() async => await _loadRewardedAd(AdMobBlockName.chatQuoteAdBlockId);
 
   Future<void> _loadRewardedAd(String adBlockName) async {
-    await RewardedAd.load(
-      adUnitId: systemController.getAdMobBlockID(blockName: adBlockName, type: AdMobType.rewarded),
-      request: AdRequest(),
-      rewardedAdLoadCallback: RewardedAdLoadCallback(
-        onAdLoaded: (RewardedAd ad) {
-          debugPrint('RewardedAd $ad loaded.');
-          this._rewardedAd = ad;
-          _rewardedAdWasLoaded = true;
-        },
-        onAdFailedToLoad: (LoadAdError error) {
-          debugPrint('RewardedAd failed to load: $error');
-        },
-      ),
-    );
+    try {
+      await RewardedAd.load(
+        adUnitId: systemController.getAdMobBlockID(blockName: adBlockName, type: AdMobType.rewarded),
+        request: AdRequest(),
+        rewardedAdLoadCallback: RewardedAdLoadCallback(
+          onAdLoaded: (RewardedAd ad) {
+            debugPrint('RewardedAd $ad loaded.');
+            this._rewardedAd = ad;
+            _rewardedAdWasLoaded = true;
+          },
+          onAdFailedToLoad: (LoadAdError error) {
+            debugPrint('RewardedAd failed to load: $error');
+          },
+        ),
+      );
+    } catch (exception) {
+      crashlyticsController.reportAnError(
+        message: 'An error ocurred when trying load Rewarded Ad: $exception.',
+        exception: exception,
+      );
+    }
   }
 
   Future<void> showRewardedAd(ContactType contactType, bool allowGoogleAds) async {

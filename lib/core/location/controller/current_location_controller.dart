@@ -30,6 +30,7 @@ class CurrentLocationController extends GetxController {
   Future<void> setPermission(PermissionStatus value) async {
     _permissionStatus(value);
     await LocalStorage.setValueUnderLocalStorageKey(key: LocalStorageKey.userLocationDecision, value: value.name);
+    await systemController.updateAccessToLocationWasDenied();
   }
 
   void set location(LatLng value) {
@@ -56,10 +57,13 @@ class CurrentLocationController extends GetxController {
     );
 
     final PermissionStatus? cachedPermissionStatus = _getPermissionStatusFromString(cachedPermissionString);
-    setPermissionGranted(cachedPermissionStatus == PermissionStatus.granted);
-    setPermission(cachedPermissionStatus ?? PermissionStatus.denied);
 
-    return cachedPermissionStatus;
+    if (cachedPermissionStatus == null) return cachedPermissionStatus;
+
+    setPermission(await Permission.location.status);
+    setPermissionGranted(permissionStatus == PermissionStatus.granted);
+
+    return permissionStatus;
   }
 
   Future<void> checkPermission() async {
@@ -116,6 +120,8 @@ class CurrentLocationController extends GetxController {
       }
 
       currentPlacemark = placemark;
+
+      await systemController.updateAccessToLocationWasDenied();
     }
   }
 
