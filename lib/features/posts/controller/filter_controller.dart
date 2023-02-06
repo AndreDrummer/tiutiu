@@ -1,6 +1,7 @@
 import 'package:tiutiu/core/location/models/states_and_cities.dart';
 import 'package:tiutiu/features/posts/model/filter_params.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/constants/strings.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -17,6 +18,14 @@ class FilterController extends GetxController {
   void updateParams(FilterParamsEnum property, dynamic data) {
     final paramMap = filterParams.value.toMap();
     paramMap[property.name] = data;
+
+    final shoulRequestAccessToLocation = property == FilterParamsEnum.orderBy &&
+        data == FilterStrings.distance &&
+        systemController.properties.accessLocationDenied;
+
+    if (shoulRequestAccessToLocation) {
+      _setLocation();
+    }
 
     filterParams(FilterParams.fromMap(paramMap));
   }
@@ -55,13 +64,19 @@ class FilterController extends GetxController {
 
   List<String> orderTypeList(bool hasAccessToLocal) {
     final orderByOptions = [
-      'Distância',
-      'Data',
-      'Idade',
-      'Nome',
+      FilterStrings.distance,
+      FilterStrings.date,
+      FilterStrings.age,
+      FilterStrings.name,
     ];
-    if (!hasAccessToLocal) orderByOptions.remove('Distância');
 
     return orderByOptions;
+  }
+
+  Future<void> _setLocation() async {
+    systemController.setLoading(true);
+    await currentLocationController.checkPermission();
+    await currentLocationController.setUserLocation();
+    systemController.setLoading(false);
   }
 }
