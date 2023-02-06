@@ -60,6 +60,7 @@ class SystemController extends GetxController {
       _systemProperties(properties.copyWith(runningVersion: packageInfo.version));
 
       await getInitialEndpoints();
+
       await StatesAndCities.stateAndCities.getUFAndCities();
       await currentLocationController.setUserLocation();
       await sponsoredController.sponsoredAds();
@@ -76,7 +77,7 @@ class SystemController extends GetxController {
 
       _systemProperties(
         properties.copyWith(
-          accessLocationPermanentlyDenied: await _accessToLocationWasPermanentlyDenied(),
+          accessLocationDenied: await updateAccessToLocationWasDenied(),
         ),
       );
 
@@ -89,11 +90,11 @@ class SystemController extends GetxController {
     }
   }
 
-  Future<bool> _accessToLocationWasPermanentlyDenied() async {
+  Future<bool> updateAccessToLocationWasDenied() async {
     final permissionStatus = await LocalStorage.getValueUnderLocalStorageKey(LocalStorageKey.userLocationDecision);
     if (kDebugMode) debugPrint('TiuTiuApp: LocationAccess: $permissionStatus');
 
-    return permissionStatus == PermissionStatus.permanentlyDenied.name;
+    return permissionStatus == PermissionStatus.denied.name;
   }
 
   Future<void> getInitialEndpoints() async {
