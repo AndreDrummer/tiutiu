@@ -89,7 +89,7 @@ class FilterResultCount extends StatelessWidget {
                     CustomDropdownButtonSearch(
                       initialValue: filterController.getParams.orderBy,
                       itemList: filterController.orderTypeList(
-                        !systemController.properties.accessLocationPermanentlyDenied,
+                        !systemController.properties.accessLocationDenied,
                       ),
                       onChange: (String value) {
                         filterController.updateParams(

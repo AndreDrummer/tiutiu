@@ -19,7 +19,7 @@ class AdDistanceFromUser extends StatelessWidget {
     return Obx(() {
       final bool isBannerCardVisibilityKind = postsController.cardVisibilityKind == CardVisibilityKind.banner;
       return Visibility(
-        visible: !systemController.properties.accessLocationPermanentlyDenied,
+        visible: !systemController.properties.accessLocationDenied,
         child: Padding(
           padding: EdgeInsets.only(top: isBannerCardVisibilityKind ? 4.0.h : 0.0.h),
           child: Row(

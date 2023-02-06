@@ -110,8 +110,8 @@ class _LocalizationServiceAccessPermissionAccessState extends State<Localization
     if (locationAccessStatus.value == PermissionStatus.permanentlyDenied) {
       await Permission.location.request().then((permission) async {
         locationAccessStatus.value = permission;
-        await currentLocationController.setPermission(locationAccessStatus.value);
-        if (permission == PermissionStatus.permanentlyDenied) await showWarningPopup();
+        await currentLocationController.setPermission(permission);
+        if (currentLocationController.permissionStatus == PermissionStatus.permanentlyDenied) await showWarningPopup();
       });
     } else {
       locationAccessStatus.value = await Permission.location.request();
