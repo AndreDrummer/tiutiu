@@ -22,7 +22,7 @@ class CrashlyticsController extends GetxController with TiuTiuPopUp {
 
       if (kDebugMode) debugPrint('TiuTiuApp: Current User TrackFailures Decision is $realUserTrackFailuresDecision');
       if (kDebugMode) debugPrint('TiuTiuApp: Cashed User TrackFailures Decision is $userAllowsTrackFailures');
-      _setCrashlyticsCollectionEnabled(value: userAllowsTrackFailures);
+      _setCrashlyticsCollectionEnabled(value: userAllowsTrackFailures && !kDebugMode);
     }
   }
 
