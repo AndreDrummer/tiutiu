@@ -76,7 +76,7 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
     _betterPlayerDataSource = BetterPlayerDataSource(
       isFile ? BetterPlayerDataSourceType.file : BetterPlayerDataSourceType.network,
       videoUrl,
-      cacheConfiguration: BetterPlayerCacheConfiguration(useCache: Platform.isAndroid, key: post.video),
+      cacheConfiguration: BetterPlayerCacheConfiguration(useCache: Platform.isAndroid, key: post.video.toString()),
     );
 
     _betterPlayerController = BetterPlayerController(
