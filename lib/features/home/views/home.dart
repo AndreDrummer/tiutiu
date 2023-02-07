@@ -159,7 +159,7 @@ class _HomeState extends State<Home> with TiuTiuPopUp {
 
     final showingSponsoredAds = configs.showSponsoredAds && sponsoreds.isNotEmpty;
     final isFilteringByName = filterController.filterParams.value.orderBy == FilterStrings.name;
-    final appIsClosed = adminRemoteConfigController.configs.appIsClosed;
+    final appIsClosed = systemController.isToCloseApp;
 
     final conditionToAddHeight = !appIsClosed &&
         (homeController.bottomBarIndex == BottomBarIndex.DONATE.indx ||
