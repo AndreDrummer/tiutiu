@@ -1,9 +1,8 @@
 import 'package:tiutiu/features/adption_form.dart/views/what_do_you_wanna_do.dart';
 import 'package:tiutiu/features/delete_account/views/delete_account_screen.dart';
 import 'package:tiutiu/features/adption_form.dart/views/info_about_form.dart';
-import 'package:tiutiu/features/adption_form.dart/views/form_flow.dart';
-import 'package:tiutiu/features/more/views/about.dart';
 import 'package:tiutiu/features/sponsored/views/sponsored_vertical_list.dart';
+import 'package:tiutiu/features/adption_form.dart/views/form_flow.dart';
 import 'package:tiutiu/features/talk_with_us/views/talk_with_us.dart';
 import 'package:tiutiu/features/auth/views/email_and_password.dart';
 import 'package:tiutiu/core/system/views/loading_start_screen.dart';
@@ -23,6 +22,7 @@ import 'package:tiutiu/features/support/views/social.dart';
 import 'package:tiutiu/features/posts/views/my_posts.dart';
 import 'package:tiutiu/core/utils/routes/routes_name.dart';
 import 'package:tiutiu/features/more/views/settings.dart';
+import 'package:tiutiu/features/more/views/about.dart';
 import 'package:tiutiu/features/home/views/home.dart';
 import 'package:flutter/material.dart';
 
@@ -30,105 +30,92 @@ class RouterGenerator {
   static Route<dynamic>? onGenerateRoute(RouteSettings settings) {
     switch (settings.name) {
       case Routes.root:
-        return MaterialPageRoute(
-          builder: (_) => LoadingStartScreen(),
-        );
+        return createCustomTransition(LoadingStartScreen());
       case Routes.startScreen:
-        return MaterialPageRoute(
-          builder: (_) => StartScreen(),
-        );
+        return createCustomTransition(StartScreen());
       case Routes.authHosters:
-        return MaterialPageRoute(
-          builder: (_) => AuthHosters(),
-        );
+        return createCustomTransition(AuthHosters());
       case Routes.emailAndPassword:
-        return MaterialPageRoute(
-          builder: (_) => EmailAndPassword(),
-        );
+        return createCustomTransition(EmailAndPassword());
       case Routes.home:
-        return MaterialPageRoute(
-          builder: (_) => ConnectionScreenHandler(child: Home()),
-        );
+        return createCustomTransition(ConnectionScreenHandler(child: Home()));
       case Routes.postDetails:
-        return MaterialPageRoute(
-          builder: (_) => PostDetails(),
-        );
+        return createCustomTransition(PostDetails());
       case Routes.initPostFlow:
-        return MaterialPageRoute(
-          builder: (_) => InitPostFlow(),
-        );
+        return createCustomTransition(InitPostFlow());
       case Routes.myPosts:
-        return MaterialPageRoute(
-          builder: (_) => MyPosts(),
-        );
+        return createCustomTransition(MyPosts());
       case Routes.favorites:
-        return MaterialPageRoute(
-          builder: (_) => Saveds(),
-        );
+        return createCustomTransition(Saveds());
 
       case Routes.contacts:
-        return MaterialPageRoute(
-          builder: (_) => MyContacts(),
-        );
+        return createCustomTransition(MyContacts());
       case Routes.chat:
-        return MaterialPageRoute(
-          builder: (_) => ChatScreen(loggedUserId: settings.arguments as String),
-        );
+        return createCustomTransition(ChatScreen(loggedUserId: settings.arguments as String));
       case Routes.verifyEmail:
-        return MaterialPageRoute(
-          builder: (_) => VerifyEmail(),
-        );
+        return createCustomTransition(VerifyEmail());
       case Routes.verifyPhone:
-        return MaterialPageRoute(
-          builder: (_) => VerifyPhone(),
-        );
+        return createCustomTransition(VerifyPhone());
 
       case Routes.settings:
-        return MaterialPageRoute(
-          builder: (_) => Settings(),
-        );
+        return createCustomTransition(Settings());
       case Routes.about:
-        return MaterialPageRoute(
-          builder: (_) => About(),
-        );
+        return createCustomTransition(About());
       case Routes.editProfile:
-        return MaterialPageRoute(
-          builder: (_) => EditProfile(),
-        );
+        return createCustomTransition(EditProfile());
       case Routes.talkWithUs:
-        return MaterialPageRoute(
-          builder: (_) => TalkWithUs(),
-        );
+        return createCustomTransition(TalkWithUs());
       case Routes.suportUs:
-        return MaterialPageRoute(
-          builder: (_) => SupportUs(),
-        );
+        return createCustomTransition(SupportUs());
       case Routes.followUs:
-        return MaterialPageRoute(
-          builder: (_) => FollowUs(),
-        );
+        return createCustomTransition(FollowUs());
       case Routes.whatToDoForm:
-        return MaterialPageRoute(
-          builder: (_) => WhatDoYouWannaDo(),
-        );
+        return createCustomTransition(WhatDoYouWannaDo());
       case Routes.infoAdoptionForm:
-        return MaterialPageRoute(
-          builder: (_) => InfoAboutForm(),
-        );
+        return createCustomTransition(InfoAboutForm());
       case Routes.adoptionForm:
-        return MaterialPageRoute(
-          builder: (_) => AdoptionFormFlow(),
-        );
+        return createCustomTransition(AdoptionFormFlow());
       case Routes.partners:
-        return MaterialPageRoute(
-          builder: (_) => SponsoredVerticalList(),
-        );
+        return createCustomTransition(SponsoredVerticalList());
 
       case Routes.deleteAccount:
-        return MaterialPageRoute(
-          builder: (_) => DeleteAccountScreen(),
-        );
+        return createCustomTransition(DeleteAccountScreen());
     }
     return null;
+  }
+
+  static PageRouteBuilder createCustomTransition(Widget screen) {
+    return PageRouteBuilder(
+      transitionDuration: const Duration(milliseconds: 700),
+      reverseTransitionDuration: const Duration(milliseconds: 700),
+      pageBuilder: (context, animation, secondaryAnimation) => screen,
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        final slideAnimation = Tween(
+          begin: const Offset(1.0, 0.0),
+          end: Offset.zero,
+        ).animate(CurvedAnimation(
+          curve: Curves.easeOutCubic,
+          reverseCurve: Curves.easeInCubic,
+          parent: animation,
+        ));
+
+        final slideOutAnimation = Tween(
+          begin: Offset.zero,
+          end: const Offset(-0.3, 0.0),
+        ).animate(CurvedAnimation(
+          curve: Curves.easeOutCubic,
+          reverseCurve: Curves.easeInCubic,
+          parent: secondaryAnimation,
+        ));
+
+        return SlideTransition(
+          position: slideAnimation,
+          child: SlideTransition(
+            position: slideOutAnimation,
+            child: child,
+          ),
+        );
+      },
+    );
   }
 }
