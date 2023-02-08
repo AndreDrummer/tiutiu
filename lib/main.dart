@@ -1,4 +1,5 @@
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:tiutiu/core/system/views/loading_start_screen.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -171,6 +172,7 @@ class _TiuTiuAppState extends State<TiuTiuApp> {
           primarySwatch: AppColors.secondary,
           primaryColor: AppColors.primary,
         ),
+        onGenerateInitialRoutes: (initialRoute) => [RouterGenerator.createCustomTransition(LoadingStartScreen())],
         onGenerateRoute: RouterGenerator.onGenerateRoute,
         debugShowCheckedModeBanner: false,
         initialRoute: Routes.root,
