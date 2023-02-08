@@ -108,7 +108,6 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
     if (!postsController.isInReviewMode) {
       postsController.clearForm();
       stopVideo();
-      Get.offAllNamed(Routes.home);
     }
   }
 
