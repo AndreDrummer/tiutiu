@@ -83,6 +83,8 @@ class _HomeState extends State<Home> with TiuTiuPopUp {
               ).then((_) => willClose);
             },
             child: Scaffold(
+              restorationId: 'scaffold',
+              key: UniqueKey(),
               body: NestedScrollView(
                 headerSliverBuilder: (context, innerBoxIsScrolled) {
                   return [
