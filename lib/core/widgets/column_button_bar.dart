@@ -1,9 +1,9 @@
 import 'package:tiutiu/core/widgets/no_connection_text_info.dart';
 import 'package:tiutiu/core/widgets/simple_text_button.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/core/widgets/button_wide.dart';
-import 'package:tiutiu/core/constants/strings.dart';
 import 'package:flutter/material.dart';
 
 class ColumnButtonBar extends StatelessWidget {
@@ -40,7 +40,7 @@ class ColumnButtonBar extends StatelessWidget {
             child: ButtonWide(
               color: buttonPrimaryColor ?? AppColors.primary,
               onPressed: () => onPrimaryPressed?.call(),
-              text: textPrimary ?? AppStrings.save,
+              text: textPrimary ?? AppLocalizations.of(context).save,
               isToExpand: false,
             ),
           ),

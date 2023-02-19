@@ -1,10 +1,10 @@
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/constants/text_styles.dart';
 import 'package:tiutiu/core/system/app_bootstrap.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/core/widgets/tiutiu_logo.dart';
-import 'package:tiutiu/core/constants/strings.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
@@ -58,7 +58,7 @@ class SplashScreenLoading extends StatelessWidget {
                 )
               ],
             ),
-            _feedbackText(),
+            _feedbackText(context),
             _loadingIndicator(),
             Spacer(),
             _madeBy()
@@ -68,11 +68,11 @@ class SplashScreenLoading extends StatelessWidget {
     );
   }
 
-  Widget _feedbackText() {
+  Widget _feedbackText(BuildContext context) {
     return Padding(
       padding: EdgeInsets.only(top: 16.0.h, bottom: 8.0.h),
       child: AutoSizeTexts.autoSizeText10(
-        AppStrings.weAreGettingAllReady,
+        AppLocalizations.of(context).weAreGettingAllReady,
         color: Colors.white,
       ),
     );

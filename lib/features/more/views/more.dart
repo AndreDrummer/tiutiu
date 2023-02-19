@@ -146,7 +146,7 @@ class More extends StatelessWidget {
               isToCenterText: false,
               isToExpand: true,
               onTap: () {
-                moreController.handleOptionHitted(title);
+                moreController.handleOptionHitted(context, title);
               },
               text: title,
             ),

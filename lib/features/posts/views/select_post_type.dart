@@ -2,6 +2,7 @@ import 'package:tiutiu/features/posts/widgets/select_post_type_grid_view.dart';
 import 'package:tiutiu/core/widgets/default_basic_app_bar.dart';
 import 'package:tiutiu/features/posts/widgets/text_area.dart';
 import 'package:tiutiu/core/extensions/string_extension.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:tiutiu/features/posts/flow/post_flow.dart';
@@ -15,7 +16,6 @@ import 'package:tiutiu/core/constants/text_styles.dart';
 import 'package:tiutiu/core/pets/model/pet_model.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/features/posts/model/post.dart';
-import 'package:tiutiu/core/constants/strings.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -40,7 +40,9 @@ class SelectPostType extends StatelessWidget with TiuTiuPopUp {
           children: [
             Scaffold(
               appBar: DefaultBasicAppBar(
-                  text: postsController.isEditingPost ? PostFlowStrings.editAd : PostFlowStrings.post),
+                  text: postsController.isEditingPost
+                      ? AppLocalizations.of(context).editAd
+                      : AppLocalizations.of(context).post),
               body: GestureDetector(
                 onTap: () => FocusScope.of(context).unfocus(),
                 child: Container(
@@ -48,16 +50,16 @@ class SelectPostType extends StatelessWidget with TiuTiuPopUp {
                   child: ListView(
                     controller: _pageScroll,
                     children: [
-                      _selectPostType(),
+                      _selectPostType(context),
                       _isDisappearedSelection(context),
-                      _reward(),
+                      _reward(context),
                     ],
                   ),
                 ),
               ),
               bottomNavigationBar: Padding(
                 padding: EdgeInsets.only(bottom: Get.height < 700 ? 48.0.h : 40.h),
-                child: _buttons(),
+                child: _buttons(context),
               ),
             ),
             LoadDarkScreen(visible: postsController.isLoading)
@@ -67,7 +69,7 @@ class SelectPostType extends StatelessWidget with TiuTiuPopUp {
     );
   }
 
-  AnimatedContainer _selectPostType() {
+  AnimatedContainer _selectPostType(BuildContext context) {
     double marginTop = postsController.post.type.isNotEmptyNeighterNull() ? 10 : Get.width / 3;
     final filtersTypeText = filterController.filterTypeText.sublist(1).reversed.toList();
 
@@ -84,7 +86,7 @@ class SelectPostType extends StatelessWidget with TiuTiuPopUp {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          _selectPostTypeTitle(),
+          _selectPostTypeTitle(context),
           SizedBox(height: 16.0.h),
           _gridView(filtersTypeText, petsTypeImage),
         ],
@@ -92,9 +94,9 @@ class SelectPostType extends StatelessWidget with TiuTiuPopUp {
     );
   }
 
-  OneLineText _selectPostTypeTitle() {
+  OneLineText _selectPostTypeTitle(BuildContext context) {
     return OneLineText(
-      text: PostFlowStrings.selectPetType,
+      text: AppLocalizations.of(context).selectPetType,
       fontSize: Get.height > 700 ? 24.0 : 16.0,
       widgetAlignment: Alignment(-0.9, 1),
     );
@@ -134,7 +136,7 @@ class SelectPostType extends StatelessWidget with TiuTiuPopUp {
             duration: screenAnimationDuration,
             child: Column(
               children: [
-                _isDisappearedSelectionTitle(),
+                _isDisappearedSelectionTitle(context),
                 Row(
                   children: [
                     SizedBox(width: 4.0.w),
@@ -142,7 +144,7 @@ class SelectPostType extends StatelessWidget with TiuTiuPopUp {
                       child: CheckboxListTile(
                         contentPadding: EdgeInsets.zero,
                         controlAffinity: ListTileControlAffinity.leading,
-                        title: AutoSizeTexts.autoSizeText12(AppStrings.yes),
+                        title: AutoSizeTexts.autoSizeText12(AppLocalizations.of(context).yes),
                         onChanged: (_) {
                           postsController.updatePost(PetEnum.disappeared.name, true);
                           _pageScroll.animateTo(
@@ -158,7 +160,7 @@ class SelectPostType extends StatelessWidget with TiuTiuPopUp {
                       child: CheckboxListTile(
                         contentPadding: EdgeInsets.zero,
                         controlAffinity: ListTileControlAffinity.leading,
-                        title: AutoSizeTexts.autoSizeText12(AppStrings.no),
+                        title: AutoSizeTexts.autoSizeText12(AppLocalizations.of(context).no),
                         onChanged: (_) {
                           FocusScope.of(context).unfocus();
                           postsController.updatePost(PetEnum.disappeared.name, false);
@@ -183,15 +185,15 @@ class SelectPostType extends StatelessWidget with TiuTiuPopUp {
     );
   }
 
-  OneLineText _isDisappearedSelectionTitle() {
+  OneLineText _isDisappearedSelectionTitle(BuildContext context) {
     return OneLineText(
-      text: PostFlowStrings.isThisPetDisappeared,
+      text: AppLocalizations.of(context).isThisPetDisappeared,
       widgetAlignment: Alignment(-0.88, 1),
       fontSize: 16,
     );
   }
 
-  Widget _reward() {
+  Widget _reward(BuildContext context) {
     return Obx(() {
       double marginBottom = (postsController.post as Pet).disappeared ? Get.height : 0.0.h;
       double marginTop = (postsController.post as Pet).disappeared ? 10 : Get.width / 3;
@@ -204,7 +206,7 @@ class SelectPostType extends StatelessWidget with TiuTiuPopUp {
           duration: screenAnimationDuration,
           child: Column(
             children: [
-              _rewardTitle(),
+              _rewardTitle(context),
               TextArea(
                 keyboardType: TextInputType.numberWithOptions(decimal: true),
                 initialValue: (postsController.post as Pet).reward,
@@ -223,15 +225,15 @@ class SelectPostType extends StatelessWidget with TiuTiuPopUp {
     });
   }
 
-  OneLineText _rewardTitle() {
+  OneLineText _rewardTitle(BuildContext context) {
     return OneLineText(
-      text: PostFlowStrings.reward,
+      text: AppLocalizations.of(context).reward,
       widgetAlignment: Alignment(-0.99, 1),
       fontSize: 16,
     );
   }
 
-  Obx _buttons() {
+  Obx _buttons(BuildContext context) {
     return Obx(
       () => AnimatedOpacity(
         duration: screenAnimationDuration,
@@ -243,8 +245,8 @@ class SelectPostType extends StatelessWidget with TiuTiuPopUp {
           },
           onSecondaryPressed: postsController.showsCancelPostPopUp,
           buttonSecondaryColor: AppColors.danger,
-          textPrimary: AppStrings.contines,
-          textSecond: AppStrings.cancel,
+          textPrimary: AppLocalizations.of(context).contines,
+          textSecond: AppLocalizations.of(context).cancel,
         ),
       ),
     );

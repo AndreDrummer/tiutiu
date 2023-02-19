@@ -1,17 +1,17 @@
 import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
 import 'package:tiutiu/core/widgets/default_basic_app_bar.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/utils/launcher_functions.dart';
-import 'package:tiutiu/core/constants/assets_path.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/widgets/warning_widget.dart';
 import 'package:tiutiu/core/widgets/avatar_profile.dart';
 import 'package:tiutiu/core/constants/contact_type.dart';
 import 'package:tiutiu/core/constants/text_styles.dart';
+import 'package:tiutiu/core/constants/assets_path.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/core/widgets/button_wide.dart';
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:tiutiu/core/constants/strings.dart';
 import 'package:tiutiu/core/utils/formatter.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -74,12 +74,12 @@ class AnnouncerProfile extends StatelessWidget {
             children: [
               _userName(),
               Spacer(),
-              _userLastSeen(),
-              _userSinceDate(),
+              _userLastSeen(context),
+              _userSinceDate(context),
               Spacer(),
               _userPostsQty(),
               Spacer(),
-              _contactTitle(),
+              _contactTitle(context),
               _contactButtonRow(context),
               Spacer(),
             ],
@@ -137,13 +137,13 @@ class AnnouncerProfile extends StatelessWidget {
     );
   }
 
-  Widget _userLastSeen() {
+  Widget _userLastSeen(BuildContext context) {
     return SizedBox(
       height: 32.0.h,
       child: Column(
         children: [
           AutoSizeTexts.autoSizeText12(
-            '${UserStrings.userLastSeen} ${Formatters.getFormattedDateAndTime(_user.lastLogin ?? DateTime.now().toIso8601String())}',
+            '${AppLocalizations.of(context).userLastSeen} ${Formatters.getFormattedDateAndTime(_user.lastLogin ?? DateTime.now().toIso8601String())}',
             fontStyle: FontStyle.italic,
           ),
           Spacer(),
@@ -152,11 +152,11 @@ class AnnouncerProfile extends StatelessWidget {
     );
   }
 
-  Widget _userSinceDate() {
+  Widget _userSinceDate(BuildContext context) {
     final DateTime dateTime = DateTime.parse(_user.createdAt ?? DateTime.now().toIso8601String());
 
     return AutoSizeText(
-      '${UserStrings.userSince} ${Formatters.formmatedExtendedDate(dateTime: dateTime).split(',').last.trim()}',
+      '${AppLocalizations.of(context).userSince} ${Formatters.formmatedExtendedDate(dateTime: dateTime).split(',').last.trim()}',
     );
   }
 
@@ -166,16 +166,16 @@ class AnnouncerProfile extends StatelessWidget {
       stream: tiutiuUserController.getUserPostsById(_user.uid!).asyncMap<int>((event) => event.docs.length),
       builder: (context, snapshot) {
         final qty = snapshot.data ?? 1;
-        return AutoSizeText('$qty ${UserStrings.postsQty(qty)}');
+        return AutoSizeText('$qty ${AppLocalizations.of(context).postsQty(qty)}');
       },
     );
   }
 
-  Widget _contactTitle() {
+  Widget _contactTitle(BuildContext context) {
     return Column(
       children: [
         Divider(),
-        AutoSizeTexts.autoSizeText12(UserStrings.contact),
+        AutoSizeTexts.autoSizeText12(AppLocalizations.of(context).contact),
         Divider(),
       ],
     );
@@ -194,7 +194,7 @@ class AnnouncerProfile extends StatelessWidget {
             child: ButtonWide(
               fontSize: 12,
               color: AppColors.secondary,
-              text: AppStrings.chatWithAnnouncer,
+              text: AppLocalizations.of(context).chatWithAnnouncer,
               isToExpand: false,
               onPressed: () {
                 chatController.handleContactTapped(
@@ -212,7 +212,7 @@ class AnnouncerProfile extends StatelessWidget {
           Expanded(
             child: ButtonWide(
               fontSize: 12,
-              text: AppStrings.callInWhatsapp,
+              text: AppLocalizations.of(context).callInWhatsapp,
               color: AppColors.primary,
               isToExpand: false,
               onPressed: () {

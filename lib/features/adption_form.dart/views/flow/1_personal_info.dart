@@ -3,7 +3,7 @@ import 'package:tiutiu/core/widgets/outline_input_text.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
-import 'package:tiutiu/core/constants/strings.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:brasil_fields/brasil_fields.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
@@ -39,8 +39,8 @@ class _PersonalInfoState extends State<PersonalInfo> {
   OutlinedInputText _fullname() {
     return OutlinedInputText(
       initialValue: adoptionFormController.adoptionForm.fullName,
-      labelText: AdoptionFormQuestionsStrings.fullname,
-      hintText: AdoptionFormQuestionsStrings.fullname,
+      labelText: AppLocalizations.of(context).fullname,
+      hintText: AppLocalizations.of(context).fullname,
       textColor: AppColors.black.withOpacity(.5),
       onChanged: (value) {
         adoptionFormController.setAdoptionForm(
@@ -56,8 +56,8 @@ class _PersonalInfoState extends State<PersonalInfo> {
   OutlinedInputText _address() {
     return OutlinedInputText(
       initialValue: adoptionFormController.adoptionForm.address,
-      labelText: AdoptionFormQuestionsStrings.address,
-      hintText: AdoptionFormQuestionsStrings.address,
+      labelText: AppLocalizations.of(context).address,
+      hintText: AppLocalizations.of(context).address,
       textColor: AppColors.black.withOpacity(.5),
       onChanged: (value) {
         adoptionFormController.setAdoptionForm(
@@ -73,8 +73,8 @@ class _PersonalInfoState extends State<PersonalInfo> {
   OutlinedInputText phone() {
     return OutlinedInputText(
       initialValue: adoptionFormController.adoptionForm.phone,
-      labelText: AdoptionFormQuestionsStrings.phone,
-      hintText: AdoptionFormQuestionsStrings.phone,
+      labelText: AppLocalizations.of(context).phone,
+      hintText: AppLocalizations.of(context).phone,
       textColor: AppColors.black.withOpacity(.5),
       keyboardType: TextInputType.phone,
       inputFormatters: [
@@ -95,8 +95,8 @@ class _PersonalInfoState extends State<PersonalInfo> {
   OutlinedInputText email() {
     return OutlinedInputText(
       initialValue: adoptionFormController.adoptionForm.email,
-      labelText: AdoptionFormQuestionsStrings.email,
-      hintText: AdoptionFormQuestionsStrings.email,
+      labelText: AppLocalizations.of(context).email,
+      hintText: AppLocalizations.of(context).email,
       textColor: AppColors.black.withOpacity(.5),
       keyboardType: TextInputType.emailAddress,
       onChanged: (value) {
@@ -125,7 +125,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
               },
               items: List.generate(99, (index) => '${index == 0 ? '-' : index}'),
               initialValue: adoptionFormController.adoptionForm.age,
-              labelText: AdoptionFormQuestionsStrings.age,
+              labelText: AppLocalizations.of(context).age,
               labelBold: true,
               fontSize: 12.0,
             ),
@@ -139,7 +139,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
                 );
               },
               initialValue: adoptionFormController.adoptionForm.maritalStatus,
-              labelText: AdoptionFormQuestionsStrings.maritalStatus,
+              labelText: AppLocalizations.of(context).maritalStatus,
               items: adoptionFormController.maritalStatus,
               labelBold: true,
               fontSize: 12.0,
@@ -154,8 +154,8 @@ class _PersonalInfoState extends State<PersonalInfo> {
     return OutlinedInputText(
       textColor: AppColors.black.withOpacity(.5),
       initialValue: adoptionFormController.adoptionForm.profission,
-      labelText: AdoptionFormQuestionsStrings.profession,
-      hintText: AdoptionFormQuestionsStrings.profession,
+      labelText: AppLocalizations.of(context).profession,
+      hintText: AppLocalizations.of(context).profession,
       onChanged: (value) {
         adoptionFormController.setAdoptionForm(
           adoptionFormController.adoptionForm.copyWith(profission: value),
