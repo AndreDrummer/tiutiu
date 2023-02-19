@@ -3,7 +3,7 @@ import 'package:tiutiu/features/adption_form.dart/model/adoption_form.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/utils/routes/routes_name.dart';
 import 'package:tiutiu/core/constants/assets_path.dart';
-import 'package:tiutiu/core/constants/strings.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:pdf/widgets.dart' as pw;
@@ -181,7 +181,7 @@ class AdoptionFormController extends GetxController {
 
     String dir = (await getTemporaryDirectory()).path;
 
-    File pdfFile = File('$dir/${AdoptionFormStrings.formPdfName}${isEmptyForm ? ' (Vazio)' : ''}.pdf');
+    File pdfFile = File('$dir/${AppLocalizations.of(Get.context!).formPdfName}${isEmptyForm ? ' (Vazio)' : ''}.pdf');
 
     await pdfFile.writeAsBytes(await pdf.save());
 
@@ -189,29 +189,29 @@ class AdoptionFormController extends GetxController {
   }
 
   final List<String> formStepsTitle = [
-    AdoptionFormStrings.personalInfo,
-    AdoptionFormStrings.referenceContacts,
-    AdoptionFormStrings.petInfo,
-    AdoptionFormStrings.houseInfo,
-    AdoptionFormStrings.financialInfo,
-    AdoptionFormStrings.backgroundInfo,
+    AppLocalizations.of(Get.context!).personalInfo,
+    AppLocalizations.of(Get.context!).referenceContacts,
+    AppLocalizations.of(Get.context!).petInfo,
+    AppLocalizations.of(Get.context!).houseInfo,
+    AppLocalizations.of(Get.context!).financialInfo,
+    AppLocalizations.of(Get.context!).backgroundInfo,
   ];
 
   final List<String> maritalStatus = [
     '-',
-    MaritalStatusStrings.marriedSeparated,
-    MaritalStatusStrings.stableUnion,
-    MaritalStatusStrings.divorced,
-    MaritalStatusStrings.separated,
-    MaritalStatusStrings.single,
-    MaritalStatusStrings.married,
-    MaritalStatusStrings.widower,
+    AppLocalizations.of(Get.context!).marriedSeparated,
+    AppLocalizations.of(Get.context!).stableUnion,
+    AppLocalizations.of(Get.context!).divorced,
+    AppLocalizations.of(Get.context!).separated,
+    AppLocalizations.of(Get.context!).single,
+    AppLocalizations.of(Get.context!).married,
+    AppLocalizations.of(Get.context!).widower,
   ];
 
   final List<String> petsType = [
     '-',
-    PetTypeStrings.dog,
-    PetTypeStrings.cat,
-    PetTypeStrings.bird,
+    AppLocalizations.of(Get.context!).dog,
+    AppLocalizations.of(Get.context!).cat,
+    AppLocalizations.of(Get.context!).bird,
   ];
 }

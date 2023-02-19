@@ -1,7 +1,7 @@
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/core/widgets/popup_message.dart';
-import 'package:tiutiu/core/constants/strings.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -22,7 +22,7 @@ mixin TiuTiuPopUp {
       barrierDismissible: barrierDismissible,
       builder: (context) {
         return PopUpMessage(
-          denyText: denyText ?? AppStrings.ok,
+          denyText: denyText ?? AppLocalizations.of(context).ok,
           backGroundColor: backGroundColor,
           confirmText: confirmText ?? '',
           confirmAction: secondaryAction,
@@ -62,13 +62,14 @@ mixin TiuTiuPopUp {
   }
 
   Future<void> showsOnRequestSuccessPopup({
+    required BuildContext context,
     void Function()? onDone,
     required String message,
   }) async {
     await showPopUp(
-      confirmText: AppStrings.ok,
+      confirmText: AppLocalizations.of(context).ok,
       barrierDismissible: false,
-      title: AppStrings.success,
+      title: AppLocalizations.of(context).success,
       mainAction: onDone,
       message: message,
     );

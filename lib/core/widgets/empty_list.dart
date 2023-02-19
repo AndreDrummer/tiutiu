@@ -1,9 +1,9 @@
 import 'package:tiutiu/features/home/controller/home_controller.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:tiutiu/core/widgets/lottie_animation.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/constants/assets_path.dart';
 import 'package:tiutiu/core/constants/text_styles.dart';
-import 'package:tiutiu/core/constants/strings.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -32,7 +32,7 @@ class EmptyListScreen extends StatelessWidget {
             ),
             visible: isAPetScreenList,
           ),
-          AutoSizeTexts.autoSizeText12(text ?? AppStrings.noPostFound),
+          AutoSizeTexts.autoSizeText12(text ?? AppLocalizations.of(context).noPostFound),
           Visibility(
             visible: showClearFiltersButton,
             child: IconButton(

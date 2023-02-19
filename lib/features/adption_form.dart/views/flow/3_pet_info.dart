@@ -4,7 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/constants/text_styles.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
-import 'package:tiutiu/core/constants/strings.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:tiutiu/core/data/dummy_data.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -69,7 +69,7 @@ class _PetInfoState extends State<PetInfo> {
       },
       items: DummyData.breeds[adoptionFormController.adoptionForm.interestedType]!,
       labelText:
-          '${adoptionFormController.adoptionForm.interestedType == PetTypeStrings.bird ? PostDetailsStrings.selectSpecie : PostDetailsStrings.selectBreed}',
+          '${adoptionFormController.adoptionForm.interestedType == AppLocalizations.of(context).bird ? AppLocalizations.of(context).selectSpecie : AppLocalizations.of(context).selectBreed}',
       fontSize: 12.0,
     );
   }
@@ -92,7 +92,7 @@ class _PetInfoState extends State<PetInfo> {
               child: CheckboxListTile(
                 contentPadding: EdgeInsets.zero,
                 controlAffinity: ListTileControlAffinity.leading,
-                title: AutoSizeTexts.autoSizeText12(AppStrings.yes),
+                title: AutoSizeTexts.autoSizeText12(AppLocalizations.of(context).yes),
                 onChanged: (_) {
                   adoptionFormController.setAdoptionForm(
                     adoptionFormController.adoptionForm.copyWith(alreadyHadAnimalsLikeThat: true),
@@ -105,7 +105,7 @@ class _PetInfoState extends State<PetInfo> {
               child: CheckboxListTile(
                 contentPadding: EdgeInsets.zero,
                 controlAffinity: ListTileControlAffinity.leading,
-                title: AutoSizeTexts.autoSizeText12(AppStrings.no),
+                title: AutoSizeTexts.autoSizeText12(AppLocalizations.of(context).no),
                 onChanged: (_) {
                   adoptionFormController.setAdoptionForm(
                     adoptionFormController.adoptionForm.copyWith(alreadyHadAnimalsLikeThat: false),

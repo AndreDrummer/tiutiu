@@ -4,6 +4,7 @@
     "resetPasswordInstructionsSent": "Se han enviado instrucciones sobre cómo restablecer su contraseña a la dirección de correo electrónico proporcionada.",
     "tryAgainInABrief": "Las publicaciones no están disponibles temporalmente.\nVuelva a comprobarlo en unos minutos.\n\n¡Gracias por su comprensión!",
     "aboutForm": "Genere y comparta un formulario de adopción en formato PDF o en formato de mensaje de WhatsApp en unos segundos.",
+    "haveMoneyEnough": "¿Tiene los recursos económicos para cuidar a un animal? (alimentación, vacunación, citas veterinarias)",
     "needsAccess": "necesita saber dónde se encuentra para mostrar los animales más cercanos a su ubicación.",
     "demandRecentLoginWarning": "Esta acción requiere que vuelva a iniciar sesión.\n\n¿Desea cerrar sesión?",
     "videoSizeExceed": "¡Se excedió la duración máxima del video!\nEl video no debe durar más de 1:30 min",
@@ -13,8 +14,11 @@
     "noConnectionWarning": "Estas publicaciones pueden estar desactualizadas porque no tiene Internet.",
     "onlyAnwerWhatYouWant": "Solo responda las preguntas con las que se sienta cómodo respondiendo.",
     "authError": "Hubo un error con su autenticación.\nIntente cerrar sesión y volver a iniciarla.",
+    "allowGetInContatactWithReferences": "¿Me autorizan a contactar a sus contactos de referencia?",
     "youDontNeedAnAccount": "No necesita tener una cuenta y puede iniciar sesión cuando lo desee.",
     "formFilledSuccess": "¡Listo, formulario guardado con éxito! ¿Qué es lo que quieres hacer?",
+    "haveAnimals": "¿Tienes otros animales en casa? En caso afirmativo, ¿cuáles y cuántos?",
+    "allowCheckBackground": "¿Está dispuesto a pasar una verificación de antecedentes?",
     "partnershipWarning": "¡Deje la información correcta para que podamos contactarlo!",
     "loadingVideoFirstTime": "Cargando video...\n\nEspéralo\nSolo sucederá esta vez 😃",
     "generateAndShareEmptyFormTXT": "Generar y compartir un formulario vacío (Texto)",
@@ -25,8 +29,10 @@
     "generateAndShareEmptyFormPDF": "Generar y compartir un formulario vacío (PDF)",
     "linkWasSent": "Se ha enviado un enlace de verificación al correo electrónico",
     "tryVerifyCodeAgain": "No se pudo verificar el código.\nVuelva a intentarlo.",
+    "haveChildren": "¿Tienes niños? Si es así, ¿cuántos y cuántos años tienen?",
     "needsGPS": " necesita que el servicio de ubicación/GPS esté habilitado!",
     "friendlyReminderToAdd9Digit": "Recuerda sumar el 9 delante del número.",
+    "haveTimeEnough": "¿Tienes suficiente tiempo para cuidar de un animal?",    
     "reviewYourPost": "Haz clic en la tarjeta para revisar tu publicación",
     "confirmeIfThisNumberIsCorrect": "Confirme que el número es correcto.",
     "doLoginWarning": "Inicie sesión para acceder a todas las funciones.",
@@ -66,6 +72,8 @@
     "typePasswordAgain": "Vuelva a escribir la contraseña",
     "insertAtLeastOnePicture": "Inserta al menos una foto",
     "typeAddress": "Complementar la dirección (Opcional)",
+    "willNotLate": "Será rápido, vuelve en unos minutos!",
+    "closedForMaintenance": "Cerrado por mantenimiento",
     "fillFullAddress": "¿Ingresar la dirección completa?",
     "weWilSendACodeToThisNumber": "Enviemos un código a",
     "verifyYourEmail": "Consultar su correo electrónico",
@@ -76,6 +84,7 @@
     "videoPlayerError": "Error al reproducir el video",
     "verifyFilters": "Revisa tus filtros de búsqueda.",
     "passwordNotMatch": "Las contraseñas no coinciden",
+    "houseTypeOptions": "Casa, apartamento, lugar...",
     "noPostFavorited": "Ninguna mascota fue favorita.",
     "imagesWarning": "Imágenes meramente ilustrativas",
     "whatYouWannaDo": "¿Qué es lo que quieres hacer?",
@@ -93,6 +102,7 @@
     "allDone": "Todo listo, mira como va a quedar!",
     "termsAndConditions": "Términos y Condiciones",
     "startConversation": "Iniciar la conversación",
+    "houseType": "¿Cuál es su tipo de propiedad?",
     "referenceContacts": "Contactos de referencia",
     "editPhoneNumber": "Editar número de teléfono",
     "doNotHaveAnAccount": "¿No tienes una cuenta?",
@@ -113,6 +123,48 @@
     "cannotUse": "No puedo usar la aplicación",
     "addVideo": "Si quieres, agrega un video.",
     "privacyPolicy": "Política de privacidad",
+    "marriedSeparated": "Casado y divorciado",
+    "fieldShouldBeAtLeast": "{field} debe tener al menos {length} caracteres",
+    "@fieldShouldBeAtLeast": {
+        "description": "Tamaño mínimo necesario para que un campo se rellene correctamente",
+        "placeholders": {
+            "field": {
+                "type": "String",
+                "example": "Contraseña"
+            },
+            "length": {
+                "type": "int",
+                "example": "6"
+            }
+        }
+    },
+    "dennounceUser": "Denunciar {username}",
+    "@dennounceUser": {        
+        "placeholders": {
+            "username": {
+                "type": "String",
+                "example": "John"
+            }
+        }
+    },
+    "imageQty": "{count, plural, =1{Enviando la foto...} other{Enviando las fotos...}}",
+    "@imageQty": {
+        "placeholders": {
+            "count": {
+                "type": "num",
+                "format": "compact"
+            }
+        }
+    },
+    "postsQty": "{count, plural, =1{post} other{posts}}",
+    "@postsQty": {
+        "placeholders": {
+            "count": {
+                "type": "num",
+                "format": "compact"
+            }
+        }
+    },
     "haveAnAccount": "¿Ya tienes una cuenta?",
     "facebook": "Iniciar sesión con Facebook",
     "deletingAds": "Eliminando publicaciones",
@@ -125,6 +177,7 @@
     "repeatPassword": "Repite la contraseña",
     "noPetInMyRegion": "No PET en mi región",
     "deleteChat": "Eliminar la conversación",
+    "haveYard": "¿Tienes un patio trasero?",
     "adoptionForm": "Formulario de adopción",
     "whichBugs": "¿Qué errores ocurrieron?",
     "wannaLeave": "¿Realmente desea salir?",
@@ -189,6 +242,7 @@
     "recordVideo": "Grabar un video",
     "receiveEmail": "Recibir correo",
     "petDisappeared": "Desaparecido",
+    "maritalStatus": "Estado Civil",
     "muchAds": "Demasiados anuncios",
     "loadingVideo": "Cargando video",
     "invalidEmail": "Email inválido",
@@ -204,7 +258,9 @@
     "lastSeen": "Ultima vez visto",
     "emailSent": "¡Email enviado!",
     "disappeareds": "Desaparecido",
+    "fullname": "Nombre completo",
     "deleteAd": "Eliminar mensaje",
+    "stableUnion": "Unión estable",
     "appBarTitle": "¿Donde estas?",
     "scamTry": "Intento de golpe",
     "picTime": "Hora de la foto!",
@@ -229,6 +285,7 @@
     "health": "Estado de salud",
     "views": "puntos de vista",
     "preganant": "El embarazo",
+    "profession": "Profesión",
     "posting": "Publicando...",
     "ourNet": "Nuestras redes",
     "foundAt": "encontrado en",
@@ -242,16 +299,19 @@
     "copyKey": "Copiar clave",
     "announcer": "Anunciante",
     "posts": "publicaciones",
+    "divorced": "Divorciado",
     "password": "Contraseña",
     "myProfile": "Mi perfil",
     "favorites": "Favoritos",
     "watch": "Para asistir",
     "postedAt": "Publicado",
     "petsData": "Datos PET",
+    "address": "Dirección",
     "editAd": "Editar post",
     "distance": "Distancia",
     "contines": "Continuar",
     "commingSoon": "Pronto",
+    "separated": "Separado",
     "update": "Actualizar",
     "tiutok": "Tiutiu Tok",
     "messages": "Mensajes",
@@ -273,14 +333,18 @@
     "female": "Femenino",
     "dennouncy": "Queja",
     "cancel": "Cancelar",
+    "phone": "Teléfono",
     "start": "Comenzar",
     "saveds": "Salvado",
     "review": "Revisar",
+    "single": "Soltero",
+    "married": "Casado",
     "profile": "Perfil",
     "pictures": "Fotos",
     "petName": "Nombre",
     "male": "Masculino",
     "doLogin": "Acceso",
+    "widower": "Viudo",
     "adopte": "Adoptar",
     "warning": "Aviso",
     "videos": "Vídeos",

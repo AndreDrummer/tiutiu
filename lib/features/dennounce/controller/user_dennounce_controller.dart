@@ -1,7 +1,7 @@
 import 'package:tiutiu/features/dennounce/services/dennounce_services.dart';
 import 'package:tiutiu/features/dennounce/model/user_dennounce.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
-import 'package:tiutiu/core/constants/strings.dart';
 import 'package:uuid/uuid.dart';
 import 'package:get/get.dart';
 
@@ -16,7 +16,7 @@ class UserDennounceController extends GetxController {
   final RxBool _hasError = false.obs;
 
   int get userDennounceGroupValue => _userDennounceGroupValue.value;
-  List<String> get dennounceUserMotives => _dennounceUserMotives;
+  List get dennounceUserMotives => _dennounceUserMotives;
   UserDennounce get userDennounce => _userDennounce.value;
   bool get isLoading => _isLoading.value;
   bool get hasError => _hasError.value;
@@ -57,13 +57,13 @@ class UserDennounceController extends GetxController {
   static UserDennounce _defaultUserDennounce() {
     return UserDennounce(
       dennouncer: tiutiuUserController.tiutiuUser,
-      motive: UserDennounceStrings.other,
+      motive: AppLocalizations.of(Get.context!).other,
     );
   }
 
   final _dennounceUserMotives = [
-    UserDennounceStrings.sexualAppeal,
-    UserDennounceStrings.scamTry,
-    UserDennounceStrings.other,
+    AppLocalizations.of(Get.context!).sexualAppeal,
+    AppLocalizations.of(Get.context!).scamTry,
+    AppLocalizations.of(Get.context!).other,
   ];
 }

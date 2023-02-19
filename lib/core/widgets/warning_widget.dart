@@ -1,11 +1,11 @@
 import 'package:tiutiu/core/extensions/string_extension.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/utils/launcher_functions.dart';
 import 'package:tiutiu/core/utils/routes/routes_name.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/constants/text_styles.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
-import 'package:tiutiu/core/constants/strings.dart';
 import 'package:tiutiu/core/utils/formatter.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -44,15 +44,15 @@ class WarningBanner extends StatelessWidget {
   final Color? textColor;
   final Color? tileColor;
 
-  String? getBannerText() {
+  String? getBannerText(BuildContext context) {
     if (thereIsAdminCommunication) {
       return adminCommunication;
     } else {
       return textWarning != null
           ? textWarning
           : isHiddingContactInfo
-              ? AppStrings.verifyEmailToSeeContactInfo
-              : AppStrings.verifyAccountWarning;
+              ? AppLocalizations.of(context).verifyEmailToSeeContactInfo
+              : AppLocalizations.of(context).verifyAccountWarning;
     }
   }
 
@@ -110,7 +110,7 @@ class WarningBanner extends StatelessWidget {
                 SizedBox(width: 2.0.w),
                 Expanded(
                   child: AutoSizeTexts.autoSizeText12(
-                    getBannerText(),
+                    getBannerText(context),
                     color: getBannerTextColor(),
                     textOverflow: TextOverflow.fade,
                     textAlign: TextAlign.left,
@@ -197,9 +197,9 @@ class VerifyAccountWarningInterstitial extends StatelessWidget {
               AutoSizeTexts.autoSizeText24(
                 isHiddingContactInfo
                     ? !isLoggedIn
-                        ? AppStrings.doLoginWarning
-                        : AppStrings.verifyEmailToSeeContactInfo
-                    : AppStrings.verifyAccountWarning,
+                        ? AppLocalizations.of(context).doLoginWarning
+                        : AppLocalizations.of(context).verifyEmailToSeeContactInfo
+                    : AppLocalizations.of(context).verifyAccountWarning,
                 color: isHiddingContactInfo ? AppColors.black : AppColors.white,
                 textOverflow: TextOverflow.fade,
                 textAlign: TextAlign.center,

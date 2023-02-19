@@ -3,13 +3,16 @@
     "crashlyticsInfo": "Para melhor resolver possíveis falhas no aplicativo gostaríamos de receber relatório de falhas automaticamente.\n\nDeseja enviar relatórios de falhas automaticamente para os desenvolvedores?",
     "tryAgainInABrief": "Postagens temporariamente indisponíveis.\nEntre novamente em alguns minutos.\n\nAgradecessemos a compreensão!",
     "aboutForm": "Gere e compartilhe um formulário de adoção em formato PDF ou em formato de mensagens do WhatsApp em poucos segundos.",
+    "haveMoneyEnough": "Você tem recursos financeiros para cuidar de um animal? (ração, vacinação, consultas veterinárias)",
     "resetPasswordInstructionsSent": "As instruções de como resetar sua senha foi enviada para o e-mail informado.",
+    "allowGetInContatactWithReferences": "Você autoriza que entre em contato com seus contatos de referências?",
     "deleteAccountWarning": "Após excluir sua conta não será possível recuperá-la.\n\nDeseja continuar?",
     "needsAccess": "precisa saber onde você está para mostrar os animais mais próximos do seu local.",
     "demandRecentLoginWarning": "Está ação requer que você faça login novamente.\n\nDeseja deslogar?",
     "noConnectionWarning": "Estes posts podem estar desatualizados porque você está sem internet.",
     "youDontNeedAnAccount": "Você não precisa de ter uma conta e pode acessar sempre que quiser.",
     "loadingVideoFirstTime": "Carregando video...\n\nAguarde isso só\nvai acontecer dessa vez 😃",
+    "allowCheckBackground": "Você está disposto a passar por uma verificação de antecedentes?",
     "onlyAnwerWhatYouWant": "Só responda às perguntas que se sentir confortável em responder.",
     "verifyEmailToSeeContactInfo": "Verifique seu email para ver as informações de contato!",
     "unableToResendEmail": "Não foi possível reenviar o e-mail. Tente novamente mais tarde!",
@@ -26,6 +29,10 @@
     "postCancelMessage": "Saindo agora todos os dados serão perdidos.\nContinuar?",
     "verifyEmailAdvice": "Somente contas verificadas podem fazer uma publicação.",
     "doLoginWarning": "Faça login para ter acesso a todas as funcionalidades.",
+    "haveAnimals": "Você tem outros animais em casa? Se sim, quais e quantos?",
+    "haveTimeEnough": "Você tem tempo suficiente para cuidar de um animal?",
+    "willNotLate": "Vai ser rápido, entre novamente em alguns minutinhos!",
+    "haveChildren": "Você tem crianças? Se sim, quantas e que idades têm?",
     "needsGPS": "precisa que o serviço de GPS / Localização esteja ativado!",
     "deleteMessageQuestion": "Tem certeza que deseja deletar essa conversa?",
     "confirmeIfThisNumberIsCorrect": "Confirme se o número está correto.",
@@ -70,6 +77,8 @@
     "typeAddress": "Complemente o endereço (Opcional)",
     "changeListVisual": "Mude a visualização da lista",
     "setMyProfileAsONG": "Configurar perfil como ONG",
+    "houseTypeOptions": "Casa, apartamento, sítio...",
+    "closedForMaintenance": "Fechado para manutenção",
     "imagesWarning": "Imagens meramente ilustrativas",
     "fillFullAddress": "Preencher endereço completo?",
     "videoPlayerError": "Erro ao reproduzir o video",
@@ -89,6 +98,7 @@
     "backToCivilization": "Voltar a civilização",
     "fillAdData": "Preencher dados da postagem",
     "dontReceiveEmail": "Não recebeu um email?",
+    "houseType": "Qual é o seu tipo de imóvel?",
     "dificultsUse": "Dificuldade ao usar o app",
     "chatWithAnnouncer": "Falar com anunciante",
     "addVideo": "Se quiser, adicione um vídeo.",
@@ -107,11 +117,53 @@
     "alreadyFoundPet": "Já encontrei meu PET",
     "addMorePictures": "Adicionar mais fotos",
     "verifyYourEmail": "Verifique seu email",
-    "subject": "Sobre o quê você quer falar",
+    "subject": "Sobre o quê você quer falar",    
     "lastSeen": "Visto pela última vez em",
     "describBreed": "Escreva o nome da raça",
     "continueAnon": "Continuar anônimamente",
-    "whatYouWannaDo": "O que deseja fazer?",
+    "whatYouWannaDo": "O que deseja fazer?",    
+    "marriedSeparated": "Casado e divorciado",
+    "fieldShouldBeAtLeast": "{field} deve ter pelo menos {length} caracters",
+    "@fieldShouldBeAtLeast": {
+        "description": "Tamanho mínimo requerido para um campo ser corretamente preenchido",
+        "placeholders": {
+            "field": {
+                "type": "String",
+                "example": "Senha"
+            },
+            "length": {
+                "type": "int",
+                "example": "6"
+            }
+        }
+    },
+    "dennounceUser": "Denunciar {username}",
+    "@dennounceUser": {        
+        "placeholders": {
+            "username": {
+                "type": "String",
+                "example": "John"
+            }
+        }
+    },    
+    "imageQty": "{count, plural, =1{sending the photo...} other{Sending the photos...}}",
+    "@imageQty": {
+        "placeholders": {
+            "count": {
+                "type": "num",
+                "format": "compact"
+            }
+        }
+    },
+    "postsQty": "{count, plural, =1{post} other{posts}}",
+    "@postsQty": {
+        "placeholders": {
+            "count": {
+                "type": "num",
+                "format": "compact"
+            }
+        }
+    },
     "tellUsTheMotive": "Conte-nos o motivo",
     "startConversation": "Incie a conversa",
     "postCancelTitle": "Cancelar postagem?",
@@ -130,7 +182,7 @@
     "selectSpecie": "Selecione a espécie",
     "profileUpdated": "Perfil atualizado",
     "openSettings": "IR P/ CONFIGURAÇÕES",
-    "numberVerified": "Número verificado",
+    "numberVerified": "Número verificado",    
     "noPostFound": "Nada foi encontrado.",
     "loginInProgress": "Realizando Login",
     "jotSomethingDown": "Escreva aqui...",
@@ -187,6 +239,8 @@
     "appBarTitle": "Onde você está?",
     "scamTry": "Tentativa de golpe",
     "receiveEmail": "Receber email",
+    "haveYard": "Você tem quintal?",
+    "maritalStatus": "Estado Civil",
     "orderedBy": "ordenados por:  ",
     "justThis": "Por enquanto é só",
     "hermaphrodite": "Hermafrodita",
@@ -203,6 +257,7 @@
     "emailSent": "E-mail enviado!",
     "createAccount": "Criar conta",
     "addImages": "Adicionar fotos",
+    "stableUnion": "União estável",
     "myPosts": "Minhas Postagens",
     "localization": "Localização",
     "disappeared": "Desaparecido",
@@ -219,6 +274,7 @@
     "petInfo": "Sobre o animal",
     "pasteCode": "Colar código",
     "myAds": "Minhas postagens",
+    "fullname": "Nome completo",
     "health": "Estado de Saúde",
     "petsData": "Dados do PET",
     "finishing": "Finalizando",
@@ -235,6 +291,8 @@
     "copyKey": "Copiar chave",
     "commingSoon": "Em breve",
     "announcer": "Anunciante",
+    "profession": "Profissão",
+    "divorced": "Divorciado",
     "views": "visualizações",
     "posting": "Postando...",
     "petType": "Tipo de PET",
@@ -245,6 +303,7 @@
     "share": "Compartilhar",
     "partners": "Parceiros",
     "ourNet": "Nossa redes",
+    "separated": "Separado",
     "messages": "Mensagens",
     "loading": "Carregando",
     "getStarted": "Começar",
@@ -260,6 +319,7 @@
     "infos": "informações",
     "validate": "Validar",
     "update": "Atualizar",
+    "address": "Endereço",
     "success": "Sucesso!",
     "postedAt": "Postado",
     "hurted": "Machucado",
@@ -269,11 +329,15 @@
     "resend": "Reenviar",
     "contact": "Contato",
     "cancel": "Cancelar",
+    "single": "Solteiro",
+    "phone": "Telefone",
     "watch": "Assistir",
     "review": "Revisar",
     "profile": "Perfil",
     "pictures": "Fotos",
     "password": "Senha",
+    "married": "Casado",
+    "widower": "Viúvo",
     "warning": "Aviso",
     "videos": "Videos",
     "support": "Apoie",
@@ -298,11 +362,11 @@
     "posts": "posts",
     "post": "Postar",
     "other": "Outro",
-    "note": "Nota",
     "local": "Local",
     "city": "Cidade",
     "back": "Voltar",
     "years": "Anos",
+    "note": "Nota",
     "male": "Macho",
     "leave": "Sair",
     "ill": "Doente",

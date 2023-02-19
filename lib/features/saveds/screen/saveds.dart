@@ -6,7 +6,7 @@ import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/widgets/async_handler.dart';
 import 'package:tiutiu/features/posts/model/post.dart';
 import 'package:tiutiu/core/widgets/empty_list.dart';
-import 'package:tiutiu/core/constants/strings.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -26,7 +26,7 @@ class _SavedsState extends State<Saveds> {
       child: Scaffold(
         appBar: DefaultBasicAppBar(
           automaticallyImplyLeading: true,
-          text: AppStrings.saveds,
+          text: AppLocalizations.of(context).saveds,
         ),
         body: Obx(
           () => StreamBuilder<List<SavedPost>>(
