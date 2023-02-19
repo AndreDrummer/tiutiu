@@ -1,6 +1,6 @@
 import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
-import 'package:tiutiu/core/constants/strings.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -46,10 +46,10 @@ class InsertCodeBoxes extends StatelessWidget {
         return GetUtils.isNum(text ?? "");
       },
       dialogConfig: DialogConfig(
-        dialogContent: AuthStrings.doYouWannaPasteCodeCopied,
-        dialogTitle: AuthStrings.pasteCode,
-        affirmativeText: AppStrings.yes,
-        negativeText: AppStrings.no,
+        dialogContent: AppLocalizations.of(context).doYouWannaPasteCodeCopied,
+        dialogTitle: AppLocalizations.of(context).pasteCode,
+        affirmativeText: AppLocalizations.of(context).yes,
+        negativeText: AppLocalizations.of(context).no,
       ),
     );
   }

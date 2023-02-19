@@ -1,12 +1,12 @@
-import 'package:tiutiu/core/utils/routes/routes_name.dart';
 import 'package:tiutiu/features/delete_account/service/delete_account_service.dart';
 import 'package:tiutiu/features/delete_account/model/delete_account.dart';
 import 'package:tiutiu/core/local_storage/local_storage_keys.dart';
 import 'package:tiutiu/core/local_storage/local_storage.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:tiutiu/core/utils/routes/routes_name.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/mixins/tiu_tiu_pop_up.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
-import 'package:tiutiu/core/constants/strings.dart';
 import 'package:get/get.dart';
 
 class DeleteAccountController extends GetxController with TiuTiuPopUp {
@@ -16,7 +16,7 @@ class DeleteAccountController extends GetxController with TiuTiuPopUp {
 
   final DeleteAccountService _deleteAccountService;
 
-  final RxString _deleteAccountMotive = DeleteAccountStrings.other.obs;
+  final RxString _deleteAccountMotive = AppLocalizations.of(Get.context!).other.obs;
   final RxString _deleteAccountMotiveDescribed = ''.obs;
   final RxInt _deleteAccountGroupValue = 7.obs;
   final RxString _loadingText = ''.obs;
@@ -51,7 +51,7 @@ class DeleteAccountController extends GetxController with TiuTiuPopUp {
   }
 
   Future<void> deleteAccountForever() async {
-    _setLoading(true, DeleteAccountStrings.deletingAccountStarting);
+    _setLoading(true, AppLocalizations.of(Get.context!).deletingAccountStarting);
 
     final loggedUser = tiutiuUserController.tiutiuUser;
     final DeleteAccount deleteAccountData = DeleteAccount(
@@ -65,11 +65,11 @@ class DeleteAccountController extends GetxController with TiuTiuPopUp {
     await _deleteAccountService.deleteAccountForever(
       deleteAccountData: deleteAccountData,
       onPostsDeletionStarts: () {
-        _setLoading(true, DeleteAccountStrings.deletingAds);
+        _setLoading(true, AppLocalizations.of(Get.context!).deletingAds);
       },
       userId: loggedUser.uid!,
       onFinishing: () {
-        _setLoading(true, DeleteAccountStrings.finishing);
+        _setLoading(true, AppLocalizations.of(Get.context!).finishing);
       },
     );
 
@@ -83,22 +83,22 @@ class DeleteAccountController extends GetxController with TiuTiuPopUp {
         Get.back();
         authController.signOut().then((value) => Get.offAllNamed(Routes.startScreen));
       },
-      message: AuthStrings.demandRecentLoginWarning,
+      message: AppLocalizations.of(Get.context!).demandRecentLoginWarning,
       backGroundColor: AppColors.warning,
-      title: AuthStrings.doLogin,
-      confirmText: AppStrings.yes,
+      title: AppLocalizations.of(Get.context!).doLogin,
+      confirmText: AppLocalizations.of(Get.context!).yes,
       textColor: AppColors.black,
       barrierDismissible: false,
-      denyText: AppStrings.no,
+      denyText: AppLocalizations.of(Get.context!).no,
       mainAction: Get.back,
     );
   }
 
   Future<void> showAccountDeletedFeedbackPopup() async {
     await showPopUp(
-      message: DeleteAccountStrings.foreverDeletedAccount,
-      title: DeleteAccountStrings.deleteAccount,
-      confirmText: AppStrings.ok,
+      message: AppLocalizations.of(Get.context!).foreverDeletedAccount,
+      title: AppLocalizations.of(Get.context!).deleteAccount,
+      confirmText: AppLocalizations.of(Get.context!).ok,
       barrierDismissible: false,
       mainAction: () {
         Get.back();
@@ -116,19 +116,19 @@ class DeleteAccountController extends GetxController with TiuTiuPopUp {
   }
 
   void reset() {
-    deleteAccountMotive = DeleteAccountStrings.other;
+    deleteAccountMotive = AppLocalizations.of(Get.context!).other;
     deleteAccountMotiveDescribed = '';
     deleteAccountGroupValue = 7;
   }
 
   List<String> _deleteAccountMotives = [
-    DeleteAccountStrings.alreadyAdopted,
-    DeleteAccountStrings.alreadyDonated,
-    DeleteAccountStrings.noPetInMyRegion,
-    DeleteAccountStrings.alreadyFoundPet,
-    DeleteAccountStrings.cannotUse,
-    DeleteAccountStrings.muchAds,
-    DeleteAccountStrings.bugs,
-    DeleteAccountStrings.other,
+    AppLocalizations.of(Get.context!).alreadyAdopted,
+    AppLocalizations.of(Get.context!).alreadyDonated,
+    AppLocalizations.of(Get.context!).noPetInMyRegion,
+    AppLocalizations.of(Get.context!).alreadyFoundPet,
+    AppLocalizations.of(Get.context!).cannotUse,
+    AppLocalizations.of(Get.context!).muchAds,
+    AppLocalizations.of(Get.context!).bugs,
+    AppLocalizations.of(Get.context!).other,
   ];
 }

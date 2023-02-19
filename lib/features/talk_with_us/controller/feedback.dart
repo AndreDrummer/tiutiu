@@ -4,7 +4,7 @@ import 'package:tiutiu/core/extensions/string_extension.dart';
 import 'package:tiutiu/core/utils/routes/routes_name.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/mixins/tiu_tiu_pop_up.dart';
-import 'package:tiutiu/core/constants/strings.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter/foundation.dart';
 import 'package:uuid/uuid.dart';
 import 'package:get/get.dart';
@@ -90,7 +90,7 @@ class FeedbackController extends GetxController with TiuTiuPopUp {
     if (isFormValid) {
       setLoading(true, '');
 
-      if (feedback.contactSubject == DeleteAccountStrings.bugs) {
+      if (feedback.contactSubject == AppLocalizations.of(Get.context!).bugs) {
         updateFeedback(FeedbackEnum.deviceInfo, await systemController.getDeviceInfo());
       }
 
@@ -116,7 +116,7 @@ class FeedbackController extends GetxController with TiuTiuPopUp {
 
   Future<void> _uploadPrints() async {
     if (feedback.screenshots.isNotEmpty) {
-      _loadingText(PostFlowStrings.imageQty(feedback.screenshots.length));
+      _loadingText(AppLocalizations.of(Get.context!).imageQty(feedback.screenshots.length));
 
       await _feedbackService.uploadPrints(
         onPrintsUploaded: (printsUrlList) {
@@ -128,14 +128,15 @@ class FeedbackController extends GetxController with TiuTiuPopUp {
   }
 
   Future<void> _uploadFeedbackData() async {
-    setLoading(true, FeedbackStrings.sendingYourMessage);
+    setLoading(true, AppLocalizations.of(Get.context!).sendingYourMessage);
 
     await _feedbackService.uploadFeedbackData(feedback);
   }
 
   Future<void> _showsSuccessPopup() async {
     await showsOnRequestSuccessPopup(
-      message: FeedbackStrings.successSent,
+      context: Get.context!,
+      message: AppLocalizations.of(Get.context!).successSent,
       onDone: () {
         Get.back();
         clearForm();
@@ -145,13 +146,13 @@ class FeedbackController extends GetxController with TiuTiuPopUp {
 
   Future<void> _showsErrorPopup() async {
     await showsOnRequestErrorPopup(
-      message: FeedbackStrings.failureWarning,
-      title: FeedbackStrings.failure,
-      confirmText: AppStrings.cancel,
-      denyText: AppStrings.tryAgain,
+      message: AppLocalizations.of(Get.context!).failureWarning,
+      title: AppLocalizations.of(Get.context!).failure,
+      confirmText: AppLocalizations.of(Get.context!).cancel,
+      denyText: AppLocalizations.of(Get.context!).tryAgain,
       onCancel: Get.back,
       onRetry: () {
-        setLoading(true, FeedbackStrings.tryingAgain);
+        setLoading(true, AppLocalizations.of(Get.context!).tryingAgain);
         Get.back();
         submitForm();
       },
