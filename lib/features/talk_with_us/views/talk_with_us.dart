@@ -13,7 +13,7 @@ import 'package:tiutiu/core/constants/text_styles.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/core/widgets/button_wide.dart';
 import 'package:tiutiu/core/utils/asset_handle.dart';
-import 'package:tiutiu/core/constants/strings.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:tiutiu/core/widgets/add_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -41,12 +41,13 @@ class _TalkWithUsState extends State<TalkWithUs> {
             return true;
           },
           child: Scaffold(
-            appBar: DefaultBasicAppBar(text: MyProfileOptionsTile.talkWithUs),
+            appBar: DefaultBasicAppBar(text: AppLocalizations.of(context).talkWithUs),
             resizeToAvoidBottomInset: false,
             body: Obx(
               () {
-                bool isPartnership = feedbackController.feedback.contactSubject == FeedbackStrings.wannaAnnounceOnApp ||
-                    feedbackController.feedback.contactSubject == FeedbackStrings.partnership;
+                bool isPartnership =
+                    feedbackController.feedback.contactSubject == AppLocalizations.of(context).wannaAnnounceOnApp ||
+                        feedbackController.feedback.contactSubject == AppLocalizations.of(context).partnership;
 
                 return Container(
                   height: double.infinity,
@@ -94,7 +95,7 @@ class _TalkWithUsState extends State<TalkWithUs> {
       child: Padding(
         padding: EdgeInsets.only(bottom: 8.0.h, left: 8.0.w, right: 8.0.w),
         child: AutoSizeTexts.autoSizeText14(
-          FeedbackStrings.partnershipWarning,
+          AppLocalizations.of(context).partnershipWarning,
           textAlign: TextAlign.center,
           color: AppColors.secondary,
         ),
@@ -104,12 +105,12 @@ class _TalkWithUsState extends State<TalkWithUs> {
 
   Widget _selectYourSubject() {
     final talkWithUsSubjects = [
-      FeedbackStrings.wannaAnnounceOnApp,
-      FeedbackStrings.anotherUserIssue,
-      FeedbackStrings.dificultsUse,
-      FeedbackStrings.partnership,
-      FeedbackStrings.dennounce,
-      DeleteAccountStrings.bugs,
+      AppLocalizations.of(context).wannaAnnounceOnApp,
+      AppLocalizations.of(context).anotherUserIssue,
+      AppLocalizations.of(context).dificultsUse,
+      AppLocalizations.of(context).partnership,
+      AppLocalizations.of(context).dennounce,
+      AppLocalizations.of(context).bugs,
       '-',
     ];
 
@@ -117,7 +118,7 @@ class _TalkWithUsState extends State<TalkWithUs> {
       () => Padding(
         padding: EdgeInsets.symmetric(vertical: 16.0.h),
         child: UnderlineInputDropdown(
-          labelText: FeedbackStrings.subject,
+          labelText: AppLocalizations.of(context).subject,
           isInErrorState:
               !feedbackController.feedback.contactSubject.isNotEmptyNeighterNull() && !feedbackController.isFormValid,
           items: talkWithUsSubjects,
@@ -142,7 +143,7 @@ class _TalkWithUsState extends State<TalkWithUs> {
           },
           isInErrorState:
               !feedbackController.feedback.contactMessage.isNotEmptyNeighterNull() && !feedbackController.isFormValid,
-          labelText: FeedbackStrings.writeYourMessage,
+          labelText: AppLocalizations.of(context).writeYourMessage,
           maxLines: 4,
         ),
       ),
@@ -175,7 +176,7 @@ class _TalkWithUsState extends State<TalkWithUs> {
                 },
               ),
               AutoSizeTexts.autoSizeText16(
-                FeedbackStrings.addImages,
+                AppLocalizations.of(context).addImages,
                 fontWeight: FontWeight.w500,
                 color: AppColors.secondary,
               )
@@ -227,7 +228,7 @@ class _TalkWithUsState extends State<TalkWithUs> {
           child: ButtonWide(
             onPressed: feedbackController.submitForm,
             isLoading: feedbackController.isLoading,
-            text: AppStrings.send,
+            text: AppLocalizations.of(context).send,
           ),
           replacement: NoConnectionTextInfo(),
         ),

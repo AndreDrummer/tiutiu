@@ -8,7 +8,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/constants/assets_path.dart';
 import 'package:tiutiu/core/models/whatsapp_token.dart';
-import 'package:tiutiu/core/constants/strings.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:tiutiu/core/utils/formatter.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
@@ -140,10 +140,10 @@ class AuthController extends GetxController {
         if (kDebugMode) debugPrint('TiuTiuApp: Valid inserted code $codeSent == $insertedCode');
       } else {
         if (kDebugMode) debugPrint('TiuTiuApp: INVALID CODE $codeSent != $insertedCode');
-        _feedbackText(AuthStrings.invalidCode);
+        _feedbackText(AppLocalizations.of(Get.context!).invalidCode);
       }
     } else {
-      _feedbackText(AuthStrings.tryVerifyCodeAgain);
+      _feedbackText(AppLocalizations.of(Get.context!).tryVerifyCodeAgain);
     }
 
     return success;
@@ -244,7 +244,7 @@ class AuthController extends GetxController {
     bool success = false;
 
     if (emailAndPasswordAuth.password == emailAndPasswordAuth.repeatPassword) {
-      setLoading(true, AuthStrings.registeringUser);
+      setLoading(true, AppLocalizations.of(Get.context!).registeringUser);
       success = await _authService.createUserWithEmailAndPassword(
         password: emailAndPasswordAuth.password!,
         email: emailAndPasswordAuth.email!,
@@ -265,7 +265,7 @@ class AuthController extends GetxController {
   }
 
   Future<bool> loginWithEmailAndPassword() async {
-    setLoading(true, AuthStrings.loginInProgress);
+    setLoading(true, AppLocalizations.of(Get.context!).loginInProgress);
 
     final bool success = await _authService.loginWithEmailAndPassword(
       password: emailAndPasswordAuth.password!,
@@ -287,7 +287,7 @@ class AuthController extends GetxController {
   }
 
   Future<bool> loginWithFacebook({bool firstLogin = true}) async {
-    setLoading(true, AuthStrings.loginInProgress);
+    setLoading(true, AppLocalizations.of(Get.context!).loginInProgress);
 
     final bool success = await _authService.loginWithFacebook(
       firstLogin: firstLogin,
@@ -304,7 +304,7 @@ class AuthController extends GetxController {
   }
 
   Future<bool> loginWithGoogle({bool firstLogin = true}) async {
-    setLoading(true, AuthStrings.loginInProgress);
+    setLoading(true, AppLocalizations.of(Get.context!).loginInProgress);
 
     final bool success = await _authService.loginWithGoogle();
 
@@ -320,7 +320,7 @@ class AuthController extends GetxController {
   }
 
   Future<bool> loginWithApple() async {
-    setLoading(true, AuthStrings.loginInProgress);
+    setLoading(true, AppLocalizations.of(Get.context!).loginInProgress);
 
     final bool success = await _authService.loginWithApple();
 
@@ -336,7 +336,7 @@ class AuthController extends GetxController {
   }
 
   Future<void> passwordReset() async {
-    setLoading(true, AppStrings.wait);
+    setLoading(true, AppLocalizations.of(Get.context!).wait);
     await _authService.passwordReset(emailAndPasswordAuth.email!);
     isResetingPassword = false;
     clearEmailAndPassword();

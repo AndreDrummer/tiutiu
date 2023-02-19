@@ -1,4 +1,4 @@
-import 'package:tiutiu/core/constants/strings.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/widgets.dart';
@@ -18,7 +18,7 @@ class AppNameWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AutoSizeText(
-      AppStrings.name,
+      AppLocalizations.of(context).name,
       textAlign: TextAlign.center,
       style: GoogleFonts.miltonianTattoo(
         textStyle: TextStyle(

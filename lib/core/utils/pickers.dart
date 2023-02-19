@@ -1,8 +1,8 @@
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:tiutiu/core/widgets/popup_message.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
-import 'package:tiutiu/core/constants/strings.dart';
 import 'package:open_settings/open_settings.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/material.dart';
@@ -30,7 +30,9 @@ mixin Pickers {
             child: Column(
               children: [
                 selectResourceText(
-                  text: pickerAssetType == PickerAssetType.photo ? AppStrings.takeApicture : AppStrings.recordVideo,
+                  text: pickerAssetType == PickerAssetType.photo
+                      ? AppLocalizations.of(context).takeApicture
+                      : AppLocalizations.of(context).recordVideo,
                   color: AppColors.primary,
                   onTap: () async {
                     Get.back();
@@ -54,7 +56,7 @@ mixin Pickers {
                 ),
                 Divider(height: 32.0.h),
                 selectResourceText(
-                  text: AppStrings.openGallery,
+                  text: AppLocalizations.of(context).openGallery,
                   color: AppColors.secondary,
                   onTap: () async {
                     Get.back();
@@ -118,8 +120,8 @@ mixin Pickers {
           backGroundColor: AppColors.info,
           title: 'Solicitação de acesso',
           denyAction: () => Get.back(),
-          confirmText: AppStrings.yes,
-          denyText: AppStrings.no,
+          confirmText: AppLocalizations.of(context).yes,
+          denyText: AppLocalizations.of(context).no,
           message: message,
         );
       },

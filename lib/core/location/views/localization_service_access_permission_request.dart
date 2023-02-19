@@ -12,7 +12,6 @@ import 'package:tiutiu/core/constants/text_styles.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/core/widgets/button_wide.dart';
 import 'package:tiutiu/core/widgets/background.dart';
-import 'package:tiutiu/core/constants/strings.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -44,7 +43,7 @@ class _LocalizationServiceAccessPermissionAccessState extends State<Localization
     if (kDebugMode) debugPrint('TiuTiuApp: local access denied? ${widget.localAccessDenied ? 'Sim' : 'Não'}');
 
     return Scaffold(
-      appBar: DefaultBasicAppBar(text: AppLocalizations.of(context).appName),
+      appBar: DefaultBasicAppBar(text: AppLocalizations.of(context).appBarTitle),
       body: FutureBuilder<PermissionStatus>(
         future: getPermissionStatus(),
         builder: (context, snapshot) {
@@ -84,7 +83,7 @@ class _LocalizationServiceAccessPermissionAccessState extends State<Localization
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 8.0.w),
       child: AutoSizeTexts.autoSizeText16(
-        isInPostScreen ? LocalPermissionStrings.needsAccessToPost : LocalPermissionStrings.needsAccess,
+        isInPostScreen ? AppLocalizations.of(context).needsAccessToPost : AppLocalizations.of(context).needsAccess,
         textAlign: TextAlign.center,
       ),
     );
@@ -97,9 +96,9 @@ class _LocalizationServiceAccessPermissionAccessState extends State<Localization
         String? buttonText;
 
         if (locationAccessStatus.value == PermissionStatus.permanentlyDenied) {
-          buttonText = AppStrings.contines;
+          buttonText = AppLocalizations.of(context).contines;
         } else if (locationAccessStatus.value == PermissionStatus.denied) {
-          buttonText = AppStrings.ok;
+          buttonText = AppLocalizations.of(context).ok;
         }
 
         return ButtonWide(onPressed: () async => onPrimaryPressed(), text: buttonText);
@@ -132,7 +131,7 @@ class _LocalizationServiceAccessPermissionAccessState extends State<Localization
     return await showPopUp(
       message: message,
       confirmText: 'Abrir configurações',
-      title: LocalPermissionStrings.localization,
+      title: AppLocalizations.of(context).localization,
       denyText: isInPostScreen ? 'Não quero postar agora' : 'Somente ver os PETs',
       barrierDismissible: false,
       secondaryAction: () {

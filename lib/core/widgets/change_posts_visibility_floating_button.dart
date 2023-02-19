@@ -1,6 +1,6 @@
 import 'package:tiutiu/features/posts/controller/posts_controller.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
-import 'package:tiutiu/core/constants/strings.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -20,7 +20,7 @@ class ChangePostsVisibilityFloatingButtom extends StatelessWidget {
           visible: !isToCloseApp && visibility,
           child: FloatingActionButton(
             child: Icon(isCardVisibility ? Icons.list_outlined : Icons.photo_outlined),
-            tooltip: AppStrings.changeListVisual,
+            tooltip: AppLocalizations.of(context).changeListVisual,
             onPressed: () {
               postsController.changeCardVisibilityKind();
             },

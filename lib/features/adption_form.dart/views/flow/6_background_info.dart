@@ -2,7 +2,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/constants/text_styles.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
-import 'package:tiutiu/core/constants/strings.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -38,7 +38,7 @@ class _BackgroundInfoState extends State<BackgroundInfo> {
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 0.0.h),
           child: AutoSizeTexts.autoSizeText16(
-            AdoptionFormQuestionsStrings.allowCheckBackground,
+            AppLocalizations.of(context).allowCheckBackground,
             color: AppColors.black.withOpacity(.5),
             fontWeight: FontWeight.w600,
           ),
@@ -49,7 +49,7 @@ class _BackgroundInfoState extends State<BackgroundInfo> {
               child: CheckboxListTile(
                 contentPadding: EdgeInsets.zero,
                 controlAffinity: ListTileControlAffinity.leading,
-                title: AutoSizeTexts.autoSizeText12(AppStrings.yes),
+                title: AutoSizeTexts.autoSizeText12(AppLocalizations.of(context).yes),
                 onChanged: (_) {
                   adoptionFormController.setAdoptionForm(
                     adoptionFormController.adoptionForm.copyWith(availableForBackgroundCheck: true),
@@ -62,7 +62,7 @@ class _BackgroundInfoState extends State<BackgroundInfo> {
               child: CheckboxListTile(
                 contentPadding: EdgeInsets.zero,
                 controlAffinity: ListTileControlAffinity.leading,
-                title: AutoSizeTexts.autoSizeText12(AppStrings.no),
+                title: AutoSizeTexts.autoSizeText12(AppLocalizations.of(context).no),
                 onChanged: (_) {
                   adoptionFormController.setAdoptionForm(
                     adoptionFormController.adoptionForm.copyWith(availableForBackgroundCheck: false),
@@ -85,7 +85,7 @@ class _BackgroundInfoState extends State<BackgroundInfo> {
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 0.0.h),
           child: AutoSizeTexts.autoSizeText16(
-            AdoptionFormQuestionsStrings.allowGetInContatactWithReferences,
+            AppLocalizations.of(context).allowGetInContatactWithReferences,
             color: AppColors.black.withOpacity(.5),
             fontWeight: FontWeight.w600,
           ),
@@ -96,7 +96,7 @@ class _BackgroundInfoState extends State<BackgroundInfo> {
               child: CheckboxListTile(
                 contentPadding: EdgeInsets.zero,
                 controlAffinity: ListTileControlAffinity.leading,
-                title: AutoSizeTexts.autoSizeText12(AppStrings.yes),
+                title: AutoSizeTexts.autoSizeText12(AppLocalizations.of(context).yes),
                 onChanged: (_) {
                   adoptionFormController.setAdoptionForm(
                     adoptionFormController.adoptionForm.copyWith(allowContactWithYourReferences: true),
@@ -109,7 +109,7 @@ class _BackgroundInfoState extends State<BackgroundInfo> {
               child: CheckboxListTile(
                 contentPadding: EdgeInsets.zero,
                 controlAffinity: ListTileControlAffinity.leading,
-                title: AutoSizeTexts.autoSizeText12(AppStrings.no),
+                title: AutoSizeTexts.autoSizeText12(AppLocalizations.of(context).no),
                 onChanged: (_) {
                   adoptionFormController.setAdoptionForm(
                     adoptionFormController.adoptionForm.copyWith(allowContactWithYourReferences: false),

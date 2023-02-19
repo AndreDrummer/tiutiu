@@ -4,7 +4,7 @@ import 'package:tiutiu/core/utils/routes/routes_name.dart';
 import 'package:tiutiu/core/constants/text_styles.dart';
 import 'package:tiutiu/features/auth/widgets/blur.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
-import 'package:tiutiu/core/constants/strings.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -18,8 +18,8 @@ class InfoAboutForm extends StatelessWidget {
       floatingActionButton: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          _backButton(),
-          _startButton(),
+          _backButton(context),
+          _startButton(context),
         ],
       ),
       body: Stack(
@@ -29,7 +29,7 @@ class InfoAboutForm extends StatelessWidget {
           Positioned(
             left: 16.0.w,
             top: 88.0.h,
-            child: _header(),
+            child: _header(context),
           ),
           Positioned(
             bottom: 164.0.h,
@@ -37,8 +37,8 @@ class InfoAboutForm extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                _warningLabel(),
-                _warningText(),
+                _warningLabel(context),
+                _warningText(context),
               ],
             ),
           ),
@@ -47,7 +47,7 @@ class InfoAboutForm extends StatelessWidget {
     );
   }
 
-  Column _header() {
+  Column _header(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -61,7 +61,7 @@ class InfoAboutForm extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               AutoSizeTexts.autoSizeText32(
-                AdoptionFormStrings.adoptionForm,
+                AppLocalizations.of(context).adoptionForm,
                 fontWeight: FontWeight.w700,
                 textAlign: TextAlign.left,
                 color: AppColors.white,
@@ -70,7 +70,7 @@ class InfoAboutForm extends StatelessWidget {
               SizedBox(
                 width: Get.width * .85,
                 child: AutoSizeTexts.autoSizeText16(
-                  AdoptionFormStrings.aboutForm,
+                  AppLocalizations.of(context).aboutForm,
                   fontWeight: FontWeight.w300,
                   color: AppColors.white,
                   height: 1.4,
@@ -80,7 +80,7 @@ class InfoAboutForm extends StatelessWidget {
               SizedBox(
                 width: Get.width * .85,
                 child: AutoSizeTexts.autoSizeText16(
-                  AdoptionFormStrings.youDontNeedAnAccount,
+                  AppLocalizations.of(context).youDontNeedAnAccount,
                   fontWeight: FontWeight.w300,
                   color: AppColors.white,
                   height: 1.4,
@@ -93,11 +93,11 @@ class InfoAboutForm extends StatelessWidget {
     );
   }
 
-  Padding _warningLabel() {
+  Padding _warningLabel(BuildContext context) {
     return Padding(
       padding: EdgeInsets.only(left: 18.0.w),
       child: AutoSizeTexts.autoSizeText16(
-        AdoptionFormStrings.note,
+        AppLocalizations.of(context).note,
         textAlign: TextAlign.center,
         fontWeight: FontWeight.w700,
         color: AppColors.white,
@@ -105,7 +105,7 @@ class InfoAboutForm extends StatelessWidget {
     );
   }
 
-  Widget _warningText() {
+  Widget _warningText(BuildContext context) {
     return Container(
       width: Get.width * .9,
       margin: EdgeInsets.symmetric(horizontal: 18.0.w, vertical: 8.0),
@@ -113,12 +113,12 @@ class InfoAboutForm extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           AutoSizeTexts.autoSizeText16(
-            AdoptionFormStrings.allQuestionsAreOptionals,
+            AppLocalizations.of(context).allQuestionsAreOptionals,
             color: AppColors.primary,
           ),
           SizedBox(height: 2.0.h),
           AutoSizeTexts.autoSizeText16(
-            AdoptionFormStrings.onlyAnwerWhatYouWant,
+            AppLocalizations.of(context).onlyAnwerWhatYouWant,
             fontWeight: FontWeight.w300,
             color: AppColors.white,
           ),
@@ -127,22 +127,22 @@ class InfoAboutForm extends StatelessWidget {
     );
   }
 
-  Widget _startButton() {
+  Widget _startButton(BuildContext context) {
     return _buttonButton(
       onPressed: () {
         Get.toNamed(Routes.whatToDoForm);
       },
       icon: Icons.keyboard_arrow_right_rounded,
-      text: AdoptionFormStrings.start,
+      text: AppLocalizations.of(context).start,
     );
   }
 
-  Widget _backButton() {
+  Widget _backButton(BuildContext context) {
     return Padding(
       padding: EdgeInsets.only(left: 16.0.w),
       child: _buttonButton(
         icon: Icons.keyboard_arrow_left_rounded,
-        text: AppStrings.leave,
+        text: AppLocalizations.of(context).leave,
         onPressed: Get.back,
         iconOnRight: false,
       ),

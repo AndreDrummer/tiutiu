@@ -1,4 +1,3 @@
-import 'package:tiutiu/core/pets/model/pet_model.dart';
 import 'package:tiutiu/features/posts/views/announcer_profile.dart';
 import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
@@ -8,13 +7,14 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiutiu/core/extensions/string_extension.dart';
 import 'package:tiutiu/core/constants/firebase_env_path.dart';
 import 'package:tiutiu/core/local_storage/local_storage.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:tiutiu/core/utils/file_cache_manager.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/location/models/latlng.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:tiutiu/core/utils/math_functions.dart';
+import 'package:tiutiu/core/pets/model/pet_model.dart';
 import 'package:tiutiu/features/posts/model/post.dart';
-import 'package:tiutiu/core/constants/strings.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
@@ -93,12 +93,12 @@ class OtherFunctions {
       Get.to(() => AnnouncerProfile(user: user));
   }
 
-  static IconData getIconFromPetType(String type) {
+  static IconData getIconFromPetType(BuildContext context, String type) {
     final Map<String, dynamic> petIconType = {
-      PetTypeStrings.bird: FontAwesomeIcons.b,
-      PetTypeStrings.other: FontAwesomeIcons.question,
-      PetTypeStrings.dog: FontAwesomeIcons.dog,
-      PetTypeStrings.cat: FontAwesomeIcons.cat,
+      AppLocalizations.of(context).bird: FontAwesomeIcons.b,
+      AppLocalizations.of(context).other: FontAwesomeIcons.question,
+      AppLocalizations.of(context).dog: FontAwesomeIcons.dog,
+      AppLocalizations.of(context).cat: FontAwesomeIcons.cat,
     };
 
     return petIconType.containsKey(type) ? petIconType[type] : FontAwesomeIcons.dog;
@@ -218,7 +218,10 @@ class OtherFunctions {
     }
   }
 
-  static Future<String> getPostTextToShare({required TiuTiuDynamicLinkParameters tiuTiuDynamicLinkParameters}) async {
+  static Future<String> getPostTextToShare({
+    required TiuTiuDynamicLinkParameters tiuTiuDynamicLinkParameters,
+    required BuildContext context,
+  }) async {
     String postTitle = tiuTiuDynamicLinkParameters.postTitle;
     int ageMonth = tiuTiuDynamicLinkParameters.ageMonth;
     String gender = tiuTiuDynamicLinkParameters.gender;
@@ -235,7 +238,7 @@ class OtherFunctions {
             ? '$ageMonth meses'
             : '$ageYear anos';
 
-    String typeIcon = _getPetTypeIcon(type);
+    String typeIcon = _getPetTypeIcon(context, type);
 
     if (kDebugMode) debugPrint('TiuTiuApp: DynamicLinkPrefix ${tiuTiuDynamicLinkParameters.dynamicLinkPrefix}');
     if (kDebugMode) debugPrint('TiuTiuApp: AppStoreId ${tiuTiuDynamicLinkParameters.iosParameters.appStoreId}');
@@ -250,7 +253,8 @@ class OtherFunctions {
 
     final dynamicLink = await FirebaseDynamicLinks.instance.buildShortLink(dynamicLinkParams);
 
-    String headerText = 'Olha ${_getPetGender(type, gender).trim()}  ${typeIcon.trim()} que eu vi no app *Tiu, tiu*:';
+    String headerText =
+        'Olha ${_getPetGender(context, type, gender).trim()}  ${typeIcon.trim()} que eu vi no app *Tiu, tiu*:';
 
     String bodyText = '*$postTitle*\n⚧️ $gender\n🎂 $age\n📐 $size\n🎨 $color';
 
@@ -259,17 +263,17 @@ class OtherFunctions {
     return '$headerText\n\n$bodyText\n\n$footerText';
   }
 
-  static String _getPetGender(String type, String gender) {
-    if (gender == PostDetailsStrings.female) {
-      if (type == PetTypeStrings.dog) {
+  static String _getPetGender(BuildContext context, String type, String gender) {
+    if (gender == AppLocalizations.of(context).female) {
+      if (type == AppLocalizations.of(context).dog) {
         return 'essa cachorra';
-      } else if (type == PetTypeStrings.cat) {
+      } else if (type == AppLocalizations.of(context).cat) {
         return 'essa gata';
       }
-    } else if (gender == PostDetailsStrings.male) {
-      if (type == PetTypeStrings.dog) {
+    } else if (gender == AppLocalizations.of(context).male) {
+      if (type == AppLocalizations.of(context).dog) {
         return 'esse cachorro';
-      } else if (type == PetTypeStrings.cat) {
+      } else if (type == AppLocalizations.of(context).cat) {
         return 'esse gato';
       }
     }
@@ -277,36 +281,36 @@ class OtherFunctions {
     return 'esse pet';
   }
 
-  static String _getPetTypeIcon(String type) {
-    return type == PetTypeStrings.cat
+  static String _getPetTypeIcon(BuildContext context, String type) {
+    return type == AppLocalizations.of(context).cat
         ? '🐈'
-        : type == PetTypeStrings.dog
+        : type == AppLocalizations.of(context).dog
             ? '🐶'
-            : type == PetTypeStrings.bird
+            : type == AppLocalizations.of(context).bird
                 ? '🐧'
                 : '';
   }
 
-  static String getGreetingBasedOnTime() {
+  static String getGreetingBasedOnTime(BuildContext context) {
     final now = DateTime.now();
     String greeting = '';
 
     if (now.hour < 12) {
-      greeting = GreetingStrings.goodMorning;
+      greeting = AppLocalizations.of(context).goodMorning;
     } else if (now.hour < 18) {
-      greeting = GreetingStrings.goodAfternoon;
+      greeting = AppLocalizations.of(context).goodAfternoon;
     } else {
-      greeting = GreetingStrings.goodNight;
+      greeting = AppLocalizations.of(context).goodNight;
     }
 
     return greeting;
   }
 
-  static String getWhatsAppInitialMessage(Post post) {
+  static String getWhatsAppInitialMessage(BuildContext context, Post post) {
     String petType = (post as Pet).type;
-    String greeting = 'Olá, ${getGreetingBasedOnTime().toLowerCase()}! Tudo bem?\n\n';
+    String greeting = 'Olá, ${getGreetingBasedOnTime(context).toLowerCase()}! Tudo bem?\n\n';
     String message =
-        'Eu gostaria de ter mais informações sobre ${post.name}, ${_getPetGender(petType, post.gender)} ${_getPetTypeIcon(petType)} que você postou no app *Tiu, tiu*!';
+        'Eu gostaria de ter mais informações sobre ${post.name}, ${_getPetGender(context, petType, post.gender)} ${_getPetTypeIcon(context, petType)} que você postou no app *Tiu, tiu*!';
     return '$greeting$message';
   }
 

@@ -7,7 +7,7 @@ import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/constants/assets_path.dart';
 import 'package:tiutiu/core/constants/text_styles.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
-import 'package:tiutiu/core/constants/strings.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -49,7 +49,7 @@ class _MaintenanceScreen extends StatelessWidget {
               AutoSizeTexts.autoSizeText20(
                 appClosedMessageTitle.isNotEmptyNeighterNull()
                     ? appClosedMessageTitle
-                    : AppClosedStrings.closedForMaintenance,
+                    : AppLocalizations.of(context).closedForMaintenance,
                 textAlign: TextAlign.center,
                 color: AppColors.secondary,
               ),
@@ -57,7 +57,7 @@ class _MaintenanceScreen extends StatelessWidget {
               AutoSizeTexts.autoSizeText12(
                 appClosedMessageDescription.isNotEmptyNeighterNull()
                     ? appClosedMessageDescription
-                    : AppClosedStrings.willNotLate,
+                    : AppLocalizations.of(context).willNotLate,
                 textAlign: TextAlign.center,
               ),
               SizedBox(height: 8.0.h),
@@ -66,7 +66,7 @@ class _MaintenanceScreen extends StatelessWidget {
                   Get.offAllNamed(Routes.startScreen);
                 },
                 textColor: AppColors.primary,
-                text: AppStrings.leave,
+                text: AppLocalizations.of(context).leave,
               ),
               Spacer(),
             ],

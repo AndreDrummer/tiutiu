@@ -1,6 +1,6 @@
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:tiutiu/core/utils/routes/routes_name.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
-import 'package:tiutiu/core/constants/strings.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -9,39 +9,17 @@ class MoreController extends GetxController {
 
   bool get isLoading => _isLoading.value;
 
-  void handleOptionHitted(String option) {
-    switch (option) {
-      case MyProfileOptionsTile.myPosts:
-        postsController.openMypostsLists();
-        break;
-      case MyProfileOptionsTile.messages:
-        Get.toNamed(Routes.contacts);
-        break;
-      case MyProfileOptionsTile.saveds:
-        Get.toNamed(Routes.favorites);
-        break;
-      case MyProfileOptionsTile.settings:
-        Get.toNamed(Routes.settings);
-        break;
-      case MyProfileOptionsTile.talkWithUs:
-        Get.toNamed(Routes.talkWithUs);
-        break;
-      case MyProfileOptionsTile.support:
-        Get.toNamed(Routes.suportUs);
-        break;
-      case MyProfileOptionsTile.adoptioinForm:
-        Get.toNamed(Routes.infoAdoptionForm);
-        break;
-      case MyProfileOptionsTile.ourNet:
-        Get.toNamed(Routes.followUs);
-        break;
-      case MyProfileOptionsTile.partners:
-        Get.toNamed(Routes.partners);
-        break;
-      case MyProfileOptionsTile.about:
-        Get.toNamed(Routes.about);
-        break;
-    }
+  void handleOptionHitted(BuildContext context, String option) {
+    if (option == AppLocalizations.of(context).adoptioinForm) Get.toNamed(Routes.infoAdoptionForm);
+    if (option == AppLocalizations.of(context).myPosts) postsController.openMypostsLists();
+    if (option == AppLocalizations.of(context).talkWithUs) Get.toNamed(Routes.talkWithUs);
+    if (option == AppLocalizations.of(context).partners) Get.toNamed(Routes.partners);
+    if (option == AppLocalizations.of(context).messages) Get.toNamed(Routes.contacts);
+    if (option == AppLocalizations.of(context).settings) Get.toNamed(Routes.settings);
+    if (option == AppLocalizations.of(context).saveds) Get.toNamed(Routes.favorites);
+    if (option == AppLocalizations.of(context).support) Get.toNamed(Routes.suportUs);
+    if (option == AppLocalizations.of(context).ourNet) Get.toNamed(Routes.followUs);
+    if (option == AppLocalizations.of(context).about) Get.toNamed(Routes.about);
   }
 
   Future<void> save() async {
@@ -56,21 +34,21 @@ class MoreController extends GetxController {
   List<String> get myProfileOptionsTile {
     final bool enableDonateTile = adminRemoteConfigController.configs.enableDonateTile;
     List<String> list = [..._myProfileOptionsTile];
-    if (!enableDonateTile) list.remove(MyProfileOptionsTile.support);
+    if (!enableDonateTile) list.remove(AppLocalizations.of(Get.context!).support);
     return list;
   }
 
-  static const List<String> _myProfileOptionsTile = [
-    MyProfileOptionsTile.talkWithUs,
-    MyProfileOptionsTile.ourNet,
-    MyProfileOptionsTile.saveds,
-    MyProfileOptionsTile.myPosts,
-    MyProfileOptionsTile.messages,
-    MyProfileOptionsTile.support,
-    MyProfileOptionsTile.adoptioinForm,
-    MyProfileOptionsTile.settings,
-    MyProfileOptionsTile.partners,
-    MyProfileOptionsTile.about,
+  static List<String> _myProfileOptionsTile = [
+    AppLocalizations.of(Get.context!).talkWithUs,
+    AppLocalizations.of(Get.context!).ourNet,
+    AppLocalizations.of(Get.context!).saveds,
+    AppLocalizations.of(Get.context!).myPosts,
+    AppLocalizations.of(Get.context!).messages,
+    AppLocalizations.of(Get.context!).support,
+    AppLocalizations.of(Get.context!).adoptioinForm,
+    AppLocalizations.of(Get.context!).settings,
+    AppLocalizations.of(Get.context!).partners,
+    AppLocalizations.of(Get.context!).about,
   ];
 
   List<IconData> get myProfileOptionsIcon {

@@ -1,5 +1,6 @@
 import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
 import 'package:tiutiu/core/widgets/default_basic_app_bar.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:tiutiu/core/widgets/column_button_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/widgets/tiutiu_snackbar.dart';
@@ -9,7 +10,6 @@ import 'package:tiutiu/core/views/load_dark_screen.dart';
 import 'package:tiutiu/core/widgets/avatar_profile.dart';
 import 'package:tiutiu/core/constants/assets_path.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
-import 'package:tiutiu/core/constants/strings.dart';
 import 'package:tiutiu/core/utils/validators.dart';
 import 'package:brasil_fields/brasil_fields.dart';
 import 'package:flutter/foundation.dart';
@@ -43,7 +43,9 @@ class _EditProfileState extends State<EditProfile> {
 
   @override
   Widget build(BuildContext context) {
-    final title = widget.isEditingProfile ? SettingsStrings.editProfile : UserStrings.completeProfile;
+    final title = widget.isEditingProfile
+        ? AppLocalizations.of(context).editProfile
+        : AppLocalizations.of(context).completeProfile;
 
     return SafeArea(
       child: Scaffold(
@@ -169,7 +171,7 @@ class _EditProfileState extends State<EditProfile> {
 
   Widget _userName() {
     return UnderlineInputText(
-      labelText: MoreStrings.howCallYou,
+      labelText: AppLocalizations.of(context).howCallYou,
       validator: Validators.verifyEmpty,
       controller: nameController,
       fontSizeLabelText: 16.0,
@@ -183,7 +185,7 @@ class _EditProfileState extends State<EditProfile> {
         SizedBox(height: 16.0.h),
         UnderlineInputText(
           validator: (value) => Validators.verifyLength(value, length: 14, field: 'Telefone'),
-          labelText: MoreStrings.whatsapp,
+          labelText: AppLocalizations.of(context).whatsapp,
           keyboardType: TextInputType.number,
           controller: phoneNumberController,
           fontSizeLabelText: 16.0,
@@ -213,12 +215,14 @@ class _EditProfileState extends State<EditProfile> {
 
             if (widget.isEditingProfile) Get.back();
 
-            ScaffoldMessenger.of(context).showSnackBar(TiuTiuSnackBar(message: MoreStrings.profileUpdated));
+            ScaffoldMessenger.of(context)
+                .showSnackBar(TiuTiuSnackBar(message: AppLocalizations.of(context).profileUpdated));
           } else if (tiutiuUserController.tiutiuUser.avatar == null) {
             systemController.snackBarIsOpen = true;
 
             ScaffoldMessenger.of(context)
-                .showSnackBar(TiuTiuSnackBar(message: MoreStrings.insertAPicture, color: AppColors.danger))
+                .showSnackBar(
+                    TiuTiuSnackBar(message: AppLocalizations.of(context).insertAPicture, color: AppColors.danger))
                 .closed
                 .then((value) => systemController.snackBarIsOpen = false);
           }
@@ -244,7 +248,7 @@ class _EditProfileState extends State<EditProfile> {
   Widget _loadingWidget() {
     return Obx(
       () => LoadDarkScreen(
-        message: MoreStrings.updatingProfile,
+        message: AppLocalizations.of(context).updatingProfile,
         visible: moreController.isLoading,
         roundeCorners: true,
       ),
