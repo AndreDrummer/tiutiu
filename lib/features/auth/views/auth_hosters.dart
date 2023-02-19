@@ -140,7 +140,7 @@ class AuthHosters extends StatelessWidget with TiuTiuPopUp {
             visible: Platform.isIOS,
             child: ButtonWide(
               icon: FontAwesomeIcons.apple,
-              onPressed: _loginWithApple,
+              onPressed: () => _loginWithApple(context),
               textColor: AppColors.black,
               text: AppLocalizations.of(context).apple,
               color: AppColors.white,
@@ -158,14 +158,14 @@ class AuthHosters extends StatelessWidget with TiuTiuPopUp {
           ),
           ButtonWide(
             icon: FontAwesomeIcons.google,
-            onPressed: _loginWithGoogle,
+            onPressed: () => _loginWithGoogle(context),
             text: AppLocalizations.of(context).google,
             color: AppColors.danger,
             isToExpand: true,
           ),
           ButtonWide(
             icon: FontAwesomeIcons.facebook,
-            onPressed: _loginWithFacebook,
+            onPressed: () => _loginWithFacebook(context),
             text: AppLocalizations.of(context).facebook,
             color: AppColors.info,
             isToExpand: true,
