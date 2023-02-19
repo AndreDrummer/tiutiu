@@ -1,15 +1,15 @@
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:tiutiu/core/system/views/loading_start_screen.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:tiutiu/core/utils/routes/routes_name.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/core/utils/routes/router.dart';
 import 'package:tiutiu/core/system/initializer.dart';
-import 'package:intl/date_symbol_data_local.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
@@ -128,8 +128,6 @@ Future<void> main() async {
 
     MobileAds.instance.initialize();
 
-    initializeDateFormatting();
-
     runApp(TiuTiuApp());
   }, (error, stack) => FirebaseCrashlytics.instance.recordError(error, stack));
 }
@@ -165,7 +163,9 @@ class _TiuTiuAppState extends State<TiuTiuApp> {
     return ScreenUtilInit(
       designSize: const Size(360, 690),
       builder: (_, __) => GetMaterialApp(
-        title: 'Tiu, tiu - App',
+        onGenerateTitle: (context) => AppLocalizations.of(context).appName,
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
         theme: ThemeData(
           bottomSheetTheme: BottomSheetThemeData(backgroundColor: Colors.black.withOpacity(0)),
           scaffoldBackgroundColor: Color(0XFFF9F9F9),
