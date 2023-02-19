@@ -17,7 +17,7 @@ import 'package:tiutiu/core/widgets/one_line_text.dart';
 import 'package:tiutiu/core/mixins/tiu_tiu_pop_up.dart';
 import 'package:tiutiu/core/pets/model/pet_model.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
-import 'package:tiutiu/core/constants/strings.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -33,31 +33,31 @@ class PostFlow extends StatelessWidget with TiuTiuPopUp {
           double screenHeight = postsController.flowIndex >= 6 ? Get.height / 1.39 : Get.height;
 
           List<String> _screensTitle = [
-            PostFlowStrings.petsData,
-            PostFlowStrings.moreDetails,
-            PostFlowStrings.otherCaracteristicsOptional,
-            PostFlowStrings.whereIsIt(
+            AppLocalizations.of(context).petsData,
+            AppLocalizations.of(context).moreDetails,
+            AppLocalizations.of(context).otherCaracteristicsOptional,
+            AppLocalizations.of(context).whereIsIt(
               isDisappeared: (postsController.post as Pet).disappeared,
               petGender: (postsController.post as Pet).gender,
               petName: '${postsController.post.name}',
             ),
-            PostFlowStrings.picTime,
-            PostFlowStrings.addVideo,
+            AppLocalizations.of(context).picTime,
+            AppLocalizations.of(context).addVideo,
             postsController.postReviewed
                 ? postsController.isLoading
-                    ? PostFlowStrings.posting
-                    : PostFlowStrings.allDone
-                : PostFlowStrings.reviewYourPost,
+                    ? AppLocalizations.of(context).posting
+                    : AppLocalizations.of(context).allDone
+                : AppLocalizations.of(context).reviewYourPost,
           ];
 
           final _stepsNames = [
-            PostFlowStrings.data,
-            PostFlowStrings.details,
-            PostFlowStrings.otherCaracteristics,
-            PostFlowStrings.local,
-            PostFlowStrings.pictures,
-            PostFlowStrings.videos,
-            PostFlowStrings.review,
+            AppLocalizations.of(context).data,
+            AppLocalizations.of(context).details,
+            AppLocalizations.of(context).otherCaracteristics,
+            AppLocalizations.of(context).local,
+            AppLocalizations.of(context).pictures,
+            AppLocalizations.of(context).videos,
+            AppLocalizations.of(context).review,
           ];
 
           List<Widget> _stepsScreens = [
@@ -73,7 +73,7 @@ class PostFlow extends StatelessWidget with TiuTiuPopUp {
           return Stack(
             children: [
               Scaffold(
-                appBar: _appBar(),
+                appBar: _appBar(context),
                 resizeToAvoidBottomInset: true,
                 backgroundColor: AppColors.white,
                 body: Container(
@@ -95,7 +95,7 @@ class PostFlow extends StatelessWidget with TiuTiuPopUp {
                     ],
                   ),
                 ),
-                bottomNavigationBar: _flowBottom(),
+                bottomNavigationBar: _flowBottom(context),
               ),
               Positioned(
                 child: ChangePostsVisibilityFloatingButtom(visibility: postsController.flowIndex >= 6),
@@ -114,15 +114,15 @@ class PostFlow extends StatelessWidget with TiuTiuPopUp {
     );
   }
 
-  AppBar _appBar() {
+  AppBar _appBar(BuildContext context) {
     return DefaultBasicAppBar(
-      text: postsController.isEditingPost ? PostFlowStrings.editAd : PostFlowStrings.post,
+      text: postsController.isEditingPost ? AppLocalizations.of(context).editAd : AppLocalizations.of(context).post,
       automaticallyImplyLeading: false,
       actions: [
         Padding(
           padding: EdgeInsets.only(right: 16.0.w),
           child: SimpleTextButton(
-            text: AppStrings.cancel,
+            text: AppLocalizations.of(context).cancel,
             onPressed: () async {
               await postsController.showsCancelPostPopUp(isInsideFlow: true).then((shouldGoBack) {
                 if (shouldGoBack) Get.back();
@@ -184,7 +184,7 @@ class PostFlow extends StatelessWidget with TiuTiuPopUp {
     );
   }
 
-  Widget _flowBottom() {
+  Widget _flowBottom(BuildContext context) {
     return Obx(
       () {
         return Container(
@@ -206,13 +206,13 @@ class PostFlow extends StatelessWidget with TiuTiuPopUp {
               postsController.previousStepFlow();
             },
             textPrimary: postsController.isInStepReview()
-                ? PostFlowStrings.reviewButton
+                ? AppLocalizations.of(context).reviewButton
                 : postsController.lastStep()
                     ? postsController.isEditingPost
-                        ? PostFlowStrings.postUpdate
-                        : PostFlowStrings.post
-                    : AppStrings.contines,
-            textSecond: AppStrings.back,
+                        ? AppLocalizations.of(context).postUpdate
+                        : AppLocalizations.of(context).post
+                    : AppLocalizations.of(context).contines,
+            textSecond: AppLocalizations.of(context).back,
           ),
         );
       },

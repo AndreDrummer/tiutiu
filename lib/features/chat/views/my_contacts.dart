@@ -9,7 +9,7 @@ import 'package:tiutiu/features/chat/model/contact.dart';
 import 'package:tiutiu/core/widgets/warning_widget.dart';
 import 'package:tiutiu/core/constants/text_styles.dart';
 import 'package:tiutiu/core/widgets/async_handler.dart';
-import 'package:tiutiu/core/constants/strings.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 
 class MyContacts extends StatefulWidget {
@@ -26,13 +26,13 @@ class _MyContactsState extends State<MyContacts> {
 
     return AuthenticatedArea(
       child: Scaffold(
-        appBar: DefaultBasicAppBar(text: ChatStrings.myMessages),
+        appBar: DefaultBasicAppBar(text: AppLocalizations.of(context).myMessages),
         body: StreamBuilder<List<Contact>>(
           stream: chatController.contacts(),
           builder: (context, contactsSnapshot) {
             return AsyncHandler<List<Contact>>(
               emptyWidget: VerifyAccountWarningInterstitial(
-                child: AutoSizeTexts.autoSizeText16(ChatStrings.noContact),
+                child: AutoSizeTexts.autoSizeText16(AppLocalizations.of(context).noContact),
               ),
               snapshot: contactsSnapshot,
               buildWidget: (contacts) {

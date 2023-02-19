@@ -1,6 +1,6 @@
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/constants/text_styles.dart';
-import 'package:tiutiu/core/constants/strings.dart';
 import 'package:tiutiu/core/utils/formatter.dart';
 import 'package:flutter/material.dart';
 
@@ -17,7 +17,7 @@ class AdPostedAt extends StatelessWidget {
     return SizedBox(
       height: 16.0.h,
       child: AutoSizeTexts.autoSizeText10(
-        '${AppStrings.postedAt} ${Formatters.getFormattedDate(createdAt)}',
+        '${AppLocalizations.of(context).postedAt} ${Formatters.getFormattedDate(createdAt)}',
         color: Colors.grey[700],
         fontWeight: FontWeight.w700,
         textAlign: TextAlign.left,
