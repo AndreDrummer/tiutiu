@@ -6,6 +6,7 @@ import 'package:tiutiu/core/widgets/default_basic_app_bar.dart';
 import 'package:tiutiu/features/posts/flow/5_post_images.dart';
 import 'package:tiutiu/features/posts/flow/7_review_post.dart';
 import 'package:tiutiu/features/posts/flow/6_post_video.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:tiutiu/core/widgets/simple_text_button.dart';
 import 'package:tiutiu/features/posts/flow/1_post_info.dart';
 import 'package:tiutiu/features/posts/widgets/stepper.dart';
@@ -17,7 +18,7 @@ import 'package:tiutiu/core/widgets/one_line_text.dart';
 import 'package:tiutiu/core/mixins/tiu_tiu_pop_up.dart';
 import 'package:tiutiu/core/pets/model/pet_model.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:tiutiu/core/constants/strings.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -36,8 +37,7 @@ class PostFlow extends StatelessWidget with TiuTiuPopUp {
             AppLocalizations.of(context).petsData,
             AppLocalizations.of(context).moreDetails,
             AppLocalizations.of(context).otherCaracteristicsOptional,
-            AppLocalizations.of(context).whereIsIt(
-              isDisappeared: (postsController.post as Pet).disappeared,
+            CustomStrings.talkAboutThisPet(
               petGender: (postsController.post as Pet).gender,
               petName: '${postsController.post.name}',
             ),
