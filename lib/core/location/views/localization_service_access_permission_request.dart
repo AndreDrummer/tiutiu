@@ -1,4 +1,5 @@
 import 'package:tiutiu/core/widgets/default_basic_app_bar.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/widgets/lottie_animation.dart';
@@ -43,7 +44,7 @@ class _LocalizationServiceAccessPermissionAccessState extends State<Localization
     if (kDebugMode) debugPrint('TiuTiuApp: local access denied? ${widget.localAccessDenied ? 'Sim' : 'Não'}');
 
     return Scaffold(
-      appBar: DefaultBasicAppBar(text: LocalPermissionStrings.appBarTitle),
+      appBar: DefaultBasicAppBar(text: AppLocalizations.of(context).appName),
       body: FutureBuilder<PermissionStatus>(
         future: getPermissionStatus(),
         builder: (context, snapshot) {
