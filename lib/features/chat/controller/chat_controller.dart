@@ -16,6 +16,7 @@ import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/features/chat/model/enums.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:tiutiu/core/utils/cesar_cripto.dart';
+import 'package:tiutiu/core/constants/strings.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'dart:convert';
@@ -227,7 +228,7 @@ class ChatController extends GetxController with TiuTiuPopUp {
     );
 
     await showPopUp(
-      message: AppLocalizations.of(Get.context!).watchAnAd(contactType.name, noPreviousData),
+      message: CustomStrings.watchAnAd(contactType, noPreviousData),
       confirmText: AppLocalizations.of(Get.context!).back,
       textColor: AppColors.white,
       mainAction: () async {
