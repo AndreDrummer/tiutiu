@@ -1,3 +1,4 @@
+import 'package:tiutiu/core/constants/strings.dart';
 import 'package:tiutiu/features/dennounce/views/post_dennounce_screen.dart';
 import 'package:tiutiu/features/dennounce/widgets/dennounce_button.dart';
 import 'package:tiutiu/features/admob/constants/admob_block_names.dart';
@@ -586,7 +587,8 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
               : '${post.city} - ${post.state} $describedAddress',
           title: post.disappeared
               ? AppLocalizations.of(context).lastSeen
-              : AppLocalizations.of(context).whereIsIt(
+              : CustomStrings.whereIsThisPet(
+                  isDisappeared: post.disappeared,
                   petGender: post.gender,
                   petName: '${post.name}',
                 ),
