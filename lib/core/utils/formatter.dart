@@ -1,3 +1,4 @@
+import 'package:get/get.dart';
 import 'package:tiutiu/core/utils/other_functions.dart';
 import 'package:tiutiu/core/data/dummy_data.dart';
 import 'package:flutter/foundation.dart';
@@ -107,7 +108,11 @@ class Formatters {
   }
 
   static String formmatedExtendedDate({DateTime? dateTime}) {
-    final formattedDate = DateFormat('EEEE, DD/MM/yyyy', 'pt_Br').format(dateTime ?? DateTime.now().toLocal());
+    final formattedDate = DateFormat(
+      'EEEE, DD/MM/yyyy',
+      Get.locale?.countryCode,
+    ).format(dateTime ?? DateTime.now().toLocal());
+
     final weekday = OtherFunctions.firstCharacterUpper(formattedDate.split(',').first);
 
     return '${weekday.trim()}, ${getExtendedDate()}.';
