@@ -1,10 +1,10 @@
 import 'package:tiutiu/core/extensions/string_extension.dart';
 import 'package:tiutiu/features/posts/widgets/text_area.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/pets/model/pet_model.dart';
 import 'package:tiutiu/features/posts/model/post.dart';
-import 'package:tiutiu/core/constants/strings.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -35,21 +35,21 @@ class LocationSelecter extends StatelessWidget {
         children: [
           Visibility(
             visible: (postsController.post as Pet).disappeared,
-            child: _fillAddressComplimentTextArea(),
-            replacement: _descriptionInputText(),
+            child: _fillAddressComplimentTextArea(context),
+            replacement: _descriptionInputText(context),
           ),
           Divider(),
           Visibility(
             visible: (postsController.post as Pet).disappeared,
-            replacement: _fillAddressComplimentTextArea(),
-            child: _descriptionInputText(),
+            replacement: _fillAddressComplimentTextArea(context),
+            child: _descriptionInputText(context),
           ),
         ],
       ),
     );
   }
 
-  Widget _fillAddressComplimentTextArea() {
+  Widget _fillAddressComplimentTextArea(BuildContext context) {
     return Obx(
       () {
         bool isDisappeared = (postsController.post as Pet).disappeared;
@@ -80,15 +80,16 @@ class LocationSelecter extends StatelessWidget {
             initialValue:
                 isDisappeared ? (postsController.post as Pet).lastSeenDetails : postsController.post.describedAddress,
             isInErrorState: isInErrorState,
-            labelText:
-                (postsController.post as Pet).disappeared ? AppStrings.jotSomethingDown : PostFlowStrings.typeAddress,
+            labelText: (postsController.post as Pet).disappeared
+                ? AppLocalizations.of(context).jotSomethingDown
+                : AppLocalizations.of(context).typeAddress,
           ),
         );
       },
     );
   }
 
-  Widget _descriptionInputText() {
+  Widget _descriptionInputText(BuildContext context) {
     return Obx(
       () => Padding(
         padding: EdgeInsets.symmetric(horizontal: 2.0.w),
@@ -96,8 +97,8 @@ class LocationSelecter extends StatelessWidget {
           isInErrorState: !postsController.post.description.isNotEmptyNeighterNull() && !postsController.formIsValid,
           initialValue: postsController.post.description,
           labelText: (postsController.post as Pet).disappeared
-              ? PostFlowStrings.talkAboutThisPet
-              : AppStrings.jotSomethingDown,
+              ? AppLocalizations.of(context).talkAboutThisPet
+              : AppLocalizations.of(context).jotSomethingDown,
           maxLines: 4,
           onChanged: (description) {
             postsController.updatePost(PostEnum.description.name, description);

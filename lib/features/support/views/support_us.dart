@@ -8,7 +8,7 @@ import 'package:tiutiu/core/widgets/async_handler.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/core/widgets/button_wide.dart';
 import 'package:tiutiu/core/utils/asset_handle.dart';
-import 'package:tiutiu/core/constants/strings.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -102,11 +102,13 @@ class SupportUs extends StatelessWidget {
       onPressed: () async {
         await Clipboard.setData(ClipboardData(text: key)).then(
           (_) {
-            ScaffoldMessenger.of(context).showSnackBar(TiuTiuSnackBar(message: SupportUsStrings.keyPixCopied));
+            ScaffoldMessenger.of(context).showSnackBar(
+              TiuTiuSnackBar(message: AppLocalizations.of(context).keyPixCopied),
+            );
           },
         );
       },
-      text: SupportUsStrings.copyKey,
+      text: AppLocalizations.of(context).copyKey,
       icon: Icons.copy,
       rounded: false,
     );

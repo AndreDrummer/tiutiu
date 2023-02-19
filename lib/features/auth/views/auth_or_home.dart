@@ -7,7 +7,7 @@ import 'package:tiutiu/core/utils/routes/routes_name.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/widgets/async_handler.dart';
 import 'package:tiutiu/features/home/views/home.dart';
-import 'package:tiutiu/core/constants/strings.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -43,7 +43,7 @@ class _AuthOrHomeState extends State<AuthOrHome> {
       future: authController.tryAutoLoginIn(),
       builder: (_, AsyncSnapshot snapshot) {
         return AsyncHandler(
-          errorMessage: AppStrings.authError,
+          errorMessage: AppLocalizations.of(context).authError,
           loadingWidget: SplashScreenLoading(),
           onErrorCallback: () async {
             await authController.signOut().then((_) {

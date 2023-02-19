@@ -1,9 +1,9 @@
 import 'package:tiutiu/features/dennounce/services/dennounce_services.dart';
 import 'package:tiutiu/features/dennounce/model/post_dennounce.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:tiutiu/features/posts/utils/post_utils.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/pets/model/pet_model.dart';
-import 'package:tiutiu/core/constants/strings.dart';
-import 'package:tiutiu/features/posts/utils/post_utils.dart';
 import 'package:uuid/uuid.dart';
 import 'package:get/get.dart';
 
@@ -47,8 +47,9 @@ class PostDennounceController extends GetxController {
     updatePostDennounce(PostDennounceEnum.uid, Uuid().v4());
 
     await DennounceServices().uploadPostDennounceData(postDennounce);
-    if (postDennounce.motive == PostDennounceStrings.other) {
-      postsController.increasePostDennounces('${PostDennounceStrings.other}: ${postDennounce.description}');
+    if (postDennounce.motive == AppLocalizations.of(Get.context!).other) {
+      postsController
+          .increasePostDennounces('${AppLocalizations.of(Get.context!).other}: ${postDennounce.description}');
     } else {
       postsController.increasePostDennounces(postDennounce.motive);
     }
@@ -77,14 +78,14 @@ class PostDennounceController extends GetxController {
   static PostDennounce _defaultPostDennounce() {
     return PostDennounce(
       dennouncer: tiutiuUserController.tiutiuUser,
-      motive: PostDennounceStrings.other,
+      motive: AppLocalizations.of(Get.context!).other,
     );
   }
 
   final _dennouncePostMotives = [
-    PostDennounceStrings.announceNoAnswer,
-    PostDennounceStrings.sexualContent,
-    PostDennounceStrings.fake,
-    PostDennounceStrings.other,
+    AppLocalizations.of(Get.context!).announceNoAnswer,
+    AppLocalizations.of(Get.context!).sexualContent,
+    AppLocalizations.of(Get.context!).fake,
+    AppLocalizations.of(Get.context!).other,
   ];
 }

@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/widgets/one_line_text.dart';
 import 'package:tiutiu/core/constants/text_styles.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
-import 'package:tiutiu/core/constants/strings.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -24,8 +24,8 @@ class DennouncePopupContent extends StatelessWidget {
 
   final void Function(String)? onMotiveDescribed;
   final Function(int?) onMotiveUpdate;
-  final List<String> dennounceMotives;
   final String denounceDescription;
+  final List dennounceMotives;
   final Function() onSubmit;
   final bool motiveIsOther;
   final Function() cancel;
@@ -39,26 +39,26 @@ class DennouncePopupContent extends StatelessWidget {
       padding: EdgeInsets.zero,
       shrinkWrap: true,
       children: [
-        _title(),
-        _content(),
-        _bottom(),
+        _title(context),
+        _content(context),
+        _bottom(context),
       ],
     );
   }
 
-  Column _title() {
+  Column _title(BuildContext context) {
     return Column(
       children: [
         Padding(
           padding: const EdgeInsets.all(8.0),
-          child: OneLineText(text: DennounceStrings.whichIsDennounceMotive, fontSize: 18),
+          child: OneLineText(text: AppLocalizations.of(context).whichIsDennounceMotive, fontSize: 18),
         ),
         Divider(),
       ],
     );
   }
 
-  Widget _content() {
+  Widget _content(BuildContext context) {
     return Container(
       alignment: Alignment.topCenter,
       margin: EdgeInsets.zero,
@@ -82,7 +82,7 @@ class DennouncePopupContent extends StatelessWidget {
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: 16.0.w),
               child: TextArea(
-                labelText: DennounceStrings.specifyDennounceMotive,
+                labelText: AppLocalizations.of(context).specifyDennounceMotive,
                 initialValue: denounceDescription,
                 onChanged: onMotiveDescribed,
                 isInErrorState: hasError,
@@ -94,7 +94,7 @@ class DennouncePopupContent extends StatelessWidget {
     );
   }
 
-  Column _bottom() {
+  Column _bottom(BuildContext context) {
     return Column(
       children: [
         Divider(),
@@ -104,7 +104,7 @@ class DennouncePopupContent extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               TextButton(
-                child: AutoSizeTexts.autoSizeText14(AppStrings.cancel),
+                child: AutoSizeTexts.autoSizeText14(AppLocalizations.of(context).cancel),
                 onPressed: () {
                   Get.back();
                   cancel();
@@ -113,7 +113,7 @@ class DennouncePopupContent extends StatelessWidget {
               Visibility(
                 replacement: _circularProgressIndicator(),
                 child: TextButton(
-                  child: AutoSizeTexts.autoSizeText14(DennounceStrings.dennounce),
+                  child: AutoSizeTexts.autoSizeText14(AppLocalizations.of(context).dennounce),
                   onPressed: onSubmit,
                 ),
                 visible: !isLoading,

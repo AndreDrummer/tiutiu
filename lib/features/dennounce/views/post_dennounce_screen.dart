@@ -1,9 +1,9 @@
 import 'package:tiutiu/features/dennounce/widgets/dennonuce_popup_content.dart';
 import 'package:tiutiu/features/dennounce/model/post_dennounce.dart';
 import 'package:tiutiu/core/extensions/string_extension.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/widgets/tiutiu_snackbar.dart';
-import 'package:tiutiu/core/constants/strings.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -13,7 +13,7 @@ class PostDennounceScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Obx(() {
-      final motiveIsOther = postDennounceController.postDennounce.motive == PostDennounceStrings.other;
+      final motiveIsOther = postDennounceController.postDennounce.motive == AppLocalizations.of(context).other;
       final denounceDescription = postDennounceController.postDennounce.description;
       final motives = postDennounceController.dennouncePostMotives;
 
@@ -63,7 +63,9 @@ class PostDennounceScreen extends StatelessWidget {
       postDennounceController.submit().then((_) {
         Get.back();
 
-        ScaffoldMessenger.of(context).showSnackBar(TiuTiuSnackBar(message: DennounceStrings.dennounceSentSuccessfully));
+        ScaffoldMessenger.of(context).showSnackBar(
+          TiuTiuSnackBar(message: AppLocalizations.of(context).dennounceSentSuccessfully),
+        );
       });
     } else {
       postDennounceController.hasError = true;

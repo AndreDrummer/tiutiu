@@ -15,7 +15,7 @@ import 'package:tiutiu/features/posts/model/post.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/features/chat/model/enums.dart';
 import 'package:tiutiu/core/utils/asset_handle.dart';
-import 'package:tiutiu/core/constants/strings.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:tiutiu/core/utils/dimensions.dart';
 import 'package:tiutiu/core/utils/formatter.dart';
 import 'package:flutter/material.dart';
@@ -58,7 +58,7 @@ class ChatScreen extends StatelessWidget with TiuTiuPopUp {
                   builder: (context, snapshot) {
                     return AsyncHandler<List<Message>>(
                       emptyWidget: AutoSizeTexts.autoSizeText16(
-                        ChatStrings.startConversation,
+                        AppLocalizations.of(context).startConversation,
                         fontWeight: FontWeight.bold,
                         color: AppColors.white,
                       ),
@@ -94,7 +94,7 @@ class ChatScreen extends StatelessWidget with TiuTiuPopUp {
                 ),
               ),
               Positioned(
-                child: _appBar(),
+                child: _appBar(context),
                 top: 0.0.h,
               ),
             ],
@@ -105,7 +105,7 @@ class ChatScreen extends StatelessWidget with TiuTiuPopUp {
     );
   }
 
-  Widget _appBar() {
+  Widget _appBar(BuildContext context) {
     return Column(
       children: [
         Card(
@@ -159,15 +159,15 @@ class ChatScreen extends StatelessWidget with TiuTiuPopUp {
 
                       if (item == ChatActionsEnum.deleteChat.name) {
                         showPopUp(
-                          message: ChatStrings.deleteMessageQuestion,
+                          message: AppLocalizations.of(context).deleteMessageQuestion,
                           backGroundColor: AppColors.danger,
-                          title: ChatStrings.deleteChat,
+                          title: AppLocalizations.of(context).deleteChat,
                           secondaryAction: () {
                             Get.back();
                             chatController.deleteChat(loggedUserId).then((_) => Get.back());
                           },
-                          confirmText: AppStrings.yes,
-                          denyText: AppStrings.no,
+                          confirmText: AppLocalizations.of(context).yes,
+                          denyText: AppLocalizations.of(context).no,
                           mainAction: Get.back,
                         );
                       }
@@ -175,11 +175,11 @@ class ChatScreen extends StatelessWidget with TiuTiuPopUp {
                     itemBuilder: (context) => <PopupMenuEntry<String>>[
                       PopupMenuItem<String>(
                         value: ChatActionsEnum.deleteChat.name,
-                        child: Text(ChatStrings.deleteChat),
+                        child: Text(AppLocalizations.of(context).deleteChat),
                       ),
                       PopupMenuItem<String>(
-                        child: Text(
-                            ChatStrings.dennounceUser(chatController.userChatingWith.displayName!.split(' ').first)),
+                        child: Text(AppLocalizations.of(context)
+                            .dennounceUser(chatController.userChatingWith.displayName!.split(' ').first)),
                         value: ChatActionsEnum.dennounceUser.name,
                       ),
                     ],

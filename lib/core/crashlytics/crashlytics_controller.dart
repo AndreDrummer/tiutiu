@@ -1,10 +1,10 @@
 import 'package:tiutiu/core/local_storage/local_storage_keys.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:tiutiu/core/local_storage/local_storage.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/mixins/tiu_tiu_pop_up.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
-import 'package:tiutiu/core/constants/strings.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 
@@ -54,12 +54,12 @@ class CrashlyticsController extends GetxController with TiuTiuPopUp {
 
   Future<void> _promptRequestToTrack() async {
     showPopUp(
-      message: AppStrings.crashlyticsInfo,
+      message: AppLocalizations.of(Get.context!).crashlyticsInfo,
       backGroundColor: AppColors.info,
-      confirmText: AppStrings.yes,
-      title: AppStrings.warning,
+      confirmText: AppLocalizations.of(Get.context!).yes,
+      title: AppLocalizations.of(Get.context!).warning,
       barrierDismissible: false,
-      denyText: AppStrings.no,
+      denyText: AppLocalizations.of(Get.context!).no,
       mainAction: () {
         Get.back();
         _setCrashlyticsCollectionEnabled(value: false);

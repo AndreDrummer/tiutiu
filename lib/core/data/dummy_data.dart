@@ -1,4 +1,5 @@
-import 'package:tiutiu/core/constants/strings.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:get/get.dart';
 
 class DummyData {
   static const otherCaracteristicsList = [
@@ -20,7 +21,7 @@ class DummyData {
 
   static Map<String, List<String>> breeds = {
     '-': ['-'],
-    PetTypeStrings.dog: [
+    AppLocalizations.of(Get.context!).dog: [
       '',
       '-',
       'SRD - Sem Raça Definida',
@@ -74,7 +75,7 @@ class DummyData {
       'Weimaraner',
       'Yorkshire'
     ],
-    PetTypeStrings.cat: [
+    AppLocalizations.of(Get.context!).cat: [
       '',
       '-',
       'SRD - Sem Raça Definida',
@@ -129,7 +130,7 @@ class DummyData {
       'Usuri',
       'Sem raça definida',
     ],
-    PetTypeStrings.bird: [
+    AppLocalizations.of(Get.context!).bird: [
       '',
       '-',
       'Abelharuco',
@@ -279,20 +280,20 @@ class DummyData {
 
   static List<String> health = [
     '-',
-    PetHealthString.chronicDisease,
-    PetHealthString.palliative,
-    PetHealthString.preganant,
-    PetHealthString.healthy,
-    PetHealthString.hurted,
-    PetHealthString.ill,
+    AppLocalizations.of(Get.context!).chronicDisease,
+    AppLocalizations.of(Get.context!).palliative,
+    AppLocalizations.of(Get.context!).preganant,
+    AppLocalizations.of(Get.context!).healthy,
+    AppLocalizations.of(Get.context!).hurted,
+    AppLocalizations.of(Get.context!).ill,
   ];
 
   static List<String> gender = [
     '-',
-    PostDetailsStrings.male,
-    PostDetailsStrings.female,
-    PostDetailsStrings.hermaphrodite,
-    PostDetailsStrings.none,
+    AppLocalizations.of(Get.context!).male,
+    AppLocalizations.of(Get.context!).female,
+    AppLocalizations.of(Get.context!).hermaphrodite,
+    AppLocalizations.of(Get.context!).none,
   ];
 
   static const catColors = [

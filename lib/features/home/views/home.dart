@@ -18,7 +18,7 @@ import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/mixins/tiu_tiu_pop_up.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/features/more/views/more.dart';
-import 'package:tiutiu/core/constants/strings.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:tiutiu/core/utils/dimensions.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -63,12 +63,12 @@ class _HomeState extends State<Home> with TiuTiuPopUp {
 
               return showPopUp(
                 backGroundColor: AppColors.warning,
-                message: AppStrings.wannaLeave,
-                confirmText: AppStrings.yes,
+                message: AppLocalizations.of(context).wannaLeave,
+                confirmText: AppLocalizations.of(context).yes,
                 textColor: AppColors.black,
                 barrierDismissible: false,
-                title: AppStrings.endApp,
-                denyText: AppStrings.no,
+                title: AppLocalizations.of(context).endApp,
+                denyText: AppLocalizations.of(context).no,
                 mainAction: () {
                   Get.back();
                 },
@@ -160,7 +160,7 @@ class _HomeState extends State<Home> with TiuTiuPopUp {
     final List<Sponsored> sponsoreds = sponsoredController.sponsoreds;
 
     final showingSponsoredAds = configs.showSponsoredAds && sponsoreds.isNotEmpty;
-    final isFilteringByName = filterController.filterParams.value.orderBy == FilterStrings.name;
+    final isFilteringByName = filterController.filterParams.value.orderBy == AppLocalizations.of(context).name;
     final appIsClosed = systemController.isToCloseApp;
 
     final conditionToAddHeight = !appIsClosed &&

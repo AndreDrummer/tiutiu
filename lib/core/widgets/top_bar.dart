@@ -1,15 +1,15 @@
-import 'package:tiutiu/core/utils/other_functions.dart';
 import 'package:tiutiu/features/sponsored/views/sponsored_horizontal_list.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiutiu/features/posts/model/filter_params.dart';
 import 'package:tiutiu/core/extensions/string_extension.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:tiutiu/core/widgets/input_close_button.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/widgets/warning_widget.dart';
 import 'package:tiutiu/core/constants/text_styles.dart';
+import 'package:tiutiu/core/utils/other_functions.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
-import 'package:tiutiu/core/constants/strings.dart';
 import 'package:tiutiu/core/utils/formatter.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -37,13 +37,13 @@ class _TopBarState extends State<TopBar> {
               Obx(
                 () => Visibility(
                   replacement: SponsoredHorizontalList(),
-                  visible: filterController.filterParams.value.orderBy == FilterStrings.name,
+                  visible: filterController.filterParams.value.orderBy == AppLocalizations.of(context).name,
                   child: _userSearchInput(context, _fieldController),
                 ),
               ),
               WarningBanner(
                 showBannerCondition: !systemController.properties.internetConnected && postsController.posts.isNotEmpty,
-                textWarning: AppStrings.noConnectionWarning,
+                textWarning: AppLocalizations.of(context).noConnectionWarning,
                 padding: EdgeInsets.all(2.0.h),
                 replacement: SizedBox.shrink(),
                 tileColor: AppColors.warning,
@@ -85,7 +85,7 @@ class _TopBarState extends State<TopBar> {
                 },
               ),
             ),
-            hintText: HomeStrings.searchForName,
+            hintText: AppLocalizations.of(context).searchForName,
             enabledBorder: _inputBorder(),
             errorBorder: _inputBorder(),
             border: _inputBorder(),
@@ -127,7 +127,7 @@ class _TopBarState extends State<TopBar> {
         ? tiutiuUserController.tiutiuUser.displayName?.replaceAll(',', ' ').replaceAll('.', ' ').split(' ').first
         : null;
 
-    String greeting = OtherFunctions.getGreetingBasedOnTime();
+    String greeting = OtherFunctions.getGreetingBasedOnTime(context);
 
     return '${userName.isNotEmptyNeighterNull() ? greeting + ', $userName' : greeting}' + '!';
   }

@@ -2,12 +2,12 @@ import 'package:tiutiu/features/posts/validators/form_validators.dart';
 import 'package:tiutiu/core/widgets/underline_input_dropdown.dart';
 import 'package:tiutiu/core/extensions/string_extension.dart';
 import 'package:tiutiu/features/posts/widgets/text_area.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/widgets/underline_text.dart';
 import 'package:tiutiu/features/posts/model/post.dart';
 import 'package:tiutiu/core/pets/model/pet_model.dart';
-import 'package:tiutiu/core/constants/strings.dart';
 import 'package:tiutiu/core/utils/validators.dart';
 import 'package:tiutiu/core/data/dummy_data.dart';
 import 'package:flutter/material.dart';
@@ -21,10 +21,10 @@ class PostInfo extends StatelessWidget {
         padding: EdgeInsets.only(top: 8.0.h),
         children: [
           _petName(),
-          _gender(),
-          _petSize(),
+          _gender(context),
+          _petSize(context),
           SizedBox(height: 24.0.h),
-          _health(),
+          _health(context),
         ],
       ),
     );
@@ -44,7 +44,7 @@ class PostInfo extends StatelessWidget {
               nameKeyForm.currentState!.validate();
               postsController.updatePost(PostEnum.name.name, name.trim());
             },
-            labelText: PostFlowStrings.petName,
+            labelText: AppLocalizations.of(Get.context!).petName,
             fontSizeLabelText: 12.0,
           ),
         ),
@@ -52,37 +52,33 @@ class PostInfo extends StatelessWidget {
     );
   }
 
-  UnderlineInputDropdown _gender() {
+  UnderlineInputDropdown _gender(BuildContext context) {
     final petType = (postsController.post as Pet).type;
     late List<String> items;
 
-    switch (petType) {
-      case PetTypeStrings.dog:
-      case PetTypeStrings.cat:
-        items = DummyData.gender.sublist(0, 3);
-        break;
-
-      default:
-        items = DummyData.gender;
+    if (petType == AppLocalizations.of(Get.context!).dog || petType == AppLocalizations.of(Get.context!).cat) {
+      items = DummyData.gender.sublist(0, 3);
+    } else {
+      items = DummyData.gender;
     }
 
     return UnderlineInputDropdown(
       isInErrorState: !(postsController.post as Pet).gender.isNotEmptyNeighterNull() && !postsController.formIsValid,
       initialValue: (postsController.post as Pet).gender.toString(),
       onChanged: (gender) {
-        if (gender == PostDetailsStrings.male) {
+        if (gender == AppLocalizations.of(context).male) {
           postsController.updatePost(PetEnum.health.name, '-');
         }
 
         postsController.updatePost(PetEnum.gender.name, gender);
       },
-      labelText: PostDetailsStrings.sex,
+      labelText: AppLocalizations.of(context).sex,
       items: items,
       fontSize: 10,
     );
   }
 
-  Padding _petSize() {
+  Padding _petSize(BuildContext context) {
     return Padding(
       padding: EdgeInsets.only(top: 32.0.h),
       child: UnderlineInputDropdown(
@@ -91,21 +87,21 @@ class PostInfo extends StatelessWidget {
         onChanged: (size) {
           postsController.updatePost(PetEnum.size.name, size);
         },
-        labelText: PostFlowStrings.size,
+        labelText: AppLocalizations.of(context).size,
         items: DummyData.size,
         fontSize: 10,
       ),
     );
   }
 
-  Widget _health() {
-    final petIsMale = (postsController.post as Pet).gender == PostDetailsStrings.male;
+  Widget _health(BuildContext context) {
+    final petIsMale = (postsController.post as Pet).gender == AppLocalizations.of(context).male;
     List<String> healthState = DummyData.health;
 
     if (petIsMale) {
-      healthState.remove(PetHealthString.preganant);
-    } else if (!healthState.contains(PetHealthString.preganant)) {
-      healthState.add(PetHealthString.preganant);
+      healthState.remove(AppLocalizations.of(context).preganant);
+    } else if (!healthState.contains(AppLocalizations.of(context).preganant)) {
+      healthState.add(AppLocalizations.of(context).preganant);
     }
 
     return AnimatedContainer(
@@ -121,17 +117,17 @@ class PostInfo extends StatelessWidget {
             onChanged: (health) {
               postsController.updatePost(PetEnum.health.name, health);
             },
-            labelText: PostDetailsStrings.health,
+            labelText: AppLocalizations.of(context).health,
             items: healthState,
             fontSize: 10,
           ),
-          _chronicDiseaseInfo(),
+          _chronicDiseaseInfo(context),
         ],
       ),
     );
   }
 
-  Visibility _chronicDiseaseInfo() {
+  Visibility _chronicDiseaseInfo(BuildContext context) {
     return Visibility(
       visible: postsController.existChronicDisease,
       child: Container(
@@ -152,7 +148,7 @@ class PostInfo extends StatelessWidget {
               },
               initialValue: (postsController.post as Pet).chronicDiseaseInfo,
               validator: postsController.existChronicDisease ? Validators.verifyEmpty : null,
-              labelText: PostFlowStrings.describeDiseaseType,
+              labelText: AppLocalizations.of(context).describeDiseaseType,
             ),
           ),
         ),

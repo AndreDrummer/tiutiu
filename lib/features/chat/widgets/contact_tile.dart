@@ -8,7 +8,7 @@ import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/core/widgets/custom_badge.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:tiutiu/core/utils/asset_handle.dart';
-import 'package:tiutiu/core/constants/strings.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:tiutiu/core/utils/formatter.dart';
 import 'package:flutter/material.dart';
 
@@ -60,7 +60,7 @@ class ContactTile extends StatelessWidget {
                 Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    CustomBadge(color: AppColors.primary, text: ChatStrings.news, show: hasNewMessage),
+                    CustomBadge(color: AppColors.primary, text: AppLocalizations.of(context).news, show: hasNewMessage),
                     Padding(
                       child: AutoSizeTexts.autoSizeText10(Formatters.getFormattedTime(date.toIso8601String())),
                       padding: EdgeInsets.symmetric(vertical: 2.0.h),

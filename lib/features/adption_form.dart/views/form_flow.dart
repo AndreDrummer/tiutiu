@@ -15,7 +15,7 @@ import 'package:tiutiu/core/views/load_dark_screen.dart';
 import 'package:tiutiu/core/widgets/one_line_text.dart';
 import 'package:tiutiu/core/mixins/tiu_tiu_pop_up.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
-import 'package:tiutiu/core/constants/strings.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -48,7 +48,7 @@ class AdoptionFormFlow extends StatelessWidget with TiuTiuPopUp {
                 Scaffold(
                   appBar: DefaultBasicAppBar(text: title, automaticallyImplyLeading: true),
                   body: steps.elementAt(adoptionFormController.formStep),
-                  bottomNavigationBar: _flowBottom(),
+                  bottomNavigationBar: _flowBottom(context),
                 ),
                 Positioned(
                   right: Get.width / 2.25,
@@ -75,7 +75,7 @@ class AdoptionFormFlow extends StatelessWidget with TiuTiuPopUp {
     );
   }
 
-  Widget _flowBottom() {
+  Widget _flowBottom(BuildContext context) {
     return Obx(
       () {
         return SizedBox(
@@ -94,7 +94,7 @@ class AdoptionFormFlow extends StatelessWidget with TiuTiuPopUp {
                 onPrimaryPressed: () {
                   if (adoptionFormController.lastStep()) {
                     adoptionFormController.saveForm().then((_) {
-                      showSuccessPopup();
+                      showSuccessPopup(context);
                     });
                   } else {
                     adoptionFormController.nextStep();
@@ -105,10 +105,10 @@ class AdoptionFormFlow extends StatelessWidget with TiuTiuPopUp {
                 },
                 textPrimary: adoptionFormController.lastStep()
                     ? adoptionFormController.isEditing
-                        ? AdoptionFormStrings.update
-                        : AppStrings.save
-                    : AppStrings.contines,
-                textSecond: AppStrings.back,
+                        ? AppLocalizations.of(context).update
+                        : AppLocalizations.of(context).save
+                    : AppLocalizations.of(context).contines,
+                textSecond: AppLocalizations.of(context).back,
               ),
             ],
           ),
@@ -117,15 +117,15 @@ class AdoptionFormFlow extends StatelessWidget with TiuTiuPopUp {
     );
   }
 
-  void showSuccessPopup() {
+  void showSuccessPopup(BuildContext context) {
     showPopUp(
-      title: AppStrings.success,
-      message: AdoptionFormStrings.formFilledSuccess,
-      denyText: AdoptionFormStrings.justThis,
-      confirmText: AppStrings.share,
+      title: AppLocalizations.of(context).success,
+      message: AppLocalizations.of(context).formFilledSuccess,
+      denyText: AppLocalizations.of(context).justThis,
+      confirmText: AppLocalizations.of(context).share,
       secondaryAction: () {
         Get.back();
-        showSharePopup();
+        showSharePopup(context);
       },
       mainAction: () {
         Get.back();
@@ -135,12 +135,12 @@ class AdoptionFormFlow extends StatelessWidget with TiuTiuPopUp {
     );
   }
 
-  void showSharePopup() {
+  void showSharePopup(BuildContext context) {
     showPopUp(
-      title: AppStrings.share,
-      message: AdoptionFormStrings.chooseFormFormat,
-      denyText: AppStrings.txt,
-      confirmText: AppStrings.pdf,
+      title: AppLocalizations.of(context).share,
+      message: AppLocalizations.of(context).chooseFormFormat,
+      denyText: AppLocalizations.of(context).txt,
+      confirmText: AppLocalizations.of(context).pdf,
       secondaryAction: () {
         Get.back();
         adoptionFormController.shareFormPDF();

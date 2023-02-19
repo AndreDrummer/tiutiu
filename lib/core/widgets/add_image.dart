@@ -1,9 +1,9 @@
 import 'package:tiutiu/core/widgets/animated_text_icon_button.dart';
 import 'package:tiutiu/features/posts/widgets/ad_picture.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/widgets/one_line_text.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
-import 'package:tiutiu/core/constants/strings.dart';
 import 'package:tiutiu/core/utils/pickers.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -80,7 +80,8 @@ class _AddImageState extends State<AddImage> with Pickers {
   Widget _insertPicturesLabel() {
     return OneLineText(
       widgetAlignment: photosFrameQty == 1 ? Alignment.center : Alignment(-0.9, 1),
-      text: '${PostFlowStrings.insertAtLeastOnePicture} (${widget.addedImagesQty} / ${widget.maxImagesQty})',
+      text:
+          '${AppLocalizations.of(context).insertAtLeastOnePicture} (${widget.addedImagesQty} / ${widget.maxImagesQty})',
       color: widget.hasError ? AppColors.danger : null,
       fontWeight: FontWeight.w500,
     );
@@ -131,7 +132,7 @@ class _AddImageState extends State<AddImage> with Pickers {
 
     return AnimatedTextIconButton(
       showCondition: (photosQty == photosFrameQty) && photosFrameQty < widget.maxImagesQty,
-      textLabel: PostFlowStrings.addMorePictures,
+      textLabel: AppLocalizations.of(context).addMorePictures,
       onPressed: () {
         increasePhotosQty();
         _picturesListController.animateTo(
