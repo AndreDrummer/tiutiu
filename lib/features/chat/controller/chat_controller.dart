@@ -2,6 +2,7 @@ import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
 import 'package:tiutiu/core/local_storage/local_storage_keys.dart';
 import 'package:tiutiu/features/chat/services/chat_service.dart';
 import 'package:tiutiu/core/local_storage/local_storage.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:tiutiu/features/posts/utils/post_utils.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:tiutiu/core/utils/routes/routes_name.dart';
@@ -15,7 +16,6 @@ import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/features/chat/model/enums.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:tiutiu/core/utils/cesar_cripto.dart';
-import 'package:tiutiu/core/constants/strings.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'dart:convert';
@@ -227,8 +227,8 @@ class ChatController extends GetxController with TiuTiuPopUp {
     );
 
     await showPopUp(
-      message: AppStrings.watchAnAd(contactType, noPreviousData),
-      confirmText: AppStrings.back,
+      message: AppLocalizations.of(Get.context!).watchAnAd(contactType.name, noPreviousData),
+      confirmText: AppLocalizations.of(Get.context!).back,
       textColor: AppColors.white,
       mainAction: () async {
         Get.back();
@@ -238,9 +238,9 @@ class ChatController extends GetxController with TiuTiuPopUp {
         Get.back();
       },
       backGroundColor: contactTypeIsWpp ? AppColors.success : AppColors.secondary,
-      denyText: AppStrings.watch,
+      denyText: AppLocalizations.of(Get.context!).watch,
       barrierDismissible: false,
-      title: AppStrings.warning,
+      title: AppLocalizations.of(Get.context!).warning,
     );
   }
 }

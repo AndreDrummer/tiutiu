@@ -8,7 +8,7 @@ import 'package:tiutiu/core/widgets/tiutiu_snackbar.dart';
 import 'package:tiutiu/core/constants/text_styles.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/core/widgets/button_wide.dart';
-import 'package:tiutiu/core/constants/strings.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:tiutiu/core/utils/formatter.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -117,7 +117,9 @@ class _VerifyPhoneState extends State<VerifyPhone> {
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: AutoSizeTexts.autoSizeText24(
-              authController.numberVerified ? AuthStrings.numberVerified : AuthStrings.verifyYourNumber,
+              authController.numberVerified
+                  ? AppLocalizations.of(context).numberVerified
+                  : AppLocalizations.of(context).verifyYourNumber,
               color: AppColors.primary,
             ),
           ),
@@ -138,7 +140,7 @@ class _VerifyPhoneState extends State<VerifyPhone> {
               Icon(Icons.tips_and_updates, size: 10.0.h, color: AppColors.secondary),
               SizedBox(width: 4.0.w),
               AutoSizeTexts.autoSizeText14(
-                AuthStrings.friendlyReminderToAdd9Digit,
+                AppLocalizations.of(context).friendlyReminderToAdd9Digit,
                 textAlign: TextAlign.center,
                 color: AppColors.secondary,
               ),
@@ -147,8 +149,8 @@ class _VerifyPhoneState extends State<VerifyPhone> {
           SizedBox(height: 8.0.h),
           AutoSizeTexts.autoSizeText18(
             authController.isWhatsappTokenValid
-                ? AuthStrings.insertCodeSentToNumber
-                : AuthStrings.weWilSendACodeToThisNumber,
+                ? AppLocalizations.of(context).insertCodeSentToNumber
+                : AppLocalizations.of(context).weWilSendACodeToThisNumber,
             textAlign: TextAlign.center,
           ),
           SizedBox(height: 8.0.h),
@@ -174,7 +176,7 @@ class _VerifyPhoneState extends State<VerifyPhone> {
             child: Padding(
               padding: EdgeInsets.symmetric(vertical: 8.0.h),
               child: AutoSizeTexts.autoSizeText14(
-                AuthStrings.confirmeIfThisNumberIsCorrect,
+                AppLocalizations.of(context).confirmeIfThisNumberIsCorrect,
                 fontWeight: FontWeight.w600,
                 textAlign: TextAlign.center,
               ),
@@ -220,7 +222,7 @@ class _VerifyPhoneState extends State<VerifyPhone> {
     return Visibility(
       visible: hasError,
       child: AutoSizeTexts.autoSizeText12(
-        AuthStrings.invalidCode,
+        AppLocalizations.of(context).invalidCode,
         color: AppColors.danger,
       ),
     );
@@ -240,13 +242,13 @@ class _VerifyPhoneState extends State<VerifyPhone> {
             child: Column(
               children: [
                 AutoSizeTexts.autoSizeText14(
-                  AuthStrings.codeIsValidForMinutes,
+                  AppLocalizations.of(context).codeIsValidForMinutes,
                   fontWeight: FontWeight.w300,
                 ),
                 Padding(
                   padding: EdgeInsets.symmetric(vertical: 16.0.h),
                   child: AutoSizeTexts.autoSizeText14(
-                    '${AppStrings.wait} ${Formatters.timeSecondsFormmated(_secondsToExpirate ?? 0)} para receber outro código',
+                    '${AppLocalizations.of(context).wait} ${Formatters.timeSecondsFormmated(_secondsToExpirate ?? 0)} para receber outro código',
                     fontWeight: FontWeight.w600,
                   ),
                 ),
@@ -269,7 +271,7 @@ class _VerifyPhoneState extends State<VerifyPhone> {
               await authController.sendWhatsAppCode();
               restartTimer();
             },
-            text: AuthStrings.confirmAndReceiveCode,
+            text: AppLocalizations.of(context).confirmAndReceiveCode,
           ),
         ),
         Visibility(
@@ -278,7 +280,7 @@ class _VerifyPhoneState extends State<VerifyPhone> {
             onPressed: () async {
               Get.toNamed(Routes.editProfile);
             },
-            text: AuthStrings.editPhoneNumber,
+            text: AppLocalizations.of(context).editPhoneNumber,
           ),
         ),
       ],
@@ -319,7 +321,9 @@ class _VerifyPhoneState extends State<VerifyPhone> {
                   }
                 });
               },
-              text: authController.numberVerified ? AppStrings.contines : AuthStrings.validate,
+              text: authController.numberVerified
+                  ? AppLocalizations.of(context).contines
+                  : AppLocalizations.of(context).validate,
             ),
           ),
         ),

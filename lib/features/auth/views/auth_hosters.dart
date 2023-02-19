@@ -11,7 +11,7 @@ import 'package:tiutiu/core/mixins/tiu_tiu_pop_up.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/core/widgets/tiutiu_logo.dart';
 import 'package:tiutiu/core/widgets/button_wide.dart';
-import 'package:tiutiu/core/constants/strings.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -29,21 +29,21 @@ class AuthHosters extends StatelessWidget with TiuTiuPopUp {
           _backgroundImage(),
           _gradient(),
           _appLogo(),
-          _adoptionForm(),
+          _adoptionForm(context),
           Positioned(
             bottom: 64.0.h,
             left: 8.0,
             right: 8.0,
             child: Column(
               children: [
-                _headline(),
+                _headline(context),
                 SizedBox(height: 16.0.h),
                 _authButtons(context),
                 _docButtons(context),
               ],
             ),
           ),
-          _loadingWidget(),
+          _loadingWidget(context),
         ],
       ),
     );
@@ -92,7 +92,7 @@ class AuthHosters extends StatelessWidget with TiuTiuPopUp {
     );
   }
 
-  Positioned _adoptionForm() {
+  Positioned _adoptionForm(BuildContext context) {
     return Positioned(
       top: 124.0.h,
       right: 16,
@@ -111,7 +111,7 @@ class AuthHosters extends StatelessWidget with TiuTiuPopUp {
             Icon(Icons.list_alt_outlined, color: AppColors.white, size: 16.0.h),
             SizedBox(width: 4.0.w),
             AutoSizeTexts.autoSizeText12(
-              AdoptionFormStrings.adoptionForm,
+              AppLocalizations.of(context).adoptionForm,
               color: AppColors.white,
             ),
           ],
@@ -120,11 +120,11 @@ class AuthHosters extends StatelessWidget with TiuTiuPopUp {
     );
   }
 
-  Widget _headline() {
+  Widget _headline(BuildContext context) {
     return Padding(
       padding: EdgeInsets.only(left: 16.0.w),
       child: Headline(
-        text: AuthStrings.authentique,
+        text: AppLocalizations.of(context).authentique,
         textColor: AppColors.white,
       ),
     );
@@ -142,14 +142,14 @@ class AuthHosters extends StatelessWidget with TiuTiuPopUp {
               icon: FontAwesomeIcons.apple,
               onPressed: _loginWithApple,
               textColor: AppColors.black,
-              text: AuthStrings.apple,
+              text: AppLocalizations.of(context).apple,
               color: AppColors.white,
               isToExpand: true,
             ),
           ),
           ButtonWide(
             icon: FontAwesomeIcons.envelope,
-            text: AuthStrings.email,
+            text: AppLocalizations.of(context).email,
             color: Colors.grey,
             isToExpand: true,
             onPressed: () {
@@ -159,18 +159,18 @@ class AuthHosters extends StatelessWidget with TiuTiuPopUp {
           ButtonWide(
             icon: FontAwesomeIcons.google,
             onPressed: _loginWithGoogle,
-            text: AuthStrings.google,
+            text: AppLocalizations.of(context).google,
             color: AppColors.danger,
             isToExpand: true,
           ),
           ButtonWide(
             icon: FontAwesomeIcons.facebook,
             onPressed: _loginWithFacebook,
-            text: AuthStrings.facebook,
+            text: AppLocalizations.of(context).facebook,
             color: AppColors.info,
             isToExpand: true,
           ),
-          _continueAnonButton(),
+          _continueAnonButton(context),
         ],
       ),
     );
@@ -181,7 +181,7 @@ class AuthHosters extends StatelessWidget with TiuTiuPopUp {
       children: [
         SizedBox(height: 8.0.h),
         AutoSizeTexts.autoSizeText12(
-          AuthStrings.whenContinue,
+          AppLocalizations.of(context).whenContinue,
           textAlign: TextAlign.center,
           color: AppColors.white,
         ),
@@ -206,7 +206,7 @@ class AuthHosters extends StatelessWidget with TiuTiuPopUp {
     );
   }
 
-  Widget _continueAnonButton() {
+  Widget _continueAnonButton(BuildContext context) {
     return TextButton(
       style: TextButton.styleFrom(
         splashFactory: InkRipple.splashFactory,
@@ -216,7 +216,7 @@ class AuthHosters extends StatelessWidget with TiuTiuPopUp {
       child: AutoSizeTexts.autoSizeText18(
         fontWeight: FontWeight.bold,
         textAlign: TextAlign.center,
-        AuthStrings.continueAnon,
+        AppLocalizations.of(context).continueAnon,
         color: AppColors.white,
       ),
       onPressed: () {
@@ -232,7 +232,7 @@ class AuthHosters extends StatelessWidget with TiuTiuPopUp {
         Get.to(TermsAndConditions());
       },
       child: AutoSizeTexts.autoSizeText14(
-        AuthStrings.termsAndConditions,
+        AppLocalizations.of(context).termsAndConditions,
         fontWeight: FontWeight.bold,
         textAlign: TextAlign.center,
         color: AppColors.white,
@@ -246,7 +246,7 @@ class AuthHosters extends StatelessWidget with TiuTiuPopUp {
         Get.to(PrivacyPolicy());
       },
       child: AutoSizeTexts.autoSizeText14(
-        AuthStrings.privacyPolicy,
+        AppLocalizations.of(context).privacyPolicy,
         fontWeight: FontWeight.bold,
         textAlign: TextAlign.center,
         color: AppColors.white,
@@ -254,16 +254,16 @@ class AuthHosters extends StatelessWidget with TiuTiuPopUp {
     );
   }
 
-  Widget _loadingWidget() {
+  Widget _loadingWidget(BuildContext context) {
     return Obx(
       () => LoadDarkScreen(
-        message: AuthStrings.loginInProgress,
+        message: AppLocalizations.of(context).loginInProgress,
         visible: authController.isLoading,
       ),
     );
   }
 
-  void _loginWithGoogle() async {
+  void _loginWithGoogle(BuildContext context) async {
     try {
       await authController.loginWithGoogle().then(
         (success) {
@@ -282,13 +282,13 @@ class AuthHosters extends StatelessWidget with TiuTiuPopUp {
 
       showPopUp(
         backGroundColor: AppColors.danger,
-        title: AuthStrings.authFailure,
+        title: AppLocalizations.of(context).authFailure,
         message: exception.toString(),
       );
     }
   }
 
-  void _loginWithApple() async {
+  void _loginWithApple(BuildContext context) async {
     try {
       await authController.loginWithApple().then(
         (success) {
@@ -307,14 +307,14 @@ class AuthHosters extends StatelessWidget with TiuTiuPopUp {
       );
 
       showPopUp(
-        message: AuthStrings.loginCouldNotProceed,
-        title: AuthStrings.authFailure,
+        message: AppLocalizations.of(context).loginCouldNotProceed,
+        title: AppLocalizations.of(context).authFailure,
         backGroundColor: AppColors.danger,
       );
     }
   }
 
-  void _loginWithFacebook() async {
+  void _loginWithFacebook(BuildContext context) async {
     try {
       await authController.loginWithFacebook().then(
         (success) {
@@ -333,7 +333,7 @@ class AuthHosters extends StatelessWidget with TiuTiuPopUp {
       );
 
       showPopUp(
-        title: AuthStrings.authFailure,
+        title: AppLocalizations.of(context).authFailure,
         message: exception.toString(),
         backGroundColor: AppColors.danger,
       );

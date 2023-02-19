@@ -1,7 +1,7 @@
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/constants/text_styles.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
-import 'package:tiutiu/core/constants/strings.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -45,7 +45,7 @@ class ButtonWide extends StatelessWidget {
         ),
         onPressed: () => onPressed?.call(),
         child: Container(
-          child: isLoading ? _loadingWidget() : _content(),
+          child: isLoading ? _loadingWidget() : _content(context),
           width: isToExpand ? Get.width : 260.0.w,
           height: tiny ? 32.0.h : 48.0.h,
           alignment: Alignment.center,
@@ -54,7 +54,7 @@ class ButtonWide extends StatelessWidget {
     );
   }
 
-  Widget _content() {
+  Widget _content(BuildContext context) {
     final hasIcon = icon != null;
 
     return Row(
@@ -71,7 +71,7 @@ class ButtonWide extends StatelessWidget {
         Spacer(),
         AutoSizeTexts.autoSizeText(
           color: textColor ?? AppColors.white,
-          text ?? AppStrings.getStarted,
+          text ?? AppLocalizations.of(context).getStarted,
           fontWeight: FontWeight.w700,
           textAlign: TextAlign.center,
           fontSize: fontSize ?? 16,

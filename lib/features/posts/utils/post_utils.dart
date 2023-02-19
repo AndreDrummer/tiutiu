@@ -3,16 +3,17 @@ import 'package:tiutiu/core/location/models/states_and_cities.dart';
 import 'package:tiutiu/features/posts/services/post_service.dart';
 import 'package:tiutiu/core/models/dynamic_link_parameters.dart';
 import 'package:tiutiu/core/extensions/string_extension.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:tiutiu/core/pets/model/pet_model.dart';
 import 'package:tiutiu/features/posts/model/post.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:tiutiu/core/constants/strings.dart';
 import 'package:tiutiu/core/utils/ordenators.dart';
 import 'package:tiutiu/core/utils/constants.dart';
 import 'package:tiutiu/core/utils/formatter.dart';
 import 'package:flutter/foundation.dart';
+import 'package:get/get.dart';
 
 class PostUtils {
   static List<Post> filterPosts({required List<Post> postsList, bool isInMyPostsList = false}) {
@@ -67,7 +68,7 @@ class PostUtils {
   static List<Post> _filterByType(List<Post> list, String type) {
     if (kDebugMode) debugPrint('TiuTiuApp: _filterByType');
 
-    if (type != PetTypeStrings.all) {
+    if (type != AppLocalizations.of(Get.context!).all) {
       return list.where((post) {
         return post.type == type;
       }).toList();
@@ -124,13 +125,13 @@ class PostUtils {
   }
 
   static List<Post> _ordernatedList(List<Post> list, String orderParam) {
-    if (orderParam == FilterStrings.distance) {
+    if (orderParam == AppLocalizations.of(Get.context!).distance) {
       list.sort(Ordenators.orderByDistance);
-    } else if (orderParam == FilterStrings.date) {
+    } else if (orderParam == AppLocalizations.of(Get.context!).date) {
       list.sort(Ordenators.orderByPostDate);
-    } else if (orderParam == FilterStrings.age) {
+    } else if (orderParam == AppLocalizations.of(Get.context!).age) {
       list.sort(Ordenators.orderByAge);
-    } else if (orderParam == FilterStrings.name) {
+    } else if (orderParam == AppLocalizations.of(Get.context!).name) {
       list.sort(Ordenators.orderByName);
     }
 

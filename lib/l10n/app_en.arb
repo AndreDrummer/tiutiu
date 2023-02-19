@@ -1,6 +1,7 @@
 {
     "crashlyticsInfo": "To better resolve possible crashes in the application, we would like to receive crash reports automatically.\n\nWould you like to automatically send crash reports to developers?",
     "permissionDeniedForeverWarning": "Go to the permissions setting on your device and allow Tiu, tiu to access your location.\n\nOnce finished, you may need to close and open the app and reopen it.",
+    "haveMoneyEnough": "Do you have the financial resources to care for an animal? (feed, vaccination, veterinary appointments)",
     "resetPasswordInstructionsSent": "Instructions on how to reset your password have been sent to the email address provided.",
     "tryAgainInABrief": "Posts are temporarily unavailable.\nCheck back in a few minutes.\n\nThank you for understanding!",
     "aboutForm": "Generate and share an adoption form in PDF format or WhatsApp message format in a few seconds.",
@@ -8,10 +9,12 @@
     "demandRecentLoginWarning": "This action requires you to login again.\n\nWould you like to logout?",
     "youDontNeedAnAccount": "You don't need to have an account and you can login whenever you want.",
     "authError": "There was an error with your authentication.\nTry to sign out and sign in again.",
+    "allowGetInContatactWithReferences": "Do you authorize me to contact your references contacts?",
     "loadingVideoFirstTime": "Loading video...\n\nWait for it\nit will only happen this time 😃",
     "videoSizeExceed": "Maximum video length exceeded!\nVideo must be no longer than 1:30 min",
     "noConnectionWarning": "These posts may be out of date because you are without internet.",
     "needsAccess": "needs to know where you are to show animals closest to your location.",
+    "haveAnimals": "Do you have other animals at home? If yes, which ones and how many?",
     "onlyAnwerWhatYouWant": "Only answer questions you feel comfortable answering.",
     "friendlyReminderToAdd9Digit": "Remember to add the 9 in front of the number.",
     "formFilledSuccess": "Ready, form successfully saved! What do you want to do?",
@@ -23,6 +26,9 @@
     "failureWarning": "Something went wrong while submitting your feedback.",
     "stillSendingAd": "Still publishing...\n\nPlease wait on this screen!",
     "confirmeIfThisNumberIsCorrect": "Confirm that the number is correct.",
+    "haveTimeEnough": "Do you have enough time to take care of an animal?",
+    "haveChildren": "You have kids? If so, how many and how old are they?",
+    "allowCheckBackground": "Are you willing to pass a background check?",
     "needsAccessToPost": "needs to know the current location of the PET.",
     "unableToGenerateSharebleFile": "Unable to generate shareable file.",
     "postCancelMessage": "Exiting now all data will be lost.\nContinue?",
@@ -32,6 +38,7 @@
     "unableToResendEmail": "Unable to resend email. Try again later!",
     "tryVerifyCodeAgain": "Could not verify code.\nPlease try again.",
     "dennounceSentSuccessfully": "Your report was sent successfully!",
+    "willNotLate": "It will be quick, come back in a few minutes!",
     "verifyInternetConnection": "Check your internet connection",
     "verifyAccountWarning": "Your account is not verified yet!",
     "linkWasSent": "A verification link has been sent to email",
@@ -66,6 +73,8 @@
     "whenContinue": "By continuing, you agree to our",
     "specifyDennounceMotive": "Please specify reason",
     "announceNoAnswer": "Advertiser does not respond",
+    "closedForMaintenance": "Closed for maintenance",
+    "houseTypeOptions": "House, apartment, site...",
     "backgroundInfo": "Background and Contact Check",
     "setMyProfileAsONG": "Configure profile as NGO",
     "financialInfo": "Time and financial resources",
@@ -87,6 +96,7 @@
     "termsAndConditions": "Terms and conditions",
     "passwordNotMatch": "Passwords don't match",
     "haveAnAccount": "Already have an account?",
+    "houseType": "What is your property type?",
     "createNewAccount": "Create a new account.",
     "alreadyFoundPet": "I already found my PET",
     "alreadyAdopted": "I already adopted a pet",
@@ -95,6 +105,7 @@
     "fillFullAddress": "Fill in full address?",
     "dificultsUse": "Difficulty using the app",
     "authentique": "Please login to continue.",
+    "marriedSeparated": "Married and Divorced",
     "videoPlayerError": "Error playing video",
     "talkAboutThisPet": "Talk about this PET",
     "referenceContacts": "Reference contacts",
@@ -113,7 +124,49 @@
     "addVideo": "If you want, add a video.",
     "repeatPassword": "Repeat the password",
     "invalidPhoneNumber": "Invalid number",
+    "fieldShouldBeAtLeast": "{field} must have at least {length} characters",
+    "@fieldShouldBeAtLeast": {
+        "description": "Minimum size required for a field to be correctly filled in",
+        "placeholders": {
+            "field": {
+                "type": "String",
+                "example": "Password"
+            },
+            "length": {
+                "type": "int",
+                "example": "6"
+            }
+        }
+    },
+    "dennounceUser": "Report {username}",
+    "@dennounceUser": {        
+        "placeholders": {
+            "username": {
+                "type": "String",
+                "example": "John"
+            }
+        }
+    },
+    "imageQty": "{count, plural, =1{Enviando a foto...} other{Enviando as fotos...}}",
+    "@imageQty": {
+        "placeholders": {
+            "count": {
+                "type": "num",
+                "format": "compact"
+            }
+        }
+    },
+    "postsQty": "{count, plural, =1{post} other{posts}}",
+    "@postsQty": {
+        "placeholders": {
+            "count": {
+                "type": "num",
+                "format": "compact"
+            }
+        }
+    },
     "genericError": "An error has occurred",
+    "haveYard": "Do you have a backyard?",
     "editPhoneNumber": "Edit phone number",
     "continueAnon": "Continue anonymously",
     "changeListVisual": "Change list view",
@@ -145,6 +198,7 @@
     "chronicDisease": "Chronic disease",
     "caracteristics": "Characteristics",
     "cannotUse": "I can't use the app",
+    "maritalStatus": "Marital Status",
     "sexualContent": "Sexual Content",
     "postCancelTitle": "Cancel post?",
     "otherCaracteristics": "Optional",
@@ -189,6 +243,7 @@
     "invalidCode": "Invalid code!",
     "google": "Login with Google",
     "backToStart": "Back to start",
+    "stableUnion": "Stable Union",
     "sexualAppeal": "Sex appeal",
     "selectBreed": "Select race",
     "goodMorning": "Good morning",
@@ -199,6 +254,7 @@
     "scamTry": "Attempted Coup",
     "postUpdate": "Update post",
     "petDisappeared": "Missing",
+    "profession": "Profession",
     "partnership": "Partnership",
     "health": "Health condition",
     "finalizing": "Finishing...",
@@ -220,6 +276,7 @@
     "announcer": "Advertiser",
     "reviewButton": "Review",
     "preganant": "Pregnancy",
+    "fullname": "Full name",
     "picTime": "Photo time!",
     "petType": "Type of PET",
     "ourNet": "Our networks",
@@ -233,6 +290,7 @@
     "about": "About the app",
     "provideInfo": "Inform",
     "posting": "Posting...",
+    "separated": "Separate",
     "petBreed": "Pet Breed",
     "lastSeen": "Last seen",
     "goodNight": "Goodnight",
@@ -246,6 +304,7 @@
     "partners": "Partners",
     "settings": "Settings",
     "password": "Password",
+    "divorced": "Divorced",
     "myPosts": "My Posts",
     "messages": "Messages",
     "infos": "information",
@@ -263,7 +322,10 @@
     "postedAt": "Posted",
     "watch": "To attend",
     "pictures": "Photos",
+    "address": "Address",
     "myAds": "My posts",
+    "married": "Mrried",
+    "widower": "Widowe",
     "loading": "Loading",
     "leave": "To go out",
     "healthy": "Healthy",
@@ -275,6 +337,7 @@
     "share": "To share",
     "reward": "Reward",
     "review": "Review",
+    "single": "Single",
     "resend": "Resend",
     "reload": "Reload",
     "months": "Months",
@@ -286,6 +349,7 @@
     "saveds": "Saved",
     "cancel": "Cancel",
     "adopte": "Adopt",
+    "phone": "Phone",
     "views": "views",
     "send": "To send",
     "save": "To save",

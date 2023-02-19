@@ -1,5 +1,6 @@
 import 'package:tiutiu/features/auth/widgets/image_carousel_background.dart';
 import 'package:tiutiu/core/constants/firebase_env_path.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/features/auth/widgets/blur.dart';
 import 'package:tiutiu/core/widgets/async_handler.dart';
@@ -8,7 +9,6 @@ import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:tiutiu/core/widgets/button_wide.dart';
 import 'package:tiutiu/core/widgets/tiutiu_logo.dart';
-import 'package:tiutiu/core/constants/strings.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -67,7 +67,7 @@ class DocScreen extends StatelessWidget {
                             right: 0.0.w,
                             bottom: 0.0.h,
                             child: ButtonWide(
-                              text: AppStrings.back,
+                              text: AppLocalizations.of(context).back,
                               onPressed: Get.back,
                             ),
                           )

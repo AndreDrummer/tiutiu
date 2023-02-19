@@ -6,7 +6,7 @@ import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/widgets/one_line_text.dart';
 import 'package:tiutiu/features/posts/model/post.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
-import 'package:tiutiu/core/constants/strings.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:better_player/better_player.dart';
 import 'package:video_player/video_player.dart';
 import 'package:flutter/foundation.dart';
@@ -22,37 +22,37 @@ class PostVideo extends StatelessWidget {
     return Column(
       children: [
         Spacer(),
-        _insertVideoLabel(),
-        _video(),
+        _insertVideoLabel(context),
+        _video(context),
         Spacer(),
         _videoErrorLabel(),
-        _removeVideoButton(),
+        _removeVideoButton(context),
       ],
     );
   }
 
-  Widget _insertVideoLabel() {
+  Widget _insertVideoLabel(BuildContext context) {
     return Padding(
       padding: EdgeInsets.only(bottom: 8.0.h),
       child: OneLineText(
-        text: PostFlowStrings.insertVideo,
+        text: AppLocalizations.of(context).insertVideo,
         widgetAlignment: Alignment.center,
         fontWeight: FontWeight.w500,
       ),
     );
   }
 
-  Widget _video() {
+  Widget _video(BuildContext context) {
     return Obx(() {
       final videoPath = postsController.post.video;
       return Container(
         margin: EdgeInsets.only(right: 8.0.w, left: 4.0.w),
-        child: videoPath == null ? _addVideo() : _playVideo(),
+        child: videoPath == null ? _addVideo(context) : _playVideo(),
       );
     });
   }
 
-  Widget _addVideo() {
+  Widget _addVideo(BuildContext context) {
     return AddVideoItem(
       hasError: postsController.flowErrorText.isNotEmpty,
       onVideoPicked: (file) {
@@ -70,7 +70,7 @@ class PostVideo extends StatelessWidget {
               postsController.clearError();
             } else {
               if (kDebugMode) debugPrint('TiuTiuApp: Video Size Exceed ${videoDuration.inSeconds}');
-              postsController.setError(PostFlowStrings.videoSizeExceed);
+              postsController.setError(AppLocalizations.of(context).videoSizeExceed);
             }
             videoPlayerController.dispose();
           });
@@ -107,14 +107,14 @@ class PostVideo extends StatelessWidget {
     );
   }
 
-  Obx _removeVideoButton() {
+  Obx _removeVideoButton(BuildContext context) {
     return Obx(
       () {
         return Padding(
           padding: EdgeInsets.only(top: 2.0.h),
           child: AnimatedTextIconButton(
             showCondition: postsController.post.video != null,
-            textLabel: PostFlowStrings.removeVideo,
+            textLabel: AppLocalizations.of(context).removeVideo,
             elementsColor: AppColors.danger,
             icon: Icons.remove,
             onPressed: () {

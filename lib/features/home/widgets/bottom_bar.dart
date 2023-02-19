@@ -1,10 +1,10 @@
 import 'package:tiutiu/features/home/controller/home_controller.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/widgets/tiutiutok_icon.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
-import 'package:tiutiu/core/constants/strings.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -76,11 +76,11 @@ class _BottomBarState extends State<BottomBar> {
   }
 
   final List<String> _bottomBarLabels = [
-    AppStrings.adopte,
-    AppStrings.tiutok,
-    AppStrings.post,
-    AppStrings.disappeared,
-    AppStrings.more,
+    AppLocalizations.of(Get.context!).adopte,
+    AppLocalizations.of(Get.context!).tiutok,
+    AppLocalizations.of(Get.context!).post,
+    AppLocalizations.of(Get.context!).disappeared,
+    AppLocalizations.of(Get.context!).more,
   ];
 
   final List<IconData> _bottomBarIcons = [

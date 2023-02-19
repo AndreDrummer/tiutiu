@@ -1,12 +1,12 @@
 import 'package:tiutiu/core/widgets/underline_input_dropdown.dart';
 import 'package:tiutiu/core/extensions/string_extension.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/widgets/underline_text.dart';
 import 'package:tiutiu/core/widgets/one_line_text.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/core/pets/model/pet_model.dart';
-import 'package:tiutiu/core/constants/strings.dart';
 import 'package:tiutiu/core/utils/validators.dart';
 import 'package:tiutiu/core/data/dummy_data.dart';
 import 'package:flutter/material.dart';
@@ -22,22 +22,22 @@ class PostDescription extends StatelessWidget {
       () => ListView(
         padding: EdgeInsets.only(top: 8.0.h),
         children: [
-          _breed(),
+          _breed(context),
           _spacer(),
-          _color(),
+          _color(context),
           _spacer(),
-          _petAge(yearsList, monthsList),
+          _petAge(context, yearsList, monthsList),
           _spacer(),
         ],
       ),
     );
   }
 
-  Widget _breed() {
+  Widget _breed(BuildContext context) {
     final postType = postsController.post.type;
 
     return Visibility(
-      visible: postType != PetTypeStrings.other,
+      visible: postType != AppLocalizations.of(context).other,
       child: UnderlineInputDropdown(
         isInErrorState: !(postsController.post as Pet).breed.isNotEmptyNeighterNull() && !postsController.formIsValid,
         initialValue: (postsController.post as Pet).breed,
@@ -45,8 +45,8 @@ class PostDescription extends StatelessWidget {
           postsController.updatePost(PetEnum.breed.name, breed);
         },
         labelText:
-            '${postsController.post.type == PetTypeStrings.bird ? PostDetailsStrings.selectSpecie : PostDetailsStrings.selectBreed}',
-        items: postType == PetTypeStrings.other ? [] : DummyData.breeds[postsController.post.type]!,
+            '${postsController.post.type == AppLocalizations.of(context).bird ? AppLocalizations.of(context).selectSpecie : AppLocalizations.of(context).selectBreed}',
+        items: postType == AppLocalizations.of(context).other ? [] : DummyData.breeds[postsController.post.type]!,
         fontSize: 12.0,
       ),
       replacement: Padding(
@@ -58,7 +58,7 @@ class PostDescription extends StatelessWidget {
             onChanged: (exoticBreed) {
               postsController.updatePost(PetEnum.breed.name, exoticBreed);
             },
-            labelText: PostDetailsStrings.describBreed,
+            labelText: AppLocalizations.of(context).describBreed,
             fontSizeLabelText: 12.0,
           ),
         ),
@@ -66,21 +66,16 @@ class PostDescription extends StatelessWidget {
     );
   }
 
-  UnderlineInputDropdown _color() {
+  UnderlineInputDropdown _color(BuildContext context) {
     final petType = (postsController.post as Pet).type;
     late List<String> items;
 
-    switch (petType) {
-      case PetTypeStrings.dog:
-        items = DummyData.dogColors;
-        break;
-
-      case PetTypeStrings.cat:
-        items = DummyData.catColors;
-        break;
-
-      default:
-        items = DummyData.allColors;
+    if (petType == AppLocalizations.of(context).dog) {
+      items = DummyData.dogColors;
+    } else if (petType == AppLocalizations.of(context).cat) {
+      items = DummyData.catColors;
+    } else {
+      items = DummyData.allColors;
     }
 
     return UnderlineInputDropdown(
@@ -89,20 +84,20 @@ class PostDescription extends StatelessWidget {
       onChanged: (color) {
         postsController.updatePost(PetEnum.color.name, color);
       },
-      labelText: PostDetailsStrings.color,
+      labelText: AppLocalizations.of(context).color,
       items: items,
       fontSize: 12.0,
     );
   }
 
-  Column _petAge(List<String> yearsList, List<String> monthsList) {
+  Column _petAge(BuildContext context, List<String> yearsList, List<String> monthsList) {
     return Column(
       children: [
         OneLineText(
           widgetAlignment: Alignment(-0.92, 1),
           fontWeight: FontWeight.w500,
           color: AppColors.secondary,
-          text: PostFlowStrings.age,
+          text: AppLocalizations.of(context).age,
           fontSize: 12,
         ),
         Row(
@@ -116,7 +111,7 @@ class PostDescription extends StatelessWidget {
                     int.parse(anos ?? '0'),
                   );
                 },
-                labelText: PostFlowStrings.years,
+                labelText: AppLocalizations.of(context).years,
                 fontSize: 12.0,
                 items: yearsList,
               ),
@@ -130,7 +125,7 @@ class PostDescription extends StatelessWidget {
                     int.parse(meses ?? '0'),
                   );
                 },
-                labelText: PostFlowStrings.months,
+                labelText: AppLocalizations.of(context).months,
                 fontSize: 12.0,
                 items: monthsList,
               ),
