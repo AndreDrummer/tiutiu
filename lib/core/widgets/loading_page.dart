@@ -1,3 +1,4 @@
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/widgets/lottie_animation.dart';
 import 'package:tiutiu/core/constants/text_styles.dart';
@@ -6,11 +7,11 @@ import 'package:flutter/material.dart';
 
 class LoadingPage extends StatelessWidget {
   LoadingPage({
-    this.messageLoading = 'Aguarde',
+    this.messageLoading,
     this.textColor,
   });
 
-  final String messageLoading;
+  final String? messageLoading;
   final Color? textColor;
 
   @override
@@ -27,7 +28,7 @@ class LoadingPage extends StatelessWidget {
             AutoSizeTexts.autoSizeText12(
               color: textColor ?? AppColors.white,
               textAlign: TextAlign.center,
-              messageLoading,
+              messageLoading ?? AppLocalizations.of(context).wait,
             )
           ],
         ),

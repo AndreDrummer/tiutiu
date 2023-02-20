@@ -121,11 +121,11 @@ class Formatters {
     if (locale.languageCode == 'pt') {
       return splittedDate.first.toString() + ' de ' + _yearMonths[splittedDate[1] - 1] + ' de ${splittedDate.last}';
     } else if (locale.languageCode == 'en') {
-      return _yearMonths[splittedDate[1] - 1] + ' ${splittedDate.first.toString()},' + '  ${splittedDate.last}';
+      return _yearMonths[splittedDate[1] - 1] + ' ${splittedDate.first.toString()},' + ' ${splittedDate.last}';
     } else if (locale.languageCode == 'es') {
       return splittedDate.first.toString() + ' de ' + _yearMonths[splittedDate[1] - 1] + ' de ${splittedDate.last}';
     } else {
-      return _yearMonths[splittedDate[1] - 1] + ' ${splittedDate.first.toString()},' + '  ${splittedDate.last}';
+      return _yearMonths[splittedDate[1] - 1] + ' ${splittedDate.first.toString()},' + ' ${splittedDate.last}';
     }
   }
 
