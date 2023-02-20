@@ -766,5 +766,20 @@
      "october": "Octubre",
      "september": "Septiembre",
      "november": "Noviembre",
-     "december": "Diciembre"
+     "december": "Diciembre",
+
+     "appNeedToKnowWhereYouAreToShowNearestPets": "Tiutiu necesita saber dónde estás para mostrarte las mascotas más cercanas a ti en este momento. Incluso puedes entrar y ver las PET, pero si vas a hacer una publicación, deberás informar ¡tu ubicación!",
+     "joinUs": "Únase a nuestra red de empresas de apoyo y ayude a marcar la diferencia en la vida de los animales. Ten tu negocio aquí 👇.",
+     "appNeedToKnowWhereYouAre": "Tiutiu necesita saber dónde está el PET que vas a publicar",
+     "areExperiencedInThisPet": "¿Por qué quieres adoptar esta mascota en particular?",
+     "whyYouWantThisPet": "¿Tienes experiencia con este tipo de mascotas?",
+     "whatKindPetYouWant": "¿Qué tipo de mascota te interesa?",
+     "noPostNow": "No quiero publicar ahora",
+     "openSettings": "Configuración abierta",
+     "onlySeePets": "Solo ver mascotas",
+     "updating": "Actualizando",
+     "form": "formulario",
+     "saving": "Guardando",
+     "wait": "espera",
+     "step": "Paso"
 }

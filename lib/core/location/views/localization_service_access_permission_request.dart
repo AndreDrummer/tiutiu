@@ -125,8 +125,8 @@ class _LocalizationServiceAccessPermissionAccessState extends State<Localization
 
   Future<void> showWarningPopup() async {
     final message = isInPostScreen
-        ? 'O Tiutiu precisa saber onde está o PET que você vai postar.'
-        : 'O Tiutiu precisa saber onde você está para te mostrar os PETs mais próximos de você neste momento. Você até pode entrar e ver os PETs, mas se for fazer uma publicação, vai precisar informar a sua localização!';
+        ? AppLocalizations.of(Get.context!).appNeedToKnowWhereYouAre
+        : AppLocalizations.of(Get.context!).appNeedToKnowWhereYouAreToShowNearestPets;
 
     return await showPopUp(
       message: message,
