@@ -7,6 +7,7 @@ import 'package:tiutiu/features/adption_form.dart/views/flow/3_pet_info.dart';
 import 'package:tiutiu/features/admob/constants/admob_block_names.dart';
 import 'package:tiutiu/core/widgets/default_basic_app_bar.dart';
 import 'package:tiutiu/features/admob/widgets/ad_banner.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/utils/routes/routes_name.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
@@ -15,7 +16,6 @@ import 'package:tiutiu/core/views/load_dark_screen.dart';
 import 'package:tiutiu/core/widgets/one_line_text.dart';
 import 'package:tiutiu/core/mixins/tiu_tiu_pop_up.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -56,14 +56,15 @@ class AdoptionFormFlow extends StatelessWidget with TiuTiuPopUp {
                   top: 70.0.h,
                   child: OneLineText(
                     textAlign: TextAlign.center,
-                    text: 'Passo ${adoptionFormController.formStep + 1}',
+                    text: '${AppLocalizations.of(Get.context!).step} ${adoptionFormController.formStep + 1}',
                     color: AppColors.white,
                     fontSize: 12.0,
                   ),
                 ),
                 Obx(() {
                   return LoadDarkScreen(
-                    message: '${adoptionFormController.isEditing ? 'Atualizando' : 'Salvando'} formulário',
+                    message:
+                        '${adoptionFormController.isEditing ? AppLocalizations.of(Get.context!).updating : AppLocalizations.of(Get.context!).saving} ${AppLocalizations.of(Get.context!).form}',
                     visible: adoptionFormController.isLoading,
                   );
                 }),
