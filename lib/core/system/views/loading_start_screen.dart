@@ -61,7 +61,7 @@ class SplashScreenLoading extends StatelessWidget {
             _feedbackText(context),
             _loadingIndicator(),
             Spacer(),
-            _madeBy()
+            _madeBy(context)
           ],
         ),
       ),
@@ -90,7 +90,7 @@ class SplashScreenLoading extends StatelessWidget {
     );
   }
 
-  Stack _madeBy() {
+  Stack _madeBy(BuildContext context) {
     return Stack(
       children: [
         Container(
@@ -104,7 +104,7 @@ class SplashScreenLoading extends StatelessWidget {
           child: Row(
             children: [
               AutoSizeText(
-                'feito por',
+                AppLocalizations.of(context).madeBy,
                 minFontSize: 10,
                 maxFontSize: 12,
                 style: GoogleFonts.inter(
