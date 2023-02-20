@@ -1,4 +1,3 @@
-import 'package:tiutiu/core/constants/strings.dart';
 import 'package:tiutiu/features/dennounce/views/post_dennounce_screen.dart';
 import 'package:tiutiu/features/dennounce/widgets/dennounce_button.dart';
 import 'package:tiutiu/features/admob/constants/admob_block_names.dart';
@@ -13,6 +12,7 @@ import 'package:tiutiu/features/saveds/widgets/save_button.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiutiu/features/admob/widgets/ad_banner.dart';
 import 'package:tiutiu/core/extensions/string_extension.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:tiutiu/core/widgets/simple_text_button.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/utils/routes/routes_name.dart';
@@ -34,7 +34,6 @@ import 'package:tiutiu/core/pets/model/pet_model.dart';
 import 'package:tiutiu/core/widgets/video_error.dart';
 import 'package:tiutiu/core/widgets/button_wide.dart';
 import 'package:tiutiu/core/utils/asset_handle.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:tiutiu/core/utils/dimensions.dart';
 import 'package:tiutiu/core/utils/formatter.dart';
 import 'package:better_player/better_player.dart';
@@ -439,7 +438,9 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
 
   String announcerName() {
     final owner = post.owner!;
-    late String userName = postBelongsToMe() ? 'Você' : owner.displayName ?? 'Usuário do Tiutiu';
+    late String userName = postBelongsToMe()
+        ? AppLocalizations.of(context).you
+        : owner.displayName ?? AppLocalizations.of(context).tiutiuUser;
 
     return userName;
   }
@@ -585,13 +586,7 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
           content: (post as Pet).disappeared
               ? '${post.city} - ${post.state} ${(post).lastSeenDetails}'
               : '${post.city} - ${post.state} $describedAddress',
-          title: post.disappeared
-              ? AppLocalizations.of(context).lastSeen
-              : CustomStrings.whereIsThisPet(
-                  isDisappeared: post.disappeared,
-                  petGender: post.gender,
-                  petName: '${post.name}',
-                ),
+          title: post.disappeared ? AppLocalizations.of(context).lastSeen : AppLocalizations.of(context).whereIsThisPet,
           onAction: () {
             MapsLauncher.launchCoordinates(
               post.latitude ?? 0.0,

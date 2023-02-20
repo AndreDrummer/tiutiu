@@ -1,5 +1,6 @@
 import 'package:tiutiu/features/posts/controller/posts_controller.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/constants/text_styles.dart';
@@ -27,7 +28,7 @@ class AdDistanceFromUser extends StatelessWidget {
               AutoSizeTexts.autoSizeText10(
                 color: Colors.grey[700],
                 textOverflow: TextOverflow.fade,
-                'Está a $distanceText de você',
+                AppLocalizations.of(context).isFromYou(distanceText),
                 fontWeight: FontWeight.w700,
               ),
               SizedBox(width: 2.0.w),
