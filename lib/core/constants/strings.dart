@@ -13,34 +13,6 @@ class CustomStrings {
       return _CustomLocalizationStrings(stringKey: "chatTalkLimitedExceed").localizedString();
     }
   }
-
-  static String talkAboutThisPet({
-    required String petGender,
-    required String petName,
-  }) {
-    final cuttedName = petName.split(' ').first;
-
-    if (petGender == 'Macho') {
-      return 'Fale sobre o $cuttedName';
-    } else if (petGender == 'Fêmea') {
-      return 'Fale sobre a $cuttedName';
-    }
-
-    return 'Fale sobre este animal?';
-  }
-
-  static String whereIsThisPet({
-    bool isDisappeared = false,
-    required String petGender,
-    required String petName,
-  }) {
-    if (isDisappeared) return 'Onde foi visto pela última vez?';
-
-    if (petGender == 'male')
-      return 'Onde ele está';
-    else if (petGender == 'female') return 'Onde ela está';
-    return 'Onde está o PET';
-  }
 }
 
 class _CustomLocalizationStrings {
