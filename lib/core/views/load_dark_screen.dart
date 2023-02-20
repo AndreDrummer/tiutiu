@@ -1,3 +1,4 @@
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/widgets/lottie_animation.dart';
 import 'package:tiutiu/core/constants/text_styles.dart';
@@ -8,11 +9,11 @@ import 'package:get/get.dart';
 class LoadDarkScreen extends StatelessWidget {
   LoadDarkScreen({
     this.roundeCorners = false,
-    this.message = 'Aguarde',
     this.visible = true,
+    this.message,
   });
   final bool roundeCorners;
-  final String message;
+  final String? message;
   final bool visible;
 
   @override
@@ -41,7 +42,7 @@ class LoadDarkScreen extends StatelessWidget {
                 AutoSizeTexts.autoSizeText12(
                   textAlign: TextAlign.center,
                   color: AppColors.white,
-                  message,
+                  message ?? AppLocalizations.of(Get.context!).wait,
                 )
               ],
             ),

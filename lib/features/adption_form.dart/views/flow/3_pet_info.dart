@@ -51,7 +51,7 @@ class _PetInfoState extends State<PetInfo> {
           adoptionFormController.adoptionForm.copyWith(interestedBreed: '-'),
         );
       },
-      labelText: 'Qual tipo de animal está interessado?',
+      labelText: AppLocalizations.of(Get.context!).whatKindPetYouWant,
       fontSize: 14,
       items: adoptionFormController.petsType,
     );
@@ -81,7 +81,7 @@ class _PetInfoState extends State<PetInfo> {
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 8.0.h),
           child: AutoSizeTexts.autoSizeText16(
-            'Você tem experiência com esse tipo de animal?',
+            AppLocalizations.of(Get.context!).areExperiencedInThisPet,
             color: AppColors.black.withOpacity(.5),
             fontWeight: FontWeight.w600,
           ),
@@ -128,7 +128,7 @@ class _PetInfoState extends State<PetInfo> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           AutoSizeTexts.autoSizeText16(
-            'Por que você quer adotar esse animal em particular?',
+            AppLocalizations.of(Get.context!).whyYouWantThisPet,
             color: AppColors.black.withOpacity(.5),
             fontWeight: FontWeight.w600,
           ),
@@ -136,8 +136,8 @@ class _PetInfoState extends State<PetInfo> {
           TextArea(
             maxLines: 2,
             maxLength: 70,
-            labelText: 'Por que você quer adotar esse animal em particular?',
-            hintText: 'Por que você quer adotar esse animal em particular?',
+            labelText: AppLocalizations.of(Get.context!).whyYouWantThisPet,
+            hintText: AppLocalizations.of(Get.context!).whyYouWantThisPet,
             initialValue: adoptionFormController.adoptionForm.reason,
             onChanged: (value) {
               adoptionFormController.setAdoptionForm(
