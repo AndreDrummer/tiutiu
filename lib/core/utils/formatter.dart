@@ -1,8 +1,9 @@
-import 'package:get/get.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:tiutiu/core/utils/other_functions.dart';
-import 'package:tiutiu/core/data/dummy_data.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
+import 'package:get/get.dart';
 
 class Formatters {
   static String? unmaskNumber(String? number) {
@@ -19,10 +20,11 @@ class Formatters {
   }
 
   static String? currencyFormmater(String? value) {
+    final Locale locale = Localizations.localeOf(Get.context!);
     final currency = NumberFormat.currency(
+      symbol: locale.languageCode == 'pt' ? 'R\$' : '\$',
+      locale: locale.languageCode,
       decimalDigits: 2,
-      locale: 'pt_Br',
-      symbol: 'R\$',
     );
 
     return currency.format(double.tryParse(value ?? '0') ?? 0);
@@ -53,14 +55,10 @@ class Formatters {
     return DateFormat('dd/MM/yyy').format(date) + ' $timeHour:${timeMinute < 10 ? '0$timeMinute' : timeMinute}';
   }
 
-  static String getExtendedDate() {
-    final date = DateFormat('dd/MM/yyy').format(DateTime.now());
-    List<int> splittedDate = date.split('/').map((e) => int.parse(e)).toList();
+  static String getExtendedLocalizedDate() {
+    final locale = Localizations.localeOf(Get.context!);
 
-    return splittedDate.first.toString() +
-        ' de ' +
-        DummyData().yearMonths[splittedDate[1] - 1] +
-        ' de ${splittedDate.last}';
+    return getExtendedDateBasedOnLocale(locale);
   }
 
   static String getFormattedTime(String createdAt) {
@@ -108,13 +106,41 @@ class Formatters {
   }
 
   static String formmatedExtendedDate({DateTime? dateTime}) {
-    final formattedDate = DateFormat(
-      'EEEE, DD/MM/yyyy',
-      Get.locale?.countryCode,
-    ).format(dateTime ?? DateTime.now().toLocal());
+    final formattedDate = DateFormat('EEEE, DD/MM/yyyy', Localizations.localeOf(Get.context!).toLanguageTag())
+        .format(dateTime ?? DateTime.now().toLocal());
 
     final weekday = OtherFunctions.firstCharacterUpper(formattedDate.split(',').first);
 
-    return '${weekday.trim()}, ${getExtendedDate()}.';
+    return '${weekday.trim()}, ${getExtendedLocalizedDate()}.';
   }
+
+  static String getExtendedDateBasedOnLocale(Locale locale) {
+    final date = DateFormat('dd/MM/yyy').format(DateTime.now());
+    List<int> splittedDate = date.split('/').map((e) => int.parse(e)).toList();
+
+    if (locale.languageCode == 'pt') {
+      return splittedDate.first.toString() + ' de ' + _yearMonths[splittedDate[1] - 1] + ' de ${splittedDate.last}';
+    } else if (locale.languageCode == 'en') {
+      return _yearMonths[splittedDate[1] - 1] + ' ${splittedDate.first.toString()},' + '  ${splittedDate.last}';
+    } else if (locale.languageCode == 'es') {
+      return splittedDate.first.toString() + ' de ' + _yearMonths[splittedDate[1] - 1] + ' de ${splittedDate.last}';
+    } else {
+      return _yearMonths[splittedDate[1] - 1] + ' ${splittedDate.first.toString()},' + '  ${splittedDate.last}';
+    }
+  }
+
+  static List<String> get _yearMonths => [
+        AppLocalizations.of(Get.context!).january,
+        AppLocalizations.of(Get.context!).february,
+        AppLocalizations.of(Get.context!).march,
+        AppLocalizations.of(Get.context!).april,
+        AppLocalizations.of(Get.context!).may,
+        AppLocalizations.of(Get.context!).june,
+        AppLocalizations.of(Get.context!).july,
+        AppLocalizations.of(Get.context!).august,
+        AppLocalizations.of(Get.context!).september,
+        AppLocalizations.of(Get.context!).october,
+        AppLocalizations.of(Get.context!).november,
+        AppLocalizations.of(Get.context!).december,
+      ];
 }
