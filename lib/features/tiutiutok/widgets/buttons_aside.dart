@@ -4,6 +4,7 @@ import 'package:tiutiu/features/tiutiutok/widgets/disappeared_alert.dart';
 import 'package:tiutiu/features/tiutiutok/widgets/save_button.dart';
 import 'package:tiutiu/features/tiutiutok/widgets/like_button.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:tiutiu/core/mixins/tiu_tiu_pop_up.dart';
 import 'package:tiutiu/core/pets/model/pet_model.dart';
 import 'package:tiutiu/features/posts/model/post.dart';
 import 'package:tiutiu/core/utils/dimensions.dart';
@@ -19,7 +20,7 @@ class ButtonsAside extends StatefulWidget {
   State<ButtonsAside> createState() => _ButtonsAsideState();
 }
 
-class _ButtonsAsideState extends State<ButtonsAside> {
+class _ButtonsAsideState extends State<ButtonsAside> with TiuTiuPopUp {
   @override
   Widget build(BuildContext context) {
     return Positioned(

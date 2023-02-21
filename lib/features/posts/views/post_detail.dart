@@ -334,6 +334,7 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
           postsController.tiutiuTokStartingVideoPostId = post.uid!;
           homeController.setTiutiuTokIndex();
           onLeaveScreen();
+          Get.back();
         },
         child: Card(
           elevation: 8.0,
@@ -391,7 +392,7 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
           child: InkWell(
             onTap: () {
               if (postBelongsToMe()) {
-                Get.toNamed(Routes.settings);
+                Get.toNamed(Routes.editProfile);
               } else if (authController.userExists) {
                 OtherFunctions.navigateToAnnouncerDetail(post.owner!);
               }
