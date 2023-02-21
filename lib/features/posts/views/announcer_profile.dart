@@ -1,3 +1,5 @@
+import 'package:tiutiu/features/dennounce/views/user_dennounce_screen.dart';
+import 'package:tiutiu/features/dennounce/model/user_dennounce.dart';
 import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
 import 'package:tiutiu/core/widgets/default_basic_app_bar.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -8,6 +10,7 @@ import 'package:tiutiu/core/widgets/warning_widget.dart';
 import 'package:tiutiu/core/widgets/avatar_profile.dart';
 import 'package:tiutiu/core/constants/contact_type.dart';
 import 'package:tiutiu/core/constants/text_styles.dart';
+import 'package:tiutiu/core/mixins/tiu_tiu_pop_up.dart';
 import 'package:tiutiu/core/constants/assets_path.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/core/widgets/button_wide.dart';
@@ -16,7 +19,7 @@ import 'package:tiutiu/core/utils/formatter.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class AnnouncerProfile extends StatelessWidget {
+class AnnouncerProfile extends StatelessWidget with TiuTiuPopUp {
   AnnouncerProfile({
     required final TiutiuUser user,
   }) : _user = user;
@@ -31,21 +34,20 @@ class AnnouncerProfile extends StatelessWidget {
           automaticallyImplyLeading: true,
           text: _user.displayName ?? '',
         ),
-        body: Center(
-          child: Container(
-            margin: const EdgeInsets.all(8.0),
-            height: Get.height / 1.4,
-            child: Stack(
-              children: [
-                Card(
-                  elevation: 8.0,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(24.0.h),
-                  ),
-                  child: _cardContent(context),
+        body: Container(
+          alignment: Alignment.center,
+          margin: const EdgeInsets.all(8.0),
+          height: Get.height / 1.4,
+          child: Stack(
+            children: [
+              Card(
+                elevation: 8.0,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(24.0.h),
                 ),
-              ],
-            ),
+                child: _cardContent(context),
+              ),
+            ],
           ),
         ),
       ),
@@ -82,6 +84,17 @@ class AnnouncerProfile extends StatelessWidget {
               _contactTitle(context),
               _contactButtonRow(context),
               Spacer(),
+              TextButton.icon(
+                label: AutoSizeTexts.autoSizeText14(AppLocalizations.of(context).dennounceUser(
+                  _user.displayName ?? '',
+                )),
+                icon: Icon(Icons.warning_amber),
+                onPressed: () {
+                  userDennounceController.updateUserDennounce(UserDennounceEnum.dennouncedUser, _user);
+
+                  showsDennouncePopup(content: UserDennounceScreen());
+                },
+              ),
             ],
           ),
         )
