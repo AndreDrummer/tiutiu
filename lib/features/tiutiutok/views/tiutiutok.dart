@@ -1,4 +1,5 @@
 import 'package:tiutiu/features/tiutiutok/widgets/go_to_post_button.dart';
+import 'package:tiutiu/features/tiutiutok/widgets/dennounce_video.dart';
 import 'package:tiutiu/features/tiutiutok/widgets/empty_tiutiutok.dart';
 import 'package:tiutiu/features/tiutiutok/widgets/buttons_aside.dart';
 import 'package:tiutiu/features/tiutiutok/widgets/video_widget.dart';
@@ -64,6 +65,7 @@ class _TiutiuTokState extends State<TiutiuTok> {
                 return Stack(
                   children: [
                     Positioned.fill(child: VideoWidget(post: post)),
+                    DennounceVideoButton(),
                     ButtonsAside(post: post),
                     PostDetails(post: post),
                     GoToPostButton(post: post),
