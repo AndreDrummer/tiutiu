@@ -1,6 +1,5 @@
-import 'package:tiutiu/core/constants/firebase_env_path.dart';
-import 'package:tiutiu/core/widgets/doc_screen.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:tiutiu/core/widgets/doc_screen.dart';
 import 'package:flutter/material.dart';
 
 class TermsAndConditions extends StatelessWidget {
@@ -8,7 +7,7 @@ class TermsAndConditions extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DocScreen(
-      docType: FirebaseEnvPath.termsandconditions,
+      docText: AppLocalizations.of(context).termsAndConditionsText,
       docTitle: AppLocalizations.of(context).termsAndConditions,
     );
   }

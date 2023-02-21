@@ -9,6 +9,7 @@ enum TiutiuUserEnum {
   phoneVerified,
   userDeleted,
   displayName,
+  countryCode,
   phoneNumber,
   lastLogin,
   reference,
@@ -31,6 +32,7 @@ class TiutiuUser {
     this.notificationToken,
     this.isAnONG = false,
     this.displayName,
+    this.countryCode,
     this.phoneNumber,
     this.createdAt,
     this.reference,
@@ -55,6 +57,7 @@ class TiutiuUser {
       timesDennounced: snapshot.get(TiutiuUserEnum.timesDennounced.name) ?? 0,
       notificationToken: snapshot.get(TiutiuUserEnum.notificationToken.name),
       userDeleted: snapshot.get(TiutiuUserEnum.userDeleted.name) ?? false,
+      countryCode: snapshot.get(TiutiuUserEnum.countryCode.name) ?? '+55',
       isAnONG: snapshot.get(TiutiuUserEnum.isAnONG.name) ?? false,
       phoneNumber: snapshot.get(TiutiuUserEnum.phoneNumber.name),
       displayName: snapshot.get(TiutiuUserEnum.displayName.name),
@@ -77,6 +80,7 @@ class TiutiuUser {
       userDeleted: map[TiutiuUserEnum.userDeleted.name] ?? false,
       reference: getReference(map[TiutiuUserEnum.reference.name]),
       avatar: map[TiutiuUserEnum.avatar.name] ?? map['photoURL'],
+      countryCode: map[TiutiuUserEnum.countryCode.name] ?? '+55',
       isAnONG: map[TiutiuUserEnum.isAnONG.name] ?? false,
       phoneNumber: map[TiutiuUserEnum.phoneNumber.name],
       displayName: map[TiutiuUserEnum.displayName.name],
@@ -84,27 +88,6 @@ class TiutiuUser {
       photoBACK: map[TiutiuUserEnum.photoBACK.name],
       email: map[TiutiuUserEnum.email.name],
       uid: map[TiutiuUserEnum.uid.name],
-    );
-  }
-
-  static TiutiuUser fromMapMigration(Map<String, dynamic> map) {
-    return TiutiuUser(
-      timesOpenedTheApp: map[TiutiuUserEnum.timesOpenedTheApp.name] ?? 0,
-      notificationToken: map[TiutiuUserEnum.notificationToken.name],
-      emailVerified: map[TiutiuUserEnum.emailVerified.name] ?? false,
-      avatar: map[TiutiuUserEnum.avatar.name] ?? map['photoURL'],
-      timesDennounced: map[TiutiuUserEnum.timesDennounced.name] ?? 0,
-      phoneVerified: map[TiutiuUserEnum.phoneVerified.name] ?? false,
-      userDeleted: map[TiutiuUserEnum.userDeleted.name] ?? false,
-      phoneNumber: map[TiutiuUserEnum.phoneNumber.name],
-      displayName: map[TiutiuUserEnum.displayName.name],
-      reference: map[TiutiuUserEnum.reference.name],
-      createdAt: map[TiutiuUserEnum.createdAt.name],
-      photoBACK: map[TiutiuUserEnum.photoBACK.name],
-      lastLogin: map[TiutiuUserEnum.lastLogin.name],
-      email: map[TiutiuUserEnum.email.name],
-      uid: map[TiutiuUserEnum.uid.name],
-      allowContactViaWhatsApp: false,
     );
   }
 
@@ -127,6 +110,7 @@ class TiutiuUser {
   String? phoneNumber;
   String? displayName;
   int timesDennounced;
+  String? countryCode;
   bool emailVerified;
   bool phoneVerified;
   String? createdAt;
@@ -151,6 +135,7 @@ class TiutiuUser {
       TiutiuUserEnum.phoneVerified.name: phoneVerified,
       TiutiuUserEnum.phoneNumber.name: phoneNumber,
       TiutiuUserEnum.userDeleted.name: userDeleted,
+      TiutiuUserEnum.countryCode.name: countryCode,
       TiutiuUserEnum.displayName.name: displayName,
       TiutiuUserEnum.lastLogin.name: lastLogin,
       TiutiuUserEnum.photoBACK.name: photoBACK,

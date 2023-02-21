@@ -6,9 +6,9 @@ class AuthService {
   FirebaseAuthProvider _firebaseAuthProvider = FirebaseAuthProvider.instance;
   User? get authUser => FirebaseAuthProvider.instance.firebaseAuthUser;
 
-  Future<void> sendWhatsAppCode(String phone, String code) async {
+  Future<void> sendWhatsAppCode(String countryCode, String phone, String code) async {
     try {
-      await _firebaseAuthProvider.sendWhatsAppCode(phone, code);
+      await _firebaseAuthProvider.sendWhatsAppCode(countryCode, phone, code);
     } on Exception catch (exception) {
       crashlyticsController.reportAnError(
         message: 'Error sending WhatsApp Message: $exception',

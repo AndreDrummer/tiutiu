@@ -27,7 +27,7 @@ dependencies:
     sdk: flutter     
 
   flutter_local_notifications: ^12.0.4
-  mask_text_input_formatter: ^2.3.0  
+  mask_text_input_formatter: ^2.4.0
   flutter_native_splash: ^2.0.0
   flutter_facebook_auth: ^5.0.6
   font_awesome_flutter: ^10.2.1

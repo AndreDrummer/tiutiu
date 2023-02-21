@@ -19,6 +19,17 @@ class Formatters {
     return number;
   }
 
+  static String? removeParaenthesisFromNumber(String? number) {
+    try {
+      number = number?.replaceAll('(', '');
+      number = number?.replaceAll(')', '');
+    } catch (error) {
+      if (kDebugMode) debugPrint('TiuTiuApp: Error when unmasking phoneNumber $number. $error');
+      rethrow;
+    }
+    return number;
+  }
+
   static String? currencyFormmater(String? value) {
     final Locale locale = Localizations.localeOf(Get.context!);
     final currency = NumberFormat.currency(
@@ -74,7 +85,7 @@ class Formatters {
     if (min == 0) {
       return '$sec\s';
     } else {
-      return '$min min ${sec < 10 ? '0$sec' : sec} seg ';
+      return '$min min ${sec < 10 ? '0$sec' : sec} seg';
     }
   }
 

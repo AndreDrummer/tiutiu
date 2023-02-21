@@ -1,6 +1,7 @@
 import 'package:tiutiu/features/auth/views/terms_and_conditions.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiutiu/features/auth/views/privacy_policy.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:tiutiu/features/auth/widgets/headline.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/utils/routes/routes_name.dart';
@@ -11,7 +12,6 @@ import 'package:tiutiu/core/mixins/tiu_tiu_pop_up.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/core/widgets/tiutiu_logo.dart';
 import 'package:tiutiu/core/widgets/button_wide.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -192,7 +192,7 @@ class AuthHosters extends StatelessWidget with TiuTiuPopUp {
             termsAndConditions(context),
             AutoSizeTexts.autoSizeText14(
               textAlign: TextAlign.center,
-              'e a ',
+              '${AppLocalizations.of(context).andThe} ',
               color: AppColors.white,
             ),
             privacyPolicy(context),

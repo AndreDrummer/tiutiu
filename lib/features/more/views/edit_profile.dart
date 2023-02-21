@@ -8,9 +8,11 @@ import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/widgets/underline_text.dart';
 import 'package:tiutiu/core/views/load_dark_screen.dart';
 import 'package:tiutiu/core/widgets/avatar_profile.dart';
+import 'package:tiutiu/core/constants/text_styles.dart';
 import 'package:tiutiu/core/constants/assets_path.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/core/utils/validators.dart';
+import 'package:tiutiu/core/data/dummy_data.dart';
 import 'package:brasil_fields/brasil_fields.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
@@ -32,12 +34,14 @@ class _EditProfileState extends State<EditProfile> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   late TiutiuUser previousUser;
+  late String countryCode;
 
   @override
   void initState() {
     previousUser = tiutiuUserController.tiutiuUser;
     phoneNumberController.text = previousUser.phoneNumber ?? '';
     nameController.text = previousUser.displayName ?? '';
+    countryCode = previousUser.countryCode ?? '+55';
     super.initState();
   }
 
@@ -98,6 +102,7 @@ class _EditProfileState extends State<EditProfile> {
             height: Get.height / 2,
             margin: EdgeInsets.only(left: 8.0.w, top: 16.0.h),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SizedBox(height: 16.0.h),
                 _userName(),
@@ -179,22 +184,56 @@ class _EditProfileState extends State<EditProfile> {
     );
   }
 
+  Widget _countryCode() {
+    return SizedBox(
+      width: 98.0.w,
+      child: DropdownButton<String>(
+        underline: Container(height: .4.h, color: AppColors.black, width: 98.0.w),
+        value: countryCode,
+        isExpanded: false,
+        items: DummyData.countryCodes
+            .map((String code) => DropdownMenuItem<String>(child: AutoSizeTexts.autoSizeText24(code), value: code))
+            .toList(),
+        onChanged: (value) {
+          setState(() {
+            countryCode = value!;
+          });
+        },
+      ),
+    );
+  }
+
   Widget _userPhoneNumber() {
-    return Column(
-      children: [
-        SizedBox(height: 16.0.h),
-        UnderlineInputText(
-          validator: (value) => Validators.verifyLength(value, length: 14, field: 'Telefone'),
-          labelText: AppLocalizations.of(context).whatsapp,
-          keyboardType: TextInputType.number,
-          controller: phoneNumberController,
-          fontSizeLabelText: 16.0,
-          inputFormatters: [
-            FilteringTextInputFormatter.digitsOnly,
-            TelefoneInputFormatter(),
-          ],
-        ),
-      ],
+    return Padding(
+      padding: EdgeInsets.only(left: 8.0.w),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(height: 16.0.h),
+          AutoSizeTexts.autoSizeText16(AppLocalizations.of(context).whatsapp),
+          Row(
+            children: [
+              _countryCode(),
+              Expanded(
+                child: Padding(
+                  padding: EdgeInsets.only(bottom: 20.0.h),
+                  child: UnderlineInputText(
+                    validator: (value) =>
+                        Validators.verifyLength(value, length: 14, field: AppLocalizations.of(context).phone),
+                    keyboardType: TextInputType.number,
+                    controller: phoneNumberController,
+                    fontSizeLabelText: 16.0,
+                    inputFormatters: [
+                      FilteringTextInputFormatter.digitsOnly,
+                      TelefoneInputFormatter(),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 
@@ -238,8 +277,9 @@ class _EditProfileState extends State<EditProfile> {
   void _setDataToUser() {
     tiutiuUserController.updateTiutiuUser(TiutiuUserEnum.phoneNumber, phoneNumberController.text.trim());
     tiutiuUserController.updateTiutiuUser(TiutiuUserEnum.displayName, nameController.text.trim());
+    tiutiuUserController.updateTiutiuUser(TiutiuUserEnum.countryCode, countryCode);
 
-    if (phoneNumberController.text != previousUser.phoneNumber) {
+    if (phoneNumberController.text != previousUser.phoneNumber || countryCode != previousUser.countryCode) {
       tiutiuUserController.updateTiutiuUser(TiutiuUserEnum.phoneVerified, false);
       tiutiuUserController.whatsappNumberHasBeenUpdated = true;
     }
