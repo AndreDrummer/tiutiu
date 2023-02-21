@@ -640,7 +640,11 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
                 openDesiredChat: () async {
                   final initialMessage = OtherFunctions.getWhatsAppInitialMessage(context, post);
 
-                  await Launcher.openWhatsApp(number: post.owner!.phoneNumber!, text: initialMessage);
+                  await Launcher.openWhatsApp(
+                    countryCode: post.owner!.countryCode ?? '+55',
+                    number: post.owner!.phoneNumber!,
+                    text: initialMessage,
+                  );
                 },
               );
             },

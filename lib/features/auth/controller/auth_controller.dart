@@ -105,10 +105,11 @@ class AuthController extends GetxController {
       );
 
       final phoneNumber = Formatters.unmaskNumber(tiutiuUserController.tiutiuUser.phoneNumber);
+      final countryCode = tiutiuUserController.tiutiuUser.countryCode ?? '+55';
 
       if (phoneNumber != null) {
         if (kDebugMode) debugPrint('TiuTiuApp: sending Whatsapp token...');
-        _authService.sendWhatsAppCode(phoneNumber, code);
+        _authService.sendWhatsAppCode(countryCode, phoneNumber, code);
         tiutiuUserController.whatsappNumberHasBeenUpdated = false;
       }
     }

@@ -24,8 +24,8 @@ class FirebaseAuthProvider implements AuthProviders {
 
   Stream<User?> authStateChanges() => _firebaseAuth.authStateChanges();
 
-  Future sendWhatsAppCode(String phoneNumber, String code) async {
-    final whatsSystemService = WhatsAppService(code: code, phoneNumber: phoneNumber);
+  Future sendWhatsAppCode(String countryCode, String phoneNumber, String code) async {
+    final whatsSystemService = WhatsAppService(code: code, phoneNumber: phoneNumber, countryCode: countryCode);
 
     try {
       await whatsSystemService.sendCodeVerification();
