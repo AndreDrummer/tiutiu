@@ -219,7 +219,10 @@ class AnnouncerProfile extends StatelessWidget {
                 chatController.handleContactTapped(
                   contactType: ContactType.whatsapp,
                   openDesiredChat: () async {
-                    await Launcher.openWhatsApp(number: postsController.post.owner!.phoneNumber!);
+                    await Launcher.openWhatsApp(
+                      countryCode: postsController.post.owner!.countryCode ?? '+55',
+                      number: postsController.post.owner!.phoneNumber!,
+                    );
                   },
                 );
               },

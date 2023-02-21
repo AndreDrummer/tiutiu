@@ -1,6 +1,7 @@
 import 'package:tiutiu/features/auth/widgets/image_carousel_background.dart';
 import 'package:tiutiu/features/auth/models/email_password_auth.dart';
 import 'package:tiutiu/core/widgets/outline_input_text.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:tiutiu/core/widgets/simple_text_button.dart';
 import 'package:tiutiu/features/auth/widgets/headline.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -13,7 +14,6 @@ import 'package:tiutiu/features/auth/widgets/blur.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/core/widgets/tiutiu_logo.dart';
 import 'package:tiutiu/core/widgets/button_wide.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:tiutiu/core/utils/validators.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';

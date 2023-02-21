@@ -16,7 +16,7 @@
     "needsAccess": "needs to know where you are to show animals closest to your location.",
     "haveAnimals": "Do you have other animals at home? If yes, which ones and how many?",
     "onlyAnwerWhatYouWant": "Only answer questions you feel comfortable answering.",
-    "friendlyReminderToAdd9Digit": "Remember to add the 9 in front of the number.",
+    "friendlyReminderToAdd9Digit": "Remember to add the 9 in front of the number",
     "formFilledSuccess": "Ready, form successfully saved! What do you want to do?",
     "deleteMessageQuestion": "Are you sure you want to delete this conversation?",
     "verifyEmailToSeeContactInfo": "Check your email for contact information!",
@@ -774,6 +774,7 @@
      "areExperiencedInThisPet": "Do you have experience with this type of pet?",
      "whyYouWantThisPet": "Why do you want to adopt this particular pet?",
      "whatKindPetYouWant": "What kind of pet are you interested in?",
+     "toReceiveAnotherCode": "to receive another code",
      "noPostNow": "I don't want to post now",
      "openSettings": "Open settings",
      "onlySeePets": "Only See Pets",
@@ -781,5 +782,14 @@
      "saving": "Saving",
      "form": "form",
      "wait": "Wait",
-     "step": "Step"
+     "step": "Step",
+
+     "andThe": "and",     
+
+
+
+
+     "aboutText": "The Tiu, tiu application was created with the aim of facilitating the adoption of pets. We believe that all animals deserve a loving and caring home, and we want to help connect people who want to adopt with those who want to donate their animals./n/n We are not an NGO, but we care about the animal cause and want to contribute in some way to reduce the number of abandoned animals on the streets. Our team is dedicated to ensuring that all transactions are done transparently and legally, to ensure the safety and well-being of the animals involved.",
+     "termsAndConditionsText": "Platform Usage: By downloading and using the Tiu, tiu app, you agree to follow all applicable laws and regulations. You also agree not to use the application in an illegal, harmful or offensive way./n/n Prohibition of selling animals: It is explicitly prohibited to sell animals through the Tiu, Tiu application. Any user who tries to sell animals through the app will be banned from the platform./n/n Prohibition of inappropriate content: Tiu, tiu app is dedicated to connecting animal adopters and donors. Any sexual or pornographic content will be prohibited and users who publish such content will be banned from the platform./n/n Reporting inappropriate content: Users have the right to report any publication they consider inappropriate. If a post receives a significant number of reports, it will be automatically deleted./n/n Responsibility for content: You are solely responsible for the content you post on the app, including information, photos and videos. Please ensure this information is accurate and does not infringe any third party copyright./n/n Changes to terms and conditions: We reserve the right to change these terms and conditions at any time without notice. Any changes will be posted on our \"Terms and Conditions\" page\"./n/n Questions and suggestions: If you have any questions about these terms and conditions, please contact us through the \"Contact Us\" tab in the app or via email tiutiuapp2@gmail.com./n/nBy using the Tiu application, tiu, you agree to all the terms and conditions mentioned above.",
+     "privacyPolicyText": "The privacy of our users is very important to us. Therefore, we would like to explain how we collect, use and protect the personal information that you share with us when using the Tiu app, tiu./n/n/nData Collection:/nWe collect information such as location, name, WhatsApp number and email address. email only to ensure the correct functioning of the application. This information is essential so that we can connect users interested in adopting animals with users who want to donate their animals./n/n/nUse of Data:/nWe do not share your personal information with third parties. We use your information only to provide the services offered by the application./n/n/nDeletion of Data:/nUsers can request the deletion of their information through the application itself, just access the \"Delete my account\" option. Upon deletion, your data will be permanently removed from our systems./n/n/nSecurity:/nWe take security measures to protect your personal information from unauthorized access and inappropriate use. However, we cannot guarantee the absolute security of information transmitted over the internet. It is important that you take steps to protect your information, such as not sharing your password and keeping your device secure./n/n/nPrivacy Policy Changes:/nWe reserve the right to change this privacy policy at any time, without early warning. Any changes will be posted on our \"Privacy Policy\" page./n/n/nIf you have any questions about this privacy policy, please contact us at tiutiuapp2@gmail.com."
 }
