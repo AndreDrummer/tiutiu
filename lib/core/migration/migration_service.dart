@@ -1,11 +1,9 @@
 // ignore_for_file: unused_element
 
-import 'package:tiutiu/features/tiutiu_user/services/tiutiu_user_service.dart';
 import 'package:tiutiu/core/location/models/states_and_cities.dart';
 import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
 import 'package:tiutiu/features/auth/service/auth_service.dart';
 import 'package:tiutiu/core/constants/firebase_env_path.dart';
-import 'package:tiutiu/core/utils/file_cache_manager.dart';
 import 'package:tiutiu/core/constants/endpoints_name.dart';
 import 'package:tiutiu/core/utils/endpoint_resolver.dart';
 import 'package:tiutiu/core/location/models/latlng.dart';
@@ -16,7 +14,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:tiutiu/core/utils/formatter.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:flutter/material.dart';
-import 'package:uuid/uuid.dart';
 import 'dart:io';
 
 final environmentToMigrate = 'debug';
@@ -74,106 +71,6 @@ class MigrationService {
     return null;
   }
 
-  Future<String?> _migrateUserData(String userId) async {
-    // Reach the user...
-    final user = await _firestore.collection('Users').doc(userId).get();
-
-    // Get the user profile...
-    final avatarURL = user.data()!['photoURL'];
-
-    // Downloads the user profile..
-    final filePath = await FileDownloader.save(fileUrl: avatarURL, type: FileType.images, filename: 'profile');
-
-    // Upload the user avatar to the new prod path...
-    final newAvatarUrl = await TiutiuUserService().uploadAvatar(userId, File(filePath));
-
-    // Update user profile with the new avatar URL
-    _firestore.collection('Users').doc(userId).set({'photoURL': newAvatarUrl}, SetOptions(merge: true));
-
-    final newUserModel = await _getUserIntoNewModel(user.reference);
-    _insertUserDataInNewPath(newUserModel);
-
-    print('USER CATCH $newAvatarUrl');
-
-    return null;
-  }
-
-  Future<String?> _migratePostPetData(String userId) async {
-    // Reach the user to migrate...
-    final allOldPetPosts = await _firestore.collection('Donate').get();
-
-    // Iterate over all olds pets posts to get the posts belonginings to the referred userId...
-    final userPosts = allOldPetPosts.docs.where((post) {
-      final postData = post.data();
-
-      // print('POST DATA ${(postData['ownerReference'] as DocumentReference).path == 'Users/$userId'}');
-      return (postData['ownerReference'] as DocumentReference).path == 'Users/$userId';
-    }).toList();
-
-    print('POST DATA user posts ${userPosts.length}');
-
-    // Iterate over each post that belongs to the referred userId...
-    userPosts.forEach((post) async {
-      final newModelPost = await _getPostIntoNewModel(post);
-      final postReference = post.reference;
-      final postStorageHashKey = post.data()['storageHashKey'];
-      print('POST DATA  $postStorageHashKey');
-
-      final allPetsPhotos =
-          await FirebaseStorage.instance.ref(userId).child('petsPhotos/Donate/$postStorageHashKey').listAll();
-
-      final newPathPetPhotosUrlDownload = [];
-
-      // Iterate over each post photo to take the downloadURL and upload to the new path...
-      final items = allPetsPhotos.items;
-      for (int i = 0; i < items.length; i++) {
-        final photo = items[i];
-        final petPhotoUrl = await photo.getDownloadURL();
-
-        final filePath = await FileDownloader.save(fileUrl: petPhotoUrl, type: FileType.images, filename: 'petPhoto$i');
-
-        print('POST DATA FILE PATH $filePath');
-
-        // Upload the file to the new post path on Storage
-        final storageRef = FirebaseStorage.instance
-            .ref('tiutiu/$environmentToMigrate/users')
-            .child('$userId/posts/${newModelPost.uid}/images/${Uuid().v4()}');
-
-        var uploadTask = storageRef.putFile(File(filePath));
-
-        await uploadTask;
-
-        final newPetPhotoUrl = await storageRef.getDownloadURL();
-
-        print('POST DATA NEW DOWNLOAD URL $newPetPhotoUrl');
-
-        newPathPetPhotosUrlDownload.add(newPetPhotoUrl);
-
-        print('POST DATA NEW PHOTOS LIST $newPathPetPhotosUrlDownload');
-
-        // Update current build about the new pet photo url
-        postReference.set({'photos': newPathPetPhotosUrlDownload}, SetOptions(merge: true));
-
-        postReference.set({'avatar': newPathPetPhotosUrlDownload.first}, SetOptions(merge: true));
-      }
-
-      // Update post location
-      final location = await _updatePostStateAndCity(LatLng(newModelPost.latitude!, newModelPost.longitude!));
-
-      // Update the new pet Model with the newPhotos URL.
-      final newPost = newModelPost
-          .copyWith(photos: newPathPetPhotosUrlDownload)
-          .copyWith(gender: post.data()['sex'])
-          .copyWith(state: location.first)
-          .copyWith(city: location.last);
-
-      // Insert the post in the new location
-      _insertPostDataInNewPath(newPost);
-    });
-
-    return null;
-  }
-
   Future<List<String>> _updatePostStateAndCity(LatLng location) async {
     late String state;
     late String city;
@@ -198,21 +95,6 @@ class MigrationService {
     }
 
     return [state, city];
-  }
-
-  Future<TiutiuUser> _getUserIntoNewModel(DocumentReference ownerReference) async {
-    final userData = await ownerReference.get();
-    final tiutiuUser = TiutiuUser.fromMapMigration((userData.data() as Map<String, dynamic>));
-
-    return tiutiuUser;
-  }
-
-  Future<Pet> _getPostIntoNewModel(QueryDocumentSnapshot<Map<String, dynamic>> postQuerySnapshot) async {
-    final newPetModelMap = postQuerySnapshot.data();
-    final tiutiuUser = await _getUserIntoNewModel(postQuerySnapshot.data()['ownerReference']);
-    newPetModelMap[PostEnum.owner.name] = tiutiuUser.toMap();
-
-    return Pet().fromMap(newPetModelMap);
   }
 
   Future<bool> _loginWithEmailAndPassword(String email, String password) async {
@@ -261,34 +143,6 @@ class MigrationService {
         } else {
           // deleteUserData
         }
-      }
-    });
-  }
-
-  Future<void> _migratePosts() async {
-    final list = await _firestore.collection(petAdPurpose).get();
-
-    list.docs.forEach((petAd) async {
-      if (petAd.data()['donated'] == true) {
-        _deletePost(petAd);
-      }
-
-      if (petAd.data()['createdAt'] != null) {
-        final includedAfterJanuary2023 = includedAtTheCutDate(
-          createdAt: petAd.data()['createdAt'],
-          cutdate: DateTime(2023, 01, 01),
-        );
-
-        if (includedAfterJanuary2023) {
-          final newPet = await _getPostIntoNewModel(petAd);
-
-          _insertPostDataInNewPath(newPet);
-        } else {
-          _deletePost(petAd);
-        }
-      } else {
-        // Apagar anuncios de Maio/2022
-        _deletePost(petAd);
       }
     });
   }

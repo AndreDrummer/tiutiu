@@ -4,7 +4,9 @@
 <dict>
 	<key>CFBundleLocalizations</key>
 	<array>
-   		<string>pt-Br</string>   		
+		<string>pt-Br</string>
+		<string>en-US</string>
+		<string>es-ES</string>
 	</array>
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>

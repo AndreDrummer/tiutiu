@@ -7,12 +7,15 @@ import 'package:dio/dio.dart';
 class WhatsAppService {
   WhatsAppService({
     required this.phoneNumber,
+    required this.countryCode,
     required this.code,
   });
   final String phoneNumber;
+  final String countryCode;
   final String code;
 
   Future<void> sendCodeVerification() async {
+    final finalCountryCode = countryCode.replaceAll('+', '');
     final _dio = Dio();
 
     final DocumentSnapshot<Map<String, dynamic>> keys = await _getWhatsappKeys();
@@ -34,7 +37,7 @@ class WhatsAppService {
 
     final body = {
       "messaging_product": "whatsapp",
-      "to": "55$phoneNumber",
+      "to": "$finalCountryCode$phoneNumber",
       "type": "template",
       "template": {
         "name": "$template",
