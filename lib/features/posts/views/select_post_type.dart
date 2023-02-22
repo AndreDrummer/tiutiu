@@ -107,10 +107,12 @@ class SelectPostType extends StatelessWidget with TiuTiuPopUp {
       return SelectPostTypeGridView(
         onTypeSelected: (typeSelected) {
           postsController.updatePost(PostEnum.type.name, typeSelected);
+          postsController.updatePost(PetEnum.color.name, '-');
 
-          if (postsController.isEditingPost) {
+          if (typeSelected == AppLocalizations.of(Get.context!).other) {
+            postsController.updatePost(PetEnum.breed.name, '');
+          } else {
             postsController.updatePost(PetEnum.breed.name, '-');
-            postsController.updatePost(PetEnum.color.name, '-');
           }
         },
         pairRowAxisAlignment: MainAxisAlignment.start,

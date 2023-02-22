@@ -1,9 +1,12 @@
 import 'package:tiutiu/core/extensions/string_extension.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:tiutiu/core/pets/model/pet_model.dart';
 import 'package:tiutiu/features/posts/model/post.dart';
 import 'package:flutter/widgets.dart';
+import 'package:get/get.dart';
 
 final GlobalKey<FormState> diaseaseForm = GlobalKey<FormState>();
+final GlobalKey<FormState> breedFormKey = GlobalKey<FormState>();
 final GlobalKey<FormState> nameKeyForm = GlobalKey<FormState>();
 
 class PostFormValidator {
@@ -28,6 +31,10 @@ class PostFormValidator {
     bool isValid = (post as Pet).breed.isNotEmptyNeighterNull() &&
         (post as Pet).color.isNotEmptyNeighterNull() &&
         (post as Pet).description.isNotEmptyNeighterNull();
+
+    if (post.type == AppLocalizations.of(Get.context!).other) {
+      isValid = breedFormKey.currentState!.validate();
+    }
 
     return isValid;
   }
