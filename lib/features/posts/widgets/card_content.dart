@@ -1,4 +1,6 @@
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:tiutiu/core/widgets/lottie_animation.dart';
+import 'package:tiutiu/core/constants/assets_path.dart';
 import 'package:tiutiu/core/constants/text_styles.dart';
 import 'package:flutter/material.dart';
 
@@ -41,13 +43,19 @@ class CardContent extends StatelessWidget {
                       ),
                       Visibility(
                         visible: icon != null,
-                        child: InkWell(
-                          onTap: onAction,
-                          child: Icon(
-                            color: Colors.blue,
-                            size: 16.0.h,
-                            icon,
-                          ),
+                        child: Row(
+                          children: [
+                            LottieAnimation(animationPath: AnimationsAssets.petLocationPin, size: 22.0.h),
+                            SizedBox(width: 2.0.w),
+                            InkWell(
+                              onTap: onAction,
+                              child: Icon(
+                                color: Colors.blue,
+                                size: 16.0.h,
+                                icon,
+                              ),
+                            ),
+                          ],
                         ),
                       )
                     ],

@@ -1,18 +1,19 @@
+import 'package:tiutiu/features/posts/validators/form_validators.dart';
 import 'package:tiutiu/core/widgets/underline_input_dropdown.dart';
 import 'package:tiutiu/core/extensions/string_extension.dart';
+import 'package:tiutiu/features/posts/widgets/text_area.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/widgets/underline_text.dart';
 import 'package:tiutiu/core/widgets/one_line_text.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
+import 'package:tiutiu/features/posts/model/post.dart';
 import 'package:tiutiu/core/pets/model/pet_model.dart';
 import 'package:tiutiu/core/utils/validators.dart';
 import 'package:tiutiu/core/data/dummy_data.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:tiutiu/features/posts/model/post.dart';
-import 'package:tiutiu/features/posts/widgets/text_area.dart';
 
 class PostDescription extends StatelessWidget {
   @override
@@ -56,14 +57,17 @@ class PostDescription extends StatelessWidget {
       replacement: Padding(
         padding: EdgeInsets.fromLTRB(3.0.w, 0.0.h, 3.0.w, 16.0.h),
         child: Obx(
-          () => UnderlineInputText(
-            initialValue: (postsController.post as Pet).breed,
-            validator: Validators.verifyEmpty,
-            onChanged: (exoticBreed) {
-              postsController.updatePost(PetEnum.breed.name, exoticBreed);
-            },
-            labelText: AppLocalizations.of(context).describBreed,
-            fontSizeLabelText: 12.0,
+          () => Form(
+            key: breedFormKey,
+            child: UnderlineInputText(
+              initialValue: (postsController.post as Pet).breed,
+              validator: Validators.verifyEmpty,
+              onChanged: (exoticBreed) {
+                postsController.updatePost(PetEnum.breed.name, exoticBreed);
+              },
+              labelText: AppLocalizations.of(context).describBreed,
+              fontSizeLabelText: 12.0,
+            ),
           ),
         ),
       ),
