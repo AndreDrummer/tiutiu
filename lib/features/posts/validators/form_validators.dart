@@ -25,18 +25,16 @@ class PostFormValidator {
   }
 
   bool isStep2Valid() {
-    bool isValid = (post as Pet).breed.isNotEmptyNeighterNull() && (post as Pet).color.isNotEmptyNeighterNull();
+    bool isValid = (post as Pet).breed.isNotEmptyNeighterNull() &&
+        (post as Pet).color.isNotEmptyNeighterNull() &&
+        (post as Pet).description.isNotEmptyNeighterNull();
 
     return isValid;
   }
 
   bool isStep3Valid() => true;
 
-  bool isStep4Valid() {
-    bool isValid = post.description.isNotEmptyNeighterNull();
-
-    return isValid;
-  }
+  bool isStep4Valid() => true;
 
   bool isStep5Valid() {
     bool isValid = post.photos.isNotEmpty;

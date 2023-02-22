@@ -213,9 +213,9 @@ class SelectPostType extends StatelessWidget with TiuTiuPopUp {
                 onChanged: (value) {
                   postsController.updatePost(PetEnum.reward.name, value);
                 },
-                labelText: 'R\$ 1.000',
+                labelText: '\$ 1.000',
                 hintText: '1.000',
-                prefix: 'R\$ ',
+                prefix: '\$ ',
                 maxLines: 1,
               ),
             ],
