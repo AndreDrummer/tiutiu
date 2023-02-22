@@ -11,6 +11,8 @@ import 'package:tiutiu/core/utils/validators.dart';
 import 'package:tiutiu/core/data/dummy_data.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:tiutiu/features/posts/model/post.dart';
+import 'package:tiutiu/features/posts/widgets/text_area.dart';
 
 class PostDescription extends StatelessWidget {
   @override
@@ -27,6 +29,8 @@ class PostDescription extends StatelessWidget {
           _color(context),
           _spacer(),
           _petAge(context, yearsList, monthsList),
+          _spacer(),
+          _postDescription(context),
           _spacer(),
         ],
       ),
@@ -94,7 +98,7 @@ class PostDescription extends StatelessWidget {
     return Column(
       children: [
         OneLineText(
-          widgetAlignment: Alignment(-0.92, 1),
+          widgetAlignment: Alignment(-0.965, 1),
           fontWeight: FontWeight.w500,
           color: AppColors.secondary,
           text: AppLocalizations.of(context).age,
@@ -133,6 +137,35 @@ class PostDescription extends StatelessWidget {
           ],
         ),
       ],
+    );
+  }
+
+  Widget _postDescription(BuildContext context) {
+    return Obx(
+      () => Column(
+        children: [
+          OneLineText(
+            widgetAlignment: Alignment(-0.965, 1),
+            fontWeight: FontWeight.w500,
+            color: AppColors.secondary,
+            text: AppLocalizations.of(context).talkAboutThisPet,
+            fontSize: 12,
+          ),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 4.0.w, vertical: 8.0.h),
+            child: TextArea(
+              isInErrorState:
+                  !postsController.post.description.isNotEmptyNeighterNull() && !postsController.formIsValid,
+              labelText: AppLocalizations.of(context).jotSomethingDown,
+              initialValue: postsController.post.description,
+              maxLines: 5,
+              onChanged: (description) {
+                postsController.updatePost(PostEnum.description.name, description);
+              },
+            ),
+          ),
+        ],
+      ),
     );
   }
 
