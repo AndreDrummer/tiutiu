@@ -147,6 +147,15 @@
             }
         }
     },
+    "blockUser": "Block {username}",
+    "@blockUser": {        
+        "placeholders": {
+            "username": {
+                "type": "String",
+                "example": "John"
+            }
+        }
+    },    
     "imageQty": "{count, plural, =1{Enviando a foto...} other{Enviando as fotos...}}",
     "@imageQty": {
         "placeholders": {
