@@ -17,7 +17,6 @@ import 'package:tiutiu/core/widgets/simple_text_button.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/utils/routes/routes_name.dart';
 import 'package:tiutiu/core/utils/launcher_functions.dart';
-import 'package:tiutiu/core/widgets/lottie_animation.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/widgets/tiutiu_snackbar.dart';
 import 'package:tiutiu/core/widgets/tiutiutok_icon.dart';
@@ -558,7 +557,7 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
       visible: description != null,
       child: CardContent(
         title: AppLocalizations.of(context).description,
-        content: OtherFunctions.replacePhoneNumberWithStars(description ?? ''),
+        content: OtherFunctions.replacePhoneNumberWithStars(description?.trim() ?? ''),
       ),
     );
   }
@@ -580,27 +579,19 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
 
     final showIcon = post.describedAddress.isNotEmptyNeighterNull() && !(post as Pet).disappeared;
 
-    return Stack(
-      children: [
-        CardContent(
-          icon: showIcon ? Icons.launch : null,
-          content: (post as Pet).disappeared
-              ? '${post.city} - ${post.state} ${post.lastSeenDetails}'
-              : '${post.city} - ${post.state} $describedAddress',
-          title: post.disappeared ? AppLocalizations.of(context).lastSeen : AppLocalizations.of(context).whereIsThisPet,
-          onAction: () {
-            MapsLauncher.launchCoordinates(
-              post.latitude ?? 0.0,
-              post.longitude ?? 0.0,
-              post.name,
-            );
-          },
-        ),
-        Positioned(
-          child: LottieAnimation(animationPath: AnimationsAssets.petLocationPin, size: 32.0.h),
-          left: post.disappeared ? Get.width / 2.3 : Get.width / 3.5,
-        )
-      ],
+    return CardContent(
+      icon: showIcon ? Icons.launch : null,
+      content: (post as Pet).disappeared
+          ? '${post.city} - ${post.state} ${post.lastSeenDetails}'
+          : '${post.city} - ${post.state} $describedAddress',
+      title: post.disappeared ? AppLocalizations.of(context).lastSeen : AppLocalizations.of(context).whereIsThisPet,
+      onAction: () {
+        MapsLauncher.launchCoordinates(
+          post.latitude ?? 0.0,
+          post.longitude ?? 0.0,
+          post.name,
+        );
+      },
     );
   }
 
