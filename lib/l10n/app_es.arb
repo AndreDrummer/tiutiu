@@ -148,6 +148,15 @@
             }
         }
     },
+    "blockUser": "Bloquear {username}",
+    "@blockUser": {        
+        "placeholders": {
+            "username": {
+                "type": "String",
+                "example": "John"
+            }
+        }
+    },    
     "imageQty": "{count, plural, =1{Enviando la foto...} other{Enviando las fotos...}}",
     "@imageQty": {
         "placeholders": {
