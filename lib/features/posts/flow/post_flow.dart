@@ -16,6 +16,7 @@ import 'package:tiutiu/core/widgets/row_button_bar.dart';
 import 'package:tiutiu/core/views/load_dark_screen.dart';
 import 'package:tiutiu/core/widgets/one_line_text.dart';
 import 'package:tiutiu/core/mixins/tiu_tiu_pop_up.dart';
+import 'package:tiutiu/core/pets/model/pet_model.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -30,15 +31,19 @@ class PostFlow extends StatelessWidget with TiuTiuPopUp {
       child: Obx(
         () {
           double screenHeight = postsController.flowIndex >= 6 ? Get.height / 1.39 : Get.height;
+          final isDisappeared = (postsController.post as Pet).disappeared;
+          final postReviewed = postsController.postReviewed;
 
           List<String> _screensTitle = [
             AppLocalizations.of(context).petsData,
             AppLocalizations.of(context).moreDetails,
             AppLocalizations.of(context).otherCaracteristicsOptional,
-            AppLocalizations.of(context).talkAboutThisPet,
+            isDisappeared
+                ? AppLocalizations.of(context).whereLastSeen
+                : AppLocalizations.of(context).provideAddressDetails,
             AppLocalizations.of(context).picTime,
             AppLocalizations.of(context).addVideo,
-            postsController.postReviewed
+            postReviewed
                 ? postsController.isLoading
                     ? AppLocalizations.of(context).posting
                     : AppLocalizations.of(context).allDone

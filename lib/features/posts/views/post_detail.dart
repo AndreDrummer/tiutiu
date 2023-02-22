@@ -585,7 +585,7 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
         CardContent(
           icon: showIcon ? Icons.launch : null,
           content: (post as Pet).disappeared
-              ? '${post.city} - ${post.state} ${(post).lastSeenDetails}'
+              ? '${post.city} - ${post.state} ${post.lastSeenDetails}'
               : '${post.city} - ${post.state} $describedAddress',
           title: post.disappeared ? AppLocalizations.of(context).lastSeen : AppLocalizations.of(context).whereIsThisPet,
           onAction: () {

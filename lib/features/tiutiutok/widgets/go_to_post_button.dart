@@ -1,3 +1,4 @@
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/utils/routes/routes_name.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
@@ -30,7 +31,7 @@ class GoToPostButton extends StatelessWidget {
           Get.toNamed(Routes.postDetails);
         },
         child: AutoSizeTexts.autoSizeText14(
-          'Ver\ndetalhes',
+          AppLocalizations.of(context).seeDetails,
           textAlign: TextAlign.end,
           color: AppColors.white,
         ),
