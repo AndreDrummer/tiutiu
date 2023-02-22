@@ -69,7 +69,7 @@ class AnnouncerProfile extends StatelessWidget with TiuTiuPopUp {
           ],
         ),
         Container(
-          height: Get.height / 3,
+          height: Get.height / 2.8,
           margin: EdgeInsets.only(left: 8.0.w, top: 16.0.h),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -84,17 +84,7 @@ class AnnouncerProfile extends StatelessWidget with TiuTiuPopUp {
               _contactTitle(context),
               _contactButtonRow(context),
               Spacer(),
-              TextButton.icon(
-                label: AutoSizeTexts.autoSizeText14(AppLocalizations.of(context).dennounceUser(
-                  _user.displayName ?? '',
-                )),
-                icon: Icon(Icons.warning_amber),
-                onPressed: () {
-                  userDennounceController.updateUserDennounce(UserDennounceEnum.dennouncedUser, _user);
-
-                  showsDennouncePopup(content: UserDennounceScreen());
-                },
-              ),
+              _reportOrBlockUserButton(context),
             ],
           ),
         )
@@ -242,6 +232,46 @@ class AnnouncerProfile extends StatelessWidget with TiuTiuPopUp {
             ),
           ),
           SizedBox(width: 8.0.w)
+        ],
+      ),
+    );
+  }
+
+  Widget _reportOrBlockUserButton(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.only(bottom: 8.0.h),
+      child: Row(
+        children: [
+          Expanded(
+            child: TextButton.icon(
+              label: AutoSizeTexts.autoSizeText14(AppLocalizations.of(context).dennounceUser(_user.displayName ?? ''),
+                  color: AppColors.black),
+              icon: Padding(
+                padding: EdgeInsets.only(bottom: 1.0.h),
+                child: Icon(Icons.warning_amber, size: 12.0.h, color: AppColors.black),
+              ),
+              onPressed: () {
+                userDennounceController.updateUserDennounce(UserDennounceEnum.dennouncedUser, _user);
+
+                showsDennouncePopup(content: UserDennounceScreen());
+              },
+            ),
+          ),
+          Expanded(
+            child: TextButton.icon(
+              label: AutoSizeTexts.autoSizeText14(AppLocalizations.of(context).blockUser(_user.displayName ?? ''),
+                  color: AppColors.black),
+              icon: Padding(
+                padding: EdgeInsets.only(bottom: 1.0.h),
+                child: Icon(Icons.warning_amber, size: 12.0.h, color: AppColors.black),
+              ),
+              onPressed: () {
+                userDennounceController.updateUserDennounce(UserDennounceEnum.dennouncedUser, _user);
+
+                showsDennouncePopup(content: UserDennounceScreen());
+              },
+            ),
+          ),
         ],
       ),
     );
