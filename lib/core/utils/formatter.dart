@@ -53,9 +53,12 @@ class Formatters {
   }
 
   static String getFormattedDate(String createdAt) {
+    final locale = Localizations.localeOf(Get.context!);
     final date = getDateTime(createdAt);
 
-    return DateFormat('dd/MM/yyy').format(date);
+    if (locale.languageCode == 'pt' || locale.languageCode == 'es') return DateFormat('dd/MM/yyy').format(date);
+
+    return DateFormat('MM/dd/yyy').format(date);
   }
 
   static String getFormattedDateAndTime(String createdAt) {
