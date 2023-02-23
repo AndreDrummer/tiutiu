@@ -1,3 +1,4 @@
+import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/local_storage/local_storage_keys.dart';
 import 'package:tiutiu/core/local_storage/local_storage.dart';
 import 'package:tiutiu/core/system/views/loading_start_screen.dart';
@@ -21,9 +22,7 @@ class _StartScreenOrSomeScreenState extends State<StartScreenOrSomeScreen> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: LocalStorage.getBooleanKey(
-        key: LocalStorageKey.firstOpen,
-      ),
+      future: LocalStorage.getUnderBooleanKey(key: LocalStorageKey.firstOpen),
       builder: (_, AsyncSnapshot<bool> snapshot) {
         return AsyncHandler<bool>(
           loadingWidget: SplashScreenLoading(),
@@ -34,7 +33,11 @@ class _StartScreenOrSomeScreenState extends State<StartScreenOrSomeScreen> {
               value: false,
             );
 
-            return firstOpen ? StartScreen() : widget.somescreen;
+            final hasAcceptedTerms = authController.userExists
+                ? tiutiuUserController.tiutiuUser.hasAcceptedTerms
+                : systemController.properties.hasAcceptedTerms;
+
+            return (firstOpen || !hasAcceptedTerms) ? StartScreen() : widget.somescreen;
           },
         );
       },
