@@ -4,6 +4,7 @@ enum SystemEnum {
   systemStateTextFeedback,
   accessLocationDenied,
   internetConnected,
+  hasAcceptedTerms,
   runningVersion,
   snackBarIsOpen,
   isLoading,
@@ -25,6 +26,7 @@ class System {
     this.systemStateTextFeedback = '',
     this.accessLocationDenied = false,
     this.internetConnected = false,
+    this.hasAcceptedTerms = false,
     this.snackBarIsOpen = false,
     this.runningVersion = '',
     this.isLoading = false,
@@ -35,8 +37,9 @@ class System {
       systemStateTextFeedback: this.systemStateTextFeedback,
       accessLocationDenied: this.accessLocationDenied,
       internetConnected: this.internetConnected,
-      runningVersion: this.runningVersion,
+      hasAcceptedTerms: this.hasAcceptedTerms,
       snackBarIsOpen: this.snackBarIsOpen,
+      runningVersion: this.runningVersion,
       isLoading: this.isLoading,
     );
   }
@@ -45,6 +48,7 @@ class System {
   final bool accessLocationDenied;
   final bool internetConnected;
   final String runningVersion;
+  final bool hasAcceptedTerms;
   final bool snackBarIsOpen;
   final bool isLoading;
 
@@ -52,6 +56,7 @@ class System {
     String? systemStateTextFeedback,
     bool? accessLocationDenied,
     bool? internetConnected,
+    bool? hasAcceptedTerms,
     String? runningVersion,
     bool? snackBarIsOpen,
     bool? isLoading,
@@ -60,6 +65,7 @@ class System {
       systemStateTextFeedback: systemStateTextFeedback ?? this.systemStateTextFeedback,
       accessLocationDenied: accessLocationDenied ?? this.accessLocationDenied,
       internetConnected: internetConnected ?? this.internetConnected,
+      hasAcceptedTerms: hasAcceptedTerms ?? this.hasAcceptedTerms,
       snackBarIsOpen: snackBarIsOpen ?? this.snackBarIsOpen,
       runningVersion: runningVersion ?? this.runningVersion,
       isLoading: isLoading ?? this.isLoading,
@@ -71,6 +77,7 @@ class System {
       SystemEnum.systemStateTextFeedback.name: systemStateTextFeedback,
       SystemEnum.accessLocationDenied.name: accessLocationDenied,
       SystemEnum.internetConnected.name: internetConnected,
+      SystemEnum.hasAcceptedTerms.name: hasAcceptedTerms,
       SystemEnum.runningVersion.name: runningVersion,
       SystemEnum.snackBarIsOpen.name: snackBarIsOpen,
       SystemEnum.isLoading.name: isLoading,
@@ -83,6 +90,7 @@ class System {
       systemStateTextFeedback: $systemStateTextFeedback,        
       accessLocationDenied: $accessLocationDenied,        
       internetConnected: $internetConnected,      
+      hasAcceptedTerms: $hasAcceptedTerms,        
       runningVersion: $runningVersion,
       snackBarIsOpen: $snackBarIsOpen,      
       isLoading: $isLoading

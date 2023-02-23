@@ -23,8 +23,8 @@ class SystemController extends GetxController {
   final SystemService _systemService;
 
   final RxMap<String, dynamic> _adMobIDs = <String, dynamic>{}.obs;
-  final Rx<System> _systemProperties = System().obs;
   final RxList<Endpoint> _endpoints = <Endpoint>[].obs;
+  final Rx<System> _systemProperties = System().obs;
   final RxBool _isToCloseApp = false.obs;
   String initialFDLink = '';
 
@@ -68,6 +68,7 @@ class SystemController extends GetxController {
       await _getAdMobIDs();
 
       await handleFDLOpensApp();
+      await checkUserTermsAccepted();
 
       adMobController.loadWhatsAppRewardedAd();
       adMobController.loadChatRewardedAd();
@@ -88,6 +89,15 @@ class SystemController extends GetxController {
         exception: exception,
       );
     }
+  }
+
+  Future<void> checkUserTermsAccepted() async {
+    final termsAccepted = await LocalStorage.getUnderBooleanKey(
+      key: LocalStorageKey.termsAndConditions,
+      standardValue: false,
+    );
+
+    _systemProperties(properties.copyWith(hasAcceptedTerms: termsAccepted));
   }
 
   Future<bool> updateAccessToLocationWasDenied() async {
