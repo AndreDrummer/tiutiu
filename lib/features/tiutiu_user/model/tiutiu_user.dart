@@ -4,6 +4,7 @@ enum TiutiuUserEnum {
   allowContactViaWhatsApp,
   timesOpenedTheApp,
   notificationToken,
+  hasAcceptedTerms,
   timesDennounced,
   emailVerified,
   phoneVerified,
@@ -24,6 +25,7 @@ enum TiutiuUserEnum {
 class TiutiuUser {
   TiutiuUser({
     this.allowContactViaWhatsApp = false,
+    this.hasAcceptedTerms = false,
     this.emailVerified = false,
     this.phoneVerified = false,
     this.userDeleted = false,
@@ -50,6 +52,7 @@ class TiutiuUser {
           : null,
       lastLogin: snapshot.get(TiutiuUserEnum.lastLogin.name) ?? snapshot.get(TiutiuUserEnum.createdAt.name),
       allowContactViaWhatsApp: snapshot.get(TiutiuUserEnum.allowContactViaWhatsApp.name) ?? false,
+      hasAcceptedTerms: snapshot.get(TiutiuUserEnum.hasAcceptedTerms.name) ?? false,
       timesOpenedTheApp: snapshot.get(TiutiuUserEnum.timesOpenedTheApp.name) ?? 0,
       avatar: snapshot.get(TiutiuUserEnum.avatar.name) ?? snapshot.get('photoURL'),
       emailVerified: snapshot.get(TiutiuUserEnum.emailVerified.name) ?? false,
@@ -72,6 +75,7 @@ class TiutiuUser {
     return TiutiuUser(
       lastLogin: map[TiutiuUserEnum.lastLogin.name] ?? map[TiutiuUserEnum.createdAt.name],
       allowContactViaWhatsApp: map[TiutiuUserEnum.allowContactViaWhatsApp.name] ?? false,
+      hasAcceptedTerms: map[TiutiuUserEnum.hasAcceptedTerms.name] ?? false,
       timesOpenedTheApp: map[TiutiuUserEnum.timesOpenedTheApp.name] ?? 0,
       emailVerified: map[TiutiuUserEnum.emailVerified.name] ?? false,
       phoneVerified: map[TiutiuUserEnum.phoneVerified.name] ?? false,
@@ -106,6 +110,7 @@ class TiutiuUser {
   bool allowContactViaWhatsApp;
   DocumentReference? reference;
   String? notificationToken;
+  bool hasAcceptedTerms;
   int timesOpenedTheApp;
   String? phoneNumber;
   String? displayName;
@@ -129,6 +134,7 @@ class TiutiuUser {
       TiutiuUserEnum.notificationToken.name: notificationToken,
       TiutiuUserEnum.notificationToken.name: notificationToken,
       TiutiuUserEnum.timesOpenedTheApp.name: timesOpenedTheApp,
+      TiutiuUserEnum.hasAcceptedTerms.name: hasAcceptedTerms,
       TiutiuUserEnum.timesDennounced.name: timesDennounced,
       TiutiuUserEnum.timesDennounced.name: timesDennounced,
       TiutiuUserEnum.emailVerified.name: emailVerified,
