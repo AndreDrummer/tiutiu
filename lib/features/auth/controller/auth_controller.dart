@@ -399,7 +399,7 @@ class AuthController extends GetxController {
   Future<bool> tryLoginWithFacebook() async {
     if (kDebugMode) debugPrint('TiuTiuApp: trying log in with facebook');
 
-    final firstLogin = await LocalStorage.getBooleanKey(
+    final firstLogin = await LocalStorage.getUnderBooleanKey(
       key: LocalStorageKey.facebookAuthData,
       standardValue: true,
     );
@@ -542,6 +542,14 @@ class AuthController extends GetxController {
         exception: exception,
       );
       throw TiuTiuAuthException(exception.code);
+    }
+  }
+
+  Future<void> saveUserTermsAndConditionsChoice() async {
+    if (userExists) {
+      await tiutiuUserController.updateUserDataOnServer();
+    } else {
+      await LocalStorage.setBooleanUnderKey(key: LocalStorageKey.termsAndConditions, value: true);
     }
   }
 
