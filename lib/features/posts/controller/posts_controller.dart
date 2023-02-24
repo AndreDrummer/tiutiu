@@ -437,6 +437,7 @@ class PostsController extends GetxController with TiuTiuPopUp {
       city = 'Acrelândia';
     }
 
+    postMap[PostEnum.country.name] = systemController.properties.userChoiceCountry;
     postMap[PostEnum.state.name] = state;
     postMap[PostEnum.city.name] = city;
   }
