@@ -7,6 +7,7 @@ import 'package:tiutiu/features/talk_with_us/views/talk_with_us.dart';
 import 'package:tiutiu/features/auth/views/email_and_password.dart';
 import 'package:tiutiu/core/system/views/loading_start_screen.dart';
 import 'package:tiutiu/features/posts/flow/init_post_flow.dart';
+import 'package:tiutiu/features/auth/views/auth_or_home.dart';
 import 'package:tiutiu/features/support/views/support_us.dart';
 import 'package:tiutiu/features/more/views/edit_profile.dart';
 import 'package:tiutiu/features/posts/views/post_detail.dart';
@@ -35,6 +36,8 @@ class RouterGenerator {
         return createCustomTransition(StartScreen());
       case Routes.authHosters:
         return createCustomTransition(AuthHosters());
+      case Routes.authOrHome:
+        return createCustomTransition(AuthOrHome());
       case Routes.emailAndPassword:
         return createCustomTransition(EmailAndPassword());
       case Routes.home:
