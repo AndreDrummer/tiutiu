@@ -26,8 +26,9 @@ class CountrySelecter extends StatelessWidget {
 
           return Center(
             child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              child: ListView(
+                padding: EdgeInsets.zero,
                 children: [
                   const LottieAnimation(animationPath: AnimationsAssets.spinningGlobe, size: 200.0),
                   OneLineText(text: AppLocalizations.of(context).chooseWhereSeePets, fontSize: 24),
@@ -50,18 +51,60 @@ class CountrySelecter extends StatelessWidget {
                           key: LocalStorageKey.userChoiceCountry,
                           value: country,
                         );
+
                         systemController.setUserChoiceCountry();
                       },
                     ),
                   ),
-                  Spacer(),
-                  ButtonWide(),
-                  SizedBox(height: 16.0.h),
+                  _selectRadius(context),
                 ],
               ),
             ),
           );
         },
+      ),
+      bottomNavigationBar: Padding(
+        padding: EdgeInsets.only(bottom: 16.0.h),
+        child: ButtonWide(),
+      ),
+    );
+  }
+
+  Widget _selectRadius(BuildContext context) {
+    return Obx(
+      () => Visibility(
+        visible: systemController.properties.userChoiceCountry != 'brazil',
+        child: Column(
+          children: [
+            SizedBox(height: 40.0.h),
+            OneLineText(text: AppLocalizations.of(context).setARadiusToSearchPets, fontSize: 24),
+            SizedBox(height: 8.0.h),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Expanded(
+                  child: Slider(
+                    onChanged: (radius) async {
+                      await LocalStorage.setValueUnderLocalStorageKey(
+                        key: LocalStorageKey.userChoiceRadiusDistanceToShowPets,
+                        value: radius,
+                      );
+
+                      systemController.setUserChoiceRadiusDistanceToShowPets();
+                    },
+                    value: systemController.properties.userChoiceRadiusDistanceToShowPets,
+                    max: 500,
+                    min: 0,
+                  ),
+                ),
+                OneLineText(
+                  text: systemController.properties.userChoiceRadiusDistanceToShowPets.toStringAsFixed(0) + ' km',
+                  fontSize: 12,
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

@@ -1,11 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 enum SystemEnum {
+  userChoiceRadiusDistanceToShowPets,
   systemStateTextFeedback,
   accessLocationDenied,
   internetConnected,
-  hasAcceptedTerms,
   userChoiceCountry,
+  hasAcceptedTerms,
   runningVersion,
   snackBarIsOpen,
   isLoading,
@@ -14,6 +15,7 @@ enum SystemEnum {
 class System {
   factory System.fromMap(Map<String, dynamic> map) {
     return System(
+      userChoiceRadiusDistanceToShowPets: map[SystemEnum.userChoiceRadiusDistanceToShowPets.name],
       systemStateTextFeedback: map[SystemEnum.systemStateTextFeedback.name],
       accessLocationDenied: map[SystemEnum.accessLocationDenied.name],
       internetConnected: map[SystemEnum.internetConnected.name],
@@ -25,6 +27,7 @@ class System {
   }
 
   System({
+    this.userChoiceRadiusDistanceToShowPets = 10,
     this.systemStateTextFeedback = '',
     this.accessLocationDenied = false,
     this.internetConnected = false,
@@ -37,6 +40,7 @@ class System {
 
   System fromSnapshot(DocumentSnapshot snapshot) {
     return System(
+      userChoiceRadiusDistanceToShowPets: this.userChoiceRadiusDistanceToShowPets,
       systemStateTextFeedback: this.systemStateTextFeedback,
       accessLocationDenied: this.accessLocationDenied,
       internetConnected: this.internetConnected,
@@ -48,6 +52,7 @@ class System {
     );
   }
 
+  final double userChoiceRadiusDistanceToShowPets;
   final String systemStateTextFeedback;
   final bool accessLocationDenied;
   final bool internetConnected;
@@ -58,21 +63,23 @@ class System {
   final bool isLoading;
 
   System copyWith({
+    double? userChoiceRadiusDistanceToShowPets,
     String? systemStateTextFeedback,
     bool? accessLocationDenied,
-    bool? internetConnected,
     String? userChoiceCountry,
+    bool? internetConnected,
     String? runningVersion,
     bool? hasAcceptedTerms,
     bool? snackBarIsOpen,
     bool? isLoading,
   }) {
     return System(
+      userChoiceRadiusDistanceToShowPets: userChoiceRadiusDistanceToShowPets ?? this.userChoiceRadiusDistanceToShowPets,
       systemStateTextFeedback: systemStateTextFeedback ?? this.systemStateTextFeedback,
       accessLocationDenied: accessLocationDenied ?? this.accessLocationDenied,
       internetConnected: internetConnected ?? this.internetConnected,
-      hasAcceptedTerms: hasAcceptedTerms ?? this.hasAcceptedTerms,
       userChoiceCountry: userChoiceCountry ?? this.userChoiceCountry,
+      hasAcceptedTerms: hasAcceptedTerms ?? this.hasAcceptedTerms,
       snackBarIsOpen: snackBarIsOpen ?? this.snackBarIsOpen,
       runningVersion: runningVersion ?? this.runningVersion,
       isLoading: isLoading ?? this.isLoading,
@@ -81,11 +88,12 @@ class System {
 
   Map<String, dynamic> toMap() {
     return {
+      SystemEnum.userChoiceRadiusDistanceToShowPets.name: userChoiceRadiusDistanceToShowPets,
       SystemEnum.systemStateTextFeedback.name: systemStateTextFeedback,
       SystemEnum.accessLocationDenied.name: accessLocationDenied,
+      SystemEnum.userChoiceCountry.name: userChoiceCountry,
       SystemEnum.internetConnected.name: internetConnected,
       SystemEnum.hasAcceptedTerms.name: hasAcceptedTerms,
-      SystemEnum.userChoiceCountry.name: userChoiceCountry,
       SystemEnum.runningVersion.name: runningVersion,
       SystemEnum.snackBarIsOpen.name: snackBarIsOpen,
       SystemEnum.isLoading.name: isLoading,
@@ -95,11 +103,12 @@ class System {
   @override
   String toString() {
     return '''System(      
+      userChoiceRadiusDistanceToShowPets: $userChoiceRadiusDistanceToShowPets,
       systemStateTextFeedback: $systemStateTextFeedback,
       accessLocationDenied: $accessLocationDenied,  
       internetConnected: $internetConnected,
-      hasAcceptedTerms: $hasAcceptedTerms,      
       userChoiceCountry: $userChoiceCountry,  
+      hasAcceptedTerms: $hasAcceptedTerms,      
       runningVersion: $runningVersion,
       snackBarIsOpen: $snackBarIsOpen,  
       isLoading: $isLoading
