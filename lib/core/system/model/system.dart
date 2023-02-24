@@ -5,6 +5,7 @@ enum SystemEnum {
   accessLocationDenied,
   internetConnected,
   hasAcceptedTerms,
+  userChoiceCountry,
   runningVersion,
   snackBarIsOpen,
   isLoading,
@@ -16,6 +17,7 @@ class System {
       systemStateTextFeedback: map[SystemEnum.systemStateTextFeedback.name],
       accessLocationDenied: map[SystemEnum.accessLocationDenied.name],
       internetConnected: map[SystemEnum.internetConnected.name],
+      userChoiceCountry: map[SystemEnum.userChoiceCountry.name],
       runningVersion: map[SystemEnum.runningVersion.name],
       snackBarIsOpen: map[SystemEnum.snackBarIsOpen.name],
       isLoading: map[SystemEnum.isLoading.name],
@@ -28,6 +30,7 @@ class System {
     this.internetConnected = false,
     this.hasAcceptedTerms = false,
     this.snackBarIsOpen = false,
+    this.userChoiceCountry = '',
     this.runningVersion = '',
     this.isLoading = false,
   });
@@ -38,6 +41,7 @@ class System {
       accessLocationDenied: this.accessLocationDenied,
       internetConnected: this.internetConnected,
       hasAcceptedTerms: this.hasAcceptedTerms,
+      userChoiceCountry: this.userChoiceCountry,
       snackBarIsOpen: this.snackBarIsOpen,
       runningVersion: this.runningVersion,
       isLoading: this.isLoading,
@@ -47,6 +51,7 @@ class System {
   final String systemStateTextFeedback;
   final bool accessLocationDenied;
   final bool internetConnected;
+  final String userChoiceCountry;
   final String runningVersion;
   final bool hasAcceptedTerms;
   final bool snackBarIsOpen;
@@ -56,8 +61,9 @@ class System {
     String? systemStateTextFeedback,
     bool? accessLocationDenied,
     bool? internetConnected,
-    bool? hasAcceptedTerms,
+    String? userChoiceCountry,
     String? runningVersion,
+    bool? hasAcceptedTerms,
     bool? snackBarIsOpen,
     bool? isLoading,
   }) {
@@ -66,6 +72,7 @@ class System {
       accessLocationDenied: accessLocationDenied ?? this.accessLocationDenied,
       internetConnected: internetConnected ?? this.internetConnected,
       hasAcceptedTerms: hasAcceptedTerms ?? this.hasAcceptedTerms,
+      userChoiceCountry: userChoiceCountry ?? this.userChoiceCountry,
       snackBarIsOpen: snackBarIsOpen ?? this.snackBarIsOpen,
       runningVersion: runningVersion ?? this.runningVersion,
       isLoading: isLoading ?? this.isLoading,
@@ -78,6 +85,7 @@ class System {
       SystemEnum.accessLocationDenied.name: accessLocationDenied,
       SystemEnum.internetConnected.name: internetConnected,
       SystemEnum.hasAcceptedTerms.name: hasAcceptedTerms,
+      SystemEnum.userChoiceCountry.name: userChoiceCountry,
       SystemEnum.runningVersion.name: runningVersion,
       SystemEnum.snackBarIsOpen.name: snackBarIsOpen,
       SystemEnum.isLoading.name: isLoading,
@@ -87,12 +95,13 @@ class System {
   @override
   String toString() {
     return '''System(      
-      systemStateTextFeedback: $systemStateTextFeedback,        
-      accessLocationDenied: $accessLocationDenied,        
-      internetConnected: $internetConnected,      
-      hasAcceptedTerms: $hasAcceptedTerms,        
+      systemStateTextFeedback: $systemStateTextFeedback,
+      accessLocationDenied: $accessLocationDenied,  
+      internetConnected: $internetConnected,
+      hasAcceptedTerms: $hasAcceptedTerms,      
+      userChoiceCountry: $userChoiceCountry,  
       runningVersion: $runningVersion,
-      snackBarIsOpen: $snackBarIsOpen,      
+      snackBarIsOpen: $snackBarIsOpen,  
       isLoading: $isLoading
     )''';
   }
