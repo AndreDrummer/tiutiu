@@ -25,11 +25,13 @@ class SystemController extends GetxController {
   final RxMap<String, dynamic> _adMobIDs = <String, dynamic>{}.obs;
   final RxList<Endpoint> _endpoints = <Endpoint>[].obs;
   final Rx<System> _systemProperties = System().obs;
+  final RxBool _userHasChosenCountry = false.obs;
   final RxBool _isToCloseApp = false.obs;
   String initialFDLink = '';
 
   final _firebaseDynamicLinks = FirebaseDynamicLinks.instance;
 
+  bool get userHasChosenCountry => _userHasChosenCountry.value;
   System get properties => _systemProperties.value;
   bool get isToCloseApp => _isToCloseApp.value;
 
@@ -69,8 +71,8 @@ class SystemController extends GetxController {
 
       await handleFDLOpensApp();
       await checkUserTermsAccepted();
-      await setUserChoiceCountry();
-      await setUserChoiceRadiusDistanceToShowPets();
+      await updateUserChoiceCountry();
+      await updateUserChoiceRadiusDistanceToShowPets();
 
       adMobController.loadWhatsAppRewardedAd();
       adMobController.loadChatRewardedAd();
@@ -93,16 +95,45 @@ class SystemController extends GetxController {
     }
   }
 
-  Future<void> setUserChoiceCountry() async {
-    final country = await LocalStorage.getValueUnderLocalStorageKey(LocalStorageKey.userChoiceCountry);
-    _systemProperties(properties.copyWith(userChoiceCountry: country));
+  Future<void> updateUserChoiceCountry({String? country}) async {
+    try {
+      final cachedCountry = await LocalStorage.getValueUnderLocalStorageKey(LocalStorageKey.userChoiceCountry);
+
+      _systemProperties(properties.copyWith(userChoiceCountry: country ?? cachedCountry));
+
+      await LocalStorage.setValueUnderLocalStorageKey(
+        key: LocalStorageKey.userChoiceCountry,
+        value: country ?? cachedCountry,
+      );
+    } catch (exception) {
+      if (kDebugMode) debugPrint('TiuTiuApp: An error ocurred when setting searching radius $exception.');
+    }
   }
 
-  Future<void> setUserChoiceRadiusDistanceToShowPets() async {
-    final distance =
-        await LocalStorage.getValueUnderLocalStorageKey(LocalStorageKey.userChoiceRadiusDistanceToShowPets);
-    _systemProperties(properties.copyWith(userChoiceRadiusDistanceToShowPets: distance ?? 10));
+  Future<void> updateUserChoiceRadiusDistanceToShowPets({double? radius}) async {
+    try {
+      final cachedRadius = await LocalStorage.getValueUnderLocalStorageKey(
+        LocalStorageKey.userChoiceRadiusDistanceToShowPets,
+      );
+
+      _systemProperties(
+        properties.copyWith(
+          userChoiceRadiusDistanceToShowPets: radius ?? double.tryParse(cachedRadius.toString()),
+        ),
+      );
+
+      checkIfUserChosenCountry();
+
+      await LocalStorage.setValueUnderLocalStorageKey(
+        value: radius ?? double.tryParse(cachedRadius.toString()),
+        key: LocalStorageKey.userChoiceRadiusDistanceToShowPets,
+      );
+    } catch (exception) {
+      if (kDebugMode) debugPrint('TiuTiuApp: An error ocurred when setting searching radius $exception.');
+    }
   }
+
+  void checkIfUserChosenCountry() => _userHasChosenCountry(properties.userChoiceCountry.isNotEmptyNeighterNull());
 
   Future<void> checkUserTermsAccepted() async {
     final termsAccepted = await LocalStorage.getUnderBooleanKey(
