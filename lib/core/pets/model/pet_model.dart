@@ -1,3 +1,4 @@
+import 'package:tiutiu/core/system/model/system.dart';
 import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
 import 'package:tiutiu/features/posts/model/post.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -20,47 +21,10 @@ enum PetEnum {
 }
 
 class Pet extends Post {
-  // factory Pet.fromSnapshot(DocumentSnapshot snapshot) {
-  //   return Pet(
-  //     uid: snapshot.get(PostEnum.uid.name) != null ? snapshot.get(PostEnum.uid.name) : Uuid().v4(),
-  //     createdAt: snapshot.get(PostEnum.createdAt.name) ?? DateTime.now().toIso8601String(),
-  //     otherCaracteristics: snapshot.get(PetEnum.otherCaracteristics.name) ?? [],
-  //     chronicDiseaseInfo: snapshot.get(PetEnum.chronicDiseaseInfo.name) ?? '',
-  //     describedAddress: snapshot.get(PostEnum.describedAddress.name) ?? '',
-  //     donatedOrFound: snapshot.get(PetEnum.donatedOrFound.name) ?? false,
-  //     lastSeenDetails: snapshot.get(PetEnum.lastSeenDetails.name) ?? '',
-  //     timesDennounced: snapshot.get(PostEnum.timesDennounced.name),
-  //     owner: TiutiuUser.fromMap(snapshot.get(PostEnum.owner.name)),
-  //     disappeared: snapshot.get(PetEnum.disappeared.name) ?? false,
-  //     description: snapshot.get(PostEnum.description.name) ?? '',
-  //     city: snapshot.get(PostEnum.city.name) ?? 'Acrelândia',
-  //     sharedTimes: snapshot.get(PostEnum.sharedTimes.name),
-  //     state: snapshot.get(PostEnum.state.name) ?? 'Acre',
-  //     ageMonth: snapshot.get(PetEnum.ageMonth.name) ?? 0,
-  //     health: snapshot.get(PetEnum.health.name) ?? '-',
-  //     gender: snapshot.get(PetEnum.gender.name) ?? '-',
-  //     longitude: snapshot.get(PostEnum.longitude.name),
-  //     ageYear: snapshot.get(PetEnum.ageYear.name) ?? 0,
-  //     color: snapshot.get(PetEnum.color.name) ?? '-',
-  //     breed: snapshot.get(PetEnum.breed.name) ?? '-',
-  //     reward: snapshot.get(PetEnum.reward.name) ?? '',
-  //     latitude: snapshot.get(PostEnum.latitude.name),
-  //     views: snapshot.get(PostEnum.views.name) ?? 0,
-  //     size: snapshot.get(PetEnum.size.name) ?? '-',
-  //     type: snapshot.get(PostEnum.type.name) ?? '-',
-  //     ownerId: snapshot.get(PostEnum.ownerId.name),
-  //     photos: snapshot.get(PostEnum.photos.name),
-  //     likes: snapshot.get(PostEnum.likes.name),
-  //     saved: snapshot.get(PostEnum.saved.name),
-  //     video: snapshot.get(PostEnum.video.name),
-  //     name: snapshot.get(PostEnum.name.name),
-  //     reference: snapshot.reference,
-  //   );
-  // }
-
   Pet({
     this.otherCaracteristics = const [],
     List dennounceMotives = const [],
+    String country = defaultCountry,
     DocumentReference? reference,
     this.chronicDiseaseInfo = '',
     String describedAddress = '',
@@ -69,8 +33,8 @@ class Pet extends Post {
     String city = 'Acrelândia',
     this.disappeared = false,
     String description = '',
-    List photos = const [],
     int timesDennounced = 0,
+    List photos = const [],
     String state = 'Acre',
     String? createdAt,
     double? longitude,
@@ -106,6 +70,7 @@ class Pet extends Post {
           createdAt: createdAt,
           latitude: latitude,
           ownerId: ownerId,
+          country: country,
           photos: photos,
           state: state,
           views: views,
@@ -133,6 +98,7 @@ class Pet extends Post {
       lastSeenDetails: map[PetEnum.lastSeenDetails.name] ?? '',
       reference: getReference(map[PostEnum.reference.name]),
       disappeared: map[PetEnum.disappeared.name] ?? false,
+      country: map[PostEnum.country.name] ?? defaultCountry,
       owner: TiutiuUser.fromMap(map[PostEnum.owner.name]),
       description: map[PostEnum.description.name] ?? '',
       sharedTimes: map[PostEnum.sharedTimes.name] ?? 0,
@@ -176,6 +142,7 @@ class Pet extends Post {
     double? latitude,
     int? sharedTimes,
     String? ownerId,
+    String? country,
     String? health,
     String? reward,
     String? gender,
@@ -212,6 +179,7 @@ class Pet extends Post {
       ageMonth: ageMonth ?? this.ageMonth,
       latitude: latitude ?? this.latitude,
       ownerId: ownerId ?? this.ownerId,
+      country: country ?? this.country,
       ageYear: ageYear ?? this.ageYear,
       gender: gender ?? this.gender,
       photos: photos ?? this.photos,
@@ -269,6 +237,7 @@ class Pet extends Post {
       PostEnum.latitude.name: latitude,
       PetEnum.ageMonth.name: ageMonth,
       PostEnum.ownerId.name: ownerId,
+      PostEnum.country.name: country,
       PetEnum.ageYear.name: ageYear,
       PetEnum.health.name: health,
       PetEnum.gender.name: gender,
@@ -309,7 +278,7 @@ class Pet extends Post {
 
   @override
   String toString() {
-    return 'Pet(otherCaracteristics: $otherCaracteristics, saved: $saved, sharedTimes: $sharedTimes, chronicDiseaseInfo: $chronicDiseaseInfo, lastSeenDetails: $lastSeenDetails, donatedOrFound: $donatedOrFound, createdAt: $createdAt, likes: $likes, owner: $owner, longitude: $longitude, disappeared: $disappeared, latitude: $latitude, ownerId: $ownerId, timesDennounced: $timesDennounced, description: $description, gender: $gender, health: $health, color: $color, ageMonth: $ageMonth, breed: $breed, ageYear: $ageYear, size: $size, state: $state, photos: $photos, name: $name, type: $type, city: $city, uid: $uid, views: $views, video: $video, reward: $reward, reference: $reference,dennounceMotives: $dennounceMotives)';
+    return 'Pet(otherCaracteristics: $otherCaracteristics, saved: $saved, sharedTimes: $sharedTimes, chronicDiseaseInfo: $chronicDiseaseInfo, lastSeenDetails: $lastSeenDetails, donatedOrFound: $donatedOrFound, createdAt: $createdAt, likes: $likes, owner: $owner, longitude: $longitude, disappeared: $disappeared, latitude: $latitude, ownerId: $ownerId, timesDennounced: $timesDennounced, description: $description, gender: $gender, health: $health, color: $color, ageMonth: $ageMonth, breed: $breed, ageYear: $ageYear, size: $size, state: $state, photos: $photos, name: $name, type: $type, city: $city, country: $country, uid: $uid, views: $views, video: $video, reward: $reward, reference: $reference,dennounceMotives: $dennounceMotives)';
   }
 
   @override
@@ -333,11 +302,12 @@ class Pet extends Post {
         other.ageMonth == ageMonth &&
         other.ownerId == ownerId &&
         other.ageYear == ageYear &&
+        other.country == country &&
         other.gender == gender &&
         other.reward == reward &&
-        other.saved == saved &&
         other.health == health &&
         other.photos == photos &&
+        other.saved == saved &&
         other.owner == owner &&
         other.video == video &&
         other.color == color &&
@@ -363,6 +333,7 @@ class Pet extends Post {
         donatedOrFound.hashCode ^
         description.hashCode ^
         disappeared.hashCode ^
+        sharedTimes.hashCode ^
         createdAt.hashCode ^
         reference.hashCode ^
         longitude.hashCode ^
@@ -371,7 +342,6 @@ class Pet extends Post {
         ownerId.hashCode ^
         ageYear.hashCode ^
         gender.hashCode ^
-        sharedTimes.hashCode ^
         saved.hashCode ^
         photos.hashCode ^
         health.hashCode ^
