@@ -69,6 +69,7 @@ class SystemController extends GetxController {
 
       await handleFDLOpensApp();
       await checkUserTermsAccepted();
+      await setUserChoiceCountry();
 
       adMobController.loadWhatsAppRewardedAd();
       adMobController.loadChatRewardedAd();
@@ -89,6 +90,11 @@ class SystemController extends GetxController {
         exception: exception,
       );
     }
+  }
+
+  Future<void> setUserChoiceCountry() async {
+    final country = await LocalStorage.getValueUnderLocalStorageKey(LocalStorageKey.userChoiceCountry);
+    _systemProperties(properties.copyWith(userChoiceCountry: country ?? 'Brasil'));
   }
 
   Future<void> checkUserTermsAccepted() async {

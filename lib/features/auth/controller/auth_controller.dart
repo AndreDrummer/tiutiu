@@ -550,6 +550,7 @@ class AuthController extends GetxController {
       await tiutiuUserController.updateUserDataOnServer();
     } else {
       await LocalStorage.setBooleanUnderKey(key: LocalStorageKey.termsAndConditions, value: true);
+      await systemController.checkUserTermsAccepted();
     }
   }
 

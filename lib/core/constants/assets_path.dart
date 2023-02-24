@@ -34,6 +34,7 @@ class JsonAssets {
 class AnimationsAssets {
   static const catLookingAround = 'assets/animations/cat_looking_around.json';
   static const petLocationPin = 'assets/animations/pet_pin_location.json';
+  static const spinningGlobe = 'assets/animations/spinning-globe.json';
   static const walkWithDog = 'assets/animations/walk_with_dog.json';
   static const pawLoading2 = 'assets/animations/paw_loading_2.json';
   static const pawsLoading = 'assets/animations/paws_loading.json';
