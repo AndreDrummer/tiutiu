@@ -101,12 +101,14 @@ class SystemController extends GetxController {
 
       _systemProperties(properties.copyWith(userChoiceCountry: country ?? cachedCountry));
 
+      checkIfUserChosenCountry();
+
       await LocalStorage.setValueUnderLocalStorageKey(
         key: LocalStorageKey.userChoiceCountry,
         value: country ?? cachedCountry,
       );
     } catch (exception) {
-      if (kDebugMode) debugPrint('TiuTiuApp: An error ocurred when setting searching radius $exception.');
+      if (kDebugMode) debugPrint('TiuTiuApp: An error ocurred when setting country $exception.');
     }
   }
 
@@ -121,8 +123,6 @@ class SystemController extends GetxController {
           userChoiceRadiusDistanceToShowPets: radius ?? double.tryParse(cachedRadius.toString()),
         ),
       );
-
-      checkIfUserChosenCountry();
 
       await LocalStorage.setValueUnderLocalStorageKey(
         value: radius ?? double.tryParse(cachedRadius.toString()),

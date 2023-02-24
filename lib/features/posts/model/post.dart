@@ -1,4 +1,5 @@
 import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
+import 'package:tiutiu/core/system/model/system.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:tiutiu/core/models/mapper.dart';
 import 'package:uuid/uuid.dart';
@@ -14,6 +15,7 @@ enum PostEnum {
   longitude,
   latitude,
   ownerId,
+  country,
   hidden,
   photos,
   video,
@@ -32,6 +34,7 @@ enum PostEnum {
 class Post implements Mapper {
   Post({
     this.dennounceMotives = const [],
+    this.country = defaultCountry,
     this.describedAddress = '',
     this.timesDennounced = 0,
     this.city = 'Acrelândia',
@@ -63,6 +66,7 @@ class Post implements Mapper {
       createdAt: map[PostEnum.createdAt.name] ?? DateTime.now().toIso8601String(),
       describedAddress: map[PostEnum.describedAddress.name] ?? '',
       dennounceMotives: map[PostEnum.dennounceMotives.name] ?? [],
+      country: map[PostEnum.country.name] ?? defaultCountry,
       timesDennounced: map[PostEnum.timesDennounced.name],
       owner: TiutiuUser.fromMap(map[PostEnum.owner.name]),
       sharedTimes: map[PostEnum.sharedTimes.name] ?? 0,
@@ -96,6 +100,7 @@ class Post implements Mapper {
   double? latitude;
   int sharedTimes;
   String? ownerId;
+  String country;
   dynamic video;
   String state;
   String? name;
@@ -124,6 +129,7 @@ class Post implements Mapper {
       PostEnum.longitude.name: longitude,
       PostEnum.createdAt.name: createdAt,
       PostEnum.latitude.name: latitude,
+      PostEnum.country.name: country,
       PostEnum.ownerId.name: ownerId,
       PostEnum.hidden.name: hidden,
       PostEnum.state.name: state,
@@ -140,7 +146,7 @@ class Post implements Mapper {
 
   @override
   String toString() {
-    return 'Post(createdAt: $createdAt, saved: $saved, owner: $owner, sharedTimes: $sharedTimes, reference: $reference, longitude: $longitude, latitude: $latitude, ownerId: $ownerId, timesDennounced: $timesDennounced, description: $description, state: $state, photos: $photos, name: $name, type: $type, city: $city, uid: $uid, views: $views, video: $video, hidden: $hidden, likes: $likes, done: $done, dennounceMotives: $dennounceMotives)';
+    return 'Post(createdAt: $createdAt, saved: $saved, country: $country, owner: $owner, sharedTimes: $sharedTimes, reference: $reference, longitude: $longitude, latitude: $latitude, ownerId: $ownerId, timesDennounced: $timesDennounced, description: $description, state: $state, photos: $photos, name: $name, type: $type, city: $city, uid: $uid, views: $views, video: $video, hidden: $hidden, likes: $likes, done: $done, dennounceMotives: $dennounceMotives)';
   }
 
   @override
@@ -157,6 +163,7 @@ class Post implements Mapper {
         other.longitude == longitude &&
         other.latitude == latitude &&
         other.ownerId == ownerId &&
+        other.country == country &&
         other.photos == photos &&
         other.hidden == hidden &&
         other.saved == saved &&
@@ -183,6 +190,7 @@ class Post implements Mapper {
         reference.hashCode ^
         longitude.hashCode ^
         latitude.hashCode ^
+        country.hashCode ^
         ownerId.hashCode ^
         photos.hashCode ^
         hidden.hashCode ^

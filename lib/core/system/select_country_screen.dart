@@ -6,6 +6,7 @@ import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/constants/assets_path.dart';
 import 'package:tiutiu/core/widgets/one_line_text.dart';
 import 'package:tiutiu/core/constants/text_styles.dart';
+import 'package:tiutiu/core/system/model/system.dart';
 import 'package:tiutiu/core/widgets/button_wide.dart';
 import 'package:tiutiu/core/data/dummy_data.dart';
 import 'package:flutter/material.dart';
@@ -31,7 +32,7 @@ class CountrySelecter extends StatelessWidget {
                   Obx(
                     () => DropdownButton<String>(
                       isExpanded: true,
-                      value: systemController.properties.userChoiceCountry ?? 'brazil',
+                      value: systemController.properties.userChoiceCountry ?? defaultCountry,
                       items: DummyData.countrieNames.entries
                           .toList()
                           .map(
@@ -58,7 +59,9 @@ class CountrySelecter extends StatelessWidget {
       bottomNavigationBar: Padding(
         padding: EdgeInsets.only(bottom: 16.0.h),
         child: ButtonWide(
+          text: AppLocalizations.of(context).ok,
           onPressed: () {
+            Get.back();
             systemController.checkIfUserChosenCountry();
           },
         ),
@@ -69,7 +72,7 @@ class CountrySelecter extends StatelessWidget {
   Widget _selectRadius(BuildContext context) {
     return Obx(
       () => Visibility(
-        visible: systemController.properties.userChoiceCountry != 'brazil',
+        visible: systemController.properties.userChoiceCountry != defaultCountry,
         child: Column(
           children: [
             SizedBox(height: 40.0.h),
