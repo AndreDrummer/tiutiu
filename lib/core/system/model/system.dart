@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+const String defaultCountry = 'brazil';
+
 enum SystemEnum {
   userChoiceRadiusDistanceToShowPets,
   systemStateTextFeedback,

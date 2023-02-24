@@ -9,6 +9,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:tiutiu/core/pets/model/pet_model.dart';
 import 'package:tiutiu/features/posts/model/post.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:tiutiu/core/system/model/system.dart';
 import 'package:tiutiu/core/utils/ordenators.dart';
 import 'package:tiutiu/core/utils/constants.dart';
 import 'package:tiutiu/core/utils/formatter.dart';
@@ -78,19 +79,27 @@ class PostUtils {
   }
 
   static List<Post> _filterByState(List<Post> list, String state) {
+    final chosenCountry = systemController.properties.userChoiceCountry;
+
     if (kDebugMode) debugPrint('TiuTiuApp: _filterByState');
 
-    final isBr = state == StatesAndCities.stateAndCities.stateInitials.first;
+    if (chosenCountry == defaultCountry) {
+      final isBr = state == StatesAndCities.stateAndCities.stateInitials.first;
 
-    if (!isBr) {
-      final filterState = StatesAndCities.stateAndCities.getStateNameFromInitial(state);
+      if (!isBr) {
+        final filterState = StatesAndCities.stateAndCities.getStateNameFromInitial(state);
 
+        return list.where((post) {
+          return post.state == filterState;
+        }).toList();
+      }
+
+      return list;
+    } else {
       return list.where((post) {
-        return post.state == filterState;
+        return post.country == chosenCountry;
       }).toList();
     }
-
-    return list;
   }
 
   static DocumentReference updatePostReferenceAndReturn(String postId) {
