@@ -1,5 +1,6 @@
-import 'package:get/get.dart';
 import 'package:tiutiu/core/constants/contact_type.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class CustomStrings {
   static String watchAnAd(ContactType contactType, bool noPreviousData) {
@@ -21,11 +22,9 @@ class _CustomLocalizationStrings {
   final String stringKey;
 
   String localizedString() {
-    final currentLocale = Get.locale;
+    final currentLocale = Localizations.localeOf(Get.context!);
 
-    print(currentLocale);
-
-    return stringKey;
+    return strings()[currentLocale.toLanguageTag()][stringKey];
   }
 
   Map<String, dynamic> strings() {
