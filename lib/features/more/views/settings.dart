@@ -55,6 +55,14 @@ class _SettingsState extends State<Settings> with TiuTiuPopUp {
                     ),
                     Divider(),
                     CustomListTile(
+                      icon: Icons.map,
+                      onTap: () {
+                        Get.toNamed(Routes.changeCountry);
+                      },
+                      text: AppLocalizations.of(context).changeCountry,
+                    ),
+                    Divider(),
+                    CustomListTile(
                       icon: FontAwesomeIcons.arrowRightFromBracket,
                       onTap: () {
                         _exitApp();

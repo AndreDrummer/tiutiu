@@ -1,3 +1,4 @@
+import 'package:tiutiu/core/data/dummy_data.dart';
 import 'package:tiutiu/core/location/models/states_and_cities.dart';
 import 'package:tiutiu/features/posts/model/filter_params.dart';
 import 'package:tiutiu/core/widgets/custom_input_search.dart';
@@ -6,6 +7,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/constants/text_styles.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
+import 'package:tiutiu/core/system/model/system.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -26,7 +28,7 @@ class FilterResultCount extends StatelessWidget {
         children: [
           Divider(height: 8.0.h, color: AppColors.secondary),
           Container(
-            height: 24.0.h,
+            height: 16.0.h,
             padding: EdgeInsets.symmetric(horizontal: 8.0.w),
             margin: EdgeInsets.only(bottom: 4.0.h),
             child: Row(
@@ -62,25 +64,8 @@ class FilterResultCount extends StatelessWidget {
                       ),
                     ],
                   ),
+                  child: _brazilOrOtherCountriesFilter(),
                   visible: !isInMyPosts,
-                  child: DropdownButton<String>(
-                    value: filterController.filterParams.value.state,
-                    underline: SizedBox(),
-                    onChanged: (value) {
-                      filterController.updateParams(
-                        FilterParamsEnum.state,
-                        value,
-                      );
-                    },
-                    items: StatesAndCities.stateAndCities.stateInitials
-                        .map(
-                          (e) => DropdownMenuItem<String>(
-                            child: AutoSizeTexts.autoSizeText12(e),
-                            value: e,
-                          ),
-                        )
-                        .toList(),
-                  ),
                 ),
                 Spacer(),
                 Row(
@@ -100,7 +85,7 @@ class FilterResultCount extends StatelessWidget {
                       colorText: Colors.black54,
                       isExpanded: false,
                       withPipe: false,
-                      fontSize: 12,
+                      fontSize: 10,
                       label: '',
                     )
                   ],
@@ -110,6 +95,35 @@ class FilterResultCount extends StatelessWidget {
           ),
           Divider(height: 4.0.h, color: AppColors.secondary),
         ],
+      ),
+    );
+  }
+
+  Widget _brazilOrOtherCountriesFilter() {
+    return Obx(
+      () => Visibility(
+        replacement: AutoSizeTexts.autoSizeText12(
+          DummyData.countrieNames[systemController.properties.userChoiceCountry],
+        ),
+        visible: systemController.properties.userChoiceCountry == defaultCountry,
+        child: DropdownButton<String>(
+          value: filterController.filterParams.value.state,
+          underline: SizedBox(),
+          onChanged: (value) {
+            filterController.updateParams(
+              FilterParamsEnum.state,
+              value,
+            );
+          },
+          items: StatesAndCities.stateAndCities.stateInitials
+              .map(
+                (e) => DropdownMenuItem<String>(
+                  child: AutoSizeTexts.autoSizeText12(e),
+                  value: e,
+                ),
+              )
+              .toList(),
+        ),
       ),
     );
   }

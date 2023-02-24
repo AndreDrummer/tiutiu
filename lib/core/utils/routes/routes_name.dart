@@ -3,6 +3,7 @@ class Routes {
   static const announcerDetails = '/announcer-details';
   static const whatToDoForm = '/what-do-you-wanna-do';
   static const emailAndPassword = '/email-password';
+  static const changeCountry = '/change-country';
   static const deleteAccount = '/delete-account';
   static const initPostFlow = '/init-post-flow';
   static const adoptionForm = '/adoption-form';

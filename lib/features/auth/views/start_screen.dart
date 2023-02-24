@@ -71,8 +71,7 @@ class _StartScreenState extends State<StartScreen> {
                           color: AppColors.primary,
                           onPressed: () async {
                             if (hasAcceptedTerms) {
-                              if (authController.userExists) Get.toNamed(Routes.home);
-                              Get.toNamed(Routes.authHosters);
+                              Get.toNamed(Routes.authOrHome);
                             } else {
                               setState(() => hasError = true);
                             }
