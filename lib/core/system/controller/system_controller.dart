@@ -94,7 +94,7 @@ class SystemController extends GetxController {
 
   Future<void> setUserChoiceCountry() async {
     final country = await LocalStorage.getValueUnderLocalStorageKey(LocalStorageKey.userChoiceCountry);
-    _systemProperties(properties.copyWith(userChoiceCountry: country ?? 'Brasil'));
+    _systemProperties(properties.copyWith(userChoiceCountry: country ?? 'brazil'));
   }
 
   Future<void> checkUserTermsAccepted() async {
