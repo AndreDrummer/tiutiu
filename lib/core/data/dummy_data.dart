@@ -663,6 +663,7 @@ class DummyData {
   ];
 
   static final countrieNames = {
+    '': '-',
     'afghanistan': AppLocalizations.of(Get.context!).afghanistan,
     'albania': AppLocalizations.of(Get.context!).albania,
     'algeria': AppLocalizations.of(Get.context!).algeria,

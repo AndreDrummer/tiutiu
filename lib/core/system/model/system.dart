@@ -44,8 +44,8 @@ class System {
       systemStateTextFeedback: this.systemStateTextFeedback,
       accessLocationDenied: this.accessLocationDenied,
       internetConnected: this.internetConnected,
-      hasAcceptedTerms: this.hasAcceptedTerms,
       userChoiceCountry: this.userChoiceCountry,
+      hasAcceptedTerms: this.hasAcceptedTerms,
       snackBarIsOpen: this.snackBarIsOpen,
       runningVersion: this.runningVersion,
       isLoading: this.isLoading,
@@ -55,8 +55,8 @@ class System {
   final double userChoiceRadiusDistanceToShowPets;
   final String systemStateTextFeedback;
   final bool accessLocationDenied;
+  final String? userChoiceCountry;
   final bool internetConnected;
-  final String userChoiceCountry;
   final String runningVersion;
   final bool hasAcceptedTerms;
   final bool snackBarIsOpen;
