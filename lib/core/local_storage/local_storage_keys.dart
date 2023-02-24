@@ -8,6 +8,7 @@ enum LocalStorageKey {
   lastSendEmailTime,
   whatsappTokenData,
   enableCrashlytics,
+  userChoiceCountry,
   lastKnowLocation,
   unloggedLikesMap,
   facebookAuthData,
