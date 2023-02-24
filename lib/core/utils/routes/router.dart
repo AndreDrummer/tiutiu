@@ -1,3 +1,4 @@
+import 'package:tiutiu/core/system/select_country_screen.dart';
 import 'package:tiutiu/features/adption_form.dart/views/what_do_you_wanna_do.dart';
 import 'package:tiutiu/features/delete_account/views/delete_account_screen.dart';
 import 'package:tiutiu/features/adption_form.dart/views/info_about_form.dart';
@@ -62,6 +63,8 @@ class RouterGenerator {
 
       case Routes.settings:
         return createCustomTransition(Settings());
+      case Routes.changeCountry:
+        return createCustomTransition(CountrySelecter());
       case Routes.about:
         return createCustomTransition(About());
       case Routes.editProfile:
