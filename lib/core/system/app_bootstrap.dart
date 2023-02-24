@@ -1,6 +1,6 @@
 import 'package:tiutiu/core/location/views/localization_service_access_permission_request.dart';
-import 'package:tiutiu/core/system/select_country_screen.dart';
 import 'package:tiutiu/core/system/views/loading_start_screen.dart';
+import 'package:tiutiu/core/system/select_country_screen.dart';
 import 'package:tiutiu/features/auth/views/auth_or_home.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';

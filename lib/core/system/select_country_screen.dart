@@ -10,6 +10,7 @@ import 'package:tiutiu/core/constants/assets_path.dart';
 import 'package:tiutiu/core/widgets/one_line_text.dart';
 import 'package:tiutiu/core/constants/text_styles.dart';
 import 'package:tiutiu/core/widgets/button_wide.dart';
+import 'package:tiutiu/core/data/dummy_data.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -35,8 +36,14 @@ class CountrySelecter extends StatelessWidget {
                     () => DropdownButton<String>(
                       isExpanded: true,
                       value: systemController.properties.userChoiceCountry,
-                      items: ['Brasil', 'Argentina', 'Chile', 'México']
-                          .map((String e) => DropdownMenuItem<String>(child: AutoSizeTexts.autoSizeText18(e), value: e))
+                      items: DummyData.countrieNames.entries
+                          .toList()
+                          .map(
+                            (MapEntry<String, String> e) => DropdownMenuItem<String>(
+                              child: AutoSizeTexts.autoSizeText18(e.value),
+                              value: e.key,
+                            ),
+                          )
                           .toList(),
                       onChanged: (country) async {
                         await LocalStorage.setValueUnderLocalStorageKey(
