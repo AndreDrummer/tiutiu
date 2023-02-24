@@ -1,9 +1,10 @@
-import 'package:tiutiu/core/system/views/loading_start_screen.dart';
 import 'package:tiutiu/core/local_storage/local_storage_keys.dart';
 import 'package:tiutiu/core/widgets/default_basic_app_bar.dart';
 import 'package:tiutiu/core/local_storage/local_storage.dart';
+import 'package:tiutiu/core/extensions/string_extension.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:tiutiu/core/utils/routes/routes_name.dart';
 import 'package:tiutiu/core/widgets/lottie_animation.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/constants/assets_path.dart';
@@ -22,8 +23,6 @@ class CountrySelecter extends StatelessWidget {
       body: FutureBuilder(
         future: systemController.setUserChoiceCountry(),
         builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) return LoadingStartScreen();
-
           return Center(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8.0),
@@ -36,7 +35,7 @@ class CountrySelecter extends StatelessWidget {
                   Obx(
                     () => DropdownButton<String>(
                       isExpanded: true,
-                      value: systemController.properties.userChoiceCountry,
+                      value: systemController.properties.userChoiceCountry ?? 'brazil',
                       items: DummyData.countrieNames.entries
                           .toList()
                           .map(
@@ -65,7 +64,13 @@ class CountrySelecter extends StatelessWidget {
       ),
       bottomNavigationBar: Padding(
         padding: EdgeInsets.only(bottom: 16.0.h),
-        child: ButtonWide(),
+        child: ButtonWide(
+          onPressed: () {
+            if (systemController.properties.userChoiceCountry.isNotEmptyNeighterNull()) {
+              Get.offAndToNamed(Routes.authOrHome);
+            }
+          },
+        ),
       ),
     );
   }

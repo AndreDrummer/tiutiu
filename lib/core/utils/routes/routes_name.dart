@@ -13,6 +13,7 @@ class Routes {
   static const startScreen = '/start-screen';
   static const postDetails = '/pet-details';
   static const talkWithUs = '/talk-with-us';
+  static const authOrHome = '/authOrHome';
   static const favorites = '/favorites';
   static const suportUs = '/suport-us';
   static const settings = '/settings';
