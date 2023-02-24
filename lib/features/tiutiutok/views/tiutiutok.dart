@@ -1,3 +1,4 @@
+import 'package:tiutiu/features/posts/utils/post_utils.dart';
 import 'package:tiutiu/features/tiutiutok/widgets/go_to_post_button.dart';
 import 'package:tiutiu/features/tiutiutok/widgets/dennounce_video.dart';
 import 'package:tiutiu/features/tiutiutok/widgets/empty_tiutiutok.dart';
@@ -30,7 +31,10 @@ class _TiutiuTokState extends State<TiutiuTok> {
       backgroundColor: AppColors.black,
       body: SizedBox.expand(
         child: Obx(() {
-          final postsWithVideo = postsController.posts.where((post) => post.video != null).toList();
+          final postsWithVideo = PostUtils.filterPosts(
+            postsList: postsController.posts,
+          ).where((post) => post.video != null).toList();
+
           final startingPostId = postsController.tiutiuTokStartingVideoPostId;
           int startingIndex = 0;
 
