@@ -29,7 +29,11 @@ class _BootstrapState extends State<AppBootstrap> {
             if (shouldRequestPermission && accessDenied && !currentLocationController.canContinue) {
               return LocalizationServiceAccessPermissionAccess(localAccessDenied: accessDenied);
             } else if (Localizations.localeOf(context).toLanguageTag() != 'pt') {
-              return CountrySelecter();
+              if (!systemController.userHasChosenCountry) {
+                return CountrySelecter();
+              } else {
+                return AuthOrHome();
+              }
             } else {
               return AuthOrHome();
             }
