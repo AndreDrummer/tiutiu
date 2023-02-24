@@ -1,4 +1,5 @@
 enum LocalStorageKey {
+  userChoiceRadiusDistanceToShowPets,
   lastTimeWatchedWhatsappRewarded,
   lastTimeWatchedChatRewarded,
   lastTimeSeenAnIntertitial,
