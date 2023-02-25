@@ -6,52 +6,41 @@ import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/constants/assets_path.dart';
 import 'package:tiutiu/core/widgets/one_line_text.dart';
 import 'package:tiutiu/core/constants/text_styles.dart';
+import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/core/system/model/system.dart';
 import 'package:tiutiu/core/widgets/button_wide.dart';
+import 'package:tiutiu/core/widgets/hint_error.dart';
 import 'package:tiutiu/core/data/dummy_data.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class CountrySelecter extends StatelessWidget {
+class CountrySelecter extends StatefulWidget {
+  @override
+  State<CountrySelecter> createState() => _CountrySelecterState();
+}
+
+class _CountrySelecterState extends State<CountrySelecter> {
+  bool hasError = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: DefaultBasicAppBar(text: AppLocalizations.of(context).selectACountry),
       body: FutureBuilder(
-        future: systemController.updateUserChoiceCountry(),
-        builder: (context, snapshot) {
-          return Center(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8.0),
-              child: ListView(
-                padding: EdgeInsets.zero,
-                children: [
-                  const LottieAnimation(animationPath: AnimationsAssets.spinningGlobe, size: 200.0),
-                  OneLineText(text: AppLocalizations.of(context).chooseWhereSeePets, fontSize: 24),
-                  const SizedBox(height: 16.0),
-                  Obx(
-                    () => DropdownButton<String>(
-                      isExpanded: true,
-                      value: systemController.properties.userChoiceCountry ?? defaultCountry,
-                      items: DummyData.countrieNames.entries
-                          .toList()
-                          .map(
-                            (MapEntry<String, String> e) => DropdownMenuItem<String>(
-                              child: AutoSizeTexts.autoSizeText18(e.value),
-                              value: e.key,
-                            ),
-                          )
-                          .toList(),
-                      onChanged: (country) async {
-                        systemController.updateUserChoiceRadiusDistanceToShowPets(radius: 10);
-
-                        systemController.updateUserChoiceCountry(country: country);
-                      },
-                    ),
-                  ),
-                  _selectRadius(context),
-                ],
-              ),
+        future: systemController.getUserChoiceCountry(),
+        builder: (context, _) {
+          return Container(
+            alignment: Alignment.center,
+            margin: const EdgeInsets.symmetric(horizontal: 8.0),
+            child: ListView(
+              padding: EdgeInsets.zero,
+              children: [
+                LottieAnimation(animationPath: AnimationsAssets.spinningGlobe, size: 200.0.h),
+                OneLineText(text: AppLocalizations.of(context).chooseWhereSeePets, fontSize: 24),
+                const SizedBox(height: 16.0),
+                _countrySelectDropdown(),
+                _selectRadius(context),
+              ],
             ),
           );
         },
@@ -61,10 +50,51 @@ class CountrySelecter extends StatelessWidget {
         child: ButtonWide(
           text: AppLocalizations.of(context).ok,
           onPressed: () {
-            Get.back();
-            systemController.checkIfUserChosenCountry();
+            if (systemController.userHasChosenCountry) {
+              Get.back();
+              systemController.checkIfUserChosenCountry();
+              filterController.reset();
+              if (hasError) setState(() => hasError = false);
+            } else {
+              setState(() => hasError = true);
+            }
           },
         ),
+      ),
+    );
+  }
+
+  Widget _countrySelectDropdown() {
+    return Obx(
+      () => Column(
+        children: [
+          DropdownButton<String>(
+            underline: Container(
+              color: hasError ? AppColors.danger : AppColors.black.withOpacity(.5),
+              width: Get.width,
+              height: 0.5.h,
+            ),
+            isExpanded: true,
+            value: systemController.properties.userChoiceCountry ?? defaultCountry,
+            items: DummyData.countrieNames.entries
+                .toList()
+                .map(
+                  (MapEntry<String, String> e) => DropdownMenuItem<String>(
+                    child: AutoSizeTexts.autoSizeText18(e.value),
+                    value: e.key,
+                  ),
+                )
+                .toList(),
+            onChanged: (country) async {
+              systemController.updateUserChoiceRadiusDistanceToShowPets(radius: 10);
+              systemController.setUserChoiceCountry(country: country!);
+            },
+          ),
+          Visibility(
+            child: HintError(message: AppLocalizations.of(context).selectACountry),
+            visible: hasError,
+          ),
+        ],
       ),
     );
   }
