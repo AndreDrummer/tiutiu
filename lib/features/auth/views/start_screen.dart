@@ -72,6 +72,7 @@ class _StartScreenState extends State<StartScreen> {
                           onPressed: () async {
                             if (hasAcceptedTerms) {
                               Get.toNamed(Routes.authOrHome);
+                              filterController.reset();
                             } else {
                               setState(() => hasError = true);
                             }
