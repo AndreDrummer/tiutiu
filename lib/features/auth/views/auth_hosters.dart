@@ -29,7 +29,7 @@ class AuthHosters extends StatelessWidget with TiuTiuPopUp {
           _appLogo(),
           _adoptionForm(context),
           Positioned(
-            bottom: 32.0.h,
+            bottom: 24.0.h,
             left: 8.0,
             right: 8.0,
             child: Column(
@@ -167,6 +167,7 @@ class AuthHosters extends StatelessWidget with TiuTiuPopUp {
             color: AppColors.info,
             isToExpand: true,
           ),
+          SizedBox(height: 4.0.h),
           _continueAnonButton(context),
         ],
       ),
