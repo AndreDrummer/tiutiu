@@ -1,3 +1,4 @@
+import 'package:tiutiu/core/utils/routes/routes_name.dart';
 import 'package:tiutiu/features/sponsored/views/sponsored_horizontal_list.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiutiu/features/posts/model/filter_params.dart';
@@ -103,11 +104,17 @@ class _TopBarState extends State<TopBar> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               AutoSizeTexts.autoSizeText22(_greeting(), textAlign: TextAlign.left),
               SizedBox(width: 4.0.w),
               _greetingIcon(),
+              Spacer(),
+              InkWell(
+                child: Icon(Icons.map),
+                onTap: () {
+                  Get.toNamed(Routes.changeCountry);
+                },
+              ),
             ],
           ),
           SizedBox(height: 2.0.h),
