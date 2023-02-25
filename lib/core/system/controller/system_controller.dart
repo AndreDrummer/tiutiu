@@ -71,7 +71,7 @@ class SystemController extends GetxController {
 
       await handleFDLOpensApp();
       await checkUserTermsAccepted();
-      await updateUserChoiceCountry();
+      await getUserChoiceCountry();
       await updateUserChoiceRadiusDistanceToShowPets();
 
       adMobController.loadWhatsAppRewardedAd();
@@ -95,20 +95,26 @@ class SystemController extends GetxController {
     }
   }
 
-  Future<void> updateUserChoiceCountry({String? country}) async {
+  Future<void> setUserChoiceCountry({required String country}) async {
+    try {
+      await LocalStorage.setValueUnderLocalStorageKey(key: LocalStorageKey.userChoiceCountry, value: country);
+      _systemProperties(properties.copyWith(userChoiceCountry: country));
+    } catch (exception) {
+      if (kDebugMode) debugPrint('TiuTiuApp: An error ocurred when setting country $exception.');
+    }
+  }
+
+  Future<void> getUserChoiceCountry() async {
     try {
       final cachedCountry = await LocalStorage.getValueUnderLocalStorageKey(LocalStorageKey.userChoiceCountry);
 
-      _systemProperties(properties.copyWith(userChoiceCountry: country ?? cachedCountry));
+      _systemProperties(properties.copyWith(userChoiceCountry: cachedCountry));
 
       checkIfUserChosenCountry();
 
-      await LocalStorage.setValueUnderLocalStorageKey(
-        key: LocalStorageKey.userChoiceCountry,
-        value: country ?? cachedCountry,
-      );
+      await setUserChoiceCountry(country: cachedCountry);
     } catch (exception) {
-      if (kDebugMode) debugPrint('TiuTiuApp: An error ocurred when setting country $exception.');
+      if (kDebugMode) debugPrint('TiuTiuApp: An error ocurred when getting country $exception.');
     }
   }
 
