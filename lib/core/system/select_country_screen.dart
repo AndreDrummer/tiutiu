@@ -1,4 +1,5 @@
 import 'package:tiutiu/core/widgets/default_basic_app_bar.dart';
+import 'package:tiutiu/core/extensions/string_extension.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/widgets/lottie_animation.dart';
@@ -102,7 +103,8 @@ class _CountrySelecterState extends State<CountrySelecter> {
   Widget _selectRadius(BuildContext context) {
     return Obx(
       () => Visibility(
-        visible: systemController.properties.userChoiceCountry != defaultCountry,
+        visible: systemController.properties.userChoiceCountry != defaultCountry &&
+            systemController.properties.userChoiceCountry.isNotEmptyNeighterNull(),
         child: Column(
           children: [
             SizedBox(height: 40.0.h),
