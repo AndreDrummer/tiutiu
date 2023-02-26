@@ -1,6 +1,7 @@
 import 'package:tiutiu/core/location/views/localization_service_access_permission_request.dart';
 import 'package:tiutiu/core/system/views/loading_start_screen.dart';
 import 'package:tiutiu/core/system/select_country_screen.dart';
+import 'package:tiutiu/features/auth/views/which_screen.dart';
 import 'package:tiutiu/features/auth/views/auth_or_home.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
@@ -28,10 +29,8 @@ class _BootstrapState extends State<AppBootstrap> {
 
             if (shouldRequestPermission && accessDenied && !currentLocationController.canContinue) {
               return LocalizationServiceAccessPermissionAccess(localAccessDenied: accessDenied);
-            } else if (!systemController.userHasChosenCountry) {
-              return CountrySelecter();
             } else {
-              return AuthOrHome();
+              return FirstScreen();
             }
           },
         );
@@ -41,4 +40,22 @@ class _BootstrapState extends State<AppBootstrap> {
 
   bool isLocalAccessPermissionDenied(PermissionStatus currentLocationPermission) =>
       currentLocationPermission != PermissionStatus.granted;
+}
+
+class FirstScreen extends StatelessWidget {
+  const FirstScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder<bool>(
+      future: systemController.getUserChosenCountryOption(),
+      builder: (ctx, snapshot) {
+        return WhichScreen(
+          condition: snapshot.data,
+          eigtherScreen: CountrySelecter(),
+          screen: AuthOrHome(),
+        );
+      },
+    );
+  }
 }
