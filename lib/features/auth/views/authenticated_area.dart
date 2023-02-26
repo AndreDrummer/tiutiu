@@ -1,5 +1,6 @@
-import 'package:tiutiu/features/auth/views/start_screen_or_home.dart';
+import 'package:tiutiu/features/auth/views/which_screen.dart';
 import 'package:tiutiu/features/more/views/edit_profile.dart';
+import 'package:tiutiu/features/auth/views/start_screen.dart';
 import 'package:tiutiu/features/auth/views/auth_hosters.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
@@ -37,7 +38,7 @@ class AuthenticatedArea extends StatelessWidget {
             if (isAuthenticated && isRegistered) return child;
           }
 
-          return user == null ? StartScreenOrSomeScreen(somescreen: AuthHosters()) : LoadDarkScreen();
+          return user == null ? WhichScreen(screen: StartScreen(), eigtherScreen: AuthHosters()) : LoadDarkScreen();
         });
       }),
     );

@@ -104,9 +104,9 @@ class FilterResultCount extends StatelessWidget {
     return Obx(
       () => Visibility(
         replacement: AutoSizeTexts.autoSizeText12(
-          Formatters.cuttedText(DummyData.countrieNames[systemController.properties.userChoiceCountry] ?? '', size: 16),
+          Formatters.cuttedText(DummyData.countrieNames[systemController.properties.userCountryChoice] ?? '', size: 16),
         ),
-        visible: systemController.properties.userChoiceCountry == defaultCountry,
+        visible: systemController.properties.userCountryChoice == defaultCountry,
         child: DropdownButton<String>(
           value: filterController.filterParams.value.state,
           underline: SizedBox(),
