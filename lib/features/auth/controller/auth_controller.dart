@@ -399,7 +399,7 @@ class AuthController extends GetxController {
   Future<bool> tryLoginWithFacebook() async {
     if (kDebugMode) debugPrint('TiuTiuApp: trying log in with facebook');
 
-    final firstLogin = await LocalStorage.getUnderBooleanKey(
+    final firstLogin = await LocalStorage.getBooleanUnderKey(
       key: LocalStorageKey.facebookAuthData,
       standardValue: true,
     );

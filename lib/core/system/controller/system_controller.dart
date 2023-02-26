@@ -97,8 +97,9 @@ class SystemController extends GetxController {
 
   Future<void> setUserChoiceCountry({required String country}) async {
     try {
-      await LocalStorage.setValueUnderLocalStorageKey(key: LocalStorageKey.userChoiceCountry, value: country);
-      _systemProperties(properties.copyWith(userChoiceCountry: country));
+      await LocalStorage.setValueUnderLocalStorageKey(key: LocalStorageKey.userCountryChoice, value: country);
+
+      _systemProperties(properties.copyWith(userCountryChoice: country));
     } catch (exception) {
       if (kDebugMode) debugPrint('TiuTiuApp: An error ocurred when setting country $exception.');
     }
@@ -106,9 +107,9 @@ class SystemController extends GetxController {
 
   Future<void> getUserChoiceCountry() async {
     try {
-      final cachedCountry = await LocalStorage.getValueUnderLocalStorageKey(LocalStorageKey.userChoiceCountry);
+      final cachedCountry = await LocalStorage.getValueUnderLocalStorageKey(LocalStorageKey.userCountryChoice);
 
-      _systemProperties(properties.copyWith(userChoiceCountry: cachedCountry));
+      _systemProperties(properties.copyWith(userCountryChoice: cachedCountry));
 
       checkIfUserChosenCountry();
 
@@ -139,10 +140,18 @@ class SystemController extends GetxController {
     }
   }
 
-  void checkIfUserChosenCountry() => _userHasChosenCountry(properties.userChoiceCountry.isNotEmptyNeighterNull());
+  void checkIfUserChosenCountry() => _userHasChosenCountry(properties.userCountryChoice.isNotEmptyNeighterNull());
+
+  Future<void> saveUserChosenCountryOption() async {
+    await LocalStorage.setBooleanUnderKey(key: LocalStorageKey.userHasChosenCountry, value: true);
+  }
+
+  Future<bool> getUserChosenCountryOption() async {
+    return await LocalStorage.getBooleanUnderKey(key: LocalStorageKey.userHasChosenCountry, standardValue: false);
+  }
 
   Future<void> checkUserTermsAccepted() async {
-    final termsAccepted = await LocalStorage.getUnderBooleanKey(
+    final termsAccepted = await LocalStorage.getBooleanUnderKey(
       key: LocalStorageKey.termsAndConditions,
       standardValue: false,
     );
