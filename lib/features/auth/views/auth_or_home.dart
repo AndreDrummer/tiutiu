@@ -1,8 +1,9 @@
-import 'package:tiutiu/features/auth/views/start_screen_or_home.dart';
 import 'package:tiutiu/core/system/views/loading_start_screen.dart';
 import 'package:tiutiu/core/extensions/string_extension.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:tiutiu/features/auth/views/which_screen.dart';
+import 'package:tiutiu/features/auth/views/start_screen.dart';
 import 'package:tiutiu/features/posts/views/post_detail.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:tiutiu/core/widgets/connection_handler.dart';
 import 'package:tiutiu/core/utils/routes/routes_name.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
@@ -50,7 +51,7 @@ class _AuthOrHomeState extends State<AuthOrHome> {
               Get.offAllNamed(Routes.home);
             });
           },
-          buildWidget: (_) => StartScreenOrSomeScreen(somescreen: initialScreen),
+          buildWidget: (_) => WhichScreen(screen: StartScreen(), eigtherScreen: initialScreen),
           snapshot: snapshot,
         );
       },

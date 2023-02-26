@@ -1,28 +1,33 @@
-import 'package:tiutiu/core/controllers/controllers.dart';
+import 'package:tiutiu/core/system/views/loading_start_screen.dart';
 import 'package:tiutiu/core/local_storage/local_storage_keys.dart';
 import 'package:tiutiu/core/local_storage/local_storage.dart';
-import 'package:tiutiu/core/system/views/loading_start_screen.dart';
-import 'package:tiutiu/features/auth/views/start_screen.dart';
+import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/widgets/async_handler.dart';
 import 'package:flutter/material.dart';
 
-class StartScreenOrSomeScreen extends StatefulWidget {
-  const StartScreenOrSomeScreen({
+class WhichScreen extends StatefulWidget {
+  const WhichScreen({
     Key? key,
-    required this.somescreen,
+    required this.eigtherScreen,
+    required this.screen,
+    this.condition,
   }) : super(key: key);
 
-  final Widget somescreen;
+  final Widget eigtherScreen;
+  final bool? condition;
+  final Widget screen;
 
   @override
-  State<StartScreenOrSomeScreen> createState() => _StartScreenOrSomeScreenState();
+  State<WhichScreen> createState() => _WhichScreenState();
 }
 
-class _StartScreenOrSomeScreenState extends State<StartScreenOrSomeScreen> {
+class _WhichScreenState extends State<WhichScreen> {
+  late bool condition;
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: LocalStorage.getUnderBooleanKey(key: LocalStorageKey.firstOpen),
+      future: LocalStorage.getBooleanUnderKey(key: LocalStorageKey.firstOpen),
       builder: (_, AsyncSnapshot<bool> snapshot) {
         return AsyncHandler<bool>(
           loadingWidget: SplashScreenLoading(),
@@ -37,7 +42,9 @@ class _StartScreenOrSomeScreenState extends State<StartScreenOrSomeScreen> {
                 ? tiutiuUserController.tiutiuUser.hasAcceptedTerms
                 : systemController.properties.hasAcceptedTerms;
 
-            return (firstOpen || !hasAcceptedTerms) ? StartScreen() : widget.somescreen;
+            condition = widget.condition ?? (firstOpen || !hasAcceptedTerms);
+
+            return condition ? widget.screen : widget.eigtherScreen;
           },
         );
       },

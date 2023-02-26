@@ -34,7 +34,7 @@ class LocalStorage {
     }
   }
 
-  static Future<bool> getUnderBooleanKey({required LocalStorageKey key, bool standardValue = true}) async {
+  static Future<bool> getBooleanUnderKey({required LocalStorageKey key, bool standardValue = true}) async {
     try {
       final value = await _getString(key.name);
       return value == null ? standardValue : value == 'true';
