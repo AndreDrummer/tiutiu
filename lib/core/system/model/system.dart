@@ -5,9 +5,10 @@ const String defaultCountry = 'brazil';
 enum SystemEnum {
   userChoiceRadiusDistanceToShowPets,
   systemStateTextFeedback,
+  userHasChosenCountry,
   accessLocationDenied,
   internetConnected,
-  userChoiceCountry,
+  userCountryChoice,
   hasAcceptedTerms,
   runningVersion,
   snackBarIsOpen,
@@ -19,9 +20,10 @@ class System {
     return System(
       userChoiceRadiusDistanceToShowPets: map[SystemEnum.userChoiceRadiusDistanceToShowPets.name],
       systemStateTextFeedback: map[SystemEnum.systemStateTextFeedback.name],
+      userHasChosenCountry: map[SystemEnum.userHasChosenCountry.name],
       accessLocationDenied: map[SystemEnum.accessLocationDenied.name],
       internetConnected: map[SystemEnum.internetConnected.name],
-      userChoiceCountry: map[SystemEnum.userChoiceCountry.name],
+      userCountryChoice: map[SystemEnum.userCountryChoice.name],
       runningVersion: map[SystemEnum.runningVersion.name],
       snackBarIsOpen: map[SystemEnum.snackBarIsOpen.name],
       isLoading: map[SystemEnum.isLoading.name],
@@ -30,12 +32,13 @@ class System {
 
   System({
     this.userChoiceRadiusDistanceToShowPets = 10,
+    this.userCountryChoice = defaultCountry,
     this.systemStateTextFeedback = '',
     this.accessLocationDenied = false,
+    this.userHasChosenCountry = false,
     this.internetConnected = false,
     this.hasAcceptedTerms = false,
     this.snackBarIsOpen = false,
-    this.userChoiceCountry = '',
     this.runningVersion = '',
     this.isLoading = false,
   });
@@ -44,9 +47,10 @@ class System {
     return System(
       userChoiceRadiusDistanceToShowPets: this.userChoiceRadiusDistanceToShowPets,
       systemStateTextFeedback: this.systemStateTextFeedback,
+      userHasChosenCountry: this.userHasChosenCountry,
       accessLocationDenied: this.accessLocationDenied,
       internetConnected: this.internetConnected,
-      userChoiceCountry: this.userChoiceCountry,
+      userCountryChoice: this.userCountryChoice,
       hasAcceptedTerms: this.hasAcceptedTerms,
       snackBarIsOpen: this.snackBarIsOpen,
       runningVersion: this.runningVersion,
@@ -57,7 +61,8 @@ class System {
   final double userChoiceRadiusDistanceToShowPets;
   final String systemStateTextFeedback;
   final bool accessLocationDenied;
-  final String? userChoiceCountry;
+  final bool userHasChosenCountry;
+  final String? userCountryChoice;
   final bool internetConnected;
   final String runningVersion;
   final bool hasAcceptedTerms;
@@ -68,7 +73,8 @@ class System {
     double? userChoiceRadiusDistanceToShowPets,
     String? systemStateTextFeedback,
     bool? accessLocationDenied,
-    String? userChoiceCountry,
+    bool? userHasChosenCountry,
+    String? userCountryChoice,
     bool? internetConnected,
     String? runningVersion,
     bool? hasAcceptedTerms,
@@ -78,9 +84,10 @@ class System {
     return System(
       userChoiceRadiusDistanceToShowPets: userChoiceRadiusDistanceToShowPets ?? this.userChoiceRadiusDistanceToShowPets,
       systemStateTextFeedback: systemStateTextFeedback ?? this.systemStateTextFeedback,
+      userHasChosenCountry: userHasChosenCountry ?? this.userHasChosenCountry,
       accessLocationDenied: accessLocationDenied ?? this.accessLocationDenied,
       internetConnected: internetConnected ?? this.internetConnected,
-      userChoiceCountry: userChoiceCountry ?? this.userChoiceCountry,
+      userCountryChoice: userCountryChoice ?? this.userCountryChoice,
       hasAcceptedTerms: hasAcceptedTerms ?? this.hasAcceptedTerms,
       snackBarIsOpen: snackBarIsOpen ?? this.snackBarIsOpen,
       runningVersion: runningVersion ?? this.runningVersion,
@@ -93,7 +100,8 @@ class System {
       SystemEnum.userChoiceRadiusDistanceToShowPets.name: userChoiceRadiusDistanceToShowPets,
       SystemEnum.systemStateTextFeedback.name: systemStateTextFeedback,
       SystemEnum.accessLocationDenied.name: accessLocationDenied,
-      SystemEnum.userChoiceCountry.name: userChoiceCountry,
+      SystemEnum.userHasChosenCountry.name: userHasChosenCountry,
+      SystemEnum.userCountryChoice.name: userCountryChoice,
       SystemEnum.internetConnected.name: internetConnected,
       SystemEnum.hasAcceptedTerms.name: hasAcceptedTerms,
       SystemEnum.runningVersion.name: runningVersion,
@@ -107,9 +115,10 @@ class System {
     return '''System(      
       userChoiceRadiusDistanceToShowPets: $userChoiceRadiusDistanceToShowPets,
       systemStateTextFeedback: $systemStateTextFeedback,
-      accessLocationDenied: $accessLocationDenied,  
+      userHasChosenCountry: $userHasChosenCountry,
+      accessLocationDenied: $accessLocationDenied,        
       internetConnected: $internetConnected,
-      userChoiceCountry: $userChoiceCountry,  
+      userCountryChoice: $userCountryChoice,  
       hasAcceptedTerms: $hasAcceptedTerms,      
       runningVersion: $runningVersion,
       snackBarIsOpen: $snackBarIsOpen,  

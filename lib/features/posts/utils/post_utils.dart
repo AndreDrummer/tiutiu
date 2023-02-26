@@ -79,7 +79,7 @@ class PostUtils {
   }
 
   static List<Post> _filterByState(List<Post> list, String state) {
-    final chosenCountry = systemController.properties.userChoiceCountry;
+    final chosenCountry = systemController.properties.userCountryChoice;
 
     if (kDebugMode) debugPrint('TiuTiuApp: _filterByState');
 

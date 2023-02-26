@@ -2,27 +2,20 @@ import 'package:tiutiu/core/widgets/default_basic_app_bar.dart';
 import 'package:tiutiu/core/extensions/string_extension.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:tiutiu/core/utils/routes/routes_name.dart';
 import 'package:tiutiu/core/widgets/lottie_animation.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/constants/assets_path.dart';
 import 'package:tiutiu/core/widgets/one_line_text.dart';
 import 'package:tiutiu/core/constants/text_styles.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
-import 'package:tiutiu/core/system/model/system.dart';
 import 'package:tiutiu/core/widgets/button_wide.dart';
-import 'package:tiutiu/core/widgets/hint_error.dart';
+import 'package:tiutiu/core/system/model/system.dart';
 import 'package:tiutiu/core/data/dummy_data.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class CountrySelecter extends StatefulWidget {
-  @override
-  State<CountrySelecter> createState() => _CountrySelecterState();
-}
-
-class _CountrySelecterState extends State<CountrySelecter> {
-  bool hasError = false;
-
+class CountrySelecter extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -50,15 +43,11 @@ class _CountrySelecterState extends State<CountrySelecter> {
         padding: EdgeInsets.only(bottom: 16.0.h),
         child: ButtonWide(
           text: AppLocalizations.of(context).ok,
-          onPressed: () {
-            if (systemController.userHasChosenCountry) {
-              Get.back();
-              systemController.checkIfUserChosenCountry();
-              filterController.reset();
-              if (hasError) setState(() => hasError = false);
-            } else {
-              setState(() => hasError = true);
-            }
+          onPressed: () async {
+            Get.back();
+            filterController.reset();
+            await systemController.saveUserChosenCountryOption();
+            Get.offAllNamed(Routes.authOrHome);
           },
         ),
       ),
@@ -71,12 +60,12 @@ class _CountrySelecterState extends State<CountrySelecter> {
         children: [
           DropdownButton<String>(
             underline: Container(
-              color: hasError ? AppColors.danger : AppColors.black.withOpacity(.5),
+              color: AppColors.black.withOpacity(.5),
               width: Get.width,
               height: 0.5.h,
             ),
             isExpanded: true,
-            value: systemController.properties.userChoiceCountry ?? defaultCountry,
+            value: systemController.properties.userCountryChoice ?? defaultCountry,
             items: DummyData.countrieNames.entries
                 .toList()
                 .map(
@@ -91,10 +80,6 @@ class _CountrySelecterState extends State<CountrySelecter> {
               systemController.setUserChoiceCountry(country: country!);
             },
           ),
-          Visibility(
-            child: HintError(message: AppLocalizations.of(context).selectACountry),
-            visible: hasError,
-          ),
         ],
       ),
     );
@@ -103,8 +88,8 @@ class _CountrySelecterState extends State<CountrySelecter> {
   Widget _selectRadius(BuildContext context) {
     return Obx(
       () => Visibility(
-        visible: systemController.properties.userChoiceCountry != defaultCountry &&
-            systemController.properties.userChoiceCountry.isNotEmptyNeighterNull(),
+        visible: systemController.properties.userCountryChoice != defaultCountry &&
+            systemController.properties.userCountryChoice.isNotEmptyNeighterNull(),
         child: Column(
           children: [
             SizedBox(height: 40.0.h),
