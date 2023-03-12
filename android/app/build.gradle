@@ -73,7 +73,7 @@ android {
             } else {
                 keyAlias keystoreProperties['keyAlias']
                 keyPassword keystoreProperties['keyPassword']           
-                storeFile file(keystoreProperties['storeFile'])
+                storeFile file('storeFile')
                 storePassword keystoreProperties['storePassword']
             }
         }
