@@ -27,7 +27,7 @@ class _TopBarState extends State<TopBar> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return ListView(
       children: [
         Padding(
           padding: EdgeInsets.fromLTRB(6.0.w, 6.0.h, 12.0.w, 0.0.h),
