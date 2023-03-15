@@ -33,22 +33,22 @@ class NoConnectionScreen extends StatelessWidget {
             ),
             SizedBox(height: 16.0.h),
             AutoSizeTexts.autoSizeText22(
-              color: AppColors.secondary,
+              color: AppColors.black,
               AppLocalizations.of(context).noConnection,
             ),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 8.0.w, vertical: 32.0.h),
               child: AutoSizeTexts.autoSizeText14(
-                  color: AppColors.secondary,
-                  'É preciso estar conectado a alguma rede de internet para conseguir adotar um PET, ou até mesmo para postar um para adoção ou que esteja desaparecido!',
+                  color: AppColors.black,
+                  AppLocalizations.of(context).noConnectionWarning2,
                   textAlign: TextAlign.center),
             ),
             SizedBox(height: 16.0.h),
             ColumnButtonBar(
               onSecondaryPressed: () => OpenSettings.openDataRoamingSetting(),
               onPrimaryPressed: () => OpenSettings.openWIFISetting(),
-              textSecond: 'Ligar Internet Móvel (3G, 4G ou 5G)',
-              textPrimary: 'Ligar Wi-FI',
+              textSecond: AppLocalizations.of(context).turnOnInternetMobile,
+              textPrimary: AppLocalizations.of(context).turnOnWifi,
               isConnected: true,
             ),
             SimpleTextButton(

@@ -1,9 +1,7 @@
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get.dart';
 import 'package:tiutiu/core/constants/text_styles.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/core/utils/asset_handle.dart';
-import 'package:tiutiu/core/utils/dimensions.dart';
 import 'package:flutter/material.dart';
 
 class HomeFilterItem extends StatelessWidget {
@@ -33,16 +31,10 @@ class HomeFilterItem extends StatelessWidget {
           borderRadius: BorderRadius.circular(12),
         ),
         width: 64.0.w,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        child: ListView(
           children: [
-            Container(
-              height: Dimensions.getDimensBasedOnDeviceHeight(
-                xBigger: Get.width / 7,
-                smaller: 50.0.h,
-                medium: 42.0.h,
-                bigger: 42.0.h,
-              ),
+            AspectRatio(
+              aspectRatio: 3 / 2.3,
               child: ClipRRect(
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(12),
@@ -56,6 +48,7 @@ class HomeFilterItem extends StatelessWidget {
             ),
             AutoSizeTexts.autoSizeText10(
               color: isActive ? AppColors.white : AppColors.primary,
+              textAlign: TextAlign.center,
               fontWeight: FontWeight.w600,
               type,
             )

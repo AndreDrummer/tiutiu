@@ -72,7 +72,6 @@ class _SettingsState extends State<Settings> with TiuTiuPopUp {
                   ],
                 ),
               ),
-              Spacer(),
               AdBanner(
                 adId: systemController.getAdMobBlockID(
                   blockName: AdMobBlockName.homeFooterAdBlockId,
