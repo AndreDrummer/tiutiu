@@ -94,7 +94,7 @@ class FilterResultCount extends StatelessWidget {
               ],
             ),
           ),
-          Divider(height: 4.0.h, color: AppColors.secondary),
+          Divider(height: 2.0.h, color: AppColors.secondary),
         ],
       ),
     );
