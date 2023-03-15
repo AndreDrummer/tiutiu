@@ -21,7 +21,9 @@ class Dimensions {
     required double medium,
     double? xSmaller,
     double? xBigger,
+    double? tablet,
   }) {
+    if (isTabletDevice()) return tablet ?? bigger;
     if (isXBigDevice()) return xBigger ?? bigger;
     if (isMediumDevice()) return medium;
     if (isSmallDevice()) return smaller;
@@ -30,14 +32,16 @@ class Dimensions {
     return (isXSmallDevice() && xSmaller != null) ? xSmaller : smaller;
   }
 
-  static bool isSmallDevice() => Get.height > _xSmallDeviceMaxSize && Get.height <= _smallDeviceMaxSize;
   static bool isMediumDevice() => Get.height > _smallDeviceMaxSize && Get.height <= _mediumDeviceMaxSize;
+  static bool isSmallDevice() => Get.height > _xSmallDeviceMaxSize && Get.height <= _smallDeviceMaxSize;
   static bool isBigDevice() => Get.height > _mediumDeviceMaxSize && Get.height <= _bigDeviceMaxSize;
   static bool isXSmallDevice() => Get.height <= _xSmallDeviceMaxSize;
+  static bool isTabletDevice() => Get.width >= _tabletDeviceWidth;
   static bool isXBigDevice() => Get.height > _bigDeviceMaxSize;
 
   static double _xSmallDeviceMaxSize = 650;
   static double _mediumDeviceMaxSize = 890;
   static double _smallDeviceMaxSize = 750;
+  static double _tabletDeviceWidth = 500;
   static double _bigDeviceMaxSize = 933;
 }

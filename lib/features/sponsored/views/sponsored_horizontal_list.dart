@@ -9,9 +9,10 @@ class SponsoredHorizontalList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final double sponsoredAdsTileSize = Dimensions.getDimensBasedOnDeviceHeight(
+      smaller: 80.0.h,
       bigger: 68.0.h,
       medium: 68.0.h,
-      smaller: 80.0.h,
+      tablet: 80.0.h,
     );
 
     final sponsoreds = sponsoredController.sponsoreds;
