@@ -46,19 +46,20 @@ class _HomeState extends State<Home> with TiuTiuPopUp {
 
   @override
   Widget build(BuildContext context) {
-    final screens = <Widget>[
-      ClosedForMaintenance(child: DonateList()),
-      ClosedForMaintenance(child: TiutiuTok()),
-      ClosedForMaintenance(child: InitPostFlow()),
-      // ClosedForMaintenance(child: FinderList()),
-      ClosedForMaintenance(child: TiutiuShop()),
-      ClosedForMaintenance(child: More()),
-    ];
-
     return SafeArea(
       child: Obx(
         () {
           final conditionToShowFloatingButton = homeController.bottomBarIndex == BottomBarIndex.DONATE.indx;
+
+          final screens = <Widget>[
+            ClosedForMaintenance(child: DonateList()),
+            ClosedForMaintenance(child: TiutiuTok()),
+            ClosedForMaintenance(child: InitPostFlow()),
+            adminRemoteConfigController.configs.showShopButton
+                ? ClosedForMaintenance(child: TiutiuShop())
+                : ClosedForMaintenance(child: FinderList()),
+            ClosedForMaintenance(child: More()),
+          ];
 
           return WillPopScope(
             onWillPop: () async {
@@ -171,7 +172,10 @@ class _HomeState extends State<Home> with TiuTiuPopUp {
     final isFilteringByName = filterController.filterParams.value.orderBy == AppLocalizations.of(context).name;
     final appIsClosed = systemController.isToCloseApp;
 
-    final conditionToAddHeight = !appIsClosed && (homeController.bottomBarIndex == BottomBarIndex.DONATE.indx);
+    final conditionToAddHeight = !appIsClosed &&
+        (homeController.bottomBarIndex == BottomBarIndex.DONATE.indx ||
+            (!adminRemoteConfigController.configs.showShopButton &&
+                homeController.bottomBarIndex == BottomBarIndex.FINDER.indx));
 
     if (conditionToAddHeight) {
       final thereIsDeveloperCommunication = adminRemoteConfigController.configs.thereIsAdminCommunication;
