@@ -36,7 +36,8 @@ class PersistentHeaderDelegate extends SliverPersistentHeaderDelegate {
   final extent = homeController.bottomBarIndex == BottomBarIndex.DONATE.indx
       ? Dimensions.getDimensBasedOnDeviceHeight(
           smaller: 120.0.h,
-          tablet: 120.0.h,
+          xBigger: 120.0.h,
+          tablet: 136.0.h,
           bigger: 102.0.h,
           medium: 104.0.h,
         )

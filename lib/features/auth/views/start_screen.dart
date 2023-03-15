@@ -42,7 +42,7 @@ class _StartScreenState extends State<StartScreen> {
                 left: 0.0.h,
                 child: Container(
                   alignment: Alignment.center,
-                  height: 300,
+                  height: 300.0.h,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
