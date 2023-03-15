@@ -1,5 +1,3 @@
-import 'package:tiutiu/core/utils/routes/routes_name.dart';
-import 'package:tiutiu/core/widgets/custom_badge.dart';
 import 'package:tiutiu/features/sponsored/views/sponsored_horizontal_list.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiutiu/features/posts/model/filter_params.dart';
@@ -7,11 +5,13 @@ import 'package:tiutiu/core/extensions/string_extension.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:tiutiu/core/widgets/input_close_button.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:tiutiu/core/utils/routes/routes_name.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/widgets/warning_widget.dart';
 import 'package:tiutiu/core/constants/text_styles.dart';
 import 'package:tiutiu/core/utils/other_functions.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
+import 'package:tiutiu/core/widgets/custom_badge.dart';
 import 'package:tiutiu/core/utils/formatter.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -132,7 +132,7 @@ class _TopBarState extends State<TopBar> {
       children: [
         Spacer(),
         Visibility(
-          visible: authController.userExists,
+          visible: tiutiuUserController.tiutiuUser.emailVerified,
           child: Stack(
             children: [
               InkWell(
