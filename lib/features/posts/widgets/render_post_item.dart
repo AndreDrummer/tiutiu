@@ -24,7 +24,7 @@ class RenderListItem extends StatelessWidget {
   final Function()? onNavigateToTop;
   final bool showBackToStartButton;
   final Function()? onItemTapped;
-  final bool? showSaveButton;
+  final bool showSaveButton;
   final Post post;
 
   @override
@@ -62,14 +62,14 @@ class RenderListItem extends StatelessWidget {
         },
         child: postsController.cardVisibilityKind == CardVisibilityKind.banner
             ? CardAdList(
-                showSaveButton: showSaveButton ?? authController.userExists,
+                showSaveButton: showSaveButton && authController.userExists,
                 isInReviewMode: postsController.isInReviewMode,
                 key: Key(post.uid.toString()),
                 cardBuilder: cardBuilder,
                 post: post,
               )
             : CardAd(
-                showSaveButton: showSaveButton ?? authController.userExists,
+                showSaveButton: showSaveButton && authController.userExists,
                 cardBuilder: cardBuilder,
                 post: post,
               ),

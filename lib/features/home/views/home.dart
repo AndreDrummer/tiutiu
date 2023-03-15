@@ -35,6 +35,7 @@ class _HomeState extends State<Home> with TiuTiuPopUp {
   @override
   void initState() {
     showAdAndRequestToTrack();
+    print('Sizum ${Get.height} ${Get.width}');
     super.initState();
   }
 
