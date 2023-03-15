@@ -33,7 +33,9 @@ class PersistentHeaderDelegate extends SliverPersistentHeaderDelegate {
     );
   }
 
-  final extent = homeController.bottomBarIndex == BottomBarIndex.DONATE.indx
+  final extent = homeController.bottomBarIndex == BottomBarIndex.DONATE.indx ||
+          (!adminRemoteConfigController.configs.showShopButton &&
+              homeController.bottomBarIndex == BottomBarIndex.FINDER.indx)
       ? Dimensions.getDimensBasedOnDeviceHeight(
           smaller: 120.0.h,
           xBigger: 120.0.h,
