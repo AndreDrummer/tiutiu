@@ -1,4 +1,5 @@
 import 'package:tiutiu/core/utils/routes/routes_name.dart';
+import 'package:tiutiu/core/widgets/custom_badge.dart';
 import 'package:tiutiu/features/sponsored/views/sponsored_horizontal_list.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiutiu/features/posts/model/filter_params.dart';
@@ -33,7 +34,12 @@ class _TopBarState extends State<TopBar> {
           padding: EdgeInsets.fromLTRB(6.0.w, 6.0.h, 12.0.w, 0.0.h),
           child: Column(
             children: [
-              _userGreeting(),
+              Row(
+                children: [
+                  Expanded(child: _userGreeting(), flex: 2),
+                  Expanded(child: _topBarButtons()),
+                ],
+              ),
               HighPriorityInfoBanner(),
               Obx(
                 () => Visibility(
@@ -105,26 +111,52 @@ class _TopBarState extends State<TopBar> {
         children: [
           Row(
             children: [
-              AutoSizeTexts.autoSizeText22(_greeting(), textAlign: TextAlign.left),
+              AutoSizeTexts.autoSizeText18(_greeting(), textAlign: TextAlign.left),
               SizedBox(width: 4.0.w),
               _greetingIcon(),
-              Spacer(),
-              InkWell(
-                child: Icon(Icons.map),
-                onTap: () {
-                  Get.toNamed(Routes.changeCountry);
-                },
-              ),
             ],
           ),
           SizedBox(height: 2.0.h),
-          AutoSizeTexts.autoSizeText12(
+          AutoSizeTexts.autoSizeText10(
             '${Formatters.formmatedExtendedDate()}',
             textAlign: TextAlign.left,
             color: AppColors.secondary,
           ),
         ],
       ),
+    );
+  }
+
+  Widget _topBarButtons() {
+    return Row(
+      children: [
+        Spacer(),
+        Visibility(
+          visible: authController.userExists,
+          child: Stack(
+            children: [
+              InkWell(
+                child: Icon(Icons.forum_outlined, color: AppColors.secondary),
+                onTap: () {
+                  Get.toNamed(Routes.contacts);
+                },
+              ),
+              CustomBadge(
+                color: AppColors.info,
+                show: true,
+                text: '2',
+              )
+            ],
+          ),
+        ),
+        SizedBox(width: 4.0.w),
+        InkWell(
+          child: Icon(Icons.map_outlined, color: AppColors.secondary),
+          onTap: () {
+            Get.toNamed(Routes.changeCountry);
+          },
+        ),
+      ],
     );
   }
 

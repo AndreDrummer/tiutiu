@@ -665,7 +665,7 @@ PODS:
     - Firebase/Analytics (= 10.3.0)
     - firebase_core
     - Flutter
-  - firebase_auth (4.2.5):
+  - firebase_auth (4.2.2):
     - Firebase/Auth (= 10.3.0)
     - firebase_core
     - Flutter
@@ -975,6 +975,8 @@ PODS:
     - Flutter
   - wakelock (0.0.1):
     - Flutter
+  - webview_flutter_wkwebview (0.0.1):
+    - Flutter
 
 DEPENDENCIES:
   - better_player (from `.symlinks/plugins/better_player/ios`)
@@ -1016,6 +1018,7 @@ DEPENDENCIES:
   - url_launcher_ios (from `.symlinks/plugins/url_launcher_ios/ios`)
   - video_player_avfoundation (from `.symlinks/plugins/video_player_avfoundation/ios`)
   - wakelock (from `.symlinks/plugins/wakelock/ios`)
+  - webview_flutter_wkwebview (from `.symlinks/plugins/webview_flutter_wkwebview/ios`)
 
 SPEC REPOS:
   trunk:
@@ -1138,6 +1141,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/video_player_avfoundation/ios"
   wakelock:
     :path: ".symlinks/plugins/wakelock/ios"
+  webview_flutter_wkwebview:
+    :path: ".symlinks/plugins/webview_flutter_wkwebview/ios"
 
 SPEC CHECKSUMS:
   abseil: ebe5b5529fb05d93a8bdb7951607be08b7fa71bc
@@ -1154,7 +1159,7 @@ SPEC CHECKSUMS:
   FBSDKLoginKit: 4e275d30cf90e92bdf3a7c82857a8642abf23037
   Firebase: f92fc551ead69c94168d36c2b26188263860acd9
   firebase_analytics: 9f3a4cb560a59976b2c48707abae2d4cb94bcb3a
-  firebase_auth: 3bab991fe1df91c2f948156e9dee976e01a19ab9
+  firebase_auth: d1a0302ad8f1d642fc1cb53c43d25a951d70e190
   firebase_core: bf59c32d2e53814f558efa20840c1902fa2fe461
   firebase_crashlytics: b19405931669c882e0d08542e69ae9e86633c636
   firebase_database: 64eb24851aa709a26fb33fccd1b422658e307c76
@@ -1220,6 +1225,7 @@ SPEC CHECKSUMS:
   url_launcher_ios: ae1517e5e344f5544fb090b079e11f399dfbe4d2
   video_player_avfoundation: e489aac24ef5cf7af82702979ed16f2a5ef84cff
   wakelock: d0fc7c864128eac40eba1617cb5264d9c940b46f
+  webview_flutter_wkwebview: 2e2d318f21a5e036e2c3f26171342e95908bd60a
 
 PODFILE CHECKSUM: 6c8e5dd4202c83a2233ceb2ffe08721fb21cf800
 
