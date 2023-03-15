@@ -14,9 +14,11 @@ enum AdminRemoteConfigEnum {
   appInstagramLink,
   allowAdOnOpening,
   enableDonateTile,
+  tiutiuShopLink,
   appFacebookLink,
   appleStoreLink,
   allowGoogleAds,
+  showShopButton,
   playStoreLink,
   appBirthday,
   appIsClosed,
@@ -45,6 +47,8 @@ class AdminRemoteConfig {
       appFacebookLink: map[AdminRemoteConfigEnum.appFacebookLink.name],
       allowGoogleAds: map[AdminRemoteConfigEnum.allowGoogleAds.name],
       appleStoreLink: map[AdminRemoteConfigEnum.appleStoreLink.name],
+      showShopButton: map[AdminRemoteConfigEnum.showShopButton.name],
+      tiutiuShopLink: map[AdminRemoteConfigEnum.tiutiuShopLink.name],
       playStoreLink: map[AdminRemoteConfigEnum.playStoreLink.name],
       appBirthday: map[AdminRemoteConfigEnum.appBirthday.name],
       appIsClosed: map[AdminRemoteConfigEnum.appIsClosed.name],
@@ -56,6 +60,7 @@ class AdminRemoteConfig {
   }
 
   AdminRemoteConfig({
+    this.tiutiuShopLink = 'https://tiutiu-shop.myshopify.com/',
     this.uriPrefix = 'https://tiutiu.page.link',
     this.closeInVersionsSmallerThan = '1.0.0',
     this.adminCommunicationIsDanger = false,
@@ -69,6 +74,7 @@ class AdminRemoteConfig {
     this.allowAdOnOpening = false,
     this.enableDonateTile = false,
     this.allowGoogleAds = true,
+    this.showShopButton = true,
     this.appInstagramLink = '',
     this.dynamicLinkPrefix = '',
     this.appFacebookLink = '',
@@ -91,6 +97,7 @@ class AdminRemoteConfig {
       adminLinkRedirectsTo: snapshot.get(AdminRemoteConfigEnum.adminLinkRedirectsTo.name),
       adminCommunication: snapshot.get(AdminRemoteConfigEnum.adminCommunication.name),
       mostUpdatedVersion: snapshot.get(AdminRemoteConfigEnum.mostUpdatedVersion.name),
+      showShopButton: snapshot.get(AdminRemoteConfigEnum.showShopButton.name) ?? true,
       dynamicLinkPrefix: snapshot.get(AdminRemoteConfigEnum.dynamicLinkPrefix.name),
       showSponsoredAds: snapshot.get(AdminRemoteConfigEnum.showSponsoredAds.name),
       enableDonateTile: snapshot.get(AdminRemoteConfigEnum.enableDonateTile.name),
@@ -99,6 +106,7 @@ class AdminRemoteConfig {
       appFacebookLink: snapshot.get(AdminRemoteConfigEnum.appFacebookLink.name),
       appleStoreLink: snapshot.get(AdminRemoteConfigEnum.appleStoreLink.name),
       allowGoogleAds: snapshot.get(AdminRemoteConfigEnum.allowGoogleAds.name),
+      tiutiuShopLink: snapshot.get(AdminRemoteConfigEnum.tiutiuShopLink.name),
       playStoreLink: snapshot.get(AdminRemoteConfigEnum.playStoreLink.name),
       appIsClosed: snapshot.get(AdminRemoteConfigEnum.appIsClosed.name),
       appBirthday: snapshot.get(AdminRemoteConfigEnum.appBirthday.name),
@@ -124,8 +132,10 @@ class AdminRemoteConfig {
   final bool allowAdOnOpening;
   final bool enableDonateTile;
   final bool showSponsoredAds;
+  final String tiutiuShopLink;
   final String playStoreLink;
   final bool allowGoogleAds;
+  final bool showShopButton;
   final String appBirthday;
   final bool appIsClosed;
   final String appAdminID;
@@ -149,11 +159,13 @@ class AdminRemoteConfig {
     bool? showSponsoredAds,
     bool? enableDonateTile,
     bool? allowAdOnOpening,
+    String? tiutiuShopLink,
     String? playStoreLink,
     bool? allowGoogleAds,
     String? appBirthday,
     String? appAdminID,
     bool? appIsClosed,
+    bool? showShopButton,
     String? appStoreId,
     String? uriPrefix,
     bool? allowPost,
@@ -173,6 +185,8 @@ class AdminRemoteConfig {
       allowAdOnOpening: allowAdOnOpening ?? this.allowAdOnOpening,
       enableDonateTile: enableDonateTile ?? this.enableDonateTile,
       appFacebookLink: appFacebookLink ?? this.appFacebookLink,
+      showShopButton: showShopButton ?? this.showShopButton,
+      tiutiuShopLink: tiutiuShopLink ?? this.tiutiuShopLink,
       appleStoreLink: appleStoreLink ?? this.appleStoreLink,
       allowGoogleAds: allowGoogleAds ?? this.allowGoogleAds,
       playStoreLink: playStoreLink ?? this.playStoreLink,
@@ -201,7 +215,9 @@ class AdminRemoteConfig {
       AdminRemoteConfigEnum.enableDonateTile.name: enableDonateTile,
       AdminRemoteConfigEnum.allowAdOnOpening.name: allowAdOnOpening,
       AdminRemoteConfigEnum.appFacebookLink.name: appFacebookLink,
+      AdminRemoteConfigEnum.tiutiuShopLink.name: tiutiuShopLink,
       AdminRemoteConfigEnum.allowGoogleAds.name: allowGoogleAds,
+      AdminRemoteConfigEnum.showShopButton.name: showShopButton,
       AdminRemoteConfigEnum.appleStoreLink.name: appleStoreLink,
       AdminRemoteConfigEnum.playStoreLink.name: playStoreLink,
       AdminRemoteConfigEnum.appBirthday.name: appBirthday,
@@ -230,8 +246,10 @@ class AdminRemoteConfig {
       showSponsoredAds: $showSponsoredAds,      
       enableDonateTile: $enableDonateTile,
       appFacebookLink: $appFacebookLink,      
+      tiutiuShopLink: $tiutiuShopLink,      
       appleStoreLink: $appleStoreLink,            
       allowGoogleAds: $allowGoogleAds,
+      showShopButton: $showShopButton,
       playStoreLink: $playStoreLink,      
       appIsClosed: $appIsClosed,
       appBirthday: $appBirthday,
