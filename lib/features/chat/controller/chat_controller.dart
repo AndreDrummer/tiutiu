@@ -82,6 +82,8 @@ class ChatController extends GetxController with TiuTiuPopUp {
   Stream<List<Contact>> contacts() => _chatService.contacts(tiutiuUserController.tiutiuUser.uid!);
 
   Stream<int> newMessagesCount() {
+    if (tiutiuUserController.tiutiuUser.uid == null) return Stream.value(0);
+
     return contacts().asyncMap((contactList) {
       return contactList.where((message) => !message.open).toList().length;
     });
