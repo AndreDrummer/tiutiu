@@ -79,7 +79,9 @@ class _BottomBarState extends State<BottomBar> {
     AppLocalizations.of(Get.context!).adopte,
     AppLocalizations.of(Get.context!).tiutok,
     AppLocalizations.of(Get.context!).post,
-    AppLocalizations.of(Get.context!).store,
+    adminRemoteConfigController.configs.showShopButton
+        ? AppLocalizations.of(Get.context!).store
+        : AppLocalizations.of(Get.context!).disappeared,
     AppLocalizations.of(Get.context!).more,
   ];
 
@@ -87,7 +89,7 @@ class _BottomBarState extends State<BottomBar> {
     FontAwesomeIcons.paw,
     FontAwesomeIcons.play,
     FontAwesomeIcons.squarePlus,
-    Icons.shopping_bag_outlined,
+    adminRemoteConfigController.configs.showShopButton ? Icons.shopping_bag_outlined : FontAwesomeIcons.searchengin,
     Icons.menu,
   ];
 
