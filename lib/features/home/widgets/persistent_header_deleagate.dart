@@ -32,10 +32,7 @@ class PersistentHeaderDelegate extends SliverPersistentHeaderDelegate {
     );
   }
 
-  final extent = homeController.bottomBarIndex == BottomBarIndex.DONATE.indx ||
-          homeController.bottomBarIndex == BottomBarIndex.FINDER.indx
-      ? 102.0.h
-      : 0.0.h;
+  final extent = homeController.bottomBarIndex == BottomBarIndex.DONATE.indx ? 102.0.h : 0.0.h;
 
   @override
   double get maxExtent => extent;
