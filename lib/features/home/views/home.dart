@@ -18,6 +18,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/mixins/tiu_tiu_pop_up.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
+import 'package:tiutiu/features/shop/tiutiushop.dart';
 import 'package:tiutiu/features/more/views/more.dart';
 import 'package:tiutiu/core/utils/dimensions.dart';
 import 'package:tiutiu/core/widgets/top_bar.dart';
@@ -48,15 +49,15 @@ class _HomeState extends State<Home> with TiuTiuPopUp {
       ClosedForMaintenance(child: DonateList()),
       ClosedForMaintenance(child: TiutiuTok()),
       ClosedForMaintenance(child: InitPostFlow()),
-      ClosedForMaintenance(child: FinderList()),
+      // ClosedForMaintenance(child: FinderList()),
+      ClosedForMaintenance(child: TiutiuShop()),
       ClosedForMaintenance(child: More()),
     ];
 
     return SafeArea(
       child: Obx(
         () {
-          final conditionToShowFloatingButton = homeController.bottomBarIndex == BottomBarIndex.DONATE.indx ||
-              homeController.bottomBarIndex == BottomBarIndex.FINDER.indx;
+          final conditionToShowFloatingButton = homeController.bottomBarIndex == BottomBarIndex.DONATE.indx;
 
           return WillPopScope(
             onWillPop: () async {
@@ -169,9 +170,7 @@ class _HomeState extends State<Home> with TiuTiuPopUp {
     final isFilteringByName = filterController.filterParams.value.orderBy == AppLocalizations.of(context).name;
     final appIsClosed = systemController.isToCloseApp;
 
-    final conditionToAddHeight = !appIsClosed &&
-        (homeController.bottomBarIndex == BottomBarIndex.DONATE.indx ||
-            homeController.bottomBarIndex == BottomBarIndex.FINDER.indx);
+    final conditionToAddHeight = !appIsClosed && (homeController.bottomBarIndex == BottomBarIndex.DONATE.indx);
 
     if (conditionToAddHeight) {
       final thereIsDeveloperCommunication = adminRemoteConfigController.configs.thereIsAdminCommunication;
@@ -198,8 +197,7 @@ class _HomeState extends State<Home> with TiuTiuPopUp {
     final posts = postsController.posts;
     final cardVisibilityKind = postsController.cardVisibilityKind;
 
-    if (homeController.bottomBarIndex != BottomBarIndex.DONATE.indx &&
-        homeController.bottomBarIndex != BottomBarIndex.FINDER.indx) return 0.0;
+    if (homeController.bottomBarIndex != BottomBarIndex.DONATE.indx) return 0.0;
 
     if (cardVisibilityKind == CardVisibilityKind.banner && posts.length < 6) return 56.0;
     if (cardVisibilityKind == CardVisibilityKind.card && posts.length < 3) return 56.0;

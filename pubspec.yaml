@@ -44,6 +44,7 @@ dependencies:
   google_mobile_ads: ^2.3.0
   package_info_plus: ^1.0.0
   device_info_plus: ^8.0.0
+  webview_flutter: ^4.0.6
   pin_code_fields: ^7.4.0
   flutter_pdfview: ^1.2.5
   carousel_slider: ^4.0.0  
