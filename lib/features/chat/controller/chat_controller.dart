@@ -81,6 +81,12 @@ class ChatController extends GetxController with TiuTiuPopUp {
 
   Stream<List<Contact>> contacts() => _chatService.contacts(tiutiuUserController.tiutiuUser.uid!);
 
+  Stream<int> newMessagesCount() {
+    return contacts().asyncMap((contactList) {
+      return contactList.where((message) => !message.open).toList().length;
+    });
+  }
+
   Future<void> sendNewMessage(Message message) async {
     final contact = Contact(
       userReceiverReference: await tiutiuUserController.getUserReferenceById(message.receiver.uid!),

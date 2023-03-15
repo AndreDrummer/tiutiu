@@ -52,7 +52,7 @@ class ChatScreen extends StatelessWidget with TiuTiuPopUp {
                   medium: 48.0.h,
                   bigger: 56.0.h,
                 ),
-                top: 40.0.h,
+                top: 81.0.h,
                 child: StreamBuilder<List<Message>>(
                   stream: chatController.messages(loggedUserId),
                   builder: (context, snapshot) {

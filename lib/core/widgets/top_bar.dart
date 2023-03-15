@@ -141,10 +141,19 @@ class _TopBarState extends State<TopBar> {
                   Get.toNamed(Routes.contacts);
                 },
               ),
-              CustomBadge(
-                color: AppColors.info,
-                show: true,
-                text: '2',
+              StreamBuilder<int>(
+                initialData: 0,
+                stream: chatController.newMessagesCount(),
+                builder: (context, snapshot) {
+                  return Visibility(
+                    visible: snapshot.data != null && snapshot.data! > 0,
+                    child: CustomBadge(
+                      color: AppColors.info,
+                      show: true,
+                      text: '${snapshot.data}',
+                    ),
+                  );
+                },
               )
             ],
           ),
