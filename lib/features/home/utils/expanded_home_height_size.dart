@@ -3,9 +3,9 @@ import 'package:get/get.dart';
 
 double expandedHomeHeightDefault({required bool showingSponsoredAds}) {
   return Dimensions.getDimensBasedOnDeviceHeight(
-    smaller: showingSponsoredAds ? Get.height / 2.60 : Get.height / 3.70,
-    medium: showingSponsoredAds ? Get.height / 3.10 : Get.height / 4.4,
-    bigger: showingSponsoredAds ? Get.height / 3.10 : Get.height / 4.5,
+    smaller: showingSponsoredAds ? Get.height / 5.0 : Get.width / 5.0,
+    medium: showingSponsoredAds ? Get.height / 6.0 : Get.width / 6.0,
+    bigger: showingSponsoredAds ? Get.height / 6.0 : Get.width / 6.0,
   );
 }
 
@@ -15,7 +15,7 @@ double expandedHomeHeightWithAdminInfoAndInternetConnection({required bool showi
     xSmaller: showingSponsoredAds ? Get.height / 2.25 : Get.height / 3.1,
     smaller: showingSponsoredAds ? Get.height / 2.35 : Get.height / 3.2,
     medium: showingSponsoredAds ? Get.height / 2.70 : Get.height / 3.70,
-    bigger: showingSponsoredAds ? Get.height / 2.80 : Get.height / 3.80,
+    bigger: showingSponsoredAds ? Get.height / 4.5 : Get.width / 4.0,
   );
 }
 
