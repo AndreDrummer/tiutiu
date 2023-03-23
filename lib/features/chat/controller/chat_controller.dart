@@ -159,18 +159,20 @@ class ChatController extends GetxController with TiuTiuPopUp {
   }
 
   Future<void> onNotificationMessageTapped(RemoteMessage message) async {
-    TiutiuUser myUser = TiutiuUser.fromMap(jsonDecode(message.data['data'])[MessageEnum.receiver.name]);
-    TiutiuUser messageSender = TiutiuUser.fromMap(jsonDecode(message.data['data'])[MessageEnum.sender.name]);
+    if (message.data['data'] != null) {
+      TiutiuUser myUser = TiutiuUser.fromMap(jsonDecode(message.data['data'])[MessageEnum.receiver.name]);
+      TiutiuUser messageSender = TiutiuUser.fromMap(jsonDecode(message.data['data'])[MessageEnum.sender.name]);
 
-    TiutiuUser sender = await tiutiuUserController.getUserById(messageSender.uid!);
+      TiutiuUser sender = await tiutiuUserController.getUserById(messageSender.uid!);
 
-    if (!sender.userDeleted) {
-      chatController.startsChatWith(
-        myUserId: myUser.uid!,
-        user: sender,
-      );
-    } else {
-      Get.offAllNamed(Routes.home);
+      if (!sender.userDeleted) {
+        chatController.startsChatWith(
+          myUserId: myUser.uid!,
+          user: sender,
+        );
+      } else {
+        Get.offAllNamed(Routes.home);
+      }
     }
   }
 
