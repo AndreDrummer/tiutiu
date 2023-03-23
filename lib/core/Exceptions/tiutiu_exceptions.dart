@@ -16,6 +16,7 @@ class TiuTiuAuthException extends TiuTiuException {
     ErrorCodes.accountExistsWithDifferentCredential:
         'Você já criou uma conta com este email. Tente fazer login com essa outra conta.',
     ErrorCodes.userNotFound: 'Nenhuma conta com esse acesso foi encontrada!',
+    ErrorCodes.unavailable: 'Tipo de login indisponível no momento!',
     ErrorCodes.domainUnauthorized: 'Domínio não autorizado!',
     ErrorCodes.wrongPassword: 'Usuário ou senha incorreto!',
     ErrorCodes.operationNotAllowed: 'Ação não autorizada.',
@@ -46,4 +47,5 @@ class ErrorCodes {
   static String get invalidEmail => 'ERROR_INVALID_EMAIL';
   static String get wrongPassword => 'wrong-password';
   static String get userNotFound => 'user-not-found';
+  static String get unavailable => 'unavailable';
 }

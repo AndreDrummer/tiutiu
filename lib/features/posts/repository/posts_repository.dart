@@ -51,7 +51,7 @@ class PostsRepository {
       if (kDebugMode) debugPrint('TiuTiuApp: Posts Loaded from Internet');
       var postsList = List<Pet>.from(postData.docs.map((post) {
         final map = post.data();
-        return Pet().fromMap(map);
+        if (map[PostEnum.uid.name] != null) return Pet().fromMap(map);
       }));
       _cachePosts(posts: postsList);
 
