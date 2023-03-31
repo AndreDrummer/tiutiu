@@ -7,6 +7,7 @@ enum AdminRemoteConfigEnum {
   thereIsAdminCommunication,
   appClosedMessageTitle,
   adminLinkRedirectsTo,
+  tiutiuShopStoreName,
   mostUpdatedVersion,
   adminCommunication,
   dynamicLinkPrefix,
@@ -41,6 +42,7 @@ class AdminRemoteConfig {
       thereIsAdminCommunication: map[AdminRemoteConfigEnum.thereIsAdminCommunication.name],
       appClosedMessageTitle: map[AdminRemoteConfigEnum.appClosedMessageTitle.name],
       adminLinkRedirectsTo: map[AdminRemoteConfigEnum.adminLinkRedirectsTo.name],
+      tiutiuShopStoreName: map[AdminRemoteConfigEnum.tiutiuShopStoreName.name],
       adminCommunication: map[AdminRemoteConfigEnum.adminCommunication.name],
       mostUpdatedVersion: map[AdminRemoteConfigEnum.mostUpdatedVersion.name],
       dynamicLinkPrefix: map[AdminRemoteConfigEnum.dynamicLinkPrefix.name],
@@ -75,6 +77,7 @@ class AdminRemoteConfig {
     this.uriPrefix = 'https://tiutiu.page.link',
     this.closeInVersionsSmallerThan = '1.0.0',
     this.adminCommunicationIsDanger = false,
+    this.tiutiuShopStoreName = 'Tiutiu Shop',
     this.thereIsAdminCommunication = false,
     this.appClosedMessageDescription = '',
     this.appInstagramUser = '@tiutiuapp',
@@ -107,6 +110,7 @@ class AdminRemoteConfig {
           snapshot.get(AdminRemoteConfigEnum.appInstagramLink.name) ?? 'https://www.instagram.com/tiutiuapp/',
       appTikTokLink: snapshot.get(AdminRemoteConfigEnum.appTikTokLink.name) ?? 'https://www.tiktok.com/@tiutiuapp',
       appClosedMessageDescription: snapshot.get(AdminRemoteConfigEnum.appClosedMessageDescription.name),
+      tiutiuShopStoreName: snapshot.get(AdminRemoteConfigEnum.tiutiuShopStoreName.name) ?? 'Tiutiu Shop',
       closeInVersionsSmallerThan: snapshot.get(AdminRemoteConfigEnum.closeInVersionsSmallerThan.name),
       adminCommunicationIsDanger: snapshot.get(AdminRemoteConfigEnum.adminCommunicationIsDanger.name),
       thereIsAdminCommunication: snapshot.get(AdminRemoteConfigEnum.thereIsAdminCommunication.name),
@@ -141,6 +145,7 @@ class AdminRemoteConfig {
   final bool thereIsAdminCommunication;
   final String appClosedMessageTitle;
   final String adminLinkRedirectsTo;
+  final String tiutiuShopStoreName;
   final String adminCommunication;
   final String mostUpdatedVersion;
   final String dynamicLinkPrefix;
@@ -172,6 +177,7 @@ class AdminRemoteConfig {
     bool? thereIsAdminCommunication,
     String? appClosedMessageTitle,
     String? adminLinkRedirectsTo,
+    String? tiutiuShopStoreName,
     String? adminCommunication,
     String? mostUpdatedVersion,
     String? dynamicLinkPrefix,
@@ -203,6 +209,7 @@ class AdminRemoteConfig {
       thereIsAdminCommunication: thereIsAdminCommunication ?? this.thereIsAdminCommunication,
       appClosedMessageTitle: appClosedMessageTitle ?? this.appClosedMessageTitle,
       adminLinkRedirectsTo: adminLinkRedirectsTo ?? this.adminLinkRedirectsTo,
+      tiutiuShopStoreName: tiutiuShopStoreName ?? this.tiutiuShopStoreName,
       adminCommunication: adminCommunication ?? this.adminCommunication,
       mostUpdatedVersion: mostUpdatedVersion ?? this.mostUpdatedVersion,
       dynamicLinkPrefix: dynamicLinkPrefix ?? this.dynamicLinkPrefix,
@@ -237,6 +244,7 @@ class AdminRemoteConfig {
       AdminRemoteConfigEnum.thereIsAdminCommunication.name: thereIsAdminCommunication,
       AdminRemoteConfigEnum.appClosedMessageTitle.name: appClosedMessageTitle,
       AdminRemoteConfigEnum.adminLinkRedirectsTo.name: adminLinkRedirectsTo,
+      AdminRemoteConfigEnum.tiutiuShopStoreName.name: tiutiuShopStoreName,
       AdminRemoteConfigEnum.adminCommunication.name: adminCommunication,
       AdminRemoteConfigEnum.mostUpdatedVersion.name: mostUpdatedVersion,
       AdminRemoteConfigEnum.dynamicLinkPrefix.name: dynamicLinkPrefix,
@@ -272,6 +280,7 @@ class AdminRemoteConfig {
       thereIsAdminCommunication: $thereIsAdminCommunication,
       appClosedMessageTitle: $appClosedMessageTitle,
       adminLinkRedirectsTo: $adminLinkRedirectsTo,
+      tiutiuShopStoreName: $tiutiuShopStoreName,
       mostUpdatedVersion: $mostUpdatedVersion,
       adminCommunication: $adminCommunication,
       dynamicLinkPrefix: $dynamicLinkPrefix,      
