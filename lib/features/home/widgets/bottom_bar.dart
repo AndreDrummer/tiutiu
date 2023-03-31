@@ -80,7 +80,7 @@ class _BottomBarState extends State<BottomBar> {
     AppLocalizations.of(Get.context!).tiutok,
     AppLocalizations.of(Get.context!).post,
     adminRemoteConfigController.configs.showShopButton
-        ? AppLocalizations.of(Get.context!).store
+        ? adminRemoteConfigController.configs.tiutiuShopStoreName
         : AppLocalizations.of(Get.context!).disappeared,
     AppLocalizations.of(Get.context!).more,
   ];
