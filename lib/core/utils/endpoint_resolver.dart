@@ -1,7 +1,5 @@
-import 'package:tiutiu/core/constants/firebase_env_path.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/foundation.dart';
 
 class EndpointResolver {
   static CollectionReference<Map<String, dynamic>> getCollectionEndpoint(String endpointName, [List? params]) {
@@ -14,7 +12,8 @@ class EndpointResolver {
 
   static String formattedEndpoint(String endpointName, [List? params]) {
     final endpoint = systemController.endpoints.firstWhere((endpoint) => endpoint.name == endpointName);
-    final build = kDebugMode ? EnvironmentBuild.debug.name : EnvironmentBuild.prod.name;
+    final build = 'prod';
+    // kDebugMode ? EnvironmentBuild.debug.name : EnvironmentBuild.prod.name;
     String endpointPath = endpoint.path;
 
     endpointPath = endpointPath.replaceAll('%build', build);
