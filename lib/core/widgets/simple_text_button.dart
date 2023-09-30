@@ -51,7 +51,7 @@ class SimpleTextButton extends StatelessWidget {
             OneLineText(
               fontWeight: fontWeight ?? FontWeight.bold,
               widgetAlignment: Alignment.center,
-              text: text ?? AppLocalizations.of(context).cancel,
+              text: text ?? AppLocalizations.of(context)!.cancel,
               fontSize: fontSize ?? 16.0,
             ),
           ],

@@ -57,7 +57,7 @@ class PostsController extends GetxController with TiuTiuPopUp {
   final RxInt _postsCount = 0.obs;
   final RxInt _flowIndex = 0.obs;
 
-  bool get existChronicDisease => (post as Pet).health == AppLocalizations.of(Get.context!).chronicDisease;
+  bool get existChronicDisease => (post as Pet).health == AppLocalizations.of(Get.context!)!.chronicDisease;
   String get tiutiuTokStartingVideoPostId => _tiutiuTokStartingVideoPostId.value;
   CardVisibilityKind get cardVisibilityKind => _cardVisibilityKind.value;
   bool get addressIsWithCompliment => _addressIsWithCompliment.value;
@@ -173,7 +173,7 @@ class PostsController extends GetxController with TiuTiuPopUp {
   }
 
   Future<int> deletePost() async {
-    setLoading(true, loadingText: AppLocalizations.of(Get.context!).deletingAd);
+    setLoading(true, loadingText: AppLocalizations.of(Get.context!)!.deletingAd);
 
     await _postsRepository.deletePost(post: post);
     await getAllPosts();
@@ -198,10 +198,10 @@ class PostsController extends GetxController with TiuTiuPopUp {
 
   Future<void> _uploadVideo() async {
     if (post.video != null) {
-      _uploadingPostText(AppLocalizations.of(Get.context!).sendingVideo);
+      _uploadingPostText(AppLocalizations.of(Get.context!)!.sendingVideo);
 
       Future.delayed(Duration(seconds: 30), () {
-        _uploadingPostText(AppLocalizations.of(Get.context!).stillSendingAd);
+        _uploadingPostText(AppLocalizations.of(Get.context!)!.stillSendingAd);
       });
 
       await _postsRepository.uploadVideo(
@@ -217,8 +217,8 @@ class PostsController extends GetxController with TiuTiuPopUp {
     bool isTodelete = false;
 
     await showPopUp(
-      message: AppLocalizations.of(Get.context!).deleteForever,
-      confirmText: AppLocalizations.of(Get.context!).yes,
+      message: AppLocalizations.of(Get.context!)!.deleteForever,
+      confirmText: AppLocalizations.of(Get.context!)!.yes,
       textColor: AppColors.black,
       mainAction: () {
         Get.back();
@@ -228,16 +228,16 @@ class PostsController extends GetxController with TiuTiuPopUp {
         Get.back();
       },
       backGroundColor: AppColors.warning,
-      title: AppLocalizations.of(Get.context!).deleteAd,
+      title: AppLocalizations.of(Get.context!)!.deleteAd,
       barrierDismissible: false,
-      denyText: AppLocalizations.of(Get.context!).no,
+      denyText: AppLocalizations.of(Get.context!)!.no,
     );
 
     return isTodelete;
   }
 
   Future<void> _uploadImages() async {
-    _uploadingPostText(AppLocalizations.of(Get.context!).imageQty(post.photos.length));
+    _uploadingPostText(AppLocalizations.of(Get.context!)!.imageQty(post.photos.length));
 
     await _postsRepository.uploadImages(
       imagesToDelete: _urlPicturesToBeDeleted,
@@ -249,10 +249,10 @@ class PostsController extends GetxController with TiuTiuPopUp {
   }
 
   Future<void> _uploadPostData() async {
-    _uploadingPostText(AppLocalizations.of(Get.context!).sendingData);
+    _uploadingPostText(AppLocalizations.of(Get.context!)!.sendingData);
     await _postsRepository.uploadPostData(post: post);
 
-    _uploadingPostText(AppLocalizations.of(Get.context!).finalizing);
+    _uploadingPostText(AppLocalizations.of(Get.context!)!.finalizing);
     await Future.delayed(Duration(seconds: 1));
 
     _uploadingPostText('');
@@ -287,12 +287,12 @@ class PostsController extends GetxController with TiuTiuPopUp {
     bool returnValue = false;
 
     await showPopUp(
-      message: AppLocalizations.of(Get.context!).postCancelMessage,
-      title: AppLocalizations.of(Get.context!).postCancelTitle,
+      message: AppLocalizations.of(Get.context!)!.postCancelMessage,
+      title: AppLocalizations.of(Get.context!)!.postCancelTitle,
       mainAction: () => Get.back(),
-      confirmText: AppLocalizations.of(Get.context!).yes,
+      confirmText: AppLocalizations.of(Get.context!)!.yes,
       barrierDismissible: false,
-      denyText: AppLocalizations.of(Get.context!).no,
+      denyText: AppLocalizations.of(Get.context!)!.no,
       secondaryAction: () {
         Get.back();
 
@@ -317,19 +317,19 @@ class PostsController extends GetxController with TiuTiuPopUp {
 
     if (!success) {
       crashlyticsController.reportAnError(
-        message: AppLocalizations.of(Get.context!).unableToGenerateSharebleFile,
+        message: AppLocalizations.of(Get.context!)!.unableToGenerateSharebleFile,
         exception: TiuTiuException(''),
       );
 
       showPopUp(
-          message: AppLocalizations.of(Get.context!).unableToGenerateSharebleFile, backGroundColor: AppColors.danger);
+          message: AppLocalizations.of(Get.context!)!.unableToGenerateSharebleFile, backGroundColor: AppColors.danger);
     } else {
       increasePostSharedTimes();
     }
   }
 
   Future<bool> _share() async {
-    setLoading(true, loadingText: AppLocalizations.of(Get.context!).preparingPostToShare);
+    setLoading(true, loadingText: AppLocalizations.of(Get.context!)!.preparingPostToShare);
 
     try {
       final String dynamicLinkPrefix = adminRemoteConfigController.configs.dynamicLinkPrefix;

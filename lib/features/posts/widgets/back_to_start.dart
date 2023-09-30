@@ -14,7 +14,7 @@ class BackToStart extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           AutoSizeTexts.autoSizeText12(
-            AppLocalizations.of(context).backToStart.toUpperCase(),
+            AppLocalizations.of(context)!.backToStart.toUpperCase(),
             fontWeight: FontWeight.w700,
             color: Colors.blue,
           ),

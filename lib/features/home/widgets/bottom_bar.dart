@@ -76,13 +76,13 @@ class _BottomBarState extends State<BottomBar> {
   }
 
   final List<String> _bottomBarLabels = [
-    AppLocalizations.of(Get.context!).adopte,
-    AppLocalizations.of(Get.context!).tiutok,
-    AppLocalizations.of(Get.context!).post,
+    AppLocalizations.of(Get.context!)!.adopte,
+    AppLocalizations.of(Get.context!)!.tiutok,
+    AppLocalizations.of(Get.context!)!.post,
     adminRemoteConfigController.configs.showShopButton
         ? adminRemoteConfigController.configs.tiutiuShopStoreName
-        : AppLocalizations.of(Get.context!).disappeared,
-    AppLocalizations.of(Get.context!).more,
+        : AppLocalizations.of(Get.context!)!.disappeared,
+    AppLocalizations.of(Get.context!)!.more,
   ];
 
   final List<IconData> _bottomBarIcons = [

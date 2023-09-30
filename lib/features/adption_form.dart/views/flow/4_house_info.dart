@@ -40,14 +40,14 @@ class _HouseInfoState extends State<HouseInfo> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         AutoSizeTexts.autoSizeText14(
-          AppLocalizations.of(context).houseType,
+          AppLocalizations.of(context)!.houseType,
           color: AppColors.black.withOpacity(.5),
           fontWeight: FontWeight.w600,
         ),
         SizedBox(height: 8.0.h),
         OutlinedInputText(
           textColor: AppColors.black.withOpacity(.5),
-          labelText: AppLocalizations.of(context).houseTypeOptions,
+          labelText: AppLocalizations.of(context)!.houseTypeOptions,
           initialValue: adoptionFormController.adoptionForm.houseType,
           onChanged: (value) {
             adoptionFormController.setAdoptionForm(
@@ -70,7 +70,7 @@ class _HouseInfoState extends State<HouseInfo> {
           padding: EdgeInsets.symmetric(horizontal: 0.0.h),
           child: AutoSizeTexts.autoSizeText16(
             color: AppColors.black.withOpacity(.5),
-            AppLocalizations.of(context).haveYard,
+            AppLocalizations.of(context)!.haveYard,
             fontWeight: FontWeight.w600,
           ),
         ),
@@ -80,7 +80,7 @@ class _HouseInfoState extends State<HouseInfo> {
               child: CheckboxListTile(
                 contentPadding: EdgeInsets.zero,
                 controlAffinity: ListTileControlAffinity.leading,
-                title: AutoSizeTexts.autoSizeText12(AppLocalizations.of(context).yes),
+                title: AutoSizeTexts.autoSizeText12(AppLocalizations.of(context)!.yes),
                 onChanged: (_) {
                   adoptionFormController.setAdoptionForm(
                     adoptionFormController.adoptionForm.copyWith(haveYard: true),
@@ -93,7 +93,7 @@ class _HouseInfoState extends State<HouseInfo> {
               child: CheckboxListTile(
                 contentPadding: EdgeInsets.zero,
                 controlAffinity: ListTileControlAffinity.leading,
-                title: AutoSizeTexts.autoSizeText12(AppLocalizations.of(context).no),
+                title: AutoSizeTexts.autoSizeText12(AppLocalizations.of(context)!.no),
                 onChanged: (_) {
                   adoptionFormController.setAdoptionForm(
                     adoptionFormController.adoptionForm.copyWith(haveYard: false),
@@ -114,7 +114,7 @@ class _HouseInfoState extends State<HouseInfo> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         AutoSizeTexts.autoSizeText14(
-          AppLocalizations.of(context).haveChildren,
+          AppLocalizations.of(context)!.haveChildren,
           color: AppColors.black.withOpacity(.5),
           fontWeight: FontWeight.w600,
         ),
@@ -139,7 +139,7 @@ class _HouseInfoState extends State<HouseInfo> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         AutoSizeTexts.autoSizeText14(
-          AppLocalizations.of(context).haveAnimals,
+          AppLocalizations.of(context)!.haveAnimals,
           color: AppColors.black.withOpacity(.5),
           fontWeight: FontWeight.w600,
         ),

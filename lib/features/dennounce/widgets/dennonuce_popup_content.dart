@@ -51,7 +51,7 @@ class DennouncePopupContent extends StatelessWidget {
       children: [
         Padding(
           padding: const EdgeInsets.all(8.0),
-          child: OneLineText(text: AppLocalizations.of(context).whichIsDennounceMotive, fontSize: 18),
+          child: OneLineText(text: AppLocalizations.of(context)!.whichIsDennounceMotive, fontSize: 18),
         ),
         Divider(),
       ],
@@ -82,7 +82,7 @@ class DennouncePopupContent extends StatelessWidget {
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: 16.0.w),
               child: TextArea(
-                labelText: AppLocalizations.of(context).specifyDennounceMotive,
+                labelText: AppLocalizations.of(context)!.specifyDennounceMotive,
                 initialValue: denounceDescription,
                 onChanged: onMotiveDescribed,
                 isInErrorState: hasError,
@@ -104,7 +104,7 @@ class DennouncePopupContent extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               TextButton(
-                child: AutoSizeTexts.autoSizeText14(AppLocalizations.of(context).cancel),
+                child: AutoSizeTexts.autoSizeText14(AppLocalizations.of(context)!.cancel),
                 onPressed: () {
                   Get.back();
                   cancel();
@@ -113,7 +113,7 @@ class DennouncePopupContent extends StatelessWidget {
               Visibility(
                 replacement: _circularProgressIndicator(),
                 child: TextButton(
-                  child: AutoSizeTexts.autoSizeText14(AppLocalizations.of(context).dennounce),
+                  child: AutoSizeTexts.autoSizeText14(AppLocalizations.of(context)!.dennounce),
                   onPressed: onSubmit,
                 ),
                 visible: !isLoading,

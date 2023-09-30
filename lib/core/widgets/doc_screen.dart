@@ -52,7 +52,7 @@ class DocScreen extends StatelessWidget {
                   right: 0.0.w,
                   bottom: 0.0.h,
                   child: ButtonWide(
-                    text: AppLocalizations.of(context).back,
+                    text: AppLocalizations.of(context)!.back,
                     onPressed: Get.back,
                   ),
                 )

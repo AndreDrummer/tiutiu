@@ -46,10 +46,10 @@ class InsertCodeBoxes extends StatelessWidget {
         return GetUtils.isNum(text ?? "");
       },
       dialogConfig: DialogConfig(
-        dialogContent: AppLocalizations.of(context).doYouWannaPasteCodeCopied,
-        dialogTitle: AppLocalizations.of(context).pasteCode,
-        affirmativeText: AppLocalizations.of(context).yes,
-        negativeText: AppLocalizations.of(context).no,
+        dialogContent: AppLocalizations.of(context)!.doYouWannaPasteCodeCopied,
+        dialogTitle: AppLocalizations.of(context)!.pasteCode,
+        affirmativeText: AppLocalizations.of(context)!.yes,
+        negativeText: AppLocalizations.of(context)!.no,
       ),
     );
   }

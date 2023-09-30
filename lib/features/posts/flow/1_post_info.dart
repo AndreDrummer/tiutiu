@@ -44,7 +44,7 @@ class PostInfo extends StatelessWidget {
               nameKeyForm.currentState!.validate();
               postsController.updatePost(PostEnum.name.name, name.trim());
             },
-            labelText: AppLocalizations.of(Get.context!).petName,
+            labelText: AppLocalizations.of(Get.context!)!.petName,
             fontSizeLabelText: 12.0,
           ),
         ),
@@ -56,7 +56,7 @@ class PostInfo extends StatelessWidget {
     final petType = (postsController.post as Pet).type;
     late List<String> items;
 
-    if (petType == AppLocalizations.of(Get.context!).dog || petType == AppLocalizations.of(Get.context!).cat) {
+    if (petType == AppLocalizations.of(Get.context!)!.dog || petType == AppLocalizations.of(Get.context!)!.cat) {
       items = DummyData.gender.sublist(0, 3);
     } else {
       items = DummyData.gender;
@@ -66,13 +66,13 @@ class PostInfo extends StatelessWidget {
       isInErrorState: !(postsController.post as Pet).gender.isNotEmptyNeighterNull() && !postsController.formIsValid,
       initialValue: (postsController.post as Pet).gender.toString(),
       onChanged: (gender) {
-        if (gender == AppLocalizations.of(context).male) {
+        if (gender == AppLocalizations.of(context)!.male) {
           postsController.updatePost(PetEnum.health.name, '-');
         }
 
         postsController.updatePost(PetEnum.gender.name, gender);
       },
-      labelText: AppLocalizations.of(context).sex,
+      labelText: AppLocalizations.of(context)!.sex,
       items: items,
       fontSize: 10,
     );
@@ -87,7 +87,7 @@ class PostInfo extends StatelessWidget {
         onChanged: (size) {
           postsController.updatePost(PetEnum.size.name, size);
         },
-        labelText: AppLocalizations.of(context).size,
+        labelText: AppLocalizations.of(context)!.size,
         items: DummyData.size,
         fontSize: 10,
       ),
@@ -95,13 +95,13 @@ class PostInfo extends StatelessWidget {
   }
 
   Widget _health(BuildContext context) {
-    final petIsMale = (postsController.post as Pet).gender == AppLocalizations.of(context).male;
+    final petIsMale = (postsController.post as Pet).gender == AppLocalizations.of(context)!.male;
     List<String> healthState = DummyData.health;
 
     if (petIsMale) {
-      healthState.remove(AppLocalizations.of(context).preganant);
-    } else if (!healthState.contains(AppLocalizations.of(context).preganant)) {
-      healthState.add(AppLocalizations.of(context).preganant);
+      healthState.remove(AppLocalizations.of(context)!.preganant);
+    } else if (!healthState.contains(AppLocalizations.of(context)!.preganant)) {
+      healthState.add(AppLocalizations.of(context)!.preganant);
     }
 
     return AnimatedContainer(
@@ -117,7 +117,7 @@ class PostInfo extends StatelessWidget {
             onChanged: (health) {
               postsController.updatePost(PetEnum.health.name, health);
             },
-            labelText: AppLocalizations.of(context).health,
+            labelText: AppLocalizations.of(context)!.health,
             items: healthState,
             fontSize: 10,
           ),
@@ -148,7 +148,7 @@ class PostInfo extends StatelessWidget {
               },
               initialValue: (postsController.post as Pet).chronicDiseaseInfo,
               validator: postsController.existChronicDisease ? Validators.verifyEmpty : null,
-              labelText: AppLocalizations.of(context).describeDiseaseType,
+              labelText: AppLocalizations.of(context)!.describeDiseaseType,
             ),
           ),
         ),

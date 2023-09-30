@@ -15,7 +15,7 @@ class NoConnectionTextInfo extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           AutoSizeTexts.autoSizeText12(
-            AppLocalizations.of(context).noConnection,
+            AppLocalizations.of(context)!.noConnection,
             color: AppColors.danger,
           ),
           Padding(
