@@ -28,7 +28,7 @@ class AdDistanceFromUser extends StatelessWidget {
               AutoSizeTexts.autoSizeText10(
                 color: Colors.grey[700],
                 textOverflow: TextOverflow.fade,
-                AppLocalizations.of(context).isFromYou(distanceText),
+                AppLocalizations.of(context)!.isFromYou(distanceText),
                 fontWeight: FontWeight.w700,
               ),
               SizedBox(width: 2.0.w),

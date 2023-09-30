@@ -20,7 +20,7 @@ class ChangePostsVisibilityFloatingButtom extends StatelessWidget {
           visible: !isToCloseApp && visibility,
           child: FloatingActionButton(
             child: Icon(isCardVisibility ? Icons.list_outlined : Icons.photo_outlined),
-            tooltip: AppLocalizations.of(context).changeListVisual,
+            tooltip: AppLocalizations.of(context)!.changeListVisual,
             onPressed: () {
               postsController.changeCardVisibilityKind();
             },

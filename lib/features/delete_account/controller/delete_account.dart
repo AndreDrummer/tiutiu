@@ -16,7 +16,7 @@ class DeleteAccountController extends GetxController with TiuTiuPopUp {
 
   final DeleteAccountService _deleteAccountService;
 
-  final RxString _deleteAccountMotive = AppLocalizations.of(Get.context!).other.obs;
+  final RxString _deleteAccountMotive = AppLocalizations.of(Get.context!)!.other.obs;
   final RxString _deleteAccountMotiveDescribed = ''.obs;
   final RxInt _deleteAccountGroupValue = 7.obs;
   final RxString _loadingText = ''.obs;
@@ -51,7 +51,7 @@ class DeleteAccountController extends GetxController with TiuTiuPopUp {
   }
 
   Future<void> deleteAccountForever() async {
-    _setLoading(true, AppLocalizations.of(Get.context!).deletingAccountStarting);
+    _setLoading(true, AppLocalizations.of(Get.context!)!.deletingAccountStarting);
 
     final loggedUser = tiutiuUserController.tiutiuUser;
     final DeleteAccount deleteAccountData = DeleteAccount(
@@ -65,11 +65,11 @@ class DeleteAccountController extends GetxController with TiuTiuPopUp {
     await _deleteAccountService.deleteAccountForever(
       deleteAccountData: deleteAccountData,
       onPostsDeletionStarts: () {
-        _setLoading(true, AppLocalizations.of(Get.context!).deletingAds);
+        _setLoading(true, AppLocalizations.of(Get.context!)!.deletingAds);
       },
       userId: loggedUser.uid!,
       onFinishing: () {
-        _setLoading(true, AppLocalizations.of(Get.context!).finishing);
+        _setLoading(true, AppLocalizations.of(Get.context!)!.finishing);
       },
     );
 
@@ -83,22 +83,22 @@ class DeleteAccountController extends GetxController with TiuTiuPopUp {
         Get.back();
         authController.signOut().then((value) => Get.offAllNamed(Routes.startScreen));
       },
-      message: AppLocalizations.of(Get.context!).demandRecentLoginWarning,
+      message: AppLocalizations.of(Get.context!)!.demandRecentLoginWarning,
       backGroundColor: AppColors.warning,
-      title: AppLocalizations.of(Get.context!).doLogin,
-      confirmText: AppLocalizations.of(Get.context!).yes,
+      title: AppLocalizations.of(Get.context!)!.doLogin,
+      confirmText: AppLocalizations.of(Get.context!)!.yes,
       textColor: AppColors.black,
       barrierDismissible: false,
-      denyText: AppLocalizations.of(Get.context!).no,
+      denyText: AppLocalizations.of(Get.context!)!.no,
       mainAction: Get.back,
     );
   }
 
   Future<void> showAccountDeletedFeedbackPopup() async {
     await showPopUp(
-      message: AppLocalizations.of(Get.context!).foreverDeletedAccount,
-      title: AppLocalizations.of(Get.context!).deleteAccount,
-      confirmText: AppLocalizations.of(Get.context!).ok,
+      message: AppLocalizations.of(Get.context!)!.foreverDeletedAccount,
+      title: AppLocalizations.of(Get.context!)!.deleteAccount,
+      confirmText: AppLocalizations.of(Get.context!)!.ok,
       barrierDismissible: false,
       mainAction: () {
         Get.back();
@@ -116,19 +116,19 @@ class DeleteAccountController extends GetxController with TiuTiuPopUp {
   }
 
   void reset() {
-    deleteAccountMotive = AppLocalizations.of(Get.context!).other;
+    deleteAccountMotive = AppLocalizations.of(Get.context!)!.other;
     deleteAccountMotiveDescribed = '';
     deleteAccountGroupValue = 7;
   }
 
   List<String> _deleteAccountMotives = [
-    AppLocalizations.of(Get.context!).alreadyAdopted,
-    AppLocalizations.of(Get.context!).alreadyDonated,
-    AppLocalizations.of(Get.context!).noPetInMyRegion,
-    AppLocalizations.of(Get.context!).alreadyFoundPet,
-    AppLocalizations.of(Get.context!).cannotUse,
-    AppLocalizations.of(Get.context!).muchAds,
-    AppLocalizations.of(Get.context!).bugs,
-    AppLocalizations.of(Get.context!).other,
+    AppLocalizations.of(Get.context!)!.alreadyAdopted,
+    AppLocalizations.of(Get.context!)!.alreadyDonated,
+    AppLocalizations.of(Get.context!)!.noPetInMyRegion,
+    AppLocalizations.of(Get.context!)!.alreadyFoundPet,
+    AppLocalizations.of(Get.context!)!.cannotUse,
+    AppLocalizations.of(Get.context!)!.muchAds,
+    AppLocalizations.of(Get.context!)!.bugs,
+    AppLocalizations.of(Get.context!)!.other,
   ];
 }

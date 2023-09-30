@@ -25,46 +25,46 @@ class PetCaracteristics {
     return <PetCaracteristics>[
           PetCaracteristics(
             icon: OtherFunctions.getIconFromPetType(context, pet.type),
-            title: AppLocalizations.of(context).type,
+            title: AppLocalizations.of(context)!.type,
             content: pet.type,
           ),
           PetCaracteristics(
-            icon: pet.gender == AppLocalizations.of(context).female ? Icons.female : Icons.male,
-            title: AppLocalizations.of(context).sex,
+            icon: pet.gender == AppLocalizations.of(context)!.female ? Icons.female : Icons.male,
+            title: AppLocalizations.of(context)!.sex,
             content: pet.gender,
           ),
           PetCaracteristics(
             icon: Icons.linear_scale,
-            title: AppLocalizations.of(context).breed,
+            title: AppLocalizations.of(context)!.breed,
             content: pet.breed,
           ),
           PetCaracteristics(
             icon: Icons.color_lens,
-            title: AppLocalizations.of(context).color,
+            title: AppLocalizations.of(context)!.color,
             content: pet.color,
           ),
           PetCaracteristics(
             icon: Icons.close_fullscreen,
-            title: AppLocalizations.of(context).size,
+            title: AppLocalizations.of(context)!.size,
             content: pet.size,
           ),
           PetCaracteristics(
-            title: AppLocalizations.of(context).health,
+            title: AppLocalizations.of(context)!.health,
             icon: FontAwesomeIcons.heartPulse,
-            content: pet.health == AppLocalizations.of(context).chronicDisease
+            content: pet.health == AppLocalizations.of(context)!.chronicDisease
                 ? '${pet.health}:\n${pet.chronicDiseaseInfo}'
                 : pet.health,
           ),
           PetCaracteristics(
             content: '${pet.ageYear}a ${pet.ageMonth}m',
             icon: FontAwesomeIcons.cakeCandles,
-            title: AppLocalizations.of(context).age,
+            title: AppLocalizations.of(context)!.age,
           ),
         ] +
         List.generate(
           pet.otherCaracteristics.length,
           (index) => PetCaracteristics(
-            title: AppLocalizations.of(context).caracteristics,
+            title: AppLocalizations.of(context)!.caracteristics,
             content: pet.otherCaracteristics[index],
             icon: Icons.auto_awesome,
           ),

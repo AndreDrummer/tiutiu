@@ -439,8 +439,8 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
   String announcerName() {
     final owner = post.owner!;
     late String userName = postBelongsToMe()
-        ? AppLocalizations.of(context).you
-        : owner.displayName ?? AppLocalizations.of(context).tiutiuUser;
+        ? AppLocalizations.of(context)!.you
+        : owner.displayName ?? AppLocalizations.of(context)!.tiutiuUser;
 
     return userName;
   }
@@ -556,7 +556,7 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
     return Visibility(
       visible: description != null,
       child: CardContent(
-        title: AppLocalizations.of(context).description,
+        title: AppLocalizations.of(context)!.description,
         content: OtherFunctions.replacePhoneNumberWithStars(description?.trim() ?? ''),
       ),
     );
@@ -566,7 +566,7 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
     return Visibility(
       visible: (post as Pet).disappeared,
       child: CardContent(
-        title: AppLocalizations.of(context).reward,
+        title: AppLocalizations.of(context)!.reward,
         content: Formatters.currencyFormmater(reward) ?? '',
       ),
     );
@@ -584,7 +584,7 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
       content: (post as Pet).disappeared
           ? '${post.city} - ${post.state} ${post.lastSeenDetails}'
           : '${post.city} - ${post.state} $describedAddress',
-      title: post.disappeared ? AppLocalizations.of(context).lastSeen : AppLocalizations.of(context).whereIsThisPet,
+      title: post.disappeared ? AppLocalizations.of(context)!.lastSeen : AppLocalizations.of(context)!.whereIsThisPet,
       onAction: () {
         MapsLauncher.launchCoordinates(
           post.latitude ?? 0.0,
@@ -616,14 +616,14 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
               );
             },
             color: AppColors.secondary,
-            text: AppLocalizations.of(context).chatWithAnnouncer,
+            text: AppLocalizations.of(context)!.chatWithAnnouncer,
             isToExpand: true,
             icon: Icons.forum,
           ),
           ButtonWide(
             padding: EdgeInsets.symmetric(vertical: 1.0.h, horizontal: 2.0.w),
             icon: FontAwesomeIcons.whatsapp,
-            text: AppLocalizations.of(context).callInWhatsapp,
+            text: AppLocalizations.of(context)!.callInWhatsapp,
             color: AppColors.primary,
             isToExpand: true,
             onPressed: () async {
@@ -650,8 +650,9 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
     return Padding(
       padding: EdgeInsets.only(top: 16.0.h),
       child: ButtonWide(
-        text:
-            postsController.isEditingPost ? AppLocalizations.of(context).postUpdate : AppLocalizations.of(context).post,
+        text: postsController.isEditingPost
+            ? AppLocalizations.of(context)!.postUpdate
+            : AppLocalizations.of(context)!.post,
         onPressed: () {
           stopVideo();
           postsController.backReviewAndPost();
@@ -669,7 +670,7 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
         children: [
           SimpleTextButton(
             backgroundColor: AppColors.warning,
-            text: AppLocalizations.of(context).editAd,
+            text: AppLocalizations.of(context)!.editAd,
             textColor: AppColors.black,
             icon: Icons.edit,
             onPressed: () {
@@ -679,7 +680,7 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
           ),
           SimpleTextButton(
             backgroundColor: AppColors.white,
-            text: AppLocalizations.of(context).deleteAd,
+            text: AppLocalizations.of(context)!.deleteAd,
             textColor: AppColors.danger,
             onPressed: () async {
               final isToDelete = await postsController.shwoDeletePostPopup();
@@ -688,7 +689,7 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
                 postsController.deletePost().then((_) {}).then((_) async {
                   Get.back();
                   ScaffoldMessenger.of(context)
-                      .showSnackBar(TiuTiuSnackBar(message: AppLocalizations.of(context).adDeleted));
+                      .showSnackBar(TiuTiuSnackBar(message: AppLocalizations.of(context)!.adDeleted));
                 });
               }
             },

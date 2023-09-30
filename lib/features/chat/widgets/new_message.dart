@@ -81,7 +81,7 @@ class _NewMessageState extends State<NewMessage> {
                         disabledBorder: UnderlineInputBorder(borderSide: BorderSide.none),
                         enabledBorder: UnderlineInputBorder(borderSide: BorderSide.none),
                         hintStyle: TextStyle(color: Colors.grey),
-                        hintText: AppLocalizations.of(context).writeYourMessage,
+                        hintText: AppLocalizations.of(context)!.writeYourMessage,
                       ),
                       textInputAction: TextInputAction.send,
                       maxLines: 4,

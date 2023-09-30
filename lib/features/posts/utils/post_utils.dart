@@ -69,7 +69,7 @@ class PostUtils {
   static List<Post> _filterByType(List<Post> list, String type) {
     if (kDebugMode) debugPrint('TiuTiuApp: _filterByType');
 
-    if (type != AppLocalizations.of(Get.context!).all) {
+    if (type != AppLocalizations.of(Get.context!)!.all) {
       return list.where((post) {
         return post.type == type;
       }).toList();
@@ -134,13 +134,13 @@ class PostUtils {
   }
 
   static List<Post> _ordernatedList(List<Post> list, String orderParam) {
-    if (orderParam == AppLocalizations.of(Get.context!).distance) {
+    if (orderParam == AppLocalizations.of(Get.context!)!.distance) {
       list.sort(Ordenators.orderByDistance);
-    } else if (orderParam == AppLocalizations.of(Get.context!).date) {
+    } else if (orderParam == AppLocalizations.of(Get.context!)!.date) {
       list.sort(Ordenators.orderByPostDate);
-    } else if (orderParam == AppLocalizations.of(Get.context!).age) {
+    } else if (orderParam == AppLocalizations.of(Get.context!)!.age) {
       list.sort(Ordenators.orderByAge);
-    } else if (orderParam == AppLocalizations.of(Get.context!).name) {
+    } else if (orderParam == AppLocalizations.of(Get.context!)!.name) {
       list.sort(Ordenators.orderByName);
     }
 

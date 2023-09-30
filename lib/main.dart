@@ -163,7 +163,7 @@ class _TiuTiuAppState extends State<TiuTiuApp> {
     return ScreenUtilInit(
       designSize: const Size(360, 690),
       builder: (_, __) => GetMaterialApp(
-        onGenerateTitle: (context) => AppLocalizations.of(context).appName,
+        onGenerateTitle: (context) => AppLocalizations.of(context)!.appName,
         localizationsDelegates: AppLocalizations.localizationsDelegates,
         supportedLocales: AppLocalizations.supportedLocales,
         theme: ThemeData(

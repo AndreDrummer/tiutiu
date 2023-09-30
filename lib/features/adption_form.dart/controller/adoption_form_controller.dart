@@ -181,7 +181,7 @@ class AdoptionFormController extends GetxController {
 
     String dir = (await getTemporaryDirectory()).path;
 
-    File pdfFile = File('$dir/${AppLocalizations.of(Get.context!).formPdfName}${isEmptyForm ? ' (Vazio)' : ''}.pdf');
+    File pdfFile = File('$dir/${AppLocalizations.of(Get.context!)!.formPdfName}${isEmptyForm ? ' (Vazio)' : ''}.pdf');
 
     await pdfFile.writeAsBytes(await pdf.save());
 
@@ -189,29 +189,29 @@ class AdoptionFormController extends GetxController {
   }
 
   final List<String> formStepsTitle = [
-    AppLocalizations.of(Get.context!).personalInfo,
-    AppLocalizations.of(Get.context!).referenceContacts,
-    AppLocalizations.of(Get.context!).petInfo,
-    AppLocalizations.of(Get.context!).houseInfo,
-    AppLocalizations.of(Get.context!).financialInfo,
-    AppLocalizations.of(Get.context!).backgroundInfo,
+    AppLocalizations.of(Get.context!)!.personalInfo,
+    AppLocalizations.of(Get.context!)!.referenceContacts,
+    AppLocalizations.of(Get.context!)!.petInfo,
+    AppLocalizations.of(Get.context!)!.houseInfo,
+    AppLocalizations.of(Get.context!)!.financialInfo,
+    AppLocalizations.of(Get.context!)!.backgroundInfo,
   ];
 
   final List<String> maritalStatus = [
     '-',
-    AppLocalizations.of(Get.context!).marriedSeparated,
-    AppLocalizations.of(Get.context!).stableUnion,
-    AppLocalizations.of(Get.context!).divorced,
-    AppLocalizations.of(Get.context!).separated,
-    AppLocalizations.of(Get.context!).single,
-    AppLocalizations.of(Get.context!).married,
-    AppLocalizations.of(Get.context!).widower,
+    AppLocalizations.of(Get.context!)!.marriedSeparated,
+    AppLocalizations.of(Get.context!)!.stableUnion,
+    AppLocalizations.of(Get.context!)!.divorced,
+    AppLocalizations.of(Get.context!)!.separated,
+    AppLocalizations.of(Get.context!)!.single,
+    AppLocalizations.of(Get.context!)!.married,
+    AppLocalizations.of(Get.context!)!.widower,
   ];
 
   final List<String> petsType = [
     '-',
-    AppLocalizations.of(Get.context!).dog,
-    AppLocalizations.of(Get.context!).cat,
-    AppLocalizations.of(Get.context!).bird,
+    AppLocalizations.of(Get.context!)!.dog,
+    AppLocalizations.of(Get.context!)!.cat,
+    AppLocalizations.of(Get.context!)!.bird,
   ];
 }

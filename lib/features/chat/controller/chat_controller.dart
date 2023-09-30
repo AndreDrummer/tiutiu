@@ -239,7 +239,7 @@ class ChatController extends GetxController with TiuTiuPopUp {
 
     await showPopUp(
       message: CustomStrings.watchAnAd(contactType, noPreviousData),
-      confirmText: AppLocalizations.of(Get.context!).back,
+      confirmText: AppLocalizations.of(Get.context!)!.back,
       textColor: AppColors.white,
       mainAction: () async {
         Get.back();
@@ -249,9 +249,9 @@ class ChatController extends GetxController with TiuTiuPopUp {
         Get.back();
       },
       backGroundColor: contactTypeIsWpp ? AppColors.success : AppColors.secondary,
-      denyText: AppLocalizations.of(Get.context!).watch,
+      denyText: AppLocalizations.of(Get.context!)!.watch,
       barrierDismissible: false,
-      title: AppLocalizations.of(Get.context!).warning,
+      title: AppLocalizations.of(Get.context!)!.warning,
     );
   }
 }

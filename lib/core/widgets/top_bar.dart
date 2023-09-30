@@ -44,13 +44,13 @@ class _TopBarState extends State<TopBar> {
               Obx(
                 () => Visibility(
                   replacement: SponsoredHorizontalList(),
-                  visible: filterController.filterParams.value.orderBy == AppLocalizations.of(context).name,
+                  visible: filterController.filterParams.value.orderBy == AppLocalizations.of(context)!.name,
                   child: _userSearchInput(context, _fieldController),
                 ),
               ),
               WarningBanner(
                 showBannerCondition: !systemController.properties.internetConnected && postsController.posts.isNotEmpty,
-                textWarning: AppLocalizations.of(context).noConnectionWarning,
+                textWarning: AppLocalizations.of(context)!.noConnectionWarning,
                 padding: EdgeInsets.all(2.0.h),
                 replacement: SizedBox.shrink(),
                 tileColor: AppColors.warning,
@@ -92,7 +92,7 @@ class _TopBarState extends State<TopBar> {
                 },
               ),
             ),
-            hintText: AppLocalizations.of(context).searchForName,
+            hintText: AppLocalizations.of(context)!.searchForName,
             enabledBorder: _inputBorder(),
             errorBorder: _inputBorder(),
             border: _inputBorder(),

@@ -26,7 +26,7 @@ class DeleteAccountScreen extends StatelessWidget with TiuTiuPopUp {
           children: [
             Scaffold(
               appBar: DefaultBasicAppBar(
-                text: AppLocalizations.of(context).tellUsTheMotive,
+                text: AppLocalizations.of(context)!.tellUsTheMotive,
                 backgroundColor: AppColors.danger,
               ),
               body: Column(
@@ -79,16 +79,16 @@ class DeleteAccountScreen extends StatelessWidget with TiuTiuPopUp {
   }
 
   Visibility _describedMotiveTextArea(BuildContext context) {
-    final motiveIsBug = deleteAccountController.deleteAccountMotive == AppLocalizations.of(context).bugs;
+    final motiveIsBug = deleteAccountController.deleteAccountMotive == AppLocalizations.of(context)!.bugs;
 
     return Visibility(
-      visible: deleteAccountController.deleteAccountMotive == AppLocalizations.of(context).other || motiveIsBug,
+      visible: deleteAccountController.deleteAccountMotive == AppLocalizations.of(context)!.other || motiveIsBug,
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: TextArea(
           maxLines: 2,
           labelText:
-              motiveIsBug ? AppLocalizations.of(context).whichBugs : AppLocalizations.of(context).jotSomethingDown,
+              motiveIsBug ? AppLocalizations.of(context)!.whichBugs : AppLocalizations.of(context)!.jotSomethingDown,
           initialValue: deleteAccountController.deleteAccountMotiveDescribed,
           isInErrorState: deleteAccountController.hasError,
           onSubmit: (value) {
@@ -111,7 +111,7 @@ class DeleteAccountScreen extends StatelessWidget with TiuTiuPopUp {
       child: ColumnButtonBar(
         onPrimaryPressed: () => _onDeleteAccountButtonPressed(context),
         isConnected: systemController.properties.internetConnected,
-        textPrimary: AppLocalizations.of(context).deleteAccount,
+        textPrimary: AppLocalizations.of(context)!.deleteAccount,
         buttonPrimaryColor: AppColors.danger,
         onSecondaryPressed: () {
           deleteAccountController.reset();
@@ -123,8 +123,8 @@ class DeleteAccountScreen extends StatelessWidget with TiuTiuPopUp {
 
   Future<void> _onDeleteAccountButtonPressed(BuildContext context) async {
     deleteAccountController.hasError =
-        (deleteAccountController.deleteAccountMotive == AppLocalizations.of(context).other ||
-                deleteAccountController.deleteAccountMotive == AppLocalizations.of(context).bugs) &&
+        (deleteAccountController.deleteAccountMotive == AppLocalizations.of(context)!.other ||
+                deleteAccountController.deleteAccountMotive == AppLocalizations.of(context)!.bugs) &&
             deleteAccountController.deleteAccountMotiveDescribed.isEmpty;
 
     if (!deleteAccountController.hasError) {
@@ -144,12 +144,12 @@ class DeleteAccountScreen extends StatelessWidget with TiuTiuPopUp {
         Get.back();
         await deleteAccountController.deleteAccountForever();
       },
-      message: AppLocalizations.of(Get.context!).deleteAccountWarning,
+      message: AppLocalizations.of(Get.context!)!.deleteAccountWarning,
       backGroundColor: AppColors.danger,
-      title: AppLocalizations.of(Get.context!).deleteAccount,
-      confirmText: AppLocalizations.of(Get.context!).yes,
+      title: AppLocalizations.of(Get.context!)!.deleteAccount,
+      confirmText: AppLocalizations.of(Get.context!)!.yes,
       barrierDismissible: false,
-      denyText: AppLocalizations.of(Get.context!).no,
+      denyText: AppLocalizations.of(Get.context!)!.no,
       mainAction: Get.back,
     );
   }

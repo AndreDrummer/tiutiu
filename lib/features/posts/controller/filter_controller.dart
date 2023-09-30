@@ -9,8 +9,8 @@ import 'package:get/get.dart';
 class FilterController extends GetxController {
   final Rx<FilterParams> filterParams = FilterParams(
     state: StatesAndCities.stateAndCities.stateInitials.first,
-    orderBy: AppLocalizations.of(Get.context!).date,
-    type: AppLocalizations.of(Get.context!).all,
+    orderBy: AppLocalizations.of(Get.context!)!.date,
+    type: AppLocalizations.of(Get.context!)!.all,
     disappeared: false,
     name: '',
   ).obs;
@@ -20,7 +20,7 @@ class FilterController extends GetxController {
     paramMap[property.name] = data;
 
     final shoulRequestAccessToLocation = property == FilterParamsEnum.orderBy &&
-        data == AppLocalizations.of(Get.context!).distance &&
+        data == AppLocalizations.of(Get.context!)!.distance &&
         systemController.properties.accessLocationDenied;
 
     if (shoulRequestAccessToLocation) {
@@ -33,8 +33,8 @@ class FilterController extends GetxController {
   void reset([bool disappeared = false]) {
     filterParams(FilterParams(
       state: StatesAndCities.stateAndCities.stateInitials.first,
-      orderBy: AppLocalizations.of(Get.context!).date,
-      type: AppLocalizations.of(Get.context!).all,
+      orderBy: AppLocalizations.of(Get.context!)!.date,
+      type: AppLocalizations.of(Get.context!)!.all,
       disappeared: disappeared,
       name: '',
     ));
@@ -47,11 +47,11 @@ class FilterController extends GetxController {
   }
 
   final List<String> filterTypeText = [
-    AppLocalizations.of(Get.context!).all,
-    AppLocalizations.of(Get.context!).dog,
-    AppLocalizations.of(Get.context!).cat,
-    AppLocalizations.of(Get.context!).bird,
-    AppLocalizations.of(Get.context!).other,
+    AppLocalizations.of(Get.context!)!.all,
+    AppLocalizations.of(Get.context!)!.dog,
+    AppLocalizations.of(Get.context!)!.cat,
+    AppLocalizations.of(Get.context!)!.bird,
+    AppLocalizations.of(Get.context!)!.other,
   ];
 
   final List<IconData> filterTypeIcon = [
@@ -64,10 +64,10 @@ class FilterController extends GetxController {
 
   List<String> orderTypeList(bool hasAccessToLocal) {
     final orderByOptions = [
-      AppLocalizations.of(Get.context!).distance,
-      AppLocalizations.of(Get.context!).date,
-      AppLocalizations.of(Get.context!).age,
-      AppLocalizations.of(Get.context!).name,
+      AppLocalizations.of(Get.context!)!.distance,
+      AppLocalizations.of(Get.context!)!.date,
+      AppLocalizations.of(Get.context!)!.age,
+      AppLocalizations.of(Get.context!)!.name,
     ];
 
     return orderByOptions;
