@@ -72,7 +72,7 @@ class SplashScreenLoading extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.only(top: 16.0.h, bottom: 8.0.h),
       child: AutoSizeTexts.autoSizeText10(
-        AppLocalizations.of(context).weAreGettingAllReady,
+        AppLocalizations.of(context)!.weAreGettingAllReady,
         color: Colors.white,
       ),
     );
@@ -104,7 +104,7 @@ class SplashScreenLoading extends StatelessWidget {
           child: Row(
             children: [
               AutoSizeText(
-                AppLocalizations.of(context).madeBy,
+                AppLocalizations.of(context)!.madeBy,
                 minFontSize: 10,
                 maxFontSize: 12,
                 style: GoogleFonts.inter(

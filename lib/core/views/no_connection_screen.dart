@@ -34,21 +34,21 @@ class NoConnectionScreen extends StatelessWidget {
             SizedBox(height: 16.0.h),
             AutoSizeTexts.autoSizeText22(
               color: AppColors.black,
-              AppLocalizations.of(context).noConnection,
+              AppLocalizations.of(context)!.noConnection,
             ),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 8.0.w, vertical: 32.0.h),
               child: AutoSizeTexts.autoSizeText14(
                   color: AppColors.black,
-                  AppLocalizations.of(context).noConnectionWarning2,
+                  AppLocalizations.of(context)!.noConnectionWarning2,
                   textAlign: TextAlign.center),
             ),
             SizedBox(height: 16.0.h),
             ColumnButtonBar(
               onSecondaryPressed: () => OpenSettings.openDataRoamingSetting(),
               onPrimaryPressed: () => OpenSettings.openWIFISetting(),
-              textSecond: AppLocalizations.of(context).turnOnInternetMobile,
-              textPrimary: AppLocalizations.of(context).turnOnWifi,
+              textSecond: AppLocalizations.of(context)!.turnOnInternetMobile,
+              textPrimary: AppLocalizations.of(context)!.turnOnWifi,
               isConnected: true,
             ),
             SimpleTextButton(
@@ -60,7 +60,7 @@ class NoConnectionScreen extends StatelessWidget {
                 }
               },
               textColor: AppColors.secondary,
-              text: AppLocalizations.of(context).leave,
+              text: AppLocalizations.of(context)!.leave,
             )
           ],
         ),

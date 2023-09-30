@@ -56,14 +56,14 @@ class _VideoPlayerPickerState extends State<VideoPlayerPicker> {
               children: [
                 Icon(FontAwesomeIcons.triangleExclamation, color: AppColors.white),
                 SizedBox(height: 4.0.h),
-                AutoSizeTexts.autoSizeText14(AppLocalizations.of(context).videoPlayerError, color: AppColors.white),
+                AutoSizeTexts.autoSizeText14(AppLocalizations.of(context)!.videoPlayerError, color: AppColors.white),
                 SizedBox(height: 16.0.h),
                 TextButton(
                   onPressed: () {
                     _betterPlayerController.retryDataSource();
                     setState(() {});
                   },
-                  child: AutoSizeTexts.autoSizeText12(AppLocalizations.of(context).tryAgain, color: AppColors.white),
+                  child: AutoSizeTexts.autoSizeText12(AppLocalizations.of(context)!.tryAgain, color: AppColors.white),
                 )
               ],
             ),

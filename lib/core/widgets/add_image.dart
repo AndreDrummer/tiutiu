@@ -81,7 +81,7 @@ class _AddImageState extends State<AddImage> with Pickers {
     return OneLineText(
       widgetAlignment: photosFrameQty == 1 ? Alignment.center : Alignment(-0.9, 1),
       text:
-          '${AppLocalizations.of(context).insertAtLeastOnePicture} (${widget.addedImagesQty} / ${widget.maxImagesQty})',
+          '${AppLocalizations.of(context)!.insertAtLeastOnePicture} (${widget.addedImagesQty} / ${widget.maxImagesQty})',
       color: widget.hasError ? AppColors.danger : null,
       fontWeight: FontWeight.w500,
     );
@@ -132,7 +132,7 @@ class _AddImageState extends State<AddImage> with Pickers {
 
     return AnimatedTextIconButton(
       showCondition: (photosQty == photosFrameQty) && photosFrameQty < widget.maxImagesQty,
-      textLabel: AppLocalizations.of(context).addMorePictures,
+      textLabel: AppLocalizations.of(context)!.addMorePictures,
       onPressed: () {
         increasePhotosQty();
         _picturesListController.animateTo(

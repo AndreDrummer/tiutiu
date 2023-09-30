@@ -38,7 +38,7 @@ class _FinancialInfoState extends State<FinancialInfo> {
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 0.0.h),
           child: AutoSizeTexts.autoSizeText16(
-            AppLocalizations.of(context).haveTimeEnough,
+            AppLocalizations.of(context)!.haveTimeEnough,
             color: AppColors.black.withOpacity(.5),
             fontWeight: FontWeight.w600,
           ),
@@ -49,7 +49,7 @@ class _FinancialInfoState extends State<FinancialInfo> {
               child: CheckboxListTile(
                 contentPadding: EdgeInsets.zero,
                 controlAffinity: ListTileControlAffinity.leading,
-                title: AutoSizeTexts.autoSizeText12(AppLocalizations.of(context).yes),
+                title: AutoSizeTexts.autoSizeText12(AppLocalizations.of(context)!.yes),
                 onChanged: (_) {
                   adoptionFormController.setAdoptionForm(
                     adoptionFormController.adoptionForm.copyWith(haveTimeFreeToCare: true),
@@ -62,7 +62,7 @@ class _FinancialInfoState extends State<FinancialInfo> {
               child: CheckboxListTile(
                 contentPadding: EdgeInsets.zero,
                 controlAffinity: ListTileControlAffinity.leading,
-                title: AutoSizeTexts.autoSizeText12(AppLocalizations.of(context).no),
+                title: AutoSizeTexts.autoSizeText12(AppLocalizations.of(context)!.no),
                 onChanged: (_) {
                   adoptionFormController.setAdoptionForm(
                     adoptionFormController.adoptionForm.copyWith(haveTimeFreeToCare: false),
@@ -85,7 +85,7 @@ class _FinancialInfoState extends State<FinancialInfo> {
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 0.0.h),
           child: AutoSizeTexts.autoSizeText16(
-            AppLocalizations.of(context).haveMoneyEnough,
+            AppLocalizations.of(context)!.haveMoneyEnough,
             color: AppColors.black.withOpacity(.5),
             fontWeight: FontWeight.w600,
           ),
@@ -96,7 +96,7 @@ class _FinancialInfoState extends State<FinancialInfo> {
               child: CheckboxListTile(
                 contentPadding: EdgeInsets.zero,
                 controlAffinity: ListTileControlAffinity.leading,
-                title: AutoSizeTexts.autoSizeText12(AppLocalizations.of(context).yes),
+                title: AutoSizeTexts.autoSizeText12(AppLocalizations.of(context)!.yes),
                 onChanged: (_) {
                   adoptionFormController.setAdoptionForm(
                     adoptionFormController.adoptionForm.copyWith(haveMoneyEnoughToCare: true),
@@ -109,7 +109,7 @@ class _FinancialInfoState extends State<FinancialInfo> {
               child: CheckboxListTile(
                 contentPadding: EdgeInsets.zero,
                 controlAffinity: ListTileControlAffinity.leading,
-                title: AutoSizeTexts.autoSizeText12(AppLocalizations.of(context).no),
+                title: AutoSizeTexts.autoSizeText12(AppLocalizations.of(context)!.no),
                 onChanged: (_) {
                   adoptionFormController.setAdoptionForm(
                     adoptionFormController.adoptionForm.copyWith(haveMoneyEnoughToCare: false),

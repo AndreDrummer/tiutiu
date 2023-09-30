@@ -32,8 +32,8 @@ class _ReferenceContactsState extends State<ReferenceContacts> {
     return OutlinedInputText(
       keyboardType: TextInputType.phone,
       textColor: AppColors.black.withOpacity(.5),
-      labelText: '${AppLocalizations.of(context).phone} 1',
-      hintText: '${AppLocalizations.of(context).phone} 1',
+      labelText: '${AppLocalizations.of(context)!.phone} 1',
+      hintText: '${AppLocalizations.of(context)!.phone} 1',
       inputFormatters: [
         FilteringTextInputFormatter.digitsOnly,
         TelefoneInputFormatter(),
@@ -52,8 +52,8 @@ class _ReferenceContactsState extends State<ReferenceContacts> {
     return OutlinedInputText(
       keyboardType: TextInputType.phone,
       textColor: AppColors.black.withOpacity(.5),
-      labelText: '${AppLocalizations.of(context).phone} 2',
-      hintText: '${AppLocalizations.of(context).phone} 2',
+      labelText: '${AppLocalizations.of(context)!.phone} 2',
+      hintText: '${AppLocalizations.of(context)!.phone} 2',
       inputFormatters: [
         FilteringTextInputFormatter.digitsOnly,
         TelefoneInputFormatter(),
@@ -72,8 +72,8 @@ class _ReferenceContactsState extends State<ReferenceContacts> {
     return OutlinedInputText(
       keyboardType: TextInputType.phone,
       textColor: AppColors.black.withOpacity(.5),
-      labelText: '${AppLocalizations.of(context).phone} 3',
-      hintText: '${AppLocalizations.of(context).phone} 3',
+      labelText: '${AppLocalizations.of(context)!.phone} 3',
+      hintText: '${AppLocalizations.of(context)!.phone} 3',
       inputFormatters: [
         FilteringTextInputFormatter.digitsOnly,
         TelefoneInputFormatter(),

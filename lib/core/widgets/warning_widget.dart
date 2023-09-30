@@ -51,8 +51,8 @@ class WarningBanner extends StatelessWidget {
       return textWarning != null
           ? textWarning
           : isHiddingContactInfo
-              ? AppLocalizations.of(context).verifyEmailToSeeContactInfo
-              : AppLocalizations.of(context).verifyAccountWarning;
+              ? AppLocalizations.of(context)!.verifyEmailToSeeContactInfo
+              : AppLocalizations.of(context)!.verifyAccountWarning;
     }
   }
 
@@ -197,9 +197,9 @@ class VerifyAccountWarningInterstitial extends StatelessWidget {
               AutoSizeTexts.autoSizeText24(
                 isHiddingContactInfo
                     ? !isLoggedIn
-                        ? AppLocalizations.of(context).doLoginWarning
-                        : AppLocalizations.of(context).verifyEmailToSeeContactInfo
-                    : AppLocalizations.of(context).verifyAccountWarning,
+                        ? AppLocalizations.of(context)!.doLoginWarning
+                        : AppLocalizations.of(context)!.verifyEmailToSeeContactInfo
+                    : AppLocalizations.of(context)!.verifyAccountWarning,
                 color: isHiddingContactInfo ? AppColors.black : AppColors.white,
                 textOverflow: TextOverflow.fade,
                 textAlign: TextAlign.center,

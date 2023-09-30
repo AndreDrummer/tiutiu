@@ -108,7 +108,7 @@ class AuthHosters extends StatelessWidget with TiuTiuPopUp {
             Icon(Icons.list_alt_outlined, color: AppColors.white, size: 16.0.h),
             SizedBox(width: 4.0.w),
             AutoSizeTexts.autoSizeText12(
-              AppLocalizations.of(context).adoptionForm,
+              AppLocalizations.of(context)!.adoptionForm,
               color: AppColors.white,
             ),
           ],
@@ -121,7 +121,7 @@ class AuthHosters extends StatelessWidget with TiuTiuPopUp {
     return Padding(
       padding: EdgeInsets.only(left: 16.0.w),
       child: Headline(
-        text: AppLocalizations.of(context).authentique,
+        text: AppLocalizations.of(context)!.authentique,
         textColor: AppColors.white,
       ),
     );
@@ -139,14 +139,14 @@ class AuthHosters extends StatelessWidget with TiuTiuPopUp {
               icon: FontAwesomeIcons.apple,
               onPressed: () => _loginWithApple(context),
               textColor: AppColors.black,
-              text: AppLocalizations.of(context).apple,
+              text: AppLocalizations.of(context)!.apple,
               color: AppColors.white,
               isToExpand: true,
             ),
           ),
           ButtonWide(
             icon: FontAwesomeIcons.envelope,
-            text: AppLocalizations.of(context).email,
+            text: AppLocalizations.of(context)!.email,
             color: Colors.grey,
             isToExpand: true,
             onPressed: () {
@@ -156,14 +156,14 @@ class AuthHosters extends StatelessWidget with TiuTiuPopUp {
           ButtonWide(
             icon: FontAwesomeIcons.google,
             onPressed: () => _loginWithGoogle(context),
-            text: AppLocalizations.of(context).google,
+            text: AppLocalizations.of(context)!.google,
             color: AppColors.danger,
             isToExpand: true,
           ),
           ButtonWide(
             icon: FontAwesomeIcons.facebook,
             onPressed: () => _loginWithFacebook(context),
-            text: AppLocalizations.of(context).facebook,
+            text: AppLocalizations.of(context)!.facebook,
             color: AppColors.info,
             isToExpand: true,
           ),
@@ -184,7 +184,7 @@ class AuthHosters extends StatelessWidget with TiuTiuPopUp {
       child: AutoSizeTexts.autoSizeText18(
         fontWeight: FontWeight.bold,
         textAlign: TextAlign.center,
-        AppLocalizations.of(context).continueAnon,
+        AppLocalizations.of(context)!.continueAnon,
         color: AppColors.white,
       ),
       onPressed: () {
@@ -197,7 +197,7 @@ class AuthHosters extends StatelessWidget with TiuTiuPopUp {
   Widget _loadingWidget(BuildContext context) {
     return Obx(
       () => LoadDarkScreen(
-        message: AppLocalizations.of(context).loginInProgress,
+        message: AppLocalizations.of(context)!.loginInProgress,
         visible: authController.isLoading,
       ),
     );
@@ -222,7 +222,7 @@ class AuthHosters extends StatelessWidget with TiuTiuPopUp {
 
       showPopUp(
         backGroundColor: AppColors.danger,
-        title: AppLocalizations.of(context).authFailure,
+        title: AppLocalizations.of(context)!.authFailure,
         message: exception.toString(),
       );
     }
@@ -247,8 +247,8 @@ class AuthHosters extends StatelessWidget with TiuTiuPopUp {
       );
 
       showPopUp(
-        message: AppLocalizations.of(context).loginCouldNotProceed,
-        title: AppLocalizations.of(context).authFailure,
+        message: AppLocalizations.of(context)!.loginCouldNotProceed,
+        title: AppLocalizations.of(context)!.authFailure,
         backGroundColor: AppColors.danger,
       );
     }
@@ -273,7 +273,7 @@ class AuthHosters extends StatelessWidget with TiuTiuPopUp {
       );
 
       showPopUp(
-        title: AppLocalizations.of(context).authFailure,
+        title: AppLocalizations.of(context)!.authFailure,
         message: exception.toString(),
         backGroundColor: AppColors.danger,
       );

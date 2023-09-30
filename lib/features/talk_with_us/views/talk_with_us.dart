@@ -41,13 +41,13 @@ class _TalkWithUsState extends State<TalkWithUs> {
             return true;
           },
           child: Scaffold(
-            appBar: DefaultBasicAppBar(text: AppLocalizations.of(context).talkWithUs),
+            appBar: DefaultBasicAppBar(text: AppLocalizations.of(context)!.talkWithUs),
             resizeToAvoidBottomInset: false,
             body: Obx(
               () {
                 bool isPartnership =
-                    feedbackController.feedback.contactSubject == AppLocalizations.of(context).wannaAnnounceOnApp ||
-                        feedbackController.feedback.contactSubject == AppLocalizations.of(context).partnership;
+                    feedbackController.feedback.contactSubject == AppLocalizations.of(context)!.wannaAnnounceOnApp ||
+                        feedbackController.feedback.contactSubject == AppLocalizations.of(context)!.partnership;
 
                 return Container(
                   height: double.infinity,
@@ -95,7 +95,7 @@ class _TalkWithUsState extends State<TalkWithUs> {
       child: Padding(
         padding: EdgeInsets.only(bottom: 8.0.h, left: 8.0.w, right: 8.0.w),
         child: AutoSizeTexts.autoSizeText14(
-          AppLocalizations.of(context).partnershipWarning,
+          AppLocalizations.of(context)!.partnershipWarning,
           textAlign: TextAlign.center,
           color: AppColors.secondary,
         ),
@@ -105,12 +105,12 @@ class _TalkWithUsState extends State<TalkWithUs> {
 
   Widget _selectYourSubject() {
     final talkWithUsSubjects = [
-      AppLocalizations.of(context).wannaAnnounceOnApp,
-      AppLocalizations.of(context).anotherUserIssue,
-      AppLocalizations.of(context).dificultsUse,
-      AppLocalizations.of(context).partnership,
-      AppLocalizations.of(context).dennounce,
-      AppLocalizations.of(context).bugs,
+      AppLocalizations.of(context)!.wannaAnnounceOnApp,
+      AppLocalizations.of(context)!.anotherUserIssue,
+      AppLocalizations.of(context)!.dificultsUse,
+      AppLocalizations.of(context)!.partnership,
+      AppLocalizations.of(context)!.dennounce,
+      AppLocalizations.of(context)!.bugs,
       '-',
     ];
 
@@ -118,7 +118,7 @@ class _TalkWithUsState extends State<TalkWithUs> {
       () => Padding(
         padding: EdgeInsets.symmetric(vertical: 16.0.h),
         child: UnderlineInputDropdown(
-          labelText: AppLocalizations.of(context).subject,
+          labelText: AppLocalizations.of(context)!.subject,
           isInErrorState:
               !feedbackController.feedback.contactSubject.isNotEmptyNeighterNull() && !feedbackController.isFormValid,
           items: talkWithUsSubjects,
@@ -143,7 +143,7 @@ class _TalkWithUsState extends State<TalkWithUs> {
           },
           isInErrorState:
               !feedbackController.feedback.contactMessage.isNotEmptyNeighterNull() && !feedbackController.isFormValid,
-          labelText: AppLocalizations.of(context).writeYourMessage,
+          labelText: AppLocalizations.of(context)!.writeYourMessage,
           maxLines: 4,
         ),
       ),
@@ -176,7 +176,7 @@ class _TalkWithUsState extends State<TalkWithUs> {
                 },
               ),
               AutoSizeTexts.autoSizeText16(
-                AppLocalizations.of(context).addImages,
+                AppLocalizations.of(context)!.addImages,
                 fontWeight: FontWeight.w500,
                 color: AppColors.secondary,
               )
@@ -228,7 +228,7 @@ class _TalkWithUsState extends State<TalkWithUs> {
           child: ButtonWide(
             onPressed: feedbackController.submitForm,
             isLoading: feedbackController.isLoading,
-            text: AppLocalizations.of(context).send,
+            text: AppLocalizations.of(context)!.send,
           ),
           replacement: NoConnectionTextInfo(),
         ),
