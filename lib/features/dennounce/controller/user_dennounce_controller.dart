@@ -57,13 +57,13 @@ class UserDennounceController extends GetxController {
   static UserDennounce _defaultUserDennounce() {
     return UserDennounce(
       dennouncer: tiutiuUserController.tiutiuUser,
-      motive: AppLocalizations.of(Get.context!).other,
+      motive: AppLocalizations.of(Get.context!)!.other,
     );
   }
 
   final _dennounceUserMotives = [
-    AppLocalizations.of(Get.context!).sexualAppeal,
-    AppLocalizations.of(Get.context!).scamTry,
-    AppLocalizations.of(Get.context!).other,
+    AppLocalizations.of(Get.context!)!.sexualAppeal,
+    AppLocalizations.of(Get.context!)!.scamTry,
+    AppLocalizations.of(Get.context!)!.other,
   ];
 }

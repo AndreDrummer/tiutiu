@@ -35,7 +35,7 @@ class PostVideo extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.only(bottom: 8.0.h),
       child: OneLineText(
-        text: AppLocalizations.of(context).insertVideo,
+        text: AppLocalizations.of(context)!.insertVideo,
         widgetAlignment: Alignment.center,
         fontWeight: FontWeight.w500,
       ),
@@ -70,7 +70,7 @@ class PostVideo extends StatelessWidget {
               postsController.clearError();
             } else {
               if (kDebugMode) debugPrint('TiuTiuApp: Video Size Exceed ${videoDuration.inSeconds}');
-              postsController.setError(AppLocalizations.of(context).videoSizeExceed);
+              postsController.setError(AppLocalizations.of(context)!.videoSizeExceed);
             }
             videoPlayerController.dispose();
           });
@@ -114,7 +114,7 @@ class PostVideo extends StatelessWidget {
           padding: EdgeInsets.only(top: 2.0.h),
           child: AnimatedTextIconButton(
             showCondition: postsController.post.video != null,
-            textLabel: AppLocalizations.of(context).removeVideo,
+            textLabel: AppLocalizations.of(context)!.removeVideo,
             elementsColor: AppColors.danger,
             icon: Icons.remove,
             onPressed: () {

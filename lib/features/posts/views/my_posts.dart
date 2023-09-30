@@ -18,7 +18,7 @@ class MyPosts extends StatelessWidget {
         },
         child: Scaffold(
           appBar: DefaultBasicAppBar(
-            text: AppLocalizations.of(context).myPosts,
+            text: AppLocalizations.of(context)!.myPosts,
             automaticallyImplyLeading: true,
           ),
           body: RenderPostList(

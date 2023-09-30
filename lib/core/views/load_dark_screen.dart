@@ -42,7 +42,7 @@ class LoadDarkScreen extends StatelessWidget {
                 AutoSizeTexts.autoSizeText12(
                   textAlign: TextAlign.center,
                   color: AppColors.white,
-                  message ?? AppLocalizations.of(Get.context!).wait,
+                  message ?? AppLocalizations.of(Get.context!)!.wait,
                 )
               ],
             ),

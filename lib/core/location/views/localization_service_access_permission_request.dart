@@ -43,7 +43,7 @@ class _LocalizationServiceAccessPermissionAccessState extends State<Localization
     if (kDebugMode) debugPrint('TiuTiuApp: local access denied? ${widget.localAccessDenied ? 'Sim' : 'Não'}');
 
     return Scaffold(
-      appBar: DefaultBasicAppBar(text: AppLocalizations.of(context).appBarTitle),
+      appBar: DefaultBasicAppBar(text: AppLocalizations.of(context)!.appBarTitle),
       body: FutureBuilder<PermissionStatus>(
         future: getPermissionStatus(),
         builder: (context, snapshot) {
@@ -83,7 +83,7 @@ class _LocalizationServiceAccessPermissionAccessState extends State<Localization
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 8.0.w),
       child: AutoSizeTexts.autoSizeText16(
-        isInPostScreen ? AppLocalizations.of(context).needsAccessToPost : AppLocalizations.of(context).needsAccess,
+        isInPostScreen ? AppLocalizations.of(context)!.needsAccessToPost : AppLocalizations.of(context)!.needsAccess,
         textAlign: TextAlign.center,
       ),
     );
@@ -96,9 +96,9 @@ class _LocalizationServiceAccessPermissionAccessState extends State<Localization
         String? buttonText;
 
         if (locationAccessStatus.value == PermissionStatus.permanentlyDenied) {
-          buttonText = AppLocalizations.of(context).contines;
+          buttonText = AppLocalizations.of(context)!.contines;
         } else if (locationAccessStatus.value == PermissionStatus.denied) {
-          buttonText = AppLocalizations.of(context).ok;
+          buttonText = AppLocalizations.of(context)!.ok;
         }
 
         return ButtonWide(onPressed: () async => onPrimaryPressed(), text: buttonText);
@@ -125,13 +125,13 @@ class _LocalizationServiceAccessPermissionAccessState extends State<Localization
 
   Future<void> showWarningPopup() async {
     final message = isInPostScreen
-        ? AppLocalizations.of(Get.context!).appNeedToKnowWhereYouAre
-        : AppLocalizations.of(Get.context!).appNeedToKnowWhereYouAreToShowNearestPets;
+        ? AppLocalizations.of(Get.context!)!.appNeedToKnowWhereYouAre
+        : AppLocalizations.of(Get.context!)!.appNeedToKnowWhereYouAreToShowNearestPets;
 
     return await showPopUp(
       message: message,
       confirmText: 'Abrir configurações',
-      title: AppLocalizations.of(context).localization,
+      title: AppLocalizations.of(context)!.localization,
       denyText: isInPostScreen ? 'Não quero postar agora' : 'Somente ver os PETs',
       barrierDismissible: false,
       secondaryAction: () {

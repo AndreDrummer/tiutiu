@@ -7,8 +7,8 @@ class TermsAndConditions extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DocScreen(
-      docText: AppLocalizations.of(context).termsAndConditionsText,
-      docTitle: AppLocalizations.of(context).termsAndConditions,
+      docText: AppLocalizations.of(context)!.termsAndConditionsText,
+      docTitle: AppLocalizations.of(context)!.termsAndConditions,
     );
   }
 }

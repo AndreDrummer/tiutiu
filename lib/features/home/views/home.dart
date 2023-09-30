@@ -67,12 +67,12 @@ class _HomeState extends State<Home> with TiuTiuPopUp {
 
               return showPopUp(
                 backGroundColor: AppColors.warning,
-                message: AppLocalizations.of(context).wannaLeave,
-                confirmText: AppLocalizations.of(context).yes,
+                message: AppLocalizations.of(context)!.wannaLeave,
+                confirmText: AppLocalizations.of(context)!.yes,
                 textColor: AppColors.black,
                 barrierDismissible: false,
-                title: AppLocalizations.of(context).endApp,
-                denyText: AppLocalizations.of(context).no,
+                title: AppLocalizations.of(context)!.endApp,
+                denyText: AppLocalizations.of(context)!.no,
                 mainAction: () {
                   Get.back();
                 },
@@ -169,7 +169,7 @@ class _HomeState extends State<Home> with TiuTiuPopUp {
     final List<Sponsored> sponsoreds = sponsoredController.sponsoreds;
 
     final showingSponsoredAds = configs.showSponsoredAds && sponsoreds.isNotEmpty;
-    final isFilteringByName = filterController.filterParams.value.orderBy == AppLocalizations.of(context).name;
+    final isFilteringByName = filterController.filterParams.value.orderBy == AppLocalizations.of(context)!.name;
     final appIsClosed = systemController.isToCloseApp;
 
     final conditionToAddHeight = !appIsClosed &&

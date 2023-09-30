@@ -28,7 +28,7 @@ class _DisappearedAlertAnimationState extends State<DisappearedAlertAnimation> {
             size: 48.0.h,
           ),
           TextButtonCount(
-            text: AppLocalizations.of(context).petDisappeared,
+            text: AppLocalizations.of(context)!.petDisappeared,
             padding: EdgeInsets.only(top: 2.0.h),
             fontSize: 8.0.sp,
           ),

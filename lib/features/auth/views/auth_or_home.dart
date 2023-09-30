@@ -44,7 +44,7 @@ class _AuthOrHomeState extends State<AuthOrHome> {
       future: authController.tryAutoLoginIn(),
       builder: (_, AsyncSnapshot snapshot) {
         return AsyncHandler(
-          errorMessage: AppLocalizations.of(context).authError,
+          errorMessage: AppLocalizations.of(context)!.authError,
           loadingWidget: SplashScreenLoading(),
           onErrorCallback: () async {
             await authController.signOut().then((_) {

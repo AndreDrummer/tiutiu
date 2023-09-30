@@ -146,7 +146,7 @@ class AnnouncerProfile extends StatelessWidget with TiuTiuPopUp {
       child: Column(
         children: [
           AutoSizeTexts.autoSizeText12(
-            '${AppLocalizations.of(context).userLastSeen} ${Formatters.getFormattedDateAndTime(_user.lastLogin ?? DateTime.now().toIso8601String())}',
+            '${AppLocalizations.of(context)!.userLastSeen} ${Formatters.getFormattedDateAndTime(_user.lastLogin ?? DateTime.now().toIso8601String())}',
             fontStyle: FontStyle.italic,
           ),
           Spacer(),
@@ -159,7 +159,7 @@ class AnnouncerProfile extends StatelessWidget with TiuTiuPopUp {
     final DateTime dateTime = DateTime.parse(_user.createdAt ?? DateTime.now().toIso8601String());
 
     return AutoSizeText(
-      '${AppLocalizations.of(context).userSince} ${Formatters.formmatedExtendedDate(dateTime: dateTime).split(',').last.trim()}',
+      '${AppLocalizations.of(context)!.userSince} ${Formatters.formmatedExtendedDate(dateTime: dateTime).split(',').last.trim()}',
     );
   }
 
@@ -169,7 +169,7 @@ class AnnouncerProfile extends StatelessWidget with TiuTiuPopUp {
       stream: tiutiuUserController.getUserPostsById(_user.uid!).asyncMap<int>((event) => event.docs.length),
       builder: (context, snapshot) {
         final qty = snapshot.data ?? 1;
-        return AutoSizeText('$qty ${AppLocalizations.of(context).postsQty(qty)}');
+        return AutoSizeText('$qty ${AppLocalizations.of(context)!.postsQty(qty)}');
       },
     );
   }
@@ -178,7 +178,7 @@ class AnnouncerProfile extends StatelessWidget with TiuTiuPopUp {
     return Column(
       children: [
         Divider(),
-        AutoSizeTexts.autoSizeText12(AppLocalizations.of(context).contact),
+        AutoSizeTexts.autoSizeText12(AppLocalizations.of(context)!.contact),
         Divider(),
       ],
     );
@@ -197,7 +197,7 @@ class AnnouncerProfile extends StatelessWidget with TiuTiuPopUp {
             child: ButtonWide(
               fontSize: 12,
               color: AppColors.secondary,
-              text: AppLocalizations.of(context).chatWithAnnouncer,
+              text: AppLocalizations.of(context)!.chatWithAnnouncer,
               isToExpand: false,
               onPressed: () {
                 chatController.handleContactTapped(
@@ -215,7 +215,7 @@ class AnnouncerProfile extends StatelessWidget with TiuTiuPopUp {
           Expanded(
             child: ButtonWide(
               fontSize: 12,
-              text: AppLocalizations.of(context).callInWhatsapp,
+              text: AppLocalizations.of(context)!.callInWhatsapp,
               color: AppColors.primary,
               isToExpand: false,
               onPressed: () {
@@ -244,7 +244,7 @@ class AnnouncerProfile extends StatelessWidget with TiuTiuPopUp {
         children: [
           Expanded(
             child: TextButton.icon(
-              label: AutoSizeTexts.autoSizeText14(AppLocalizations.of(context).dennounceUser(_user.displayName ?? ''),
+              label: AutoSizeTexts.autoSizeText14(AppLocalizations.of(context)!.dennounceUser(_user.displayName ?? ''),
                   color: AppColors.black),
               icon: Padding(
                 padding: EdgeInsets.only(bottom: 1.0.h),
@@ -259,7 +259,7 @@ class AnnouncerProfile extends StatelessWidget with TiuTiuPopUp {
           ),
           Expanded(
             child: TextButton.icon(
-              label: AutoSizeTexts.autoSizeText14(AppLocalizations.of(context).blockUser(_user.displayName ?? ''),
+              label: AutoSizeTexts.autoSizeText14(AppLocalizations.of(context)!.blockUser(_user.displayName ?? ''),
                   color: AppColors.black),
               icon: Padding(
                 padding: EdgeInsets.only(bottom: 1.0.h),

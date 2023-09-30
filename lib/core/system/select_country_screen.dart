@@ -19,7 +19,7 @@ class CountrySelecter extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: DefaultBasicAppBar(text: AppLocalizations.of(context).selectACountry),
+      appBar: DefaultBasicAppBar(text: AppLocalizations.of(context)!.selectACountry),
       body: FutureBuilder(
         future: systemController.getUserChoiceCountry(),
         builder: (context, _) {
@@ -30,7 +30,7 @@ class CountrySelecter extends StatelessWidget {
               padding: EdgeInsets.zero,
               children: [
                 LottieAnimation(animationPath: AnimationsAssets.spinningGlobe, size: 200.0.h),
-                OneLineText(text: AppLocalizations.of(context).chooseWhereSeePets, fontSize: 24),
+                OneLineText(text: AppLocalizations.of(context)!.chooseWhereSeePets, fontSize: 24),
                 const SizedBox(height: 16.0),
                 _countrySelectDropdown(),
                 _selectRadius(context),
@@ -42,7 +42,7 @@ class CountrySelecter extends StatelessWidget {
       bottomNavigationBar: Padding(
         padding: EdgeInsets.only(bottom: 16.0.h),
         child: ButtonWide(
-          text: AppLocalizations.of(context).ok,
+          text: AppLocalizations.of(context)!.ok,
           onPressed: () async {
             Get.back();
             filterController.reset();
@@ -93,7 +93,7 @@ class CountrySelecter extends StatelessWidget {
         child: Column(
           children: [
             SizedBox(height: 40.0.h),
-            OneLineText(text: AppLocalizations.of(context).setARadiusToSearchPets, fontSize: 24),
+            OneLineText(text: AppLocalizations.of(context)!.setARadiusToSearchPets, fontSize: 24),
             SizedBox(height: 8.0.h),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,

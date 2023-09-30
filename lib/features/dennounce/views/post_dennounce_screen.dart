@@ -13,7 +13,7 @@ class PostDennounceScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Obx(() {
-      final motiveIsOther = postDennounceController.postDennounce.motive == AppLocalizations.of(context).other;
+      final motiveIsOther = postDennounceController.postDennounce.motive == AppLocalizations.of(context)!.other;
       final denounceDescription = postDennounceController.postDennounce.description;
       final motives = postDennounceController.dennouncePostMotives;
 
@@ -64,7 +64,7 @@ class PostDennounceScreen extends StatelessWidget {
         Get.back();
 
         ScaffoldMessenger.of(context).showSnackBar(
-          TiuTiuSnackBar(message: AppLocalizations.of(context).dennounceSentSuccessfully),
+          TiuTiuSnackBar(message: AppLocalizations.of(context)!.dennounceSentSuccessfully),
         );
       });
     } else {
