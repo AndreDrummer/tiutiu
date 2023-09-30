@@ -19,7 +19,7 @@ class PostLocation extends StatelessWidget {
         return Padding(
           padding: EdgeInsets.symmetric(horizontal: 2.0.w),
           child: TextArea(
-            labelText: AppLocalizations.of(context).jotSomethingDown,
+            labelText: AppLocalizations.of(context)!.jotSomethingDown,
             initialValue: initialValue,
             maxLines: 5,
             onChanged: (textTyped) {

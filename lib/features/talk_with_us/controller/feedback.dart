@@ -90,7 +90,7 @@ class FeedbackController extends GetxController with TiuTiuPopUp {
     if (isFormValid) {
       setLoading(true, '');
 
-      if (feedback.contactSubject == AppLocalizations.of(Get.context!).bugs) {
+      if (feedback.contactSubject == AppLocalizations.of(Get.context!)!.bugs) {
         updateFeedback(FeedbackEnum.deviceInfo, await systemController.getDeviceInfo());
       }
 
@@ -116,7 +116,7 @@ class FeedbackController extends GetxController with TiuTiuPopUp {
 
   Future<void> _uploadPrints() async {
     if (feedback.screenshots.isNotEmpty) {
-      _loadingText(AppLocalizations.of(Get.context!).imageQty(feedback.screenshots.length));
+      _loadingText(AppLocalizations.of(Get.context!)!.imageQty(feedback.screenshots.length));
 
       await _feedbackService.uploadPrints(
         onPrintsUploaded: (printsUrlList) {
@@ -128,7 +128,7 @@ class FeedbackController extends GetxController with TiuTiuPopUp {
   }
 
   Future<void> _uploadFeedbackData() async {
-    setLoading(true, AppLocalizations.of(Get.context!).sendingYourMessage);
+    setLoading(true, AppLocalizations.of(Get.context!)!.sendingYourMessage);
 
     await _feedbackService.uploadFeedbackData(feedback);
   }
@@ -136,7 +136,7 @@ class FeedbackController extends GetxController with TiuTiuPopUp {
   Future<void> _showsSuccessPopup() async {
     await showsOnRequestSuccessPopup(
       context: Get.context!,
-      message: AppLocalizations.of(Get.context!).successSent,
+      message: AppLocalizations.of(Get.context!)!.successSent,
       onDone: () {
         Get.back();
         clearForm();
@@ -146,13 +146,13 @@ class FeedbackController extends GetxController with TiuTiuPopUp {
 
   Future<void> _showsErrorPopup() async {
     await showsOnRequestErrorPopup(
-      message: AppLocalizations.of(Get.context!).failureWarning,
-      title: AppLocalizations.of(Get.context!).failure,
-      confirmText: AppLocalizations.of(Get.context!).cancel,
-      denyText: AppLocalizations.of(Get.context!).tryAgain,
+      message: AppLocalizations.of(Get.context!)!.failureWarning,
+      title: AppLocalizations.of(Get.context!)!.failure,
+      confirmText: AppLocalizations.of(Get.context!)!.cancel,
+      denyText: AppLocalizations.of(Get.context!)!.tryAgain,
       onCancel: Get.back,
       onRetry: () {
-        setLoading(true, AppLocalizations.of(Get.context!).tryingAgain);
+        setLoading(true, AppLocalizations.of(Get.context!)!.tryingAgain);
         Get.back();
         submitForm();
       },

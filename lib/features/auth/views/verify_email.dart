@@ -68,7 +68,7 @@ class _VerifyEmailState extends State<VerifyEmail> {
           padding: const EdgeInsets.all(16.0),
           child: AutoSizeTexts.autoSizeText24(
             color: AppColors.primary,
-            AppLocalizations.of(context).verifyYourEmail,
+            AppLocalizations.of(context)!.verifyYourEmail,
           ),
         ),
       ],
@@ -79,7 +79,7 @@ class _VerifyEmailState extends State<VerifyEmail> {
     return AutoSizeTexts.autoSizeText16(
       fontWeight: FontWeight.w600,
       textAlign: TextAlign.center,
-      AppLocalizations.of(context).linkWasSent,
+      AppLocalizations.of(context)!.linkWasSent,
     );
   }
 
@@ -130,7 +130,7 @@ class _VerifyEmailState extends State<VerifyEmail> {
       child: SimpleTextButton(
         textColor: AppColors.black.withOpacity(.7),
         onPressed: () => Get.back(),
-        text: AppLocalizations.of(context).back,
+        text: AppLocalizations.of(context)!.back,
       ),
     );
   }
@@ -139,12 +139,12 @@ class _VerifyEmailState extends State<VerifyEmail> {
     return Column(
       children: [
         AutoSizeTexts.autoSizeText14(
-          AppLocalizations.of(context).verifyEmailAdvice,
+          AppLocalizations.of(context)!.verifyEmailAdvice,
           textAlign: TextAlign.center,
         ),
         AutoSizeTexts.autoSizeText14(
           textAlign: TextAlign.center,
-          AppLocalizations.of(context).checkYourSpam,
+          AppLocalizations.of(context)!.checkYourSpam,
           color: AppColors.danger,
         ),
       ],
@@ -153,7 +153,7 @@ class _VerifyEmailState extends State<VerifyEmail> {
 
   AutoSizeText _noEmailReceived() {
     return AutoSizeTexts.autoSizeText16(
-      AppLocalizations.of(context).dontReceiveEmail,
+      AppLocalizations.of(context)!.dontReceiveEmail,
       fontWeight: FontWeight.w600,
       textAlign: TextAlign.center,
     );
@@ -169,7 +169,7 @@ class _VerifyEmailState extends State<VerifyEmail> {
           fontWeight: FontWeight.w600,
           textAlign: TextAlign.center,
           color: Colors.lightBlue,
-          AppLocalizations.of(context).resend,
+          AppLocalizations.of(context)!.resend,
         ),
         onPressed: _onEmailResent,
       ),
@@ -190,9 +190,9 @@ class _VerifyEmailState extends State<VerifyEmail> {
         resendButtonIsEnabled = true;
       });
 
-      resultMessage = AppLocalizations.of(context).emailSent;
+      resultMessage = AppLocalizations.of(context)!.emailSent;
     } catch (exception) {
-      resultMessage = AppLocalizations.of(context).unableToResendEmail;
+      resultMessage = AppLocalizations.of(context)!.unableToResendEmail;
 
       crashlyticsController.reportAnError(
         message: 'Could not send the email due to $exception',

@@ -90,7 +90,7 @@ class _EmailAndPasswordState extends State<EmailAndPassword> with TiuTiuPopUp {
         child: Align(
           alignment: Alignment.centerLeft,
           child: Headline(
-            text: AppLocalizations.of(context).createNewAccount,
+            text: AppLocalizations.of(context)!.createNewAccount,
             textColor: AppColors.white,
           ),
         ),
@@ -107,7 +107,7 @@ class _EmailAndPasswordState extends State<EmailAndPassword> with TiuTiuPopUp {
         child: Align(
           alignment: Alignment.centerLeft,
           child: Headline(
-            text: AppLocalizations.of(context).enterAccount,
+            text: AppLocalizations.of(context)!.enterAccount,
             textColor: AppColors.white,
           ),
         ),
@@ -124,7 +124,7 @@ class _EmailAndPasswordState extends State<EmailAndPassword> with TiuTiuPopUp {
         child: Align(
           alignment: Alignment.centerLeft,
           child: Headline(
-            text: AppLocalizations.of(context).resetPassword,
+            text: AppLocalizations.of(context)!.resetPassword,
             textColor: AppColors.white,
           ),
         ),
@@ -135,8 +135,8 @@ class _EmailAndPasswordState extends State<EmailAndPassword> with TiuTiuPopUp {
   OutlinedInputText _emailInput() {
     return OutlinedInputText(
       labelText: authController.isResetingPassword
-          ? AppLocalizations.of(context).typeYourEmail
-          : AppLocalizations.of(context).email,
+          ? AppLocalizations.of(context)!.typeYourEmail
+          : AppLocalizations.of(context)!.email,
       controller: _emailInputControlller,
       keyboardType: TextInputType.emailAddress,
       onChanged: (email) {
@@ -168,7 +168,7 @@ class _EmailAndPasswordState extends State<EmailAndPassword> with TiuTiuPopUp {
             );
           },
           showPassword: authController.isShowingPassword,
-          labelText: AppLocalizations.of(context).password,
+          labelText: AppLocalizations.of(context)!.password,
           isPassword: true,
         ),
       ),
@@ -197,7 +197,7 @@ class _EmailAndPasswordState extends State<EmailAndPassword> with TiuTiuPopUp {
             authController.isShowingPassword = !authController.isShowingPassword;
           },
           showPassword: authController.isShowingPassword,
-          labelText: AppLocalizations.of(context).repeatPassword,
+          labelText: AppLocalizations.of(context)!.repeatPassword,
           isPassword: true,
         ),
       ),
@@ -221,8 +221,8 @@ class _EmailAndPasswordState extends State<EmailAndPassword> with TiuTiuPopUp {
           children: [
             OneLineText(
               text: authController.isCreatingNewAccount
-                  ? AppLocalizations.of(context).haveAnAccount
-                  : AppLocalizations.of(context).doNotHaveAnAccount,
+                  ? AppLocalizations.of(context)!.haveAnAccount
+                  : AppLocalizations.of(context)!.doNotHaveAnAccount,
               widgetAlignment: Alignment.centerRight,
               fontWeight: FontWeight.w500,
               color: AppColors.white,
@@ -231,8 +231,8 @@ class _EmailAndPasswordState extends State<EmailAndPassword> with TiuTiuPopUp {
             OneLineText(
               widgetAlignment: Alignment.centerRight,
               text: authController.isCreatingNewAccount
-                  ? AppLocalizations.of(context).enterAccount
-                  : AppLocalizations.of(context).createYours,
+                  ? AppLocalizations.of(context)!.enterAccount
+                  : AppLocalizations.of(context)!.createYours,
               fontWeight: FontWeight.bold,
               color: AppColors.white,
             ),
@@ -260,14 +260,14 @@ class _EmailAndPasswordState extends State<EmailAndPassword> with TiuTiuPopUp {
             children: [
               OneLineText(
                 widgetAlignment: Alignment.centerRight,
-                text: AppLocalizations.of(context).forgotPassword,
+                text: AppLocalizations.of(context)!.forgotPassword,
                 fontWeight: FontWeight.w500,
                 color: AppColors.white,
               ),
               SizedBox(width: 4.0.w),
               OneLineText(
                 widgetAlignment: Alignment.centerRight,
-                text: AppLocalizations.of(context).clickHere,
+                text: AppLocalizations.of(context)!.clickHere,
                 fontWeight: FontWeight.bold,
                 color: AppColors.white,
               ),
@@ -281,10 +281,10 @@ class _EmailAndPasswordState extends State<EmailAndPassword> with TiuTiuPopUp {
   ButtonWide _submitButton(BuildContext context) {
     return ButtonWide(
       text: authController.isCreatingNewAccount
-          ? AppLocalizations.of(context).createAccount
+          ? AppLocalizations.of(context)!.createAccount
           : authController.isResetingPassword
-              ? AppLocalizations.of(context).receiveEmail
-              : AppLocalizations.of(context).enter,
+              ? AppLocalizations.of(context)!.receiveEmail
+              : AppLocalizations.of(context)!.enter,
       isToExpand: true,
       onPressed: () async {
         if (_formKey.currentState!.validate()) {
@@ -344,7 +344,7 @@ class _EmailAndPasswordState extends State<EmailAndPassword> with TiuTiuPopUp {
       );
 
       showPopUp(
-        title: AppLocalizations.of(context).authFailure,
+        title: AppLocalizations.of(context)!.authFailure,
         message: exception.toString(),
         backGroundColor: AppColors.danger,
       );
@@ -369,7 +369,7 @@ class _EmailAndPasswordState extends State<EmailAndPassword> with TiuTiuPopUp {
       );
 
       showPopUp(
-        title: AppLocalizations.of(context).authFailure,
+        title: AppLocalizations.of(context)!.authFailure,
         message: exception.toString(),
         backGroundColor: AppColors.danger,
       );
@@ -384,7 +384,7 @@ class _EmailAndPasswordState extends State<EmailAndPassword> with TiuTiuPopUp {
         (_) {
           _emailInputControlller.clear();
           showsOnRequestSuccessPopup(
-            message: AppLocalizations.of(context).resetPasswordInstructionsSent,
+            message: AppLocalizations.of(context)!.resetPasswordInstructionsSent,
             context: context,
           );
         },
@@ -398,7 +398,7 @@ class _EmailAndPasswordState extends State<EmailAndPassword> with TiuTiuPopUp {
       );
 
       showPopUp(
-        title: AppLocalizations.of(context).authFailure,
+        title: AppLocalizations.of(context)!.authFailure,
         message: exception.toString(),
         backGroundColor: AppColors.danger,
       );

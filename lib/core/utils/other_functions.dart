@@ -95,10 +95,10 @@ class OtherFunctions {
 
   static IconData getIconFromPetType(BuildContext context, String type) {
     final Map<String, dynamic> petIconType = {
-      AppLocalizations.of(context).bird: FontAwesomeIcons.b,
-      AppLocalizations.of(context).other: FontAwesomeIcons.question,
-      AppLocalizations.of(context).dog: FontAwesomeIcons.dog,
-      AppLocalizations.of(context).cat: FontAwesomeIcons.cat,
+      AppLocalizations.of(context)!.bird: FontAwesomeIcons.b,
+      AppLocalizations.of(context)!.other: FontAwesomeIcons.question,
+      AppLocalizations.of(context)!.dog: FontAwesomeIcons.dog,
+      AppLocalizations.of(context)!.cat: FontAwesomeIcons.cat,
     };
 
     return petIconType.containsKey(type) ? petIconType[type] : FontAwesomeIcons.dog;
@@ -264,16 +264,16 @@ class OtherFunctions {
   }
 
   static String _getPetGender(BuildContext context, String type, String gender) {
-    if (gender == AppLocalizations.of(context).female) {
-      if (type == AppLocalizations.of(context).dog) {
+    if (gender == AppLocalizations.of(context)!.female) {
+      if (type == AppLocalizations.of(context)!.dog) {
         return 'essa cachorra';
-      } else if (type == AppLocalizations.of(context).cat) {
+      } else if (type == AppLocalizations.of(context)!.cat) {
         return 'essa gata';
       }
-    } else if (gender == AppLocalizations.of(context).male) {
-      if (type == AppLocalizations.of(context).dog) {
+    } else if (gender == AppLocalizations.of(context)!.male) {
+      if (type == AppLocalizations.of(context)!.dog) {
         return 'esse cachorro';
-      } else if (type == AppLocalizations.of(context).cat) {
+      } else if (type == AppLocalizations.of(context)!.cat) {
         return 'esse gato';
       }
     }
@@ -282,11 +282,11 @@ class OtherFunctions {
   }
 
   static String _getPetTypeIcon(BuildContext context, String type) {
-    return type == AppLocalizations.of(context).cat
+    return type == AppLocalizations.of(context)!.cat
         ? '🐈'
-        : type == AppLocalizations.of(context).dog
+        : type == AppLocalizations.of(context)!.dog
             ? '🐶'
-            : type == AppLocalizations.of(context).bird
+            : type == AppLocalizations.of(context)!.bird
                 ? '🐧'
                 : '';
   }
@@ -296,11 +296,11 @@ class OtherFunctions {
     String greeting = '';
 
     if (now.hour < 12) {
-      greeting = AppLocalizations.of(context).goodMorning;
+      greeting = AppLocalizations.of(context)!.goodMorning;
     } else if (now.hour < 18) {
-      greeting = AppLocalizations.of(context).goodAfternoon;
+      greeting = AppLocalizations.of(context)!.goodAfternoon;
     } else {
-      greeting = AppLocalizations.of(context).goodNight;
+      greeting = AppLocalizations.of(context)!.goodNight;
     }
 
     return greeting;

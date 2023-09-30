@@ -22,7 +22,7 @@ class DisappearedTag extends StatelessWidget {
         color: Colors.orange,
       ),
       child: AutoSizeTexts.autoSizeText10(
-        AppLocalizations.of(context).disappeared,
+        AppLocalizations.of(context)!.disappeared,
         textAlign: TextAlign.center,
         fontWeight: FontWeight.w600,
         color: AppColors.white,

@@ -16,7 +16,7 @@ class HintError extends StatelessWidget {
       child: Padding(
         padding: EdgeInsets.only(top: 8.0.h),
         child: AutoSizeText(
-          message ?? AppLocalizations.of(context).requiredField,
+          message ?? AppLocalizations.of(context)!.requiredField,
           style: TextStyle(
             fontWeight: FontWeight.w400,
             color: AppColors.danger,

@@ -35,29 +35,29 @@ class PostFlow extends StatelessWidget with TiuTiuPopUp {
           final postReviewed = postsController.postReviewed;
 
           List<String> _screensTitle = [
-            AppLocalizations.of(context).petsData,
-            AppLocalizations.of(context).moreDetails,
-            AppLocalizations.of(context).otherCaracteristicsOptional,
+            AppLocalizations.of(context)!.petsData,
+            AppLocalizations.of(context)!.moreDetails,
+            AppLocalizations.of(context)!.otherCaracteristicsOptional,
             isDisappeared
-                ? AppLocalizations.of(context).whereLastSeen
-                : AppLocalizations.of(context).provideAddressDetails,
-            AppLocalizations.of(context).picTime,
-            AppLocalizations.of(context).addVideo,
+                ? AppLocalizations.of(context)!.whereLastSeen
+                : AppLocalizations.of(context)!.provideAddressDetails,
+            AppLocalizations.of(context)!.picTime,
+            AppLocalizations.of(context)!.addVideo,
             postReviewed
                 ? postsController.isLoading
-                    ? AppLocalizations.of(context).posting
-                    : AppLocalizations.of(context).allDone
-                : AppLocalizations.of(context).reviewYourPost,
+                    ? AppLocalizations.of(context)!.posting
+                    : AppLocalizations.of(context)!.allDone
+                : AppLocalizations.of(context)!.reviewYourPost,
           ];
 
           final _stepsNames = [
-            AppLocalizations.of(context).data,
-            AppLocalizations.of(context).details,
-            AppLocalizations.of(context).otherCaracteristics,
-            AppLocalizations.of(context).local,
-            AppLocalizations.of(context).pictures,
-            AppLocalizations.of(context).videos,
-            AppLocalizations.of(context).review,
+            AppLocalizations.of(context)!.data,
+            AppLocalizations.of(context)!.details,
+            AppLocalizations.of(context)!.otherCaracteristics,
+            AppLocalizations.of(context)!.local,
+            AppLocalizations.of(context)!.pictures,
+            AppLocalizations.of(context)!.videos,
+            AppLocalizations.of(context)!.review,
           ];
 
           List<Widget> _stepsScreens = [
@@ -116,13 +116,13 @@ class PostFlow extends StatelessWidget with TiuTiuPopUp {
 
   AppBar _appBar(BuildContext context) {
     return DefaultBasicAppBar(
-      text: postsController.isEditingPost ? AppLocalizations.of(context).editAd : AppLocalizations.of(context).post,
+      text: postsController.isEditingPost ? AppLocalizations.of(context)!.editAd : AppLocalizations.of(context)!.post,
       automaticallyImplyLeading: false,
       actions: [
         Padding(
           padding: EdgeInsets.only(right: 16.0.w),
           child: SimpleTextButton(
-            text: AppLocalizations.of(context).cancel,
+            text: AppLocalizations.of(context)!.cancel,
             onPressed: () async {
               await postsController.showsCancelPostPopUp(isInsideFlow: true).then((shouldGoBack) {
                 if (shouldGoBack) Get.back();
@@ -206,13 +206,13 @@ class PostFlow extends StatelessWidget with TiuTiuPopUp {
               postsController.previousStepFlow();
             },
             textPrimary: postsController.isInStepReview()
-                ? AppLocalizations.of(context).reviewButton
+                ? AppLocalizations.of(context)!.reviewButton
                 : postsController.lastStep()
                     ? postsController.isEditingPost
-                        ? AppLocalizations.of(context).postUpdate
-                        : AppLocalizations.of(context).post
-                    : AppLocalizations.of(context).contines,
-            textSecond: AppLocalizations.of(context).back,
+                        ? AppLocalizations.of(context)!.postUpdate
+                        : AppLocalizations.of(context)!.post
+                    : AppLocalizations.of(context)!.contines,
+            textSecond: AppLocalizations.of(context)!.back,
           ),
         );
       },

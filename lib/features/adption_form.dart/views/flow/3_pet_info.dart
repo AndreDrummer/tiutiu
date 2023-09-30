@@ -51,7 +51,7 @@ class _PetInfoState extends State<PetInfo> {
           adoptionFormController.adoptionForm.copyWith(interestedBreed: '-'),
         );
       },
-      labelText: AppLocalizations.of(Get.context!).whatKindPetYouWant,
+      labelText: AppLocalizations.of(Get.context!)!.whatKindPetYouWant,
       fontSize: 14,
       items: adoptionFormController.petsType,
     );
@@ -69,7 +69,7 @@ class _PetInfoState extends State<PetInfo> {
       },
       items: DummyData.breeds[adoptionFormController.adoptionForm.interestedType]!,
       labelText:
-          '${adoptionFormController.adoptionForm.interestedType == AppLocalizations.of(context).bird ? AppLocalizations.of(context).selectSpecie : AppLocalizations.of(context).selectBreed}',
+          '${adoptionFormController.adoptionForm.interestedType == AppLocalizations.of(context)!.bird ? AppLocalizations.of(context)!.selectSpecie : AppLocalizations.of(context)!.selectBreed}',
       fontSize: 12.0,
     );
   }
@@ -81,7 +81,7 @@ class _PetInfoState extends State<PetInfo> {
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 8.0.h),
           child: AutoSizeTexts.autoSizeText16(
-            AppLocalizations.of(Get.context!).areExperiencedInThisPet,
+            AppLocalizations.of(Get.context!)!.areExperiencedInThisPet,
             color: AppColors.black.withOpacity(.5),
             fontWeight: FontWeight.w600,
           ),
@@ -92,7 +92,7 @@ class _PetInfoState extends State<PetInfo> {
               child: CheckboxListTile(
                 contentPadding: EdgeInsets.zero,
                 controlAffinity: ListTileControlAffinity.leading,
-                title: AutoSizeTexts.autoSizeText12(AppLocalizations.of(context).yes),
+                title: AutoSizeTexts.autoSizeText12(AppLocalizations.of(context)!.yes),
                 onChanged: (_) {
                   adoptionFormController.setAdoptionForm(
                     adoptionFormController.adoptionForm.copyWith(alreadyHadAnimalsLikeThat: true),
@@ -105,7 +105,7 @@ class _PetInfoState extends State<PetInfo> {
               child: CheckboxListTile(
                 contentPadding: EdgeInsets.zero,
                 controlAffinity: ListTileControlAffinity.leading,
-                title: AutoSizeTexts.autoSizeText12(AppLocalizations.of(context).no),
+                title: AutoSizeTexts.autoSizeText12(AppLocalizations.of(context)!.no),
                 onChanged: (_) {
                   adoptionFormController.setAdoptionForm(
                     adoptionFormController.adoptionForm.copyWith(alreadyHadAnimalsLikeThat: false),
@@ -128,7 +128,7 @@ class _PetInfoState extends State<PetInfo> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           AutoSizeTexts.autoSizeText16(
-            AppLocalizations.of(Get.context!).whyYouWantThisPet,
+            AppLocalizations.of(Get.context!)!.whyYouWantThisPet,
             color: AppColors.black.withOpacity(.5),
             fontWeight: FontWeight.w600,
           ),
@@ -136,8 +136,8 @@ class _PetInfoState extends State<PetInfo> {
           TextArea(
             maxLines: 2,
             maxLength: 70,
-            labelText: AppLocalizations.of(Get.context!).whyYouWantThisPet,
-            hintText: AppLocalizations.of(Get.context!).whyYouWantThisPet,
+            labelText: AppLocalizations.of(Get.context!)!.whyYouWantThisPet,
+            hintText: AppLocalizations.of(Get.context!)!.whyYouWantThisPet,
             initialValue: adoptionFormController.adoptionForm.reason,
             onChanged: (value) {
               adoptionFormController.setAdoptionForm(

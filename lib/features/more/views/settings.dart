@@ -22,7 +22,7 @@ class _SettingsState extends State<Settings> with TiuTiuPopUp {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: DefaultBasicAppBar(text: AppLocalizations.of(context).settings),
+        appBar: DefaultBasicAppBar(text: AppLocalizations.of(context)!.settings),
         body: Card(
           child: Column(
             children: [
@@ -35,13 +35,13 @@ class _SettingsState extends State<Settings> with TiuTiuPopUp {
                       onTap: () {
                         Get.toNamed(Routes.editProfile);
                       },
-                      text: AppLocalizations.of(context).editProfile,
+                      text: AppLocalizations.of(context)!.editProfile,
                     ),
                     Divider(),
                     CustomListTile(
                       icon: FontAwesomeIcons.earthAmericas,
-                      text: AppLocalizations.of(context).setMyProfileAsONG,
-                      badgeText: AppLocalizations.of(context).commingSoon,
+                      text: AppLocalizations.of(context)!.setMyProfileAsONG,
+                      badgeText: AppLocalizations.of(context)!.commingSoon,
                       onTap: () {},
                       showBadge: true,
                     ),
@@ -51,7 +51,7 @@ class _SettingsState extends State<Settings> with TiuTiuPopUp {
                       onTap: () {
                         Get.toNamed(Routes.changeCountry);
                       },
-                      text: AppLocalizations.of(context).changeCountry,
+                      text: AppLocalizations.of(context)!.changeCountry,
                     ),
                     Divider(),
                     CustomListTile(
@@ -59,7 +59,7 @@ class _SettingsState extends State<Settings> with TiuTiuPopUp {
                       onTap: () {
                         _deleteAccount();
                       },
-                      text: AppLocalizations.of(context).deleteAccount,
+                      text: AppLocalizations.of(context)!.deleteAccount,
                     ),
                     Divider(),
                     CustomListTile(
@@ -67,7 +67,7 @@ class _SettingsState extends State<Settings> with TiuTiuPopUp {
                       onTap: () {
                         _exitApp();
                       },
-                      text: AppLocalizations.of(context).leave,
+                      text: AppLocalizations.of(context)!.leave,
                     ),
                   ],
                 ),
@@ -96,8 +96,8 @@ class _SettingsState extends State<Settings> with TiuTiuPopUp {
 
   Future<void> _exitApp() async {
     await showPopUp(
-      message: AppLocalizations.of(context).wannaLeave,
-      confirmText: AppLocalizations.of(context).yes,
+      message: AppLocalizations.of(context)!.wannaLeave,
+      confirmText: AppLocalizations.of(context)!.yes,
       textColor: AppColors.black,
       mainAction: () {
         Get.back();
@@ -108,8 +108,8 @@ class _SettingsState extends State<Settings> with TiuTiuPopUp {
       },
       backGroundColor: AppColors.warning,
       barrierDismissible: false,
-      title: AppLocalizations.of(context).leave,
-      denyText: AppLocalizations.of(context).no,
+      title: AppLocalizations.of(context)!.leave,
+      denyText: AppLocalizations.of(context)!.no,
     );
   }
 }

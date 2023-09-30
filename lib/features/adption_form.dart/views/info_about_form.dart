@@ -61,7 +61,7 @@ class InfoAboutForm extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               AutoSizeTexts.autoSizeText32(
-                AppLocalizations.of(context).adoptionForm,
+                AppLocalizations.of(context)!.adoptionForm,
                 fontWeight: FontWeight.w700,
                 textAlign: TextAlign.left,
                 color: AppColors.white,
@@ -70,7 +70,7 @@ class InfoAboutForm extends StatelessWidget {
               SizedBox(
                 width: Get.width * .85,
                 child: AutoSizeTexts.autoSizeText16(
-                  AppLocalizations.of(context).aboutForm,
+                  AppLocalizations.of(context)!.aboutForm,
                   fontWeight: FontWeight.w300,
                   color: AppColors.white,
                   height: 1.4,
@@ -80,7 +80,7 @@ class InfoAboutForm extends StatelessWidget {
               SizedBox(
                 width: Get.width * .85,
                 child: AutoSizeTexts.autoSizeText16(
-                  AppLocalizations.of(context).youDontNeedAnAccount,
+                  AppLocalizations.of(context)!.youDontNeedAnAccount,
                   fontWeight: FontWeight.w300,
                   color: AppColors.white,
                   height: 1.4,
@@ -97,7 +97,7 @@ class InfoAboutForm extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.only(left: 18.0.w),
       child: AutoSizeTexts.autoSizeText16(
-        AppLocalizations.of(context).note,
+        AppLocalizations.of(context)!.note,
         textAlign: TextAlign.center,
         fontWeight: FontWeight.w700,
         color: AppColors.white,
@@ -113,12 +113,12 @@ class InfoAboutForm extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           AutoSizeTexts.autoSizeText16(
-            AppLocalizations.of(context).allQuestionsAreOptionals,
+            AppLocalizations.of(context)!.allQuestionsAreOptionals,
             color: AppColors.primary,
           ),
           SizedBox(height: 2.0.h),
           AutoSizeTexts.autoSizeText16(
-            AppLocalizations.of(context).onlyAnwerWhatYouWant,
+            AppLocalizations.of(context)!.onlyAnwerWhatYouWant,
             fontWeight: FontWeight.w300,
             color: AppColors.white,
           ),
@@ -133,7 +133,7 @@ class InfoAboutForm extends StatelessWidget {
         Get.toNamed(Routes.whatToDoForm);
       },
       icon: Icons.keyboard_arrow_right_rounded,
-      text: AppLocalizations.of(context).start,
+      text: AppLocalizations.of(context)!.start,
     );
   }
 
@@ -142,7 +142,7 @@ class InfoAboutForm extends StatelessWidget {
       padding: EdgeInsets.only(left: 16.0.w),
       child: _buttonButton(
         icon: Icons.keyboard_arrow_left_rounded,
-        text: AppLocalizations.of(context).leave,
+        text: AppLocalizations.of(context)!.leave,
         onPressed: Get.back,
         iconOnRight: false,
       ),

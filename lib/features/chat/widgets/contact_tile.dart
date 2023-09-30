@@ -60,7 +60,8 @@ class ContactTile extends StatelessWidget {
                 Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    CustomBadge(color: AppColors.primary, text: AppLocalizations.of(context).news, show: hasNewMessage),
+                    CustomBadge(
+                        color: AppColors.primary, text: AppLocalizations.of(context)!.news, show: hasNewMessage),
                     Padding(
                       child: AutoSizeTexts.autoSizeText10(Formatters.getFormattedTime(date.toIso8601String())),
                       padding: EdgeInsets.symmetric(vertical: 2.0.h),

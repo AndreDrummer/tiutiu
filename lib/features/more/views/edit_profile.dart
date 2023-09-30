@@ -48,8 +48,8 @@ class _EditProfileState extends State<EditProfile> {
   @override
   Widget build(BuildContext context) {
     final title = widget.isEditingProfile
-        ? AppLocalizations.of(context).editProfile
-        : AppLocalizations.of(context).completeProfile;
+        ? AppLocalizations.of(context)!.editProfile
+        : AppLocalizations.of(context)!.completeProfile;
 
     return SafeArea(
       child: Scaffold(
@@ -176,7 +176,7 @@ class _EditProfileState extends State<EditProfile> {
 
   Widget _userName() {
     return UnderlineInputText(
-      labelText: AppLocalizations.of(context).howCallYou,
+      labelText: AppLocalizations.of(context)!.howCallYou,
       validator: Validators.verifyEmpty,
       controller: nameController,
       fontSizeLabelText: 16.0,
@@ -210,7 +210,7 @@ class _EditProfileState extends State<EditProfile> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(height: 16.0.h),
-          AutoSizeTexts.autoSizeText16(AppLocalizations.of(context).whatsapp),
+          AutoSizeTexts.autoSizeText16(AppLocalizations.of(context)!.whatsapp),
           Row(
             children: [
               _countryCode(),
@@ -219,7 +219,7 @@ class _EditProfileState extends State<EditProfile> {
                   padding: EdgeInsets.only(bottom: 20.0.h),
                   child: UnderlineInputText(
                     validator: (value) =>
-                        Validators.verifyLength(value, length: 14, field: AppLocalizations.of(context).phone),
+                        Validators.verifyLength(value, length: 14, field: AppLocalizations.of(context)!.phone),
                     keyboardType: TextInputType.number,
                     controller: phoneNumberController,
                     fontSizeLabelText: 16.0,
@@ -255,13 +255,13 @@ class _EditProfileState extends State<EditProfile> {
             if (widget.isEditingProfile) Get.back();
 
             ScaffoldMessenger.of(context)
-                .showSnackBar(TiuTiuSnackBar(message: AppLocalizations.of(context).profileUpdated));
+                .showSnackBar(TiuTiuSnackBar(message: AppLocalizations.of(context)!.profileUpdated));
           } else if (tiutiuUserController.tiutiuUser.avatar == null) {
             systemController.snackBarIsOpen = true;
 
             ScaffoldMessenger.of(context)
                 .showSnackBar(
-                    TiuTiuSnackBar(message: AppLocalizations.of(context).insertAPicture, color: AppColors.danger))
+                    TiuTiuSnackBar(message: AppLocalizations.of(context)!.insertAPicture, color: AppColors.danger))
                 .closed
                 .then((value) => systemController.snackBarIsOpen = false);
           }
@@ -288,7 +288,7 @@ class _EditProfileState extends State<EditProfile> {
   Widget _loadingWidget() {
     return Obx(
       () => LoadDarkScreen(
-        message: AppLocalizations.of(context).updatingProfile,
+        message: AppLocalizations.of(context)!.updatingProfile,
         visible: moreController.isLoading,
         roundeCorners: true,
       ),

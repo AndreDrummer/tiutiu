@@ -7,8 +7,8 @@ class About extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DocScreen(
-      docText: AppLocalizations.of(context).aboutText,
-      docTitle: AppLocalizations.of(context).about,
+      docText: AppLocalizations.of(context)!.aboutText,
+      docTitle: AppLocalizations.of(context)!.about,
     );
   }
 }
