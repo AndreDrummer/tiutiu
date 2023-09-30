@@ -43,7 +43,7 @@ class UserFeedbackScreen extends StatelessWidget {
             Padding(
               padding: EdgeInsets.symmetric(vertical: 32.0.h),
               child: AutoSizeTexts.autoSizeText16(
-                feedbackMessage ?? AppLocalizations.of(context).tryAgainInABrief,
+                feedbackMessage ?? AppLocalizations.of(context)!.tryAgainInABrief,
                 textAlign: TextAlign.center,
                 color: AppColors.white,
               ),
@@ -59,7 +59,7 @@ class UserFeedbackScreen extends StatelessWidget {
                 ),
                 label: AutoSizeTexts.autoSizeText16(
                   color: AppColors.white,
-                  AppLocalizations.of(context).leave,
+                  AppLocalizations.of(context)!.leave,
                 ),
                 onPressed: () async {
                   if (onErrorCallback != null) {

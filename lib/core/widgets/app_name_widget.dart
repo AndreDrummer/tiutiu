@@ -18,7 +18,7 @@ class AppNameWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AutoSizeText(
-      AppLocalizations.of(context).appName,
+      AppLocalizations.of(context)!.appName,
       textAlign: TextAlign.center,
       style: GoogleFonts.miltonianTattoo(
         textStyle: TextStyle(

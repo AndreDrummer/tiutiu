@@ -14,13 +14,13 @@ class SponsoredVerticalList extends StatelessWidget {
     final sponsoreds = sponsoredController.sponsoreds;
 
     return Scaffold(
-      appBar: DefaultBasicAppBar(text: AppLocalizations.of(context).partners),
+      appBar: DefaultBasicAppBar(text: AppLocalizations.of(context)!.partners),
       body: Column(
         children: [
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: OneLineText(
-              text: AppLocalizations.of(context).joinUs,
+              text: AppLocalizations.of(context)!.joinUs,
               fontWeight: FontWeight.normal,
             ),
           ),

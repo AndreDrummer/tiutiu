@@ -31,8 +31,8 @@ mixin Pickers {
               children: [
                 selectResourceText(
                   text: pickerAssetType == PickerAssetType.photo
-                      ? AppLocalizations.of(context).takeApicture
-                      : AppLocalizations.of(context).recordVideo,
+                      ? AppLocalizations.of(context)!.takeApicture
+                      : AppLocalizations.of(context)!.recordVideo,
                   color: AppColors.primary,
                   onTap: () async {
                     Get.back();
@@ -56,7 +56,7 @@ mixin Pickers {
                 ),
                 Divider(height: 32.0.h),
                 selectResourceText(
-                  text: AppLocalizations.of(context).openGallery,
+                  text: AppLocalizations.of(context)!.openGallery,
                   color: AppColors.secondary,
                   onTap: () async {
                     Get.back();
@@ -120,8 +120,8 @@ mixin Pickers {
           backGroundColor: AppColors.info,
           title: 'Solicitação de acesso',
           denyAction: () => Get.back(),
-          confirmText: AppLocalizations.of(context).yes,
-          denyText: AppLocalizations.of(context).no,
+          confirmText: AppLocalizations.of(context)!.yes,
+          denyText: AppLocalizations.of(context)!.no,
           message: message,
         );
       },

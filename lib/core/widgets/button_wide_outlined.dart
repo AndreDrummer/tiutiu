@@ -62,7 +62,7 @@ class OutlinedButtonWide extends StatelessWidget {
               Spacer(),
               AutoSizeTexts.autoSizeText16(
                 color: color ?? AppColors.secondary,
-                text ?? AppLocalizations.of(context).getStarted,
+                text ?? AppLocalizations.of(context)!.getStarted,
                 textAlign: TextAlign.center,
                 fontWeight: FontWeight.w700,
               ),

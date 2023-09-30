@@ -47,9 +47,9 @@ class PostDennounceController extends GetxController {
     updatePostDennounce(PostDennounceEnum.uid, Uuid().v4());
 
     await DennounceServices().uploadPostDennounceData(postDennounce);
-    if (postDennounce.motive == AppLocalizations.of(Get.context!).other) {
+    if (postDennounce.motive == AppLocalizations.of(Get.context!)!.other) {
       postsController
-          .increasePostDennounces('${AppLocalizations.of(Get.context!).other}: ${postDennounce.description}');
+          .increasePostDennounces('${AppLocalizations.of(Get.context!)!.other}: ${postDennounce.description}');
     } else {
       postsController.increasePostDennounces(postDennounce.motive);
     }
@@ -78,14 +78,14 @@ class PostDennounceController extends GetxController {
   static PostDennounce _defaultPostDennounce() {
     return PostDennounce(
       dennouncer: tiutiuUserController.tiutiuUser,
-      motive: AppLocalizations.of(Get.context!).other,
+      motive: AppLocalizations.of(Get.context!)!.other,
     );
   }
 
   final _dennouncePostMotives = [
-    AppLocalizations.of(Get.context!).announceNoAnswer,
-    AppLocalizations.of(Get.context!).sexualContent,
-    AppLocalizations.of(Get.context!).fake,
-    AppLocalizations.of(Get.context!).other,
+    AppLocalizations.of(Get.context!)!.announceNoAnswer,
+    AppLocalizations.of(Get.context!)!.sexualContent,
+    AppLocalizations.of(Get.context!)!.fake,
+    AppLocalizations.of(Get.context!)!.other,
   ];
 }

@@ -40,7 +40,7 @@ class ColumnButtonBar extends StatelessWidget {
             child: ButtonWide(
               color: buttonPrimaryColor ?? AppColors.primary,
               onPressed: () => onPrimaryPressed?.call(),
-              text: textPrimary ?? AppLocalizations.of(context).save,
+              text: textPrimary ?? AppLocalizations.of(context)!.save,
               isToExpand: false,
             ),
           ),

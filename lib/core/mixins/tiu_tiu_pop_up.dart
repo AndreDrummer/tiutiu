@@ -22,7 +22,7 @@ mixin TiuTiuPopUp {
       barrierDismissible: barrierDismissible,
       builder: (context) {
         return PopUpMessage(
-          denyText: denyText ?? AppLocalizations.of(context).ok,
+          denyText: denyText ?? AppLocalizations.of(context)!.ok,
           backGroundColor: backGroundColor,
           confirmText: confirmText ?? '',
           confirmAction: secondaryAction,
@@ -67,9 +67,9 @@ mixin TiuTiuPopUp {
     required String message,
   }) async {
     await showPopUp(
-      confirmText: AppLocalizations.of(context).ok,
+      confirmText: AppLocalizations.of(context)!.ok,
       barrierDismissible: false,
-      title: AppLocalizations.of(context).success,
+      title: AppLocalizations.of(context)!.success,
       mainAction: onDone,
       message: message,
     );

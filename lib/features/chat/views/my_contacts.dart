@@ -26,13 +26,13 @@ class _MyContactsState extends State<MyContacts> {
 
     return AuthenticatedArea(
       child: Scaffold(
-        appBar: DefaultBasicAppBar(text: AppLocalizations.of(context).myMessages),
+        appBar: DefaultBasicAppBar(text: AppLocalizations.of(context)!.myMessages),
         body: StreamBuilder<List<Contact>>(
           stream: chatController.contacts(),
           builder: (context, contactsSnapshot) {
             return AsyncHandler<List<Contact>>(
               emptyWidget: VerifyAccountWarningInterstitial(
-                child: AutoSizeTexts.autoSizeText16(AppLocalizations.of(context).noContact),
+                child: AutoSizeTexts.autoSizeText16(AppLocalizations.of(context)!.noContact),
               ),
               snapshot: contactsSnapshot,
               buildWidget: (contacts) {

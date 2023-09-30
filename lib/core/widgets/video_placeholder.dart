@@ -21,7 +21,7 @@ class VideoPlaceholder extends StatelessWidget {
             LottieAnimation(animationPath: AnimationsAssets.pawLoading2, size: 48),
             SizedBox(height: 8.0.h),
             AutoSizeTexts.autoSizeText14(
-              AppLocalizations.of(context).loadingVideo,
+              AppLocalizations.of(context)!.loadingVideo,
               color: AppColors.white,
             ),
           ],

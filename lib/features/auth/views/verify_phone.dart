@@ -119,8 +119,8 @@ class _VerifyPhoneState extends State<VerifyPhone> {
             padding: const EdgeInsets.all(16.0),
             child: AutoSizeTexts.autoSizeText24(
               authController.numberVerified
-                  ? AppLocalizations.of(context).numberVerified
-                  : AppLocalizations.of(context).verifyYourNumber,
+                  ? AppLocalizations.of(context)!.numberVerified
+                  : AppLocalizations.of(context)!.verifyYourNumber,
               color: AppColors.primary,
             ),
           ),
@@ -145,7 +145,7 @@ class _VerifyPhoneState extends State<VerifyPhone> {
                     Icon(Icons.tips_and_updates, size: 10.0.h, color: AppColors.secondary),
                     SizedBox(width: 4.0.w),
                     AutoSizeTexts.autoSizeText14(
-                      AppLocalizations.of(context).friendlyReminderToAdd9Digit,
+                      AppLocalizations.of(context)!.friendlyReminderToAdd9Digit,
                       textAlign: TextAlign.center,
                       color: AppColors.secondary,
                     ),
@@ -157,8 +157,8 @@ class _VerifyPhoneState extends State<VerifyPhone> {
           ),
           AutoSizeTexts.autoSizeText18(
             authController.isWhatsappTokenValid
-                ? AppLocalizations.of(context).insertCodeSentToNumber
-                : AppLocalizations.of(context).weWilSendACodeToThisNumber,
+                ? AppLocalizations.of(context)!.insertCodeSentToNumber
+                : AppLocalizations.of(context)!.weWilSendACodeToThisNumber,
             textAlign: TextAlign.center,
           ),
           SizedBox(height: 8.0.h),
@@ -184,7 +184,7 @@ class _VerifyPhoneState extends State<VerifyPhone> {
             child: Padding(
               padding: EdgeInsets.symmetric(vertical: 8.0.h),
               child: AutoSizeTexts.autoSizeText14(
-                AppLocalizations.of(context).confirmeIfThisNumberIsCorrect,
+                AppLocalizations.of(context)!.confirmeIfThisNumberIsCorrect,
                 fontWeight: FontWeight.w600,
                 textAlign: TextAlign.center,
               ),
@@ -230,7 +230,7 @@ class _VerifyPhoneState extends State<VerifyPhone> {
     return Visibility(
       visible: hasError,
       child: AutoSizeTexts.autoSizeText12(
-        AppLocalizations.of(context).invalidCode,
+        AppLocalizations.of(context)!.invalidCode,
         color: AppColors.danger,
       ),
     );
@@ -250,13 +250,13 @@ class _VerifyPhoneState extends State<VerifyPhone> {
             child: Column(
               children: [
                 AutoSizeTexts.autoSizeText14(
-                  AppLocalizations.of(context).codeIsValidForMinutes,
+                  AppLocalizations.of(context)!.codeIsValidForMinutes,
                   fontWeight: FontWeight.w300,
                 ),
                 Padding(
                   padding: EdgeInsets.symmetric(vertical: 16.0.h),
                   child: AutoSizeTexts.autoSizeText14(
-                    '${AppLocalizations.of(context).wait} ${Formatters.timeSecondsFormmated(_secondsToExpirate ?? 0)} ${AppLocalizations.of(context).toReceiveAnotherCode}',
+                    '${AppLocalizations.of(context)!.wait} ${Formatters.timeSecondsFormmated(_secondsToExpirate ?? 0)} ${AppLocalizations.of(context)!.toReceiveAnotherCode}',
                     fontWeight: FontWeight.w600,
                   ),
                 ),
@@ -279,7 +279,7 @@ class _VerifyPhoneState extends State<VerifyPhone> {
               await authController.sendWhatsAppCode();
               restartTimer();
             },
-            text: AppLocalizations.of(context).confirmAndReceiveCode,
+            text: AppLocalizations.of(context)!.confirmAndReceiveCode,
           ),
         ),
         Visibility(
@@ -288,7 +288,7 @@ class _VerifyPhoneState extends State<VerifyPhone> {
             onPressed: () async {
               Get.toNamed(Routes.editProfile);
             },
-            text: AppLocalizations.of(context).editPhoneNumber,
+            text: AppLocalizations.of(context)!.editPhoneNumber,
           ),
         ),
       ],
@@ -330,8 +330,8 @@ class _VerifyPhoneState extends State<VerifyPhone> {
                 });
               },
               text: authController.numberVerified
-                  ? AppLocalizations.of(context).contines
-                  : AppLocalizations.of(context).validate,
+                  ? AppLocalizations.of(context)!.contines
+                  : AppLocalizations.of(context)!.validate,
             ),
           ),
         ),

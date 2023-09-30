@@ -103,12 +103,12 @@ class SupportUs extends StatelessWidget {
         await Clipboard.setData(ClipboardData(text: key)).then(
           (_) {
             ScaffoldMessenger.of(context).showSnackBar(
-              TiuTiuSnackBar(message: AppLocalizations.of(context).keyPixCopied),
+              TiuTiuSnackBar(message: AppLocalizations.of(context)!.keyPixCopied),
             );
           },
         );
       },
-      text: AppLocalizations.of(context).copyKey,
+      text: AppLocalizations.of(context)!.copyKey,
       icon: Icons.copy,
       rounded: false,
     );

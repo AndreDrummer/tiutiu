@@ -20,16 +20,16 @@ class DennounceVideoButton extends StatelessWidget with TiuTiuPopUp {
           color: AppColors.white,
         ),
         onSelected: (String item) {
-          if (item == AppLocalizations.of(context).dennounceVideo) {
+          if (item == AppLocalizations.of(context)!.dennounceVideo) {
             ScaffoldMessenger.of(context).showSnackBar(
-              TiuTiuSnackBar(message: AppLocalizations.of(context).dennounceSentSuccessfully),
+              TiuTiuSnackBar(message: AppLocalizations.of(context)!.dennounceSentSuccessfully),
             );
           }
         },
         itemBuilder: (context) => <PopupMenuEntry<String>>[
           PopupMenuItem<String>(
-            child: Text(AppLocalizations.of(context).dennounceVideo),
-            value: AppLocalizations.of(context).dennounceVideo,
+            child: Text(AppLocalizations.of(context)!.dennounceVideo),
+            value: AppLocalizations.of(context)!.dennounceVideo,
           ),
         ],
       ),

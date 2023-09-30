@@ -7,8 +7,8 @@ class PrivacyPolicy extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DocScreen(
-      docText: AppLocalizations.of(context).privacyPolicyText,
-      docTitle: AppLocalizations.of(context).privacyPolicy,
+      docText: AppLocalizations.of(context)!.privacyPolicyText,
+      docTitle: AppLocalizations.of(context)!.privacyPolicy,
     );
   }
 }

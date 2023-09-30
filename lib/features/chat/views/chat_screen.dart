@@ -58,7 +58,7 @@ class ChatScreen extends StatelessWidget with TiuTiuPopUp {
                   builder: (context, snapshot) {
                     return AsyncHandler<List<Message>>(
                       emptyWidget: AutoSizeTexts.autoSizeText16(
-                        AppLocalizations.of(context).startConversation,
+                        AppLocalizations.of(context)!.startConversation,
                         fontWeight: FontWeight.bold,
                         color: AppColors.white,
                       ),
@@ -159,15 +159,15 @@ class ChatScreen extends StatelessWidget with TiuTiuPopUp {
 
                       if (item == ChatActionsEnum.deleteChat.name) {
                         showPopUp(
-                          message: AppLocalizations.of(context).deleteMessageQuestion,
+                          message: AppLocalizations.of(context)!.deleteMessageQuestion,
                           backGroundColor: AppColors.danger,
-                          title: AppLocalizations.of(context).deleteChat,
+                          title: AppLocalizations.of(context)!.deleteChat,
                           secondaryAction: () {
                             Get.back();
                             chatController.deleteChat(loggedUserId).then((_) => Get.back());
                           },
-                          confirmText: AppLocalizations.of(context).yes,
-                          denyText: AppLocalizations.of(context).no,
+                          confirmText: AppLocalizations.of(context)!.yes,
+                          denyText: AppLocalizations.of(context)!.no,
                           mainAction: Get.back,
                         );
                       }
@@ -175,10 +175,10 @@ class ChatScreen extends StatelessWidget with TiuTiuPopUp {
                     itemBuilder: (context) => <PopupMenuEntry<String>>[
                       PopupMenuItem<String>(
                         value: ChatActionsEnum.deleteChat.name,
-                        child: Text(AppLocalizations.of(context).deleteChat),
+                        child: Text(AppLocalizations.of(context)!.deleteChat),
                       ),
                       PopupMenuItem<String>(
-                        child: Text(AppLocalizations.of(context)
+                        child: Text(AppLocalizations.of(context)!
                             .dennounceUser(chatController.userChatingWith.displayName!.split(' ').first)),
                         value: ChatActionsEnum.dennounceUser.name,
                       ),

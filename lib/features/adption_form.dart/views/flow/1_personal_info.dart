@@ -39,8 +39,8 @@ class _PersonalInfoState extends State<PersonalInfo> {
   OutlinedInputText _fullname() {
     return OutlinedInputText(
       initialValue: adoptionFormController.adoptionForm.fullName,
-      labelText: AppLocalizations.of(context).fullname,
-      hintText: AppLocalizations.of(context).fullname,
+      labelText: AppLocalizations.of(context)!.fullname,
+      hintText: AppLocalizations.of(context)!.fullname,
       textColor: AppColors.black.withOpacity(.5),
       onChanged: (value) {
         adoptionFormController.setAdoptionForm(
@@ -56,8 +56,8 @@ class _PersonalInfoState extends State<PersonalInfo> {
   OutlinedInputText _address() {
     return OutlinedInputText(
       initialValue: adoptionFormController.adoptionForm.address,
-      labelText: AppLocalizations.of(context).address,
-      hintText: AppLocalizations.of(context).address,
+      labelText: AppLocalizations.of(context)!.address,
+      hintText: AppLocalizations.of(context)!.address,
       textColor: AppColors.black.withOpacity(.5),
       onChanged: (value) {
         adoptionFormController.setAdoptionForm(
@@ -73,8 +73,8 @@ class _PersonalInfoState extends State<PersonalInfo> {
   OutlinedInputText phone() {
     return OutlinedInputText(
       initialValue: adoptionFormController.adoptionForm.phone,
-      labelText: AppLocalizations.of(context).phone,
-      hintText: AppLocalizations.of(context).phone,
+      labelText: AppLocalizations.of(context)!.phone,
+      hintText: AppLocalizations.of(context)!.phone,
       textColor: AppColors.black.withOpacity(.5),
       keyboardType: TextInputType.phone,
       inputFormatters: [
@@ -95,8 +95,8 @@ class _PersonalInfoState extends State<PersonalInfo> {
   OutlinedInputText email() {
     return OutlinedInputText(
       initialValue: adoptionFormController.adoptionForm.email,
-      labelText: AppLocalizations.of(context).email,
-      hintText: AppLocalizations.of(context).email,
+      labelText: AppLocalizations.of(context)!.email,
+      hintText: AppLocalizations.of(context)!.email,
       textColor: AppColors.black.withOpacity(.5),
       keyboardType: TextInputType.emailAddress,
       onChanged: (value) {
@@ -125,7 +125,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
               },
               items: List.generate(99, (index) => '${index == 0 ? '-' : index}'),
               initialValue: adoptionFormController.adoptionForm.age,
-              labelText: AppLocalizations.of(context).age,
+              labelText: AppLocalizations.of(context)!.age,
               labelBold: true,
               fontSize: 12.0,
             ),
@@ -139,7 +139,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
                 );
               },
               initialValue: adoptionFormController.adoptionForm.maritalStatus,
-              labelText: AppLocalizations.of(context).maritalStatus,
+              labelText: AppLocalizations.of(context)!.maritalStatus,
               items: adoptionFormController.maritalStatus,
               labelBold: true,
               fontSize: 12.0,
@@ -154,8 +154,8 @@ class _PersonalInfoState extends State<PersonalInfo> {
     return OutlinedInputText(
       textColor: AppColors.black.withOpacity(.5),
       initialValue: adoptionFormController.adoptionForm.profission,
-      labelText: AppLocalizations.of(context).profession,
-      hintText: AppLocalizations.of(context).profession,
+      labelText: AppLocalizations.of(context)!.profession,
+      hintText: AppLocalizations.of(context)!.profession,
       onChanged: (value) {
         adoptionFormController.setAdoptionForm(
           adoptionFormController.adoptionForm.copyWith(profission: value),

@@ -144,17 +144,17 @@ class Formatters {
   }
 
   static List<String> get _yearMonths => [
-        AppLocalizations.of(Get.context!).january,
-        AppLocalizations.of(Get.context!).february,
-        AppLocalizations.of(Get.context!).march,
-        AppLocalizations.of(Get.context!).april,
-        AppLocalizations.of(Get.context!).may,
-        AppLocalizations.of(Get.context!).june,
-        AppLocalizations.of(Get.context!).july,
-        AppLocalizations.of(Get.context!).august,
-        AppLocalizations.of(Get.context!).september,
-        AppLocalizations.of(Get.context!).october,
-        AppLocalizations.of(Get.context!).november,
-        AppLocalizations.of(Get.context!).december,
+        AppLocalizations.of(Get.context!)!.january,
+        AppLocalizations.of(Get.context!)!.february,
+        AppLocalizations.of(Get.context!)!.march,
+        AppLocalizations.of(Get.context!)!.april,
+        AppLocalizations.of(Get.context!)!.may,
+        AppLocalizations.of(Get.context!)!.june,
+        AppLocalizations.of(Get.context!)!.july,
+        AppLocalizations.of(Get.context!)!.august,
+        AppLocalizations.of(Get.context!)!.september,
+        AppLocalizations.of(Get.context!)!.october,
+        AppLocalizations.of(Get.context!)!.november,
+        AppLocalizations.of(Get.context!)!.december,
       ];
 }

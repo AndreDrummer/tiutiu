@@ -56,7 +56,7 @@ class AdoptionFormFlow extends StatelessWidget with TiuTiuPopUp {
                   top: 70.0.h,
                   child: OneLineText(
                     textAlign: TextAlign.center,
-                    text: '${AppLocalizations.of(Get.context!).step} ${adoptionFormController.formStep + 1}',
+                    text: '${AppLocalizations.of(Get.context!)!.step} ${adoptionFormController.formStep + 1}',
                     color: AppColors.white,
                     fontSize: 12.0,
                   ),
@@ -64,7 +64,7 @@ class AdoptionFormFlow extends StatelessWidget with TiuTiuPopUp {
                 Obx(() {
                   return LoadDarkScreen(
                     message:
-                        '${adoptionFormController.isEditing ? AppLocalizations.of(Get.context!).updating : AppLocalizations.of(Get.context!).saving} ${AppLocalizations.of(Get.context!).form}',
+                        '${adoptionFormController.isEditing ? AppLocalizations.of(Get.context!)!.updating : AppLocalizations.of(Get.context!)!.saving} ${AppLocalizations.of(Get.context!)!.form}',
                     visible: adoptionFormController.isLoading,
                   );
                 }),
@@ -106,10 +106,10 @@ class AdoptionFormFlow extends StatelessWidget with TiuTiuPopUp {
                 },
                 textPrimary: adoptionFormController.lastStep()
                     ? adoptionFormController.isEditing
-                        ? AppLocalizations.of(context).update
-                        : AppLocalizations.of(context).save
-                    : AppLocalizations.of(context).contines,
-                textSecond: AppLocalizations.of(context).back,
+                        ? AppLocalizations.of(context)!.update
+                        : AppLocalizations.of(context)!.save
+                    : AppLocalizations.of(context)!.contines,
+                textSecond: AppLocalizations.of(context)!.back,
               ),
             ],
           ),
@@ -120,10 +120,10 @@ class AdoptionFormFlow extends StatelessWidget with TiuTiuPopUp {
 
   void showSuccessPopup(BuildContext context) {
     showPopUp(
-      title: AppLocalizations.of(context).success,
-      message: AppLocalizations.of(context).formFilledSuccess,
-      denyText: AppLocalizations.of(context).justThis,
-      confirmText: AppLocalizations.of(context).share,
+      title: AppLocalizations.of(context)!.success,
+      message: AppLocalizations.of(context)!.formFilledSuccess,
+      denyText: AppLocalizations.of(context)!.justThis,
+      confirmText: AppLocalizations.of(context)!.share,
       secondaryAction: () {
         Get.back();
         showSharePopup(context);
@@ -138,10 +138,10 @@ class AdoptionFormFlow extends StatelessWidget with TiuTiuPopUp {
 
   void showSharePopup(BuildContext context) {
     showPopUp(
-      title: AppLocalizations.of(context).share,
-      message: AppLocalizations.of(context).chooseFormFormat,
-      denyText: AppLocalizations.of(context).txt,
-      confirmText: AppLocalizations.of(context).pdf,
+      title: AppLocalizations.of(context)!.share,
+      message: AppLocalizations.of(context)!.chooseFormFormat,
+      denyText: AppLocalizations.of(context)!.txt,
+      confirmText: AppLocalizations.of(context)!.pdf,
       secondaryAction: () {
         Get.back();
         adoptionFormController.shareFormPDF();

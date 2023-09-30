@@ -50,7 +50,7 @@ class _StartScreenState extends State<StartScreen> {
                         textAlign: TextAlign.center,
                         fontWeight: FontWeight.bold,
                         color: AppColors.white,
-                        AppLocalizations.of(context).headline1,
+                        AppLocalizations.of(context)!.headline1,
                         fontSize: 32.0,
                       ),
                       SizedBox(height: 24.0.h),
@@ -58,7 +58,7 @@ class _StartScreenState extends State<StartScreen> {
                         textAlign: TextAlign.center,
                         fontWeight: FontWeight.w300,
                         color: AppColors.white,
-                        AppLocalizations.of(context).headline2,
+                        AppLocalizations.of(context)!.headline2,
                         fontSize: 20.0,
                       ),
                       Spacer(),
@@ -67,7 +67,7 @@ class _StartScreenState extends State<StartScreen> {
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 8.0),
                         child: ButtonWide(
-                          text: AppLocalizations.of(context).getStarted,
+                          text: AppLocalizations.of(context)!.getStarted,
                           color: AppColors.primary,
                           onPressed: () async {
                             if (hasAcceptedTerms) {
@@ -105,7 +105,7 @@ class _StartScreenState extends State<StartScreen> {
       children: [
         AutoSizeTexts.autoSizeText12(
           color: hasError ? Colors.amber : AppColors.white,
-          AppLocalizations.of(context).whenContinue,
+          AppLocalizations.of(context)!.whenContinue,
           textAlign: TextAlign.center,
         ),
         Row(
@@ -128,7 +128,7 @@ class _StartScreenState extends State<StartScreen> {
             termsAndConditions(context),
             AutoSizeTexts.autoSizeText14(
               color: hasError ? Colors.amber : AppColors.white,
-              '${AppLocalizations.of(context).andThe} ',
+              '${AppLocalizations.of(context)!.andThe} ',
               textAlign: TextAlign.center,
             ),
             privacyPolicy(context),
@@ -145,7 +145,7 @@ class _StartScreenState extends State<StartScreen> {
       },
       child: AutoSizeTexts.autoSizeText14(
         color: hasError ? Colors.amber : AppColors.white,
-        AppLocalizations.of(context).termsAndConditions,
+        AppLocalizations.of(context)!.termsAndConditions,
         fontWeight: FontWeight.bold,
         textAlign: TextAlign.center,
       ),
@@ -159,7 +159,7 @@ class _StartScreenState extends State<StartScreen> {
       },
       child: AutoSizeTexts.autoSizeText14(
         color: hasError ? Colors.amber : AppColors.white,
-        AppLocalizations.of(context).privacyPolicy,
+        AppLocalizations.of(context)!.privacyPolicy,
         fontWeight: FontWeight.bold,
         textAlign: TextAlign.center,
       ),

@@ -38,11 +38,11 @@ class FilterResultCount extends StatelessWidget {
                   children: [
                     AutoSizeTexts.autoSizeText12('$postsCount '),
                     Visibility(
-                      child: AutoSizeTexts.autoSizeText12(AppLocalizations.of(context).foundAt),
+                      child: AutoSizeTexts.autoSizeText12(AppLocalizations.of(context)!.foundAt),
                       visible: !isInMyPosts,
                     ),
                     Visibility(
-                      child: AutoSizeTexts.autoSizeText12(AppLocalizations.of(context).posts),
+                      child: AutoSizeTexts.autoSizeText12(AppLocalizations.of(context)!.posts),
                       visible: isInMyPosts,
                     ),
                   ],
@@ -51,7 +51,7 @@ class FilterResultCount extends StatelessWidget {
                 Visibility(
                   replacement: Row(
                     children: [
-                      AutoSizeTexts.autoSizeText12(AppLocalizations.of(context).disappeared),
+                      AutoSizeTexts.autoSizeText12(AppLocalizations.of(context)!.disappeared),
                       Obx(
                         () => Switch(
                           value: filterController.filterParams.value.disappeared,
@@ -71,7 +71,7 @@ class FilterResultCount extends StatelessWidget {
                 Spacer(),
                 Row(
                   children: [
-                    AutoSizeTexts.autoSizeText12(AppLocalizations.of(context).orderedBy),
+                    AutoSizeTexts.autoSizeText12(AppLocalizations.of(context)!.orderedBy),
                     CustomDropdownButtonSearch(
                       initialValue: filterController.getParams.orderBy,
                       itemList: filterController.orderTypeList(

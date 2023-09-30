@@ -54,12 +54,12 @@ class CrashlyticsController extends GetxController with TiuTiuPopUp {
 
   Future<void> _promptRequestToTrack() async {
     showPopUp(
-      message: AppLocalizations.of(Get.context!).crashlyticsInfo,
+      message: AppLocalizations.of(Get.context!)!.crashlyticsInfo,
       backGroundColor: AppColors.info,
-      confirmText: AppLocalizations.of(Get.context!).yes,
-      title: AppLocalizations.of(Get.context!).warning,
+      confirmText: AppLocalizations.of(Get.context!)!.yes,
+      title: AppLocalizations.of(Get.context!)!.warning,
       barrierDismissible: false,
-      denyText: AppLocalizations.of(Get.context!).no,
+      denyText: AppLocalizations.of(Get.context!)!.no,
       mainAction: () {
         Get.back();
         _setCrashlyticsCollectionEnabled(value: false);
