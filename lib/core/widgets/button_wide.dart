@@ -71,7 +71,7 @@ class ButtonWide extends StatelessWidget {
         Spacer(),
         AutoSizeTexts.autoSizeText(
           color: textColor ?? AppColors.white,
-          text ?? AppLocalizations.of(context).getStarted,
+          text ?? AppLocalizations.of(context)!.getStarted,
           fontWeight: FontWeight.w700,
           textAlign: TextAlign.center,
           fontSize: fontSize ?? 16,

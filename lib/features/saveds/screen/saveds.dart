@@ -26,7 +26,7 @@ class _SavedsState extends State<Saveds> {
       child: Scaffold(
         appBar: DefaultBasicAppBar(
           automaticallyImplyLeading: true,
-          text: AppLocalizations.of(context).saveds,
+          text: AppLocalizations.of(context)!.saveds,
         ),
         body: Obx(
           () => StreamBuilder<List<SavedPost>>(

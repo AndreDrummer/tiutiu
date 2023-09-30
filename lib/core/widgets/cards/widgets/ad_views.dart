@@ -32,7 +32,7 @@ class AdViews extends StatelessWidget {
                 Padding(
                   child: AutoSizeTexts.autoSizeText10(
                     color: Colors.grey[700],
-                    '${snapshot.data ?? post.views} ${AppLocalizations.of(context).views}',
+                    '${snapshot.data ?? post.views} ${AppLocalizations.of(context)!.views}',
                     fontWeight: FontWeight.w400,
                   ),
                   padding: EdgeInsets.only(left: 4.0.w),

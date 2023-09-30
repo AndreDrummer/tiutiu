@@ -32,7 +32,7 @@ class EmptyListScreen extends StatelessWidget {
             ),
             visible: isAPetScreenList,
           ),
-          AutoSizeTexts.autoSizeText12(text ?? AppLocalizations.of(context).noPostFound),
+          AutoSizeTexts.autoSizeText12(text ?? AppLocalizations.of(context)!.noPostFound),
           Visibility(
             visible: showClearFiltersButton,
             child: IconButton(

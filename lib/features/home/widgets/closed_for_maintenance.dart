@@ -49,7 +49,7 @@ class _MaintenanceScreen extends StatelessWidget {
               AutoSizeTexts.autoSizeText20(
                 appClosedMessageTitle.isNotEmptyNeighterNull()
                     ? appClosedMessageTitle
-                    : AppLocalizations.of(context).closedForMaintenance,
+                    : AppLocalizations.of(context)!.closedForMaintenance,
                 textAlign: TextAlign.center,
                 color: AppColors.secondary,
               ),
@@ -57,7 +57,7 @@ class _MaintenanceScreen extends StatelessWidget {
               AutoSizeTexts.autoSizeText12(
                 appClosedMessageDescription.isNotEmptyNeighterNull()
                     ? appClosedMessageDescription
-                    : AppLocalizations.of(context).willNotLate,
+                    : AppLocalizations.of(context)!.willNotLate,
                 textAlign: TextAlign.center,
               ),
               SizedBox(height: 8.0.h),
@@ -66,7 +66,7 @@ class _MaintenanceScreen extends StatelessWidget {
                   Get.offAllNamed(Routes.startScreen);
                 },
                 textColor: AppColors.primary,
-                text: AppLocalizations.of(context).leave,
+                text: AppLocalizations.of(context)!.leave,
               ),
               Spacer(),
             ],

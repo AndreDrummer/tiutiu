@@ -32,7 +32,7 @@ class PostFormValidator {
         (post as Pet).color.isNotEmptyNeighterNull() &&
         (post as Pet).description.isNotEmptyNeighterNull();
 
-    if (post.type == AppLocalizations.of(Get.context!).other) {
+    if (post.type == AppLocalizations.of(Get.context!)!.other) {
       isValid = breedFormKey.currentState!.validate();
     }
 

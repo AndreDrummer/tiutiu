@@ -141,10 +141,10 @@ class AuthController extends GetxController {
         if (kDebugMode) debugPrint('TiuTiuApp: Valid inserted code $codeSent == $insertedCode');
       } else {
         if (kDebugMode) debugPrint('TiuTiuApp: INVALID CODE $codeSent != $insertedCode');
-        _feedbackText(AppLocalizations.of(Get.context!).invalidCode);
+        _feedbackText(AppLocalizations.of(Get.context!)!.invalidCode);
       }
     } else {
-      _feedbackText(AppLocalizations.of(Get.context!).tryVerifyCodeAgain);
+      _feedbackText(AppLocalizations.of(Get.context!)!.tryVerifyCodeAgain);
     }
 
     return success;
@@ -245,7 +245,7 @@ class AuthController extends GetxController {
     bool success = false;
 
     if (emailAndPasswordAuth.password == emailAndPasswordAuth.repeatPassword) {
-      setLoading(true, AppLocalizations.of(Get.context!).registeringUser);
+      setLoading(true, AppLocalizations.of(Get.context!)!.registeringUser);
       success = await _authService.createUserWithEmailAndPassword(
         password: emailAndPasswordAuth.password!,
         email: emailAndPasswordAuth.email!,
@@ -266,7 +266,7 @@ class AuthController extends GetxController {
   }
 
   Future<bool> loginWithEmailAndPassword() async {
-    setLoading(true, AppLocalizations.of(Get.context!).loginInProgress);
+    setLoading(true, AppLocalizations.of(Get.context!)!.loginInProgress);
 
     final bool success = await _authService.loginWithEmailAndPassword(
       password: emailAndPasswordAuth.password!,
@@ -288,7 +288,7 @@ class AuthController extends GetxController {
   }
 
   Future<bool> loginWithFacebook({bool firstLogin = true}) async {
-    setLoading(true, AppLocalizations.of(Get.context!).loginInProgress);
+    setLoading(true, AppLocalizations.of(Get.context!)!.loginInProgress);
 
     final bool success = await _authService.loginWithFacebook(
       firstLogin: firstLogin,
@@ -305,7 +305,7 @@ class AuthController extends GetxController {
   }
 
   Future<bool> loginWithGoogle({bool firstLogin = true}) async {
-    setLoading(true, AppLocalizations.of(Get.context!).loginInProgress);
+    setLoading(true, AppLocalizations.of(Get.context!)!.loginInProgress);
 
     final bool success = await _authService.loginWithGoogle();
 
@@ -321,7 +321,7 @@ class AuthController extends GetxController {
   }
 
   Future<bool> loginWithApple() async {
-    setLoading(true, AppLocalizations.of(Get.context!).loginInProgress);
+    setLoading(true, AppLocalizations.of(Get.context!)!.loginInProgress);
 
     final bool success = await _authService.loginWithApple();
 
@@ -337,7 +337,7 @@ class AuthController extends GetxController {
   }
 
   Future<void> passwordReset() async {
-    setLoading(true, AppLocalizations.of(Get.context!).wait);
+    setLoading(true, AppLocalizations.of(Get.context!)!.wait);
     await _authService.passwordReset(emailAndPasswordAuth.email!);
     isResetingPassword = false;
     clearEmailAndPassword();

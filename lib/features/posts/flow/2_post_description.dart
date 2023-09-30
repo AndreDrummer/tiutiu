@@ -42,7 +42,7 @@ class PostDescription extends StatelessWidget {
     final postType = postsController.post.type;
 
     return Visibility(
-      visible: postType != AppLocalizations.of(context).other,
+      visible: postType != AppLocalizations.of(context)!.other,
       child: UnderlineInputDropdown(
         isInErrorState: !(postsController.post as Pet).breed.isNotEmptyNeighterNull() && !postsController.formIsValid,
         initialValue: (postsController.post as Pet).breed,
@@ -50,8 +50,8 @@ class PostDescription extends StatelessWidget {
           postsController.updatePost(PetEnum.breed.name, breed);
         },
         labelText:
-            '${postsController.post.type == AppLocalizations.of(context).bird ? AppLocalizations.of(context).selectSpecie : AppLocalizations.of(context).selectBreed}',
-        items: postType == AppLocalizations.of(context).other ? [] : DummyData.breeds[postsController.post.type]!,
+            '${postsController.post.type == AppLocalizations.of(context)!.bird ? AppLocalizations.of(context)!.selectSpecie : AppLocalizations.of(context)!.selectBreed}',
+        items: postType == AppLocalizations.of(context)!.other ? [] : DummyData.breeds[postsController.post.type]!,
         fontSize: 12.0,
       ),
       replacement: Padding(
@@ -65,7 +65,7 @@ class PostDescription extends StatelessWidget {
               onChanged: (exoticBreed) {
                 postsController.updatePost(PetEnum.breed.name, exoticBreed);
               },
-              labelText: AppLocalizations.of(context).describBreed,
+              labelText: AppLocalizations.of(context)!.describBreed,
               fontSizeLabelText: 12.0,
             ),
           ),
@@ -78,9 +78,9 @@ class PostDescription extends StatelessWidget {
     final petType = (postsController.post as Pet).type;
     late List<String> items;
 
-    if (petType == AppLocalizations.of(context).dog) {
+    if (petType == AppLocalizations.of(context)!.dog) {
       items = DummyData.dogColors;
-    } else if (petType == AppLocalizations.of(context).cat) {
+    } else if (petType == AppLocalizations.of(context)!.cat) {
       items = DummyData.catColors;
     } else {
       items = DummyData.allColors;
@@ -92,7 +92,7 @@ class PostDescription extends StatelessWidget {
       onChanged: (color) {
         postsController.updatePost(PetEnum.color.name, color);
       },
-      labelText: AppLocalizations.of(context).color,
+      labelText: AppLocalizations.of(context)!.color,
       items: items,
       fontSize: 12.0,
     );
@@ -105,7 +105,7 @@ class PostDescription extends StatelessWidget {
           widgetAlignment: Alignment(-0.965, 1),
           fontWeight: FontWeight.w500,
           color: AppColors.secondary,
-          text: AppLocalizations.of(context).age,
+          text: AppLocalizations.of(context)!.age,
           fontSize: 12,
         ),
         Row(
@@ -119,7 +119,7 @@ class PostDescription extends StatelessWidget {
                     int.parse(anos ?? '0'),
                   );
                 },
-                labelText: AppLocalizations.of(context).years,
+                labelText: AppLocalizations.of(context)!.years,
                 fontSize: 12.0,
                 items: yearsList,
               ),
@@ -133,7 +133,7 @@ class PostDescription extends StatelessWidget {
                     int.parse(meses ?? '0'),
                   );
                 },
-                labelText: AppLocalizations.of(context).months,
+                labelText: AppLocalizations.of(context)!.months,
                 fontSize: 12.0,
                 items: monthsList,
               ),
@@ -152,7 +152,7 @@ class PostDescription extends StatelessWidget {
             widgetAlignment: Alignment(-0.965, 1),
             fontWeight: FontWeight.w500,
             color: AppColors.secondary,
-            text: AppLocalizations.of(context).talkAboutThisPet,
+            text: AppLocalizations.of(context)!.talkAboutThisPet,
             fontSize: 12,
           ),
           Padding(
@@ -160,7 +160,7 @@ class PostDescription extends StatelessWidget {
             child: TextArea(
               isInErrorState:
                   !postsController.post.description.isNotEmptyNeighterNull() && !postsController.formIsValid,
-              labelText: AppLocalizations.of(context).jotSomethingDown,
+              labelText: AppLocalizations.of(context)!.jotSomethingDown,
               initialValue: postsController.post.description,
               maxLines: 5,
               onChanged: (description) {

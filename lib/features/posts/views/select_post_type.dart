@@ -41,8 +41,8 @@ class SelectPostType extends StatelessWidget with TiuTiuPopUp {
             Scaffold(
               appBar: DefaultBasicAppBar(
                   text: postsController.isEditingPost
-                      ? AppLocalizations.of(context).editAd
-                      : AppLocalizations.of(context).post),
+                      ? AppLocalizations.of(context)!.editAd
+                      : AppLocalizations.of(context)!.post),
               body: GestureDetector(
                 onTap: () => FocusScope.of(context).unfocus(),
                 child: Container(
@@ -96,7 +96,7 @@ class SelectPostType extends StatelessWidget with TiuTiuPopUp {
 
   OneLineText _selectPostTypeTitle(BuildContext context) {
     return OneLineText(
-      text: AppLocalizations.of(context).selectPetType,
+      text: AppLocalizations.of(context)!.selectPetType,
       fontSize: Get.height > 700 ? 24.0 : 16.0,
       widgetAlignment: Alignment(-0.9, 1),
     );
@@ -109,7 +109,7 @@ class SelectPostType extends StatelessWidget with TiuTiuPopUp {
           postsController.updatePost(PostEnum.type.name, typeSelected);
           postsController.updatePost(PetEnum.color.name, '-');
 
-          if (typeSelected == AppLocalizations.of(Get.context!).other) {
+          if (typeSelected == AppLocalizations.of(Get.context!)!.other) {
             postsController.updatePost(PetEnum.breed.name, '');
           } else {
             postsController.updatePost(PetEnum.breed.name, '-');
@@ -146,7 +146,7 @@ class SelectPostType extends StatelessWidget with TiuTiuPopUp {
                       child: CheckboxListTile(
                         contentPadding: EdgeInsets.zero,
                         controlAffinity: ListTileControlAffinity.leading,
-                        title: AutoSizeTexts.autoSizeText12(AppLocalizations.of(context).yes),
+                        title: AutoSizeTexts.autoSizeText12(AppLocalizations.of(context)!.yes),
                         onChanged: (_) {
                           postsController.updatePost(PetEnum.disappeared.name, true);
                           _pageScroll.animateTo(
@@ -162,7 +162,7 @@ class SelectPostType extends StatelessWidget with TiuTiuPopUp {
                       child: CheckboxListTile(
                         contentPadding: EdgeInsets.zero,
                         controlAffinity: ListTileControlAffinity.leading,
-                        title: AutoSizeTexts.autoSizeText12(AppLocalizations.of(context).no),
+                        title: AutoSizeTexts.autoSizeText12(AppLocalizations.of(context)!.no),
                         onChanged: (_) {
                           FocusScope.of(context).unfocus();
                           postsController.updatePost(PetEnum.disappeared.name, false);
@@ -189,7 +189,7 @@ class SelectPostType extends StatelessWidget with TiuTiuPopUp {
 
   OneLineText _isDisappearedSelectionTitle(BuildContext context) {
     return OneLineText(
-      text: AppLocalizations.of(context).isThisPetDisappeared,
+      text: AppLocalizations.of(context)!.isThisPetDisappeared,
       widgetAlignment: Alignment(-0.88, 1),
       fontSize: 16,
     );
@@ -229,7 +229,7 @@ class SelectPostType extends StatelessWidget with TiuTiuPopUp {
 
   OneLineText _rewardTitle(BuildContext context) {
     return OneLineText(
-      text: AppLocalizations.of(context).reward,
+      text: AppLocalizations.of(context)!.reward,
       widgetAlignment: Alignment(-0.99, 1),
       fontSize: 16,
     );
@@ -247,8 +247,8 @@ class SelectPostType extends StatelessWidget with TiuTiuPopUp {
           },
           onSecondaryPressed: postsController.showsCancelPostPopUp,
           buttonSecondaryColor: AppColors.danger,
-          textPrimary: AppLocalizations.of(context).contines,
-          textSecond: AppLocalizations.of(context).cancel,
+          textPrimary: AppLocalizations.of(context)!.contines,
+          textSecond: AppLocalizations.of(context)!.cancel,
         ),
       ),
     );

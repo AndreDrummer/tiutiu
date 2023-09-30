@@ -15,7 +15,7 @@ class WhatDoYouWannaDo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: DefaultBasicAppBar(text: AppLocalizations.of(context).adoptioinForm),
+      appBar: DefaultBasicAppBar(text: AppLocalizations.of(context)!.adoptioinForm),
       body: Card(
         child: ListView(
           children: [
@@ -28,19 +28,19 @@ class WhatDoYouWannaDo extends StatelessWidget {
             Divider(),
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: OneLineText(text: AppLocalizations.of(context).whatYouWannaDo),
+              child: OneLineText(text: AppLocalizations.of(context)!.whatYouWannaDo),
             ),
             _myForm(),
             Divider(),
             CustomListTile(
-              text: AppLocalizations.of(context).generateAndShareEmptyFormTXT,
+              text: AppLocalizations.of(context)!.generateAndShareEmptyFormTXT,
               icon: Icons.text_snippet_outlined,
               onTap: () async {
                 await adoptionFormController.shareEmptyFormText();
               },
             ),
             CustomListTile(
-              text: AppLocalizations.of(context).generateAndShareEmptyFormPDF,
+              text: AppLocalizations.of(context)!.generateAndShareEmptyFormPDF,
               icon: Icons.picture_as_pdf_outlined,
               onTap: () async {
                 await adoptionFormController.shareEmptyFormPDF();
@@ -61,14 +61,14 @@ class WhatDoYouWannaDo extends StatelessWidget {
           child: Column(
             children: [
               CustomListTile(
-                text: AppLocalizations.of(context).shareMyFormTXT,
+                text: AppLocalizations.of(context)!.shareMyFormTXT,
                 icon: Icons.text_snippet_outlined,
                 onTap: () async {
                   await adoptionFormController.shareFormText();
                 },
               ),
               CustomListTile(
-                text: AppLocalizations.of(context).shareMyFormPDF,
+                text: AppLocalizations.of(context)!.shareMyFormPDF,
                 icon: Icons.picture_as_pdf_outlined,
                 onTap: () async {
                   await adoptionFormController.shareFormPDF();
@@ -76,7 +76,7 @@ class WhatDoYouWannaDo extends StatelessWidget {
               ),
               Divider(),
               CustomListTile(
-                text: AppLocalizations.of(context).editMyForm,
+                text: AppLocalizations.of(context)!.editMyForm,
                 icon: Icons.edit_outlined,
                 onTap: () async {
                   adoptionFormController.isEditing = true;
@@ -87,7 +87,7 @@ class WhatDoYouWannaDo extends StatelessWidget {
             ],
           ),
           replacement: CustomListTile(
-            text: AppLocalizations.of(context).fillForm,
+            text: AppLocalizations.of(context)!.fillForm,
             icon: Icons.edit_note_outlined,
             onTap: () {
               Get.toNamed(Routes.adoptionForm);

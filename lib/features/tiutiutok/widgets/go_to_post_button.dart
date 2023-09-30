@@ -31,7 +31,7 @@ class GoToPostButton extends StatelessWidget {
           Get.toNamed(Routes.postDetails);
         },
         child: AutoSizeTexts.autoSizeText14(
-          AppLocalizations.of(context).seeDetails,
+          AppLocalizations.of(context)!.seeDetails,
           textAlign: TextAlign.end,
           color: AppColors.white,
         ),

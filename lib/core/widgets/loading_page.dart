@@ -28,7 +28,7 @@ class LoadingPage extends StatelessWidget {
             AutoSizeTexts.autoSizeText12(
               color: textColor ?? AppColors.white,
               textAlign: TextAlign.center,
-              messageLoading ?? AppLocalizations.of(context).wait,
+              messageLoading ?? AppLocalizations.of(context)!.wait,
             )
           ],
         ),
