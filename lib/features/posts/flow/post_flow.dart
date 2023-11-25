@@ -26,8 +26,8 @@ class PostFlow extends StatelessWidget with TiuTiuPopUp {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async => false,
+    return PopScope(
+      onPopInvoked: (_) async => false,
       child: Obx(
         () {
           double screenHeight = postsController.flowIndex >= 6 ? Get.height / 1.39 : Get.height;

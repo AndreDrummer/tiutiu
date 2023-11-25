@@ -23,7 +23,7 @@ class CardBuilder {
 
   Widget saveButton({required bool show}) => SaveOrUnsave(post: _post, tiny: true, show: show);
 
-  Widget adCityState() => AdCityState(state: (_post as Pet).state, city: (_post as Pet).city);
+  Widget adCityState() => AdCityState(state: (_post as Pet).state, city: _post.city);
 
   Widget adDescription({required double maxFontSize}) =>
       AdDescription(description: (_post as Pet).breed, maxFontSize: maxFontSize);
