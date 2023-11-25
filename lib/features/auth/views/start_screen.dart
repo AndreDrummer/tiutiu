@@ -1,18 +1,18 @@
-import 'package:tiutiu/features/auth/widgets/image_carousel_background.dart';
-import 'package:tiutiu/features/auth/views/terms_and_conditions.dart';
-import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
-import 'package:tiutiu/features/auth/views/privacy_policy.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:tiutiu/core/utils/routes/routes_name.dart';
-import 'package:tiutiu/core/controllers/controllers.dart';
-import 'package:tiutiu/features/auth/widgets/blur.dart';
-import 'package:tiutiu/core/constants/text_styles.dart';
-import 'package:tiutiu/core/constants/app_colors.dart';
-import 'package:tiutiu/core/widgets/tiutiu_logo.dart';
-import 'package:tiutiu/core/widgets/button_wide.dart';
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:tiutiu/core/constants/app_colors.dart';
+import 'package:tiutiu/core/constants/text_styles.dart';
+import 'package:tiutiu/core/controllers/controllers.dart';
+import 'package:tiutiu/core/utils/routes/routes_name.dart';
+import 'package:tiutiu/core/widgets/button_wide.dart';
+import 'package:tiutiu/core/widgets/tiutiu_logo.dart';
+import 'package:tiutiu/features/auth/views/privacy_policy.dart';
+import 'package:tiutiu/features/auth/views/terms_and_conditions.dart';
+import 'package:tiutiu/features/auth/widgets/blur.dart';
+import 'package:tiutiu/features/auth/widgets/image_carousel_background.dart';
+import 'package:tiutiu/features/tiutiu_user/model/tiutiu_user.dart';
 
 class StartScreen extends StatefulWidget {
   @override
@@ -115,9 +115,11 @@ class _StartScreenState extends State<StartScreen> {
               data: ThemeData(unselectedWidgetColor: hasError ? Colors.amber : AppColors.white),
               child: Checkbox(
                 value: hasAcceptedTerms,
+                side: BorderSide(color: hasError ? Colors.amber : AppColors.white),
                 visualDensity: VisualDensity.comfortable,
                 activeColor: AppColors.secondary,
                 checkColor: Colors.white,
+                isError: hasError,
                 onChanged: (value) {
                   tiutiuUserController.updateTiutiuUser(TiutiuUserEnum.hasAcceptedTerms, value);
                   authController.saveUserTermsAndConditionsChoice();

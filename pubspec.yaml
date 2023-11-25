@@ -26,7 +26,7 @@ dependencies:
   flutter:
     sdk: flutter
 
-  flutter_local_notifications: ^12.0.4
+  flutter_local_notifications: ^16.2.0
   mask_text_input_formatter: ^2.4.0
   flutter_native_splash: ^2.0.0
   flutter_facebook_auth: ^5.0.6
@@ -35,48 +35,48 @@ dependencies:
   cached_network_image: ^3.2.1
   flutter_chat_bubble: ^2.0.0
   shared_preferences: ^2.0.15
-  permission_handler: ^10.0.0
-  sign_in_with_apple: ^4.1.0
+  permission_handler: ^11.1.0
+  sign_in_with_apple: ^5.0.0
   loading_animations: ^2.2.0  
-  flutter_speed_dial: ^6.0.0  
+  flutter_speed_dial: ^7.0.0  
   move_to_background: ^1.0.2
-  connectivity_plus: ^2.3.7    
-  google_mobile_ads: ^2.3.0
-  package_info_plus: ^1.0.0
+  connectivity_plus: ^5.0.2    
+  google_mobile_ads: ^3.0.0
+  package_info_plus: ^3.1.2
   device_info_plus: ^8.0.0
   webview_flutter: ^4.0.6
-  pin_code_fields: ^7.4.0
+  pin_code_fields: ^8.0.1
   flutter_pdfview: ^1.2.5
   carousel_slider: ^4.0.0  
   cupertino_icons: ^1.0.5
   auto_size_text: ^3.0.0
-  google_sign_in: ^5.4.2
-  image_picker: ^0.8.5+3
+  google_sign_in: ^6.1.6
+  image_picker: ^1.0.4
   open_settings: ^2.0.2
-  screenshot: ^1.3.0
+  screenshot: ^2.1.0
   better_player:
     git:
       url: https://github.com/AndreDrummer/betterplayer.git
       ref: fix-android-and-ios
   maps_launcher: ^2.0.1
   brasil_fields: ^1.6.0  
-  google_fonts: ^3.0.1
+  google_fonts: ^4.0.4
   url_launcher: ^6.1.5
   share_plus: ^6.3.0
-  geolocator: ^9.0.1
+  geolocator: ^10.1.0
   geocoding: ^2.0.5    
   provider: ^6.0.3
   sqflite: ^2.0.3
   lottie: ^2.2.0
   video_player:
-  uuid: ^3.0.6
+  uuid: ^4.2.1
   get: ^4.6.5  
   pdf: ^3.8.4
-  dio: ^4.0.6
+  dio: ^5.3.4
   intl: any    
   chewie:
 
-  firebase_core_platform_interface: 4.5.2
+  firebase_core_platform_interface: ^5.0.0
   firebase_dynamic_links: ^5.0.8
   firebase_crashlytics: ^3.0.9
   firebase_analytics: ^10.0.7
@@ -98,7 +98,7 @@ flutter_icons:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_launcher_icons: 0.11.0
+  flutter_launcher_icons: ^0.13.1
   pedantic: any
 
 flutter:
