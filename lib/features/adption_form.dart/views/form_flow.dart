@@ -33,10 +33,10 @@ class AdoptionFormFlow extends StatelessWidget with TiuTiuPopUp {
       BackgroundInfo(),
     ];
 
-    return WillPopScope(
-      onWillPop: () async {
+    return PopScope(
+      canPop: false,
+      onPopInvoked: (_) async {
         adoptionFormController.previousStep();
-        return false;
       },
       child: Obx(
         () {

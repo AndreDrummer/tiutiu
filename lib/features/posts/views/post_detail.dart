@@ -146,10 +146,10 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
     final description = post.description;
     final reward = (post as Pet).reward;
 
-    return WillPopScope(
-      onWillPop: () async {
+    return PopScope(
+      canPop: true,
+      onPopInvoked: (_) async {
         onLeaveScreen();
-        return true;
       },
       child: Scaffold(
         body: Stack(
