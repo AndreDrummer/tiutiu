@@ -1,23 +1,25 @@
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:tiutiu/core/system/views/loading_start_screen.dart';
-import 'package:firebase_crashlytics/firebase_crashlytics.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:tiutiu/core/utils/routes/routes_name.dart';
-import 'package:tiutiu/core/controllers/controllers.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
-import 'package:tiutiu/core/constants/app_colors.dart';
-import 'package:tiutiu/core/utils/routes/router.dart';
-import 'package:tiutiu/core/system/initializer.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/foundation.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter/material.dart';
-import 'firebase_options.dart';
-import 'package:get/get.dart';
 import 'dart:async';
 import 'dart:io';
+
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:tiutiu/core/constants/app_colors.dart';
+import 'package:tiutiu/core/controllers/controllers.dart';
+import 'package:tiutiu/core/system/initializer.dart';
+import 'package:tiutiu/core/system/views/loading_start_screen.dart';
+import 'package:tiutiu/core/utils/routes/router.dart';
+import 'package:tiutiu/core/utils/routes/routes_name.dart';
+
+import 'firebase_options.dart';
 
 /// Initialize the [FlutterLocalNotificationsPlugin] package.
 late FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
@@ -149,8 +151,6 @@ class _TiuTiuAppState extends State<TiuTiuApp> {
     systemController.handleInternetConnectivityStatus();
     systemController.onAppEndpointsChange();
     authController.userStateChanges();
-    if (kDebugMode) debugPrint('TiuTiuApp: Height ${Get.height}');
-    if (kDebugMode) debugPrint('TiuTiuApp: Device Aspect Ratio ${Get.width / Get.height}');
 
     // Run code required to handle interacted messages in an async function
     // as initState() must not be async
