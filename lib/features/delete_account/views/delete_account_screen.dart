@@ -16,10 +16,10 @@ class DeleteAccountScreen extends StatelessWidget with TiuTiuPopUp {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async {
+    return PopScope(
+      canPop: true,
+      onPopInvoked: (_) async {
         deleteAccountController.reset();
-        return true;
       },
       child: Obx(
         () => Stack(

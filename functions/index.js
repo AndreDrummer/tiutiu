@@ -26,9 +26,6 @@ exports.createNotificationChat = functions.firestore
                 }
             })
         }
-<<<<<<< HEAD
-    })
-=======
     })
 
 
@@ -58,4 +55,3 @@ exports.updatePostReferenceOnCreate = functions.firestore
 //     .onWrite((snap, context) => {
 //         snap.after.ref.update({ 'reference': snap.after.ref.path })
 //     });
->>>>>>> bca70d44721d73c40311362777905d83628f89c2
