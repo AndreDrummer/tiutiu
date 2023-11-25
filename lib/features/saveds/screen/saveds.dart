@@ -1,12 +1,12 @@
 import 'package:tiutiu/core/widgets/change_posts_visibility_floating_button.dart';
 import 'package:tiutiu/features/posts/widgets/render_post_item.dart';
 import 'package:tiutiu/core/widgets/default_basic_app_bar.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:tiutiu/features/posts/model/saved_post.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/widgets/async_handler.dart';
 import 'package:tiutiu/features/posts/model/post.dart';
 import 'package:tiutiu/core/widgets/empty_list.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -18,10 +18,10 @@ class Saveds extends StatefulWidget {
 class _SavedsState extends State<Saveds> {
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async {
+    return PopScope(
+      canPop: true,
+      onPopInvoked: (_) async {
         filterController.reset();
-        return true;
       },
       child: Scaffold(
         appBar: DefaultBasicAppBar(
