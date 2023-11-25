@@ -11,10 +11,10 @@ class MyPosts extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Obx(
-      () => WillPopScope(
-        onWillPop: () async {
+      () => PopScope(
+        canPop: true,
+        onPopInvoked: (_) async {
           postsController.closeMypostsLists();
-          return true;
         },
         child: Scaffold(
           appBar: DefaultBasicAppBar(

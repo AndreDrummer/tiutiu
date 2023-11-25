@@ -5,15 +5,15 @@ import 'package:tiutiu/core/widgets/no_connection_text_info.dart';
 import 'package:tiutiu/core/widgets/default_basic_app_bar.dart';
 import 'package:tiutiu/core/extensions/string_extension.dart';
 import 'package:tiutiu/features/posts/widgets/text_area.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
-import 'package:tiutiu/core/constants/assets_path.dart';
 import 'package:tiutiu/core/views/load_dark_screen.dart';
+import 'package:tiutiu/core/constants/assets_path.dart';
 import 'package:tiutiu/core/constants/text_styles.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/core/widgets/button_wide.dart';
 import 'package:tiutiu/core/utils/asset_handle.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:tiutiu/core/widgets/add_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -34,11 +34,10 @@ class _TalkWithUsState extends State<TalkWithUs> {
     return FutureBuilder<void>(
       future: systemController.getDeviceInfo(),
       builder: (context, snapshot) {
-        return WillPopScope(
-          onWillPop: () async {
+        return PopScope(
+          canPop: true,
+          onPopInvoked: (_) async {
             feedbackController.insertImages = false;
-
-            return true;
           },
           child: Scaffold(
             appBar: DefaultBasicAppBar(text: AppLocalizations.of(context)!.talkWithUs),

@@ -61,8 +61,8 @@ class _HomeState extends State<Home> with TiuTiuPopUp {
             ClosedForMaintenance(child: More()),
           ];
 
-          return WillPopScope(
-            onWillPop: () async {
+          return PopScope(
+            onPopInvoked: (_) async {
               bool willClose = false;
 
               return showPopUp(

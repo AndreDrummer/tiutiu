@@ -29,11 +29,11 @@ class SelectPostType extends StatelessWidget with TiuTiuPopUp {
   Widget build(BuildContext context) {
     if (kDebugMode) debugPrint('TiuTiuApp: Post Type Screen Opened...');
 
-    return WillPopScope(
-      onWillPop: () async {
+    return PopScope(
+      canPop: true,
+      onPopInvoked: (_) async {
         if (!postsController.isInReviewMode) postsController.clearForm();
         if (postsController.isEditingPost) postsController.isEditingPost = false;
-        return true;
       },
       child: Obx(
         () => Stack(
