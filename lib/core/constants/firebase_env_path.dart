@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 
 class FirebaseEnvPath {
-  static String environment = kDebugMode ? EnvironmentBuild.debug.name : EnvironmentBuild.prod.name;
+  static String environment = kDebugMode ? _EnvironmentBuild.debug.name : _EnvironmentBuild.prod.name;
   static const String allowUseWhatsappProdNumber = 'USE_WHATSAPP_PROD_NUMBER';
   static const String whatsappNumberIdDebug = 'WHATSAPP_NUMBER_ID_DEBUG';
   static const String whatsappTemplateDebug = 'WHATSAPP_TEMPLATE_DEBUG';
@@ -23,7 +23,7 @@ class FirebaseEnvPath {
   static const String env = 'env';
 }
 
-enum EnvironmentBuild {
+enum _EnvironmentBuild {
   debug,
   prod,
 }

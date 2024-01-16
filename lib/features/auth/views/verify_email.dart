@@ -197,6 +197,7 @@ class _VerifyEmailState extends State<VerifyEmail> {
       crashlyticsController.reportAnError(
         message: 'Could not send the email due to $exception',
         exception: exception,
+        stackTrace: StackTrace.current,
       );
     }
 
