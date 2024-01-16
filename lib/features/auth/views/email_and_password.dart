@@ -341,6 +341,7 @@ class _EmailAndPasswordState extends State<EmailAndPassword> with TiuTiuPopUp {
       crashlyticsController.reportAnError(
         message: 'Error Creating an account with Email and Password: $exception',
         exception: exception,
+        stackTrace: StackTrace.current,
       );
 
       showPopUp(
@@ -366,6 +367,7 @@ class _EmailAndPasswordState extends State<EmailAndPassword> with TiuTiuPopUp {
       crashlyticsController.reportAnError(
         message: 'Error Logining Email and passoword: $exception',
         exception: exception,
+        stackTrace: StackTrace.current,
       );
 
       showPopUp(
@@ -395,6 +397,7 @@ class _EmailAndPasswordState extends State<EmailAndPassword> with TiuTiuPopUp {
       crashlyticsController.reportAnError(
         message: 'Error Reseting password: $exception',
         exception: exception,
+        stackTrace: StackTrace.current,
       );
 
       showPopUp(

@@ -110,6 +110,7 @@ class CurrentLocationController extends GetxController {
       } catch (e) {
         crashlyticsController.reportAnError(
           message: 'An failure occured when trying set up current placemark.\n',
+          stackTrace: StackTrace.current,
           exception: e,
         );
         final storagePlacemark = await LocalStorage.getValueUnderLocalStorageKey(LocalStorageKey.lastKnowLocation);

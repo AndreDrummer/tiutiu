@@ -647,7 +647,7 @@ PODS:
     - BoringSSL-GRPC/Interface (= 0.0.24)
   - BoringSSL-GRPC/Interface (0.0.24)
   - Cache (6.0.0)
-  - cloud_firestore (4.13.2):
+  - cloud_firestore (4.13.3):
     - Firebase/Firestore (= 10.18.0)
     - firebase_core
     - Flutter
@@ -693,34 +693,34 @@ PODS:
   - Firebase/Storage (10.18.0):
     - Firebase/CoreOnly
     - FirebaseStorage (~> 10.18.0)
-  - firebase_analytics (10.7.1):
+  - firebase_analytics (10.7.2):
     - Firebase/Analytics (= 10.18.0)
     - firebase_core
     - Flutter
-  - firebase_auth (4.14.1):
+  - firebase_auth (4.15.0):
     - Firebase/Auth (= 10.18.0)
     - firebase_core
     - Flutter
-  - firebase_core (2.23.0):
+  - firebase_core (2.24.0):
     - Firebase/CoreOnly (= 10.18.0)
     - Flutter
-  - firebase_crashlytics (3.4.5):
+  - firebase_crashlytics (3.4.6):
     - Firebase/Crashlytics (= 10.18.0)
     - firebase_core
     - Flutter
-  - firebase_database (10.3.5):
+  - firebase_database (10.3.6):
     - Firebase/Database (= 10.18.0)
     - firebase_core
     - Flutter
-  - firebase_dynamic_links (5.4.5):
+  - firebase_dynamic_links (5.4.6):
     - Firebase/DynamicLinks (= 10.18.0)
     - firebase_core
     - Flutter
-  - firebase_messaging (14.7.5):
+  - firebase_messaging (14.7.6):
     - Firebase/Messaging (= 10.18.0)
     - firebase_core
     - Flutter
-  - firebase_storage (11.5.2):
+  - firebase_storage (11.5.3):
     - Firebase/Storage (= 10.18.0)
     - firebase_core
     - Flutter
@@ -1211,7 +1211,7 @@ SPEC CHECKSUMS:
   better_player: 2406bfe8175203c7a46fa15f9d778d73b12e1646
   BoringSSL-GRPC: 3175b25143e648463a56daeaaa499c6cb86dad33
   Cache: 4ca7e00363fca5455f26534e5607634c820ffc2d
-  cloud_firestore: 20bb019115acfc53278ed4c8bc5ddda77fc673bb
+  cloud_firestore: 9b25b77371a845d07a48e5146799f6d4552f5940
   connectivity_plus: bf0076dd84a130856aa636df1c71ccaff908fa1d
   device_info_plus: e5c5da33f982a436e103237c0c85f9031142abed
   FBAEMKit: daac7466b918752f020345be5c7d9787f98cfc07
@@ -1219,14 +1219,14 @@ SPEC CHECKSUMS:
   FBSDKCoreKit_Basics: d37280da2e65872f0e931d15f45d97ea324fec37
   FBSDKLoginKit: c47a3b90920702487b10b647c63520dc2676dad9
   Firebase: 414ad272f8d02dfbf12662a9d43f4bba9bec2a06
-  firebase_analytics: 3e5dba777bb51d1e0358b5a37adefa69746a94bd
-  firebase_auth: 88053a759923970e580789d167a43b6031568ef5
-  firebase_core: 29d66baf806970cda37c93621b27cd369b27db1b
-  firebase_crashlytics: d568dbe2dfb06c3f3ba985c7f6a59f2961288512
-  firebase_database: 82e9b8a8beab85b4758b3a901085f5f0fe3b2738
-  firebase_dynamic_links: 13c08739cb1caf4c3a351078fdf3a40222ed959e
-  firebase_messaging: 0a39f2514e1f27b0274b0d2fa99048f57856ee7c
-  firebase_storage: a66f6f57d1ab04fb0bff6993b211b7c89f24e759
+  firebase_analytics: a8c0d8ba83f213c9b775b5f61d36dadaafb1b239
+  firebase_auth: 02d1a6340f81020cc302fb8fea8518908c546cec
+  firebase_core: f802c5c1f6caff9b8d38b591a36e7b25f8878936
+  firebase_crashlytics: 0db78a5b6badc630f21a833d0c9ab20ab5d81948
+  firebase_database: 18b34a683c878f836ac5a403ce29242065d5acd0
+  firebase_dynamic_links: 212953c972f7e952c853f69896dc4da0fa5cb06e
+  firebase_messaging: ca2fc59ddd52ef032d80f1a717d12eae8fa0e994
+  firebase_storage: 95b470ab32351049dfd3d97b595460ce7a189971
   FirebaseAnalytics: 4d310b35c48eaa4a058ddc04bdca6bdb5dc0fe80
   FirebaseAppCheckInterop: 3cd914842ba46f4304050874cd284de82f154ffd
   FirebaseAuth: 12314b438fa76048540c8fb86d6cfc9e08595176
@@ -1244,7 +1244,7 @@ SPEC CHECKSUMS:
   FirebaseSessions: f90fe9212ee2818641eda051c0835c9c4e30d9ae
   FirebaseSharedSwift: 62e248642c0582324d0390706cadd314687c116b
   FirebaseStorage: 8333c4b183764cdd170d9539a61322b71c23adff
-  Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
+  Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
   flutter_facebook_auth: 42016bec1574eabf69bc2fe4311e8cd55813d352
   flutter_local_notifications: 0c0b1ae97e741e1521e4c1629a459d04b9aec743
   flutter_native_splash: 52501b97d1c0a5f898d687f1646226c1f93c56ef
