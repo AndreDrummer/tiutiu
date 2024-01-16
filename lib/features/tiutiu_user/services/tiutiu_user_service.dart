@@ -51,6 +51,7 @@ class TiutiuUserService {
       crashlyticsController.reportAnError(
         message: 'Ocorreu um erro ao fazer upload do avatar: $exception.',
         exception: exception,
+        stackTrace: StackTrace.current,
       );
     }
 

@@ -51,8 +51,10 @@ class PostsRepository {
       if (kDebugMode) debugPrint('TiuTiuApp: Posts Loaded from Internet');
       var postsList = List<Pet>.from(postData.docs.map((post) {
         final map = post.data();
+
         if (map[PostEnum.uid.name] != null) return Pet().fromMap(map);
-      }));
+        return Pet();
+      })).where((element) => element.uid != null).toList();
       _cachePosts(posts: postsList);
 
       if (kDebugMode) debugPrint('TiuTiuApp: Posts List $postsList');
@@ -60,6 +62,7 @@ class PostsRepository {
     } catch (exception) {
       crashlyticsController.reportAnError(
         message: 'Something went wrong when trying loadPosts $exception',
+        stackTrace: StackTrace.current,
         exception: exception,
       );
       return [];

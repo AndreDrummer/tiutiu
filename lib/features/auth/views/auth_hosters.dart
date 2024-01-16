@@ -218,6 +218,7 @@ class AuthHosters extends StatelessWidget with TiuTiuPopUp {
       crashlyticsController.reportAnError(
         message: 'Error Logining with Google: $exception',
         exception: exception,
+        stackTrace: StackTrace.current,
       );
 
       showPopUp(
@@ -244,6 +245,7 @@ class AuthHosters extends StatelessWidget with TiuTiuPopUp {
       crashlyticsController.reportAnError(
         message: 'Error Logining with Apple: $exception',
         exception: exception,
+        stackTrace: StackTrace.current,
       );
 
       showPopUp(
@@ -270,6 +272,7 @@ class AuthHosters extends StatelessWidget with TiuTiuPopUp {
       crashlyticsController.reportAnError(
         message: 'Error Logining with Facebook: $exception',
         exception: exception,
+        stackTrace: StackTrace.current,
       );
 
       showPopUp(
