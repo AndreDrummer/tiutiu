@@ -37,6 +37,7 @@ class DeleteAccountService {
       crashlyticsController.reportAnError(
         message: 'Erro when tryna to delete user with id $userId: $exception',
         exception: exception,
+        stackTrace: StackTrace.current,
       );
     }
   }

@@ -22,6 +22,7 @@ class SupportUsController extends GetxController {
       crashlyticsController.reportAnError(
         message: 'Error occured when trying get Support Us Data: ${exception.message}',
         exception: exception,
+        stackTrace: StackTrace.current,
       );
       rethrow;
     }

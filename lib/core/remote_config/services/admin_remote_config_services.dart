@@ -14,6 +14,7 @@ class AdminRemoteConfigServices {
       crashlyticsController.reportAnError(
         message: 'Error occured when trying get System Properties: ${exception.message}',
         exception: exception,
+        stackTrace: StackTrace.current,
       );
       rethrow;
     }

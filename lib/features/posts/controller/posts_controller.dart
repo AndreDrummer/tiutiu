@@ -319,6 +319,7 @@ class PostsController extends GetxController with TiuTiuPopUp {
       crashlyticsController.reportAnError(
         message: AppLocalizations.of(Get.context!)!.unableToGenerateSharebleFile,
         exception: TiuTiuException(''),
+        stackTrace: StackTrace.current,
       );
 
       showPopUp(
@@ -366,6 +367,7 @@ class PostsController extends GetxController with TiuTiuPopUp {
       crashlyticsController.reportAnError(
         message: 'An error ocurred when generating share link: $exception',
         exception: exception,
+        stackTrace: StackTrace.current,
       );
 
       return false;
