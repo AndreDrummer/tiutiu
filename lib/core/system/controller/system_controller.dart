@@ -91,6 +91,7 @@ class SystemController extends GetxController {
       crashlyticsController.reportAnError(
         message: 'App Initialization Exception: $exception',
         exception: exception,
+        stackTrace: StackTrace.current,
       );
     }
   }
