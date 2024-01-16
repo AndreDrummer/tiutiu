@@ -20,6 +20,7 @@ class FeedbackService {
       crashlyticsController.reportAnError(
         message: 'Erro when tryna to send Feedback data to Firestore: $exception',
         exception: exception,
+        stackTrace: StackTrace.current,
       );
       rethrow;
     }
@@ -42,6 +43,7 @@ class FeedbackService {
       crashlyticsController.reportAnError(
         message: 'Erro when tryna to get prints url download list: $exception',
         exception: exception,
+        stackTrace: StackTrace.current,
       );
       rethrow;
     }

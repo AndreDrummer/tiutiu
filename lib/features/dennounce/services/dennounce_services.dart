@@ -20,6 +20,7 @@ class DennounceServices {
       crashlyticsController.reportAnError(
         message: 'Erro when tryna to send PostDennounce data to Firestore: $exception',
         exception: exception,
+        stackTrace: StackTrace.current,
       );
     }
 
@@ -44,6 +45,7 @@ class DennounceServices {
       crashlyticsController.reportAnError(
         message: ' Erro when tryna to send UserDennounce data to Firestore: $exception',
         exception: exception,
+        stackTrace: StackTrace.current,
       );
     }
 
