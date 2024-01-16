@@ -20,19 +20,19 @@ class PostService extends GetxService {
 
   Future<void> increasePostViews(String postId) async {
     await EndpointResolver.getDocumentEndpoint(EndpointNames.pathToPost.name, [postId])
-        .set({PostEnum.views.name: FieldValue.increment(1)}, SetOptions(merge: true));
+        .update({PostEnum.views.name: FieldValue.increment(1)});
   }
 
   Future<void> increasePostSharedTimes(String postId) async {
     await EndpointResolver.getDocumentEndpoint(EndpointNames.pathToPost.name, [postId])
-        .set({PostEnum.sharedTimes.name: FieldValue.increment(1)}, SetOptions(merge: true));
+        .update({PostEnum.sharedTimes.name: FieldValue.increment(1)});
   }
 
   Future<void> increasePostDennounces(String postId, List dennounceMotives) async {
-    await EndpointResolver.getDocumentEndpoint(EndpointNames.pathToPost.name, [postId]).set({
+    await EndpointResolver.getDocumentEndpoint(EndpointNames.pathToPost.name, [postId]).update({
       PostEnum.dennounceMotives.name: dennounceMotives,
       PostEnum.timesDennounced.name: FieldValue.increment(1),
-    }, SetOptions(merge: true));
+    });
   }
 
   Stream<int> postViews(String postId) {
@@ -61,6 +61,7 @@ class PostService extends GetxService {
       crashlyticsController.reportAnError(
         message: 'Erro when tryna to get video url download: $exception',
         exception: exception,
+        stackTrace: StackTrace.current,
       );
     }
   }
@@ -95,6 +96,7 @@ class PostService extends GetxService {
       crashlyticsController.reportAnError(
         message: 'Erro when tryna to get images url download list: $exception',
         exception: exception,
+        stackTrace: StackTrace.current,
       );
       rethrow;
     }
@@ -111,6 +113,7 @@ class PostService extends GetxService {
       crashlyticsController.reportAnError(
         message: 'Erro when tryna to send post data to Firestore: $exception',
         exception: exception,
+        stackTrace: StackTrace.current,
       );
     }
 
@@ -122,7 +125,7 @@ class PostService extends GetxService {
 
     try {
       final docRef = EndpointResolver.getDocumentEndpoint(EndpointNames.pathToPost.name, [post.uid!]);
-      await docRef.set({PostEnum.reference.name: docRef}, SetOptions(merge: true));
+      await docRef.update({PostEnum.reference.name: docRef});
 
       if (kDebugMode) debugPrint('TiuTiuApp: Post Reference Updated Successfully ${post.uid}');
       success = true;
@@ -130,6 +133,7 @@ class PostService extends GetxService {
       crashlyticsController.reportAnError(
         message: 'Erro when tryna to update post reference: $exception',
         exception: exception,
+        stackTrace: StackTrace.current,
       );
     }
 
@@ -155,6 +159,7 @@ class PostService extends GetxService {
       crashlyticsController.reportAnError(
         message: 'Erro when tryna to delete post with id ${post.uid}: $exception',
         exception: exception,
+        stackTrace: StackTrace.current,
       );
     }
 
@@ -168,6 +173,7 @@ class PostService extends GetxService {
       crashlyticsController.reportAnError(
         message: 'Erro when tryna to delete video of post with id $postId: $exception',
         exception: exception,
+        stackTrace: StackTrace.current,
       );
     }
   }
@@ -186,6 +192,7 @@ class PostService extends GetxService {
       crashlyticsController.reportAnError(
         message: 'Erro when tryna to $currentImage of post with id ${post.uid}: $exception',
         exception: exception,
+        stackTrace: StackTrace.current,
       );
     }
   }
@@ -202,6 +209,7 @@ class PostService extends GetxService {
       crashlyticsController.reportAnError(
         message: 'Erro when deleting user avatar: $exception',
         exception: exception,
+        stackTrace: StackTrace.current,
       );
     }
   }

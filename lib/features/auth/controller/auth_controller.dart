@@ -540,6 +540,7 @@ class AuthController extends GetxController {
       crashlyticsController.reportAnError(
         message: 'An error ocurred when updating user info: ${exception.message}',
         exception: exception,
+        stackTrace: StackTrace.current,
       );
       throw TiuTiuAuthException(exception.code);
     }
