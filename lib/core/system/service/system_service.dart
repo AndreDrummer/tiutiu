@@ -15,6 +15,7 @@ class SystemService {
       crashlyticsController.reportAnError(
         message: 'Error occured when streaming app endpoints: ${exception.message}',
         exception: exception,
+        stackTrace: StackTrace.current,
       );
       rethrow;
     }
@@ -29,6 +30,7 @@ class SystemService {
       crashlyticsController.reportAnError(
         message: 'Error occured when trying get app endpoints: ${exception.message}',
         exception: exception,
+        stackTrace: StackTrace.current,
       );
       rethrow;
     }
@@ -43,6 +45,7 @@ class SystemService {
       crashlyticsController.reportAnError(
         message: 'Error occured when trying get Ad Mob IDs: ${exception.message}',
         exception: exception,
+        stackTrace: StackTrace.current,
       );
       rethrow;
     }

@@ -46,6 +46,7 @@ class AdMobController {
       crashlyticsController.reportAnError(
         message: 'An error ocurred when trying load Rewarded Ad: $exception.',
         exception: exception,
+        stackTrace: StackTrace.current,
       );
     }
   }

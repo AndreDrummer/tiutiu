@@ -92,6 +92,7 @@ class TiutiuUserController extends GetxController {
       crashlyticsController.reportAnError(
         message: 'Erro when tryna to update user reference: $exception',
         exception: exception,
+        stackTrace: StackTrace.current,
       );
     }
 

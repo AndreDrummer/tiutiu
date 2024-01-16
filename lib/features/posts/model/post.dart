@@ -144,6 +144,17 @@ class Post implements Mapper {
     };
   }
 
+  bool get isValid {
+    return photos.isNotEmpty &&
+        description.isNotEmpty &&
+        ownerId != null &&
+        ownerId!.isNotEmpty &&
+        latitude != null &&
+        longitude != null &&
+        name != null &&
+        name!.isNotEmpty;
+  }
+
   @override
   String toString() {
     return 'Post(createdAt: $createdAt, saved: $saved, country: $country, owner: $owner, sharedTimes: $sharedTimes, reference: $reference, longitude: $longitude, latitude: $latitude, ownerId: $ownerId, timesDennounced: $timesDennounced, description: $description, state: $state, photos: $photos, name: $name, type: $type, city: $city, uid: $uid, views: $views, video: $video, hidden: $hidden, likes: $likes, done: $done, dennounceMotives: $dennounceMotives)';
