@@ -1,3 +1,4 @@
+import 'package:tiutiu/core/constants/firebase_env_path.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -12,8 +13,7 @@ class EndpointResolver {
 
   static String formattedEndpoint(String endpointName, [List? params]) {
     final endpoint = systemController.endpoints.firstWhere((endpoint) => endpoint.name == endpointName);
-    final build = 'prod';
-    // kDebugMode ? EnvironmentBuild.debug.name : EnvironmentBuild.prod.name;
+    final build = FirebaseEnvPath.environment;
     String endpointPath = endpoint.path;
 
     endpointPath = endpointPath.replaceAll('%build', build);
