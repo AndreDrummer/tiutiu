@@ -33,6 +33,7 @@ class FirebaseAuthProvider implements AuthProviders {
       crashlyticsController.reportAnError(
         message: 'Error sending WhatsApp Message: $exception',
         exception: exception,
+        stackTrace: StackTrace.current,
       );
       rethrow;
     }
