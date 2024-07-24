@@ -11,10 +11,13 @@ class DefaultBasicAppBar extends AppBar {
     Color? textColor,
     Widget? leading,
   }) : super(
-          title: AutoSizeTexts.autoSizeText16(text, color: textColor),
+          title: AutoSizeTexts.autoSizeText16(
+            text,
+            color: textColor ?? AppColors.white,
+          ),
+          leading: leading ?? BackButton(color: AppColors.white),
           backgroundColor: backgroundColor ?? AppColors.primary,
           automaticallyImplyLeading: automaticallyImplyLeading,
-          leading: leading,
           actions: actions,
         );
 }
