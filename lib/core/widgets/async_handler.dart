@@ -24,7 +24,9 @@ class AsyncHandler<T> extends StatelessWidget {
     this.emptyWidget,
     this.errorWidget,
     super.key,
-  }) : assert(forceReturnBuildWidget ? forcedDataReturned != null : forcedDataReturned == null);
+  }) : assert(forceReturnBuildWidget
+            ? forcedDataReturned != null
+            : forcedDataReturned == null);
 
   final Widget Function(T data) buildWidget;
   final void Function()? onErrorCallback;
@@ -44,11 +46,13 @@ class AsyncHandler<T> extends StatelessWidget {
   Widget _handleSnapshotState() {
     final ConnectionState connectionState = snapshot.connectionState;
 
-    if (!systemController.properties.internetConnected) return NoConnectionScreen(onLeave: () => Get.back());
+    if (!systemController.properties.internetConnected)
+      return NoConnectionScreen(onLeave: () => Get.back());
 
     if (snapshot.hasError) {
       if (kDebugMode)
-        debugPrint('TiuTiuApp: Error ao carregar dados do tipo $T. Message: ${snapshot.error} ${snapshot.stackTrace}');
+        debugPrint(
+            'TiuTiuApp: Error ao carregar dados do tipo $T. Message: ${snapshot.error} ${snapshot.stackTrace}');
       return errorWidget ??
           UserFeedbackScreen(
             onErrorCallback: onErrorCallback,
@@ -83,7 +87,9 @@ class AsyncHandler<T> extends StatelessWidget {
       );
     }
 
-    return forceReturnBuildWidget ? buildWidget(forcedDataReturned!) : buildWidget(snapshot.data!);
+    return forceReturnBuildWidget
+        ? buildWidget(forcedDataReturned!)
+        : buildWidget(snapshot.data!);
   }
 
   @override

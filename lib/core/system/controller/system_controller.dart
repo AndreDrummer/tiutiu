@@ -18,7 +18,8 @@ import 'dart:async';
 import 'dart:io';
 
 class SystemController extends GetxController {
-  SystemController({required SystemService systemService}) : _systemService = systemService;
+  SystemController({required SystemService systemService})
+      : _systemService = systemService;
 
   final SystemService _systemService;
 
@@ -37,17 +38,20 @@ class SystemController extends GetxController {
 
   List<Endpoint> get endpoints => _endpoints;
 
-  void set snackBarIsOpen(bool value) => _systemProperties(properties.copyWith(snackBarIsOpen: value));
+  void set snackBarIsOpen(bool value) =>
+      _systemProperties(properties.copyWith(snackBarIsOpen: value));
   void set isToCloseApp(bool value) => _isToCloseApp(value);
 
   void setLoading(bool loadingValue, [String systemStateTextFeedback = '']) {
-    _systemProperties(properties.copyWith(systemStateTextFeedback: systemStateTextFeedback));
+    _systemProperties(
+        properties.copyWith(systemStateTextFeedback: systemStateTextFeedback));
     _systemProperties(properties.copyWith(isLoading: loadingValue));
   }
 
   void handleInternetConnectivityStatus() {
     Connectivity().onConnectivityChanged.listen((connectivityResult) {
-      if (connectivityResult == ConnectivityResult.wifi || connectivityResult == ConnectivityResult.mobile) {
+      if (connectivityResult.contains(ConnectivityResult.wifi) ||
+          connectivityResult.contains(ConnectivityResult.mobile)) {
         _systemProperties(properties.copyWith(internetConnected: true));
       } else {
         _systemProperties(properties.copyWith(internetConnected: false));
@@ -59,7 +63,8 @@ class SystemController extends GetxController {
     try {
       _systemProperties(properties.copyWith(isLoading: true));
       PackageInfo packageInfo = await PackageInfo.fromPlatform();
-      _systemProperties(properties.copyWith(runningVersion: packageInfo.version));
+      _systemProperties(
+          properties.copyWith(runningVersion: packageInfo.version));
 
       await getInitialEndpoints();
 
@@ -98,18 +103,22 @@ class SystemController extends GetxController {
 
   Future<void> setUserChoiceCountry({required String country}) async {
     try {
-      await LocalStorage.setValueUnderLocalStorageKey(key: LocalStorageKey.userCountryChoice, value: country);
+      await LocalStorage.setValueUnderLocalStorageKey(
+          key: LocalStorageKey.userCountryChoice, value: country);
 
       _systemProperties(properties.copyWith(userCountryChoice: country));
     } catch (exception) {
-      if (kDebugMode) debugPrint('TiuTiuApp: An error ocurred when setting country $exception.');
+      if (kDebugMode)
+        debugPrint(
+            'TiuTiuApp: An error ocurred when setting country $exception.');
     }
   }
 
   Future<void> getUserChoiceCountry() async {
     try {
-      final cachedCountry =
-          (await LocalStorage.getValueUnderLocalStorageKey(LocalStorageKey.userCountryChoice)) ?? 'brazil';
+      final cachedCountry = (await LocalStorage.getValueUnderLocalStorageKey(
+              LocalStorageKey.userCountryChoice)) ??
+          'brazil';
 
       _systemProperties(properties.copyWith(userCountryChoice: cachedCountry));
 
@@ -117,11 +126,14 @@ class SystemController extends GetxController {
 
       await setUserChoiceCountry(country: cachedCountry);
     } catch (exception) {
-      if (kDebugMode) debugPrint('TiuTiuApp: An error ocurred when getting country $exception.');
+      if (kDebugMode)
+        debugPrint(
+            'TiuTiuApp: An error ocurred when getting country $exception.');
     }
   }
 
-  Future<void> updateUserChoiceRadiusDistanceToShowPets({double? radius}) async {
+  Future<void> updateUserChoiceRadiusDistanceToShowPets(
+      {double? radius}) async {
     try {
       final cachedRadius = await LocalStorage.getValueUnderLocalStorageKey(
         LocalStorageKey.userChoiceRadiusDistanceToShowPets,
@@ -129,7 +141,8 @@ class SystemController extends GetxController {
 
       _systemProperties(
         properties.copyWith(
-          userChoiceRadiusDistanceToShowPets: radius ?? double.tryParse(cachedRadius.toString()),
+          userChoiceRadiusDistanceToShowPets:
+              radius ?? double.tryParse(cachedRadius.toString()),
         ),
       );
 
@@ -138,18 +151,23 @@ class SystemController extends GetxController {
         key: LocalStorageKey.userChoiceRadiusDistanceToShowPets,
       );
     } catch (exception) {
-      if (kDebugMode) debugPrint('TiuTiuApp: An error ocurred when setting searching radius $exception.');
+      if (kDebugMode)
+        debugPrint(
+            'TiuTiuApp: An error ocurred when setting searching radius $exception.');
     }
   }
 
-  void checkIfUserChosenCountry() => _userHasChosenCountry(properties.userCountryChoice.isNotEmptyNeighterNull());
+  void checkIfUserChosenCountry() => _userHasChosenCountry(
+      properties.userCountryChoice.isNotEmptyNeighterNull());
 
   Future<void> saveUserChosenCountryOption() async {
-    await LocalStorage.setBooleanUnderKey(key: LocalStorageKey.userHasChosenCountry, value: true);
+    await LocalStorage.setBooleanUnderKey(
+        key: LocalStorageKey.userHasChosenCountry, value: true);
   }
 
   Future<bool> getUserChosenCountryOption() async {
-    return await LocalStorage.getBooleanUnderKey(key: LocalStorageKey.userHasChosenCountry, standardValue: false);
+    return await LocalStorage.getBooleanUnderKey(
+        key: LocalStorageKey.userHasChosenCountry, standardValue: false);
   }
 
   Future<void> checkUserTermsAccepted() async {
@@ -162,7 +180,8 @@ class SystemController extends GetxController {
   }
 
   Future<bool> updateAccessToLocationWasDenied() async {
-    final permissionStatus = await LocalStorage.getValueUnderLocalStorageKey(LocalStorageKey.userLocationDecision);
+    final permissionStatus = await LocalStorage.getValueUnderLocalStorageKey(
+        LocalStorageKey.userLocationDecision);
     if (kDebugMode) debugPrint('TiuTiuApp: LocationAccess: $permissionStatus');
 
     return permissionStatus == PermissionStatus.denied.name;
@@ -179,19 +198,23 @@ class SystemController extends GetxController {
     _adMobIDs(ids);
   }
 
-  void onAppEndpointsChange() => _systemService.appEndpoints().listen(_endpoints);
+  void onAppEndpointsChange() =>
+      _systemService.appEndpoints().listen(_endpoints);
 
   void handleFDLOnForeground() {
     _firebaseDynamicLinks.onLink.listen((dynamicLinkData) {
-      if (kDebugMode) debugPrint('TiuTiuApp: FDL Foreground Data: $dynamicLinkData');
+      if (kDebugMode)
+        debugPrint('TiuTiuApp: FDL Foreground Data: $dynamicLinkData');
     }).onError((error) {
       if (kDebugMode) debugPrint('TiuTiuApp: FDL Foreground Error: $error');
     });
   }
 
   Future handleFDLOpensApp() async {
-    final PendingDynamicLinkData? initialLink = await _firebaseDynamicLinks.getInitialLink();
-    if (kDebugMode) debugPrint('TiuTiuApp: FDL Terminated InitialLink: $initialLink');
+    final PendingDynamicLinkData? initialLink =
+        await _firebaseDynamicLinks.getInitialLink();
+    if (kDebugMode)
+      debugPrint('TiuTiuApp: FDL Terminated InitialLink: $initialLink');
     final String? fdLink = '${initialLink?.link}';
 
     if (fdLink.isNotEmptyNeighterNull()) {
@@ -202,7 +225,9 @@ class SystemController extends GetxController {
 
   Future<BaseDeviceInfo> getDeviceInfo() async {
     DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
-    final info = Platform.isIOS ? await deviceInfo.iosInfo : await deviceInfo.androidInfo;
+    final info = Platform.isIOS
+        ? await deviceInfo.iosInfo
+        : await deviceInfo.androidInfo;
 
     if (kDebugMode) debugPrint('TiuTiuApp: Device Info: $info');
 
@@ -232,7 +257,8 @@ class SystemController extends GetxController {
 
     String defaultID = '';
 
-    if (kDebugMode) debugPrint('TiuTiuApp: ADMOBBlock -> Name: $blockName ID: $adMobID');
+    if (kDebugMode)
+      debugPrint('TiuTiuApp: ADMOBBlock -> Name: $blockName ID: $adMobID');
 
     switch (type) {
       case AdMobType.banner:
