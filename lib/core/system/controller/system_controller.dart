@@ -51,7 +51,8 @@ class SystemController extends GetxController {
   void handleInternetConnectivityStatus() {
     Connectivity().onConnectivityChanged.listen((connectivityResult) {
       if (connectivityResult.contains(ConnectivityResult.wifi) ||
-          connectivityResult.contains(ConnectivityResult.mobile)) {
+          connectivityResult.contains(ConnectivityResult.mobile) ||
+          connectivityResult.contains(ConnectivityResult.ethernet)) {
         _systemProperties(properties.copyWith(internetConnected: true));
       } else {
         _systemProperties(properties.copyWith(internetConnected: false));
