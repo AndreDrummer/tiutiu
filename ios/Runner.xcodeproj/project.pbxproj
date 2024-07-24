@@ -31,14 +31,14 @@
 /* Begin PBXCopyFilesBuildPhase section */
 		36993D80295D354B00B67A53 /* Embed Foundation Extensions */ = {
 			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
+			buildActionMask = 8;
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
 				36993D7B295D354B00B67A53 /* ImageNotification.appex in Embed Foundation Extensions */,
 			);
 			name = "Embed Foundation Extensions";
-			runOnlyForDeploymentPostprocessing = 0;
+			runOnlyForDeploymentPostprocessing = 1;
 		};
 		9705A1C41CF9048500538489 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
@@ -209,7 +209,6 @@
 			buildConfigurationList = 97C147051CF9000F007C117D /* Build configuration list for PBXNativeTarget "Runner" */;
 			buildPhases = (
 				FACBF4199B272E7F6C902902 /* [CP] Check Pods Manifest.lock */,
-				9740EEB61CF901F6004384FC /* Run Script */,
 				97C146EA1CF9000F007C117D /* Sources */,
 				97C146EB1CF9000F007C117D /* Frameworks */,
 				97C146EC1CF9000F007C117D /* Resources */,
@@ -219,6 +218,7 @@
 				0CAE6B73A3E41E2874AFBF58 /* [firebase_crashlytics] Crashlytics Upload Symbols */,
 				ED77E4359EEE5E404ECC0E47 /* [CP] Embed Pods Frameworks */,
 				51E572B8708E080E4759C5C1 /* [CP] Copy Pods Resources */,
+				9740EEB61CF901F6004384FC /* Run Script */,
 			);
 			buildRules = (
 			);
@@ -236,7 +236,7 @@
 		97C146E61CF9000F007C117D /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1430;
+				LastUpgradeCheck = 1510;
 				ORGANIZATIONNAME = "";
 				TargetAttributes = {
 					36993D72295D354B00B67A53 = {
