@@ -26,24 +26,24 @@ dependencies:
   flutter:
     sdk: flutter
 
-  flutter_local_notifications: ^16.2.0
+  flutter_local_notifications: ^17.2.1+2
   mask_text_input_formatter: ^2.4.0
   flutter_native_splash: ^2.0.0
-  flutter_facebook_auth: ^5.0.6
+  flutter_facebook_auth: ^7.0.1
   font_awesome_flutter: ^10.2.1
   flutter_screenutil: ^5.5.3+2
   cached_network_image: ^3.2.1
   flutter_chat_bubble: ^2.0.0
   shared_preferences: ^2.0.15
   permission_handler: ^11.1.0
-  sign_in_with_apple: ^5.0.0
+  sign_in_with_apple: ^6.1.1
   loading_animations: ^2.2.0  
   flutter_speed_dial: ^7.0.0  
   move_to_background: ^1.0.2
-  connectivity_plus: ^5.0.2    
-  google_mobile_ads: ^3.0.0
-  package_info_plus: ^3.1.2
-  device_info_plus: ^8.0.0
+  connectivity_plus: ^6.0.3    
+  google_mobile_ads: ^5.1.0
+  package_info_plus: ^8.0.0
+  device_info_plus: ^10.1.0
   webview_flutter: ^4.0.6
   pin_code_fields: ^8.0.1
   flutter_pdfview: ^1.2.5
@@ -53,21 +53,18 @@ dependencies:
   google_sign_in: ^6.1.6
   image_picker: ^1.0.4
   open_settings: ^2.0.2
-  screenshot: ^2.1.0
-  better_player:
-    git:
-      url: https://github.com/AndreDrummer/betterplayer.git
-      ref: fix-android-and-ios
+  screenshot: ^3.0.0
+  better_player: ^0.0.84    
   maps_launcher: ^2.0.1
   brasil_fields: ^1.6.0  
-  google_fonts: ^4.0.4
+  google_fonts: ^6.2.1
   url_launcher: ^6.1.5
-  share_plus: ^6.3.0
-  geolocator: ^10.1.0
-  geocoding: ^2.0.5    
+  share_plus: ^9.0.0
+  geolocator: ^12.0.0
+  geocoding: ^3.0.0    
   provider: ^6.0.3
   sqflite: ^2.0.3
-  lottie: ^2.2.0
+  lottie: ^3.1.2
   video_player:
   uuid: ^4.2.1
   get: ^4.6.5  
