@@ -1,4 +1,3 @@
-import 'package:tiutiu/features/posts/utils/post_utils.dart';
 import 'package:tiutiu/features/tiutiutok/widgets/go_to_post_button.dart';
 import 'package:tiutiu/features/tiutiutok/widgets/dennounce_video.dart';
 import 'package:tiutiu/features/tiutiutok/widgets/empty_tiutiutok.dart';
@@ -6,6 +5,7 @@ import 'package:tiutiu/features/tiutiutok/widgets/buttons_aside.dart';
 import 'package:tiutiu/features/tiutiutok/widgets/video_widget.dart';
 import 'package:tiutiu/features/tiutiutok/widgets/post_details.dart';
 import 'package:tiutiu/features/posts/widgets/loading_blur.dart';
+import 'package:tiutiu/features/posts/utils/post_utils.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/features/posts/model/post.dart';
@@ -39,7 +39,8 @@ class _TiutiuTokState extends State<TiutiuTok> {
           int startingIndex = 0;
 
           if (startingPostId.isNotEmpty) {
-            final startingPost = postsWithVideo.firstWhere((post) => post.uid == startingPostId);
+            final startingPost =
+                postsWithVideo.firstWhere((post) => post.uid == startingPostId);
             startingIndex = postsWithVideo.indexOf(startingPost);
           }
 
