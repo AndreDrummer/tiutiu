@@ -12,7 +12,7 @@ import 'package:tiutiu/features/posts/model/post.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:tiutiu/core/utils/dimensions.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide CarouselController;
 import 'package:get/get.dart';
 
 class TiutiuTok extends StatefulWidget {
@@ -39,7 +39,8 @@ class _TiutiuTokState extends State<TiutiuTok> {
           int startingIndex = 0;
 
           if (startingPostId.isNotEmpty) {
-            final startingPost = postsWithVideo.firstWhere((post) => post.uid == startingPostId);
+            final startingPost =
+                postsWithVideo.firstWhere((post) => post.uid == startingPostId);
             startingIndex = postsWithVideo.indexOf(startingPost);
           }
 
