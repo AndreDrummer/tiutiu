@@ -29,7 +29,10 @@ class CurrentLocationController extends GetxController {
 
   Future<void> setPermission(PermissionStatus value) async {
     _permissionStatus(value);
-    await LocalStorage.setValueUnderLocalStorageKey(key: LocalStorageKey.userLocationDecision, value: value.name);
+    await LocalStorage.setValueUnderLocalStorageKey(
+      key: LocalStorageKey.userLocationDecision,
+      value: value.name,
+    );
     await systemController.updateAccessToLocationWasDenied();
   }
 
@@ -45,25 +48,34 @@ class CurrentLocationController extends GetxController {
     _canContinue(value);
   }
 
-  PermissionStatus? _getPermissionStatusFromString(String? permissionStatusString) {
+  PermissionStatus? _getPermissionStatusFromString(
+      String? permissionStatusString) {
     if (permissionStatusString != null)
-      return PermissionStatus.values.where((permission) => permission.name == permissionStatusString).first;
+      return PermissionStatus.values
+          .where((permission) => permission.name == permissionStatusString)
+          .first;
     return null;
   }
 
   Future<PermissionStatus?> getLastLocationPermission() async {
-    final cachedPermissionString = await LocalStorage.getValueUnderLocalStorageKey(
-      LocalStorageKey.userLocationDecision,
-    );
+    if (Platform.isAndroid || Platform.isIOS) {
+      final cachedPermissionString =
+          await LocalStorage.getValueUnderLocalStorageKey(
+        LocalStorageKey.userLocationDecision,
+      );
 
-    final PermissionStatus? cachedPermissionStatus = _getPermissionStatusFromString(cachedPermissionString);
+      final PermissionStatus? cachedPermissionStatus =
+          _getPermissionStatusFromString(cachedPermissionString);
 
-    if (cachedPermissionStatus == null) return cachedPermissionStatus;
+      if (cachedPermissionStatus == null) return cachedPermissionStatus;
 
-    setPermission(await Permission.location.status);
-    setPermissionGranted(permissionStatus == PermissionStatus.granted);
+      setPermission(await Permission.location.status);
+      setPermissionGranted(permissionStatus == PermissionStatus.granted);
 
-    return permissionStatus;
+      return permissionStatus;
+    } else {
+      return PermissionStatus.provisional;
+    }
   }
 
   Future<void> checkPermission() async {
@@ -76,16 +88,20 @@ class CurrentLocationController extends GetxController {
     setPermission(await Permission.location.request());
     setUserLocation();
 
-    if (kDebugMode) debugPrint('TiuTiuApp: local access permission $permissionStatus');
+    if (kDebugMode)
+      debugPrint('TiuTiuApp: local access permission $permissionStatus');
   }
 
-  Future<void> openDeviceSettings() async => await Geolocator.openLocationSettings();
+  Future<void> openDeviceSettings() async =>
+      await Geolocator.openLocationSettings();
 
   Future<void> setUserLocation({LatLng? currentLocation}) async {
     if (isPermissionGranted) {
       if (currentLocation == null) {
         final position = await Geolocator.getCurrentPosition(
-          desiredAccuracy: LocationAccuracy.high,
+          locationSettings: LocationSettings(
+            accuracy: LocationAccuracy.high,
+          ),
         );
 
         location = LatLng(position.latitude, position.longitude);
@@ -113,10 +129,14 @@ class CurrentLocationController extends GetxController {
           stackTrace: StackTrace.current,
           exception: e,
         );
-        final storagePlacemark = await LocalStorage.getValueUnderLocalStorageKey(LocalStorageKey.lastKnowLocation);
+        final storagePlacemark =
+            await LocalStorage.getValueUnderLocalStorageKey(
+                LocalStorageKey.lastKnowLocation);
         if (storagePlacemark != null) {
           placemark = Placemark.fromMap(storagePlacemark);
-          if (kDebugMode) debugPrint('TiuTiuApp: A storaged placemark is being used instead.');
+          if (kDebugMode)
+            debugPrint(
+                'TiuTiuApp: A storaged placemark is being used instead.');
         }
       }
 

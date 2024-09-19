@@ -1,10 +1,10 @@
 import 'package:tiutiu/core/widgets/cards/widgets/disappeared_tag.dart';
+import 'package:tiutiu/core/widgets/cards/widgets/mark_as_done.dart';
 import 'package:tiutiu/core/widgets/cards/widgets/card_builder.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
-import 'package:tiutiu/core/widgets/cards/widgets/mark_as_done.dart';
 import 'package:tiutiu/features/posts/model/post.dart';
 import 'package:tiutiu/core/pets/model/pet_model.dart';
 import 'package:tiutiu/core/utils/dimensions.dart';
@@ -35,7 +35,8 @@ class _CardAdState extends State<CardAd> {
 
   Widget likeAnimation() {
     return AnimatedOpacity(
-      child: Icon(FontAwesomeIcons.solidHeart, color: AppColors.white.withOpacity(.9), size: 72),
+      child: Icon(FontAwesomeIcons.solidHeart,
+          color: AppColors.white.withOpacity(.9), size: 72),
       duration: Duration(milliseconds: 250),
       opacity: likeAnimationOpcaity,
     );
@@ -65,10 +66,18 @@ class _CardAdState extends State<CardAd> {
               children: [
                 Container(
                   height: Dimensions.getDimensBasedOnDeviceHeight(
-                    xSmaller: widget.inReviewMode ? Get.height / 2.4 : Get.height / 1.5,
-                    smaller: widget.inReviewMode ? Get.height / 2.5 : Get.height / 1.5,
-                    medium: widget.inReviewMode ? Get.height / 2.22 : Get.height / 1.5,
-                    bigger: widget.inReviewMode ? Get.height / 2.22 : Get.height / 1.5,
+                    xSmaller: widget.inReviewMode
+                        ? Get.height / 2.4
+                        : Get.height / 1.5,
+                    smaller: widget.inReviewMode
+                        ? Get.height / 2.5
+                        : Get.height / 1.5,
+                    medium: widget.inReviewMode
+                        ? Get.height / 2.5
+                        : Get.height / 1.5,
+                    bigger: widget.inReviewMode
+                        ? Get.height / 2.22
+                        : Get.height / 1.5,
                   ),
                   child: widget.cardBuilder.adImages(),
                   width: double.infinity,
@@ -77,7 +86,8 @@ class _CardAdState extends State<CardAd> {
                   visible: !widget.inReviewMode && widget.showSaveButton,
                   child: Positioned(
                     child: Container(
-                      decoration: BoxDecoration(shape: BoxShape.circle, color: AppColors.white),
+                      decoration: BoxDecoration(
+                          shape: BoxShape.circle, color: AppColors.white),
                       child: Padding(
                         padding: EdgeInsets.all(8.0.h),
                         child: widget.cardBuilder.saveButton(
@@ -149,7 +159,8 @@ class _CardAdState extends State<CardAd> {
     );
   }
 
-  Widget _tagIsDisappeared(bool visible) => Visibility(child: DisappearedTag(), visible: visible);
+  Widget _tagIsDisappeared(bool visible) =>
+      Visibility(child: DisappearedTag(), visible: visible);
 
   Widget _markAsDone() {
     return Visibility(

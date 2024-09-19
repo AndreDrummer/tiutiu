@@ -13,7 +13,7 @@ class MyPosts extends StatelessWidget {
     return Obx(
       () => PopScope(
         canPop: true,
-        onPopInvoked: (_) async {
+        onPopInvokedWithResult: (_, __) async {
           postsController.closeMypostsLists();
         },
         child: Scaffold(
@@ -22,7 +22,8 @@ class MyPosts extends StatelessWidget {
             automaticallyImplyLeading: true,
           ),
           body: RenderPostList(
-            firstChild: FilterResultCount(postsCount: postsController.postsCount, isInMyPosts: true),
+            firstChild: FilterResultCount(
+                postsCount: postsController.postsCount, isInMyPosts: true),
             itemCount: postsController.filteredPosts.length,
             posts: postsController.filteredPosts,
             isInMyPosts: true,

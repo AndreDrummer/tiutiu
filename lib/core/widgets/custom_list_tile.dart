@@ -39,18 +39,27 @@ class CustomListTile extends StatelessWidget {
               foregroundColor: AppColors.white,
               backgroundColor: AppColors.white,
               padding: EdgeInsets.zero,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(4.0),
+              ),
               enableFeedback: false,
               elevation: 0.0,
             ),
             child: Padding(
-              padding: EdgeInsets.symmetric(vertical: 8.0.h, horizontal: 16.0.h),
+              padding:
+                  EdgeInsets.symmetric(vertical: 8.0.h, horizontal: 16.0.h),
               child: Row(
                 children: [
                   Icon(color: AppColors.primaryDark, icon),
                   SizedBox(width: 16.0.w),
-                  Container(child: AutoSizeTexts.autoSizeText12(color: AppColors.primaryDark, '$text')),
+                  Container(
+                      child: AutoSizeTexts.autoSizeText12(
+                          color: AppColors.primaryDark, '$text')),
                   Spacer(),
-                  Icon(color: AppColors.black.withAlpha(150), Icons.arrow_forward_ios, size: 12.0.h),
+                  Icon(
+                      color: AppColors.black.withAlpha(150),
+                      Icons.arrow_forward_ios,
+                      size: 12.0.h),
                 ],
               ),
             ),

@@ -20,7 +20,7 @@ class _SavedsState extends State<Saveds> {
   Widget build(BuildContext context) {
     return PopScope(
       canPop: true,
-      onPopInvoked: (_) async {
+      onPopInvokedWithResult: (_, __) async {
         filterController.reset();
       },
       child: Scaffold(
@@ -34,13 +34,15 @@ class _SavedsState extends State<Saveds> {
             builder: (context, snapshot) {
               final savedPosts = snapshot.data ?? [];
 
-              if (savedPosts.isEmpty) return EmptyListScreen(showClearFiltersButton: false);
+              if (savedPosts.isEmpty)
+                return EmptyListScreen(showClearFiltersButton: false);
 
               return ListView.builder(
                 itemCount: savedPosts.length,
                 itemBuilder: (context, index) {
                   return StreamBuilder<Post?>(
-                    stream: savedsController.postFromReference(savedPosts[index].reference),
+                    stream: savedsController
+                        .postFromReference(savedPosts[index].reference),
                     builder: (context, snapshot) {
                       return AsyncHandler<Post>(
                         loadingWidget: Center(child: LinearProgressIndicator()),
@@ -65,7 +67,8 @@ class _SavedsState extends State<Saveds> {
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
         floatingActionButton: Obx(
-          () => ChangePostsVisibilityFloatingButtom(visibility: savedsController.savedPosts.isNotEmpty),
+          () => ChangePostsVisibilityFloatingButtom(
+              visibility: savedsController.savedPosts.isNotEmpty),
         ),
       ),
     );
