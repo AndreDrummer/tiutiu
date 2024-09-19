@@ -70,12 +70,16 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
 
   void initializeVideoController() {
     final isFile = postsController.post.video is File;
-    final videoUrl = isFile ? postsController.post.video.path : postsController.post.video;
+    final videoUrl =
+        isFile ? postsController.post.video.path : postsController.post.video;
 
     _betterPlayerDataSource = BetterPlayerDataSource(
-      isFile ? BetterPlayerDataSourceType.file : BetterPlayerDataSourceType.network,
+      isFile
+          ? BetterPlayerDataSourceType.file
+          : BetterPlayerDataSourceType.network,
       videoUrl,
-      cacheConfiguration: BetterPlayerCacheConfiguration(useCache: Platform.isAndroid, key: post.video.toString()),
+      cacheConfiguration: BetterPlayerCacheConfiguration(
+          useCache: Platform.isAndroid, key: post.video.toString()),
     );
 
     _betterPlayerController = BetterPlayerController(
@@ -118,37 +122,47 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
   }
 
   double toolBarHeight(int descriptionLength) {
-    final isEditingOrReviewing = postsController.isInReviewMode || postsController.isInReviewMode;
+    final isEditingOrReviewing =
+        postsController.isInReviewMode || postsController.isInReviewMode;
 
     if (Get.height > 999) {
       return (Get.height / (isEditingOrReviewing ? 4.5 : 3.0));
     } else if ((post as Pet).disappeared) {
       return Dimensions.getDimensBasedOnDeviceHeight(
-        smaller: (Get.height / (isEditingOrReviewing ? 4.9 : 5.2)) - (descriptionLength / 2),
-        xSmaller: (Get.height / (isEditingOrReviewing ? 4.8 : 5.2)) - (descriptionLength / 2),
-        bigger: (Get.height / (isEditingOrReviewing ? 3.2 : 3.6)) - (descriptionLength / 2),
-        medium: (Get.height / (isEditingOrReviewing ? 2.9 : 3.3)) - (descriptionLength / 2),
+        smaller: (Get.height / (isEditingOrReviewing ? 4.9 : 5.2)) -
+            (descriptionLength / 2),
+        xSmaller: (Get.height / (isEditingOrReviewing ? 4.8 : 5.2)) -
+            (descriptionLength / 2),
+        bigger: (Get.height / (isEditingOrReviewing ? 3.2 : 3.6)) -
+            (descriptionLength / 2),
+        medium: (Get.height / (isEditingOrReviewing ? 2.9 : 3.3)) -
+            (descriptionLength / 2),
       );
     } else {
       return Dimensions.getDimensBasedOnDeviceHeight(
-        smaller: (Get.height / (isEditingOrReviewing ? 2.9 : 3.4)) - (descriptionLength / 2),
-        xSmaller: (Get.height / (isEditingOrReviewing ? 3.8 : 4.4)) - (descriptionLength / 2),
-        bigger: (Get.height / (isEditingOrReviewing ? 2.6 : 3.2)) - (descriptionLength / 2),
-        medium: (Get.height / (isEditingOrReviewing ? 2.3 : 2.9)) - (descriptionLength / 2),
+        smaller: (Get.height / (isEditingOrReviewing ? 2.9 : 3.4)) -
+            (descriptionLength / 2),
+        xSmaller: (Get.height / (isEditingOrReviewing ? 3.8 : 4.4)) -
+            (descriptionLength / 2),
+        bigger: (Get.height / (isEditingOrReviewing ? 2.6 : 3.2)) -
+            (descriptionLength / 2),
+        medium: (Get.height / (isEditingOrReviewing ? 2.5 : 4.0)) -
+            (descriptionLength / 2),
       );
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    final petCaracteristics = PetCaracteristics.petCaracteristics(context, (post as Pet));
+    final petCaracteristics =
+        PetCaracteristics.petCaracteristics(context, (post as Pet));
     final address = post.describedAddress;
     final description = post.description;
     final reward = (post as Pet).reward;
 
     return PopScope(
       canPop: true,
-      onPopInvoked: (_) async {
+      onPopInvokedWithResult: (_, __) async {
         onLeaveScreen();
       },
       child: Scaffold(
@@ -159,13 +173,20 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
               headerSliverBuilder: (context, innerBoxIsScrolled) {
                 return [
                   SliverOverlapAbsorber(
-                    handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
+                    handle: NestedScrollView.sliverOverlapAbsorberHandleFor(
+                      context,
+                    ),
                     sliver: SliverSafeArea(
                       top: false,
                       bottom: false,
                       sliver: SliverAppBar(
-                        flexibleSpace: _showImagesAndVideos(boxHeight: Get.height, context: context),
-                        toolbarHeight: toolBarHeight(description.length + address.length),
+                        flexibleSpace: _showImagesAndVideos(
+                          boxHeight: Get.height,
+                          context: context,
+                        ),
+                        toolbarHeight: toolBarHeight(
+                          description.length + address.length,
+                        ),
                         backgroundColor: Colors.transparent,
                         automaticallyImplyLeading: false,
                         expandedHeight: Get.height / 1.5,
@@ -218,7 +239,11 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
                 ],
               ),
             ),
-            Positioned(child: BackButton(color: AppColors.white), left: 4.0.w, top: 40.0.h),
+            Positioned(
+              child: BackButton(color: AppColors.white),
+              left: 4.0.w,
+              top: 40.0.h,
+            ),
             LoadingBlur()
           ],
         ),
@@ -251,7 +276,8 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
         child: Row(
           children: [
             Padding(
-              padding: EdgeInsets.symmetric(vertical: 16.0.h, horizontal: 4.0.w),
+              padding:
+                  EdgeInsets.symmetric(vertical: 16.0.h, horizontal: 4.0.w),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -287,13 +313,17 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
   Widget _shareButton() {
     return Obx(
       () => Visibility(
-        replacement: postsController.isInReviewMode ? SizedBox.shrink() : NoConnectionTextInfo(),
-        visible: !postsController.isInReviewMode && systemController.properties.internetConnected,
+        replacement: postsController.isInReviewMode
+            ? SizedBox.shrink()
+            : NoConnectionTextInfo(),
+        visible: !postsController.isInReviewMode &&
+            systemController.properties.internetConnected,
         child: GestureDetector(
           onTap: postsController.sharePost,
           child: Card(
             elevation: 8.0,
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24.0.h)),
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(24.0.h)),
             child: PostActionButton(icon: Icons.share),
           ),
         ),
@@ -304,11 +334,15 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
   Widget _saveButton() {
     return Obx(
       () => Visibility(
-        replacement: postsController.isInReviewMode ? SizedBox.shrink() : NoConnectionTextInfo(),
-        visible: !postsController.isInReviewMode && systemController.properties.internetConnected,
+        replacement: postsController.isInReviewMode
+            ? SizedBox.shrink()
+            : NoConnectionTextInfo(),
+        visible: !postsController.isInReviewMode &&
+            systemController.properties.internetConnected,
         child: Card(
           elevation: 8.0,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24.0.h)),
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(24.0.h)),
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: SaveOrUnsave(
@@ -324,8 +358,11 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
 
   Widget _seeOnTiutiutok() {
     return Visibility(
-      visible: !postsController.isInReviewMode && systemController.properties.internetConnected && hasVideo,
-      replacement: postsController.isInReviewMode || systemController.properties.internetConnected
+      visible: !postsController.isInReviewMode &&
+          systemController.properties.internetConnected &&
+          hasVideo,
+      replacement: postsController.isInReviewMode ||
+              systemController.properties.internetConnected
           ? SizedBox.shrink()
           : NoConnectionTextInfo(),
       child: GestureDetector(
@@ -337,7 +374,8 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
         },
         child: Card(
           elevation: 8.0,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24.0.h)),
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(24.0.h)),
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: TiutiutokIcon(color: AppColors.primary),
@@ -350,14 +388,16 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
   Widget _dennouncePostButton() {
     return DennounceButton(
       onTap: () {
-        postDennounceController.updatePostDennounce(PostDennounceEnum.dennouncedPost, post);
+        postDennounceController.updatePostDennounce(
+            PostDennounceEnum.dennouncedPost, post);
 
         showsDennouncePopup(content: PostDennounceScreen());
       },
     );
   }
 
-  Widget _showImagesAndVideos({required BuildContext context, required double boxHeight}) {
+  Widget _showImagesAndVideos(
+      {required BuildContext context, required double boxHeight}) {
     final PageController _pageController = PageController();
     final photosQty = post.photos.length;
     final hasVideo = post.video != null;
@@ -419,7 +459,9 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
       child: Row(
         children: [
           CircleAvatar(
-            child: ClipOval(child: AssetHandle.getImage(post.owner!.avatar, isUserImage: true)),
+            child: ClipOval(
+                child: AssetHandle.getImage(post.owner!.avatar,
+                    isUserImage: true)),
             backgroundColor: Colors.transparent,
             radius: 10.0.h,
           ),
@@ -445,7 +487,8 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
     return userName;
   }
 
-  Container _images({required PageController pageController, required double boxHeight}) {
+  Container _images(
+      {required PageController pageController, required double boxHeight}) {
     final photos = post.photos;
 
     return Container(
@@ -459,7 +502,8 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
           if (hasVideo && index == 0) {
             return _video();
           } else if (hasVideo && index > 0) {
-            if (_betterPlayerController.isPlaying() ?? true) _betterPlayerController.pause();
+            if (_betterPlayerController.isPlaying() ?? true)
+              _betterPlayerController.pause();
           } else if (!hasVideo) {
             return _image(photos, index);
           }
@@ -491,7 +535,8 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
     );
   }
 
-  Widget _dotsIndicator({required PageController pageController, required int length}) {
+  Widget _dotsIndicator(
+      {required PageController pageController, required int length}) {
     return Container(
       padding: const EdgeInsets.all(8.0),
       child: Center(
@@ -557,7 +602,8 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
       visible: description != null,
       child: CardContent(
         title: AppLocalizations.of(context)!.description,
-        content: OtherFunctions.replacePhoneNumberWithStars(description?.trim() ?? ''),
+        content: OtherFunctions.replacePhoneNumberWithStars(
+            description?.trim() ?? ''),
       ),
     );
   }
@@ -577,14 +623,17 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
         ? '\n\n${OtherFunctions.replacePhoneNumberWithStars(post.describedAddress)}'
         : '';
 
-    final showIcon = post.describedAddress.isNotEmptyNeighterNull() && !(post as Pet).disappeared;
+    final showIcon = post.describedAddress.isNotEmptyNeighterNull() &&
+        !(post as Pet).disappeared;
 
     return CardContent(
       icon: showIcon ? Icons.launch : null,
       content: (post as Pet).disappeared
           ? '${post.city} - ${post.state} ${post.lastSeenDetails}'
           : '${post.city} - ${post.state} $describedAddress',
-      title: post.disappeared ? AppLocalizations.of(context)!.lastSeen : AppLocalizations.of(context)!.whereIsThisPet,
+      title: post.disappeared
+          ? AppLocalizations.of(context)!.lastSeen
+          : AppLocalizations.of(context)!.whereIsThisPet,
       onAction: () {
         MapsLauncher.launchCoordinates(
           post.latitude ?? 0.0,
@@ -597,12 +646,17 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
 
   Widget ownerAdcontact(Post post) {
     return Container(
-      margin: EdgeInsets.only(bottom: 8.0.h, right: 4.0.w, left: 4.0.w, top: 4.0.h),
+      margin: EdgeInsets.only(
+        bottom: 8.0.h,
+        right: 4.0.w,
+        left: 4.0.w,
+        top: 0.0.h,
+      ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           ButtonWide(
-            padding: EdgeInsets.symmetric(vertical: 1.0.h, horizontal: 2.0.w),
+            padding: EdgeInsets.symmetric(vertical: 4.0.h, horizontal: 2.0.w),
             onPressed: () {
               chatController.handleContactTapped(
                 contactType: ContactType.chat,
@@ -630,7 +684,8 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
               chatController.handleContactTapped(
                 contactType: ContactType.whatsapp,
                 openDesiredChat: () async {
-                  final initialMessage = OtherFunctions.getWhatsAppInitialMessage(context, post);
+                  final initialMessage =
+                      OtherFunctions.getWhatsAppInitialMessage(context, post);
 
                   await Launcher.openWhatsApp(
                     countryCode: post.owner!.countryCode ?? '+55',
@@ -648,7 +703,7 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
 
   Widget backReviewAndUploadPost() {
     return Padding(
-      padding: EdgeInsets.only(top: 16.0.h),
+      padding: EdgeInsets.only(top: 8.0.h),
       child: ButtonWide(
         text: postsController.isEditingPost
             ? AppLocalizations.of(context)!.postUpdate
@@ -668,6 +723,7 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
       padding: EdgeInsets.only(bottom: 16.0.h),
       child: Column(
         children: [
+          SizedBox(height: 16.0.h),
           SimpleTextButton(
             backgroundColor: AppColors.warning,
             text: AppLocalizations.of(context)!.editAd,
@@ -688,8 +744,8 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
               if (isToDelete) {
                 postsController.deletePost().then((_) {}).then((_) async {
                   Get.back();
-                  ScaffoldMessenger.of(context)
-                      .showSnackBar(TiuTiuSnackBar(message: AppLocalizations.of(context)!.adDeleted));
+                  ScaffoldMessenger.of(context).showSnackBar(TiuTiuSnackBar(
+                      message: AppLocalizations.of(context)!.adDeleted));
                 });
               }
             },
@@ -705,8 +761,9 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
 
     return Obx(
       () {
-        final showAdContact =
-            !postsController.isEditingPost && !postsController.isInReviewMode && postOwnerId != myUserId;
+        final showAdContact = !postsController.isEditingPost &&
+            !postsController.isInReviewMode &&
+            postOwnerId != myUserId;
         return Visibility(
           replacement: editPostButtons(),
           child: ownerAdcontact(post),

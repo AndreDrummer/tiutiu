@@ -35,7 +35,7 @@ class CardAdList extends StatelessWidget {
             xSmaller: isInReviewMode ? 144.0.h : 160.0.h,
             smaller: isInReviewMode ? 144.0.h : 152.0.h,
             bigger: isInReviewMode ? 120.0.h : 124.0.h,
-            medium: isInReviewMode ? 120.0.h : 128.0.h,
+            medium: isInReviewMode ? 124.0.h : 128.0.h,
           ),
           padding: EdgeInsets.zero,
           child: Card(
@@ -98,5 +98,6 @@ class CardAdList extends StatelessWidget {
     );
   }
 
-  Widget _tagIsDisappeared(bool visible) => Visibility(child: DisappearedTag(), visible: visible);
+  Widget _tagIsDisappeared(bool visible) =>
+      Visibility(child: DisappearedTag(), visible: visible);
 }

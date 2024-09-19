@@ -212,15 +212,17 @@ class SystemController extends GetxController {
   }
 
   Future handleFDLOpensApp() async {
-    final PendingDynamicLinkData? initialLink =
-        await _firebaseDynamicLinks.getInitialLink();
-    if (kDebugMode)
-      debugPrint('TiuTiuApp: FDL Terminated InitialLink: $initialLink');
-    final String? fdLink = '${initialLink?.link}';
+    if (Platform.isAndroid || Platform.isIOS) {
+      final PendingDynamicLinkData? initialLink =
+          await _firebaseDynamicLinks.getInitialLink();
+      if (kDebugMode)
+        debugPrint('TiuTiuApp: FDL Terminated InitialLink: $initialLink');
+      final String? fdLink = '${initialLink?.link}';
 
-    if (fdLink.isNotEmptyNeighterNull()) {
-      initialFDLink = fdLink!;
-      setPostDetail();
+      if (fdLink.isNotEmptyNeighterNull()) {
+        initialFDLink = fdLink!;
+        setPostDetail();
+      }
     }
   }
 
@@ -259,19 +261,19 @@ class SystemController extends GetxController {
     String defaultID = '';
 
     if (kDebugMode)
-      debugPrint('TiuTiuApp: ADMOBBlock -> Name: $blockName ID: $adMobID');
+      // debugPrint('TiuTiuApp: ADMOBBlock -> Name: $blockName ID: $adMobID');
 
-    switch (type) {
-      case AdMobType.banner:
-        defaultID = googleBannerAdtest;
-        break;
-      case AdMobType.rewarded:
-        defaultID = googleRewardedtest;
-        break;
-      case AdMobType.interstitial:
-        defaultID = googleInterstitialtest;
-        break;
-    }
+      switch (type) {
+        case AdMobType.banner:
+          defaultID = googleBannerAdtest;
+          break;
+        case AdMobType.rewarded:
+          defaultID = googleRewardedtest;
+          break;
+        case AdMobType.interstitial:
+          defaultID = googleInterstitialtest;
+          break;
+      }
 
     return (adMobID == null || kDebugMode) ? defaultID : adMobID;
   }
