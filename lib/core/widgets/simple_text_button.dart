@@ -29,29 +29,35 @@ class SimpleTextButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final hasIcon = icon != null;
 
-    return SizedBox(
-      width: 16.0 * (text != null ? text!.length : 5),
+    return Container(
+      margin: EdgeInsets.symmetric(horizontal: 8.0.w),
+      width: Get.width,
       child: TextButton(
         style: TextButton.styleFrom(
           foregroundColor: textColor ?? AppColors.white,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(4.0),
+          ),
           disabledForegroundColor: Colors.grey,
           backgroundColor: backgroundColor,
           padding: EdgeInsets.zero,
         ),
         child: Row(
-          mainAxisAlignment: hasIcon ? MainAxisAlignment.start : MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Visibility(
               visible: hasIcon,
               child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: Get.height > 999 ? 6.0.w : 20.0.w),
+                padding: EdgeInsets.symmetric(
+                  horizontal: Get.height > 999 ? 6.0.w : 4.0.w,
+                ),
                 child: Icon(Icons.edit, size: 14.0.h),
               ),
             ),
             OneLineText(
+              text: text ?? AppLocalizations.of(context)!.cancel,
               fontWeight: fontWeight ?? FontWeight.bold,
               widgetAlignment: Alignment.center,
-              text: text ?? AppLocalizations.of(context)!.cancel,
               fontSize: fontSize ?? 16.0,
             ),
           ],

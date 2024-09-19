@@ -116,7 +116,9 @@ class More extends StatelessWidget {
       width: 200.0.w,
       child: Obx(
         () => AutoSizeTexts.autoSizeText14(
-          Formatters.cuttedText('${tiutiuUserController.tiutiuUser.displayName}', size: 32),
+          Formatters.cuttedText(
+              '${tiutiuUserController.tiutiuUser.displayName}',
+              size: 32),
           fontWeight: FontWeight.w600,
           color: AppColors.white,
         ),
@@ -130,7 +132,7 @@ class More extends StatelessWidget {
     return Container(
       padding: EdgeInsets.zero,
       margin: EdgeInsets.zero,
-      height: Get.height / 1.35,
+      height: Get.height / 1.5,
       child: ListView.separated(
         padding: EdgeInsets.zero,
         separatorBuilder: (context, index) => Divider(),

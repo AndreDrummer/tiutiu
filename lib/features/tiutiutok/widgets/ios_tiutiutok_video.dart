@@ -3,7 +3,6 @@ import 'package:tiutiu/features/posts/model/post.dart';
 import 'package:tiutiu/core/widgets/video_error.dart';
 import 'package:better_player/better_player.dart';
 import 'package:flutter/material.dart';
-import 'dart:io';
 
 class IOSTiutiuTokVideo extends StatefulWidget {
   const IOSTiutiuTokVideo({super.key, required this.post});
@@ -11,10 +10,10 @@ class IOSTiutiuTokVideo extends StatefulWidget {
   final Post post;
 
   @override
-  State<IOSTiutiuTokVideo> createState() => _VideoWidgetState();
+  State<IOSTiutiuTokVideo> createState() => _IOSTiutiuTokVideo();
 }
 
-class _VideoWidgetState extends State<IOSTiutiuTokVideo> {
+class _IOSTiutiuTokVideo extends State<IOSTiutiuTokVideo> {
   @override
   Widget build(BuildContext context) {
     return BetterPlayerListVideoPlayer(
@@ -22,10 +21,15 @@ class _VideoWidgetState extends State<IOSTiutiuTokVideo> {
         BetterPlayerDataSourceType.network,
         widget.post.video,
         videoExtension: '.mp4',
-        cacheConfiguration: BetterPlayerCacheConfiguration(useCache: Platform.isAndroid),
+        cacheConfiguration: BetterPlayerCacheConfiguration(
+          useCache: false,
+        ),
       ),
       configuration: BetterPlayerConfiguration(
-        errorBuilder: (context, errorMessage) => VideoError(),
+        errorBuilder: (context, errorMessage) {
+          print("Video Better Player Error: $errorMessage");
+          return VideoError();
+        },
         controlsConfiguration: BetterPlayerControlsConfiguration(
           progressBarHandleColor: AppColors.primary,
           controlBarColor: Colors.transparent,

@@ -48,7 +48,9 @@ class _HomeState extends State<Home> with TiuTiuPopUp {
     return SafeArea(
       child: Obx(
         () {
-          final conditionToShowFloatingButton = homeController.bottomBarIndex == BottomBarIndex.DONATE.indx;
+          final conditionToShowFloatingButton =
+              homeController.bottomBarIndex == BottomBarIndex.DONATE.indx &&
+                  !systemController.isToCloseApp;
 
           final screens = <Widget>[
             ClosedForMaintenance(child: DonateList()),
@@ -61,7 +63,7 @@ class _HomeState extends State<Home> with TiuTiuPopUp {
           ];
 
           return PopScope(
-            onPopInvoked: (_) async {
+            onPopInvokedWithResult: (_, __) async {
               bool willClose = false;
 
               return showPopUp(
@@ -94,7 +96,8 @@ class _HomeState extends State<Home> with TiuTiuPopUp {
                     Obx(
                       () {
                         return SliverAppBar(
-                          toolbarHeight: conditionToShowFloatingButton && !systemController.properties.internetConnected
+                          toolbarHeight: conditionToShowFloatingButton &&
+                                  !systemController.properties.internetConnected
                               ? Dimensions.getDimensBasedOnDeviceHeight(
                                   smaller: 92.0.h,
                                   medium: 84.0.h,
@@ -120,9 +123,12 @@ class _HomeState extends State<Home> with TiuTiuPopUp {
                 },
                 body: Stack(
                   children: [
-                    Positioned.fill(child: screens.elementAt(homeController.bottomBarIndex)),
+                    Positioned.fill(
+                        child:
+                            screens.elementAt(homeController.bottomBarIndex)),
                     Visibility(
-                      visible: homeController.bottomBarIndex == BottomBarIndex.TIUTIUTOK.indx
+                      visible: homeController.bottomBarIndex ==
+                              BottomBarIndex.TIUTIUTOK.indx
                           ? postsController.tiutiutokPostsListIsEmpty
                           : true,
                       child: Positioned(
@@ -149,12 +155,17 @@ class _HomeState extends State<Home> with TiuTiuPopUp {
                 floatHeaderSlivers: true,
               ),
               floatingActionButton: Padding(
-                padding: EdgeInsets.only(bottom: adminRemoteConfigController.configs.allowGoogleAds ? 88.0.h : 56.0.h),
+                padding: EdgeInsets.only(
+                    bottom: adminRemoteConfigController.configs.allowGoogleAds
+                        ? 88.0.h
+                        : 56.0.h),
                 child: ChangePostsVisibilityFloatingButtom(
-                  visibility: conditionToShowFloatingButton && postsController.filteredPosts.isNotEmpty,
+                  visibility: conditionToShowFloatingButton &&
+                      postsController.filteredPosts.isNotEmpty,
                 ),
               ),
-              floatingActionButtonLocation: FloatingActionButtonLocation.miniEndFloat,
+              floatingActionButtonLocation:
+                  FloatingActionButtonLocation.miniEndFloat,
               resizeToAvoidBottomInset: false,
             ),
           );
@@ -167,8 +178,10 @@ class _HomeState extends State<Home> with TiuTiuPopUp {
     final AdminRemoteConfig configs = adminRemoteConfigController.configs;
     final List<Sponsored> sponsoreds = sponsoredController.sponsoreds;
 
-    final showingSponsoredAds = configs.showSponsoredAds && sponsoreds.isNotEmpty;
-    final isFilteringByName = filterController.filterParams.value.orderBy == AppLocalizations.of(context)!.name;
+    final showingSponsoredAds =
+        configs.showSponsoredAds && sponsoreds.isNotEmpty;
+    final isFilteringByName = filterController.filterParams.value.orderBy ==
+        AppLocalizations.of(context)!.name;
     final appIsClosed = systemController.isToCloseApp;
 
     final conditionToAddHeight = !appIsClosed &&
@@ -177,11 +190,14 @@ class _HomeState extends State<Home> with TiuTiuPopUp {
                 homeController.bottomBarIndex == BottomBarIndex.FINDER.indx));
 
     if (conditionToAddHeight) {
-      final thereIsDeveloperCommunication = adminRemoteConfigController.configs.thereIsAdminCommunication;
+      final thereIsDeveloperCommunication =
+          adminRemoteConfigController.configs.thereIsAdminCommunication;
 
-      final showInfoBanner = (authController.userExists && !tiutiuUserController.tiutiuUser.emailVerified);
+      final showInfoBanner = (authController.userExists &&
+          !tiutiuUserController.tiutiuUser.emailVerified);
 
-      if ((thereIsDeveloperCommunication || showInfoBanner) && systemController.properties.internetConnected) {
+      if ((thereIsDeveloperCommunication || showInfoBanner) &&
+          systemController.properties.internetConnected) {
         return expandedHomeHeightWithAdminInfoAndInternetConnection(
           showingSponsoredAds: showingSponsoredAds || isFilteringByName,
         );
@@ -190,7 +206,8 @@ class _HomeState extends State<Home> with TiuTiuPopUp {
           showingSponsoredAds: showingSponsoredAds || isFilteringByName,
         );
       } else {
-        return expandedHomeHeightDefault(showingSponsoredAds: showingSponsoredAds || isFilteringByName);
+        return expandedHomeHeightDefault(
+            showingSponsoredAds: showingSponsoredAds || isFilteringByName);
       }
     }
 
@@ -203,8 +220,10 @@ class _HomeState extends State<Home> with TiuTiuPopUp {
 
     if (homeController.bottomBarIndex != BottomBarIndex.DONATE.indx) return 0.0;
 
-    if (cardVisibilityKind == CardVisibilityKind.banner && posts.length < 6) return 56.0;
-    if (cardVisibilityKind == CardVisibilityKind.card && posts.length < 3) return 56.0;
+    if (cardVisibilityKind == CardVisibilityKind.banner && posts.length < 6)
+      return 56.0;
+    if (cardVisibilityKind == CardVisibilityKind.card && posts.length < 3)
+      return 56.0;
 
     return 0.0;
   }

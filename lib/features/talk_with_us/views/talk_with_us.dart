@@ -36,23 +36,28 @@ class _TalkWithUsState extends State<TalkWithUs> {
       builder: (context, snapshot) {
         return PopScope(
           canPop: true,
-          onPopInvoked: (_) async {
+          onPopInvokedWithResult: (_, __) async {
             feedbackController.insertImages = false;
           },
           child: Scaffold(
-            appBar: DefaultBasicAppBar(text: AppLocalizations.of(context)!.talkWithUs),
+            appBar: DefaultBasicAppBar(
+                text: AppLocalizations.of(context)!.talkWithUs),
             resizeToAvoidBottomInset: false,
             body: Obx(
               () {
                 bool isPartnership =
-                    feedbackController.feedback.contactSubject == AppLocalizations.of(context)!.wannaAnnounceOnApp ||
-                        feedbackController.feedback.contactSubject == AppLocalizations.of(context)!.partnership;
+                    feedbackController.feedback.contactSubject ==
+                            AppLocalizations.of(context)!.wannaAnnounceOnApp ||
+                        feedbackController.feedback.contactSubject ==
+                            AppLocalizations.of(context)!.partnership;
 
                 return Container(
                   height: double.infinity,
                   alignment: Alignment.center,
                   decoration: BoxDecoration(
-                    image: DecorationImage(image: AssetHandle.imageProvider(ImageAssets.bones2), fit: BoxFit.cover),
+                    image: DecorationImage(
+                        image: AssetHandle.imageProvider(ImageAssets.bones2),
+                        fit: BoxFit.cover),
                   ),
                   child: Stack(
                     children: [
@@ -118,11 +123,13 @@ class _TalkWithUsState extends State<TalkWithUs> {
         padding: EdgeInsets.symmetric(vertical: 16.0.h),
         child: UnderlineInputDropdown(
           labelText: AppLocalizations.of(context)!.subject,
-          isInErrorState:
-              !feedbackController.feedback.contactSubject.isNotEmptyNeighterNull() && !feedbackController.isFormValid,
+          isInErrorState: !feedbackController.feedback.contactSubject
+                  .isNotEmptyNeighterNull() &&
+              !feedbackController.isFormValid,
           items: talkWithUsSubjects,
           onChanged: (value) {
-            feedbackController.updateFeedback(FeedbackEnum.contactSubject, value);
+            feedbackController.updateFeedback(
+                FeedbackEnum.contactSubject, value);
           },
           initialValue: feedbackController.feedback.contactSubject,
           fontSize: 16,
@@ -138,10 +145,12 @@ class _TalkWithUsState extends State<TalkWithUs> {
         () => TextArea(
           initialValue: feedbackController.feedback.contactMessage,
           onChanged: (message) {
-            feedbackController.updateFeedback(FeedbackEnum.contactMessage, message.trim());
+            feedbackController.updateFeedback(
+                FeedbackEnum.contactMessage, message.trim());
           },
-          isInErrorState:
-              !feedbackController.feedback.contactMessage.isNotEmptyNeighterNull() && !feedbackController.isFormValid,
+          isInErrorState: !feedbackController.feedback.contactMessage
+                  .isNotEmptyNeighterNull() &&
+              !feedbackController.isFormValid,
           labelText: AppLocalizations.of(context)!.writeYourMessage,
           maxLines: 4,
         ),
@@ -168,10 +177,12 @@ class _TalkWithUsState extends State<TalkWithUs> {
                 value: feedbackController.insertImages,
                 onChanged: (_) {
                   if (feedbackController.insertImages) {
-                    feedbackController.updateFeedback(FeedbackEnum.screenshots, []);
+                    feedbackController
+                        .updateFeedback(FeedbackEnum.screenshots, []);
                   }
 
-                  feedbackController.insertImages = !feedbackController.insertImages;
+                  feedbackController.insertImages =
+                      !feedbackController.insertImages;
                 },
               ),
               AutoSizeTexts.autoSizeText16(
