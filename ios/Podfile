@@ -98,3 +98,9 @@ post_install do |installer|
     # End of the permission_handler configuration
   end
 end
+
+target 'ImageNotification' do
+  use_frameworks!
+  pod 'GoogleUtilities'
+  pod 'Firebase/Messaging'
+end
