@@ -27,10 +27,11 @@ class PostFlow extends StatelessWidget with TiuTiuPopUp {
   @override
   Widget build(BuildContext context) {
     return PopScope(
-      onPopInvoked: (_) async => false,
+      onPopInvokedWithResult: (_, __) async => false,
       child: Obx(
         () {
-          double screenHeight = postsController.flowIndex >= 6 ? Get.height / 1.39 : Get.height;
+          double screenHeight =
+              postsController.flowIndex >= 6 ? Get.height / 1.39 : Get.height;
           final isDisappeared = (postsController.post as Pet).disappeared;
           final postReviewed = postsController.postReviewed;
 
@@ -84,7 +85,8 @@ class PostFlow extends StatelessWidget with TiuTiuPopUp {
                       Padding(
                         padding: EdgeInsets.only(left: 4.0),
                         child: Steper(
-                          currentStep: postsController.flowIndex + (postsController.postReviewed ? 1 : 0),
+                          currentStep: postsController.flowIndex +
+                              (postsController.postReviewed ? 1 : 0),
                           stepsName: _stepsNames,
                         ),
                       ),
@@ -98,10 +100,10 @@ class PostFlow extends StatelessWidget with TiuTiuPopUp {
                 bottomNavigationBar: _flowBottom(context),
               ),
               Positioned(
-                child: ChangePostsVisibilityFloatingButtom(visibility: postsController.flowIndex >= 6),
-                bottom: 76.0.h,
-                right: 0.0.w,
-                left: 0.0.w,
+                child: ChangePostsVisibilityFloatingButtom(
+                    visibility: postsController.flowIndex >= 6),
+                bottom: 88.0.h,
+                right: 24.0.w,
               ),
               LoadDarkScreen(
                 message: postsController.uploadingPostText,
@@ -116,7 +118,9 @@ class PostFlow extends StatelessWidget with TiuTiuPopUp {
 
   AppBar _appBar(BuildContext context) {
     return DefaultBasicAppBar(
-      text: postsController.isEditingPost ? AppLocalizations.of(context)!.editAd : AppLocalizations.of(context)!.post,
+      text: postsController.isEditingPost
+          ? AppLocalizations.of(context)!.editAd
+          : AppLocalizations.of(context)!.post,
       automaticallyImplyLeading: false,
       actions: [
         Padding(
@@ -124,7 +128,9 @@ class PostFlow extends StatelessWidget with TiuTiuPopUp {
           child: SimpleTextButton(
             text: AppLocalizations.of(context)!.cancel,
             onPressed: () async {
-              await postsController.showsCancelPostPopUp(isInsideFlow: true).then((shouldGoBack) {
+              await postsController
+                  .showsCancelPostPopUp(isInsideFlow: true)
+                  .then((shouldGoBack) {
                 if (shouldGoBack) Get.back();
               });
             },
@@ -152,7 +158,8 @@ class PostFlow extends StatelessWidget with TiuTiuPopUp {
             child: Row(
               children: [
                 OneLineText(
-                  text: '${postsController.flowIndex + (postsController.postReviewed ? 1 : 1)}',
+                  text:
+                      '${postsController.flowIndex + (postsController.postReviewed ? 1 : 1)}',
                   fontWeight: FontWeight.bold,
                   color: AppColors.secondary,
                   fontSize: 22.0,

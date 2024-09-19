@@ -34,8 +34,10 @@ class _MaintenanceScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Obx(() {
-      final appClosedMessageDescription = adminRemoteConfigController.configs.appClosedMessageDescription;
-      final appClosedMessageTitle = adminRemoteConfigController.configs.appClosedMessageTitle;
+      final appClosedMessageDescription =
+          adminRemoteConfigController.configs.appClosedMessageDescription;
+      final appClosedMessageTitle =
+          adminRemoteConfigController.configs.appClosedMessageTitle;
 
       return Scaffold(
         body: Container(

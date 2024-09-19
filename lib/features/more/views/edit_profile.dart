@@ -53,7 +53,10 @@ class _EditProfileState extends State<EditProfile> {
 
     return SafeArea(
       child: Scaffold(
-        appBar: DefaultBasicAppBar(automaticallyImplyLeading: false, text: title),
+        appBar: DefaultBasicAppBar(
+          automaticallyImplyLeading: false,
+          text: title,
+        ),
         body: GestureDetector(
           onTap: () => FocusScope.of(context).unfocus(),
           child: Form(
@@ -179,7 +182,7 @@ class _EditProfileState extends State<EditProfile> {
       labelText: AppLocalizations.of(context)!.howCallYou,
       validator: Validators.verifyEmpty,
       controller: nameController,
-      fontSizeLabelText: 16.0,
+      fontSizeLabelText: 12.0,
       readOnly: false,
     );
   }
@@ -188,11 +191,13 @@ class _EditProfileState extends State<EditProfile> {
     return SizedBox(
       width: 98.0.w,
       child: DropdownButton<String>(
-        underline: Container(height: .4.h, color: AppColors.black, width: 98.0.w),
+        underline:
+            Container(height: .4.h, color: AppColors.black, width: 98.0.w),
         value: countryCode,
         isExpanded: false,
         items: DummyData.countryCodes
-            .map((String code) => DropdownMenuItem<String>(child: AutoSizeTexts.autoSizeText24(code), value: code))
+            .map((String code) => DropdownMenuItem<String>(
+                child: AutoSizeTexts.autoSizeText18(code), value: code))
             .toList(),
         onChanged: (value) {
           setState(() {
@@ -210,7 +215,7 @@ class _EditProfileState extends State<EditProfile> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(height: 16.0.h),
-          AutoSizeTexts.autoSizeText16(AppLocalizations.of(context)!.whatsapp),
+          AutoSizeTexts.autoSizeText14(AppLocalizations.of(context)!.whatsapp),
           Row(
             children: [
               _countryCode(),
@@ -218,11 +223,11 @@ class _EditProfileState extends State<EditProfile> {
                 child: Padding(
                   padding: EdgeInsets.only(bottom: 20.0.h),
                   child: UnderlineInputText(
-                    validator: (value) =>
-                        Validators.verifyLength(value, length: 14, field: AppLocalizations.of(context)!.phone),
+                    validator: (value) => Validators.verifyLength(value,
+                        length: 14, field: AppLocalizations.of(context)!.phone),
                     keyboardType: TextInputType.number,
                     controller: phoneNumberController,
-                    fontSizeLabelText: 16.0,
+                    fontSizeLabelText: 12.0,
                     inputFormatters: [
                       FilteringTextInputFormatter.digitsOnly,
                       TelefoneInputFormatter(),
@@ -254,14 +259,15 @@ class _EditProfileState extends State<EditProfile> {
 
             if (widget.isEditingProfile) Get.back();
 
-            ScaffoldMessenger.of(context)
-                .showSnackBar(TiuTiuSnackBar(message: AppLocalizations.of(context)!.profileUpdated));
+            ScaffoldMessenger.of(context).showSnackBar(TiuTiuSnackBar(
+                message: AppLocalizations.of(context)!.profileUpdated));
           } else if (tiutiuUserController.tiutiuUser.avatar == null) {
             systemController.snackBarIsOpen = true;
 
             ScaffoldMessenger.of(context)
-                .showSnackBar(
-                    TiuTiuSnackBar(message: AppLocalizations.of(context)!.insertAPicture, color: AppColors.danger))
+                .showSnackBar(TiuTiuSnackBar(
+                    message: AppLocalizations.of(context)!.insertAPicture,
+                    color: AppColors.danger))
                 .closed
                 .then((value) => systemController.snackBarIsOpen = false);
           }
@@ -275,12 +281,17 @@ class _EditProfileState extends State<EditProfile> {
   }
 
   void _setDataToUser() {
-    tiutiuUserController.updateTiutiuUser(TiutiuUserEnum.phoneNumber, phoneNumberController.text.trim());
-    tiutiuUserController.updateTiutiuUser(TiutiuUserEnum.displayName, nameController.text.trim());
-    tiutiuUserController.updateTiutiuUser(TiutiuUserEnum.countryCode, countryCode);
+    tiutiuUserController.updateTiutiuUser(
+        TiutiuUserEnum.phoneNumber, phoneNumberController.text.trim());
+    tiutiuUserController.updateTiutiuUser(
+        TiutiuUserEnum.displayName, nameController.text.trim());
+    tiutiuUserController.updateTiutiuUser(
+        TiutiuUserEnum.countryCode, countryCode);
 
-    if (phoneNumberController.text != previousUser.phoneNumber || countryCode != previousUser.countryCode) {
-      tiutiuUserController.updateTiutiuUser(TiutiuUserEnum.phoneVerified, false);
+    if (phoneNumberController.text != previousUser.phoneNumber ||
+        countryCode != previousUser.countryCode) {
+      tiutiuUserController.updateTiutiuUser(
+          TiutiuUserEnum.phoneVerified, false);
       tiutiuUserController.whatsappNumberHasBeenUpdated = true;
     }
   }
@@ -296,6 +307,7 @@ class _EditProfileState extends State<EditProfile> {
   }
 
   bool _formIsValid() {
-    return _formKey.currentState!.validate() && tiutiuUserController.tiutiuUser.avatar != null;
+    return _formKey.currentState!.validate() &&
+        tiutiuUserController.tiutiuUser.avatar != null;
   }
 }
