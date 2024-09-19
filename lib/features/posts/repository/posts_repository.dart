@@ -8,7 +8,8 @@ import 'package:flutter/foundation.dart';
 final DISAPPEARED_TAB = 1;
 
 class PostsRepository {
-  PostsRepository({required PostService postService}) : _postService = postService;
+  PostsRepository({required PostService postService})
+      : _postService = postService;
 
   final PostService _postService;
 
@@ -57,7 +58,7 @@ class PostsRepository {
       })).where((element) => element.uid != null).toList();
       _cachePosts(posts: postsList);
 
-      if (kDebugMode) debugPrint('TiuTiuApp: Posts List $postsList');
+      // if (kDebugMode) debugPrint('TiuTiuApp: Posts List $postsList');
       return postsList;
     } catch (exception) {
       crashlyticsController.reportAnError(
@@ -80,16 +81,18 @@ class PostsRepository {
       postsToCache.putIfAbsent(post.uid!, () => post.toMap());
     });
 
-    if (kDebugMode) debugPrint('TiuTiuApp: Cache current saved post map $postsToCache');
+    if (kDebugMode)
+      // debugPrint('TiuTiuApp: Cache current saved post map $postsToCache');
 
-    await LocalStorage.setValueUnderStringKey(
-      value: postsToCache,
-      key: today,
-    );
+      await LocalStorage.setValueUnderStringKey(
+        value: postsToCache,
+        key: today,
+      );
 
-    final afterSavedMap = await LocalStorage.getValueUnderStringKey(today);
+    await LocalStorage.getValueUnderStringKey(today);
+    // final afterSavedMap = await LocalStorage.getValueUnderStringKey(today);
 
-    if (kDebugMode) debugPrint('TiuTiuApp: Cache After Saved Map $afterSavedMap');
+    // if (kDebugMode) debugPrint('TiuTiuApp: Cache After Saved Map $afterSavedMap');
   }
 
   Future<Map<String, dynamic>> _cachedPostsMap() async {
@@ -108,7 +111,8 @@ class PostsRepository {
     return cachedPostsMap;
   }
 
-  Future<void> uploadVideo({required Function(String?) onUploaded, required Post post}) async {
+  Future<void> uploadVideo(
+      {required Function(String?) onUploaded, required Post post}) async {
     await _postService.uploadVideo(
       onVideoUploaded: onUploaded,
       post: post,

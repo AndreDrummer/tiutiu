@@ -14,6 +14,7 @@ class DefaultBasicAppBar extends AppBar {
           title: AutoSizeTexts.autoSizeText16(
             text,
             color: textColor ?? AppColors.white,
+            fontWeight: FontWeight.w600,
           ),
           leading: leading ?? BackButton(color: AppColors.white),
           backgroundColor: backgroundColor ?? AppColors.primary,

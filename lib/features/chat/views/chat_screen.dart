@@ -36,7 +36,7 @@ class ChatScreen extends StatelessWidget with TiuTiuPopUp {
 
     return PopScope(
       canPop: true,
-      onPopInvoked: (_) async {
+      onPopInvokedWithResult: (_, __) async {
         chatController.resetUserChatingWith();
       },
       child: SafeArea(
@@ -68,17 +68,23 @@ class ChatScreen extends StatelessWidget with TiuTiuPopUp {
                         return ListView.builder(
                           itemCount: messages.length,
                           itemBuilder: ((context, index) {
-                            final previousIndex = index + 1 >= messages.length ? index : index + 1;
+                            final previousIndex = index + 1 >= messages.length
+                                ? index
+                                : index + 1;
                             final previousMessage = messages[previousIndex];
                             final message = messages[index];
 
                             return Padding(
                               padding: EdgeInsets.only(
-                                top: index == (messages.length - 1) ? 8.0.h : 0.0.h,
+                                top: index == (messages.length - 1)
+                                    ? 8.0.h
+                                    : 0.0.h,
                                 bottom: index > 0 ? 0 : 8.0.h,
                               ),
                               child: MessageBubble(
-                                lastMessageBelongsToTheSameUser: previousMessage.sender.uid == message.sender.uid,
+                                lastMessageBelongsToTheSameUser:
+                                    previousMessage.sender.uid ==
+                                        message.sender.uid,
                                 belongToMe: message.sender.uid == loggedUserId,
                                 time: message.createdAt,
                                 message: message.text!,
@@ -119,8 +125,9 @@ class ChatScreen extends StatelessWidget with TiuTiuPopUp {
               children: [
                 BackButton(color: AppColors.white),
                 GestureDetector(
-                  onTap: () =>
-                      OtherFunctions.navigateToAnnouncerDetail(chatController.userChatingWith, popAndPush: true),
+                  onTap: () => OtherFunctions.navigateToAnnouncerDetail(
+                      chatController.userChatingWith,
+                      popAndPush: true),
                   child: CircleAvatar(
                     backgroundColor: AppColors.secondary,
                     radius: 11.0.h,
@@ -136,7 +143,9 @@ class ChatScreen extends StatelessWidget with TiuTiuPopUp {
                 ),
                 SizedBox(width: 8.0.w),
                 AutoSizeTexts.autoSizeText16(
-                  Formatters.cuttedText(chatController.userChatingWith.displayName!, size: 17),
+                  Formatters.cuttedText(
+                      chatController.userChatingWith.displayName!,
+                      size: 17),
                   color: AppColors.white,
                 ),
                 Spacer(),
@@ -144,7 +153,9 @@ class ChatScreen extends StatelessWidget with TiuTiuPopUp {
                   visible: systemController.properties.internetConnected,
                   child: PopupMenuButton<String>(
                     icon: Icon(
-                      Platform.isIOS ? Icons.more_horiz_outlined : Icons.more_vert_outlined,
+                      Platform.isIOS
+                          ? Icons.more_horiz_outlined
+                          : Icons.more_vert_outlined,
                       color: AppColors.white,
                     ),
                     onSelected: (String item) {
@@ -159,12 +170,15 @@ class ChatScreen extends StatelessWidget with TiuTiuPopUp {
 
                       if (item == ChatActionsEnum.deleteChat.name) {
                         showPopUp(
-                          message: AppLocalizations.of(context)!.deleteMessageQuestion,
+                          message: AppLocalizations.of(context)!
+                              .deleteMessageQuestion,
                           backGroundColor: AppColors.danger,
                           title: AppLocalizations.of(context)!.deleteChat,
                           secondaryAction: () {
                             Get.back();
-                            chatController.deleteChat(loggedUserId).then((_) => Get.back());
+                            chatController
+                                .deleteChat(loggedUserId)
+                                .then((_) => Get.back());
                           },
                           confirmText: AppLocalizations.of(context)!.yes,
                           denyText: AppLocalizations.of(context)!.no,
@@ -178,8 +192,10 @@ class ChatScreen extends StatelessWidget with TiuTiuPopUp {
                         child: Text(AppLocalizations.of(context)!.deleteChat),
                       ),
                       PopupMenuItem<String>(
-                        child: Text(AppLocalizations.of(context)!
-                            .dennounceUser(chatController.userChatingWith.displayName!.split(' ').first)),
+                        child: Text(AppLocalizations.of(context)!.dennounceUser(
+                            chatController.userChatingWith.displayName!
+                                .split(' ')
+                                .first)),
                         value: ChatActionsEnum.dennounceUser.name,
                       ),
                     ],
@@ -192,7 +208,9 @@ class ChatScreen extends StatelessWidget with TiuTiuPopUp {
         StreamBuilder<Post>(
           stream: chatController.postTalkingAboutData(),
           builder: (context, snapshot) {
-            return snapshot.data != null ? PostOverlay(post: snapshot.data) : SizedBox.shrink();
+            return snapshot.data != null
+                ? PostOverlay(post: snapshot.data)
+                : SizedBox.shrink();
           },
         )
       ],

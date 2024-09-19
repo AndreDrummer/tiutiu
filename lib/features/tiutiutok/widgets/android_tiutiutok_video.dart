@@ -11,10 +11,10 @@ class AndroidTiutiuTokVideo extends StatefulWidget {
   final Post post;
 
   @override
-  State<AndroidTiutiuTokVideo> createState() => _MyHomePageState();
+  State<AndroidTiutiuTokVideo> createState() => _AndroidTiutiuTokVideo();
 }
 
-class _MyHomePageState extends State<AndroidTiutiuTokVideo> {
+class _AndroidTiutiuTokVideo extends State<AndroidTiutiuTokVideo> {
   late BetterPlayerController _betterController;
   Post get post => widget.post;
 
@@ -50,7 +50,8 @@ class _MyHomePageState extends State<AndroidTiutiuTokVideo> {
           key: post.uid,
         ),
       ),
-      betterPlayerPlaylistConfiguration: BetterPlayerPlaylistConfiguration(loopVideos: true),
+      betterPlayerPlaylistConfiguration:
+          BetterPlayerPlaylistConfiguration(loopVideos: true),
     );
   }
 
