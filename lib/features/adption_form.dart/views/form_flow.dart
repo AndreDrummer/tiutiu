@@ -34,21 +34,19 @@ class AdoptionFormFlow extends StatelessWidget with TiuTiuPopUp {
     ];
 
     return PopScope(
-      canPop: false,
+      canPop: adoptionFormController.formStep == 0,
       onPopInvokedWithResult: (_, __) async {
         adoptionFormController.previousStep();
       },
       child: Obx(
         () {
-          final title = adoptionFormController.formStepsTitle
-              .elementAt(adoptionFormController.formStep);
+          final title = adoptionFormController.formStepsTitle.elementAt(adoptionFormController.formStep);
 
           return Scaffold(
             body: Stack(
               children: [
                 Scaffold(
-                  appBar: DefaultBasicAppBar(
-                      text: title, automaticallyImplyLeading: true),
+                  appBar: DefaultBasicAppBar(text: title, automaticallyImplyLeading: true),
                   body: steps.elementAt(adoptionFormController.formStep),
                   bottomNavigationBar: _flowBottom(context),
                 ),
@@ -58,8 +56,7 @@ class AdoptionFormFlow extends StatelessWidget with TiuTiuPopUp {
                   top: 70.0.h,
                   child: OneLineText(
                     textAlign: TextAlign.center,
-                    text:
-                        '${AppLocalizations.of(Get.context!)!.step} ${adoptionFormController.formStep + 1}',
+                    text: '${AppLocalizations.of(Get.context!)!.step} ${adoptionFormController.formStep + 1}',
                     color: AppColors.white,
                     fontSize: 12.0,
                   ),
@@ -134,8 +131,7 @@ class AdoptionFormFlow extends StatelessWidget with TiuTiuPopUp {
       mainAction: () {
         Get.back();
         adoptionFormController.resetForm();
-        Get.offNamedUntil(
-            Routes.home, (route) => route.settings.name == Routes.home);
+        Get.offNamedUntil(Routes.home, (route) => route.settings.name == Routes.home);
       },
     );
   }
