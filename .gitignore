@@ -53,3 +53,6 @@ app.*.map.json
 # Keystore file
 *.jks
 *.jks.old
+
+# scripts
+.tiutiu_reset.sh
