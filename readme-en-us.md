@@ -55,16 +55,13 @@ Add animals to your **favorites system**, making it easy to track pets you're in
 
 [**Screenshot of the favorites screen**]
 
-### 📍 Shelters Map
-Browse the **interactive shelters map** that displays nearby locations where you can visit or rescue animals available for adoption. Access information about operating hours and contact details directly through the app.
-
 ## 🔮 Future Roadmap
 
 See what we have planned for upcoming versions:
-- [ ] Shelters Map.
-- [ ] Improvements to the Tiutiu Tok interface.
-- [ ] AI for Animal Suggestions: Using artificial intelligence to recommend animals based on user preferences and adoption history.
-- [ ] Gamification: Implementation of a rewards system to encourage users to engage more on the platform, such as completing donation profiles.
+- [ ] 📍Shelters Map.
+- [ ] ▶️ Improvements to the Tiutiu Tok interface.
+- [ ] 🤖 AI for Animal Suggestions: Using artificial intelligence to recommend animals based on user preferences and adoption history.
+- [ ] 🎮 Gamification: Implementation of a rewards system to encourage users to engage more on the platform, such as completing donation profiles.
 
 ---
 
