@@ -70,6 +70,26 @@ Add animals to your **favorites system**, making it easy to track pets you're in
 
 [**Screenshot of the favorites screen**]
 
+
+## 🚀 Technologies Used
+
+**Tiu, Tiu** was built using a set of modern technologies to provide the best user experience:
+
+- **Flutter**: A framework used to ensure a smooth application experience on both Android and iOS.
+- **Firebase**: Implemented for authentication, real-time database, push notifications, and more.
+  - **Firebase Functions**: For backend logic in the cloud.
+  - **Firebase Dynamic Links**: To create dynamic links that redirect to the app.
+  - **Firebase Crashlytics**: For error monitoring and fixing.
+  - **Firebase Firestore**: A NoSQL real-time database.
+  - **Firebase Firestorage**: For storing images and videos.
+  - **Firebase Hosting**: Used to host the official website.
+- **REST API**: For efficient and fast data synchronization.
+- **Image and Video Manipulation**: For handling media within the app, including editing and uploading.
+- **Advanced Geolocation**: To find animals near the user's current location.
+- **PDF Generation**: To create personalized adoption forms directly within the app.
+
+---
+
 ## 🔮 Future Roadmap
 
 See what we have planned for upcoming versions:
@@ -77,17 +97,6 @@ See what we have planned for upcoming versions:
 - [ ] ▶️ Improvements to the Tiutiu Tok interface.
 - [ ] 🤖 AI for Animal Suggestions: Using artificial intelligence to recommend animals based on user preferences and adoption history.
 - [ ] 🎮 Gamification: Implementation of a rewards system to encourage users to engage more on the platform, such as completing donation profiles.
-
----
-
-## 🚀 Technologies Used
-
-**Tiu, Tiu** was built with a set of modern technologies to provide the best user experience:
-
-- **Flutter**: Framework used to ensure a fluid app on both Android and iOS.
-- **Firebase**: Implemented for authentication, real-time database, and push notifications.
-- **REST API**: For efficient and rapid data synchronization.
-- **MVVM Architecture**: To keep the code organized and ensure maintainability and scalability.
 
 ---
 
