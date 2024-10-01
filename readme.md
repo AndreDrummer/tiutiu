@@ -1,3 +1,5 @@
+**Idioma**: 🇧🇷 <a href="">Português Brasileiro</a> | 🇺🇸 <a href="">Inglês Americano</a>
+
 # <img src="/assets/images/android_icon_dark.png" alt="Logo" width="50" style="vertical-align: middle;"/> Tiu, Tiu
 
 # Plataforma de Adoção e Doação de Animais 🐾
