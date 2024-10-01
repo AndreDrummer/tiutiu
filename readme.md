@@ -41,8 +41,6 @@ Com nosso **chat integrado**, adotantes e doadores podem se comunicar diretament
 ### 🔔 Notificações Push
 Fique por dentro de novas oportunidades e interações com as **notificações push**. Receba alertas sobre novos animais disponíveis, mensagens no chat e atualizações dos seus anúncios de doação, tudo de forma conveniente.
 
-[**Screenshot da tela de notificações**]
-
 ### 📊 Estatísticas de Adoção
 Monitore o desempenho dos seus anúncios com **estatísticas detalhadas**. Saiba quantas visualizações o perfil de um animal teve, quantos contatos foram feitos e acompanhe o progresso até a adoção.
 
@@ -65,8 +63,6 @@ Veja o que planejamos para as próximas versões:
 - [ ] Gamificação: Implementação de um sistema de recompensas para incentivar os usuários a engajar mais na plataforma, como ao completar perfis de doação.
 
 
-[**Screenshot da tela do mapa de abrigos**]
-
 ---
 
 ## 🚀 Tecnologias Utilizadas
@@ -77,8 +73,6 @@ O **Tiu, Tiu** foi construído com um conjunto de tecnologias modernas para ofer
 - **Firebase**: Implementado para autenticação, banco de dados em tempo real e notificações push.
 - **REST API**: Para sincronização de dados eficiente e rápida.
 - **Arquitetura MVVM**: Para manter o código organizado e garantir a manutenção e escalabilidade.
-
-[**Screenshot da estrutura do código e diagrama da arquitetura MVVM**]
 
 ---
 
@@ -102,8 +96,6 @@ Quer contribuir ou rodar o **Tiu, Tiu** localmente? Siga as etapas abaixo para c
    ```bash
    flutter run
    ```
-
-[**Screenshot do app rodando no simulador/emulador**]
 
 ---
 
