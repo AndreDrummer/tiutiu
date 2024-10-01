@@ -55,16 +55,13 @@ Adicione animais ao seu **sistema de favoritos**, facilitando o acompanhamento d
 
 [**Screenshot da tela de favoritos**]
 
-### 📍 Mapa de Abrigos
-Navegue pelo **mapa interativo de abrigos** que exibe locais próximos de onde você pode visitar ou resgatar animais disponíveis para adoção. Acesse informações sobre horários de funcionamento e formas de contato diretamente pelo app.
-
 ## 🔮 Roadmap Futuro
 
 Veja o que planejamos para as próximas versões:
-- [ ] Mapa de Abrigos.
-- [ ] Melhorias na interface do Tiutiu Tok.
-- [ ] IA para Sugestão de Animais: Uso de inteligência artificial para recomendar animais com base nas preferências do usuário e no histórico de adoções.
-- [ ] Gamificação: Implementação de um sistema de recompensas para incentivar os usuários a engajar mais na plataforma, como ao completar perfis de doação.
+- [ ] 📍 Mapa de Abrigos.
+- [ ] ▶️  Melhorias na interface do Tiutiu Tok.
+- [ ] 🤖 IA para Sugestão de Animais: Uso de inteligência artificial para recomendar animais com base nas preferências do usuário e no histórico de adoções.
+- [ ] 🎮 Gamificação: Implementação de um sistema de recompensas para incentivar os usuários a engajar mais na plataforma, como ao completar perfis de doação.
 
 
 ---
