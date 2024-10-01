@@ -22,6 +22,7 @@
     <img src="assets/repo/Play Store Logo.png" alt="Play Store Download" width="256"/>
   </a>
 </p>
+
 ---
 
 ## 🌟 Main Features
