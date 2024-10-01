@@ -61,9 +61,13 @@ workflows:
       - name: Get Flutter packages
         script: | 
           flutter packages pub get      
+      - name: Get String Localizations
+        script: | 
+          flutter gen-l10n  
       - name: Build AAB with Flutter
         script: |           
           flutter build appbundle --release \
+            --dart-define=FIREBASE_OPTIONS_PROJECT_ID=$FIREBASE_OPTIONS_PROJECT_ID \
             --build-name=$((1.0.$BUILD_NUMBER + 13)) \
             --build-number=$((1.0.$BUILD_NUMBER +13))
     artifacts:
