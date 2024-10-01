@@ -89,7 +89,6 @@ O **Tiu, Tiu** foi construído com um conjunto de tecnologias modernas para ofer
 - **Flutter**: Framework utilizado para garantir um aplicativo fluido tanto em Android quanto em iOS.
 - **Firebase**: Implementado para autenticação, banco de dados em tempo real e notificações push.
 - **REST API**: Para sincronização de dados eficiente e rápida.
-- **Arquitetura MVVM**: Para manter o código organizado e garantir a manutenção e escalabilidade.
 
 ---
 
