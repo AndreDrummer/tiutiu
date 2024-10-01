@@ -13,7 +13,7 @@ O **Tiu, Tiu** é um aplicativo poderoso e intuitivo criado para facilitar o pro
 ## ⬇ Baixe nas lojas de aplicativos
 
 ### Disponível para Android e iOS 
-<p align="center">
+<p>
   <a href="https://apps.apple.com/br/app/tiutiu-ado%C3%A7%C3%A3o-de-animais/id1660325927">
     <img src="assets/repo/App Store Logo.png" alt="App Store Download" width="256" style="margin-right: 4px;"/>
   </a>
