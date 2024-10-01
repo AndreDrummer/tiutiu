@@ -1,4 +1,5 @@
-# Tiu, Tiu - Plataforma de Adoção e Doação de Animais 🐾
+# <img src="/assets/images/android_icon_dark.png" alt="Logo" width="50" style="vertical-align: middle;"/> Tiu, Tiu - Plataforma de Adoção e Doação de Animais 🐾
+
 
 [**Banner principal do aplicativo**]
 
@@ -126,6 +127,4 @@ Contribuições são bem-vindas! Se você deseja ajudar no desenvolvimento do **
 
 Vamos construir juntos uma plataforma que ajude mais animais a encontrar seus lares para sempre!
 
-### Tiutiu Logo
-<img align="left" src="https://play-lh.googleusercontent.com/vKhzQDu77_d9-dXOSU6dNcgldCxO8IPphFWJSnnhv66bEZ6ZTUJGETmkFhbjHd92KQJK=w480-h960-rw" width="100" height="100"/>
 
