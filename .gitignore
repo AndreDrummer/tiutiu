@@ -53,3 +53,7 @@ app.*.map.json
 # Keystore file
 *.jks
 *.jks.old
+
+
+# Firebase Config
+lib/firebase_options.dart
