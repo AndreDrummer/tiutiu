@@ -71,17 +71,6 @@ Adicione animais ao seu **sistema de favoritos**, facilitando o acompanhamento d
 
 [**Screenshot da tela de favoritos**]
 
-## 🔮 Roadmap Futuro
-
-Veja o que planejamos para as próximas versões:
-- [ ] 📍 Mapa de Abrigos.
-- [ ] ▶️  Melhorias na interface do Tiutiu Tok.
-- [ ] 🤖 IA para Sugestão de Animais: Uso de inteligência artificial para recomendar animais com base nas preferências do usuário e no histórico de adoções.
-- [ ] 🎮 Gamificação: Implementação de um sistema de recompensas para incentivar os usuários a engajar mais na plataforma, como ao completar perfis de doação.
-
-
----
-
 ## 🚀 Tecnologias Utilizadas
 
 O **Tiu, Tiu** foi construído com um conjunto de tecnologias modernas para oferecer a melhor experiência ao usuário:
@@ -98,6 +87,17 @@ O **Tiu, Tiu** foi construído com um conjunto de tecnologias modernas para ofer
 - **Manipulação de Imagens e Vídeos**: Tratamento de mídia dentro do app, incluindo edição e upload.
 - **Geolocalização Avançada**: Para encontrar animais próximos ao usuário.
 - **Construção de PDFs**: Para geração de formulários de adoção personalizados diretamente no app.
+
+
+---
+
+## 🔮 Roadmap Futuro
+
+Veja o que planejamos para as próximas versões:
+- [ ] 📍 Mapa de Abrigos.
+- [ ] ▶️  Melhorias na interface do Tiutiu Tok.
+- [ ] 🤖 IA para Sugestão de Animais: Uso de inteligência artificial para recomendar animais com base nas preferências do usuário e no histórico de adoções.
+- [ ] 🎮 Gamificação: Implementação de um sistema de recompensas para incentivar os usuários a engajar mais na plataforma, como ao completar perfis de doação.
 
 
 ---
