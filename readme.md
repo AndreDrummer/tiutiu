@@ -1,4 +1,4 @@
-**Idioma**: 🇧🇷 <a href="">Português Brasileiro</a> | 🇺🇸 <a href="">Inglês Americano</a>
+**Idioma**: 🇧🇷 <a href="https://github.com/AndreDrummer/tiutiu/blob/main/readme.md">Português Brasileiro</a> | 🇺🇸 <a href="https://github.com/AndreDrummer/tiutiu/blob/main/readme-en-us.md">Inglês Americano</a>
 
 # <img src="/assets/images/android_icon_dark.png" alt="Logo" width="50" style="vertical-align: middle;"/> Tiu, Tiu
 
