@@ -87,8 +87,18 @@ Veja o que planejamos para as próximas versões:
 O **Tiu, Tiu** foi construído com um conjunto de tecnologias modernas para oferecer a melhor experiência ao usuário:
 
 - **Flutter**: Framework utilizado para garantir um aplicativo fluido tanto em Android quanto em iOS.
-- **Firebase**: Implementado para autenticação, banco de dados em tempo real e notificações push.
+- **Firebase**: Implementado para autenticação, banco de dados em tempo real, notificações push, e mais.
+  - **Firebase Functions**: Para lógica de backend em nuvem.
+  - **Firebase Dynamic Links**: Para links dinâmicos que redirecionam para o app.
+  - **Firebase Crashlytics**: Para monitoramento e correção de erros.
+  - **Firebase Firestore**: Banco de dados NoSQL em tempo real.
+  - **Firebase Firestorage**: Para armazenamento de imagens e vídeos.
+  - **Firebase Hosting**: Utilizado para hospedar o site oficial.
 - **REST API**: Para sincronização de dados eficiente e rápida.
+- **Manipulação de Imagens e Vídeos**: Tratamento de mídia dentro do app, incluindo edição e upload.
+- **Geolocalização Avançada**: Para encontrar animais próximos ao usuário.
+- **Construção de PDFs**: Para geração de formulários de adoção personalizados diretamente no app.
+
 
 ---
 
