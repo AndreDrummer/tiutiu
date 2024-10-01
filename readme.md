@@ -2,7 +2,7 @@
 
 # Plataforma de Adoção e Doação de Animais 🐾
 
-[**Banner principal do aplicativo**]
+![Banner](assets/repo/banner.png)
 
 O **Tiu, Tiu** é um aplicativo poderoso e intuitivo criado para facilitar o processo de adoção e doação de animais. Com uma série de funcionalidades robustas, nossa missão é conectar adotantes e doadores, garantindo que mais animais encontrem lares amorosos. Além disso, proporcionamos uma experiência de uso moderna, com vídeos, geolocalização, chat integrado e muito mais!
 
