@@ -1,12 +1,23 @@
 **Language**: 🇧🇷 <a href="https://github.com/AndreDrummer/tiutiu/blob/main/readme.md">Brazilian Portuguese</a> | 🇺🇸 <a href="https://github.com/AndreDrummer/tiutiu/blob/main/readme-en-us.md">American English</a>
 
-# <img src="/assets/images/android_icon_dark.png" alt="Logo" width="50" style="vertical-align: middle;"/> Tiu, Tiu
+# <img src="assets/images/android_icon_dark.png" alt="Logo" width="64" style="vertical-align: middle;"/> Tiu, Tiu
 
 # Animal Adoption and Donation Platform 🐾
 
 ![Banner](assets/repo/banner.png)
 
 **Tiu, Tiu** is a powerful and intuitive app created to facilitate the process of animal adoption and donation. With a range of robust features, our mission is to connect adopters and donors, ensuring that more animals find loving homes. Additionally, we provide a modern user experience with videos, geolocation, integrated chat, and much more!
+
+---
+
+## ⬇ Download on App Stores
+
+<div style="display: flex;">
+<a href="https://apps.apple.com/br/app/tiutiu-ado%C3%A7%C3%A3o-de-animais/id1660325927"><img src="assets/repo/App Store Logo.png" alt="App Store Download" width="64" style="vertical-align: middle; margin-right: 4px;"/></a>
+
+<a href="https://play.google.com/store/apps/details?id=com.anjasolutions.tiutiu&hl=pt"><img src="assets/repo/Play Store Logo.png" alt="Play Store Download" width="64" style="vertical-align: middle;"/></a>
+ Available for Android and iOS Devices
+</div>
 
 ---
 
