@@ -13,12 +13,15 @@
 ## ⬇ Download on App Stores
 
 ### Available for Android and iOS Devices
-<div style="display: inline-block;">
-<a href="https://apps.apple.com/br/app/tiutiu-ado%C3%A7%C3%A3o-de-animais/id1660325927"><img src="assets/repo/App Store Logo.png" alt="App Store Download" width="96" style="vertical-align: middle; margin-right: 4px;"/></a>
-
-<a href="https://play.google.com/store/apps/details?id=com.anjasolutions.tiutiu&hl=pt"><img src="assets/repo/Play Store Logo.png" alt="Play Store Download" width="96" style="vertical-align: middle;"/></a>
-</div>
-
+<p>
+  <a href="https://apps.apple.com/br/app/tiutiu-ado%C3%A7%C3%A3o-de-animais/id1660325927">
+    <img src="assets/repo/App Store Logo.png" alt="App Store Download" width="256" style="margin-right: 4px;"/>
+  </a>
+  
+  <a href="https://play.google.com/store/apps/details?id=com.anjasolutions.tiutiu&hl=pt">
+    <img src="assets/repo/Play Store Logo.png" alt="Play Store Download" width="256"/>
+  </a>
+</p>
 ---
 
 ## 🌟 Main Features
