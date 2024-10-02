@@ -37,7 +37,9 @@ Future<void> _firebaseMessagingForegroundHandler(RemoteMessage message) async {
 
   await flutterLocalNotificationsPlugin.initialize(
     InitializationSettings(
-        android: AndroidInitializationSettings('notification_icon'), iOS: DarwinInitializationSettings()),
+      android: AndroidInitializationSettings('notification_icon'),
+      iOS: DarwinInitializationSettings(),
+    ),
     onDidReceiveNotificationResponse: (_) => chatController.setupInteractedMessage(message),
   );
 
@@ -96,6 +98,8 @@ Future<void> _requireNotificationPermission() async {
 void _showFlutterNotification(RemoteMessage message) {
   RemoteNotification? notification = message.notification;
   AndroidNotification? android = message.notification?.android;
+
+  print("Message ${message.toMap()} $kIsWeb");
 
   if (notification != null && android != null && !kIsWeb) {
     flutterLocalNotificationsPlugin.show(
