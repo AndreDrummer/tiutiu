@@ -18,6 +18,9 @@ workflows:
       - name: Get Flutter packages
         script: | 
           flutter packages pub get
+      - name: Get String Localizations
+        script: | 
+          flutter gen-l10n 
       - name: Install pods
         script: | 
           find . -name "Podfile" -execdir pod install \;            
