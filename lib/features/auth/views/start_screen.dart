@@ -128,7 +128,7 @@ class _StartScreenState extends State<StartScreen> {
               ),
             ),
             termsAndConditions(context),
-            AutoSizeTexts.autoSizeText14(
+            AutoSizeTexts.autoSizeText12(
               color: hasError ? Colors.amber : AppColors.white,
               '${AppLocalizations.of(context)!.andThe} ',
               textAlign: TextAlign.center,
@@ -145,7 +145,7 @@ class _StartScreenState extends State<StartScreen> {
       onTap: () {
         Get.to(TermsAndConditions());
       },
-      child: AutoSizeTexts.autoSizeText14(
+      child: AutoSizeTexts.autoSizeText12(
         color: hasError ? Colors.amber : AppColors.white,
         AppLocalizations.of(context)!.termsAndConditions,
         fontWeight: FontWeight.bold,
@@ -159,7 +159,7 @@ class _StartScreenState extends State<StartScreen> {
       onTap: () {
         Get.to(PrivacyPolicy());
       },
-      child: AutoSizeTexts.autoSizeText14(
+      child: AutoSizeTexts.autoSizeText12(
         color: hasError ? Colors.amber : AppColors.white,
         AppLocalizations.of(context)!.privacyPolicy,
         fontWeight: FontWeight.bold,
