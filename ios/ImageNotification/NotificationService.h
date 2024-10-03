@@ -2,7 +2,7 @@
 //  NotificationService.h
 //  ImageNotification
 //
-//  Created by Andre Silva on 28/12/22.
+//  Created by André Felipe Silva on 02/10/24.
 //
 
 #import <UserNotifications/UserNotifications.h>

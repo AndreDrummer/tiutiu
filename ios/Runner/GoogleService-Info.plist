@@ -34,5 +34,7 @@
 	<string>1:791022711249:ios:30fcded7e40e01623170f0</string>
 	<key>DATABASE_URL</key>
 	<string>https://tiutiu-5cd14.firebaseio.com</string>
+	<key>ADMOB_APP_ID</key>
+	<string>ca-app-pub-2837828701670824~6305781256</string>
 </dict>
 </plist>

@@ -54,6 +54,12 @@ app.*.map.json
 *.jks
 *.jks.old
 
+# scripts
+.tiutiu_reset.sh
 
 # Firebase Config
-lib/firebase_options.dart
+# /ios/firebase_app_id_file.json
+# .firebase.json
+# ios/Runner/GoogleService-Info.plist
+# android/app/google-services.json
+# .firebaserc
