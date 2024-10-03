@@ -38,15 +38,14 @@ Future<void> _firebaseMessagingForegroundHandler(RemoteMessage message) async {
   await flutterLocalNotificationsPlugin.initialize(
     InitializationSettings(
       android: AndroidInitializationSettings('notification_icon'),
+      iOS: DarwinInitializationSettings(),
     ),
-    onDidReceiveNotificationResponse: (_) =>
-        chatController.setupInteractedMessage(message),
+    onDidReceiveNotificationResponse: (_) => chatController.setupInteractedMessage(message),
   );
 
   _showFlutterNotification(message);
 
-  if (kDebugMode) if (kDebugMode)
-    debugPrint('TiuTiuApp: Handling a foreground message ${message.messageId}');
+  if (kDebugMode) if (kDebugMode) debugPrint('TiuTiuApp: Handling a foreground message ${message.messageId}');
 }
 
 Future<void> _setupFlutterNotifications() async {
@@ -57,8 +56,7 @@ Future<void> _setupFlutterNotifications() async {
   channel = const AndroidNotificationChannel(
     'high_importance_channel', // id
     'High Importance Notifications', // title
-    description:
-        'This channel is used for important notifications.', // description
+    description: 'This channel is used for important notifications.', // description
     importance: Importance.high,
   );
 
@@ -69,8 +67,7 @@ Future<void> _setupFlutterNotifications() async {
   /// We use this channel in the `AndroidManifest.xml` file to override the
   /// default FCM channel to enable heads up notifications.
   await flutterLocalNotificationsPlugin
-      .resolvePlatformSpecificImplementation<
-          AndroidFlutterLocalNotificationsPlugin>()
+      .resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()
       ?.createNotificationChannel(channel);
 
   /// Update the iOS foreground notification presentation options to allow
@@ -95,14 +92,14 @@ Future<void> _requireNotificationPermission() async {
     sound: true,
   );
 
-  if (kDebugMode)
-    debugPrint(
-        'TiuTiuApp: User granted permission: ${notificationSettings.authorizationStatus}');
+  if (kDebugMode) debugPrint('TiuTiuApp: User granted permission: ${notificationSettings.authorizationStatus}');
 }
 
 void _showFlutterNotification(RemoteMessage message) {
   RemoteNotification? notification = message.notification;
   AndroidNotification? android = message.notification?.android;
+
+  print("Message ${message.toMap()} $kIsWeb");
 
   if (notification != null && android != null && !kIsWeb) {
     flutterLocalNotificationsPlugin.show(
@@ -126,8 +123,7 @@ void _showFlutterNotification(RemoteMessage message) {
 Future<void> main() async {
   runZonedGuarded<Future<void>>(() async {
     WidgetsFlutterBinding.ensureInitialized();
-    await Firebase.initializeApp(
-        options: DefaultFirebaseOptions.currentPlatform);
+    await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
     SystemInitializer.initDependencies();
 
@@ -176,14 +172,12 @@ class _TiuTiuAppState extends State<TiuTiuApp> {
         localizationsDelegates: AppLocalizations.localizationsDelegates,
         supportedLocales: AppLocalizations.supportedLocales,
         theme: ThemeData(
-          bottomSheetTheme: BottomSheetThemeData(
-              backgroundColor: Colors.black.withOpacity(0)),
+          bottomSheetTheme: BottomSheetThemeData(backgroundColor: Colors.black.withOpacity(0)),
           scaffoldBackgroundColor: Color(0XFFF9F9F9),
           primarySwatch: AppColors.secondary,
           primaryColor: AppColors.primary,
         ),
-        onGenerateInitialRoutes: (initialRoute) =>
-            [RouterGenerator.createCustomTransition(LoadingStartScreen())],
+        onGenerateInitialRoutes: (initialRoute) => [RouterGenerator.createCustomTransition(LoadingStartScreen())],
         onGenerateRoute: RouterGenerator.onGenerateRoute,
         debugShowCheckedModeBanner: false,
         initialRoute: Routes.root,
