@@ -50,8 +50,3 @@ exports.updatePostReferenceOnCreate = functions.firestore
         snap.after.ref.update({ 'reference': 'snap.after.ref.path' })
     });
 
-// exports.updateUserReferenceOnCreate = functions.firestore
-//     .document('tiutiu/env/{environment}/users/users/{userId}')
-//     .onWrite((snap, context) => {
-//         snap.after.ref.update({ 'reference': snap.after.ref.path })
-//     });
