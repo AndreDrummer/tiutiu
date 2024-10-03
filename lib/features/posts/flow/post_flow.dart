@@ -7,7 +7,6 @@ import 'package:tiutiu/features/posts/flow/5_post_images.dart';
 import 'package:tiutiu/features/posts/flow/7_review_post.dart';
 import 'package:tiutiu/features/posts/flow/6_post_video.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:tiutiu/core/widgets/simple_text_button.dart';
 import 'package:tiutiu/features/posts/flow/1_post_info.dart';
 import 'package:tiutiu/features/posts/widgets/stepper.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -15,6 +14,7 @@ import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/widgets/row_button_bar.dart';
 import 'package:tiutiu/core/views/load_dark_screen.dart';
 import 'package:tiutiu/core/widgets/one_line_text.dart';
+import 'package:tiutiu/core/constants/text_styles.dart';
 import 'package:tiutiu/core/mixins/tiu_tiu_pop_up.dart';
 import 'package:tiutiu/core/pets/model/pet_model.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
@@ -30,8 +30,7 @@ class PostFlow extends StatelessWidget with TiuTiuPopUp {
       onPopInvokedWithResult: (_, __) async => false,
       child: Obx(
         () {
-          double screenHeight =
-              postsController.flowIndex >= 6 ? Get.height / 1.39 : Get.height;
+          double screenHeight = postsController.flowIndex >= 6 ? Get.height / 1.39 : Get.height;
           final isDisappeared = (postsController.post as Pet).disappeared;
           final postReviewed = postsController.postReviewed;
 
@@ -85,8 +84,7 @@ class PostFlow extends StatelessWidget with TiuTiuPopUp {
                       Padding(
                         padding: EdgeInsets.only(left: 4.0),
                         child: Steper(
-                          currentStep: postsController.flowIndex +
-                              (postsController.postReviewed ? 1 : 0),
+                          currentStep: postsController.flowIndex + (postsController.postReviewed ? 1 : 0),
                           stepsName: _stepsNames,
                         ),
                       ),
@@ -100,8 +98,7 @@ class PostFlow extends StatelessWidget with TiuTiuPopUp {
                 bottomNavigationBar: _flowBottom(context),
               ),
               Positioned(
-                child: ChangePostsVisibilityFloatingButtom(
-                    visibility: postsController.flowIndex >= 6),
+                child: ChangePostsVisibilityFloatingButtom(visibility: postsController.flowIndex >= 6),
                 bottom: 88.0.h,
                 right: 24.0.w,
               ),
@@ -118,23 +115,18 @@ class PostFlow extends StatelessWidget with TiuTiuPopUp {
 
   AppBar _appBar(BuildContext context) {
     return DefaultBasicAppBar(
-      text: postsController.isEditingPost
-          ? AppLocalizations.of(context)!.editAd
-          : AppLocalizations.of(context)!.post,
+      text: postsController.isEditingPost ? AppLocalizations.of(context)!.editAd : AppLocalizations.of(context)!.post,
       automaticallyImplyLeading: false,
       actions: [
         Padding(
-          padding: EdgeInsets.only(right: 16.0.w),
-          child: SimpleTextButton(
-            text: AppLocalizations.of(context)!.cancel,
+          padding: EdgeInsets.only(right: 8.0.w),
+          child: TextButton(
+            child: AutoSizeTexts.autoSizeText14(AppLocalizations.of(context)!.cancel, color: AppColors.white),
             onPressed: () async {
-              await postsController
-                  .showsCancelPostPopUp(isInsideFlow: true)
-                  .then((shouldGoBack) {
+              await postsController.showsCancelPostPopUp(isInsideFlow: true).then((shouldGoBack) {
                 if (shouldGoBack) Get.back();
               });
             },
-            fontSize: 14,
           ),
         ),
       ],
@@ -158,8 +150,7 @@ class PostFlow extends StatelessWidget with TiuTiuPopUp {
             child: Row(
               children: [
                 OneLineText(
-                  text:
-                      '${postsController.flowIndex + (postsController.postReviewed ? 1 : 1)}',
+                  text: '${postsController.flowIndex + (postsController.postReviewed ? 1 : 1)}',
                   fontWeight: FontWeight.bold,
                   color: AppColors.secondary,
                   fontSize: 22.0,
