@@ -56,10 +56,10 @@
               "client_type": 3
             },
             {
-              "client_id": "791022711249-9hhuha6rp2eklqq63c151v9ngope111i.apps.googleusercontent.com",
+              "client_id": "791022711249-53r4bq8512mrrem5e73hbivkfk8ammeo.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.example.tiutiu"
+                "bundle_id": "com.anjasolutions.tiutiuapp.ImageNotification"
               }
             }
           ]

@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:tiutiu/features/adption_form.dart/repository/adoption_form_repository.dart';
 import 'package:tiutiu/features/adption_form.dart/model/adoption_form.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -7,7 +8,6 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:pdf/widgets.dart' as pw;
-import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:pdf/pdf.dart';
 import 'package:get/get.dart';
@@ -44,8 +44,6 @@ class AdoptionFormController extends GetxController {
   void previousStep() {
     if (formStep > 0) {
       _formStep(formStep - 1);
-    } else if (formStep == 0) {
-      Get.back();
     }
   }
 
