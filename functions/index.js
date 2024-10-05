@@ -61,7 +61,7 @@ exports.deletePostOnDennouncesLimitAchived = functions.firestore
 
 exports.updatePostReferenceOnCreate = functions.firestore
     .document("tiutiu/env/{environment}/posts/posts/{postId}")
-    .onWrite((snap, context) => {
-      snap.after.ref.update({"reference": "snap.after.ref.path"});
+    .onWrite((snap, _) => {
+      snap.after.ref.update({"reference": snap.after.ref.path});
     });
 
