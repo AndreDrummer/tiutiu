@@ -39,8 +39,7 @@ class _BootstrapState extends State<AppBootstrap> {
   }
 
   bool isLocalAccessPermissionDenied(PermissionStatus currentLocationPermission) =>
-      currentLocationPermission == PermissionStatus.denied ||
-      currentLocationPermission == PermissionStatus.permanentlyDenied;
+      currentLocationPermission != PermissionStatus.granted;
 }
 
 class FirstScreen extends StatelessWidget {
