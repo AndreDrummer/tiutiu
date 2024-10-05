@@ -101,10 +101,16 @@ class FilterResultCount extends StatelessWidget {
   }
 
   Widget _brazilOrOtherCountriesFilter() {
-    return Obx(
-      () => Visibility(
+    return Obx(() {
+      final countryFlag = DummyData.countryFlags[systemController.properties.userCountryChoice] ?? '';
+      final country = DummyData.countryNames[systemController.properties.userCountryChoice] ?? '';
+
+      return Visibility(
         replacement: AutoSizeTexts.autoSizeText12(
-          Formatters.cuttedText(DummyData.countrieNames[systemController.properties.userCountryChoice] ?? '', size: 16),
+          Formatters.cuttedText(
+            '$countryFlag $country',
+            size: 16,
+          ),
         ),
         visible: systemController.properties.userCountryChoice == defaultCountry,
         child: DropdownButton<String>(
@@ -119,13 +125,18 @@ class FilterResultCount extends StatelessWidget {
           items: StatesAndCities.stateAndCities.stateInitials
               .map(
                 (e) => DropdownMenuItem<String>(
-                  child: AutoSizeTexts.autoSizeText12(e),
+                  child: Row(
+                    children: [
+                      AutoSizeTexts.autoSizeText12('$countryFlag '),
+                      AutoSizeTexts.autoSizeText12(e),
+                    ],
+                  ),
                   value: e,
                 ),
               )
               .toList(),
         ),
-      ),
-    );
+      );
+    });
   }
 }
