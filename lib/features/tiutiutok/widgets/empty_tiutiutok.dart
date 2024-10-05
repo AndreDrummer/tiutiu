@@ -75,7 +75,7 @@ class EmptyTiuTiuTokScreen extends StatelessWidget {
           padding: EdgeInsets.only(top: 2.0),
           child: AutoSizeTexts.autoSizeText12('Nenhum ', color: Colors.white),
         ),
-        AutoSizeText('Tiutiu Tok', style: GoogleFonts.miltonianTattoo(color: Colors.white)),
+        AutoSizeText('TiuTok', style: GoogleFonts.miltonianTattoo(color: Colors.white)),
         Padding(
           padding: EdgeInsets.only(top: 2.0),
           child: AutoSizeTexts.autoSizeText12(' encontrado ', color: Colors.white),
@@ -97,7 +97,7 @@ class EmptyTiuTiuTokScreen extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              AutoSizeText('Tiutiu Tok', style: GoogleFonts.miltonianTattoo(color: Colors.white)),
+              AutoSizeText('TiuTok', style: GoogleFonts.miltonianTattoo(color: Colors.white)),
               AutoSizeTexts.autoSizeText12('\'s ?', color: Colors.white),
             ],
           ),

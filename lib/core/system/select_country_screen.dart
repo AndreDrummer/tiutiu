@@ -66,15 +66,15 @@ class CountrySelecter extends StatelessWidget {
             ),
             isExpanded: true,
             value: systemController.properties.userCountryChoice ?? defaultCountry,
-            items: DummyData.countrieNames.entries
-                .toList()
-                .map(
-                  (MapEntry<String, String> e) => DropdownMenuItem<String>(
-                    child: AutoSizeTexts.autoSizeText18(e.value),
-                    value: e.key,
-                  ),
-                )
-                .toList(),
+            items: DummyData.countryNames.entries.toList().map((MapEntry<String, String> e) {
+              final country = e.key;
+              final countryFlag = DummyData.countryFlags[country];
+
+              return DropdownMenuItem<String>(
+                child: AutoSizeTexts.autoSizeText18('$countryFlag ${e.value}'),
+                value: e.key,
+              );
+            }).toList(),
             onChanged: (country) async {
               systemController.updateUserChoiceRadiusDistanceToShowPets(radius: 10);
               systemController.setUserChoiceCountry(country: country!);

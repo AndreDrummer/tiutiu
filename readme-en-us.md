@@ -37,10 +37,10 @@ Donating an animal has never been easier! With just a few clicks, you can create
 
 [**Screenshot of the donation registration screen**]
 
-### 🎥 Tiutiu Tok: Animal Adoption Videos
-The **Tiutiu Tok section** offers an innovative and engaging experience, allowing you to explore videos of animals available for adoption in a continuous interface similar to TikTok. Discover your next friend while enjoying and sharing adorable pet videos!
+### 🎥 TiuTok: Animal Adoption Videos
+The **TiuTok section** offers an innovative and engaging experience, allowing you to explore videos of animals available for adoption in a continuous interface similar to TikTok. Discover your next friend while enjoying and sharing adorable pet videos!
 
-[**Screenshot of the Tiutiu Tok section**]
+[**Screenshot of the TiuTok section**]
 
 ### 🌍 Advanced Geolocation
 Our **advanced geolocation** feature allows you to find animals for adoption near your current location. This makes the process even easier, helping to connect adopters to animals that are nearby.
@@ -94,7 +94,7 @@ Add animals to your **favorites system**, making it easy to track pets you're in
 
 See what we have planned for upcoming versions:
 - [ ] 📍Shelters Map.
-- [ ] ▶️ Improvements to the Tiutiu Tok interface.
+- [ ] ▶️ Improvements to the TiuTok interface.
 - [ ] 🤖 AI for Animal Suggestions: Using artificial intelligence to recommend animals based on user preferences and adoption history.
 - [ ] 🎮 Gamification: Implementation of a rewards system to encourage users to engage more on the platform, such as completing donation profiles.
 
@@ -128,9 +128,9 @@ Here’s the translation of the content into English:
 
 ## 📸 Screenshots
 
-| Home Screen                     | Filters Screen                    | Tiutiu Tok                       |
+| Home Screen                     | Filters Screen                    | TiuTok                       |
 | -------------------------------- | --------------------------------- | -------------------------------- |
-| ![Home Screen](link_screenshot1) | ![Filters Screen](link_screenshot2) | ![Tiutiu Tok](link_screenshot3) |
+| ![Home Screen](link_screenshot1) | ![Filters Screen](link_screenshot2) | ![TiuTok](link_screenshot3) |
 
 ---
 
