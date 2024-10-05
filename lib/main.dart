@@ -34,6 +34,7 @@ bool isFlutterLocalNotificationsInitialized = false;
 
 FirebaseMessaging messaging = FirebaseMessaging.instance;
 
+@pragma('vm:entry-point')
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   final notificationResponse = NotificationResponse(
     notificationResponseType: NotificationResponseType.selectedNotification,
