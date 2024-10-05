@@ -38,10 +38,10 @@ Doar um animal nunca foi tão fácil! Com poucos cliques, você pode criar um an
 
 [**Screenshot da tela de cadastro de doação**]
 
-### 🎥 Tiutiu Tok: Vídeos de Animais para Adoção
-A **seção Tiutiu Tok** oferece uma experiência inovadora e envolvente, permitindo que você explore vídeos de animais disponíveis para adoção em uma interface contínua, semelhante ao TikTok. Descubra seu próximo amigo enquanto curte e compartilha vídeos adoráveis de pets!
+### 🎥 TiuTok: Vídeos de Animais para Adoção
+A **seção TiuTok** oferece uma experiência inovadora e envolvente, permitindo que você explore vídeos de animais disponíveis para adoção em uma interface contínua, semelhante ao TikTok. Descubra seu próximo amigo enquanto curte e compartilha vídeos adoráveis de pets!
 
-[**Screenshot da seção Tiutiu Tok**]
+[**Screenshot da seção TiuTok**]
 
 ### 🌍 Geolocalização Avançada
 Nossa funcionalidade de **geolocalização avançada** permite que você encontre animais para adoção perto de sua localização atual. Isso facilita ainda mais o processo, ajudando a conectar adotantes a animais que estão próximos.
@@ -95,7 +95,7 @@ O **Tiu, Tiu** foi construído com um conjunto de tecnologias modernas para ofer
 
 Veja o que planejamos para as próximas versões:
 - [ ] 📍 Mapa de Abrigos.
-- [ ] ▶️  Melhorias na interface do Tiutiu Tok.
+- [ ] ▶️  Melhorias na interface do TiuTok.
 - [ ] 🤖 IA para Sugestão de Animais: Uso de inteligência artificial para recomendar animais com base nas preferências do usuário e no histórico de adoções.
 - [ ] 🎮 Gamificação: Implementação de um sistema de recompensas para incentivar os usuários a engajar mais na plataforma, como ao completar perfis de doação.
 
@@ -127,9 +127,9 @@ Quer contribuir ou rodar o **Tiu, Tiu** localmente? Siga as etapas abaixo para c
 
 ## 📸 Screenshots
 
-| Tela Inicial                     | Tela de Filtros                    | Tiutiu Tok                       |
+| Tela Inicial                     | Tela de Filtros                    | TiuTok                       |
 | --------------------------------- | ---------------------------------- | -------------------------------- |
-| ![Tela Inicial](link_screenshot1) | ![Tela de Filtros](link_screenshot2) | ![Tiutiu Tok](link_screenshot3) |
+| ![Tela Inicial](link_screenshot1) | ![Tela de Filtros](link_screenshot2) | ![TiuTok](link_screenshot3) |
 
 ---
 
