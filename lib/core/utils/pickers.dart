@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:tiutiu/core/widgets/popup_message.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
-import 'package:open_settings/open_settings.dart';
+import 'package:app_settings/app_settings.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -114,7 +114,7 @@ mixin Pickers {
 
         return PopUpMessage(
           confirmAction: () {
-            OpenSettings.openAppSetting();
+            AppSettings.openAppSettings(type: AppSettingsType.internalStorage);
             Get.back();
           },
           backGroundColor: AppColors.info,

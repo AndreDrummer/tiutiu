@@ -52,7 +52,7 @@ dependencies:
   auto_size_text: ^3.0.0
   google_sign_in: ^6.1.6
   image_picker: ^1.0.4
-  open_settings: ^2.0.2
+  app_settings: ^5.1.1
   screenshot: ^3.0.0  
   better_player:
     git:

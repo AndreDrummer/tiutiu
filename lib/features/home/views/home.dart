@@ -22,7 +22,7 @@ import 'package:tiutiu/features/shop/tiutiushop.dart';
 import 'package:tiutiu/features/more/views/more.dart';
 import 'package:tiutiu/core/utils/dimensions.dart';
 import 'package:tiutiu/core/widgets/top_bar.dart';
-import 'package:open_settings/open_settings.dart';
+import 'package:app_settings/app_settings.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -50,7 +50,7 @@ class _HomeState extends State<Home> with TiuTiuPopUp {
         Get.back();
       },
       secondaryAction: () {
-        OpenSettings.openAppNotificationSetting();
+        AppSettings.openAppSettings(type: AppSettingsType.notification);
         Get.back();
       },
     );
