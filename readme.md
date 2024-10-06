@@ -36,27 +36,61 @@ Encontre o animal ideal para adoção com nossos **filtros avançados**, que per
 ### 🐾 Cadastro para Doação
 Doar um animal nunca foi tão fácil! Com poucos cliques, você pode criar um anúncio completo, incluindo fotos, descrições detalhadas e informações essenciais sobre o pet. O Tiu, Tiu também permite o acompanhamento das interações de potenciais adotantes em tempo real.
 
-[**Screenshot da tela de cadastro de doação**]
+<table>
+  <tr>
+    <td align="center" colspan="2">Telas de Cadastro</td>
+  </tr>  
+  <tr>
+    <td><img src="assets/repo/Post Flow Detail.png" alt="Tela de Incío do Post Inicial" width="200"/></td>
+    <td><img src="assets/repo/Init Post Flow.png" alt="Tela de Características do Pet" width="200"/></td>    
+  </tr>  
+</table>
+
 
 ### 🎥 TiuTok: Vídeos de Animais para Adoção
 A **seção TiuTok** oferece uma experiência inovadora e envolvente, permitindo que você explore vídeos de animais disponíveis para adoção em uma interface contínua, semelhante ao TikTok. Descubra seu próximo amigo enquanto curte e compartilha vídeos adoráveis de pets!
 
-[**Screenshot da seção TiuTok**]
+<table>
+  <tr>
+    <td align="center" colspan="3">TiuTok</td>
+  </tr>  
+  <tr>
+    <td><img src="assets/repo/TiuTok.png" alt="TiuTok" width="200"/></td>
+    <td><img src="assets/repo/TiuTok 2.png" alt="TiuTok" width="200"/></td>    
+    <td><img src="assets/repo/TiuTok 3.png" alt="TiuTok" width="200"/></td>    
+  </tr>  
+</table>
 
 ### 🌍 Geolocalização Avançada
 Nossa funcionalidade de **geolocalização avançada** permite que você encontre animais para adoção perto de sua localização atual. Isso facilita ainda mais o processo, ajudando a conectar adotantes a animais que estão próximos.
 
-[**Screenshot da tela de busca com geolocalização**]
+![Busca Global](/assets/repo/Country%20Selection.png)
 
 ### 🔗 Integração com Redes Sociais
 Compartilhe perfis de animais diretamente em suas redes sociais favoritas, como Instagram, Facebook e WhatsApp. Cada compartilhamento ajuda a aumentar a visibilidade de animais que precisam de um novo lar!
 
-[**Screenshot da funcionalidade de compartilhamento em redes sociais**]
+<table>
+  <tr>
+    <td align="center" colspan="2">Compartilhe nas Redes Sociais</td>
+  </tr>  
+  <tr>
+    <td><img src="assets/repo/Share.jpeg" alt="Preparando Post para Compartilhar nas Redes Sociais" width="200"/></td>
+    <td><img src="assets/repo/Follow Us.jpeg" alt="Nossas Redes Sociais" width="200"/></td>    
+  </tr>  
+</table>
 
 ### 💬 Chat In-App
 Com nosso **chat integrado**, adotantes e doadores podem se comunicar diretamente dentro do aplicativo, facilitando o processo de adoção. Perguntas sobre o animal, informações adicionais ou mesmo agendar visitas podem ser resolvidas rapidamente com o chat em tempo real.
 
-[**Screenshot da tela de chat**]
+<table>
+  <tr>
+    <td align="center" colspan="2">Chat Integrado</td>
+  </tr>  
+  <tr>
+    <td><img src="assets/repo/Contacts Screen.png" alt="Lista de Contatos" width="200"/></td>
+    <td><img src="assets/repo/Chat Screen.png" alt="Tela de Chat" width="200"/></td>    
+  </tr>  
+</table>
 
 ### 🔔 Notificações Push
 Fique por dentro de novas oportunidades e interações com as **notificações push**. Receba alertas sobre novos animais disponíveis, mensagens no chat e atualizações dos seus anúncios de doação, tudo de forma conveniente.
@@ -64,12 +98,21 @@ Fique por dentro de novas oportunidades e interações com as **notificações p
 ### 📊 Estatísticas de Adoção
 Monitore o desempenho dos seus anúncios com **estatísticas detalhadas**. Saiba quantas visualizações o perfil de um animal teve, quantos contatos foram feitos e acompanhe o progresso até a adoção.
 
-[**Screenshot da tela de estatísticas**]
+![Meus Posts](/assets/repo/My%20Posts.jpeg)
 
 ### 🎯 Sistema de Favoritos
 Adicione animais ao seu **sistema de favoritos**, facilitando o acompanhamento de pets que você tem interesse em adotar. Acompanhe seus favoritos e receba atualizações caso haja alguma mudança de status no processo de adoção.
 
 [**Screenshot da tela de favoritos**]
+<table>
+  <tr>
+    <td align="center" colspan="2">Favoritos</td>
+  </tr>  
+  <tr>
+    <td><img src="assets/repo/Saved.png" alt="Posts Salvos" width="200"/></td>
+    <td><img src="assets/repo/Saved 2.png" alt="Posts Salvos" width="200"/></td>    
+  </tr>  
+</table>
 
 ## 🚀 Tecnologias Utilizadas
 
@@ -129,7 +172,7 @@ Quer contribuir ou rodar o **Tiu, Tiu** localmente? Siga as etapas abaixo para c
 
 | Tela Inicial                     | Tela de Filtros                    | TiuTok                       |
 | --------------------------------- | ---------------------------------- | -------------------------------- |
-| ![Tela Inicial](link_screenshot1) | ![Tela de Filtros](link_screenshot2) | ![TiuTok](link_screenshot3) |
+| ![Tela Inicial](/assets/repo/Start%20Screen.png) | ![Tela de Filtros](/assets/repo/Home%20Screen%202.png) | ![TiuTok](/assets/repo/TiuTok%202.png) |
 
 ---
 
