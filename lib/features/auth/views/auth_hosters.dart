@@ -155,19 +155,26 @@ class AuthHosters extends StatelessWidget with TiuTiuPopUp {
           ),
           ButtonWide(
             icon: FontAwesomeIcons.google,
-            onPressed: () => _loginWithGoogle(context),
             text: AppLocalizations.of(context)!.google,
+            onPressed: () => _loginWithGoogle(context),
             color: AppColors.danger,
             isToExpand: true,
           ),
-          ButtonWide(
-            icon: FontAwesomeIcons.facebook,
-            onPressed: () => _loginWithFacebook(context),
-            text: AppLocalizations.of(context)!.facebook,
-            color: AppColors.info,
-            isToExpand: true,
+          Visibility(
+            visible: Platform.isAndroid,
+            child: Column(
+              children: [
+                ButtonWide(
+                  icon: FontAwesomeIcons.facebook,
+                  onPressed: () => _loginWithFacebook(context),
+                  text: AppLocalizations.of(context)!.facebook,
+                  color: AppColors.info,
+                  isToExpand: true,
+                ),
+                SizedBox(height: 4.0.h),
+              ],
+            ),
           ),
-          SizedBox(height: 4.0.h),
           _continueAnonButton(context),
         ],
       ),
