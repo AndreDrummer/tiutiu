@@ -7,7 +7,7 @@ import 'package:tiutiu/core/utils/routes/routes_name.dart';
 import 'package:tiutiu/core/constants/assets_path.dart';
 import 'package:tiutiu/core/constants/text_styles.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
-import 'package:open_settings/open_settings.dart';
+import 'package:app_settings/app_settings.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -45,8 +45,8 @@ class NoConnectionScreen extends StatelessWidget {
             ),
             SizedBox(height: 16.0.h),
             ColumnButtonBar(
-              onSecondaryPressed: () => OpenSettings.openDataRoamingSetting(),
-              onPrimaryPressed: () => OpenSettings.openWIFISetting(),
+              onSecondaryPressed: () => AppSettings.openAppSettings(type: AppSettingsType.dataRoaming),
+              onPrimaryPressed: () => AppSettings.openAppSettingsPanel(AppSettingsPanelType.wifi),
               textSecond: AppLocalizations.of(context)!.turnOnInternetMobile,
               textPrimary: AppLocalizations.of(context)!.turnOnWifi,
               isConnected: true,

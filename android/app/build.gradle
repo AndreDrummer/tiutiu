@@ -32,7 +32,7 @@ if (flutterVersionName == null) {
 
 android {
     compileSdkVersion flutter.compileSdkVersion
-    ndkVersion flutter.ndkVersion
+    ndkVersion flutter.ndkVersion    
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -45,7 +45,7 @@ android {
 
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
-    }
+    }   
 
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
@@ -78,7 +78,7 @@ android {
         release {            
             signingConfig signingConfigs.release
         }
-    }
+    }    
 
     packagingOptions {
         pickFirst 'lib/x86/libc++_shared.so'
