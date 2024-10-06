@@ -4,11 +4,11 @@ import 'package:tiutiu/core/local_storage/local_storage_keys.dart';
 import 'package:tiutiu/features/auth/service/auth_service.dart';
 import 'package:tiutiu/core/Exceptions/tiutiu_exceptions.dart';
 import 'package:tiutiu/core/local_storage/local_storage.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/constants/assets_path.dart';
 import 'package:tiutiu/core/models/whatsapp_token.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:tiutiu/core/utils/formatter.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
@@ -443,9 +443,9 @@ class AuthController extends GetxController {
     try {
       if (!_isUpdatingUserDataOnServer.value) {
         final isAppleUser = user?.providerData.first.providerId == 'apple.com';
-        final lastSignInTime = user?.metadata.lastSignInTime;
-        final creationTime = user?.metadata.creationTime;
         final loggedUser = tiutiuUserController.tiutiuUser;
+        final creationTime = user?.metadata.creationTime;
+        final lastSignInTime = DateTime.now();
 
         _isUpdatingUserDataOnServer(true);
         await user?.reload();
@@ -465,13 +465,11 @@ class AuthController extends GetxController {
           );
         }
 
-        if (lastSignInTime != null) {
-          if (kDebugMode) debugPrint('TiuTiuApp: Updating lastSeen...');
-          tiutiuUserController.updateTiutiuUser(
-            TiutiuUserEnum.lastLogin,
-            lastSignInTime.toIso8601String(),
-          );
-        }
+        if (kDebugMode) debugPrint('TiuTiuApp: Updating lastSeen...');
+        tiutiuUserController.updateTiutiuUser(
+          TiutiuUserEnum.lastLogin,
+          lastSignInTime.toIso8601String(),
+        );
 
         if (isAppleUser) {
           tiutiuUserController.updateTiutiuUser(TiutiuUserEnum.email, user?.providerData.first.email);
