@@ -27,11 +27,13 @@ class SponsoredHorizontalList extends StatelessWidget {
         itemCount: sponsoreds.length,
         itemBuilder: (context, index, realIndex) => SponsoredTile(sponsored: sponsoreds[index]),
         options: CarouselOptions(
+          autoPlayAnimationDuration: Duration(milliseconds: 1250),
           enableInfiniteScroll: sponsoreds.length > 1,
           autoPlayCurve: Curves.easeIn,
           height: sponsoredAdsTileSize,
           enlargeCenterPage: true,
           viewportFraction: 1,
+          initialPage: 1,
           autoPlay: true,
         ),
       ),
