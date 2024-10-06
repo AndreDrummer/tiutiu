@@ -146,8 +146,12 @@ class _PostDetailsState extends State<PostDetails> with TiuTiuPopUp {
     final reward = (post as Pet).reward;
 
     return PopScope(
-      canPop: true,
+      canPop: !systemController.initialFDLink.isNotEmptyNeighterNull(),
       onPopInvokedWithResult: (_, __) async {
+        if (systemController.initialFDLink.isNotEmptyNeighterNull()) {
+          systemController.initialFDLink = '';
+          Get.offAllNamed(Routes.authOrHome);
+        }
         onLeaveScreen();
       },
       child: Scaffold(
