@@ -162,7 +162,7 @@
             }
         }
     },    
-    "imageQty": "{count, plural, =1{Enviando a foto...} other{Enviando as fotos...}}",
+   "imageQty": "{count, plural, =1{sending the photo...} other{Sending the photos...}}",
     "@imageQty": {
         "placeholders": {
             "count": {

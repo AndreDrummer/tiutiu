@@ -161,8 +161,8 @@
                 "example": "John"
             }
         }
-    },    
-    "imageQty": "{count, plural, =1{sending the photo...} other{Sending the photos...}}",
+    },
+    "imageQty": "{count, plural, =1{Enviando a foto...} other{Enviando as fotos...}}",
     "@imageQty": {
         "placeholders": {
             "count": {
@@ -170,7 +170,7 @@
                 "format": "compact"
             }
         }
-    },
+    },        
     "postsQty": "{count, plural, =1{post} other{posts}}",
     "@postsQty": {
         "placeholders": {
