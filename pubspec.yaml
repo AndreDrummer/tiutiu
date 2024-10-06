@@ -38,8 +38,7 @@ dependencies:
   permission_handler: ^11.1.0
   sign_in_with_apple: ^6.1.1
   loading_animations: ^2.2.0  
-  flutter_speed_dial: ^7.0.0  
-  move_to_background: ^1.0.2
+  flutter_speed_dial: ^7.0.0
   connectivity_plus: ^6.0.3    
   google_mobile_ads: ^5.1.0
   package_info_plus: ^8.0.0
@@ -57,8 +56,7 @@ dependencies:
   better_player:
     git:
       url: https://github.com/AndreDrummer/betterplayer.git
-      ref: fix-android-and-ios
-  maps_launcher: ^2.0.1
+      ref: fix-android-and-ios  
   brasil_fields: ^1.6.0  
   google_fonts: ^6.2.1
   video_player: ^2.9.1
@@ -98,7 +96,7 @@ flutter_icons:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_launcher_icons: ^0.13.1
+  flutter_launcher_icons: ^0.14.1
   pedantic: any
 
 flutter:
