@@ -15,7 +15,6 @@ import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/core/controllers/controllers.dart';
 import 'package:tiutiu/core/system/initializer.dart';
-import 'package:tiutiu/core/system/model/env_variables.dart';
 import 'package:tiutiu/core/system/views/loading_start_screen.dart';
 import 'package:tiutiu/core/utils/routes/router.dart';
 import 'package:tiutiu/core/utils/routes/routes_name.dart';
@@ -152,11 +151,7 @@ Future<void> main() async {
     WidgetsFlutterBinding.ensureInitialized();
     SystemInitializer.initDependencies();
 
-    await Firebase.initializeApp(
-      options: DefaultFirebaseOptions.currentPlatform(
-        EnvVariables.instance,
-      ),
-    );
+    await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
     await _initializeFlutterLocalNotifications();
 

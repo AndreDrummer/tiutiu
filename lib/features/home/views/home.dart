@@ -34,7 +34,7 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> with TiuTiuPopUp {
   @override
   void initState() {
-    showAdAndRequestToTrack();
+    runAsyncs();
     super.initState();
   }
 
@@ -59,18 +59,14 @@ class _HomeState extends State<Home> with TiuTiuPopUp {
   Future<void> handleNotificationsDeniedRequests() async {
     final notificationPermissionStatus = await Permission.notification.status;
 
-    print("Notifications status $notificationPermissionStatus");
-
     if (notificationPermissionStatus == PermissionStatus.denied) {
       await Permission.notification.request();
     } else if (notificationPermissionStatus == PermissionStatus.permanentlyDenied) {
       await _promptRequestToNotification();
     }
-
-    print("Notifications status $notificationPermissionStatus");
   }
 
-  Future<void> showAdAndRequestToTrack() async {
+  Future<void> runAsyncs() async {
     Future.delayed(Duration(seconds: 1), () async {
       await adMobController.showOpeningAd();
       await crashlyticsController.init();

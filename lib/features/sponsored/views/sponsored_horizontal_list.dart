@@ -11,7 +11,7 @@ class SponsoredHorizontalList extends StatelessWidget {
     final double sponsoredAdsTileSize = Dimensions.getDimensBasedOnDeviceHeight(
       smaller: 80.0.h,
       bigger: 68.0.h,
-      medium: 68.0.h,
+      medium: 64.0.h,
       tablet: 80.0.h,
     );
 
