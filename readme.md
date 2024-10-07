@@ -36,11 +36,6 @@ O **Tiu, Tiu** é um aplicativo poderoso e intuitivo criado para facilitar o pro
 
 ## 🌟 Funcionalidades Principais
 
-### 📱 Adoção Facilitada
-Encontre o animal ideal para adoção com nossos **filtros avançados**, que permitem buscas por raça, porte, idade, localização e outras características. O processo foi otimizado para que você encontre o companheiro perfeito rapidamente.
-
-[**Screenshot da tela de busca e filtros de adoção**]
-
 ### 🐾 Cadastro para Doação
 Doar um animal nunca foi tão fácil! Com poucos cliques, você pode criar um anúncio completo, incluindo fotos, descrições detalhadas e informações essenciais sobre o pet. O Tiu, Tiu também permite o acompanhamento das interações de potenciais adotantes em tempo real.
 
@@ -55,6 +50,8 @@ Doar um animal nunca foi tão fácil! Com poucos cliques, você pode criar um an
   </tr>  
 </table>
 
+### 📱 Adoção Facilitada
+Encontre o animal ideal para adoção com nossos **filtros avançados**, que permitem buscas por raça, porte, idade, localização e outras características. O processo foi otimizado para que você encontre o companheiro perfeito rapidamente.
 
 ### 🎥 TiuTok: Vídeos de Animais para Adoção
 A **seção TiuTok** oferece uma experiência inovadora e envolvente, permitindo que você explore vídeos de animais disponíveis para adoção em uma interface contínua, semelhante ao TikTok. Descubra seu próximo amigo enquanto curte e compartilha vídeos adoráveis de pets!
