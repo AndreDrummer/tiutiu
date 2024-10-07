@@ -27,7 +27,7 @@ workflows:
       - name: Flutter build ipa
         script: | 
           flutter build ipa --release \
-            --build-name=$((1.1.$BUILD_NUMBER - 146)) \
+            --build-name=1.1.$(($BUILD_NUMBER - 150)) \
             --build-number=$BUILD_NUMBER \
             --export-options-plist=/Users/builder/export_options.plist
     artifacts:
@@ -78,7 +78,7 @@ workflows:
             --dart-define=FIREBASE_OPTIONS_IOS_API_KEY=$FIREBASE_OPTIONS_IOS_API_KEY \
             --dart-define=FIREBASE_OPTIONS_IOS_APP_ID=$FIREBASE_OPTIONS_IOS_APP_ID \
             --dart-define=FIREBASE_OPTIONS_PROJECT_ID=$FIREBASE_OPTIONS_PROJECT_ID \
-            --build-name=$((1.1.$BUILD_NUMBER-146)) \
+            --build-name=1.1.$(($BUILD_NUMBER - 150)) \
             --build-number=$BUILD_NUMBER
     artifacts:
       - build/**/outputs/**/*.aab
