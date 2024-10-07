@@ -12,8 +12,8 @@ O **Tiu, Tiu** é um aplicativo poderoso e intuitivo criado para facilitar o pro
 
 ## 📸 Capturas de Tela
 
-| Tela Inicial                     | Tela de Filtros                    | TiuTok                       |
-| --------------------------------- | ---------------------------------- | -------------------------------- |
+| Tela Inicial                                     | Tela de Filtros                                        | TiuTok                                 |
+| ------------------------------------------------ | ------------------------------------------------------ | -------------------------------------- |
 | ![Tela Inicial](/assets/repo/Start%20Screen.png) | ![Tela de Filtros](/assets/repo/Home%20Screen%202.png) | ![TiuTok](/assets/repo/TiuTok%202.png) |
 
 ---
@@ -109,6 +109,16 @@ Com nosso **chat integrado**, adotantes e doadores podem se comunicar diretament
 
 ### 🔔 Notificações Push
 Fique por dentro de novas oportunidades e interações com as **notificações push**. Receba alertas sobre novos animais disponíveis, mensagens no chat e atualizações dos seus anúncios de doação, tudo de forma conveniente.
+
+<table>
+<tr>
+    <td align="center" colspan="2">Notificações em Segundo Plano</td>
+  </tr> 
+<tr>
+<td><img src="assets/repo/Push Notification.jpeg" alt="TiuTok" width="200"/></td>
+<td><img src="assets/repo/Push Notification 2.jpeg" alt="TiuTok" width="200"/></td>
+</tr>
+</table>
 
 ### 📊 Estatísticas de Adoção
 Monitore o desempenho dos seus anúncios com **estatísticas detalhadas**. Saiba quantas visualizações o perfil de um animal teve, quantos contatos foram feitos e acompanhe o progresso até a adoção.
