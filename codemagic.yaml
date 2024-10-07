@@ -1,50 +1,4 @@
 workflows:
-  ios-workflow:
-    name: iOS Workflow
-    max_build_duration: 120
-    integrations:
-      app_store_connect: App Store Connect API KEY (Anja Solutions - Tiu, tiu)
-    environment:
-      ios_signing:
-        distribution_type: app_store
-        bundle_identifier: com.anjasolutions.tiutiuapp
-      vars:
-        APP_ID: 1660325927
-      flutter: stable
-    scripts:
-      - name: Set up code signing settings on Xcode project
-        script: | 
-          xcode-project use-profiles
-      - name: Get Flutter packages
-        script: | 
-          flutter packages pub get
-      - name: Get String Localizations
-        script: | 
-          flutter gen-l10n 
-      - name: Install pods
-        script: | 
-          find . -name "Podfile" -execdir pod install \;            
-      - name: Flutter build ipa
-        script: | 
-          flutter build ipa --release \
-            --build-name=1.1.$(($BUILD_NUMBER - 150)) \
-            --build-number=$BUILD_NUMBER \
-            --export-options-plist=/Users/builder/export_options.plist
-    artifacts:
-      - build/ios/ipa/*.ipa
-      - /tmp/xcodebuild_logs/*.log
-      - flutter_drive.log
-    publishing:      
-      app_store_connect:
-        auth: integration
-
-        # Configuration related to TestFlight (optional)
-        # Note: This action is performed during post-processing.
-        submit_to_testflight: true        
-
-        # Configuration related to App Store (optional)
-        # Note: This action is performed during post-processing.
-        submit_to_app_store: false        
   android-workflow:
     name: Android Workflow
     max_build_duration: 120
@@ -59,16 +13,16 @@ workflows:
       flutter: stable
     scripts:
       - name: Set up local.properties
-        script: | 
+        script: |
           echo "flutter.sdk=$HOME/programs/flutter" > "$CM_BUILD_DIR/android/local.properties"
       - name: Get Flutter packages
-        script: | 
-          flutter packages pub get      
+        script: |
+          flutter packages pub get
       - name: Get String Localizations
-        script: | 
-          flutter gen-l10n  
+        script: |
+          flutter gen-l10n
       - name: Build AAB with Flutter
-        script: |           
+        script: |
           flutter build apk -t lib/main.dart --release \
             --dart-define=FIREBASE_OPTIONS_IOS_ANDROID_CLIENT_ID=$FIREBASE_OPTIONS_IOS_ANDROID_CLIENT_ID \
             --dart-define=FIREBASE_OPTIONS_MESSAGING_SENDER_ID=$FIREBASE_OPTIONS_MESSAGING_SENDER_ID \
@@ -82,10 +36,57 @@ workflows:
             --build-number=$BUILD_NUMBER
     artifacts:
       - build/**/outputs/**/*.aab
+      - build/**/outputs/apk/**/*.apk
       - build/**/outputs/**/mapping.txt
       - flutter_drive.log
-    publishing:      
+    publishing:
       google_play:
         credentials: $GCLOUD_SERVICE_ACCOUNT_CREDENTIALS
         track: $GOOGLE_PLAY_TRACK
         submit_as_draft: true
+  ios-workflow:
+    name: iOS Workflow
+    max_build_duration: 120
+    integrations:
+      app_store_connect: App Store Connect API KEY (Anja Solutions - Tiu, tiu)
+    environment:
+      ios_signing:
+        distribution_type: app_store
+        bundle_identifier: com.anjasolutions.tiutiuapp
+      vars:
+        APP_ID: 1660325927
+      flutter: stable
+    scripts:
+      - name: Set up code signing settings on Xcode project
+        script: |
+          xcode-project use-profiles
+      - name: Get Flutter packages
+        script: |
+          flutter packages pub get
+      - name: Get String Localizations
+        script: |
+          flutter gen-l10n
+      - name: Install pods
+        script: |
+          find . -name "Podfile" -execdir pod install \;
+      - name: Flutter build ipa
+        script: |
+          flutter build ipa --release \
+            --build-name=1.1.$(($BUILD_NUMBER - 150)) \
+            --build-number=$BUILD_NUMBER \
+            --export-options-plist=/Users/builder/export_options.plist
+    artifacts:
+      - build/ios/ipa/*.ipa
+      - /tmp/xcodebuild_logs/*.log
+      - flutter_drive.log
+    publishing:
+      app_store_connect:
+        auth: integration
+
+        # Configuration related to TestFlight (optional)
+        # Note: This action is performed during post-processing.
+        submit_to_testflight: true
+
+        # Configuration related to App Store (optional)
+        # Note: This action is performed during post-processing.
+        submit_to_app_store: false
