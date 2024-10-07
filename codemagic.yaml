@@ -30,9 +30,12 @@ workflows:
       - name: Set FlutterFire CLI
         script: |
           dart pub global activate flutterfire_cli
+      - name: Testing
+        script: |
+          echo $FIREBASE_OPTIONS_PROJECT_ID
       - name: Build AAB with Flutter
         script: |
-          LAST_BUILD_NUMBER=$(google-play-get-lastest-build-number --package-name PACKAGE_NAME --tracks=GOOGLE_PLAY_TRACK)
+          LAST_BUILD_NUMBER=$(google-play get-latest-build-number --package-name PACKAGE_NAME --tracks=GOOGLE_PLAY_TRACK)
           CURRENT_BUILD_NUMBER=$((LAST_BUILD_NUMBER + 1))
           flutter build apk -t lib/main.dart --release \
             --dart-define=FIREBASE_OPTIONS_IOS_ANDROID_CLIENT_ID=$FIREBASE_OPTIONS_IOS_ANDROID_CLIENT_ID \
@@ -43,8 +46,8 @@ workflows:
             --dart-define=FIREBASE_OPTIONS_IOS_API_KEY=$FIREBASE_OPTIONS_IOS_API_KEY \
             --dart-define=FIREBASE_OPTIONS_IOS_APP_ID=$FIREBASE_OPTIONS_IOS_APP_ID \
             --dart-define=FIREBASE_OPTIONS_PROJECT_ID=$FIREBASE_OPTIONS_PROJECT_ID \
-            --build-name=1.1.0-$((CURRENT_BUILD_NUMBER)) \
-            --build-number=$((CURRENT_BUILD_NUMBER))
+            --build-name=1.1.0-$CURRENT_BUILD_NUMBER \
+            --build-number=$CURRENT_BUILD_NUMBER
     artifacts:
       - build/**/outputs/**/*.aab
       - build/**/outputs/apk/**/*.apk
