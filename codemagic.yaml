@@ -1,8 +1,14 @@
+definitions:
+  environment:
+    firebase_env: &firebase_env
+      groups:
+        - firebase_options
 workflows:
   android-workflow:
     name: Android Workflow
     max_build_duration: 120
     environment:
+      <<: *firebase_env
       android_signing:
         - tiutiu_keystore
       groups:
@@ -26,7 +32,8 @@ workflows:
           dart pub global activate flutterfire_cli
       - name: Build AAB with Flutter
         script: |
-          CURRENT_BUILD_NUMBER=$(google-play-get-lastest-build-number --package-name PACKAGE_NAME --tracks=GOOGLE_PLAY_TRACK)
+          LAST_BUILD_NUMBER=$(google-play-get-lastest-build-number --package-name PACKAGE_NAME --tracks=GOOGLE_PLAY_TRACK)
+          CURRENT_BUILD_NUMBER=$((CURRENT_BUILD_NUMBER + 1))
           flutter build apk -t lib/main.dart --release \
             --dart-define=FIREBASE_OPTIONS_IOS_ANDROID_CLIENT_ID=$FIREBASE_OPTIONS_IOS_ANDROID_CLIENT_ID \
             --dart-define=FIREBASE_OPTIONS_MESSAGING_SENDER_ID=$FIREBASE_OPTIONS_MESSAGING_SENDER_ID \
@@ -36,8 +43,8 @@ workflows:
             --dart-define=FIREBASE_OPTIONS_IOS_API_KEY=$FIREBASE_OPTIONS_IOS_API_KEY \
             --dart-define=FIREBASE_OPTIONS_IOS_APP_ID=$FIREBASE_OPTIONS_IOS_APP_ID \
             --dart-define=FIREBASE_OPTIONS_PROJECT_ID=$FIREBASE_OPTIONS_PROJECT_ID \
-            --build-name=1.1.$(($CURRENT_BUILD_NUMBER - CURRENT_BUILD_NUMBER)) \
-            --build-number=$((CURRENT_BUILD_NUMBER + 1))
+            --build-name=1.1.0-$$CURRENT_BUILD_NUMBER \
+            --build-number=$CURRENT_BUILD_NUMBER
     artifacts:
       - build/**/outputs/**/*.aab
       - build/**/outputs/apk/**/*.apk
@@ -54,6 +61,7 @@ workflows:
     integrations:
       app_store_connect: App Store Connect API KEY (Anja Solutions - Tiu, tiu)
     environment:
+      <<: *firebase_env
       ios_signing:
         distribution_type: app_store
         bundle_identifier: com.anjasolutions.tiutiuapp
