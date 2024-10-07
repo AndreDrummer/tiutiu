@@ -34,6 +34,8 @@ workflows:
         script: |
           echo $FIREBASE_OPTIONS_PROJECT_ID
           echo "Teste"
+          echo $PACKAGE_NAME
+          echo PACKAGE_NAME
     #   - name: Build AAB with Flutter
     #     script: |
     #       LAST_BUILD_NUMBER=$(google-play get-latest-build-number --package-name PACKAGE_NAME --tracks=GOOGLE_PLAY_TRACK)
