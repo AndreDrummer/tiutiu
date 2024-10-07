@@ -70,6 +70,14 @@ workflows:
       - name: Build AAB with Flutter
         script: |           
           flutter build appbundle --release \
+            --dart-define=FIREBASE_OPTIONS_IOS_ANDROID_CLIENT_ID=$FIREBASE_OPTIONS_IOS_ANDROID_CLIENT_ID \
+            --dart-define=FIREBASE_OPTIONS_MESSAGING_SENDER_ID=$FIREBASE_OPTIONS_MESSAGING_SENDER_ID \
+            --dart-define=FIREBASE_OPTIONS_IOS_IOS_CLIENT_ID=$FIREBASE_OPTIONS_IOS_IOS_CLIENT_ID \
+            --dart-define=FIREBASE_OPTIONS_ANDROID_API_KEY=$FIREBASE_OPTIONS_ANDROID_API_KEY \
+            --dart-define=FIREBASE_OPTIONS_ANDROID_APP_ID=$FIREBASE_OPTIONS_ANDROID_APP_ID \
+            --dart-define=FIREBASE_OPTIONS_IOS_API_KEY=$FIREBASE_OPTIONS_IOS_API_KEY \
+            --dart-define=FIREBASE_OPTIONS_IOS_APP_ID=$FIREBASE_OPTIONS_IOS_APP_ID \
+            --dart-define=FIREBASE_OPTIONS_PROJECT_ID=$FIREBASE_OPTIONS_PROJECT_ID \
             --build-name=$((1.1.$BUILD_NUMBER - 146)) \
             --build-number=$BUILD_NUMBER
     artifacts:
