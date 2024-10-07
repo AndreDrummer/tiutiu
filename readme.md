@@ -10,6 +10,14 @@ O **Tiu, Tiu** é um aplicativo poderoso e intuitivo criado para facilitar o pro
 
 ---
 
+## 📸 Capturas de Tela
+
+| Tela Inicial                     | Tela de Filtros                    | TiuTok                       |
+| --------------------------------- | ---------------------------------- | -------------------------------- |
+| ![Tela Inicial](/assets/repo/Start%20Screen.png) | ![Tela de Filtros](/assets/repo/Home%20Screen%202.png) | ![TiuTok](/assets/repo/TiuTok%202.png) |
+
+---
+
 ## ⬇ Baixe nas lojas de aplicativos
 
 ### Disponível para Android e iOS 
@@ -38,11 +46,12 @@ Doar um animal nunca foi tão fácil! Com poucos cliques, você pode criar um an
 
 <table>
   <tr>
-    <td align="center" colspan="2">Telas de Cadastro</td>
+    <td align="center" colspan="3">Telas de Cadastro</td>
   </tr>  
   <tr>
+    <td><img src="assets/repo/Init Post Flow.png" alt="Tela de Características do Pet" width="200"/></td>
     <td><img src="assets/repo/Post Flow Detail.png" alt="Tela de Incío do Post Inicial" width="200"/></td>
-    <td><img src="assets/repo/Init Post Flow.png" alt="Tela de Características do Pet" width="200"/></td>    
+    <td><img src="assets/repo/Post Flow Photo.jpeg" alt="Tela de Características do Pet" width="200"/></td>    
   </tr>  
 </table>
 
@@ -64,7 +73,15 @@ A **seção TiuTok** oferece uma experiência inovadora e envolvente, permitindo
 ### 🌍 Geolocalização Avançada
 Nossa funcionalidade de **geolocalização avançada** permite que você encontre animais para adoção perto de sua localização atual. Isso facilita ainda mais o processo, ajudando a conectar adotantes a animais que estão próximos.
 
-![Busca Global](/assets/repo/Country%20Selection.png)
+<table>
+  <tr>
+    <td align="center" colspan="2">Disponível Mundialmente</td>
+  </tr>  
+  <tr>
+    <td><img src="assets/repo/Country Selection.jpeg" alt="Brasil Selecionado" width="200"/></td>
+    <td><img src="assets/repo/Country Selection 2.jpeg" alt="EUA Selecionado" width="200"/></td>    
+  </tr>  
+</table>
 
 ### 🔗 Integração com Redes Sociais
 Compartilhe perfis de animais diretamente em suas redes sociais favoritas, como Instagram, Facebook e WhatsApp. Cada compartilhamento ajuda a aumentar a visibilidade de animais que precisam de um novo lar!
@@ -98,12 +115,16 @@ Fique por dentro de novas oportunidades e interações com as **notificações p
 ### 📊 Estatísticas de Adoção
 Monitore o desempenho dos seus anúncios com **estatísticas detalhadas**. Saiba quantas visualizações o perfil de um animal teve, quantos contatos foram feitos e acompanhe o progresso até a adoção.
 
-![Meus Posts](/assets/repo/My%20Posts.jpeg)
+<table>
+<tr>
+<td><img src="assets/repo/My Posts.jpeg" alt="TiuTok" width="200"/></td>
+</tr>
+</table>
+
 
 ### 🎯 Sistema de Favoritos
 Adicione animais ao seu **sistema de favoritos**, facilitando o acompanhamento de pets que você tem interesse em adotar. Acompanhe seus favoritos e receba atualizações caso haja alguma mudança de status no processo de adoção.
 
-[**Screenshot da tela de favoritos**]
 <table>
   <tr>
     <td align="center" colspan="2">Favoritos</td>
@@ -165,14 +186,6 @@ Quer contribuir ou rodar o **Tiu, Tiu** localmente? Siga as etapas abaixo para c
    ```bash
    flutter run
    ```
-
----
-
-## 📸 Screenshots
-
-| Tela Inicial                     | Tela de Filtros                    | TiuTok                       |
-| --------------------------------- | ---------------------------------- | -------------------------------- |
-| ![Tela Inicial](/assets/repo/Start%20Screen.png) | ![Tela de Filtros](/assets/repo/Home%20Screen%202.png) | ![TiuTok](/assets/repo/TiuTok%202.png) |
 
 ---
 
