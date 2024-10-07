@@ -85,9 +85,10 @@ Compartilhe perfis de animais diretamente em suas redes sociais favoritas, como 
 
 <table>
   <tr>
-    <td align="center" colspan="2">Compartilhe nas Redes Sociais</td>
+    <td align="center" colspan="3">Login e compartilhamento nas Redes Sociais</td>
   </tr>  
   <tr>
+    <td><img src="assets/repo/Social Login.jpeg" alt="Login nas Redes Sociais" width="200"/></td>
     <td><img src="assets/repo/Share.jpeg" alt="Preparando Post para Compartilhar nas Redes Sociais" width="200"/></td>
     <td><img src="assets/repo/Follow Us.jpeg" alt="Nossas Redes Sociais" width="200"/></td>    
   </tr>  
@@ -114,6 +115,10 @@ Monitore o desempenho dos seus anúncios com **estatísticas detalhadas**. Saiba
 
 <table>
 <tr>
+    <td align="center" colspan="2">Formulário de Adoção e Meus Posts</td>
+  </tr> 
+<tr>
+<td><img src="assets/repo/Adoption Form.jpeg" alt="TiuTok" width="200"/></td>
 <td><img src="assets/repo/My Posts.jpeg" alt="TiuTok" width="200"/></td>
 </tr>
 </table>
