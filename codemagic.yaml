@@ -13,6 +13,7 @@ workflows:
         - tiutiu_keystore
       groups:
         - google_play
+        - firebase_options
       vars:
         PACKAGE_NAME: "com.anjasolutions.tiutiu"
         GOOGLE_PLAY_TRACK: internal
@@ -35,10 +36,9 @@ workflows:
           echo $FIREBASE_OPTIONS_PROJECT_ID
           echo "Teste"
           echo $PACKAGE_NAME
-          echo PACKAGE_NAME
     #   - name: Build AAB with Flutter
     #     script: |
-    #       LAST_BUILD_NUMBER=$(google-play get-latest-build-number --package-name PACKAGE_NAME --tracks=GOOGLE_PLAY_TRACK)
+    #       LAST_BUILD_NUMBER=$(google-play get-latest-build-number --package-name $PACKAGE_NAME --tracks=$GOOGLE_PLAY_TRACK)
     #       CURRENT_BUILD_NUMBER=$((LAST_BUILD_NUMBER + 1))
     #       flutter build apk -t lib/main.dart --release \
     #         --dart-define=FIREBASE_OPTIONS_IOS_ANDROID_CLIENT_ID=$FIREBASE_OPTIONS_IOS_ANDROID_CLIENT_ID \
