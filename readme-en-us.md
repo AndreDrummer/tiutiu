@@ -6,7 +6,20 @@ Here's the translated content into English:
 
 # Animal Adoption and Donation Platform 🐾
 
-![Banner](assets/repo/banner.png)
+<table>  
+  <tr>
+    <td><img src="assets/repo/store/store1.png" alt="Apresentação do App 1" width="200"/></td>    
+    <td><img src="assets/repo/store/store2.png" alt="Apresentação do App 2" width="200"/></td>    
+    <td><img src="assets/repo/store/store3.png" alt="Apresentação do App 3" width="200"/></td>    
+    <td><img src="assets/repo/store/store4.png" alt="Apresentação do App 4" width="200"/></td>    
+    <td><img src="assets/repo/store/store5.png" alt="Apresentação do App 5" width="200"/></td>    
+    <td><img src="assets/repo/store/store6.png" alt="Apresentação do App 6" width="200"/></td>    
+    <td><img src="assets/repo/store/store7.png" alt="Apresentação do App 7" width="200"/></td>    
+    <td><img src="assets/repo/store/store8.png" alt="Apresentação do App 8" width="200"/></td>    
+    <td><img src="assets/repo/store/store9.png" alt="Apresentação do App 9" width="200"/></td>    
+    <td><img src="assets/repo/store/store10.png" alt="Apresentação do App 10" width="200"/></td>    
+  </tr>  
+</table>
 
 **Tiu, Tiu** is a powerful and intuitive app created to simplify the process of animal adoption and donation. With a wide range of robust features, our mission is to connect adopters and donors, ensuring that more animals find loving homes. Additionally, we provide a modern user experience, featuring videos, geolocation, integrated chat, and much more!
 
@@ -230,3 +243,17 @@ Contributions are welcome! If you want to help with the development of **Tiu, Ti
 3. Submit a Pull Request with your suggestions.
 
 Let's build a platform together that helps more animals find their forever homes!
+
+## ⬇ Download Now
+
+![Banner](assets/repo/banner.png)
+
+<p>
+  <a href="https://play.google.com/store/apps/details?id=com.anjasolutions.tiutiu&hl=pt">
+    <img src="assets/repo/Play Store Logo.png" alt="Play Store Download" width="256"/>
+  </a>
+
+  <a href="https://apps.apple.com/br/app/tiutiu-ado%C3%A7%C3%A3o-de-animais/id1660325927">
+    <img src="assets/repo/App Store Logo.png" alt="App Store Download" width="256" style="margin-right: 4px;"/>
+  </a>
+</p>
