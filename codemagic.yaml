@@ -75,6 +75,7 @@ workflows:
         bundle_identifier: com.anjasolutions.tiutiuapp
       groups:
         - firebase_options
+        - firebase_files
       vars:
         APP_ID: 1660325927
       flutter: stable
