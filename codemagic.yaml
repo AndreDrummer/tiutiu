@@ -25,7 +25,7 @@ workflows:
           echo $ANDROID_APP_GOOGLE_SERVICES_JSON | base64 --decode > android/app/google-services.json
       - name: Take a look at Google-services.json File
         script: |
-          echo android/app/google-services.json
+          echo $ANDROID_APP_GOOGLE_SERVICES_JSON | base64 --decode
     #   - name: Set up local.properties
     #     script: |
     #       echo "flutter.sdk=$HOME/programs/flutter" > "$CM_BUILD_DIR/android/local.properties"
