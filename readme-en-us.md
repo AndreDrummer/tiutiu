@@ -180,6 +180,12 @@ Check out what we have planned for upcoming versions:
 
 ---
 
+## 📜 License
+This project is licensed under the [MIT License](LICENSE). Feel free to use and modify it as needed.
+
+
+---
+
 ## 🛠️ How to Set Up and Run
 
 Want to contribute or run **Tiu, Tiu** locally? Follow the steps below to set up the environment:
