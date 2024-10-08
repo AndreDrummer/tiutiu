@@ -58,6 +58,6 @@ app.*.map.json
 .tiutiu_reset.sh
 
 # Firebase Config
-# .firebase.json
+.firebase.json
 # ios/Runner/GoogleService-Info.plist
 # android/app/google-services.json
