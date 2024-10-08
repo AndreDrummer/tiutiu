@@ -178,6 +178,11 @@ Veja o que planejamos para as próximas versões:
 
 ---
 
+## 📜 Licença
+Este projeto está licenciado sob a [MIT License](LICENSE). Sinta-se à vontade para usar e modificar conforme necessário.
+
+---
+
 ## 🛠️ Como Configurar e Executar
 
 Quer contribuir ou rodar o **Tiu, Tiu** localmente? Siga as etapas abaixo para configurar o ambiente:
