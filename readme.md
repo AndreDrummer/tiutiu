@@ -9,9 +9,12 @@
     <td><img src="assets/repo/store/store1.png" alt="Apresentação do App 1" width="200"/></td>    
     <td><img src="assets/repo/store/store2.png" alt="Apresentação do App 2" width="200"/></td>            
     <td><img src="assets/repo/store/store6.png" alt="Apresentação do App 6" width="200"/></td>    
-    <td><img src="assets/repo/store/store7.png" alt="Apresentação do App 7" width="200"/></td>          
-    <td><img src="assets/repo/store/store11.png" alt="Apresentação do App 11" width="200" height="408"/></td>          
-    <td><img src="assets/repo/store/store11.png" alt="Apresentação do App 11" width="200" height="408"/></td>          
+    <td><img src="assets/repo/store/store7.png" alt="Apresentação do App 7" width="200"/></td>    
+    <td><img src="assets/repo/store/store5.png" alt="Apresentação do App 5" width="200"/></td>     
+    <td><img src="assets/repo/store/store3.png" alt="Apresentação do App 3" width="200"/></td>    
+    <td><img src="assets/repo/store/store4.png" alt="Apresentação do App 4" width="200"/></td>       
+              
+    
   </tr>  
 </table>
 
