@@ -1,3 +1,9 @@
+definitions:
+  scripts:
+    - &generate_root_firebase_json
+      name: Generate root Firebase.json file
+      script: |
+        echo $ROOT_FIREBASE_JSON | base64 --decode > /
 workflows:
   android-workflow:
     name: Android Workflow
@@ -13,6 +19,7 @@ workflows:
         GOOGLE_PLAY_TRACK: internal
       flutter: stable
     scripts:
+      - *generate_root_firebase_json
       - name: Set up local.properties
         script: |
           echo "flutter.sdk=$HOME/programs/flutter" > "$CM_BUILD_DIR/android/local.properties"
@@ -65,6 +72,7 @@ workflows:
         APP_ID: 1660325927
       flutter: stable
     scripts:
+      - *generate_root_firebase_json
       - name: Set up code signing settings on Xcode project
         script: |
           xcode-project use-profiles
