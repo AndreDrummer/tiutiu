@@ -59,5 +59,8 @@ app.*.map.json
 
 # Firebase Config
 firebase.json
-# *GoogleService-Info.plist
+*GoogleService-Info.plist
 *google-services.json
+ios/firebase_app_id_file.json
+test.json
+test.txt

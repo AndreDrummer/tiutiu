@@ -80,6 +80,12 @@ workflows:
       flutter: stable
     scripts:
       - *generate_root_firebase_json
+      - name: Generating firebase_app_id_file.json file
+        script: |
+          echo $IOS_FIREBASE_APP_ID_FILE_JSON | base64 --decode > ios/firebase_app_id_file.json
+      - name: Generating GoogleService-Info.plist file
+        script: |
+          echo $IOS_RUNNER_GOOGLE_SERVICE_INFO_PLIST | base64 --decode > ios/Runner/GoogleService-Info.plist
       - name: Set up code signing settings on Xcode project
         script: |
           xcode-project use-profiles
