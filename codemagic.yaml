@@ -14,6 +14,7 @@ workflows:
       groups:
         - google_play
         - firebase_options
+        - firebase_files
       vars:
         PACKAGE_NAME: "com.anjasolutions.tiutiu"
         GOOGLE_PLAY_TRACK: internal
@@ -22,10 +23,10 @@ workflows:
       - *generate_root_firebase_json
       - name: Generate Google-services.json File
         script: |
-          echo $ANDROID_APP_GOOGLE_SERVICES_JSON | base64 --decode > android/app
+          echo $ANDROID_APP_GOOGLE_SERVICES_JSON | base64 --decode > android/app/google-services.json
       - name: Take a look at Google-services.json File
         script: |
-          echo $ANDROID_APP_GOOGLE_SERVICES_JSON
+          echo $ANDROID_APP_GOOGLE_SERVICES_JSON | base64 --decode
     #   - name: Set up local.properties
     #     script: |
     #       echo "flutter.sdk=$HOME/programs/flutter" > "$CM_BUILD_DIR/android/local.properties"
