@@ -1,8 +1,3 @@
-definitions:
-  environment:
-    firebase_env: &firebase_env
-      groups:
-        - firebase_options
 workflows:
   android-workflow:
     name: Android Workflow
@@ -12,7 +7,7 @@ workflows:
         - tiutiu_keystore
       groups:
         - google_play
-      <<: *firebase_env
+        - firebase_options
       vars:
         PACKAGE_NAME: "com.anjasolutions.tiutiu"
         GOOGLE_PLAY_TRACK: internal
