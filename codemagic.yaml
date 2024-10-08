@@ -3,7 +3,7 @@ definitions:
     - &generate_root_firebase_json
       name: Generate root Firebase.json file
       script: |
-        echo $ROOT_FIREBASE_JSON | base64 --decode > /firebase.json
+        echo $ROOT_FIREBASE_JSON | base64 --decode > firebase.json
 workflows:
   android-workflow:
     name: Android Workflow
