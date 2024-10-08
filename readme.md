@@ -4,20 +4,13 @@
 
 # Plataforma de Adoção e Doação de Animais 🐾
 
-<table>  
-  <tr>
-    <td><img src="assets/repo/store/store1.png" alt="Apresentação do App 1" width="200"/></td>    
-    <td><img src="assets/repo/store/store2.png" alt="Apresentação do App 2" width="200"/></td>    
-    <td><img src="assets/repo/store/store3.png" alt="Apresentação do App 3" width="200"/></td>    
-    <td><img src="assets/repo/store/store4.png" alt="Apresentação do App 4" width="200"/></td>    
-    <td><img src="assets/repo/store/store5.png" alt="Apresentação do App 5" width="200"/></td>    
-    <td><img src="assets/repo/store/store6.png" alt="Apresentação do App 6" width="200"/></td>    
-    <td><img src="assets/repo/store/store7.png" alt="Apresentação do App 7" width="200"/></td>    
-    <td><img src="assets/repo/store/store8.png" alt="Apresentação do App 8" width="200"/></td>    
-    <td><img src="assets/repo/store/store9.png" alt="Apresentação do App 9" width="200"/></td>    
-    <td><img src="assets/repo/store/store10.png" alt="Apresentação do App 10" width="200"/></td>    
-  </tr>  
-</table>
+
+| ![Apresentação do App 1](assets/repo/store/store1.png) | ![Apresentação do App 2](assets/repo/store/store2.png) | ![Apresentação do App 6](assets/repo/store/store6.png) | ![Apresentação do App 7](assets/repo/store/store7.png) |
+| ------------------------------------------------------ | ------------------------------------------------------ | ------------------------------------------------------ | ------------------------------------------------------ |
+| ![Apresentação do App 1](assets/repo/store/store1.png) | ![Apresentação do App 2](assets/repo/store/store2.png) | ![Apresentação do App 6](assets/repo/store/store6.png) | ![Apresentação do App 7](assets/repo/store/store7.png) |
+
+
+
 
 O **Tiu, Tiu** é um aplicativo poderoso e intuitivo criado para facilitar o processo de adoção e doação de animais. Com uma série de funcionalidades robustas, nossa missão é conectar adotantes e doadores, garantindo que mais animais encontrem lares amorosos. Além disso, proporcionamos uma experiência de uso moderna, com vídeos, geolocalização, chat integrado e muito mais!
 
