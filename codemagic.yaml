@@ -61,10 +61,11 @@ workflows:
     integrations:
       app_store_connect: App Store Connect API KEY (Anja Solutions - Tiu, tiu)
     environment:
-      <<: *firebase_env
       ios_signing:
         distribution_type: app_store
         bundle_identifier: com.anjasolutions.tiutiuapp
+      groups:
+        - firebase_options
       vars:
         APP_ID: 1660325927
       flutter: stable
