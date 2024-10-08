@@ -10,7 +10,7 @@
     <td><img src="assets/repo/store/store2.png" alt="Apresentação do App 2" width="200"/></td>            
     <td><img src="assets/repo/store/store6.png" alt="Apresentação do App 6" width="200"/></td>    
     <td><img src="assets/repo/store/store7.png" alt="Apresentação do App 7" width="200"/></td>          
-    <td><img src="assets/repo/store/store11.png" alt="Apresentação do App 11" width="400" height="414"/></td>          
+    <td><img src="assets/repo/store/store11.png" alt="Apresentação do App 11" width="200"/></td>          
   </tr>  
 </table>
 
