@@ -53,7 +53,6 @@ class CardAdList extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      SizedBox(height: 2.0),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -71,7 +70,6 @@ class CardAdList extends StatelessWidget {
                       Divider(),
                       cardBuilder.adPostedAt(),
                       cardBuilder.adDistanceFromUser(),
-                      SizedBox(height: 2.0),
                     ],
                   ),
                 ),
@@ -98,6 +96,5 @@ class CardAdList extends StatelessWidget {
     );
   }
 
-  Widget _tagIsDisappeared(bool visible) =>
-      Visibility(child: DisappearedTag(), visible: visible);
+  Widget _tagIsDisappeared(bool visible) => Visibility(child: DisappearedTag(), visible: visible);
 }
