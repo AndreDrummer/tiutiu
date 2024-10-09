@@ -1,4 +1,4 @@
-**Idioma**: 🇧🇷 <a href="https://github.com/AndreDrummer/tiutiu/blob/main/readme.md">Português Brasileiro</a> | 🇺🇸 <a href="https://github.com/AndreDrummer/tiutiu/blob/main/readme-en-us.md">Inglês Americano</a>
+**Idioma**: 🇧🇷 <a href="https://github.com/AndreDrummer/Tiutiu/blob/main/readme.md">Português Brasileiro</a> | 🇺🇸 <a href="https://github.com/AndreDrummer/Tiutiu/blob/main/readme-en-us.md">Inglês Americano</a>
 
 # <img src="assets/images/android_icon_dark.png" alt="Logo" width="64" style="vertical-align: middle;"/> Tiu, Tiu
 
@@ -46,11 +46,11 @@ O **Tiu, Tiu** é um aplicativo poderoso e intuitivo criado para facilitar o pro
 
 ### Disponível para Android e iOS 
 <p>
-  <a href="https://play.google.com/store/apps/details?id=com.anjasolutions.tiutiu&hl=pt">
+  <a href="https://play.google.com/store/apps/details?id=com.anjasolutions.Tiutiu&hl=pt">
     <img src="assets/repo/Play Store Logo.png" alt="Play Store Download" width="256"/>
   </a>
 
-  <a href="https://apps.apple.com/br/app/tiutiu-ado%C3%A7%C3%A3o-de-animais/id1660325927">
+  <a href="https://apps.apple.com/br/app/Tiutiu-ado%C3%A7%C3%A3o-de-animais/id1660325927">
     <img src="assets/repo/App Store Logo.png" alt="App Store Download" width="256" style="margin-right: 4px;"/>
   </a>
 </p>
@@ -91,6 +91,7 @@ A **seção TiuTok** oferece uma experiência inovadora e envolvente, permitindo
   </tr>  
 </table>
 
+
 ### 🌍 Geolocalização Avançada
 Nossa funcionalidade de **geolocalização avançada** permite que você encontre animais para adoção perto de sua localização atual. Isso facilita ainda mais o processo, ajudando a conectar adotantes a animais que estão próximos.
 
@@ -117,6 +118,12 @@ Compartilhe perfis de animais diretamente em suas redes sociais favoritas, como 
     <td><img src="assets/repo/Follow Us.jpeg" alt="Nossas Redes Sociais" width="200"/></td>    
   </tr>  
 </table>
+
+## 🌐 Internacionalização
+O Tiutiu está disponível em três idiomas: português, inglês e espanhol. A aplicação detecta automaticamente o idioma do dispositivo do usuário e ajusta a interface de acordo, proporcionando uma experiência personalizada e acessível para pessoas de diferentes regiões do mundo.
+
+Se o seu dispositivo estiver configurado para qualquer um desses idiomas, o app será exibido automaticamente no idioma correspondente. Essa funcionalidade garante que todos os usuários possam navegar no Tiutiu com facilidade, independentemente da sua localização.
+
 
 ### 💬 Chat In-App
 Com nosso **chat integrado**, adotantes e doadores podem se comunicar diretamente dentro do aplicativo, facilitando o processo de adoção. Perguntas sobre o animal, informações adicionais ou mesmo agendar visitas podem ser resolvidas rapidamente com o chat em tempo real.
@@ -213,7 +220,7 @@ Quer contribuir ou rodar o **Tiu, Tiu** localmente? Siga as etapas abaixo para c
 
 1. Clone o repositório:
    ```bash
-   git clone https://github.com/AndreDrummer/tiutiu.git
+   git clone https://github.com/AndreDrummer/Tiutiu.git
    ```
 2. Instale as dependências:
    ```bash
@@ -232,10 +239,10 @@ Quer contribuir ou rodar o **Tiu, Tiu** localmente? Siga as etapas abaixo para c
 
 ## 🌍 Links Importantes
 
-- [Baixe o Tiu, Tiu na Play Store](https://play.google.com/store/apps/details?id=com.anjasolutions.tiutiu&hl=pt)
-- [Baixe o Tiu, Tiu na Apple Store](https://apps.apple.com/br/app/tiutiu-ado%C3%A7%C3%A3o-de-animais/id1660325927)
-- [Acesse o site oficial](https://www.anjasolutions.com/tiutiu)
-- [Visite o repositório no GitHub](https://github.com/AndreDrummer/tiutiu)
+- [Baixe o Tiu, Tiu na Play Store](https://play.google.com/store/apps/details?id=com.anjasolutions.Tiutiu&hl=pt)
+- [Baixe o Tiu, Tiu na Apple Store](https://apps.apple.com/br/app/Tiutiu-ado%C3%A7%C3%A3o-de-animais/id1660325927)
+- [Acesse o site oficial](https://www.anjasolutions.com/Tiutiu)
+- [Visite o repositório no GitHub](https://github.com/AndreDrummer/Tiutiu)
 
 ---
 
@@ -254,11 +261,11 @@ Vamos construir juntos uma plataforma que ajude mais animais a encontrar seus la
 ![Banner](assets/repo/banner.png)
 
 <p>
-  <a href="https://play.google.com/store/apps/details?id=com.anjasolutions.tiutiu&hl=pt">
+  <a href="https://play.google.com/store/apps/details?id=com.anjasolutions.Tiutiu&hl=pt">
     <img src="assets/repo/Play Store Logo.png" alt="Play Store Download" width="256"/>
   </a>
 
-  <a href="https://apps.apple.com/br/app/tiutiu-ado%C3%A7%C3%A3o-de-animais/id1660325927">
+  <a href="https://apps.apple.com/br/app/Tiutiu-ado%C3%A7%C3%A3o-de-animais/id1660325927">
     <img src="assets/repo/App Store Logo.png" alt="App Store Download" width="256" style="margin-right: 4px;"/>
   </a>
 </p>

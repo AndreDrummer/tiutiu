@@ -1,6 +1,6 @@
 Here's the translated content into English:
 
-**Language**: 🇧🇷 <a href="https://github.com/AndreDrummer/tiutiu/blob/main/readme.md">Brazilian Portuguese</a> | 🇺🇸 <a href="https://github.com/AndreDrummer/tiutiu/blob/main/readme-en-us.md">American English</a>
+**Language**: 🇧🇷 <a href="https://github.com/AndreDrummer/Tiutiu/blob/main/readme.md">Brazilian Portuguese</a> | 🇺🇸 <a href="https://github.com/AndreDrummer/Tiutiu/blob/main/readme-en-us.md">American English</a>
 
 # <img src="assets/images/android_icon_dark.png" alt="Logo" width="64" style="vertical-align: middle;"/> Tiu, Tiu
 
@@ -37,11 +37,11 @@ Here's the translated content into English:
 
 ### Available for Android and iOS 
 <p>
-  <a href="https://play.google.com/store/apps/details?id=com.anjasolutions.tiutiu&hl=pt">
+  <a href="https://play.google.com/store/apps/details?id=com.anjasolutions.Tiutiu&hl=pt">
     <img src="assets/repo/Play Store Logo.png" alt="Play Store Download" width="256"/>
   </a>
 
-  <a href="https://apps.apple.com/br/app/tiutiu-ado%C3%A7%C3%A3o-de-animais/id1660325927">
+  <a href="https://apps.apple.com/br/app/Tiutiu-ado%C3%A7%C3%A3o-de-animais/id1660325927">
     <img src="assets/repo/App Store Logo.png" alt="App Store Download" width="256" style="margin-right: 4px;"/>
   </a>
 </p>
@@ -94,6 +94,11 @@ Our **advanced geolocation** feature allows you to find animals for adoption nea
     <td><img src="assets/repo/Country Selection 2.jpeg" alt="USA Selected" width="200"/></td>    
   </tr>  
 </table>
+
+## 🌐 Internationalization
+Tiutiu is available in three languages: Portuguese, English and Spanish. The application automatically detects the language of the user's device and adjusts the interface accordingly, providing a personalized and accessible experience for people from different regions of the world.
+
+If your device is set to any of these languages, the app will automatically display in the corresponding language. This functionality ensures that all users can navigate Tiutiu with ease, regardless of their location.
 
 ### 🔗 Social Media Integration
 Share animal profiles directly to your favorite social networks, such as Instagram, Facebook, and WhatsApp. Each share helps increase the visibility of animals that need a new home!
@@ -205,7 +210,7 @@ Want to contribute or run **Tiu, Tiu** locally? Follow the steps below to set up
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/AndreDrummer/tiutiu.git
+   git clone https://github.com/AndreDrummer/Tiutiu.git
 Here’s the translation of the content into English:
 
 ---
@@ -227,10 +232,10 @@ Here’s the translation of the content into English:
 
 ## 🌍 Important Links
 
-- [Download Tiu, Tiu on the Play Store](https://play.google.com/store/apps/details?id=com.anjasolutions.tiutiu&hl=pt)
-- [Download Tiu, Tiu on the Apple Store](https://apps.apple.com/br/app/tiutiu-ado%C3%A7%C3%A3o-de-animais/id1660325927)
-- [Visit the official website](https://www.anjasolutions.com/tiutiu)
-- [Visit the repository on GitHub](https://github.com/AndreDrummer/tiutiu)
+- [Download Tiu, Tiu on the Play Store](https://play.google.com/store/apps/details?id=com.anjasolutions.Tiutiu&hl=pt)
+- [Download Tiu, Tiu on the Apple Store](https://apps.apple.com/br/app/Tiutiu-ado%C3%A7%C3%A3o-de-animais/id1660325927)
+- [Visit the official website](https://www.anjasolutions.com/Tiutiu)
+- [Visit the repository on GitHub](https://github.com/AndreDrummer/Tiutiu)
 
 ---
 
@@ -249,11 +254,11 @@ Let's build a platform together that helps more animals find their forever homes
 ![Banner](assets/repo/banner.png)
 
 <p>
-  <a href="https://play.google.com/store/apps/details?id=com.anjasolutions.tiutiu&hl=pt">
+  <a href="https://play.google.com/store/apps/details?id=com.anjasolutions.Tiutiu&hl=pt">
     <img src="assets/repo/Play Store Logo.png" alt="Play Store Download" width="256"/>
   </a>
 
-  <a href="https://apps.apple.com/br/app/tiutiu-ado%C3%A7%C3%A3o-de-animais/id1660325927">
+  <a href="https://apps.apple.com/br/app/Tiutiu-ado%C3%A7%C3%A3o-de-animais/id1660325927">
     <img src="assets/repo/App Store Logo.png" alt="App Store Download" width="256" style="margin-right: 4px;"/>
   </a>
 </p>
