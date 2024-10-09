@@ -8,6 +8,7 @@ import 'package:tiutiu/core/constants/assets_path.dart';
 import 'package:tiutiu/core/constants/text_styles.dart';
 import 'package:tiutiu/core/constants/app_colors.dart';
 import 'package:tiutiu/core/utils/asset_handle.dart';
+import 'package:tiutiu/core/utils/dimensions.dart';
 import 'package:tiutiu/core/utils/formatter.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -116,9 +117,7 @@ class More extends StatelessWidget {
       width: 200.0.w,
       child: Obx(
         () => AutoSizeTexts.autoSizeText14(
-          Formatters.cuttedText(
-              '${tiutiuUserController.tiutiuUser.displayName}',
-              size: 32),
+          Formatters.cuttedText('${tiutiuUserController.tiutiuUser.displayName}', size: 32),
           fontWeight: FontWeight.w600,
           color: AppColors.white,
         ),
@@ -132,10 +131,14 @@ class More extends StatelessWidget {
     return Container(
       padding: EdgeInsets.zero,
       margin: EdgeInsets.zero,
-      height: Get.height / 1.5,
-      child: ListView.separated(
+      height: Dimensions.getDimensBasedOnDeviceHeight(
+        xSmaller: Get.height / 1.45,
+        smaller: Get.height / 1.35,
+        bigger: Get.height,
+        medium: Get.height,
+      ),
+      child: ListView.builder(
         padding: EdgeInsets.zero,
-        separatorBuilder: (context, index) => Divider(),
         itemCount: myProfileOptionsTile.length,
         itemBuilder: (context, index) {
           final title = myProfileOptionsTile.elementAt(index);
