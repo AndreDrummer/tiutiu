@@ -8,8 +8,7 @@ import 'package:flutter/foundation.dart';
 final DISAPPEARED_TAB = 1;
 
 class PostsRepository {
-  PostsRepository({required PostService postService})
-      : _postService = postService;
+  PostsRepository({required PostService postService}) : _postService = postService;
 
   final PostService _postService;
 
@@ -111,8 +110,7 @@ class PostsRepository {
     return cachedPostsMap;
   }
 
-  Future<void> uploadVideo(
-      {required Function(String?) onUploaded, required Post post}) async {
+  Future<void> uploadVideo({required Function(String?) onUploaded, required Post post}) async {
     await _postService.uploadVideo(
       onVideoUploaded: onUploaded,
       post: post,

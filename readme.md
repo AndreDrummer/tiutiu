@@ -4,13 +4,37 @@
 
 # Plataforma de Adoção e Doação de Animais 🐾
 
-![Banner](assets/repo/banner.png)
+<table>  
+  <tr>
+    <td><img src="assets/repo/store/store1.png" alt="Apresentação do App 1" width="200"/></td>    
+    <td><img src="assets/repo/store/store2.png" alt="Apresentação do App 2" width="200"/></td>            
+    <td><img src="assets/repo/store/store6.png" alt="Apresentação do App 6" width="200"/></td>    
+    <td><img src="assets/repo/store/store7.png" alt="Apresentação do App 7" width="200"/></td>    
+    <td><img src="assets/repo/store/store5.png" alt="Apresentação do App 5" width="200"/></td>     
+    <td><img src="assets/repo/store/store3.png" alt="Apresentação do App 3" width="200"/></td>    
+    <td><img src="assets/repo/store/store4.png" alt="Apresentação do App 4" width="200"/></td>       
+              
+    
+  </tr>  
+</table>
+
+
+<table>  
+  <tr>    
+    <td><img src="assets/repo/store/store3.png" alt="Apresentação do App 3" width="200"/></td>    
+    <td><img src="assets/repo/store/store4.png" alt="Apresentação do App 4" width="200"/></td>    
+    <td><img src="assets/repo/store/store5.png" alt="Apresentação do App 5" width="200"/></td>        
+    <td><img src="assets/repo/store/store8.png" alt="Apresentação do App 8" width="200"/></td>    
+    <td><img src="assets/repo/store/store9.png" alt="Apresentação do App 9" width="200"/></td>    
+    <td><img src="assets/repo/store/store10.png" alt="Apresentação do App 10" width="200"/></td>    
+  </tr>  
+</table>
 
 O **Tiu, Tiu** é um aplicativo poderoso e intuitivo criado para facilitar o processo de adoção e doação de animais. Com uma série de funcionalidades robustas, nossa missão é conectar adotantes e doadores, garantindo que mais animais encontrem lares amorosos. Além disso, proporcionamos uma experiência de uso moderna, com vídeos, geolocalização, chat integrado e muito mais!
 
 ---
 
-## 📸 Capturas de Tela
+## 📸 Capturas de telas
 
 | Tela Inicial                                     | Tela de Filtros                                        | TiuTok                                 |
 | ------------------------------------------------ | ------------------------------------------------------ | -------------------------------------- |
@@ -178,6 +202,11 @@ Veja o que planejamos para as próximas versões:
 
 ---
 
+## 📜 Licença
+Este projeto está licenciado sob a [MIT License](LICENSE). Sinta-se à vontade para usar e modificar conforme necessário.
+
+---
+
 ## 🛠️ Como Configurar e Executar
 
 Quer contribuir ou rodar o **Tiu, Tiu** localmente? Siga as etapas abaixo para configurar o ambiente:
@@ -220,4 +249,16 @@ Contribuições são bem-vindas! Se você deseja ajudar no desenvolvimento do **
 
 Vamos construir juntos uma plataforma que ajude mais animais a encontrar seus lares para sempre!
 
+## ⬇ Baixe agora
 
+![Banner](assets/repo/banner.png)
+
+<p>
+  <a href="https://play.google.com/store/apps/details?id=com.anjasolutions.tiutiu&hl=pt">
+    <img src="assets/repo/Play Store Logo.png" alt="Play Store Download" width="256"/>
+  </a>
+
+  <a href="https://apps.apple.com/br/app/tiutiu-ado%C3%A7%C3%A3o-de-animais/id1660325927">
+    <img src="assets/repo/App Store Logo.png" alt="App Store Download" width="256" style="margin-right: 4px;"/>
+  </a>
+</p>

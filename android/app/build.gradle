@@ -38,6 +38,14 @@ android {
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName
+        
+        // Init Codemagic Vars
+        resValue "string", "google_ads_app_id", "\"${System.getenv('GOOGLE_ADS_APPLICATION_ID')}\""
+        resValue "string", "facebook_client_token", "\"${System.getenv('FACEBOOK_CLIENT_TOKEN')}\""
+        resValue "string", "facebook_app_id", "\"${System.getenv('FACEBOOK_APP_ID')}\""
+        // End Codemagic Vars
+
+        resValue "string", "app_name", "\"Tiu, tiu\""
     }
     
     signingConfigs {

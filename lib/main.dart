@@ -36,21 +36,11 @@ FirebaseMessaging messaging = FirebaseMessaging.instance;
 
 @pragma('vm:entry-point')
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  final notificationResponse = NotificationResponse(
-    notificationResponseType: NotificationResponseType.selectedNotification,
-    payload: message.notification?.body,
-    input: message.notification?.title,
-    actionId: message.messageId,
-    id: message.hashCode,
-  );
-
-  print("XXXx ${notificationResponse.toString()}");
+  chatController.setupInteractedMessage(message);
 }
 
 Future<void> _firebaseMessagingForegroundHandler(RemoteMessage message) async {
   _setupFlutterLocalNotifications();
-
-  print("Message ${message.toMap()}");
 
   _showFlutterNotification(message);
 
@@ -124,8 +114,6 @@ Future<void> _requireNotificationPermission() async {
 void _showFlutterNotification(RemoteMessage message) {
   RemoteNotification? notification = message.notification;
   AndroidNotification? android = message.notification?.android;
-
-  print("Message ${message.toMap()} $kIsWeb");
 
   if (notification != null && android != null && !kIsWeb) {
     flutterLocalNotificationsPlugin.show(
