@@ -145,8 +145,6 @@ Future<void> main() async {
 
     await _requireNotificationPermission();
 
-    chatController.setupInteractedMessage();
-
     FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
     FirebaseMessaging.onMessage.listen(_firebaseMessagingForegroundHandler);
 

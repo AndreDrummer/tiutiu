@@ -150,15 +150,15 @@ class ChatController extends GetxController with TiuTiuPopUp {
     // If the message also contains a data property with a "type" of "chat",
     // navigate to a chat screen
     if (initialMessage != null) {
-      await onNotificationMessageTapped(initialMessage);
+      await _onNotificationMessageTapped(initialMessage);
     }
 
     // Also handle any interaction when the app is in the background via a
     // Stream listener
-    FirebaseMessaging.onMessageOpenedApp.listen(onNotificationMessageTapped);
+    FirebaseMessaging.onMessageOpenedApp.listen(_onNotificationMessageTapped);
   }
 
-  Future<void> onNotificationMessageTapped(RemoteMessage message) async {
+  Future<void> _onNotificationMessageTapped(RemoteMessage message) async {
     if (message.data['data'] != null) {
       TiutiuUser myUser = TiutiuUser.fromMap(jsonDecode(message.data['data'])[MessageEnum.receiver.name]);
       TiutiuUser messageSender = TiutiuUser.fromMap(jsonDecode(message.data['data'])[MessageEnum.sender.name]);
@@ -186,6 +186,8 @@ class ChatController extends GetxController with TiuTiuPopUp {
 
   void startsChatWith({TiutiuUser? user, required String myUserId}) {
     userChatingWith = user ?? TiutiuUser();
+
+    tiutiuUserController.checkUserRegistered();
 
     if (authController.userExists && tiutiuUserController.isAppropriatelyRegistered) {
       Get.toNamed(Routes.chat, arguments: myUserId);

@@ -16,8 +16,14 @@ class PostOverlay extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool postPhotosAreEmptyOrNull = false;
+
+    if (post == null || post!.photos.isEmpty) {
+      postPhotosAreEmptyOrNull = true;
+    }
+
     return Visibility(
-      visible: post != null,
+      visible: post != null && !postPhotosAreEmptyOrNull,
       child: GestureDetector(
         onTap: () {
           if (post != null) {
@@ -32,7 +38,11 @@ class PostOverlay extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
-                child: AssetHandle.getImage(post?.photos[0], fit: BoxFit.cover),
+                child: AssetHandle.getImage(
+                  postPhotosAreEmptyOrNull ? null : post?.photos[0],
+                  fit: BoxFit.cover,
+                  isUserImage: false,
+                ),
                 margin: EdgeInsets.only(right: 4.0.w),
                 height: 40.0.h,
                 width: 40.0.w,
