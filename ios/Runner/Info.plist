@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+	<dict>
+		<key>CADisableMinimumFrameDurationOnPhone</key>
+		<true />
+		<key>CFBundleDevelopmentRegion</key>
+		<string>$(DEVELOPMENT_LANGUAGE)</string>
+		<key>CFBundleDisplayName</key>
+		<string>Tiu, tiu</string>
+		<key>CFBundleExecutable</key>
+		<string>$(EXECUTABLE_NAME)</string>
+		<key>CFBundleIdentifier</key>
+		<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+		<key>CFBundleInfoDictionaryVersion</key>
+		<string>6.0</string>
+		<key>CFBundleLocalizations</key>
+		<array>
+			<string>pt</string>
+			<string>en</string>
+			<string>es</string>
+		</array>
+		<key>CFBundleName</key>
+		<string>tiutiu</string>
+		<key>CFBundlePackageType</key>
+		<string>APPL</string>
+		<key>CFBundleShortVersionString</key>
+		<string>$(FLUTTER_BUILD_NAME)</string>
+		<key>CFBundleSignature</key>
+		<string>????</string>
+		<key>CFBundleURLTypes</key>
+		<array>
+			<dict>
+				<key>CFBundleTypeRole</key>
+				<string>Editor</string>
+				<key>CFBundleURLSchemes</key>
+				<array>
+					<string>$(FACEBOOK_CF_BUNDLE_URL_SCHEME)</string>
+					<string>$(FIREBASE_CF_BUNDLE_URL_SCHEME)</string>
+				</array>
+			</dict>
+			<dict>
+				<key>CFBundleTypeRole</key>
+				<string>Editor</string>
+				<key>CFBundleURLName</key>
+				<string>com.anjasolutions.tiutiuapp</string>
+				<key>CFBundleURLSchemes</key>
+				<array>
+					<string>com.anjasolutions.tiutiuapp</string>
+				</array>
+			</dict>
+		</array>
+		<key>CFBundleVersion</key>
+		<string>$(FLUTTER_BUILD_NUMBER)</string>
+		<key>FacebookAppID</key>
+		<string>$(FACEBOOK_APP_ID)</string>
+		<key>FacebookClientToken</key>
+		<string>$(FACEBOOK_CLIENT_TOKEN)</string>
+		<key>FacebookDisplayName</key>
+		<string>Tiu, tiu</string>
+		<key>FirebaseCrashlyticsCollectionEnabled</key>
+		<false />
+		<key>FirebaseDynamicLinksCustomDomains</key>
+		<array>
+			<string>https://www.anjasolutions.com/tiutiu/share</string>
+			<string>https://anjasolutions.com/tiutiu/share</string>
+			<string>https://www.anjasolutions.com/tiutiu</string>
+			<string>https://anjasolutions.com/tiutiu</string>
+			<string>https://www.anjasolutions.com</string>
+			<string>https://anjasolutions.com</string>
+		</array>
+		<key>FirebaseGoogleServiceInfoFile</key>
+		<string>GoogleService-Info.plist</string>
+		<key>GADApplicationIdentifier</key>
+		<string>$(GADApplicationIdentifier)</string>
+		<key>ITSAppUsesNonExemptEncryption</key>
+		<false />
+		<key>LSApplicationQueriesSchemes</key>
+		<array>
+			<string>fbapi</string>
+			<string>fb-messenger-share-api</string>
+			<string>fbauth2</string>
+			<string>fbshareextension</string>
+		</array>
+		<key>LSRequiresIPhoneOS</key>
+		<true />
+		<key>NSCameraUsageDescription</key>
+		<string>Precisamos ligar sua câmera para você tirar uma foto para o seu perfil ou do PET que
+			está postando.</string>
+		<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+		<string>Precisamos de ter acesso a sua localização para que consigamos mostrar os animais
+			mais próximos do seu local ou para que o PET que você postar tenha um local de
+			referiencia associado a ele.</string>
+		<key>NSLocationWhenInUseUsageDescription</key>
+		<string>Precisamos de ter acesso a sua localização para que consigamos mostrar os animais
+			mais próximos do seu local ou para que o PET que você postar tenha um local de
+			referiencia associado a ele.</string>
+		<key>NSMicrophoneUsageDescription</key>
+		<string>Precisamos ligar seu microfone para você gravar um vídeo do PET que está postando.</string>
+		<key>NSPhotoLibraryUsageDescription</key>
+		<string>Precisamos acessar sua galeria para você pegar uma foto para o seu perfil ou do PET
+			que está postando.</string>
+		<key>UIApplicationSupportsIndirectInputEvents</key>
+		<true />
+		<key>UIBackgroundModes</key>
+		<array>
+			<string>fetch</string>
+			<string>remote-notification</string>
+		</array>
+		<key>UILaunchStoryboardName</key>
+		<string>LaunchScreen</string>
+		<key>UIMainStoryboardFile</key>
+		<string>Main</string>
+		<key>UIRequiresFullScreen</key>
+		<true />
+		<key>UISupportedInterfaceOrientations</key>
+		<array>
+			<string>UIInterfaceOrientationPortrait</string>
+		</array>
+		<key>UISupportedInterfaceOrientations~ipad</key>
+		<array>
+			<string>UIInterfaceOrientationPortrait</string>
+		</array>
+	</dict>
+</plist>
