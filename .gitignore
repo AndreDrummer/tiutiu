@@ -54,8 +54,6 @@ app.*.map.json
 *.jks
 *.jks.old
 
-# scripts
-.tiutiu_reset.sh
 
 # Firebase Config
 firebase.json

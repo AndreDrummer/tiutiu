@@ -37,7 +37,7 @@ class _SettingsState extends State<Settings> with TiuTiuPopUp {
                       },
                       text: AppLocalizations.of(context)!.editProfile,
                     ),
-                    Divider(),
+                    Divider(color: Colors.transparent, height: 2),
                     CustomListTile(
                       icon: FontAwesomeIcons.earthAmericas,
                       text: AppLocalizations.of(context)!.setMyProfileAsONG,
@@ -45,7 +45,7 @@ class _SettingsState extends State<Settings> with TiuTiuPopUp {
                       onTap: () {},
                       showBadge: true,
                     ),
-                    Divider(),
+                    Divider(color: Colors.transparent, height: 2),
                     CustomListTile(
                       icon: Icons.map,
                       onTap: () {
@@ -53,7 +53,7 @@ class _SettingsState extends State<Settings> with TiuTiuPopUp {
                       },
                       text: AppLocalizations.of(context)!.changeCountry,
                     ),
-                    Divider(),
+                    Divider(color: Colors.transparent, height: 2),
                     CustomListTile(
                       icon: Icons.person_off,
                       onTap: () {
@@ -61,7 +61,7 @@ class _SettingsState extends State<Settings> with TiuTiuPopUp {
                       },
                       text: AppLocalizations.of(context)!.deleteAccount,
                     ),
-                    Divider(),
+                    Divider(color: Colors.transparent, height: 2),
                     CustomListTile(
                       icon: FontAwesomeIcons.arrowRightFromBracket,
                       onTap: () {
