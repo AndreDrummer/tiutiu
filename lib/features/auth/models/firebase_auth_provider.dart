@@ -13,8 +13,10 @@ import 'package:flutter/foundation.dart';
 class FirebaseAuthProvider implements AuthProviders {
   FirebaseAuthProvider._();
 
+  static const _iosClientID = String.fromEnvironment('FIREBASE_OPTIONS_IOS_IOS_CLIENT_ID');
+
   final GoogleSignIn _googleSignIn = GoogleSignIn(
-    clientId: Platform.isIOS ? String.fromEnvironment('FIREBASE_OPTIONS_IOS_IOS_CLIENT_ID') : null,
+    clientId: Platform.isIOS ? _iosClientID : null,
   );
 
   static FirebaseAuthProvider instance = FirebaseAuthProvider._();
@@ -131,9 +133,9 @@ class FirebaseAuthProvider implements AuthProviders {
 
         await _firebaseAuth.signInWithCredential(credential);
       }
-    } on Exception catch (error) {
-      if (kDebugMode) debugPrint('TiuTiuApp: Erro ao realizar login com Google: $error');
-      throw TiuTiuAuthException('$error');
+    } on Exception catch (exception) {
+      if (kDebugMode) debugPrint('TiuTiuApp: Erro ao realizar login com Google: $exception');
+      throw TiuTiuAuthException('$exception');
     }
 
     return _firebaseAuth.currentUser != null;
