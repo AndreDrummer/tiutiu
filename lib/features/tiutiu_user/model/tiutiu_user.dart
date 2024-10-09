@@ -99,8 +99,16 @@ class TiutiuUser {
     if (ref != null) {
       if (ref is String) {
         return FirebaseFirestore.instance.doc(ref);
-      } else {
+      } else if (ref is DocumentReference) {
         return ref;
+      } else {
+        final segments = ref['_path']['segments'];
+        if (segments != null && (segments as List).isNotEmpty) {
+          String path = segments.join("/");
+
+          return FirebaseFirestore.instance.doc(path);
+        }
+        return null;
       }
     } else {
       return null;
