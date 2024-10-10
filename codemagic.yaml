@@ -44,7 +44,7 @@ workflows:
       - name: Build AAB with Flutter
         script: |
           LAST_BUILD_NUMBER=$(google-play get-latest-build-number --package-name $PACKAGE_NAME --tracks=$GOOGLE_PLAY_TRACK)
-          CURRENT_BUILD_NUMBER=$((LAST_BUILD_NUMBER + 1))
+          CURRENT_BUILD_NUMBER=$((LAST_BUILD_NUMBER + 2))
           flutter build appbundle --release \
           --dart-define=FIREBASE_OPTIONS_IOS_ANDROID_CLIENT_ID=$FIREBASE_OPTIONS_IOS_ANDROID_CLIENT_ID \
           --dart-define=FIREBASE_OPTIONS_MESSAGING_SENDER_ID=$FIREBASE_OPTIONS_MESSAGING_SENDER_ID \
